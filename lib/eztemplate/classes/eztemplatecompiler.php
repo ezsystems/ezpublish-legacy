@@ -428,7 +428,12 @@ class eZTemplateCompiler
          * an error. */
         $setArray = null;
         $namespaceStack = array();
+
+        $tpl->createLocalVariablesList();
         include( eZTemplateCompiler::TemplatePrefix() . $phpScript );
+        $tpl->unsetLocalVariables();
+        $tpl->destroyLocalVariablesList();
+
         if ( $setArray !== null )
         {
             return true;
@@ -2153,6 +2158,11 @@ $rbracket
                         }
                         $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
                                             array( 'spacing' => $spacing ) );
+                        if ( isset( $node[2]['local-variable'] ) )
+                        {
+                            $php->addCodePiece( "\n\$tpl->unsetLocalVariable( $variableNameText, $namespaceText );",
+                                                array( 'spacing' => $spacing ) );
+                        }
                         if ( isset( $node[2]['remember_set'] ) and $node[2]['remember_set'] )
                         {
                             $php->addCodePiece( "\n}\n" );
@@ -2355,8 +2365,13 @@ $rbracket
                             $code .= "\$currentNamespace = \$rootNamespace;\n";
                         }
 
-                        $code .= "include( '" . eZTemplateCompiler::TemplatePrefix() . "' . $phpScriptText );\n" .
+                        $code .=
+                            "\$tpl->createLocalVariablesList();\n" .
+                            "include( '" . eZTemplateCompiler::TemplatePrefix() . "' . $phpScriptText );\n" .
+                            "\$tpl->unsetLocalVariables();\n" .
+                            "\$tpl->destroyLocalVariablesList();\n" .
                             "list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
+
                         $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
                         if ( $useFallbackCode )
                             $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
@@ -2390,6 +2405,7 @@ $rbracket
                             $code .= "\$currentNamespace = \$rootNamespace;\n";
                         }
                         $php->addCodePiece( $code );
+
                         $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
                         $php->addCodePiece( "list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n" );
                     }
@@ -2578,7 +2594,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( array_key_exists( $variableNameText, \$vars[$namespaceText] ) )\n".
+                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( array_key_exists( $namespaceText, \$vars ) && array_key_exists( $variableNameText, \$vars[$namespaceText] ) )\n".
                                             "{\n".
                                             "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
                                             "}",
@@ -2590,6 +2606,11 @@ END;
                             $unsetVariableText = "\nunset( $variableText );";
                         $php->addCodePiece( "\$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText",
                                             array( 'spacing' => $spacing ) );
+                        if ( isset( $variableParameters['local-variable'] ) && $isStaticElement )
+                        {
+                            $php->addCodePiece( "\n\$tpl->setLocalVariable( $variableNameText, 1, $namespaceText );" ,
+                                                array( 'spacing' => $spacing ) );
+                        }
                     }
                     else if ( $rememberSet )
                     {

@@ -106,8 +106,19 @@ class eZTemplateDefFunction
                                          &$tpl, &$parameters, $privateData )
     {
         $undef = ( $functionName == 'undef' );
-
         $newNodes = array();
+
+        if ( !$parameters )
+        {
+            if ( !$undef )
+                // prevent execution of the function in processed mode
+                return array( eZTemplateNodeTool::createCodePieceNode( "// an error occured in $functionName" ) );
+
+            // {undef} called w/o arguments => destroy all local variables
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// undef all" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->unsetLocalVariables();" );
+            return $newNodes;
+        }
 
         $nodePlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
         foreach ( array_keys( $parameters ) as $parameterName )
@@ -115,19 +126,19 @@ class eZTemplateDefFunction
             $parameterData = $parameters[$parameterName];
             if ( $undef )
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// undef\n" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// undef \$$parameterName" );
                 $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue = false,
-                                                                                   $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL,
-                                                                                   $parameterName ),
-                                                                            array( 'remember_set' => false ) );
+                                                                                  $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL,
+                                                                                  $parameterName ),
+                                                                           array( 'remember_set' => false, 'local-variable' => true ) );
 
             }
             else
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// def\n" );
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, $nodePlacement,
-                                                                       array(), array( $namespaceValue = false, $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, $parameterName ), $onlyExisting = false,
-                                                                       $overwrite = true, false, $rememberSet = false );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// def \$$parameterName" );
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, $nodePlacement, array( 'local-variable' => true ),
+                                                                      array( $namespaceValue = false, $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, $parameterName ),
+                                                                      $onlyExisting = false, $overwrite = true, false, $rememberSet = false );
             }
 
         }
@@ -142,14 +153,10 @@ class eZTemplateDefFunction
     {
         $undef = ( $functionName == EZ_TEMPLATE_UNDEF_FUNCTION_NAME ) ? true : false;
 
-        if ( $undef && !count( $functionParameters ) )
+        if ( $undef && !count( $functionParameters ) ) // if {undef} called w/o arguments
         {
-            // destroy all variables defined in the template
-            if ( isset( $tpl->Variables[''] ) )
-            {
-                eZDebug::writeDebug( "Destroying all variables defined in root namespace" );
-                unset( $tpl->Variables[''] );
-            }
+            // destroy all variables defined in the current template using {def}
+            $tpl->unsetLocalVariables();
         }
 
         foreach ( array_keys( $functionParameters ) as $key )
@@ -161,17 +168,18 @@ class eZTemplateDefFunction
 
             if ( $undef ) // {undef}
             {
-                if ( !$tpl->hasVariable( $varName ) )
+                if ( !$tpl->hasVariable( $varName, $rootNamespace ) )
                     $tpl->warning( EZ_TEMPLATE_UNDEF_FUNCTION_NAME, "Variable '$varName' is not defined." );
                 else
-                    $tpl->unsetVariable( $varName );
+                    $tpl->unsetLocalVariable( $varName, $rootNamespace );
 
             }
             else // {def}
             {
-                if ( $tpl->hasVariable( $varName ) )
+                if ( $tpl->hasVariable( $varName, $rootNamespace ) )
                     $tpl->warning( EZ_TEMPLATE_DEF_FUNCTION_NAME, "Variable '$varName' is already defined." );
-                $tpl->setVariable( $varName, $varValue );
+                $tpl->setLocalVariable( $varName, $varValue, $rootNamespace );
+
             }
         }
 

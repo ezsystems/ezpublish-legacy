@@ -368,7 +368,8 @@ class eZTemplate
 
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
-        $this->RootVariablesStack = array();
+        $this->LocalVariablesNamesStack = array();
+        $this->CurrentLocalVariablesNames = null;
         $this->Functions = array();
         $this->FunctionAttributes = array();
 
@@ -465,16 +466,55 @@ class eZTemplate
         }
     }
 
-    function pushRootVariables()
+    /*!
+     initialize list of local variables for the current template
+     */
+    function createLocalVariablesList()
     {
-        if ( !isset( $this->Variables[''] ) )
-            $this->Variables[''] = array();
-        $this->RootVariablesStack[] = $this->Variables[''];
+        $this->LocalVariablesNamesStack[] = array();
+        $this->CurrentLocalVariablesNames =& $this->LocalVariablesNamesStack[ count( $this->LocalVariablesNamesStack ) - 1];
     }
 
-    function popRootVariables()
+    function setLocalVariable( $varName, $varValue, $rootNamespace )
     {
-        $this->Variables[''] = array_pop( $this->RootVariablesStack );
+        $this->CurrentLocalVariablesNames[$rootNamespace][$varName] = 1;
+        $this->setVariable( $varName, $varValue, $rootNamespace );
+    }
+
+    function unsetLocalVariable( $varName, $rootNamespace )
+    {
+        $this->unsetVariable( $varName, $rootNamespace );
+        unset( $this->CurrentLocalVariablesNames[$rootNamespace][$varName] );
+    }
+
+    /*!
+     Unset all local variables defined in the current template.
+     */
+    function unsetLocalVariables()
+    {
+        $level = count( $this->LocalVariablesNamesStack );
+
+        foreach ( $this->CurrentLocalVariablesNames as $ns => $vars )
+        {
+            foreach ( $vars as $var => $val )
+            {
+                eZDebug::writeDebug( "Level $level: Destroying local variable '$var' in namespace '$ns'" );
+                $this->unsetLocalVariable( $var, $ns );
+            }
+        }
+    }
+
+    /*!
+     Destroy list of local variables for the current template.
+     */
+    function destroyLocalVariablesList()
+    {
+        array_pop( $this->LocalVariablesNamesStack );
+
+        if ( $this->LocalVariablesNamesStack )
+            $this->CurrentLocalVariablesNames =& $this->LocalVariablesNamesStack[ count( $this->LocalVariablesNamesStack ) - 1];
+        else
+            unset( $this->CurrentLocalVariablesNames );
     }
 
     /*!
@@ -529,11 +569,7 @@ class eZTemplate
                     $fname = $resourceData['template-filename'];
                     eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
                 }
-
-                $this->pushRootVariables();
                 $this->process( $root, $text, "", "" );
-                $this->popRootVariables();
-
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
@@ -560,12 +596,17 @@ class eZTemplate
 
     function process( &$root, &$text, $rootNamespace, $currentNamespace )
     {
+        $this->createLocalVariablesList();
+
         $textElements = array();
         $this->processNode( $root, $textElements, $rootNamespace, $currentNamespace );
         if ( is_array( $textElements ) )
             $text = implode( '', $textElements );
         else
             $text = $textElements;
+
+        $this->unsetLocalVariables();
+        $this->destroyLocalVariablesList();
     }
 
     function processNode( &$node, &$textElements, $rootNamespace, $currentNamespace )
@@ -2547,10 +2588,13 @@ class eZTemplate
     /// An associative array of template variables
     var $Variables;
     /*!
-     The stack that is used to destroy all variables defined in the root namespace
-     after the template execution finishes (in processed mode)
+     Last element of this stack contains names of
+     all variables created in the innermost template, for them
+     to be destroyed after the template execution finishes.
      */
-    var $RootVariablesStack;
+    var $LocalVariablesNamesStack;
+    // Reference to the last element of $LocalVariablesNamesStack.
+    var $CurrentLocalVariablesNames;
     /// An associative array of operators
     var $Operators;
     /// An associative array of functions
