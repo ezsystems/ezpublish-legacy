@@ -282,7 +282,7 @@ $ViewList['translate'] = array(
                                        'RemoveLanguageConfirmation' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
                                        'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
     'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
-    'params' => array( 'ObjectID', 'EditVersion' ) );
+    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage' ) );
 
 $ViewList['draft'] = array(
     'functions' => array( 'create' ),

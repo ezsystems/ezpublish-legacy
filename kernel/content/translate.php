@@ -47,6 +47,7 @@ include_once( 'kernel/common/template.php' );
 
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
+$EditLanguage = $Params['EditLanguage'];
 
 $http =& eZHTTPTool::instance();
 
@@ -69,10 +70,14 @@ if ( $http->hasPostVariable( 'TranslationLanguageEdit' ) )
     $activeTranslationLocale =& eZLocale::instance( $activeTranslation );
 }
 
-if ( $Module->isCurrentAction( 'EditLanguage' ) and
-     $Module->hasActionParameter( 'SelectedLanguage' ) )
+if ( $Module->isCurrentAction( 'EditLanguage' ) and  $Module->hasActionParameter( 'SelectedLanguage' ) ) 
 {
     $translateToLanguage = $Module->actionParameter( 'SelectedLanguage' );
+}
+
+if ( $EditLanguage )
+{
+    $translateToLanguage = $EditLanguage;
 }
 
 $createLanguage = false;
