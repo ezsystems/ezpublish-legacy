@@ -89,13 +89,6 @@ forums(simple and advanced). Documents for how to deal with bugs, supports and
 project management might also be need, probably others as well.
 
 
-Error
------
-Error system, don't use redirection but instead use module-run on the same
-page, that way the URL doesn't change and the user can login and get back to
-where he/she was.
-
-
 Workflows
 --------
 - Workflows / triggers
