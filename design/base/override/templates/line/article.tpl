@@ -4,7 +4,7 @@
 
     {section show=$node.object.data_map.image.content}
         <div class="content-image">
-            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image}
+            {attribute_view_gui alignment=right image_class=articlethumbnail attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
 

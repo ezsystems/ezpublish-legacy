@@ -1,36 +1,57 @@
 
 [AliasSettings]
 AliasList[]
-AliasList[]=reference
 AliasList[]=small
 AliasList[]=medium
 AliasList[]=listitem
 AliasList[]=articleimage
+AliasList[]=articlethumbnail
 AliasList[]=gallerythumbnail
 AliasList[]=imagelarge
 AliasList[]=large
 AliasList[]=rss
 
 [small]
-Filters[]=geometry/scaledownonly=60;120
+Reference=
+Filters[]
+Filters[]=geometry/scaledownonly=100;160
 
 [medium]
-Filters[]=geometry/scaledownonly=150;200
+Reference=
+Filters[]
+Filters[]=geometry/scaledownonly=200;290
+
+[large]
+Reference=
+Filters[]
+Filters[]=geometry/scaledownonly=370;450
 
 [listitem]
+Reference=
+Filters[]
 Filters[]=geometry/scaledownonly=155;200
 
 [articleimage]
+Reference=
+Filters[]
 Filters[]=geometry/scaledownonly=170;350
 
+[articlethumbnail]
+Reference=
+Filters[]
+Filters[]=geometry/scaledownonly=70;100
+
 [gallerythumbnail]
+Reference=
+Filters[]
 Filters[]=geometry/scaledownonly=70;150
 
 [imagelarge]
+Reference=
+Filters[]
 Filters[]=geometry/scaledownonly=370;450
 
-[large]
-Filters[]=geometry/scaledownonly=300;300
-
 [rss]
+Reference=
+Filters[]
 Filters[]=geometry/scale=88;31
