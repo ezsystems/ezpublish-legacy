@@ -84,6 +84,8 @@ class eZHiOMenuOperator
             $cacheExpired = true;
         }
 
+        $cacheExpired = true;
+
         if ( $cacheExpired == true )
         {
             $level = 0;
