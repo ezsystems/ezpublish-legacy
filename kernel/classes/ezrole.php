@@ -94,7 +94,7 @@ class eZRole extends eZPersistentObject
 //            $enableCaching = false;
             $loadFromDb = true;
             $roleID = $this->attribute( 'id' );
-            if ( $enableCaching && $this->CachePolicies)
+            if ( $enableCaching == 'true' && $this->CachePolicies)
             {
                 $http =& eZHTTPTool::instance();
 
@@ -263,8 +263,9 @@ class eZRole extends eZPersistentObject
 
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+        eZDebug::writeDebug( $enableCaching, "" );
         $loadFromDb = true;
-        if ( $enableCaching )
+        if ( $enableCaching == 'true' )
         {
             $http =& eZHTTPTool::instance();
             $permissionExpired = $http->sessionVariable( 'roleExpired' );
@@ -292,9 +293,10 @@ class eZRole extends eZPersistentObject
                       WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                             ezuser_role.role_id = ezrole.id";
             $roleArray = $db->arrayQuery( $query );
-            if ( $enableCaching )
+            if ( $enableCaching == 'true' )
             {
                 $user =& eZUser::currentUser();
+                $http =& eZHTTPTool::instance();
                 $userID = $user->id();
                 $http->setSessionVariable( 'userRoles', $roleArray );
                 $http->setSessionVariable( 'permissionCachedForUser', $userID );

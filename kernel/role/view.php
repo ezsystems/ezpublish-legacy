@@ -96,7 +96,6 @@ $userArray =& $role->fetchUserByRole();
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( "policies", $policies );
-$tpl->setVariable( "modules", $modules );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "role", $role );
 

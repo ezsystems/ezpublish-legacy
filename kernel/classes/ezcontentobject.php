@@ -883,8 +883,36 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Returns the related objects.
+     Returns objects to which this object is related
     */
+    function &reverseRelatedObjectList( $version = false, $objectID = false )
+    {
+        if ( $version == false )
+            $version = $this->CurrentVersion;
+        if( ! $objectID )
+        {
+            $objectID = $this->ID;
+        }
+        $db =& eZDB::instance();
+        $relatedObjects =& $db->arrayQuery( "SELECT
+					       ezcontentobject.*
+					     FROM
+					       ezcontentobject, ezcontentobject_link
+					     WHERE
+					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+					       ezcontentobject_link.to_contentobject_id='$objectID'" );
+
+        $return = array();
+        foreach ( $relatedObjects as $object )
+        {
+            $return[] = new eZContentObject( $object );
+        }
+        return $return;
+    }
+
+    /*!
+     Returns the related objects.
+    */ 
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
         eZDebug::writeDebug( $objectID, "objectID1111" );

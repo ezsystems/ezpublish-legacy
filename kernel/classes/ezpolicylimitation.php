@@ -228,7 +228,7 @@ class eZPolicyLimitation extends eZPersistentObject
 //            $enableCaching = false;
             $loadFromDb = true;
             $limitationID = $this->attribute( 'id' );
-            if ( $enableCaching )
+            if ( $enableCaching == 'true' )
             {
                 $http =& eZHTTPTool::instance();
 

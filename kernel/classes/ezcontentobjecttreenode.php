@@ -1062,10 +1062,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
 //        $nodeList = $node->attribute( 'path' );
 //        array_shift( $nodeList );
         $nodeList =& $node->attribute( 'path' );
-        $parentNodeID = $node->attribute( 'parent_node_id' );
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-        $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
-
+        if ( $node->attribute( 'depth' ) > 1 )
+        {
+            $parentNodeID = $node->attribute( 'parent_node_id' );
+            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+            if( ! is_null( $parentNode ) )
+            {
+            $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
+            }
+            else
+            {
+                eZDebug::printReport();
+                die();
+            }
+        }
+        else
+        {
+            $parentNodePathString = '';
+        }
 
 
 

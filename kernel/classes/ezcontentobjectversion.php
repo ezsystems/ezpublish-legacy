@@ -86,6 +86,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
+                                                      'reverse_related_object_list' => "reverseRelatedObjectList",
                                                       'parent_nodes' => 'parentNodes',
                                                       "can_read" => "canVersionRead",
                                                       "data_map" => "dataMap",
@@ -122,6 +123,8 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'language_list'
             or $attr == 'translation'
             or $attr == 'translation_list'
+            or $attr == 'related_contentobject_array'
+            or $attr == 'reverse_related_object_list'
             or eZPersistentObject::hasAttribute( $attr );
     }
 
@@ -171,6 +174,10 @@ class eZContentObjectVersion extends eZPersistentObject
         elseif ( $attr == 'related_contentobject_array' )
         {
             return  $this->relatedContentObjectArray();
+        }
+        elseif ( $attr == 'reverse_related_object_list' )
+        {
+            return  $this->reverseRelatedObjectList();
         }
         elseif ( $attr == 'language_list' )
         {
@@ -477,7 +484,6 @@ class eZContentObjectVersion extends eZPersistentObject
     function &relatedContentObjectArray()
     {
         $objectID = $this->attribute( 'contentobject_id' );
-        eZDebug::writeDebug( $objectID, "contentobject_id1111111111" );
 //        eZDebug::writeDebug( eZContentObject::relatedContentObjectArray( $this->Version ), "related objects" );
         return eZContentObject::relatedContentObjectArray( $this->Version, $objectID );
     }
@@ -497,6 +503,12 @@ class eZContentObjectVersion extends eZPersistentObject
             "modified" => eZDateTime::currentTimeStamp(),
             'creator_id' => $userID );
         return new eZContentObjectVersion( $row );
+    }
+
+    function reverseRelatedObjectList()
+    {
+        $objectID = $this->attribute( 'contentobject_id' );
+        return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
     }
 
     function remove()

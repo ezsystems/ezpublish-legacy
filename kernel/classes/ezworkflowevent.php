@@ -170,6 +170,15 @@ class eZWorkflowEvent extends eZPersistentObject
         return $this->EventType;
     }
 
+    /*!
+     Executes the custom HTTP action
+    */
+    function customHTTPAction( &$http, $action )
+    {
+        $eventType =& $this->eventType();
+        $eventType->customWorkflowEventHTTPAction( $http, $action, $this );
+    }
+
     /// \privatesection
     var $ID;
     var $Version;

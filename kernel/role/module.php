@@ -52,6 +52,13 @@ $ViewList["assign"] = array(
 
 
 
+// Temporary code should be removed
+include_once( "lib/ezutils/classes/ezhttptool.php" );
+eZDebug::writeDebug( 'Temporary code start: role/edit line 94' );
+$http =& eZHTTPTool::instance();
+$http->setSessionVariable( 'roleExpired', true );
+eZDebug::writeDebug( 'Temporary code end: role/edit line 94' );
+// Temporary code end
 
 
 

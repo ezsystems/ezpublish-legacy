@@ -154,6 +154,142 @@ class eZContentClass extends eZPersistentObject
         return $object;
     }
 
+    function canInstantiateClasses()
+    {
+        $ini =& eZINI::instance();
+        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+//        eZDebug::writeDebug( $enableCaching, "" );
+        if ( $enableCaching == 'true' )
+        {
+            $http =& eZHTTPTool::instance();
+            $permissionExpired = $http->sessionVariable( 'roleExpired' );
+            $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
+            $user =& eZUser::currentUser();
+            $userID = $user->id();
+
+            if ( !$permissionExpired && $classesCachedForUser == $userID )
+            {
+                if ( $http->hasSessionVariable( 'canInstantiateClasses' ) )
+                {
+                    return $http->sessionVariable( 'canInstantiateClasses' );
+                }
+            }else
+            {
+                $http->setSessionVariable( 'canInstantiateClassesCachedForUser', $userID );
+            }
+        }
+        $user =& eZUser::currentUser();
+        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessWord = $accessResult['accessWord'];
+        $canInstantiateClasses = 1;
+        if ( $accessWord == 'no' )
+        {
+            $canInstantiateClasses = 0;
+        }
+
+        if ( $enableCaching == 'true' )
+        {
+            $http->setSessionVariable( 'canInstantiateClasses', $canInstantiateClasses );
+        }
+        return $canInstantiateClasses;
+    }
+
+    function &canInstantiateClassList()
+    {
+        $ini =& eZINI::instance();
+        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+        if ( $enableCaching == 'true' )
+        {
+            $http =& eZHTTPTool::instance();
+            $permissionExpired = $http->sessionVariable( 'roleExpired' );
+            $classesCachedForUser = $http->sessionVariable( 'classesCachedForUser' );
+            $user =& eZUser::currentUser();
+            $userID = $user->id();
+
+            if ( !$permissionExpired && $classesCachedForUser == $userID )
+            {
+                if ( $http->hasSessionVariable( 'canInstantiateClassList' ) )
+                {
+                    return $http->sessionVariable( 'canInstantiateClassList' );
+                }
+            }
+            else
+            {
+                $http->setSessionVariable( 'classesCachedForUser' , $userID );
+            }
+        }
+
+        //        eZDebug::writeNotice( $this, "object in canCreateClass" );
+        $user =& eZUser::currentUser();
+        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessWord = $accessResult['accessWord'];
+
+        $classIDArray = array();
+        $classList = array();
+        if ( $accessWord == 'yes' )
+        {
+            $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+            eZDebug::writeDebug( $classList, "class list fetched from db when access is yes" );
+
+            //          return $classList;
+        }
+        elseif ( $accessWord == 'no' )
+        {
+            $classList = array();
+//            return array();
+        }
+        else
+        {
+            $policies  =& $accessResult['policies'];
+            foreach ( array_keys( $policies ) as $policyKey )
+            {
+                $policy =& $policies[$policyKey];
+                $limitationArray =& $policy->attribute( 'limitations' );
+
+                $hasClassIDLimitation = false;
+                $classIDArrayPart = '*';
+                foreach ( array_keys( $limitationArray ) as $limitationKey )
+                {
+                    $limitation =& $limitationArray[$limitationKey];
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    {
+                        $classIDArrayPart =& $limitation->attribute( 'values_as_array' );
+                    }
+                }
+
+                if ( $classIDArrayPart == '*' )
+                {
+                    $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+                    break;
+//                    return $classList;
+                }else
+                {
+                    $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
+                    unset( $classIDArrayPart );
+                }
+            }
+            if( count( $classIDArray ) == 0 && count( $classList ) == 0 )
+            {
+                $classList = array();
+            }
+            else if ( count( $classList ) == 0 )
+            {
+                $classList = array();
+                // needs to be optimized
+                $db = eZDb::instance();
+                $classString = implode( ',', $classIDArray );
+                $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
+            }
+
+        }
+        eZDebug::writeDebug( $classList, "class list fetched from db" );
+        if ( $enableCaching == 'true' )
+        {
+            $http->setSessionVariable( 'canInstantiateClassList', $classList );
+        }
+        return $classList;
+    }
+
     function hasAttribute( $attr )
     {
         return ( $attr == "version_status" or $attr == "version_count" or

@@ -318,6 +318,9 @@ class eZWorkflowType
     {
         return array();
     }
+    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    {
+    }
 
     /// \privatesection
     var $Group;
