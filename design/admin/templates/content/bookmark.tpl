@@ -12,7 +12,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$bookmark_list}
-<table class="list" cellspacing="0"">
+<table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" onclick="ezjs_toggleCheckboxes( document.bookmarkaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/bookmark' )}</th>
@@ -36,7 +36,6 @@
     </td>
 </tr>
 {/section}
-<tr>
 </table>
 
 {*
