@@ -90,7 +90,7 @@ $step = 1;
 if ( $Module->hasActionParameter( "Step" ) )
 {
     $nextStep = $Module->actionParameter( "Step" );
-    eZDebug::writeDebug( "Switching to step $nextStep", 'ezsetup' );
+//     eZDebug::writeDebug( "Switching to step $nextStep", 'ezsetup' );
     $step = $nextStep;
 }
 
@@ -188,7 +188,7 @@ do
     if ( isset( $result['change_step'] ) )
     {
         $step = $result['change_step'];
-        eZDebug::writeDebug( "rerunning with step $step" );
+//         eZDebug::writeDebug( "rerunning with step $step" );
     }
     else
     {

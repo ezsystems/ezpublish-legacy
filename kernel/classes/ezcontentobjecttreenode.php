@@ -920,7 +920,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-            
+
             $ini =& eZINI::instance();
             $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
 
@@ -928,7 +928,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
-        
+
         $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.name as class_name

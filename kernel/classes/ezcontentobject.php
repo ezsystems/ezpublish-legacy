@@ -856,6 +856,7 @@ class eZContentObject extends eZPersistentObject
     {
         return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ) );
     }
+
     function mainNode()
     {
         return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );

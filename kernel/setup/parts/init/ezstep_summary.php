@@ -47,7 +47,9 @@ function eZSetupStep_summary( &$tpl, &$http, &$ini, &$persistenceList )
                            'primary_language' => 'eng-GB' );
     if ( isset( $persistenceList['regional_info'] ) )
         $regionalInfo = $persistenceList['regional_info'];
-    $languages = $regionalInfo['languages'];
+    $languages = array();
+    if ( isset( $regionalInfo['languages'] ) )
+        $languages = $regionalInfo['languages'];
     $languages = array_unique( array_merge( array( $regionalInfo['primary_language'] ), $languages ) );
 
     include_once( 'lib/ezutils/classes/ezhttptool.php' );

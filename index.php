@@ -42,6 +42,8 @@ $sessionRequired = true;
 $dbRequired = true;
 $noCacheAdviced = false;
 
+$siteDesignOverride = false;
+
 $useHIOCode = false;
 
 // List of module names which will skip policy checking
@@ -62,6 +64,7 @@ $siteBasics['user-object-required'] =& $userObjectRequired;
 $siteBasics['session-required'] =& $sessionRequired;
 $siteBasics['db-required'] =& $dbRequired;
 $siteBasics['no-cache-adviced'] =& $noCacheAdviced;
+$siteBasics['site-design-override'] =& $siteDesignOverride;
 
 $siteBasics['module-repositories'] =& $moduleRepositories;
 

@@ -73,6 +73,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !isset( $designSettings ) )
             $designSettings = array();
         $designSetting =& $designSettings[$type];
+        $siteBasics =& $GLOBALS['eZSiteBasics'];
+        if ( $type == 'site' and
+             is_string( $siteBasics['site-design-override'] ) )
+            return $siteBasics['site-design-override'];
+
         if ( isset( $designSetting ) )
             return $designSetting;
         $ini =& eZINI::instance();

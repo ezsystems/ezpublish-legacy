@@ -35,10 +35,17 @@
 {section-else}
 
 <p>
- We're now ready to initialize the database, the database will be created and the basic structure initialized.
+ We're now ready to initialize the database, the basic structure will be initialized.
  To start the initialization please enter the relevant information in the boxes below and the password you want on the database and click the <i>Connect To Database</i> button.
 </p>
 <p>If you have an already existing eZ publish database enter the information and the setup will use that as database.</p>
+
+<blockquote class="note">
+<p>
+ <b>Note:</b>This step requires that a database has been created with a valid user.
+ Please consult the manual for your database to figure out how to create a database and user.
+</p>
+</blockquote>
 
 {section show=$error}
 <div class="error">

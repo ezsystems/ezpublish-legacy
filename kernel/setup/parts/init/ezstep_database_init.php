@@ -122,6 +122,12 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
 
     $dbStatus = false;
     $databaseReady = false;
+
+    if ( isset( $persistenceList['database_info']['password'] ) )
+    {
+        $password = $persistenceList['database_info']['password'];
+    }
+
     if ( $http->hasPostVariable( 'eZSetupDatabasePassword' ) )
     {
         $password = $http->postVariable( 'eZSetupDatabasePassword' );

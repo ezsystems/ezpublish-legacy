@@ -58,6 +58,7 @@ function eZCheckValidity( &$siteBasics )
         $siteBasics['session-required'] = false;
         $siteBasics['db-required'] = false;
         $siteBasics['no-cache-adviced'] = true;
+        $siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
     }
     return $check;
 }

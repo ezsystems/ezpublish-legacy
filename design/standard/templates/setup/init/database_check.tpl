@@ -106,7 +106,8 @@
 </tr>
 </table>
 </div>
-
+{section-else}
+<input type="hidden" name="eZSetupDatabaseDataChoice" value="1" />
 {/section}
 
 
