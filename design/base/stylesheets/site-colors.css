@@ -288,6 +288,11 @@ div#maincontent h2
     color: #009999;
 }
 
+div#maincontent h2 a
+{ 
+    color: #009999;
+}
+
 div#maincontent h3
 { 
     color: #009999;
