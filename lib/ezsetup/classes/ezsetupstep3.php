@@ -116,15 +116,18 @@ function stepThree( &$tpl, &$http )
 	// If database doesn't exist yet, try to create the database
     if ( $continue && $dbObject->isConnected() == false )
     {
+    	$tpl->setVariable( "createDb", true );
         $continue = false;
 
         // Try to create the database    
-		//createMysqlDb( $dbParams, $dbConnection, $tpl, $continue, $error );
 		$dbObject->createDatabase( $dbParams["database"] );
 		if ( $dbObject->errorNumber() == "0" )
 		{
 			$tpl->setVariable( "dbCreate", "successful." );
             $continue = true;            
+			// We have to reconnect otherwise query() will fail without error message!
+			unset( $dbObject );
+			$dbObject = new $dbModule( $dbParams );
 		}
 		else
 		{
@@ -144,25 +147,38 @@ function stepThree( &$tpl, &$http )
 	    $sqlFile = "kernel/sql/mysql/kernel_clean.sql";
 		$sqlArray = prepareSqlQuery( $sqlFile );
 
-	    foreach( $sqlArray as $singleQuery )
-	    {
-	        if ( trim( $singleQuery ) != "" )
+		if ( $sqlArray && is_array( $sqlArray ) )
+		{
+	    	foreach( $sqlArray as $singleQuery )
 			{
-				$dbObject->query( $singleQuery );
-				if ( $dbObject->errorNumber() != 0 )
-					break;
-			} 
+				if ( trim( $singleQuery ) != "" )
+				{
+				print "Query: $singleQuery<br />";
+					$dbObject->query( $singleQuery );
+					if ( $dbObject->errorNumber() != 0 )
+						break;
+				} 
+			}
 		}
 		
-		if ( $dbObject->errorNumber() == 0 )
+		if ( $sqlArray && is_array( $sqlArray ) && $dbObject->errorNumber() == 0 )
 	    {
 	        $tpl->setVariable( "dbCreateSql", "successful" );
 	        $continue = true;
 	    }
 	    else
 	    {
-	        $tpl->setVariable( "dbCreateSql", "unsuccessful." );
-			$error = errorHandling( $testItems, $dbParams, $dbObject );
+	        if ( $sqlArray && is_array( $sqlArray ) )
+			{
+				$tpl->setVariable( "dbCreateSql", "unsuccessful." );
+				$error = errorHandling( $testItems, $dbParams, $dbObject );
+			}
+			else
+			{
+				$tpl->setVariable( "dbCreateSql", "unsuccessful." );
+				$error["message"] = "Preparing the SQL statements was unsuccessful!";
+				$error["suggestion"] = "Check that the file \"$sqlFile\" exists and can be read!";
+			}
 	    }  	
     }
 

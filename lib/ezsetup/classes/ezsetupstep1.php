@@ -42,7 +42,6 @@
 */
 function stepOne( &$tpl, &$http )
 {
-
     $testItems = configuration();
     
     //
@@ -50,87 +49,129 @@ function stepOne( &$tpl, &$http )
     //
     $resultArray = array();
     
-    // Test PHP version
-    $resultArray["phpversion"] = testPhpVersion( $testItems["phpversion"] );   
+	// Test PHP version
+    $resultArray["general"]["phpversion"] = testPhpVersion( $testItems["general"]["phpversion"]["minversion"] ); 
     
-    // Test database modules
-    foreach( $testItems["database"] as $item )
-        $resultArray[$item["modulename"]] = testModule( $item );        
-    
-    // Test for more modules
-    foreach( $testItems["modules"] as $item )
-        $resultArray[$item["modulename"]] = testModule( $item );
-
-    // Test for file permissions
-    $resultArray["filepermissions"] = testFilePermissions( $testItems["filepermissions"] );
-    
-    // Create the array that shows our results to the user
-    $outputArray = array();
-    foreach( $resultArray as $resultItem )
-    {
-        // Make the result look a bit nicer
-        if ( $resultItem["pass"] == true )
-        {
-		    $pass = "pass";
-			$class = "ezsetup_ok";
-		}
-        else
+	
+    //
+	// Test database modules
+    $dbAvailable = false;
+	foreach( array_keys( $testItems["database"] ) as $key )
+	{
+		$resultArray["database"][$key] = testModule( $testItems["database"][$key] );        
+		if ( $resultArray["database"][$key]["pass"] == true )
+			$dbAvailable = true;
+	}
+	// Another loop to set requirements properly if we have one available database type
+	if ( $dbAvailable )
+	{
+		foreach( array_keys( $testItems["database"] ) as $key )
 		{
-            $pass = "failed";
- 
-			if ( $resultItem["req"] == "one db" || $resultItem["req"] == false )
-				$class = "ezsetup_warning";
-			else
-				$class = "ezsetup_fatal";
+			if ( $resultArray["database"][$key]["pass"] == false )
+				$testItems["database"][$key]["req"] = false;
 		}
-        
-        if ( $resultItem["exist"] == false )
-            $exist = "no";
-        else if ( is_string( $resultItem["exist"] ) )
-            $exist = $resultItem["exist"];
-        else
-            $exist = "yes";
-        
-        if ( $resultItem["req"] == false )
-            $req = "no";
-        else if ( is_string( $resultItem["req"] ) )
-            $req = $resultItem["req"];
-        else
-            $req = "yes";
-            
-        $outputArray[] = array( "desc" => $resultItem["desc"],
-                                    "req"  => $req,
-                                    "exist" => $exist,
-                                    "pass" => $pass,
-									"class" => $class );
-    }
-    $tpl->setVariable( "itemsResult", $outputArray );
+	}
+	
 
-    
+	//
+    // Test for more modules
+    foreach( array_keys( $testItems["modules"] ) as $key )
+        $resultArray["modules"][$key] = testModule( $testItems["modules"][$key] );
+
+
+	//
+    // Test for file/directory permissions
+	foreach( array_keys( $testItems["files"] ) as $key)
+    	$resultArray["files"][$key] = testPermissions( $testItems["files"][$key]["file"] );
+
+
+
+	//
+	// Loop over main sections for output
+	$outputArray = array();
+	foreach( array_keys( $testItems ) as $mainKey )
+	{
+		// Loop over items
+		foreach( array_keys( $testItems[$mainKey] ) as $key )
+		{
+			$result   = $resultArray[$mainKey][$key];
+			$testItem = $testItems[$mainKey][$key];
+
+			// Title for test item
+			$desc = $testItem["desc"];
+			
+			// Format string for "requirement" nicer
+			if ( isset( $testItem["req_desc"] ) && is_string( $testItem["req_desc"] ) )
+				$req = $testItem["req_desc"];
+			else if ( $testItem["req"] )
+				$req = "yes";
+			else
+				$req = "no";
+
+			// Format string for "status" nicer
+			if ( is_string( $result["status"] ) )
+				$status = $result["status"];
+			else if ( $result["status"] )
+				$status = "ok";
+			else
+				$status = "--";
+			
+			// Check if it was a pass
+			if ( $result["pass"] == true )
+			{
+				$pass = "pass";
+				$class = "ezsetup_ok";
+			}
+			else
+			{
+				if ( $testItem["req"] == false )
+				{
+					$pass = "uncritical";
+					$class = "ezsetup_warning";
+				}
+				else
+				{
+					$pass = "fail";
+					$class = "ezsetup_fatal";
+				}
+			}
+
+			// Put in array for template
+			$outputArray[] = array( "desc"   => $desc,
+									"req"    => $req,
+									"status" => $status,
+									"pass"   => $pass,
+									"class"  => $class );
+		}
+	}
+	$tpl->setVariable( "itemsResult", $outputArray );
+
+
+
     //
     // Now see if we have a problem
     //
-    
-    // Shall we continue??
     $continue = true;
     
+	//
     // Error reporting for php version
-    if ( $resultArray["phpversion"]["pass"] == false )
+    if ( $resultArray["general"]["phpversion"]["pass"] == false )
     {
-        $tpl->setVariable( "errorDescription", $testItems["phpversion"]["errorDescription"] );
-        $tpl->setVariable( "errorSuggestion", $testItems["phpversion"]["errorSuggestion"] );
+        $tpl->setVariable( "errorDescription", $testItems["general"]["phpversion"]["error"]["message"] );
+        $tpl->setVariable( "errorSuggestion", $testItems["general"]["phpversion"]["error"]["suggestion"] );
         $continue = false;    
     }
     
-    // Only continue with error testing, if the above test was successful
+
+	//
+    // Error reporting for database modules
     if ( $continue == true )
     {
-        // Error reporting for database modules
-        $availableDatabases = count( $testItems["database"] ); 
-        $availableDatabasesArray = array();
-        foreach( $testItems["database"] as $item )
+        foreach( array_keys( $testItems["database"] ) as $key )
         {
-            switch( $resultArray[$item["modulename"]]["pass"] )
+			$item = $testItems["database"][$key];
+			$result = $resultArray["database"][$key];
+            switch( $result["pass"] )
             {
                 case true:
                 {
@@ -138,13 +179,12 @@ function stepOne( &$tpl, &$http )
                 }break;
                 case false:
                 {
-                    $availableDatabases--;
-                    $availableDatabasesArray[] = array( "name" => $item["modulename"], "pass" => "false" );                    
+                    $availableDatabasesArray[] = array( "name" => $item["modulename"], "pass" => "false" ); 
                 }break;                
             }
         }
         
-        if ( $availableDatabases < 1 )
+        if ( ! $dbAvailable )
         {
             $continue = false;
             $tpl->setVariable( "errorDescription", "No usable database module found." );
@@ -162,27 +202,41 @@ function stepOne( &$tpl, &$http )
     if ( $continue == true )
     {
         // Error reporting for the rest of the modules
-        foreach( $testItems["modules"] as $item )
+        foreach( array_keys( $testItems["modules"] ) as $key )
         {
-            if ( $item["req"] == true && $resultArray[$item["modulename"]]["pass"] == false )
+			$item = $testItems["modules"][$key];
+			$result = $testItems["modules"][$key];
+            if ( $item["req"] == true && $result["pass"] == false )
             {
                 $continue = false;
-                $tpl->setVariable( "errorDescription", $item["errorDescription"] );
-                $tpl->setVariable( "errorSuggestion", $item["errorSuggestion"] );  
+                $tpl->setVariable( "errorDescription", $item["error"]["general"]["message"] );
+                $tpl->setVariable( "errorSuggestion", $item["error"]["general"]["suggestion"] );  
+				break;
             }
         }
     }
 
-    // Only continue with error testing, if the above test was successful
-    if ( $continue == true && $resultArray["filepermissions"]["pass"] == false )
-    {
-        $continue = false;
-        $tpl->setVariable( "errorDescription", $testItems["filepermissions"]["errorDescription"] );
-        $tpl->setVariable( "errorSuggestion", $testItems["filepermissions"]["errorSuggestion"] );        
-    }
-    
+
+	//
+	// Error reporting on the file permissions
+	if  ( $continue )
+	{
+		foreach( array_keys( $testItems["files"] ) as $key )
+		{
+			$item = $testItems["files"][$key];
+			$result = $resultArray["files"][$key];
+			if ( $item["req"] == true && $result["pass"] == false )
+			{
+				$continue = false;
+                $tpl->setVariable( "errorDescription", $item["error"]["message"] );
+                $tpl->setVariable( "errorSuggestion", $item["error"]["suggestion"] );  
+				break;
+			}
+		}
+	}
+
     //
-    // DB Settings
+    // Set handover variables and continue
     //
     $tpl->setVariable( "continue", $continue );
     
@@ -198,19 +252,23 @@ function stepOne( &$tpl, &$http )
     Test if PHP version is equal or greater than required version
      
 */
-function testPhpVersion( $argArray )
+function testPhpVersion( $minVersion )
 { 
+    /*
     // Get the operating systems name
     $operatingSystem = split( " ", php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
     
-    // Find out if there is an os specific version needed
+	// Find out if there is an os specific version needed
     if ( isset( $argArray["req"][$operatingSystem] ) )
         $neededVersion = $argArray["req"][$operatingSystem];
     else if ( isset( $argArray["req"]["general"] ) )
         $neededVersion = $argArray["req"]["general"];
     else
         $neededVersion = $argArray["req"]; 
+	*/
+
+	$neededVersion = $minVersion;
 
     // compare the versions
     $currentVersion = phpversion();
@@ -221,11 +279,7 @@ function testPhpVersion( $argArray )
     else
         $pass = false;
     
-    return array( "desc" => $argArray["desc"],
-                  "req"  => $neededVersion,
-                  "exist" => $currentVersion,
-                  "pass" => $pass
-                );     
+    return array( "status" => $currentVersion, "pass"   => $pass );     
 }
 
 
@@ -239,52 +293,56 @@ function testModule( $argArray )
     else
         $pass = false;
 
-    return array( "desc" => $argArray["desc"],
-                  "req" => $argArray["req"],
-                  "exist" => $pass,
-                  "pass" => $pass 
-                );         
+    return array( "status" => $pass, "pass"   => $pass );         
 }
 
 
 
+
 /*!
-    Test if we can create a file in this directory.
+	Test file permissions
 */
-function testFilePermissions( $argArray )
+function testPermissions( $file, $permissions = "w+" )
 {
+	// Make sure, we are working in the right directory.
+	$file = eZSys::siteDir() . $file;
+
+	if ( ! file_exists( $file ) )
+		return "noexist";
+
+	
+	// Directories: Test, if we can create a file
+	// Files: Test, if we can open a file in writing mode
 	$pass = true;
-
-	$tmpfname = tempnam( eZSys::siteDir(), "ezsetup" );
-	if ( ! $tmpfname )
-		$pass = false;	
-	
-	if ( $pass )
+	if ( is_dir( $file ) )
+	{
+		// TODO: Better temporary file name!
+		$tmpfname = $file . "/ezsetup.tmp";
 		$fp = fopen( $tmpfname, "w" );
-	if ( ! $fp )
-		$pass = false;
+		if ( ! $fp )
+			$pass = false;
+			
+		if ( $pass )
+			$test = fwrite( $fp, "this file can be deleted. It gets created by the eZ setup module of eZ publish." );
+		if ( $pass && ! $test )
+			$pass = false;
+
+		if ( $pass )
+			$test = fclose( $fp );
 		
-	if ( $pass )
-		$test = fwrite( $fp, "this file can be deleted. It gets created by the eZ setup module of eZ publish." );
-	if ( ! $test )
-		$pass = false;
+		if ( $pass )
+			$test = unlink( $tmpfname );
+		if ( $pass && ! $test )
+			$pass = false;
+	}
+	else if ( is_file( $file ) )
+	{
+		$test = touch( $file );
+		if ( ! $test )
+			$pass = false;
+	}
 
-	if ( $pass )
-		$test = fclose( $fp );
-	if ( ! $test )
-		$pass = false;
-	
-	if ( $pass )
-		$test = unlink( $tmpfname );
-	if ( ! $test )
-		$pass = false;
-	
-    $status = $pass;
-
-    return array( "desc" => $argArray["desc"],
-                  "req" => $argArray["req"],
-                  "exist" => $status,
-                  "pass" => $pass );    
+    return array( "status" => $pass, "pass"   => $pass );         
 }
 
 ?>
