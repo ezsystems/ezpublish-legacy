@@ -700,7 +700,7 @@ $FunctionList['access'] = array( 'name' => 'access',
                                                                'type' => 'string',
                                                                'required' => true ),
                                                         array( 'name' => 'contentobject',
-                                                               'type' => 'object',
+                                                               'type' => 'object', // eZContentObject or eZContentObjectTreeNode
                                                                'required' => true ),
                                                         array( 'name' => 'contentclass_id',
                                                                'type' => 'integer',

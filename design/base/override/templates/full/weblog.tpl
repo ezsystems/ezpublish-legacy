@@ -24,7 +24,10 @@
                {/section}
             </div>
 
-            {section show=$node.object.can_create}
+            {section show=fetch( content, access, hash( access, 'can_create',
+                                                        contentobject, $node,
+                                                        contentclass_id, 'comment',
+                                                        parent_contentclass_id, $node.object.class_identifier ) )}
             <div class="content-action">
                 <form method="post" action={"content/action"|ezurl}>
                    <input type="hidden" name="ClassIdentifier" value="comment" />

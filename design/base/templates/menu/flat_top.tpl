@@ -13,7 +13,6 @@
                 <li class="last {eq($module_result.path[1].node_id,$menuloop:item.node_id)|choose('','selected')}"><div class="spacing"><a href={concat( "/content/view/full/", $menuloop:item.node_id, "/")|ezurl}>{$:item.name|wash}</a></div></li>
                 {section-else}
                 <li {eq($module_result.path[1].node_id,$menuloop:item.node_id)|choose('','class="selected"')}><div class="spacing"><a href={concat( "/content/view/full/", $menuloop:item.node_id, "/")|ezurl}>{$:item.name|wash}</a></div></li>
-                {section-else}
                 {/section}
             {/section}
     {/section}

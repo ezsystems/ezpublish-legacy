@@ -338,14 +338,17 @@ class eZObjectForwarder
                             }
                             $ifLength = strlen( $code );
                             $conditionCount = 0;
-                            foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
+                            if ( isset( $customMatch['conditions'] ) )
                             {
-                                if ( $conditionCount > 0 )
-                                    $code .= " and\n" . str_repeat( ' ', $ifLength );
-                                $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
-                                $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
-                                ++$conditionCount;
+                                foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
+                                {
+                                    if ( $conditionCount > 0 )
+                                        $code .= " and\n" . str_repeat( ' ', $ifLength );
+                                    $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
+                                    $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                                    ++$conditionCount;
+                                }
                             }
                             if ( $matchConditionCount > 0 )
                             {
@@ -466,6 +469,7 @@ class eZObjectForwarder
                 foreach ( $customMatchList as $customMatch )
                 {
                     $matchConditionCount = count( $customMatch['conditions'] );
+                    $code = '';
                     if ( $matchCount > 0 )
                     {
                         $code = "else";
