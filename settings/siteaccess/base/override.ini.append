@@ -189,10 +189,15 @@ MatchFile=line/product.tpl
 Subdir=templates
 Match[class_identifier]=product
 
-
 [review_line]
 Source=node/view/line.tpl
 MatchFile=line/review.tpl
+Subdir=templates
+Match[class_identifier]=review
+
+[review_edit]
+Source=content/edit.tpl
+MatchFile=edit/review.tpl
 Subdir=templates
 Match[class_identifier]=review
 

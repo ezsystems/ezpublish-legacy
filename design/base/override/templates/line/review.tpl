@@ -6,7 +6,13 @@
     <h3>{$node.name}</h3>
 
     <div class="content-byline">
-        <p class="author">{$node.object.data_map.author.content|wash}</p>
+        <p class="author">
+            {section show=$node.object.data_map.author.content|count_chars()|gt(0)}
+                {$node.object.data_map.author.content|wash}
+            {section-else}
+                {$node.object.owner.name|wash}
+            {/section}
+        </p>
         <p class="date">{$node.object.published|l10n(date)}</p>
         <div class="break"></div>
     </div>

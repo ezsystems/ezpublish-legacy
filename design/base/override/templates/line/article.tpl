@@ -1,13 +1,15 @@
 {* Article - Line view *}
 <div class="view-line">
     <div class="class-article">
+
     {section show=$node.object.data_map.image.content}
         <div class="imageright">
-            {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image}
+            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
+
     {section show=$node.object.data_map.body.content.is_empty|not}
-        <h2><a href={concat( "/content/view/full/", $node.node_id, "/")|ezurl}>{$node.name}</a></h2>
+        <h2><a href={$node.url_alias|ezurl}>{$node.object.data_map.title.content|wash}</a></h2>
     {section-else}
         <h2>{$node.name}</h2>
     {/section}

@@ -13,11 +13,7 @@
             </div>
         {/section}
 
-{content_view_gui view=embed content_object=$node.object.data_map.image.content}
-
-                {attribute_view_gui attribute=$node.object.data_map.image}
-
-
+        {content_view_gui view=embed content_object=$node.object.data_map.image.content align=left image_class=medium }
 
         {section show=$node.object.data_map.intro.content.is_empty|not}
             <div class="content-short">
