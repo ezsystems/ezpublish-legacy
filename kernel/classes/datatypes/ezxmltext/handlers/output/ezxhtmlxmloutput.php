@@ -82,6 +82,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
+                    $linkIDValue = $link->attributeValue( 'id' );
+                    if ( !$linkIDValue )
+                        continue;
                     if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
                         $linkIDArray[] = $link->attributeValue( 'id' );
                 }
