@@ -2,12 +2,12 @@
 {section}
     {let name=Child
         children=fetch( content, list, hash( parent_node_id, $node.node_id,
-                                             sort_by, $node.sort_array,     
-                                             limit, $page_limit, 
+                                             sort_by, $node.sort_array,
+                                             limit, $page_limit,
                                              offset, $view_parameters.offset ) )
-        can_remove=false() 
-        can_edit=false() 
-        can_create=false() 
+        can_remove=false()
+        can_edit=false()
+        can_create=false()
         can_copy=false()}
 
     {section show=$:children}
@@ -113,7 +113,7 @@
                                                sort_by, $node.sort_array,
                                                limit, $page_limit,
                                                offset, $view_parameters.offset ) )}
-                <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+                <input type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
@@ -133,4 +133,21 @@
 
 
 {/section}
+</form>
+
+
+{* The "Create new here" thingy: *}
+<form method="post" action={"content/action"|ezurl}>
+{section show=$node.object.can_create}
+<input type="hidden" name="NodeID" value="{$node.node_id}" />
+<select name="ClassID">
+{section name=Classes loop=$node.object.can_create_class_list}
+<option value="{$:item.id}">{$:item.name|wash}</option>
+{/section}
+</select>
+<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+{/section}
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
 </form>

@@ -1,11 +1,15 @@
-<div class="controlbar">
+<form method="post" action={"content/action"|ezurl}>
+<input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
+<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
+</form>
 
+<div class="controlbar">
 <div class="editblock">
-<input class="button" type="submit" value="Edit" />
 <span class="advanced-mode">
-<input class="button" type="submit" value="Delete" />
-<input class="button" type="submit" value="Copy" />
-<input class="button" type="submit" value="Move" />
 </span>
 </div>
 
@@ -42,4 +46,3 @@
 *}
 
 </div>
-
