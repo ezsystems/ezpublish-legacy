@@ -56,17 +56,7 @@
         <td>{node_view_gui view=line content_node=$Nodes.item}</td>
 
         {* Visibility. *}
-        <td class="nowrap">
-        {section show=$Nodes.item.is_invisible}
-            {section show=$Nodes.item.is_hidden}
-                {'Hidden'|i18n( 'design/admin/node/view/full' )}
-            {section-else}
-                {'Hidden by superior'|i18n( 'design/admin/node/view/full' )}
-            {/section}
-        {section-else}
-            {'Visible'|i18n( 'design/admin/node/view/full' )}
-        {/section}
-        </td>
+        <td class="nowrap">{$Nodes.item.hidden_status_string}</td>
 
         {* Class type *}
         <td>{$Nodes.item.class_name|wash}</td>
