@@ -121,8 +121,6 @@ CREATE TABLE eztipafriend_counter (
   PRIMARY KEY  (node_id)
 ) TYPE=MyISAM;
 
-UPDATE ezsite_data SET value='2' WHERE name='ezpublish-release';
-
 ALTER TABLE ezsubtree_notification_rule add user_id INT NOT NULL;
 
 CREATE TABLE tmp_notification_rule ( id INT PRIMARY KEY AUTO_INCREMENT,

@@ -145,8 +145,6 @@ WHERE ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribut
 ALTER TABLE ezcontentobject_version ADD COLUMN workflow_event_pos INT;
 ALTER TABLE ezcontentobject_version ALTER workflow_event_pos SET DEFAULT 0;
 
-UPDATE ezsite_data SET value='2' WHERE name='ezpublish-release';
-
 ALTER TABLE ezsubtree_notification_rule ADD user_id INTEGER;
 ALTER TABLE ezsubtree_notification_rule ALTER user_id SET NOT NULL;
 
