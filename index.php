@@ -302,7 +302,7 @@ eZWeb::init();
 // Check for extension
 include_once( 'lib/ezutils/classes/ezextension.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
-eZExtension::activateExtensions( true );
+eZExtension::activateExtensions( 'default' );
 // Extension check end
 
 include_once( "access.php" );
@@ -316,7 +316,7 @@ eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' )
 $GLOBALS['eZCurrentAccess'] =& $access;
 
 // Check for siteaccess extension
-eZExtension::activateExtensions( false );
+eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
