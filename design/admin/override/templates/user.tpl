@@ -21,6 +21,8 @@
     <p>{node_view_gui view=text_linked content_node=$content_object.main_node.parent}</p>
     <p>Login: <i>{$user_attribute.content.login|wash}</i></p>
     <p>User ID: <i>{$user_attribute.content.contentobject_id}</i></p>
+    <p>User <a href={concat( "user/setting/", $user_attribute.content.contentobject_id )|ezurl}>settings</a></p>
+
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
