@@ -63,6 +63,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         $objectAttributes = $version->attribute( 'contentobject_attributes' );
         $waitUntilDateObject =& $this->workflowEventContent( $event );
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
+        $modifyPublishDate = $event->attribute( 'data_int1' );
         eZDebug::writeDebug( 'executing publish on time event' );
         eZDebug::writeDebug( $waitUntilDateEntryList, 'executing publish on time event' );
         eZDebug::writeDebug( $objectAttributes, 'publish on time event' );
@@ -76,7 +77,9 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             {
                 include_once( "lib/ezlocale/classes/ezdatetime.php" );
                 $dateTime =& $objectAttribute->attribute( 'content' );
-                if ( get_class( $dateTime ) == 'ezdatetime' )
+                if ( get_class( $dateTime ) == 'ezdatetime' or
+                     get_class( $dateTime ) == 'eztime' or
+                     get_class( $dateTime ) == 'ezdate' )
                 {
                     if ( eZDateTime::currentTimeStamp() < $dateTime->timeStamp() )
                     {
@@ -84,6 +87,11 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                         $this->setActivationDate( $dateTime->timeStamp() );
                         eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
                         return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
+                    }
+                    else if ( $dateTime->isValid() and $modifyPublishDate )
+                    {
+                        $object->setAttribute( 'published', $dateTime->timeStamp() );
+                        $object->store();
                     }
                     else
                     {
@@ -202,6 +210,16 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             }break;
         }
 
+    }
+
+    function fetchHTTPInput( &$http, $base, &$event )
+    {
+        $modifyDateVariable = $base . "_data_waituntildate_modifydate_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $modifyDateVariable ) )
+        {
+            $modifyDateValue = (int)$http->postVariable( $modifyDateVariable );
+            $event->setAttribute( 'data_int1', $modifyDateValue );
+        }
     }
 
     function &workflowEventContent( &$event )
