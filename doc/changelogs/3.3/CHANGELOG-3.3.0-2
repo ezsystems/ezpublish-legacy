@@ -42,6 +42,8 @@
   http://ez.no/developer/ez_publish_3/bug_reports/renderxhtmltag_in_ol_or_ul
 - Fixed bug in kernel/role/edit.php. Made sure policy variable is checked before usage (merged from stable 4352 )
   http://ez.no/developer/ez_publish_3/bug_reports/php_error_in_admin_role_edition
+- Fixed ImageGD bug during setup : http://ez.no/developer/ez_publish_3/bug_reports/setup_wizard_fails_to_write_rules_to_imageiniappendphp_when_using_gd 
+  ( merged from stable 4354 )
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable

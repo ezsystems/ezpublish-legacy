@@ -145,10 +145,18 @@ class eZStepCreateSites extends eZStepInstaller
             $imageINI->setVariable( 'ImageMagick', 'ExecutablePath', $this->PersistenceList['imagemagick_program']['path'] );
             $imageINI->setVariable( 'ImageMagick', 'Executable', $this->PersistenceList['imagemagick_program']['program'] );
         }
-//        if ( $this->PersistenceList['imagegd_extension']['result'] )
-//        {
-//            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
-//        }
+        if ( $this->PersistenceList['imagegd_extension']['result'] )
+        {
+            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
+
+            $imageINI->setVariable( 'Rules', 'DefaultRule', 'image/jpeg;gd' );
+            $imageINI->setVariable( 'Rules', 'Rules', array( 'image/jpeg;image/jpeg;gd',
+                                                             'image/png;image/png;gd',
+                                                             'image/gif;image/png;gd',
+                                                             'image/xpm;image/png;gd',
+                                                             'image/tiff;image/png;gd' ) );
+        }
+
         $saveResult = false;
         if ( !$saveData )
             $saveResult = true;
