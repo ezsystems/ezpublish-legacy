@@ -22,7 +22,14 @@
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
-	<td><input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" {section show=$Translations.index|not}disabled="disabled" title="{'The default translation can not be removed.'|i18n( 'design/admin/content/translations' )}" {/section} /></td>
+
+	<td>
+
+    {section show=$Translations.index}
+    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" /></td>
+    {section-else}
+    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'The default language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" /></td>
+    {/section}
 
     {* Language. *}
 	<td>
@@ -47,8 +54,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/translations' )}" />
-<input class="button" type="submit" name="NewButton"    value="{'Add language'|i18n( 'design/admin/content/translations' )}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/translations' )}" title="{'Remove selected languages.'|i18n( 'design/admin/content/translations' )}" />
+<input class="button" type="submit" name="NewButton"    value="{'Add language'|i18n( 'design/admin/content/translations' )}" title="{'Add a new language. The new language can then be used when translating content.'|i18n( 'design/admin/content/translations' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
