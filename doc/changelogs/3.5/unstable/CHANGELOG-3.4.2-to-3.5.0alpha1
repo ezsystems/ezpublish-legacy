@@ -638,6 +638,9 @@ Workflow:
   http://ez.no/community/bug_reports/crash_when_using_versionview
 - Fixed bug: restore from trash is impossible
   http://ez.no/community/bug_reports/restore_from_trash
+- Fixed bug: Roles, limit on section.
+  (Merged from stable 3.4 rev 8423)
+  http://ez.no/community/bug_reports/roles_limit_on_section
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
