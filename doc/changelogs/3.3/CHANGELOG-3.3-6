@@ -136,6 +136,9 @@ eZINI:
 - Fixed bug in SQL fetching user list for subtree notification handler
   resulting in very large query execution times.
 - Fixed inability to connect to PostgreSQL during installation using setup wizard.
+- Fixed bug: no email adress in registration email.
+  Merged from trunk (3.5) rev. 5416.
+  http://ez.no/community/bug_reports/no_emailadres_in_registration_email
 
 *Library:
 
