@@ -93,7 +93,8 @@ class eZContentCache
                                          'content_path' => 'contentPath',
                                          'content_data' => 'contentData',
                                          'node_id' => 'nodeID',
-                                         'section_id' => 'sectionID'
+                                         'section_id' => 'sectionID',
+                                         'navigation_part_identifier' => 'navigationPartIdentifier'
                                          ) );
 
         $result['content'] = $values['content_data'];
@@ -108,6 +109,11 @@ class eZContentCache
         if ( isset( $values['section_id'] ) )
         {
             $result['section_id'] = $values['section_id'];
+        }
+
+        if ( isset( $values['navigation_part_identifier'] ) )
+        {
+            $result['navigation_part'] = $values['navigation_part_identifier'];
         }
 
         return $result;
@@ -144,6 +150,11 @@ class eZContentCache
         if ( isset( $result['section_id'] ) )
         {
             $php->addVariable( 'sectionID', $result['section_id'] );
+        }
+
+        if ( isset( $result['navigation_part'] ) )
+        {
+            $php->addVariable( 'navigationPartIdentifier', $result['navigation_part'] );
         }
 
         $php->addSpace();
