@@ -38,9 +38,9 @@
     {* Remove. *}
     <td>
     {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}
-    <input type="checkbox" name="AssignmentIDSelection[] value="{$assignment.id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$assignment.id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-    <input type="checkbox" name="AssignmentIDSelection[] value="{$assignment.id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$assignment.id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
     {/section}
     </td>
 
