@@ -127,7 +127,7 @@ function eZWebDavAppendToLog( $logString )
         eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
     }
 
-    $logFile  = fopen( $fileName, 'a' );
+    $logFile = fopen( $fileName, 'a' );
     $nowTime = date( "Y-m-d H:i:s : " );
     fwrite( $logFile, $nowTime . $logString . "\n" );
     fclose( $logFile );
@@ -206,6 +206,7 @@ class eZWebDAVServer
 
         append_to_log( "----------------------------------------" );
         append_to_log( "Client says: ".$_SERVER["REQUEST_METHOD"] );
+        append_to_log( "Target: ".$_SERVER["REQUEST_URI"] );
         append_to_log( "----------------------------------------" );
 
         // Check what the client wants & do it:
@@ -224,7 +225,6 @@ class eZWebDAVServer
             case "PROPFIND":
             {
                 append_to_log( "PROPFIND was issued from client." );
-                append_to_log( "target is: $target" );
                 $collection = $this->getCollectionContent( $target );
                 $status     = $this->outputCollectionContent( $collection );
             }break;
@@ -234,7 +234,8 @@ class eZWebDAVServer
             case "HEAD":
             {
                 append_to_log( "HEAD was issued from client." );
-                $status = $this->head( $target );
+                $data   = $this->get( $target );
+                $status = $this->outputSendDataToClient( $data, true );
             }
             break;
 
@@ -468,7 +469,7 @@ class eZWebDAVServer
 
     /*!
      */
-    function outputSendDataToClient( $output )
+    function outputSendDataToClient( $output, $headers_only = false )
     {
         // Check if we are dealing with custom data.
         if ( $output["data"] )
@@ -505,20 +506,27 @@ class eZWebDAVServer
 
                 while( @ob_end_clean() );
 
-                // Attempt to open the file.
-                $fp = fopen( $realPath, "rb" );
-
-                // Output the actual contents of the file.
-                $status = fpassthru( $fp );
-
-                // Check if the last command succeded..
-                if ($status == $size)
+                if ( !$headers_only )
                 {
-                    return( EZ_WEBDAV_OK_SILENT );
+                    // Attempt to open the file.
+                    $fp = fopen( $realPath, "rb" );
+
+                    // Output the actual contents of the file.
+                    $status = fpassthru( $fp );
+
+                    // Check if the last command succeded..
+                    if ($status == $size)
+                    {
+                        return( EZ_WEBDAV_OK_SILENT );
+                    }
+                    else
+                    {
+                        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                    }
                 }
                 else
                 {
-                    return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                    return( EZ_WEBDAV_OK_SILENT );
                 }
             }
             // Else: file/dir doesn't exist!

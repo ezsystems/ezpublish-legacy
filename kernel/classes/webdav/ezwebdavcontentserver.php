@@ -918,6 +918,11 @@ function getNodeInfo( $node )
                 $entry["ctime"]     = filectime( $fileLocation );
                 $entry["mtime"]     = filemtime( $fileLocation );
             }break;
+
+            default:
+            {
+                append_to_log( "getNodeInfo: datatype = " . $attributeDataTypeIdentifier );
+            } break;
         }
     }
 
@@ -1290,6 +1295,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Get rid of the index-file /NVH mode/ and the site name.
         $source = removeIndexAndSiteName( $source, $currentSite );
 
+        // Get rid of possible extensions, remove .jpeg .txt .html etc..
+        $source = preg_replace( "/\.\w*$/", "", $source );
+        $source = preg_replace( "#\/$#", "", $source );
+
         // Proceed only if the current site is valid:
         if ( $currentSite )
         {
@@ -1312,6 +1321,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
                     $destination = preg_replace( "/\.\w*$/", "", $destination );
                     $destination = preg_replace( "#\/$#", "", $destination );
 
+                    append_to_log( "Source: $source   Destination: $destination" );
+        
                     //
                     $contentObjectID = $object->attribute( 'id' );
                     $contentObjectAttributes =& $object->contentObjectAttributes();

@@ -80,6 +80,10 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/wishlist_is_buggy
 - Fixed typo in ezlog.
   http://ez.no/community/bug_reports/typo_in_ezlog
+- Implemented 'HEAD' in Webdav so that IE 6.0 would no longer 'PUT' an object
+  twice.
+- Fixed Webdav's 'MOVE', the extension was not removed from the source before
+  and thus could the source object never be found.
 
 *Library:
 
