@@ -18,6 +18,7 @@ FILTER_FILES2="bin/modfix.sh"
 PACKAGE_DIR="packages"
 
 . ./bin/shell/common.sh
+. ./bin/shell/packagescommon.sh
 
 if ! which php &>/dev/null; then
     echo "No PHP executable found, please add it to the path"
@@ -122,20 +123,16 @@ for arg in $*; do
 	    echo "Options: -h"
 	    echo "         --help                     This message"
 	    echo "         --build-root=DIR           Set build root, default is /tmp"
-	    echo "         --release-sdk              Make SDK release"
-	    echo "         --release-full             Make full release(default)"
 	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
 	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
+	    echo "         --skip-site-creation       Do not build sites*"
+	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
+	    echo
+	    echo "* Warning: Using these options will not make a valid distribution"
             echo
             echo "Example:"
             echo "$0 --release-sdk --with-svn-server"
 	    exit 1
-	    ;;
-	--release-sdk)
-	    DIST_TYPE="sdk"
-	    ;;
-	--release-full)
-	    DIST_TYPE="full"
 	    ;;
 	--build-root=*)
 	    if echo $arg | grep -e "--build-root=" >/dev/null; then
@@ -155,6 +152,9 @@ for arg in $*; do
 	    else
 		REPOS_RELEASE="trunk"
 	    fi
+	    ;;
+	--skip-site-creation)
+	    SKIPSITECREATION="1"
 	    ;;
 	--skip-php-check)
 	    SKIPCHECKPHP="1"
@@ -199,7 +199,7 @@ echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NO
 
 if [ -z $SKIPCHECKPHP ]; then
     echo "Checking syntax of PHP files"
-    ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests
+    ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests/classes benchmarks/classes
     if [ $? -ne 0 ]; then
 	echo "Some PHP files have syntax errors"
 	echo "Run the following command to find the files"
@@ -236,28 +236,48 @@ for file in $EXTRA_DIRS; do
     mkdir -p $DEST/$file
 done
 
-if [ -d "$PACKAGE_DIR" ]; then
-    echo "Fetching packages from `$SETCOLOR_EMPHASIZE`$PACKAGE_DIR`$SETCOLOR_NORMAL`"
-    echo -n "Export packages:"
-    mkdir -p $DEST/kernel/setup/packages
-    for package in $PACKAGE_DIR/*; do
-	if [ -d "$package" ]; then
-	    PACKAGE_NAME=`basename $package`
-	    echo -n " `$SETCOLOR_EMPHASIZE`$PACKAGE_NAME`$SETCOLOR_NORMAL`"
-	    ./ezpm.php -q -r "$PACKAGE_DIR" export "$PACKAGE_NAME" -d "$DEST/kernel/setup/packages"
+if [ -z $SKIPSITECREATION ]; then
+    echo "Creating and exporting sites"
+    rm -rf "$DEST/kernel/setup/packages"
+    mkdir -p "$DEST/kernel/setup/packages" || exit 1
+    echo -n "Site:"
+    for site in $ALL_PACKAGES; do
+	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
+	if [ $? -ne 0 ]; then
+	    echo
+	    echo "The package creation of $site failed"
+	    echo "Run the following command to see what went wrong"
+	    echo "./bin/shell/makesitepackages.sh --site=$site"
+	    exit 1
+	else
+	    echo -n " `$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
 	fi
     done
-    echo
-else
-    echo "No packages to export"
 fi
+echo
+
+# if [ -d "$PACKAGE_DIR" ]; then *}
+#     echo "Fetching packages from `$SETCOLOR_EMPHASIZE`$PACKAGE_DIR`$SETCOLOR_NORMAL`" *}
+#     echo -n "Export packages:" *}
+#     mkdir -p $DEST/kernel/setup/packages *}
+#     for package in $PACKAGE_DIR/*; do *}
+# 	if [ -d "$package" ]; then *}
+# 	    PACKAGE_NAME=`basename $package` *}
+# 	    echo -n " `$SETCOLOR_EMPHASIZE`$PACKAGE_NAME`$SETCOLOR_NORMAL`" *}
+# 	    ./ezpm.php -q -r "$PACKAGE_DIR" export "$PACKAGE_NAME" -d "$DEST/kernel/setup/packages" *}
+# 	fi *}
+#     done *}
+#     echo *}
+# else *}
+#     echo "No packages to export" *}
+# fi *}
 
 # if [ "$DIST_TYPE" == "sdk" ]; then
-if [ -d "doc/generated/html" ]; then
-    echo "Copying generated documentation"
-    mkdir -p $DEST/doc/generated/html
-    cp -f "doc/generated/html"/* $DEST/doc/generated/html
-fi
+# if [ -d "doc/generated/html" ]; then *}
+#     echo "Copying generated documentation" *}
+#     mkdir -p $DEST/doc/generated/html *}
+#     cp -f "doc/generated/html"/* $DEST/doc/generated/html *}
+# fi *}
 
 echo "`$SETCOLOR_COMMENT`Applying filters`$SETCOLOR_NORMAL`"
 for filter in $FILTER_FILES; do

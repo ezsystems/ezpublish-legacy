@@ -10,9 +10,7 @@ fi
 
 TMPDIR="/tmp/ez-$USER/packages"
 
-if [ -d $TMPDIR ]; then
-    rm -rf "$TMPDIR"
-fi
+[ -d $TMPDIR ] && rm -rf "$TMPDIR"
 mkdir -p $TMPDIR || exit 1
 
 PMBIN="./ezpm.php"
@@ -25,7 +23,50 @@ PACKAGE_FILES="packages/var"
 CREATE_SITESTYLES="true"
 CREATE_SITES="true"
 
-echo "Placing packages in $SITE_PACKAGES"
+# Check parameters
+for arg in $*; do
+    case $arg in
+	--help|-h)
+	    echo "Usage: $0 [options]"
+	    echo
+	    echo "Options: -h"
+	    echo "         --help                     This message"
+	    echo "         --build-root=DIR           Set build root, default is /tmp"
+	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
+	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
+	    echo "         --skip-site-creation       Do not build sites*"
+	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
+	    echo
+	    echo "* Warning: Using these options will not make a valid distribution"
+            echo
+            echo "Example:"
+            echo "$0 --release-sdk --with-svn-server"
+	    exit 1
+	    ;;
+	-q)
+	    QUIET="-q"
+	    ;;
+	--site=*)
+	    if echo $arg | grep -e "--site=" >/dev/null; then
+		SITE=`echo $arg | sed 's/--site=//'`
+	    fi
+	    ;;
+	--export-path*)
+	    if echo $arg | grep -e "--export-path=" >/dev/null; then
+		EXPORT_PATH=`echo $arg | sed 's/--export-path=//'`
+	    fi
+	    ;;
+	*)
+	    echo "$arg: unkown option specified"
+            $0 -h
+	    exit 1
+	    ;;
+    esac;
+done
+
+[ -d $EXPORT_PATH ] || { echo "The export path $EXPORT_PATH does not exist"; exit 1; }
+
+[ -z $QUIET ] && echo "Placing packages in $SITE_PACKAGES"
 
 ## Common initialization
 
@@ -38,12 +79,12 @@ mkdir -p "$SITE_PACKAGES" || exit 1
 rm -rf "$SITE_PACKAGES_EXPORT"
 mkdir -p "$SITE_PACKAGES_EXPORT" || exit 1
 
-if [ "$CREATE_SITESTYLES" != "" ]; then
-
 ## Shop sitestyles
 
+if [[ -z $SITE || $SITE = 'shop' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/shop"
-    ./ezpm.php -r "$SITE_PACKAGES/shop" \
+    ./ezpm.php -r "$SITE_PACKAGES/shop" $QUIET \
 	create shop_blue "Blue CSS design for shop" "$VERSION"  -- \
 	set shop_blue type sitestyle -- \
 	add shop_blue file -n cssfile design/shop/stylesheets/shop-blue.css -- \
@@ -64,11 +105,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add shop_red file -n image design/shop/images/shopping-menu-icon.gif -- \
 	add shop_red file -n image design/shop/images/half_white-transparent.gif -- \
 	export shop_red -d "$SITE_PACKAGES_EXPORT/shop" || exit 1
+fi
 
 ## Blog sitestyles
 
+if [[ -z $SITE || $SITE = 'blog' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/blog"
-    ./ezpm.php -r "$SITE_PACKAGES/blog" \
+    ./ezpm.php -r "$SITE_PACKAGES/blog" $QUIET \
 	create blog_blue "Blue CSS design for blog" "$VERSION" -- \
 	set blog_blue type sitestyle -- \
 	add blog_blue file -n cssfile design/blog/stylesheets/blog_blue.css -- \
@@ -79,11 +123,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add blog_red file -n cssfile design/blog/stylesheets/blog_red.css -- \
 	add blog_red thumbnail -n thumbnail design/blog/images/blog-red.png -- \
 	export blog_red -d "$SITE_PACKAGES_EXPORT/blog" || exit 1
+fi
 
 ## Gallery sitestyles
 
+if [[ -z $SITE || $SITE = 'gallery' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/gallery"
-    ./ezpm.php -r "$SITE_PACKAGES/gallery" \
+    ./ezpm.php -r "$SITE_PACKAGES/gallery" $QUIET \
 	create gallery_gray "Gray CSS design for gallery" "$VERSION" -- \
 	set gallery_gray type sitestyle -- \
 	add gallery_gray file -n cssfile design/gallery/stylesheets/gallery_gray.css -- \
@@ -96,11 +143,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add gallery_blue file -n cssfile design/gallery/stylesheets/gallery_blue.css -- \
 	add gallery_blue thumbnail -n thumbnail design/gallery/images/gallery_blue.jpg -- \
 	export gallery_blue -d "$SITE_PACKAGES_EXPORT/gallery" || exit 1
+fi
 
 ## News sitestyles
 
+if [[ -z $SITE || $SITE = 'news' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/news"
-    ./ezpm.php -r "$SITE_PACKAGES/news" \
+    ./ezpm.php -r "$SITE_PACKAGES/news" $QUIET \
 	create news_blue "Blue CSS design for news" "$VERSION" -- \
 	set news_blue type sitestyle -- \
 	add news_blue file -n cssfile design/news/stylesheets/news_blue.css -- \
@@ -111,11 +161,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add news_brown file -n cssfile design/news/stylesheets/news.css -- \
 	add news_brown thumbnail -n thumbnail design/news/images/news_brown.jpg -- \
 	export news_brown -d "$SITE_PACKAGES_EXPORT/news" || exit 1
+fi
 
 ## Intranet sitestyles
 
+if [[ -z $SITE || $SITE = 'intranet' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/intranet"
-    ./ezpm.php -r "$SITE_PACKAGES/intranet" \
+    ./ezpm.php -r "$SITE_PACKAGES/intranet" $QUIET \
 	create intranet_gray "Gray CSS design for intranet" "$VERSION" -- \
 	set intranet_gray type sitestyle -- \
 	add intranet_gray file -n cssfile design/intranet/stylesheets/intranet.css -- \
@@ -128,12 +181,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add intranet_red thumbnail -n thumbnail design/intranet/images/intranet_red.png -- \
 	add intranet_red file -n image design/intranet/images/green_logo.png -- \
 	export intranet_red -d "$SITE_PACKAGES_EXPORT/intranet" || exit 1
-
+fi
 
 ## Corporate sitestyles
 
+if [[ -z $SITE || $SITE = 'corporate' ]]; then
+
     mkdir -p "$SITE_PACKAGES_EXPORT/corporate"
-    ./ezpm.php -r "$SITE_PACKAGES/corporate" \
+    ./ezpm.php -r "$SITE_PACKAGES/corporate" $QUIET \
 	create corporate_blue "Blue CSS design for corporate" "$VERSION" -- \
 	set corporate_blue type sitestyle -- \
 	add corporate_blue file -n cssfile design/corporate/stylesheets/corporate-blue.css -- \
@@ -149,12 +204,14 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	add corporate_green file -n image design/corporate/images/header_image-green.jpg -- \
 	add corporate_green thumbnail -n thumbnail design/corporate/images/corporate-green.png -- \
 	export corporate_green -d "$SITE_PACKAGES_EXPORT/corporate" || exit 1
+fi
 
 
 ## Forum sitestyles
 
+if [[ -z $SITE || $SITE = 'forum' ]]; then
     mkdir -p "$SITE_PACKAGES_EXPORT/forum"
-    ./ezpm.php -r "$SITE_PACKAGES/forum" \
+    ./ezpm.php -r "$SITE_PACKAGES/forum" $QUIET \
 	create forum_red "Red CSS design for forum" "$VERSION" -- \
 	set forum_red type sitestyle -- \
 	add forum_red file -n cssfile design/forum/stylesheets/forum.css -- \
@@ -169,12 +226,11 @@ if [ "$CREATE_SITESTYLES" != "" ]; then
 	export forum_red -d "$SITE_PACKAGES_EXPORT/forum" || exit 1
 fi
 
-if [ "$CREATE_SITES" != "" ]; then
-
 ## Plain site
 ## Various from the other sites and must initialized by itself
 
-    ./ezpm.php -r "$OUTPUT_REPOSITORY" \
+if [[ -z $SITE || $SITE = 'plain' ]]; then
+    ./ezpm.php -r "$OUTPUT_REPOSITORY" $QUIET \
 	create plain "Plain" "$VERSION" -- \
 	set plain type site -- \
 	add plain design -n design plain -- \
@@ -185,65 +241,69 @@ if [ "$CREATE_SITES" != "" ]; then
 	add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql -- \
 	add plain thumbnail design/plain/images/plain.gif
-
 fi
 
 for site in $PACKAGES; do
+    [[ -z $SITE || $SITE = $site ]] || continue
 
-    echo "Creating $site"
-    ./ezpm.php -r "$OUTPUT_REPOSITORY" \
+    [ -z $QUIET ] && echo "Creating $site"
+    ./ezpm.php -r "$OUTPUT_REPOSITORY" $QUIET \
 	create $site "`cat $PACKAGE_FILES/$site/description.txt`" "$VERSION" -- \
 	set $site type site -- \
 	add $site design -n design $site -- \
-	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user" -- \
-	add $site ini -r siteaccess -v admin -n admin_siteaccess "settings/siteaccess/"$site"_admin" -- \
+ 	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user" -- \
 	add $site sql -d mysql kernel/sql/mysql/kernel_schema.sql -- \
 	add $site sql -d mysql packages/sql/data/$site.sql -- \
 	add $site sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
 	add $site sql -d postgresql packages/sql/data/$site.sql || exit 1
 
+#	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user/site.ini.append" -- \
+# 	add $site ini -r siteaccess -v $site -n user_siteaccess "settings/siteaccess/"$site"_user" -- \
+# 	add $site ini -r siteaccess -v admin -n admin_siteaccess "settings/siteaccess/"$site"_admin" -- \
     if [ -f "$PACKAGE_FILES/$site/thumbnail.png" ]; then
-	echo "Adding PNG thumbnail to $site"
-	"$PMBIN" -r "$OUTPUT_REPOSITORY" \
+	[ -z $QUIET ] && echo "Adding PNG thumbnail to $site"
+	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	    add $site thumbnail "$PACKAGE_FILES/$site/thumbnail.png" || exit 1
     elif [ -f "$PACKAGE_FILES/$site/thumbnail.gif" ]; then
-	echo "Adding GIF thumbnail to $site"
-	"$PMBIN" -r "$OUTPUT_REPOSITORY" \
+	[ -z $QUIET ] && echo "Adding GIF thumbnail to $site"
+	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	    add $site thumbnail "$PACKAGE_FILES/$site/thumbnail.gif" || exit 1
     else
-	echo "No thumbnail for $site"
+	[ -z $QUIET ] && echo "No thumbnail for $site"
     fi
 
     if [ -d "$PACKAGE_FILES/$site/storage/images" ]; then
-	echo "Adding images to $site"
-	"$PMBIN" -r "$OUTPUT_REPOSITORY" \
+	[ -z $QUIET ] && echo "Adding images to $site"
+	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	    add $site file -p "var/$site/storage/images" "$PACKAGE_FILES/$site/storage/images" || exit 1
     fi
 
     if [ -f "$PACKAGE_FILES/$site/cache/expiry.php" ]; then
-	echo "Adding expiry file to $site"
-	"$PMBIN" -r "$OUTPUT_REPOSITORY" \
+	[ -z $QUIET ] && echo "Adding expiry file to $site"
+	"$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 	    add $site file -p "var/$site/cache" "$PACKAGE_FILES/$site/cache/expiry.php" || exit 1
     fi
 
 done
 
-for site in $PACKAGES "plain"; do
+for site in $ALL_PACKAGES; do
+    [[ -z $SITE || $SITE = $site ]] || continue
 
-    echo -n "Adding packages to $site"
+    [ -z $QUIET ] && echo -n "Adding packages to $site"
     if [ -d "$SITE_PACKAGES_EXPORT/$site" ]; then
-	echo
+	[ -z $QUIET ] && echo
 
 	for package in "$SITE_PACKAGES_EXPORT/$site"/*; do
-	    "$PMBIN" -r "$OUTPUT_REPOSITORY" \
+	    "$PMBIN" -r "$OUTPUT_REPOSITORY" $QUIET \
 		add "$site" file -p "var/$site/storage/packages" "$package" || exit 1
 	done
     else
-	echo ", no packages"
+	[ -z $QUIET ] && echo ", no packages"
     fi
 
     if [ -d "$OUTPUT_REPOSITORY/$site" ]; then
-	$PMBIN -r "$OUTPUT_REPOSITORY" export $site -d "$EXPORT_PATH" || exit 1
+	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
+	    export $site -d "$EXPORT_PATH" || exit 1
     fi
 
 done
