@@ -141,6 +141,8 @@ eZ PHP creator:
 - Link tags in ezxml fields with empty href values are now handled properly, empty links
   will signal a validation error. (Merged from stable/3.3 rev. 5582)
   http://ez.no/community/bug_reports/xml_field_one_empty_link_causes_all_other_links_to_disappear
+- Fixed a bug with login of user when running mysql, the number of returned rows would
+  increase exponentially. (Merged from stable/3.3 rev. 5648)
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
