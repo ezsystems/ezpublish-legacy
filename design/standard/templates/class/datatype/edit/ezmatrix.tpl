@@ -10,9 +10,9 @@
 <input type="text" name="ContentClass_ezmatrix_default_num_rows_{$class_attribute.id}" value="{$class_attribute.data_int1|wash}"  size="8" maxlength="20" />
 </div>
 
-
 <div class="block">
-<label>{'Columns'|i18n( 'design/standard/class/datatype' )}</label>
+<fieldset>
+<legend>{'Columns'|i18n( 'design/standard/class/datatype' )}</legend>
 
 {section show=$class_attribute.content.columns}
 <table class="list" cellspacing="0">
@@ -41,8 +41,6 @@
 </p>
 {/section}
 
-
-<div class="block">
 {section show=$class_attribute.content.columns}
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" title="{'Remove selected columns.'|i18n( 'design/standard/class/datatype' )}" />
 {section-else}
@@ -50,4 +48,5 @@
 {/section}
 
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_ezmatrix_column]" value="{'New column'|i18n('design/standard/class/datatype')}" title="{'Add a new column.'|i18n( 'design/standard/class/datatype' )}" />
+</fieldset>
 </div>
