@@ -176,4 +176,41 @@ function eZSessionStart()
     return true;
 }
 
+/*!
+ Makes sure session data is stored in the session and stops the session.
+*/
+function eZSessionStop()
+{
+    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
+    if ( isset( $hasStarted ) and
+         !$hasStarted )
+         return false;
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    if ( !$db->isConnected() )
+        return false;
+    session_write_close();
+    $hasStarted = false;
+    return true;
+}
+
+/*!
+ Removes the current session and resets session variables.
+*/
+function eZSessionRemove()
+{
+    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
+    if ( isset( $hasStarted ) and
+         !$hasStarted )
+         return false;
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    if ( !$db->isConnected() )
+        return false;
+    $GLOBALS['HTTP_SESSION_VARS'] = array();
+    session_destroy();
+    $hasStarted = false;
+    return true;
+}
+
 ?>

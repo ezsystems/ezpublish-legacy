@@ -34,23 +34,16 @@
 //
 
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
+include_once( 'lib/ezutils/classes/ezcli.php' );
 
-error_reporting ( E_ALL );
+$cli =& eZCLI::instance();
 
-eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+$cli->startup();
 
-$endl = "<br/>";
-$webOutput = true;
-if ( isset( $argv ) )
-{
-    $endl = "\n";
-    $webOutput = false;
-}
+$endl = $cli->endlineString();
+$webOutput = $cli->isWebOutput();
 
 $exportType = false;
 $exportParameters = array();
@@ -59,12 +52,7 @@ $debugOutput = false;
 $useColors = false;
 $isQuiet = false;
 $outputFile = false;
-
-$colors = array( 'warning' => "\033[1;35m",
-                 'error' => "\033[1;31m",
-                 'success' => "\033[1;32m",
-                 'emphasize' => "\033[1;38m",
-                 'normal' => "\033[0;39m" );
+$useLogFiles = true;
 
 $optionsWithData = array( 's', 'o' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -78,6 +66,7 @@ function help()
            "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
            "  -d,--debug         display debug output at end of execution\n" .
            "  -c,--colors        display output using ANSI colors\n" .
+           "  --no-logfiles      do not create log files\n" .
            "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
@@ -136,6 +125,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'no-colors' )
             {
                 $useColors = false;
+            }
+            else if ( $flag == 'no-logfiles' )
+            {
+                $useLogFiles = false;
             }
         }
         else
@@ -202,99 +195,9 @@ if ( !$exportType )
 if ( $webOutput )
     $useColors = false;
 
-if ( $useColors )
-{
-    $emphasizeText = $colors['emphasize'];
-    $normalText = $colors['normal'];
-    $errorText = $colors['error'];
-    $warningText = $colors['warning'];
-    $successText = $colors['success'];
-}
-else
-{
-    $emphasizeText = '';
-    $normalText = '';
-    $errorText = '';
-    $warningText = '';
-    $successText = '';
-}
+$cli->setUseStyles( $useColors );
 
-/*!
- Reads settings from site.ini and passes them to eZDebug.
-*/
-function eZUpdateDebugSettings()
-{
-    global $debugOutput;
-    $ini =& eZINI::instance();
-    $debugSettings = array();
-    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
-    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    $debugSettings['debug-enabled'] = $debugOutput;
-    eZDebug::updateSettings( $debugSettings );
-}
-
-/*!
- Reads settings from i18n.ini and passes them to eZTextCodec.
-*/
-function eZUpdateTextCodecSettings()
-{
-    $ini =& eZINI::instance( 'i18n.ini' );
-    $i18nSettings = array();
-    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
-    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-    eZTextCodec::updateSettings( $i18nSettings );
-}
-
-// Initialize text codec settings
-eZUpdateTextCodecSettings();
-
-// Initialize debug settings
-eZUpdateDebugSettings();
-
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-
-function eZDBCleanup()
-{
-    if ( class_exists( 'ezdb' )
-         and eZDB::hasInstance() )
-    {
-        $db =& eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
-    }
-//     session_write_close();
-}
-
-function eZFatalError()
-{
-    global $webOutput;
-    global $endl;
-    global $errorText;
-    global $normalText;
-    $bold = '<b>';
-    $unbold = '</b>';
-    $par = '<p>';
-    $unpar = '</p>';
-    if ( !$webOutput )
-    {
-        $bold = $errorText;
-        $unbold = $normalText;
-        $par = '';
-        $unpar = $endl;
-    }
-
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
-    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
-    print( eZDebug::printReport( false, $webOutput, true ) );
-}
-
-eZExecution::addCleanupHandler( 'eZDBCleanup' );
-eZExecution::addFatalErrorHandler( 'eZFatalError' );
-
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+$cli->initialize();
 
 // Check for extension
 include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -386,7 +289,7 @@ else
 
 if ( $debugOutput or
      eZDebug::isDebugEnabled() )
-    print( eZDebug::printReport( false, $webOutput, true ) );
+    print( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" . eZDebug::printReport( false, $webOutput, true ) );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();

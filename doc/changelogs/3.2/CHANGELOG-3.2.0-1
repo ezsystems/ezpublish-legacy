@@ -140,11 +140,6 @@ Changes from 3.1-1 to 3.2.0-1
 - Added start of export system. Currently only the generic package is exported.
 - Added support for class export in all kernel datatypes.
 
-*Session:
-- Added support for defining the name of the session variable.
-- Added support for having a unique session name per siteaccess, thus allowing
-  unique login per siteaccess even with url based siteaccess.
-
 *Templates:
 - Made default size ofe textarea fields like text line fields.
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
@@ -185,3 +180,15 @@ eZ module:
 eZ extension:
 - Added the helper function expandedPathList to turn a list of extension with an optional
   subdirectory into real expanded paths.
+
+*eZ session:
+- Added support for defining the name of the session variable.
+- Added support for having a unique session name per siteaccess, thus allowing
+  unique login per siteaccess even with url based siteaccess.
+- Added two functions for stopping and removing the session.
+
+*eZ debug:
+- Added support for stylized output when using plain text.
+
+eZ cli:
+- New class to handle terminal and CLI specific functionality.

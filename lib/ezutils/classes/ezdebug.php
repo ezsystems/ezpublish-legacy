@@ -118,14 +118,19 @@ class eZDebug
                                       EZ_LEVEL_DEBUG => array() );
 
         $this->OutputFormat = array( EZ_LEVEL_NOTICE => array( "color" => "green",
+                                                               'style' => 'notice',
                                                                "name" => "Notice" ),
                                      EZ_LEVEL_WARNING => array( "color" => "orange",
+                                                                'style' => 'warning',
                                                                 "name" => "Warning" ),
                                      EZ_LEVEL_ERROR => array( "color" => "red",
+                                                              'style' => 'error',
                                                               "name" => "Error" ),
                                      EZ_LEVEL_DEBUG => array( "color" => "brown",
+                                                              'style' => 'debug',
                                                               "name" => "Debug" ),
                                      EZ_LEVEL_TIMING_POINT => array( "color" => "blue",
+                                                                     'style' => 'timing',
                                                                      "name" => "Timing" ) );
         $this->LogFiles = array( EZ_LEVEL_NOTICE => array( "var/log/",
                                                            "notice.log" ),
@@ -150,6 +155,11 @@ class eZDebug
                                        EZ_LEVEL_ERROR => true,
                                        EZ_LEVEL_TIMING_POINT => true,
                                        EZ_LEVEL_DEBUG => true );
+        $this->GlobalLogFileEnabled = true;
+        if ( isset( $GLOBALS['eZDebugLogFileEnabled'] ) )
+        {
+            $this->GlobalLogFileEnabled = $GLOBALS['eZDebugLogFileEnabled'];
+        }
         $this->ShowTypes = EZ_SHOW_ALL;
         $this->HandleType = EZ_HANDLE_NONE;
         $this->OldHandler = false;
@@ -735,10 +745,40 @@ class eZDebug
 
     /*!
      \return true if the message type \a $type has logging to file enabled.
+     \sa isGlobalLogFileEnabled, setIsLogFileEnabled
     */
     function isLogFileEnabled( $type )
     {
+        if ( !$this->isGlobalLogFileEnabled() )
+            return false;
         return $this->LogFileEnabled[$type];
+    }
+
+    /*!
+     \return true if the message type \a $type has logging to file enabled.
+     \sa isLogFileEnabled, setIsGlobalLogFileEnabled
+    */
+    function isGlobalLogFileEnabled()
+    {
+        return $this->GlobalLogFileEnabled;
+    }
+
+    /*!
+     Sets whether the logfile \a $type is enabled or disabled to \a $enabled.
+     \sa isLogFileEnabled
+    */
+    function setIsLogFileEnabled( $type, $enabled )
+    {
+        $this->LogFileEnabled[$type] = $enabled;
+    }
+
+    /*!
+     Sets whether logfiles are enabled or disabled globally. Sets the value to \a $enabled.
+     \sa isLogFileEnabled, isGlobalLogFileEnabled
+    */
+    function setIsGlobalLogFileEnabled( $enabled )
+    {
+        $this->GlobalLogFileEnabled = $enabled;
     }
 
     /*!
@@ -786,6 +826,17 @@ class eZDebug
         $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
         $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+        if ( isset( $settings['debug-log-files-enabled'] ) )
+        {
+            $GLOBALS['eZDebugLogFileEnabled'] = $settings['debug-log-files-enabled'];
+            if ( isset( $GLOBALS["eZDebugGlobalInstance"] ) )
+                $GLOBALS["eZDebugGlobalInstance"]->GlobalLogFileEnabled = $settings['debug-log-files-enabled'];
+        }
+
+        if ( isset( $settings['debug-styles'] ) )
+        {
+            $GLOBALS['eZDebugStyles'] = $settings['debug-styles'];
+        }
 
         $debugEnabled = $settings['debug-enabled'];
         if ( $settings['debug-enabled'] and
@@ -990,6 +1041,22 @@ ezdebug.reload();
     */
     function &printReportInternal( $as_html = true )
     {
+        $styles = array( 'warning' => false,
+                         'warning-end' => false,
+                         'error' => false,
+                         'error-end' => false,
+                         'debug' => false,
+                         'debug-end' => false,
+                         'notice' => false,
+                         'notice-end' => false,
+                         'timing' => false,
+                         'timing-end' => false,
+                         'emphasize' => false,
+                         'emphasize-end' => false,
+                         'bold' => false,
+                         'bold-end' => false );
+        if ( isset( $GLOBALS['eZDebugStyles'] ) )
+            $styles = $GLOBALS['eZDebugStyles'];
         $endTime = microtime();
         $returnText = "";
         if ( $as_html )
@@ -1052,7 +1119,8 @@ td.timingpoint2
                 }
                 else
                 {
-                    $returnText .= "$name: ($label)\n" . $debug["String"] . "\n\n";
+                    $returnText .= $styles[$outputData['style']] . "$name:" . $styles[$outputData['style'].'-end'] . " ";
+                    $returnText .= $styles['bold'] . "($label)" . $styles['bold-end'] . "\n" . $debug["String"] . "\n\n";
                 }
             }
         }
@@ -1205,7 +1273,7 @@ td.timingpoint2
             if ( $as_html )
                 $returnText .= "<tr><td class='$class'><b>$groupName</b></td>";
             else
-                $returnText .= "Group $groupName: ";
+                $returnText .= "Group " . $styles['mark'] . "$groupName:" . $styles['mark-end'] . " ";
             if ( array_key_exists( 'time_data', $group ) )
             {
                 $groupData = $group['time_data'];
@@ -1222,7 +1290,7 @@ td.timingpoint2
                 }
                 else
                 {
-                    $returnText .= "$groupElapsed sec ($groupPercent%), $groupAverage avg sec ($groupCount)";
+                    $returnText .= $styles['emphasize'] . "$groupElapsed" . $styles['emphasize-end'] . " sec ($groupPercent%), $groupAverage avg sec ($groupCount)";
                 }
             }
             else if ( $as_html )
@@ -1269,7 +1337,7 @@ td.timingpoint2
                 }
                 else
                 {
-                    $returnText .= "$childName: $childElapsed sec ($childPercent%), $childAverage avg sec ($childCount)";
+                    $returnText .= "$childName: " . $styles['emphasize'] . $childElapsed . $styles['emphasize-end'] . " sec ($childPercent%), $childAverage avg sec ($childCount)\n";
                 }
             }
         }
@@ -1279,7 +1347,7 @@ td.timingpoint2
         }
         else
         {
-            $returnText .= "Total script time: " . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
+            $returnText .= "\nTotal script time: " . $styles['emphasize'] . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . $styles['emphasize-end'] . " sec\n";
         }
         if ( $as_html )
         {
@@ -1334,6 +1402,9 @@ td.timingpoint2
 
     /// A map with message types and whether they should do file logging.
     var $LogFileEnabled;
+
+    /// Controls whether logfiles are used at all.
+    var $GlobalLogFileEnabled;
 
     /// The time when the script was started
     var $ScriptStart;
