@@ -46,6 +46,7 @@ $orderCount = eZOrder::activeCount( true, $offset );
 
 $tpl->setVariable( "order_list", $orderArray );
 $tpl->setVariable( "order_list_count", $orderCount );
+$tpl->setVariable( "limit", $limit );
 
 $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );

@@ -107,31 +107,55 @@ function processList( &$module )
 <head>
 <title>eZ publish&trade; SDK</title>
 <link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
 </head>
-<body bgcolor="white" topmargin="0" marginwidth="0" marginheight="0">
-<table width="100%" bgcolor="#4987bc"><tr><td>
-<h1><font  color="white">eZ publish&trade; SDK</font></h1>
-</td>
+
+<body style="background: url(/design/standard/images/grid-background.gif);">
+
+<table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
+<tr>
+    <td class="topline" valign="bottom"  width="210">
+    <img src="%path_prepend%/design/standard/images/ezpublish-logo.gif" width="210" height="60" alt="" />
+    </td>
+    <td valign="bottom" class="topline" width="100%">
+    <h1><font color="white">SDK&trade;</font></h1>
+    </td>
 </tr>
 </table>
+
+<table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="pathline" width="100%">
+    &nbsp;
+    </td>
+</tr>
+</table>
+
+
 
 <table width="100%" cellpadding="5">
 <tr>
-<td valign="top" width="15%" class="leftmenu">
-<table cellpadding="2" width="100%">
+    <td valign="top" width="15%">
+<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
-	<td>
-    <h3>eZ publish SDK</h3>
-    <p>
-    Version: %sdk_version%
-    </p>
-	</td>
+    <th class="menuheaddark" colspan="2">
+    <p class="menuhead">eZ publish SDK</p>
+    </th>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">Version: %sdk_version%</p>
+    </td>
 </tr>
 </table>
-</td>
 
-<td>
-<h1>eZ publish&trade; SDK</h1>
+    </td>
+    <td>
+
 
 <table width="100%">
 <tr>
@@ -333,22 +357,56 @@ function process( &$module, $component, $command, $part, $rest )
 <title>eZ publish&trade; SDK - %nameTM%</title>
 <link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
-<body bgcolor="white" topmargin="0" marginwidth="0" marginheight="0">
-<table width="100%" bgcolor="#4987bc"><tr><td>
-<h1><a href="%index_path_prepend%%exampleURI%"><font color="white">eZ publish&trade; SDK</font></a>
-<font color="white"> - %nameTM%</font></h1>
-</td>
+<head>
+<title>eZ publish&trade; SDK</title>
+<link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
+</head>
+
+<body style="background: url(/design/standard/images/grid-background.gif);">
+
+<table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
+<tr>
+    <td class="topline" valign="bottom"  width="210">
+<a href="%index_path_prepend%%exampleURI%">
+    <img src="%path_prepend%/design/standard/images/ezpublish-logo.gif" width="210" height="60" alt="" border="0" /></a>
+    </td>
+    <td valign="bottom" class="topline" width="100%">
+    <h1><font color="white"> - %nameTM%</font></h1>
+    </td>
 </tr>
 </table>
 
+<table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="pathline" width="100%">
+    &nbsp;
+    </td>
+</tr>
+</table>
+
+
 <table width="100%" bgcolor="white" cellpadding="5" cellspacing="0" border="0">
 <tr>
-<td valign="top" width="15%" class="leftmenu">
-  <table cellpadding="2" width="100%">
-  <tr><td><h3>%baseURI_link%%nameTM%</h3></td></tr>
-  %features_data%
-  </table>
-<br />
+<td valign="top" width="15%">
+
+<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <th class="menuheaddark" colspan="2">
+    <p class="menuhead">%baseURI_link%%nameTM%</p>
+    </th>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    &nbsp;
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">%features_data%</p>
+    </td>
+</tr>
+</table>
+
 <br />
 Version:&nbsp;%sdk_version%
 </td>
@@ -383,8 +441,8 @@ Version:&nbsp;%sdk_version%
             // $base
             // $component
             $TemplateFeaturesVars = array();
-            $TemplateFeaturesData = '<tr><td>%featureLevelStart% - <a href="%index_path_prepend%%base%/%component%/%command%/%featureURI%/">%featureName%</a>%featureLevelEnd%</td></tr>';
-            $TemplateFeaturesData_nolink = '<tr><td><h3>%featureName%</h3></td></tr>';
+            $TemplateFeaturesData = '%featureLevelStart%<img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" border="0"/> <a href="%index_path_prepend%%base%/%component%/%command%/%featureURI%/">%featureName%</a>%featureLevelEnd%<br />';
+            $TemplateFeaturesData_nolink = '%featureName% <br />';
 
             // $nameTM
             // $depend_items

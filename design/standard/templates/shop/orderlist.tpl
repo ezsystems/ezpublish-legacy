@@ -49,4 +49,4 @@
          page_uri=concat('/shop/orderlist/',$node.node_id)
          item_count=$order_list_count
          view_parameters=$view_parameters
-         item_limit=5}
+         item_limit=$limit}

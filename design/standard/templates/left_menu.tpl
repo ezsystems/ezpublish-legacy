@@ -9,7 +9,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Contents</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>List</a></p>
     </td>
 </tr>
 <tr>
@@ -25,7 +25,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>Search stats</a></p>
+    <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>My drafts</a></p>
     </td>
 </tr>
 </table>
@@ -42,26 +42,9 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>Drafts</a></p>
+    <p class="menuitem"><a class="menuitem"  href={"/search/stats/"|ezurl}>Search stats</a></p>
     </td>
 </tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/shop/wishlist/"|ezurl}>Wish list</a></p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/shop/basket/"|ezurl}>Shopping basket</a></p>
-    </td>
-</tr>
-
 </table>
 
 
@@ -132,7 +115,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/shop/discountrule/"|ezurl}>Discount rules</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/shop/discountrule/"|ezurl}>Discount</a></p>
     </td>
 </tr>
 </table>
@@ -164,7 +147,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/notification/list/"|ezurl}>Notification rule list</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/notification/list/"|ezurl}>My Notifications</a></p>
     </td>
 </tr>
 <tr>

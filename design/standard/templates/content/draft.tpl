@@ -12,7 +12,11 @@
     <th>Name:</th>
     <th>Version:</th>
     <th>Edit:</th>
-    <th>Remove:</th>
+    <th>
+    <div class="buttonblock">
+    <input type="submit" name="RemoveButton" value="Remove" />
+    </div>
+    </th>
 </tr>
 
 {section name=Draft loop=$draft_list sequence=array(bglight,bgdark)}
@@ -30,16 +34,12 @@
     </td>
     <td class="{$Draft:sequence}">
     <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
-    <img src={"editdelete.png"|ezimage} alt="Delete" />
   </td>
 </tr>
 {/section}
 <tr>
 </table>
 
-<div class="buttonblock">
-<input type="submit" name="RemoveButton" value="Remove" />
-</div>
 
 {section-else}
 
