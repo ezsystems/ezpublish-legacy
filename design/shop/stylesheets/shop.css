@@ -144,7 +144,7 @@ div#searchbox input.searchbutton
 
 div#path
 {
-    margin-top: 1em;
+    padding: 1em 0 0 0;
     margin-bottom: 1em;
 }
 
@@ -248,7 +248,7 @@ div#cart div.design, div#infobox div.design, div#latestnews div.design
 
 div#cart div.design, div#infobox div.design
 {
-    border-bottom: 2px dotted #ffcc00;
+    border-bottom: 2px dotted #e5b700;
 }
 
 div#cart ul, div#infobox ul, div#latestnews ul
@@ -271,15 +271,13 @@ div#maincontent
 {
     background-color: #ffffff;
     margin: 0 9em 0 153px;
-    padding: 0 1.5em 1em 1.5em;
-    clear: none;
-    position: relative;
-    border-right: 2px dotted #cdcdcd;
 }
 
 div#maincontent div.design
 {
-    width: 100%;
+    position: relative;
+    padding: 0 1.5em 1em 1.5em;
+    border-right: 2px dotted #cdcdcd;
 }
 
 div#footer
@@ -488,14 +486,13 @@ div.product div.rating p
 
 /* */
 
-
 div#maincontent h1
 {
     background-color: #ffcc00;
     padding: 0.1em 0.3em 0.1em 0.3em;
 }
 
-div.productline h2
+div.productline h2:first-child
 {
     background-color: #ffe88d;
     padding: 0.1em 0.3em 0.1em 0.3em;
@@ -538,5 +535,10 @@ div.basket td.totalprice
 div.basket td.delete
 {
     width: 10%;
+}
+
+div.basket a
+{
+    color: #000000;
 }
 

@@ -13,6 +13,14 @@
      @import url("/design/shop/stylesheets/shop.css");
 </style>
 
+{literal}
+<!--[if lt IE 6.0]>
+<style>
+div#maincontent div.design { width: 100%; }
+</style>
+<![endif]-->
+{/literal}
+
 </head>
 
 <body>
@@ -239,7 +247,6 @@
         <div class="design">
         
     <div id="path">
-        <div class="design">
 
            <p>
            &gt; 
@@ -255,7 +262,6 @@
             {/section}
            </p>
 
-        </div>
     </div>
 
             {$module_result.content}
