@@ -83,6 +83,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
         $fileName = "design/$siteBase/override/templates/" . $templateName . ".tpl";
+        $filePath = "design/$siteBase/override/templates";
 
         $templateCode = "";
         switch ( $templateType )
@@ -106,6 +107,11 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             {
                 $templateCode =& generateDefaultTemplate( $http, $template, $fileName );
             }break;
+        }
+
+        if ( !file_exists( $filePath ) )
+        {
+            eZDir::mkdir( $filePath, 0777 );
         }
 
         $fp = fopen( $fileName, "w+" );
