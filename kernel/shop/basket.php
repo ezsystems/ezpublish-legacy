@@ -47,6 +47,9 @@ include_once( "kernel/classes/ezproductcollectionitemoption.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
+$basket =& eZBasket::currentBasket();
+$basket->updatePrices();
+
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
@@ -276,7 +279,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 }
 
 $basket =& eZBasket::currentBasket();
-$basket->updatePrices();
 $tpl =& templateInit();
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
