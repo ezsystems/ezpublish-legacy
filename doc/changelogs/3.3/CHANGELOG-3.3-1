@@ -32,6 +32,9 @@ Changes from 3.3.0-2 to 3.3-1
   http://ez.no/developer/ez_publish_3/bug_reports/policy_editing_error_with_subtree_limitation
 - Fixed cache bug when adding bookmarks in admin interface. ( merged from stable 4541 )
   http://ez.no/developer/ez_publish_3/bug_reports/bookmarks_cacheblock_dont_expires
+- Fixed timeout for editing class drafts from other user. This will prevent users beeing permanently unable to edit classes. ( merged from stable 4543 )
+  http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
+
 
 *RSS:
 
