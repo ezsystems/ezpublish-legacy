@@ -65,7 +65,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         if ( get_class( $dom ) == "ezdomdocument" )
         {
             // check for fault
-            $response =& $dom->elementsByNameNS( "Fault", EZ_SOAP_ENV );
+            $response =& $dom->elementsByNameNS( 'Fault', EZ_SOAP_ENV );
 
             if ( count( $response ) == 1 )
             {
@@ -241,19 +241,41 @@ TODO: add encoding checks with schema validation.
         $body->setPrefix( EZ_SOAP_ENV_PREFIX );
         $root->appendChild( $body );
 
-        // add the request
-        $responseName = $this->Name . "Response";
-        $response =& $doc->createElementNode( $responseName );
-        $response->setPrefix( "resp" );
-        $response->appendAttribute( $doc->createAttributeNamespaceDefNode( "resp", $this->Namespace ) );
+        // Check if it's a fault
+        if ( get_class( $this->Value ) == 'ezsoapfault' )
+        {
+            $fault =& $doc->createElementNode( "Fault" );
+            $fault->setPrefix( EZ_SOAP_ENV_PREFIX );
 
-        $return =& $doc->createElementNode( "return" );
-        $return->setPrefix( "resp" );
+            $faultCodeNode =& $doc->createElementNode( "faultcode" );
+            $faultCodeNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultCode() ) );
 
-        $value = $this->encodeValue( "return", $this->Value );
+            $fault->appendChild( $faultCodeNode );
 
-        $body->appendChild( $response );
-        $response->appendChild( $value );
+            $faultStringNode =& $doc->createElementNode( "faultstring" );
+            $faultStringNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultString() ) );
+
+            $fault->appendChild( $faultStringNode );
+
+            $body->appendChild( $fault );
+        }
+        else
+        {
+            // add the request
+            $responseName = $this->Name . "Response";
+            $response =& $doc->createElementNode( $responseName );
+            $response->setPrefix( "resp" );
+            $response->appendAttribute( $doc->createAttributeNamespaceDefNode( "resp", $this->Namespace ) );
+
+            $return =& $doc->createElementNode( "return" );
+            $return->setPrefix( "resp" );
+
+            $value = $this->encodeValue( "return", $this->Value );
+
+            $body->appendChild( $response );
+
+            $response->appendChild( $value );
+        }
 
         $doc->setRoot( $root );
         $ret =& $doc->toString();

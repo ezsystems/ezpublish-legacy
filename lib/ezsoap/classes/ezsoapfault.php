@@ -44,14 +44,16 @@
 class eZSOAPFault
 {
     /*!
+     Constructs a new eZSOAPFault object
     */
-    function eZSOAPFault()
+    function eZSOAPFault( $faultCode = "", $faultString = "" )
     {
-
+        $this->FaultCode = $faultCode;
+        $this->FaultString = $faultString;
     }
 
     /*!
-     Returns the fauls string.
+     Returns the fauls code.
     */
     function faultCode()
     {
@@ -59,13 +61,12 @@ class eZSOAPFault
     }
 
     /*!
-     Returns the fault string message.
+     Returns the fauls string.
     */
     function faultString()
     {
-        return $this->FaultString:
+        return $this->FaultString;
     }
-
 
     /// Contains the fault code
     var $FaultCode;

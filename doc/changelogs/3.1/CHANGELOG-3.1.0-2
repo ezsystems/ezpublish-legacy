@@ -9,5 +9,8 @@ Changes from 3.1.0-1 to 3.1.0-2
 eZ xml:
 - Fixed bug in attribute parsing with the - character, e.g. SOAP-ENV
 
+eZ soap:
+- Added support for SOAP faults as return data from the server
+
 * Update:
 - Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.
