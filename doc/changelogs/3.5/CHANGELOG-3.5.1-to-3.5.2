@@ -1,0 +1,22 @@
+Changes from 3.5.1 to 3.5.2
+
+*Kernel:
+
+*Bugfixes:
+- Fixed bug: eZGeneralDigesthandler returns users when no users should be returned
+  (Merged from stable/3.3 (3.3-7) rev. 10861)
+- Fixed bug: Toolbar template function trying to unset variables that are not set
+- Fixed bug #6204: lib/compat.php missing by client code.
+  (Manually merged from release/3.4.5 (3.4.5) rev. 10865)
+- Fixed bug #6188: Wrong CookieTimeout in site.ini
+  (Merged from stable/3.4 (3.4.5) rev. 10903)
+- Fixed bug #6149: Directory permission checking routine error
+  (Merged from stable/3.4 (3.4.5) rev. 10911) 
+- Fixed bug #6198: Date and Datetime as object name pattern for a class.
+  (Merged from stable/3.4 (3.4.5) rev. 10939)
+- Fixed bug #6198: Time field as object name pattern for a class.    
+  (Merged from stable/3.4 (3.4.5) rev. 10943)
+
+*WebDAV:
+- Fixed discarding of XML payload when user needs to authenticate.
+  (Merged from trunk (3.6.0alpha) rev. 10937)
