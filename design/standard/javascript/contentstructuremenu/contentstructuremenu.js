@@ -416,12 +416,10 @@ function ezcst_restoreMenuState( rootNode )
     Restores menu state from cookie, adds current location from
     \a additionalNodesList.
 */
-function ezcst_initializeMenuState( additionalNodesList, menuNodeID, itemClickAction, autoopenCurrentNode )
+function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCurrentNode )
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
     var currentNodeID = additionalNodesList.pop();           // remove current node;
-
-    gItemClickAction  = itemClickAction;
 
     if ( menu != null )
     {

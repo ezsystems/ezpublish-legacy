@@ -41,6 +41,14 @@
                 {/section}
 
                 {* Text *}
+                {section show=$:csm_menu_item_click_action|eq('')}
+                    {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
+                        <a class="nodetext" href="{$:defaultItemClickAction}"  title="{$:toolTip}">
+                    {/let}
+                {section-else}
+                        <a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">
+                {/section}
+
                 {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
                     <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
                 {/let}

@@ -34,8 +34,13 @@
                 {/section}
 
                 {* Text *}
-                {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                    <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">
+                {section show=$:csm_menu_item_click_action|eq('')}
+                    {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
+                        <a class="nodetext" href="{$:defaultItemClickAction}"  title="{$:toolTip}">
+                    {/let}
+                {section-else}
+                        <a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">
+                {/section}
         {section show=$:parentNode.node.is_hidden}
                 <span class="node-name-hidden">{$:parentNode.object.name|wash}</span>
         {section-else}
@@ -53,13 +58,13 @@
                     {/section}
                 {/section}
                 </a>
-                {/let}
+
 
             {* Show children *}
                 {section show=$:haveChildren}
                     <ul>
                         {section var=child loop=$:children}
-                            {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child}
+                            {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child csm_menu_item_click_action=$:csm_menu_item_click_action}
                         {/section}
                     </ul>
                 {/section}

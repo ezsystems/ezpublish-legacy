@@ -62,7 +62,7 @@
     {/section}
 
     {* check custom action when clicking on menu item *}
-    {section show=is_set( $csm_menu_item_click_action )}
+    {section show=and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}
         {set itemClickAction=$csm_menu_item_click_action}
     {/section}
 
@@ -72,7 +72,7 @@
     {/section}
 
     {* create menu *}
-    {cache-block keys=array($rootNodeID)}
+    {cache-block keys=array($:itemClickAction) subtree_expire="$:parentNode.object.name/"}
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID,
                                                             $:classFilter,
@@ -80,10 +80,11 @@
                                                             $:maxNodes,
                                                             $:sortBy,
                                                             $:fetchHidden ) }
+
         {* Show menu tree. All container nodes are unfolded. *}
-        <ul id="{$:menuID}">
-            {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize}
-        </ul>
+            <ul id="{$:menuID}">
+                {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize csm_menu_item_click_action=$:itemClickAction}
+            </ul>
     {/cache-block}
 
     {* initialize menu *}
@@ -98,7 +99,7 @@
             {/section}
         {/section}
 
-        ezcst_initializeMenuState( nodesList, "{$:menuID}",  "{$:itemClickAction}", "{$:autoopenCurrentNode}" );
+        ezcst_initializeMenuState( nodesList, "{$:menuID}", "{$:autoopenCurrentNode}" );
     // -->
     </script>
 
