@@ -52,29 +52,29 @@
 <div class="highlight">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
- <td>
+ <td class="normal">
   <p>Continue but leave the data as it is.</p>
  </td>
- <td rowspan="3">
+ <td rowspan="3" class="normal">
   &nbsp;&nbsp;
  </td>
- <td>
+ <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="1" />
  </td>
 </tr>
 <tr>
- <td>
+ <td class="normal">
   <p>Continue and remove the data.</p>
  </td>
- <td>
+ <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="2"  checked="checked" />
  </td>
 </tr>
 <tr>
- <td>
+ <td class="normal">
   <p>Let me choose a new database.</p>
  </td>
- <td>
+ <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="3" />
  </td>
 </tr>

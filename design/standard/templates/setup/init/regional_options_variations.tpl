@@ -21,12 +21,12 @@
 <table cellspacing="0" cellpadding="0" border="0">
 {section name=Language loop=$chosen_languages}
 <tr>
-  <td colspan="2">
+  <td colspan="2" class="normal">
     <b>{$:item.language_name}</b>
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Default
   </td>
 {let name=Variation has_variation=false()}
@@ -38,14 +38,14 @@
   {case/}
 {/switch}
 {/section}
-  <td>
+  <td class="normal">
     <input type="radio" name="eZSetupLanguageVariation[{$Language:item.locale_code}]" value="{$Language:item.locale_full_code}" {section show=$:has_variation|not}checked="checked"{/section} />
   </td>
 {/let}
 </tr>
 {section name=Variation loop=$language_variatons[$:item.locale_code]}
 <tr>
-  <td>
+  <td class="normal">
     {$:item.language_comment}
   </td>
   <td>

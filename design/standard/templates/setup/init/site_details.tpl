@@ -14,7 +14,7 @@
   <td class="normal">
    Title of your site:
   </td>
-  <td align="right">
+  <td align="right" class="normal">
     <input type="text" size="45" name="eZSetupSiteTitle" value="{$site_info.title}" />
   </td>
 </tr>
@@ -22,7 +22,7 @@
   <td class="normal">
    URL to your site:
   </td>
-  <td align="right">
+  <td align="right" class="normal">
     <input type="text" size="45" name="eZSetupSiteURL" value="{$site_info.url}" />
   </td>
 </tr>

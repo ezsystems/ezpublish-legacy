@@ -20,27 +20,27 @@
 <table cellspacing="0" cellpadding="0" border="0">
 {section show=eq($system.type,"unix")}
 <tr>
-  <td>
+  <td class="normal">
    sendmail
   </td>
-  <td align="right">
+  <td align="right" class="normal">
     <input type="radio" name="eZSetupEmailTransport" value="1" checked="checked" />
   </td>
 </tr>
 <tr>
-  <td colspan="2">
+  <td colspan="2" class="normal">
    <p>Configuration of sendmail is done on the server, consult your webhost.</p>
   </td>
 </tr>
 <tr>
-  <td colspan="2">&nbsp;</d>
+  <td colspan="2" class="normal">&nbsp;</d>
 </tr>
 {/section}
 <tr>
-  <td>
+  <td class="normal">
    SMTP
   </td>
-  <td align="right">
+  <td align="right" class="normal">
 {section show=eq($system.type,"unix")}
     <input type="radio" name="eZSetupEmailTransport" value="2" />
 {section-else}
@@ -50,22 +50,22 @@
   </td>
 </tr>
 <tr>
-  <td colspan="2">
+  <td colspan="2" class="normal">
    <p>Email transport by SMTP requires a server name. If the server requires authentication
    you must enter a username and password as well.</p>
   </td>
 </tr>
 <tr>
-  <td>Server name</td>
-  <td><input type="text" size="16" name="eZSetupSMTPServer" value="{$email_info.server}"></td>
+  <td class="normal">Server name</td>
+  <td class="normal"><input type="text" size="16" name="eZSetupSMTPServer" value="{$email_info.server}"></td>
 </tr>
 <tr>
-  <td>User name</td>
-  <td><input type="text" size="16" name="eZSetupSMTPUser" value="{$email_info.user}"></td>
+  <td class="normal">User name</td>
+  <td class="normal"><input type="text" size="16" name="eZSetupSMTPUser" value="{$email_info.user}"></td>
 </tr>
 <tr>
-  <td>Password</td>
-  <td><input type="password" size="16" name="eZSetupSMTPPassword" value="{$email_info.password}"></td>
+  <td class="normal">Password</td>
+  <td class="normal"><input type="password" size="16" name="eZSetupSMTPPassword" value="{$email_info.password}"></td>
 </tr>
 </table>
 </div>

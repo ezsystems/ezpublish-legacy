@@ -67,7 +67,6 @@ function prepareSqlQuery( $path, $type, $file )
 function doQuery( &$dbObject, $path, $sqlFile )
 {
     $type = $dbObject->databaseName();
-    set_time_limit(0);
 
 	$sqlArray = prepareSqlQuery( $path, $type, $sqlFile );
 
@@ -190,8 +189,9 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
 
             if ( $databaseChoice == 2 )
             {
+                set_time_limit( 0 );
                 $tableList = $db->tableList();
-                $dbObject->OutputSQL = false;
+                $db->OutputSQL = false;
                 foreach ( $tableList as $tableName )
                 {
                     $sql = "DROP TABLE $tableName";
@@ -207,6 +207,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                  ( $databaseChoice == 1 or
                    $databaseChoice == 2 ) )
             {
+                set_time_limit( 0 );
                 $setupINI =& eZINI::instance( 'setup.ini' );
                 $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQL' );
                 if ( $demoData['use'] )

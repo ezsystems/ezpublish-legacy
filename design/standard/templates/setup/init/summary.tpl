@@ -12,53 +12,53 @@
 <div class="highlight">
 <table cellspacing="0" cellpadding="0">
 <tr>
-  <td colspan="3">
+  <td colspan="3" class="normal">
     <b>Database settings</b>
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Database
   </td>
-  <td rowspan="3">&nbsp;&nbsp;</td>
-  <td>
+  <td rowspan="3" class="normal">&nbsp;&nbsp;</td>
+  <td class="normal">
     {$database_info.info.name}
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Driver
   </td>
-  <td>
+  <td class="normal">
     {$database_info.info.driver}
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Unicode support
   </td>
-  <td>
+  <td class="normal">
     {$database_info.info.supports_unicode|choose("no","yes")}
   </td>
 </tr>
 
 <tr>
-  <td colspan="3">
+  <td colspan="3" class="normal">
     &nbsp;
   </td>
 </tr>
 
 <tr>
-  <td colspan="3">
+  <td colspan="3" class="normal">
     <b>Language settings</b>
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Language type
   </td>
-  <td rowspan="2">&nbsp;&nbsp;</td>
-  <td>
+  <td rowspan="2" class="normal">&nbsp;&nbsp;</td>
+  <td class="normal">
   {switch match=$regional_info.language_type}
   {case match=1}
     Monolingual
@@ -73,10 +73,10 @@
   </td>
 </tr>
 <tr>
-  <td>
+  <td class="normal">
     Languages
   </td>
-  <td>
+  <td class="normal">
     {section name=Language loop=$variation_list}
 	 {section show=eq($:item.locale_code,$regional_info.primary_language)}
 	   <b>{$:item.language_name}</b>

@@ -40,18 +40,18 @@
 {section name=Language loop=$available_languages}
 {section-exclude match=$:item.country_variation}
 <tr>
-  <td>
+  <td class="normal">
     {$:item.language_name}
   </td>
 {section show=eq($regional_info.language_type,1)}
-  <td align="right">
+  <td align="right" class="normal">
 {section-else}
-  <td align="right" colspan="2">
+  <td align="right" colspan="2" class="normal">
 {/section}
     <input type="radio" name="eZSetupPrimaryLanguage" value="{$:item.locale_full_code}" {section show=eq($regional_info.primary_language,$:item.locale_full_code)}checked="checked"{/section} />
   </td>
 {section show=ne($regional_info.language_type,1)}
-  <td align="right">
+  <td align="right" class="normal">
     <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_full_code}" {switch match=$:item.locale_full_code}{case in=$regional_info.languages}checked="checked"{/case}{case/}{/switch} />
   </td>
 {/section}
