@@ -26,6 +26,10 @@ Changes from 3.0-1 to 3.0-2
   if there is an object relation.
 - Added remove function for datatype object relation.
 - All templates has been controlled and fixed to make sure that they wash all content output.
+- Cleaned warning messages when running script ezxhtmlxmloutput.php.
+- Fixed bug of inserting anchor does not work before heading.
+- Fixed bug of running custom actions can not save changes in fields "searchable" and "required" 
+  of class attributes.
 
 Content:
 - Made sure a title path is returned in content/view, it no longer includes the root object (Frontpage, Users etc.).

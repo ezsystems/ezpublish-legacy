@@ -101,13 +101,26 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // tags with parameters
                 case 'header' :
                 {
-                    $level = $sectionLevel;
-                    $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
-                    $tpl->setVariable( 'level', $level, 'xmltagns' );
-                    $uri = "design:content/datatype/view/ezxmltags/header.tpl";
-                    $textElements = array();
-                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $output .= implode( '', $textElements );
+                   // Add the anchor tag before the header.
+                   $name = $sectionNode->attributeValue( 'anchor_name' );
+
+                   if ( $name )
+                   {
+                       $tpl->setVariable( 'name', $name, 'xmltagns' );
+
+                       $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
+
+                       eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                       $output .= implode( '', $textElements );
+                   }
+
+                   $level = $sectionLevel;
+                   $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
+                   $tpl->setVariable( 'level', $level, 'xmltagns' );
+                   $uri = "design:content/datatype/view/ezxmltags/header.tpl";
+                   $textElements = array();
+                   eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                   $output .= implode( '', $textElements );
                 }break;
 
                 case 'paragraph' :
@@ -154,13 +167,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $paragraphCount++;
             }
 
-            $paragraphContentArray[$paragraphCount] = array( "Content" => $paragraphContentArray[$paragraphCount]['Content'] . $content, "IsBlock" => $isBlockTag );
+            if ( !isset( $paragraphContentArray[$paragraphCount]['Content'] ) )
+                $paragraphContentArray[$paragraphCount] = array( "Content" => $content, "IsBlock" => $isBlockTag );
+            else
+                $paragraphContentArray[$paragraphCount] = array( "Content" => $paragraphContentArray[$paragraphCount]['Content'] . $content, "IsBlock" => $isBlockTag );
             if ( $isBlockTag === true )
             {
                 $paragraphCount++;
             }
         }
-
         $output = "";
         foreach ( $paragraphContentArray as $paragraphContent )
         {
@@ -357,7 +372,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // custom tags which could added for special custom needs.
             case 'custom' :
             {
-                $childContent = $this->renderXHTMLSection( $tpl, $tag, $sectionLevel, $tdSctionLevel );
+                $childContent = $this->renderXHTMLSection( $tpl, $tag, $currentSectionLevel, $tdSectionLevel );
                 $tpl->setVariable( 'content',  $childContent, 'xmltagns' );
 
                 // Get the name of the custom tag.
