@@ -3605,9 +3605,9 @@ WHERE
 
             // update visibility for children of the node
             if( $newParentNodeIsVisible )
-                eZContentObjectTreeNode::hideSubTree( &$node, $modifyRootNode = false );
+                eZContentObjectTreeNode::hideSubTree( $node, $modifyRootNode = false );
             else
-                eZContentObjectTreeNode::unhideSubTree( &$node, $modifyRootNode = false );
+                eZContentObjectTreeNode::unhideSubTree( $node, $modifyRootNode = false );
         }
     }
 
