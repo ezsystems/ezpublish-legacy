@@ -50,6 +50,7 @@ Bugs/missing features:
 - Custom action support, test with option for instance
 - No translation page support yet (maybe?)
 - Not all datatypes uses the new $attribute_base template variable, they must do so to work properly
+- Multiple classes in one list is not supported, although the template indicate the opposite
 
 */
 
@@ -290,9 +291,9 @@ class eZObjectRelationListType extends eZDataType
                 $content['relation_list'][$i]['is_modified'] = false;
             }
         }
-        print( "<pre>" );
-        var_dump( $content );
-        print( "</pre>" );
+//         print( "<pre>" );
+//         var_dump( $content );
+//         print( "</pre>" );
         eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
         $contentObjectAttribute->setContent( $content );
         $contentObjectAttribute->store();
@@ -388,7 +389,7 @@ class eZObjectRelationListType extends eZDataType
     function storeObjectDOMDocument( &$doc, &$objectAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
-        print( "<pre>" . htmlspecialchars( $docText ) . "</pre>" );
+//         print( "<pre>" . htmlspecialchars( $docText ) . "</pre>" );
         $objectAttribute->setAttribute( 'data_text', $docText );
     }
 
