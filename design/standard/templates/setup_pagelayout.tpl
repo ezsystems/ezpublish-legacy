@@ -121,9 +121,13 @@
 
 {* Progress bar END *}
 
-</table>
+  <tr>
+    <td colspan="2">
+     {include uri="design:setup/page_copyright.tpl"}
+    </td>
+  </tr>
 
-{include uri="design:page_copyright.tpl"}
+</table>
 
 <!--DEBUG_REPORT-->
 
