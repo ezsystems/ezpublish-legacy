@@ -77,17 +77,28 @@ class eZPostgreSQLDB extends eZDBInterface
         $user = $this->User;
         $password = $this->Password;
 
+        $connectParams = array();
+        if ( $server !== false and $server !== null )
+            $connectParams[] = "host='$server'";
+        if ( $db !== false and $db !== null )
+            $connectParams[] = "dbname='$db'";
+        if ( $user !== false and $user !== null )
+            $connectParams[] = "user='$user'";
+        if ( $password !== false and $password !== null )
+            $connectParams[] = "password='$password'";
+        $connectString = implode( " ", $connectParams );
+
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))
         {
             eZDebugSetting::writeDebug( 'kernel-db-postgresql', $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
-            $this->DBConnection = pg_pconnect( "host='$server' dbname='$db' user='$user' password='$password'" );
+            $this->DBConnection = pg_pconnect( $connectString );
             $maxAttempts = $this->connectRetryCount();
             $waitTime = $this->connectRetryWaitTime();
             $numAttempts = 1;
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_pconnect( "host='$server' dbname='$db' user='$user' password='$password'" );
+                $this->DBConnection = pg_pconnect( $connectString );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
@@ -98,14 +109,14 @@ class eZPostgreSQLDB extends eZDBInterface
         else if ( function_exists( "pg_connect" ) )
         {
             eZDebugSetting::writeDebug( 'kernel-db-postgresql', "using real connection",  "using real connection" );
-            $this->DBConnection = pg_connect( "host='$server' dbname='$db' user='$user' password='$password'" );
+            $this->DBConnection = pg_connect( $connectString );
             $maxAttempts = $this->connectRetryCount();
             $waitTime = $this->connectRetryWaitTime();
             $numAttempts = 1;
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_connect( "host='$server' dbname='$db' user='$user' password='$password'" );
+                $this->DBConnection = pg_connect( $connectString );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
