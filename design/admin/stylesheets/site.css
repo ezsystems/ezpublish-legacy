@@ -350,6 +350,18 @@ div.context-block
     margin: 1em 0 2em 0;
 }
 
+
+div.context-content
+{
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+
+
 div.context-attributes
 {
     background-color: #f8f8f8;
@@ -365,6 +377,19 @@ h2.context-title
     padding: 0.2em;
     margin: 0;
 }
+
+
+h2.context-content
+{
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00a0a0;
+    padding: 0.2em;
+    margin: 0;
+}
+
+
 
 div.context-block h2.context-title img
 {
