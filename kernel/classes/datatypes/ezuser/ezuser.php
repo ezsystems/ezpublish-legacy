@@ -764,6 +764,47 @@ class eZUser extends eZPersistentObject
         return array( 'accessWord' => $access, 'policies' => $limitationPolicyList );
     }
 
+    function &allAccesses()
+    {
+        $roles =& $this->attribute( 'roles' );
+        $limitationPolicyList = array();
+        reset( $roles );
+        foreach ( array_keys( $roles ) as $key )
+        {
+            $role =& $roles[$key];
+            $policies =& $role->attribute( 'policies');
+            foreach ( array_keys( $policies ) as $policy_key )
+            {
+                $policy =& $policies[$policy_key];
+//                 if ( $policy->attribute( 'module_name' ) == '*' )
+//                 {
+//                     return array( 'accessWord' => 'yes' );
+//                 }
+//                 elseif ( $policy->attribute( 'module_name' ) == $module )
+//                 {
+//                     if ( $policy->attribute( 'function_name' ) == '*' )
+//                     {
+//                         return array( 'accessWord' => 'yes' );
+//                     }
+//                     elseif ( $policy->attribute( 'function_name' ) == $function )
+//                     {
+//                         if ( $policy->attribute( 'limitation' ) == '*' )
+//                         {
+//                             return array( 'accessWord' => 'yes' );
+//                         }
+//                         else
+//                         {
+//                             $access = 'limited';
+//                             $limitationPolicyList[] =& $policy;
+//                         }
+//                     }
+//                 }
+                $limitationPolicyList[] =& $policy;
+            }
+        }
+        return $limitationPolicyList;
+    }
+
     /*!
      \return an array of roles which the user is assigned to
     */
