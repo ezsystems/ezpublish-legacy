@@ -19,6 +19,8 @@ links to clickable links.
   It uses a new timestamp value to know which version the xml format is in
   and allows automatic conversion when older versions are detected.
   Use update/common/scripts/updateurllink.php to update all XML fields.
+- Added support for line break in xml text, added <line> tag in stored xml format. 
+- Fixed bug of stiping space between link (bold, italic) tag and normal text.
 - Some fixes to session cleanup.
 - Added navigation parts to provide tabbed interface.
 - User logins are now only possible when the object is published.
@@ -129,7 +131,10 @@ eZ utils:
   used for cache handlers.
 - Made sure the result from getPathFromFilename() in eZDir does not contain extra slash at the end.
 - eZExtension was moved from kernel to this library.
-- Added missing string escaping of session data
+- Added missing string escaping of session data.
+- Added class ezlog which provides functions to write storage log message.
+
+
 
 
 eZ PHP creator:
