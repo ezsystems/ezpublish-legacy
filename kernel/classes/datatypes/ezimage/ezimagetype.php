@@ -187,7 +187,10 @@ class eZImageType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         if ( !eZHTTPFile::canFetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            eZDebug::writeError( "Could not get image file, is fileupload enabled in PHP?", "ezimagetype" );
             return false;
+        }
 
         $imageFile =& eZHTTPFile::fetch( $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" ) );
         $contentObjectAttribute->setContent( $imageFile );
