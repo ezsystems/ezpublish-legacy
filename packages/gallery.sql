@@ -592,7 +592,7 @@ CREATE TABLE ezcontentobject_attribute (
   attribute_original_id int(11) default '0',
   sort_key_int int(11) NOT NULL default '0',
   sort_key_string varchar(255) NOT NULL default '',
-  data_type_string varchar(50) NOT NULL default '',
+  data_type_string varchar(50) default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
@@ -1908,7 +1908,7 @@ CREATE TABLE ezproductcollection_item (
   discount float default NULL,
   PRIMARY KEY  (id),
   KEY ezproductcollection_item_productcollection_id (productcollection_id),
-  KEY ezproductcollection_item_contentobject_id (productcollection_id)
+  KEY ezproductcollection_item_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;
 
 
@@ -4226,7 +4226,6 @@ CREATE TABLE ezsubtree_notification_rule (
   node_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezsubtree_notification_rule_id (id),
   KEY ezsubtree_notification_rule_user_id (user_id)
 ) TYPE=MyISAM;
 
@@ -4320,7 +4319,7 @@ CREATE TABLE ezurlalias (
   destination_url text NOT NULL,
   is_internal int(11) NOT NULL default '1',
   forward_to_id int(11) NOT NULL default '0',
-  is_wildcard int(11) default NULL,
+  is_wildcard int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezurlalias_source_md5 (source_md5),
   KEY ezurlalias_source_url (source_url(255)),
