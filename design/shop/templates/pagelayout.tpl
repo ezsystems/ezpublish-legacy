@@ -73,19 +73,19 @@ div#maincontent div.design { width: 100%; }
             <div class="design">
 
 
-             <ul>
-                 {section show=$current_user.is_logged_in}
-        		 <li><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/shop/layout")}</a></li>
-                         <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>{"Edit account"|i18n("design/shop/layout")}</a></li>
-        		 <li><a href={"/shop/basket/"|ezurl}>{"View basket"|i18n("design/shop/layout")}</a></li>
-        		 <li><a href={"/user/logout"|ezurl}>{"Logout"|i18n("design/shop/layout")}</a></li>
-        		 {section-else}
-        		 <li><a href={"/user/register/"|ezurl}>{"Register new customer"|i18n("design/shop/layout")}</a></li>
-        		 <li><a href={"/user/login"|ezurl}>{"Login"|i18n("design/shop/layout")}</a></li>
-                         {/section}
-             </ul>
+            <ul>
+                {section show=$current_user.is_logged_in}
+                    <li><a href={"/notification/settings"|ezurl}>{"Notifications"|i18n("design/shop/layout")}</a></li>
+                    <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>{"Edit account"|i18n("design/shop/layout")}</a></li>
+                    <li><a href={"/shop/basket/"|ezurl}>{"View basket"|i18n("design/shop/layout")}</a></li>
+                    <li><a href={"/user/logout"|ezurl}>{"Logout"|i18n("design/shop/layout")}</a></li>
+                {section-else}
+                    <li><a href={"/user/register/"|ezurl}>{"Register new customer"|i18n("design/shop/layout")}</a></li>
+                    <li><a href={"/user/login"|ezurl}>{"Login"|i18n("design/shop/layout")}</a></li>
+                {/section}
+            </ul>
 
-             </div>
+            </div>
         </div>
 
         <div class="break"></div>
@@ -105,33 +105,33 @@ div#maincontent div.design { width: 100%; }
             {let path=$module_result.path
                  node_id=$module_result.node_id}
 
-              {section show=$module_result.path[1].node_id|ne(154)}
-	         {set path=array(hash('node_id',2,'url','/content/view/full/2'),hash('node_id',154,'url','/content/view/full/154'))}
-                 {set node_id=154}
-              {/section}
+                {section show=$module_result.path[1].node_id|ne(154)}
+                    {set path=array(hash('node_id',2,'url','/content/view/full/2'),hash('node_id',154,'url','/content/view/full/154'))}
+                    {set node_id=154}
+                {/section}
 
-            <ul>
-                {let mainMenu=treemenu($path,$node_id,array('folder','info_page'), 1, 10 )}
-                    {section var=menu loop=$mainMenu}
-                        {section show=$menu.item.is_selected}
-                            <li class="level_{$menu.item.level}">
-                                <div class="selected"> 
-                                <a href={$$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
-                                </div>  
-                            </li>
-                        {section-else}
-                            <li class="level_{$menu.item.level}">
-                                <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
-                            </li>
+                <ul>
+                    {let mainMenu=treemenu($path,$node_id,array('folder','info_page'), 1, 10 )}
+                        {section var=menu loop=$mainMenu}
+                            {section show=$menu.item.is_selected}
+                                <li class="level_{$menu.item.level}">
+                                    <div class="selected"> 
+                                    <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
+                                    </div>  
+                                </li>
+                            {section-else}
+                                <li class="level_{$menu.item.level}">
+                                    <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
+                                </li>
+                            {/section}
                         {/section}
-                   {/section}
-                {/let}
-            </ul>
+                    {/let}
+                </ul>
             {/let}
         </div>
-   </div>
+    </div>
 
-   <div id="latestproducts">
+    <div id="latestproducts">
         <div class="design">
             <h3>{"Latest products"|i18n("design/shop/layout")}</h3>  
             {let new_product_list=fetch( content, tree, hash( parent_node_id, 2,
@@ -140,25 +140,24 @@ div#maincontent div.design { width: 100%; }
                                                                     class_filter_type, include, 
                                                                     class_filter_array, array( 'product' ) ) )}
             <ul>
-                   {section name=Product loop=$new_product_list}
-                       <li>
-                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
-                       <div class="date">
+                {section name=Product loop=$new_product_list}
+                    <li>
+                    <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                    <div class="date">
                         ({$:item.object.published|l10n( shortdate )})
-                       </div>  
-                       </li>
-                    {/section}
+                    </div>  
+                    </li>
+                {/section}
             </ul>
-
 
             {/let}
         </div>
     </div>
-    
+
     </div>
 
     {/cache-block}
-    
+
     <div id="rightmenu">
 
     <div id="cart">
