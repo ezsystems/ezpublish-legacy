@@ -7,7 +7,7 @@
 
     <title>{'eZ publish redirection - %url'|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
 </head>
-<body>
+<body onload="document.forms.Redirect.RedirectButton.focus()">
   <form action="{$redirect_uri}" method="post" name="Redirect">
   {"Redirecting to %url"|i18n('design/standard/layout',,hash('%url',concat("<b>",$redirect_uri,"</b>")))} <br/>
   <input class="standardbutton" type="submit" Name="RedirectButton" value="{'Redirect'|i18n('design/standard/layout')}"/>
