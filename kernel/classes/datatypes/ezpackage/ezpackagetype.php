@@ -49,6 +49,8 @@ include_once( 'kernel/common/i18n.php' );
 define( 'EZ_DATATYPESTRING_EZ_PACKAGE', 'ezpackage' );
 define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD', 'data_text1' );
 define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE', '_ezpackage_type_' );
+define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE', '_ezpackage_view_mode_' );
 
 class eZPackageType extends eZDataType
 {
@@ -86,13 +88,6 @@ class eZPackageType extends eZDataType
             $data =& $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $data );
         }
-
-        if ( $http->hasPostVariable( $base . '_ezpackage_data_int_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $viewMode =& $http->postVariable( $base . '_ezpackage_data_int_' . $contentObjectAttribute->attribute( 'id' ) );
-            $contentObjectAttribute->setAttribute( 'data_int', $viewMode );
-            return true;
-        }
         return false;
     }
 
@@ -114,6 +109,12 @@ class eZPackageType extends eZDataType
         {
             $packageTypeValue = $http->postVariable( $packageTypeName );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $packageTypeValue );
+        }
+        $packageViewModeName = $base . EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $packageViewModeName ) )
+        {
+            $packageViewModeValue = $http->postVariable( $packageViewModeName );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD, $packageViewModeValue );
         }
         return true;
     }
