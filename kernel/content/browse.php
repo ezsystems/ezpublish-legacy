@@ -63,7 +63,7 @@ $returnType = $http->sessionVariable( "BrowseReturnType" );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
-$contentObject =& $node->attribute( 'contentobject' );
+$contentObject =& $node->attribute( 'object' );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
 {

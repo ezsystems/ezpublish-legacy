@@ -86,7 +86,7 @@
 	{content_view_gui view=line content_object=$Child:item.object}
 	</a>
 
-	<a href="{$module.functions.edit.uri}/{$Child:item.object_id}">[ edit ]</a>
+	<a href="{$module.functions.edit.uri}/{$Child:item.object.id}">[ edit ]</a>
         - {$Child:item.object.class_name}
 	</td>
 	<td class="{$Child:sequence}" align="right">
