@@ -136,6 +136,6 @@ function configuration()
 // Print debug information and exit.
 eZDebug::addTimingPoint( "End" );
 
-eZDisplayDebug();
+print( eZDisplayDebug() );
 exit;
 ?>
