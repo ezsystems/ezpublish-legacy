@@ -1,4 +1,4 @@
-{* Folder admin view template *}
+{* Media folder admin view template *}
 
 {default with_children=true()
          is_editable=true()
@@ -19,7 +19,6 @@
 </div>
 
 <div class="object">
-
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>
@@ -29,10 +28,7 @@
         <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
-    <input class="button" type="submit" name="ActionPreview" value="Preview" />
-    <input class="button" type="submit" name="ActionRemove" value="Remove" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
-    <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 
     </div>
 </div>
@@ -76,8 +72,7 @@
                                              offset, $view_parameters.offset ) )
         can_remove=false() 
         can_edit=false() 
-        can_create=false() 
-        can_copy=false()}
+        can_create=false()}
 
     {section show=$:children}
 
@@ -99,77 +94,34 @@
 
         <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
-            {section show=$:can_remove}
-                <th width="1">
-                    &nbsp;
-                </th>
-            {/section}
-            <th>
-                {"Name"|i18n("design/standard/node/view")}
-            </th>
-            <th>
-                {"Class"|i18n("design/standard/node/view")}
-            </th>
-            <th>
-                {"Section"|i18n("design/standard/node/view")}
-            </th>
-            {section show=eq( $node.sort_array[0][0], 'priority' )}
-                <th>
-                    {"Priority"|i18n( "design/standard/node/view" )}
-                </th>
-            {/section}
-            {section show=$:can_edit}
-                <th width="1">
-                    {"Edit"|i18n("design/standard/node/view")}
-                </th>
-            {/section}
-            {section show=$:can_copy}
-                <th width="1">
-                    {"Copy"|i18n("design/standard/node/view")}
-                </th>
-            {/section}
-        </tr>
         {section loop=$:children sequence=array( bglight, bgdark )}
-            <tr class="{$Child:sequence}">
-                {section show=$:can_remove}
-                    <td align="right" width="1">
-                        {section show=$:item.object.can_remove}
-                            <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
-                        {/section}
-                    </td>
-                {/section}
-                <td>
-                    <a href={concat( 'content/view/full/', $:item.node_id )|ezurl}>{node_view_gui view=line content_node=$:item}</a>
-                    {* {node_view_gui view=line content_node=$:item} *}
-                </td>
-                <td>
-                    {$Child:item.object.class_name|wash}
-                </td>
-                <td>
-                    {$Child:item.object.section_id}
-                </td>
-                {section show=eq( $node.sort_array[0][0], 'priority' )}
-                    <td width="40" align="left">
-                        <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
-                        <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
-                    </td>
-                {/section}
 
+                <td valign="top">
                 {section show=$:can_edit}
-                    <td width="1">
                         {section show=$:item.object.can_edit}
                             <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
                         {/section}
-                    </td>
-                {/section}
-                {section show=$:can_copy}
-                    <td>
-                        <a href={concat( "content/copy/", $Child:item.contentobject_id )|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n( 'design/standard/node/view' )}" /></a>
-                    </td>
                 {/section}
 
-            </tr>
+                {section show=$:can_remove}
+                        {section show=$:item.object.can_remove}
+                            <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
+                        {/section}
+                {/section}
+
+                    {node_view_gui view=thumbnail content_node=$:item}
+
+                {section show=eq( $node.sort_array[0][0], 'priority' )}
+                        <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
+                        <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
+                {/section}
+
+                </td>
+                {delimiter modulo=4}
+                </tr><tr>
+                {/delimiter}
         {/section}
+        </tr>
         </table>
 
         {section show=eq( $node.sort_array[0][0], 'priority' )}

@@ -314,6 +314,13 @@ td.bglightextra, td.bgdarkextra
         border-top: none;
 }
 
+ul.leftmenu
+{
+    list-style: none;
+    padding-left: 0px;
+    color: #4373b4;
+}
+
 table.list, table.layoutlist
 {
 /*      border-bottom: solid 1px #e0f4ff;*/
@@ -430,7 +437,7 @@ p.important
 
 div.objectheader
 {
-    background-color: #4373B4;
+    background-color: #4373b4;
 }
 
 div.objectheader img

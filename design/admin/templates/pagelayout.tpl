@@ -184,6 +184,8 @@
 
 {* Left menu START *}
 
+{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'))}
+
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
 {include uri="design:parts/content/menu.tpl"}
 {/section}
@@ -207,6 +209,8 @@
 {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
 {include uri="design:parts/my/menu.tpl"}
 {/section}
+
+{/cache-block}
 
 {* {include uri="design:left_menu.tpl"} *}
 
