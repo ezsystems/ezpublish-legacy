@@ -7,7 +7,7 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Conten START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -28,7 +28,7 @@
 </tr>
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
-	<td><a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a></td>
+	<td>{node_view_gui content_node=$ProductItem:item.item_object.contentobject.main_node view=line}</td>
 	<td>{$ProductItem:item.item_count}</td>
 	<td>{$ProductItem:item.vat_value}&nbsp;%</td>
 	<td>{$ProductItem:item.price_ex_vat|l10n(currency)}</td>
