@@ -1,23 +1,3 @@
-{default content_object=$node.object
-         content_version=$node.contentobject_version_object
-         node_name=$node.name}
-
-<div class="buttonblock">
-
-{section show=$content_object.can_create}
-         <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <select name="ClassID">
-              {section name=Classes loop=$content_object.can_create_class_list}
-              <option value="{$:item.id}">{$:item.name|wash}</option>
-              {/section}
-         </select>
-         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/v
-iew')}" />
-{/section}
-</div>
-
-{/default}
-
 <h1>{$node.name}</h1>
 
 <h2>Name</h2>
