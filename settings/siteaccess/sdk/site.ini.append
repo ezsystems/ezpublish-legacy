@@ -5,7 +5,7 @@
 SiteDesign=standard
 
 [SiteSettings]
-DefaultPage=/sdk
+DefaultPage=/manual
 ErrorHandler=defaultpage
 IndexPage=/sdk
 
