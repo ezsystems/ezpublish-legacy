@@ -52,6 +52,9 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug (suggestion) of  Remove object should also remove bookmark
   Also added cleaning up existing bookmarks and recent items for corrupted nodes
   http://ez.no/community/bug_reports/remove_object_should_also_remove_bookmark
+- Fixed verification of user's permissinos which are were mergred from
+  several roles.
+  http://ez.no/community/bug_reports/several_role_settings_for_module_user_does_not_work
 
 *Library:
 

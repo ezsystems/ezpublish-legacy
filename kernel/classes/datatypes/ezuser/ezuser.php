@@ -1164,7 +1164,7 @@ WHERE user_id = '" . $userID . "' AND
             return array( 'accessWord' => 'no' );
         }
 
-        if ( isset( $functionArray['*'] ) && $functionArray['*'] == '*' )
+        if ( isset( $functionArray['*'] ) && ( $functionArray['*'] == '*' || in_array( '*',  $functionArray['*'] ) ) )
         {
             return array( 'accessWord' => 'yes' );
         }
