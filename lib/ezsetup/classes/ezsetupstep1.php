@@ -74,13 +74,10 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		if ( $resultArray[$key]["pass"] == false && $testItems[$key]["req"] == true )
 		{
 			// Don't show error message for failed db module if we have a working db module
-			if ( isset( $testItems[$key]["type"] ) && $testItems[$key]["type"] == "db" && $dbAvailable )
-			{
-			}
-			else
+			if ( !isset( $testItems[$key]["type"] ) || $testItems[$key]["type"] != "db" || ! $dbAvailable )
 			{
 				// Set the error messages on the first error not the last
-				if ( $errorSet )
+				if ( $continue )
 				{
 					$tpl->setVariable( "errorDescription", $testItems[$key]["error_msg"] );
 					$tpl->setVariable( "errorSuggestion", $testItems[$key]["error_sol"] );
@@ -88,6 +85,8 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 				}
 			}
 		}
+
+		
 
 		// Array for hidden form fields
 		$handoverResult[] = array( "name" => $key, "value" => $resultArray[$key]["pass"] ? "true" : "false" );
@@ -121,7 +120,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		// Format string for "requirement" nicer
 		if ( isset( $testItem["req_desc"] ) && is_string( $testItem["req_desc"] ) )
 			$req = $testItem["req_desc"];
-		else if ( $testItem["req"] )
+		else if ( $testItem["req"] == true )
 			$req = "yes";
 		else
 			$req = "no";
@@ -134,6 +133,7 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 		else
 			$status = "--";
 		
+		$warning = "";
 		// Check if it was a pass
 		if ( $result["pass"] == true )
 		{
@@ -146,6 +146,8 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 			{
 				$pass = "uncritical";
 				$class = "ezsetup_warning";
+				if ( isset( $testItems[$key]["warning"] ) )
+					$warning = $testItems[$key]["warning"];
 			}
 			else
 			{
@@ -159,7 +161,8 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 								"req"    => $req,
 								"status" => $status,
 								"pass"   => $pass,
-								"class"  => $class );
+								"class"  => $class,
+								"warning"=> $warning );
 	}
 	$tpl->setVariable( "itemsResult", $outputArray );
 
@@ -169,8 +172,6 @@ function eZSetupStep( &$tpl, &$http, &$ini )
     // Display template
     $tpl->display( "design/standard/templates/setup/step1.tpl" );
 }
-
-
 
 
 ?>

@@ -127,14 +127,18 @@ function testPermissions( $argArray )
 	}
 	else if ( is_file( $file ) )
 	{
-		$test = touch( $file );
-		if ( ! $test )
+		if ( ! is_writable( $file ) )
 			$pass = false;
 	}
 
     return array( "status" => $pass, "pass"   => $pass );         
 }
 
+
+
+/*!
+	Test if a program can be found in our path and is executable
+*/
 function testProgram( $parameters )
 {
 	$program = $parameters["program"];
@@ -174,6 +178,10 @@ function testProgram( $parameters )
 }
 
 
+
+/*!
+	Test php ini settings
+*/
 function testPHPIni( $parameters )
 {
 	$setting = $parameters["setting"];
@@ -189,12 +197,14 @@ function testPHPIni( $parameters )
 }
 
 
+/*!
+	Test if mbstring is available
+*/
 function testMBString( $parameters )
 {
     include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
     $pass = eZMBStringMapper::hasMBStringExtension();
     $status = $pass;
-
     return array( "status" => $status, "pass" => $pass );
 }
 
