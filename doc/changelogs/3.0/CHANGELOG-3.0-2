@@ -30,10 +30,15 @@ Changes from 3.0-1 to 3.0-2
 - Fixed bug of inserting anchor does not work before heading.
 - Fixed bug of running custom actions can not save changes in fields "searchable" and "required" 
   of class attributes.
+- Fixed bug with content create policy limitation.
+- Fixed typo in removeclass.php.
+- Fixed bug with trash objects of removed class.
+- Fixed bug with redirection after publishing if workkflow is running.
 
 Content:
 - Made sure a title path is returned in content/view, it no longer includes the root object (Frontpage, Users etc.).
-
+- Fixed bug with translations for object names.
+- Fixed bug with viewing of translated object versions.
 Binary file:
 - Fixed bug with stored file not being removed when the object was deleted (removed from trash).
 

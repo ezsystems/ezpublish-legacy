@@ -57,9 +57,16 @@ class eZContentOperationCollection
 
     }
 
-    function readObject( $nodeID, $languageCode )
+    function readObject( $nodeID, $userID, $languageCode )
     {
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        if ( $languageCode != '' )
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID, $languageCode );
+        }
+        else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
 
         if ( $node === null )
 //            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -172,6 +179,14 @@ class eZContentOperationCollection
         $object->setName( $objectName, $versionNum );
 //        $object->setAttribute( 'name', $objectName );
         $object->store();
+
+        $existingTranslations =& $version->translations( false );
+        foreach( array_keys( $existingTranslations ) as $key )
+        {
+            $translation = $existingTranslations[$key];
+            $translatedName = $class->contentObjectName( $object, $versionNum, $translation );
+            $object->setName( $translatedName, $versionNum, $translation );
+        }
 
         $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
         $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );

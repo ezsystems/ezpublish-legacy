@@ -313,6 +313,10 @@ $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_
                                                      'parameters' => array( array( 'name' => 'group_id',
                                                                                    'type' => 'integer',
                                                                                    'required' => false,
+                                                                                   'default' => 0 ),
+                                                                            array( 'name' => 'parent_node',
+                                                                                   'type' => 'object',
+                                                                                   'required' => false,
                                                                                    'default' => 0 ) ) );
 
 $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
@@ -321,7 +325,23 @@ $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_cla
                                                                           'class' => 'eZContentFunctionCollection',
                                                                           'method' => 'canInstantiateClasses' ),
                                                   'parameter_type' => 'standard',
-                                                  'parameters' => array( ) );
-
+                                                  'parameters' => array( array( 'name' => 'parent_node',
+                                                                                'type' => 'object',
+                                                                                'required' => false,
+                                                                                'default' => 0 ) ) );
+$FunctionList['contentobject_attributes'] = array( 'name' => 'contentobject_attributes',
+                                                   'operation_types' => array( 'read' ),
+                                                   'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                           'class' => 'eZContentFunctionCollection',
+                                                                           'method' => 'contentobjectAttributes' ),
+                                                   'parameter_type' => 'standard',
+                                                   'parameters' => array( array( 'name' => 'version',
+                                                                                 'type' => 'object',
+                                                                                 'required' => false,
+                                                                                 'default' => 0 ),
+                                                                          array( 'name' => 'language_code',
+                                                                                 'type' => 'string',
+                                                                                 'required' => false,
+                                                                                 'default' => '' ) ) );
 
 ?>

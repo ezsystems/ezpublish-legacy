@@ -940,7 +940,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
-    function &fetch( $nodeID )
+    function &fetch( $nodeID, $lang = false )
     {
         $returnValue = null;
         $ini =& eZINI::instance();
@@ -953,7 +953,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
             $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            if ( $lang == false )
+            {
+                 $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            }
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
@@ -1499,7 +1502,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     $contentObject =& new eZContentObject( array());
                 }
-
+                if ( $node['real_translation'] != '' )
+                {
+                    $object->CurrentLanguage = $node['real_translation'];
+                    $contentObject->CurrentLanguage = $node['real_translation'];
+                }
+ 
                 $object->setContentObject( $contentObject );
             }
             $retNodes[] =& $object;
@@ -1644,13 +1652,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &contentObjectVersionObject( $asObject = true )
     {
-        return eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
+        $version =& eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
+        if ( $this->CurrentLanguage != false )
+            $version->CurrentLanguage = $this->CurrentLanguage;
+        return $version;
     }
 
     function &urlAlias()
     {
         return $this->PathIdentificationString;
     }
+
+    //
+    var $CurrentLanguage = false;
+
 }
 
 ?>
