@@ -1,0 +1,28 @@
+*Title: Improve content class structure
+
+Incentive:
+Make it possible to read out from a content class if it were meant
+to be used as a container or not. This allows the template system
+to only perform something (e.g. controls for creating subitem) when
+it is set or not.
+
+*Documentation:
+A new field called 'is_container' is added to ezcontentclass table.
+It can contain either 0 (false) or 1 (true).
+
+The content class export system was updated to handle this new field
+and is set as an attribute on the root XML node. The attribute is
+named 'is-container' and contains either 'true' or 'false'.
+e.g.
+<content-class is-container="true">
+<content-class is-container="false">
+
+Upgrading from previous eZ publish releases (3.4 or lower) will require a script
+to be run or manual fixation by an administrator.
+
+Note: The admin interface requires this to be set correctly for folders and
+other container-like classes. If not it is impossible to create subitems.
+
+*Testing:
+
+*SVN Revisions:

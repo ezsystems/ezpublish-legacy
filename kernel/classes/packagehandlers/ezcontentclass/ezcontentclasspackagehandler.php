@@ -135,6 +135,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classRemoteID = $content->elementTextContentByName( 'remote-id' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
+        $classIsContainer = $content->attributeValue( 'is-container' );
+        if ( $classIsContainer !== false )
+            $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
+        print( "name=$className, classIsContainer='$classIsContainer'<br/>" );
 
         $classRemoteNode = $content->elementByName( 'remote' );
         $classID = $classRemoteNode->elementTextContentByName( 'id' );
@@ -165,6 +169,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                      'identifier' => $classIdentifier,
                                                      'remote_id' => $classRemoteID,
                                                      'contentobject_name' => $classObjectNamePattern,
+                                                     'is_container' => $classIsContainer,
                                                      'created' => $classCreated,
                                                      'modified' => $classModified ) );
             $class->store();
@@ -378,6 +383,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                         $class->attribute( 'remote_id' ) ) );
         $classNode->appendChild( eZDOMDocument::createElementTextNode( 'object-name-pattern',
                                                                        $class->attribute( 'contentobject_name' ) ) );
+        $classNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-container',
+                                                                         $class->attribute( 'is_container' ) ? 'true' : 'false' ) );
 
         // Remote data start
         $remoteNode =& eZDOMDocument::createElementNode( 'remote' );
