@@ -129,6 +129,31 @@ function eZSessionGarbageCollector()
 }
 
 /*!
+  Removes all entries from session.
+*/
+function eZSessionEmpty()
+{
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    $query = "DELETE FROM ezsession";
+
+    $db->query( $query );
+}
+
+/*!
+  Counts the number of active session and returns it.
+*/
+function eZSessionCountActive()
+{
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    $query = "SELECT count( * ) AS count FROM ezsession";
+
+    $rows = $db->arrayQuery( $query );
+    return $rows[0]['count'];
+}
+
+/*!
  Register the needed session functions.
  Call this only once.
 */

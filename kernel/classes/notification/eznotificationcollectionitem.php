@@ -108,6 +108,16 @@ class eZNotificationCollectionItem extends eZPersistentObject
                                                                                    'name' => 'count' ) ) );
         return $result[0]['count'];
     }
+
+    /*!
+     \static
+     Removes all notification collection items.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM eznotificationcollection_item" );
+    }
 }
 
 ?>

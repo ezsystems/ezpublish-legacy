@@ -257,6 +257,16 @@ class eZContentBrowseRecent extends eZPersistentObject
             return $node->attribute( 'contentobject_id' );
         return null;
     }
+
+    /*!
+     \static
+     Removes all recent entries for all users.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentbrowserecent" );
+    }
 }
 
 ?>

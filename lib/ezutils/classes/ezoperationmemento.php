@@ -204,6 +204,15 @@ class eZOperationMemento extends eZPersistentObject
         return md5( $string );
     }
 
+    /*!
+     \static
+     Removes all active operation mementos.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezoperation_memento" );
+    }
 
 }
 

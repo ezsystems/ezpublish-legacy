@@ -625,6 +625,16 @@ class eZWorkflowProcess extends eZPersistentObject
         eZPersistentObject::removeObject( eZWorkflowProcess::definition(), array( 'id' => $this->attribute( 'id' ) ) );
     }
 
+    /*!
+     \static
+     Removes all workflow processes from database.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezworkflow_process" );
+    }
+
     /// \privatesection
     var $ID;
     var $WorkflowID;

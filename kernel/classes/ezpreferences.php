@@ -169,6 +169,16 @@ class eZPreferences
             return null;
         return $preferencesInSession[$name];
     }
+
+    /*!
+     \static
+     Removes all preferences for all users.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezpreferences" );
+    }
 }
 
 

@@ -541,6 +541,24 @@ class eZCollaborationItem extends eZPersistentObject
         $handler->readItem( $this, $viewMode );
         return true;
     }
+
+    /*!
+     \static
+     Removes all collaboration items by fetching them and calling remove on them.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcollab_item" );
+        $db->query( "DELETE FROM ezcollab_item_group_link" );
+        $db->query( "DELETE FROM ezcollab_item_message_link" );
+        $db->query( "DELETE FROM ezcollab_item_participant_link" );
+        $db->query( "DELETE FROM ezcollab_item_status" );
+        $db->query( "DELETE FROM ezcollab_notification_rule" );
+        $db->query( "DELETE FROM ezcollab_profile" );
+        $db->query( "DELETE FROM ezcollab_simple_message" );
+    }
+
     /// \privatesection
     var $ID;
     var $TypeIdentifier;

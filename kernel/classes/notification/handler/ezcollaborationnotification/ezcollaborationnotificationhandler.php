@@ -200,6 +200,14 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
 
     }
+
+    /*!
+     \reimp
+    */
+    function cleanup()
+    {
+        eZCollaborationNotificationRule::cleanup();
+    }
 }
 
 ?>

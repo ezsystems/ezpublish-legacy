@@ -366,6 +366,15 @@ class eZCollaborationItemHandler
     }
 
     /*!
+     This is called whenever a collaboration item is to be removed.
+     Reimplementing this function can be used to cleanup external tables
+     or other resources.
+    */
+    function removeItem( &$collaborationItem )
+    {
+    }
+
+    /*!
      \static
      \return the ini object which handles collaboration settings.
     */

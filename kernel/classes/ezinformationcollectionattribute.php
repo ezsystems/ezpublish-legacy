@@ -190,6 +190,16 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                        'contentobject_attribute_id' => $contentobjectAttributeID ),
                                                 $asObject );
     }
+
+    /*!
+     \static
+     Removes all attributes for collected information.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezinfocollection_attribute" );
+    }
 }
 
 ?>

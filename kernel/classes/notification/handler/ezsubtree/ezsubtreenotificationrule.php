@@ -174,6 +174,17 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID,
                                                                                           'node_id' => $nodeID ) );
     }
+
+    /*!
+     \static
+     Cleans up all notification rules for all users.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezsubtree_notification_rule" );
+    }
+
     var $Node = null;
 }
 

@@ -306,6 +306,14 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
 
     }
+
+    /*!
+     \reimp
+    */
+    function cleanup()
+    {
+        eZSubtreeNotificationRule::cleanup();
+    }
 }
 
 ?>

@@ -562,6 +562,28 @@ class eZOrder extends eZPersistentObject
     {
         return $this->AccountIdentifier;
     }
+
+    /*!
+     \static
+     Removes all orders from the database.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezorder" );
+        if ( count( $rows ) > 0 )
+        {
+            $productCollectionIDList = array();
+            foreach ( $rows as $row )
+            {
+                $productCollectionIDList[] = $row['productcollection_id'];
+            }
+            eZProductCollection::cleanupList( $productCollectionIDList );
+        }
+        include_once( 'kernel/classes/ezorderitem.php' );
+        eZOrderItem::cleanup();
+        $db->query( "DELETE FROM ezorder" );
+    }
 }
 
 ?>

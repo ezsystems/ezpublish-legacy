@@ -86,6 +86,13 @@ class eZNotificationEventHandler
         return true;
     }
 
+    /*!
+     Cleanup any specific tables or other resources.
+    */
+    function cleanup()
+    {
+    }
+
     function fetchHttpInput( &$http, &$module )
     {
         return true;

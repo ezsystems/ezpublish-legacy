@@ -242,6 +242,7 @@ class eZScript
         if ( $this->UseSession and
              $db->isConnected() )
         {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             eZUser::logoutCurrent();
             eZSessionRemove();
         }

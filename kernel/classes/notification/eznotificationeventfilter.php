@@ -107,7 +107,6 @@ class eZNotificationEventFilter
             if ( is_object( $eventHandler ) )
                 $handlers[$handlerString] =& $eventHandler;
         }
-        eZDebug::writeDebug( $handlers, "available handlers" );
         return $handlers;
     }
 
@@ -129,7 +128,6 @@ class eZNotificationEventFilter
                 $repositoryDirectories[] = $extensionPath;
         }
 
-        
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$handlerString/" . $handlerString . "handler.php";
@@ -147,6 +145,23 @@ class eZNotificationEventFilter
         include_once( $includeFile );
         $className = $handlerString . "handler";
         return new $className();
+    }
+
+    /*!
+     \static
+     Goes trough all event handlers and tells them to cleanup.
+    */
+    function cleanup()
+    {
+        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        foreach( array_keys( $availableHandlers ) as $handlerKey )
+        {
+            $handler =& $availableHandlers[$handlerKey];
+            if ( $handler !== false )
+            {
+                $handler->cleanup();
+            }
+        }
     }
 
 }

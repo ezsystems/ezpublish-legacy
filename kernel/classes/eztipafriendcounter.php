@@ -107,6 +107,16 @@ class eZTipafriendCounter extends eZPersistentObject
                                                 $asObject );
     }
 
+    /*!
+     \static
+     Removes all counters for tipafriend functionality.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM eztipafriend_counter" );
+    }
+
     /// \privatesection
     var $NodeID;
     var $Count;

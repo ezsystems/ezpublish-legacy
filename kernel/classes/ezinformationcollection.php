@@ -516,6 +516,17 @@ class eZInformationCollection extends eZPersistentObject
             'modified' => $timestamp );
         return new eZInformationCollection( $row );
     }
+
+    /*!
+     \static
+     Removes all collected information.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        eZInformationCollectionAttribute::cleanup();
+        $db->query( "DELETE FROM ezinfocollection" );
+    }
 }
 
 ?>

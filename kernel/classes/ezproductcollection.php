@@ -155,6 +155,29 @@ class eZProductCollection extends eZPersistentObject
         return $isValid;
     }
 
+    /*!
+     \static
+     \return a count of the number of product collections that exists.
+    */
+    function count()
+    {
+        $db =& eZDB::instance();
+        $rows = $db->arrayQuery( "SELECT count( id ) as count FROM ezproductcollection_item" );
+        return $rows[0]['count'];
+    }
+
+    /*!
+     \static
+     Removes all product collections which are specified in the array \a $productCollectionIDList.
+     Will also remove the product collection items.
+    */
+    function cleanupList( $productCollectionIDList )
+    {
+        $db =& eZDB::instance();
+        eZProductCollectionItem::cleanupList( $productCollectionIDList );
+        $idText = implode( ', ', $productCollectionIDList );
+        $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );
+    }
 }
 
 ?>
