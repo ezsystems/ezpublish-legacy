@@ -1655,7 +1655,8 @@ class eZContentObject extends eZPersistentObject
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.to_contentobject_id='$objectID'" );
+					       ezcontentobject_link.to_contentobject_id='$objectID' AND
+					       ezcontentobject_link.from_contentobject_version='$version'" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
