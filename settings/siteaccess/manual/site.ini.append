@@ -1,5 +1,10 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
+#
+# NOTE: It is not recommended to edit this files directly, instead
+#       a new siteacces should be made to suit your needs.
+#       General settings should be placed in the settings/override
+#       directory using .append files.
 
 [DesignSettings]
 SiteDesign=standard
