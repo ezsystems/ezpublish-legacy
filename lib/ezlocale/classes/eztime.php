@@ -109,10 +109,9 @@ class eZTime
     {
         if ( $time === false )
         {
-            $time = time();
+            $time = mktime();
         }
-        $time = ( $time % EZTIME_SECONDS_A_DAY );
-        $this->Time = $time;
+        $this->setTimeStamp( $time );
         $this->Locale =& eZLocale::instance();
         $this->IsValid = $time >= 0;
     }
@@ -139,7 +138,8 @@ class eZTime
     function &attribute( $name )
     {
         if ( $name == 'timestamp'  )
-            return $this->timeStamp();
+            // this one for return attribute.content.timestamp as local time
+            return ( $this->timeStamp() + date( 'Z' ) );
         else if ( $name == 'hour' )
             return $this->hour();
         else if ( $name == 'minute'  )
@@ -187,8 +187,14 @@ class eZTime
     */
     function setHour( $hour )
     {
-//         $this->Time = ( mktime( $hour, date( 'i', $this->Time ), date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
-        $this->Time = ( mktime( $hour, date( 'i', $this->Time ), date( 's', $this->Time ) )  );
+        //$this->Time = ( mktime( $hour, date( 'i', $this->Time ), date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+        $time_stamp = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY + $this->Time;
+        $this->Time = ( mktime( (int) $hour % 24,
+                                date( 'i', $time_stamp ),
+                                date( 's', $time_stamp ),
+                                date( 'm', $time_stamp ),
+                                date( 'd', $time_stamp ),
+                                date( 'Y', $time_stamp ) ) % EZTIME_SECONDS_A_DAY );
     }
 
     /*!
@@ -196,8 +202,14 @@ class eZTime
     */
     function setMinute( $min )
     {
-//         $this->Time = ( mktime( date( 'G', $this->Time ), $min, date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
-        $this->Time = ( mktime( date( 'G', $this->Time ), $min, date( 's', $this->Time ) )  );
+        //$this->Time = ( mktime( date( 'G', $this->Time ), $min, date( 's', $this->Time ) ) % EZTIME_SECONDS_A_DAY );
+        $time_stamp = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY + $this->Time;
+        $this->Time = ( mktime( date( 'G', $time_stamp ),
+                                (int) $min % 60,
+                                date( 's', $time_stamp ),
+                                date( 'm', $time_stamp ),
+                                date( 'd', $time_stamp ),
+                                date( 'Y', $time_stamp ) ) % EZTIME_SECONDS_A_DAY );
     }
 
     /*!
@@ -205,8 +217,14 @@ class eZTime
     */
     function setSecond( $sec )
     {
-//         $this->Time = ( mktime( date( 'G', $this->Time ),date( 'i', $this->Time ), $sec ) % EZTIME_SECONDS_A_DAY );
-        $this->Time = ( mktime( date( 'G', $this->Time ),date( 'i', $this->Time ), $sec )  );
+        //$this->Time = ( mktime( date( 'G', $this->Time ),date( 'i', $this->Time ), $sec ) % EZTIME_SECONDS_A_DAY );
+        $time_stamp = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY + $this->Time;
+        $this->Time = ( mktime( date( 'G', $time_stamp ),
+                                date( 'i', $time_stamp ),
+                                (int) $sec % 60,
+                                date( 'm', $time_stamp ),
+                                date( 'd', $time_stamp ),
+                                date( 'Y', $time_stamp ) ) % EZTIME_SECONDS_A_DAY );
     }
 
     /*!
@@ -214,8 +232,14 @@ class eZTime
     */
     function setHMS( $hour, $min = 0, $sec = 0 )
     {
-//         $this->Time = ( mktime( $hour, $min, $sec ) % EZTIME_SECONDS_A_DAY );
-        $this->Time = ( mktime( $hour, $min, $sec ) );
+        //$this->Time = ( mktime( $hour, $min, $sec ) % EZTIME_SECONDS_A_DAY );
+        $time_stamp = mktime();
+        $this->Time = ( mktime( (int) $hour % 24,
+                                (int) $min % 60,
+                                (int) $sec % 60,
+                                date( 'm', $time_stamp ),
+                                date( 'd', $time_stamp ),
+                                date( 'Y', $time_stamp ) ) % EZTIME_SECONDS_A_DAY );
     }
 
     /*!
@@ -223,7 +247,10 @@ class eZTime
     */
     function &hour()
     {
-        return date( 'G', $this->Time );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        return date( 'G', $time );
+
     }
 
     /*!
@@ -231,7 +258,9 @@ class eZTime
     */
     function &minute()
     {
-        return date( 'i', $this->Time );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        return date( 'i', $time );
     }
 
     /*!
@@ -239,7 +268,9 @@ class eZTime
     */
     function &second()
     {
-        return date( 's', $this->Time );
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        return date( 's', $time );
     }
 
     /*!
@@ -252,10 +283,10 @@ class eZTime
         return $this->Time;
     }
 
-    function setTimeStamp( $stamp )
+    function setTimeStamp( $time_stamp )
     {
-        $this->Time = $stamp;
-        $this->IsValid = $stamp >= 0;
+        $this->Time = $time_stamp % EZTIME_SECONDS_A_DAY;
+        $this->IsValid = $time_stamp >= 0;
     }
 
     /*!
@@ -264,14 +295,10 @@ class eZTime
     */
     function adjustTime( $hour, $min = 0, $sec = 0 )
     {
-//         $this->Time = ( ( $hour * EZTIME_SECONDS_AN_HOUR +
-//                           $min * EZTIME_SECONDS_A_MINUTE +
-//                           $sec +
-//                           $this->Time )  % EZTIME_SECONDS_A_DAY );
-        $this->Time = ( ( $hour * EZTIME_SECONDS_AN_HOUR +
-                          $min * EZTIME_SECONDS_A_MINUTE +
-                          $sec +
-                          $this->Time ) );
+        $this->setTimeStamp( $hour * EZTIME_SECONDS_AN_HOUR +
+                             $min * EZTIME_SECONDS_A_MINUTE +
+                             $sec +
+                             $this->Time);
     }
 
     /*!
@@ -287,7 +314,7 @@ class eZTime
         else if ( $hour != -1 )
             $time =& mktime( $hour );
         else
-            $time =& mktime();
+            return new eZTime();
         return new eZTime( $time );
     }
 
