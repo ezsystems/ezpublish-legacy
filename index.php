@@ -169,7 +169,7 @@ function eZDBCleanup()
 function eZFatalError()
 {
     eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( "<b>Fatal error</b>: eZ publish did not finish it's request<br/>" );
+    print( "<b>Fatal error</b>: eZ publish did not finish its request<br/>" );
     print( "<p>The execution of eZ publish was abruptly ended, the debug output is present below.</p>" );
     $templateResult = null;
     eZDisplayResult( $templateResult, eZDisplayDebug() );
