@@ -12,7 +12,7 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{'File'|i18n('design/admin/node/view')}</h2>
+    <h2>{'File'|i18n('design/admin/node/view')}({$node.node_id})[{$node.object.id}]</h2>
 </div>
 
 <div class="object">

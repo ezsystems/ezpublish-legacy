@@ -54,7 +54,7 @@ function checkAll()
 
 
 <div class="objectheader">
-<h2>{'Default object view.'|i18n('design/standard/node/view')} <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>{'Click to create a custom template'|i18n('design/standard/node/view')}</a></h2>
+<h2>{'Default object view.'|i18n('design/standard/node/view')} <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>{'Click to create a custom template'|i18n('design/standard/node/view')}</a>({$node.node_id})[{$node.object.id}]</h2>
 </div>
 
 <div class="object">
