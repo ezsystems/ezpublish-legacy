@@ -23,5 +23,4 @@ magic_quotes_runtime = 0
 <label>{".htaccess example:"|i18n("design/standard/setup/tests")}</label><br/>
 <pre class="example">
 php_value magic_quotes_gpc 0
-php_value magic_quotes_runtime 0
 </pre>

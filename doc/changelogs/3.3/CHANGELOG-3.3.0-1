@@ -93,6 +93,7 @@ eZImage
 
 *Setup:
 - Fixed bug of unable to show checkboxes if available packages less than 4.
+- Added test for magic_quotes_runtime setting in php
 
 *Package system:
 - Added install type to packages, it will determine if the package can be install or just imported.

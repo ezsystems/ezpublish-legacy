@@ -47,6 +47,7 @@ function eZSetupTestTable()
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
+                  'magic_quotes_runtime' => array( 'eZSetupCheckMagicQuotesRuntime' ),
                   'php_register_globals' => array( 'eZSetupCheckRegisterGlobals' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
@@ -161,6 +162,14 @@ function eZSetupTestFileUpload( $type, &$arguments )
 {
     $fileUploads = ini_get( 'file_uploads' );
     $result = $fileUploads == "1";
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
+}
+
+function eZSetupCheckMagicQuotesRuntime( $type, &$arguments )
+{
+    $magicQuote = get_magic_quotes_runtime();
+    $result = ( $magicQuote == 0 );
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
