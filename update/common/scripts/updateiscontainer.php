@@ -52,7 +52,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish is_containe
                                                          "updateiscontainer.php -sSITEACCESS" ),
                                       'use-session' => false,
                                       'use-modules' => false,
-                                      'use-extensions' => false,
+                                      'use-extensions' => true,
                                       'min_version'  => '3.4.2',
                                       'max_version' => '3.5.0' ) );
 
@@ -76,7 +76,12 @@ $classList = array( 'folder', 'article', 'user_group', 'forum', 'forum_topic', '
 $idText = "'" . implode( "', '", $classList ) . "'";
 
 $sql = "UPDATE ezcontentclass SET is_container='1' WHERE identifier IN ( $idText )";
-$db->query( $sql );
+if ( !$db->query( $sql ) )
+{
+    $cli->error( "Failed to run update query" );
+    $cli->error( $db->errorMessage() );
+    $script->shutdown( 1 );
+}
 
 $cli->output( "Updated classes: $idText" );
 
