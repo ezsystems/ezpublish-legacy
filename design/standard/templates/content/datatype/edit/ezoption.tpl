@@ -14,7 +14,9 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Option'|i18n( 'design/standard/content/datatype' )}</td>
+    {section show=$attribute.is_information_collector|not}
     <th>{'Additional price'|i18n( 'design/standard/content/datatype' )}</th>
+    {/section}
 </tr>
 
 {section var=Options loop=$attribute.content.option_list sequence=array( bglight, bgdark )}
@@ -29,8 +31,10 @@
 {* Option. *}
 <td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}[]" value="{$Options.item.value}" /></td>
 
+{section show=$attribute.is_information_collector|not}
 {* Price. *}
 <td><input class="box" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}[]" value="{$Options.item.additional_price}" /></td>
+{/section}
 
 </tr>
 {/section}
