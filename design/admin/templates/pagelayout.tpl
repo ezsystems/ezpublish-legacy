@@ -104,7 +104,8 @@
       <p class="menuitem">
       {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
         {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
-        {'Version:'|i18n('design/standard/layout')} {$site.version}
+        {'Version:'|i18n('design/standard/layout')} {$ezinfo.version}
+        {'Revision:'|i18n('design/standard/layout')} {$ezinfo.revision}
       {/section}
       </p>
     </td>

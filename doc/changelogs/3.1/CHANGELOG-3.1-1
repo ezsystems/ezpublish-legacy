@@ -2,8 +2,10 @@ Changes from 3.1.0-2 to 3.1-1
 
 *Kernel:
 - Added some error checking to values used in eZContentObject::purge.
+- Added revision number to setup page.
 
 *Library:
+- Added revision number to SDK info.
 
 *Update:
 

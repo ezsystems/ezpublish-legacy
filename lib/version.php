@@ -41,8 +41,9 @@ define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 1 );
 define( "EZ_SDK_VERSION_DEVELOPMENT", false );
 define( "EZ_SDK_VERSION_RELEASE", 1 );
-define( "EZ_SDK_VERSION_REVISION", '$Rev$' );
+define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
 define( "EZ_SDK_VERSION_ALIAS", '3.1' );
+define( "EZ_SDK_VERSION_REVISION", preg_replace( "#\\\$Rev:\s+([0-9]+)\s+\\\$#", '$1', EZ_SDK_VERSION_REVISION_STRING ) );
 
 class eZPublishSDK
 {
@@ -56,6 +57,7 @@ class eZPublishSDK
     {
         $versionText = eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
         $development = eZPublishSDK::developmentVersion();
+        $revision = eZPublishSDK::revision();
         if ( $development !== false )
             $versionText .= '.' . $development;
         if ( $withRelease )
