@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-class>
+  <name>Person</name>
+  <identifier>person</identifier>
+  <remote-id>74024df9a035135a85215c7996438691</remote-id>
+  <object-name-pattern>&lt;first_name&gt; &lt;last_name&gt;</object-name-pattern>
+  <remote>
+    <site-url>http://ez.no/</site-url>
+    <url>http://ez.no/class/view/26</url>
+    <groups>
+      <group id="1"
+             name="Content" />
+    </groups>
+    <id>26</id>
+    <created>1082627083</created>
+    <modified>1082627083</modified>
+    <creator>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </creator>
+    <modifier>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </modifier>
+  </remote>
+  <attributes xmlns:ezcontentclass-attribute="http://ezpublish/contentclassattribute">
+    <attribute datatype="ezstring"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>221</id>
+      </remote>
+      <name>First name</name>
+      <identifier>first_name</identifier>
+      <placement>1</placement>
+      <datatype-parameters>
+        <max-length>0</max-length>
+        <default-string />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezstring"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>222</id>
+      </remote>
+      <name>Last name</name>
+      <identifier>last_name</identifier>
+      <placement>2</placement>
+      <datatype-parameters>
+        <max-length>0</max-length>
+        <default-string />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezstring"
+               required="false"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>223</id>
+      </remote>
+      <name>Job title</name>
+      <identifier>job_title</identifier>
+      <placement>3</placement>
+      <datatype-parameters>
+        <max-length>0</max-length>
+        <default-string />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezmatrix"
+               required="false"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>224</id>
+      </remote>
+      <name>Contact information</name>
+      <identifier>contact_information</identifier>
+      <placement>4</placement>
+      <datatype-parameters>
+        <default-name></default-name>
+        <default-row-count>0</default-row-count>
+        <columns>
+          <column name="Contact type"
+                  identifier="contact_type"
+                  index="0" />
+          <column name="Contact value"
+                  identifier="contact_value"
+                  index="1" />
+        </columns>
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezobjectrelation"
+               required="false"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>225</id>
+      </remote>
+      <name>Picture</name>
+      <identifier>picture</identifier>
+      <placement>5</placement>
+      <datatype-parameters>
+        <selection-type id="0" />
+        <fuzzy-match id="0" />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezxmltext"
+               required="false"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>226</id>
+      </remote>
+      <name>Comment</name>
+      <identifier>comment</identifier>
+      <placement>6</placement>
+      <datatype-parameters>
+        <text-column-count>10</text-column-count>
+      </datatype-parameters>
+    </attribute>
+  </attributes>
+</content-class>
