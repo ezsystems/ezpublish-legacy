@@ -1129,6 +1129,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'group_field' => 'groupbyfield' );
     }
 
+    /*!
+     Count number of subnodes
+
+     \param params array
+    */
     function subTreeCount( $params = array() )
     {
         $nodePath = $this->attribute( 'path_string' );
@@ -1238,6 +1243,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
             $classCondition .= ' ) AND ';
+        }
+
+        // Main node check
+        $mainNodeOnlyCond = '';
+        if ( isset( $params['MainNodeOnly'] ) && $params['MainNodeOnly'] === true )
+        {
+            $mainNodeOnlyCond = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
         }
 
         // Attribute filtering
@@ -1480,6 +1492,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $attributeFilterFromSQL
                       WHERE $pathString
                             $depthCond
+                            $mainNodeOnlyCond
                             $classCondition
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
@@ -1503,6 +1516,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     WHERE
                            $pathString
                            $depthCond
+                           $mainNodeOnlyCond
                            $classCondition
                            $attributeFilterWhereSQL
                            ezcontentclass.version=0 AND
@@ -2310,22 +2324,15 @@ WHERE
         if ( $nodeID == 0 )
         {
             $node =& $this;
-            $nodeID = $node->attribute( 'node_id' );
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $version = $node->attribute( 'contentobject_version' );
-            $contentObjectID = $node->attribute( 'contentobject_id' );
         }
         else
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $version = $node->attribute( 'contentobject_version' );
-            $contentObjectID = $node->attribute( 'contentobject_id' );
         }
 
         $nodePath = $node->attribute( 'path_string' );
-        $childrensPath = $nodePath ; //. $nodeID . '/';
-        $pathLength = strlen( $childrensPath ); //+ 1;
+        $childrensPath = $nodePath ;
+        $pathLength = strlen( $childrensPath );
 
         $pathString = " path_string like '$childrensPath%' ";
 

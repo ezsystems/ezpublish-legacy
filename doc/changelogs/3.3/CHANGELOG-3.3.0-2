@@ -101,6 +101,9 @@ Changes from 3.3.0-1 to 3.3.0-2
 - New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
 - Fixed the content view to only accept node IDs higher or equal to 2, if lower 2 is used.
 - The clearcache.sh will now also clear the var directories for all siteaccess.
+- Changed behaviour when deleting nodes fra tree. Objects placed in the tree as secondary location are now NOT deleted. Please see
+  this bug report for more information ( merged from stable 4436 )
+  http://ez.no/developer/ez_publish_3/bug_reports/critical_deleting_a_node_not_the_main_causes_unwanted_removal_of_object
 - Changed the caching of eZPreferences in session to use an array for all variables, this makes it
   easier to cleanup up. The preferences are now cleared on login/logout.
 - Changed the caching of user information and user groups in sessions, the new method uses arrays
