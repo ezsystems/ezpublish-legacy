@@ -106,6 +106,8 @@ Changes from 3.1-1 to 3.2.0-1
 - The autoload path for templates are now defined in site.ini as an array instead of
   a semi-colon separated list. The new setting is called AutoloadPathList.
   The old setting is kept for compatability and will be read but is considered deprecated.
+- Added support for having template autoload files in extension by
+  using the ExtensionAutoloadPath setting in site.ini.
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.
@@ -139,3 +141,7 @@ eZ ini:
 
 eZ module:
 - Added function to return the current redirection URI which is built from module, view and parameters.
+
+eZ extension:
+- Added the helper function expandedPathList to turn a list of extension with an optional
+  subdirectory into real expanded paths.

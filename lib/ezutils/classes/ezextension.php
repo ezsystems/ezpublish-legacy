@@ -126,6 +126,26 @@ class eZExtension
 
     /*!
      \static
+     Generates a list with expanded paths and returns it.
+     The paths are expanded to where the extensions are placed.
+     Optionally a subdirectory of the extension may be set using \a $subdirectory.
+    */
+    function expandedPathList( $extensionList, $subdirectory = false )
+    {
+        $pathList = array();
+        $extensionBase = eZExtension::baseDirectory();
+        foreach ( $extensionAutoloadPath as $extensionName )
+        {
+            $path = $extensionBase . '/' . $extensionName;
+            if ( $subdirectory )
+                $path .= '/' . $subdirectory;
+            $pathList[] = $path;
+        }
+        return $pathList;
+    }
+
+    /*!
+     \static
      This is help function for searching for extension code. It will read ini variables
      defined in \a $parameters, search trough the specified directories for specific files
      and set the result in \a $out.
