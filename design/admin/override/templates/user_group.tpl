@@ -216,7 +216,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th colspan="3">
-         {"Role list"|i18n("design/standard/node/view")}
+         {"Policy list"|i18n("design/standard/node/view")}
     </th>
 </tr>
 <tr>
