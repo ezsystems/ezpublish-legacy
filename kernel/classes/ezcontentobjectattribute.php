@@ -178,7 +178,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $attr == "contentclass_attribute" )
             return $this->contentClassAttribute();
-        if ( $attr == "contentclass_attribute" )
+        if ( $attr == "contentclass_attribute_identifier" )
             return $this->contentClassAttributeIdentifier();
         else if ( $attr == "content" )
             return $this->content( );
@@ -254,7 +254,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      \return the idenfifier for the content class attribute
     */
-    function contentClassAttributeIdentifier()
+    function &contentClassAttributeIdentifier()
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
