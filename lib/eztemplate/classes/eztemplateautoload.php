@@ -83,8 +83,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'count' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
-                                    'operator_names' => array( 'texttoimage', 'image', 'imagefile',
-                                                               'imagelabel' ) );
+                                    'operator_names' => array( 'texttoimage',
+                                                               'image',
+//                                                                'imagelabel',
+                                                               'imagefile' ) );
 
 // Function autoloading
 

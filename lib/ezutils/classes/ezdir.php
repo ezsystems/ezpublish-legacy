@@ -153,7 +153,7 @@ class eZDir
     */
     function doMkdir( $dir, $perm )
     {
-        eZDebug::writeDebug("make dir $dir with perms $perm" );
+        eZDebug::writeDebug("make dir $dir with perms 0" . decoct( $perm ) );
 //        print( "About to doMkdir( '$dir' )<br/>" );
 //        exit;
         $oldumask = umask( 0 );

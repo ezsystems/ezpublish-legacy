@@ -1,2 +1,1 @@
-{* _Height_ and _width_ should also be set in this template. th[eZ] *}
-<img src="{$layer.imagepath}" alt="{$layer.alternative_text}" />
+<img border="0" src={$layer.imagepath|ezroot} alt="{$layer.alternative_text}" {section show=$layer.has_size}width="{$layer.width}" height="{$layer.height}"{/section} />

@@ -1,2 +1,1 @@
-{* _Height_ and _width_ should also be set in this template. th[eZ] *}
-<img src="{$image.imagepath}" alt="{$image.alternative_text}" />
+<img border="0" src={$image.imagepath|ezroot} alt="{$image.alternative_text}" {section show=$image.has_size}width="{$image.width}" height="{$image.height}"{/section} />
