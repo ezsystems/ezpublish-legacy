@@ -26,10 +26,6 @@
 <AREA SHAPE="RECT" COORDS="393,3,472,23" href={"content/view/full/200/"|ezurl} />
 </map>
 
-<h2>Unfinished design</h2>
-<p>eZ publish will default to this design when loosing section information
-this will not happen in the following beta releases. So, don't panic.
-</p>
 
 {$module_result.content}
 

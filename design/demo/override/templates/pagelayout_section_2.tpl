@@ -48,6 +48,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <area shape="rect" coords="300,0,372,24" href={"content/view/full/32/"|ezurl}>
 <area shape="rect" coords="374,1,448,24" href={"content/view/full/211/"|ezurl}>
 <area shape="rect" coords="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+<area shape="rect" coords="450,1,523,24" target="_blank" href={"content/view/full/82/"|ezurl}>
 </map>
 
 <br />
