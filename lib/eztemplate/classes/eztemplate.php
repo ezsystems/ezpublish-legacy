@@ -619,7 +619,7 @@ class eZTemplate
     {
         include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser =& eZTemplateMultiPassParser::instance();
-        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, &$relation );
+        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $relation );
     }
 
     function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
