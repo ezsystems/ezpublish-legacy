@@ -30,16 +30,6 @@ Changes from 3.4.0 to 3.5.0alpha1
   (Merged from stable/3.4 rev. 7167)
 - Added detection of APC in the system information page.
   (Merged from stable/3.4 rev. 7180)
-- Fixed problem with the eZNodeViewFunctions class making a copy of the
-  $tpl input parameter.
-  (Merged from stable/3.4 rev. 7195)
-- Added PHP script for clearing caches (bin/php/ezcache.php), this script
-  uses the internal code in eZ publish for clearing caches and should be
-  more reliable.
-  (Merged from stable/3.4 rev. 7200)
-- Fixed bug in ezdesign operator which caused eZTemplateDesignResource
-  instance to be overwritten.
-  (Merged from stable/3.4 rev. 7210)
 - Added new settings in design.ini called CSSFileList which is an array with
   CSS to include in the pagelayout (base design). This makes it much easier
   for extensions to add CSS files to the current design.
@@ -74,22 +64,8 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Changed the recent list order in ascending and also now it works according to MaximumRecentItems setting in browse.ini
 - Added support for deleting drafts when setting version history limit.
 - Added indexcontent.php to cronjobs.ini, merged from stable/3.4 rev. 7890.
-- Fixed cronjobs/indexcontent.php to be more fault tolerant and scale better, 
-  merged from stable/3.4 rev. 7890.
 - Optimized links in xmltext fields. Instead of two queries per URL we only do
   one query per content attribute now. (Merged from stable/3.4, rev 7916)
-- Fixed call to non-object when viewing an URL not used by any objects.
-  http://www.ez.no/community/bug_reports/link_and_objectversion
-  (Merged from stable/3.4 rev. 7926)
-- Fixed bug related to wrong deletion of rows in eZMatrix datatype
-  http://ez.no/community/bug_reports/martix_rows_reappear_after_deleting
-  (merged from stable/3.4 rev. 7930)
-- Added missing template node/view/listitem.tpl
-  http://ez.no/community/bug_reports/missing_template_file
-  (Merged from stable/3.4 rev. 7935)
-- Fixed bug in eZMatrix datatype when adding/removing/changing columns.
-  http://ez.no/community/bug_reports/new_matrix_columns_dont_show_in_existing_objects
-  (Merged from stable/3.4 rev.7946)
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
@@ -365,15 +341,25 @@ Workflow:
 - Fixed use of uninitialized variable for si operator.
   http://ez.no/community/bug_reports/binary_file_size_display
   (Merged from stable/3.4 rev. 7188)
+- Fixed problem with the eZNodeViewFunctions class making a copy of the
+  $tpl input parameter.
+  (Merged from stable/3.4 rev. 7195)
 - Fixed clearing of subtree expiry caches when clearing template block cache in admin.
   http://ez.no/community/bug_reports/clear_cache_cache_blocks_table_ezsubtree_expiry_isn_t_cleared
   (Merged from stable/3.4 rev. 7199)
+- Added PHP script for clearing caches (bin/php/ezcache.php), this script
+  uses the internal code in eZ publish for clearing caches and should be
+  more reliable.
+  (Merged from stable/3.4 rev. 7200)
 - Fixed bug in base templates (concat vs array)
-  http://ez.no/community/bug_reports/edit_language_problem_in_base_templates
   (Merged from stable/3.4 rev. 7206)
+  http://ez.no/community/bug_reports/edit_language_problem_in_base_templates
 - Removed debug output from eZMatrix datatype
   http://ez.no/community/bug_reports/remove_verbose_line_from_ezmatrixtype_php
   (Merged from stable/3.4 rev. 7208)
+- Fixed bug in ezdesign operator which caused eZTemplateDesignResource
+  instance to be overwritten.
+  (Merged from stable/3.4 rev. 7210)
 - Fixed missing quotes and washing in link tool.
   http://ez.no/community/bug_reports/toolbar_line_link_tpl_href_need_to_put_quotes_around_to_validate
   (Merged from stable/3.4 rev. 7221)
@@ -468,6 +454,8 @@ Workflow:
 - Added missing sender and reply to when sending informationcollector mail
   (Merged from stable/3.4 rev. 7883)
   http://www.ez.no/community/bug_reports/information_collection_mail_sender_is_empty
+- Fixed cronjobs/indexcontent.php to be more fault tolerant and scale better, 
+  (Merged from stable/3.4 rev. 7890)
 - Added all RFC 2396 allowed characters to the autolink operator. (Merged from
   stable/3.4 rev. 7900)
   http://www.ez.no/community/bug_reports/autolink_operator__2
@@ -478,15 +466,27 @@ Workflow:
 - Fixed bug with incorrectly built SQL query in xml output handler with links.
   (Merged from stable/3.4 rev. 7914)
   http://ez.no/community/bug_reports/incorrectly_built_sql_query
+- Fixed call to non-object when viewing an URL not used by any objects.
+  (Merged from stable/3.4 rev. 7926)
+  http://www.ez.no/community/bug_reports/link_and_objectversion
+- Fixed bug related to wrong deletion of rows in eZMatrix datatype
+  (Merged from stable/3.4 rev. 7930)
+  http://ez.no/community/bug_reports/martix_rows_reappear_after_deleting
+- Added missing template node/view/listitem.tpl (Merged from stable/3.4 rev.
+  7935)
+  http://ez.no/community/bug_reports/missing_template_file
 - Fixed bug with class filter in subTree and subtree count functions.
   http://ez.no/community/bug_reports/critcal_sql_error_in_ezcontentobjecttreenode_subtree_and_ezcontentobjecttreenode_subtreecount
 - Fixed some warnings / errors with empty template files (Merged from
   stable/3.4, rev. 7940)
   http://ez.no/community/bug_reports/empty_template_causes_malfunction
-- Fixed bug with eZEmailType which required a auser to enter an address even if the datatype
-  was marked as information collector.
+- Fixed bug with eZEmailType which required a auser to enter an address even if
+  the datatype was marked as information collector.  (Merged from stable/3.4
+  rev.  7945)
   http://www.ez.no/community/bug_reports/if_datatype_email_is_information_collector_and_not_required_it_can_t_be_empty
-  (Merged from stable/3.4 rev. 7945)
+- Fixed bug in eZMatrix datatype when adding/removing/changing columns.
+  http://ez.no/community/bug_reports/new_matrix_columns_dont_show_in_existing_objects
+  (Merged from stable/3.4 rev.7946)
 - Fixed bug with {set} in template compiler. (Merged from stable/3.4, rev. 7950)
   http://ez.no/community/bug_reports/set_statement_does_not_work_in_some_cases
   http://www.ez.no/community/bug_reports/template_compiling_problem
