@@ -146,6 +146,7 @@ for DIR in $VAR_DIRS; do
 	URLALIAS_CACHEDIR="$DIR/cache/wildcard"
  	SORTKEY_CACHEFILE="$DIR/cache/sortkey_"
         CLASSIDENTIFIER_CACHEFILE="$DIR/cache/classidentifiers_"
+        CLASSATTRIBUTEIDENTIFIER_CACHEFILE="$DIR/cache/classattributeidentifiers_"
    
 
 	if [ "$CLEAR_CONTENT" -eq 1 ]; then
@@ -219,6 +220,8 @@ for DIR in $VAR_DIRS; do
         if [ "$CLEAR_CLASSIDENTIFIER" -eq 1 ]; then
             echo "Removing class identifier cache files in $CLASSIDENTIFIER_CACHEFILE"
             rm -f "$CLASSIDENTIFIER_CACHEFILE"*.php
+            echo "Removing class attribute identifier cache files in $CLASSATTRIBUTEIDENTIFIER_CACHEFILE"
+            rm -f "$CLASSATTRIBUTEIDENTIFIER_CACHEFILE"*.php
         fi
     fi
 done

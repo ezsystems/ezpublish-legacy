@@ -14,6 +14,7 @@ Changes from 3.3-2 to 3.3-3
 - Added searchable support for eZObjectRelation datatype and created common
   functionality for fetching meta data from attributes
   (also used in eZObjectRelationList)
+- Added support for cleanup of class attribute cache for clearcache.sh.
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
