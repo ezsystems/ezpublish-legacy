@@ -47,7 +47,7 @@ from ez.no at all times.
 
 <p>
 The eZ publish 3 development framework is a feature rich package. The libraries handles common
-operations including database abstraction, internationalization, internationalization, template
+operations including database abstraction, internationalization, template
 engine for content and design separation, XML parser and SOAP library. On top of the libraries
 you get the ready to use publishing functionality available in the eZ publish kernel. You have
 user defined content, integrated role based permission system, multilanguage features including
@@ -100,8 +100,8 @@ you need to change is shown below.
 <pre class="example">
 [SiteAccessSettings]
 MatchOrder=host
-HostMatchRegexp=^(.+)mybookstorecom$
-HostMatchSubtextPost=.mybookstore.com
+HostMatchRegexp=^(.+)\.mybookstore\.com$
+HostMatchSubtextPost=\.mybookstore\.com
 </pre>
 
 <p>
@@ -211,7 +211,7 @@ We will use these folders as containers for our products and news.
 <p>
 In our template we also have the template variable {$module_result.content}. This will put the
 contents served by eZ publish in this position. Typically this is the information about a product or
-an article you display, a list of articles or the search result page. In short any page you wiew will
+an article you display, a list of articles or the search result page. In short any page you view will
 use the pagelayout.tpl. You can also have different pagelayout.tpl files for different parts of your
 site or dynamically change it based on e.g. the current user, but we're not going to go into detail
 about this here.
