@@ -109,7 +109,8 @@ class eZUser extends eZPersistentObject
                                                       'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
-                                                      'is_logged_in' => 'isLoggedIn'
+                                                      'is_logged_in' => 'isLoggedIn',
+                                                      'is_enabled' => 'isEnabled'
                                                       ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                          'field' => 'id' ) ),
@@ -153,6 +154,10 @@ class eZUser extends eZPersistentObject
                 return null;
             include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ContentObjectID );
+        }
+        else if ( $name == 'is_enabled' )
+        {
+            return $this->isEnabled();
         }
         else
             return eZPersistentObject::attribute( $name );
