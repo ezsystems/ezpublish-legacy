@@ -9,6 +9,7 @@ DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
 DEFAULT_SVN_RELEASE_PATH="releases"
 DEFAULT_SVN_VERSION_PATH="versions"
 DIST_SRC=`pwd`
+EDITOR='vi'
 
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
@@ -868,6 +869,20 @@ if [ "$BUILD_RC" == "1" ]; then
 
     echo "Copying `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+
+    echo
+    echo -n "Do you wish to add some comments on the build? (yes/No)? "
+    read add_comment
+    add_comment=`echo $add_comment | tr 'A-Z' 'a-z'`
+    if [ "$add_comment" == "" ]; then
+	add_comment="n"
+    fi
+    case "$add_comment" in
+	y|yes)
+	    $EDITOR "$VERSIONROOT/$TGZFILE"".summary"
+	    ;;
+    esac
+
 fi
 if [ -n "$FINAL" ]; then
     DISTROOT="$HOME/ezpublish-dist"
