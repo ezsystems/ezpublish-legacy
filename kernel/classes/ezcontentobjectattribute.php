@@ -223,6 +223,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $dataType->sortKeyType() == 'string' )
         {
             $this->setAttribute( 'sort_key_string', $sortKey );
+            $this->setAttribute( 'sort_key_int', 0 );
         }
         else if ( $dataType->sortKeyType() == 'int' )
         {
