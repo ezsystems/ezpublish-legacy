@@ -1,5 +1,12 @@
 <div class="context-block">
-<h2 class="context-title">{'Workflow triggers'|i18n( 'design/admin/trigger/list' )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'Workflow triggers [%trigger_count]'|i18n( 'design/admin/trigger/list',, hash( '%trigger_count', $possible_triggers|count ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <form action={$module.functions.list.uri|ezurl} method="post" >
 
@@ -31,15 +38,18 @@
 
 </table>
 
+{* DESIGN: Content END *}</div></div></div>
+
 {* Buttons. *}
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n( 'design/admin/trigger/list' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </form>
 
 </div>
-
 
