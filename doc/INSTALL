@@ -1,86 +1,226 @@
-eZ publish 3 installation ( BETA )
-----------------------------------
+eZ publish 3 installation guide (beta)
+--------------------------------------
+This document contains a quick guide on how to install
+eZ publish 3 on Windows, Linux and FreeBSD.
 
-Required software to run eZ publish 3:
+Please send feedback on this installation document
+and on eZ publish 3 to beta@ez.no
 
-You need to have apache and php installed.
-PHP needs to have compiled in support for either MySQL or PostgreSQL. 
-For image conversion support you need to have GD compiled in PHP or
-ImageMagick installed on your system. 
 
-eZ publish 3 beta 2 is tested on these versions:
-apache-1.3.27
-php-4.1.2 
 
-Please report other versions eZ publish runs successfully on to beta@ez.no.
+Contents
+--------
+1. eZ publish 3 requirements
+2. eZ publish installation on Linux and FreeBSD
+   2.1 Database setup
+     2.1.1 MySQL
+     2.1.2 PostgeSQL
+   2.2 Demo data
+   2.3 Configure eZ publish
+   2.4 Virtualhost setup
+3. eZ publish installation on Windows
+   3.1 Database setup
+     3.1.1 MySQL
+   3.2 Demo data
+   3.3 Configure eZ publish
+   3.4 Virtualhost setup
 
-eZ publish instalation:
------------------------
-1. Unpack ezpublish-2.9-3.tar.gz in httproot folder
-2. cd <httproot>/ezpublish-2.9-3/
-3. Run $ bin/modfix.sh
 
-Database setup:
---------------
-For postgresql:
-1. createdb <name_of_database>
-2. psql ezpublish_demo < <httproot>/ezpublish-2.9-3/kernel/sql/postgresql/kernel_clean.sql
-For mysql:
-1. mysqladmin -u <user> -p create <name_of_database>
-2. mysql -u <user> -p  <name_of_database> <  <httproot>/ezpublish-2.9-3/kernel/sql/mysql/kernel_clean.sql
 
-Configure eZ publish:
---------------------
-1. Open <httproot>/ezpublish-2.9-3/settings/site.ini with editor and setup correct [DatabaseSettings]
-You need to chose what db implementation you will use, hostname of db server to connect to, 
-db user name, db user password, and db name.
+1. eZ publish 3 requirements
+----------------------------
+- PHP >= 4.1.x
+  http://www.php.net
+- Apache 1.3 (apache 2.0 might/might not work)
+  http://www.apache.org
+- Either MySQL or PostgreSQL
+  http://www.mysql.org
+  http://www.postgresql.org
+- ImageMagick and/or GD compiled in PHP for image conversion (not required)
+  http://www.imagemagick.org
+
+The installation process for the above programs are very well documented 
+on their homepage, so I will not include that here.
+
+
+
+2. eZ publish installation on Linux and FreeBSD
+-----------------------------------------------
+1. Unpack ezpublish-2.9-4.tar.gz into the <httproot> folder
+   $ tar xvfz ezpublish-2.9-4 -C <httproot>
+2. $ cd <httproot>/ezpublish-2.9-4/
+3. If you are using linux just run
+   $ bin/modfix.sh
+   If you are using FreeBSD just make sure the directory var/cache/ini
+   exists, if not create it.
+
+
+2.1 Database setup
+------------------
+2.1.1 MySQL
+We need to login, create a new database, grant permissions to a user and 
+insert a database.
+
+1. $ mysql -u root -p <password>
+2. You should now have have a mysql> prompt
+   mysql> create database <name_of_database>;
+3. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
+4. If you don't want demodata:
+   $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/mysql/kernel_clean.sql
+
+   If you do want demodata:
+   $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/mysql/demokernel.sql
+
+2.1.2 PosgreSQL
+We need to login, create a new database, grant permissions to a user and
+insert a database.
+
+1. $ su <postgres_super_user>
+2. $ createuser <user>
+3. $ createdb <name_of_database>
+4. If you don't want demodata:
+4. $ psql -U <ezpublish  user>  <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/postgresql/kernel_clean.sql
+
+   If you do want demodata:
+   Demodata is not available for PostgreSQL at the moment.
+
+
+2.2 Demo data
+-------------
+Demodata is only for MySQL. Before you proceed make sure you 
+installed the demokernel.sql file.
+To install the demodata all you have to do is unpack the var.tgz file:
+
+1. $ cd <httproot>/ezpublish-2.9-4/
+2. $ tar xfvz var.tgz
+
+
+2.3 Configure eZ publish
+------------------------
+Open <httproot>/ezpublish-2.9-4/settings/site.ini with your favourite editor
+and set the correct setting in the [DatabaseSettings] section.
+You need to select what database implementation you would like to use,
+hostname of database server to connect to, username, password
+and database name.
+
 [DatabaseSettings]
 # Use either ezmysql or ezpostgresql
 DatabaseImplementation=ezpostgresql
-# Name of server to connect to 
+# Name of server to connect to
 Server=localhost
 # DB user name
-User=sp
+User=<user>
 # DB Password
-Password=sp
+Password=<password>
 # database name you have created on previous step
-Database=sp_demo
-
-Demo data:
-----------
-You can setup demodata for eZ publish. But this aviable only for MySQL.
-For that you need to create database and insert demodata from demokernel.sql
-1. mysqladmin -u <user> -p create <name_of_database>
-2. mysql -u <user> -p  <name_of_database> <  <httproot>/ezpublish-2.9-3/kernel/sql/mysql/demokernel.sql
-3. cd <httproot>/ezpublish-2.9-3/ 
-4. tar xfvz var.tgz 
-5. bin/modfix.sh
+Database=<name_of_database>
 
 
-
-Virtualhost setup:
-------------------
-You can use eZ publish with a virtualhost setup. When using 
+2.4 Virtualhost setup
+---------------------
+You can use eZ publish with a virtualhost setup. When using
 a virtualhost you don't need to specify the index.php in the URL.
-Below is a sample configuration for virtualhost setup.
+Below is a sample configuration for virtualhost setup. Include this in
+your apache config file and restart apache when you are done.
 
 <VirtualHost 10.0.0.1>
- <Directory <httproot>/ezpublish-2.9-3/>
+ <Directory <httproot>/ezpublish-2.9-4/>
        Options FollowSymLinks Indexes ExecCGI
-       AllowOverride None 
+       AllowOverride None
   </Directory>
 
-  RewriteEngine On 
-  RewriteRule !\.(gif|css|jpg|png)$ <httproot>/ezpublish-2.9-3/index.php
+  RewriteEngine On
+  RewriteRule !\.(gif|css|jpg|png)$ <httproot>/ezpublish-2.9-4/index.php
 
   ServerAdmin root@localhost
-  DocumentRoot <httproot>/ezpublish-2.9-3/
+  DocumentRoot <httproot>/ezpublish-2.9-4/
   ServerName 10.0.0.1
 </VirtualHost>
 
 
+
+3. eZ publish installation on Windows
+-------------------------------------
+1. Unpack ezpublish-2.9-4.tar.gz into the <httproot> folder. 
+Use a program that supports .tar.gz files, like Winzip.
+2. goto <httproot>\ezpublish-2.9-4
+3. Make sure the directory var\cache\ini exists, if not, create it.
+
+
+3.1 Database setup
+------------------
+3.1.1 MySQL
+We need to login, create a new database, grant permissions to a user
+and insert a database.
+
+1. Open a console window (start->run->cmd.exe or start->run->command.exe depending on the windows version)
+2. Goto your the location of mysql and find the mysql.exe file (should be under bin\)
+2. Run: mysql.exe -u root -p <your_mysql_password>
+3. You should now have have a mysql> prompt. Type these to mysql statements:
+   mysql> create database <name_of_database>;
+4. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
+5. If you don't want demodata:
+   $ mysql.exe -u <user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql\mysql\kernel_clean.sql
+   If you do want demodata:
+   $ mysql.exe -u <user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql/mysql\demokernel.sql
+
+
+3.2 Demo data
+-------------
+Demodata is only available for MySQL. Before you proceed make sure you have
+installed the demokernel.sql file and NOT the kernel_clean.sql file.
+
+To install the demodata all you have to do is unpack the var.tgz file:
+1. goto <httproot>\ezpublish-2.9-4
+2. unpack var.tgz into <httproot>\ezpublish-2.9-4
+
+
+3.3 Configure eZ publish
+------------------------
+Open <httproot>/ezpublish-2.9-4/settings/site.ini in notepad and set
+the correct settings in the [DatabaseSettings] section.
+You need to set what database implementation you use, hostname of database
+server to connect to, user name, password, database name.
+
+[DatabaseSettings]
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezpostgresql
+# Name of server to connect to
+Server=localhost
+# DB user name
+User=<user>
+# DB Password
+Password=<password>
+# database name you have created on previous step
+Database=<name_of_database>
+
+
+3.4 Virtualhost setup
+---------------------
+You can use eZ publish with a virtualhost setup. When using
+a virtualhost you don't need to specify the index.php in the URL.
+Below is a sample configuration for virtualhost setup. Include this in
+your apache config file and restart apache when you are done.
+
+<VirtualHost <your_ip_adress>>
+ <Directory <httproot>/ezpublish-2.9-4/>
+       Options FollowSymLinks Indexes ExecCGI
+       AllowOverride None
+  </Directory>
+
+  RewriteEngine On
+  RewriteRule !\.(gif|css|jpg|png)$ <httproot>/ezpublish-2.9-4/index.php
+
+  ServerAdmin root@localhost
+  DocumentRoot <httproot>/ezpublish-2.9-4/
+  ServerName <your_ip_adress>
+</VirtualHost>
+
+
+
 That's it,
 
-Enjoy !
+Enjoy!
 
 - eZ publish team
+
