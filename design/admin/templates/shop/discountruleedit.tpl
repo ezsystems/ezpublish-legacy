@@ -52,12 +52,16 @@
 </select>
 </div>
 
+</div>
+
 {* Objects *}
 <div class="block">
 <label>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+
+{section show=$product_list}
 <table class="list" cellspacing="0">
 <tr>
-<th class="tight"><img src="/~fh/trunk/design/admin/images/toggle-button-16x16.gif" alt="Invert selection." title="Invert selection." onclick="ezjs_toggleCheckboxes( document.DiscountRuleEdit, 'DeleteProductIDArray[]' ); return false;" /></th>
+<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )} title="{'Invert selection.'|i18n( 'design/admin/shop/discountruleedit' )} onclick="ezjs_toggleCheckboxes( document.DiscountRuleEdit, 'DeleteProductIDArray[]' ); return false;" /></th>
 <th>{'Name'|i18n( 'design/standard/shop/discountruleedit' )}</th>
 </tr>
 {section var=Product show=$product_list loop=$product_list sequence=array( bglight, bgdark )}
@@ -67,12 +71,13 @@
 </tr>
 {/section}
 </table>
-
-
-<input class="button" type="submit" name="DeleteProductButton" value="{'Remove'|i18n('design/standard/shop')}"  />
-<input class="button" type="submit" name="BrowseProductButton" value="{'Add'|i18n('design/standard/shop')}" />
+{section-else}
+<div class="block">
+<p>{'The individual product list is empty.'|i18n( 'design/admin/shop/discountruleedit' )}</p>
 </div>
-<div class="break"></div>
+{/section}
+<input class="button" type="submit" name="DeleteProductButton" value="{'Remove selected'|i18n('design/admin/shop/discountruleedit' )}" {section show=$product_list|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="BrowseProductButton" value="{'Add products'|i18n('design/admin/shop/discountruleedit' )}" />
 </div>
 
 </div>
