@@ -238,26 +238,30 @@ class eZTemplateCacheFunction
                 {
                     $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
                     $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
+                    $subtreeError = false;
                     if ( count( $subtreeNodeID ) != 1 )
                     {
                         eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
-                        break;
+                        $subtreeError = true;
                     }
                     else
                     {
                         $subtreeNodeID = $subtreeNodeID[0]['node_id'];
                     }
                 }
-                $cacheKey =& $db->escapeString( $keyString );
+                if ( $subtreeError != true )
+                {
+                    $cacheKey =& $db->escapeString( $keyString );
 
-                $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
+                    $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
                             VALUES ( '$subtreeNodeID', '$cacheKey' )";
 
-                $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
-                                       "\$db =& eZDB::instance();\n" .
-                                       "\n" .
-                                       "\$db->query( \"$insertQuery\" );\n" .
-                                       "            " );
+                    $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
+                                           "\$db =& eZDB::instance();\n" .
+                                           "\n" .
+                                           "\$db->query( \"$insertQuery\" );\n" .
+                                           "            " );
+                }
             }
         }
 

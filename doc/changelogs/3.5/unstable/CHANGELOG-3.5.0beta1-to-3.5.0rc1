@@ -106,6 +106,8 @@ Datatype:
   (Merged from stable/3.4, rev. 9599)
 - Fixed bug when canceling editation of existing PDF export removes it.
   http://ez.no/community/bug_reports/pdf_crash
+- Fixed incorrect break statement
+  http://ez.no/community/bug_reports/break_outside_of_loop
 
 *Library:
 
