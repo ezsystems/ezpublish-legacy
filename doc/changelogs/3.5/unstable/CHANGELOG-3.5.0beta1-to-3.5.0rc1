@@ -8,6 +8,8 @@ Datatype:
 - Added the possibility for datatypes to return information on how they should
   be displayed based on view.
   This is used in the admin interface when editing an object.
+- Added the 'filesize' attribute to all alias in ezimage datatype.
+- Added the 'filesize' and 'filepath' attribute to ezmedia datatype.
 
 *Bugfixes:
 - Fixed bug: Workflow multiplexer doesn't store Users without workflow ID's

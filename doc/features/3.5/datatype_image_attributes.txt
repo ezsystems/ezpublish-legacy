@@ -1,0 +1,13 @@
+*Title: Provide more attributes to image datatype
+
+Incentive:
+Make it possible to figure out the filesize of the store file
+(original or other alias)
+
+*Documentation:
+A new attribute is now available under each alias called
+'filesize', the filesize is calculate each time the alias list
+is created.
+
+Example template usage:
+filesize: {$attribute.content.original.filesize|si( byte )}

@@ -108,6 +108,10 @@ class eZMedia extends eZPersistentObject
                                                              'default' => 0,
                                                              'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id", "version" ),
+                      "function_attributes" => array( 'filesize' => 'filesize',
+                                                      'filepath' => 'filepath',
+                                                      'mime_type_category' => 'mimeTypeCategory',
+                                                      'mime_type_part' => 'mimeTypePart' ),
                       "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
                                                                                    "field" => "id" ),
                                             "version" => array( "class" => "ezcontentobjectattribute",
@@ -118,9 +122,11 @@ class eZMedia extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        return $attr == "mime_type_category" or
-            $attr == "mime_type_part" or
-            eZPersistentObject::hasAttribute( $attr ) ;
+        return ( $attr == 'mime_type_category' or
+                 $attr == 'mime_type_part' or
+                 $attr == 'filepath' or
+                 $attr == 'filesize' or
+                 eZPersistentObject::hasAttribute( $attr ) );
     }
 
     function &attribute( $attr )
@@ -129,12 +135,29 @@ class eZMedia extends eZPersistentObject
 
         switch( $attr )
         {
-            case "mime_type_category":
+            case 'filesize':
+            {
+                include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+                $storedFile = eZBinaryFileHandler::storedFilename( $this );
+                if ( file_exists( $storedFile ) )
+                    return filesize( $storedFile );
+                else
+                    return 0;
+            } break;
+
+            case 'filepath':
+            {
+                include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+                return eZBinaryFileHandler::storedFilename( $this );
+            } break;
+
+            case 'mime_type_category':
             {
                 $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
                 return $types[0];
             } break;
-            case "mime_type_part":
+
+            case 'mime_type_part':
             {
                 $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
                 return $types[1];

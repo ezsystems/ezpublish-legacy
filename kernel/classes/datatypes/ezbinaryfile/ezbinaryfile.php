@@ -83,6 +83,10 @@ class eZBinaryFile extends eZPersistentObject
                       'keys' => array( 'contentobject_attribute_id', 'version' ),
                       'relations' => array( 'contentobject_attribute_id' => array( 'class' => 'ezcontentobjectattribute',
                                                                                    'field' => 'id' ) ),
+                      "function_attributes" => array( 'filesize' => 'filesize',
+                                                      'filepath' => 'filepath',
+                                                      'mime_type_category' => 'mimeTypeCategory',
+                                                      'mime_type_part' => 'mimeTypePart' ),
                       'class_name' => 'eZBinaryFile',
                       'name' => 'ezbinaryfile' );
     }
