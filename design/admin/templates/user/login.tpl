@@ -43,12 +43,12 @@
 </div>
 
 <div class="block">
-    <label for="id1">{'Username'|i18n( 'design/admin/user/login' )}</label>
+    <label for="id1">{'Username'|i18n( 'design/admin/user/login' )}:</label>
     <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" tabindex="1" title="{'Enter a valid username into this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 
 <div class="block">
-    <label for="id2">{'Password'|i18n( 'design/admin/user/login' )}</label>
+    <label for="id2">{'Password'|i18n( 'design/admin/user/login' )}:</label>
     <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" title="{'Enter a valid password into this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 

@@ -15,12 +15,12 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Maximum concurrent logins'|i18n( 'design/admin/user/setting' )}</label>
+<label>{'Maximum concurrent logins'|i18n( 'design/admin/user/setting' )}:</label>
 <input type="text" name="max_login" size="11" value="{$userSetting.max_login}" title="{'This functionality is not currently not available. [Use this field to specify the maximum allowed number of concurrent logins.]'|i18n( 'design/admin/user/setting' )}" disabled="disabled" />
 </div>
 
 <div class="block">
-<label class="check">{'Enable user account'|i18n( 'design/admin/user/setting' )}</label>
+<label class="check">{'Enable user account'|i18n( 'design/admin/user/setting' )}:</label>
 <input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked="checked"{/section} title="{'Use this checkbox to enable or disable the user account.'|i18n( 'design/admin/user/setting' )}" />
 </div>
 
