@@ -14,11 +14,24 @@
 {* ## START messages ## *}
 {section show=$remove_list}
 
-<div class="message-warning">
-<h2>{'Removal of packages'|i18n('design/admin/package')}</h2>
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Remove section?'|i18n( 'design/admin/package/list' )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="message-confirmation">
+
+<h2>{'Removal of packages'|i18n('design/admin/package/list')}</h2>
 <p>{'Are you sure you wish to remove the following packages?
 The packages will be lost forever.
-Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}</p>
+Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|break}</p>
 <ul>
 {section var=package loop=$remove_list}
     <li>
@@ -27,17 +40,32 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
     </li>
 {/section}
 </ul>
+
 </div>
 
-<div class="buttonblock">
-    <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'Confirm removal'|i18n('design/admin/package')}" />
-    <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Keep packages'|i18n('design/admin/package')}" />
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
+<div class="block">
+
+    <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'Confirm removal'|i18n('design/admin/package/list')}" />
+    <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Keep packages'|i18n('design/admin/package/list')}" />
+
+</div>
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
+</div>
+
 </div>
 
 {section-else}
 {section show=$module_action|eq( 'CancelRemovePackage' )}
 <div class="message-feedback">
-    <p>{'Package removal was cancelled.'|i18n('design/admin/package')}</p>
+    <p>{'Package removal was cancelled.'|i18n('design/admin/package/list')}</p>
 </div>
 {/section}
 
@@ -45,7 +73,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Packages'|i18n('design/admin/package')}</h1>
+<h1 class="context-title">{'Packages'|i18n('design/admin/package/list')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -55,24 +83,24 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 
 <div class="context-attributes">
 
-<p>{'The following packages are available on this system'|i18n('design/admin/package')}</p>
+<p>{'The following packages are available on this system'|i18n('design/admin/package/list')}</p>
 
-<label>{'Repositories'|i18n( 'design/admin/package' )}</label>
+<label>{'Repositories'|i18n( 'design/admin/package/list' )}</label>
 <select name="RepositoryID">
-    <option value="">{'All'|i18n( 'design/admin/package' )}</option>
+    <option value="">{'All'|i18n( 'design/admin/package/list' )}</option>
 {section var=repository loop=$repository_list}
     <option value="{$repository.id|wash}"{section show=eq( $repository.id, $repository_id )} selected="selected"{/section}>{$repository.name|wash}</option>
 {/section}
 </select>
-&nbsp;<input class="button" type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/admin/package' )}" />
+&nbsp;<input class="button" type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/admin/package/list' )}" />
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.packagelist, 'PackageSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/grouplist' )}" /></th>
-    <th>{'Name'|i18n('design/admin/package')}</th>
-    <th>{'Version'|i18n('design/admin/package')}</th>
-    <th>{'Summary'|i18n('design/admin/package')}</th>
-    <th>{'Status'|i18n('design/admin/package')}</th>
+    <th>{'Name'|i18n('design/admin/package/list')}</th>
+    <th>{'Version'|i18n('design/admin/package/list')}</th>
+    <th>{'Summary'|i18n('design/admin/package/list')}</th>
+    <th>{'Status'|i18n('design/admin/package/list')}</th>
 </tr>
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
@@ -87,12 +115,12 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
     <td>
         {section show=$:item.install_type|eq( 'install' )}
             {section show=$:item.is_installed}
-                {'Installed'|i18n('design/admin/package')}
+                {'Installed'|i18n('design/admin/package/list')}
             {section-else}
-                {'Not installed'|i18n('design/admin/package')}
+                {'Not installed'|i18n('design/admin/package/list')}
             {/section}
         {section-else}
-            {'Imported'|i18n('design/admin/package')}
+            {'Imported'|i18n('design/admin/package/list')}
         {/section}
     </td>
 </tr>
@@ -110,10 +138,10 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
      can_import=fetch( package, can_import )}
 
 <div class="block">
-  <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package')}" {section show=and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/section} />
+  <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {section show=and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/section} />
 
-  <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package')}" {section show=$can_import|not}disabled="disabled"{/section}/>
-  <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package')}" {section show=$can_create|not}disabled="disabled"{/section} />
+  <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {section show=$can_import|not}disabled="disabled"{/section}/>
+  <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {section show=$can_create|not}disabled="disabled"{/section} />
 </div>
 
 {/let}

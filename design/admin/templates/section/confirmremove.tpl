@@ -1,4 +1,16 @@
-<div class="message-warning">
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Remove section?'|i18n( 'design/admin/section/confirmremove' )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="message-confirmation">
 
 {section show=$delete_result|count|gt(1)}
     <h2>{'Are you sure you want to remove these sections?'|i18n( 'design/admin/section/confirmremove' )}</h2>
@@ -14,12 +26,27 @@
 
 <p>{'Removing a section may corrupt permission settings, template output and other things in the system. Proceed only if you know what you are doing.'|i18n( 'design/admin/section/confirmremove' )}</p>
 
-<form action={concat( $module.functions.list.uri )|ezurl} method="post" name="SectionRemove">
-<div class="block">
-<input class="button" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
-<input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/section/confirmremove' )}" />
 </div>
+
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
+<div class="block">
+
+<form action={concat( $module.functions.list.uri )|ezurl} method="post" name="SectionRemove">
+    <input class="button" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/section/confirmremove' )}" />
 </form>
 
 </div>
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
+</div>
+
+</div>
+
 
