@@ -33,6 +33,7 @@
 //
 
 include_once( 'kernel/classes/eztrigger.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 $Module =& $Params["Module"];
 include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
@@ -47,7 +48,6 @@ if ( !$obj->attribute( 'can_edit' ) )
 
 $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
-
 $http =& eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'EditButton' ) )
@@ -60,8 +60,53 @@ if ( $http->hasPostVariable( 'EditButton' ) )
 }
 else if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $version =& $obj->createNewVersion();
-    return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+    $contentINI =& eZINI::instance( 'content.ini' );
+    $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+
+    $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+    foreach ( array_keys ( $limitList ) as $key )
+    {
+        if ( $classID == $key )
+            $versionlimit =& $limitList[$key];
+    }
+    $versionCount = $obj->getVersionCount();
+    if ( $versionCount < $versionlimit )
+    {
+        $version =& $obj->createNewVersion();
+        return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+    }
+    else
+    {
+        // Remove oldest archived version first
+        $params = array( 'conditions'=>array( 'status'=>3 ) );
+        $versions =& $obj->versions( true, $params );
+        if ( count( $versions ) > 0 )
+        {
+            $modified = $versions[0]->attribute( 'modified' );
+            $removeVersion =& $versions[0];
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[$versionKey];
+                $currentModified = $version->attribute( 'modified' );
+                if ( $currentModified < $modified )
+                {
+                    $modified = $currentModified;
+                    $removeVersion = $version;
+                }
+            }
+            $removeVersion->remove();
+            $version =& $obj->createNewVersion();
+            $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+        else
+        {
+            $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+            $currentVersion = $obj->attribute( 'current_version' );
+            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $EditLanguage ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+    }
 }
 
 $ini =& eZINI::instance();
@@ -164,10 +209,57 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                 $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
-            $version =& $object->createNewVersion();
 
-            $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            $contentINI =& eZINI::instance( 'content.ini' );
+            $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+
+            $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+
+            $classID = $object->attribute( 'contentclass_id' );
+            foreach ( array_keys ( $limitList ) as $key )
+            {
+                if ( $classID == $key )
+                    $versionlimit =& $limitList[$key];
+            }
+            $versionCount = $object->getVersionCount();
+            if ( $versionCount < $versionlimit )
+            {
+                $version =& $object->createNewVersion();
+                $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+            else
+            {
+                // Remove oldest archived version first
+                $params = array( 'conditions'=>array( 'status'=>3 ) );
+                $versions =& $object->versions( true, $params );
+                if ( count( $versions ) > 0 )
+                {
+                    $modified = $versions[0]->attribute( 'modified' );
+                    $removeVersion =& $versions[0];
+                    foreach ( array_keys( $versions ) as $versionKey )
+                    {
+                        $version =& $versions[$versionKey];
+                        $currentModified = $version->attribute( 'modified' );
+                        if ( $currentModified < $modified )
+                        {
+                            $modified = $currentModified;
+                            $removeVersion = $version;
+                        }
+                    }
+                    $removeVersion->remove();
+                    $version =& $object->createNewVersion();
+                    $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
+                    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                }
+                else
+                {
+                    $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+                    $currentVersion = $object->attribute( 'current_version' );
+                    $module->redirectToView( 'versions', array( $objectID, $currentVersion, $editLanguage ) );
+                    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                }
+            }
         }
     }
 }

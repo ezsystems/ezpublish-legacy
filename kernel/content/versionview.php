@@ -153,6 +153,11 @@ else if ( !$placementID && count( $nodeAssignments ) )
 
 $contentINI =& eZINI::instance( 'content.ini' );
 $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
+{
+    $defaultPreviewDesign = $contentINI->variable( 'VersionView', 'DefaultPreviewDesign' );
+    $sitedesign = $defaultPreviewDesign;
+}
 if ( count( $sitedesignList ) == 1 )
 {
     $sitedesign = $sitedesignList[0];
