@@ -43,6 +43,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+include_once( "kernel/classes/ezbinaryfilehandler.php" );
 include_once( "lib/ezutils/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
@@ -67,6 +68,64 @@ class eZBinaryFileType extends eZDataType
     function &attribute( $name )
     {
         return eZDataType::attribute( $name );
+    }
+
+    /*!
+     \return the binary file handler.
+    */
+    function &fileHandler()
+    {
+        return eZBinaryFileHandler::instance();
+    }
+
+    /*!
+     \reimp
+     \return the template name which the handler decides upon.
+    */
+    function &viewTemplate( &$contentobjectAttribute )
+    {
+        $handler =& $this->fileHandler();
+        $handlerTemplate = $handler->viewTemplate( $contentobjectAttribute );
+        $template = $this->DataTypeString;
+        if ( $handlerTemplate !== false )
+            $template .= '_' . $handlerTemplate;
+        return $template;
+    }
+
+    /*!
+     \return the template name to use for editing the attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, informationTemplate
+    */
+    function &editTemplate( &$contentobjectAttribute )
+    {
+        $handler =& $this->fileHandler();
+        $handlerTemplate = $handler->editTemplate( $contentobjectAttribute );
+        $template = $this->DataTypeString;
+        if ( $handlerTemplate !== false )
+            $template .= '_' . $handlerTemplate;
+        return $template;
+    }
+
+    /*!
+     \return the template name to use for information collection for the attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, editTemplate
+    */
+    function &informationTemplate( &$contentobjectAttribute )
+    {
+        $handler =& $this->fileHandler();
+        $handlerTemplate = $handler->informationTemplate( $contentobjectAttribute );
+        $template = $this->DataTypeString;
+        if ( $handlerTemplate !== false )
+            $template .= '_' . $handlerTemplate;
+        return $template;
     }
 
     /*!

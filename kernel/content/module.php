@@ -129,7 +129,7 @@ $ViewList["removeeditversion"] = array(
 $ViewList["download"] = array(
     "functions" => array( 'read' ),
     "script" => "download.php",
-    "params" => array( "ContentObjectAttributeID", "version" ) );
+    "params" => array( "ContentObjectID", "ContentObjectAttributeID", "FileType" ) );
 
 $ViewList["action"] = array(
     "functions" => array( 'read' ),

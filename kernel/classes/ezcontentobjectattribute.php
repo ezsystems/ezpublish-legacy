@@ -76,6 +76,8 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
                                                       "object" => "object",
+                                                      'view_template' => 'viewTemplateName',
+                                                      'edit_template' => 'editTemplateName',
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
@@ -165,6 +167,10 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->language( );
         else if  ( $attr == "is_a" )
             return $this->isA( );
+        else if ( $attr == 'view_template' )
+            return $this->viewTemplateName();
+        else if ( $attr == 'edit_template' )
+            return $this->editTemplateName();
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -449,6 +455,63 @@ class eZContentObjectAttribute extends eZPersistentObject
         $attribute =& $this->contentClassAttribute();
         $dataType =& $attribute->dataType();
         return $dataType->isA();
+    }
+
+    /*!
+     \return the template name to use for viewing the attribute or
+             if the attribute is an information collector the information
+             template name is returned.
+     \note The returned template name does not include the .tpl extension.
+     \sa editTemplate, informationTemplate
+    */
+    function &viewTemplateName()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        if ( $classAttribute->attribute( 'is_information_collector' ) )
+            return $this->informationTemplate();
+        else
+            return $this->viewTemplate();
+    }
+
+    /*!
+     \return the template name to use for editing the attribute.
+    */
+    function &editTemplateName()
+    {
+        return $this->editTemplate();
+    }
+
+    /*!
+     \return the template name to use for viewing the attribute.
+     \note The returned template name does not include the .tpl extension.
+     \sa editTemplate, informationTemplate
+    */
+    function &viewTemplate()
+    {
+        $dataType =& $this->dataType();
+        return $dataType->viewTemplate( $this );
+    }
+
+    /*!
+     \return the template name to use for editing the attribute.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, informationTemplate
+    */
+    function &editTemplate()
+    {
+        $dataType =& $this->dataType();
+        return $dataType->editTemplate( $this );
+    }
+
+    /*!
+     \return the template name to use for information collection for the attribute.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, editTemplate
+    */
+    function &informationTemplate()
+    {
+        $dataType =& $this->dataType();
+        return $dataType->informationTemplate( $this );
     }
 
     /// Contains the content for this attribute

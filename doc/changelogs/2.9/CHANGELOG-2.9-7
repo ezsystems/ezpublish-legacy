@@ -77,6 +77,10 @@ Changes from 2.9-6 to 2.9-7
   specific urls. Opera 7 will create a top bar with this information.
 - Pagelayouts have been changed to include some common templates, this
   makes it much easier to upgrade the pagelayouts.
+- Added ezinfo page which displays copyright and about information.
+- Current URI and version info is now available in the pagelayout.
+- File download now supports filehandlers which controls how
+  files are download, currently PHP passtrough and direct handlers are available.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
@@ -185,3 +189,6 @@ eZSys:
 eZi18n:
 - Added translation cache system
   Added setting in site.ini: [RegionalSettings] TranslationCache=enabled
+
+eZ web:
+- New class for handling web browser detection.

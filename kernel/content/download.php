@@ -33,38 +33,51 @@
 //
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+include_once( "kernel/classes/ezbinaryfilehandler.php" );
 include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "kernel/common/template.php" );
 
-$tpl =& templateInit();
+//$tpl =& templateInit();
 
+$contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
-$version = $Params['version'];
+//$version = $Params['version'];
 //$version = 4;
-$contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true);
+$contentObject = eZContentObject::fetch( $contentObjectID );
+$version = $contentObject->attribute( 'current_version' );
+$contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
 //$version = $contentObjectAttribute->attribute( 'version' );
-$contentObject = eZContentObject::fetch( $contentObjectID );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
 {
-        $Module->redirectTo( '/error/error/403' );
-        return;
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED );
 }
+
+$fileHandler =& eZBinaryFileHandler::instance();
+$result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, EZ_BINARY_FILE_TYPE_FILE );
+
+if ( $result == EZ_BINARY_FILE_RESULT_UNAVAILABLE )
+{
+    eZDebug::writeError( "The specified file could not be found." );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
+/*
 
 $binaryType =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
 $mediaType =& eZMedia::fetch( $contentObjectAttributeID, $version );
 
 if( $binaryType != null )
-    $binary = $binaryType;
+    $binary = $binaryType
 elseif( $mediaType != null )
     $binary = $mediaType;
 else
 {
-    eZDebug::writeError("No speciafied file exist.");
+    eZDebug::writeError( "No specified file exist." );
 }
 
 $sys =& eZSys::instance();
@@ -97,5 +110,6 @@ else
     eZDebug::writeNotice( $binary, 'binary');
     eZDebug::writeNotice( $fileName, 'fileName');
 }
+*/
 
 ?>

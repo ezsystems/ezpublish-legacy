@@ -92,6 +92,48 @@ class eZDataType
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed );
     }
+    
+    /*!
+     \return the template name to use for viewing the attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+     \sa editTemplate, informationTemplate
+    */
+    function &viewTemplate( &$contentobjectAttribute )
+    {
+        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #1' );
+        return $this->DataTypeString;
+    }
+
+    /*!
+     \return the template name to use for editing the attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, informationTemplate
+    */
+    function &editTemplate( &$contentobjectAttribute )
+    {
+        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #2' );
+        return $this->DataTypeString;
+    }
+
+    /*!
+     \return the template name to use for information collection for the attribute.
+     \note Default is to return the datatype string which is OK
+           for most datatypes, if you want dynamic templates
+           reimplement this function and return a template name.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, editTemplate
+    */
+    function &informationTemplate( &$contentobjectAttribute )
+    {
+        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #3' );
+        return $this->DataTypeString;
+    }
 
     /*!
      \static

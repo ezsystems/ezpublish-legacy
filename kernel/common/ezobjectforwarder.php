@@ -197,6 +197,7 @@ class eZObjectForwarder
                 $attribute_access_array =& $attribute_access[$i];
                 $output_var =& $tpl->variableAttribute( $input_var, $attribute_access_array );
                 $incfile =& $output_var;
+                eZDebug::writeDebug( $incfile, 'incfile' );
                 $uri = "design:$template_dir$view_dir/$incfile.tpl";
                 $resourceData =& $tpl->loadURIRoot( $uri, false, $extraParameters );
                 if ( $resourceData === null )

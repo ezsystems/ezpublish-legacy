@@ -76,6 +76,7 @@ class eZBinaryFile extends eZPersistentObject
     {
         return $attr == "mime_type_category" or
             $attr == "mime_type_part" or
+            $attr == 'file_path' or
             eZPersistentObject::hasAttribute( $attr ) ;
     }
 
@@ -85,6 +86,11 @@ class eZBinaryFile extends eZPersistentObject
 
         switch( $attr )
         {
+            case "file_path":
+            {
+                include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+                return eZBinaryFileHandler::storedFilename( $this );
+            } break;
             case "mime_type_category":
             {
                 $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
