@@ -23,7 +23,7 @@
         {section-else}
 
         <div class="feedback">
-        <h2>Input was stored successfully</h3>
+        <h2>Input was stored successfully</h2>
         </div>
 
         {/section}
