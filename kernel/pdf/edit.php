@@ -87,7 +87,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
     $pdfExport->setAttribute( 'sub_text', $Module->actionParameter( 'SubText' ) );
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
     $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
-    $pdfExport->setAttribute( 'pdf_filename', $Module->actionParameter( 'DestinationFile' ) );
+    $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
 
     if ( $Module->isCurrentAction( 'Export' ) )
     {

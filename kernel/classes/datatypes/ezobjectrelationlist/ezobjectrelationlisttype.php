@@ -1026,6 +1026,10 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $object =& eZContentObject::fetch( $subObjectID );
+                if ( !$object )
+                {
+                    continue;
+                }
                 $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
             }
 
