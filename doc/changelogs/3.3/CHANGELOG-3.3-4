@@ -9,7 +9,7 @@ Changes from 3.3-3 to 3.3-4
 *Setup:
 
 *DataTypes:
-
+- Fixed datatype inisetting which can't save parameter value like "x=y";
 
 *Bugs:
 - Fixed broken datatype range option.
@@ -17,10 +17,6 @@ Changes from 3.3-3 to 3.3-4
 - Fixed bug of obtaining duplicate objects if fetching trees or lists with 
   objects assigned to multiple locations.
   http://ez.no/community/bug_reports/duplicates_when_fetching_trees_and_lists_with_objects_assigned_to_multiple_locations
-- Fixed: Missing initialization of eZHTTPTool in content/edit when version
-  history limit is on and no archived versions are available for removal.
-- Fixed typo of session variable ExcessVersionHistoryLimit, previously
-  ExcessVesionHistoryLimit was used.
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
