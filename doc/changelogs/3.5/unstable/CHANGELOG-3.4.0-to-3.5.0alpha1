@@ -556,6 +556,9 @@ Workflow:
 - Fixed bug: non-eZ database tables were deleted when selecting remove data in the setup wizard.
   (Merged from stable/3.3 rev. 8039, also in stable/3.4 rev. 8040)
   http://ez.no/community/bug_reports/other_database_tables_deleted_when_selecting_remove_data_in_setup_wizard
+- Fixed bug  eZText datatype bug when disabled translation.
+  ( Merged from stable/3.4 rev. 8042 )
+  http://ez.no/community/bug_reports/eztext_datatype_bug_when_disabled_translation
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
