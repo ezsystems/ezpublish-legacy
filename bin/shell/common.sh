@@ -2,6 +2,9 @@
 
 VERSION="3.4.0beta1"
 VERSION_ONLY="3.4"
+VERSION_STATE="beta1"
+VERSION_PREVIOUS="3.4.0alpha4"
+VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
 
 # URLs for the various repositories

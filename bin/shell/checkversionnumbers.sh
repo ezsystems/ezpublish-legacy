@@ -71,6 +71,26 @@ if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+if ! grep "VERSION_STATE=\"$STATE\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version state mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version state in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STATE"
+    echo "Should be:"
+    echo "VERSION_STATE=\"`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`\""
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
+if ! grep "VERSION_PREVIOUS=\"$PREVIOUS_VERSION\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Previous version mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong previous version in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_PREVIOUS"
+    echo "Should be:"
+    echo "VERSION_PREVIOUS=\"`$SETCOLOR_EMPHASIZE`$PREVIOUS_VERSION`$SETCOLOR_NORMAL`\""
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
 # lib/version.php
 
 if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
