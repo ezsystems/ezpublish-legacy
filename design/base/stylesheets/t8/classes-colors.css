@@ -271,14 +271,14 @@ div.calendar div.selected
 
 /* POLL RESULT STYLE */
 
-div#poll-result td.empty-area
+div#poll-result div.chart-bar-resultbox
 {  
     background-color: #eeeeee;
 }
 
-div#poll-result td.voted-area
+div#poll-result div.chart-bar-resultbar
 {  
-    background-color: #444;
+    background-color: #444;; /* This could also be a repeating background image */
 }
 
 

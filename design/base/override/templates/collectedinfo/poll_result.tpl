@@ -31,7 +31,7 @@
 
         <h3>{$contentobject_attribute.content.name}</h3>
 
-        <table cellspacing="0">
+        <table class="poll-resultlist">
         <tr>
 
         {section name=Option loop=$contentobject_attribute.content.option_list}
@@ -39,30 +39,31 @@
             {section show=is_set($item_counts[$:item.id])}
                 {set item_count=$item_counts[$:item.id]}
             {/section}
-            <td>
-            <div class="attribute-byline">
-                {$:item.value}
-            </div>
+            <td class="poll-resultname">
+                <p>
+                    {$:item.value}
+                </p>
             </td>
-            <td>
-                <table width="300">
+            <td class="poll-resultbar">
+                <table class="poll-resultbar">
                 <tr>
-                    <td class="small" align="left">
+                    <td class="poll-percentage">
                         <i>{round(div(mul($:item_count,100),$total_count))}%</i>
                     </td>
-                    <td class="small" align="right">
+                    <td class="poll-votecount">
                         {'Votes:'|i18n('design/standard/content/poll')} {$:item_count}
                     </td>
                 </tr>
                 <tr>
-                    {section show=$:item_count}
-                    voted={div(mul($:item_count,300),$total_count)}
-                    empty={sub(300,div(mul($:item_count,300),$total_count))}
-                    <td class="voted-area" width="{div(mul($:item_count,300),$total_count)}">&nbsp;</td>
-                    <td class="empty-area" width="{sub(300,div(mul($:item_count,300),$total_count))}">&nbsp;</td>
-                    {section-else}
-                    <td colspan="2" class="empty-area" width="300">&nbsp;</td>
-                    {/section}
+                    <div class="chart-bar-edge-start">
+                        <div class="chart-bar-edge-end">
+                            <div class="chart-bar-resultbox">
+                                <div class="chart-bar-resultbar" style="width: {round(div(mul($:item_count,100),$total_count))}%;">
+                                    <div class="chart-bar-result-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
                 </table>
             </td>
@@ -88,8 +89,4 @@
 
 {"%count total votes"|i18n( 'design/standard/content/poll' ,,
                              hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}
-
-
-<p class="attribute-link"><a href={$node.url_alias|ezurl}>{'Back to poll'|i18n( 'design/base/poll' )}</a></p>
-
 </div>
