@@ -520,7 +520,7 @@ class eZObjectForwarder
                     ++$matchCount;
                     if ( $matchConditionCount == 0 )
                     {
-                        if ( $matchCount == 1 )
+                        if ( $matchCount > 0 )
                             $addFileResource = false;
                         break;
                     }
