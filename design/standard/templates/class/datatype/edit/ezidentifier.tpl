@@ -16,7 +16,7 @@
 </div>
 <div class="element">
 <label>{"Start value"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
-<input type="text" name="ContentClass_ezidentifier_start_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int3}" size="8" maxlength="20" />
+<input type="text" name="ContentClass_ezidentifier_start_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="20" />
 </div>
 <div class="break"></div>
 </div>
