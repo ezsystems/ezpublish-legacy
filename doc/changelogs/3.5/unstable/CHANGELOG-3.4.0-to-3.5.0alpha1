@@ -21,6 +21,7 @@ eztc.php:
 - Supported nested list for datatype ezxmltext.
 
 *Bugs
+- Fixed bug in when editing XML lists. It included some code as text.
 - Fixed template code generation bug where attribute view code was not generated.
 - Fixed assign limited on subtree bug, merged from stable/3.4 rev. 6789.
   http://ez.no/community/bug_reports/role_assignment_with_limitation_not_working

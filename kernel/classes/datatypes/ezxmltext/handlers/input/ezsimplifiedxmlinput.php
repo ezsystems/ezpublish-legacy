@@ -1895,9 +1895,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     $liClassName = $listItemNode->attributeValue( 'class' );
                     if ( $liClassName != null )
-                        $listContent .= "  <li class='$liClassName'>trim($listItemContent)</li>\n";
+                        $listContent .= "  <li class='$liClassName'>" . trim($listItemContent) . "</li>\n";
                     else
-                        $listContent .= "  <li>trim($listItemContent)</li>\n";
+                        $listContent .= "  <li>" . trim($listItemContent). "</li>\n";
                 }
                 if ( $className != null )
                     $output .= "<$tagName class='$className'>\n$listContent</$tagName>" .  "\n";
