@@ -145,7 +145,6 @@ div#maincol
 
 div#maincol div.design div#innercontent
 {
-    display: table;
     width: 100%;
 }
 
@@ -607,6 +606,7 @@ div#categorylist h2
     padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    padding-right: 5px;
 }
 
 #archive .header, #category .header
