@@ -1,5 +1,5 @@
 <form action={concat("content/urltranslator/")|ezurl} method="post" >
-<h1>URL translator</h1>
+<h1>{'URL translator'|i18n('design/standard/content')}</h1>
 
 <table>
 {section name=Alias loop=$alias_list show=$alias_list}
@@ -20,14 +20,14 @@
          item_limit=$alias_limit}
 
 
-<input type="submit" name="StoreURLAliasButton" value="Store" />
+<input type="submit" name="StoreURLAliasButton" value="{'Store'|i18n('design/standard/content')}" />
 
 <table class="list">
 <tr>
     <td class="bglight">
     <input type="text" name="NewURLAliasSouce" value="" />
     <input type="text" name="NewURLAliasDestination" value="" />
-    <input type="submit" name="NewURLAliasButton" value="Add" />
+    <input type="submit" name="NewURLAliasButton" value="{'Add'|i18n('design/standard/content')}" />
     </td>
 </tr>
 </table>

@@ -3,9 +3,13 @@
 {literal}
 function checkAll()
 {
-    if ( document.trashaction.selectall.value == "Select all" )
+{/literal}
+    if ( document.trashaction.selectall.value == "{'Select all'|i18n('design/standard/content/trash')}" )
+{literal}
     {
-        document.trashaction.selectall.value = "Deselect all";
+{/literal}
+        document.trashaction.selectall.value = "{'Deselect all'|i18n('design/standard/content/trash')}";
+{literal}
         with (document.trashaction) 
 	{
             for (var i=0; i < elements.length; i++) 
@@ -17,7 +21,9 @@ function checkAll()
      }
      else
      {
-         document.trashaction.selectall.value = "Select all";
+{/literal}
+         document.trashaction.selectall.value = "{'Select all'|i18n('design/standard/content/trash')}";
+{literal}
          with (document.trashaction) 
 	 {
             for (var i=0; i < elements.length; i++) 
@@ -87,7 +93,7 @@ function checkAll()
   <td colspan="3">
   </td>
   <td colspan="3" align="right">
-    <input name="selectall" onclick=checkAll() type="button" value="Select all">
+    <input name="selectall" onclick=checkAll() type="button" value="{'Select all'|i18n('design/standard/content/trash')}">
     <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/trash')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
