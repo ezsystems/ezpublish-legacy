@@ -130,10 +130,11 @@ var VisibleMenus = new Array();
  */
 function ezpopmnu_showTopLevel( menuID, nodeID, objectID, menuHeader )
 {
-    if( !document.getElementById( menuID ) )return;
+    if( !document.getElementById( menuID ) ) return;
 
-    if ( nodeID >= 0 )
+    if ( nodeID >= 0 ) // new topmenu
     { 
+	ezpopmnu_hideAll();
         CurrentNodeID = nodeID;
         CurrentObjectID = objectID;
     }
