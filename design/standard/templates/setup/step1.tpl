@@ -3,7 +3,7 @@
     <title>eZ publish Setup - Step {$step}</title>
     <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
     <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />	
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />    
 </head>
 <body>
 
@@ -15,10 +15,11 @@
     <hr width="50%" />
     <table border="0" cellspacing="5" cellpadding="5">
     <tr>
-        <td></td>
-        <td align="center"><b>Requirement</b></td>
-        <td align="center"><b>Status</b></td>
-        <td align="center"><b>Pass</b></td>
+        <td align="left" valign="top"></td>
+        <td align="center" valign="top"><b>Requirement</b></td>
+        <td align="center" valign="top"><b>Status</b></td>
+        <td align="center" valign="top"><b>Pass</b></td>
+        <td align="left" valign="top"></td>
     </tr>
 {section name=items loop=$itemsResult}
     <tr>
@@ -26,6 +27,7 @@
         <td align="center">{$items:item.req}</td>
         <td align="center">{$items:item.status}</td>
         <td align="center" class="{$items:item.class}">{$items:item.pass}</td>                
+        <td align="left">{$items:item.warning}</td>
     </tr>
 {/section}
     </table>
