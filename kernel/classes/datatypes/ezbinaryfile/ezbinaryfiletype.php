@@ -262,7 +262,6 @@ class eZBinaryFileType extends eZDataType
                 $binary =& eZBinaryFile::create( $contentObjectAttributeID, $version );
 
             $orig_dir = $binaryFile->storageDir( "original" );
-            eZDebug::writeNotice( "dir=$orig_dir" );
 
             $binary->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
             $binary->setAttribute( "version", $version );

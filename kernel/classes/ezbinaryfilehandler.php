@@ -56,7 +56,7 @@ define( "EZ_BINARY_FILE_TYPE_MEDIA", 2 );
 
 define( "EZ_BINARY_FILE_RESULT_OK", 1 );
 define( "EZ_BINARY_FILE_RESULT_UNAVAILABLE", 2 );
-                                     
+
 class eZBinaryFileHandler
 {
     function eZBinaryFileHandler( $identifier, $name, $handleType )
@@ -66,17 +66,17 @@ class eZBinaryFileHandler
         $this->Info['name'] = $name;
         $this->Info['handle-type'] = $handleType;
     }
-    
+
     function attributes()
     {
         return array_keys( $this->Info );
     }
-    
+
     function hasAttribute( $attribute )
     {
         return isset( $this->Info[$attribute] );
     }
-    
+
     function &attribute( $attribute )
     {
         if ( isset( $this->Info[$attribute] ) )
@@ -110,7 +110,7 @@ class eZBinaryFileHandler
     {
         return false;
     }
-    
+
     function storedFilename( &$binary )
     {
         $origDir = eZSys::storageDirectory() . '/original';
@@ -118,22 +118,22 @@ class eZBinaryFileHandler
         $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
         return $fileName;
     }
-    
+
     function handleUpload()
     {
         return false;
     }
-    
+
     function handleDownload( &$contentObject, &$contentObjectAttribute, $type )
     {
         return false;
     }
-    
+
     function repositories()
     {
         return array( 'kernel/classes/binaryhandlers' );
     }
-    
+
     function &instance( $identifier = false )
     {
         if ( $identifier === false )
@@ -150,7 +150,6 @@ class eZBinaryFileHandler
             foreach ( $repositories as $repository )
             {
                 $file = eZDir::path( array( $repository, $handlerDirectory, $handlerFilename ) );
-                eZDebug::writeDebug( $file );
                 if ( file_exists( $file ) )
                 {
                     include_once( $file );
@@ -164,7 +163,7 @@ class eZBinaryFileHandler
         }
         return $instance;
     }
-    
+
     /// \privatesection
     var $Info;
 }
