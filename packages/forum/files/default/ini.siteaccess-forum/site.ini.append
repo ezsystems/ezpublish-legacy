@@ -8,6 +8,7 @@
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
+IndexPage=/content/view/full/2
 ErrorHandler=displayerror
 LoginPage=custom
 

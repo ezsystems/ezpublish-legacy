@@ -5,34 +5,34 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1061280149">gallery</name>
-  <summary modified="1061280162">Gallery site</summary>
+  <name modified="1061290714">gallery</name>
+  <summary modified="1061290730">Gallery site</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1061280149">
+    <maintainer modified="1061290714">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1061280149</timestamp>
+    <timestamp>1061290714</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1061280149" />
+              modified="1061290714" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1061280149"
+    <entry timestamp="1061290714"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1061280149">
+           modified="1061290714">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -40,7 +40,7 @@ Upgrades to the development format will not be supported.</warning>
     <collection name="default">
       <file-list type="design"
                  design="gallery"
-                 modified="1061280149" />
+                 modified="1061290714" />
       <file-list type="ini"
                  role="siteaccess"
                  role-value="gallery"
@@ -48,11 +48,11 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/gallery/override.ini.append"
               md5sum="15f8d5b4559939731f7a834ada52cd7c"
-              modified="1061280150" />
+              modified="1061290715" />
         <file name="site.ini.append"
               path="settings/siteaccess/gallery/site.ini.append"
-              md5sum="d5ba003ece2aa32d54bc573bd67fb6f6"
-              modified="1061280150" />
+              md5sum="8d3ef9eef47688fcc950d056a0b80662"
+              modified="1061290716" />
       </file-list>
       <file-list type="ini"
                  role="siteaccess"
@@ -61,112 +61,112 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/admin/override.ini.append"
               md5sum="50f4805254652ccea3c0191a23ce5c21"
-              modified="1061280151" />
+              modified="1061290716" />
         <file name="site.ini.append"
               path="settings/siteaccess/admin/site.ini.append"
               md5sum="275939f14d668221e40aca876209892f"
-              modified="1061280152" />
+              modified="1061290717" />
       </file-list>
       <file-list type="file">
         <file name="php2Kecsf.jpg"
               sub-directory="var/storage/original/image"
               path="var/storage/original/image/php2Kecsf.jpg"
               md5sum="1250ca1dc055130a8836649dd8b9e0fa"
-              modified="1061280155" />
+              modified="1061290720" />
         <file name="phpRFANTu.jpg"
               sub-directory="var/storage/original/image"
               path="var/storage/original/image/phpRFANTu.jpg"
               md5sum="216fbd307b1341521743d72936ee1940"
-              modified="1061280155" />
+              modified="1061290721" />
         <file name="phph8inGr.jpg"
               sub-directory="var/storage/original/image"
               path="var/storage/original/image/phph8inGr.jpg"
               md5sum="dc0abff38b849d0ad05d4921a93e9347"
-              modified="1061280156" />
+              modified="1061290722" />
         <file name="phpUQzr4Z.jpg"
               sub-directory="var/storage/original/image"
               path="var/storage/original/image/phpUQzr4Z.jpg"
               md5sum="f90fb05654496543fb41a3bf9b4de592"
-              modified="1061280157" />
+              modified="1061290723" />
         <file name="php2Kecsf.jpg"
               sub-directory="var/storage/reference/image"
               path="var/storage/reference/image/php2Kecsf.jpg"
               md5sum="fba642618aa68dc4c4a9b72a2d14c4a4"
-              modified="1061280158" />
+              modified="1061290724" />
         <file name="phpRFANTu.jpg"
               sub-directory="var/storage/reference/image"
               path="var/storage/reference/image/phpRFANTu.jpg"
               md5sum="216fbd307b1341521743d72936ee1940"
-              modified="1061280159" />
+              modified="1061290725" />
         <file name="phph8inGr.jpg"
               sub-directory="var/storage/reference/image"
               path="var/storage/reference/image/phph8inGr.jpg"
               md5sum="a94bbce2155a67f350b8b25e21acae27"
-              modified="1061280160" />
+              modified="1061290726" />
         <file name="phpUQzr4Z.jpg"
               sub-directory="var/storage/reference/image"
               path="var/storage/reference/image/phpUQzr4Z.jpg"
               md5sum="ebf5bde8e7d6adaeb6422a50052d6e67"
-              modified="1061280160" />
+              modified="1061290728" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
               path="gallerythumbnail.png"
               md5sum="7cb8dda550bd33191330e7e77eaff024"
-              modified="1061280161" />
+              modified="1061290729" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1061280149">1.0</number>
-    <release modified="1061280149">1</release>
+    <number modified="1061290714">1.0</number>
+    <release modified="1061290714">1</release>
   </version>
-  <licence modified="1061280149">GPL</licence>
-  <state modified="1061280149">alpha</state>
+  <licence modified="1061290714">GPL</licence>
+  <state modified="1061290714">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1061280149" />
+               modified="1061290714" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1061280153" />
+               modified="1061290718" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061280153" />
+               modified="1061290719" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061280154" />
+               modified="1061290720" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061280149"
+          modified="1061290714"
           collection="default" />
     <item type="sql"
-          modified="1061280152"
+          modified="1061290718"
           filename="gallery.sql"
           original-path="packages/gallery.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1061280153"
+          modified="1061290719"
           filename="kernel_schema.sql"
           original-path="kernel/sql/postgresql/kernel_schema.sql"
           database-type="postgresql" />
     <item type="sql"
-          modified="1061280154"
+          modified="1061290720"
           filename="cleandata.sql"
           original-path="kernel/sql/postgresql/cleandata.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061280149"
+          modified="1061290714"
           collection="default" />
   </uninstall>
 </package>

@@ -5,34 +5,34 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1061280140">bookshop</name>
-  <summary modified="1061280147">Bookshop site</summary>
+  <name modified="1061290705">bookshop</name>
+  <summary modified="1061290712">Bookshop site</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1061280140">
+    <maintainer modified="1061290705">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1061280140</timestamp>
+    <timestamp>1061290705</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1061280140" />
+              modified="1061290705" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1061280140"
+    <entry timestamp="1061290705"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1061280140">
+           modified="1061290705">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -40,7 +40,7 @@ Upgrades to the development format will not be supported.</warning>
     <collection name="default">
       <file-list type="design"
                  design="bookshop"
-                 modified="1061280141" />
+                 modified="1061290706" />
       <file-list type="ini"
                  role="siteaccess"
                  role-value="bookshop"
@@ -48,11 +48,11 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/bookshop/override.ini.append"
               md5sum="f8c12a1d1fdd3a5d2641cc0550fad47e"
-              modified="1061280142" />
+              modified="1061290707" />
         <file name="site.ini.append"
               path="settings/siteaccess/bookshop/site.ini.append"
-              md5sum="09670ba3e6acb6b2f56955dfdc05de80"
-              modified="1061280142" />
+              md5sum="4b8eaa48c3b8ff6128e489c4740bdfeb"
+              modified="1061290707" />
       </file-list>
       <file-list type="ini"
                  role="siteaccess"
@@ -61,70 +61,70 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/admin/override.ini.append"
               md5sum="50f4805254652ccea3c0191a23ce5c21"
-              modified="1061280143" />
+              modified="1061290708" />
         <file name="site.ini.append"
               path="settings/siteaccess/admin/site.ini.append"
               md5sum="275939f14d668221e40aca876209892f"
-              modified="1061280144" />
+              modified="1061290709" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
               path="bookshopthumbnail.png"
               md5sum="007b20683393451b5b7fd458b3ee612b"
-              modified="1061280146" />
+              modified="1061290712" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1061280140">1.0</number>
-    <release modified="1061280140">1</release>
+    <number modified="1061290705">1.0</number>
+    <release modified="1061290705">1</release>
   </version>
-  <licence modified="1061280140">GPL</licence>
-  <state modified="1061280140">alpha</state>
+  <licence modified="1061290705">GPL</licence>
+  <state modified="1061290705">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1061280141" />
+               modified="1061290706" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1061280144" />
+               modified="1061290709" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061280145" />
+               modified="1061290710" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061280146" />
+               modified="1061290711" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061280141"
+          modified="1061290706"
           collection="default" />
     <item type="sql"
-          modified="1061280144"
+          modified="1061290709"
           filename="bookshop.sql"
           original-path="packages/bookshop.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1061280145"
+          modified="1061290710"
           filename="kernel_schema.sql"
           original-path="kernel/sql/postgresql/kernel_schema.sql"
           database-type="postgresql" />
     <item type="sql"
-          modified="1061280146"
+          modified="1061290711"
           filename="cleandata.sql"
           original-path="kernel/sql/postgresql/cleandata.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061280141"
+          modified="1061290706"
           collection="default" />
   </uninstall>
 </package>
