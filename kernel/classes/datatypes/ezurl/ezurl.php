@@ -117,7 +117,12 @@ class eZURL extends eZPersistentObject
         }
         return $urlID;
     }
-    
+
+    /*!
+     \static
+     Updates the is_valid field of urls passed in \a $id.
+     \param $id Can either be an array with ids or just one id value.
+    */
     function setIsValid( $id, $isValid )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
@@ -126,6 +131,20 @@ class eZURL extends eZPersistentObject
                                                      'update_fields' => array( 'is_valid' => $isValid,
                                                                                'modified' => $dateTime ),
                                                      'conditions' => array( 'id' => $id ) ) );
+    }
+
+    /*!
+     Sets the modification date to \a $dateTime or the current
+     date if it's \c false.
+    */
+    function setModified( $dateTime = false )
+    {
+        if ( $dateTime === false )
+        {
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $dateTime = eZDateTime::currentTimeStamp();
+        }
+        $this->Modified = $dateTime;
     }
 
     /*!

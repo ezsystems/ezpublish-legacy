@@ -222,8 +222,12 @@ if ( $fixAttribute )
                 continue;
             unset( $content );
             $content =& $objectAttribute->content();
+            if ( !$content )
+                continue;
             unset( $xmlData );
             $xmlData = $content->attribute( 'xml_data' );
+            if ( !$xmlData )
+                continue;
             unset( $doc );
             $doc =& $xml->domTree( $xmlData );
             if ( $doc )
@@ -343,19 +347,22 @@ if ( $fixURL )
                 $contentObject =& eZContentObject::fetch( $contentObjectID );
                 $downloadURL = eZBinaryFileHandler::downloadURL( $contentObject, $contentObjectAttribute );
                 $url->setAttribute( 'url', $downloadURL );
-                if ( $fixErrors )
-                {
-                    $url->store();
-                    ++$fixedURLCount;
-                }
+                $url->setModified();
                 if ( $showDebug )
                     print( "correct download url: '$downloadURL/'\n" );
                 print( '*' );
             }
             else
             {
+                $url->setAttribute( 'is_valid', false );
+                $url->setModified();
                 print( '-' );
                 $failedURLArray[] = $url;
+            }
+            if ( $fixErrors )
+            {
+                $url->sync();
+                ++$fixedURLCount;
             }
         }
         else
