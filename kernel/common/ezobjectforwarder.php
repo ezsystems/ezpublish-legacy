@@ -87,6 +87,17 @@ class eZObjectForwarder
         $view_mode = "";
         $view_dir = "";
         $view_var = null;
+        $renderMode = false;
+        if ( isset( $rule["render_mode"] ) )
+        {
+            $renderMode = $rule["render_mode"];
+        }
+        if ( isset( $params['render-mode'] ) )
+        {
+            $renderMode =& $tpl->elementValue( $params['render-mode'], $rootNamespace, $currentNamespace, $functionPlacement );
+        }
+        if ( $renderMode )
+            $view_dir .= "/render-$renderMode";
         if ( $rule["use_views"] )
         {
             $view_var =& $rule["use_views"];
@@ -97,7 +108,7 @@ class eZObjectForwarder
             else
             {
                 $view_mode =& $tpl->elementValue( $params[$view_var], $rootNamespace, $currentNamespace, $functionPlacement );
-                $view_dir = "/" . $view_mode;
+                $view_dir .= "/" . $view_mode;
             }
         }
 

@@ -403,6 +403,65 @@ class eZDataType
         return $node;
     }
 
+    function allowedTypes()
+    {
+        $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];
+        if ( !is_array( $allowedTypes ) )
+        {
+            $contentINI =& eZINI::instance( 'content.ini' );
+            $dataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
+            $allowedTypes = array_unique( $dataTypes );
+        }
+        return $allowedTypes;
+    }
+
+    function loadAndRegisterAllTypes()
+    {
+        $allowedTypes =& eZDataType::allowedTypes();
+        foreach( $allowedTypes as $type )
+        {
+            eZDataType::loadAndRegisterType( $type );
+        }
+    }
+
+    function loadAndRegisterType( $type )
+    {
+        $types =& $GLOBALS["eZDataTypes"];
+        if ( isset( $types[$type] ) )
+        {
+            eZDebug::writeError( "Datatype already registered: $type", "eZDataType::loadAndRegisterType" );
+            return false;
+        }
+
+        include_once( 'kernel/classes/ezextension.php' );
+        $baseDirectory = eZExtension::baseDirectory();
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
+        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
+        foreach ( $extensionDirectories as $extensionDirectory )
+        {
+            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/datatypes';
+            if ( file_exists( $extensionPath ) )
+                $repositoryDirectories[] = $extensionPath;
+        }
+        $foundEventType = false;
+        foreach ( $repositoryDirectories as $repositoryDirectory )
+        {
+            $includeFile = "$repositoryDirectory/$type/" . $type . "type.php";
+            if ( file_exists( $includeFile ) )
+            {
+                $foundEventType = true;
+                break;
+            }
+        }
+        if ( !$foundEventType )
+        {
+            eZDebug::writeError( "Datatype not found: $type, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZDataType::loadAndRegisterType" );
+            return false;
+        }
+        include_once( $includeFile );
+        return true;
+    }
 
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
@@ -416,21 +475,24 @@ class eZDataType
 // include_once( "kernel/classes/datatypes/ezinteger/ezintegertype.php" );
 
 // include defined datatypes
-$ini =& eZINI::instance();
-$availableTypes =& $ini->variableArray( "DataTypeSettings", "AvailableDataTypes" );
 
-foreach ( $availableTypes as $type )
-{
-    $includeFile = "kernel/classes/datatypes/" . $type . "/" . $type ."type.php";
-    if ( file_exists( $includeFile ) )
-    {
-        include_once( $includeFile );
-    }
-    else
-    {
-        eZDebug::writeError( "Class type: $includeFile not found " );
-    }
+eZDataType::loadAndRegisterAllTypes();
 
-}
+// $contentINI =& eZINI::instance( 'content.ini' );
+// $availableTypes =& $contentINI->variable( "DataTypeSettings", "AvailableDataTypes" );
+
+// foreach ( $availableTypes as $type )
+// {
+//     $includeFile = "kernel/classes/datatypes/" . $type . "/" . $type ."type.php";
+//     if ( file_exists( $includeFile ) )
+//     {
+//         include_once( $includeFile );
+//     }
+//     else
+//     {
+//         eZDebug::writeError( "Class type: $includeFile not found " );
+//     }
+
+// }
 
 ?>

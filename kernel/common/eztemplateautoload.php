@@ -84,6 +84,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                                                     'content/datatype/view' ),
                                                                                              array( true,
                                                                                                     'content/datatype/edit' ) ) ),
+                                               'render_mode' => false,
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => '',

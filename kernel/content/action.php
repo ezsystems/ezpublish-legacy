@@ -77,8 +77,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 
     }
 }
-
-if ( $http->hasPostVariable( 'EditButton' )  )
+else if ( $http->hasPostVariable( 'EditButton' )  )
 {
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
@@ -95,8 +94,7 @@ if ( $http->hasPostVariable( 'EditButton' )  )
         return;
     }
 }
-
-if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
+else if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
 {
    if ( $http->hasPostVariable( 'ContentObjectID' ) )
    {
@@ -114,8 +112,7 @@ if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
        return;
     }
 }
-
-if ( $http->hasPostVariable( 'RemoveButton' ) )
+else if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'ViewMode' ) )
     {
@@ -144,8 +141,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         }
     }
 }
-
-if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
+else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
     include_once( 'kernel/classes/ezcontentcache.php' );
     if ( $http->hasPostVariable( 'Priority' ) and $http->hasPostVariable( 'PriorityID' ) )
@@ -197,23 +193,7 @@ if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
-
-/*if ( $http->hasPostVariable( 'RemoveObject' ) )
-{
-    $removeObjectID = $http->postVariable( 'RemoveObject' );
-    if ( is_numeric( $removeObjectID ) )
-    {
-        $contentObject = eZContentObject::fetch( $removeObjectID );
-        if ( $contentObject->attribute( 'can_remove' ) )
-        {
-            $contentObject->remove();
-        }
-    }
-    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
-    return;
-}*/
-
-if ( $http->hasPostVariable( "ContentObjectID" )  )
+else if ( $http->hasPostVariable( "ContentObjectID" )  )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
     $action = $http->postVariable( "ContentObjectID" );
@@ -241,9 +221,43 @@ if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
+        include_once( 'kernel/classes/ezextension.php' );
+        $baseDirectory = eZExtension::baseDirectory();
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );
+        foreach ( $extensionDirectories as $extensionDirectory )
+        {
+            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/actions/content_actionhandler.php';
+            if ( file_exists( $extensionPath ) )
+            {
+                include_once( $extensionPath );
+                $actionFunction = $extensionDirectory . '_ContentActionHandler';
+                if ( function_exists( $actionFunction ) )
+                {
+                    $actionResult = $actionFunction( $Module, $http, $objectID );
+                    if ( $actionResult )
+                        return $actionResult;
+                }
+            }
+        }
         eZDebug::writeError( "Unknown content object action", "kernel/content/action.php" );
     }
 }
+/*else if ( $http->hasPostVariable( 'RemoveObject' ) )
+{
+    $removeObjectID = $http->postVariable( 'RemoveObject' );
+    if ( is_numeric( $removeObjectID ) )
+    {
+        $contentObject = eZContentObject::fetch( $removeObjectID );
+        if ( $contentObject->attribute( 'can_remove' ) )
+        {
+            $contentObject->remove();
+        }
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
+    return;
+}*/
+
 
 // return module contents
 $Result = array();

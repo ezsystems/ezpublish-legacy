@@ -89,8 +89,9 @@ if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
     ob_end_clean();
     fpassthru( $fh );
     fflush();
-    exit();
-}else
+    eZExecution::cleanExit();
+}
+else
 {
     eZDebug::writeNotice( $binary, 'binary');
     eZDebug::writeNotice( $fileName, 'fileName');

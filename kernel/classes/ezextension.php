@@ -150,5 +150,23 @@ function lib_include( $libName, $name )
     return include_once( $include );
 }
 
+/*!
+*/
+function kernel_class( $name )
+{
+    $name = strtolower( $name );
+    $include = "kernel/classes/$name.php";
+    return include_once( $include );
+}
+
+/*!
+*/
+function kernel_common( $name )
+{
+    $name = strtolower( $name );
+    $include = "kernel/common/$name.php";
+    return include_once( $include );
+}
+
 
 ?>
