@@ -22,6 +22,9 @@ Match: {$:match}
 {/switch}*}
 
 {cache-block expiry=10 keys=$data}
-{sum(1,2,3)}
+The magic numer is:
+{let a=20}
+{sum(1,$a,3)}
+{/let}
 {/cache-block}
 

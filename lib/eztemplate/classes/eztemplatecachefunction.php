@@ -167,10 +167,10 @@ class eZTemplateCacheFunction
         $newNodes = array_merge( $newNodes, $children );
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
         $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        $code = "include_once( 'lib/ezutils/classes/ezdir.php' );
-\$ini =& eZINI::instance();
-\$perm = octdec( \$ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-eZDir::mkdir( $filedirText, \$perm, true );\n";
+        $ini =& eZINI::instance();
+        $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+        $code = "include_once( 'lib/ezfile/classes/ezdir.php' );
+eZDir::mkdir( $filedirText, $perm, true );\n";
         $code .= "\$fd = fopen( $filepathText, 'w' );\nfwrite( \$fd, '<?' );\nfwrite( \$fd, \"php\\n\\\$contentData = \\\"\" );\n";
         $code .= '$cachedText = str_replace( array( "\\\\", "\\"", "\\$", "\\n" ),' . "\n" .
              '                           array( "\\\\\\\\", "\\\\\\"", "\\\\$", "\\\\n" ),' . "\n" .
