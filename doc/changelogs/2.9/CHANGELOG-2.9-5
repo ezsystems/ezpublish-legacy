@@ -31,6 +31,7 @@ modfix:
   /cleanExit/ function in /eZExecution/.
 - Implemented basic framework for generic information collection ( forms/polls etc )
 - changed browse page. Now the path is shown like on other eZ Publish pages
+- change section assignments. Removed page before browse.
 *DateType :
 - Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
 

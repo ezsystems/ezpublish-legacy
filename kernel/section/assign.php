@@ -44,17 +44,6 @@ $Module =& $Params["Module"];
 $section =& eZSection::fetch( $SectionID );
 
 // Redirect to content node browse
-if ( $http->hasPostVariable( "BrowseNodeButton" )  )
-{
-    $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
-    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
-
-    $http->setSessionVariable( "BrowseActionName", "AssignSection" );
-    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
-
-    $Module->redirectTo( "/content/browse/2/" );
-    return;
-}
 
 // Assign section to subtree of node
 if ( $http->hasPostVariable( "BrowseActionName" ) and
@@ -67,6 +56,17 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $section->attribute( 'id' ) );
     }
+    $Module->redirectTo( "/section/list/" );
+}else
+{
+    $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
+    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
+
+    $http->setSessionVariable( "BrowseActionName", "AssignSection" );
+    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
+
+    $Module->redirectTo( "/content/browse/2/" );
+    return;
 }
 
 $tpl =& templateInit();
