@@ -718,6 +718,18 @@ class eZCLI
         }
         return $implementation;
     }
+
+    /*!
+     \return \c true if instance of eZCLI already exists otherwise \c false.
+    */
+    function hasInstance()
+    {
+        $implementation =& $GLOBALS['eZCLIInstance'];
+        if ( isset( $implementation ) && get_class( $implementation ) == 'ezcli' )
+            return true;
+
+        return false;
+    }
 }
 
 ?>
