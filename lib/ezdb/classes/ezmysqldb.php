@@ -183,7 +183,7 @@ class eZMySQLDB extends eZDBInterface
 
             if ( $limit !== false and is_numeric( $limit ) )
             {
-                $sql .= " LIMIT $offset, $limit ";
+                $sql .= "\nLIMIT $offset, $limit ";
             }
             $result =& $this->query( $sql );
 
