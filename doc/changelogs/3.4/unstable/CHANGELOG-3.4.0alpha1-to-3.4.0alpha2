@@ -21,6 +21,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Added 'Delayed Indexing' of published objects; when activated a lost of not 
   indexed objects are kept, and being processed by a cronjob.
 - Added missing definition of class_identifier in eZContentObject which made hasAttribute() always return false. This made it impossible to have class identifier overrides of node children.
+- Added {$requested_uri_string} variable to pagelayout which will contain the untranslated requested URL. Useful for keys and subtree checks.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.

@@ -403,6 +403,7 @@ while ( $moduleRunRequired )
 {
     $objectHasMovedError = false;
     $objectHasMovedURI = false;
+    $actualRequestedURI = $uri->uriString();
     // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
@@ -411,6 +412,7 @@ while ( $moduleRunRequired )
         include_once( 'kernel/classes/ezurlalias.php' );
         $userParameters = $uri->userParameters();
         $translateResult =& eZURLAlias::translate( $uri );
+
 
         if ( !$translateResult )
         {
@@ -832,6 +834,7 @@ if ( $show_page_layout )
 
         $tpl->setVariable( 'navigation_part', $navigationPart );
         $tpl->setVariable( 'uri_string', $uri->uriString() );
+        $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }
