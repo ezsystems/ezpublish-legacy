@@ -58,6 +58,27 @@
     {/section}
 {/section}
 
+<h2>Children</h2>
+
+<div class="buttonblock">
+    {switch match=$content_object.can_create}
+    {case match=1}
+        <input type="hidden" name="NodeID" value="{$node.node_id}" />
+        <select name="ClassID">
+        {section name=Classes loop=$content_object.can_create_class_list}
+            <option value="{$:item.id}">{$:item.name|wash}</option>
+        {/section}
+        </select>
+        <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+    {/case}
+    {case match=0}
+    {/case}
+    {/switch}
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+    <input type="hidden" name="ViewMode" value="full" />
+</div>
+
 {section show=$with_children}
     {let name=Child
         children=fetch( content, list, hash( parent_node_id, $node.node_id,
@@ -71,7 +92,6 @@
 
     {section show=$:children}
 
-        <h2>Children</h2>
         {section loop=$:children}
             {section show=$:item.object.can_remove}
                 {set can_remove=true()}
@@ -86,25 +106,6 @@
 
         {set can_copy=$content_object.can_create}
 
-        <div class="buttonblock">
-            {switch match=$content_object.can_create}
-            {case match=1}
-                <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                <select name="ClassID">
-                {section name=Classes loop=$content_object.can_create_class_list}
-                    <option value="{$:item.id}">{$:item.name|wash}</option>
-                {/section}
-                </select>
-                <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-            {/case}
-            {case match=0}
-            {/case}
-            {/switch}
-
-            <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input type="hidden" name="ViewMode" value="full" />
-        </div>
 
 
         <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
