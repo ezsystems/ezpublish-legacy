@@ -38,14 +38,14 @@
 
 <p>
 One of the most powerful features of eZ publish 3 is that you can create custom workflow.
-Worflow is a mechanism implemented to give a possibility to customize or add new fitures to operations in eZ Publish.
-For example: add some additional actions to publishing routing or some additional steps on viewing objects.
+Workflow is a mechanism that makes it possible to customize or add new features to operations in eZ Publish.
+For example: add some additional actions to publish routing or some additional steps to view objects.
 </p>
 
 <p>
-Workflows should be connected to defined eZ Publish operations ( for now there are only two defined operations in content module: "Read"  and "Publish" ) with triggers.
+Workflows should be connected to defined eZ Publish operations ( there are only two defined operations in content module currently: "Read"  and "Publish" ) with triggers.
 For each defined operation eZ Publish kernel tries to execute two triggers. One - before the actual operation body is executed and another after that. Trigger is just a row in database in table eztrigger.
-Table defenition:
+Table definition:
 <pre class="example">
 
 CREATE TABLE eztrigger (
@@ -59,7 +59,7 @@ CREATE TABLE eztrigger (
 ) TYPE=MyISAM;
 
 </pre>
-Filed "name" is name of trigger, smth. like "pre_publish", "pre_read". Fields module_name and function_name is the names of module and function for which  system will start executing workflow. 
+Field "name" is the name of trigger, such as "pre_publish", "pre_read". Fields module_name and function_name are the names of module and function for which system will start executing workflow.
 </p>
 
 <h2> "Operations"   understanding </h2>
