@@ -359,6 +359,8 @@ class eZTemplateLogicOperator
                     $cnt = count( $value->attributes() );
                 else if ( is_numeric( $value ) )
                     $cnt = $value;
+                else if ( is_string( $value ) )
+                    $cnt = strlen( $value );
                 else
                 {
                     $tpl->warning( $operatorName, "Unsupported type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );

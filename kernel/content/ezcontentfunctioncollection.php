@@ -110,6 +110,16 @@ class eZContentFunctionCollection
         return array( 'result' => &$translationList );
     }
 
+    function &fetchLocaleList()
+    {
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $localeList =& eZLocale::localeList();
+        if ( $localeList === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$localeList );
+    }
+
     function &fetchObject( $objectID )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );

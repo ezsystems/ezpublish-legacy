@@ -60,8 +60,7 @@ class eZContentTranslation extends eZPersistentObject
                                          "locale" => "Locale",
                                          ),
                       "keys" => array( "id" ),
-//                      "function_attributes" => array(
-//                                                      ),
+                      "function_attributes" => array( 'locale_object' => 'localeObject' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZContentTranslation",
@@ -79,10 +78,40 @@ class eZContentTranslation extends eZPersistentObject
     {
     }
 
+    function hasAttribute( $attribute )
+    {
+        return ( $attribute == 'locale_object' or
+                 eZPersistentObject::hasAttribute( $attribute ) );
+    }
+
+    function &attribute( $attribute )
+    {
+        if ( $attribute == 'locale_object' )
+            return $this->localeObject();
+        else
+            return eZPersistentObject::attribute( $attribute );
+    }
+
+    function &localeObject()
+    {
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale =& eZLocale::instance( $this->Locale );
+        return $locale;
+    }
+
     function fetch( $translationID )
     {
         return eZPersistentObject::fetchObject( eZContentTranslation::definition(),
                                                 null, array('id' => $translationID ), true);
+    }
+
+    function hasTranslation( $translation )
+    {
+        $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
+                                                                 null, array( 'locale' => $translation ), null,null,
+                                                                 false );
+        eZDebug::writeDebug( $translationList, 'translationList' );
+        return $translationList !== null and count( $translationList ) > 0;
     }
 
     function &fetchList()

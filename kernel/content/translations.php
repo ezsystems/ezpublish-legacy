@@ -57,13 +57,30 @@ if ( $Module->isCurrentAction( 'New' ) )//|| $http->hasPostVariable( 'NewButton'
     return;
 }
 
-if ( $Module->isCurrentAction( 'StoreNew' ) || $http->hasPostVariable( 'StoreButton' ) )
+if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'StoreButton' ) */ )
 {
-    $translationName = $Module->actionParameter( 'TranslationName' );
-    $translationLocale = $Module->actionParameter( 'TranslationLocale' );
-    $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
-    $translation->store();
-    $translation->updateObjectNames();
+    $localeID = $Module->actionParameter( 'LocaleID' );
+    $translationName = '';
+    $translationLocale = '';
+    eZDebug::writeDebug( $localeID, 'localeID' );
+    if ( $localeID != '' and
+         $localeID != -1 )
+    {
+        $translationLocale = $localeID;
+    }
+    else
+    {
+        $translationName = $Module->actionParameter( 'TranslationName' );
+        $translationLocale = $Module->actionParameter( 'TranslationLocale' );
+        eZDebug::writeDebug( $translationName, 'translationName' );
+        eZDebug::writeDebug( $translationLocale, 'translationLocale' );
+    }
+    if ( !eZContentTranslation::hasTranslation( $translationLocale ) )
+    {
+        $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
+        $translation->store();
+        $translation->updateObjectNames();
+    }
 }
 
 if ( $Module->isCurrentAction( 'Confirm' ) )
@@ -86,7 +103,6 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     $totalRemoveTranslation = 0;
     foreach ( $seletedIDList as $translationID )
     {
-
         $translation =& eZContentTranslation::fetch( $translationID );
         $translatedObjectsCount = $translation->translatedObjectsCount();
         if ( $translatedObjectsCount == 0 )
@@ -114,6 +130,12 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     }
 }
 $translations = eZContentTranslation::fetchList();
+foreach ( array_keys( $translations ) as $translationKey )
+{
+    $translation =& $translations[$translationKey];
+    if ( $translation->attribute( 'id' ) === null )
+        $translation->store();
+}
 
 $tpl->setVariable( 'existing_translations', $translations );
 $tpl->setVariable( 'module', $Module );

@@ -1084,7 +1084,7 @@ class eZLocale
         if ( !is_array( $languages ) )
         {
             $languages = array();
-            $dir = opendir( 'share/locale/language' );
+            $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
             {
                 if ( preg_match( "/^(.+)\.ini$/", $file, $regs ) )
@@ -1096,6 +1096,19 @@ class eZLocale
             sort( $languages );
         }
         return $languages;
+    }
+
+    function localeList()
+    {
+        $localeList = array();
+        $languageList = eZLocale::languageList();
+        foreach ( $languageList as $language )
+        {
+            $localeObject =& eZLocale::instance( $language );
+            if ( $localeObject !== null )
+                $localeList[] =& $localeObject;
+        }
+        return $localeList;
     }
 
     /*!
