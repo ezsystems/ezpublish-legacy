@@ -1,4 +1,4 @@
-Changes from 3.2-1 to 3.3.0-1
+Changes from 3.2-3 to 3.3.0-1
 
 
 *Kernel:
@@ -73,11 +73,15 @@ eZ template:
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.
 - Added outputhandler to handle PDF output
+- Added escaping of attribute values.
 
 eZ image:
 - The image system has been rewritten to be more flexible, stable, faster and simpler to use.
   This means a new image manager system, a new image alias system (replacements for variations)
   and a better abstraction for image handlers (classes for converters).
+- Added support for image analysis and MIME type overrides. This means that animated GIFs are now possible.
+  Currently GIF and EXIF analysis is available, the information from the analysis is also available
+  in the templates.
 
 eZ utils:
 - The store function in eZHTTPFile can now take a MIME data structure which is used

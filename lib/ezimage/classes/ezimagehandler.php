@@ -266,8 +266,10 @@ class eZImageHandler
      \static
      Creats a regexp string out of the wildcard \a $wilcard and returns it.
     */
-    function wildcardToRegexp( $wildcard )
+    function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
+        if ( !$separatorCharacter )
+            $separatorCharacter = '#';
         $wildcardArray = preg_split( "#[*]#", $wildcard, -1, PREG_SPLIT_DELIM_CAPTURE );
         $wildcardList = array();
         $i = 0;
@@ -276,7 +278,7 @@ class eZImageHandler
             if ( ( $i % 2 ) == 1 )
                 $wildcardList[] = '(.+)';
             else
-                $wildcardList[] = preg_quote( $wildcardElement, '#' );
+                $wildcardList[] = preg_quote( $wildcardElement, $separatorCharacter );
             ++$i;
         }
         $wildcardString = implode( '', $wildcardList );

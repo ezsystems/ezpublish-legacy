@@ -632,7 +632,15 @@ class eZDOMNode
                             $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $this->Name ) + 1 + 1  );
                         else
                             $attrStr .= ' ';
-                        $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\"";
+
+                        $attrContent = $attr->content();
+                        $attrContent =& str_replace( "&", "&amp;", $attrContent );
+                        $attrContent =& str_replace( ">", "&gt;", $attrContent );
+                        $attrContent =& str_replace( "<", "&lt;", $attrContent );
+                        $attrContent =& str_replace( "'", "&apos;", $attrContent );
+                        $attrContent =& str_replace( '"', "&quot;", $attrContent );
+
+                        $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attrContent . "\"";
                         ++$i;
                     }
                 }

@@ -427,6 +427,11 @@ class eZMimeType
     /// An associative array which maps MIME type name to MIME structure.
     var $MIMEList;
 
+    var $QuickContentMatch = array(
+        array( array( 0, 'string', 'GIF87a', 'image/gif' ),
+               array( 0, 'string', 'GIF89a', 'image/gif' ) )
+        );
+
     /// A list of suffixes and their MIME types, this is used to quickly initialize the system.
     /// Should be removed to a .ini file or other external file
     var $QuickMIMETypes = array(

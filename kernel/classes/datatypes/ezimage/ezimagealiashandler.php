@@ -486,6 +486,16 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $aliasList[$aliasName]['alternative_text'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( $aliasName ) ) ) );
 
+        $filename = $aliasList[$aliasName]['filename'];
+        if ( $filename )
+        {
+            $mimeData =& eZMimeType::findByFileContents( $filename );
+
+            $imageManager->analyzeImage( $mimeData );
+
+            $this->createImageInformationNode( $imageNode, $mimeData );
+        }
+
         foreach ( array_keys( $aliasList ) as $aliasName )
         {
             if ( $aliasName == 'original' )
@@ -582,6 +592,7 @@ class eZImageAliasHandler
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
 
         $imageNodeArray =& $domTree->elementsByName( "ezimage" );
+        $imageInfoNodeArray =& $domTree->elementsByName( "information" );
         $imageVariationNodeArray =& $domTree->elementsByName( "alias" );
         $imageOriginalArray =& $domTree->elementsByName( "original" );
 
@@ -620,6 +631,14 @@ class eZImageAliasHandler
         $aliasEntry['is_valid'] = $imageNodeArray[0]->attributeValue( 'is_valid' );
         $aliasEntry['is_new'] = false;
 
+        $imageInformation = false;
+        if ( count( $imageInfoNodeArray ) > 0 )
+        {
+            $imageInfoNode =& $imageInfoNodeArray[0];
+            $this->parseInformationNode( $imageInfoNode, $imageInformation );
+        }
+        $aliasEntry['info'] =& $imageInformation;
+
         $serialNumber = $imageNodeArray[0]->attributeValue( 'serial_number' );
         if ( $serialNumber )
             $this->setImageSerialNumber( $serialNumber );
@@ -647,6 +666,7 @@ class eZImageAliasHandler
                 $aliasEntry['full_path'] =& $aliasEntry['url'];
                 $aliasEntry['is_new'] = false;
                 $aliasEntry['is_valid'] = $imageVariation->attributeValue( 'is_valid' );
+                $aliasEntry['info'] =& $imageInformation;
 
                 include_once( 'kernel/common/image.php' );
                 $imageManager =& imageInit();
@@ -658,6 +678,38 @@ class eZImageAliasHandler
         }
         $contentObjectAttribute->DataTypeCustom['alias_list'] =& $aliasList;
         return $aliasList;
+    }
+
+    function parseInformationNode( &$imageInfoNode, &$imageInformation )
+    {
+        $imageInformation = array();
+        $attributes =& $imageInfoNode->attributes();
+        foreach ( $attributes as $attribute )
+        {
+            $imageInformation[$attribute->name()] = $attribute->content();
+        }
+        $children =& $imageInfoNode->children();
+        foreach ( $children as $child )
+        {
+            if ( $child->name() == 'array' )
+            {
+                $name = $child->attributeValue( 'name' );
+                $items = $child->elementsByName( 'item' );
+                $array = array();
+                foreach ( $items as $item )
+                {
+                    $array[$item->attributeValue( 'key' )] = $item->textContent();
+                }
+                ksort( $array );
+                $imageInformation[$name] = $array;
+            }
+            else if ( $child->name() == 'serialized' )
+            {
+                $name = $child->attributeValue( 'name' );
+                $data = $child->attributeValue( 'data' );
+                $imageInformation[$name] = unserialize( $data );
+            }
+        }
     }
 
     function imageName( &$contentObjectAttribute, &$contentVersion )
@@ -750,6 +802,9 @@ class eZImageAliasHandler
         return $imagePath;
     }
 
+    /*!
+     Fetches image information from the old 3.2 image system and creates new information.
+    */
     function generateXMLData()
     {
         include_once( "lib/ezdb/classes/ezdb.php" );
@@ -883,6 +938,10 @@ class eZImageAliasHandler
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
 
+        $mimeData = eZMimeType::findByFileContents( $fileName );
+
+        $imageManager->analyzeImage( $mimeData );
+
         $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $isValid ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $fileName ) );
@@ -896,6 +955,8 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
+
+        $this->createImageInformationNode( $imageNode, $mimeData );
 
         $this->storeDOMTree( $doc );
 
@@ -992,6 +1053,8 @@ class eZImageAliasHandler
             $mimeData = $aliasList['original'];
         }
 
+        $imageManager->analyzeImage( $mimeData );
+
         $doc = new eZDOMDocument();
         $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
@@ -1025,10 +1088,62 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $imageAltText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
 
+        $this->createImageInformationNode( $imageNode, $mimeData );
+
         $this->setDOMTree( $doc );
 
         eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $mimeData['url'] );
         return true;
+    }
+
+    function createImageInformationNode( &$imageNode, &$mimeData )
+    {
+        if ( isset( $mimeData['info'] ) and
+             $mimeData['info'] )
+        {
+            $imageInfoNode =& eZDOMDocument::createElementNode( 'information' );
+            $info = $mimeData['info'];
+            foreach ( $info as $infoItemName => $infoItem )
+            {
+                if ( is_array( $infoItem ) )
+                {
+                    $hasScalarValues = true;
+                    foreach ( $infoItem as $infoArrayItem )
+                    {
+                        if ( is_array( $infoArrayItem ) )
+                        {
+                            $hasScalarValues = false;
+                            break;
+                        }
+                    }
+                    if ( !$hasScalarValues )
+                    {
+                        $serializedNode =& eZDOMDocument::createElementNode( 'serialized',
+                                                                             array( 'name' => $infoItemName,
+                                                                                    'data' => serialize( $infoItem ) ) );
+                        $imageInfoNode->appendChild( $serializedNode );
+                    }
+                    else
+                    {
+                        $arrayNode =& eZDOMDocument::createElementNode( 'array',
+                                                                        array( 'name' => $infoItemName ) );
+                        $imageInfoNode->appendChild( $arrayNode );
+                        foreach ( $infoItem as $infoArrayKey => $infoArrayItem )
+                        {
+                            $arrayItemNode =& eZDOMDocument::createElementNode( 'item',
+                                                                                array( 'key' => $infoArrayKey ) );
+                            $arrayItemNode->appendChild( eZDOMDocument::createTextNode( $infoArrayItem ) );
+                            $arrayNode->appendChild( $arrayItemNode );
+                        }
+                    }
+                }
+                else
+                {
+                    $imageInfoNode->appendAttribute( eZDOMDocument::createAttributeNode( $infoItemName, $infoItem ) );
+                }
+            }
+            $imageNode->appendChild( $imageInfoNode );
+        }
     }
 
     /*!

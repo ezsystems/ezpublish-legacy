@@ -37,6 +37,7 @@
 function &imageInit()
 {
     include_once( 'lib/ezimage/classes/ezimagemanager.php' );
+    include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
 //     include_once( 'lib/ezimage/classes/ezimageshell.php' );
 //     include_once( 'lib/ezimage/classes/ezimagegd.php' );
 
@@ -49,6 +50,9 @@ function &imageInit()
     $manager->readImageHandlersFromINI();
     $manager->readSupportedFormatsFromINI();
     $manager->readImageAliasesFromINI();
+    $manager->readMIMETypeSettingsFromINI();
+
+    eZImageAnalyzer::readAnalyzerSettingsFromINI();
 
     return $manager;
 

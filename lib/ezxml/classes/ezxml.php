@@ -401,6 +401,12 @@ class eZXML
                 // remove " from value part
                 $attributeValue = substr( $attributeValue, 0, strlen( $attributeValue ) - 1);
 
+                $attributeValue = str_replace( "&gt;", ">", $attributeValue );
+                $attributeValue = str_replace( "&lt;", "<", $attributeValue );
+                $attributeValue = str_replace( "&apos;", "'", $attributeValue );
+                $attributeValue = str_replace( "&quot;", '"', $attributeValue );
+                $attributeValue = str_replace( "&amp;", "&", $attributeValue );
+
                 // check for namespace definition
                 if ( $attributePrefix == "xmlns" )
                 {
