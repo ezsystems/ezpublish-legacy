@@ -595,7 +595,8 @@ if ( $show_page_layout )
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $moduleResult['path'];
-        $tmpModulePath[count($tmpModulePath)-1]['url'] = eZSys::requestURI();
+        $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $moduleResult['node_id'];
+
         $offset = 0;
         $sessionIDs = array ( 2,  // Sykepleierutdanning
                               4,  // Estetiske fag
@@ -612,15 +613,13 @@ if ( $show_page_layout )
                               15, // Høgskolebiblioteket
                               16  // Administrasjonen16
                               );
-	
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
-	else if ( $moduleResult['section_id']==19)  // English pages
+        else if ( $moduleResult['section_id']==19)  // English pages
             $offset = 1;
-        
-	while ( !$done )
-        {
 
+        while ( !$done )
+        {
             // get node id
             $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
             $nodeID = $elements[4];
