@@ -526,7 +526,7 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function lastSerialID( $table, $column )
+    function lastSerialID( $table = false, $column = false )
     {
         if ( $this->isConnected() )
         {

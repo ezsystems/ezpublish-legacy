@@ -14,6 +14,8 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed redirect bug when editing objects using workflows in apache 2. ( merged from stable 4518 )
   http://ez.no/developer/ez_publish_3/bug_reports/empty_page_after_editing_if_you_have_a_workflow_on_apache_2
 - Fixed pressing store button multiple times when editing classes. Will no longer cause strange behaviour in objects. ( merged from stable 4524 )
+- Fixed unset and missing parameter in eZDBInterface::lastSerialID implementations. ( merged from stable 4526 )
+  http://ez.no/developer/ez_publish_3/bug_reports/ezkeyword_lastserialid
 
 *RSS:
 
