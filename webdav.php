@@ -38,6 +38,8 @@
 
 ob_start();
 
+error_reporting ( E_ALL );
+
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
@@ -61,9 +63,34 @@ function eZUpdateDebugSettings()
 $ini =& eZINI::instance( 'webdav.ini' );
 $enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
 
+function eZDBCleanup()
+{
+    if ( class_exists( 'ezdb' )
+         and eZDB::hasInstance() )
+    {
+        $db =& eZDB::instance();
+        $db->setIsSQLOutputEnabled( false );
+    }
+}
+
+function eZFatalError()
+{
+    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    eZWebDAVServer::appendLogEntry( "****************************************" );
+    eZWebDAVServer::appendLogEntry( "Fatal error: eZ publish did not finish its request" );
+    eZWebDAVServer::appendLogEntry( "The execution of eZ publish was abruptly ended, the debug output is present below." );
+    eZWebDAVServer::appendLogEntry( "****************************************" );
+    $templateResult = null;
+//            eZDisplayResult( $templateResult, eZDisplayDebug() );
+}
+
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable == true )
 {
+    include_once( 'lib/ezutils/classes/ezexecution.php' );
+    eZExecution::addCleanupHandler( 'eZDBCleanup' );
+    eZExecution::addFatalErrorHandler( 'eZFatalError' );
+
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )
     {
@@ -79,15 +106,16 @@ if ( $enable == true )
     include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
+    eZWebDAVServer::appendLogEntry( "========================================" );
     eZWebDAVServer::appendLogEntry( "Requested URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
     // Initialize/set the index file.
     eZSys::init( 'webdav.php' );
 
     // The top/root folder is publicly available (without auth):
-    if ( $_SERVER['REQUEST_URI'] == ''  ||
-         $_SERVER['REQUEST_URI'] == '/' ||
-         $_SERVER['REQUEST_URI'] == '/webdav.php/' ||
+    if ( $_SERVER['REQUEST_URI'] == ''  or
+         $_SERVER['REQUEST_URI'] == '/' or
+         $_SERVER['REQUEST_URI'] == '/webdav.php/' or
          $_SERVER['REQUEST_URI'] == '/webdav.php' )
     {
         $testServer = new eZWebDAVContentServer();
@@ -105,8 +133,7 @@ if ( $enable == true )
         // Proceed only if the current site is valid:
         if ( $currentSite )
         {
-            // Change site to the site being browsed:
-            $server->setSiteAccess( $currentSite );
+            $server->setCurrentSite( $currentSite );
 
             $loginUsername = "";
             // Get the username and the password.
@@ -124,13 +151,15 @@ if ( $enable == true )
             if ( ( !isset( $loginUsername ) ) || ( !isset( $loginPassword ) ) ||
                  ( !eZUser::loginUser( $loginUsername, $loginPassword ) ) )
             {
-                header('HTTP/1.0 401 Unauthorized');
-                header('WWW-Authenticate: Basic realm="'.WEBDAV_AUTH_REALM.'"');
+                header( 'HTTP/1.0 401 Unauthorized' );
+                header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );
             }
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
-                eZWebDAVServer::appendLogEntry( "Logged in!", 'webdav.php' );
+                $user =& eZUser::currentUser();
+                $userName = $user->attribute( 'login' );
+                eZWebDAVServer::appendLogEntry( "Logged in: '$userName'", 'webdav.php' );
 
                 // Process the request.
                 $server->processClientRequest();
@@ -142,6 +171,9 @@ if ( $enable == true )
             header( "HTTP/1.1 404 Not Found" );
         }
     }
+
+    eZExecution::cleanup();
+    eZExecution::setCleanExit();
 }
 // Else: WebDAV functionality is disabled, do nothing...
 else
