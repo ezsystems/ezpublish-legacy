@@ -13,20 +13,27 @@
             {section show=is_set($is_root_node)}
                 {set isRootNode=$is_root_node}
             {/section}
-
             {section show=$skip_self_node|not()}
-                <li id="n{$:parentNode.node.node_id}"
-                {section show=and($:last_item, eq($parentNode.node.node_id, $current_node_id))}
-                    class="lastli currentnode"
-                {section-else}
-                    {section show=$:last_item}
-                        class="lastli"
-                    {/section}
-                    {section show=eq($parentNode.node.node_id, $current_node_id)}
-                        class="currentnode"
-                    {/section}
-                {/section}>
 
+                <li id="n{$:parentNode.node.node_id}"
+                {section show=eq($chapter_level,1)}
+                    {section show=eq($unfold_node,$parentNode.node.node_id)}
+                        class="topchapter-selected"
+                        {section-else}
+                        class="topchapter"
+                    {/section}
+
+                    {section-else}
+                    {section show=and($:last_item, eq($parentNode.node.node_id, $current_node_id))}
+                        class="lastli currentnode"
+                        {section-else}
+                        {section show=$:last_item}
+                            class="lastli"
+                        {/section}
+                        {section show=eq($parentNode.node.node_id, $current_node_id)}
+                            class="currentnode"
+                        {/section}
+                {/section}{/section}>
                 {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/simplified_treemenu')}"></a>
@@ -58,14 +65,14 @@
             {/section}
 
                 {* Show children *}
+                {set chapter_level=sum($chapter_level,1)}
                 {section show=$:haveChildren}
-                    <ul>
+<ul>
                         {section var=child loop=$:children}
-                            {include name=SubMenu uri="design:simplified_treemenu/show_simplified_menu.tpl" contentStructureTree=$:child last_item=eq( $child.number, $:numChildren ) skip_self_node=false() current_node_id=$current_node_id}
+                            {include name=SubMenu uri="design:simplified_treemenu/show_simplified_menu.tpl" contentStructureTree=$:child last_item=eq( $child.number, $:numChildren ) skip_self_node=false() current_node_id=$current_node_id chapter_level=$chapter_level unfold_node=$unfold_node}
                         {/section}
-                    </ul>
+</ul>
                 {/section}
-
             {section show=$skip_self_node|not()}
                 </li>
             {/section}
