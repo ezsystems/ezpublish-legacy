@@ -39,14 +39,11 @@
     <td width="700" height="67" valign="bottom" bgcolor="#FFFFFF"><span class="links"> 
       </span><a href="/content/view/full/24/"><img src={"images/news_top.gif"|ezdesign} width="700" height="67" border="0"></a></td>
   </tr>
-  
-
-
 <tr> 
 
 <td  valign="top" bgcolor="#FFFFFF">
 
-<table width="700"  border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
         <tr> 
           <td width="100" valign="top" bordercolor="#FFFFFF" bgcolor="#FF9900"> 
             <table width="84" border="0" align="center" cellpadding="3" cellspacing="1">
@@ -118,28 +115,23 @@
 
 </td>
       <td valign="top">      
-
-
-{$module_result.content}
-
-
-
-        </td>
+      {$module_result.content}
+      </td>
 
          <td width="145" rowspan="4" bgcolor="#FFF4EA" align="right" valign="top" class="links">
                 <table width="145" border="0" align="left">
-
-                <tr>             
+               <tr>             
                   <td valign="top" bgcolor="#FFFFFF">
                     <table width="145" border="0" align="right" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td width="145" height="19" align="left" valign="top" bgcolor="#663366"> 
-                     <div align="left">&nbsp;&nbsp;&nbsp;<font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FFFFFF">Latest 
-                          update....</font> </strong></font></div></td>
+                       <td width="145" height="19" align="left" valign="top" bgcolor="#663366"> 
+                       <div align="left">&nbsp;&nbsp;&nbsp;<font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FFFFFF">Latest 
+                          update....</font> </strong></font></div>
+                       </td>
                     </tr>
                   </table>
                  </td>
-              </tr> 
+              </tr>
 {section name=News loop=$news_list max=1}
 <tr>
 <td width="125" valign="top"  >
@@ -156,21 +148,21 @@
                      <a href="/content/view/news/{$News:item.node_id}">{$News:item.name}</a>
                 </td>
               </tr>
-{/section} 
-   
+{/section}   
        </table>
            </td>
        </tr>
    </table>
-          <table width="700" border="0" cellspacing="0" cellpadding="0">
+    </td>
+</tr>
+<tr>
+<td>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
               <td bgcolor="#000000">&nbsp;</td>
            </tr>
           </table>
-    </td>
-  
-
-
+</td>
 </tr>
 </table>
 </body>
