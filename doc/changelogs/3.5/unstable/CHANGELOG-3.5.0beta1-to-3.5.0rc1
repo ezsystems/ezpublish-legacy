@@ -131,6 +131,28 @@ eZDBSchema:
   not exceed 63 characters.
 - Added lint checker for DB schemas, this will make sure that the schema
   can be used for all databases supported by eZ publish.
+- Added support for schema transformation, these are transformations that are
+  done to and from the generic schema.
+- Redone the default and null handling for mysql and pgsql schema handlers,
+  the new code is stricter and produces more accurate results.
+- Added support specifying table storage type when dumping a schema to
+  SQL format. The option is called --table-type.
+- Added support for specifying the table charset with --table-charset when
+  dumping a schema to SQL format.
+- Added --compatible-sql option to ezsqldumpschema.php which makes the output
+  of SQL more similar to the ones used by their native dump programs.
+- Added detection of storage type (array or serialized) when reading schema
+  from files.
+- MySQL will now extract the length of index fields and store it in the schema
+  as mysql:length.
+- Changed handling of index fields to check if the entry is either a string
+  or array. If the field contains more information than the name it will be
+  an array.
+- Added --meta-data switch to ezsqldumpschema.php, if used the schema will
+  contain some meta-data specific to a database.
+- Fixed key generation in SQL files for MySQL, now it will have a KEY /
+  UNIQUE KEY / PRIMARY KEY( ... ) entry in the table schema instead
+  of separate ALTER TABLE entries.
 
 eZDB:
 - Database implementations can now have aliases, currently mysql points to
