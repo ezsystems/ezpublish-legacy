@@ -2338,9 +2338,7 @@ CREATE TABLE ezsubtree_expiry (
 
 
 
-CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
-CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
-CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
+
 
 
 CREATE SEQUENCE ezpaymentobject_s
@@ -2363,6 +2361,30 @@ CREATE TABLE ezpaymentobject (
     payment_string character varying(255) DEFAULT ''::character varying NOT NULL,
     status integer DEFAULT 0 NOT NULL
 );
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
 
 
 
