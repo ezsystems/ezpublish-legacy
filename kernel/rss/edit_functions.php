@@ -68,7 +68,18 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
         $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
         $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
-        $rssExportItem->store();
+        if( $publish )
+        {
+            $rssExportItem->setAttribute( 'status', 1 );
+            $rssExportItem->store();
+            // delete drafts
+            $rssExportItem->setAttribute( 'status', 0 );
+            $rssExportItem->remove();
+        }
+        else
+        {
+            $rssExportItem->store();
+        }
     }
     $rssExport =& eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ), true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->setAttribute( 'title', $http->postVariable( 'title' ) );

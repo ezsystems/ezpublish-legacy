@@ -157,6 +157,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'data_map' => 'dataMap',
                                                       "object" => "object",
                                                       "subtree" => "subTree",
+                                                      "subtree_multi_paths" => "subTreeMultiPaths",
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
@@ -230,7 +231,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-	 \return a map with all the content object attributes where the keys are the
+     \return a map with all the content object attributes where the keys are the
              attribute identifiers.
      \sa eZContentObject::fetchDataMap
     */
@@ -1544,7 +1545,196 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $retNodeList;
     }
-
+    
+    /*!
+    Retrieve subtrees from multiple paths.
+    
+    This method composes a list of objects retrieved from various node paths,
+    sorted by criteria that are globally applied to the whole list.
+    
+    It is for example useful for an RSS feed that serves content from
+    several node paths. The respective subtrees need to be amalgated and
+    the resulting object listed sorted by publishing date to show the latest
+    entries in chronological order.
+    
+    The first parameter is a multi-dimensional array containing the
+    node IDs and filter criteria assigned to each of the nodes:
+    
+    array(
+        [node_1] => array(
+                        'ClassFilterType' =>    [filter_type],
+                        'ClassFilterArray'  =>  [filter_array]
+                        ),
+         [node_2] => array(
+                        'ClassFilterType' =>    [filter_type],
+                        'ClassFilterArray'  =>  [filter_array]
+                        )
+         )
+    
+    The second parameter is a single-dimensional array with criteria
+    applied to the list of objects retrieved from the various subtrees:
+    
+    array(
+        'SortBy' => [sorting-criteria]
+        )
+    */
+    function &subTreeMultiPaths( $nodesParams, $listParams = NULL )
+    {
+        if( !is_array( $nodesParams ) || !count( $nodesParams ) )
+        {
+            return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+        }
+        
+        if( is_null( $listParams ) )
+        {
+            $listParams = array(
+                             'SortBy'                   => false,
+                             'Offset'                   => false,
+                             'Limit'                    => false,
+                             'SortBy'                   => false,
+                             'GroupBy'                  => false );
+        }
+        
+        $offset           = ( isset( $listParams['Offset'] ) && is_numeric( $listParams['Offset'] ) ) ? $listParams['Offset']             : false;
+        $limit            = ( isset( $listParams['Limit']  ) && is_numeric( $listParams['Limit']  ) ) ? $listParams['Limit']              : false;
+        $groupBy          = ( isset( $listParams['GroupBy']                                       ) ) ? $listParams['GroupBy']            : false;
+        if ( !isset( $listParams['SortBy'] ) )
+        {
+            $listParams['SortBy'] = false;
+        }
+        $sortBy = $listParams['SortBy'];
+        
+        $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+        
+        $queryNodes = '';
+        
+        foreach( $nodesParams as $nodeParams )
+        {
+            $nodeID = $nodeParams['ParentNodeID'];
+            
+            if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
+            {
+                return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+            }
+            
+            if ( is_null( $nodeParams ) )
+            {
+                $nodeParams = array(
+                                 'Depth'                    => false,
+                                 'OnlyTranslated'           => false,
+                                 'Language'                 => false,
+                                 'AttributeFilter'          => false,
+                                 'ExtendedAttributeFilter'  => false,
+                                 'ClassFilterType'          => false,
+                                 'ClassFilterArray'         => false );
+            }
+            
+            $onlyTranslated   = ( isset( $nodeParams['OnlyTranslated']    ) )                       ? $nodeParams['OnlyTranslated']     : false;
+            $language         = ( isset( $nodeParams['Language']          ) )                             ? $nodeParams['Language']           : false;
+            $depth            = ( isset( $nodeParams['Depth']  ) && is_numeric( $nodeParams['Depth']  ) ) ? $nodeParams['Depth']              : false;
+            $depthOperator    = ( isset( $nodeParams['DepthOperator']     ) )                         ? $nodeParams['DepthOperator']      : false;
+            $asObject         = ( isset( $nodeParams['AsObject']          ) )                         ? $nodeParams['AsObject']           : true;
+            $mainNodeOnly     = ( isset( $nodeParams['MainNodeOnly']      ) )                         ? $nodeParams['MainNodeOnly']       : false;
+            $ignoreVisibility = ( isset( $nodeParams['IgnoreVisibility']  ) )                         ? $nodeParams['IgnoreVisibility']   : false;
+            if ( !isset( $nodeParams['ClassFilterType'] ) )
+            {
+                $nodeParams['ClassFilterType'] = false;
+            }
+            
+            $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
+            $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
+            $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
+            $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+            
+            $pathStringCond     = '';
+            $notEqParentString  = '';
+            // If the node(s) doesn't exist we return null.
+            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator ) )
+            {
+                return null;
+            }
+            
+            $useVersionName     = true;
+            $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+            $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+            $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+            
+            $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
+            $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
+            $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+            
+            // Determine whether we should show invisible nodes.
+            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+            
+            $queryNodes .= " (
+                          $pathStringCond
+                          $extendedAttributeFilter[joins]
+                          $sortingInfo[attributeWhereSQL]
+                          $attributeFilter[where]
+                          ezcontentclass.version=0 AND
+                          $notEqParentString
+                          ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id AND
+                          $mainNodeOnlyCond
+                          $classCondition
+                          $versionNameJoins
+                          $showInvisibleNodesCond
+                          $sqlPermissionCheckingString
+                      )
+                      OR";
+        }
+        
+        $groupBySelectText  = '';
+        $groupByText        = '';
+        eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
+        
+        $query = "SELECT ezcontentobject.*,
+                       ezcontentobject_tree.*,
+                       ezcontentclass.name as class_name,
+                       ezcontentclass.identifier as class_identifier
+                       $groupBySelectText
+                       $versionNameTargets
+                       , ".$nodeParams['ResultID']." AS resultid
+                   FROM
+                      ezcontentobject_tree,
+                      ezcontentobject,ezcontentclass
+                      $versionNameTables
+                      $sortingInfo[attributeFromSQL]
+                      $attributeFilter[from]
+                      $extendedAttributeFilter[tables]
+                   WHERE
+                      ".substr($queryNodes, 0, -2)."
+                $groupByText";
+        
+        if ( $sortingInfo['sortingFields'] )
+        {
+            $query .= " ORDER BY $sortingInfo[sortingFields]";
+        }
+        
+        $db =& eZDB::instance();
+        
+        if ( !$offset && !$limit )
+        {
+            $nodeListArray =& $db->arrayQuery( $query );
+        }
+        else
+        {
+            $nodeListArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                              'limit'  => $limit ) );
+        }
+        
+        if ( $asObject )
+        {
+            $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        }
+        else
+        {
+            $retNodeList =& $nodeListArray;
+        }
+        
+        return $retNodeList;
+    }
+    
     function subTreeGroupByDateField( $field, $type )
     {
         $divisor = 0;

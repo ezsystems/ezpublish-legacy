@@ -114,6 +114,10 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
             $itemID = $http->postVariable( 'Item_ID_'.$itemCount );
             if ( ( $rssExportItem = eZRSSExportItem::fetch( $itemID, true, EZ_RSSEXPORT_STATUS_DRAFT ) ) )
             {
+                // remove the draft version
+                $rssExportItem->remove();
+                // remove the published version
+                $rssExportItem->setAttribute( 'status', EZ_RSSEXPORT_STATUS_VALID );
                 $rssExportItem->remove();
                 storeRSSExport( $Module, $http );
             }
