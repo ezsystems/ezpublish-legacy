@@ -1,14 +1,14 @@
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
 <div class="maincontentheader">
-<h1>{"Defined class groups"|i18n('content/class')}</h1>
+<h1>{"Defined class groups"|i18n("design/standard/class/list")}</h1>
 </div>
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th>{"Name"|i18n('content/class')}:</th>
-    <th>{"Modifier"|i18n('content/class')}:</th>
-    <th>{"Modified"|i18n('content/class')}:</th>
+    <th>{"Name"|i18n("design/standard/class/list")}:</th>
+    <th>{"Modifier"|i18n("design/standard/class/list")}:</th>
+    <th>{"Modified"|i18n("design/standard/class/list")}:</th>
 </tr>
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
@@ -25,8 +25,8 @@
 </table>
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New"|i18n('content/class')}
-{include uri="design:gui/button.tpl" name=removegroup id_name=RemoveGroupButton value="Remove"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New"|i18n("design/standard/class/list")}
+{include uri="design:gui/button.tpl" name=removegroup id_name=RemoveGroupButton value="Remove"|i18n("design/standard/class/list")}
 </div>
 
 </form>

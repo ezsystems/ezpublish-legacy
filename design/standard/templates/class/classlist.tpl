@@ -3,24 +3,24 @@
 {switch name=Sw1 match=$class_count}
   {case match=0}
     <div class="warning">
-    <h2>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h2>
+    <h2>{"No classes have been defined for "|i18n("design/standard/class/view")}{$group_name}.</h2>
     <p>{"Click on 'New Class' button to creat a class."}</p>
     </div>
   {/case}
   {case}
     <div class="maincontentheader">
-    <h1>{"Defined class types for "|i18n('content/class')}{$group_name}</h1>
+    <h1>{"Defined class types for"|i18n("design/standard/class/view")} {$group_name}</h1>
     </div> 
   {/case}
 {/switch}
 {section show=$groupclasses}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th>{"ID"|i18n('content/class')}:</th>
-    <th>{"Name"|i18n('content/class')}:</th>
-    <th>{"Identifier"|i18n('content/class')}:</th>
-    <th>{"Modifier"|i18n('content/class')}:</th>
-    <th>{"Modified"|i18n('content/class')}:</th>
+    <th>{"ID"|i18n("design/standard/class/view")}:</th>
+    <th>{"Name"|i18n("design/standard/class/view")}:</th>
+    <th>{"Identifier"|i18n("design/standard/class/view")}:</th>
+    <th>{"Modifier"|i18n("design/standard/class/view")}:</th>
+    <th>{"Modified"|i18n("design/standard/class/view")}:</th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
@@ -39,12 +39,12 @@
 {/section}
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n("design/standard/class/view")}
 {switch name=Sw match=$class_count}
   {case match=0}
   {/case}
   {case}
-  {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n('content/class')}
+  {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/view")}
   {/case}
 {/switch}
 </div>

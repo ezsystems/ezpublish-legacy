@@ -240,7 +240,7 @@
     </tr>
     <tr>
         <td colspan="1" align="left">
-	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('content/object')}" />
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
 	</td>
         <td colspan="1" align="right">
 	<select	name="ClassID">
