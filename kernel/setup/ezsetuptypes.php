@@ -1603,6 +1603,16 @@ function eZSetupImageINISettings( $siteType, $parameters )
     return $image;
 }
 
+function eZSetupContentINISettings( $siteType, $parameters )
+{
+    $designList = $parameters['design_list'];
+    $image = array( 'name' => 'image.ini',
+                    'reset_arrays' => true,
+                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList ) ) );
+
+    return $image;
+}
+
 function eZSetupINISettings( $siteType, $parameters )
 {
     $settings = array();
@@ -1612,6 +1622,7 @@ function eZSetupINISettings( $siteType, $parameters )
     $settings[] = eZSetupToolbarINISettings( $siteType, $parameters );
     $settings[] = eZSetupSiteINISettings( $siteType, $parameters );
     $settings[] = eZSetupImageINISettings( $siteType, $parameters );
+    $settings[] = eZSetupContentINISettings( $siteType, $parameters );
 
     return $settings;
 }
@@ -1621,6 +1632,7 @@ function eZSetupAdminINISettings( $siteType, $parameters )
     $settings = array();
     $settings[] = eZSetupAdminToolbarINISettings( $siteType, $parameters );
     $settings[] = eZSetupAdminOverrideINISettings( $siteType, $parameters );
+    $settings[] = eZSetupContentINISettings( $siteType, $parameters );
 
     return $settings;
 }
