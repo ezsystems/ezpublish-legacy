@@ -92,7 +92,7 @@ class eZDataType
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed );
     }
-    
+
     /*!
      \return the template name to use for viewing the attribute.
      \note Default is to return the datatype string which is OK
@@ -103,7 +103,6 @@ class eZDataType
     */
     function &viewTemplate( &$contentobjectAttribute )
     {
-        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #1' );
         return $this->DataTypeString;
     }
 
@@ -117,7 +116,6 @@ class eZDataType
     */
     function &editTemplate( &$contentobjectAttribute )
     {
-        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #2' );
         return $this->DataTypeString;
     }
 
@@ -131,7 +129,6 @@ class eZDataType
     */
     function &informationTemplate( &$contentobjectAttribute )
     {
-        eZDebug::writeDebug( $this->DataTypeString, 'datatypestring #3' );
         return $this->DataTypeString;
     }
 
@@ -523,29 +520,6 @@ class eZDataType
     var $Name;
 }
 
-// include_once( "kernel/classes/datatypes/ezstring/ezstringtype.php" );
-// include_once( "kernel/classes/datatypes/eztext/eztexttype.php" );
-// include_once( "kernel/classes/datatypes/ezinteger/ezintegertype.php" );
-
-// include defined datatypes
-
 eZDataType::loadAndRegisterAllTypes();
-
-// $contentINI =& eZINI::instance( 'content.ini' );
-// $availableTypes =& $contentINI->variable( "DataTypeSettings", "AvailableDataTypes" );
-
-// foreach ( $availableTypes as $type )
-// {
-//     $includeFile = "kernel/classes/datatypes/" . $type . "/" . $type ."type.php";
-//     if ( file_exists( $includeFile ) )
-//     {
-//         include_once( $includeFile );
-//     }
-//     else
-//     {
-//         eZDebug::writeError( "Class type: $includeFile not found " );
-//     }
-
-// }
 
 ?>
