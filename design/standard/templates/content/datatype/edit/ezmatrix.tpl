@@ -15,7 +15,7 @@
 <tr class="{$Rows.sequence}">
 
 {* Remove. *}
-<td><input type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows.index}" /></td>
+<td><input type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows.index}" title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}" /></td>
 
 {* Custom columns. *}
 {section var=Columns loop=$Rows.item.columns}
