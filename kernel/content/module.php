@@ -57,6 +57,16 @@ $ViewList["versionview"] = array(
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
 
+$ViewList["search"] = array(
+    "functions" => array( 'read' ),
+    "script" => "search.php",
+    "params" => array( ) );
+
+$ViewList["advancedsearch"] = array(
+    "functions" => array( 'read' ),
+    "script" => "advancedsearch.php",
+    "params" => array( ) );
+
 $ViewList["browse"] = array(
     "functions" => array( 'read' ),
     "script" => "browse.php",
