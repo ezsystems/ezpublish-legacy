@@ -1,18 +1,21 @@
-<form method="post" action={"/notification/settings/"|ezurl}>
+<form method="post" action={'/notification/settings/'|ezurl}>
 
 <div class="context-block">
-<h2 class="context-title">{"Notification settings"|i18n('design/standard/notification')}</h2>
+<h2 class="context-title">{'Notification settings'|i18n( 'design/standard/notification' )}</h2>
 
-{let handlers=fetch('notification','handler_list')}
+<div class="context-attributes">
+
+{let handlers=fetch( 'notification', 'handler_list' )}
     <p>
     {section name=Handlers loop=$handlers}
-        {*Handler: {$Handlers:item.name}*}
-        {include handler=$Handlers:item uri=concat( "design:notification/handler/",$Handlers:item.id_string,"/settings/edit.tpl")}
+        {include handler=$Handlers:item uri=concat( 'design:notification/handler/', $Handlers:item.id_string, '/settings/edit.tpl' )}
         {delimiter}<br/>{/delimiter}
     {/section}
     </p>
 
 {/let}
+
+</div>
 
 <div class="controlbar">
 <div class="block">
