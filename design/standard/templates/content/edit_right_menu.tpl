@@ -55,7 +55,7 @@
      language_index=0
      default_translation=$content_version.translation
      other_translation_list=$content_version.translation_list
-     translation_list=array_prepend($Translation:other_translation_list,$Translation:default_translation)}
+     translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
 
 {section show=$Translation:translation_list}
     <tr>
