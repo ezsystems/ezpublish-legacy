@@ -37,10 +37,10 @@
 </blockquote>
 <br/>
 
-  <div class="buttonblock">
+  <div class="buttonblock" align="right">
     <input type="hidden" name="eZSetup_current_step" value="{$setup_current_step|wash}" />
-    <input class="defaultbutton" type="submit" name="eZSetupSendRegistration" value="{'Send Registration'|i18n('design/standard/setup/init')} &gt;&gt;" />
     <input class="button" type="submit" name="eZSetupSkipRegistration" value="{'Skip Registration'|i18n('design/standard/setup/init')} &gt;&gt;" />
+    <input class="defaultbutton" type="submit" name="eZSetupSendRegistration" value="{'Send Registration'|i18n('design/standard/setup/init')} &gt;&gt;" />
   </div>
   {include uri='design:setup/persistence.tpl'}
   {include uri='design:setup/init/steps.tpl'}
