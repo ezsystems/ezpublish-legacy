@@ -1571,7 +1571,7 @@ INSERT INTO ezsearch_word (id, word, object_count) VALUES (277,'ez.no',1);
 
 
 
-INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard section','','ezcontentnavigationpart');
+INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard','','ezcontentnavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (4,'Setup','','ezsetupnavigationpart');
