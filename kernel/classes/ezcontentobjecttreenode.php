@@ -926,6 +926,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else if ( is_numeric( $nodeID ) )
         {
             $node = eZContentObjectTreeNode::fetch( $nodeID );
+            // If the node doesn't exist we return null.
+            if ( !is_object( $node ) )
+                return null;
         }
 
         $pathStringCond = '';
@@ -937,6 +940,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $nodeIDList as $nodeID )
             {
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
+                // If the node doesn't exist we return null.
+                if ( !is_object( $node ) )
+                    return null;
+
                 $nodePath =  $node->attribute( 'path_string' );
                 $nodeDepth = $node->attribute( 'depth' );
                 $childrensPath = $nodePath ;
