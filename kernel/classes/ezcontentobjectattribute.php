@@ -149,7 +149,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $this->ContentClassAttributeCatch === null ){
             $this->ContentClassAttributeCatch = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             return $this->ContentClassAttributeCatch;
-        }else
+        }
+        else
         {
             return $this->ContentClassAttributeCatch;
         }

@@ -119,6 +119,10 @@ specified.
 Content object
 --------------
 
+Create cached copy of datatype string in ezcontentobjectattribute. This is to save
+a database call when instanciating a new datatype ( which now checks the datatypestring
+from the classattribute )
+
 See how we can solve sorting, maybe using a separate table for sorting is good,
 the table would have n columns, one for each sort type (excluding
 asc/desc). All columns uses simple integers for sorting, that way it's possible
