@@ -11,6 +11,7 @@ Changes from 3.4.0beta1 to 3.4.0beta2
 - Changed template creation system to use class identifier as match
   key instead of class ID.
 - Added command line support for contentobject exporting.
+- Added class ezoe.php which has function to return required OE version.
 
 *Design:
 
