@@ -72,6 +72,8 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezurlalias.php" );
+include_once( "kernel/classes/ezrole.php" );
+include_once( "kernel/classes/ezpolicy.php" );
 include_once( "kernel/classes/ezpolicylimitation.php" );
 
 class eZContentObjectTreeNode extends eZPersistentObject
