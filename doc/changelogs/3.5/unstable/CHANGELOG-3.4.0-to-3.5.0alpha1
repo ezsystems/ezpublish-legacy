@@ -436,6 +436,9 @@ eZ Template:
 - Optimized section function, if the 'show' parameter contains a static
   value it will remove the need to have both an 'if' and 'else' block,
   only one will be needed.
+- Fixed bug with ezauthor and search meta data.
+  http://ez.no/community/bug_reports/search_ezauthor
+  (Merged from stable/3.4 (3.4.2) rev. 7517)
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
