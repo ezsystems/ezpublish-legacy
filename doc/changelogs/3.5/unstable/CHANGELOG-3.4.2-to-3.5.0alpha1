@@ -625,6 +625,9 @@ Workflow:
 - Fixed bug: undefined variable $field_filters in ezcontentobjectattribute::language().
   (Merged from stable/3.3 rev. 8384, also in stable/3.4 rev. 8385)
   http://ez.no/community/bug_reports/3_5alpha1_undefined_var_field_filters_in_ezcontentobjectattribute_language
+- Fixed bug: undefined function gettime() was used.
+  (Merged from stable/3.3 rev. 8397, also in stable/3.4 rev. 8398)
+  http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
