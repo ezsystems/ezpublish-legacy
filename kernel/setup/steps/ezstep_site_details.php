@@ -41,6 +41,7 @@ include_once( "kernel/common/i18n.php" );
 
 define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
 define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
+define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -80,6 +81,9 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbSocket = $databaseInfo['socket'];
 
         $chosenDatabases = array();
+        $siteAccessValues = array();
+        $siteAccessValues['admin'] = 1; // Add user and admin as illegal site access values
+        $siteAccessValues['user'] = 1;
 
         //todo : check input values
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
@@ -90,8 +94,24 @@ class eZStepSiteDetails extends eZStepInstaller
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_url' );
             $this->PersistenceList['site_templates_'.$counter]['email'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_email' );
+
+            if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] ) ) // check for equal site access values
+            {
+                $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            }
+
             $this->PersistenceList['site_templates_'.$counter]['access_type_value'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
+            $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] = 1;
+
+            if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] ) ) // check for equal site access values
+            {
+                $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            }
+
+            $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] =
+                 $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
+            $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] = 1;
             $this->PersistenceList['site_templates_'.$counter]['database'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
 
@@ -174,14 +194,21 @@ class eZStepSiteDetails extends eZStepInstaller
                 case EZ_SETUP_DB_ERROR_NOT_EMPTY:
                 {
                     $this->Tpl->setVariable( 'db_not_empty', 1 );
-                    $templates[$key]['database_not_empty'] = 1;
+                    $templates[$key]['db_not_empty'] = 1;
                     break;
                 }
 
                 case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
                 {
                     $this->Tpl->setVariable( 'db_already_chosen', 1 );
-                    $templates[$key]['already_chosen'] = 1;
+                    $templates[$key]['db_already_chosen'] = 1;
+                    break;
+                }
+
+                case EZ_SETUP_SITE_ACCESS_ILLEGAL:
+                {
+                    $this->Tpl->setVariable( 'site_access_illegal', 1 );
+                    $templates[$key]['site_access_illegal'] = 1;
                     break;
                 }
             }

@@ -11,6 +11,13 @@
     {"You need to specify some information about every site you've chosen to install."|i18n("design/standard/setup/init")}
   </p>
 
+{section show=eq( $site_access_illegal, 1 )}
+<h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+<p>
+  {"Do not use 'admin', 'user' or equal site access values. Please change site illegal access values on sites indicated by *"|i18n("design/standard/setup/init")}
+</p>
+ {/section}
+
 {section show=eq( $db_already_chosen, 1 )}
 <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
@@ -37,6 +44,7 @@
 
       <td class="setup_site_templates">
         <div align="top">
+	  {section show=eq( $:item.site_access_illegal, 1 )}*{/section}
           {section show=$:item.image_file_name}
             <img src={$:item.image_file_name|ezroot}>
           {section-else}
@@ -74,7 +82,23 @@
 	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type_value|wash}" /></td>
 	    </tr>
 	    <tr>
-	      <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $:item.already_chosen, 1 )}*{/section}: </td>
+              {switch match=$:item.access_type}
+              {case match='url'}
+                <td>{"URL for admin access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case match='port'}
+                <td>{"Port for admin access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case match='hostname'}
+                <td>{"Hostname for admin access"|i18n("design/standard/setup/init")}: </td>
+              {/case}
+              {case/}
+              {/switch}
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_admin_value" value="{$:item.admin_access_type_value|wash}" /></td>
+	    </tr>
+
+	    <tr>
+	      <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $:item.db_already_chosen, 1 )}*{/section}: </td>
 	      <td>
 	        {section show=count( $database_available )|gt(0) }
 		  <select name="eZSetup_site_templates_{$:index}_database">
@@ -87,7 +111,7 @@
 		{/section}
 	      </td>
 	    </tr>
-	    {section show=eq( $:item.database_not_empty, 1 )}
+	    {section show=eq( $:item.db_not_empty, 1 )}
 	      <tr>
 	        <td>{"Database not empty"|i18n("design/standard/setup/init")}</td>
 		<td><select name="eZSetup_site_templates_{$SiteTemplate:index}_existing_database">

@@ -60,7 +60,6 @@ class eZStepSiteAccess extends eZStepInstaller
     */
     function processPostData()
     {
-        //TODO : validate input data
         $accessType = null;
         if( $this->Http->hasPostVariable( 'eZSetup_site_access' ) )
         {
@@ -78,13 +77,25 @@ class eZStepSiteAccess extends eZStepInstaller
         {
             $this->PersistenceList['site_templates_'.$counter]['access_type'] = $accessType;
             if ( $accessType == 'url' )
+            {
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
+            }
             else if ( $accessType == 'port' )
+            {
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $portCounter++;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $portCounter++;
+            }
             else if ( $accessType == 'hostname' )
+            {
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '.' . eZSys::hostName();
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin.' . eZSys::hostName();
+            }
             else
+            {
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $accessType;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $accessType . '_admin';
+            }
         }
         return true;
     }
