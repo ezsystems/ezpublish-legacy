@@ -1,7 +1,7 @@
 <form action={"pdf/list"|ezurl} method="post" name="PDFList">
 
 <div class="context-block">
-<h2 class="context-title">{"PDF Exports"|i18n( 'design/admin/pdf/list' )}&nbsp;[{$pdfexport_list|count}]</h2>
+<h2 class="context-title">{'PDF Exports [%export_count]'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 {section show=$pdfexport_list}

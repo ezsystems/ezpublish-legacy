@@ -1,7 +1,7 @@
 <form action={concat( 'pdf/edit/', $pdf_export.id )|ezurl} method="post" name="ExportPDF">
 
 <div class="context-block">
-<h2 class="context-title">{'pdfexport'|icon( 'normal', 'PDF Export'|i18n( 'design/admin/pdf/edit' ) )}&nbsp;{$pdf_export.title|wash}&nbsp;[{'PDF Export'|i18n( 'design/admin/pdf/edit' )}]</h2>
+<h2 class="context-title">{'pdfexport'|icon( 'normal', 'PDF Export'|i18n( 'design/admin/pdf/edit' ) )}&nbsp;{'%pdf_export_title [PDF export]'|i18n( 'design/admin/pdf/edit',, hash( '%pdf_export_title', $pdf_export.title ) )|wash}</h2>
 <div class="context-attributes">
     {* Title. *}
     <div class="block">
