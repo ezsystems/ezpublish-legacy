@@ -335,6 +335,7 @@ div#leftmenu div.box-bc, div#rightmenu div.box-bc
     background-position: bottom;
     background-repeat: repeat-x;
     background-color: #fefefb;
+    margin-bottom: 0.5em;
 }
 
 div#maincontent div.box-bc

@@ -58,8 +58,6 @@
 </div></div></div></div></div></div>
 
 </div>
-<br />
-
 
 <div class="drafts">
 

@@ -15,11 +15,19 @@
     <li><a href={concat( '/user/password/', $current_user.contentobject_id, '/')|ezurl}>{'Change password'|i18n( 'design/admin/parts/my/menu' )}</a></li>
     <li><a href={'/shop/basket/'|ezurl}>{'My shopping basket'|i18n( 'design/admin/parts/my/menu' )}</a></li>
     <li><a href={'/shop/wishlist/'|ezurl}>{'My wish list'|i18n( 'design/admin/parts/my/menu' )}</a></li>
+</ul>
 
-    <li>
-    <li>{'Edit mode settings'}</li>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 
-    <ul>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Edit mode settings'|i18n( 'design/admin/parts/my/menu' )}</h4>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<ul>
     <li>{'Locations'}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
         <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Hide locations in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
@@ -27,9 +35,6 @@
         <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Show locations in edit mode.'|i18n( 'design/admin/node/view/full' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<b>{'off'|i18n( 'design/admin/parts/my/menu' )}</b>
     {/section}
     </li>
-
-    </ul>
-
 </ul>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
