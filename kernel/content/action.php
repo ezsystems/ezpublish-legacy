@@ -258,8 +258,6 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
 
-    eZContentObject::expireAllCache();
-
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
