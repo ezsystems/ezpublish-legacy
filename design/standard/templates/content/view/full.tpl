@@ -1,16 +1,17 @@
 <form method="post" action="/content/action/">
+
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$object.name|texttoimage('archtura')}
-{*	{$object.name|imagefile('image-6f04edb50d1c35bf54e47ccb585d300a.png')} *}
-{*	{image($object.name|texttoimage('archtura'),'abc'|texttoimage('archtura'))} *}
-{* 	<h1>{$object.name}</h1> *}
+	{$node.object.name|texttoimage('archtura')}
+{*	{$node.object.name|imagefile('image-6f04edb50d1c35bf54e47ccb585d300a.png')} *}
+{*	{image($node.object.name|texttoimage('archtura'),'abc'|texttoimage('archtura'))} *}
+{* 	<h1>{$node.object.name}</h1> *}
 	</td>
 	<td align="rigt">
-	{switch match=$object.can_edit}
+	{switch match=$node.object.can_edit}
 	    {case match=1}
-	    <input type="hidden" name="ContentObjectID" value="{$object.id}" />
+	    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
             <input type="submit" name="EditButton" value="Edit" />
 	    {/case}
             {case match=0}
@@ -25,7 +26,7 @@
 <tr>
     <td width="80%" valign="top">
     <table width="100%">
-    {section name=ContentObjectAttribute loop=$object.contentobject_attributes}
+    {section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
     <tr>
 	<td>
 	<b>
@@ -40,10 +41,10 @@
     <td width="20%" valign="top">
     <h2>Related objects</h2>
     <table width="100%" cellspacing="0">
-    {section name=Object loop=$related_contentobject_array show=$related_contentobject_array sequence=array(bglight,bgdark)}
+    {section name=Object loop=$node.object.related_contentobject_array show=$node.object.related_contentobject_array sequence=array(bglight,bgdark)}
     <tr>
-	<td class="{$Object:sequence}">
-	{content_view_gui view=line content_object=$Object:item}
+	<td class="{$node.object:sequence}">
+	{content_view_gui view=line content_object=$node.object:item}
 	</td>
     </tr>
     {section-else}
@@ -56,7 +57,7 @@
    </table>
 
    <h2>Content actions</h2>
-   {section name=ContentAction loop=$object.content_action_list show=$object.content_action_list}
+   {section name=ContentAction loop=$node.object.content_action_list show=$node.object.content_action_list}
    <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
    {delimiter}
    <br /><br />
@@ -68,27 +69,27 @@
 
 <h1>Children</h1>
 <table width="100%">
-{section name=Children loop=$children sequence=array(bglight,bgdark)}
+{section name=Children loop=$node.children sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Children:sequence}" >
 
 	<a href="{$module.functions.view.uri}/full/{$Children:item.node_id}">
-	{content_view_gui view=line content_object=$Children:item.contentobject} 
+	{content_view_gui view=line content_object=$Children:item.object}
 	</a>
 
-	<a href="{$module.functions.edit.uri}/{$Children:item.contentobject_id}">[ edit ]</a>
-        - {$Children:item.contentobject.class_name}
+	<a href="{$module.functions.edit.uri}/{$Children:item.object_id}">[ edit ]</a>
+        - {$Children:item.object.class_name}
 	</td>
 </tr>
 {/section}
 </table>
 
-{switch match=$object.can_create}
+{switch match=$node.object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$nodeID}" />
          <input type="submit" name="NewButton" value="New" />
          <select name="ClassID">
-	      {section name=Classes loop=$classes}
+	      {section name=Classes loop=$node.object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
@@ -125,6 +126,6 @@
 </tr>
 </table>
 
-<input type="hidden" name="ContentObjectID" value="{$object.id}" />
+<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 
 </form>

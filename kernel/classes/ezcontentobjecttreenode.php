@@ -164,9 +164,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          ),
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
-                                                      "contentobject" => "getContentObject",
+                                                      "object" => "object",
                                                       "subtree" => "subTree",
-                                                      "children" => "fetchChildren",
+                                                      "children" => "children",
+                                                      "children_count" => "childrenCount",
                                                       "path"     => "fetchPath",
                                                       "parent"   => "fetchParent"
                                                       ),
@@ -188,9 +189,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->getName();
         }
-        elseif ( $attr == 'contentobject' )
+        elseif ( $attr == 'object' )
         {
-            $obj = $this->getContentObject();
+            $obj = $this->object();
             return $obj;
         }
         elseif ( $attr == 'subtree' )
@@ -199,8 +200,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         elseif ( $attr == 'children' )
         {
-            return $this->fetchChildren();
-
+            return $this->children();
+        }
+        elseif ( $attr == 'children_count' )
+        {
+            return $this->childrenCount();
         }
         elseif ( $attr == 'path' )
         {
@@ -467,12 +471,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $nodeListArray[0]['count'];
     }
 
-
-    function fetchChildren($params = array() ,$nodeID = 0 )
+    /*!
+     Returns the first level children in sorted order.
+    */
+    function &children( $params = array(), $nodeID = 0 )
     {
-        return  $this->subTree( $params );
+        return $this->subTree( $params );
     }
 
+    /*!
+     Returns the number of children for the current node.
+    */
+    function &childrenCount( )
+    {
+        return $this->subTreeCount( array( 'Depth' => 1,
+                                             'Limitation' => $limitationList
+                                             ) );
+    }
 
     /*!
      Will assign a section to the current node and all child objects.
@@ -944,16 +959,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-
-    function & getName()
+    function &getName()
     {
         return  $this->Name;
     }
+
     function setName( $name )
     {
         $this->Name = $name;
     }
-    function & getContentObject()
+
+    function &object()
     {
         if ( $this->hasContentObject() )
         {
@@ -963,21 +979,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $obj =& eZContentObject::fetch( $contentobject_id );
         $this->HasContentObject = true;
         return $obj;
-
-
     }
 
     function hasContentObject()
     {
-        return     $this->HasContentObject;
+        return $this->HasContentObject;
 
     }
+
     function setContentObject( $obj )
     {
         $this->ContentObject =& $obj;
         $this->HasContentObject = true;
     }
-
 }
 
 ?>

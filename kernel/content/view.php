@@ -55,85 +55,53 @@ if ( array_key_exists( 'Limitation', $Params ) )
     $Limitation =& $Params['Limitation'];
     foreach ( $Limitation as $policy )
     {
-        $limitationList[] = $policy->attribute( 'limitations' );
+        $limitationList[] =& $policy->attribute( 'limitations' );
     }
 }
-//eZDebug::writeNotice( $limitationList, "Limitation" );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 if ( $node === null )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-$contentObject = $node->attribute( 'contentobject' );
-if ( $contentObject === null )
+$object = $node->attribute( 'object' );
+
+if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-if ( ! $contentObject->attribute( 'can_read' ) )
+if ( !$object->attribute( 'can_read' ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
-
-
-$object = $node->attribute( 'contentobject' );
 
 if ( $LanguageCode != "" )
 {
     $object->setCurrentLanguage( $LanguageCode );
 }
 
-
-if ( $contentObject->attribute( 'section_id' ) == 4 )
-{
-    eZDebug::writeWarning( "Object child limit is hard coded to 1", "view.php" );
-    $Limit = 1;
-}
-else
-{
-    $Limit = 15;
-}
-
-$children =& $node->subTree( array( 'Depth' => 1,
-                                    'Offset' => $Offset,
-                                    'Limit' => $Limit,
-                                    'Limitation' => $limitationList
-                                    ) );
-
-$childrenCount = $node->subTreeCount( array( 'Depth' => 1,
-                                             'Limitation' => $limitationList
-                                             ) );
-
-$relatedObjectArray =& $object->relatedContentObjectArray( $object->attribute( 'current_version' ) );
-
-$classID = $object->attribute( "contentclass_id" );
-
-$parents =& $node->attribute( 'path' );
-$classes =& $object->attribute( 'can_create_class_list' );
-
-$Module->setTitle( "View " . $object->attribute( "class_name" ) . " - " . $object->attribute( "name" ) );
+$Limit = 15;
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
                       array( "class", $object->attribute( "contentclass_id" ) ), // Class I
-                      array( "section", $contentObject->attribute( 'section_id' ) ) // Section ID
+                      array( "section", $object->attribute( 'section_id' ) ) // Section ID
                       ) );
 
-$tpl->setVariable( "nodeID", $NodeID );
+$tpl->setVariable( "node", $node );
+
+/*
 $tpl->setVariable( "previous", $Offset - $Limit );
 $tpl->setVariable( "next", $Offset + $Limit );
 $tpl->setVariable( "parents", $parents );
 $tpl->setVariable( "object", $object );
 $tpl->setVariable( "children", $children );
 $tpl->setVariable( "children_count", $childrenCount );
-
-$tpl->setVariable( "related_contentobject_array", $relatedObjectArray );
+*/
 
 $tpl->setVariable( "module", $Module );
-$tpl->setVariable( 'classes', $classes );
-
-//$Result =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
-//$Path = array( array( "test" =>"ez.no" ) );
 
 // create path
+$parents =& $node->attribute( 'path' );
+
 $path = array();
 foreach ( $parents as $parent )
 {
