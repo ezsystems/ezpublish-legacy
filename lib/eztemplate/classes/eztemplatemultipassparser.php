@@ -525,6 +525,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                     $args = array();
 
+                    // special handling for some functions having complex syntax
                     if ( $type == EZ_ELEMENT_NORMAL_TAG &&
                          in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef', 'set', 'let', 'default' ) ) )
                     {
@@ -532,25 +533,24 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
 
                         if ( $tag == 'if' || $tag == 'elseif' )
-                            $this->parseUnnamedCondition( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                            $this->parseUnnamedCondition( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'while' )
-                            $this->parseWhileFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                            $this->parseWhileFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'for' )
-                            $this->parseForFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                            $this->parseForFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'foreach' )
-                            $this->parseForeachFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                            $this->parseForeachFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'def' || $tag == 'undef' )
-                            $this->parseDefFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                            $this->parseDefFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'set' || $tag == 'let' || $tag == 'default' )
-                            $this->parseSetFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
-
-
+                            $this->parseSetFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                     }
                     elseif ( $type == EZ_ELEMENT_END_TAG && $tag == 'do' )
                     {
-                        $this->parseDoFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $rootNamespace );
+                        $this->parseDoFunction( $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                     }
 
+                    // other functions having simplier syntax are parsed below
                     $lastPosition = false;
                     while ( $attr_pos < $text_len )
                     {
@@ -738,7 +738,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
      * parse 'sequence' loop parameter: "sequence <array> as <$seqVar>"
      */
-    function parseSequenceParameter( $parseSequenceKeyword, $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseSequenceParameter( $parseSequenceKeyword, $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                                     $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         if ( $parseSequenceKeyword )
         {
@@ -747,9 +748,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             $sequence = substr( $text, $cur_pos, $sequenceEndPos-$cur_pos );
             if ( $sequence != 'sequence' )
             {
-                $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                             "Expected keyword 'sequence' not found" );
-                $cur_pos = $text_len;
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              $funcName, "Expected keyword 'sequence' not found" );
                 return false;
             }
             $cur_pos = $sequenceEndPos;
@@ -770,9 +770,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $word = substr( $text, $cur_pos, $asEndPos-$cur_pos );
         if ( $word != 'as' )
         {
-            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                         "Expected keyword 'as' not found" );
-            $cur_pos = $text_len;
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                              $funcName, "Expected keyword 'as' not found" );
+            unset( $args['sequence_array'] );
             return false;
         }
         $cur_pos = $asEndPos;
@@ -784,9 +784,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $seqVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
         if ( !$seqVar )
         {
-            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                         "Sequence variable name cannot be empty." );
-            $cur_pos = $text_len;
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          $funcName, "Sequence variable name cannot be empty" );
+            unset( $args['sequence_array'] );
             return false;
         }
         $args['sequence_var'] = $seqVar;
@@ -801,13 +801,16 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     // for <firstValue> to <lastValue> as <$loopVar> [sequence <array> as <$var>]
     \endcode
     */
-    function parseForFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseForFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                               $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         $firstValStartPos = $cur_pos;
 
         // parse first value
-        $firstVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace );
+        $firstVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace
+                                                             /*, EZ_TEMPLATE_TYPE_NUMERIC_BIT | EZ_TEMPLATE_TYPE_VARIABLE_BIT*/ );
         $args['first_val'] = $firstVal;
+        eZDebug::writeDebug( $firstVal, '$firstVal' );
 
         $toStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $firstValEndPos, $text_len );
 
@@ -816,8 +819,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $to = substr( $text, $toStartPos, $toEndPos-$toStartPos );
         if ( $to != 'to' )
         {
-            $tpl->error( "", "parser error @ $relatedTemplateName\n" .
-                         "Expected keyword 'to' not found" );
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          'for', "Expected keyword 'to' not found" );
+            return;
         }
 
 
@@ -834,8 +838,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $as = substr( $text, $asStartPos, $asEndPos-$asStartPos );
         if ( $as != 'as' )
         {
-            $tpl->error( "", "parser error @ $relatedTemplateName\n" .
-                         "Expected keyword 'as' not found" );
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          'for', "Expected keyword 'as' not found" );
+            return;
         }
 
         $loopVarStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $asEndPos, $text_len );
@@ -848,12 +853,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             $cur_pos = $loopVarEndPos;
         else
         {
-
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $loopVarEndPos, $text_len );
 
             if ( ! $this->parseSequenceParameter( true, 'for',
-                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace ) )
+                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace ) )
                 return;
         }
     }
@@ -870,7 +874,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     }
     \endcode
     */
-    function parseForeachFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseForeachFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                                   $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         // parse array
         $array =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
@@ -884,8 +889,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $word = substr( $text, $cur_pos, $asEndPos-$cur_pos );
         if ( $word != 'as' )
         {
-            $tpl->error( 'foreach', "parser error @ $relatedTemplateName\n" .
-                         "Expected keyword 'as' not found in 'foreach' parameters" );
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          'foreach', "Expected keyword 'as' not found" );
+            return;
         }
         $cur_pos = $asEndPos;
 
@@ -928,7 +934,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             if ( $paramName == 'sequence' )
             {
                 if ( ! $this->parseSequenceParameter( false, 'foreach',
-                                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace ) )
+                                               $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace ) )
                     return;
             }
             elseif ( $paramName == 'offset' )
@@ -950,9 +956,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             }
             else
             {
-                $tpl->error( 'foreach', "parser error @ $relatedTemplateName\n" .
-                             "Unknown parameter '$paramName'" );
-                $cur_pos = $text_len;
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              'foreach', "Unknown parameter '$paramName'" );
                 return;
             }
         }
@@ -970,7 +975,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         [{skip}]
     {/do while <condition> [sequence <array> as $seqVar]}
     */
-    function parseDoFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseDoFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                              $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -980,11 +986,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $word = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
         if ( $word != 'while' )
         {
-            $tpl->error( 'do', "parser error @ $relatedTemplateName\n" .
-                         "Expected keyword 'while' not found in parameters" );
-            $cur_pos = $text_len;
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          'do', "Expected keyword 'while' not found in parameters" );
             return;
-
         }
         $cur_pos = $wordEndPos;
 
@@ -1002,7 +1006,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             return;
 
         $this->parseSequenceParameter( true, 'do',
-                                       $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
+                                       $args, $tpl, $text, $text_len, $cur_pos,
+                                       $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
     }
 
 
@@ -1015,12 +1020,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     \endcode
     */
 
-    function parseDefFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseDefFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                               $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         if ( $cur_pos == $text_len && $funcName == 'def' ) // no more arguments
         {
-            $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                         "Not enough arguments passed." );
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          $funcName, 'Not enough arguments' );
             return;
         }
 
@@ -1029,11 +1035,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             // parse variable name
             if ( $text[$cur_pos] != '$' )
             {
-                $tpl->error( $funcName, '($) expected at [' . substr( $text, $cur_pos ) . ']' );
-                $cur_pos = $text_len;
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              $funcName, '($) expected' );
                 return;
-
             }
+
             $cur_pos++;
             $wordEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
             $varName = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
@@ -1041,8 +1047,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
             if ( !$varName )
             {
-                $tpl->error( $funcName, 'Empty variable name.' );
-                $cur_pos = $text_len;
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              $funcName, 'Empty variable name' );
                 return;
             }
 
@@ -1054,9 +1060,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 // parse variable value
                 if ( $cur_pos >= $text_len || $text[$cur_pos] != '=' )
                 {
-                    $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
-                                 "(=) expected." );
-                    $cur_pos = $text_len;
+                    $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                                  $funcName, '(=) expected' );
                     return;
                 }
                 $cur_pos++;
@@ -1082,17 +1087,35 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
         Parses arguments for if/elseif
     */
-    function parseUnnamedCondition( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseUnnamedCondition( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                                    $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
-        $args['condition'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        if ( !count( $cond ) )
+        {
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          $funcName, 'Not enough arguments' );
+            return;
+
+        }
+        $args['condition'] = $cond;
     }
 
     /*!
         Parses arguments for {while}
     */
-    function parseWhileFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseWhileFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                                 $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
-        $args['condition'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        if ( !count( $cond ) )
+        {
+            $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                          'while', 'Not enough arguments' );
+            return;
+
+        }
+        $args['condition'] = $cond;
 
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -1101,13 +1124,15 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             return;
 
         $this->parseSequenceParameter( true, 'while',
-                                       $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
+                                       $args, $tpl, $text, $text_len, $cur_pos,
+                                       $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
     }
 
     /*!
         Parses arguments for {set}/{let}/{default}
     */
-    function parseSetFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos, &$relatedTemplateName, &$rootNamespace )
+    function parseSetFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                               $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         while ( $cur_pos < $text_len )
         {
@@ -1127,8 +1152,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
             if ( !$varName )
             {
-                $tpl->error( $funcName, 'Empty variable name.' );
-                $cur_pos = $text_len;
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              $funcName, 'Empty variable name' );
                 return;
             }
 
@@ -1172,6 +1197,14 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
     }
 
+    function showParseErrorMessage( &$tpl, &$text, $text_len, &$cur_pos, $tplName, $startLine, $startColumn, $funcName, $message )
+    {
+        $subText = substr( $text, 0, $cur_pos );
+        $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );
+        $tpl->error( $funcName, "parser error @ $tplName:$currentLine\n" .
+                     "$message at [" . substr( $text, $cur_pos ) . "]" );
+        $cur_pos = $text_len;
+    }
 
     function &instance()
     {

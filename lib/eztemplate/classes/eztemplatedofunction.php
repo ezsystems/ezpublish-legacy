@@ -146,6 +146,12 @@ class eZTemplateDoFunction
         if ( !$loop->initialized() )
             return;
 
+        if ( !isset( $functionParameters['condition'] ) )
+        {
+            eZDebug::writeError( "Not enough arguments passed to 'do' function"  );
+            return;
+        }
+
         do
         {
             $loop->resetIteration();
