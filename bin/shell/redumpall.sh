@@ -17,8 +17,7 @@ function help
     echo "         --help                     This message"
     echo "         --db-user                  Which database user to connect with"
     echo "         --db-host                  Which database host to connect to"
-    echo "         --mysql                    Redump MySQL schema files"
-    echo "         --postgresql               Redump PostgreSQL schema files"
+    echo "         --schema                   Redump schema and validate for MySQL and PostgreSQL"
     echo "         --data                     Redump data files"
     echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
     echo "         --clean-search             Cleanup search index (implies --clean)"
@@ -27,8 +26,6 @@ function help
     echo "$0 tmp"
 }
 
-USE_MYSQL=""
-USE_POSTGRESQL=""
 DUMP_DATA=""
 PAUSE=""
 
@@ -38,6 +35,11 @@ DB_USER=""
 # DataBaseArray file
 GENERIC_SCHEMA="share/db_schema.dba"
 
+# Temporary schema files
+TEMP_MYSQL_SCHEMA_FILE="mysql_schema.dba"
+TEMP_POSTGRESQL_SCHEMA_FILE="postgresql_schema.dba"
+
+
 # Check parameters
 for arg in $*; do
     case $arg in
@@ -45,11 +47,8 @@ for arg in $*; do
 	    help
 	    exit 1
 	    ;;
-	--mysql)
-	    USE_MYSQL="yes"
-	    ;;
-	--postgresql)
-	    USE_POSTGRESQL="yes"
+	--schema)
+	    DUMP_SCHEMA="1"
 	    ;;
 	--data)
 	    DUMP_DATA="yes"
@@ -126,17 +125,20 @@ function helpUpdatePostgreSQL
     echo "The definitions and data is normally taken from the database update files for the current release"
 }
 
-if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" -a "$DUMP_DATA" == "" ]; then
-    echo "No database type selected"
+if [ "DUMP_SCHEMA" == "" -a "$DUMP_DATA" == "" ]; then
+    echo "You must choose either to dump schema with --schema or data with --data"
+    echo
     help
     exit 1
 fi
 
 DUMP_TYPE=""
 
-if [ "$USE_MYSQL" != "" ]; then
-    [ -z "$DB_USER" ] && DB_USER="root"
-	
+if [ -n "$DUMP_SCHEMA" ]; then
+
+    #
+    # Check for schema files
+    #
 
     if [ ! -f $MYSQL_SCHEMA_UPDATES ]; then
 	echo "Missing `ez_color_file $MYSQL_SCHEMA_UPDATES`"
@@ -144,31 +146,109 @@ if [ "$USE_MYSQL" != "" ]; then
 	exit 1
     fi
 
-    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-    ./bin/shell/sqlredump.sh --mysql $DB_USER_OPT $PAUSE --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
-    if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
-	exit 1
-    fi
-    if [ -z "$DUMP_TYPE" ]; then
-	DUMP_TYPE="ezmysql"
-    fi
-fi
-if [ "$USE_POSTGRESQL" != "" ]; then
-    [ -z "$DB_USER" ] && DB_USER="$POST_USER"
-
     if [ ! -e $POSTGRESQL_SCHEMA_UPDATES ]; then
 	echo "Missing `ez_color_file $POSTGRESQL_SCHEMA_UPDATES`"
 	helpUpdatePostgreSQL
 	exit 1
     fi
 
+    #
+    # Handle MySQL schema
+    #
+
+    [ -z "$DB_USER" ] && DB_USER="root"
+
     [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE $DB_USER_OPT --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
+    echo "Handling MySQL schema"
+    ./bin/shell/sqlredump.sh --mysql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_MYSQL_SCHEMA_FILE" --sql-schema-only "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$MYSQL_SCHEMA_UPDATES"
+    if [ $? -ne 0 ]; then
+	echo "Failed re-dumping schema file `ez_color_file $KERNEL_GENERIC_SCHEMA_FILE`"
+	exit 1
+    fi
+
+
+    #
+    # Handle PostgreSQL schema
+    #
+
+    [ -z "$DB_USER" ] && DB_USER="$POST_USER"
+
+    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+    [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
+    echo "Handling PostgreSQL schema"
+    ./bin/shell/sqlredump.sh --postgresql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_POSTGRESQL_SCHEMA_FILE" --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$POSTGRESQL_SCHEMA_UPDATES"
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
 	exit 1
     fi
+
+    #
+    # Validate files with each other
+    #
+
+    echo -n "Validating schema files"
+    diff -U3 "$TEMP_MYSQL_SCHEMA_FILE" "$TEMP_POSTGRESQL_SCHEMA_FILE" &>.dump.log
+    ez_result_file $? .dump.log
+    if [ $? -ne 0 ]; then
+	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+	exit 1
+    fi
+
+    #
+    # Validate schemas with each other
+    #
+
+    echo -n "Validating schemas"
+    ./bin/php/ezsqldiff.php --source-type=mysql --match-type=postgresql "$TEMP_MYSQL_SCHEMA_FILE" "$TEMP_POSTGRESQL_SCHEMA_FILE" &>.dump.log
+    ez_result_file $? .dump.log
+    if [ $? -ne 0 ]; then
+	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+	exit 1
+    fi
+
+    #
+    # Validate schema with lint checker
+    #
+
+    echo -n "Checking schema syntax"
+    ./bin/php/ezsqldiff.php --source-type=mysql --lint-check "$TEMP_MYSQL_SCHEMA_FILE" &>.dump.log
+    ez_result_file $? .dump.log
+    if [ $? -ne 0 ]; then
+	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+	exit 1
+    fi
+
+    #
+    # Copy temp schema to standard and cleanup
+    #
+
+    echo -n "Copying temp schema to standard"
+    cp -f "$TEMP_MYSQL_SCHEMA_FILE" "$KERNEL_GENERIC_SCHEMA_FILE" 2>.dump.log
+    ez_result_file $? .dump.log
+
+    echo -n "Cleaning up temporary files"
+    rm -f "$MYSQL_SCHEMA_UPDATES".done 2>.dump.log
+    rm -f "$POSTGRESQL_SCHEMA_UPDATES".done 2>.dump.log
+    mv "$MYSQL_SCHEMA_UPDATES" "$MYSQL_SCHEMA_UPDATES".done 2>.dump.log
+    mv "$POSTGRESQL_SCHEMA_UPDATES" "$POSTGRESQL_SCHEMA_UPDATES".done 2>.dump.log
+    rm -f "$TEMP_MYSQL_SCHEMA_FILE" 2>.dump.log
+    rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE" 2>.dump.log
+    ez_result_file 0 .dump.log
+
+    #
+    # Update SQL files
+    #
+
+    echo -n "Updating MySQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
+    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=myisam "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
+    ez_result_file $? .dump.log || exit 1
+    echo -n "Updating PostgreSQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
+    ./bin/php/ezsqldumpschema.php --type=postgresql --output-sql --compatible-sql "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_POSTGRESQL_SCHEMA_FILE" 2>.dump.log
+    ez_result_file $? .dump.log || exit 1
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
@@ -184,11 +264,4 @@ if [ "$DUMP_DATA" != "" ]; then
 	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_SQL_DATA_FILE`"
 	exit 1
     fi
-fi
-
-if [ -n "$DUMP_TYPE" ]; then
-    [ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
-    echo -n "Dumping generic schema to `ez_color_file $GENERIC_SCHEMA`"
-    ./bin/php/ezsqldumpschema.php --type="$DUMP_TYPE" $DB_USER_OPT --output-array $DBNAME $GENERIC_SCHEMA 2>.dump.log
-    ez_result_file $? .dump.log || exit 1
 fi

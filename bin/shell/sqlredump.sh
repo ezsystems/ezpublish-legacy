@@ -63,6 +63,11 @@ for arg in $*; do
 	    NODATAARG=""
 	    NOCREATEINFOARG=""
 	    ;;
+	--sql-schema-file=*)
+	    if echo $arg | grep -e "--sql-schema-file=" >/dev/null; then
+		SQL_SCHEMA_FILE=`echo $arg | sed 's/--sql-schema-file=//'`
+	    fi
+	    ;;
 	--clean)
 	    CLEAN="1"
 	    ;;
@@ -87,6 +92,11 @@ for arg in $*; do
 	--db-user=*)
 	    if echo $arg | grep -e "--db-user=" >/dev/null; then
 		DB_USER=`echo $arg | sed 's/--db-user=//'`
+	    fi
+	    ;;
+	--db-password=*)
+	    if echo $arg | grep -e "--db-password=" >/dev/null; then
+		DB_PWD=`echo $arg | sed 's/--db-password=//'`
 	    fi
 	    ;;
 	--db-host=*)
@@ -152,33 +162,12 @@ if [ -z "$DB_USER" ]; then
     DB_USER="$POST_USER"
 fi
 
-
-if [ "$USE_MYSQL" != "" ]; then
-    [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
-    [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
-    mysqladmin $USERARG $HOSTARG -f drop "$DBNAME"
-    mysqladmin $USERARG $HOSTARG create "$DBNAME" || exit 1
-    for sql in $SCHEMAFILES; do
-	echo -n "Importing schema SQL file `ez_color_file $sql`"
-	mysql $USERARG $HOSTARG "$DBNAME" < "$sql" &>.mysql.log
-	ez_result_file $? .mysql.log || exit 1
-    done
-    echo -n "Importing SQL file `ez_color_file $SQLFILE`"
-    mysql $USERARG $HOSTARG "$DBNAME" < "$SQLFILE" &>.mysql.log
-    ez_result_file $? .mysql.log || exit 1
-    for sql in $SQLFILES; do
-	echo -n "Importing SQL file `ez_color_file $sql`"
-	mysql $USERARG $HOSTARG "$DBNAME" < "$sql" &>.mysql.log
-	ez_result_file $? .mysql.log || exit 1
-    done
-
-    if [ ! -z $USE_PAUSE ]; then
-	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
-    fi
-
+function ez_cleanup_db
+{
     if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
 	[ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--db-server=$DB_HOST"
+	[ -n "$DB_PWD" ] && DB_PWD_OPT="--db-password=$DB_PWD"
 	echo -n "Flattening objects"
 	./update/common/scripts/flatten.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME $DB_USER_OPT all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
@@ -194,43 +183,124 @@ if [ "$USE_MYSQL" != "" ]; then
 	./update/common/scripts/cleanup.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME $DB_USER_OPT all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
+}
 
-    echo -n "Dumping to SQL file `ez_color_file $SQLFILE`"
-# mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
-    if [ "$SQLDUMP" == "schema" ]; then
-	mysqldump $USERARG $HOSTARG -c --quick -d "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0 2>.mysql.log
-    elif [ "$SQLDUMP" == "data" ]; then
-	mysqldump $USERARG $HOSTARG -c --quick -t "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0 2>.mysql.log
-    else
-	mysqldump $USERARG $HOSTARG -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0 2>.mysql.log
-    fi
+if [ "$USE_MYSQL" != "" ]; then
+    [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
+    [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
+    [ -n "$DB_PWD" ] && PWDARG="-p$DB_PWD"
+
+    function ez_mysql_loadschema
+    {
+	local file
+	local status
+	file="$1"
+	case $file in
+	    *.dba)
+		# Create SQL from generic schema and dump them to mysql
+		./bin/php/ezsqldumpschema.php --type=mysql --output-sql "$file" | mysql $USERARG $HOSTARG $PWDARG "$DBNAME"
+		status=$?
+		;;
+	    *.sql)
+		# Import SQL directly to mysql
+		mysql $USERARG $HOSTARG $PWDARG "$DBNAME" < "$file"
+		status=$?
+		;;
+	    *)
+		echo "Unknown file type '$file'" >/dev/stderr
+		status=1
+		;;
+	esac
+	return $status
+    }
+
+    mysqladmin $USERARG $HOSTARG $PWDARG -f drop "$DBNAME" &>/dev/null
+    echo -n "Creating database `$SETCOLOR_EMPHASIZE`$DBNAME`$SETCOLOR_NORMAL`"
+    mysqladmin $USERARG $HOSTARG $PWDARG create "$DBNAME" &>.mysql.log
     ez_result_file $? .mysql.log || exit 1
-    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
+    for sql in $SCHEMAFILES; do
+	echo -n "Importing schema SQL file `ez_color_file $sql`"
+	ez_mysql_loadschema "$sql" &>.mysql.log
+	ez_result_file $? .mysql.log || exit 1
+    done
+    echo -n "Importing SQL file `ez_color_file $SQLFILE`"
+    ez_mysql_loadschema "$SQLFILE" &>.mysql.log
+    ez_result_file $? .mysql.log || exit 1
+    for sql in $SQLFILES; do
+	echo -n "Importing SQL file `ez_color_file $sql`"
+	ez_mysql_loadschema "$sql" &>.mysql.log
+	ez_result_file $? .mysql.log || exit 1
+    done
+
+    if [ ! -z $USE_PAUSE ]; then
+	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
+    fi
+
+    # Cleanup database data
+    ez_cleanup_db
+
+    if [ -n "$SQL_SCHEMA_FILE" ]; then
+	[ -z "$SQLDUMP" ] && SQLDUMP="all"
+	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
+	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
+	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
+
+	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
+	./bin/php/ezsqldumpschema.php --type=mysql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
+	ez_result_file $? .mysql.log || exit 1
+    fi
 else
     [ -n "$DB_USER" ] && USERARG="--username $DB_USER"
     [ -n "$DB_HOST" ] && HOSTARG="--host $DB_HOST"
+
+    function ez_postgresql_loadschema
+    {
+	local file, status
+	file="$1"
+	case $file in
+	    *.dba)
+		# Create SQL from generic schema and dump them to mysql
+		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql "$file" | psql $USERARG $HOSTARG "$DBNAME"
+		status=$?
+		;;
+	    *.sql)
+		# Import SQL directly to mysql
+		psql $USERARG $HOSTARG "$DBNAME" < "$file"
+		status=$?
+		;;
+	    *)
+		echo "Unknown file type '$file'" >/dev/stderr
+		status=1
+		;;
+	esac
+	return $status
+    }
+
     psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
 	exit 1
     fi
-    dropdb $USERARG $HOSTARG "$DBNAME"
-    createdb $USERARG $HOSTARG "$DBNAME" || exit 1
+    dropdb $USERARG $HOSTARG "$DBNAME" &>/dev/null
+    echo -n "Creating database `$SETCOLOR_EMPHASIZE`$DBNAME`$SETCOLOR_NORMAL`"
+    createdb $USERARG $HOSTARG "$DBNAME" &>.psql.log
+    ez_result_file $? .psql.log || exit 1
+
     for sql in $SCHEMAFILES; do
 	echo -n "Importing schema SQL file `ez_color_file $sql`"
-	psql $USERARG $HOSTARG "$DBNAME" < "$sql" &>.psql.log || exit 1
+	ez_postgresql_loadschema "$sql" &>.psql.log || exit 1
 	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
 	rm .psql.log
     done
     echo -n "Importing SQL file `ez_color_file $SQLFILE`"
-    psql $USERARG $HOSTARG "$DBNAME" < "$SQLFILE" &>.psql.log || exit 1
+    ez_postgresql_loadschema "$SQLFILE" &>.psql.log || exit 1
     pg_error_code ".psql.log"
     ez_result_file $? .psql.log || exit 1
     rm .psql.log
     for sql in $SQLFILES; do
 	echo -n "Importing SQL file `ez_color_file $sql`"
-	psql $USERARG $HOSTARG "$DBNAME" < "$sql" &>.psql.log || exit 1
+	ez_postgresql_loadschema "$sql" &>.psql.log || exit 1
 	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
         rm .psql.log
@@ -240,50 +310,48 @@ else
 	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
     fi
 
-    if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	[ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-	echo -n "Flattening objects"
-	./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME $DB_USER_OPT all &>.psql.log
-	ez_result_file $? .psql.log || exit 1
-	if [ $CLEAN_SEARCH ]; then
-	    echo -n "Cleaning search engine"
-	    ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME $DB_USER_OPT --clean &>.psql.log
-	    ez_result_file $? .psql.log || exit 1
-	fi
-	echo -n "Updating nice urls"
-	./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME $DB_USER_OPT &>.psql.log
-	ez_result_file $? .psql.log || exit 1
-	echo -n "Cleaning up data"
-	./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME $DB_USER_OPT all &>.psql.log
+    # Cleanup database data
+    ez_cleanup_db
+
+    if [ -n "$SQL_SCHEMA_FILE" ]; then
+	[ -z "$SQLDUMP" ] && SQLDUMP="all"
+	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
+	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
+	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
+
+	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
+	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
+	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
     fi
 
-    echo -n "Dumping to SQL file `ez_color_file $SQLFILE`"
-    if [ "$SQLDUMP" == "schema" ]; then
-	pg_dump $USERARG $HOSTARG --no-owner --inserts --schema-only "$DBNAME" > "$SQLFILE".0 2>.psql.log
-    elif [ "$SQLDUMP" == "data" ]; then
-	pg_dump $USERARG $HOSTARG --no-owner --inserts --data-only "$DBNAME" > "$SQLFILE".0 2>.psql.log
-    else
-	pg_dump $USERARG $HOSTARG --no-owner --inserts "$DBNAME" > "$SQLFILE".0 2>.psql.log
-    fi
-    pg_error_code ".psql.log"
-    ez_result_file $? .psql.log || exit 1
-    if [ -n $SETVALFILE ]; then
-	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
-    fi
-    perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
-    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
+#    if [ -n $SETVALFILE ]; then
+#	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
+#    fi
+#    perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
+#    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
 
+function ez_file_make_backup
+{
+    local file
+    local suffix
+    file="$1"
+    suffix="$2"
+    if [ -f "$file" ]; then
+	mv "$file" "$file"~
+    fi
+    mv "$file"."$suffix" "$file"
+}
+
 if [ $? -eq 0 ]; then
-    mv "$SQLFILE" "$SQLFILE"~
-    mv "$SQLFILE".0 "$SQLFILE"
-    [ -z $SETVALFILE ] || mv "$SETVALFILE".0 "$SETVALFILE"
-    echo "Redumped `ez_color_file $SQLFILE` using $DBNAME database"
+    ez_file_make_backup "$SQL_SCHEMA_FILE" "0"
+#    [ -z $SETVALFILE ] || mv "$SETVALFILE".0 "$SETVALFILE"
+    echo "Redumped `ez_color_file $SQL_SCHEMA_FILE` using $DBNAME database"
 else
-    rm "$SQLFILE".0
-    [ -z $SETVALFILE ] || rm "$SETVALFILE".0
-    echo "Failed dumping database $DBNAME to $SQLFILE"
+    rm "$SQL_SCHEMA_FILE".0
+#    [ -z $SETVALFILE ] || rm "$SETVALFILE".0
+    echo "Failed dumping database $DBNAME to `ez_color_file $SQL_SCHEMA_FILE`"
     exit 1
 fi
 
