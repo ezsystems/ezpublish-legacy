@@ -70,6 +70,49 @@ class eZUserType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $loginName = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
+            $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
+            $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
+            $passwodConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
+            if ( $classAttribute->attribute( "is_required" ) == true )
+            {
+                if ( trim( $loginName ) == "" )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZUserType',
+                                                                         'An user account must be filled up' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+            if ( trim( $loginName ) != "" )
+            {
+                $isValidate =  eZMail::validate( $email );
+                if ( ! $isValidate )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZUserType',
+                                                                         'Email address is not valid.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+                if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZUserType',
+                                                                         'Please confirm your password.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+                if ( strlen( $password ) < 3 )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZUserType',
+                                                                         'The minimum length of password should be 3.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
@@ -93,9 +136,8 @@ class eZUserType extends eZDataType
             $user =& eZUser::create( $contentObjectID );
 
         eZDebug::writeNotice( "setInformation", "ezusertype" );
-        $user->setInformation( $contentObjectID, $login, $email, $password );
-        $user->store();
-
+        if ( $password != "password" )
+            $user->setInformation( $contentObjectID, $login, $email, $password );
         $contentObjectAttribute->setContent( $user );
     }
 

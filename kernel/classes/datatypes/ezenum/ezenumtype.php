@@ -132,7 +132,11 @@ class eZEnumType extends eZDataType
                          $eID = $array_enumID[$i];
                          $eElement = $array_enumElement[$i];
                          $eValue = $array_enumValue[$i];
-                         eZEnum::storeObjectEnumeration( $contentObjectAttributeID, $contentObjectAttributeVersion, $eID, $eElement, $eValue );
+                         eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
+                                                         $contentObjectAttributeVersion,
+                                                         $eID,
+                                                         $eElement,
+                                                         $eValue );
                      }
                  }
 
@@ -146,6 +150,19 @@ class eZEnumType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        if ( $http->hasPostVariable( $base . "_data_enumid_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $array_enumID = $http->postVariable( $base . "_data_enumid_" . $contentObjectAttribute->attribute( "id" ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if ( ( $classAttribute->attribute( "is_required" ) == true )  &&
+                 ( !$http->hasPostVariable( $base . "_select_data_enumelement_" . $contentObjectAttribute->attribute( "id" ) ) ) )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                     'eZEnumType',
+                                                                     'At least one field should be chosen.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 

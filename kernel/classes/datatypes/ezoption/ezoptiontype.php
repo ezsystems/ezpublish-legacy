@@ -60,12 +60,39 @@ class eZOptionType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $data = $http->postVariable( $base . "_data_option_" . $contentObjectAttribute->attribute( "id" ) );
-        eZDebug::writeNotice( "Validating option $data" );
-        // TODO: Make better matching
-//        if ( preg_match( "#^[0-1]#", $data ) )
+        if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
+            $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+            if ( $classAttribute->attribute( "is_required" ) == true )
+            {
+                if ( trim( $valueList[0] ) == "" )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZOptionType',
+                                                                         'At least one option is requied.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+            if ( trim( $valueList[0] ) != "" )
+            {
+                for ( $i=0;$i<count( $idList );$i++ )
+                {
+                    $value =  $valueList[$i];
+                    if ( trim( $value )== "" )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                             'eZOptionType',
+                                                                             'Option value should be provided.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+
+                    }
+                }
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            //      return false;
+        eZDebug::writeNotice( "Validating option $data" );
     }
 
     /*!
@@ -82,7 +109,7 @@ class eZOptionType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $option = new eZOption( "Colour" );
+        $option = new eZOption( "" );
 
         $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
 

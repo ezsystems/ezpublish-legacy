@@ -133,13 +133,11 @@ class eZAuthor
     function decodeXML( $xmlString )
     {
         $xml = new eZXML();
-
         $dom =& $xml->domTree( $xmlString );
 
-        if ( !$dom )
+        if ( $dom )
         {
             $authorArray =& $dom->elementsByName( "author" );
-
             foreach ( $authorArray as $author )
             {
                 $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );

@@ -44,7 +44,7 @@ $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
 
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, true);
 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-
+$version = $contentObjectAttribute->attribute( 'version' );
 $contentObject = eZContentObject::fetch( $contentObjectID );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
@@ -53,16 +53,11 @@ if ( ! $contentObject->attribute( 'can_read' ) )
         return;
 }
 
-//$binaryFile =& $contentObjectAttribute->content();
-$binary =& eZBinaryFile::fetch( $contentObjectAttributeID );
-
+$binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
 $ini =& eZINI::instance();
 $origDir = $ini->variable( "FileSettings", "StorageDir" ) . '/original';
 
-//$orig_dir = $binaryFile->storageDir( "original" );
 $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
-
-
 if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
 {
     $fileSize = filesize ( $fileName );
@@ -90,15 +85,5 @@ if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
     eZDebug::writeNotice( $binary, 'binary');
     eZDebug::writeNotice( $fileName, 'fileName');
 }
-    
-
-
-
-
-
-
-
-
-
 
 ?>

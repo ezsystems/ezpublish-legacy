@@ -43,8 +43,8 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-
 include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
+include_once( "lib/ezutils/classes/ezmail.php" );
 
 define( "EZ_DATATYPESTRING_AUTHOR", "ezauthor" );
 
@@ -62,12 +62,48 @@ class eZAuthorType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $data = $http->postVariable( $base . "_data_author_" . $contentObjectAttribute->attribute( "id" ) );
-        eZDebug::writeNotice( "Validating author $data" );
-        // TODO: Make better matching
-//        if ( preg_match( "#^[0-1]#", $data ) )
+        if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $idList = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
+            $nameList = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
+            $emailList = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
+            if ( $classAttribute->attribute( "is_required" ) == true )
+            {
+                if ( trim( $nameList[0] ) == "" )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                         'eZAuthorType',
+                                                                         'At least one author is requied.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+            if ( trim( $nameList[0] ) != "" )
+            {
+                for ( $i=0;$i<count( $idList );$i++ )
+                {
+                    $name =  $nameList[$i];
+                    $email =  $emailList[$i];
+                    if ( trim( $name )== "" )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                             'eZAuthorType',
+                                                                             'Author name should be provided.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+
+                    }
+                    $isValidate =  eZMail::validate( $email );
+                    if ( ! $isValidate )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                             'eZAuthorType',
+                                                                             'Email address is not valid.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
+                }
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            //      return false;
     }
 
     /*!
@@ -89,16 +125,18 @@ class eZAuthorType extends eZDataType
         if ( trim( $contentObjectAttribute->attribute( "data_text" ) ) != "" )
         {
             $author->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
+            $temp = $contentObjectAttribute->attribute( "data_text");
         }
         else
         {
             $user =& eZUser::currentUser();
-
             $author->addAuthor( $user->attribute( 'login' ), $user->attribute( 'email' ) );
         }
 
         if ( count( $author->attribute( 'author_list' ) ) == 0 )
+        {
             $author->addAuthor( "Default", "" );
+        }
 
         return $author;
     }

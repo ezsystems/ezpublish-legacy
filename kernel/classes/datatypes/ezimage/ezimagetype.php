@@ -141,6 +141,7 @@ class eZImageType extends eZDataType
         eZImageVariation::removeVariation( $contentObjectAttributeID, $version );
 
     }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
@@ -155,7 +156,7 @@ class eZImageType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
                                                                      'eZImageType',
-                                                                     'A valid image file is required.' ) );
+                                                                     'A valid image file i.' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }
