@@ -111,6 +111,11 @@ eZDBSchema:
   index.
 - Fixed bug in MySQL handler when generating SQL for adding indexes.
 
+eZTemplate:
+- Fixed bug in template compiler when assigning the results of an expression to
+  a PHP variable and the expression resulted in an object proxy (e..g section
+  iterator)
+
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
   Merged from stable/3.3 rev. 10194

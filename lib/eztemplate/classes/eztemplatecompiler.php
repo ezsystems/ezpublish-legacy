@@ -2501,7 +2501,25 @@ $rbracket
                 }
                 else if ( $variableAssignmentName !== false and $isStaticElement )
                 {
-                    $php->addCodePiece( "\$$generatedVariableName = $variableText;", array( 'spacing' => $spacing ) );
+                    if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
+                    {
+                        $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
+                                            "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n" .
+                                            "\$$generatedVariableName = $variableText;\n", array( 'spacing' => $spacing ) );
+                    }
+                    else
+                    {
+                        $php->addCodePiece( "\$$generatedVariableName = $variableText;", array( 'spacing' => $spacing ) );
+                    }
+                }
+                else if ( $variableAssignmentName !== false and !$isStaticElement )
+                {
+                    if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
+                    {
+                        $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
+                                            "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n",
+                                            array( 'spacing' => $spacing ) );
+                    }
                 }
                 unset( $dataInspection );
             }
