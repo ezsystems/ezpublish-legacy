@@ -221,7 +221,8 @@ class eZNodeviewfunctions
         {
             $depPreferences = explode( ';', $depPreferences[$viewMode] );
             $pString = "";
-            $preferences =& eZPreferences::values();
+            // Fetch preferences for the specified user
+            $preferences =& eZPreferences::values( $user );
             if ( $preferences )
             {
                 foreach( $depPreferences as $pref )

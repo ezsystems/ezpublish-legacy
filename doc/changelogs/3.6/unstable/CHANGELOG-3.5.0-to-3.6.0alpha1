@@ -253,7 +253,7 @@ eZInformationCollection:
 - Fixed bug #6078: Wrong RSS rights to anonymous users.
   (Manually merged from stable/3.5 (3.5.2) rev. 11261) 
 - Fixed bug #6446: eZPreferences::values() always assumes the current user.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11264)
+  (Manually merged from stable/3.5 (3.5.2) rev. 11264, 11274)
 - Fixed bug #6447: eZUser session caching problems.
   (Manually merged from stable/3.5 (3.5.2) rev. 11267)
 - Fixed bug #6445: Pregeneration of content cache: Missing default view parameters.
