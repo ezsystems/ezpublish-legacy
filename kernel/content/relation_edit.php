@@ -53,7 +53,6 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
          $http->postVariable( 'BrowseActionName' ) == 'AddRelatedObject' )
     {
         $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
-
         $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
         $relatedObjectIDArray = array();
         foreach (  $relatedObjects as  $relatedObject )
@@ -80,6 +79,8 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     $http =& eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
+        $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
+
         $objectID = $object->attribute( 'id' );
 //         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
         $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
