@@ -100,7 +100,7 @@ class eZTestCase extends eZTestUnit
      Adds a new test method \a $method. If \a $name is empty the method name is used as name.
      \note If the method does not exist a warning is issued and the test will not be added the case.
     */
-    function addTest( $method, $name = false )
+    function addTest( $method, $name = false, $parameter = false )
     {
         if ( !method_exists( $this, $method ) )
         {
@@ -111,7 +111,8 @@ class eZTestCase extends eZTestUnit
             $name = $method;
         $this->addTestEntry( array( 'name' => $name,
                                     'object' => &$this,
-                                    'method' => $method ) );
+                                    'method' => $method,
+                                    'parameter' => $parameter) );
     }
 
     /*!

@@ -221,7 +221,7 @@ class eZTestRunner
                 if ( method_exists( $object, $method ) )
                 {
                     $object->setup();
-                    $object->$method( $this );
+                    $object->$method( $this, $entry['parameter'] );
                     $object->teardown();
                 }
                 else
