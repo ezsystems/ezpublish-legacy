@@ -37,7 +37,7 @@
      version_list=fetch(content,version_list,hash(contentobject, $object,limit,$page_limit,offset,$view_parameters.offset))
      list_count=fetch(content,version_count, hash(contentobject, $object))}
 
-<form action={concat( '/content/versions/', $object.id, '/' )|ezurl} method="post">
+<form name="versionsform" action={concat( '/content/versions/', $object.id, '/' )|ezurl} method="post">
 
 <div class="context-block">
 
@@ -53,8 +53,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-	<th class="tight">&nbsp;</th>
-    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;"/></th>    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Translations'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
