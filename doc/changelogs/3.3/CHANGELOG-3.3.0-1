@@ -23,6 +23,8 @@ Changes from 3.2-1 to 3.3.0-1
 - Added support for class filter in treemenu operator.
 - Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
 - Fixed correct link in wordtoimage operator when running in nvh mode.
+- Fixed correct link in wordtoimage operator when running in nvh mode.
+- Changed default redirect url from current object node to it's parent node when publishing from preview page.
 
 *DataType:
 
