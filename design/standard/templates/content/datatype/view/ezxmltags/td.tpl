@@ -1,3 +1,9 @@
 <td valign="top">
-{$content}
+{switch name=Sw match=$content}
+  {case match=""}
+  &nbsp;
+  {/case}
+  {case}
+  {$content}
+  {/case}
 </td>

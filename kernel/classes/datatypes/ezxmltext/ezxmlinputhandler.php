@@ -136,6 +136,8 @@ class eZXMLInputHandler
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
+
+
     /*!
      \private
     */
@@ -154,7 +156,7 @@ class eZXMLInputHandler
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
         $sectionData = "<section>";
         $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
-        $sectionLevel = 1;
+        $sectionLevel = 0;
         $unMatchedSection = 0;
         foreach ( $sectionArray as $sectionPart )
         {
@@ -172,24 +174,13 @@ class eZXMLInputHandler
 
                 if ( $newSectionLevel < $sectionLevel )
                 {
-                    $sectionData .= "\n</section>\n";
-                    $unMatchedSection -= 1;
-                }
-
-                /*  $sectionLevel = $newSectionLevel;
-                $sectionData .= $sectionPart;
-
-                if ( $newSectionLevel < $sectionLevel )
-                {
-                    $sectionData .= "\n</section>\n";
-                    $sectionData .= "\n</section>\n";
-                    $sectionData .= "\n</section>\n";
-                }
-                if ( $newSectionLevel == $sectionLevel )
-                {
-                    $sectionData .= "\n</section>\n";
+                    for ( $i=1;$i<=($unMatchedSection - $newSectionLevel + 1);$i++ )
+                    {
+                        $sectionData .= "\n</section>\n";
+                    }
                     $sectionData .= "\n<section>\n";
-                }*/
+                    $unMatchedSection = $newSectionLevel;
+                }
 
                 $sectionLevel = $newSectionLevel;
                 $sectionData .= $sectionPart;
@@ -427,7 +418,7 @@ class eZXMLInputHandler
         {
             $children =& $node[0]->children();
             if ( count( $children ) > 0 )
-                $output .= $this->inputSectionXML( $node[0], 1 );
+                $output .= $this->inputSectionXML( $node[0], 0 );
         }
         return $output;
     }
@@ -436,11 +427,12 @@ class eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
-    function &inputSectionXML( &$section, $sectionLevel )
+    function &inputSectionXML( &$section,  $currentSectionLevel )
     {
         $output = "";
         foreach ( $section->children() as $sectionNode )
         {
+            $sectionLevel = $currentSectionLevel;
             $tagName = $sectionNode->name();
 
             switch ( $tagName )

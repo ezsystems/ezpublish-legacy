@@ -165,7 +165,7 @@ class eZXMLTextType extends eZDataType
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
-                $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 1 );
+                $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 0 );
             }
         }
         return $output;
@@ -214,19 +214,21 @@ class eZXMLTextType extends eZDataType
      \private
      \return the XHTML rendered version of the section
     */
-    function &renderXHTMLSection( &$tpl, &$section, $sectionLevel )
+    function &renderXHTMLSection( &$tpl, &$section, $currentSectionLevel )
     {
         $output = "";
+         eZDebug::writeDebug("level ". $section->toString() );
         foreach ( $section->children() as $sectionNode )
         {
+            $sectionLevel = $currentSectionLevel;
             $tagName = $sectionNode->name();
             switch ( $tagName )
             {
                 // tags with parameters
                 case 'header' :
                 {
-                    // $level = $sectionNode->attributeValue( 'level' );
                     $level = $sectionLevel;
+                    eZDebug::writeDebug("header ". $level );
                     $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
                     $tpl->setVariable( 'level', $level, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/header.tpl";
@@ -242,6 +244,7 @@ class eZXMLTextType extends eZDataType
                 case 'section' :
                 {
                     $sectionLevel += 1;
+                    eZDebug::writeDebug("level ". $sectionLevel );
                     $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $sectionLevel );
                 }break;
 
@@ -370,7 +373,6 @@ class eZXMLTextType extends eZDataType
                     eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
 
                     $listContent .= $text;
-                    eZDebug::writeDebug("wwwwwww");
                 }
 
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
