@@ -352,6 +352,12 @@ class eZSearchEngine
             {
                 $sectionQuery = "ezsearch_object_word_link.section_id = '$searchSectionID' AND ";
             }
+            else if ( is_array( $searchSectionID ) )
+            {
+                // Build query for searching in an array of sections
+                $sectionString = implode( ', ', $searchSectionID );
+                $sectionQuery = "ezsearch_object_word_link.section_id IN ( $sectionString ) AND ";
+            }
 
             $searchDateQuery = '';
             if ( is_numeric( $searchDate ) and  $searchDate > 0 )
@@ -397,15 +403,28 @@ class eZSearchEngine
             }
 
             $classQuery = "";
-            if ( is_numeric( $searchContentClassID ) and  $searchContentClassID > 0 )
+            if ( is_numeric( $searchContentClassID ) and $searchContentClassID > 0 )
             {
+                // Build query for searching in one class
                 $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
+            }
+            else if ( is_array( $searchContentClassID ) )
+            {
+                // Build query for searching in a number of classes
+                $classString = implode( ', ', $searchContentClassID );
+                $classQuery = "ezsearch_object_word_link.contentclass_id IN ( $classString ) AND ";
             }
 
             $classAttributeQuery = "";
             if ( is_numeric( $searchContentClassAttributeID ) and  $searchContentClassAttributeID > 0 )
             {
                 $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
+            }
+            else if ( is_array( $searchContentClassAttributeID ) )
+            {
+                // Build query for searching in a number of attributes
+                $attributeString = implode( ', ', $searchContentClassAttributeID );
+                $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id IN ( $attributeString ) AND ";
             }
 
             $searchWordArray = $this->splitString( $searchText );
