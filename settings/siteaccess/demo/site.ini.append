@@ -7,7 +7,7 @@
 #       directory using .append files.
 
 [SiteSettings]
-IndexPage=/content/view/full/26
+IndexPage=/content/view/full/24
 LoginPage=embedded
 
 [SiteAccessSettings]
