@@ -5,34 +5,34 @@
   <warning>This format was made with a development version and will not work with any release versions.
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
-  <name modified="1061290747">news_site</name>
-  <summary modified="1061290762">News site</summary>
+  <name modified="1061297962">news_site</name>
+  <summary modified="1061297968">News site</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2.0-1</version>
     <named-version>3.2 beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1061290747">
+    <maintainer modified="1061297962">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1061290747</timestamp>
+    <timestamp>1061297962</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1061290747" />
+              modified="1061297962" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1061290747"
+    <entry timestamp="1061297962"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1061290747">
+           modified="1061297962">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -40,7 +40,7 @@ Upgrades to the development format will not be supported.</warning>
     <collection name="default">
       <file-list type="design"
                  design="news"
-                 modified="1061290748" />
+                 modified="1061297963" />
       <file-list type="ini"
                  role="siteaccess"
                  role-value="news"
@@ -48,11 +48,11 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/news/override.ini.append"
               md5sum="e1dd5ea39c5dc492041d22664c02e7a8"
-              modified="1061290750" />
+              modified="1061297963" />
         <file name="site.ini.append"
               path="settings/siteaccess/news/site.ini.append"
               md5sum="cbd00572973fc961f800bf188d82e96b"
-              modified="1061290751" />
+              modified="1061297964" />
       </file-list>
       <file-list type="ini"
                  role="siteaccess"
@@ -61,70 +61,62 @@ Upgrades to the development format will not be supported.</warning>
         <file name="override.ini.append"
               path="settings/siteaccess/admin/override.ini.append"
               md5sum="50f4805254652ccea3c0191a23ce5c21"
-              modified="1061290753" />
+              modified="1061297965" />
         <file name="site.ini.append"
               path="settings/siteaccess/admin/site.ini.append"
-              md5sum="275939f14d668221e40aca876209892f"
-              modified="1061290754" />
+              md5sum="47a0ba3f8010fba23cc881208bf4bfc1"
+              modified="1061297965" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.png"
               path="newsthumbnail.png"
               md5sum="ac4fc22bd08c13f9ee5e02ae575ff941"
-              modified="1061290759" />
+              modified="1061297968" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1061290747">1.0</number>
-    <release modified="1061290747">1</release>
+    <number modified="1061297962">1.0</number>
+    <release modified="1061297962">1</release>
   </version>
-  <licence modified="1061290747">GPL</licence>
-  <state modified="1061290747">alpha</state>
+  <licence modified="1061297962">GPL</licence>
+  <state modified="1061297962">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1061290748" />
+               modified="1061297963" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1061290754" />
+               modified="1061297966" />
       <require type="ezdb"
                name="postgresql"
-               modified="1061290756" />
-      <require type="ezdb"
-               name="postgresql"
-               modified="1061290759" />
+               modified="1061297967" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061290748"
+          modified="1061297963"
           collection="default" />
     <item type="sql"
-          modified="1061290754"
+          modified="1061297966"
           filename="news.sql"
           original-path="packages/news.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1061290756"
-          filename="kernel_schema.sql"
-          original-path="kernel/sql/postgresql/kernel_schema.sql"
-          database-type="postgresql" />
-    <item type="sql"
-          modified="1061290759"
-          filename="cleandata.sql"
-          original-path="kernel/sql/postgresql/cleandata.sql"
+          modified="1061297967"
+          filename="news_postgresql.sql"
+          original-path="packages/news_postgresql.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1061290748"
+          modified="1061297963"
           collection="default" />
   </uninstall>
 </package>
