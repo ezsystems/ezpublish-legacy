@@ -2061,12 +2061,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
         $alias->store();
 
-        // Update old url alias, if exists
+        // Update old url alias and old forwarding urls
         if ( get_class( $oldUrlAlias ) == 'ezurlalias' )
         {
             $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
             $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
             $oldUrlAlias->store();
+            eZURLAlias::updateForwardID( $alias->attribute( 'id' ), $oldUrlAlias->attribute( 'id' ) );
         }
 
         // Check if any URL's is pointing to this node, if so update it
@@ -2082,6 +2083,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->setAttribute( 'path_identification_string', $newPathString );
 
         $this->store();
+
+        $oldPathStringLength = strlen( $oldPathString );
+        $db =& eZDB::instance();
+        $newPathStringText = $db->escapeString( $newPathString );
+        $oldPathStringText = $db->escapeString( $oldPathString );
+        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
+        // Update children
+        $sql = "UPDATE ezcontentobject_tree
+SET
+    path_identification_string = $newPathStringQueryPart
+WHERE
+    path_identification_string LIKE '$oldPathStringText/%'";
+
+        $db->query( $sql );
 
         eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
     }
