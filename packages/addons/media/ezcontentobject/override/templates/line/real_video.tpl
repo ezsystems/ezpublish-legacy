@@ -1,0 +1,17 @@
+{* Real video - Line view *}
+
+<div class="content-view-line">
+    <div class="class-real_video">
+
+    <h2>{$node.name}</h2>
+
+    <div class="attribute-short">
+        {attribute_view_gui attribute=$node.object.data_map.description}
+    </div>
+
+    <div class="attribute-link">
+        <p><a href={$node.url_alias|ezurl}>{"Read more..."|i18n("design/base")}</a></p>
+    </div>
+
+    </div>
+</div>

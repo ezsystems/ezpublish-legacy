@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="3.4.0alpha1"
+<package version="3.4.0beta1"
          development="true"
          xmlns:ezpackage="http://ez.no/ezpackage"
          install_type="install">
@@ -8,12 +8,11 @@ The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name>media</name>
   <summary>Media types</summary>
-  <description>This package contains functionality to publish, Flash, Quicktime, Real video and Windows media.
-</description>
-  <type value="contentclass" />
+  <description>Adds media functionality. Allows for publishing of Flash, Quicktime, Real video and Windows media files.</description>
+  <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0alpha3</version>
-    <named-version>3.4.0alpha3-alpha3</named-version>
+    <version>3.4.0beta1</version>
+    <named-version>3.4.0beta1-beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -23,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082655605</timestamp>
+    <timestamp>1083917392</timestamp>
     <host>trunk.ezpublish.drakhendvh1.ez.no</host>
   </packaging>
   <documents>
@@ -31,16 +30,25 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082655605"
+    <entry timestamp="1083917392"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
-      <change>Creation of package.</change>
+      <change>Created package for 3.4.0beta1.</change>
     </entry>
   </changelog>
-  <simple-files />
+  <simple-files>
+    <961e29c8060623e980cd17495ed1b196 original-path="var/storage/original/application/phpxosqTf.swf"
+                                      package-path="simplefiles/57fb3e3a.swf" />
+    <6e585e24fd1d16ec60b84de583296f7d original-path="var/storage/original/video/phpy9lUos.mov"
+                                      package-path="simplefiles/14db302b.mov" />
+    <71bc160df9200636180b6ba9812d74bb original-path="var/storage/original/application/phpxDKuAr.asf"
+                                      package-path="simplefiles/a186a858.asf" />
+    <c3ec23a31ff8f6f5ca49962e5d8a76e1 original-path="var/storage/original/application/phpIW3Czy.rm"
+                                      package-path="simplefiles/e6d841a1.rm" />
+  </simple-files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>1.0</number>
+    <number>3.4.0beta1</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -49,16 +57,19 @@ Upgrades to the development format will not be supported.</warning>
     <provides>
       <provide type="ezcontentclass"
                name="contentclass"
+               value="folder" />
+      <provide type="ezcontentclass"
+               name="contentclass"
                value="flash" />
       <provide type="ezcontentclass"
                name="contentclass"
                value="quicktime" />
       <provide type="ezcontentclass"
                name="contentclass"
-               value="real_video" />
+               value="windows_media" />
       <provide type="ezcontentclass"
                name="contentclass"
-               value="windows_media" />
+               value="real_video" />
     </provides>
     <requires />
     <obsoletes />
@@ -66,30 +77,42 @@ Upgrades to the development format will not be supported.</warning>
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezcontentclass"
+          filename="class-folder"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
           filename="class-flash"
           sub-directory="ezcontentclass" />
     <item type="ezcontentclass"
           filename="class-quicktime"
           sub-directory="ezcontentclass" />
     <item type="ezcontentclass"
-          filename="class-real_video"
-          sub-directory="ezcontentclass" />
-    <item type="ezcontentclass"
           filename="class-windows_media"
           sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
+          filename="class-real_video"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentobject"
+          filename="2169ade7"
+          sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezcontentclass"
+          filename="class-folder"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
           filename="class-flash"
           sub-directory="ezcontentclass" />
     <item type="ezcontentclass"
           filename="class-quicktime"
           sub-directory="ezcontentclass" />
     <item type="ezcontentclass"
-          filename="class-real_video"
-          sub-directory="ezcontentclass" />
-    <item type="ezcontentclass"
           filename="class-windows_media"
           sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
+          filename="class-real_video"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentobject"
+          filename="2169ade7"
+          sub-directory="ezcontentobject" />
   </uninstall>
 </package>
