@@ -1,7 +1,13 @@
 
 [AliasSettings]
 AliasList[]=logo
+AliasList[]=thumbnail
 
 [logo]
 Reference=reference
 Filters[]=geometry/scaledownonly=250;58
+
+
+[thumbnail]
+Reference=reference
+Filters[]=geometry/scaledownonly=150;150
