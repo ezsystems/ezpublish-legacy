@@ -28,9 +28,9 @@ fi
 function make_dir
 {
     local DIR
-    DIR=`echo $1 | sed 's#^\./##'`
+    DIR=`echo "$1" | sed 's#^\./##'`
     if [ ! -d "$DEST/$DIR" ]; then
-	mkdir $DEST/$DIR
+	mkdir "$DEST/$DIR"
     fi
 }
 
@@ -38,8 +38,8 @@ function copy_file
 {
     local SRC_FILE DST_FILE
     SRC_FILE=`echo $1 | sed 's#^\./##'`
-    DST_FILE=$SRC_FILE
-    cp -f $SRC_FILE $DEST/$DST_FILE
+    DST_FILE="$SRC_FILE"
+    cp -f "$SRC_FILE" "$DEST/$DST_FILE"
 
 }
 
@@ -51,18 +51,18 @@ function scan_dir_normal
     DIR=$1
 #    echo "Scanning dir $DIR normally"
     for file in $DIR/*; do
-	if [ -e $file -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
+	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
 # 	if ! echo $file | grep "/\*" &>/dev/null; then
 	    if [ -d "$file" ]; then
 	        # Do not include .svn dirs
 		if [ "$file" != ".svn" ]; then
-		    make_dir $file
-		    scan_dir_normal $file
+		    make_dir "$file"
+		    scan_dir_normal "$file"
 		fi
 	    else
 	        # Do not include temporary files
-		if ! echo $file | grep '[~#]$' &>/dev/null; then
-		    copy_file $file
+		if ! echo "$file" | grep '[~#]$' &>/dev/null; then
+		    copy_file "$file"
 		fi
 	    fi
 	fi
@@ -94,7 +94,7 @@ function scan_dir
 		    fi
 		    if [ -d "$file" ]; then
 			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
-			make_dir $file
+			make_dir "$file"
 			if [ -z $DIST_DIR_RECURSIVE ]; then
 			    scan_dir "$file"
 			else
@@ -103,7 +103,7 @@ function scan_dir
 			fi
 		    else
 			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
-			copy_file $file
+			copy_file "$file"
 		    fi
 		fi
 	    fi
@@ -191,6 +191,15 @@ for arg in $*; do
 #	--skip-site-creation)
 #	    SKIPSITECREATION="1"
 #	    ;;
+	--skip-all-checks)
+	    SKIPCHECKVERSION="1"
+	    SKIPCHECKPHP="1"
+	    SKIPDBSCHEMA="1"
+	    SKIPDBCHECK="1"
+	    SKIPDBUPDATE="1"
+	    SKIPUNITTESTS="1"
+	    SKIPTRANSLATION="1"
+	    ;;
 	--skip-version-check)
 	    SKIPCHECKVERSION="1"
 	    ;;
@@ -376,6 +385,11 @@ echo -n "`$SETCOLOR_COMMENT`Copying`$SETCOLOR_NORMAL` "
 
 (cd $DIST_SRC && scan_dir .)
 echo
+
+if [ "$DEVELOPMENT" == "true" ]; then
+    echo "Copying test framework"
+    svn export "$CURRENT_URL/tests" "$DEST/tests" &>/dev/null
+fi
 
 for settingsfile in settings/*; do
     if [ -d "$settingsfile" ]; then
