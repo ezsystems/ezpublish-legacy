@@ -271,8 +271,8 @@
                 $from = '<' . $from .'>';
             if($this->is_connected()
                 AND $this->send_data('MAIL FROM:'.$from.'')
-                AND substr(trim($this->get_data()), 0, 3) === '250' ){
-
+                AND substr(trim($this->get_data()), 0, 3) === '250' )
+            {
                 return TRUE;
 
             }else
@@ -292,7 +292,6 @@
             if($this->is_connected()
                 AND $this->send_data('RCPT TO:'.$to.'' )
                 AND substr(trim($error = $this->get_data()), 0, 3) === '250' ){
-
                 return TRUE;
 
             }else{

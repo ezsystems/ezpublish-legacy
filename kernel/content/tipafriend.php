@@ -84,7 +84,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
     if ( $http->hasPostVariable( 'YourEmail' ) )
         $yourEmail = $http->variable( 'YourEmail' );
-    $receiversName = "Foo";
+
     if ( $http->hasPostVariable( 'ReceiversName' ) )
         $receiversName = $http->variable( 'ReceiversName' );
 
