@@ -150,8 +150,8 @@
 
 <!-- Attribute controls Start -->
   <td class="{$Attributes:sequence}" width="*" rowspan="2">&nbsp;</td>
-  <td class="{$Attributes:sequence}" width="1%" rowspan="2"><div class="listbutton"><a href={concat($module.functions.down.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}><img class="button" src={"button-move_down.gif"|ezimage} height="16" width="16" alt="{'Down'|i18n('design/standard/class/edit')}" /></a></div></td>
-  <td class="{$Attributes:sequence}" width="1%" rowspan="2"><div class="listbutton"><a href={concat($module.functions.up.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}> <img class="button" src={"button-move_up.gif"|ezimage} height="16" width="16" alt="{'Up'|i18n('design/standard/class/edit')}" /></a></div></td>
+  <td class="{$Attributes:sequence}" width="1%" rowspan="2"><div class="listbutton"><input type="image" class="button" src={"button-move_down.gif"|ezimage} height="16" width="16" alt="{'Down'|i18n('design/standard/class/edit')}" name="MoveDown_{$Attributes:item.id}" /></div></td>
+  <td class="{$Attributes:sequence}" width="1%" rowspan="2"><div class="listbutton"><input type="image" class="button" src={"button-move_up.gif"|ezimage} height="16" width="16" alt="{'Up'|i18n('design/standard/class/edit')}" name="MoveUp_{$Attributes:item.id}" /></div></td>
   <td class="{$Attributes:sequence}" width="1%" rowspan="2"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes:item.id}" /></td>
 <!-- Attribute controls End -->
 

@@ -15,6 +15,8 @@ Changes from 3.2-4 to 3.2-5
 - Fixed PHP 4 reference bug related stuff using eZContentObject::defaultLanguage() http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_at_content_saving_image_problem
 - Fixed cleaning up classification variable in template in xhtml output handler. http://ez.no/developer/ez_publish_3/bug_reports/classification_troubles
 - Fixed eZTimeType to return and store relative time. http://ez.no/developer/ez_publish_3/bug_reports/order_by_time
+- Fixed moving placement of class attributes. Changes done when moving are now store. Minor change of class edit template included.
+  http://ez.no/developer/ez_publish_3/bug_reports/diappearing_field_information_when_editing_a_class
 
 *Setup:
 
