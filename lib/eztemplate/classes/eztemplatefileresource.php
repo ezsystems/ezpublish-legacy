@@ -291,7 +291,7 @@ class eZTemplateFileResource
                     $locales = array_merge( $locales, explode( ',', $defaultLocale ) );
                 }
                 $localeData = $locales;
-                setlocale( LC_CTYPE, $locales );var_dump($locales);
+                setlocale( LC_CTYPE, $locales );
                 
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
