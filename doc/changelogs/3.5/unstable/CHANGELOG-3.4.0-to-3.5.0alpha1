@@ -31,6 +31,9 @@ Changes from 3.4.0 to 3.5.0alpha1
   (merged from 3.3 rev. 6778, also in 3.4 rev. 6779):
   o All object attribute versions were fetched instead of the current one;
   o Fetching from non-published objects was posssible.
+- Fixed typo in /kernel/package/install.php which caused package contents
+  not to be shown when importing (merged from 3.4 rev. 6782). 
+  http://ez.no/community/bug_reports/typo_in_kernel_package_install_php
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
