@@ -125,7 +125,7 @@ if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
-if ! grep "define( 'EZ_SDK_VERSION_ALIAS', \"$VERSION_ALIAS\" );" lib/version.php &>/dev/null; then
+if ! grep "define( \"EZ_SDK_VERSION_ALIAS\", \"$VERSION_ALIAS\" );" lib/version.php &>/dev/null; then
     echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
     echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_ALIAS"
     echo "Should be:"

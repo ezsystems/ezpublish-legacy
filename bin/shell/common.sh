@@ -2,7 +2,7 @@
 
 VERSION="3.3-4"
 VERSION_ONLY="3.3"
-VERSION_NICK="3.3"
+VERSION_NICK="3.3 release 4"
 
 RES_COL=60
 # terminal sequence to move to that column. You could change this

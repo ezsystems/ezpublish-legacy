@@ -15,6 +15,8 @@ function help
     echo "         --help                     This message"
     echo "         --mysql                    Redump MySQL files"
     echo "         --postgresql               Redump PostgreSQL files"
+    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
+    echo "         --clean-search             Cleanup search index (implies --clean)"
     echo
     echo "Example:"
     echo "$0 tmp"
@@ -45,6 +47,13 @@ for arg in $*; do
 	    ;;
 	--pause)
 	    USE_PAUSE="yes"
+	    ;;
+	--clean)
+	    CLEAN="--clean"
+	    ;;
+	--clean-search)
+	    CLEAN="--clean"
+	    CLEAN_SEARCH="--clean-search"
 	    ;;
 	-*)
 	    echo "$arg: unkown option specified"
@@ -104,9 +113,9 @@ if [ "$USE_MYSQL" != "" ]; then
     fi
 
     if [ ! -z $USE_PAUSE ]; then
-	./bin/shell/sqlredump.sh --mysql --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --mysql --pause --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
     else
-	./bin/shell/sqlredump.sh --mysql --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --mysql --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
     fi
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_MYSQL_DATA_FILE"
@@ -115,9 +124,9 @@ if [ "$USE_MYSQL" != "" ]; then
 
     for sql in $PACKAGE_MYSQL_FILES; do
 	if [ ! -z $USE_PAUSE ]; then
-	    ./bin/shell/sqlredump.sh --mysql --pause --sql-full $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --mysql --pause --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
 	else
-	    ./bin/shell/sqlredump.sh --mysql --sql-full $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --mysql --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
 	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
@@ -162,9 +171,9 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
     fi
 
     if [ ! -z $USE_PAUSE ]; then
-	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --pause --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
     else
-	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-data-only $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
     fi
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_DATA_FILE"
@@ -173,9 +182,9 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
 
     for sql in $PACKAGE_POSTGRESQL_FILES; do
 	if [ ! -z $USE_PAUSE ]; then
-	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full --pause $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full --pause $CLEAN $CLEAN_SEARCH $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
 	else
-	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
 	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
