@@ -91,6 +91,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
             }
 
+            // Fetch all embeded objects and cache by ID
+            $objectArray =& $dom->elementsByName( "object" );
+
+            if ( count( $objectArray ) > 0 )
+            {
+                $relatedObjectIDArray = array();
+                foreach ( $objectArray as $object )
+                {
+                    $objectID = $object->attributeValue( 'id' );
+                    $relatedObjectIDArray[] = $objectID;
+                }
+                $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+            }
+
             $sectionNode =& $node[0];
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
@@ -267,7 +281,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $objectID = $tag->attributeValue( 'id' );
                 // fetch attributes
                 $objectAttributes =& $tag->attributes();
-                $object =& eZContentObject::fetch( $objectID );
+                $object =& $this->ObjectArray["$objectID"];
+//                $object =& eZContentObject::fetch( $objectID );
+                // Fetch from cache
                 if ( get_class( $object ) == "ezcontentobject" )
                 {
                     $view = $tag->attributeValue( 'view' );
@@ -581,6 +597,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the URL's for <link> tags hashed by ID
     var $LinkArray = array();
+
+    /// Contains the Objects for the <object> tags hashed by ID
+    var $ObjectArray = array();
 
 }
 
