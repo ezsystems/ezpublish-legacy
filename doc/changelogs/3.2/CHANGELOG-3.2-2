@@ -46,6 +46,11 @@ eZ session:
 - Added setting for controlling cookie timeout value.
 - Added support for regenerating the session ID, this helps avoid session theft.
 
+eZ locale:
+- Added new translationCode() method which returns the locale code to be
+  used for translation. In most cases this is the same as localeCode()
+  but it can differ. This allows locales to reuse translations.
+
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 

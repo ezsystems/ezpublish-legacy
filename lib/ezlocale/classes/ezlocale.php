@@ -177,6 +177,7 @@ class eZLocale
         $this->CountryVariation =& $locale['country-variation'];
         $this->LanguageCode =& $locale['language'];
         $this->LocaleCode =& $locale['locale'];
+        $this->TranslationCode =& $locale['locale'];
         $this->Charset = $locale['charset'];
         $this->OverrideCharset = $locale['charset'];
 
@@ -367,6 +368,7 @@ class eZLocale
         $languageINI->assign( "RegionalSettings", "LanguageName", $this->LanguageName );
         $languageINI->assign( "RegionalSettings", "InternationalLanguageName", $this->IntlLanguageName );
         $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
+        $languageINI->assign( 'RegionalSettings', 'TranslationCode', $this->TranslationCode );
 
 //         $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
 //         $httpLocaleCode =& $languageINI->variable( 'HTTP', 'ContentLanguage' );
@@ -621,6 +623,17 @@ class eZLocale
     function languageComment()
     {
         return $this->LanguageComment;
+    }
+
+    /*!
+     Returns the locale code which is used for translation files. Normally this is the same as localeCode()
+     but for some locales translation from other languages can be used
+
+     e.g. por-MZ (Mozambique) uses por-PT for translation.
+    */
+    function translationCode()
+    {
+        return $this->TranslationCode;
     }
 
     /*!

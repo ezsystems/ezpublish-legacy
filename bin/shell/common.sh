@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="3.3.0-1"
+VERSION_ONLY="3.3"
 VERSION_NICK="3.3 alpha"
 
 RES_COL=60
