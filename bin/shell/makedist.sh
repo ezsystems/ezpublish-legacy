@@ -566,9 +566,9 @@ fi
 echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`locale`$SETCOLOR_NORMAL`"
 echo
 
+dir=`pwd`
 # We do not validate the translations if SKIPTRANSLATION is set
 if [ -z "$SKIPTRANSLATION" ]; then
-    dir=`pwd`
     cp -R -f $DEST/share/translations $DEST/share/translations.org &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "Failed to make copy of translations"
