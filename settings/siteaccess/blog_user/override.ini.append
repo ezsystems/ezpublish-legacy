@@ -63,3 +63,9 @@ Source=node/view/full.tpl
 MatchFile=infopage.tpl
 Subdir=templates
 Match[class]=10
+
+[poll]
+Source=node/view/full.tpl
+MatchFile=poll.tpl
+Subdir=templates
+Match[class]=25
