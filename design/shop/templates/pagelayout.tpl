@@ -10,7 +10,7 @@
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
-     @import url("/design/shop/stylesheets/shop-blue.css");
+     @import url("/design/shop/stylesheets/shop.css");
 </style>
 
 </head>
@@ -34,6 +34,21 @@
     <div id="subheader">
         <div class="design">
        
+        <div id="shoppingmenu">
+            <div class="design">
+             <ul>
+                 {section show=$current_user.is_logged_in}
+        		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
+                         <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
+        		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
+        		 <li><a href={"/user/logout"|ezurl}>logout</a></li>
+        		 {section-else}
+        		 <li><a href={"/user/login"|ezurl}>login</a></li>
+                         {/section}
+             </ul>
+             </div>
+        </div>
+
         <div id="mainmenu">
             <div class="design">
 
@@ -47,29 +62,30 @@
                 </ul>
             
             </div>
-        </div>
-
-        <div id="shoppingmenu">
-             <ul>
-                 {section show=$current_user.is_logged_in}
-		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
-                 <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
-		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
-		 <li><a href={"/user/logout"|ezurl}>logout</a></li>
-		 {section-else}
-		 <li><a href={"/user/login"|ezurl}>login</a></li>
-                 {/section}
-             </ul>
-        </div>
+        </div>      
         
-        <div class="break"></div> {* This is needed for proper flow of floating objects *}
-        
+        <div class="break"></div>
         </div>
     </div>
 
+    <div id="searchbox">
+        <div class="design">
+            <form action={"/content/search/"|ezurl} method="get">
+                 <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+                 <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
+            </form>
+        <div class="break"></div>
+        </div>
+    </div>
+
+    <div class="break"></div>
+
+    <div id="maincolumns">
+    <div id="leftmenu">
+    
     <div id="submenu">
         <div class="design">
-            <h2>Products</h2>  
+        <h3>Products</h3>
             {let path=$module_result.path
                  node_id=$module_result.node_id}
 
@@ -84,35 +100,25 @@
                     {section var=menu loop=$mainMenu}
                         {section show=$menu.item.is_selected}
                             <li class="level_{$menu.item.level}">
-                               <div class="selected"> 
-                               <a href={$$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
-                               </div>  
-                             </li>
+                                <div class="selected"> 
+                                <a href={$$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
+                                </div>  
+                            </li>
                         {section-else}
                             <li class="level_{$menu.item.level}">
-                             <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
+                                <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
                             </li>
                         {/section}
                    {/section}
                 {/let}
             </ul>
             {/let}
-        
         </div>
-    </div>
+   </div>
 
-    <div id="searchbox">
+   <div id="latestproducts">
         <div class="design">
-            <form action={"/content/search/"|ezurl} method="get">
-                 <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-                 <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
-            </form>
-        </div>
-    </div>
-
-    <div id="submenu">
-        <div class="design">
-            <h2>Latest products</h2>  
+            <h3>Latest products</h3>  
             {let new_product_list=fetch( content, tree, hash( parent_node_id, 2,
                                                                     limit, 6, 
                                                                     sort_by, array( published, false() ),
@@ -133,13 +139,18 @@
             {/let}
         </div>
     </div>
+    
+    </div>
+    
+    <div id="rightmenu">
+
     <div id="cart">
         <div class="design">
 
             {let basket=fetch( shop, basket )
                  use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
                  basket_items=$basket.items}
-            <h3>Shopping cart <a href={"/shop/basket"|ezurl}><img src={'arrow_right.gif'|ezimage} alt="Basket" width="12" height="12" /></a></h3>
+            <h3>Shopping cart</h3>
             {section show=$basket_items}
             <ul>
                 {section var=product loop=$basket_items sequence=array( odd, even )}
@@ -149,9 +160,10 @@
                     </li>
                 {/section}
             </ul>
-            <div class="price">{$basket.total_inc_vat|l10n(currency)}</div>
+            <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
+            <p><a href={"/shop/basket"|ezurl}>View full cart</a></p>
             {section-else}
-                0 items
+                <p>0 items</p>
             {/section}
             {/let}
 
@@ -192,28 +204,36 @@
             </ul>
             {/let}
         
-               {let news_list=fetch( content, tree, hash( parent_node_id, 2,
-                                                          limit, 5,
-                                                          sort_by, array( published, false() ),
-                                                          class_filter_type, include, 
-                                                          class_filter_array, array( 2 ) ) )}
-                                                          
-            <h3>Latest news</h3>
-            <ul>
-                   {section name=News loop=$news_list}
-                       <li>
-                       <a href={concat( 'content/view/full/', $News:item.node_id )|ezurl}>{$News:item.name|wash}</a>
-                       <div class="date">
-                        ({$News:item.object.published|l10n( shortdate )})
-                       </div>  
-                       </li>
-                    {/section}
-            </ul>
-               {/let}
-        
+
         </div>
     </div>
 
+    <div id="latestnews">
+        <div class="design">
+
+       {let news_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                  limit, 5,
+                                                  sort_by, array( published, false() ),
+                                                  class_filter_type, include, 
+                                                  class_filter_array, array( 2 ) ) )}
+        <h3>Latest news</h3>
+        <ul>
+               {section name=News loop=$news_list}
+                   <li>
+                   <a href={concat( 'content/view/full/', $News:item.node_id )|ezurl}>{$News:item.name|wash}</a>
+                   <div class="date">
+                   ({$News:item.object.published|l10n( shortdate )})
+                   </div>  
+                   </li>
+                {/section}
+        </ul>
+           {/let}
+
+        </div>
+    </div>
+
+    </div>
+    
     <div id="maincontent">
         <div class="design">
         
@@ -221,17 +241,16 @@
         <div class="design">
 
            <p>
-           &gt;
+           &gt; 
            {section name=Path loop=$module_result.path }
                {section show=$Path:item.url}
-                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+                   {section show=$:item.node_id|eq(152)|not()}
+                      <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a> /
+                   {/section}
                {section-else}
     	      {$Path:item.text|wash}
                {/section}
     
-               {delimiter}
-                 /
-               {/delimiter}
             {/section}
            </p>
 
@@ -240,8 +259,12 @@
 
             {$module_result.content}
         
+            <div class="break"></div>
         </div>
     </div>
+            <div class="break"></div>
+</div>
+
 
     <div id="footer">
         <div class="design">

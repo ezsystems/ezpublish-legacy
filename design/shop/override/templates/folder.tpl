@@ -13,8 +13,7 @@
                                           class_filter_type, 'include',
                                           class_filter_array, array( 'folder' ) ))}
 {section loop=$folder_list}
-    {$:item.name|wash}
-    <a href={$:item.url_alias|ezurl}><img src={"folder_open_large.png"|ezimage} width="35" height="36" alt="{$:item.name|wash}" /></a>
+    <p><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></p>
 {/section}
 
 {/let}
