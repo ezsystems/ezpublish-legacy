@@ -106,7 +106,7 @@ class eZURLOperator
                     $tpl->warning( 'eZURLOperator' . $operatorName, 'Requires attributename' );
                 else
                 {
-                    $sysAttribute = $tpl->elementValue( $op_params[0], $rootNamespace, $currentNamespace );
+                    $sysAttribute = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                     if ( !$this->Sys->hasAttribute( $sysAttribute ) )
                         $tpl->warning( 'eZURLOperator' . $operatorName, "No such attribute '$sysAttribute' for eZSys" );
                     else

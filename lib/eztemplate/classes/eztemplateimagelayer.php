@@ -218,7 +218,7 @@ class eZTemplateImageObject
             return;
         foreach ( array_keys( $createdImageArray ) as $createImageKey )
         {
-            $createdImage = $createdImage[$createdImageKey];
+            $createdImage = $createdImageArray[$createImageKey];
             ImageDestroy( $createdImage );
         }
     }
@@ -252,6 +252,23 @@ class eZTemplateImageObject
                 $this->StoredType = $type;
                 return true;
             } break;
+
+            case 'jpg':
+            {
+                include_once( 'lib/ezutils/classes/ezdir.php' );
+                if ( !file_exists( $filePath ) )
+                {
+                    $ini =& eZINI::instance();
+                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+                    eZDir::mkdir( $filePath, octdec( $perm ), true );
+                }
+                ImageJPEG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
+                $this->StoredPath = $filePath;
+                $this->StoredFile = $fileName;
+                $this->StoredType = $type;
+                return true;
+            } break;
+
             default:
             {
                 eZDebug::writeError( 'Image format not supported: ' . $type, 'eZTemplateImageObject::store' );
@@ -269,7 +286,18 @@ class eZTemplateImageObject
         {
             case 'png':
             {
-                $this->ImageObject =& ImageCreateFromPNG( $this->ImageObject, $this->StoredPath . '/' . $this->StoredFile );
+                $this->ImageObject =& ImageCreateFromPNG( $this->ImageObject,
+                                                          $this->StoredPath . '/' . $this->StoredFile );
+                if ( $this->ImageObject )
+                {
+                    $this->ImageObjectRef = eZTemplateImageObject::registerImage( $this->ImageObject );
+                    return true;
+                }
+            } break;
+            case 'jpg':
+            {
+                $this->ImageObject =& ImageCreateFromJPEG( $this->ImageObject,
+                                                           $this->StoredPath . '/' . $this->StoredFile );
                 if ( $this->ImageObject )
                 {
                     $this->ImageObjectRef = eZTemplateImageObject::registerImage( $this->ImageObject );
@@ -292,7 +320,7 @@ class eZTemplateImageObject
             $this->destroy();
         }
         $this->ImageObject = ImageCreate( $width, $height );
-        $this->ImageObjectRef = eZTemplateImageObject::registerImage( $imageObject );
+        $this->ImageObjectRef = eZTemplateImageObject::registerImage( $this->ImageObject );
     }
 
     function clone( $imageObject, $width, $height )
@@ -303,7 +331,7 @@ class eZTemplateImageObject
             $this->destroy();
         }
         $this->ImageObject = ImageCreate( $width, $height );
-        $this->ImageObjectRef = eZTemplateImageObject::registerImage( $imageObject );
+        $this->ImageObjectRef = eZTemplateImageObject::registerImage( $this->ImageObject );
         ImageCopy( $this->ImageObject, $imageObject, 0, 0, 0, 0, $width, $height );
     }
 
@@ -328,7 +356,7 @@ class eZTemplateImageObject
     {
         $i = 0;
         $hasFirst = false;
-        $firstImageObject = null;
+        $firstImageLayer = null;
         while ( $i < count( $this->ImageLayers ) and
                 !$hasFirst )
         {
@@ -339,7 +367,7 @@ class eZTemplateImageObject
                 $imageObject = $layer->imageObject();
                 if ( $imageObject !== null )
                 {
-                    $firstImageObject =& $layer;
+                    $firstImageLayer =& $layer;
                     $hasFirst = true;
                 }
             }
@@ -347,7 +375,7 @@ class eZTemplateImageObject
         }
         if ( $hasFirst )
         {
-            $this->clone( $firstImageObject->imageObject(), $firstImageObject->width(), $firstImageObject->height() );
+            $this->clone( $firstImageLayer->imageObject(), $firstImageLayer->width(), $firstImageLayer->height() );
             while ( $i < count( $this->ImageLayers ) )
             {
                 $layer =& $this->ImageLayers[$i];
@@ -517,8 +545,7 @@ class eZTemplateImageLayer
         return $this->TextBoundingBox;
     }
 
-    function drawText( $text,
-                       $x, $y, $angle )
+    function drawText( $text, $x, $y, $angle )
     {
         $textColor = $this->TextColor;
         if ( is_string( $textColor ) )
@@ -528,11 +555,11 @@ class eZTemplateImageLayer
                       $textColor, $this->Font->file(), $text );
     }
 
-    function &createForText( $text, $font,
-                            $widthAdjustment, $heightAdjustment, $angle )
+    function &createForText( $text, $font, $widthAdjustment, $heightAdjustment, $angle )
     {
         if ( get_class( $font ) != 'eztemplateimagefont' )
             return false;
+
         $bbox = @ImageTTFBBox( $font->pointSize(), $angle, $font->file(), $text );
         if ( !$bbox )
             return false;
@@ -543,7 +570,8 @@ class eZTemplateImageLayer
         $height += $heightAdjustment;
         $imageObject = ImageCreate( $width, $height );
         $imageObjectRef = eZTemplateImageObject::registerImage( $imageObject );
-        return new eZTemplateImageLayer( $imageObjectRef, $imageObject, $width, $height, 0, 0, $font, $bbox );
+        return new eZTemplateImageLayer( $imageObjectRef, $imageObject, $width, $height,
+                                         0, 0, $font, $bbox );
     }
 
     function imageObject( $createMissing = true )
@@ -607,6 +635,23 @@ class eZTemplateImageLayer
                 $this->StoredType = $type;
                 return true;
             } break;
+
+            case 'jpg':
+            {
+                include_once( 'lib/ezutils/classes/ezdir.php' );
+                if ( !file_exists( $filePath ) )
+                {
+                    $ini =& eZINI::instance();
+                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );;
+                    eZDir::mkdir( $filePath, octdec( $perm ), true );
+                }
+                ImageJPEG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
+                $this->StoredPath = $filePath;
+                $this->StoredFile = $fileName;
+                $this->StoredType = $type;
+                return true;
+            } break;
+
             default:
             {
                 eZDebug::writeError( 'Image format not supported: ' . $type, 'eZTemplateImageLayer::store' );
@@ -631,6 +676,17 @@ class eZTemplateImageLayer
                     return true;
                 }
             } break;
+
+            case 'jpg':
+            {
+                $this->ImageObject =& ImageCreateFromJPEG( $this->StoredPath . '/' . $this->StoredFile );
+                if ( $this->ImageObject )
+                {
+                    $this->ImageObjectRef = eZTemplateImageObject::registerImage( $this->ImageObject );
+                    return true;
+                }
+            } break;
+
             default:
             {
                 eZDebug::writeError( 'Image format not supported: ' . $this->StoredType, 'eZTemplateImageLayer::load' );

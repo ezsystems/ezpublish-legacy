@@ -76,7 +76,8 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'abs', 'ceil', 'floor', 'round' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
-                                    'operator_names' => array( 'texttoimage', 'image', 'imagefile' ) );
+                                    'operator_names' => array( 'texttoimage', 'image', 'imagefile',
+                                                               'imagelabel' ) );
 
 // Function autoloading
 
