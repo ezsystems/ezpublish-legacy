@@ -3,7 +3,7 @@ Default:
 "/var/cache/images/root.png"
 "/design/standard/stylesheets/core.css"
 "/design/standard/images/uml.png"
-"#"
+"#an-anchor"
 "/"
 "/"
 DoubleQuoted:
@@ -11,7 +11,7 @@ DoubleQuoted:
 "/var/cache/images/root.png"
 "/design/standard/stylesheets/core.css"
 "/design/standard/images/uml.png"
-"#"
+"#an-anchor"
 "/"
 "/"
 SingleQuoted:
@@ -19,7 +19,7 @@ SingleQuoted:
 '/var/cache/images/root.png'
 '/design/standard/stylesheets/core.css'
 '/design/standard/images/uml.png'
-'#'
+'#an-anchor'
 '/'
 '/'
 NoQuote:
@@ -27,7 +27,7 @@ NoQuote:
 /var/cache/images/root.png
 /design/standard/stylesheets/core.css
 /design/standard/images/uml.png
-#
+#an-anchor
 /
 /
 Variable input:

@@ -3,7 +3,7 @@ Default:
 "/ezpublish-3.4/var/cache/images/root.png"
 "/ezpublish-3.4/design/standard/stylesheets/core.css"
 "/ezpublish-3.4/design/standard/images/uml.png"
-"/ezpublish-3.4/index.php/blog#"
+"#an-anchor"
 "/ezpublish-3.4/index.php/blog"
 "/ezpublish-3.4/index.php/blog"
 DoubleQuoted:
@@ -11,7 +11,7 @@ DoubleQuoted:
 "/ezpublish-3.4/var/cache/images/root.png"
 "/ezpublish-3.4/design/standard/stylesheets/core.css"
 "/ezpublish-3.4/design/standard/images/uml.png"
-"/ezpublish-3.4/index.php/blog#"
+"#an-anchor"
 "/ezpublish-3.4/index.php/blog"
 "/ezpublish-3.4/index.php/blog"
 SingleQuoted:
@@ -19,7 +19,7 @@ SingleQuoted:
 '/ezpublish-3.4/var/cache/images/root.png'
 '/ezpublish-3.4/design/standard/stylesheets/core.css'
 '/ezpublish-3.4/design/standard/images/uml.png'
-'/ezpublish-3.4/index.php/blog#'
+'#an-anchor'
 '/ezpublish-3.4/index.php/blog'
 '/ezpublish-3.4/index.php/blog'
 NoQuote:
@@ -27,7 +27,7 @@ NoQuote:
 /ezpublish-3.4/var/cache/images/root.png
 /ezpublish-3.4/design/standard/stylesheets/core.css
 /ezpublish-3.4/design/standard/images/uml.png
-/ezpublish-3.4/index.php/blog#
+#an-anchor
 /ezpublish-3.4/index.php/blog
 /ezpublish-3.4/index.php/blog
 Variable input:

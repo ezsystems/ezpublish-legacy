@@ -3,7 +3,7 @@ Default:
 {"var/cache/images/root.png"|ezroot}
 {"stylesheets/core.css"|ezdesign}
 {"uml.png"|ezimage}
-{"#"|ezurl}
+{"#an-anchor"|ezurl}
 {"/"|ezurl}
 {""|ezurl}
 DoubleQuoted:
@@ -11,7 +11,7 @@ DoubleQuoted:
 {"var/cache/images/root.png"|ezroot( double )}
 {"stylesheets/core.css"|ezdesign( double )}
 {"uml.png"|ezimage( double )}
-{"#"|ezurl( double )}
+{"#an-anchor"|ezurl( double )}
 {"/"|ezurl( double )}
 {""|ezurl( double )}
 SingleQuoted:
@@ -19,7 +19,7 @@ SingleQuoted:
 {"var/cache/images/root.png"|ezroot( single )}
 {"stylesheets/core.css"|ezdesign( single )}
 {"uml.png"|ezimage( single )}
-{"#"|ezurl( single )}
+{"#an-anchor"|ezurl( single )}
 {"/"|ezurl( single )}
 {""|ezurl( single )}
 NoQuote:
@@ -27,7 +27,7 @@ NoQuote:
 {"var/cache/images/root.png"|ezroot( no )}
 {"stylesheets/core.css"|ezdesign( no )}
 {"uml.png"|ezimage( no )}
-{"#"|ezurl( no )}
+{"#an-anchor"|ezurl( no )}
 {"/"|ezurl( no )}
 {""|ezurl( no )}
 Variable input:
