@@ -1420,7 +1420,8 @@ class eZTemplateCompiler
     */
     function operatorHint( &$tpl, $operatorName )
     {
-        if ( is_array( $tpl->Operators[$operatorName] ) )
+        if ( isset( $tpl->Operators[$operatorName] ) and
+             is_array( $tpl->Operators[$operatorName] ) )
         {
             $tpl->loadAndRegisterOperators( $tpl->Operators[$operatorName] );
         }
@@ -1512,11 +1513,18 @@ class eZTemplateCompiler
         $length = $endPosition - $startPosition;
         if ( file_exists( $file ) )
         {
-            $fd = fopen( $file, 'rb' );
-            fseek( $fd, $startPosition );
-            $text = fread( $fd, $length );
-            fclose( $fd );
-            return $text;
+            if ( $length > 0 )
+            {
+                $fd = fopen( $file, 'rb' );
+                fseek( $fd, $startPosition );
+                $text = fread( $fd, $length );
+                fclose( $fd );
+                return $text;
+            }
+            else
+            {  
+                return '';
+            }
         }
         return null;
     }
