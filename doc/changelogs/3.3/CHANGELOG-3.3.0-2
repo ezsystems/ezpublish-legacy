@@ -1,8 +1,10 @@
 
 *Bugfixes:
+- Fixed bug where advanced setup menu in admin open/close did not work due to cache.
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number. (merged from stable 4293)
 - Fixed comment edit layout bug: http://ez.no/developer/ez_publish_3/bug_reports/new_comment_break_layout_news_package
 - Fixed layout bug in monthview: http://ez.no/developer/ez_publish_3/bug_reports/errors_in_designstandardtemplatesnavigatormonthviewtpl
+- Fixed bug, added possibility to change priority/placement of overrides: http://ez.no/developer/ez_publish_3/bug_reports/overrideiniappend_problem
 
 *Kernel:
 - Fixed editing PDF exports
