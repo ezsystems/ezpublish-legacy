@@ -39,7 +39,7 @@
 <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/rss/list' )}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="NewExportButton" value="{'New Export'|i18n( 'design/admin/rss/list' )}" />
+<input class="button" type="submit" name="NewExportButton" value="{'New export'|i18n( 'design/admin/rss/list' )}" />
 </div>
 </div>
 
