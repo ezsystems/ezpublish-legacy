@@ -1,5 +1,5 @@
 {* This template displays a collection of child nodes as thumbnails. *}
-{* It is included/used from within the child.tpl if the user's viewmode is set to list. *}
+{* It is included/used from within the children.tpl if the user's viewmode is set to list. *}
 <div class="content-navigation-childlist">
 <table class="list-thumbnails" cellspacing="0">
     <tr>

@@ -143,6 +143,12 @@ MatchFile=thumbnail/image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
+[thumbnail_image_browse]
+Source=node/view/browse_thumbnail.tpl
+MatchFile=thumbnail/image_browse.tpl
+Subdir=templates
+Match[class_identifier]=image
+
 [window_controls]
 Source=window_controls.tpl
 MatchFile=window_controls_user.tpl

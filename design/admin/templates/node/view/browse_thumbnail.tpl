@@ -1,2 +1,7 @@
-<h3>{$node.name|wash}</h3>
-<a href={concat('/content/browse/',$node.node_id)|ezurl}><img src={"folder_blue.gif"|ezimage} width="64" height="64" alt="{$node.name|wash()}" /></a>
+<div class="content-view-thumbnail">
+{section show=$show_link}
+    <a href={concat('/content/browse/',$node.node_id)|ezurl}>{$node.class_identifier|class_icon( normal, $node.object.class_name )}</a>
+{section-else}
+    {$node.class_identifier|class_icon( normal, $node.object.class_name )}
+{/section}
+</div>
