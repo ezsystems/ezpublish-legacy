@@ -50,6 +50,19 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed problem with fetch function content/checkAccess and the
   content class id parameter being false.
   (Merged from stable/3.4 rev. 7350)
+- Made sure the current viewmode is available as the variable $viewmode in content/view.
+
+eZNodeAssignment:
+- Added attribute 'node' to fetch the node the assignment relates to.
+- Added static function removeByID which removes one or more assignments by IDs.
+
+eZContentObjectTreeNode:
+- Added parameter $checkPolicies to childrenCount function which controls whether
+  policies are in effect or not when counting.
+- Added static function updateMainNodeID which updates the main node selection
+  and node assignments for a given object.
+- Fixed fetchNode() to also fetch the name of the object, without the 'name'
+  attribute would be empty.
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
