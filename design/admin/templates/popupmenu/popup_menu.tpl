@@ -99,7 +99,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 
 <!-- Advanced menu -->
 <div class="popupmenu" id="Advanced">
-    <div class="popupmenuheader"><h3 id="menu-header">{'Advanced'|i18n('design/admin/popupmenu'}</h3>
+    <div class="popupmenuheader"><h3 id="menu-header">{'Advanced'|i18n( 'design/admin/popupmenu' )}</h3>
         <div class="window-close" onclick="ezpopmenu_hide( 'Advanced' )"><p>X</p></div>
         <div class="break"></div>
     </div>
