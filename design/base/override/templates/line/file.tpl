@@ -7,7 +7,7 @@
     <div class="attribute-short">
         {attribute_view_gui attribute=$node.object.data_map.description}
     </div>
-    <div class="break" />
+    <div class="break"></div>
     <div class="attribute-file">
         <p>{attribute_view_gui attribute=$node.object.data_map.file icon_size='small' icon_title=$node.name}</p>
     </div>
