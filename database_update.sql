@@ -402,3 +402,4 @@ alter table ezorder_item add vat_value int not null default '0';
 # Missing indexes
 alter table ezcontentobject_tree add index ( md5_path );  
 alter table ezsession drop cache_mask_1;
+
