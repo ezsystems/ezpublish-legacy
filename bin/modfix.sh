@@ -4,9 +4,9 @@ CWD=`pwd`
 DIR=`echo $0 | awk -F'modfix.sh' '{print $1}'`
 
 DIR_MODE=777 ##!
-#!DIR_MODE=775
+##!DIR_MODE=775
 FILE_MODE=666 ##!
-#!FILE_MODE=664
+##!FILE_MODE=664
 
 cd $DIR
 
