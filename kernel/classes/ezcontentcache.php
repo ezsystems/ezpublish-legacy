@@ -175,7 +175,7 @@ class eZContentCache
     }
 
     function store( $siteDesign, $objectID, $classID,
-                    $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
+                    $nodeID, $parentNodeID, $nodeDepth, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout,
                     $result )
     {
@@ -188,7 +188,6 @@ class eZContentCache
                               'node_id' => $nodeID,
                               'parent_node_id' => $parentNodeID,
                               'node_depth' => $nodeDepth,
-                              'url_alias' => $urlAlias,
                               'object_id' => $objectID,
                               'class_id' => $classID,
                               'section_id' => $sectionID,

@@ -260,6 +260,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 eZDebug::writeDebug($domString, "domstring");
                 $xml = new eZXML();
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
+//                 $domString = $tmpDom->toString();
                 $domString = eZXMLTextType::domString( $tmpDom );
 
                 eZDebug::writeDebug($domString, "stored xml");

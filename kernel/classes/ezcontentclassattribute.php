@@ -51,7 +51,6 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->eZPersistentObject( $row );
 
         $this->Content = null;
-        $this->Module = null;
     }
 
     function &definition()
@@ -150,7 +149,6 @@ class eZContentClassAttribute extends eZPersistentObject
                                                                 'required' => true ) ),
                       'keys' => array( 'id', 'version' ),
                       "function_attributes" => array( "content" => "content",
-                                                      'temporary_object_attribute' => 'instantiateTemporary',
                                                       "contentclass_attribute_identifier" ),
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
@@ -213,18 +211,11 @@ class eZContentClassAttribute extends eZPersistentObject
         $attribute->store();
     }
 
-    function instantiateTemporary( $contentobjectID )
-    {
-        $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
-        return $attribute;
-    }
-
     function store()
     {
-        $dataType =& $this->dataType();
-        $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
         $stored = eZPersistentObject::store();
 
+        $dataType =& $this->dataType();
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
         $dataType->storeClassAttribute( $this, $this->attribute( 'version' ) );
@@ -400,8 +391,6 @@ class eZContentClassAttribute extends eZPersistentObject
         }
         else if ( $attr == "content" )
             return $this->content( );
-        else if ( $attr == 'temporary_object_attribute' )
-            return $this->instantiateTemporary( false );
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -438,22 +427,10 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$module, &$http, $action )
+    function customHTTPAction( &$http, $action )
     {
         $dataType =& $this->dataType();
-        $this->Module =& $module;
         $dataType->customClassAttributeHTTPAction( $http, $action, $this );
-        unset( $this->Module );
-        $this->Module = null;
-    }
-
-    /*!
-     \return the module which uses this attribute or \c null if no module set.
-     \note Currently only customHTTPAction sets this.
-    */
-    function &currentModule()
-    {
-        return $this->Module;
     }
 
     /// \privatesection
@@ -469,7 +446,6 @@ class eZContentClassAttribute extends eZPersistentObject
     var $IsSearchable;
     var $IsRequired;
     var $IsInformationCollector;
-    var $Module;
 }
 
 ?>

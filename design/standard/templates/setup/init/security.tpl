@@ -5,7 +5,7 @@
 
 {section show=$security.virtualhost_mode}
 <p>
- {"Your site is running in virtualhost mode and is considered secure. You may safely continue."|i18n("design/standard/setup/init")}
+ {"You're site is running in virtualhost mode and is considered secure. You may safely continue."|i18n("design/standard/setup/init")}
 </p>
 <input type="hidden" name="security_InstallHtaccess" value="0" />
 {section-else}

@@ -1,2 +1,0 @@
-{$Option:item.value}
-{/section}

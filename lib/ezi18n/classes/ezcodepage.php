@@ -81,34 +81,6 @@ class eZCodePage
         return implode( '', $chars );
     }
 
-    function &convertStringToUnicode( &$str )
-    {
-        $len = strlen( $str );
-        $unicodeValues = array();
-        for ( $i = 0; $i < $len; )
-        {
-            $charLen = 1;
-            $unicodeValue = $this->charToUnicode( $str, $i, $charLen );
-            if ( $unicodeValue !== null )
-                $unicodeValues[] = $unicodeValue;
-            $i += $charLen;
-        }
-        return $unicodeValues;
-    }
-
-    function &convertUnicodeToString( $unicodeValues )
-    {
-        if ( !is_array( $unicodeValues ) )
-            return false;
-        $text = '';
-        foreach ( $unicodeValues as $unicodeValue )
-        {
-            $char = $this->unicodeToChar( $unicodeValue );
-            $text .= $char;
-        }
-        return $text;
-    }
-
     /* Original code, new code has inlined all used functions.
     function &convertStringFromUTF8( &$str )
     {
@@ -290,7 +262,7 @@ class eZCodePage
         return null;
     }
 
-    function &charToUnicode( &$str, $pos, &$charLen )
+    function &charToUnicode( &$char )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;

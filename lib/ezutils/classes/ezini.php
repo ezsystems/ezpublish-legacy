@@ -529,7 +529,7 @@ class eZINI
                 $varName = trim( $valueArray[1] );
                 $this->BlockValues[$currentBlock][$varName] = array();
             }
-            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
+            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([a-zA-Z0-9_-]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )

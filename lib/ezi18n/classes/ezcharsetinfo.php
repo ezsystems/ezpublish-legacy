@@ -138,7 +138,6 @@ class eZCharsetInfo
                                  );
             for ( $i = 1; $i <= 15; ++$i )
                 $aliasTable["iso8859-$i"] = "iso-8859-$i";
-            $aliasTable['unicode'] = 'unicode';
         }
         return $aliasTable;
     }
@@ -159,7 +158,6 @@ class eZCharsetInfo
                                                            "euc-cn",
                                                            "cp849",
                                                            "cp850" ),
-                                    'unicode' => array( 'unicode' ),
                                     "utf-8" => array( "utf-8" ) );
         }
         return $encodingTable;

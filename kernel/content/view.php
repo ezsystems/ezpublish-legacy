@@ -98,8 +98,7 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
                                   array( 'class', $Result['content_info']['class_id'] ), // Class ID
                                   array( 'view_offset', $Result['content_info']['offset'] ),
                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
-                                  array( 'depth', $Result['content_info']['node_depth'] ),
-                                  array( 'url_alias', $Result['content_info']['url_alias'] )
+                                  array( 'depth', $Result['content_info']['node_depth'] )
                                   ) );
             return $Result;
         }
@@ -161,8 +160,7 @@ switch( $operationResult['status'] )
                                               array( 'class', $Result['content_info']['class_id'] ), // Class ID
                                               array( 'view_offset', $Result['content_info']['offset'] ),
                                               array( 'viewmode', $Result['content_info']['viewmode'] ),
-                                              array( 'depth', $Result['content_info']['node_depth'] ),
-                                              array( 'url_alias', $Result['content_info']['url_alias'] )
+                                              array( 'depth', $Result['content_info']['node_depth'] )
                                               ) );
                         return $Result;
                     }
@@ -198,8 +196,7 @@ switch( $operationResult['status'] )
                                   array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
-                                  array( 'depth', $node->attribute( 'depth' ) ),
-                                  array( 'url_alias', $node->attribute( 'url_alias' ) )
+                                  array( 'depth', $node->attribute( 'depth' ) )
                                   ) );
 
             include_once( 'kernel/classes/ezsection.php' );
@@ -264,9 +261,8 @@ switch( $operationResult['status'] )
                 $parentNodeID = $node->attribute( 'parent_node_id' );
                 $classID = $object->attribute( 'contentclass_id' );
                 $nodeDepth = $node->attribute( 'depth' );
-                $urlAlias = $node->attribute( 'url_alias' );
                 if ( eZContentCache::store( $designSetting, $objectID, $classID,
-                                            $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
+                                            $NodeID, $parentNodeID, $nodeDepth, $ViewMode, $sectionID, $language,
                                             $Offset, $roleList, $discountList, $layout, $Result ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );

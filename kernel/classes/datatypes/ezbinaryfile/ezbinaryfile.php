@@ -143,7 +143,7 @@ class eZBinaryFile extends eZPersistentObject
 
     function &fetch( $id, $version = null, $asObject = true )
     {
-        if ( $version == null )
+        if( $version == null )
         {
             return eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
                                                         null,
@@ -164,7 +164,7 @@ class eZBinaryFile extends eZPersistentObject
 
     function &remove( $id, $version )
     {
-        if ( $version == null )
+        if( $version == null )
         {
             eZPersistentObject::removeObject( eZBinaryFile::definition(),
                                               array( 'contentobject_attribute_id' => $id ) );
@@ -175,43 +175,6 @@ class eZBinaryFile extends eZPersistentObject
                                               array( 'contentobject_attribute_id' => $id,
                                                      'version' => $version ) );
         }
-    }
-
-
-    /*!
-     \return the medatata from the binary file, if extraction is supported
-      for the current mimetype.
-    */
-    function &metaData()
-    {
-        $metaData = "";
-        $binaryINI =& eZINI::instance( 'binaryfile.ini' );
-
-        $handlerSettings = $binaryINI->variable( 'HandlerSettings', 'MetaDataExtractor' );
-
-        if ( isset( $handlerSettings[$this->MimeType] ) )
-        {
-            // Check if plugin exists
-
-            if ( file_exists( 'kernel/classes/datatypes/ezbinaryfile/plugins/ez' .  $handlerSettings[$this->MimeType] . 'parser.php' ) )
-            {
-                include_once( 'kernel/classes/datatypes/ezbinaryfile/plugins/ez' .  $handlerSettings[$this->MimeType] . 'parser.php' );
-
-                $parserClass = 'ez' . $handlerSettings[$this->MimeType] . 'parser';
-                $parserObject = new $parserClass();
-                $metaData =& $parserObject->parseFile( eZBinaryFileHandler::storedFilename( $this ) );
-            }
-            else
-            {
-                eZDebug::writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
-            }
-        }
-        else
-        {
-            eZDebug::writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
-        }
-
-        return $metaData;
     }
 
     var $ContentObjectAttributeID;

@@ -68,277 +68,101 @@ class eZTextCodec
                          eZTextCodec::useMBString() and
                          eZMBStringMapper::hasMBStringExtension() );
 
-        // Map for conversion functions using encoding functions
-        $encodingConvertMap = array();
-        $encodingConvertInitMap = array();
-        $encodingStrlenMap = array();
-
-        $encodingStrlenMap['unicode'] = 'strlenUnicode';
-        $encodingStrlenMap['utf-8'] = 'strlenCodepageRev';
-        $encodingStrlenMap['singlebyte'] = 'strlenCodepage';
-        $encodingStrlenMap['doublebyte'] = 'strlenCodepage';
-
-        // Unicode -> other
-        $encodingConvertMap['unicode']['unicode'] = 'convertNone';
-        $encodingConvertMap['unicode']['utf-8'] = 'convertUnicodeToUTF8';
-        $encodingConvertMap['unicode']['singlebyte'] = 'convertUnicodeToCodepage';
-        $encodingConvertMap['unicode']['doublebyte'] = 'convertUnicodeToCodepage';
-
-        $encodingConvertInitMap['unicode']['singlebyte'] = 'initializeOutputCodepage';
-        $encodingConvertInitMap['unicode']['doublebyte'] = 'initializeOutputCodepage';
-
-        // UTF8 -> other
-        $encodingConvertMap['utf-8']['unicode'] = 'convertUTF8ToUnicode';
-        $encodingConvertMap['utf-8']['utf-8'] = 'convertNone';
-        $encodingConvertMap['utf-8']['singlebyte'] = 'convertCodepageRev';
-        $encodingConvertMap['utf-8']['doublebyte'] = 'convertCodepageRev';
-
-        $encodingConvertInitMap['utf-8']['singlebyte'] = 'initializeOutputCodepage';
-        $encodingConvertInitMap['utf-8']['doublebyte'] = 'initializeOutputCodepage';
-
-        // singlebyte -> other
-        $encodingConvertMap['singlebyte']['unicode'] = 'convertCodepageToUnicode';
-        $encodingConvertMap['singlebyte']['utf-8'] = 'convertCodepage';
-        $encodingConvertMap['singlebyte']['singlebyte'] = 'convertCodepageMapper';
-        $encodingConvertMap['singlebyte']['doublebyte'] = 'convertCodepageMapper';
-
-        $encodingConvertInitMap['singlebyte']['unicode'] = 'initializeInputCodepage';
-        $encodingConvertInitMap['singlebyte']['utf-8'] = 'initializeInputCodepage';
-        $encodingConvertInitMap['singlebyte']['singlebyte'] = 'initializeCodepageMapper';
-        $encodingConvertInitMap['singlebyte']['doublebyte'] = 'initializeCodepageMapper';
-
-        // doublebyte -> other
-        $encodingConvertMap['doublebyte']['unicode'] = 'convertCodepageToUnicode';
-        $encodingConvertMap['doublebyte']['utf-8'] = 'convertCodepage';
-        $encodingConvertMap['doublebyte']['singlebyte'] = 'convertCodepageMapper';
-        $encodingConvertMap['doublebyte']['doublebyte'] = 'convertCodepageMapper';
-
-        $encodingConvertInitMap['doublebyte']['unicode'] = 'initializeInputCodepage';
-        $encodingConvertInitMap['doublebyte']['utf-8'] = 'initializeInputCodepage';
-        $encodingConvertInitMap['doublebyte']['singlebyte'] = 'initializeCodepageMapper';
-        $encodingConvertInitMap['doublebyte']['doublebyte'] = 'convertCodepageMapper';
-
         $noneConversionFunction = 'convertNone';
         $noneStrlenFunction = 'strlenNone';
         $conversionFunction = null;
         $strlenFunction = null;
-        $encodingConvertInitFunction = null;
-
-//         $unicodeConversionFunction = 'convertNoneToUnicode';
-//         $useMapper = false;
-
-//         print( "inp=" . $this->InputCharsetCode . ", out=" . $this->OutputCharsetCode .
-//                ", ienc=" . $this->InputCharacterEncodingScheme . ", oenc=" . $this->OutputCharacterEncodingScheme . "<br/>" );
+        $useMapper = false;
 
         // First detect conversion type
         if ( $this->InputCharsetCode == $this->OutputCharsetCode ) // Direct match, no conversion
         {
-//             print( "Similar<br/>" );
             $conversionFunction = $noneConversionFunction;
-            $encodingConvertInitFunction = 'initializeInputCodepage';
+            $strlenFunction = $noneStrlenFunction;
 //             eZDebug::writeNotice( "none " . $this->InputCharsetCode . "/" . $this->OutputCharsetCode, "eZTextCodec" );
         }
         else if ( $useMBString and
                   eZMBStringMapper::isCharsetSupported( $this->InputCharsetCode ) and
                   eZMBStringMapper::isCharsetSupported( $this->OutputCharsetCode ) ) // Use MBString for converting if charsets supported
         {
-//             print( "MBString<br/>" );
             $this->MBStringMapper = eZMBStringMapper::instance( $this->InputCharsetCode,
                                                                 $this->OutputCharsetCode );
             $conversionFunction = "convertMBString";
             $strlenFunction = "strlenMBString";
-            $encodingConvertInitFunction = false;
+            $useMapper = true;
 //             eZDebug::writeNotice( "mbstring " . $this->InputCharsetCode . "/" . $this->OutputCharsetCode, "eZTextCodec" );
         }
         else // See if we support encoding scheme and codepage
         {
-//             print( "else<br/>" );
-            $inpenc = $this->InputCharacterEncodingScheme;
-            $outenc = $this->OutputCharacterEncodingScheme;
-            if ( isset( $encodingConvertMap[$inpenc][$outenc] ) )
+            if ( $this->InputCharacterEncodingScheme == $this->OutputCharacterEncodingScheme ) // If they match use direct mappers
             {
-                $conversionFunction = $encodingConvertMap[$inpenc][$outenc];
+                if ( $this->InputCharacterEncodingScheme == "singlebyte" or
+                     $this->InputCharacterEncodingScheme == "doublebyte" )
+                {
+                    $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
+                                                                        $this->OutputCharsetCode );
+                    if ( $this->CodepageMapper->isValid() )
+                    {
+                        $conversionFunction = "convertCodepageMapper";
+                        $strlenFunction = "strlenCodepageMapper";
+                        $useMapper = true;
+//                         eZDebug::writeNotice( "codepagemapper", "eZTextCodec" );
+                    }
+                    else
+                        unset( $this->CodepageMapper );
+                }
+            }
+            else if ( $this->OutputCharacterEncodingScheme == "utf-8" )
+            {
+                if ( eZCodePage::exists( $this->InputCharsetCode ) )
+                {
+                    $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
+                    if ( $this->Codepage->isValid() )
+                    {
+                        $conversionFunction = "convertCodepage";
+                        $strlenFunction = "strlenCodepage";
+                        $useMapper = false;
+//                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
+                    }
+                    else
+                    {
+                        unset( $this->Codepage );
+                    }
+                }
+            }
+            else if ( $this->InputCharacterEncodingScheme == "utf-8" )
+            {
+                if ( eZCodePage::exists( $this->OutputCharsetCode ) )
+                {
+                    $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
+                    if ( $this->Codepage->isValid() )
+                    {
+                        $conversionFunction = "convertCodepageRev";
+                        $strlenFunction = "strlenCodepageRev";
+                        $useMapper = false;
+//                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
+                    }
+                    else
+                    {
+                        unset( $this->Codepage );
+                    }
+                }
             }
         }
-
-        if ( $strlenFunction === null )
-        {
-            $inpenc = $this->InputCharacterEncodingScheme;
-            if ( isset( $encodingStrlenMap[$inpenc] ) )
-            {
-                $strlenFunction = $encodingStrlenMap[$inpenc];
-            }
-        }
-
-//         {
-//             if ( $this->InputCharacterEncodingScheme == $this->OutputCharacterEncodingScheme ) // If they match use direct mappers
-//             {
-//                 if ( $this->InputCharacterEncodingScheme == "singlebyte" or
-//                      $this->InputCharacterEncodingScheme == "doublebyte" )
-//                 {
-//                     $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
-//                                                                          $this->OutputCharsetCode );
-//                     if ( $this->CodepageMapper->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageMapper";
-//                         $strlenFunction = "strlenCodepageMapper";
-//                         $useMapper = true;
-// //                         eZDebug::writeNotice( "codepagemapper", "eZTextCodec" );
-//                     }
-//                     else
-//                         unset( $this->CodepageMapper );
-//                 }
-//             }
-//             else if ( $this->OutputCharacterEncodingScheme == "utf-8" )
-//             {
-//                 if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepage";
-//                         $strlenFunction = "strlenCodepage";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->InputCharacterEncodingScheme == "utf-8" )
-//             {
-//                 if ( eZCodePage::exists( $this->OutputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageRev";
-//                         $strlenFunction = "strlenCodepageRev";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->OutputCharacterEncodingScheme == "unicode" )
-//             {
-//                 if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageToUnicode";
-//                         $strlenFunction = "strlenCodepage";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->InputCharacterEncodingScheme == "unicode" )
-//             {
-//                 if ( eZCodePage::exists( $this->OutputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageRev";
-//                         $strlenFunction = "strlenCodepageRev";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//         }
-//         if ( $this->InputCharacterEncodingScheme == "utf-8" )
-//         {
-//             $unicodeConversionFunction = 'convertUTF8ToUnicode';
-//         }
-//         else
-//         {
-//             if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//             {
-//                 $this->UnicodeCodepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                 if ( $this->UnicodeCodepage->isValid() )
-//                 {
-//                     $unicodeConversionFunction = 'convertCodepageToUnicode';
-//                 }
-//                 else
-//                 {
-//                     unset( $this->UnicodeCodepage );
-//                 }
-//             }
-//         }
-//         print( "$conversionFunction<br/>" );
-//         print( "$strlenFunction<br/>" );
-
-        if ( $conversionFunction and
-             $strlenFunction )
-            $this->initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction );
-        if ( !$conversionFunction or
-             !$strlenFunction )
+        if ( !$conversionFunction ) // No support, display error and no conversion
         {
             eZDebug::writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
                                  " to characterset " . $this->RequestedOutputCharsetCode,
                                  "eZTextCodec" );
-            if ( !$conversionFunction )
-                $conversionFunction = $noneConversionFunction;
-            if ( !$strlenFunction )
-                $strlenFunction = $noneStrlenFunction;
+            $conversionFunction = $noneConversionFunction;
+            $strlenFunction = $noneStrlenFunction;
+//             eZDebug::writeNotice( "failed", "eZTextCodec" );
         }
 
         $this->ConversionFunction = $conversionFunction;
         $this->StrlenFunction = $strlenFunction;
+        $this->UseMapper = $useMapper;
         $this->RequireConversion = $conversionFunction != $noneConversionFunction;
-    }
-
-    function initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction )
-    {
-        $inpenc = $this->InputCharacterEncodingScheme;
-        $outenc = $this->OutputCharacterEncodingScheme;
-        $initFunction = false;
-        if ( $encodingConvertInitFunction !== null )
-        {
-            if ( $encodingConvertInitFunction )
-                $initFunction = $encodingConvertInitFunction;
-        }
-        else if ( isset( $encodingConvertInitMap[$inpenc][$outenc] ) )
-        {
-            $initFunction = $encodingConvertInitMap[$inpenc][$outenc];
-        }
-        if ( $initFunction )
-        {
-//             print( "$initFunction<br/>" );
-            $this->$initFunction();
-        }
-    }
-
-    function initializeCodepageMapper()
-    {
-        $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
-                                                             $this->OutputCharsetCode );
-    }
-
-    function initializeInputCodepage()
-    {
-        $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
-    }
-
-    function initializeOutputCodepage()
-    {
-        $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
     }
 
     /*!/
@@ -387,18 +211,9 @@ class eZTextCodec
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
         $tmp =& $this->$conversionFunction( $str );
-        eZDebug::accumulatorStop( 'textcodec_conversion' );
+        eZDebug::accumulatorStop( 'textcodec_conversion', false, 'String conversion' );
         return $tmp;
     }
-
-//     function &convertStringToUnicode( $str )
-//     {
-//         eZDebug::accumulatorStart( 'textcodec_unicode_conversion', false, 'String conversion to Unicode' );
-//         $conversionFunction = $this->UnicodeConversionFunction;
-//         $tmp =& $this->$conversionFunction( $str );
-//         eZDebug::accumulatorStop( 'textcodec_unicode_conversion' );
-//         return $tmp;
-//     }
 
     function strlen( $str )
     {
@@ -406,55 +221,6 @@ class eZTextCodec
         return $this->$strlenFunction( $str );
     }
 
-
-//         'convertNone';
-//         'convertUTF8ToUnicode';
-//         'convertCodepageToUnicode';
-//         'convertCodepage';
-//         'convertCodepageMapper';
-//         'convertCodepageRev';
-//         'convertUnicodeToUTF8';
-//         'convertUnicodeToCodepage';
-
-    /*!
-     \return an empty array since no conversion is possible.
-    */
-    function &convertNoneToUnicode( $str )
-    {
-        return array();
-    }
-
-    function &convertCodepageToUnicode( $str )
-    {
-        eZDebug::accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
-        $tmp = $this->Codepage->convertStringToUnicode( $str );
-        eZDebug::accumulatorStop( 'textcodec_codepage_unicode' );
-        return $tmp;
-    }
-
-    function &convertUTF8ToUnicode( $str )
-    {
-        eZDebug::accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ UTF-8 to Unicode' );
-        $tmp = eZUTF8Codec::convertStringToUnicode( $str );
-        eZDebug::accumulatorStop( 'textcodec_utf8_unicode' );
-        return $tmp;
-    }
-
-    function &convertUnicodeToCodepage( $unicodeValues )
-    {
-        eZDebug::accumulatorStart( 'textcodec_unicode_codepage', false, 'String conversion w/ Unicode to codepage' );
-        $tmp = $this->Codepage->convertUnicodeToString( $unicodeValues );
-        eZDebug::accumulatorStop( 'textcodec_unicode_codepage' );
-        return $tmp;
-    }
-
-    function &convertUnicodeToUTF8( $unicodeValues )
-    {
-        eZDebug::accumulatorStart( 'textcodec_unicode_utf8', false, 'String conversion w/ Unicode to UTF8' );
-        $tmp = eZUTF8Codec::convertUnicodeToString( $unicodeValues );
-        eZDebug::accumulatorStop( 'textcodec_unicode_utf8' );
-        return $tmp;
-    }
 
     function &convertNone( $str )
     {
@@ -496,11 +262,6 @@ class eZTextCodec
     function strlenNone( $str )
     {
         return strlen( $str );
-    }
-
-    function strlenUnicode( $unicodeValues )
-    {
-        return count( $unicodeValues );
     }
 
     function strlenCodepage( $str )

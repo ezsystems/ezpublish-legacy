@@ -105,10 +105,6 @@ else
     return;
 }
 $http =& eZHttpTool::instance();
-$contentClassHasInput = true;
-if ( $http->hasPostVariable( 'ContentClassHasInput' ) )
-    $contentClassHasInput = $http->postVariable( 'ContentClassHasInput' );
-
 // Find out the group where class is created or edited from.
 if ( $http->hasSessionVariable( 'FromGroupID' ) )
 {
@@ -188,49 +184,46 @@ foreach( $storeActions as $storeAction )
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
 $requireFixup = false;
-if ( $contentClassHasInput )
+if ( $validationRequired )
 {
-    if ( $validationRequired )
+    foreach ( array_keys( $attributes ) as $key )
     {
-        foreach ( array_keys( $attributes ) as $key )
+        $attribute =& $attributes[$key];
+        $dataType =& $attribute->dataType();
+        $status = $dataType->validateClassAttributeHTTPInput( $http, "ContentClass", $attribute );
+        if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+            $requireFixup = true;
+        else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
         {
-            $attribute =& $attributes[$key];
-            $dataType =& $attribute->dataType();
-            $status = $dataType->validateClassAttributeHTTPInput( $http, "ContentClass", $attribute );
-            if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
-                $requireFixup = true;
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
-            {
-                $canStore = false;
-                $attributeName = $dataType->attribute( "information" );
-                $attributeName = $attributeName["name"];
-                $unvalidatedAttributes[] = array( "id" => $attribute->attribute( "id" ),
-                                                  "identifier" => $attribute->attribute( "identifier" ),
-                                                  "name" => $attributeName );
-            }
+            $canStore = false;
+            $attributeName = $dataType->attribute( "information" );
+            $attributeName = $attributeName["name"];
+            $unvalidatedAttributes[] = array( "id" => $attribute->attribute( "id" ),
+                                              "identifier" => $attribute->attribute( "identifier" ),
+                                              "name" => $attributeName );
         }
-        $validation["processed"] = true;
-        $validation["attributes"] = $unvalidatedAttributes;
-        $requireVariable = 'ContentAttribute_is_required_checked';
-        $searchableVariable = 'ContentAttribute_is_searchable_checked';
-        $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
-        $requireCheckedArray = array();
-        $searchableCheckedArray = array();
-        $informationCollectorCheckedArray = array();
-        if ( $http->hasPostVariable( $requireVariable ) )
-            $requireCheckedArray = $http->postVariable( $requireVariable );
-        if ( $http->hasPostVariable( $searchableVariable ) )
-            $searchableCheckedArray = $http->postVariable( $searchableVariable );
-        if ( $http->hasPostVariable( $informationCollectorVariable ) )
-            $informationCollectorCheckedArray = $http->postVariable( $informationCollectorVariable );
-        foreach ( array_keys( $attributes ) as $key )
-        {
-            $attribute =& $attributes[$key];
-            $attributeID = $attribute->attribute( 'id' );
-            $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
-            $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
-            $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
-        }
+    }
+    $validation["processed"] = true;
+    $validation["attributes"] = $unvalidatedAttributes;
+    $requireVariable = 'ContentAttribute_is_required_checked';
+    $searchableVariable = 'ContentAttribute_is_searchable_checked';
+    $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
+    $requireCheckedArray = array();
+    $searchableCheckedArray = array();
+    $informationCollectorCheckedArray = array();
+    if ( $http->hasPostVariable( $requireVariable ) )
+        $requireCheckedArray = $http->postVariable( $requireVariable );
+    if ( $http->hasPostVariable( $searchableVariable ) )
+        $searchableCheckedArray = $http->postVariable( $searchableVariable );
+    if ( $http->hasPostVariable( $informationCollectorVariable ) )
+        $informationCollectorCheckedArray = $http->postVariable( $informationCollectorVariable );
+    foreach ( array_keys( $attributes ) as $key )
+    {
+        $attribute =& $attributes[$key];
+        $attributeID = $attribute->attribute( 'id' );
+        $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
+        $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
+        $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
     }
 }
 
@@ -249,15 +242,12 @@ if ( $requireFixup )
 
 $cur_datatype = 0;
 // Apply HTTP POST variables
-if ( $contentClassHasInput )
-{
-    eZHTTPPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
-                              $attributes, $http, true );
-    eZHttpPersistence::fetch( "ContentClass", eZContentClass::definition(),
-                              $class, $http, false );
-    if ( $http->hasPostVariable( "DataTypeString" ) )
-        $cur_datatype = $http->postVariable( "DataTypeString" );
-}
+eZHTTPPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
+                          $attributes, $http, true );
+eZHttpPersistence::fetch( "ContentClass", eZContentClass::definition(),
+                          $class, $http, false );
+if ( $http->hasPostVariable( "DataTypeString" ) )
+    $cur_datatype = $http->postVariable( "DataTypeString" );
 $class->setAttribute( "version", 1 );
 // Fixed identifiers to only contain a-z0-9_
 for ( $i = 0; $i < count( $attributes ); ++$i )
@@ -296,13 +286,15 @@ $class->setAttribute( "identifier", $identifier );
 // Run custom actions if any
 if ( $customAction )
 {
-    foreach( array_keys( $attributes ) as $key )
+    reset( $attributes );
+    while( ( $key = key( $attributes ) ) !== null )
     {
         $attribute =& $attributes[$key];
         if ( $customActionAttributeID == $attribute->attribute( "id" ) )
         {
-            $attribute->customHTTPAction( $Module, $http, $customAction );
+            $attribute->customHTTPAction( $http, $customAction );
         }
+        next( $attributes );
     }
 }
 
@@ -331,16 +323,13 @@ if ( $http->hasPostVariable( "RemoveButton" ) )
 }
 
 // Fetch HTTP input
-if ( $contentClassHasInput )
+reset( $attributes );
+while( ( $key = key( $attributes ) ) !== null )
 {
-    reset( $attributes );
-    while( ( $key = key( $attributes ) ) !== null )
-    {
-        $attribute =& $attributes[$key];
-        $dataType =& $attribute->dataType();
-        $dataType->fetchClassAttributeHTTPInput( $http, "ContentClass", $attribute );
-        next( $attributes );
-    }
+    $attribute =& $attributes[$key];
+    $dataType =& $attribute->dataType();
+    $dataType->fetchClassAttributeHTTPInput( $http, "ContentClass", $attribute );
+    next( $attributes );
 }
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )

@@ -108,7 +108,6 @@ class eZModule
         $this->ExitStatus = EZ_MODULE_STATUS_IDLE;
         $this->ErrorCode = 0;
         $this->ViewActions = array();
-        $this->OriginalParameters = null;
     }
 
     /*!
@@ -299,18 +298,6 @@ class eZModule
     }
 
     /*!
-     \return the uri of the currently run view in the current module with the current parameters.
-    */
-    function currentRedirectionURI()
-    {
-        $module =& $this;
-        $viewName = eZModule::currentView();
-        $parameters = $this->OriginalViewParameters;
-        $unorderedParameters = $this->OriginalUnorderedParameters;
-        return $this->redirectionURIForModule( $module, $viewName, $parameters, $unorderedParameters );
-    }
-
-    /*!
      Sames as redirectionURI but takes a module object instead of the name.
     */
     function redirectionURIForModule( &$module, $viewName, $parameters = array(), $unorderedParameters = null )
@@ -321,35 +308,26 @@ class eZModule
         $uri .= '/';
         $viewParameters =& $module->parameters( $viewName );
         $parameterIndex = 0;
-        $unorderedURI = '';
-        $hasUnorderedParameter = false;
-        if ( $unorderedParameters !== null )
-        {
-            $unorderedViewParameters =& $module->unorderedParameters( $viewName );
-            if ( is_array( $unorderedViewParameters ) )
-            {
-                foreach ( $unorderedViewParameters as $unorderedViewParameterName => $unorderedViewParameterVariable )
-                {
-                    if ( isset( $unorderedParameters[$unorderedViewParameterVariable] ) )
-                    {
-                        $unorderedURI .= $unorderedViewParameterName . '/' . $unorderedParameters[$unorderedViewParameterVariable] . '/';
-                        $hasUnorderedParameter = true;
-                    }
-                }
-            }
-        }
         foreach ( $viewParameters as $viewParameter )
         {
             if ( !isset( $parameters[$parameterIndex] ) )
             {
                 eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
                                        " in view '$viewName'", 'eZModule::redirect' );
-                if ( $hasUnorderedParameter )
-                    $uri .= '/';
+                $uri .= '/';
             }
             else
                 $uri .= $parameters[$parameterIndex] . '/';
             ++$parameterIndex;
+        }
+        if ( $unorderedParameters !== null )
+        {
+            $unorderedViewParameters =& $module->unorderedParameters( $viewName );
+            foreach ( $unorderedViewParameters as $unorderedViewParameterName => $unorderedViewParameterVariable )
+            {
+                if ( isset( $unorderedParameters[$unorderedViewParameterVariable] ) )
+                    $uri .= $unorderedViewParameterName . '/' . $unorderedParameters[$unorderedViewParameterVariable] . '/';
+            }
         }
         return $uri;
     }
@@ -852,31 +830,21 @@ class eZModule
         $functionParameterDefinitions =& $function["params"];
         $params = array();
         $i = 0;
-        $parameterValues = array();
         foreach ( $functionParameterDefinitions as $param )
         {
             if ( isset( $parameters[$i] ) )
-            {
                 $params[$param] = $parameters[$i];
-                $parameterValues[] = $parameters[$i];
-            }
             else
-            {
                 $params[$param] = null;
-                $parameterValues[] = null;
-            }
             ++$i;
         }
         $this->ViewParameters =& $parameters;
-        $this->OriginalParameters = $parameters;
-        $this->OriginalViewParameters = $parameterValues;
         if ( array_key_exists( 'Limitation', $parameters  ) )
         {
             $params['Limitation'] =& $parameters[ 'Limitation' ];
         }
 
         // check for unordered parameters and initialize variables if they exist
-        $unorderedParametersList = array();
         if ( isset( $function["unordered_params"] ) )
         {
             $unorderedParams =& $function["unordered_params"];
@@ -889,7 +857,6 @@ class eZModule
                     $pos = array_search( $urlParamName, $parameters );
 
                     $params[$variableParamName] = $parameters[$pos+1];
-                    $unorderedParametersList[$variableParamName] = $parameters[$pos+1];
                 }
                 else
                 {
@@ -897,7 +864,6 @@ class eZModule
                 }
             }
         }
-        $this->OriginalUnorderedParameters = $unorderedParametersList;
 
         if ( is_array( $overrideParameters ) )
         {
@@ -1085,9 +1051,6 @@ class eZModule
     var $ViewActions;
     var $ViewResult;
     var $ViewParameters;
-    var $OriginalParameters;
-    var $OriginalViewParameters;
-    var $OriginalUnorderedParameters;
 }
 
 ?>

@@ -589,29 +589,13 @@ class eZContentClass extends eZPersistentObject
      \static
     */
     function &fetchList( $version = 0, $asObject = true, $user_id = false,
-                         $sorts = null, $fields = null, $classFilter = false )
+                         $sorts = null, $fields = null )
     {
         $conds = array();
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
-        if ( $classFilter )
-        {
-            $classIDFilter = array();
-            $classIdentifierFilter = array();
-            foreach ( $classFilter as $classType )
-            {
-                if ( is_numeric( $classType ) )
-                    $classIDFilter[] = $classType;
-                else
-                    $classIdentifierFilter = $classType;
-            }
-            if ( count( $classIDFilter ) > 0 )
-                $conds['id'] = $classIDFilter;
-            if ( count( $classIdentifierFilter ) > 0 )
-                $conds['identifier'] = $classIdentifierFilter;
-        }
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                     $fields, $conds, $sorts, null,
                                                     $asObject );

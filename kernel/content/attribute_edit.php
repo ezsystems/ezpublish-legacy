@@ -74,8 +74,6 @@ if ( $object === null )
 $version =& $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 
-$attributeDataBaseName = 'ContentObjectAttribute';
-
 $class =& eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
@@ -111,13 +109,11 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     {
         $customActionString = $customActionKey;
 
-        if ( preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray ) )
-        {
-            $customActionAttributeID = $matchArray[1];
-            $customAction = $matchArray[2];
-            $customActionAttributeArray[$customActionAttributeID] = array( 'id' => $customActionAttributeID,
-                                                                           'value' => $customAction );
-        }
+        $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
+        $customActionAttributeID = $matchArray[1];
+        $customAction = $matchArray[2];
+        $customActionAttributeArray[$customActionAttributeID] = array( 'id' => $customActionAttributeID,
+                                                                       'value' => $customAction );
     }
 }
 /********** Custom Action Code End ***************/
@@ -141,41 +137,101 @@ $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
-$validatedAttributes = array();
+$validatedAttributesLog = array();
 
 if ( $storingAllowed )
 {
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
-    $validationResult = $object->validateInput( $contentObjectAttributes, $attributeDataBaseName );
-    $unvalidatedAttributes = $validationResult['unvalidated-attributes'];
-    $validatedAttributes = $validationResult['validated-attributes'];
-    $inputValidated = $validationResult['input-validated'];
-//     print( "<pre>" );
-//     var_dump( $validationResult );
-//     print( "</pre>" );
+    $unvalidatedAttributes = array();
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+/*        if ( $http->hasPostVariable( "SelectedObjectIDArray" ) )
+            $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        else*/
+        $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
+
+        if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+            $requireFixup = true;
+        else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        {
+            $inputValidated = false;
+            $dataType =& $contentObjectAttribute->dataType();
+            $attributeName = $dataType->attribute( 'information' );
+            $attributeName = $attributeName['name'];
+            $description = $contentObjectAttribute->attribute( 'validation_error' );
+            if ( !$description )
+                $description = false;
+            $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
+                                              'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                              'name' => $contentClassAttribute->attribute( 'name' ),
+                                              'description' => $description );
+        }
+        else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+        {
+//             $inputValidated = true;
+            $dataType =& $contentObjectAttribute->dataType();
+            $attributeName = $dataType->attribute( 'information' );
+            $attributeName = $attributeName['name'];
+            if ( $contentObjectAttribute->attribute( 'validation_log' ) != null )
+            {
+                $description = $contentObjectAttribute->attribute( 'validation_log' );
+                if ( !$description )
+                    $description = false;
+                $validatedAttributesLog[] = array(  'id' => $contentObjectAttribute->attribute( 'id' ),
+                                                    'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                    'name' => $contentClassAttribute->attribute( 'name' ),
+                                                    'description' => $description );
+            }
+        }
+    }
 
     // Fixup input
-    if ( $validationResult['require-fixup'] )
-        $object->fixupInput( $contentObjectAttributes, $attributeDataBaseName );
-
+    if ( $requireFixup )
+    {
+        foreach ( array_keys( $contentObjectAttributes ) as $key )
+        {
+            $contentObjectAttribute =& $contentObjectAttributes[$key];
+            $contentObjectAttribute->fixupInput( $http, 'ContentObjectAttribute' );
+        }
+    }
+    $requireStoreAction= false;
     // If no redirection uri we assume it's content/edit
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
+    $attributeHasInput = array();
+    $dataMap =& $object->attribute( 'data_map' );
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
+        {
+            $requireStoreAction = true;
+            $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
+            $attributeHasInput[$contentObjectAttribute->attribute('id')] = true;
+        }
+/********** Custom Action Code Start ***************/
+        if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )] ) )
+        {
+            $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )]['id'];
+            $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )]['value'];
+            $contentObjectAttribute->customHTTPAction( $http, $customAction, array( 'module' => &$Module,
+                                                                                    'current-redirection-uri' => $currentRedirectionURI ) );
+        }
+/********** Custom Action Code End ***************/
 
-    $fetchResult = $object->fetchInput( $contentObjectAttributes, $attributeDataBaseName,
-                                        $customActionAttributeArray,
-                                        array( 'module' => &$Module,
-                                               'current-redirection-uri' => $currentRedirectionURI ) );
-    $attributeInputMap =& $fetchResult['attribute-input-map'];
-//     print( "<pre>" );
-//     var_dump( $fetchResult );
-//     print( "</pre>" );
+    }
+
 
     if ( $Module->isCurrentAction( 'Discard' ) )
+    {
         $inputValidated = true;
+    }
 
-    if ( $inputValidated and count( $attributeInputMap ) > 0 )
+    if ( $inputValidated and count( $attributeHasInput ) > 0 )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
@@ -185,10 +241,13 @@ if ( $storingAllowed )
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
 
-//         print( "storing<br/>" );
         // Tell attributes to store themselves if necessary
-        $object->storeInput( $contentObjectAttributes,
-                             $attributeInputMap );
+        foreach( array_keys( $contentObjectAttributes ) as $key )
+        {
+            $contentObjectAttribute =& $contentObjectAttributes[$key];
+            if ( isset( $attributeHasInput[$contentObjectAttribute->attribute('id')] ) )
+                $contentObjectAttribute->store();
+        }
     }
 
     $validation['processed'] = true;
@@ -235,7 +294,7 @@ if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
     $tpl =& templateInit();
 
 $tpl->setVariable( 'validation', $validation );
-$tpl->setVariable( 'validation_log', $validatedAttributes );
+$tpl->setVariable( 'validation_log', $validatedAttributesLog );
 
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
@@ -260,7 +319,6 @@ $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
-$tpl->setVariable( 'attribute_base', $attributeDataBaseName );
 
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl ) ) )
     return;

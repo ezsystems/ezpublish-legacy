@@ -178,43 +178,11 @@ class eZDOMNode
     }
 
     /*!
-      \return \c true if the node has any attributes.
-    */
-    function &hasAttributes()
-    {
-        return count( $this->Attributes ) > 0;
-    }
-
-    /*!
-      \return the number of attributes for the node.
-    */
-    function &attributeCount()
-    {
-        return count( $this->Attributes );
-    }
-
-    /*!
       Returns the node children.
     */
     function &children()
     {
         return $this->Children;
-    }
-
-    /*!
-      \return \c true if the node has children.
-    */
-    function &hasChildren()
-    {
-        return count( $this->Children ) > 0;
-    }
-
-    /*!
-      \return the number of children for the node.
-    */
-    function &childrenCount()
-    {
-        return count( $this->Children );
     }
 
     /*!
@@ -228,88 +196,19 @@ class eZDOMNode
     }
 
     /*!
-     \returns the first element that is named \a $name.
-              If multiple elements with that name is found \c false is returned.
-     \sa elementsByName
-    */
-    function &elementByName( $name )
-    {
-        $element = false;
-        foreach ( array_keys( $this->Children ) as $key )
-        {
-            $child =& $this->Children[$key];
-            if ( $child->name() == $name )
-            {
-                if ( $element )
-                    return false;
-                $element =& $child;
-            }
-        }
-        return $element;
-    }
-
-    /*!
-     \returns An array with elements that is named \a $name.
-     \sa elementByName
-    */
-    function &elementsByName( $name )
-    {
-        $elements = array();
-        foreach ( array_keys( $this->Children ) as $key )
-        {
-            $child =& $this->Children[$key];
-            if ( $child->name() == $name )
-            {
-                $elements[] =& $child;
-            }
-        }
-        return $elements;
-    }
-
-    /*!
       Returns the attribute value for the given attribute.
       If no value is found false is returned.
     */
     function &attributeValue( $attributeName )
     {
-        $returnValue = false;
+        $ret = false;
         foreach ( $this->Attributes as $attribute )
         {
             if ( $attribute->name() == $attributeName )
-                $returnValue = $attribute->content();
+                $ret = $attribute->content();
         }
 
-        return $returnValue;
-    }
-
-    /*!
-      Returns the attribute value for the given attribute.
-      If no value is found false is returned.
-    */
-    function &attributeValues( $attributeDefinitions, $defaultValue = null )
-    {
-        $hash = array();
-        foreach ( $this->Attributes as $attribute )
-        {
-            foreach ( $attributeDefinitions as $attributeName => $keyName )
-            {
-                if ( $attribute->name() == $attributeName )
-                {
-                    $hash[$keyName] = $attribute->content();
-                    break;
-                }
-            }
-        }
-        if ( $defaultValue !== null )
-        {
-            foreach ( $attributeDefinitions as $attributeName => $keyName )
-            {
-                if ( !isset( $hash[$keyName] ) )
-                    $hash[$keyName] = $defaultValue;
-            }
-        }
-
-        return $hash;
+        return $ret;
     }
 
     /*!
@@ -318,7 +217,7 @@ class eZDOMNode
     */
     function &attributeValueNS( $attributeName, $namespaceURI )
     {
-        $returnValue = false;
+        $ret = false;
         if ( count( $this->Attributes  ) > 0 )
         {
             foreach ( $this->Attributes as $attribute )
@@ -329,12 +228,12 @@ class eZDOMNode
                      )
                 {
 
-                    $returnValue = $attribute->content();
+                    $ret = $attribute->content();
                 }
             }
         }
 
-        return $returnValue;
+        return $ret;
     }
 
     /*!
@@ -356,28 +255,6 @@ class eZDOMNode
         if ( get_class( $node ) == "ezdomnode" )
         {
             $this->Attributes[] =& $node;
-        }
-    }
-
-    /*!
-      Appends an attribute node.
-    */
-    function appendAttributes( $attributeValues,
-                               $attributeDefinitions,
-                               $includeEmptyValues = false )
-    {
-        foreach ( $attributeDefinitions as $attributeXMLName => $attributeKey )
-        {
-            if ( $includeEmptyValues or
-                 ( isset( $attributeValues[$attributeKey] ) and
-                   $attributeValues[$attributeKey] !== false ) )
-            {
-                $value = false;
-                if ( isset( $attributeValues[$attributeKey] ) and
-                     $attributeValues[$attributeKey] !== false )
-                    $value = $attributeValues[$attributeKey];
-                $this->Attributes[] =& eZDOMDocument::createAttributeNode( $attributeXMLName, $value );
-            }
         }
     }
 

@@ -1,3 +1,0 @@
-<ol>
-{$content}
-</ol>
