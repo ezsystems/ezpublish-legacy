@@ -37,6 +37,8 @@ eZINI:
   http://ez.no/community/bug_reports/no_default_case_in_datatypes_tpl
 - Fixed bug of incorrectly showing checkbox atribute on class view.
   http://ez.no/community/bug_reports/error_viewing_checkbox_atribute_on_class_view
+- Fixed bug of deleted nodes still exist in recent items and node id not updated in recent items.
+  http://ez.no/community/bug_reports/moving_objects
 
 *Library:
 

@@ -258,6 +258,18 @@ class eZContentBrowseRecent extends eZPersistentObject
         return null;
     }
 
+    function removeRecentByNodeID( $nodeID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentbrowserecent WHERE node_id=$nodeID" );
+    }
+
+    function updateNodeID( $oldNodeID, $newNodeID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "UPDATE ezcontentbrowserecent SET node_id=$newNodeID WHERE node_id=$oldNodeID" );
+    }
+
     /*!
      \static
      Removes all recent entries for all users.
