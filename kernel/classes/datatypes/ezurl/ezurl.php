@@ -59,11 +59,31 @@ class eZURL extends eZPersistentObject
     function &definition()
     {
         return array( 'fields' => array( 'id' => 'ID',
-                                         'url' => 'URL' ),
+                                         'url' => 'URL',
+                                         'original_url_md5' => 'OriginalURLMD5',
+                                         'is_valid' => 'IsValid',
+                                         'last_checked' => 'LastChecked',
+                                         'created' => 'Created',
+                                         'modified' => 'Modified' ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZURL',
                       'name' => 'ezurl' );
+    }
+
+    function &create( $url )
+    {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
+        $row = array(
+            'id' => null,
+            'url' => $url,
+            'original_url_md5' => md5( $url ),
+            'is_valid' => true,
+            'last_checked' => 0,
+            'created' => $dateTime,
+            'modified' => $dateTime );
+        return new eZURL( $row );
     }
 
     /*!
@@ -83,16 +103,39 @@ class eZURL extends eZPersistentObject
         if ( count( $urlArray ) == 0 )
         {
             // store URL
-            $insertURLQuery = "INSERT INTO ezurl ( url  ) VALUES ( '$url' )";
-            $db->query( $insertURLQuery );
+//            $insertURLQuery = "INSERT INTO ezurl ( url  ) VALUES ( '$url' )";
+//            $db->query( $insertURLQuery );
 
-            $urlID = $db->lastSerialID( 'ezurl', 'id' );
+//            $urlID = $db->lastSerialID( 'ezurl', 'id' );
+            $url =& eZURL::create( $url );
+            $url->store();
+            $urlID = $url->attribute( 'id' );
         }
         else
         {
             $urlID = $urlArray[0]['id'];
         }
         return $urlID;
+    }
+    
+    function setIsValid( $id, $isValid )
+    {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
+        eZPersistentObject::updateObjectList( array( 'definition' => eZURL::definition(),
+                                                     'update_fields' => array( 'is_valid' => $isValid,
+                                                                               'modified' => $dateTime ),
+                                                     'conditions' => array( 'id' => $id ) ) );
+    }
+
+    /*!
+     \return the url object for id \a $id.
+    */
+    function &fetch( $id, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZURL::definition(),
+                                                null, array( 'id' => $id ),
+                                                $asObject );
     }
 
     /*!
@@ -117,20 +160,29 @@ class eZURL extends eZPersistentObject
     function &handleList( $parameters = array(), $asCount = false )
     {
         $parameters = array_merge( array( 'as_object' => true,
+                                          'is_valid' => null,
                                           'offset' => false,
                                           'limit' => false ),
                                    $parameters );
         $asObject = $parameters['as_object'];
+        $isValid = $parameters['is_valid'];
         $offset = $parameters['offset'];
         $limit = $parameters['limit'];
         $limitArray = null;
         if ( !$asCount and $offset !== false and $limit !== false )
             $limitArray = array( 'offset' => $offset,
                                  'length' => $limit );
+        $conditions = array();
+        if ( $isValid !== null )
+        {
+            $conditions['is_valid'] = $isValid;
+        }
+        if ( count( $conditions ) == 0 )
+            $conditions = null;
         if ( $asCount )
         {
             $rows = eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                         array(), null, null, null,
+                                                         array(), $conditions, null, null,
                                                          false, null,
                                                          array( array( 'operation' => 'count( id )',
                                                                        'name' => 'count' ) ) );
@@ -138,7 +190,7 @@ class eZURL extends eZPersistentObject
         }
         else
             return eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                        null, null, null, $limitArray,
+                                                        null, $conditions, null, $limitArray,
                                                         $asObject );
     }
 
@@ -147,12 +199,38 @@ class eZURL extends eZPersistentObject
      Returns the URL with the given ID. False is returned if the ID
      does not exits.
     */
-    function &url( $id )
+    function &url( $id, $onlyValid = false )
     {
         $db =& eZDB::instance();
 
         $url = false;
-        $checkURLQuery = "SELECT url FROM ezurl WHERE id='$id'";
+        $checkURLQuery = "SELECT url, is_valid FROM ezurl WHERE id='$id'";
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
+
+        if ( count( $urlArray ) == 1 )
+        {
+            if ( $onlyValid and
+                 !$urlArray[0]['is_valid'] )
+            {
+                 $url = "/url/view/" . $id;
+                 return $url;
+            }
+            $url =& $urlArray[0]['url'];
+        }
+        return $url;
+    }
+
+    /*!
+     \static
+     Returns the URL with the given ID. False is returned if the ID
+     does not exits.
+    */
+    function &urlByMD5( $urlMD5 )
+    {
+        $db =& eZDB::instance();
+
+        $url = false;
+        $checkURLQuery = "SELECT url FROM ezurl WHERE original_url_md5='$urlMD5'";
         $urlArray =& $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 1 )

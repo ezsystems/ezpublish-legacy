@@ -1,1 +1,1 @@
-<a href="{$href}" target="{$target}">{$content}</a>
+<a href={$href|ezurl} target="{$target}">{$content}</a>

@@ -108,6 +108,12 @@ contentclass:
 - Error view will set 404 HTTP status for some error numbers.
 - Made sure the xmltext datatype stores correct link elements.
 - New script for fixing bad xmltext link tags.
+- Added system for listing and handling URLs which are linked
+  in ezxmltext and ezurl fields.
+- Ext url operator was finished and will now use the eZUrl system
+  for storing urls.
+- xhtml output for ezxmltext will only show valid urls, invalid
+  urls will link to url/view.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements

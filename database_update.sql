@@ -345,3 +345,10 @@ alter table ezoperation_memento add main_key varchar(32) NOT NULL;
 
 # Fixed a bug with a lacking field in ezmedia
 alter table ezmedia add controls varchar(50);
+
+# Add some extra info the url table
+alter table ezurl add created int NOT NULL DEFAULT '0';
+alter table ezurl add modified int NOT NULL DEFAULT '0';
+alter table ezurl add is_valid int NOT NULL DEFAULT '1';
+alter table ezurl add last_checked int NOT NULL DEFAULT '0';
+alter table ezurl add original_url_md5 varchar(32) NOT NULL DEFAULT '';

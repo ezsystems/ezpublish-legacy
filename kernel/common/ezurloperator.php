@@ -180,6 +180,9 @@ class eZURLOperator
 
             case $this->URLName:
             {
+                if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
+                     substr( $operatorValue, 0, 2 ) == '//' )
+                     return;
                 if ( $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
@@ -191,6 +194,9 @@ class eZURLOperator
 
             case $this->URLRootName:
             {
+                if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
+                     substr( $operatorValue, 0, 2 ) == '//' )
+                     return;
                 if ( strlen( $operatorValue ) > 0 and
                      $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
@@ -232,8 +238,13 @@ class eZURLOperator
 
             case $this->ExtName:
             {
-                // TODO: Do something with external URLs.
-                $operatorValue = "/$operatorValue";
+                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                $urlMD5 = md5( $operatorValue );
+                $url =& eZURL::urlByMD5( $urlMD5 );
+                if ( $url === false )
+                    eZURL::registerURL( $operatorValue );
+                else
+                    $operatorValue = $url;
             } break;
 
             case $this->DesignName:

@@ -386,7 +386,7 @@ class eZXHTMLOutput
                 $linkID = $tag->attributeValue( 'id' );
                 $target = $tag->attributeValue( 'target' );
                 if ( $linkID != null )
-                    $href =& eZURL::url( $linkID );
+                    $href =& eZURL::url( $linkID, true );
                 else
                     $href = $tag->attributeValue( 'href' );
 
