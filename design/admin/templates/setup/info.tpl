@@ -88,6 +88,8 @@
         {'Maximum size of post data (text and files) is %1.'|i18n( 'design/admin/setup/info',, array( $php_ini.post_max_size ) )}<br/>
         {section show=$php_ini.memory_limit}
             {'Script memory limit is %1.'|i18n( 'design/admin/setup/info' ,,array( $php_ini.memory_limit ) )}<br/>
+        {section-else}
+            {'Script memory limit is Unlimited.'|i18n( 'design/admin/setup/info' )}<br/>
         {/section}
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
