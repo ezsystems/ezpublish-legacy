@@ -249,9 +249,10 @@ div#folder h1
 
 div#folder div.person_line h2
 { 
-    font-size: 100%;
+    font-size: large;
     color: #333;
-    padding: 0.5em;
+    border-bottom: 1px dotted #aaa;
+    margin-bottom: 0.5em;
 }
 
 div#folder div.person_line h3
@@ -289,7 +290,7 @@ div#folder div.person_line table
 div.articleline h2
 { 
     font-size: large;
-    color: #c00;    
+    color: #333;
 }
 
 div.articleline h3
@@ -314,7 +315,7 @@ div.articleline div.intro p
 div.articleline div.readmore a
 { 
     font-size: small;
-    color: #c00;
+    color: #333;
 }
 
 

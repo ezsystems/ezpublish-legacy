@@ -123,13 +123,16 @@
     {* Main menu START *}
     <div id="submenu">
        <div class="design">
-    {let sub_menu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 3)}
-            <ul>
-        {section name=Menu loop=$sub_menu}
-            <li class="level_{$:item.level}"><a href={$:item.url_alias|ezurl}>{$:item.text}</a></li>
-        {/section}
-        </ul>
-    {/let}
+          <div id="navigation">
+           <h3>Navigation</h3>
+           {let sub_menu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 3)}
+           <ul>
+               {section name=Menu loop=$sub_menu}
+                <li class="level_{$:item.level}"><a href={$:item.url_alias|ezurl}>{$:item.text}</a></li>
+               {/section}
+           </ul>
+           {/let}
+           </div>
 
             {let news_list=fetch( content, tree, hash( parent_node_id, 2,
   					               limit, 5,
