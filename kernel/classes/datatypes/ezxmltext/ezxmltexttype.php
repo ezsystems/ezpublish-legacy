@@ -556,10 +556,7 @@ class eZXMLTextType extends eZDataType
         return $output;
     }
 
-            /*!
-     \private
-     \return the XHTML rendered version of the section
-    */
+    /*
     function &renderXHTMLTdTag( &$tpl, &$td, $currentSectionLevel )
     {
         $output = "";
@@ -600,10 +597,6 @@ class eZXMLTextType extends eZDataType
         return $output;
     }
 
-     /*!
-     \private
-     \return XHTML rendered version of the paragrph
-    */
     function &renderXHTMLTdParagraph( &$tpl, $paragraph, $currentSectionLevel )
     {
         $output = "";
@@ -651,24 +644,48 @@ class eZXMLTextType extends eZDataType
         return $output;
     }
 
+    */
+
     /*!
      \private
      \return XHTML rendered version of the paragrph
     */
     function &renderXHTMLParagraph( &$tpl, $paragraph, $currentSectionLevel )
     {
-        $output = "";
+        $insideParagraph = true;
+        $paragraphCount = 0;
+        $paragraphContentArray = array();
+
         $sectionLevel = $currentSectionLevel;
         foreach ( $paragraph->children() as $paragraphNode )
         {
-            $output .= $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel );
+            $isBlockTag = false;
+            $content =& $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel, $isBlockTag );
+            if ( $isBlockTag === true )
+            {
+                $paragraphCount++;
+            }
+
+            $paragraphContentArray[$paragraphCount] = array( "Content" => $paragraphContentArray[$paragraphCount]['Content'] . $content, "IsBlock" => $isBlockTag );
         }
 
-        $tpl->setVariable( 'content', $output, 'xmltagns' );
-        $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
-        $textElements = array();
-        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-        $output = implode( '', $textElements );
+        $output = "";
+        foreach ( $paragraphContentArray as $paragraphContent )
+        {
+            if ( !$paragraphContent['IsBlock'] )
+            {
+                $tpl->setVariable( 'content', $paragraphContent['Content'], 'xmltagns' );
+                $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $output .= implode( '', $textElements );
+            }
+            else
+            {
+                $output .= $paragraphContent['Content'];
+            }
+
+        }
         return $output;
     }
 
@@ -676,8 +693,10 @@ class eZXMLTextType extends eZDataType
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag )
     {
+        // Set to true if tag breaks pagragraph flow
+        $isBlockTag = false;
         $tagText = "";
         $childTagText = "";
         $tagName = $tag->name();
@@ -686,8 +705,9 @@ class eZXMLTextType extends eZDataType
         $sectionLevel = $currentSectionLevel + 1;
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel );
+            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag );
         }
+
 
         switch ( $tagName )
         {
@@ -736,7 +756,7 @@ class eZXMLTextType extends eZDataType
                         $cellContent = "";
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent .= $this->renderXHTMLTdParagraph( $tpl, $tableCellChildNode, $sectionLevel );
+                            $cellContent .= $this->renderXHTMLParagraph( $tpl, $tableCellChildNode, $sectionLevel );
                         }
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         if ( $tableCell->Name == "th" )
@@ -760,11 +780,14 @@ class eZXMLTextType extends eZDataType
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText .= implode( '', $textElements );
+                $isBlockTag = true;
             }break;
 
             case 'ul' :
             case 'ol' :
             {
+                $isBlockTag = true;
+
                 $listContent = "";
                 // find all list elements
                 foreach ( $tag->children() as $listItemNode )
