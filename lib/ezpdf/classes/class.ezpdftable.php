@@ -1207,7 +1207,7 @@ class eZPDFTable extends Cezpdf
                 {
                     $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
                 }
-                $newMimetype = eZMimeType::findByFileContents( $newFilename );
+                $newMimetype = eZMimeType::findByURL( $newFilename );
 
                 $img =& imageInit();
                 $newImg = $img->convert( $mimetype,
