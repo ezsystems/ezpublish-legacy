@@ -49,7 +49,7 @@ function toggleInputs( selection )
 
 {* Custom name. *}
 <div class="block">
-<label>{'Name for custom translation'|i18n( 'design/admin/content/translationnew' )}</label>
+<label>{'Name of custom translation'|i18n( 'design/admin/content/translationnew' )}</label>
 <input id="field1" type="edit" name="TranslationName" value=""  size="20" />
 </div>
 
