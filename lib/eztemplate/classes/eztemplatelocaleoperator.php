@@ -253,6 +253,10 @@ class eZTemplateLocaleOperator
         }
         for ( $i = 0; $i < $paramCount; ++$i )
         {
+            if ( $parameters[$i] === null )
+            {
+                break;
+            }
             $values[] = $parameters[$i];
             $arguments[] = '%' . ($i + 1) . '%';
         }
