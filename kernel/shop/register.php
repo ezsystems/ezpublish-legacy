@@ -1,0 +1,92 @@
+<?php
+//
+// Created on: <13-Feb-2003 10:10:35 bf>
+//
+// Copyright (C) 1999-2002 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/home/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+$http =& eZHTTPTool::instance();
+$module =& $Params["Module"];
+
+include_once( "kernel/common/template.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( "kernel/classes/ezbasket.php" );
+include_once( "lib/ezxml/classes/ezxml.php" );
+
+if ( $module->isCurrentAction( 'Store' ) )
+{
+    $basket =& eZBasket::currentBasket();
+
+    $order =& $basket->createOrder();
+
+    $firstName = $http->postVariable( "FirstName" );
+    $lastName = $http->postVariable( "LastName" );
+    $email = $http->postVariable( "EMail" );
+    $address = $http->postVariable( "Address" );
+
+    $doc = new eZDOMDocument( 'account_information' );
+
+    $root =& $doc->createElementNode( "shop_account" );
+    $doc->setRoot( $root );
+
+    $firstNameNode =& $doc->createElementNode( "first-name" );
+    $firstNameNode->appendChild( $doc->createTextNode( $firstName ) );
+    $root->appendChild( $firstNameNode );
+
+    $lastNameNode =& $doc->createElementNode( "last-name" );
+    $lastNameNode->appendChild( $doc->createTextNode( $lastName ) );
+    $root->appendChild( $lastNameNode );
+
+    $emailNode =& $doc->createElementNode( "email" );
+    $emailNode->appendChild( $doc->createTextNode( $email ) );
+    $root->appendChild( $emailNode );
+
+    $addressNode =& $doc->createElementNode( "address" );
+    $addressNode->appendChild( $doc->createTextNode( $address ) );
+    $root->appendChild( $addressNode );
+
+    $order->setAttribute( 'data_text_1', $doc->toString() );
+    $order->setAttribute( 'account_identifier', "simple" );
+    $order->store();
+
+    eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+
+    $module->redirectTo( '/shop/confirmorder/' );
+    return;
+}
+
+$tpl =& templateInit();
+
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:shop/register.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Enter account information' ) );
+
+?>
