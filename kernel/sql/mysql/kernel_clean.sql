@@ -265,6 +265,7 @@ CREATE TABLE ezcontentobject_link (
 # Dumping data for table 'ezcontentobject_link'
 #
 
+
 #
 # Table structure for table 'ezcontentobject_tree'
 #
@@ -281,9 +282,9 @@ CREATE TABLE ezcontentobject_tree (
   md5_path varchar(15) default NULL,
   left_margin int(11) NOT NULL default '0',
   right_margin int(11) NOT NULL default '0',
-  sort_field int default 1,
-  sort_order int(1) default 1,
-  priority int not null default '0',
+  sort_field int(11) default '1',
+  sort_order int(1) default '1',
+  priority int(11) NOT NULL default '0',
   path_identification_string text,
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
@@ -353,7 +354,6 @@ CREATE TABLE ezenumobjectvalue (
 #
 
 
-
 #
 # Table structure for table 'ezenumvalue'
 #
@@ -390,13 +390,6 @@ CREATE TABLE ezimage (
 # Dumping data for table 'ezimage'
 #
 
-# eZURLType
-
-drop table if exists ezurl;
-CREATE TABLE ezurl (
-id int auto_increment not null,
-url varchar(255),
-primary key( id ) );
 
 #
 # Table structure for table 'ezimagevariation'
@@ -445,6 +438,27 @@ CREATE TABLE ezmedia (
 
 
 #
+# Table structure for table 'ezmessage'
+#
+
+CREATE TABLE ezmessage (
+  id int(11) NOT NULL auto_increment,
+  send_method varchar(50) NOT NULL default '',
+  send_weekday varchar(50) NOT NULL default '',
+  send_time varchar(50) NOT NULL default '',
+  destination_address varchar(50) NOT NULL default '',
+  title varchar(50) NOT NULL default '',
+  body varchar(50) default NULL,
+  is_sent int(1) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezmessage'
+#
+
+
+#
 # Table structure for table 'ezmodule_run'
 #
 
@@ -472,9 +486,10 @@ CREATE TABLE eznode_assignment (
   contentobject_id int(11) default NULL,
   contentobject_version int(11) default NULL,
   parent_node int(11) default NULL,
-  sort_field int default 1,
-  sort_order int(1) default 1,
+  sort_field int(11) default '1',
+  sort_order int(1) default '1',
   main int(11) default NULL,
+  from_node_id int(11) default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -482,19 +497,74 @@ CREATE TABLE eznode_assignment (
 # Dumping data for table 'eznode_assignment'
 #
 
-INSERT INTO eznode_assignment VALUES (2,1,1,1,1,1,1);
-INSERT INTO eznode_assignment VALUES (3,4,2,1,1,1,1);
-INSERT INTO eznode_assignment VALUES (4,8,2,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (144,4,4,1,1,1,1);
-INSERT INTO eznode_assignment VALUES (147,210,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (146,209,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (145,1,2,1,1,1,1);
-INSERT INTO eznode_assignment VALUES (148,9,1,2,1,1,1);
-INSERT INTO eznode_assignment VALUES (149,10,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (150,11,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (151,12,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (152,13,1,5,1,1,1);
-INSERT INTO eznode_assignment VALUES (153,14,1,13,1,1,1);
+INSERT INTO eznode_assignment VALUES (2,1,1,1,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (3,4,2,1,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (4,8,2,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (144,4,4,1,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (147,210,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (146,209,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (145,1,2,1,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (148,9,1,2,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (149,10,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (150,11,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (151,12,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (152,13,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (153,14,1,13,1,1,1,0);
+
+#
+# Table structure for table 'eznotification_rule'
+#
+
+CREATE TABLE eznotification_rule (
+  id int(11) NOT NULL auto_increment,
+  type varchar(250) NOT NULL default '',
+  contentclass_name varchar(250) NOT NULL default '',
+  path varchar(250) default NULL,
+  keyword varchar(250) default NULL,
+  has_constraint int(1) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eznotification_rule'
+#
+
+
+#
+# Table structure for table 'eznotification_user_link'
+#
+
+CREATE TABLE eznotification_user_link (
+  rule_id int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0',
+  send_method varchar(50) NOT NULL default '',
+  send_weekday varchar(50) NOT NULL default '',
+  send_time varchar(50) NOT NULL default '',
+  destination_address varchar(50) NOT NULL default '',
+  PRIMARY KEY  (rule_id,user_id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eznotification_user_link'
+#
+
+
+#
+# Table structure for table 'ezoperation_memento'
+#
+
+CREATE TABLE ezoperation_memento (
+  id int(11) NOT NULL auto_increment,
+  main_key int(11) NOT NULL default '0',
+  memento_key varchar(32) NOT NULL default '',
+  memento_data text NOT NULL,
+  PRIMARY KEY  (id,memento_key)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezoperation_memento'
+#
+
 
 #
 # Table structure for table 'ezorder'
@@ -640,8 +710,8 @@ CREATE TABLE ezsearch_object_word_link (
   prev_word_id int(11) NOT NULL default '0',
   next_word_id int(11) NOT NULL default '0',
   contentclass_id int(11) NOT NULL default '0',
-  published int not null,
-  section_id int not null,
+  published int(11) NOT NULL default '0',
+  section_id int(11) NOT NULL default '0',
   contentclass_attribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezsearch_object_word_link_object (contentobject_id),
@@ -806,6 +876,21 @@ CREATE TABLE eztrigger (
 
 
 #
+# Table structure for table 'ezurl'
+#
+
+CREATE TABLE ezurl (
+  id int(11) NOT NULL auto_increment,
+  url varchar(255) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezurl'
+#
+
+
+#
 # Table structure for table 'ezuser'
 #
 
@@ -859,60 +944,6 @@ CREATE TABLE ezuser_setting (
 
 INSERT INTO ezuser_setting VALUES (10,1,1000);
 INSERT INTO ezuser_setting VALUES (14,1,10);
-
-#
-# Table structure for table 'eznotification_rule'
-#
-
-CREATE TABLE eznotification_rule (
-id int auto_increment not null,
-type varchar(250) not null,
-contentclass_name varchar(250) not null,
-path varchar(250),
-keyword varchar(250),
-has_constraint int(1) not null,
-primary key( id ) );
-
-#
-# Dumping data for table 'eznotification_rule'
-#
-
-#
-# Table structure for table 'eznotification_user_link'
-#
-
-CREATE TABLE eznotification_user_link (
-rule_id int not null,
-user_id int not null,
-send_method varchar(50) not null,
-send_weekday varchar(50) not null,
-send_time varchar(50) not null,
-destination_address varchar(50) not null,
-primary key( rule_id, user_id ) );
-
-#
-# Dumping data for table 'eznotification_user_link'
-#
-
-#
-# Table structure for table 'ezmessage'
-#
-
-CREATE TABLE ezmessage (
-id int auto_increment not null,
-send_method varchar(50) not null,
-send_weekday varchar(50) not null,
-send_time varchar(50) not null,
-destination_address varchar(50) not null,
-title varchar(50) not null,
-body varchar(50),
-is_sent int(1) not null,
-primary key( id ) );
-
-#
-# Dumping data for table 'ezmessage'
-#
-
 
 #
 # Table structure for table 'ezwishlist'
@@ -1044,7 +1075,7 @@ INSERT INTO ezworkflow_group_link VALUES (1,1,0,'Standard');
 
 CREATE TABLE ezworkflow_process (
   id int(11) NOT NULL auto_increment,
-  process_key char(32) NOT NULL,
+  process_key varchar(32) NOT NULL default '',
   workflow_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   content_id int(11) NOT NULL default '0',
