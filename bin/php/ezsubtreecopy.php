@@ -47,13 +47,13 @@ $script =& eZScript::instance( array( 'description' => ( "\nSubtree Copy Script 
                                       'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][allversions][keepcreator][keeptime]",
+$scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][all-versions][keep-creator][keep-time]",
                                       "",
                                       array( 'src-node-id' => "Source subtree parent node ID.",
                                              'dst-node-id' => "Destination node ID.",
                                              'allversions' => "Copy all versions for each contentobject being copied.",
-                                             'keepcreator' => "Keep creator of contentobjects being copied unchanged.",
-                                             'keeptime'    => "Keep time of creation and modification of contentobjects being copied unchaged."
+                                             'keep-creator'=> "Keep creator of contentobjects being copied unchanged.",
+                                             'keep-time'   => "Keep time of creation and modification of contentobjects being copied unchaged."
                                              ),
                                       false,
                                       array( 'user' => true )
