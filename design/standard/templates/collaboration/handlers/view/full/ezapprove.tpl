@@ -7,9 +7,11 @@
      participant_list=fetch("collaboration","participant_map",hash("item_id",$collab_item.id))
      message_list=fetch("collaboration","message_list",hash("item_id",$collab_item.id,"limit",$message_limit,"offset",$message_offset))}
 
-{set-block variable=contentobject_link}
-{content_version_view_gui view=text_linked content_version=$content_version}
-{/set-block}
+{section show=$content_version|null()|not()}
+  {set-block variable=contentobject_link}
+    {content_version_view_gui view=text_linked content_version=$content_version}
+  {/set-block}
+{/section}
 
 <table cellspacing="4" cellpadding="4" border="0">
 <tr>
@@ -39,8 +41,10 @@
 {case in=array(2,3)}
   {section show=$collab_item.is_creator}
     <p>{"The content object %1 was not accepted but is available as a draft again."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-    <p>{"You may reedit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
-    <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
+    {section show=$content_version|null()|not()}
+      <p>{"You may reedit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
+      <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
+    {/section}
   {section-else}
     <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
     <p>{"The author can reedit the draft and publish it again, in which a new approval item is made."|i18n('design/standard/collaboration/approval')}</p>
@@ -78,7 +82,9 @@
 
   <td rowspan="2" valign="top">
 
-{content_version_view_gui view=plain content_version=$content_version}
+{section show=$content_version|null()|not()}
+  {content_version_view_gui view=plain content_version=$content_version}
+{/section}
 
   </td>
 

@@ -534,7 +534,10 @@ class eZContentObject extends eZPersistentObject
                 $objectArray =& $resArray[0];
             }
             else
+            {
                 eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
+                return null;
+            }
 
             if ( $asObject )
             {
