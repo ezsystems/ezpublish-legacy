@@ -444,6 +444,9 @@ Workflow:
 - Fix for incorrect detection of memory and timout settings in setup wizzard.
   (Merged from stable/3.4 rev. 7870)
   http://www.ez.no/community/bug_reports/memory_limit_detection_wrong_in_setup_wizard
+- Fixed bug where user can not create comments in weblog
+  http://www.ez.no/community/bug_reports/users_cannot_add_comments_use_weblog
+  (Merged from stable/3.4 rev. 7876)
   
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
