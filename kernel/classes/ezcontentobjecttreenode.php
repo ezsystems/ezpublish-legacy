@@ -1403,10 +1403,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $node =& $this;
             $nodeID = $node->attribute( 'node_id' );
+            $parentNodeID = $node->attribute( 'parent_node_id' );
+            $version = $node->attribute( 'contentobject_version' );
+            $contentObjectID = $node->attribute( 'contentobject_id' );
         }
         else
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $parentNodeID = $node->attribute( 'parent_node_id' );
+            $version = $node->attribute( 'contentobject_version' );
+            $contentObjectID = $node->attribute( 'contentobject_id' );
         }
 
         $nodePath = $node->attribute( 'path_string' );
@@ -1421,11 +1427,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
-        $query = "delete from ezcontentobject_tree
-                  where $subStringString = '$childrensPath' or
-                        path_string = '$nodePath' ";
-        $db->query( $query );
+        $db->query( "DELETE FROM ezcontentobject_tree
+                            WHERE $subStringString = '$childrensPath' OR
+                            path_string = '$nodePath'" );
 
+        // Clean node assignment.
+        $db->query( "DELETE FROM eznode_assignment
+                            WHERE contentobject_id = '$contentObjectID' AND parent_node = '$parentNodeID' AND contentobject_version = '$version'" );
     }
 
     function move( $newParentNodeID, $nodeID = 0 )

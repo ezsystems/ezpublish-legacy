@@ -72,7 +72,7 @@ foreach ( $deleteIDArray as $deleteID )
         $object = $node->attribute( 'object' );
         $NodeName = $object->attribute( 'name' );
         $contentObject = $node->attribute( 'object' );
-        $nodeID =  $node->attribute( 'node_id' );
+        $nodeID = $node->attribute( 'node_id' );
         $additionalWarning = '';
         if ( $node->attribute( 'main_node_id' ) == $nodeID )
         {
@@ -81,16 +81,24 @@ foreach ( $deleteIDArray as $deleteID )
             {
                 $additionalWarning = ezi18n( 'kernel/content/removeobject',
                                              'And also it will remove the nodes:' ) . ' ';
+                $additionalNodeIDList = array();
                 foreach( array_keys( $allAssignedNodes ) as $key )
                 {
                     $assignedNode =& $allAssignedNodes[$key];
-                    $additionalNodeIDList = array();
-                    if ( $assignedNode->attribute( 'node_id' ) != $nodeID )
+                    $assignedNodeID = $assignedNode->attribute( 'node_id' );
+                    if ( $assignedNodeID != $nodeID )
                     {
-                        $additionalNodeIDList[] = $assignedNode->attribute( 'node_id' );
+                        $additionalNode =& eZContentObjectTreeNode::fetch( $assignedNodeID );
+                        $additionalChildrenCount = $additionalNode->subTreeCount() . " ";
+                        if (  $additionalChildrenCount == 0 )
+                            $additionalNodeIDList[] = $assignedNodeID;
+                        else if (  $additionalChildrenCount == 1 )
+                            $additionalNodeIDList[] = $assignedNodeID . " and its 1 child";
+                        else
+                            $additionalNodeIDList[] = $assignedNodeID . " and its " . $additionalChildrenCount . " children";
                     }
-                    $additionalWarning .= implode( ', ', $additionalNodeIDList );
                 }
+                $additionalWarning .= implode( ', ',  $additionalNodeIDList );
             }
         }
 
@@ -121,13 +129,14 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $node =& eZContentObjectTreeNode::fetch( $deleteID );
         if ( $node != null )
         {
+            $parentNodeID = $node->attribute( 'parent_node_id' );
             $nodeList = array();
             $nodeList[] = $node->attribute( 'node_id' );
             $nodeList[] = $node->attribute( 'parent_node_id' );
 
             if ( eZContentCache::cleanup( $nodeList ) )
             {
-                     eZDebug::writeDebug( 'cache cleaned up', 'content, remove' );
+                eZDebug::writeDebug( 'cache cleaned up', 'content, remove' );
             }
 
 

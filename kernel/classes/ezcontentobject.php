@@ -788,10 +788,9 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-             eZContentObjectTreeNode::remove( $nodeID );
+            eZContentObjectTreeNode::remove( $nodeID );
         }
     }
-
 
     /*
      Fetch all attributes of all versions belongs to a contentObject.
