@@ -5,9 +5,11 @@
 
         <h1>{$node.object.data_map.title.content|wash()}</h1>
 
-        <div class="content-image">
-        {attribute_view_gui attribute=$node.object.data_map.image align=right}
-        </div>
+        {section show=$node.object.data_map.image.content}
+            <div class="content-image">
+                {attribute_view_gui attribute=$node.object.data_map.image align=right}
+            </div>
+        {/section}
 
         {section show=$node.object.data_map.intro.content.is_empty|not}
             <div class="content-short">
