@@ -831,7 +831,7 @@ class Cezpdf extends Cpdf
                 if ($this->y < $this->ez['bottomMargin']){
                     if ($test){
                         $newPage=true;
-                    } else {
+                    } else if ( strlen( trim( $line ) ) ){
                         $this->ezNewPage();
                         // and then re-calc the left and right, in case they have changed due to columns
                     }

@@ -1537,7 +1537,7 @@ class eZPDFTable extends Cezpdf
 
     /*!
      \private
-     Fixup table cell text. Removes ezCall tags, and forst C:callNewLine if they exists.
+     Fixup table cell text. Removes ezCall tags, and first C:callNewLine if they exists.
 
      \param text
 
