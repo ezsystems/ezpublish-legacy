@@ -508,7 +508,7 @@ class eZContentClass extends eZPersistentObject
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         // If we are not allowed to remove just return false
-        if ( !$this->isRemovable() )
+        if ( $this->Version != EZ_CLASS_VERSION_STATUS_TEMPORARY && !$this->isRemovable() )
             return false;
 
         if ( is_array( $remove_childs ) or $remove_childs )

@@ -157,8 +157,8 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
     $http->removeSessionVariable( 'CanStoreTicket' );
     $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
-    $class->remove( true, $ClassVersion );
-    eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
+    $class->remove( true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
     if ( $fromGroupID === false )
     {
         $Module->redirectToView( 'grouplist' );
