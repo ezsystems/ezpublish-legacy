@@ -93,12 +93,17 @@ $classList =& eZContentClass::fetchList();
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
+$Module->setTitle( 'Task view' );
+
+$ini =& eZINI::instance();
+
 $tpl->setVariable( "incoming_task_list", $incomingTaskList );
 $tpl->setVariable( "outgoing_task_list", $outgoingTaskList );
 $tpl->setVariable( 'task', $task );
 $tpl->setVariable( 'class_list', $classList );
 $tpl->setVariable( 'task_id', $TaskID );
 $tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'view_type', $ini->variable( 'TaskSettings', 'MessageViewMode' ) );
 
 $Result =& $tpl->fetch( "design:task/view.tpl" );
 

@@ -52,5 +52,9 @@ $ViewList['view'] = array(
     'params' => array( 'TaskID' ) );
 $ViewList['message'] = array(
     'script' => 'message.php',
-    'params' => array( 'TaskID', 'MessageID' ) );
+    'params' => array( 'TaskID', 'MessageID' ),
+    'single_post_actions' => array( 'PreviewButton' => 'Preview',
+                                    'ApplyButton' => 'Apply',
+                                    'PublishButton' => 'Publish',
+                                    'CancelButton' => 'Cancel' ) );
 ?>

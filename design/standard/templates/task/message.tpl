@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action="/content/edit/{$object.id}/{$edit_version}/">
+<form enctype="multipart/form-data" method="post" action="/task/message/{$task.id}/{$message.id}">
 
 {$task_id}
 
@@ -52,6 +52,7 @@
 {*	<br /><br /> *}
 {*	<input type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />*}
 {*	<input type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />*}
+	<input type="submit" name="ApplyButton" value="{'Apply'|i18n('content/object')}" />
 	<input type="submit" name="PublishButton" value="{'Send'|i18n('content/object')}" />
 	<input type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
 	&nbsp;

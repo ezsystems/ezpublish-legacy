@@ -161,7 +161,7 @@ class eZTask extends eZPersistentObject
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {
@@ -180,8 +180,7 @@ class eZTask extends eZPersistentObject
             } break;
             case 'messages':
             {
-                include_once( 'kernel/classes/ezcontentobject.php' );
-                return eZContentObject::fetch( $this->ObjectID );
+                return $this->fetchMessages();
             } break;
             case 'first_message':
             {
@@ -200,6 +199,20 @@ class eZTask extends eZPersistentObject
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::fetch( $userID );
         return $user;
+    }
+
+    function fetchMessages( $taskID = false, $as_object = true )
+    {
+        if ( $taskID === false )
+            $taskID = $this->ID;
+        include_once( 'kernel/classes/eztaskmessage.php' );
+        $conds = array( 'task_id' => $taskID );
+        $sorts = array( 'created' => 'asc' );
+        $messageList =& eZPersistentObject::fetchObjectList( eZTaskMessage::definition(),
+                                                             null,
+                                                             $conds,
+                                                             $sorts );
+        return $messageList;
     }
 
     function &fetchList( $userID, $parent = 0, $incoming = true, $as_object = true )

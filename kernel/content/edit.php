@@ -62,6 +62,43 @@ function registerSearchObject( &$module, $parameters )
 }
 $Module->addHook( 'post_publish', 'registerSearchObject', false );
 
+function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
+{
+    if ( $module->isCurrentAction( 'Preview' ) )
+    {
+        $module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+
+    if ( $module->isCurrentAction( 'Translate' ) )
+    {
+        $module->redirectToView( 'translate', array( $ObjectID, $EditVersion ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+
+    if ( $module->isCurrentAction( 'VersionEdit' ) )
+    {
+        $module->redirectToView( 'versions', array( $ObjectID ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+
+    if ( $module->isCurrentAction( 'Publish' ) )
+    {
+        $object->setAttribute( 'current_version', $EditVersion );
+        $object->store();
+
+        $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+        if ( $status )
+            return $status;
+
+//         eZDebug::writeNotice( $object, 'object' );
+        $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+}
+
+$Module->addHook( 'action_check', 'checkContentActions' );
+
 include( 'kernel/content/attribute_edit.php' );
 
 

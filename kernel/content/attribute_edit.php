@@ -83,6 +83,7 @@ $validation = array( 'processed' => false,
 $storeActions = array( 'Preview',
                        'Translate',
                        'VersionEdit',
+                       'Apply',
                        'Publish',
                        'Store' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
@@ -162,29 +163,8 @@ if ( $storingAllowed )
 // After the object has been validated we can check for other actions
 if ( $inputValidated == true )
 {
-    if ( $Module->isCurrentAction( 'Preview' ) )
-        return $Module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
-
-    if ( $Module->isCurrentAction( 'Translate' ) )
-        return $Module->redirectToView( 'translate', array( $ObjectID, $EditVersion ) );
-
-    if ( $Module->isCurrentAction( 'VersionEdit' ) )
-        return $Module->redirectToView( 'versions', array( $ObjectID ) );
-
     if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
         return;
-
-    if ( $Module->isCurrentAction( 'Publish' ) )
-    {
-        $object->setAttribute( 'current_version', $EditVersion );
-        $object->store();
-
-        if ( $Module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
-            return;
-
-//         eZDebug::writeNotice( $object, 'object' );
-        return $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
-    }
 }
 
 

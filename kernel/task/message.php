@@ -71,6 +71,37 @@ function messageInitializeTemplate( &$module, &$class, &$object, &$version, &$co
 
 // $Module->addHook( 'pre_module_init', 'messageInitializeTemplate' );
 
+function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
+{
+//     if ( $module->isCurrentAction( 'Preview' ) )
+//     {
+//         $module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
+//         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+//     }
+
+    if ( $module->isCurrentAction( 'Apply' ) )
+    {
+//         $module->redirectToView( 'versionview', array( $ObjectID, $EditVersion ) );
+//         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+
+//     if ( $module->isCurrentAction( 'Publish' ) )
+//     {
+//         $object->setAttribute( 'current_version', $EditVersion );
+//         $object->store();
+
+//         $status = $module->runHooks( 'post_publish', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) );
+//         if ( $status )
+//             return $status;
+
+// //         eZDebug::writeNotice( $object, 'object' );
+//         $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+//         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+//     }
+}
+
+$Module->addHook( 'action_check', 'checkContentActions' );
+
 $Params['TemplateName'] = "design:task/message.tpl";
 $EditVersion = 1;
 
