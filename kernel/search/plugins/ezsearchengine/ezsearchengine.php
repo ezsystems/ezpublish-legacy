@@ -392,23 +392,6 @@ class eZSearchEngine
                     $fullTextSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id";
 
-/*
-                $relatedObjects =& $db->arrayQuery( "SELECT
-					       ezcontentobject.*
-					     FROM
-					       ezcontentobject, ezcontentobject_link
-					     WHERE
-					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-					       ezcontentobject_link.from_contentobject_id='$this->ID' AND
-					       ezcontentobject_link.from_contentobject_version='$version'" );
-
-        $return = array();
-        foreach ( $relatedObjects as $object )
-        {
-            $return[] = new eZContentObject( $object );
-        }
-*/
-
             $objectRes = array();
 
             $searchCount = 0;
