@@ -218,7 +218,7 @@ class eZPDFExport extends eZPersistentObject
     */
     function attributes()
     {
-        return array_merge( eZPersistentObject::attributes(), 'modifier', 'source_node', 'filepath' );
+        return array_merge( eZPersistentObject::attributes(), 'modifier', 'source_node', 'filepath', 'export_classes_array' );
     }
 
     /*!
@@ -226,7 +226,7 @@ class eZPDFExport extends eZPersistentObject
     */
     function hasAttribute( $attr )
     {
-        return ( $attr == 'modifier' or $attr == 'source_node' or $attr == 'filepath' or
+        return ( $attr == 'modifier' or $attr == 'source_node' or $attr == 'filepath' or $attr == 'export_classes_array' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -255,6 +255,11 @@ class eZPDFExport extends eZPersistentObject
             {
                 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
                 return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+            } break;
+
+            case 'export_classes_array':
+            {
+                return explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
             } break;
 
             default:

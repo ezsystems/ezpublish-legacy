@@ -36,13 +36,21 @@
       {/section}
       value="tree">{"Tree"|i18n("design/standard/content")}</input>
     <br/>
-    <input type="radio" name="ExportType" value="node">{"Node"|i18n("design/standard/content")}</input>
+    <input type="radio" name="ExportType" 
+      {section show=$pdf_export.export_structure|eq("tree")|not()} 
+        checked="checked"
+      {/section}
+      value="node">{"Node"|i18n("design/standard/content")}</input>
     <br/>
     
     <label>{"Export classes"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
     <select name="ClassList[]" multiple="multiple" size="8">
     {section var=class loop=$export_class_array}
-      <option value="{$class.item.id}" selected="selected">{$class.item.name|wash}</option>
+      <option value="{$class.item.id}" 
+      {section show=$pdf_export.export_classes|contains($class.item.id)}
+        selected="selected"
+      {/section}
+      >{$class.item.name|wash}</option>
     {/section}
     </select>
     <br/>
