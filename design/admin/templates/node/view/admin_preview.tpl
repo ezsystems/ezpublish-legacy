@@ -5,7 +5,14 @@
 {* Display all the attributes using their default template. *}
 {section var=Attributes loop=$node.object.contentobject_attributes}
     <div class="block">
+    {section show=$Attributes.item.display_info.view.grouped_input}
+    <fieldset>
+        <legend>{$Attributes.item.contentclass_attribute.name|wash}</legend>
+        {attribute_view_gui attribute=$Attributes.item}
+    </fieldset>
+    {section-else}
         <label>{$Attributes.item.contentclass_attribute.name|wash}</label>
-        <p class="box">{attribute_view_gui attribute=$Attributes.item}</p>
+        {attribute_view_gui attribute=$Attributes.item}
+    {/section}
     </div>
 {/section}
