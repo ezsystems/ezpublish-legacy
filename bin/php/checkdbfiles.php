@@ -42,6 +42,13 @@ $branches[] = '3.0';
 $branches[] = '3.1';
 $branches[] = '3.2';
 
+/********************************************************
+*** NOTE: The following arrays do not follow the
+***       coding standard, the reason for this is
+***       to make it easy to merge any changes between
+***       the various eZ publish branches.
+*********************************************************/
+
 $versions = array();
 $versions30 = array( 'stable' => array( array( '2.9.7', '3.0-1' ),
                                         array( '3.0-1', '3.0-2' ) ),
