@@ -636,6 +636,8 @@ Workflow:
 - Fixed bug: fatal error when using versionview.
   (Merged from stable/3.4 rev. 8407)
   http://ez.no/community/bug_reports/crash_when_using_versionview
+- Fixed bug: restore from trash is impossible
+  http://ez.no/community/bug_reports/restore_from_trash
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

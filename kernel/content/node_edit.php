@@ -350,26 +350,11 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 {
     $http =& eZHTTPTool::instance();
 
-    // If node assignment handling is diabled we return immedieately
-    $useNodeAssigments = true;
-    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
-        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
-
-    if ( !$useNodeAssigments )
-        return;
-
-    // Remove custom actions from attribute editing.
-    $http->removeSessionVariable( 'BrowseCustomAction' );
-
-    if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
-    {
-
-        $nodeID = $http->postVariable( 'RemoveNodeID' );
-        $version->removeAssignment( $nodeID );
-    }
-
     if ( $module->isCurrentAction( 'BrowseForNodes' ) )
     {
+        // Remove custom actions from attribute editing.
+        $http->removeSessionVariable( 'BrowseCustomAction' );
+
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
         $assigned = $version->nodeAssignments();
@@ -415,6 +400,25 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
+
+    // If node assignment handling is diabled we return
+    $useNodeAssigments = true;
+    if ( $http->hasPostVariable( 'UseNodeAssigments' ) )
+        $useNodeAssigments = (bool)$http->postVariable( 'UseNodeAssigments' );
+
+    if ( !$useNodeAssigments )
+        return;
+
+    // Remove custom actions from attribute editing.
+    $http->removeSessionVariable( 'BrowseCustomAction' );
+
+    if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
+    {
+
+        $nodeID = $http->postVariable( 'RemoveNodeID' );
+        $version->removeAssignment( $nodeID );
+    }
+
     if ( $module->isCurrentAction( 'DeleteNode' ) )
     {
 
