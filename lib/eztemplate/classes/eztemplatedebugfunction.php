@@ -62,6 +62,16 @@
   {/debug-accumulator}
   \endcode
 
+  debug-trace
+  Executes the body while tracing the result using XDebug.
+  The result will a trace file made by XDebug which can be analyzed.
+  Note: This will not do anything when XDebug is not available
+
+  \code
+  {debug-trace id="loop"}
+  {section var=error loop=$errors}{$error}{/section}
+  {/debug-trace}
+  \endcode
 */
 
 class eZTemplateDebugFunction
@@ -70,10 +80,12 @@ class eZTemplateDebugFunction
      Initializes the object with names.
     */
     function eZTemplateDebugFunction( $timingPoint = 'debug-timing-point',
-                                      $accumulator = 'debug-accumulator' )
+                                      $accumulator = 'debug-accumulator',
+                                      $trace = 'debug-trace' )
     {
         $this->TimingPointName = $timingPoint;
         $this->AccumulatorName = $accumulator;
+        $this->TraceName = $trace;
     }
 
     /*!
@@ -81,7 +93,7 @@ class eZTemplateDebugFunction
     */
     function functionList()
     {
-        return array( $this->TimingPointName, $this->AccumulatorName );
+        return array( $this->TimingPointName, $this->AccumulatorName, $this->TraceName );
     }
 
     function functionTemplateHints()
@@ -95,7 +107,12 @@ class eZTemplateDebugFunction
                                                        'static' => false,
                                                        'transform-children' => true,
                                                        'tree-transformation' => true,
-                                                       'transform-parameters' => true ) );
+                                                       'transform-parameters' => true ),
+                      $this->TraceName => array( 'parameters' => true,
+                                                 'static' => false,
+                                                 'transform-children' => true,
+                                                 'tree-transformation' => true,
+                                                 'transform-parameters' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,
@@ -157,6 +174,40 @@ class eZTemplateDebugFunction
             $newNodes = array_merge( $newNodes, $children );
 
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::accumulatorStop( " . var_export( $id, true ) . " );" );
+
+            return $newNodes;
+        }
+        else if ( $functionName == $this->TraceName )
+        {
+            $id = false;
+            if ( isset( $parameters['id'] ) )
+            {
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters['id'] ) )
+                    return false;
+                $id = eZTemplateNodeTool::elementConstantValue( $parameters['id'] );
+            }
+
+            if ( !$id )
+                $id = 'template-debug';
+
+            $newNodes = array();
+
+            $code = ( "if ( extension_loaded( 'xdebug' ) )\n" .
+                      "{\n" .
+                      "if ( file_exists( " . var_export( $id . '.xt', true ) . " ) )\n" .
+                      "{\n" .
+                      "\$fd = fopen( " . var_export( $id . '.xt', true ) . ", 'w' ); fclose( \$fd ); unset( \$fd );\n" .
+                      "}\n" .
+                      "xdebug_start_trace( " . var_export( $id, true ) . " );\n" .
+                      "}\n" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+
+            $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+            $newNodes = array_merge( $newNodes, $children );
+
+            $code = ( "if ( extension_loaded( 'xdebug' ) )\n" .
+                      "xdebug_stop_trace();\n" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
 
             return $newNodes;
         }
@@ -222,6 +273,50 @@ class eZTemplateDebugFunction
                 }
 
                 eZDebug::accumulatorStop( $id, 'Debug-Accumulator', $name );
+
+            } break;
+
+            case $this->TraceName:
+            {
+                $children = $functionChildren;
+
+                $id = false;
+                // If we have XDebug we start the trace, execute children and stop it
+                // if not we just execute the children as normal
+                if ( extension_loaded( 'xdebug' ) )
+                {
+                    $parameters = $functionParameters;
+                    if ( isset( $parameters["id"] ) )
+                    {
+                        $id = $tpl->elementValue( $parameters["id"], $rootNamespace, $currentNamespace, $functionPlacement );
+                    }
+
+                    if ( !$id )
+                        $id = 'template-debug';
+
+                    // If we already have a file, make sure it is truncated
+                    if ( file_exists( $id . '.xt' ) )
+                    {
+                        $fd = fopen( $id, '.xt', 'w' ); fclose( $fd );
+                    }
+                    xdebug_start_trace( $id );
+
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    }
+
+                    xdebug_stop_trace();
+                }
+                else
+                {
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    }
+                }
 
             } break;
         }

@@ -182,6 +182,9 @@ eZDebug:
 eZTemplate:
 - Added scope support to the "set" template function. Scope can be global, root or relative (default).
   Also added unit tests for this.
+- Added debug functions called debug-timing-point, debug-accumulator and
+  debug-trace which can be used to get detailed debug information for any
+  template.
 
 eZCLI:
 - Made sure all errors, warnings and notices are sent to stderr.
