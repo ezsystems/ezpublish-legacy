@@ -87,14 +87,25 @@ class eZNotificationEventFilter
 
     function &availableHandlers()
     {
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $baseDirectory = eZExtension::baseDirectory();
         $notificationINI =& eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
 //        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $repositoryDirectories = array();
+        $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
+        foreach ( $extensionDirectories as $extensionDirectory )
+        {
+            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/notification/handler';
+            if ( file_exists( $extensionPath ) )
+                $repositoryDirectories[] = $extensionPath;
+        }
         $handlers = array();
         foreach( $availableHandlers as $handlerString )
         {
-            $handlers[$handlerString] =& eZNotificationEventFilter::loadHandler( $repositoryDirectories, $handlerString );
+            $eventHandler =& eZNotificationEventFilter::loadHandler( $repositoryDirectories, $handlerString );
+            if ( is_object( $eventHandler ) )
+                $handlers[$handlerString] =& $eventHandler;
         }
         eZDebug::writeDebug( $handlers, "available handlers" );
         return $handlers;
@@ -130,7 +141,7 @@ class eZNotificationEventFilter
         }
         if ( !$foundHandler  )
         {
-            eZDebug::writeError( 'Notification handler does not exist: $handlerString', 'eZNotificationEventFilter::loadHandler()' );
+            eZDebug::writeError( "Notification handler does not exist: $handlerString", 'eZNotificationEventFilter::loadHandler()' );
             return false;
         }
         include_once( $includeFile );
