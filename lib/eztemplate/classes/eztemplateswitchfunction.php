@@ -87,7 +87,9 @@ class eZTemplateSwitchFunction
     {
         return array( $this->SwitchName => array( 'parameters' => true,
                                                   'static' => false,
-                                                  'tree-transformation' => true ) );
+                                                  'transform-children' => false,
+                                                  'tree-transformation' => true,
+                                                  'transform-parameters' => true ) );
     }
     /*!
      Returns the attribute list which is case.
@@ -97,38 +99,47 @@ class eZTemplateSwitchFunction
         return array( "case" => true );
     }
 
-    function templateNodeCaseTransformation( &$newNodes, &$node )
+    function templateNodeCaseTransformation( &$tpl, &$newNodes, &$caseNodes, &$caseCounter, &$node, $privateData )
     {
         if ( $node[2] == 'case' )
         {
             if ( is_array( $node[3] ) && count( $node[3] ) && isset( $node[3]['match'] ) )
             {
                 $match = $node[3]['match'];
+                $match = eZTemplateCompiler::processElementTransformationList( $tpl, $node, $match, $privateData );
 
-                if ( eZTemplateNodeTool::isStringElement( $match ) )
+                $dynamicCase = false;
+                if ( eZTemplateNodeTool::isStaticElement( $match ) )
                 {
-                    $case = "'{$match[0][1]}'";
+                    $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
+                    $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
                 }
-                else if ( eZTemplateNodeTool::isNumericElement( $match ) )
+                else
                 {
-                    $case = $match[0][1];
+                    $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $match, false, array(), 'case' . $caseCounter );
+                    $caseText = "\$case" . $caseCounter;
+                    ++$caseCounter;
+                    $dynamicCase = true;
                 }
-                
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tcase $case: {\n" );
+
+                $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    case $caseText:\n    {" );
+                if ( $dynamicCase )
+                    $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "        unset( $caseText );" );
             }
             else
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tdefault: {\n" );
+                $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    default:\n    {" );
             }
 
             $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-            foreach ( $children as $child )
-            {
-                $newNodes[] = $child;
-            }
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
+            $children = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $children, $privateData );
+
+            $caseNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 8 );
+            $caseNodes = array_merge( $caseNodes, $children );
+            $caseNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 8 );
+
+            $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    } break;" );
         }
-        return $newNodes;
     }
 
 
@@ -157,7 +168,7 @@ class eZTemplateSwitchFunction
             $varData = $parameters['var'];
             if ( !eZTemplateNodeTool::isStaticElement( $varData ) )
                 return false;
-            $varName = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $varName = eZTemplateNodeTool::elementStaticValue( $varData );
         }
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),
@@ -171,19 +182,22 @@ class eZTemplateSwitchFunction
             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         }
 
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{" );
 
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+        $caseNodes = array();
+        $caseCounter = 1;
         foreach ( $children as $child )
         {
             $childType = $child[0];
             if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
-                $this->templateNodeCaseTransformation( $newNodes, $child );
+                $this->templateNodeCaseTransformation( $tpl, $newNodes, $caseNodes, $caseCounter, $child, $privateData );
             }
         }
+        $newNodes = array_merge( $newNodes, $caseNodes );
 
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'match' );
         if ( isset( $parameters['name'] ) )
         {
