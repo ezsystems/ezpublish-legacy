@@ -20,4 +20,4 @@ ALTER TABLE ezsubtree_expiry ADD COLUMN subtree INT;
 CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry( subtree );
 
 -- Create index for path_identification_string
-CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree (path_identification_string(50));
+CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree (path_identification_string);
