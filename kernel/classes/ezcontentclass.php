@@ -64,6 +64,7 @@ class eZContentClass extends eZPersistentObject
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
         }
+        $this->DataMap = false;
     }
 
     function &definition()
@@ -106,6 +107,7 @@ class eZContentClass extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id", "version" ),
+                      "function_attributes" => array( "data_map" => "dataMap" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -351,6 +353,11 @@ class eZContentClass extends eZPersistentObject
     {
         switch( $attr )
         {
+            case 'data_map':
+            {
+                return $this->dataMap();
+            } break;
+
             case "version_count":
             {
                 return $this->VersionCount;
@@ -694,6 +701,25 @@ class eZContentClass extends eZPersistentObject
                                                     $sorts,
                                                     $limit,
                                                     $asObject );
+    }
+
+    /*!
+     Returns all attributes as an associative array with the key taken from the attribute identifier.
+    */
+    function &dataMap()
+    {
+        $map =& $this->DataMap[$this->Version];
+        if ( !isset( $map ) )
+        {
+            $map = array();
+            $attributes =& $this->fetchAttributes( false, true, $this->Version );
+            foreach ( array_keys( $attributes ) as $attributeKey )
+            {
+                $attribute =& $attributes[$attributeKey];
+                $map[$attribute->attribute( 'identifier' )] =& $attribute;
+            }
+        }
+        return $map;
     }
 
     function &fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )

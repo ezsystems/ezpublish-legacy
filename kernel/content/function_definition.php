@@ -109,7 +109,7 @@ $FunctionList['class'] = array( 'name' => 'object',
                                                         'method' => 'fetchClass' ),
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'class_id',
-                                                              'type' => 'integer',
+                                                              'type' => 'integer,string',
                                                               'required' => true ) ) );
 $FunctionList['class_attribute_list'] = array( 'name' => 'object',
                                                'operation_types' => array( 'read' ),

@@ -133,7 +133,10 @@ class eZContentFunctionCollection
     function &fetchClass( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
-        $object =& eZContentClass::fetch( $classID );
+        if ( is_string( $classID ) )
+            $object =& eZContentClass::fetchByIdentifier( $classID );
+        else
+            $object =& eZContentClass::fetch( $classID );
         if ( $object === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -768,6 +771,14 @@ class eZContentFunctionCollection
     {
         if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
             $contentObject =& $contentObject->attribute( 'object' );
+        if ( is_string( $contentClassID ) )
+        {
+            $class =& eZContentClass::fetchByIdentifier( $contentClassID );
+            if ( !$class )
+                return array( 'error' => array( 'error_type' => 'kernel',
+                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+            $contentClassID = $class->attribute( 'id' );
+        }
         if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
         {
             $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID );
