@@ -2,6 +2,7 @@ Changes from 3.2-3 to 3.3.0-1
 
 
 *Kernel:
+- Added function checking main node id from drop down node assignments.
 - Added count function for tipafriend and content view.
 - Added support for information collection on option datatype.
 - Added RSS export support, according to the RSS 1.0 specification: http://web.resource.org/rss/1.0/spec

@@ -195,7 +195,21 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 function storeNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
-    $mainNodeID = $http->postVariable( 'MainNodeID' );
+
+    $setPlacementNodeIDArray = array();
+    if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
+        $setPlacementNodeIDArray = $http->postVariable( 'SetPlacementNodeIDArray' );
+
+    if ( $http->hasPostVariable( 'MainNodeID' ) )
+        $mainNodeID = $http->postVariable( 'MainNodeID' );
+    // Check if dropdown placement is used
+    if ( $http->hasPostVariable( 'MainAssignmentElementNumber' ) )
+    {
+        $elementNumber = $http->postVariable( 'MainAssignmentElementNumber' );
+
+        $mainNodeID = $setPlacementNodeIDArray[1];
+    }
+
     $nodesID = array();
     if ( $http->hasPostVariable( 'NodesID' ) )
         $nodesID = $http->postVariable( 'NodesID' );
@@ -206,9 +220,6 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
     eZDebugSetting::writeDebug( 'kernel-content-edit', $mainNodeID, "mainNodeID" );
 
-    $setPlacementNodeIDArray = array();
-    if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
-        $setPlacementNodeIDArray = $http->postVariable( 'SetPlacementNodeIDArray' );
 
     $setPlacementNodeIDArray = array_unique( $setPlacementNodeIDArray );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $setPlacementNodeIDArray, '$setPlacementNodeIDArray' );
