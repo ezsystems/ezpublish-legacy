@@ -132,6 +132,7 @@ $storeActions = array( 'Preview',
                        'DeleteRelation',
                        'DeleteNode',
                        'MoveNode' );
+
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
 // These variables will be modified according to validation
@@ -139,19 +140,35 @@ $inputValidated = true;
 $requireFixup = false;
 $validatedAttributesLog = array();
 
+// We need to check if the action comes from the browse page
+// Then bypass validation and storing for all other attributes
+if ( $http->hasPostVariable( 'BrowseActionName' ) )
+{
+    $bypassValidation = true;
+}
+else
+{
+    $bypassValidation = false;
+}
+
 if ( $storingAllowed )
 {
     // Validate input
     include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+
     $unvalidatedAttributes = array();
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-/*        if ( $http->hasPostVariable( "SelectedObjectIDArray" ) )
-            $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        else*/
+        // Bypass validation
+        if ( $bypassValidation == true )
+            if ( $contentObjectAttribute->attribute( 'id' ) != $customActionAttributeID )
+            {
+                continue;
+            }
+
         $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
 
         if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
@@ -204,16 +221,25 @@ if ( $storingAllowed )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
     $attributeHasInput = array();
     $dataMap =& $object->attribute( 'data_map' );
-    foreach( array_keys( $contentObjectAttributes ) as $key )
+    foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
+
+        // Bypass input fetching, if needed
+        if ( $bypassValidation == true )
+            if ( $contentObjectAttribute->attribute( 'id' ) != $customActionAttributeID )
+            {
+                $attributeHasInput[$contentObjectAttribute->attribute('id')] = false;
+                continue;
+            }
+
         if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
         {
             $requireStoreAction = true;
             $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
             $attributeHasInput[$contentObjectAttribute->attribute('id')] = true;
         }
-/********** Custom Action Code Start ***************/
+        // Run custom actions
         if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )] ) )
         {
             $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( "id" )]['id'];
@@ -221,10 +247,7 @@ if ( $storingAllowed )
             $contentObjectAttribute->customHTTPAction( $http, $customAction, array( 'module' => &$Module,
                                                                                     'current-redirection-uri' => $currentRedirectionURI ) );
         }
-/********** Custom Action Code End ***************/
-
     }
-
 
     if ( $Module->isCurrentAction( 'Discard' ) )
     {
@@ -242,7 +265,7 @@ if ( $storingAllowed )
         $version->store();
 
         // Tell attributes to store themselves if necessary
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach ( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
             if ( isset( $attributeHasInput[$contentObjectAttribute->attribute('id')] ) )
