@@ -53,3 +53,32 @@ DataTypes:
 Validators:
 - The validator classes should not use regexs since they will not work properly
   with some charsets.
+
+Features:
+user/register:
+Some sites might now want to allow user specified login id's, so it should be configurable
+in site.ini if the "Login ID" is shown. Login ID could be made from name, email or generated
+by site. The same goes for passwords, some sites don't want user specified passwords
+(because they are often insecure).
+
+User ID hash should not be made of only login and user id, the current time value should be
+added and the hash should be stored in the db for later checking in user/activate.
+Also register hashes should have a timeout value to clean up users which were never activated.
+
+user/success should not be used, instead the register page should display a different template
+displaying the content of the user/success. The page should give more information on what
+to do with the email.
+
+eZMail:
+Mails should be composed by templates not PHP code, and also emails should not contain unix
+endlines (\n) but instead DOS endlines (\r\n). The mail rfc should be examined more closely
+too make sure we send out valid mails.
+Sender, receiver etc.. should not have their own functions instead a setAttribute style
+should be used, emails can have many different kinds of attributes(or what it's called in mails)
+including custom made. The body is the only exception i believe.
+
+Classes:
+Add a checkbox to each attribute which tells whether the attribute is considered a content
+attribute or a metadata attribute. Metadata attributes are not translated and are generally
+not shown in views but instead used to control objects, like "have comments".
+
