@@ -12,6 +12,8 @@
 
 <div class="context-attributes">
 <div class="block">
+
+{section show=$policies}
 <label>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</label><div class="labelbreak"></div>
 <table class="list" cellspacing="0">
 <tr>
@@ -52,6 +54,12 @@
 </tr>
 {/section}
 </table>
+{section-else}
+<p>
+{'There are no policies set up for this role.'|i18n( 'design/admin/role/view' )}
+</p>
+{/section}
+
 </div>
 </div>
 
@@ -79,6 +87,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$user_array}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.role, 'IDArray[]' ); return false;"/></th>
@@ -101,13 +110,20 @@
 </tr>
 {/section}
 </table>
+{section-else}
+<div class="block">
+<p>
+{'This role is not assigned to any users or user groups.'|i18n( 'design/admin/role/view' )}
+</p>
+</div>
+{/section}
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" />
+<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected assignments'|i18n( 'design/admin/role/view' )}" {section show=$user_array|not}disabled="disabled"{/section} />
 <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />
 <input class="button" type="submit" name="AssignRoleLimitedButton" value="{'Assign limited'|i18n( 'design/admin/role/view' )}" title="{'Assign role to user or group'|i18n( 'design/admin/role/view' )}" />on
 <select name="AssignRoleType">
