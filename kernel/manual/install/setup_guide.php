@@ -73,7 +73,7 @@
 	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;apache_document_root&gt;</pre> and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
-	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
+	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. If you installed demo data append '/demo' to the URL, if not append '/user' to view the user site.</li>
 </ol>
 <p>
 	See the <a href="siteaccess">site access section</a> for more info on changing the way you access the user/admin site.
@@ -95,7 +95,7 @@
 	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the Windows version)</li>
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
-	<li>You should now have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
+	<li>You should now have  a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
 	by '&lt;password&gt;';</pre>
 </ol>
@@ -108,7 +108,7 @@
 	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
-	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
+	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. If you installed demo data append '/demo' to the URL, if not append '/user' to view the user site.</li>
 </ol>
 
 <p>
