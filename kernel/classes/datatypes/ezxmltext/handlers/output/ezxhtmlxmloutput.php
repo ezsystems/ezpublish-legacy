@@ -282,7 +282,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // fetch attributes
                 $objectAttributes =& $tag->attributes();
                 $object =& $this->ObjectArray["$objectID"];
-//                $object =& eZContentObject::fetch( $objectID );
                 // Fetch from cache
                 if ( get_class( $object ) == "ezcontentobject" )
                 {
