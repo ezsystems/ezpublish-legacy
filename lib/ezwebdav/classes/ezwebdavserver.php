@@ -169,6 +169,7 @@ class eZWebDAVServer
 
         // Convert the requested URI string to non-bogus format.
         $target = urldecode( $_SERVER["REQUEST_URI"] );
+        $target = $this->processURL( $target );
 
         $this->appendLogEntry( "----------------------------------------" );
         $this->appendLogEntry( "Client says: " . $_SERVER["REQUEST_METHOD"], 'processClientRequest' );
@@ -177,6 +178,7 @@ class eZWebDAVServer
 
         // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
+//        $this->appendLogEntry( $xmlBody, 'xmlBody' );
         $status = EZ_WEBDAV_FAILED_NOT_FOUND;
 
         switch ( $_SERVER["REQUEST_METHOD"] )
@@ -200,7 +202,14 @@ class eZWebDAVServer
                 $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
                 $collection = $this->getCollectionContent( $target, $depth );
-                $status = $this->outputCollectionContent( $collection, $xmlBody );
+                if ( is_array( $collection ) )
+                {
+                    $status = $this->outputCollectionContent( $collection, $xmlBody );
+                }
+                else
+                {
+                    $status = $collection;
+                }
             } break;
 
             // HEAD (Check if file/resource exists.)
@@ -267,6 +276,7 @@ class eZWebDAVServer
                 $source      = $target;
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
                 $destination = urldecode( $url["path"] );
+                $destination = $this->processURL( $destination );
                 $status      = $this->copy( $source, $destination );
             } break;
 
@@ -277,6 +287,7 @@ class eZWebDAVServer
                 $source      = $target;
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
                 $destination = urldecode( $url["path"] );
+                $destination = $this->processURL( $destination );
                 $status      = $this->move( $source, $destination );
             } break;
 
@@ -395,7 +406,7 @@ class eZWebDAVServer
             $xmlText .= "  <D:getetag />\n";
             $xmlText .= "  <D:lockdiscovery />\n";
             $xmlText .= " </D:prop>\n";
-            $xmlText .= "<D:status>HTTP/1.1 404 Not Found</D:status>";
+            $xmlText .= " <D:status>HTTP/1.1 404 Not Found</D:status>\n";
             $xmlText .= "</D:propstat>\n";
 
             $xmlText .= "</D:response>\n";
@@ -410,7 +421,12 @@ class eZWebDAVServer
         // want to use chunked transfer encoding.
         // header( 'Content-Length: '.strlen( $xml ) );
 
+        $text = @ob_get_contents();
+        if ( strlen( $text ) != 0 )
+            $this->appendLogEntry( $text, "DAV: PHP Output" );
         while ( @ob_end_clean() );
+
+//        $this->appendLogEntry( $xmlText, 'xmlText' );
 
         // Dump the actual XML data containing collection list.
         print( $xmlText );
@@ -436,6 +452,12 @@ class eZWebDAVServer
     */
     function outputSendDataToClient( $output, $headers_only = false )
     {
+        if ( !$output )
+        {
+            $this->appendLogEntry( "outputData: no data available", 'outputSendDataToClient' );
+            return EZ_WEBDAV_FAILED_NOT_FOUND;
+        }
+
         // Check if we are dealing with custom data.
         if ( $output["data"] )
         {
@@ -459,8 +481,8 @@ class eZWebDAVServer
                 $dir  = dirname( $realPath );
                 $file = basename( $realPath );
 
-                $mime     = new eZMimeType ();
-                $mimeType = $mime->mimeTypeFor( $dir, $file );
+                $mimeInfo = eZMimeType::findByURL( $dir . '/' . $file );
+                $mimeType = $mimeInfo['name'];
 
                 // Send necessary headers to client.
                 header( 'HTTP/1.1 200 OK' );
@@ -469,6 +491,9 @@ class eZWebDAVServer
                 header( 'Content-Type: '.$mimeType );
                 header( 'ETag: '.$eTag );
 
+                $text = @ob_get_contents();
+                if ( strlen( $text ) != 0 )
+                    $this->appendLogEntry( $text, "DAV: PHP Output" );
                 while ( @ob_end_clean() );
 
                 if ( !$headers_only )
@@ -505,6 +530,9 @@ class eZWebDAVServer
         {
             $this->appendLogEntry( "outputData: No file specified", 'outputSendDataToClient' );
 
+            $text = @ob_get_contents();
+            if ( strlen( $text ) != 0 )
+                $this->appendLogEntry( $text, "DAV: PHP Output" );
             while ( @ob_end_clean() );
 
             return EZ_WEBDAV_FAILED_NOT_FOUND;
@@ -535,6 +563,19 @@ class eZWebDAVServer
         {
             return false;
         }
+    }
+
+    /*!
+      \protected
+      This method will be called on all intercepted URLs and can be reimplemented
+      to clean up the URL for further processing.
+      A typical usage is when the server is running without rewrite rules and will
+      have the .php file in the path.
+      \return The new URL which can safely be passed to the operation methods.
+    */
+    function processURL( $url )
+    {
+        return $url;
     }
 
     /*!
@@ -716,6 +757,11 @@ class eZWebDAVServer
                 header( "HTTP/1.1 500 Internal Server Error" );
             } break;
         }
+
+        $text = @ob_get_contents();
+        if ( strlen( $text ) != 0 )
+            $this->appendLogEntry( $text, "DAV: PHP Output" );
+        while ( @ob_end_clean() );
     }
 
     /*!

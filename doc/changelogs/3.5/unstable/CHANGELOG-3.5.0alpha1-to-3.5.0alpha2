@@ -116,3 +116,10 @@ eZTemplate:
   be included on more of the errors and warnings. (Only for processed mode)
 - Added template operator 'flag_icon' to get the correct path of flag icon.
 
+eZWebDAV:
+- The URL that is passed to the various operations is now first handled to processURL()
+  which can be reimplemented to clean it it up if required.
+- The result from getCollectionContent() can now be a non-array type, in which
+  case it is used as a DAV status code.
+- The result of the output buffer is now added to WebDAV log, for instance PHP errors
+  and other output.
