@@ -19,6 +19,9 @@ Changes from 3.3-6 to 3.3-7
   (data_int).
   (Merged from stable/3.5 (3.5.0) rev. 10437)
 
+Webdav:
+- Made sure extensions are enabled in webdav handler.
+
 *Bugfixes:
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
 - Fixed bug: broken datatype.
