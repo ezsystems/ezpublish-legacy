@@ -83,10 +83,12 @@
 
     <div class="block">
     <select>
-        <option>{'Publish current as visible'|i18n('design/admin/content/edit')} </option>
-        <option>{'Publish current as hidden'|i18n('design/admin/content/edit')} </option>
-        <option>{'Publish all as visible'|i18n('design/admin/content/edit')} </option>
-        <option>{'Publish all as hidden'|i18n('design/admin/content/edit')} </option>
+        <option>{'Publish as visible'|i18n( 'design/admin/content/edit' )}</option>
+        <option>{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</option>
+        {section show=$object.assigned_nodes|gt( 1 )}
+        <option>{'Publish all (%locations) as visible'|i18n( 'design/admin/content/edit',, hash( '%locations', $object.assigned_nodes|count ) )}</option>
+        <option>{'Publish all (%locations) as hidden'|i18n( 'design/admin/content/edit',, hash( '%locations', $object.assigned_nodes|count ) )}</option>
+        {/section}
     </select>
     {*<label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>*}
     </div>
@@ -94,8 +96,12 @@
 <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
 <input class="button" type="submit" name="DiscardButton" value="{'Discard draft'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
 
-
-
+{*
+<div class="right">
+<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
+<input class="button" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n('design/standard/content/edit')}" />
+</div>
+*}
 
     <input type="hidden" name="DiscardConfirm" value="1" />
     </div>
