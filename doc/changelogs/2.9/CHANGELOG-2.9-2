@@ -176,6 +176,7 @@ eZ locale :
 - Changed the locale format, the locale is now specified with one locale string, for instance nor-NO,
   the first part is the language and the second the country. The local will either look for an ini
   file named as the locale string or try to find the language and country separately.
+- Added function /httpLocaleCode/ which returns the localcode usable in the HTTP header.
 
 eZ language:
 - Removed, see eZ locale
@@ -188,3 +189,4 @@ eZ i18n :
 - Redone class eZTextCodec to handle proper text conversion, it's not done yet.
 - Added support for doublebyte characters in eZCodepage.
 - Added support for codepage to utf8 string conversion and strlen.
+- Added function /httpCharset/ which returns the charset usable in the HTTP header.
