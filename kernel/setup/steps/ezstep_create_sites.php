@@ -214,6 +214,7 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $ini->setVariable( 'PortAccessSettings', $port, $siteAccessName );
         }
+        $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
         $ini->setVariable( 'SiteAccessSettings', 'SiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
@@ -285,6 +286,7 @@ class eZStepCreateSites extends eZStepInstaller
         }
         $accessMap['accesses'][] = $userSiteaccessName;
         $accessMap['accesses'][] = $adminSiteaccessName;
+        $accessMap['sites'][] = $userSiteaccessName;
         $userDesignName = $sitePackage['identifier'];
 
         $languages = $allLanguageCodes;
