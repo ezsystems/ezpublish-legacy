@@ -99,7 +99,7 @@ function eZSetupFunctionality( $siteType )
     {
         return array( 'required' => array( 'gallery' ),
                       'recommended' => array(),
-                      'theme' => 't17' );
+                      'theme' => 't20' );
     }
     else if ( $siteType == 'intranet' )
     {
