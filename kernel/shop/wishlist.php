@@ -45,89 +45,140 @@ if ( !$user->isLoggedIn() )
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
-
     $objectID = $http->postVariable( "ContentObjectID" );
     $object = eZContentObject::fetch( $objectID );
     $optionList =& $http->postVariable( "eZOption" );
 
-    $price = 0.0;
-    $isVATIncluded = true;
-    $attributes = $object->contentObjectAttributes();
-    foreach ( $attributes as $attribute )
-    {
-        $dataType =& $attribute->dataType();
-
-        if ( $dataType->isA() == "ezprice" )
-        {
-            $content =& $attribute->content();
-            $price += $content->attribute( 'price' );
-            $priceObj =& $content;
-        }
-    }
+    //$price = 0.0;
+    //$isVATIncluded = true;
+    //$attributes = $object->contentObjectAttributes();
+    //foreach ( $attributes as $attribute )
+    //{
+    //    $dataType =& $attribute->dataType();
+    //
+    //    if ( $dataType->isA() == "ezprice" )
+    //    {
+    //        $content =& $attribute->content();
+    //        $price += $content->attribute( 'price' );
+    //        $priceObj =& $content;
+    //    }
+    //}
 
     $wishList =& eZWishList::currentWishList();
 
-    $item =& eZProductCollectionItem::create( $wishList->attribute( "productcollection_id" ) );
-
-    $item->setAttribute( "contentobject_id", $objectID );
-    $item->setAttribute( "item_count", 1 );
-    $item->setAttribute( "price", $price );
-    $item->store();
-
-    if ( $priceObj->attribute( 'is_vat_included' ) )
+    /* Find out, if the item with the same options is not already in the wishlist: */
+    $itemID = false;
+    $collection =& eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
+    if ( $collection )
     {
-        $item->setAttribute( "is_vat_inc", '1' );
-    }
-    else
-    {
-        $item->setAttribute( "is_vat_inc", '0' );
-    }
-    $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
-    $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
-    $item->store();
-    $priceWithoutOptions = $price;
-
-    $optionIDList = array();
-    foreach ( array_keys( $optionList ) as $key )
-    {
-        $attributeID = $key;
-        $optionString = $optionList[$key];
-        if ( is_array( $optionString ) )
+        $count = 0;
+        /* Calculate number of options passed via the HTTP variable: */
+        foreach ( array_keys( $optionList ) as $key )
         {
-            foreach ( $optionString as $optionID )
+            if ( is_array( $optionList[$key] ) )
+                $count += count( $optionList[$key] );
+            else
+                $count++;
+        }
+        $collectionItems =& $collection->itemList( false );
+        foreach ( $collectionItems as $item )
+        {
+            /* For all items in the wishlist which have the same object_id: */
+            if ( $item['contentobject_id'] == $objectID )
             {
-                $optionIDList[] = array( 'attribute_id' => $attributeID,
-                                         'option_string' => $optionID );
+                $options =& eZProductCollectionItemOption::fetchList( $item['id'], false );
+                /* If the number of option for this item is not the same as in the HTTP variable: */
+                if ( count( $options ) != $count )
+                {
+                    break;
+                }
+                $theSame = true;
+                foreach ( $options as $option )
+                {
+                    /* If any option differs, go away: */
+                    if ( ( is_array( $optionList[$option['object_attribute_id']] ) &&
+                           !in_array( $option['option_item_id'], $optionList[$option['object_attribute_id']] ) )
+                      || ( !is_array( $optionList[$option['object_attribute_id']] ) &&
+                           $option['option_item_id'] != $optionList[$option['object_attribute_id']] ) )
+                    {
+                        $theSame = false;
+                        break;
+                    }
+                }
+                if ( $theSame )
+                {
+                    $itemID = $item['id'];
+                    break;
+                }
             }
         }
-        else
-        {
-            $optionIDList[] = array( 'attribute_id' => $attributeID,
-                                     'option_string' => $optionString );
-        }
     }
 
-    foreach ( $optionIDList as $optionIDItem )
+    if ( $itemID == false )
     {
-        $attributeID = $optionIDItem['attribute_id'];
-        $optionString = $optionIDItem['option_string'];
+        $item =& eZProductCollectionItem::create( $wishList->attribute( "productcollection_id" ) );
 
-        $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-        $dataType =& $attribute->dataType();
-        $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
-        if ( $optionData )
-        {
-            $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
-                                                                  $optionData['value'], $optionData['additional_price'], $attributeID );
-            $optionItem->store();
-            $price += $optionData['additional_price'];
-        }
-    }
-
-    if ( $price != $priceWithoutOptions )
-    {
-        $item->setAttribute( "price", $price );
+        $item->setAttribute( "contentobject_id", $objectID );
+        $item->setAttribute( "item_count", 1 );
+        //$item->setAttribute( "price", $price );
         $item->store();
+
+        //if ( $priceObj->attribute( 'is_vat_included' ) )
+        //{
+        //    $item->setAttribute( "is_vat_inc", '1' );
+        //}
+        //else
+        //{
+        //    $item->setAttribute( "is_vat_inc", '0' );
+        //}
+        //$item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+        //$item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
+        $item->store();
+        //$priceWithoutOptions = $price;
+
+        $optionIDList = array();
+        foreach ( array_keys( $optionList ) as $key )
+        {
+            $attributeID = $key;
+            $optionString = $optionList[$key];
+            if ( is_array( $optionString ) )
+            {
+                foreach ( $optionString as $optionID )
+                {
+                    $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                             'option_string' => $optionID );
+                }
+            }
+            else
+            {
+                $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                         'option_string' => $optionString );
+            }
+        }
+
+        foreach ( $optionIDList as $optionIDItem )
+        {
+            $attributeID = $optionIDItem['attribute_id'];
+            $optionString = $optionIDItem['option_string'];
+
+            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+            $dataType =& $attribute->dataType();
+            $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
+            if ( $optionData )
+            {
+                $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
+                //                                                      $optionData['value'], $optionData['additional_price'], $attributeID );
+                                                                      $optionData['value'], 0, $attributeID );
+                $optionItem->store();
+                //$price += $optionData['additional_price'];
+            }
+        }
+
+        //if ( $price != $priceWithoutOptions )
+        //{
+        //    $item->setAttribute( "price", $price );
+        //    $item->store();
+        //}
     }
 
     $module->redirectTo( $module->functionURI( "wishlist" ) . "/" );

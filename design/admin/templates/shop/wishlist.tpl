@@ -51,6 +51,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/wishlist' )}" onclick="ezjs_toggleCheckboxes( document.wishlistform, 'RemoveProductItemDeleteList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/wishlist')}</th>
+{*
     <th>{'Quantity'|i18n( 'design/admin/shop/wishlist')}</th>
     <th>{'VAT'|i18n( 'design/admin/shop/wishlist')}</th>
     <th>{'Price (ex. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
@@ -58,6 +59,7 @@
     <th>{'Discount'|i18n( 'design/admin/shop/wishlist')}</th>
     <th>{'Total price (ex. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
     <th>{'Total price (inc. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
+*}
 </tr>
 {section var=WishedItems loop=$wish_list_items sequence=array( bglight, bgdark )}
 <tr class="{$WishedItems.sequence}">
@@ -68,54 +70,38 @@
     {* Name. *}
     <td>
         {$WishedItems.item.item_object.contentobject.class_identifier|class_icon( small, $WishedItems.item.item_object.contentobject.class_name )}&nbsp;<a href={concat( '/content/view/full/', $WishedItems.item.node_id, '/' )|ezurl}>{$WishedItems.item.object_name}</a>
+        {section show=$WishedItems.item.item_object.option_list}
+            ({*'Selected options'|i18n( 'design/admin/shop/wishlist' ): *}
+{section var=Options loop=$WishedItems.item.item_object.option_list}
+{$Options.item.name}: {$Options.item.value}
+{delimiter}, {/delimiter}
+{/section})
+        {/section}
         <input type="hidden" name="ProductItemIDList[]" value="{$WishedItems.item.id}" />
 	</td>
 
     {* Quantity. *}
-    <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />	</td>
+    {* <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />	</td> *}
 
     {* VAT. *}
-    <td>{$WishedItems.item.vat_value}%</td>
+    {* <td>{$WishedItems.item.vat_value}%</td> *}
 
     {* Item price (ex. VAT.) *}
-    <td>{$WishedItems.item.price_ex_vat|l10n(currency)}</td>
+    {* <td>{$WishedItems.item.price_ex_vat|l10n(currency)}</td> *}
 
     {* Item price (inc. VAT.). *}
-    <td>{$WishedItems.item.price_inc_vat|l10n(currency)}</td>
+    {* <td>{$WishedItems.item.price_inc_vat|l10n(currency)}</td> *}
 
     {* Discount. *}
-    <td>{$WishedItems.item.discount_percent}%</td>
+    {* <td>{$WishedItems.item.discount_percent}%</td> *}
 
     {* Total price (ex. VAT). *}
-    <td>{$WishedItems.item.total_price_ex_vat|l10n(currency)}</td>
+    {* <td>{$WishedItems.item.total_price_ex_vat|l10n(currency)}</td> *}
 
     {* Total price (inc. VAT). *}
-    <td>{$WishedItems.item.total_price_inc_vat|l10n(currency)}</td>
+    {* <td>{$WishedItems.item.total_price_inc_vat|l10n(currency)}</td> *}
 
 </tr>
-
-{section show=$WishedItems.item.item_object.option_list}
-<tr>
-    <td colspan='4'>
-    <table class="list" cellspacing="0">
-    <tr>
-        <td colspan='3'>
-        {'Selected options'|i18n( 'design/admin/shop/wishlist')}
-        </td>
-    </tr>
-    {section var=ItemOptions loop=$WishedItems.item.item_object.option_list}
-        <tr>
-            <td>{$ItemOptions.item.name|wash}</td>
-            <td>{$ItemOptions.item.value}</td>
-            <td>{section show=$ItemOptions.item.price|ne( 0 )}{$ItemOptions.item.price|l10n( currency )}{/section}</td>
-        </tr>
-    {/section}
-    </table>
-    </td>
-    <td colspan='5'>
-    </td>
-</tr>
-{/section}
 
 {/section}
 </table>
@@ -142,10 +128,10 @@
 <div class="block">
 {section show=$wish_list.items}
 <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items.'|i18n( 'design/admin/shop/wishlist' )}" />
-<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Click this button to store changes if you have modified quantity and/or option values.'|i18n( 'design/admin/shop/wishlist' )}" />
+{* <input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Click this button to store changes if you have modified quantity and/or option values.'|i18n( 'design/admin/shop/wishlist' )}" /> *}
 {section-else}
 <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
-<input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
+{* <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" /> *}
 {/section}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
