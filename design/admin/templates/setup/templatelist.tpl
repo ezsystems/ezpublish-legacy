@@ -35,7 +35,7 @@
 <table class="list" cellspacing="0">
 <tr>
    <th>{'Template'|i18n( 'design/admin/setup/templatelist' )}</th>
-   <th>{'Design Resource'|i18n( 'design/admin/setup/templatelist' )}</th>
+   <th>{'Design resource'|i18n( 'design/admin/setup/templatelist' )}</th>
 </tr>
 {section var=Templates loop=$most_used_template_array sequence=array( bglight, bgdark )}
 <tr class="{$Templates.sequence}">
