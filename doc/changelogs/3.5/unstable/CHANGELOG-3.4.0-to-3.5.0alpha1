@@ -229,3 +229,10 @@ eZ Template
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
+
+edit_placement.tpl:
+- Change the default to show all node assignments, not just the ones without
+  remote ID. This means that when editing an object in admin interface
+  without a special override will work.
+  Merged from stable/3.4 rev. 7218.
+
