@@ -42,6 +42,7 @@ Changes from 2.9-6 to 2.9-7
 - Added new workflow event type publishontime it allows to create workflow which will delay publishing of objects.
 - Added session cache handler class to manage cached session information
 - Added session cache on current user
+- Fixed crash with ' character in object name translation
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

@@ -206,16 +206,18 @@ class eZContentObject extends eZPersistentObject
 
     function setName( $objectName, $versionNum = false, $translation = false )
     {
-        $db =& eZDb::instance();
+        $db =& eZDB::instance();
+        $objectName = $db->escapeString( $objectName );
         if ( !$versionNum )
         {
             $versionNum = $this->attribute( 'current_version' );
         }
+
         if ( !$translation )
         {
             $translation = $this->defaultLanguage();
-
         }
+
         $ini =& eZINI::instance();
         $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
 
@@ -223,15 +225,20 @@ class eZContentObject extends eZPersistentObject
         {
             $default = true;
         }
+
         $objectID = $this->attribute( 'id' );
         if ( !$default || count( $needTranslations ) == 1 )
         {
-            $query = "delete from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
+            $query = "DELETE FROM ezcontentobject_name WHERE contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
             $db->query( $query );
-            $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
-                              values( $objectID,
+            $query = "INSERT INTO ezcontentobject_name( contentobject_id,
+                                                        name,
+                                                        content_version,
+                                                        content_translation,
+                                                        real_translation )
+                              VALUES( '$objectID',
                                       '$objectName',
-                                      $versionNum,
+                                      '$versionNum',
                                       '$translation',
                                       '$translation' )";
             $db->query( $query );

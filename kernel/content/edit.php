@@ -203,7 +203,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
-            $http =& eZHttpTool::instance();
+            $http =& eZHTTPTool::instance();
             $node = $object->mainNode();
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
