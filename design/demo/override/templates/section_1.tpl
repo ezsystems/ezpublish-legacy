@@ -1,4 +1,5 @@
 {*?template charset=utf8?*}
+
 {let gallery_limit=8
      gallery_pre_items=2
      gallery_post_items=2}
@@ -11,8 +12,6 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/mycompany.css"|ezdesign} />
-
-{include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
 {* Javascript START *}
 
@@ -30,7 +29,6 @@ function OpenWindow ( URL, WinName, Features ) {
 
 // -->
 </script>
-
 {* Javascript END *}
 
 </head>
@@ -42,25 +40,35 @@ function OpenWindow ( URL, WinName, Features ) {
 <img src={"topmenu.gif"|ezimage} alt="" border="0" usemap="#map" />
 <br />
 
-
 <MAP NAME="map">
-<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/211/"|ezurl}>
-<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/"|ezurl}>
+<AREA SHAPE="RECT" COORDS="1,1,71,25" href={"content/view/full/26/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="73,0,156,24" href={"content/view/full/159/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="157,0,228,23" href={"content/view/full/62/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="229,0,299,24" href={"content/view/full/200/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="300,0,372,24" href={"content/view/full/32/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="374,1,448,24" href={"content/view/full/211/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
+<AREA SHAPE="RECT" COORDS="450,1,523,24" href={"content/view/full/82/FIXME_PAGELAYOUT_SECTION_1"|ezurl}>
 </MAP>
-
-
-{let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
-     news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published,false()),class_filter_type,include,class_filter_array,array(2)))}
+{* FIX ME NODE ID IN FETCH *}
+{let folder_list=fetch( content, list, hash(
+				       parent_node_id, 158, 
+				       sort_by, array( array( priority ) )
+				       )
+		      )
+     news_list=fetch( content, list, hash( 
+     				     parent_node_id, 159, 
+				     limit, 5,
+				     sort_by, array( published, false() ),
+				     class_filter_type, include,
+				     class_filter_array, array( 2 )
+				     )
+		     )
+}
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td colspan="2">
-    <a href={"content/view/full/159/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0" /></a>
+    <a href={"content/view/full/159/FIXME_PAGELAYOUT_SECTION_1"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} alt="My company - business" border="0" /></a>
     </td>
 </tr>
 <tr>
@@ -71,7 +79,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <tr>
         {section name=Folder loop=$folder_list}
         <td align="left">
-        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name|wash}</a>  <font size="2">&nbsp;</font>
+        &nbsp;<a class="small" href={concat( "/content/view/full/", $Folder:item.node_id,"/" )|ezurl}>{$Folder:item.name|wash}</a> <font size="2">&nbsp;</font>
         </td>
         {/section}
         <td align="right" width="30">
@@ -91,36 +99,49 @@ function OpenWindow ( URL, WinName, Features ) {
     <td valign="top">
 
     &nbsp;<span class="small">&gt;</span>
-     {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
+    {section name=Path loop=$module_result.path offset=2 show=eq( $DesignKeys:used.viewmode, 'full' )}
         {section show=$Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+            <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
         {section-else}
-	<span class="small">{$Path:item.text|wash}</span>
+            <span class="small">{$Path:item.text|wash}</span>
         {/section}
 
         {delimiter}
-        <span class="small">/</span>
+            <span class="small">/</span>
         {/delimiter}
+
     {section-else}
-     {section name=Path loop=$module_result.path}
-        {section show=$Path:Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:Path:item.text|wash}</a>
-        {section-else}
-	<span class="small">{$Path:Path:item.text|wash}</span>
-        {/section}
+        {section name=Path loop=$module_result.path}
+            {section show=$Path:Path:item.url}
+                <a class="small" href={$Path:item.url|ezurl}>{$Path:Path:item.text|wash}</a>
+            {section-else}
+	        <span class="small">{$Path:Path:item.text|wash}</span>
+            {/section}
 
-        {delimiter}
-        <span class="small">/</span>
-        {/delimiter}
-     {/section}
+            {delimiter}
+                <span class="small">/</span>
+            {/delimiter}
+
+        {/section}
     {/section}
+
     <table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
     <tr>
         <td valign="top" width="100">
-	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1,24))) show=eq($DesignKeys:used.viewmode,'full')}
-	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name|wash}</a>
+	{* FIX ME CLASS ID IN FILTER *}
+	{section name=Menu loop=fetch( content, list ,hash( 
+						      parent_node_id, $DesignKeys:used.node,
+						      class_filter_type, include,
+						      class_filter_array, array( 1, 24 )
+						      )
+				     ) 
+        show=eq( $DesignKeys:used.viewmode, 'full' )
+	}
+
+	<a class="small" href={concat( 'content/view/full/', $Menu:item.node_id )|ezurl}>{$Menu:item.name|wash}</a>
+
 	{delimiter}
-	<br />
+    	    <br />
 	{/delimiter}
 	{/section}
 	
@@ -128,7 +149,7 @@ function OpenWindow ( URL, WinName, Features ) {
         </td>
 
         <td valign="top" width="396">
-	{$module_result.content}
+	    {$module_result.content}
         </td>
     </tr>
     </table>
@@ -161,14 +182,14 @@ function OpenWindow ( URL, WinName, Features ) {
 	<table width="100%" border="0" alt="" cellpadding="0" cellspacing="10">
 	<tr>
 	    <td>
-        {section name=News loop=$news_list}
-	<a class="small" href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a><br />
-	<span class="small">({$News:item.object.published|l10n(shortdate)})</span>
-	{delimiter}
-	<br clear="all" /><br />
-	{/delimiter}
-	{/section}
-        </td>
+            {section name=News loop=$news_list}
+	        <a class="small" href={concat( 'content/view/full/', $News:item.node_id )|ezurl}>{$News:item.name}</a><br />
+	        <span class="small">({$News:item.object.published|l10n( shortdate ) })</span>
+	        {delimiter}
+	            <br clear="all" /><br />
+	        {/delimiter}
+	    {/section}
+            </td>
 	</tr>
 	</table> 	
 
