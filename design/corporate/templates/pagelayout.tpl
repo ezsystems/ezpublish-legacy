@@ -134,7 +134,10 @@
 
         </div>
     </div>
+
+    <div id="innercontent">
             {$module_result.content}
+    </div>
         
         </div>
     </div>
