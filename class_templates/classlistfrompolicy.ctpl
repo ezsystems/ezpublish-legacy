@@ -1,0 +1,112 @@
+    function classListFromPolicy( $policy )
+    {
+        $canCreateClassIDListPart = array();
+        $hasClassIDLimitation = false;
+/*START:code-template::is-node*/
+        $object = false;
+/*END:code-template::is-node*/
+        if ( isset( $policy['Class'] ) )
+        {
+            $canCreateClassIDListPart =& $policy['Class'];
+            $hasClassIDLimitation = true;
+        }
+
+        if ( isset( $policy['Section'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'section_id' ),  $policy['Section']  ) )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            if ( !in_array( $this->attribute( 'section_id' ),  $policy['Section']  ) )
+/*END:code-template::is-object*/
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentClass'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            if ( !in_array( $this->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
+/*END:code-template::is-object*/
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Assigned'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+/*END:code-template::is-object*/
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Node'] ) )
+        {
+            $allowed = false;
+            foreach( $policy['Node'] as $nodeID )
+            {
+                $mainNodeID = $this->attribute( 'main_node_id' );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                {
+                    $allowed = true;
+                    break;
+                }
+            }
+            if ( !$allowed )
+            {
+                return array();
+            }
+        }
+
+        if( isset( $policy['Subtree'] ) )
+        {
+            $allowed = false;
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
+/*END:code-template::is-object*/
+            foreach ( $assignedNodes as  $assignedNode )
+            {
+                $path = $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['Subtree'] as $subtreeString )
+                {
+                    if (  strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
+            {
+                return array();
+            }
+        }
+
+        if ( $hasClassIDLimitation )
+        {
+            return $canCreateClassIDListPart;
+        }
+        return '*';
+    }

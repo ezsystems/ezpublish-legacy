@@ -1,22 +1,33 @@
     /*!
      \static
-     Finds all classes that the current user can create objects from and returns.<START:code-template::group-filter>
+     Finds all classes that the current user can create objects from and returns.
+<START:code-template::group-filter>
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
 <END:code-template::group-filter>
+
+<START:code-template::object-creation>
      \param $asObject If \c true then it return eZContentClass objects, if not it will
                       be an associative array with \c name and \c id keys.
-<START:code-template::group-filter>     \param $includeFilter If \c true then it will include only from class groups defined in
+<END:code-template::object-creation>
+<START:code-template::group-filter>
+     \param $includeFilter If \c true then it will include only from class groups defined in
                            \a $groupList, if not it will exclude those groups.
      \param $groupList An array with class group IDs that should be used in filtering, use
                        \c false if you do not wish to filter at all.
      \param $id A unique name for the current fetch, this must be supplied when filtering is
-                used if you want caching to work.<END:code-template::group-filter>
+                used if you want caching to work.
+<END:code-template::group-filter>
     */
-    function &<START:code-template::name-create>canCreateClassList<END:code-template::name-create><START:code-template::name-instantiate>canInstantiateClassList<END:code-template::name-instantiate>( $asObject = true<START:code-template::group-filter>, $includeFilter = true, $groupList = false, $fetchID = false<END:code-template::group-filter> )
+    function /*START:code-template::name-create*/&canCreateClassList/*END:code-template::name-create*/
+/*START:code-template::name-instantiate*/&canInstantiateClassList/*END:code-template::name-instantiate*/
+( /*START:code-template::object-creation*/$asObject = false/*END:code-template::object-creation*/
+/*START:code-template::object-creation&group-filter*/, /*END:code-template::object-creation&group-filter*/
+/*START:code-template::group-filter*/$includeFilter = true, $groupList = false, $fetchID = false/*END:code-template::group-filter*/ )
     {
         $ini =& eZINI::instance();
         $groupArray = array();
-<START:code-template::role-caching>
+/*START:code-template::role-caching*/
+
         $enableCaching = ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' );
         if ( is_array( $groupList ) )
         {
@@ -78,9 +89,10 @@
                 $http->setSessionVariable( 'ClassesCachedTimestamp', mktime() );
             }
         }
-<END:code-template::role-caching>
+
+/*END:code-template::role-caching*/
         $user =& eZUser::currentUser();
-        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
+        $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         $classIDArray = array();
@@ -98,17 +110,19 @@
         else
         {
             $policies  =& $accessResult['policies'];
-            foreach ( array_keys( $policies ) as $policyKey )
+            foreach ( $policies as $policyKey => $policy )
             {
-                $policy =& $policies[$policyKey];
-<START:code-template::class-policy-list>
+/*START:code-template::class-policy-list*/
                 $classIDArrayPart = '*';
                 if ( isset( $policy['Class'] ) )
                 {
                     $classIDArrayPart =& $policy['Class'];
-                }<END:code-template::class-policy-list><START:code-template::object-policy-list>
-                $classIDArrayPart = $this->classListFromPolicy( $policy );<END:code-template::object-policy-list>
+                }
 
+/*END:code-template::class-policy-list*/
+/*START:code-template::object-policy-list*/
+                $classIDArrayPart = $this->classListFromPolicy( $policy );
+/*END:code-template::object-policy-list*/
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
@@ -129,8 +143,8 @@
         {
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
             $filterSQL = ( " AND\n" .
-                           "cc.id = ccg.contentclass_id AND\n" .
-                           "ccg.group_id " );
+                           "      cc.id = ccg.contentclass_id AND\n" .
+                           "      ccg.group_id " );
             $groupText = implode( ', ', $groupList );
             if ( $includeFilter )
                 $filterSQL .= "IN ( $groupText )";
@@ -147,6 +161,9 @@
                                            "FROM ezcontentclass cc$filterTableSQL\n" .
                                            "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
                                            "ORDER BY cc.name ASC" );
+/*START:code-template::object-creation*/
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+/*END:code-template::object-creation*/
         }
         else
         {
@@ -162,10 +179,14 @@
                                            "WHERE cc.id IN ( $classString  ) AND\n" .
                                            "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                            "ORDER BY cc.name ASC" );
+/*START:code-template::object-creation*/
+            $classList =& eZPersistentObject::handleRows( $classList, 'ezcontentclass', $asObject );
+/*END:code-template::object-creation*/
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
-<START:code-template::role-caching>        if ( $enableCaching )
+/*START:code-template::role-caching*/
+        if ( $enableCaching )
         {
             if ( $fetchID !== false )
             {
@@ -177,6 +198,7 @@
                 $http->setSessionVariable( $cacheVar, $classList );
             }
         }
-<END:code-template::role-caching>
+
+/*END:code-template::role-caching*/
         return $classList;
     }

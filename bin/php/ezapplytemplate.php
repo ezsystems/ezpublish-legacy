@@ -40,7 +40,10 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Code Template updater\n\n" .
                                                          "This will apply any template blocks it finds in files\n" .
-                                                         "and writes back the new file" ),
+                                                         "and writes back the new file\n" .
+                                                         "\n" .
+                                                         "The return code is set to 0 if no changes occured, 1 if a file is changed\n" .
+                                                         "or 2 if an error occurs" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
@@ -60,18 +63,33 @@ if ( count( $options['arguments'] ) < 1 )
 
 include_once( 'class_templates/ezclasstemplate.php' );
 
+$hasErrors = false;
+$hasModified = false;
+
 $tpl = new eZClassTemplate();
 foreach ( $options['arguments'] as $file )
 {
-    if ( $tpl->apply( $file ) )
+    $status = $tpl->apply( $file );
+    if ( $status == EZ_CLASS_TEMPLATE_STATUS_OK )
     {
-        $cli->output( "Modified " . $cli->stylize( 'file', $file ) );
+        $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
+        $hasModified = true;
     }
-    else
+    else if ( $status == EZ_CLASS_TEMPLATE_STATUS_NO_CHANGE )
     {
-        $cli->output( "Error " . $cli->stylize( 'file', $file ) );
+        $cli->output( "No change in " . $cli->stylize( 'file', $file ) );
+    }
+    else if ( $status == EZ_CLASS_TEMPLATE_STATUS_FAILED )
+    {
+        $cli->output( "Template errors for " . $cli->stylize( 'file', $file ) );
+        $hasErrors = true;
     }
 }
+
+if ( $hasErrors )
+    $script->shutdown( 2 );
+else if ( $hasModified )
+    $script->shutdown( 1 );
 
 $script->shutdown();
 
