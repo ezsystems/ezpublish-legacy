@@ -703,35 +703,33 @@
         <translation>Innholdsobjektet %1 ble ikke godkjent, men vil være tilgjengelig som utkast for forfatteren.</translation>
     </message>
     <message>
-        <source>Pushback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kan redigere og publisere utkastet på nytt, i så fall kreves ny godkjenning.</translation>
     </message>
     <message>
         <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
-        <translation type="unfinished"></translation>
+        <translation>Forfatteren kan redigere og publisere utkastet på nytt, i så fall kreves ny godkjenning.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] &quot;%objectname&quot; venter på din godkjenning</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%objectname&quot; venter på din godkjenning på nettstedet %sitename.
+Publiseringsprosessen er stoppet, og det er opp til deg å bestemme om den skal fortsette eller avbrytes.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] &quot;%objectname&quot; venter på godkjenning</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%objectname&quot; venter på godkjenning på nettstedet %sitename. Objektet vil ikke bli publisert før det er godkjent.
+Hvis du vil sende en kommentar til den som er ansvarlig for godkjenningen, eller se på status, bruk URL-en nedenfor.</translation>
     </message>
 </context>
 <context>
@@ -1787,19 +1785,19 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruk %bookmarkname under %personalname til å administrere bokmerker.</translation>
     </message>
     <message>
         <source>Recent items</source>
-        <translation type="unfinished"></translation>
+        <translation>Nylig publisert</translation>
     </message>
     <message>
         <source>Recent items are added on publishing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekter blir lagt til her ved publisering.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg objektene du vil lage bokmerker for.</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -1807,11 +1805,15 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg objektene du vil lage bokmerker for.
+
+Velg objektene og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg første plassering</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -1819,7 +1821,11 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg hvor du vil plassere det nye objektet %classname.
+
+Velg plassering og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
@@ -1832,7 +1838,12 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg ny plassering for objektet %name.
+Den forrige plasseringen var i %placementname.
+
+Velg plassering og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Choose placements</source>
@@ -1844,7 +1855,11 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg hvor du vil plassere objektet %name.
+
+Velg plasseringer og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Choose related objects</source>
@@ -1856,12 +1871,17 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg objektene du vil relatere til %name.
+
+Velg objektene og klikk på &apos;%buttonname&apos;-knappen.
+Bruk nylig valgte og bokmerker for raskere valg.
+Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette er objektene du arbeider med. Utkastene er eiet av deg, og er bare synlige for deg.
+Du kan redigere og publisere utkastene, eller fjerne dem hvis du ikke trenger dem mer.</translation>
     </message>
     <message>
         <source>Last modified</source>
@@ -1869,7 +1889,7 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     </message>
     <message>
         <source>Empty Draft</source>
-        <translation type="unfinished"></translation>
+        <translation>Tomt utkast</translation>
     </message>
 </context>
 <context>
@@ -2195,60 +2215,63 @@ Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</transla
     <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis du ikke vil fortsette å motta disse meldingene,
+kan du forandre på innstillingene dine her:</translation>
     </message>
     <message>
         <source>Receive all messages combined in one digest</source>
-        <translation type="unfinished"></translation>
+        <translation>Motta alle meldingene samlet i en melding</translation>
     </message>
     <message>
         <source>Send out</source>
-        <translation type="unfinished"></translation>
+        <translation>Send ut</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation type="unfinished"></translation>
+        <translation>%sitename meldingssystem</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Ny samarbeidsenhet</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>En ny samarbeidsenhet venter på din oppmerksomhet på %sitename.
+Du kan se den ved å klikke på URL-en nedenfor.</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Meldingssammendrag for %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette meldingssammendraget er sendt for å informere deg om endringer på %sitename.</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Denne eposten er sendt for å informere deg om nyheter på %sitename.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="unfinished"></translation>
+        <translation>[%sitename] Objektet &quot;%itemname&quot; av klassen %classname ble publisert</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et nytt objekt er publisert på %sitename.
+Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification/collaboration</name>
     <message>
         <source>Collaboration notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Samarbeidsmeldinger</translation>
     </message>
     <message>
         <source>Choose which collaboration items you wish to get notifications for.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg hvilke samarbeidsdeler du vil motta meldinger for.</translation>
     </message>
 </context>
 <context>
