@@ -420,6 +420,27 @@ Source=content/collectedinfo/poll.tpl
 MatchFile=collectedinfo/poll_result.tpl
 Subdir=templates
 
+# Feedback form templates
+
+[feedback_form_full]
+Source=node/view/full.tpl
+MatchFile=full/feedback_form.tpl
+Subdir=templates
+Match[class_identifier]=feedback_form
+
+[feedback_form_line]
+Source=node/view/line.tpl
+MatchFile=line/feedback_form.tpl
+Subdir=templates
+Match[class_identifier]=feedback_form
+
+[feedback_form_mail]
+Source=content/collectedinfomail/form.tpl
+MatchFile=collectedinfomail/feedback_form.tpl
+Subdir=templates
+Match[class_identifier]=feedback_form
+
+
 # General templates
 
 [factbox]
