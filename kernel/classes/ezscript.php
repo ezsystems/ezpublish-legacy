@@ -351,9 +351,22 @@ class eZScript
         $this->UseExtensions = $useExtensions;
     }
 
+    /*!
+     Sets the current site access to \a $siteAccess.
+     This will only work if it is set before initialized() is called.
+     \note This will be filled in if getOptions() is used and the user specifices it in the arguments.
+    */
     function setUseSiteAccess( $siteAccess )
     {
         $this->SiteAccess = $siteAccess;
+    }
+
+    /*!
+     \return the currently set siteaccess or \c false if none is set.
+    */
+    function usedSiteAccess()
+    {
+        return $this->SiteAccess;
     }
 
     function setUseModules( $useModules )

@@ -58,6 +58,14 @@ $options = $script->getOptions( "",
                                 "[suite*]",
                                 array( 'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory" ) );
 
+/* Use the 'test' site access if none is set,
+   this ensures that only ini settings which are good for the
+   test is used (e.g override.ini) */
+if ( !$script->usedSiteAccess() )
+{
+    $script->setUseSiteAccess( 'test' );
+}
+
 $suiteList = array();
 foreach ( $options['arguments'] as $suiteName )
 {
