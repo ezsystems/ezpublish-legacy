@@ -904,8 +904,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $insertedNode->setAttribute( 'path_identification_string', $insertedNode->pathWithNames() );
         $insertedNode->setAttribute( 'crc32_path', crc32 ( $insertedNode->attribute( 'path_identification_string' ) ) );
-        eZDebug::writeNotice($insertedNode->pathWithNames(), 'pathWithNames' );
-        eZDebug::writeNotice( crc32 ( $insertedNode->pathWithNames() ), "CRC32" );
+        eZDebug::writeDebug($insertedNode->pathWithNames(), 'pathWithNames' );
+        eZDebug::writeDebug( crc32 ( $insertedNode->pathWithNames() ), "CRC32" );
         $insertedNode->store();
         if ( $asObject )
         {
@@ -1053,7 +1053,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             unset( $object );
 
             $object =& new eZContentObjectTreeNode( $node );
-//            eZDebug::writeNotice( $node, 'node' );
+//            eZDebug::writeDebug( $node, 'node' );
             $object->setName($node['name']);
             if ( $with_contentobject )
             {

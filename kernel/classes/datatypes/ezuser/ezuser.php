@@ -288,7 +288,7 @@ class eZUser extends eZPersistentObject
         if ( $id === false )
         {
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
-            eZDebug::writeNotice( $id, "userID" );
+//             eZDebug::writeDebug( $id, "userID" );
 
             if ( !is_numeric( $id ) )
                 $id = EZ_USER_ANONYMOUS_ID;
@@ -330,7 +330,7 @@ class eZUser extends eZPersistentObject
     function createHash( $user, $password, $site, $type )
     {
         $str = '';
-//         eZDebug::writeNotice( "'$user' '$password' '$site'", "ezuser($type)" );
+//         eZDebug::writeDebug( "'$user' '$password' '$site'", "ezuser($type)" );
         if( $type == EZ_USER_PASSWORD_HASH_MD5_USER )
         {
             $str = md5( "$user\n$password" );
@@ -351,7 +351,7 @@ class eZUser extends eZPersistentObject
         {
             $str = md5( $password );
         }
-//         eZDebug::writeNotice( $str, "ezuser($type)" );
+//         eZDebug::writeDebug( $str, "ezuser($type)" );
         return $str;
     }
 

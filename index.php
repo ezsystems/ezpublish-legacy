@@ -6,7 +6,7 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
 // Enable this line to get eZINI debug output
-eZINI::setIsDebugEnabled( true );
+// eZINI::setIsDebugEnabled( true );
 
 function eZDisplayDebug()
 {
@@ -53,6 +53,9 @@ header( 'X-Powered-By: eZ publish' );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 $httpCharset = eZTextCodec::httpCharset();
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
+$ini =& eZINI::instance();
+if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
+    eZLocale::setIsDebugEnabled( true );
 $locale =& eZLocale::instance();
 $languageCode =& $locale->httpLocaleCode();
 

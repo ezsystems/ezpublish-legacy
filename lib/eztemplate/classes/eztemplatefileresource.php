@@ -118,7 +118,8 @@ class eZTemplateFileResource
                         }
                     }
                 }
-                eZDebug::writeNotice( "$path, $charset" );
+                if ( eZTemplate::isDebugEnabled() )
+                    eZDebug::writeNotice( "$path, $charset" );
 //                 eZDebug::addTimingPoint( "Resource conversion ($charset)" );
                 $codec =& eZTextCodec::instance( $charset );
                 $text = $codec->convertString( $text );

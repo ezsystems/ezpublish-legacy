@@ -12,6 +12,14 @@ Changes from 2.9-3 to 2.9-4
 
 *Library :
 
+eZ utils:
 - Created operation system which will help with creating code to execute triggers and workflows.
 
-eZ debug: Fixed clearing buffer when buffer is empty (ob_end_clear())
+eZ template:
+- Added site.ini setting which turn template debug information on/off.
+
+eZ locale:
+- Added site.ini setting which turn locale debug information on/off.
+
+eZ debug:
+- Fixed clearing buffer when buffer is empty (ob_end_clear())

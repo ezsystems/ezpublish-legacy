@@ -47,6 +47,9 @@ function &templateInit()
 
     include_once( 'lib/ezutils/classes/ezini.php' );
     $ini =& eZINI::instance();
+    if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
+        eZTemplate::setIsDebugEnabled( true );
+
     $tpl->setAutoloadPathList( $ini->variableArray( 'TemplateSettings', 'AutoloadPath' ) );
     $tpl->autoload();
 

@@ -96,6 +96,8 @@ http://www.sprakrad.no/oss.htm
 
 include_once( 'lib/ezutils/classes/ezini.php' );
 
+define( "EZ_LOCALE_DEBUG_INTERNALS", false );
+
 class eZLocale
 {
     /*!
@@ -961,7 +963,8 @@ class eZLocale
                     $locale .= '@' . $countryVariation;
             }
             $localeFile = $locale . '.ini';
-            eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
+            if ( eZLocale::isDebugEnabled() )
+                eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
             if ( eZINI::exists( $localeFile, 'share/locale' ) )
                 $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
         }
@@ -986,7 +989,8 @@ class eZLocale
                     $locale .= '@' . $countryVariation;
             }
             $countryFile = 'country/' . $locale . '.ini';
-            eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
+            if ( eZLocale::isDebugEnabled() )
+                eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
             if ( eZINI::exists( $countryFile, 'share/locale' ) )
                 $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
         }
@@ -1011,7 +1015,8 @@ class eZLocale
                     $locale .= '@' . $countryVariation;
             }
             $languageFile = 'language/' . $locale . '.ini';
-            eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
+            if ( eZLocale::isDebugEnabled() )
+                eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
             if ( eZINI::exists( $languageFile, 'share/locale' ) )
                 $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );
         }
@@ -1036,6 +1041,28 @@ class eZLocale
             $instance = new eZLocale( $localeString );
         }
         return $instance;
+    }
+
+    /*!
+     \static
+     \return true if debugging of internals is enabled, this will display
+     which files are loaded and when cache files are created.
+      Set the option with setIsDebugEnabled().
+    */
+    function isDebugEnabled()
+    {
+        if ( !isset( $GLOBALS['eZLocaleDebugInternalsEnabled'] ) )
+             $GLOBALS['eZLocaleDebugInternalsEnabled'] = EZ_LOCALE_DEBUG_INTERNALS;
+        return $GLOBALS['eZLocaleDebugInternalsEnabled'];
+    }
+
+    /*!
+     \static
+     Sets whether internal debugging is enabled or not.
+    */
+    function setIsDebugEnabled( $debug )
+    {
+        $GLOBALS['eZLocaleDebugInternalsEnabled'] = $debug;
     }
 
     //@{

@@ -244,6 +244,8 @@ define( "EZ_ELEMENT_END_TAG", 4 );
 define( "EZ_ELEMENT_VARIABLE", 5 );
 define( "EZ_ELEMENT_COMMENT", 6 );
 
+define( "EZ_TEMPLATE_DEBUG_INTERNALS", false );
+
 class eZTemplate
 {
     /*!
@@ -407,7 +409,8 @@ class eZTemplate
         }
         else
             $template = $uri;
-//         eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
+        if ( eZTemplate::isDebugEnabled() )
+            eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
         $resobj =& $this->DefaultResource;
         if ( isset( $this->Resources[$res] ) and is_object( $this->Resources[$res] ) )
         {
@@ -515,7 +518,7 @@ class eZTemplate
                                          "Type" => EZ_ELEMENT_COMMENT );
                     if ( $pos < $blockEnd )
                         $pos = $blockEnd;
-//                     eZDebug::writeNotice( "eZTemplate: Comment: $comment" );
+//                     eZDebug::writeDebug( "eZTemplate: Comment: $comment" );
                 }
                 else
                 {
@@ -832,14 +835,14 @@ class eZTemplate
                         $has_children = true;
                         if ( isset( $this->FunctionAttributes[$tag] ) )
                         {
-//                             eZDebug::writeNotice( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #1" );
+//                             eZDebug::writeDebug( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #1" );
                             if ( is_array( $this->FunctionAttributes[$tag] ) )
                                 $this->loadAndRegisterFunctions( $this->FunctionAttributes[$tag] );
                             $has_children = $this->FunctionAttributes[$tag];
                         }
                         else if ( isset( $this->Functions[$tag] ) )
                         {
-//                             eZDebug::writeNotice( $this->Functions[$tag], "\$this->Functions[$tag] #1" );
+//                             eZDebug::writeDebug( $this->Functions[$tag], "\$this->Functions[$tag] #1" );
                             if ( is_array( $this->Functions[$tag] ) )
                                 $this->loadAndRegisterFunctions( $this->Functions[$tag] );
                             $has_children = $this->hasChildren( $this->Functions[$tag], $tag );
@@ -857,14 +860,14 @@ class eZTemplate
                         $has_children = true;
                         if ( isset( $this->FunctionAttributes[$tag] ) )
                         {
-//                             eZDebug::writeNotice( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #2" );
+//                             eZDebug::writeDebug( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #2" );
                             if ( is_array( $this->FunctionAttributes[$tag] ) )
                                 $this->loadAndRegisterFunctions( $this->FunctionAttributes[$tag] );
                             $has_children = $this->FunctionAttributes[$tag];
                         }
                         else if ( isset( $this->Functions[$tag] ) )
                         {
-//                             eZDebug::writeNotice( $this->Functions[$tag], "\$this->Functions[$tag] #2" );
+//                             eZDebug::writeDebug( $this->Functions[$tag], "\$this->Functions[$tag] #2" );
                             if ( is_array( $this->Functions[$tag] ) )
                                 $this->loadAndRegisterFunctions( $this->Functions[$tag] );
                             $has_children = $this->hasChildren( $this->Functions[$tag], $tag );
@@ -947,8 +950,8 @@ class eZTemplate
     function numericEndPos( &$text, $start_pos, $len,
                             $allow_float = true )
     {
-//         eZDebug::writeNotice( substr( $text, $start_pos ) );
-//         eZDebug::writeNotice( $allow_float ? 'true' : 'false' );
+//         eZDebug::writeDebug( substr( $text, $start_pos ) );
+//         eZDebug::writeDebug( $allow_float ? 'true' : 'false' );
         $pos = $start_pos;
         $has_comma = false;
         if ( $pos < $len )
@@ -958,7 +961,7 @@ class eZTemplate
         }
         while ( $pos < $len )
         {
-//             eZDebug::writeNotice( substr( $text, $pos ) );
+//             eZDebug::writeDebug( substr( $text, $pos ) );
             if ( $text[$pos] == "." and $allow_float )
             {
                 if ( $has_comma )
@@ -995,7 +998,7 @@ class eZTemplate
     */
     function &parseOperators( &$text, $start_pos, &$end, $len, $def_nspace, $start_with_oper = false )
     {
-//         eZDebug::writeNotice( "text='$text', start_pos=$start_pos, len=$len, start_with_oper=$start_with_oper", "parseOperators" );
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len, start_with_oper=$start_with_oper", "parseOperators" );
         $pos = $start_pos;
         $operators = array();
         $i = 0;
@@ -1042,7 +1045,7 @@ class eZTemplate
             ++$i;
         }
         $end = $pos;
-//         eZDebug::writeNotice( "text='$text', end=$end, len=$len", "parseOperators:end" );
+//         eZDebug::writeDebug( "text='$text', end=$end, len=$len", "parseOperators:end" );
         return $operators;
     }
 
@@ -1051,7 +1054,7 @@ class eZTemplate
     */
     function &parseAttribute( &$text, $start_pos, &$end, $len, $def_nspace )
     {
-//         eZDebug::writeNotice( "text='$text', start_pos=$start_pos, len=$len", "parseAttribute" );
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseAttribute" );
         $pos = $start_pos;
         $struct = array();
         if ( $text[$pos] == "$" )
@@ -1081,7 +1084,7 @@ class eZTemplate
     */
     function &parseVariableAndAttributes( &$text, $start_pos, &$end, $len, $def_nspace )
     {
-//         eZDebug::writeNotice( "text='$text', start_pos=$start_pos, len=$len", "parseVariableAndAttributes" );
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseVariableAndAttributes" );
         $pos = $start_pos;
         $nspace = false;
         $var = "";
@@ -1153,7 +1156,7 @@ class eZTemplate
     */
     function &parseVariableTag( &$text, $start_pos, &$end, $len, $def_nspace )
     {
-//         eZDebug::writeNotice( "text='$text', start_pos=$start_pos, len=$len", "parseVariableTag" );
+//         eZDebug::writeDebug( "text='$text', start_pos=$start_pos, len=$len", "parseVariableTag" );
         $pos = $start_pos;
         $struct = array();
         $end_pos = $pos;
@@ -1162,7 +1165,7 @@ class eZTemplate
             if ( $text[$pos] == "$" )
             {
                 ++$pos;
-//                 eZDebug::writeNotice( "parseVariableAndAttributes", "parseVariableTag:choice" );
+//                 eZDebug::writeDebug( "parseVariableAndAttributes", "parseVariableTag:choice" );
                 $struct = $this->parseVariableAndAttributes( $text, $pos, $var_end, $len, $def_nspace );
                 $end_pos = $var_end;
             }
@@ -1171,7 +1174,7 @@ class eZTemplate
             {
                 $quote = $text[$pos];
                 ++$pos;
-//                 eZDebug::writeNotice( "quoteEndPos", "parseVariableTag:choice" );
+//                 eZDebug::writeDebug( "quoteEndPos", "parseVariableTag:choice" );
                 $end_pos = $this->quoteEndPos( $text, $pos, $len, $quote );
                 $struct["type"] = "text";
                 $struct["content"] = substr( $text, $pos, $end_pos - $pos );
@@ -1186,7 +1189,7 @@ class eZTemplate
                     if ( $end_pos < $len and
                          $text[$end_pos] == "(" )
                     {
-//                         eZDebug::writeNotice( "parseOperators", "parseVariableTag:choice" );
+//                         eZDebug::writeDebug( "parseOperators", "parseVariableTag:choice" );
                         $operators = $this->parseOperators( $text, $pos, $end_pos, $len, $def_nspace, true );
                         $struct["type"] = "operators";
                         $struct["operators"] = $operators;
@@ -1247,7 +1250,7 @@ class eZTemplate
                  $text[$end_pos] == "|" )
             {
                 $pos = $end_pos;
-//                 eZDebug::writeNotice( "parseOperators#2", "parseVariableTag:choice" );
+//                 eZDebug::writeDebug( "parseOperators#2", "parseVariableTag:choice" );
                 $struct["operators"] = $this->parseOperators( $text, $pos, $end_pos, $len, $def_nspace );
             }
             if ( $pos == $end_pos )
@@ -1463,7 +1466,7 @@ class eZTemplate
         $param_list = array();
         if ( is_array( $this->Operators[$name] ) )
         {
-//             eZDebug::writeNotice( $this->Operators[$name], "\$this->Operators[$name]" );
+//             eZDebug::writeDebug( $this->Operators[$name], "\$this->Operators[$name]" );
             $this->loadAndRegisterOperators( $this->Operators[$name] );
         }
         $op =& $this->Operators[$name];
@@ -1490,7 +1493,7 @@ class eZTemplate
     {
         if ( is_array( $this->Operators[$operatorName] ) )
         {
-//             eZDebug::writeNotice( $this->Operators[$operatorName], "\$this->Operators[$operatorName]" );
+//             eZDebug::writeDebug( $this->Operators[$operatorName], "\$this->Operators[$operatorName]" );
             $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
         }
         $op =& $this->Operators[$operatorName];
@@ -1798,14 +1801,14 @@ class eZTemplate
         {
             foreach ( $functionDefinition['function_names'] as $functionName )
             {
-//                 eZDebug::writeNotice( "Autoload for function $functionName", 'eztemplate:registerAutoloadFunctions' );
+//                 eZDebug::writeDebug( "Autoload for function $functionName", 'eztemplate:registerAutoloadFunctions' );
                 $this->Functions[$functionName] =& $functionDefinition;
             }
             if ( isset( $functionDefinition['function_attributes'] ) )
             {
                 foreach ( $functionDefinition['function_attributes'] as $functionAttributeName )
                 {
-//                     eZDebug::writeNotice( "Autoload for function attribute $functionAttributeName", 'eztemplate:registerAutoloadFunctions' );
+//                     eZDebug::writeDebug( "Autoload for function attribute $functionAttributeName", 'eztemplate:registerAutoloadFunctions' );
                     unset( $this->FunctionAttributes[$functionAttributeName] );
                     $this->FunctionAttributes[$functionAttributeName] =& $functionDefinition;
                 }
@@ -1824,7 +1827,7 @@ class eZTemplate
         if ( isset( $functionDefinition['function'] ) )
         {
             $function = $functionDefinition['function'];
-//             eZDebug::writeNotice( "registering with function=$function", 'eztemplate:loadAndRegisterFunctions' );
+//             eZDebug::writeDebug( "registering with function=$function", 'eztemplate:loadAndRegisterFunctions' );
             if ( function_exists( $function ) )
                 $functionObject =& $function();
         }
@@ -1832,7 +1835,7 @@ class eZTemplate
         {
             $script = $functionDefinition['script'];
             $class = $functionDefinition['class'];
-//             eZDebug::writeNotice( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterFunctions' );
+//             eZDebug::writeDebug( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterFunctions' );
             include_once( $script );
             if ( class_exists( $class ) )
                 $functionObject = new $class();
@@ -1840,10 +1843,10 @@ class eZTemplate
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );
-//             eZDebug::writeNotice( "registering was succesful", 'eztemplate:loadAndRegisterFunctions' );
+//             eZDebug::writeDebug( "registering was succesful", 'eztemplate:loadAndRegisterFunctions' );
             return true;
         }
-//         eZDebug::writeNotice( "registering failed", 'eztemplate:loadAndRegisterFunctions' );
+//         eZDebug::writeDebug( "registering failed", 'eztemplate:loadAndRegisterFunctions' );
         return false;
     }
 
@@ -1858,7 +1861,7 @@ class eZTemplate
         foreach ( $functionObject->functionList() as $functionName )
         {
 //             if ( $debug )
-//                 eZDebug::writeNotice( "Registering function $functionName", 'eztemplate:registerFunctionsInternal' );
+//                 eZDebug::writeDebug( "Registering function $functionName", 'eztemplate:registerFunctionsInternal' );
             $this->Functions[$functionName] =& $functionObject;
         }
         if ( method_exists( $functionObject, "attributeList" ) )
@@ -1870,8 +1873,8 @@ class eZTemplate
                 $this->FunctionAttributes[$attributeName] = $hasChildren;
 //                 if ( $debug )
 //                 {
-//                     eZDebug::writeNotice( "Registering function attribute $attributeName, hasChildren=$hasChildren", 'eztemplate:registerFunctionsInternal' );
-//                     eZDebug::writeNotice( $this->FunctionAttributes[$attributeName], "\$this->FunctionAttributes[$attributeName] #3" );
+//                     eZDebug::writeDebug( "Registering function attribute $attributeName, hasChildren=$hasChildren", 'eztemplate:registerFunctionsInternal' );
+//                     eZDebug::writeDebug( $this->FunctionAttributes[$attributeName], "\$this->FunctionAttributes[$attributeName] #3" );
 //                 }
             }
         }
@@ -1927,7 +1930,7 @@ class eZTemplate
         {
             foreach ( $operatorDefinition['operator_names'] as $operatorName )
             {
-//                 eZDebug::writeNotice( "Autoload for operator $operatorName", 'eztemplate:registerAutoloadOperators' );
+//                 eZDebug::writeDebug( "Autoload for operator $operatorName", 'eztemplate:registerAutoloadOperators' );
                 $this->Operators[$operatorName] =& $operatorDefinition;
             }
         }
@@ -1941,7 +1944,7 @@ class eZTemplate
         if ( isset( $operatorDefinition['function'] ) )
         {
             $function = $operatorDefinition['function'];
-//             eZDebug::writeNotice( "registering with function=$function", 'eztemplate:loadAndRegisterOperators' );
+//             eZDebug::writeDebug( "registering with function=$function", 'eztemplate:loadAndRegisterOperators' );
             if ( function_exists( $function ) )
                 $operatorObject =& $function();
         }
@@ -1949,7 +1952,7 @@ class eZTemplate
         {
             $script = $operatorDefinition['script'];
             $class = $operatorDefinition['class'];
-//             eZDebug::writeNotice( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterOperators' );
+//             eZDebug::writeDebug( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterOperators' );
             include_once( $script );
             if ( class_exists( $class ) )
             {
@@ -1962,10 +1965,10 @@ class eZTemplate
         if ( is_object( $operatorObject ) )
         {
             $this->registerOperatorsInternal( $operatorObject, true );
-//             eZDebug::writeNotice( "registering was succesful", 'eztemplate:loadAndRegisterOperators' );
+//             eZDebug::writeDebug( "registering was succesful", 'eztemplate:loadAndRegisterOperators' );
             return true;
         }
-//         eZDebug::writeNotice( "registering failed", 'eztemplate:loadAndRegisterOperators' );
+//         eZDebug::writeDebug( "registering failed", 'eztemplate:loadAndRegisterOperators' );
         return false;
     }
 
@@ -1988,7 +1991,7 @@ class eZTemplate
         foreach( $operatorObject->operatorList() as $operatorName )
         {
 //             if ( $debug )
-//                 eZDebug::writeNotice( "Registering operator $operatorName", 'eztemplate:registerOperatorsInternal' );
+//                 eZDebug::writeDebug( "Registering operator $operatorName", 'eztemplate:registerOperatorsInternal' );
             $this->Operators[$operatorName] =& $operatorObject;
         }
     }
@@ -2208,6 +2211,28 @@ class eZTemplate
         include_once( "lib/ezutils/classes/ezini.php" );
         $ini =& eZINI::instance( "template.ini" );
         return $ini;
+    }
+
+    /*!
+     \static
+     \return true if debugging of internals is enabled, this will display
+     which files are loaded and when cache files are created.
+      Set the option with setIsDebugEnabled().
+    */
+    function isDebugEnabled()
+    {
+        if ( !isset( $GLOBALS['eZTemplateDebugInternalsEnabled'] ) )
+             $GLOBALS['eZTemplateDebugInternalsEnabled'] = EZ_TEMPLATE_DEBUG_INTERNALS;
+        return $GLOBALS['eZTemplateDebugInternalsEnabled'];
+    }
+
+    /*!
+     \static
+     Sets whether internal debugging is enabled or not.
+    */
+    function setIsDebugEnabled( $debug )
+    {
+        $GLOBALS['eZTemplateDebugInternalsEnabled'] = $debug;
     }
 
     /// Associative array of resource objects
