@@ -47,6 +47,8 @@ Changes from 3.4.0beta2 to 3.4.0
 - Fixed bug with destroying variables if they were passed to an included
   template under the same name.
   http://ez.no/community/bug_reports/include_in_template_does_not_create_a_new_namespace
+- Fixed PHP error when trying to edit non existing role, merged from stable/3.3 rev. 6637.
+  http://ez.no/community/bug_reports/error_in_role_view
 
 *Library:
 
