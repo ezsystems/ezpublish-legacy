@@ -50,6 +50,8 @@ Changes from 3.2-2 to 3.2-3
   a separate setting to avoid it being enabled by a mistake.
 - http://ez.no/developer/ez_publish_3/bug_reports/new_drafts_saved_with_title_new_classname
   Fixed updating object name when storing draft, not only when publishing object.
+- http://ez.no/developer/ez_publish_3/bug_reports/eztemplate_controlflow_operator_cond_bug
+  Fixed correct handling of odd numbers in cond operator.
 
 *Setup:
 

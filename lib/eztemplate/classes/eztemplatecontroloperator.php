@@ -96,7 +96,7 @@ class eZTemplateControlOperator
             case $this->CondName:
             {
                 $parameterCount = count( $operatorParameters );
-                $clauseCount = $parameterCount / 2;
+                $clauseCount = floor( $parameterCount / 2 );
                 $clauseMod = $parameterCount % 2;
                 $conditionSuccess = false;
                 for ( $i = 0; $i < $clauseCount; ++$i )
