@@ -132,6 +132,37 @@ class eZContentBrowse
 
         $params['start_node'] = $ini->variable( $params['type'], 'StartNode' );
 
+        if ( isset( $params['keys'] ) )
+        {
+            $overrideStartNode = false;
+            foreach ( $params['keys'] as $key => $keyValue )
+            {
+                $variableName = 'StartNode_' . $key;
+                if ( !$ini->hasVariable( $params['type'], $variableName ) )
+                    continue;
+                $keyData = $ini->variable( $params['type'], $variableName );
+                if ( is_array( $keyValue ) )
+                {
+                    foreach ( $keyValue as $keySubValue )
+                    {
+                        if ( isset( $keyData[$keySubValue] ) )
+                            $overrideStartNode = $keyData[$keySubValue];
+                    }
+                }
+                else if ( isset( $keyData[$keyValue] ) )
+                {
+                    $overrideStartNode = $keyData[$keyValue];
+                }
+                if ( $overrideStartNode )
+                    break;
+            }
+            if ( $overrideStartNode )
+                $params['start_node'] = $overrideStartNode;
+        }
+
+        if ( !isset( $params['persistent_data'] ) )
+            $params['persistent_data'] = false;
+
         if ( !isset( $params['top_level_nodes'] ) )
         {
             $params['top_level_nodes'] = $ini->variable( 'BrowseSettings', 'DefaultTopLevelNodes' );

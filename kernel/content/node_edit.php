@@ -299,9 +299,9 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 */
         eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
                                         'description_template' => 'design:content/browse_placement.tpl',
-//                                         'keys' => array( 'class' => $class->attribute( 'id' ),
-//                                                          'classgroup' => $class->attribute( 'ingroup_list' ),
-//                                                          'section' => $object->attribute( 'section_id' ) ),
+                                        'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                         'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                         'section' => $object->attribute( 'section_id' ) ),
                                         'content' => array( 'object_id' => $objectID,
                                                             'object_version' => $editVersion ),
                                         'from_page' => "/content/edit/$objectID/$editVersion/" ),

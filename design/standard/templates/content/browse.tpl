@@ -10,8 +10,8 @@
      select_attribute=contentobject_id}
 
 {section show=eq($browse.return_type,'NodeID')}
-    {set select_name='SelectedNodeIDArray'
-         select_attribute=node_id}
+    {set select_name='SelectedNodeIDArray'}
+    {set select_attribute=node_id}
 {/section}
 {section show=eq($browse.selection,'single')}
     {set select_type='radio'}
@@ -233,6 +233,10 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
+
+{section name=Persistent show=$browse.persistent_data loop=$browse.persistent_data}
+    <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
+{/section}
 
 <input type="hidden" name="BrowseActionName" value="{$browse.action_name}" />
 {section show=$browse.browse_custom_action}

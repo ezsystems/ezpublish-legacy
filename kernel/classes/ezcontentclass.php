@@ -341,7 +341,7 @@ class eZContentClass extends eZPersistentObject
     {
         return ( $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or
-                 $attr == "ingroup_list" or  $attr == "group_list" or
+                 $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
                  $attr == "defined_list" or $attr == "mixed_list" or $attr == "temporary_list" or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
@@ -368,10 +368,22 @@ class eZContentClass extends eZPersistentObject
             } break;
             case "ingroup_list":
             {
-                $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute("id"),
-                                                                             $this->attribute("version"),
-                                                                             $asObject = true);
+                $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+                                                                             $this->attribute( "version" ),
+                                                                             true );
                 return $this->InGroups;
+            } break;
+            case "ingroup_id_list":
+            {
+                $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+                                                                  $this->attribute( "version" ),
+                                                                  false );
+                $this->InGroupIDs = array();
+                foreach ( $list as $item )
+                {
+                    $this->InGroupIDs[] = $item['group_id'];
+                }
+                return $this->InGroupIDs;
             } break;
             case "group_list":
             {

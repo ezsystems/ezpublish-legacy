@@ -33,19 +33,22 @@
 //
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
-if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectParentNode' )  )
+if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' )  )
 {
-    if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'SelectParentNode' ) )
+    if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
-        if (  $module->isCurrentAction( 'SelectParentNode' ) )
+        if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
             $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            if ( count( $selectedNodeIDArray ) == 0 )
+                return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
             $contentClassID = $http->sessionVariable( 'ClassID' );
         }
@@ -81,25 +84,21 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectP
         }
         else
         {
-            $module->redirectTo( '/error/403' );
-            return;
+            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
 
     }
     else if ( $http->hasPostVariable( 'ClassID' ) )
     {
-        //
-        $http->setSessionVariable( "BrowseFromPage", $module->redirectionURI( 'content', 'action', array( ) ) );
-        $http->setSessionVariable( "BrowseActionName", "SelectParentNode" );
-        $http->setSessionVariable( "ClassID", $http->postVariable( 'ClassID' ) );
-        $http->setSessionVariable( "BrowseReturnType", "NodeID" );
-        $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
-
-        $browseNodeID = 2;
-        if ( $http->hasPostVariable( 'BrowseNodeID' ) )
-            $browseNodeID = $http->postVariable( 'BrowseNodeID' );
-
-        $module->redirectToView( 'browse', array( $browseNodeID ) );
+        $class =& eZContentClass::fetch( $http->postVariable( 'ClassID' ) );
+        eZContentBrowse::browse( array( 'action_name' => 'NewObjectAddNodeAssignment',
+                                        'description_template' => 'design:content/browse_first_placement.tpl',
+                                        'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                         'classgroup' => $class->attribute( 'ingroup_id_list' ) ),
+                                        'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ) ),
+                                        'content' => array( 'class_id' => $class->attribute( 'id' ) ),
+                                        'from_page' => "/content/action" ),
+                                 $module );
     }
 }
 else if ( $http->hasPostVariable( 'EditButton' )  )
