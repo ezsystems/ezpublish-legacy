@@ -1,5 +1,5 @@
 {default with_children=true()
-	 is_standalone=false()}
+	 is_standalone=true()}
 {let page_limit=25
      sitemap_indentation=10
      tree=and($with_children,fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)))

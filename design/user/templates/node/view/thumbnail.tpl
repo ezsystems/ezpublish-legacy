@@ -1,5 +1,5 @@
 {default with_children=true()
-	 is_standalone=false()}
+	 is_standalone=true()}
 {let page_limit=8
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 {default node_name=$node.name}

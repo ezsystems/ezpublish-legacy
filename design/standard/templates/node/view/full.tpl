@@ -1,6 +1,6 @@
 {default with_children=true()
-         is_editable=false()
-	 is_standalone=false()}
+         is_editable=true()
+	 is_standalone=true()}
 {let page_limit=25
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 {default content_object=$node.object
