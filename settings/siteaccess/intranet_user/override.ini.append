@@ -88,4 +88,8 @@ Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype_edit_ezmatrix.tpl
 Subdir=templates
 
+[advancedsearch]
+Source=content/advancedsearch.tpl
+MatchFile=advancedsearch.tpl
+Subdir=templates
 */ ?>
