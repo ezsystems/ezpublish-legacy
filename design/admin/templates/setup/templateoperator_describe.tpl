@@ -30,10 +30,12 @@
 <p>{'Hint: The first line will be used for the brief description. The rest will become the documentation.'|i18n( 'design/admin/setup/rad/templateoperator' )}</p>
 </div>
 
-
+<div class="block">
 <label>{'Example code'|i18n( 'design/admin/setup/rad/templateoperator' )}</label>
 <textarea class="box" name="ExampleCode" cols="60" rows="3">{$example_code|wash}</textarea>
 <p>{'Hint: Feel free to add example code that demonstrates how the operator works.'|i18n( 'design/admin/setup/rad/templateoperator' )}</p>
+</div>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -46,8 +48,6 @@
 <input class="button" type="submit" name="TemplateOperatorStepButton" value="{'Finish and generate'|i18n( 'design/admin/setup/rad/templateoperator' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
-</div>
-
 </div>
 
 {section name=Persistence loop=$persistent_data}
