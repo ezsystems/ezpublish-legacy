@@ -1,5 +1,12 @@
 /* Styles specific for the setup program */
 
+body
+{
+        background-color: #638ecf;
+        margin: 0px;
+        padding: 0px;
+}
+
 code, pre, tt {
     font-family: Courier, "Courier New", monospace;
     font-size: 80%;
@@ -51,6 +58,81 @@ div.information
 }
 
 
+td.setup_noborder
+{
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-bottom: 0px;
+}
+
+td.setup_main_area
+{
+    padding-top: 0px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    padding-right: 10px;
+    border-bottom: 0px;
+    vertical-align: top;
+    background-color: #ffffff;
+}
+
+td.setup_noborder_white
+{
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-bottom: 0px;
+    background-color: #ffffff;
+}
+
+td.setup_noborder_blue
+{
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    padding-right: 20px;
+    border-bottom: 0px;
+    vertical-align: top;
+    background-color: #6d9ad7;
+}
+
+td.setup_site_templates
+{
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  border-bottom: 0px;
+}
+
+td.setup_progress_left
+{ 
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  border-top: 6px;
+  border-bottom: 6px;
+  border-style: solid;
+  border-color: #91b0dd;
+  background-color: #4373b4;
+}
+
+td.setup_progress_right
+{ 
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  background-color: #91b0dd;
+}
+
+
 tt.option
 {
 }
@@ -72,6 +154,33 @@ p.disabled
 {
 	text-decoration: none;
 	color: #cccccc;
+}
+
+div.setup_help
+{ 
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: #edf2fa;
+}
+
+h1.setup_help_summary
+{ 
+  color: #edf2fa; 
+}
+
+div.setup_summary
+{ 
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 280px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: #edf2fa;
 }
 
 div.input_highlight

@@ -153,6 +153,16 @@ Changes from 3.1-1 to 3.2.0-1
 - Added new module package which will handle listing, viewing and uploading of eZ publish packages.
 - Added PHP accelerator information to the setup/info page.
 
+*Setup:
+- Made new design
+- Added help and install summary to each step
+- Moved install steps from kernel/setup/parts/init to kernel/setup/steps
+- Added install class, eZStepInstaller, which all install steps are derived from
+- Added i18n support to all install steps
+- Added site template step for choosing site template
+- Moved database initialization to end of installation
+- Added support to hide steps which to not need user interaction
+
 *Export:
 - Added start of export system. Currently only the generic package is exported.
 - Added support for class export in all kernel datatypes.

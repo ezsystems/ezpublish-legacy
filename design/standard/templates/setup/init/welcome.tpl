@@ -1,20 +1,33 @@
 {*?template charset=latin1?*}
 {include uri='design:setup/setup_header.tpl' setup=$setup step_header=false()}
 
+<div align="center">
+  <h1>{"Welcome to eZ publish %1"|i18n("design/standard/setup/init",,array($#version.alias))}</h1>
+</div>
+
 <p>
- {"Welcome to the setup program for eZ publish %1."|i18n("design/standard/setup/init",,array($#version.alias))}
- {"This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized"|i18n("design/standard/setup/init")}.
+{"Welcome to the installation of eZ publish content management system and development framework. The setup wizard will now guide you through the installation of eZ publish."|i18n("design/standard/setup/init")}
 </p>
 <p>
- {"Click the button below to proceed to the next step which will start the system check."|i18n("design/standard/setup/init")}
- {"However if you wish to setup the site manually press the"|i18n("design/standard/setup/init")} <i>{"Disable Setup"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
+{"You will need to have information about a database server you can connect to. You need to have a database which you can use for eZ publish. MySQL and PostgreSQL are supported."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">
+  {include uri='design:setup/persistence.tpl'}
+<p>
+  {section show=$system_test_result|eq(1)}
+    {"Click >> to continue the installation of eZ publish"|i18n("design/standard/setup/init")}
+  {section-else}
+    {"Your system cannot install eZ publish as it is. You need to do some modifications. Click >> to see what you have to do."|i18n("design/standard/setup/init")}
+  {/section}
+</p>
+
   <div class="buttonblock">
-    <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_2" value="{'System Check'|i18n('design/standard/setup/init')} >>" />
-    <input type="hidden" name="DisableSetup" value="" />
-    <input class="button" type="submit" name="StepButton_1" value="{'Disable Setup'|i18n('design/standard/setup/init')}" />
+    {include uri="design:setup/init/steps.tpl"}
+    <input class="defaultbutton" type="submit" name="button" value="&gt;&gt;" />	
+  </div>
+</form>
+
+
   </div>
 </form>

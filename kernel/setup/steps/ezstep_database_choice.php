@@ -1,0 +1,135 @@
+<?php
+//
+// Definition of eZStepDatabaseChoice class
+//
+// Created on: <11-Aug-2003 16:45:50 kk>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezstep_database_choice.php
+*/
+include_once( 'kernel/setup/steps/ezstep_installer.php' );
+include_once( 'kernel/setup/ezsetupcommon.php' );
+include_once( "kernel/common/i18n.php" );
+
+/*!
+  \class eZStepDatabaseChoice ezstep_database_choice.php
+  \brief The class eZStepDatabaseChoice does
+
+*/
+
+class eZStepDatabaseChoice extends eZStepInstaller
+{
+    /*!
+     Constructor
+    \reimp
+    */
+    function eZStepDatabaseChoice( &$tpl, &$http, &$ini, &$persistenceList )
+    {
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+    }
+
+    /*!
+     \reimp
+     */
+    function processPostData()
+    {
+        $databaseMap = eZSetupDatabaseMap();
+        $this->PersistenceList['database_info'] = $databaseMap[$http->postVariable( 'eZSetupDatabaseType' )];
+        return true;
+    }
+
+    /*!
+     \reimp
+     */
+    function init()
+    {
+        $databaseMap = eZSetupDatabaseMap();
+        $database = null;
+        $databaseCount = 0;
+        if ( isset( $this->PersistenceList['database_extensions']['found'] ) )
+        {
+            $databaseExtensions = $this->PersistenceList['database_extensions']['found'];
+            foreach ( $databaseExtensions as $extension )
+            {
+                if ( !isset( $databaseMap[$extension] ) )
+                    continue;
+                $database = $databaseMap[$extension];
+                $database['name'] = null; // fix to get default name of database under installation
+                $databaseCount++;
+            }
+        }
+
+        $this->PersistenceList['database_info'] = $database;
+
+        if( $databaseCount != 1 )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /*!
+     \reimp
+     */
+    function &display()
+    {
+        $databaseMap = eZSetupDatabaseMap();
+        $databaseList = array();
+        if ( isset( $this->PersistenceList['database_extensions']['found'] ) )
+        {
+            $databaseExtensions = $this->PersistenceList['database_extensions']['found'];
+            foreach ( $databaseExtensions as $extension )
+            {
+                if ( !isset( $databaseMap[$extension] ) )
+                    continue;
+                $databaseList[] = $databaseMap[$extension];
+            }
+        }
+
+        $this->Tpl->setVariable( 'setup_previous_step', 'DatabaseChoice' );
+        $this->Tpl->setVariable( 'setup_next_step', 'LanguageOptions' );
+
+        $this->Tpl->setVariable( 'database_list', $databaseList );
+
+        $result = array();
+        // Display template
+        $result['content'] = $this->Tpl->fetch( "design:setup/init/database_choice.tpl" );
+        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                          'Database choice' ),
+                                        'url' => false ) );
+        return $result;
+    }
+
+}
+
+?>

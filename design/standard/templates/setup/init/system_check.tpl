@@ -4,7 +4,7 @@
 
   <form method="post" action="{$script}">
 
-{*{$test.results|attribute(show,5)}*}
+{* {$test.results|attribute(show,5)} *}
 
 {section loop=$test.results}
 {section-exclude match=true()}
@@ -55,6 +55,7 @@
 
 {section-else}
 
+  <h1>{"System check"|i18n("design/standard/setup/init")}</h1>
   <p>
   {"The system check found some issues that needs to be resolve before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
@@ -70,7 +71,9 @@
     <td>{include uri=concat('design:setup/tests/',$:item[1],'_error.tpl') test_result=$:item result_number=$:number}</td>
   </tr>
   <tr>
-    <td><label>Ignore this test</label><input type="checkbox" name="{$:item[1]}_Ignore" value="1" /></td>
+    <td><label>{"Ignore this test"|i18n("design/standard/setup/init")}</label>
+        <input type="checkbox" name="{$:item[1]}_Ignore" value="1" />
+    </td>
   </tr>
 
   {delimiter}
@@ -81,7 +84,7 @@
   </table>
 
     <div class="buttonblock">
-      <input type="hidden" name="ChangeStepAction" value="" />
+      {include uri='design:setup/init/steps.tpl'}
       <input class="defaultbutton" type="submit" name="StepButton_2" value="{'Check Again'|i18n('design/standard/setup/init')}" />
     </div>
     {include uri='design:setup/persistence.tpl'}

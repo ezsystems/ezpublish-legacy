@@ -58,7 +58,8 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 // Include common functions
 include_once( "kernel/setup/ezsetupcommon.php" );
-
+include_once( 'kernel/setup/steps/ezstep_data.php' );
+include_once( 'kernel/setup/ezsetup_summary.php' );
 
 // Initialize template
 $tpl =& eZTemplate::instance();
@@ -82,72 +83,61 @@ $tpl->registerResource( eZTemplateDesignResource::instance() );
 $http =& eZHttpTool::instance();
 
 $baseDir = 'kernel/setup/';
-// Test at what part we are
-$part = 1;
 
-// Test at what step we are
-$step = 1;
-if ( $Module->hasActionParameter( "Step" ) )
+// Load step list data. See this file for install step references.
+$stepDataFile = $baseDir . "steps/ezstep_data.php";
+$stepData = null;
+if ( file_exists( $stepDataFile ) )
 {
-    $nextStep = $Module->actionParameter( "Step" );
-//     eZDebug::writeDebug( "Switching to step $nextStep", 'ezsetup' );
-    $step = $nextStep;
+    include_once( $stepDataFile );
+    $stepData = new eZStepData();
 }
-
-$partTable = array( 1 => array( 'name' => 'init',
-                                'description' => 'Initialization' ) );
-$partInfo = $partTable[$part];
-$partName = $partInfo['name'];
-$partDescription = $partInfo['description'];
-
-$partFile = $baseDir . "parts/$partName/ezpart_init.php";
-$partLoaded = false;
-if ( file_exists( $partFile ) )
+if ( $stepData == null )
 {
-    include_once( $partFile );
-    $partLoaded = true;
-}
-if ( !$partLoaded or
-     !isset( $stepTable ) )
-{
-	print "<h1>Invalid part $part. Setup is exiting...</h1>";
+    print "<h1>Setup step data file not found. Setup is exiting...</h1>"; //TODO : i18n translate
     eZDisplayResult( $templateResult, eZDisplayDebug() );
     eZExecution::cleanExit();
 }
 
-$persistenceList = null;
-
-do
+// Test at what step we are
+$step = $stepData->step(0); //step contains file and class
+if ( $http->hasPostVariable( 'setup_next_step' ) )
 {
-    $stepInfo = $stepTable[$step];
-    $stepName = $stepInfo['name'];
-    $stepDescription = $stepInfo['description'];
+    $step = &$stepData->step( $http->postVariable( 'setup_next_step' ) );
+}
 
-    $type = 0;
-    for ( $i =0; $i < count( $mainStepTable ); ++$i )
+$persistenceList = eZSetupFetchPersistenceList();
+$result = null;
+
+// process previous step
+$previousStepClass = null;
+if ( $http->hasPostVariable( 'setup_previous_step' ) )
+{
+    $previousStep = &$stepData->step( $http->postVariable( 'setup_previous_step' ) );
+
+    $includeFile = $baseDir .'steps/ezstep_'.$previousStep['file'].'.php';
+    $result = array();
+
+    if ( file_exists( $includeFile ) )
     {
-        $mainStep =& $mainStepTable[$i];
-        if ( in_array( $step, $mainStep['id_list'] ) )
-            $type = 1;
-        $mainStep['type'] = $type;
-        if ( in_array( $step, $mainStep['id_list'] ) )
-            $type = 2;
+        include_once( $includeFile );
+        $className = 'eZStep'.$previousStep['class'];
+        $previousStepClass = new $className( $tpl, $http, $ini, $persistenceList );
+
+        if ( $previousStepClass->processPostData() == null ) // processing previous inout failed, step must be redone
+        {
+            $step = $previousStep;
+        }
     }
+}
 
-    $partData = array( 'current' => $part,
-                       'name' => $partName,
-                       'description' => $partDescription );
-    $stepData = array( 'current' => $step,
-                       'name' => $stepName,
-                       'description' => $stepDescription );
-    $setup = array( 'part' => $partData,
-                    'step' => $stepData,
-                    'steps' => $stepTable,
-                    'main_steps' => $mainStepTable );
+$done = false;
+$result = null;
 
+while( !$done && $step != null )
+{
 // Some common variables for all steps
     $tpl->setVariable( "script", eZSys::serverVariable( 'PHP_SELF' ) );
-    $tpl->setVariable( "setup", $setup );
 
     $siteBasics =& $GLOBALS['eZSiteBasics'];
     $useIndex = $siteBasics['validity-check-required'];
@@ -170,34 +160,53 @@ do
     $tpl->setVariableRef( 'persistence_list', $persistenceList );
 
     // Try to include the relevant file
-    $includeFile = $baseDir . "parts/$partName/ezstep_$stepName.php";
-    $result = array();
+    $includeFile = $baseDir . 'steps/ezstep_'.$step['file'].'.php';
+    $stepClass = false;
     if ( file_exists( $includeFile ) )
     {
         include_once( $includeFile );
-        $functionName = "eZSetupStep_" . $stepName;
-        $result =& $functionName( $tpl, $http, $ini, $persistenceList );
+        $className = 'eZStep'.$step['class'];
+
+        if ( $step == $previousStep ) // if processing post data of previous step failed, use same class object.
+        {
+            $stepInstaller = $previousStepClass;
+        }
+        else
+        {
+            $stepInstaller = new $className( $tpl, $http, $ini, $persistenceList );
+        }
+
+        $result =& $stepInstaller->init();
+
+        if( $result === true )
+        {
+            $step =& $stepData->nextStep( $step );
+        }
+        else if( is_int( $result ) || is_string( $result ) )
+        {
+            $step =& $stepData->step( $result );
+        }
+        else
+        {
+            $result = $stepInstaller->display();
+            $result['help'] = $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
+            $done = true;
+        }
     }
     else
     {
-        print "<h1>Step $step is not valid, no such file '$includeFile'. I'm exiting...</h1>";
+        print '<h1>Step '.$step['class'].' is not valid, no such file '.$includeFile.'. I\'m exiting...</h1>'; //TODO : i18n
         eZDisplayResult( $templateResult, eZDisplayDebug() );
         eZExecution::cleanExit();
     }
+}
 
-    $done = false;
-    if ( isset( $result['change_step'] ) )
-    {
-        $step = $result['change_step'];
-//         eZDebug::writeDebug( "rerunning with step $step" );
-    }
-    else
-    {
-        $done = true;
-    }
-} while( !$done );
+// generate summary
+$summary = new eZSetupSummary( $tpl, $persistenceList );
+$result['summary'] = $summary->summary();
 
-$result['setup_info'] = $setup;
+// Compute install progress
+$result['progress'] = $stepData->progress( $step );
 
 // Print debug information and exit.
 eZDebug::addTimingPoint( "End" );

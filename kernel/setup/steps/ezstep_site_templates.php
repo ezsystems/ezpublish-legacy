@@ -1,0 +1,135 @@
+<?php
+//
+// Definition of eZStepSiteTemplates class
+//
+// Created on: <12-Aug-2003 15:14:42 kk>
+//
+// Copyright (C) 1999-2003 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE.GPL included in
+// the packaging of this file.
+//
+// Licencees holding valid "eZ publish professional licences" may use this
+// file in accordance with the "eZ publish professional licence" Agreement
+// provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" is available at
+// http://ez.no/products/licences/professional/. For pricing of this licence
+// please contact us via e-mail to licence@ez.no. Further contact
+// information is available at http://ez.no/home/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezstep_site_templates.php
+*/
+include_once( 'kernel/setup/steps/ezstep_installer.php');
+include_once( "kernel/common/i18n.php" );
+
+/*!
+  \class eZStepSiteTemplates ezstep_site_templates.php
+  \brief The class eZStepSiteTemplates does
+
+*/
+
+class eZStepSiteTemplates extends eZStepInstaller
+{
+    /*!
+     Constructor
+    */
+    function eZStepSiteTemplates( &$tpl, &$http, &$ini, &$persistenceList )
+    {
+        $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
+    }
+
+    /*!
+     \reimp
+     */
+    function processPostData()
+    {
+        // set template and template thumbnail
+        $config =& eZINI::instance( 'setup.ini' );
+        $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
+        $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
+
+        if ( $this->Http->hasPostVariable( 'eZSetup_site_templates' ) )
+        {
+            $siteTemplates = $this->Http->postVariable( 'eZSetup_site_templates' );
+            $this->PersistenceList['site_templates']['count'] = count( $siteTemplates );
+
+            foreach ( $siteTemplates as $key => $template )
+            {
+                $this->PersistenceList['site_templates_'.$key]['name'] = $template;
+                $this->PersistenceList['site_templates_'.$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+            }
+        }
+        else
+        {
+            $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+                                      'No templates choosen.' );
+            return false;
+        }
+        return true;
+    }
+
+    /*!
+     \reimp
+     */
+    function init()
+    {
+        return false; // Always show site template selection
+    }
+
+    /*!
+     \reimp
+    */
+    function &display()
+    {
+        // Get site templates from setup.ini
+        $config =& eZINI::instance( 'setup.ini' );
+        $templatesConfig = $config->variable( 'SiteTemplates', 'Name' );
+        $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
+        $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
+
+        $site_templates = array();
+        foreach ( $templatesConfig as $key => $template )
+        {
+            $site_templates[$key]['name'] = $template;
+            $site_templates[$key]['image_file_name'] = $thumbnailBase.'_'.$template.'.'.$thumbnailExtension;
+        }
+
+        $this->Tpl->setVariable( 'site_templates', $site_templates );
+        $this->Tpl->setVariable( 'error', $this->Error );
+
+        // Set install steps
+        $this->Tpl->setVariable( 'setup_previous_step', 'SiteTemplates' );
+        $this->Tpl->setVariable( 'setup_next_step', 'SiteAccess' );
+
+        // Return template and data to be shown
+        $result = array();
+        // Display template
+        $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_templates.tpl' );
+        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                          'Site template selection' ),
+                                        'url' => false ) );
+        return $result;
+
+    }
+
+    var $Error = 0;
+}
+
+?>

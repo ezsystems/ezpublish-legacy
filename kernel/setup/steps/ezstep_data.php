@@ -35,13 +35,118 @@
 //
 
 
-$stepTable = array( array( 'file' => 'welcome',
-                           'class' => 'Welcome' ),
-                    array( 'file' => 'system_check',
-                           'class' => 'SystemCheck' ),
-                    array( 'file' => 'database_choice',
-                           'class' => 'DatabaseChoice' ) );
+class eZStepData
+{
 
+    /*!
+     Constructor
+    */
+    function eZStepData()
+    {
+    }
+
+    /*!
+      Get file and class info for specified step
+
+      \param step number or name
+      \return array containing file name and class name
+     */
+    function &step( $description )
+    {
+        if ( is_string( $description ) )
+        {
+            foreach (  $this->StepTable as $step )
+            {
+                if ( $step['class'] == $description )
+                {
+                    return $step;
+                }
+            }
+        }
+        else if ( is_int( $description ) )
+        {
+            if ( isset( $this->StepTable[$description] ) )
+            {
+                return $this->StepTable[$description];
+            }
+        }
+
+        return null;
+    }
+
+    /*!
+     Get nest install step from step array
+
+     \param current step
+
+     \return next step
+    */
+    function &nextStep( &$step )
+    {
+        foreach ( $this->StepTable as $key => $tableStep )
+        {
+            if ( $step['class'] == $tableStep['class'] )
+            {
+                return $this->StepTable[++$key];
+            }
+        }
+        return null;
+    }
+
+    /*!
+     Get setup progress in percent of total number of steps
+
+     \param current step
+
+     \return Percentage of completet setup, step 1 => 0%, final step => 100%
+    */
+    function progress( &$step )
+    {
+        $totalSteps = count( $this->StepTable );
+
+        $currentStep = 0;
+        foreach ( $this->StepTable as $key => $tableStep )
+        {
+            if ( $step['class'] == $tableStep['class'] )
+            {
+                $currentStep = $key;
+                break;
+            }
+        }
+
+        return (int) ( $currentStep * 100 / ( $totalSteps - 1 ) );
+    }
+
+    var $StepTable = array( array( 'file' => 'welcome',
+                                   'class' => 'Welcome' ),
+                            array( 'file' => 'system_check',
+                                   'class' => 'SystemCheck' ),
+                            array( 'file' => 'database_choice',
+                                   'class' => 'DatabaseChoice' ),
+                            array( 'file' => 'language_options',
+                                   'class' => 'LanguageOptions' ),
+                            array( 'file' => 'email_settings',
+                                   'class' => 'EmailSettings' ),
+                            array( 'file' => 'database_init',
+                                   'class' => 'DatabaseInit' ),
+                            array( 'file' => 'site_templates',
+                                   'class' => 'SiteTemplates'),
+                            array( 'file' => 'site_access',
+                                   'class' => 'SiteAccess'),
+                            array( 'file' => 'site_details',
+                                   'class' => 'SiteDetails'),
+                            array( 'file' => 'security',
+                                   'class' => 'Security' ),
+                            array( 'file' => 'registration',
+                                   'class' => 'Registration' ),
+                            array( 'file' => 'database_create',
+                                   'class' => 'DatabaseCreate' ),
+                            array( 'file' => 'create_sites',
+                                   'class' => 'CreateSites' ),
+                            array( 'file' => 'final',
+                                   'class' => 'Final') );
+
+}
 
 
 /*

@@ -37,6 +37,8 @@
 // All test functions should be defined in ezsetuptests
 include( "kernel/setup/ezsetuptests.php" );
 
+
+
 /*!
     Step 1: General tests and information for the databases
 */
@@ -75,6 +77,15 @@ function eZSetupStep_welcome( &$tpl, &$http, &$ini, &$persistenceList )
         }
         $tpl->setVariable( 'save_result', $saveResult );
     }
+
+    $criticalTests = eZSetupCriticalTests();
+    $testTable = eZSetupTestTable();
+
+    $arguments = array();
+    $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
+    $testResult = $runResult['result'];
+
+    $tpl->setVariable( 'system_test_result', $testResult );
 
     $result = array();
     // Display template

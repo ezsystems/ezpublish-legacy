@@ -3,74 +3,89 @@
 
 <form method="post" action="{$script}">
 
-{section show=$database_status}
-<div class="error">
-<p>
-{section show=$demo_status|not}
-  <h2>{"Demo data failure"|i18n("design/standard/setup/init")}</h2>
-  <ul>
-    <li>{"Could not unpack the demo data."|i18n("design/standard/setup/init")}</li>
-  </ul>
-{section-else}
-
-{section show=$database_status.connected|not}
-  <h2>{"No database connection"|i18n("design/standard/setup/init")}</h2>
-  <ul>
-    <li>{"Could not connect to database."|i18n("design/standard/setup/init")}</li>
-    <li>{$database_status.error.text}</li>
-    <li>{$database_info.info.name} Error #{$database_status.error.number}</li>
-  </ul>
-{/section}
-
-{/section}
-
-</p>
+<div align="center">
+  <h1>{"Database initialization"|i18n("design/standard/setup/init")}</h1>
 </div>
 
+{section show=$db_error}
+  <blockquote class="error">
+  <p>
+      {$db_error.text|wash}
+  </p>
+  </blockquote>
+{/section}
+
+{section show=eq( $db_not_empty, 1 )}
+<h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
- {"The database would not accept the connection , please review your settings and try again."|i18n("design/standard/setup/init")}
+ {"Your database already contains data."|i18n("design/standard/setup/init")}
+ {"The setup can continue with the initialization but may damage the present data."|i18n("design/standard/setup/init")}
 </p>
-{include uri=concat('design:setup/db/',$database_info.info.type,'_connection_error.tpl')}
+<p>
+ {"What do you want the setup to do?"|i18n("design/standard/setup/init")}
+</p>
 
-{section-else}
+<blockquote class="note">
+<p>
+ <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ {"The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don't want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade."|i18n("design/standard/setup/init")}
+</p>
+</blockquote>
+
+<div class="input_highlight">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+ <td class="normal">
+  <p>{"Continue but leave the data as it is."|i18n("design/standard/setup/init")}</p>
+ </td>
+ <td rowspan="4" class="normal">
+  &nbsp;&nbsp;
+ </td>
+ <td class="normal">
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="1" />
+ </td>
+</tr>
+<tr>
+ <td class="normal">
+  <p>{"Continue but remove the data first."|i18n("design/standard/setup/init")}</p>
+ </td>
+ <td class="normal">
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="2"  checked="checked" />
+ </td>
+</tr>
+<tr>
+ <td class="normal">
+  <p>{"Keep data and skip database initialization."|i18n("design/standard/setup/init")}</p>
+ </td>
+ <td class="normal">
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="3" />
+ </td>
+</tr>
+<tr>
+ <td class="normal">
+  <p>{"Let me choose a new database."|i18n("design/standard/setup/init")}</p>
+ </td>
+ <td class="normal">
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="4" />
+ </td>
+</tr>
+</table>
+</div>
+{/section}
+
+
 
 <p>
- {"We're now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the"|i18n("design/standard/setup/init")} <i>{"Connect To Database"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
+ {"We're now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the"|i18n("design/standard/setup/init")} <i>&gt;&gt;</i> {"button."|i18n("design/standard/setup/init")}
 </p>
 <p>{"If you have an already existing eZ publish database enter the information and the setup will use that as database."|i18n("design/standard/setup/init")}</p>
 
 <blockquote class="note">
 <p>
- <b>Note:</b>This step requires that a database has been created with a valid user.
- Please consult the manual for your database to figure out how to create a database and user.
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>{"This step requires that a database has been created with a valid user.
+ Please consult the manual for your database to figure out how to create a database and user."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
-
-{section show=$error}
-<div class="error">
-<p>
-{switch match=$error}
- {case match=1}
-  <h2>{"Empty password"|i18n("design/standard/setup/init")}</h2>
-  <ul>
-    <li>{"You must supply a password for the database."|i18n("design/standard/setup/init")}</li>
-  </ul>
- {/case}
- {case match=2}
-  <h2>{"Password does not match"|i18n("design/standard/setup/init")}</h2>
-  <ul>
-    <li>{"The password and confirmation password must match."|i18n("design/standard/setup/init")}</li>
-  </ul>
- {/case}
- {case}
-  <h2>{"Unknown error"|i18n("design/standard/setup/init")}</h2>
- {/case}
-{/switch}
-</p>
-</div>
-{/section}
-
-{/section}
 
 <div class="input_highlight">
 <table border="0" cellspacing="0" cellpadding="0">
@@ -129,8 +144,8 @@
 </div>
 
   <div class="buttonblock">
-    <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_8" value="{'Connect To Database'|i18n('design/standard/setup/init')} >>" />
+    <input class="defaultbutton" type="submit" name="StepButton" value="{'Connect To Database'|i18n('design/standard/setup/init')} &gt;&gt;" />
   </div>
-  {include uri='design:setup/persistence.tpl'}
+  {include uri="design:setup/init/steps.tpl"}
+  {include uri="design:setup/persistence.tpl"}
 </form>

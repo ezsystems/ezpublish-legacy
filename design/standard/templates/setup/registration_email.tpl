@@ -1,9 +1,17 @@
 {set-block variable=subject}
-eZ publish {$version.text} {"site registration"|i18n("design/standard/setup")} - {$site_info.title}
+eZ publish {$version.text} {"site registration"|i18n("design/standard/setup")} - {$site_templates.0.title}
 {/set-block}
 {"Site info:"|i18n("design/standard/setup")}
-{"Title"|i18n("design/standard/setup")} - {$site_info.title}
-{"URL"|i18n("design/standard/setup")} - {$site_info.url}
+{section name=SiteTemplate loop=$site_templates }
+
+  {"Template"|i18n("design/standard/setup")} - {$:item.name}
+  {"Title"|i18n("design/standard/setup")} - {$:item.title}
+  {"URL"|i18n("design/standard/setup")} - {$:item.url}
+  {"Access type"|i18n("design/standard/setup")} - {$:item.access_type}
+  {"Access value"|i18n("design/standard/setup")} - {$:item.access_type_value}
+  {"E-mail"|i18n("design/standard/setup")} - {$:item.email}
+
+{/section}
 
 {"PHP info:"|i18n("design/standard/setup")}
 {"Version"|i18n("design/standard/setup")} - {$phpversion.found}

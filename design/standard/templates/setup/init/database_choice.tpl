@@ -3,15 +3,10 @@
 
 <form method="post" action="{$script}">
 
-{section show=$database_list|gt(1)}
+<h1>{"Choose database"|i18n("design/standard/setup/init")}</h1>
 <p>
- {"It's time to choose your database, the choice will determine the language support. Once you are done click"|i18n("design/standard/setup/init")} <i>{"Language Options"|i18n("design/standard/setup/init")}</i> {"to continue the setup."|i18n("design/standard/setup/init")}
+ {"We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?"|i18n("design/standard/setup/init")}
 </p>
-{section-else}
-<p>
- {"Your system has support for one database only, it is"|i18n("design/standard/setup/init")} {$database_list[0].name}{", click"|i18n("design/standard/setup/init")} <i>{"Language Options"|i18n("design/standard/setup/init")}</i> {"to continue the setup."|i18n("design/standard/setup/init")}
-</p>
-{/section}
 
 <div class="input_highlight">
 <table border="0" cellspacing="0" cellpadding="0">
@@ -30,6 +25,7 @@
   {section-else}
    <input type="hidden" name="eZSetupDatabaseType" value="{$:item.type}" />
   {/section}
+  {include uri="design:setup/init/steps.tpl"}
   </td>
 </tr>
 <tr>
@@ -46,8 +42,7 @@
 
 
     <div class="buttonblock">
-      <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="defaultbutton" type="submit" name="StepButton_5" value="{'Language Options'|i18n('design/standard/setup/init')} >>" />
+      <input class="defaultbutton" type="submit" name="StepButton" value="{'Language Options'|i18n('design/standard/setup/init')} &gt;&gt;" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>

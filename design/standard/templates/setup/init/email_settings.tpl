@@ -3,9 +3,16 @@
 
 <form method="post" action="{$script}">
 
+<div align="center">
+  <h1>{"E-mail settings"|i18n("design/standard/setup/init")}</h1>
+</div>
+
 <p>
- {"Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration."|i18n("design/standard/setup/init")}
+  {"To be able to send e-mails from eZ publish you need to specify your e-mail settings."|i18n("design/standard/setup/init")}
 </p>
+
+{* {"Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration."|i18n("design/standard/setup/init")} *}
+
 {section show=eq($system.type,"unix")}
 <p>
  {"You can choose from either"|i18n("design/standard/setup/init")} <i>{"sendmail"|i18n("design/standard/setup/init")}</i> {"which must be available on the server or"|i18n("design/standard/setup/init")} <i>{"SMTP"|i18n("design/standard/setup/init")}</i> {"which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support"|i18n("design/standard/setup/init")} <i>{"sendmail"|i18n("design/standard/setup/init")}</i>.
@@ -67,8 +74,8 @@
 </div>
 
   <div class="buttonblock">
-    <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_10" value="{'Site Details'|i18n('design/standard/setup/init')} >>" />
+    {include uri="design:setup/init/steps.tpl"}
+    <input class="defaultbutton" type="submit" name="StepButton" value="&gt;&gt;" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

@@ -2,6 +2,9 @@
 {include uri='design:setup/setup_header.tpl' setup=$setup}
 
 <form method="post" action="{$script}">
+<div align="center">
+  <h1>{"Site registration"|i18n("design/standard/setup/init")}</h1>
+</div>
 
 <p>
  {"If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases."|i18n("design/standard/setup/init")}
@@ -41,8 +44,9 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="defaultbutton" type="submit" name="StepButton_13" value="{'Send Registration'|i18n('design/standard/setup/init')} >" />
-    <input class="button" type="submit" name="StepButton_14" value="{'Skip Registration'|i18n('design/standard/setup/init')} >>" />
+    <input class="defaultbutton" type="submit" name="eZSetupSendRegistration" value="{'Send Registration'|i18n('design/standard/setup/init')} &gt;&gt;" />
+    <input class="button" type="submit" name="eZSetupSkipRegistration" value="{'Skip Registration'|i18n('design/standard/setup/init')} &gt;&gt;" />
   </div>
   {include uri='design:setup/persistence.tpl'}
+  {include uri='design:setup/init/steps.tpl'}
 </form>

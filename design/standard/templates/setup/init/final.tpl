@@ -2,16 +2,15 @@
 {include uri='design:setup/setup_header.tpl' setup=$setup}
 
 <form method="post" action="{$script}">
+<div align="center">
+  <h1>{"Finished!"|i18n("design/standard/setup/init")}</h1>
+</div>
 
-  <div align="center">
-    <h1>{"Site details"|i18n("design/standard/setup/init")}</h1>
-  </div>
+<p>
+  {"eZ publish has been installed with the following site(s)"|i18n("design/standard/setup/init")}
+</p>
 
-  <p>
-    {"You need to specify some information about every site you've installed."|i18n("design/standard/setup/init")}
-  </p>
-
-  <p>
+<p>
   <table border="0" cellspacing="0" cellpadding="0">
     
     <tr>
@@ -22,23 +21,22 @@
           <img src={concat( "/design/standard/images/setup/", $:item.image_file_name )|ezroot}>
         </div>
         <div align="bottom">
-
 	  <table border="0" cellspacing="0" cellpadding="0">
             <tr>
 	      <td>{"Title"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_title" value="{$:item.name|wash}" /></td>
+	      <td>{$:item.name|wash}</td>
 	    </tr>
 	    <tr>
 	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_url" value="http://" /></td>
+	      <td><a href="{$:item.url|wash}">{$:item.url|wash}</a></td>
 	    </tr>
 	    <tr>
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_email" value="admin@localhost" /></td>
+	      <td>{$:item.email|wash}</td>
 	    </tr>
 	    <tr>
 	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
-	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type|wash}" /></td>
+	      <td>{$:item.access_type_value|wash}</td>
 	    </tr>
 	  </table>
 
@@ -54,14 +52,4 @@
     </tr>
 
   </table>      
-  </p>
-
-  {include uri="design:setup/init/steps.tpl"}
-  {include uri="design:setup/persistence.tpl"}
-
-  <div class="buttonblock">
-      <input class="defaultbutton" type="submit" name="StepButton" value="&gt;&gt;" />
-  </div>
-
-
-</form>
+</p>
