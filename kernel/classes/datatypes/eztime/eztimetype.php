@@ -124,6 +124,22 @@ class eZTimeType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return (int)$contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'int';
+    }
+
+    /*!
      Set class attribute value for template version
     */
     function initializeClassAttribute( &$classAttribute )
