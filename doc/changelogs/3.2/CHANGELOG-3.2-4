@@ -30,6 +30,10 @@ Changes from 3.2-3 to 3.2-4
 - Changed behaviour when deleting nodes fra tree. Objects placed in the tree as secondary location are now NOT deleted. Please see
   this bug report for more information : http://ez.no/developer/ez_publish_3/bug_reports/critical_deleting_a_node_not_the_main_causes_unwanted_removal_of_object
 - Fixed bug of unable to save unregisted link in xml textfield.
+- Changed the caching of eZPreferences in session to use an array for all variables, this makes it
+  easier to cleanup up. The preferences are now cleared on login/logout.
+- Changed the caching of user information and user groups in sessions, the new method uses arrays
+  and is easier to cleanup.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
