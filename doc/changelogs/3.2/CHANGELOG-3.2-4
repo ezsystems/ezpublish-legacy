@@ -77,6 +77,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed eZContentBrowseRecent count SQL.
 - Fixed missing workflow_event_pos in ezcontentobject_version table definition, plain package postgresql:
   http://www.ez.no/developer/ez_publish_3/bug_reports/sql_error_with_postgresql_database
+- Fixed fetching object list with several classes in class filter : http://www.ez.no/developer/ez_publish_3/bug_reports/kernelbug_fetching_class_lists
 
 *Library :
 

@@ -616,6 +616,7 @@ class eZContentClass extends eZPersistentObject
     function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false )
     {
+        var_dump ( $classFilter );
         $conds = array();
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
@@ -623,22 +624,39 @@ class eZContentClass extends eZPersistentObject
             $conds["creator_id"] = $user_id;
         if ( $classFilter )
         {
+            $classIDCount = 0;
+            $classIdentifierCount = 0;
+
             $classIDFilter = array();
             $classIdentifierFilter = array();
             foreach ( $classFilter as $classType )
             {
                 if ( is_numeric( $classType ) )
+                {
                     $classIDFilter[] = $classType;
+                    $classIDCount++;
+                }
                 else
-                    $classIdentifierFilter = $classType;
+                {
+                    $classIdentifierFilter[] = $classType;
+                    $classIdentifierCount++;
+                }
             }
-            if ( count( $classIDFilter ) > 0 )
-                $conds['id'] = $classIDFilter;
-            if ( count( $classIdentifierFilter ) > 0 )
-                $conds['identifier'] = $classIdentifierFilter;
+
+            if ( $classIDCount > 1 )
+                $conds['id'] = array( $classIDFilter );
+            else if ( $classIDCount == 1 )
+                $conds['id'] = $classIDFilter[0];
+            if ( $classIdentifierCount > 1 )
+                $conds['identifier'] = array( $classIdentifierFilter );
+            else if ( $classIdentifierCount == 1 )
+                $conds['identifier'] = $classIdentifierFilter[0];
         }
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
-                                                    $fields, $conds, $sorts, null,
+                                                    $fields,
+                                                    $conds,
+                                                    $sorts,
+                                                    null,
                                                     $asObject );
     }
 
