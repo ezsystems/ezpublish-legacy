@@ -34,6 +34,14 @@
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
 	      <td>{$:item.email|wash}</td>
 	    </tr>
+	    <tr>
+	      <td>{"Username"|i18n("design/standard/setup/init")}: </td>
+	      <td>admin</td>
+	    </tr>
+	    <tr>
+	      <td>{"Password"|i18n("design/standard/setup/init")}: </td>
+	      <td>publish</td>
+	    </tr>
 {*	    <tr>
 	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
 	      <td>{$:item.access_type_value|wash}</td>

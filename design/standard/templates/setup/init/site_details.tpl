@@ -12,20 +12,25 @@
   </p>
 
 {section show=eq( $site_access_illegal, 1 )}
+<blockquote class="error">
 <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
   {"Do not use 'admin', 'user' or equal site access values. Please change site illegal access values on sites indicated by *"|i18n("design/standard/setup/init")}
 </p>
+</blockquote>
  {/section}
 
 {section show=eq( $db_already_chosen, 1 )}
+<blockquote class="error">
 <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
   {"You have chosen the same database for two or more site templates. Please change where indicated by *"|i18n("design/standard/setup/init")}
 </p>
+</blockquote>
 {/section}
 
 {section show=eq( $db_not_empty, 1 )}
+<blockquote class="error">
 <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
  {"One or more of your databases already contain data."|i18n("design/standard/setup/init")}
@@ -34,6 +39,7 @@
 <p>
  {"Select what to do from the dropdown box(es)."|i18n("design/standard/setup/init")}
 </p>
+</blockquote>
 {/section}
 
   <p>
@@ -44,7 +50,7 @@
 
       <td class="setup_site_templates">
         <div align="top">
-	  {section show=eq( $:item.site_access_illegal, 1 )}*{/section}
+	  {section show=eq( $:item.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
           {section show=$:item.image_file_name}
             <img src={$:item.image_file_name|ezroot}>
           {section-else}
@@ -98,7 +104,7 @@
 	    </tr>
 
 	    <tr>
-	      <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $:item.db_already_chosen, 1 )}*{/section}: </td>
+	      <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $:item.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
 	      <td>
 	        {section show=count( $database_available )|gt(0) }
 		  <select name="eZSetup_site_templates_{$:index}_database">
@@ -107,7 +113,7 @@
 		  {/section}
 		  </select>
 		{section-else}
-		  <input type="text" size="20" name="eZSetup_site_templates_{$:index}_database" value="{section show=count($SiteTemplate:item.database)}{$SiteTemplate:item.database}{section-else}{$database_default}{/section}" />
+		  <input type="text" size="30" name="eZSetup_site_templates_{$:index}_database" value="{section show=count($SiteTemplate:item.database)}{$SiteTemplate:item.database}{section-else}{$database_default}{/section}" />
 		{/section}
 	      </td>
 	    </tr>
@@ -143,7 +149,7 @@
   {include uri="design:setup/persistence.tpl"}
 
   <div class="buttonblock">
-      <input class="defaultbutton" type="submit" name="StepButton" value="&gt;&gt;" />
+      <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
   </div>
 
 
