@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-class>
+  <name>Forum reply</name>
+  <identifier>forum_reply</identifier>
+  <remote-id>80ee42a66b2b8b6ee15f5c5f4b361562</remote-id>
+  <object-name-pattern>&lt;subject&gt;</object-name-pattern>
+  <remote>
+    <site-url>http://ez.no/</site-url>
+    <url>http://ez.no/class/view/18</url>
+    <groups>
+      <group id="1"
+             name="Content" />
+    </groups>
+    <id>18</id>
+    <created>1082533579</created>
+    <modified>1082533579</modified>
+    <creator>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </creator>
+    <modifier>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </modifier>
+  </remote>
+  <attributes xmlns:ezcontentclass-attribute="http://ezpublish/contentclassattribute">
+    <attribute datatype="ezstring"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>187</id>
+      </remote>
+      <name>Subject</name>
+      <identifier>subject</identifier>
+      <placement>1</placement>
+      <datatype-parameters>
+        <max-length>0</max-length>
+        <default-string />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="eztext"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>188</id>
+      </remote>
+      <name>Message</name>
+      <identifier>message</identifier>
+      <placement>2</placement>
+      <datatype-parameters>
+        <text-column-count>10</text-column-count>
+      </datatype-parameters>
+    </attribute>
+  </attributes>
+</content-class>

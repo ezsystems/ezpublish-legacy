@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-object>
+  <object-list>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="56"
+            name=" News"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="1"
+            ezremote:published="Apr 20 2004 14:57:45"
+            ezremote:modified="Apr 20 2004 14:57:45"
+            remote_id="fade9b4882ffea151a9b10043ff7cb25"
+            class_remote_id="a3d405b81be900468eb153d774f4f0d2"
+            ezremote:class_identifier="folder">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="181"
+                                ezremote:identifier="name"
+                                name="Name"
+                                type="ezstring">
+              <text>Latest news</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="182"
+                                ezremote:identifier="short_name"
+                                name="Short name"
+                                type="ezstring">
+              <text>News</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="183"
+                                ezremote:identifier="short_description"
+                                name="Short description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>
+                  <line>This is a demo folder for the latest news on this site. It also contains some demo folders.</line>
+                </paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="184"
+                                ezremote:identifier="description"
+                                name="Description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="185"
+                                ezremote:identifier="show_children"
+                                name="Show children"
+                                type="ezboolean">
+              <value>1</value>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             name=""
+                             node-id="58"
+                             remote-id="fade9b4882ffea151a9b10043ff7cb25"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="58"
+            name="Demo news #1"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="2"
+            ezremote:published="Apr 20 2004 15:01:05"
+            ezremote:modified="Apr 20 2004 15:01:05"
+            remote_id="97c77fd5821104f9fd626ffcd89d9e4c"
+            class_remote_id="c15b600eb9198b1924063b5a68758232"
+            ezremote:class_identifier="article">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="186"
+                                ezremote:identifier="title"
+                                name="Title"
+                                type="ezstring">
+              <text>Demo news #1</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="187"
+                                ezremote:identifier="short_title"
+                                name="Short title"
+                                type="ezstring">
+              <text></text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="188"
+                                ezremote:identifier="author"
+                                name="Author"
+                                type="ezauthor">
+              <ezauthor>
+                <authors>
+                  <author id="0"
+                          name="Administrator User"
+                          email="nospam@ez.no" />
+                </authors>
+              </ezauthor>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="189"
+                                ezremote:identifier="intro"
+                                name="Intro"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Here is a demo of the news section. It will show     
+    
+                  <emphasize>some</emphasize> example formatting that you can use in your own news articles.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="190"
+                                ezremote:identifier="body"
+                                name="Body"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <section>
+                  <header>Header level 1</header>
+                  <paragraph>
+                    <line>A         
+        
+                      <link id="8">link to ez.no</link>
+                    </line>
+                    <line>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed nibh risus, congue a, tempus vel, fermentum sed, purus. Fusce metus. Duis tempus vulputate neque. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur commodo ultrices neque.</line>
+                  </paragraph>
+                  <paragraph>
+                    <custom name="factbox"
+                            custom:title="A demo factbox">
+                      <paragraph>
+                        <line>A factbox is a very nice way of boxing in content ;) Just like this.</line>
+                      </paragraph>
+                    </custom>
+                  </paragraph>
+                  <paragraph>
+                    <ul>
+                      <li>List item</li>
+                      <li>List item</li>
+                      <li>List item</li>
+                    </ul>
+                  </paragraph>
+                  <paragraph>
+                    <ol>
+                      <li>List item</li>
+                      <li>List item</li>
+                      <li>List item</li>
+                    </ol>
+                  </paragraph>
+                  <section>
+                    <header>Header level 2</header>
+                    <paragraph>
+                      <line>
+                        <strong>Some code examples</strong>
+                      </line>
+                      <literal>&lt;html&gt;
+&lt;body&gt;text&lt;/body&gt;
+&lt;/html&gt;
+</literal>
+                    </paragraph>
+                  </section>
+                </section>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="191"
+                                ezremote:identifier="enable_comments"
+                                name="Enable comments"
+                                type="ezboolean">
+              <value>1</value>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="192"
+                                ezremote:identifier="image"
+                                name="Image"
+                                type="ezobjectrelation">
+              <data-int>0</data-int>
+              <data-float>0</data-float>
+              <data-text></data-text>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="fade9b4882ffea151a9b10043ff7cb25"
+                             name=""
+                             node-id="60"
+                             remote-id="97c77fd5821104f9fd626ffcd89d9e4c"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="60"
+            name="Article comment test"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="13"
+            ezremote:published="Apr 20 2004 15:03:28"
+            ezremote:modified="Apr 20 2004 15:03:28"
+            remote_id="5c4d45a71e39a9a198742384c078fd2e"
+            class_remote_id="000c14f4f475e9f2955dedab72799941"
+            ezremote:class_identifier="comment">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="193"
+                                ezremote:identifier="subject"
+                                name="Subject"
+                                type="ezstring">
+              <text>Article comment test</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="194"
+                                ezremote:identifier="author"
+                                name="Author"
+                                type="ezstring">
+              <text>Administrator User</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="195"
+                                ezremote:identifier="message"
+                                name="Message"
+                                type="eztext">
+              <text>You can add comments to articles. The editor chooses if he wants to enable or disable the comments for the given article.</text>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="97c77fd5821104f9fd626ffcd89d9e4c"
+                             name=""
+                             node-id="62"
+                             remote-id="5c4d45a71e39a9a198742384c078fd2e"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="62"
+            name="Latest updates from us"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="2"
+            ezremote:published="Apr 20 2004 15:16:24"
+            ezremote:modified="Apr 20 2004 15:16:24"
+            remote_id="ba1e8e60a530c7a461d677eaae0e33c8"
+            class_remote_id="c15b600eb9198b1924063b5a68758232"
+            ezremote:class_identifier="article">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="196"
+                                ezremote:identifier="title"
+                                name="Title"
+                                type="ezstring">
+              <text>Latest updates from us</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="197"
+                                ezremote:identifier="short_title"
+                                name="Short title"
+                                type="ezstring">
+              <text></text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="198"
+                                ezremote:identifier="author"
+                                name="Author"
+                                type="ezauthor">
+              <ezauthor>
+                <authors>
+                  <author id="0"
+                          name="John Doe"
+                          email="nospam@ez.no" />
+                </authors>
+              </ezauthor>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="199"
+                                ezremote:identifier="intro"
+                                name="Intro"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed nibh risus, congue a, tempus vel, fermentum sed, purus. Fusce metus. Duis tempus vulputate neque. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur commodo ultrices neque.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="200"
+                                ezremote:identifier="body"
+                                name="Body"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>
+                  <custom name="factbox"
+                          custom:title="Table information">
+                    <paragraph>Tables can be useful to group information in cells and columns, but you already know that ;)</paragraph>
+                  </custom>
+                </paragraph>
+                <section>
+                  <header>An example of table</header>
+                  <paragraph>
+                    <table>
+                      <tr>
+                        <td>
+                          <paragraph>First cell</paragraph>
+                        </td>
+                        <td>
+                          <paragraph>Second cell</paragraph>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <paragraph>Third cell</paragraph>
+                        </td>
+                        <td>
+                          <paragraph>Fourth cell              
+              
+                            <strong>with some formatted content</strong>
+                          </paragraph>
+                        </td>
+                      </tr>
+                    </table>
+                  </paragraph>
+                </section>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="201"
+                                ezremote:identifier="enable_comments"
+                                name="Enable comments"
+                                type="ezboolean">
+              <value>1</value>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="202"
+                                ezremote:identifier="image"
+                                name="Image"
+                                type="ezobjectrelation">
+              <data-int>0</data-int>
+              <data-float>0</data-float>
+              <data-text></data-text>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="fade9b4882ffea151a9b10043ff7cb25"
+                             name=""
+                             node-id="64"
+                             remote-id="ba1e8e60a530c7a461d677eaae0e33c8"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+  </object-list>
+  <override-list>
+    <block name="full_folder"
+           site-access="base">
+      <full_folder Source="node/view/full.tpl"
+                   MatchFile="full/folder.tpl"
+                   Subdir="templates">
+        <Match class_identifier="folder" />
+      </full_folder>
+    </block>
+    <block name="line_folder"
+           site-access="base">
+      <line_folder Source="node/view/line.tpl"
+                   MatchFile="line/folder.tpl"
+                   Subdir="templates">
+        <Match class_identifier="folder" />
+      </line_folder>
+    </block>
+    <block name="embed_folder_list"
+           site-access="base">
+      <embed_folder_list Source="content/view/embed.tpl"
+                         MatchFile="embed/folder_list.tpl"
+                         Subdir="templates">
+        <Match class_identifier="folder"
+               classification="list" />
+      </embed_folder_list>
+    </block>
+    <block name="embed_folder_subtree"
+           site-access="base">
+      <embed_folder_subtree Source="content/view/embed.tpl"
+                            MatchFile="embed/folder_subtree.tpl"
+                            Subdir="templates">
+        <Match class_identifier="folder"
+               classification="subtreelist" />
+      </embed_folder_subtree>
+    </block>
+    <block name="embed_folder_contentlist"
+           site-access="base">
+      <embed_folder_contentlist Source="content/view/embed.tpl"
+                                MatchFile="embed/folder_contentlist.tpl"
+                                Subdir="templates">
+        <Match class_identifier="folder" />
+      </embed_folder_contentlist>
+    </block>
+    <block name="file_binaryfile"
+           site-access="base">
+      <file_binaryfile Source="content/datatype/view/ezbinaryfile.tpl"
+                       MatchFile="datatype/ezbinaryfile.tpl"
+                       Subdir="templates" />
+    </block>
+    <block name="poll_result"
+           site-access="base">
+      <poll_result Source="content/collectedinfo/poll.tpl"
+                   MatchFile="collectedinfo/poll_result.tpl"
+                   Subdir="templates" />
+    </block>
+    <block name="factbox"
+           site-access="base">
+      <factbox Source="content/datatype/view/ezxmltags/factbox.tpl"
+               MatchFile="datatype/ezxmltext/factbox.tpl"
+               Subdir="templates" />
+    </block>
+    <block name="quote"
+           site-access="base">
+      <quote Source="content/datatype/view/ezxmltags/quote.tpl"
+             MatchFile="datatype/ezxmltext/quote.tpl"
+             Subdir="templates" />
+    </block>
+    <block name="price"
+           site-access="base">
+      <price Source="content/datatype/view/ezprice.tpl"
+             MatchFile="datatype/price.tpl"
+             Subdir="templates" />
+    </block>
+    <block name="matrix"
+           site-access="base">
+      <matrix Source="content/datatype/view/ezmatrix.tpl"
+              MatchFile="datatype/ezmatrix/view.tpl"
+              Subdir="templates" />
+    </block>
+    <block name="edit_matrix"
+           site-access="base">
+      <edit_matrix Source="content/datatype/edit/ezmatrix.tpl"
+                   MatchFile="datatype/ezmatrix/edit.tpl"
+                   Subdir="templates" />
+    </block>
+    <block name="article_full"
+           site-access="base">
+      <article_full Source="node/view/full.tpl"
+                    MatchFile="full/article.tpl"
+                    Subdir="templates">
+        <Match class_identifier="article" />
+      </article_full>
+    </block>
+    <block name="article_line"
+           site-access="base">
+      <article_line Source="node/view/line.tpl"
+                    MatchFile="line/article.tpl"
+                    Subdir="templates">
+        <Match class_identifier="article" />
+      </article_line>
+    </block>
+    <block name="article_listitem"
+           site-access="base">
+      <article_listitem Source="node/view/listitem.tpl"
+                        MatchFile="listitem/article.tpl"
+                        Subdir="templates">
+        <Match class_identifier="article" />
+      </article_listitem>
+    </block>
+    <block name="article_embed"
+           site-access="base">
+      <article_embed Source="content/view/embed.tpl"
+                     MatchFile="embed/article.tpl"
+                     Subdir="templates">
+        <Match class_identifier="article" />
+      </article_embed>
+    </block>
+    <block name="class_image"
+           site-access="base">
+      <class_image Source="content/datatype/view/ezobjectrelation.tpl"
+                   MatchFile="datatype/ezobjectrelation/image.tpl"
+                   Subdir="templates">
+        <Match class_identifier="article" />
+      </class_image>
+    </block>
+    <block name="pdf_article_main"
+           site-access="base">
+      <pdf_article_main Source="node/view/pdf.tpl"
+                        MatchFile="pdf/article/main.tpl"
+                        Subdir="templates">
+        <Match class_identifier="article" />
+      </pdf_article_main>
+    </block>
+    <block name="pdf_article_title"
+           site-access="base">
+      <pdf_article_title Source="content/datatype/pdf/ezstring.tpl"
+                         MatchFile="pdf/article/title.tpl"
+                         Subdir="templates">
+        <Match class_identifier="article"
+               attribute_identifier="title" />
+      </pdf_article_title>
+    </block>
+    <block name="pdf_article_author"
+           site-access="base">
+      <pdf_article_author Source="content/datatype/pdf/ezauthor.tpl"
+                          MatchFile="pdf/article/author.tpl"
+                          Subdir="templates">
+        <Match class_identifier="article"
+               attribute_identifier="author" />
+      </pdf_article_author>
+    </block>
+    <block name="pdf_article_xml_headers"
+           site-access="base">
+      <pdf_article_xml_headers Source="content/datatype/pdf/ezxmltags/header.tpl"
+                               MatchFile="pdf/article/xml_header.tpl"
+                               Subdir="templates">
+        <Match class_identifier="article" />
+      </pdf_article_xml_headers>
+    </block>
+    <block name="pdf_article_xml_paragraph"
+           site-access="base">
+      <pdf_article_xml_paragraph Source="content/datatype/pdf/ezxmltags/paragraph.tpl"
+                                 MatchFile="pdf/article/xml_paragraph.tpl"
+                                 Subdir="templates">
+        <Match class_identifier="article" />
+      </pdf_article_xml_paragraph>
+    </block>
+    <block name="pdf_article_footer"
+           site-access="base">
+      <pdf_article_footer Source="content/pdf/footer.tpl"
+                          MatchFile="pdf/article/footer.tpl">
+        <Match class_identifier="article" />
+      </pdf_article_footer>
+    </block>
+    <block name="pdf_article_embed_image"
+           site-access="base">
+      <pdf_article_embed_image Source="content/pdf/embed.tpl"
+                               MatchFile="pdf/article/image.tpl">
+        <Match class_identifier="article" />
+      </pdf_article_embed_image>
+    </block>
+    <block name="full_comment"
+           site-access="base">
+      <full_comment Source="node/view/full.tpl"
+                    MatchFile="full/comment.tpl"
+                    Subdir="templates"
+                    content_class_remote_id="000c14f4f475e9f2955dedab72799941">
+        <Match class="13" />
+      </full_comment>
+    </block>
+    <block name="line_comment"
+           site-access="base">
+      <line_comment Source="node/view/line.tpl"
+                    MatchFile="line/comment.tpl"
+                    Subdir="templates">
+        <Match class_identifier="comment" />
+      </line_comment>
+    </block>
+    <block name="edit_comment"
+           site-access="base">
+      <edit_comment Source="content/edit.tpl"
+                    MatchFile="edit/comment.tpl"
+                    Subdir="templates">
+        <Match class_identifier="comment" />
+      </edit_comment>
+    </block>
+  </override-list>
+  <template-list>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/full/folder.tpl</original-path>
+      <path>/override/templates/full/folder.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/folder.tpl</original-path>
+      <path>/override/templates/line/folder.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_list.tpl</original-path>
+      <path>/override/templates/embed/folder_list.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_subtree.tpl</original-path>
+      <path>/override/templates/embed/folder_subtree.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_contentlist.tpl</original-path>
+      <path>/override/templates/embed/folder_contentlist.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezbinaryfile.tpl</original-path>
+      <path>/override/templates/datatype/ezbinaryfile.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/collectedinfo/poll_result.tpl</original-path>
+      <path>/override/templates/collectedinfo/poll_result.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezxmltext/factbox.tpl</original-path>
+      <path>/override/templates/datatype/ezxmltext/factbox.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezxmltext/quote.tpl</original-path>
+      <path>/override/templates/datatype/ezxmltext/quote.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/price.tpl</original-path>
+      <path>/override/templates/datatype/price.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezmatrix/view.tpl</original-path>
+      <path>/override/templates/datatype/ezmatrix/view.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezmatrix/edit.tpl</original-path>
+      <path>/override/templates/datatype/ezmatrix/edit.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/full/article.tpl</original-path>
+      <path>/override/templates/full/article.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/article.tpl</original-path>
+      <path>/override/templates/line/article.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/listitem/article.tpl</original-path>
+      <path>/override/templates/listitem/article.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/article.tpl</original-path>
+      <path>/override/templates/embed/article.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezobjectrelation/image.tpl</original-path>
+      <path>/override/templates/datatype/ezobjectrelation/image.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/main.tpl</original-path>
+      <path>/override/templates/pdf/article/main.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/title.tpl</original-path>
+      <path>/override/templates/pdf/article/title.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/author.tpl</original-path>
+      <path>/override/templates/pdf/article/author.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/xml_header.tpl</original-path>
+      <path>/override/templates/pdf/article/xml_header.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/xml_paragraph.tpl</original-path>
+      <path>/override/templates/pdf/article/xml_paragraph.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/footer.tpl</original-path>
+      <path>/override/templates/pdf/article/footer.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/pdf/article/image.tpl</original-path>
+      <path>/override/templates/pdf/article/image.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/full/comment.tpl</original-path>
+      <path>/override/templates/full/comment.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/comment.tpl</original-path>
+      <path>/override/templates/line/comment.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/edit/comment.tpl</original-path>
+      <path>/override/templates/edit/comment.tpl</path>
+    </file>
+  </template-list>
+  <fetch-alias-list>
+    <fetch-alias name="children"
+                 site-access="base">
+      <children Module="content"
+                FunctionName="list">
+        <Constant sort_by="priority;0" />
+        <Parameter parent_node_id="parent_node_id"
+                   offset="offset"
+                   limit="limit" />
+      </children>
+    </fetch-alias>
+    <fetch-alias name="children_count"
+                 site-access="base">
+      <children_count Module="content"
+                      FunctionName="list_count"
+                      Constant="">
+        <Parameter parent_node_id="parent_node_id" />
+      </children_count>
+    </fetch-alias>
+    <fetch-alias name="subtree"
+                 site-access="base">
+      <subtree Module="content"
+               FunctionName="tree">
+        <Constant sort_by="priority;0" />
+        <Parameter parent_node_id="parent_node_id"
+                   offset="offset"
+                   limit="limit" />
+      </subtree>
+    </fetch-alias>
+    <fetch-alias name="comments"
+                 site-access="base">
+      <comments Module="content"
+                FunctionName="list">
+        <Constant sort_by="published;0"
+                  class_filter_type="include"
+                  class_filter_array="comment" />
+        <Parameter parent_node_id="parent_node_id" />
+      </comments>
+    </fetch-alias>
+  </fetch-alias-list>
+  <site-access-list>
+    <site-access>base</site-access>
+  </site-access-list>
+  <top-node-list>
+    <top-node node-id="58"
+              remote-id="fade9b4882ffea151a9b10043ff7cb25"> News</top-node>
+  </top-node-list>
+</content-object>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-class>
+  <name>Forum topic</name>
+  <identifier>forum_topic</identifier>
+  <remote-id>71f99c516743a33562c3893ef98c9b60</remote-id>
+  <object-name-pattern>&lt;subject&gt;</object-name-pattern>
+  <remote>
+    <site-url>http://ez.no/</site-url>
+    <url>http://ez.no/class/view/17</url>
+    <groups>
+      <group id="1"
+             name="Content" />
+    </groups>
+    <id>17</id>
+    <created>1082533577</created>
+    <modified>1082533577</modified>
+    <creator>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </creator>
+    <modifier>
+      <user-id>14</user-id>
+      <user-login>admin</user-login>
+    </modifier>
+  </remote>
+  <attributes xmlns:ezcontentclass-attribute="http://ezpublish/contentclassattribute">
+    <attribute datatype="ezstring"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>183</id>
+      </remote>
+      <name>Subject</name>
+      <identifier>subject</identifier>
+      <placement>1</placement>
+      <datatype-parameters>
+        <max-length>0</max-length>
+        <default-string />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="eztext"
+               required="true"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>184</id>
+      </remote>
+      <name>Message</name>
+      <identifier>message</identifier>
+      <placement>2</placement>
+      <datatype-parameters>
+        <text-column-count>10</text-column-count>
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezboolean"
+               required="false"
+               searchable="true"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>185</id>
+      </remote>
+      <name>Sticky</name>
+      <identifier>sticky</identifier>
+      <placement>3</placement>
+      <datatype-parameters>
+        <default-value is-set="false" />
+      </datatype-parameters>
+    </attribute>
+    <attribute datatype="ezsubtreesubscription"
+               required="false"
+               searchable="false"
+               information-collector="false"
+               translatable="true">
+      <remote>
+        <id>186</id>
+      </remote>
+      <name>Notify me about updates</name>
+      <identifier>notify_me</identifier>
+      <placement>4</placement>
+      <datatype-parameters />
+    </attribute>
+  </attributes>
+</content-class>

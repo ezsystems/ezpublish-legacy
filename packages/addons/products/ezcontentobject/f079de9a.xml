@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-object>
+  <object-list>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="66"
+            name=" Products"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="1"
+            ezremote:published="Apr 21 2004 10:00:37"
+            ezremote:modified="Apr 21 2004 10:00:37"
+            remote_id="1bd02326e11c6b7fb2d14324c47b5b9a"
+            class_remote_id="a3d405b81be900468eb153d774f4f0d2"
+            ezremote:class_identifier="folder">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="208"
+                                ezremote:identifier="name"
+                                name="Name"
+                                type="ezstring">
+              <text>Products</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="209"
+                                ezremote:identifier="short_name"
+                                name="Short name"
+                                type="ezstring">
+              <text></text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="210"
+                                ezremote:identifier="short_description"
+                                name="Short description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>This is some example data for products in eZ publish.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="211"
+                                ezremote:identifier="description"
+                                name="Description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="212"
+                                ezremote:identifier="show_children"
+                                name="Show children"
+                                type="ezboolean">
+              <value>1</value>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             name=""
+                             node-id="68"
+                             remote-id="1bd02326e11c6b7fb2d14324c47b5b9a"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="68"
+            name="Cube"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="19"
+            ezremote:published="Apr 21 2004 10:09:25"
+            ezremote:modified="Apr 21 2004 10:09:25"
+            remote_id="790a4e7d7ff441c7778a57b9ea204457"
+            class_remote_id="0115ac3b3e93096c29f2f4ff65b08856"
+            ezremote:class_identifier="product">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="213"
+                                ezremote:identifier="name"
+                                name="Name"
+                                type="ezstring">
+              <text>Cube</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="214"
+                                ezremote:identifier="product_number"
+                                name="Product number"
+                                type="ezstring">
+              <text>C100</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="215"
+                                ezremote:identifier="short_description"
+                                name="Short description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="216"
+                                ezremote:identifier="description"
+                                name="Description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="217"
+                                ezremote:identifier="image"
+                                name="Image"
+                                type="ezobjectrelation">
+              <data-int>0</data-int>
+              <data-float>0</data-float>
+              <data-text></data-text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="218"
+                                ezremote:identifier="price"
+                                name="Price"
+                                type="ezprice">
+              <price>42</price>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="1bd02326e11c6b7fb2d14324c47b5b9a"
+                             name=""
+                             node-id="70"
+                             remote-id="790a4e7d7ff441c7778a57b9ea204457"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="70"
+            name="Black box"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="19"
+            ezremote:published="Apr 21 2004 10:10:29"
+            ezremote:modified="Apr 21 2004 10:10:29"
+            remote_id="dde8244c68b3b0ab53c7bfc3d3149b19"
+            class_remote_id="0115ac3b3e93096c29f2f4ff65b08856"
+            ezremote:class_identifier="product">
+      <version-list active_version="1"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="1"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="219"
+                                ezremote:identifier="name"
+                                name="Name"
+                                type="ezstring">
+              <text>Black box</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="220"
+                                ezremote:identifier="product_number"
+                                name="Product number"
+                                type="ezstring">
+              <text>BB42</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="221"
+                                ezremote:identifier="short_description"
+                                name="Short description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="222"
+                                ezremote:identifier="description"
+                                name="Description"
+                                type="ezxmltext">
+              <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+                       xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+                       xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+                <paragraph>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</paragraph>
+              </section>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="223"
+                                ezremote:identifier="image"
+                                name="Image"
+                                type="ezobjectrelation">
+              <data-int>0</data-int>
+              <data-float>0</data-float>
+              <data-text></data-text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="224"
+                                ezremote:identifier="price"
+                                name="Price"
+                                type="ezprice">
+              <price>189</price>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="1bd02326e11c6b7fb2d14324c47b5b9a"
+                             name=""
+                             node-id="72"
+                             remote-id="dde8244c68b3b0ab53c7bfc3d3149b19"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+    <object xmlns:ezremote="http://ez.no/ezobject"
+            ezremote:id="72"
+            name="Very good, indeed"
+            ezremote:section_id="1"
+            ezremote:owner_id="14"
+            ezremote:class_id="21"
+            ezremote:published="Apr 21 2004 10:16:56"
+            ezremote:modified="Apr 21 2004 10:18:50"
+            remote_id="8b89b3f059479969259faa15ee718a37"
+            class_remote_id="308a7f5ceb91e1ed1c8761033b12d6ee"
+            ezremote:class_identifier="review">
+      <version-list active_version="2"
+                    xmlns:ezobject="http://ez.no/object/">
+        <ezobject:version version="2"
+                          status="1">
+          <ezobject:object-translation language="eng-GB">
+            <ezobject:attribute ezremote:id="225"
+                                ezremote:identifier="summary"
+                                name="Summary"
+                                type="ezstring">
+              <text>Very good, indeed</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="226"
+                                ezremote:identifier="author"
+                                name="Author"
+                                type="ezstring">
+              <text>John Doe</text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="227"
+                                ezremote:identifier="message"
+                                name="Message"
+                                type="eztext">
+              <text>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer tellus libero, euismod sed, gravida nec, tincidunt vitae, urna. Nam feugiat nulla ac quam. Nulla tincidunt, nulla quis luctus ornare, odio mauris lobortis velit, ut eleifend ligula risus a purus. Integer mauris dolor, suscipit sit amet, interdum vel, laoreet id, pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In tincidunt dictum est. Curabitur fermentum est sit amet massa. Morbi ligula ipsum, euismod ac, viverra at, bibendum id, lacus. Morbi mi arcu, venenatis et, sagittis vitae, semper eu, wisi. Aliquam suscipit. </text>
+            </ezobject:attribute>
+            <ezobject:attribute ezremote:id="228"
+                                ezremote:identifier="rating"
+                                name="Rating"
+                                type="ezselection">
+              <data-int>0</data-int>
+              <data-float>0</data-float>
+              <data-text>0</data-text>
+            </ezobject:attribute>
+          </ezobject:object-translation>
+          <ezobject:node-assignment-list>
+            <node-assignment is-main-node="1"
+                             parent-node-remote-id="dde8244c68b3b0ab53c7bfc3d3149b19"
+                             name=""
+                             node-id="74"
+                             remote-id="8b89b3f059479969259faa15ee718a37"
+                             sort-field="published"
+                             sort-order="0"
+                             priority="0" />
+          </ezobject:node-assignment-list>
+        </ezobject:version>
+      </version-list>
+    </object>
+  </object-list>
+  <override-list>
+    <block name="full_folder"
+           site-access="base">
+      <full_folder Source="node/view/full.tpl"
+                   MatchFile="full/folder.tpl"
+                   Subdir="templates">
+        <Match class_identifier="folder" />
+      </full_folder>
+    </block>
+    <block name="line_folder"
+           site-access="base">
+      <line_folder Source="node/view/line.tpl"
+                   MatchFile="line/folder.tpl"
+                   Subdir="templates">
+        <Match class_identifier="folder" />
+      </line_folder>
+    </block>
+    <block name="embed_folder_list"
+           site-access="base">
+      <embed_folder_list Source="content/view/embed.tpl"
+                         MatchFile="embed/folder_list.tpl"
+                         Subdir="templates">
+        <Match class_identifier="folder"
+               classification="list" />
+      </embed_folder_list>
+    </block>
+    <block name="embed_folder_subtree"
+           site-access="base">
+      <embed_folder_subtree Source="content/view/embed.tpl"
+                            MatchFile="embed/folder_subtree.tpl"
+                            Subdir="templates">
+        <Match class_identifier="folder"
+               classification="subtreelist" />
+      </embed_folder_subtree>
+    </block>
+    <block name="embed_folder_contentlist"
+           site-access="base">
+      <embed_folder_contentlist Source="content/view/embed.tpl"
+                                MatchFile="embed/folder_contentlist.tpl"
+                                Subdir="templates">
+        <Match class_identifier="folder" />
+      </embed_folder_contentlist>
+    </block>
+    <block name="file_binaryfile"
+           site-access="base">
+      <file_binaryfile Source="content/datatype/view/ezbinaryfile.tpl"
+                       MatchFile="datatype/ezbinaryfile.tpl"
+                       Subdir="templates" />
+    </block>
+    <block name="poll_result"
+           site-access="base">
+      <poll_result Source="content/collectedinfo/poll.tpl"
+                   MatchFile="collectedinfo/poll_result.tpl"
+                   Subdir="templates" />
+    </block>
+    <block name="factbox"
+           site-access="base">
+      <factbox Source="content/datatype/view/ezxmltags/factbox.tpl"
+               MatchFile="datatype/ezxmltext/factbox.tpl"
+               Subdir="templates" />
+    </block>
+    <block name="quote"
+           site-access="base">
+      <quote Source="content/datatype/view/ezxmltags/quote.tpl"
+             MatchFile="datatype/ezxmltext/quote.tpl"
+             Subdir="templates" />
+    </block>
+    <block name="price"
+           site-access="base">
+      <price Source="content/datatype/view/ezprice.tpl"
+             MatchFile="datatype/price.tpl"
+             Subdir="templates" />
+    </block>
+    <block name="matrix"
+           site-access="base">
+      <matrix Source="content/datatype/view/ezmatrix.tpl"
+              MatchFile="datatype/ezmatrix/view.tpl"
+              Subdir="templates" />
+    </block>
+    <block name="edit_matrix"
+           site-access="base">
+      <edit_matrix Source="content/datatype/edit/ezmatrix.tpl"
+                   MatchFile="datatype/ezmatrix/edit.tpl"
+                   Subdir="templates" />
+    </block>
+    <block name="product_full"
+           site-access="base">
+      <product_full Source="node/view/full.tpl"
+                    MatchFile="full/product.tpl"
+                    Subdir="templates">
+        <Match class_identifier="product" />
+      </product_full>
+    </block>
+    <block name="product_line"
+           site-access="base">
+      <product_line Source="node/view/line.tpl"
+                    MatchFile="line/product.tpl"
+                    Subdir="templates">
+        <Match class_identifier="product" />
+      </product_line>
+    </block>
+    <block name="product_embed"
+           site-access="base">
+      <product_embed Source="content/view/embed.tpl"
+                     MatchFile="embed/product.tpl"
+                     Subdir="templates">
+        <Match class_identifier="product" />
+      </product_embed>
+    </block>
+    <block name="product_listitem"
+           site-access="base">
+      <product_listitem Source="node/view/listitem.tpl"
+                        MatchFile="listitem/product.tpl"
+                        Subdir="templates">
+        <Match class_identifier="product" />
+      </product_listitem>
+    </block>
+    <block name="review_line"
+           site-access="base">
+      <review_line Source="node/view/line.tpl"
+                   MatchFile="line/review.tpl"
+                   Subdir="templates">
+        <Match class_identifier="review" />
+      </review_line>
+    </block>
+    <block name="review_edit"
+           site-access="base">
+      <review_edit Source="content/edit.tpl"
+                   MatchFile="edit/review.tpl"
+                   Subdir="templates">
+        <Match class_identifier="review" />
+      </review_edit>
+    </block>
+  </override-list>
+  <template-list>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/full/folder.tpl</original-path>
+      <path>/override/templates/full/folder.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/folder.tpl</original-path>
+      <path>/override/templates/line/folder.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_list.tpl</original-path>
+      <path>/override/templates/embed/folder_list.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_subtree.tpl</original-path>
+      <path>/override/templates/embed/folder_subtree.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/folder_contentlist.tpl</original-path>
+      <path>/override/templates/embed/folder_contentlist.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezbinaryfile.tpl</original-path>
+      <path>/override/templates/datatype/ezbinaryfile.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/collectedinfo/poll_result.tpl</original-path>
+      <path>/override/templates/collectedinfo/poll_result.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezxmltext/factbox.tpl</original-path>
+      <path>/override/templates/datatype/ezxmltext/factbox.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezxmltext/quote.tpl</original-path>
+      <path>/override/templates/datatype/ezxmltext/quote.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/price.tpl</original-path>
+      <path>/override/templates/datatype/price.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezmatrix/view.tpl</original-path>
+      <path>/override/templates/datatype/ezmatrix/view.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/datatype/ezmatrix/edit.tpl</original-path>
+      <path>/override/templates/datatype/ezmatrix/edit.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/full/product.tpl</original-path>
+      <path>/override/templates/full/product.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/product.tpl</original-path>
+      <path>/override/templates/line/product.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/embed/product.tpl</original-path>
+      <path>/override/templates/embed/product.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/listitem/product.tpl</original-path>
+      <path>/override/templates/listitem/product.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/line/review.tpl</original-path>
+      <path>/override/templates/line/review.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/edit/review.tpl</original-path>
+      <path>/override/templates/edit/review.tpl</path>
+    </file>
+  </template-list>
+  <fetch-alias-list>
+    <fetch-alias name="children"
+                 site-access="base">
+      <children Module="content"
+                FunctionName="list">
+        <Constant sort_by="priority;0" />
+        <Parameter parent_node_id="parent_node_id"
+                   offset="offset"
+                   limit="limit" />
+      </children>
+    </fetch-alias>
+    <fetch-alias name="children_count"
+                 site-access="base">
+      <children_count Module="content"
+                      FunctionName="list_count"
+                      Constant="">
+        <Parameter parent_node_id="parent_node_id" />
+      </children_count>
+    </fetch-alias>
+    <fetch-alias name="subtree"
+                 site-access="base">
+      <subtree Module="content"
+               FunctionName="tree">
+        <Constant sort_by="priority;0" />
+        <Parameter parent_node_id="parent_node_id"
+                   offset="offset"
+                   limit="limit" />
+      </subtree>
+    </fetch-alias>
+    <fetch-alias name="reviews"
+                 site-access="base">
+      <reviews Module="content"
+               FunctionName="list">
+        <Constant sort_by="published;0"
+                  class_filter_type="include"
+                  class_filter_array="review" />
+        <Parameter parent_node_id="parent_node_id" />
+      </reviews>
+    </fetch-alias>
+  </fetch-alias-list>
+  <site-access-list>
+    <site-access>base</site-access>
+  </site-access-list>
+  <top-node-list>
+    <top-node node-id="68"
+              remote-id="1bd02326e11c6b7fb2d14324c47b5b9a"> Products</top-node>
+  </top-node-list>
+</content-object>

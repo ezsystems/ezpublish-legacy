@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.4.0alpha1"
+         development="true"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         install_type="install">
+  <warning>This format was made with a development version and will not work with any release versions.
+The format of this file is also subject to change until the release version.
+Upgrades to the development format will not be supported.</warning>
+  <name>Files</name>
+  <summary>Export of 2 nodes.</summary>
+  <description>This package contains the following nodes :
+ Files - subtree
+</description>
+  <type value="contentobject" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.4.0alpha3</version>
+    <named-version>3.4.0alpha3-alpha3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer>
+      <name>Administrator User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1082622596</timestamp>
+    <host>trunk.ezpublish.drakhendvh1.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="LICENCE" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1082622596"
+           person="Administrator User"
+           email="nospam@ez.no"
+           release="1">
+      <change>Creation of package.</change>
+    </entry>
+  </changelog>
+  <simple-files>
+    <b7ad38d1b4a8a17fa279903d84c10888 original-path="var/storage/original/text/phpB9YWj2.txt"
+                                      package-path="simplefiles/2888d648.txt" />
+    <e10c1bd721f0be032e297b1471c87c17 original-path="var/storage/original/application/phpAIgZTx.pdf"
+                                      package-path="simplefiles/3343a885.pdf" />
+  </simple-files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number>1.0</number>
+    <release>1</release>
+  </version>
+  <licence>GPL</licence>
+  <state>stable</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezcontentclass"
+               name="contentclass"
+               value="folder" />
+      <provide type="ezcontentclass"
+               name="contentclass"
+               value="file" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezcontentclass"
+          filename="class-folder"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
+          filename="class-file"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentobject"
+          filename="af64c4f2"
+          sub-directory="ezcontentobject" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezcontentclass"
+          filename="class-folder"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentclass"
+          filename="class-file"
+          sub-directory="ezcontentclass" />
+    <item type="ezcontentobject"
+          filename="af64c4f2"
+          sub-directory="ezcontentobject" />
+  </uninstall>
+</package>
