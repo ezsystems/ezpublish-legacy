@@ -113,7 +113,7 @@ class eZContentFunctionCollection
     function &fetchLocaleList()
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $localeList =& eZLocale::localeList();
+        $localeList =& eZLocale::localeList( true );
         if ( $localeList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

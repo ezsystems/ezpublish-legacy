@@ -422,6 +422,22 @@ class eZLocale
     }
 
     /*!
+     \return a regexp which can be used for locale matching.
+     The following groups are defiend
+     - 1 - The language identifier
+     - 2 - The separator and the country (3)
+     - 3 - The country identifier
+     - 4 - The separator and the charset (5)
+     - 5 - The charset
+     - 6 - The separator and the variation (7)
+     - 7 - The variation
+    */
+    function localeRegexp()
+    {
+        return "([a-zA-Z]+)([_-]([a-zA-Z]+))?(\.([a-zA-Z-]+))?(@([a-zA-Z0-9]+))?";
+    }
+
+    /*!
      Decodes a locale string into language, country and charset and returns an array with the information.
      Country and charset is optional, country is specified with a - or _ followed by the country code (NO, GB),
      charset is specified with a . followed by the charset name.
@@ -1029,28 +1045,35 @@ class eZLocale
         return $name;
     }
 
+    /*!
+     \static
+     \return a list of locale objects which was found in the system.
+    */
     function localeList( $asObject = false )
     {
         $locales =& $GLOBALS['eZLocaleLocaleStringList'];
         if ( !is_array( $locales ) )
         {
+            $localeRegexp = eZLocale::localeRegexp();
             $locales = array();
-            $dir = opendir( 'share/locale/language' );
+            $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
             {
-                if ( preg_match( "/^(.+)\.ini$/", $file, $regs ) )
+                if ( preg_match( "/^($localeRegexp)\.ini$/", $file, $regs ) )
                 {
                     $locales[] = $regs[1];
                 }
             }
             closedir( $dir );
-            sort( $locales );
+            sort( array_unique( $locales ) );
             if ( $asObject )
             {
                 $localeObjects = array();
                 foreach ( $locales as $locale )
                 {
-                    $localeObjects[] = eZLocale::instance( $locale );
+                    $localeInstance =& eZLocale::instance( $locale );
+                    if ( $localeInstance )
+                        $localeObjects[] = $localeInstance;
                 }
                 $locales = $localeObjects;
             }
@@ -1058,42 +1081,54 @@ class eZLocale
         return $locales;
     }
 
+    /*!
+     \static
+     \return a list of countries which was found in the system, the countries are in identifier form,
+             for instance: NO, GB, US
+    */
     function countryList()
     {
         $countries =& $GLOBALS['eZLocaleCountryList'];
         if ( !is_array( $countries ) )
         {
+            $localeRegexp = eZLocale::localeRegexp();
             $countries = array();
-            $dir = opendir( 'share/locale/country' );
+            $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
             {
-                if ( preg_match( "/^(.+)\.ini$/", $file, $regs ) )
+                if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
                 {
-                    $countries[] = $regs[1];
+                    $countries[] = $regs[3];
                 }
             }
             closedir( $dir );
-            sort( $countries );
+            sort( array_unique( $countries ) );
         }
         return $countries;
     }
 
+    /*!
+     \static
+     \return a list of languages which was found in the system, the languages are in identifier form,
+             for instance: nor, eng
+    */
     function languageList()
     {
         $languages =& $GLOBALS['eZLocaleLanguageist'];
         if ( !is_array( $languages ) )
         {
+            $localeRegexp = eZLocale::localeRegexp();
             $languages = array();
             $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
             {
-                if ( preg_match( "/^(.+)\.ini$/", $file, $regs ) )
+                if ( preg_match( "/^$localeRegexp\.ini$/", $file, $regs ) )
                 {
                     $languages[] = $regs[1];
                 }
             }
             closedir( $dir );
-            sort( $languages );
+            sort( array_unique( $languages ) );
         }
         return $languages;
     }

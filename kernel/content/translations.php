@@ -47,8 +47,10 @@ $Module =& $Params['Module'];
 $tpl->setVariable( 'module', $Module );
 
 
-if ( $Module->isCurrentAction( 'New' ) )//|| $http->hasPostVariable( 'NewButton' ) )
+if ( $Module->isCurrentAction( 'New' ) /*or
+     $Module->isCurrentAction( 'Edit' )*/ )
 {
+    $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
     $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
     $Result['path'] = array( array( 'text' => 'Translation',
                                     'url' => false ),
@@ -95,8 +97,6 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
 
 if ( $Module->isCurrentAction( 'Remove' ) )
 {
-
-
     $seletedIDList =& $Module->actionParameter( 'SelectedTranslationList' );
     $confirmTranslationList = array();
     $confirmTranslationIDList = array();
@@ -143,9 +143,7 @@ $tpl->setVariable( 'module', $Module );
 //$tpl->setVariable( 'workflow_list', $workflowList );
 
 $Result['content'] =& $tpl->fetch( 'design:content/translations.tpl' );
-$Result['path'] = array( array( 'text' => 'Translation',
-                                'url' => false ),
-                         array( 'text' => 'List',
+$Result['path'] = array( array( 'text' => 'Content translations',
                                 'url' => false ) );
 
 

@@ -199,7 +199,8 @@ $ViewList["translations"] = array(
     "script" => "translations.php",
     'single_post_actions' => array( 'RemoveButton' => 'Remove',
                                     'StoreButton' => 'StoreNew',
-                                    'EditButton' => 'Edit',
+/*                                    'EditButton' => 'Edit',
+                                    'ChangeButton' => 'Change',*/
                                     'NewButton' => 'New',
                                     'ConfirmButton' => 'Confirm' ),
     'post_action_parameters' => array( 'StoreNew' => array( 'LocaleID' => 'LocaleID',
