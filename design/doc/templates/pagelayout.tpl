@@ -95,7 +95,7 @@
     <td class="mainarea" width="99%" valign="top">
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
-    	<td colspan="2">
+    	<td colspan="2" valign="top">
 	{$module_result.content}
 	</td>
     </tr>
