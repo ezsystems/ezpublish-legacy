@@ -44,6 +44,7 @@ Changes from 2.9-3 to 2.9-4
   Only versions that you created can be viewed.
 - Added setup and eZ publish configuration script
 - Made sure a warning message is shown when the user could not login, passwords must always be entered.
+- Added sample object tag for related objects in object edit
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
