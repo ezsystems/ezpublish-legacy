@@ -462,6 +462,56 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    /*!
+     Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+
+        $db =& eZDB::instance();
+
+        /* First we remove the link between the keyword and the object
+         * attribute to be removed */
+        if ( $version == null )
+        {
+            $db->query( "DELETE FROM ezurl_object_link
+                         WHERE contentobject_attribute_id='$contentObjectAttributeID'" );
+        }
+        else
+        {
+            $db->query( "DELETE FROM ezurl_object_link
+                         WHERE contentobject_attribute_id='$contentObjectAttributeID'
+                            AND contentobject_attribute_version='$version'" );
+        }
+
+        /* Here we figure out which which URLs are not in use at all */
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $res = $db->arrayQuery( "SELECT DISTINCT id
+                                     FROM ezurl, ezurl_object_link 
+                                     WHERE ezurl.id = ezurl_object_link.url_id(+) 
+                                         AND url_id IS NULL" );
+        }
+        else
+        {
+            $res = $db->arrayQuery(" SELECT DISTINCT id 
+                                     FROM ezurl LEFT JOIN ezurl_object_link ON (ezurl.id  = ezurl_object_link.url_id)
+                                     WHERE url_id IS NULL" );
+        }
+
+        /* And if there are some, we delete them */
+        if ( count( $res ) )
+        {
+            $unusedUrlIDs = array();
+            foreach ( $res as $record )
+                $unusedUrlIDs[] = $record['id'];
+            $unusedUrlIDString = implode( ', ', $unusedUrlIDs );
+
+            $db->query( "DELETE FROM ezurl WHERE id IN ($unusedUrlIDString)" );
+        }
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_XML_TEXT, "ezXMLTextType" );
