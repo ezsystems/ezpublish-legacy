@@ -42,6 +42,27 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 $endl = "<br/>";
+if ( isset( $argv ) )
+    $endl = "\n";
+
+$cronPart = false;
+
+for ( $i = 1; $i < count( $argv ); ++$i )
+{
+    $arg = $argv[$i];
+    if ( strlen( $arg ) > 0 and
+         $arg[0] == '-' )
+    {
+    }
+    else
+    {
+        if ( $cronPart === false )
+            $cronPart = $arg;
+    }
+}
+
+if ( $cronPart )
+    print( "Running cronjob part '$cronPart'$endl" );
 
 // Initialize module loading
 $moduleINI =& eZINI::instance( 'module.ini' );
@@ -85,13 +106,25 @@ eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
 $ini =& eZINI::instance( 'cronjob.ini' );
-$scripts = $ini->variable( 'CronjobSettings', 'Scripts' );
+$scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
+$scriptGroup = 'CronjobSettings';
+if ( $cronPart !== false )
+    $scriptGroup = "CronjobPart-$cronPart";
+$scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
 foreach ( $scripts as $script )
 {
-    $scriptFile = 'cronjobs/' . $script;
-    print( "Running $scriptFile$endl" );
-    include( $scriptFile );
+    foreach ( $scriptDirectories as $scriptDirectory )
+    {
+        $scriptFile = $scriptDirectory . '/' . $script;
+        if ( file_exists( $scriptFile ) )
+            break;
+    }
+    if ( file_exists( $scriptFile ) )
+    {
+        print( "Running $scriptFile$endl" );
+        include( $scriptFile );
+    }
 }
 
 eZExecution::cleanup();

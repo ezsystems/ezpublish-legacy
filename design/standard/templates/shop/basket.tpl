@@ -94,7 +94,7 @@ Selected options
       <tr> 
         <td width="33%">{$Basket:ProductItem:Options:item.name}</td>
         <td width="33%">{$Basket:ProductItem:Options:item.value}</td>
-        <td width="33%">{$Basket:ProductItem:Options:item.price}</td>
+        <td width="33%">{$Basket:ProductItem:Options:item.price|l10n(currency)}</td>
       </tr>
     {/section}
      </table>

@@ -376,6 +376,12 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
+        $query = "SELECT * FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID'";
+
+        $rows = $db->arrayQuery( $query );
+        if ( count( $rows ) > 0 )
+            return false;
+
         $query = "INSERT INTO ezuser_role ( role_id, contentobject_id ) VALUES ( '$this->ID', '$userID' )";
 
         $db->query( $query );
@@ -385,6 +391,7 @@ class eZRole extends eZPersistentObject
         $handler->setTimestamp( 'user-role-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
+        return true;
     }
 
     /*!

@@ -126,6 +126,10 @@ links to clickable links.
 - Fixed problem with redirection in SSL mode
 - Fixed problem with language setting not remembered if language details was skipped
 - Fixed redirection after login to last accessed page.
+- Multiple role assignments to samme object no longer creates multiple entries.
+- Cronjob system now supports running different parts, each part has a set of scripts to run.
+  This is useful for running different kinds of scripts at different intervals.
+- Made sure options in basket shows currency in prices.
 
 *SDK :
 
