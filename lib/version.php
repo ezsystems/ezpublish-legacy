@@ -67,7 +67,7 @@ class eZPublishSDK
     }
 
     /*!
-     \return the major version
+     \return the major version.
     */
     function majorVersion()
     {
