@@ -600,6 +600,10 @@ Workflow:
 - Fixed bug: fatal error occurs when one removes a policy and then reloads the page.
   (Merged manually from stable/3.3 rev. 8315, also in stable/3.4 rev. 8316
   http://ez.no/community/bug_reports/repost_crash_role
+- Fixed bugs: if you create RSS import/export, remove it and then reload the page, fatal error occurs.
+  (Merged from stable/3.3 rev. 8318, also in stable/3.4 rev. 8319)
+  http://ez.no/community/bug_reports/repost_crash_rss
+  http://ez.no/community/bug_reports/repost_crash_rss__1
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
