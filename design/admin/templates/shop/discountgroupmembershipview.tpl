@@ -14,7 +14,7 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</label>
+<label>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}:</label>
 {$discountgroup.name}
 </div>
 

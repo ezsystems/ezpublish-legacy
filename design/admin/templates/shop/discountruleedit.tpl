@@ -14,13 +14,13 @@
 
 {* Name *}
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'Name'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
 <input type="text" name="discountrule_name" value="{$discountrule.name}" size=40>
 </div>
 
 {* Discount precent *}
 <div class="block">
-<label>{'Discount percent'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'Discount percent'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
 <input type="text" name="discountrule_percent" value="{$discountrule.discount_percent|l10n( number )}" size="5" />&nbsp;%
 </div>
 
@@ -28,7 +28,7 @@
 
 {* Classes *}
 <div class="element">
-<label>{'Product types'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'Product types'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
 <select name="Contentclasses[]" size="5" multiple="multiple" >
 <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Classes loop=$product_class_list}
@@ -41,7 +41,7 @@
 
 {* Sections *}
 <div class="element">
-<label>{'in sections'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'in sections'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
 <select name="Sections[]" size="5" multiple="multiple" >
 <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Sections loop=$section_list}
@@ -56,7 +56,7 @@
 
 {* Objects *}
 <div class="block">
-<label>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}</label>
+<label>{'Individual products'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
 
 {section show=$product_list}
 <table class="list" cellspacing="0">
