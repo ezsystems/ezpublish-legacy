@@ -11,7 +11,19 @@
 {/section}
 <form method="post" action={concat('content/edit/',$object.id)|ezurl}>
 
-<h1>{$object.name|wash}</h1>
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{$object.name|wash}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<div class="block">
 
 <p>
 {"The currently published version is %version and was published at %time."|i18n('design/standard/content/edit',,hash('%version',$object.current_version,'%time',$object.published|l10n(datetime) ))}
@@ -43,9 +55,23 @@
     {/section}
 {/section}
 
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+
+</div>
+
+</div>
+
 <div class="context-block">
 
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Current drafts'|i18n('design/standard/content/edit')}</h2>
+
+{* DESIGN: Subline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -102,7 +128,12 @@
 {/section}
 </table>
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <div class="block">
 {section show=and($has_own_drafts,$has_other_drafts)}
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
@@ -117,6 +148,9 @@
     {/section}
 {/section}
 </div>
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
 </div>
 
 </form>

@@ -385,9 +385,10 @@ div#maincontent div.box-content div.block div
     padding: 0;
 }
 
-div#maincontent div.box-content div.block p
+div.box-content div.block p
 {
     margin: 0;
+    padding: 0.25em 0 0.25em 0;
 }
 
 div.box-content div.block div.block
@@ -914,6 +915,19 @@ div.context-information
 div.context-information p
 {
     color: #8a8a85;
+}
+
+div.context-information p.modified
+{
+    width: 48%;
+    float: left;
+}
+
+div.context-information p.translation
+{
+    width: 48%;
+    float: right;
+    text-align: right;
 }
 
 div.context-information a

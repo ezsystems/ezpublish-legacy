@@ -125,12 +125,15 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" {section show=$can_remove|not}disabled="disabled"{/section} />
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 </div>
+
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
 </div>
 
 </div>

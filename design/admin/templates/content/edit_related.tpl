@@ -114,7 +114,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
             <div class="block">
-                <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" {section show=$related_contentobjects|not}disabled="disabled"{/section} />
+                <input {section show=$related_contentobjects|not}class="button-disabled"{section-else}class="button"{/section} type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" {section show=$related_contentobjects|not}disabled="disabled"{/section} />
                 <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n( 'design/admin/content/edit' )}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
                 <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload new'|i18n( 'design/admin/content/edit' )}" title="{'Upload a file and add it as a related object.'|i18n( 'design/admin/content/edit' )}" />
             </div>
