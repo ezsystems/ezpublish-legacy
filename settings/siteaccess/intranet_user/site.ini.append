@@ -6,13 +6,13 @@ SiteURL=intranet.wy.dvh1.ez.no
 RequireUserLogin=false
 
 [DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
 DatabaseImplementation=ezmysql
-Server=kk.ez.no
-Database=ezpackages
-User=ezpack
-Password=ezpack
-Charset=iso-8859-1
-Socket=disabled
+Server=bf.ez.no
+User=root
+Password=mofser
+Database=intranet
 
 [DesignSettings]
 StandardDesign=standard

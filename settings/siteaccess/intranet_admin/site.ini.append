@@ -5,16 +5,16 @@ TranslationList=
 
 [SiteSettings]
 SiteName=Plain
-SiteURL=intranet.vl.dvh1.ez.no
+SiteURL=intranet.wy.dvh1.ez.no
 
 [DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
 DatabaseImplementation=ezmysql
-Server=kk.ez.no
-Database=ezpackages
-User=ezpack
-Password=ezpack
-Charset=iso-8859-1
-Socket=disabled
+Server=bf.ez.no
+User=root
+Password=mofser
+Database=intranet
 
 [FileSettings]
 VarDir=var/intranet
