@@ -56,6 +56,7 @@ eZTemplate:
 - Improved texttoimage to support multiple font directories.
 - When debug output is on the template include name is prepended to the text.
 - Sitebasics are now only used if available.
+- Made sure variable attributes were fetched with references for array as well as objects.
 
 eZINI:
 - Added support for override directories which are not a subdir
