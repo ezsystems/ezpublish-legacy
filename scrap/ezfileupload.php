@@ -27,9 +27,11 @@
 // Contact info@ez.no if any conditions of this licensing are not clear to you.
 //
 
-//!! eZFile
-//! The eZFileUpload class handles fileuploads and other temporary files.
 /*!
+  \class eZFileUpload ezfileupload.php
+  \ingroup eZKernel
+  \brief The eZFileUpload class handles fileuploads and other temporary files.
+
   Example:
   \code
     $file = new eZFileUpload();

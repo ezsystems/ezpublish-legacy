@@ -43,7 +43,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
-include_once( "lib/ezutils/classes/ezfile.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
 include_once( "lib/ezutils/classes/ezdir.php" );
 
@@ -229,7 +229,7 @@ class eZImageType extends eZDataType
             {
                 $ini =& eZINI::instance();
                 $perm = $ini->variable( "ImageSettings", "NewDirPermissions" );
-                eZFile::mkdir( $ref_dir, octdec( $perm ), true );
+                eZDir::mkdir( $ref_dir, octdec( $perm ), true );
             }
             $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
                                             $ref_dir, array( "width" => 400, "height" => 300 ),

@@ -75,65 +75,6 @@ class eZFile
         return $lines;
     }
 
-    /*!
-     \static
-     Creates the directory \a $dir with permissions \a $perm.
-     If \a $parents is true it will create any missing parent directories,
-     just like 'mkdir -p'.
-    */
-    function mkdir( $dir, $perm, $parents = false )
-    {
-        if ( !$parents )
-            return eZFile::doMkdir( $dir, $perm );
-        else
-            return eZFile::mkdirRecursive( $dir, $perm );
-    }
-
-    /*!
-     \static
-     \private
-     Creates directories recursively like 'mkdir -p', calls
-     either itself or doMkDir.
-    */
-    function mkdirRecursive( $dir, $perm )
-    {
-        if ( file_exists( $dir ) )
-            return true;
-        else
-        {
-            $new_dir = preg_replace( "#/+#", "/", $dir );
-            if ( $dir[0] != "/" )
-                $new_dir = "$new_dir";
-//                $new_dir = realpath( "." ) . "/$new_dir";
-            if ( preg_match( "#^(.+/)([^/]+)/?$#", $new_dir, $regs ) )
-            {
-                $new_dir = $regs[1];
-            }
-            if ( !eZFile::mkdirRecursive( $new_dir, $perm ) )
-                return false;
-        }
-        if ( !eZFile::doMkdir( $dir, $perm ) )
-            return false;
-        return true;
-    }
-
-    /*!
-     \static
-     \private
-     Creates the directory \a $dir with permission \a $perm.
-    */
-    function doMkdir( $dir, $perm )
-    {
-        $oldumask = umask( 0 );
-        if ( !mkdir( $dir, $perm ) )
-        {
-            umask( $oldumask );
-            return false;
-        }
-        umask( $oldumask );
-        return true;
-    }
-
 }
 
 ?>

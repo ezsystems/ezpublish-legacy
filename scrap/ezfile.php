@@ -27,9 +27,11 @@
 // Contact info@ez.no if any conditions of this licensing are not clear to you.
 //
 
-//!! eZFile
-//! The eZFile class handles files.
 /*!
+  \class eZFile ezfile.php
+  \ingroup eZKernel
+  \brief The eZFile class handles files.
+
   Example:
   \code
     $file = new eZFile( "readme.txt" );
