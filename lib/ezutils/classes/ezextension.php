@@ -69,10 +69,13 @@ class eZExtension
      \static
      \return an array with extensions that has been activated
     */
-    function activeExtensions()
+    function activeExtensions( $preAccessExtensions = true )
     {
         $ini =& eZINI::instance();
-        $activeExtensions = $ini->variable( 'ExtensionSettings', 'ActiveExtensions' );
+        $variableName = 'ActiveExtensions';
+        if ( !$preAccessExtensions )
+            $variableName = 'ActiveAccessExtensions';
+        $activeExtensions = $ini->variable( 'ExtensionSettings', $variableName );
         $globalActiveExtensions =& $GLOBALS['eZActiveExtensions'];
         if ( isset( $globalActiveExtensions ) )
         {
@@ -87,23 +90,19 @@ class eZExtension
      Will make sure that all extensions that has settings directories
      are added to the eZINI override list.
     */
-    function activateExtensions()
+    function activateExtensions( $preAccessExtensions = true )
     {
         $extensionDirectory = eZExtension::baseDirectory();
-        $activeExtensions = eZExtension::activeExtensions();
-//         eZDebug::writeDebug( "Activating extensions for $extensionDirectory", 'eZExtension' );
-//         eZDebug::writeDebug( $activeExtensions, 'eZExtension' );
+        $activeExtensions = eZExtension::activeExtensions( $preAccessExtensions );
         $hasExtensions = false;
         $ini =& eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
             $extensionPath = $extensionDirectory . '/' . $activeExtension;
             $extensionSettingsPath = $extensionPath . '/settings';
-//             eZDebug::writeDebug( "Checking extension path $extensionSettingsPath", 'eZExtension' );
             if ( file_exists( $extensionPath ) and
                  file_exists( $extensionSettingsPath ) )
             {
-//                 eZDebug::writeDebug( "Added extension path $extensionSettingsPath", 'eZExtension' );
                 $ini->prependOverrideDir( $extensionSettingsPath, true );
                 $hasExtensions = true;
             }
