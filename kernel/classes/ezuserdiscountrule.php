@@ -174,12 +174,12 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &fetchUserID( $discountRuleID )
     {
-         $userList =& eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
-                                              null,
-                                              array( "discountrule_id" => $discountRuleID ),
-                                              null,
-                                              null,
-                                              $asObject );
+        $userList =& eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
+                                                          null,
+                                                          array( "discountrule_id" => $discountRuleID ),
+                                                          null,
+                                                          null,
+                                                          false );
         $idArray = array();
         foreach ( $userList as $user )
         {
