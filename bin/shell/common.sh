@@ -45,6 +45,10 @@ SETCOLOR_FILE="echo -en \\033[1;30m"
 SETCOLOR_DIR="echo -en \\033[1;34m"
 # terminal sequence to set color to a 'executable' color (currently: green)
 SETCOLOR_EXE="echo -en \\033[1;32m"
+# terminal sequence to set color to a 'url' color (currently: bold black)
+SETCOLOR_URL="echo -en \\033[1;35m"
+# terminal sequence to set color to a 'header1' color (currently: magenta background + yellow color)
+SETCOLOR_HEADER1="echo -en \\033[1;43m\\033[1;33m"
 
 # terminal sequence to set color to a 'comment' color (currently: gray)
 SETCOLOR_COMMENT="echo -en \\033[1;30m"
@@ -189,6 +193,26 @@ function ez_color_comment
 function ez_color_new
 {
     echo -n "`$SETCOLOR_NEW`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string to make it look like a URL
+# Syntax:
+# ez_color_url <string>
+# Usage:
+# ez_color_url 'http://ez.no'
+function ez_color_url
+{
+    echo -n "`$SETCOLOR_URL`$1`$SETCOLOR_NORMAL`"
+}
+
+# Colorizes the input string to make it look like a header (1)
+# Syntax:
+# ez_color_h1 <string>
+# Usage:
+# ez_color_h1 'A nice header'
+function ez_color_h1
+{
+    echo -n "`$SETCOLOR_HEADER1` $1 `$SETCOLOR_NORMAL`"
 }
 
 # Prints Success or Failure at a given column and prints the message
