@@ -36,6 +36,7 @@ Changes from 3.2.0-2 to 3.2-1
   converting newlines in files.
 - Fixed using whitespace in convert path
   http://ez.no/developer/ez_publish_3/bug_reports/convert_doesnt_work_when_located_in_a_directory_with_spaces_on_windows
+- Fixed bug when creating new templates (in admin) for site accesses with different name than the site design
 
 *Setup:
 - Var directory is now separate for each installed package, this avoids the cache and storage conflict.

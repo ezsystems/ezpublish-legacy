@@ -14,7 +14,7 @@
 {/section}
 
 <p>
-{"Template will be placed in"|i18n("design/standard/setup")} design/{$site_base}/override/templates/
+{"Template will be placed in"|i18n("design/standard/setup")} design/{$site_design}/override/templates/
 </p>
 
 <div class="objectheader">
