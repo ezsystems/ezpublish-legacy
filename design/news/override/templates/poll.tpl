@@ -6,7 +6,7 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <div class="object_title">
-    <h4>{$node.name}</h4>
+    {$node.name}
 </div>
 {attribute_view_gui attribute=$node.object.data_map.option}
 {section name=ContentAction loop=$node.object.content_action_list show=$content_object.content_action_list}
@@ -18,7 +18,5 @@
     <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>Result</a>
 </div>
 </form>
-
-</div>
-
 <a href={concat( "/content/view/full/", $node.parent_node_id, "/" )|ezurl}><h4>View all polls</h4></a>
+</div>

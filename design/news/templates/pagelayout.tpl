@@ -8,8 +8,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-    {*@import url({"stylesheets/news.css"|ezdesign});*}
+   {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+    @import url({"stylesheets/news.css"|ezdesign});
 </style>
 
 </head>
@@ -126,12 +126,14 @@
                {/let}
 
 	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+	    <div id="pollbox">
             <h3>Poll</h3>
             <p>
             {section name=poll loop=$poll_list}
                 {node_view_gui view=full content_node=$poll:item}
 	    {/section}
-            </p>   
+            </p> 
+	    </div>
                {/let}
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div id="poll">
+<div class="pollline">
 
 <form method="post" action={"content/action"|ezurl}>
 
