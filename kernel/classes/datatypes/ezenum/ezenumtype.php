@@ -356,7 +356,16 @@ class eZEnumType extends eZDataType
     {
         $enum = $this->objectAttributeContent( $contentObjectAttribute );
 
-        $value = $enum->attribute( $name );
+        $enumObjectList = $enum->attribute( 'enumobject_list' );
+
+        $value = '';
+
+        foreach ( $enumObjectList as $count => $enumObjectValue )
+        {
+            if ( $count != 0 )
+                $value .= ", ";
+            $value .= $enumObjectValue->attribute( 'enumelement' );
+        }
 
         return $value;
     }
