@@ -40,13 +40,15 @@
                 {set list_items=fetch_alias( children, hash( parent_node_id, $node.node_id,
                                                              offset, $view_parameters.offset,
                                                              sort_by, $node.sort_array,
-                                                             limit, $page_limit ) )
-                     list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
+                                                             limit, $page_limit ) )}
+                {set list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
             {/section}
 
             <div class="view-children">
-                {section var=Child loop=$list_items sequence=array(bglight,bgdark)}
-                    {node_view_gui view=line content_node=$Child}
+{$list_items}
+                {section var=child loop=$list_items sequence=array(bglight,bgdark)}
+                    {$child}
+                    {node_view_gui view=line content_node=$child}
                 {/section}
             </div>
 
