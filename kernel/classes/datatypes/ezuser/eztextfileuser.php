@@ -261,7 +261,7 @@ class eZTextFileUser extends eZUser
                                                                          );
                             $nodeAssignment->store();
                             $version =& $contentObject->version( 1 );
-                            $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+                            $version->setAttribute( 'modified', time() );
                             $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
                             $version->store();
 

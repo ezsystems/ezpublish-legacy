@@ -135,9 +135,8 @@ class eZPDFExport extends eZPersistentObject
     */
     function &create( $user_id )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $config =& eZINI::instance( 'site.ini' );
-        $dateTime = eZDateTime::currentTimeStamp();
+        $dateTime = time();
         $row = array( 'id' => null,
                       'title' => 'New PDF Export',
                       'show_frontpage' => 1,
@@ -166,10 +165,9 @@ class eZPDFExport extends eZPersistentObject
         if ( $status == 0 )
             $status = $this->attribute( 'status' );
 
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
-        $this->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+        $this->setAttribute( 'modified', time() );
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
         $this->setAttribute( 'status', $status );
         eZPersistentObject::store();

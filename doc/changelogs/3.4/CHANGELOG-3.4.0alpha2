@@ -59,6 +59,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/ezdatatype_php_latest_trunk
 - Fixed bug, mondayfirst does not take effect (merged from 3.2 stable rev. 5464)
   http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
+- Fixed bug, removed dependency on eZDateTime for currentTimeStamp().
+  http://ez.no/community/bug_reports/missing_include_ezdatetime_php
 
   *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

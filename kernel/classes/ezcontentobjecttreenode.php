@@ -2486,7 +2486,6 @@ WHERE
     */
     function updateAndStoreModified()
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $pathString =& $this->attribute( 'path_string' );
 
         $pathArray = explode( '/', $pathString );
@@ -2500,7 +2499,7 @@ WHERE
             $sql .= ( $pathCount != 1 ? ' OR' : '' ) . ' path_string=\'' . $sqlParts . '\' ';
         }
 
-        $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . eZDateTime::currentTimeStamp() .
+        $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
              ' WHERE ' . $sql;
 
         $db =& eZDB::instance();

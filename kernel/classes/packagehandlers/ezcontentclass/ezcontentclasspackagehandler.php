@@ -144,8 +144,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $classAttributesNode = $content->elementByName( 'attributes' );
 
-        include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $dateTime = eZDateTime::currentTimeStamp();
+        $dateTime = time();
         $classCreated = $dateTime;
         $classModified = $dateTime;
 

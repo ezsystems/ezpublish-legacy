@@ -87,7 +87,7 @@ if ( is_numeric( $ClassID ) )
         $timeOut =& $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
-             $class->attribute( 'modified' ) + $timeOut > eZDateTime::currentTimeStamp() )
+             $class->attribute( 'modified' ) + $timeOut > time() )
         {
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
@@ -341,8 +341,7 @@ if ( $customAction )
 }
 
 // Set new modification date
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-$date_time = eZDateTime::currentTimeStamp();
+$date_time = time();
 $class->setAttribute( 'modified', $date_time );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $user =& eZUser::currentUser();
@@ -501,7 +500,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 //     $user =& eZUser::currentUser();
 //     $user_id = $user->attribute( 'contentobject_id' );
 //     $class->setAttribute( 'modifier_id', $user_id );
-//     $class->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+//     $class->setAttribute( 'modified', time() );
 //     $class->adjustAttributePlacements( $attributes );
 //     $class->store( $attributes );
 

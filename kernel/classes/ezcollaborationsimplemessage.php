@@ -121,8 +121,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
 
     function &create( $type, $text = false, $creatorID = false )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $date_time = eZDateTime::currentTimeStamp();
+        $date_time = time();
         if ( $creatorID === false )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );

@@ -230,11 +230,10 @@ class eZContentBrowseRecent extends eZPersistentObject
             $eldest->remove();
         }
 
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $recent =& new eZContentBrowseRecent( array( 'user_id' => $userID,
                                                      'node_id' => $nodeID,
                                                      'name' => $nodeName,
-                                                     'created' => eZDateTime::currentTimeStamp() ) );
+                                                     'created' => time() ) );
         $recent->store();
         return $recent;
     }

@@ -42,7 +42,6 @@
 */
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
 class eZImageAliasHandler
@@ -982,7 +981,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
@@ -1120,7 +1119,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $imageAltText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 

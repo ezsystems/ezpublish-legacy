@@ -58,8 +58,7 @@ $http =& eZHTTPTool::instance();
 if ( $http->hasPostVariable( "Reset" ) )
 {
     $process->reset();
-    include_once( "lib/ezlocale/classes/ezdatetime.php" );
-    $process->setAttribute( "modified", eZDateTime::currentTimeStamp() );
+    $process->setAttribute( "modified", time() );
     $process->store();
 }
 
@@ -98,8 +97,7 @@ if ( $http->hasPostVariable( "RunProcess" ) )
         $workflowEvent = false;
         $process->advance();
     }
-    include_once( "lib/ezlocale/classes/ezdatetime.php" );
-    $process->setAttribute( "modified", eZDateTime::currentTimeStamp() );
+    $process->setAttribute( "modified", time() );
     $process->store();
 }
 $tpl->setVariable( "event_status", eZWorkflowType::statusName( $lastEventStatus ) );

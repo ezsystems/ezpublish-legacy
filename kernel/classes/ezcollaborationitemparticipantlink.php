@@ -108,8 +108,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     function &create( $collaborationID, $participantID,
                       $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $dateTime = eZDateTime::currentTimeStamp();
+        $dateTime = time();
         $row = array(
             'collaboration_id' => $collaborationID,
             'participant_id' => $participantID,
@@ -129,8 +128,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         if ( $timestamp === false )
         {
-            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-            $timestamp = eZDateTime::currentTimeStamp();
+            $timestamp = time();
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();

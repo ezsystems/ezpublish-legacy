@@ -54,8 +54,7 @@ $rootNodeIDList = $ini->variable( 'UnpublishSettings','RootNodeList' );
 print( 'classes:' );
 var_dump( $unpublishClasses );
 
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-$currrentDate = eZDateTime::currentTimeStamp();
+$currrentDate = time();
 
 foreach( $rootNodeIDList as $nodeID )
 {

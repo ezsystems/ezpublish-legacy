@@ -139,8 +139,7 @@ class eZCollaborationGroup extends eZPersistentObject
 
     function &create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $date_time = eZDateTime::currentTimeStamp();
+        $date_time = time();
         $row = array(
             'id' => null,
             'parent_group_id' => $parentGroupID,

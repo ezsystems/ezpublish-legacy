@@ -205,8 +205,7 @@ if ( $http->hasPostVariable( "WorkflowTypeString" ) )
 $workflow->setVersion( 1, $event_list );
 
 // Set new modification date
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
-$date_time = eZDateTime::currentTimeStamp();
+$date_time = time();
 $workflow->setAttribute( "modified", $date_time );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();

@@ -148,8 +148,7 @@ class eZWorkflowProcess extends eZPersistentObject
 //                      $workflowID, $userID,
 //                      $contentID, $contentVersion, $nodeID, $sessionKey = '' )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $dateTime = eZDateTime::currentTimeStamp();
+        $dateTime = time();
 
         $row = array( 'process_key' => $processKey,
                       'workflow_id' => $parameters['workflow_id'],
@@ -197,7 +196,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         $eventLog = array();
         eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent, "workflowEvent in process->run beginning" );
-        include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
         $runCurrentEvent = true;
         $done = false;
@@ -223,7 +221,7 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 $activationDate = $this->attribute( "activation_date" );
                 eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
-                if ( eZDateTime::currentTimeStamp() < $activationDate )
+                if ( time() < $activationDate )
                 {
                     eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
                     $eventType =& $workflowEvent->eventType();
@@ -412,7 +410,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
         $this->setAttribute( "last_event_status", $lastEventStatus );
         $this->setAttribute( "status", $workflowStatus );
-        $this->setAttribute( "modified", eZDateTime::currentTimeStamp() );
+        $this->setAttribute( "modified", time() );
         return $workflowStatus;
     }
 

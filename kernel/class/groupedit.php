@@ -80,8 +80,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     }
     $classgroup->setAttribute( "name", $name );
     // Set new modification date
-    include_once( "lib/ezlocale/classes/ezdatetime.php" );
-    $date_time = eZDateTime::currentTimeStamp();
+    $date_time = time();
     $classgroup->setAttribute( "modified", $date_time );
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();

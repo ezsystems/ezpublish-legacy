@@ -42,7 +42,6 @@
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
 class eZProductCollection extends eZPersistentObject
 {
     function eZProductCollection( $row )
@@ -71,7 +70,7 @@ class eZProductCollection extends eZPersistentObject
     */
     function &create( )
     {
-        $row = array( "created" => eZDateTime::currentTimeStamp() );
+        $row = array( "created" => time() );
         return new eZProductCollection( $row );
     }
 

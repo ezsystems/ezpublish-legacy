@@ -161,7 +161,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $newCollection = true;
     }
     else
-        $collection->setAttribute( 'modified', eZDateTime::currentTimestamp() );
+        $collection->setAttribute( 'modified', time() );
 
 
     // Check every attribute if it's supposed to collect information

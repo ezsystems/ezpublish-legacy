@@ -233,7 +233,7 @@ class eZCache
     function clearImageAlias( $cacheItem )
     {
         $expiryHandler = eZExpiryHandler::instance();
-        $expiryHandler->setTimestamp( 'image-manager-alias', eZDateTime::currentTimeStamp() );
+        $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
     }
 

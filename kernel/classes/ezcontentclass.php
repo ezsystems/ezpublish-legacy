@@ -132,8 +132,7 @@ class eZContentClass extends eZPersistentObject
 
     function &create( $userID = false, $optionalValues = array() )
     {
-        include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $dateTime = eZDateTime::currentTimeStamp();
+        $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
         $row = array(
@@ -548,7 +547,7 @@ class eZContentClass extends eZPersistentObject
         $user =& eZUser::currentUser();
         $user_id = $user->attribute( "contentobject_id" );
         $this->setAttribute( "modifier_id", $user_id );
-        $this->setAttribute( "modified", eZDateTime::currentTimeStamp() );
+        $this->setAttribute( "modified", time() );
         $this->adjustAttributePlacements( $attributes );
 
         for ( $i = 0; $i < count( $attributes ); ++$i )

@@ -128,8 +128,7 @@ class eZWorkflow extends eZPersistentObject
 
     function &create( $user_id )
     {
-        include_once( "lib/ezlocale/classes/ezdatetime.php" );
-        $date_time = eZDateTime::currentTimeStamp();
+        $date_time = time();
         $row = array(
             "id" => null,
             "workflow_type_string" => "group_ezserial",

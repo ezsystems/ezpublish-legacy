@@ -185,8 +185,7 @@ if ( $storingAllowed && $hasObjectInput)
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
 
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+        $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
 

@@ -376,7 +376,7 @@ class eZTemplateLocaleOperator
         }
         else if ( $operatorName == $this->CurrentDateName )
         {
-            $operatorValue = eZDateTime::currentTimestamp();
+            $operatorValue = time();
         }
         else if ( $operatorName == $this->DateTimeName )
         {

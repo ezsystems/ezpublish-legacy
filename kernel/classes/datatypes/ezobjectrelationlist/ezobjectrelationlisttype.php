@@ -222,8 +222,7 @@ class eZObjectRelationListType extends eZDataType
                     $object->storeInput( $attributes,
                                          $attributeInputMap );
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-                    $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+                    $version->setAttribute( 'modified', time() );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
                     $version->store();
                     $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
@@ -251,15 +250,15 @@ class eZObjectRelationListType extends eZDataType
                 if ( $object )
                 {
                     $class =& $object->contentClass();
+					$time = time();
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-                    $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+                    $version->setAttribute( 'modified', $time );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
                     $version->store();
                     $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
                     if ( !$object->attribute( 'published' ) )
-                        $object->setAttribute( 'published', eZDateTime::currentTimeStamp() );
-                    $object->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+                        $object->setAttribute( 'published', $time );
+                    $object->setAttribute( 'modified', $time );
                     $object->setAttribute( 'current_version', $version->attribute( 'version' ) );
                     $object->setAttribute( 'is_published', true );
                     $objectName = $class->contentObjectName( $object, $version->attribute( 'version' ) );

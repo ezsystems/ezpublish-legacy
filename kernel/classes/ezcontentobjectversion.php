@@ -718,12 +718,12 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+		$time = time();
         $row = array(
             "contentobject_id" => $contentobjectID,
             "version" => $version,
-            "created" => eZDateTime::currentTimeStamp(),
-            "modified" => eZDateTime::currentTimeStamp(),
+            "created" => $time,
+            "modified" => $time,
             'creator_id' => $userID );
         return new eZContentObjectVersion( $row );
     }
@@ -787,14 +787,15 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
+		$time = time();
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
         if ( $contentObjectID !== false )
             $clonedVersion->setAttribute( 'contentobject_id', $contentObjectID );
         $clonedVersion->setAttribute( 'version', $newVersionNumber );
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
-        $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+        $clonedVersion->setAttribute( 'created', $time );
+        $clonedVersion->setAttribute( 'modified', $time );
         $clonedVersion->setAttribute( 'creator_id', $userID );
         if ( $status !== false )
             $clonedVersion->setAttribute( 'status', $status );

@@ -45,7 +45,6 @@
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZCollaborationItemStatus extends eZPersistentObject
 {
@@ -131,7 +130,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
     function setLastRead( $collaborationID, $userID = false, $timestamp = false )
     {
         if ( $timestamp === false )
-            $timestamp = eZDateTime::currentTimeStamp();
+            $timestamp = time();
 
         eZCollaborationItemStatus::updateFields( $collaborationID, $userID, array( 'last_read' => $timestamp,
                                                                                    'is_read' => 1 ) );
