@@ -1342,7 +1342,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( $justName == "literal" )
                     {
                         // Find the end tag and create override contents
-                        $preEndTagPos = strpos( $data, "</literal>", $pos );
+                        $preEndTagPos = strpos( strtolower( $data ), "</literal>", $pos );
                         $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
                         $pos = $preEndTagPos - 1;
                     }
@@ -2020,6 +2020,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'tr' :
             case 'td' :
             case 'th' :
+            case 'li' :
             case 'paragraph' :
             {
             }break;
@@ -2037,7 +2038,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
-    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
+    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li' );
 
     var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
 
