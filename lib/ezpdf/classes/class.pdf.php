@@ -2367,12 +2367,16 @@ class Cpdf
 /**
  * return the height in units of the current font in the given size
  */
-    function getFontHeight($size){
+    function getFontHeight( $size = false ){
 	if (!$this->numFonts){
 	    $this->selectFont('./fonts/Helvetica');
 	}
 	// for the current font, and the given size, what is the height of the font in user units
 	$h = $this->fonts[$this->currentFont]['FontBBox'][3]-$this->fonts[$this->currentFont]['FontBBox'][1];
+    if ( $size === false )
+    {
+        $size = $this->fontSize();
+    }
 	return $size*$h/1000;
     }
 
@@ -2381,12 +2385,16 @@ class Cpdf
  * if you add this number to the baseline, you get the level of the bottom of the font
  * it is in the pdf user units
  */
-    function getFontDecender($size){
+    function getFontDecender( $size = false ){
 	// note that this will most likely return a negative value
 	if (!$this->numFonts){
 	    $this->selectFont('./fonts/Helvetica');
 	}
 	$h = $this->fonts[$this->currentFont]['FontBBox'][1];
+    if ( $size === false )
+    {
+        $size = $this->fontSize();
+    }
 	return $size*$h/1000;
     }
 

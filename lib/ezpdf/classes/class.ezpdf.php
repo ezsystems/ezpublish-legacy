@@ -175,6 +175,7 @@ class Cezpdf extends Cpdf
         $right = ( $right / 2.54 ) * 72;
         $this->ezSetMargins($top,$bottom,$left,$right);
     }
+
 // ------------------------------------------------------------------------------
 // 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
 // Set fontsize
@@ -295,7 +296,7 @@ class Cezpdf extends Cpdf
 
         if ($pageRequired){
             // make a new page, setting the writing point back to the top
-            $this->y = $this->ez['pageHeight']-$this->ez['topMargin'];
+            $this->y = $this->ez['pageHeight']-$this->ez['topMargin'] - $this->getFontHeight();
             $this->ez['xOffset'] = 0;
             // make the new page with a call to the basic class.
             $this->ezPageCount++;
@@ -308,7 +309,7 @@ class Cezpdf extends Cpdf
                 $this->ezPages[$this->ezPageCount] = $this->newPage();
             }
         } else {
-            $this->y = $this->ez['pageHeight']-$this->ez['topMargin'];
+            $this->y = $this->ez['pageHeight']-$this->ez['topMargin'] - $this->getFontHeight();
             $this->ez['xOffset'] = 0;
         }
         $this->RightMarginArray = array();
