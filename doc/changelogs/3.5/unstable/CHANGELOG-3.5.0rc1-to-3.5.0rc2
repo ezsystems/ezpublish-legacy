@@ -79,6 +79,11 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 eZURI:
 - Added originalURIString() method which returns the original URI with user parameters.
 
+eZTemplate:
+- Fixed bug in template compiler when assigning the results of an expression to
+  a PHP variable and the expression resulted in an object proxy (e..g section
+  iterator)
+
 *Design:
 - Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.
   Merged from stable/3.3 rev. 10194, stable/3.4 rev. 10195.

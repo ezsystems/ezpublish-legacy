@@ -13,3 +13,21 @@ list:
 
 {/delimiter}
 {/section}
+
+
+{* Tests if a double loop works with the second loop having the iterator of the first as parameter *}
+{let nodes_children=hash( 'o', array(),
+                          269, array( 270, 271 ),
+                          270, array(),
+                          271, array() )}
+{section var=child loop=$nodes_children}
+nodesChildren['node_{$child.key}'] = [
+
+{section var=itm loop=$child}
+ 'node_{$itm}'
+{delimiter},{/delimiter}
+{/section}
+ ];
+
+{/section}
+{/let}
