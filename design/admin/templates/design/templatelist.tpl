@@ -19,7 +19,7 @@
 </tr>
 {section var=Templates max=20 offset=$view_parameters.offset loop=$template_array sequence=array( bglight, bgdark )}
 <tr class="{$Templates.sequence}">
-   <td><a href={concat( '/design/templateview', $Templates.item.template )|ezurl}>{$Templates.item.template}</a></td>
+   <td><a href={concat( '/design/templateview', $Templates.item.template )|ezurl} title="{'Manage overrides for template.'|i18n( 'design/admin/design/templatelist' )}">{$Templates.item.template}</a></td>
    <td>{$Templates.item.base_dir}</td>
 </tr>
 {/section}
@@ -57,7 +57,7 @@
 </tr>
 {section var=Templates loop=$most_used_template_array sequence=array( bglight, bgdark )}
 <tr class="{$Templates.sequence}">
-   <td><a href={concat( '/design/templateview', $Templates.item.template )|ezurl}>{$Templates.item.template}</a></td>
+   <td><a href={concat( '/design/templateview', $Templates.item.template )|ezurl} title="{'Manage overrides for template.'|i18n( 'design/admin/design/templatelist' )}">{$Templates.item.template}</a></td>
    <td>{$Templates.item.base_dir}</td>
 </tr>
 {/section}

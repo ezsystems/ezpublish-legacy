@@ -77,10 +77,19 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-        <input class="button" type="submit" name="RemoveOverrideButton" value="{"Remove selected"|i18n( 'design/standard/design/templateview' )}" {section show=$template_settings.custom_match|not}disabled="disabled"{/section} />
-        <input class="button" type="submit" name="NewOverrideButton" value="{"New override"|i18n( 'design/standard/design/templateview' )}" />
+        {section show=$template_settings.custom_match}
+        <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/design/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/design/templateview' )}" />
+        {section-else}
+        <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/design/templateview' )}" disabled="disabled"/>
+        {/section}
+
+        <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/standard/design/templateview' )}" title="{'Create a new template override.'|i18n( 'design/admin/design/templateview' )}" />
         <div class="right">
-            <input class="button" type="submit" name="UpdateOverrideButton" value="{"Update priorities"|i18n( 'design/standard/design/templateview' )}" {section show=$template_settings.custom_match|not}disabled="disabled"{/section} />
+            {section show=$template_settings.custom_match}
+            <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/design/templateview' )}" />
+            {section-else}
+            <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/design/templateview' )}" disabled="disabled"/>
+            {/section}
         </div>
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
