@@ -69,26 +69,42 @@ class eZSetupSummary
     {
         $databaseMap = eZSetupDatabaseMap();
 
-        $checkPassed = true;
-        foreach ( $this->PersistenceList['tests_run'] as $checkValue )
+        if ( isset( $this->PersistenceList['tests_run'] ) )
         {
-            if ( $checkValue != 1 )
+            $checkPassed = true;
+            foreach ( $this->PersistenceList['tests_run'] as $checkValue )
             {
-                $checkPassed = false;
-                break;
+                if ( $checkValue != 1 )
+                {
+                    $checkPassed = false;
+                    break;
+                }
+            }
+            if ( $checkPassed === true )
+            {
+                $this->Tpl->setVariable( 'system_check', 'ok' );
             }
         }
-        if ( $checkPassed === true )
+
+        // Image settings
+        if ( $this->PersistenceList['imagegd_extension']['result'] )
         {
-            $this->Tpl->setVariable( 'system_check', 1 );
+            $this->Tpl->setVariable( 'image_processor', 'ImageGD' );
+        }
+        if ( $this->PersistenceList['imagemagick_program']['result'] )
+        {
+            $this->Tpl->setVariable( 'image_processor', 'ImageMagick' );
         }
 
+        // Database selected
         $database = $databaseMap[$this->PersistenceList['database_info']['type']]['name'];
         $this->Tpl->setVariable( 'database', $database );
 
+        // Languages selected
         $languages = $this->PersistenceList['regional_info']['languages'];
         $this->Tpl->setVariable( 'languages', $languages );
 
+        // Email settings
         if ( $this->PersistenceList['email_info']['type'] == 1 )
         {
             $this->Tpl->setVariable( 'summary_email_info', 'sendmail' );
@@ -98,6 +114,7 @@ class eZSetupSummary
             $this->Tpl->setVariable( 'summary_email_info', 'SMTP' );
         }
 
+        // Templates chosen
         $siteCount = $this->PersistenceList['site_templates']['count'];
         $sites = array();
         for ( $counter = 0; $counter < $siteCount; $counter++ )

@@ -166,6 +166,40 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function init()
     {
+        include_once( 'lib/ezdb/classes/ezdbtool.php' );
+
+        // Get available databases
+        $databaseMap = eZSetupDatabaseMap();
+        $databaseInfo = $this->PersistenceList['database_info'];
+        $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+        $regionalInfo = $this->PersistenceList['regional_info'];
+
+        $demoDataResult = false;
+
+        $dbStatus = array();
+        $dbDriver = $databaseInfo['info']['driver'];
+        $dbServer = $databaseInfo['server'];
+        $dbName = $databaseInfo['dbname'];
+        $dbUser = $databaseInfo['user'];
+        $dbSocket = $databaseInfo['socket'];
+        if ( trim( $dbSocket ) == '' )
+            $dbSocket = false;
+        $dbPwd = $password;
+        $dbCharset = 'iso-8859-1';
+        $dbParameters = array( 'server' => $dbServer,
+                               'user' => $dbUser,
+                               'password' => $dbPwd,
+                               'socket' => $dbSocket,
+                               'database' => false,
+                               'charset' => $dbCharset );
+        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $availDatabases = $db->availableDatabases();
+
+        if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
+        {
+            $this->PersistenceList['database_info_available'] = $availDatabases;
+        }
+
         return false; // Always show site details
     }
 
