@@ -90,8 +90,6 @@ class eZDBTool
             }
             if ( $matchRegexp === null )
                 $matchRegexp = $defaultRegexp;
-            eZDebug::writeDebug( $relationItems, 'relationitems' );
-            eZDebug::writeDebug( $matchRegexp, 'regexp' );
             foreach ( $relationItems as $relationItem )
             {
                 // skip relations that shouldn't be touched
