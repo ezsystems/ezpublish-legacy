@@ -189,6 +189,8 @@ class eZContentOperationCollection
         $existingNode->setAttribute( 'contentobject_is_published', 1 );
         $existingNode->setName( $objectName );
 
+        eZDebug::createAccumulatorGroup( 'nice_urls_total', 'Nice urls' );
+
         $existingNode->updateSubTreePath();
 
 
@@ -246,11 +248,18 @@ class eZContentOperationCollection
 
     function registerSearchObject( $objectID, $versionNum )
     {
+        eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
+
         include_once( "kernel/classes/ezsearch.php" );
         $object =& eZContentObject::fetch( $objectID );
         // Register the object in the search engine.
+        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
         eZSearch::removeObject( $object );
+        eZDebug::accumulatorStop( 'remove_object' );
+        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
         eZSearch::addObject( $object );
+        eZDebug::accumulatorStop( 'add_object' );
+
 
     }
 

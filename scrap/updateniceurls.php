@@ -43,9 +43,13 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 $db =& eZDb::instance();
 $topLevelNodesArray =$db->arrayQuery( 'select node_id from ezcontentobject_tree where depth = 1 order by node_id' );
+eZDebug::writeDebug( $topLevelNodesArray  );
+var_dump( $topLevelNodesArray );
+print( "<br>/" );
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
     $topLevelNodeID = $topLevelNodesArray[$key]['node_id'];
+    eZDebug::writeDebug( $topLevelNodeID, "toplevelnode" );
     $rootNode =& eZContentObjectTreeNode::fetch( $topLevelNodeID );
     $rootNode->setAttribute( 'path_identification_string', $rootNode->pathWithNames() );
     eZDebug::writeDebug( $rootNode->pathWithNames() );
@@ -57,6 +61,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
         $node =& $nodes[ $key ];
         $node->setAttribute( 'path_identification_string', $node->pathWithNames() );
         $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
+        $node->setAttribute( 'md5_path', md5 ( $node->attribute( 'path_identification_string' ) ) );
         $node->store();
     }
 

@@ -65,6 +65,8 @@ class eZSearchEngine
         $currentVersion =& $contentObject->currentVersion();
 
         $indexArray = array();
+        $indexArrayOnlyWords = array();
+
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
             $classAttribute =& $attribute->contentClassAttribute();
@@ -100,6 +102,7 @@ class eZSearchEngine
                     {
                         $indexArray[] = array( "Word" => $word,
                                                "ContentClassAttributeID" => $attribute->attribute( 'contentclassattribute_id' ) );
+                        $indexArrayOnlyWords[] = $word;
                     }
                 }
             }
@@ -122,37 +125,76 @@ class eZSearchEngine
 
         $wordIDArray = array();
         // store the words in the index and remember the ID
-        foreach ( $indexArray as $indexWord )
+        $dbName = $db->databaseName();
+        if ( $dbName == 'mysql' )
         {
-            $indexWord = strToLower( $indexWord['Word'] );
 
-            // Store word if it does not exist.
-            $wordRes = array();
-
-            $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word='$indexWord'" );
-
-            if ( count( $wordRes ) == 1 )
+            $wordArray = array();
+            $wordsString = implode( '\',\'', $indexArrayOnlyWords );
+            $wordRes =& $db->arrayQuery( "select * from ezsearch_word where word in( '$wordsString' ) " );
+            $wordResCount = count( $wordRes );
+            $wordIDArray = array();
+            $existenWordArray = array();
+            for ( $i=0;$i<$wordResCount;++$i )
             {
-                $wordID = $wordRes[0]["id"];
-                $db->query( "UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id='$wordID'" );
+                $wordIDArray[] = $wordRes[$i]['id'];
+                $existenWordArray[] = $wordRes[$i]['word'];
+                $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
             }
-            else
+            $wordIDString = implode( ',', $wordIDArray );
+            $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id in ( $wordIDString )" );
+            if ( count( $indexArrayOnlyWords ) > $wordResCount )
             {
+                eZDebug::writeDebug( $indexArrayOnlyWords, 'indexArrayOnlyWords' );
+                eZDebug::writeDebug( $existenWordArray, "existenWordArray" );
+                $newWordArray = array_diff( $indexArrayOnlyWords, $existenWordArray );
+                $newWordString = implode( "', '1' ), ('", $newWordArray );
                 $db->query( "INSERT INTO
                                ezsearch_word ( word, object_count )
-                             VALUES ( '$indexWord', '1' )" );
-                $wordID = $db->lastSerialID( "ezsearch_word", "id" );
+                             VALUES ('$newWordString', '1' )" );
+                $newWordString = implode( "','", $newWordArray );
+                $newWordRes =& $db->arrayQuery( "select id,word from ezsearch_word where word in ( '$newWordString' ) " );
+                $newWordCount = count( $newWordRes );
+                for ( $i=0;$i<$newWordCount;++$i )
+                {
+                    $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
+                }
             }
+            $wordIDArray = $wordArray;
+        }else
+        {
+            foreach ( $indexArray as $indexWord )
+            {
+                $indexWord = strToLower( $indexWord['Word'] );
 
-            $wordIDArray[$indexWord] = $wordID;
+                // Store word if it does not exist.
+                $wordRes = array();
+
+                $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word='$indexWord'" );
+
+                if ( count( $wordRes ) == 1 )
+                {
+                    $wordID = $wordRes[0]["id"];
+                    $db->query( "UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id='$wordID'" );
+                }
+                else
+                {
+                    $db->query( "INSERT INTO
+                               ezsearch_word ( word, object_count )
+                             VALUES ( '$indexWord', '1' )" );
+                    $wordID = $db->lastSerialID( "ezsearch_word", "id" );
+                }
+
+                $wordIDArray[$indexWord] = $wordID;
+            }
         }
-
         $placement = 0;
         $prevWordID = 0;
         $nextWordID = 0;
         $classID = $contentObject->attribute( 'contentclass_id' );
         $sectionID = $contentObject->attribute( 'section_id' );
         $published = $contentObject->attribute( 'published' );
+        $valuesStringList = array();
         for ( $i = 0; $i < count( $indexArray ); $i++ )
         {
             $indexWord = $indexArray[$i]['Word'];
@@ -173,14 +215,16 @@ class eZSearchEngine
             // Calculate the relevans ranking for this word
 //            $frequency = ( $wordCountArray[$indexWord] / $totalWordCount );
             $frequency = 0;
-
-            $db->query( "INSERT INTO
-                       ezsearch_object_word_link ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
-                     VALUES ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID', '$published', '$sectionID' )" );
+            $valuesStringList[] = " ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID', '$published', '$sectionID' ) ";
 
             $prevWordID = $wordID;
             $placement++;
         }
+        $valuesString = implode( ',', $valuesStringList );
+        $db->query( "INSERT DELAYED INTO
+                       ezsearch_object_word_link ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
+                     VALUES $valuesString" );
+
     }
 
     /*!
@@ -193,14 +237,18 @@ class eZSearchEngine
 
         // fetch all the words and decrease the object count on all the words
         $wordArray =& $db->arrayQuery( "SELECT word_id FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
-
+        $wordIDList = array();
         foreach ( $wordArray as $word )
         {
-            $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id='" . $word["word_id"] . "'" );
+            $wordIDList[] = $word["word_id"];
         }
-
-        $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
-        $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+        if ( count( $wordIDList ) > 0 )
+        {
+            $wordIDString = implode( ',', $wordIDList );
+            $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( $wordIDString )" );
+            $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
+            $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
+        }
     }
 
     /*!

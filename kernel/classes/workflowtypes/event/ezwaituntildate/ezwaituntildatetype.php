@@ -81,7 +81,8 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
             }
         }
-        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+//        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
     }
 
     function hasAttribute( $attr )

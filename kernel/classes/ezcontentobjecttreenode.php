@@ -96,7 +96,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          'priority' => 'Priority',
                                          "path_string" => "PathString",
                                          "crc32_path" => "CRC32Path",
-                                         "path_identification_string" => "PathIdentificationString"
+                                         "path_identification_string" => "PathIdentificationString",
+                                         "md5_path" => 'MD5Path'
                                          ),
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
@@ -762,7 +763,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE contentobject_id IN ( $inSQL )" );
     }
-
+/*
     function &fetchByCRC( $pathStr )
     {
         $crcSum = crc32( $pathStr );
@@ -791,6 +792,57 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          ezcontentclass
                          $versionNameTables
                     WHERE crc32_path = $crcSum AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                         $versionNameJoins";
+
+        $nodeListArray = $db->arrayQuery( $query );
+        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        if ( count( $retNodeArray ) > 1 )
+        {
+            reset( $retNodeArray );
+            while ( ( $key = key( $retNodeArray )) !== null )
+            {
+                $node =& $retNodeArray[ $key ];
+                if ( $node->attribute( 'path_identification_string' ) == $pathStr )
+                {
+                    return $node;
+                }
+                next( $retNodeArray );
+            }
+        }
+        return $retNodeArray[0];
+    }
+*/
+    function &fetchByCRC( $pathStr )
+    {
+        $md5hash = md5( $pathStr );
+        $db =& eZDB::instance();
+
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
+
+        $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                           $versionNameTargets
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                         $versionNameTables
+                    WHERE md5_path = '$md5hash' AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id
@@ -1063,7 +1115,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
-        eZDebug::writeDebug( $this, 'node3' );
+//        eZDebug::writeDebug( $this, 'node3' );
 
 //        $nodeList = $node->attribute( 'path' );
 //        array_shift( $nodeList );
@@ -1174,7 +1226,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function checkPath( $path )
     {
-        eZDebug::writeDebug( $path, 'path2' );
+//        eZDebug::writeDebug( $path, 'path2' );
         $depth = $this->attribute( 'depth' );
         $parentNodeID = $this->attribute( 'parent_node_id' );
         $nodeID = $this->attribute( 'node_id' );
@@ -1230,25 +1282,48 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $oldPathString = $this->attribute( 'path_identification_string' );
         $oldPathStringLength = strlen( $oldPathString );
 
-        eZDebug::writeDebug( $this, 'node2' );
+//        eZDebug::writeDebug( $this, 'node2' );
         $newPathString = $this->pathWithNames();
         eZDebug::writeDebug( $oldPathString .'  ' . $oldPathStringLength . '  ' . $newPathString );
         $this->setAttribute( 'path_identification_string', $newPathString );
 
         $this->setAttribute( 'crc32_path', crc32 ( $newPathString ) );
+        $this->setAttribute( 'md5_path', md5 ( $newPathString ) );
         $this->store();
-        $subTree = & $this->subTree();
+        $childrensPath = $this->attribute( 'path_string' );
+        $db =& eZDb::instance();
+        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
+        $query = "UPDATE
+                         ezcontentobject_tree
+                  SET
+                         path_identification_string = $newPathStringQueryPart,
+                         md5_path = MD5( path_identification_string )
+                  WHERE
+                         path_string like '$childrensPath%'";
+//        eZDebug::writeDebug( $query, "nice_urls" );
+        $db->query( $query );
+/*
+             $subTree = & $this->subTree();
          reset( $subTree );
          while( ( $key = key( $subTree ) ) !== null )
          {
                $node =& $subTree[$key];
                $nodeOldPathString = $node->attribute( 'path_identification_string' );
                eZDebug::writeDebug( $nodeOldPathString , 'nodeOldPathString' );
+
+               eZDebug::accumulatorStart( 'new_path_string', 'nice_urls_total', 'new_path_string' );
                $node->setAttribute( 'path_identification_string', $newPathString . substr( $nodeOldPathString, $oldPathStringLength ) );
+               eZDebug::accumulatorStop( 'new_path_string' );
+               eZDebug::accumulatorStart( 'crc32', 'nice_urls_total', 'crc32' );
                $node->setAttribute( 'crc32_path', crc32 ( $node->attribute( 'path_identification_string' ) ) );
+               eZDebug::accumulatorStop( 'crc32' );
+               eZDebug::accumulatorStart( 'node_store', 'nice_urls_total', 'node_store' );
                $node->store();
+               eZDebug::accumulatorStop( 'node_store' );
                next( $subTree );
          }
+*/
     }
     function remove( $nodeID = 0 )
     {

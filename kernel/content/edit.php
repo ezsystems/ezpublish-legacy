@@ -108,11 +108,17 @@ if ( !function_exists ( 'registerSearchObject'  ) )
 {
     function registerSearchObject( &$module, $parameters )
     {
+        eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
+
         include_once( "kernel/classes/ezsearch.php" );
         $object =& $parameters[1];
         // Register the object in the search engine.
+        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
         eZSearch::removeObject( $object );
+        eZDebug::accumulatorStop( 'remove_object', 'search_total', 'remove object' );
+        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
         eZSearch::addObject( $object );
+        eZDebug::accumulatorStop( 'add_object', 'search_total', 'add object' );
     }
 }
 $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
@@ -200,10 +206,18 @@ if ( !function_exists( 'checkContentActions' ) )
         {
             $user =& eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            eZDebug::accumulatorStart( 'publish', '', 'publish' );
+            $oldObjectName = $object->name();
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
+            eZDebug::accumulatorStop( 'publish' );
+
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
-            $http =& eZHTTPTool::instance();
+
+            $newObjectName = $object->name();
+
+            $http =& eZHttpTool::instance();
+
             $node = $object->mainNode();
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
@@ -234,12 +248,13 @@ if ( !function_exists( 'checkContentActions' ) )
                     $module->redirectToView( 'view', array( 'sitemap', 2 ) );
                 }
             }
-
             $ini =& eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
+            eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
             if ( $viewCacheEnabled )
             {
+
                 include_once( 'kernel/classes/ezcontentcache.php' );
                 $nodeList = array();
 
@@ -249,21 +264,22 @@ if ( !function_exists( 'checkContentActions' ) )
                     $parentNode =& $parentNodes[$parentNodeKey];
                     $nodeList[] = $parentNode->attribute( 'node_id' );
                 }
-
-                $assignedNodes =& $object->assignedNodes();
-                foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
+                if ( $oldObjectName != $newObjectName )
                 {
-                    $assignedNode =& $assignedNodes[$assignedNodeKey];
-                    $nodeList[] = $assignedNode->attribute( 'node_id' );
-
-                    $children =& eZContentObjectTreeNode::subTree( false, $assignedNode->attribute( 'node_id' ) );
-                    foreach ( array_keys( $children ) as $childKey )
+                    $assignedNodes =& $object->assignedNodes();
+                    foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
                     {
-                        $child =& $children[$childKey];
-                        $nodeList[] = $child->attribute( 'node_id' );
+                        $assignedNode =& $assignedNodes[$assignedNodeKey];
+                        $nodeList[] = $assignedNode->attribute( 'node_id' );
+
+                        $children =& eZContentObjectTreeNode::subTree( false, $assignedNode->attribute( 'node_id' ) );
+                        foreach ( array_keys( $children ) as $childKey )
+                        {
+                            $child =& $children[$childKey];
+                            $nodeList[] = $child->attribute( 'node_id' );
+                        }
                     }
                 }
-
                 $relatedObjects =& $object->contentObjectListRelatingThis();
                 foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
                 {
@@ -275,12 +291,16 @@ if ( !function_exists( 'checkContentActions' ) )
                         $nodeList[] = $assignedNode->attribute( 'node_id' );
                     }
                 }
-
+                eZDebug::writeDebug( count( $nodeList), "count in nodeList " );
+                eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
                 if ( eZContentCache::cleanup( $nodeList ) )
                 {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
                 }
+                eZDebug::accumulatorStop( 'node_cleanup' );
+
             }
+            eZDebug::accumulatorStop( 'check_cache' );
         }
     }
 }

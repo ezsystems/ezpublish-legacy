@@ -311,6 +311,7 @@ CREATE TABLE ezcontentobject_tree (
   priority int(11) NOT NULL default '0',
   path_identification_string text,
   main_node_id int(11) default NULL,
+  md5_path varchar(32) default NULL,
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
@@ -323,14 +324,14 @@ CREATE TABLE ezcontentobject_tree (
 # Dumping data for table 'ezcontentobject_tree'
 #
 
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (1,1,0,1,1,NULL,0,'/1/',1,1,0,NULL,1);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (2,1,1,1,1,1360594808,1,'/1/2/',1,1,0,'frontpage',2);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (5,1,4,1,NULL,NULL,1,'/1/5/',1,1,0,NULL,5);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (11,5,10,1,1,-1609495635,2,'/1/5/11/',1,1,0,'users/',11);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (12,5,11,1,1,-1609495635,2,'/1/5/12/',1,1,0,'users/',12);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (13,5,12,1,1,-1609495635,2,'/1/5/13/',1,1,0,'users/',13);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (14,5,13,1,1,-1609495635,2,'/1/5/14/',1,1,0,'users/',14);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (15,13,14,1,1,934329528,3,'/1/5/13/15/',1,1,0,'users/administrator_users/',15);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (1,1,0,1,1,NULL,0,'/1/',1,1,0,NULL,1,NULL);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (2,1,1,1,1,1360594808,1,'/1/2/',1,1,0,'frontpage',2,'edb72a68a9cfaab392fe8cf95baeb80d');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (5,1,4,1,NULL,NULL,1,'/1/5/',1,1,0,NULL,5,NULL);
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (11,5,10,1,1,-1609495635,2,'/1/5/11/',1,1,0,'users/',11,'9669779df7bfcf1c7bf651204e08d102');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (12,5,11,1,1,-1609495635,2,'/1/5/12/',1,1,0,'users/',12,'9669779df7bfcf1c7bf651204e08d102');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (13,5,12,1,1,-1609495635,2,'/1/5/13/',1,1,0,'users/',13,'9669779df7bfcf1c7bf651204e08d102');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (14,5,13,1,1,-1609495635,2,'/1/5/14/',1,1,0,'users/',14,'9669779df7bfcf1c7bf651204e08d102');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, crc32_path, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, md5_path) VALUES (15,13,14,1,1,934329528,3,'/1/5/13/15/',1,1,0,'users/administrator_users/',15,'ada7ce5ecfa4e9419f4de700d7d332a3');
 
 #
 # Table structure for table 'ezcontentobject_version'
@@ -602,6 +603,7 @@ CREATE TABLE eznode_assignment (
   sort_order int(1) default '1',
   is_main int(11) NOT NULL default '0',
   from_node_id int(11) default '0',
+  remote_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -609,19 +611,19 @@ CREATE TABLE eznode_assignment (
 # Dumping data for table 'eznode_assignment'
 #
 
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (2,1,1,1,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (3,4,2,1,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (4,8,2,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (144,4,4,1,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (147,210,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (146,209,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (145,1,2,1,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (148,9,1,2,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (149,10,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (150,11,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (151,12,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (152,13,1,5,1,1,1,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id) VALUES (153,14,1,13,1,1,1,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (2,1,1,1,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (3,4,2,1,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (4,8,2,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (144,4,4,1,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (147,210,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (146,209,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (145,1,2,1,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (148,9,1,2,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (149,10,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (150,11,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (151,12,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (152,13,1,5,1,1,1,0,0);
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (153,14,1,13,1,1,1,0,0);
 
 #
 # Table structure for table 'eznotification_rule'
@@ -689,6 +691,7 @@ CREATE TABLE ezorder (
   productcollection_id int(11) NOT NULL default '0',
   created int(11) NOT NULL default '0',
   is_temporary int(11) NOT NULL default '1',
+  order_nr int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -930,6 +933,7 @@ CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
   expiration_time int(11) unsigned NOT NULL default '0',
   data text NOT NULL,
+  cache_mask_1 int(11) NOT NULL default '0',
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
@@ -938,7 +942,7 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession (session_key, expiration_time, data) VALUES ('9f49939e4f1553fffe52b51fbe48296c',1039706588,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
+INSERT INTO ezsession (session_key, expiration_time, data, cache_mask_1) VALUES ('9f49939e4f1553fffe52b51fbe48296c',1039706588,'eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}',0);
 
 #
 # Table structure for table 'eztask'
@@ -1113,6 +1117,25 @@ CREATE TABLE ezvattype (
 
 
 #
+# Table structure for table 'ezwaituntildatevalue'
+#
+
+CREATE TABLE ezwaituntildatevalue (
+  id int(11) NOT NULL auto_increment,
+  workflow_event_id int(11) NOT NULL default '0',
+  workflow_event_version int(11) NOT NULL default '0',
+  contentclass_id int(11) NOT NULL default '0',
+  contentclass_attribute_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
+  KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezwaituntildatevalue'
+#
+
+
+#
 # Table structure for table 'ezwishlist'
 #
 
@@ -1270,16 +1293,3 @@ CREATE TABLE ezworkflow_process (
 #
 
 
-alter table ezorder add order_nr int not null default 0;
-
-create table ezwaituntildatevalue(
-    id int(11) NOT NULL auto_increment,
-    workflow_event_id int(11) NOT NULL default '0',
-    workflow_event_version int(11) NOT NULL default '0',
-    contentclass_id int(11) NOT NULL default '0',
-    contentclass_attribute_id int(11) NOT NULL default '0',
-    PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
-    KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
-    );
-alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
-alter table ezsession add cache_mask_1 int default 0 not null;
