@@ -545,6 +545,11 @@ Workflow:
 - Fixed typo in ezmodule.php.
   (Merged from stable/3.4 rev. 8025)
   http://ez.no/community/bug_reports/non_fatal_doxygen_comment_in_ezmodule_php
+- Fixed bug: eZtime, eZdate and eZdateTime datatypes had incorrect object validation.
+  (Manually merged from stable/3.4 rev. 8031)
+  http://ez.no/community/bug_reports/datatypes_eztime_ezdate_and_ezdatetime_have_incorrect_object_validation
+- Fixed incorrent saving of user input by eZTime datatype. This datatype is now free of all the known
+  timezone-related problems. Users might need to update their previously (incorrectly) saved data though.
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

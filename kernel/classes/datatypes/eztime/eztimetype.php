@@ -65,7 +65,6 @@ class eZTimeType extends eZDataType
     {
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
-        $time =  $hour.':'.$minute;
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
         if ( ( $classAttribute->attribute( "is_required" ) == false ) and
@@ -74,18 +73,32 @@ class eZTimeType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
         if ( $classAttribute->attribute( "is_required" ) and
-             $hour == '' and $minute == '' )
+             ( $hour == '' or $minute == '' ) )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing time input.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
 
-        $datetime = mktime( $hour, $minute );
-        if ( $datetime !== false )
+        if( preg_match( '/\d+/', trim( $hour )   ) &&
+            preg_match( '/\d+/', trim( $minute ) ) &&
+            $hour >= 0 && $minute >= 0 &&
+            $hour < 24 && $minute < 60 )
+        {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
+
+        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                             'Invalid time.' ) );
 
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    function makeSeconds( $hour, $minute )
+    {
+        $hour   = abs( (int) $hour   % 24 );
+        $minute = abs( (int) $minute % 60 );
+        return ( $hour * 60 + $minute ) * 60;
     }
 
     /*!
@@ -95,21 +108,9 @@ class eZTimeType extends eZDataType
     {
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $time = new eZTime( );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if ( $hour == '' and $minute == '' )
-        {
-//             if ( !$contentClassAttribute->attribute( "is_required" ) )
-                $time->setTimeStamp( 0 );
-//             else
-//                 $time->setTimeStamp( mktime() );
-        }
-        else
-            $time->setHMS( $hour, $minute, 0 );
-
-        eZDebug::writeDebug( $time->timeStamp(), 'time' );
-        $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() % eZTime::secondsPerDay() );
+        $secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
+        $contentObjectAttribute->setAttribute( "data_int", $secondsSinceMidnight );
         return true;
     }
 
@@ -118,10 +119,10 @@ class eZTimeType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $time = new eZTime( );
-        $stamp = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
-        $time->setTimeStamp( $stamp );
-        return $time;
+        $seconds = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
+        $hour    = (int) ( $seconds / 3600 );
+        $minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
+        return array( 'is_valid' => true, 'hour' => $hour, 'minute' => $minute );
     }
 
     /*!
@@ -129,10 +130,7 @@ class eZTimeType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        $gmtSeconds   = (int) $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
-        $localSeconds = ( $gmtSeconds + date( 'Z' ) ) % eZTime::secondsPerDay();
-
-        return $localSeconds;
+        return $contentObjectAttribute->attribute( 'data_int' );
     }
 
     /*!
@@ -168,7 +166,13 @@ class eZTimeType extends eZDataType
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
             if ( $defaultType == 1 )
-                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+            {
+                $curTime = time();
+                $hour    = date( 'H', $curTime );
+                $minute  = date( 'M', $curTime );
+                $secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
+                $contentObjectAttribute->setAttribute( 'data_int', $secondsSinceMidnight );
+            }
         }
     }
 
