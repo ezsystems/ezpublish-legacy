@@ -77,9 +77,7 @@ function checkAll()
         <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
     </td>
     <td>
-        <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>
-            {$Draft:item.contentobject.name|wash}
-        </a>
+        <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>{$Draft:item.contentobject.content_class.identifier|class_icon( small, $Draft:item.contentobject.content_class.name )}&nbsp;{$Draft:item.contentobject.name|wash}</a>
     </td>
     <td>
         {$Draft:item.contentobject.content_class.name|wash}

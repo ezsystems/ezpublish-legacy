@@ -27,7 +27,7 @@
 </div>
 
 <div class="block">
-    {let adv_url=concat('/content/advancedsearch/',$search_text|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
+    {let adv_url=concat('/content/advancedsearch/',$search_text|count|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
     <label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
     {/let}
 </div>

@@ -70,8 +70,7 @@ function checkAll()
 {section name=Draft loop=$object_list sequence=array(bglight,bgdark)}
 <tr>
     <td class="{$Draft:sequence}">
-    <a href={concat("/content/versionview/",$Draft:item.id,"/",$Draft:item.current_version,"/")|ezurl}>
-    {$Draft:item.name|wash}</a>
+    <a href={concat("/content/versionview/",$Draft:item.id,"/",$Draft:item.current_version,"/")|ezurl}>{$Draft:item.content_class.identifier|class_icon( small, $Draft:item.content_class.name )}&nbsp;{$Draft:item.name|wash}</a>
     </td>
     <td class="{$Draft:sequence}">
     {$Draft:item.content_class.name|wash}

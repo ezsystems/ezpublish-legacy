@@ -69,8 +69,8 @@
             </td>
         
             <td class="bglight">
-                <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {$main_node.name|wash}
+{*                 {node_view_gui view=line content_node=$main_node node_url=concat( 'content/browse', $main_node.parent_node_id, '/' )} *}
+                {node_view_gui view=line content_node=$main_node node_url=false()}
                 {section show=$main_node.depth|gt(1)}
                     <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>
                         [{'Up one level'|i18n('design/standard/content/view')}]
@@ -104,10 +104,8 @@
         
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
-            <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>{/section}
-                {$Object:item.name|wash}
-	    {section show=$browse.ignore_nodes|contains($Object:item.node_id)|not()}</a>{/section}
+
+                 {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
             </td>
         
             <td>
@@ -167,14 +165,11 @@
             </td>
         
             <td>
-                <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=eq($:item,$main_node.node_id)}
-                    {fetch(content,node,hash(node_id,$:item)).name|wash}
-                {section-else}
-                    <a href={concat("/content/browse/",$:item,"/")|ezurl}>
-                        {fetch('content','node',hash(node_id,$:item)).name|wash}
-                    </a>
-                {/section}
+            {let top_node=fetch( content, node, hash( node_id, $:item ) )}
+                {node_view_gui view=line content_node=$:top_node
+                               node_url=cond( eq( $:item, $main_node.node_id ), false(),
+                                              $browse.ignore_nodes|contains( $:top_node.node_id )|not(), concat( 'content/browse/', $:top_node.node_id, '/' ), false() )}
+            {/let}
             </td>
         </tr>
         {/section}
@@ -204,14 +199,9 @@
             </td>
         
             <td>
-                <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
-                    {$:item.node.name|wash}
-                {section-else}
-                    <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
-                        {$:item.node.name|wash}
-                    </a>
-                {/section}
+                {node_view_gui view=line content_node=$:item.node
+                               node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
+                                              $browse.ignore_nodes|contains( $:item.node_id )|not(), concat( 'content/browse/', $:item.node_id, '/' ), false() )}
             </td>
         </tr>
         {section-else}
@@ -252,14 +242,9 @@
                 </td>
             
                 <td>
-                    <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-                    {section show=or(eq($:item.node_id,$main_node.node_id),$browse.ignore_nodes|contains($:item.node_id))}
-                        {$:item.name|wash}
-                    {section-else}
-                        <a href={concat("/content/browse/",$:item.node_id,"/")|ezurl}>
-                            {$:item.name|wash}
-                        </a>
-                    {/section}
+                {node_view_gui view=line content_node=$:item.node
+                               node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
+                                              $browse.ignore_nodes|contains( $:item.node_id )|not(), concat( 'content/browse/', $:item.node_id, '/' ), false() )}
                 </td>
             </tr>
             {/section}

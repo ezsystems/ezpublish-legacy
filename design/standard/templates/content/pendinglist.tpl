@@ -24,9 +24,7 @@
 {section name=PendingList loop=$pending_list sequence=array(bglight,bgdark)}
 <tr class="{$PendingList:sequence}">
    <td>
-        <a href={concat("/content/versionview/",$PendingList:item.contentobject.id,"/",$PendingList:item.version,"/")|ezurl}>
-            {$PendingList:item.contentobject.name|wash}
-        </a>
+        <a href={concat("/content/versionview/",$PendingList:item.contentobject.id,"/",$PendingList:item.version,"/")|ezurl}>{$PendingList:item.contentobject.content_class.identifier|class_icon( small, $PendingList:item.contentobject.content_class.name )}&nbsp;{$PendingList:item.contentobject.name|wash}</a>
     </td>
     <td>
         {$PendingList:item.contentobject.content_class.name|wash}

@@ -56,9 +56,7 @@
     </td>
 
     <td>
-        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>
-            {$:item.node.name|wash}
-        </a>
+        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;{$:item.node.name|wash}</a>
     </td>
 
     <td>

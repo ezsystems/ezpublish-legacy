@@ -133,20 +133,7 @@
                     </td>
                 {/section}
                 <td>
-			<a href={$Child:item.url_alias|ezurl}>
-			{switch match=$Child:item.object.contentclass_id}
-			{case match=4}
-			    <img src={"user.gif"|ezimage} border="0" alt="{'User'|i18n('design/standard/node/view')}" />
-			{/case}
-			{case match=3}
-			     <img src={"usergroup.gif"|ezimage} border="0" alt="{'User group'|i18n('design/standard/node/view')}" />
-			{/case}
-			{case}
-			    <img src={"class_2.png"|ezimage} border="0" alt="{'Document'|i18n('design/standard/node/view')}" />
-			{/case}
-			{/switch}
-			&nbsp;
-			{$Child:item.name|wash}</a>
+			<a href={$Child:item.url_alias|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
                 </td>
                 <td>
                     {$Child:item.object.class_name|wash}
