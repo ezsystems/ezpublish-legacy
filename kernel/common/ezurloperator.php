@@ -703,24 +703,8 @@ CODEPIECE;
 
             case $this->URLName:
             {
-                if ( preg_match( "#^[a-zA-Z0-9]+:#", $operatorValue ) or
-                     substr( $operatorValue, 0, 2 ) == '//' )
-                     break;
-                if ( strlen( $operatorValue ) == 0 )
-                    $operatorValue = '/';
-                else if ( $operatorValue[0] == '#' )
-                {
-                    $operatorValue = htmlspecialchars( $operatorValue );
-                    break;
-                }
-                else if ( $operatorValue[0] != '/' )
-                {
-                    $operatorValue = '/' . $operatorValue;
-                }
-                $operatorValue = $this->Sys->indexDir() . $operatorValue;
-                $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
-                $operatorValue = preg_replace( "#(^.*)(/+)$#", "\$1", $operatorValue );
-                $operatorValue = htmlspecialchars( $operatorValue );
+                include_once( 'lib/ezutils/classes/ezuri.php' );
+                eZURI::transformURI( $operatorValue );
 
                 if ( $operatorValue == "" )
                     $operatorValue = "/";

@@ -3,7 +3,7 @@
 
     <div class="attribute-image">
     <p>
-    {attribute_view_gui attribute=$object.data_map.image image_class=$object_parameters.size href=$href target=$link_parameters.target link_class=$link_parameters.classification link_id=$link_parameters.id}
+    {attribute_view_gui attribute=$object.data_map.image image_class=$object_parameters.size href=$link_parameters.href target=$link_parameters.target link_class=$link_parameters.classification link_id=$link_parameters.id}
     </p>
     </div>
 

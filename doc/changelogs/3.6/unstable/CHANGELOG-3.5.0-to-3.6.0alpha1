@@ -279,6 +279,10 @@ eZDB:
   function.
   (Merged from stable/3.5 (3.5.2) rev. 11242)
 
+eZURI:
+- Added transformURI function that makes valid URI (encapsultes 'ezurl' template
+  operator functionality).
+
 *SOAP:
 - Added authentication support.
 - Added ability to cleanup in the end of execution.

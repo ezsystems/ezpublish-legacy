@@ -404,6 +404,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $href .= '#' . $tag->attributeValue( 'anchor_name' );
             }
 
+            // Making valid URI
+            include_once( 'lib/ezutils/classes/ezuri.php' );
+            eZURI::transformURI( $href );
+
             $this->LinkParameters['href'] = $href;
 
             $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
