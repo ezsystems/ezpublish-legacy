@@ -41,7 +41,7 @@
 */
 
 include_once( "kernel/classes/ezworkflow.php" );
-include_once( "kernel/common/ezi18n.php" );
+include_once( "kernel/common/i18n.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
 define( "EZ_WORKFLOW_TYPE_STATUS_NONE", 0 );
