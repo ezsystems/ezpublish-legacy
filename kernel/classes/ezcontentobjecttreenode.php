@@ -260,6 +260,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'Limit' => false,
                              'SortBy' => false,
                              'AttributeFilter' => false,
+                             'ExtendedAttributeFilter' => false,
                              'ClassFilterType' => false,
                              'ClassFilterArray' => false );
         }
@@ -436,6 +437,40 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
             $classCondition .= ' ) AND ';
+        }
+
+
+        $extendedAttributeFilterTables = '';
+        $extendedAttributeFilterJoins = '';
+        if ( isset( $params['ExtendedAttributeFilter'] ) and count( $params['ExtendedAttributeFilter'] ) > 1 )
+        {
+            $extendedAttributeFilterID = $params['ExtendedAttributeFilter']['id'];
+            $extendedAttributeFilterParams = $params['ExtendedAttributeFilter']['params'];
+            $filterINI =& eZINI::instance( 'extendedattributefilter.ini' );
+
+            $filterClassName = $filterINI->variable( $extendedAttributeFilterID, 'ClassName' );
+            $filterMethodName = $filterINI->variable( $extendedAttributeFilterID, 'MethodName' );
+            $filterFile = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
+            if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
+            {
+                include_once( 'lib/ezutils/classes/ezextension.php' );
+                $extensionName = $filterINI->variable( $extendedAttributeFilterID, 'ExtensionName' );
+                ext_activate( $extensionName, $filterFile );
+            }
+            else
+            {
+                include_once( $filterFile );
+            }
+            $classObject = new $filterClassName();
+            $parameterArray = array( $extendedAttributeFilterParams );
+            $sqlResult = call_user_func_array( array( $classObject, $filterMethodName ), $parameterArray );
+            $extendedAttributeFilterTables = $sqlResult['tables'];
+            $extendedAttributeFilterJoins = $sqlResult['joins'];
+            eZDebug::writeDebug( $extendedAttributeFilterJoins, 'extendedAttributeFilterJoins' );
+            if ( $extendedAttributeFilterJoins == '' )
+            {
+                return array();
+            }
         }
 
         // Check for attribute filtering
@@ -678,8 +713,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $versionNameTables
                           $attributeFromSQL
                           $attributeFilterFromSQL
+                          $extendedAttributeFilterTables
                        WHERE
                           $pathStringCond
+                          $extendedAttributeFilterJoins
                           $attributeWereSQL
                           $attributeFilterWhereSQL
                           ezcontentclass.version=0 AND
@@ -704,8 +741,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $versionNameTables
                             $attributeFromSQL
                             $attributeFilterFromSQL
+                            $extendedAttributeFilterTables
                       WHERE
                             $pathStringCond
+                            $extendedAttributeFilterJoins
                             $attributeWereSQL
                             $attributeFilterWhereSQL
                             ezcontentclass.version=0 AND
