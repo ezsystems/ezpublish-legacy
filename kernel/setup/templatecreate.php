@@ -201,7 +201,23 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     }
 }
 
+$templateType = 'default';
+if ( strpos( $template, "node/view" ) )
+{
+    $templateType = 'node_view';
+}
+else if ( strpos( $template, "content/view" ) )
+{
+    $templateType = 'content_view';
+}
+else if ( strpos( $template, "pagelayout.tpl" ) )
+{
+    $templateType = 'pagelayout';
+}
+
+
 $tpl->setVariable( 'template', $template );
+$tpl->setVariable( 'template_type', $templateType );
 $tpl->setVariable( 'template_name', $templateName );
 $tpl->setVariable( 'site_base', $siteBase );
 

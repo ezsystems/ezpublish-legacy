@@ -52,7 +52,7 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
 $mostUsedOverrideArray = array();
-$mostUsedMatchArray = array( 'node/view/', 'content/view/embed', 'pagelayout', 'search', 'basket' );
+$mostUsedMatchArray = array( 'node/view/', 'content/view/embed', 'pagelayout.tpl', 'search.tpl', 'basket' );
 foreach ( array_keys( $overrideArray ) as $overrideKey )
 {
     foreach ( $mostUsedMatchArray as $mostUsedMatch )
