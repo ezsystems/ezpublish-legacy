@@ -130,6 +130,7 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed bug: SQL error in some DBMSs when publishing a large article.
   (Merged from stable/3.3 (3.3-7) rev. 10801)
 - Fixed bug #6153: RSS export: Objects from multiple sources in wrong order
+- Fixed bug #6185: Headers are not correctly rendered for XML-fields
 
 *Library:
 PDF:
