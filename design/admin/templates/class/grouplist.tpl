@@ -48,7 +48,7 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Recently modified classes'|i18n( 'design/admin/class/list' )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-mainline"></div>
+{* DESIGN: Mainline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
