@@ -1,7 +1,8 @@
 Changes from 3.3-5 to 3.3-6
 
 *Kernel:
-
+- Added rounding to two digits after dot in ezorder class to functions which calculate total
+  amounts.
 *Setup:
 
 *DataTypes:
