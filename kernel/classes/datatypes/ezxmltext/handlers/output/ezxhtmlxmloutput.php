@@ -315,6 +315,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $tableRows .= implode( '', $textElements );
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
+                $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $tpl->setVariable( 'width', $width, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
                 $textElements = array();
