@@ -251,17 +251,28 @@ $res =& eZTemplateDesignResource::instance();
 $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
                      array( 'class', $class->attribute( 'id' ) ), // Class ID
                      array( 'viewmode', 'full' ) );  // View mode
-$sectionID = 4;
+if ( $assignment )
+{
+    $parentNodeObject =& $assignment->attribute( 'parent_node_obj' );
+    $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
+    if ( get_class( $parentNodeObject ) == 'ezcontentobjecttreenode' )
+        $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
+}
+
+$navigationPartIdentifier = false;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
     include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $sectionID );
-}
-$res->setKeys( $designKeys );
 
-// include_once( 'kernel/classes/ezsection.php' );
-// eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
+    $section =& eZSection::fetch( $sectionID );
+    if ( $section )
+        $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+}
+$designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
+
+$res->setKeys( $designKeys );
 
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
