@@ -37,3 +37,7 @@ Enum datatype
 -------------
 It does not work to edit enum datatypes when there exists a temporary version
 of the class.
+
+eZ sys
+________________
+the code for nvh detection needs to be redone.
