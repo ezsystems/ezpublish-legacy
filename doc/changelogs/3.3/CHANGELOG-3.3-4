@@ -57,6 +57,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/default_location_of_users_folder
 - Fixed bug
   http://ez.no/community/bug_reports/error_in_link_tpl_and
+- Fixed bug, too much caching of roles
+  http://ez.no/community/bug_reports/role_caching_works_for_current_user_only
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
