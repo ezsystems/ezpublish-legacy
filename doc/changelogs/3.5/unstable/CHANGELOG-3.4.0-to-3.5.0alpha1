@@ -514,6 +514,8 @@ Workflow:
 - Fixed bug of override template by class_identifer does not work in some cases.
   (Merged from stable/3.4, rev. 7974)
   http://www.ez.no/community/bug_reports/class_identifier_and_override_problems
+- Fixed typo in error message.
+  http://ez.no/community/bug_reports/the_fatal_error_ez_publish_did_not_finish_it_s_request_message
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

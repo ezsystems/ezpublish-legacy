@@ -32,7 +32,7 @@ function eZDBCleanup()
 function eZFatalError()
 {
     eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( "Fatal error: eZ publish did not finish it's request\n" );
+    print( "Fatal error: eZ publish did not finish its request\n" );
     print( "The execution of eZ publish was abruptly ended." );
 }
 

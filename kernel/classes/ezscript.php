@@ -1057,7 +1057,7 @@ function eZFatalError()
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( !$webOutput )
         print( $endl );
-    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
+    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish its request$endl" );
     print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
     print( eZDebug::printReport( false, $webOutput, true ) );
 }
