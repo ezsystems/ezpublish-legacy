@@ -125,6 +125,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed max recent browse items fetch from ini file. http://ez.no/developer/ez_publish_3/bug_reports/class_ezcontentbrowserecentphp_bug
 - Fixed module handler for append unordered parameters to redirect uri bug. http://ez.no/developer/ez_publish_3/bug_reports/modulehandler_utility_fails_to_append_unordered_parameters_to_redirecturis
 - Fixed hard coded page limit doing search in php code. http://ez.no/developer/ez_publish_3/bug_reports/advancedsearchphp_uses_hardwired_pagination_parameter
+- Fixed editing policy with subtree limitation. http://ez.no/developer/ez_publish_3/bug_reports/policy_editing_error_with_subtree_limitation
 
 *Setup:
 - Added check for specific unstable PHP versions.
