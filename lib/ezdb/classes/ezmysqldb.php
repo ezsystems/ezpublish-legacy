@@ -432,6 +432,29 @@ class eZMySQLDB extends eZDBInterface
     }
 
     /*!
+     \reimp
+    */
+    function eZTableList()
+    {
+        $tables = array();
+        if ( $this->isConnected() )
+        {
+            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $count = mysql_num_rows( $result );
+            for ( $i = 0; $i < $count; ++ $i )
+            {
+                $tableName = mysql_tablename( $result, $i );
+                if ( substr( $tableName, 0, 2 ) == 'ez' )
+                {
+                    $tables[] = $tableName;
+                }
+            }
+            mysql_free_result( $result );
+        }
+        return $tables;
+    }
+
+    /*!
       \reimp
     */
     function removeRelation( $relationName, $relationType )

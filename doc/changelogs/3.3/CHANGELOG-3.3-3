@@ -21,6 +21,7 @@ Changes from 3.3-2 to 3.3-3
 
 *Setup:
 - Added check for AcceptPathInfo setting in apache2.
+- Merged setup fix to only check for existing eZ publish tables from stable/3.2 rev. 4936.
 
 *DataTypes:
 
