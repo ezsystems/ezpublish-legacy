@@ -44,7 +44,7 @@
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/view/versionview' )}:</label>
-{section show=$object.published}
+{section show=$object.status|eq( 1 )} {* status equal to 1 means it is published *}
 {$object.main_node.contentobject_version}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
@@ -144,6 +144,7 @@
 {/section}
 
 {* Location *}
+{section show=$version.node_assignments|count|gt( 0 )}
 <label>{'Location'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
 {section show=$version.node_assignments|count|gt( 1 )}
@@ -158,6 +159,7 @@
 </p>
 {/section}
 </div>
+{/section}
 
 {* Design *}
 {let site_designs=fetch( layout, sitedesign_list )}
@@ -209,8 +211,6 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-{section show=$assignment}
-
 {* Content window. *}
 <div class="context-block">
 
@@ -255,8 +255,6 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 </div>
-
-{/section}
 
 
 
