@@ -50,6 +50,10 @@ This is a <emphasize>block</emphasize> of text.
   <paragraph>
   This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
   </paragraph>
+  <header>This is a level two header</header>
+  <paragraph>
+  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+  </paragraph>
   <paragraph>
   This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
   </paragraph>

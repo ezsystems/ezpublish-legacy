@@ -234,6 +234,11 @@ class eZSearchEngine
             else
                 $searchContentClassAttributeID = -1;
 
+            if ( isset( $params['SearchSubTreeArray'] ) )
+                $subTreeArray = $params['SearchSubTreeArray'];
+            else
+                $subTreeArray = array();
+
             // strip multiple spaces
             $searchText = preg_replace( "(\s+)", " ", $searchText );
 
@@ -322,7 +327,7 @@ class eZSearchEngine
 
             $searchWordArray = $this->splitString( $searchText );
             $tempTableCount = 1;
-            if( ( count( $searchWordArray )> 1 ) and ( count( $phraseTextArray ) == 0 ) )
+            if( ( count( $searchWordArray ) > 1 ) and ( count( $phraseTextArray ) == 0 ) )
             {
                 foreach ( $searchWordArray as $searchWord )
                 {
@@ -339,9 +344,9 @@ class eZSearchEngine
                 }
                 $table = "tmptable1, ";
                 $condition = "";
-                for ( $i=2;$i<$tempTableCount;$i++ )
+                for ( $i = 2; $i < $tempTableCount; $i++ )
                 {
-                    if ( $i == ( $tempTableCount-1 ) )
+                    if ( $i == ( $tempTableCount - 1 ) )
                     {
                         $table .= "tmptable". $i ." ";
                         $condition .= " tmptable". $i .".id = tmptable1.id";
@@ -358,7 +363,7 @@ class eZSearchEngine
                 for ( $i=1;$i<$tempTableCount;$i++ )
                 {
                     $tableName = "tmptable".$i;
-                    $db->query ("DROP TABLE $tableName ");
+                    $db->query ("DROP TABLE $tableName " );
                 }
                 return array( "SearchResult" => $finalRes,
                               "SearchCount" => $searchCount );
@@ -476,10 +481,63 @@ class eZSearchEngine
                 $fullTextSQL = " ( $fullTextSQL ) AND ";
             }
 
+            // Search only in specific sub trees
+            $subTreeSQL = "";
+            $subTreeTable = "";
+            if ( count( $subTreeArray ) > 0 )
+            {
+                // Fetch path_string value to use when searching subtrees
+                $i = 0;
+                $doSubTreeSearch = false;
+                foreach ( $subTreeArray as $nodeID )
+                {
+                    if ( is_numeric( $nodeID ) and ( $nodeID > 0 ) )
+                    {
+                        $subTreeNodeSQL .= " $nodeID";
+
+                        if ( is_numeric( $subTreeArray[$i + 1] ) )
+                            $subTreeNodeSQL .= ", ";
+
+                        $doSubTreeSearch = true;
+                    }
+                    $i++;
+                }
+
+                if ( $doSubTreeSearch == true )
+                {
+
+                    $subTreeNodeSQL = "( " . $subTreeNodeSQL;
+                    $subTreeTable = ", ezcontentobject_tree ";
+
+                    $subTreeNodeSQL .= " ) ";
+                    $nodeQuery = "SELECT node_id, path_string FROM ezcontentobject_tree WHERE node_id IN $subTreeNodeSQL";
+
+                    // Build SQL subtre search query
+                    $subTreeSQL = " ( ";
+
+                    $nodeArray =& $db->arrayQuery( $nodeQuery );
+                    $i = 0;
+                    foreach ( $nodeArray as $node )
+                    {
+                        $pathString = $node['path_string'];
+
+                        $subStringString = $db->subString( 'ezcontentobject_tree.path_string', 1, strlen( $pathString ) );
+
+                        $subTreeSQL .= " $subStringString = '$pathString' ";
+
+                        if ( $i < ( count( $nodeArray ) -1 ) )
+                            $subTreeSQL .= " OR ";
+                        $i++;
+                    }
+                    $subTreeSQL .= " ) AND ezcontentobject.id = ezcontentobject_tree.contentobject_id AND ";
+                }
+            }
+
             $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
+                       $subTreeTable
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -487,6 +545,7 @@ class eZSearchEngine
                     $classAttributeQuery
                     $phraseSQL
                     $fullTextSQL
+                    $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
                     ORDER BY ezsearch_object_word_link.frequency";
 
@@ -494,6 +553,7 @@ class eZSearchEngine
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
+                       $subTreeTable
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -501,6 +561,7 @@ class eZSearchEngine
                     $classAttributeQuery
                     $phraseSQL
                     $fullTextSQL
+                    $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id";
 
             $objectRes = array();

@@ -62,10 +62,19 @@ if ( $http->hasVariable( "SearchType" ) )
     $searchType = $http->variable( "SearchType" );
 }
 
+$subTreeArray = array();
+if ( $http->hasVariable( "SubTreeArray" ) )
+{
+    if ( is_array( $http->variable( "SubTreeArray" ) ) )
+        $subTreeArray =& $http->variable( "SubTreeArray" );
+}
+
 $Module->setTitle( "Search for: $searchText" );
 
+
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
-                                                       "SearchSectionID" => $searchSectionID ) );
+                                                       "SearchSectionID" => $searchSectionID,
+                                                       "SearchSubTreeArray" => $subTreeArray,) );
 
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
