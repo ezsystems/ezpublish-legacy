@@ -30,7 +30,6 @@ for arg in $*; do
 	    echo "         --help                     This message"
 	    echo "         --export-path=DIR          Where to export the packages, default is 'packages/styles'"
 	    echo
-	    echo "* Warning: Using these options will not make a valid distribution"
 	    exit 1
 	    ;;
 	-q)
