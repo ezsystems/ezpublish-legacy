@@ -186,6 +186,21 @@ class eZUserFunctionCollection
         include_once( 'kernel/classes/ezrole.php' );
         return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
     }
+
+    function &hasAccessTo( $module, $view, $userID )
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        if ( $userID )
+        {
+            $user =& eZUser::fetch( $userID );
+        }
+        else
+        {
+            $user =& eZUser::currentUser();
+        }
+        $result = $user->hasAccessTo( $module, $view );
+        return array( 'result' => $result['accessWord'] != 'no' );
+    }
 }
 
 ?>

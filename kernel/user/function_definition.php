@@ -122,4 +122,21 @@ $FunctionList['member_of'] = array( 'name' => 'member_of',
                                     'parameters' => array( array( 'name' => 'id',
                                                                   'type' => 'integer',
                                                                   'required' => true ) ) );
+
+$FunctionList['has_access_to'] = array( 'name' => 'has_access_to',
+                                        'operation_types' => array(),
+                                        'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                                'class' => 'eZUserFunctionCollection',
+                                                                'method' => 'hasAccessTo' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'module',
+                                                                      'type' => 'string',
+                                                                      'required' => true ),
+                                                               array( 'name' => 'function',
+                                                                      'type' => 'string',
+                                                                      'required' => true ),
+                                                               array( 'name' => 'user_id',
+                                                                      'type' => 'integer',
+                                                                      'required' => false ) ) );
+
 ?>
