@@ -25,6 +25,8 @@ eZINI:
   http://ez.no/community/bug_reports/datatype_price_and_objectrelation
 - Fixed bug of parse error for datatype ezxmltext when there is header inside custom tag.
   http://ez.no/community/bug_reports/online_editor_error_with_factbox
+- Fixed bug of incorrectly showing checkbox atribute on class view.
+  http://ez.no/community/bug_reports/error_viewing_checkbox_atribute_on_class_view
 
 *Library:
 
