@@ -20,7 +20,7 @@
         <input type="checkbox" name="deleteToolArray[]" value="{$Tool.index}" />
     </td>
     <td>
-    <img src={concat("toolbar/",$Tool.name,".png")|ezimage} alt="{$Tool.name}" />
+    <img src={concat( "toolbar/", $Tool.name, ".png" )|ezimage} alt="{$Tool.name}" />
     <div>{$Tool.name}</div>
     </td>
     <td>

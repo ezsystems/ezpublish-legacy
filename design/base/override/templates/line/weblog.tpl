@@ -16,7 +16,9 @@
         </div>
 
         {section show=$node.object.data_map.enable_comments.content}
-        <a href={$node.url_alias|ezurl}>Comment </a> 
+        <div class="content-link">
+            <p><a href={$node.url_alias|ezurl}>Comment </a><p>
+        </div>
         {/section}
    </div>
 </div>
