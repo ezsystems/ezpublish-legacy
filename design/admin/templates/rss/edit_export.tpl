@@ -72,7 +72,7 @@
     <input type="hidden" name="Item_Count" value={count($rss_export.item_list)} />
 
 
-    {'Note. Each source only fetch 5 objects from 1 level below.'|i18n( 'design/admin/rss/edit_export' )}
+    {'Note: Each source fetches 5 objects from the first level.'|i18n( 'design/admin/rss/edit_export' )}
 
 <hr />
 
