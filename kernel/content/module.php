@@ -114,7 +114,7 @@ $ViewList["search"] = array(
 
 $ViewList["urltranslator"] = array(
     "functions" => array( 'edit' ),
-    "default_navigation_part" => 'ezcontentnavigationpart',
+    "default_navigation_part" => 'ezsetupnavigationpart',
     "script" => "urltranslator.php",
     'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
                                     'StoreURLAliasButton' => 'StoreURLAlias' ),
