@@ -1805,9 +1805,8 @@ CREATE TABLE ezsection (
 
 CREATE TABLE ezsession (
     session_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    expiration_time bigint DEFAULT 0::bigint NOT NULL,
     data text NOT NULL,
-    CONSTRAINT ezsession_expiration_time CHECK ((expiration_time >= 0))
+    expiration_time integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2206,7 +2205,7 @@ CREATE TABLE ezrss_export_item (
     source_node_id integer,
     class_id integer,
     title character varying(255),
-    description character varying(255) DEFAULT 0
+    description character varying(255) DEFAULT ''
 );
 
 

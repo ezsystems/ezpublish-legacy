@@ -33,3 +33,19 @@ CREATE TABLE ezpending_actions (
 );
 
 CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree (action);
+
+
+-- Make sure ezrss_export_item (description) has '' as default like the MySQL schema
+ALTER TABLE ezrss_export_item RENAME COLUMN description TO description_tmp;
+ALTER TABLE ezrss_export_item ADD COLUMN description character varying(255) ;
+ALTER TABLE ezrss_export_item ALTER description SET DEFAULT '' ;
+UPDATE ezrss_export_item SET description=description_tmp;
+ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
+
+-- Make sure ezsession (expiration_time) is normal integer and not bigint
+ALTER TABLE ezsession RENAME COLUMN expiration_time TO expiration_time_tmp;
+ALTER TABLE ezsession ADD COLUMN expiration_time integer ;
+ALTER TABLE ezsession ALTER expiration_time SET DEFAULT 0 ;
+ALTER TABLE ezsession ALTER expiration_time SET NOT NULL ;
+UPDATE ezsession SET expiration_time=expiration_time_tmp;
+ALTER TABLE ezsession DROP COLUMN expiration_time_tmp;
