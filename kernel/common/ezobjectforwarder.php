@@ -649,7 +649,7 @@ class eZObjectForwarder
                 if ( !isset( $templateRoot['attributes'] ) )
                     $tpl->error( $functionName,
                                  'No template root attributes defined' );
-                else if ( !isset( $templateRoot['attributes'] ) )
+                else if ( !isset( $templateRoot['matches'] ) )
                     $tpl->error( $functionName,
                                  'No template root matches defined' );
                 else
