@@ -219,6 +219,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{section show=$override_templates|count}
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Siteaccess'|i18n( 'design/admin/class/view' )}</th>
@@ -238,7 +239,9 @@
 </tr>
 {/section}
 </table>
-
+{section-else}
+{'This class does not have any override templates.'|i18n( 'design/admin/class/view' )}
+{/section}
 {*DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
