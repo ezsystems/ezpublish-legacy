@@ -9,192 +9,127 @@
 {* Cache header for each navigation part *}
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/site.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
+{literal}
 
+<!--[if lt IE 6.0]>
+<style>
+div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug in IE 5.5 */
+</style>
+<![endif]-->
+
+{/literal}
 </head>
 
 <body>
-{* Top box START *}
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
-<tr>
-    <td style="padding: 4px" colspan="13">
-    <table width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-        <td width="5" style="background-image:url('{"tbox-top-left.gif"|ezimage(no)}'); background-repeat: no-repeat;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-        <td style="border-top: solid 1px #789dce;" width="99%">
-        <img src={"1x1.gif"|ezimage} alt="" width="1" height="1" /></td>
-        <td width="5" style="background-image:url('{"tbox-top-right.gif"|ezimage(no)}'); background-repeat: no-repeat;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-    </tr>
-    <tr>
-        <td style="border-left: solid 1px #789dce;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-        <td>
-        <table width="100%">
-        <tr> 
-            <td>
-	    <img src={"logo.gif"|ezimage} alt="" /></td>
-            <td>
-            &nbsp;&nbsp;
-            </td>
-            <td valign="top">
-                <form action={"/content/search/"|ezurl} method="get" style="margin-top: 0px; margin-bottom: 0px; padding: 0px;">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                    <tr>
-                        <td>
-                            <input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />
-                        </td>  
-                        <td>
-                            <input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
-                        </td>
-                    </tr>
-                    </table>
-                </form>
-            </td>
-            <td valign="center">
-	        {section show=fetch('content', 'can_instantiate_classes')}
-	        <form method="post" action={"content/action"|ezurl}>
-                    <table cellspacing="0" cellpadding="0" border="0">
-                    <tr>
-                        <td>
-                        <select name="ClassID" class="classcreate">
-	                    {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-                            <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
-                            {/section}
-                         </select>
-                        </td>
-			<td>
-                            <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
-                        </td>
-                    </tr>
-                    </table>    
-                </form>
-                {/section}
-            </td>  
-            <td align="right">
-      {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-      <a class="leftmenuitem"  href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
-      {section-else}
-      <a class="leftmenuitem" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash}) </a> 
-      {/section}
-            </td> 
-        </tr>  
-        </table>
-        </td>
-        <td style="border-right: solid 1px #789dce;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-    </tr>
-    <tr>
-        <td style="background-image:url('{"tbox-bottom-left.gif"|ezimage(no)}'); background-repeat: no-repeat;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-        <td style="border-bottom: solid 1px #789dce;">
-        <img src={"1x1.gif"|ezimage} alt="" width="1" height="1" /></td>
-        <td style="background-image:url('{"tbox-bottom-right.gif"|ezimage(no)}'); background-repeat: no-repeat;">
-        <img src={"1x1.gif"|ezimage} alt="" width="5" height="6" /></td>
-    </tr>
-    </table>
+<div id="allcontent">
 
-    </td>
-</tr>
-<tr>
-    <td colspan="13">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="5" /></td>
-</tr>
-<tr>
-    <td class="headlogo" width="130">
-    {* Admin logo area *}
-    &nbsp;
-     </td>
-    <td class="headlink" width="66">
+<div id="header">
+<div id="header-design">
+
+<h1 style="float: left;">eZ publish</h1>
+
+<div id="search">
+<form action={"/content/search/"|ezurl} method="get">
+<div class="block">
+    <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
+    <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+</div>
+<div class="block">
+    <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/">Advanced</a></p>
+</div>
+</form>
+</div>
+
+<div class="break"></div>
+
+</div>
+</div>
+
+<hr class="hide" />
+
+<div id="topmenu">
+<div id="topmenu-design">
+
+<h3 class="hide">Top menu</h3>
+
+<ul>
+    <li><div>
     {* Content menu *}
-
     {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Content'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','RootNode','content.ini'))}
     {/section}
-
-    <td class="menuheadspacer" width="3">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
-    <td class="headlink" width="66">
+    </div></li>
+    <li><div>
     {* Media menu *}
     {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url=concat("/content/view/full/",ezini('NodeSettings','MediaRootNode','content.ini'))}
     {/section}
-
-    <td class="menuheadspacer" width="3">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
-    <td class="headlink" width="66">
+    </div></li>
+    <li><div>
     {* Shop menu *}
     {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
+    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
+    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {/section}
-    
-    <td class="menuheadspacer" width="3">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
-
-    <td class="headlink" width="66">
-
+    </div></li>
+    <li><div>
     {* Users menu *}
     {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {/section}
-    
-    </td>
-
-    <td class="menuheadspacer" width="3">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
-
-    <td class="headlink" width="66">
-
+    </div></li>
+    <li><div>
     {* Set up menu *}
     {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {/section}
-
-    </td>
-
-    <td class="menuheadspacer" width="3">
-    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
-
-    <td class="headlink" width="66">
-
+    </div></li>
+    <li><div>
     {* Personal *}
     {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Personal'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {section-else}
     {include uri="design:page_menuheadgray.tpl" menu_text='Personal'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {/section}
+    </div></li>
+</ul>
 
-    </td>
-   <td class="headlogo" width="500">
-   &nbsp;</td>
-</tr>
-<tr>
-    <td colspan="13" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
-    <img src={"1x1.gif"|ezimage} alt="" width="1" height="8" /></td>
-</tr>
+</div>
+</div>
 
 {/cache-block}
 
-{* Top box END *}
+<hr class="hide" />
 
-<tr>
-    <td rowspan="2" width="130" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
-{* Left menu START *}
+<div id="path">
+<div id="path-design">
+
+{include uri="design:page_toppath.tpl"}
+
+</div>
+</div>
+
+
+<hr class="hide" />
+
+<div id="columns">
+
+<div id="leftmenu">
+<div id="leftmenu-design">
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
 {include uri="design:parts/content/menu.tpl"}
@@ -203,8 +138,6 @@
 {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
 {include uri="design:parts/media/menu.tpl"}
 {/section}
-
-{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),ezpreference('advanced_menu'),$navigation_part.identifier)}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
 {include uri="design:parts/shop/menu.tpl"}
@@ -223,15 +156,40 @@
 {include uri="design:parts/my/menu.tpl"}
 {/section}
 
+</div>
+</div>
 
-{* Left menu END *}
-</td>
-    <td class="mainarea" colspan="12"  valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat; background-position: left top;">
+<hr class="hide" />
 
-{/cache-block}
+<div id="rightmenu">
+<div id="rightmenu-design">
 
-    {include uri="design:page_toppath.tpl"}
+<h3>Right</h3>
 
+{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+<p><a class="leftmenuitem"  href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a></p>
+{section-else}
+<p><a class="leftmenuitem" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash})</a></p>
+{/section}
+
+	        {section show=fetch('content', 'can_instantiate_classes')}
+	        <form method="post" action={"content/action"|ezurl}>
+                        <select name="ClassID" class="classcreate">
+	                    {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
+                            <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
+                            {/section}
+                         </select>
+                            <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+                </form>
+                {/section}
+
+</div>
+</div>
+
+<hr class="hide" />
+
+<div id="maincontent"><div id="fix">
+<div id="maincontent-design">
 
 {* Main area START *}
 
@@ -239,17 +197,25 @@
 
 {* Main area END *}
 
-    </td>
-</tr>
-<tr>
-    <td bgcolor="#ffffff" colspan="12" valign="bottom">
-    <div align="center" style="padding-top: 0.5em;">
-    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a></p>
-    </div>
-    </td>
-</tr>
-</table>
+</div>
+<div class="break"></div>
+</div></div>
 
+<div class="break"></div>
+</div>
+
+<hr class="hide" />
+
+<div id="footer">
+<div id="footer-design">
+
+<address><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a></address>
+
+</div>
+</div>
+
+<div class="break"></div>
+</div>
 
 <!--DEBUG_REPORT-->
 
