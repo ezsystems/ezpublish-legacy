@@ -9,8 +9,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-  {*   @import url("/design/shop/stylesheets/shop.css");*}
+ {*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+     @import url("/design/shop/stylesheets/shop.css");
 </style>
 
 {literal}
@@ -274,7 +274,7 @@ div#maincontent div.design { width: 100%; }
     <div id="footer">
         <div class="design">
             <address>
-		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">Powered by eZ publish E-Commerce Engine</a>
             </address>   
         </div>

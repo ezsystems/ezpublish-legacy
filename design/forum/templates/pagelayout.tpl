@@ -116,7 +116,7 @@
     <div id="footer">
         <div class="design">
             <address>
-		 {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
+		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
 		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
             </address>
         </div>
