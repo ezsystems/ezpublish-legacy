@@ -391,3 +391,10 @@ drop table eztask_message;
 alter table ezimage add alternative_text varchar(255) not null default "";
 # Default field for import syncronization
 alter table ezcontentobject add remote_id varchar(100);
+
+
+alter table ezorder add ignore_vat int not null default '0';
+
+# Store the VAT value
+alter table ezorder_item drop vat_type_id;
+alter table ezorder_item add vat_value int not null default '0';
