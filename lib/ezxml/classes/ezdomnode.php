@@ -169,6 +169,16 @@ class eZDOMNode
     }
 
     /*!
+      Returns the first node children or \c null if no children.
+    */
+    function &firstChild()
+    {
+        if ( count( $this->Children ) == 0 )
+            return null;
+        return $this->Children[0];
+    }
+
+    /*!
       Returns the attribute value for the given attribute.
       If no value is found false is returned.
     */
@@ -252,7 +262,7 @@ class eZDOMNode
     */
     function &toString( $level )
     {
-        $spacer = str_repeat ( " ", $level*2 );
+        $spacer = str_repeat( " ", $level*2 );
         $ret = "";
         switch ( $this->Name )
         {
@@ -297,13 +307,19 @@ class eZDOMNode
                 // generate attributes string
                 if ( count( $this->Attributes ) > 0 )
                 {
+                    $i = 0;
                     foreach ( $this->Attributes as $attr )
                     {
                         $attrPrefix = "";
                         if ( $attr->prefix() != false )
                             $attrPrefix = $attr->prefix(). ":";
 
-                        $attrStr .= " " . $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\"";
+                        if ( $i > 0 )
+                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $this->Name ) + 1 + 1  );
+                        else
+                            $attrStr .= ' ';
+                        $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\"";
+                        ++$i;
                     }
                 }
 

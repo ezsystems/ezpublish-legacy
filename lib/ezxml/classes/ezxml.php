@@ -199,7 +199,8 @@ class eZXML
                     // find attributes
                     if ( $tagNameEnd > 0 )
                     {
-                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                        unset( $attributePart );
+                        $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
 
                         // attributes
                         unset( $attr );

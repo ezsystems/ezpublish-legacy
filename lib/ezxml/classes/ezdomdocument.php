@@ -160,11 +160,15 @@ class eZDOMDocument
     /*!
       Creates and returns a element node
     */
-    function &createElementNode( $name )
+    function &createElementNode( $name, $attributes = array() )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
         $node->setType( 1 );
+        foreach ( $attributes as $attributeKey => $attributeValue )
+        {
+            $node->appendAttribute( eZDomDocument::createAttributeNode( $attributeKey, $attributeValue ) );
+        }
 
         return $node;
     }
@@ -173,11 +177,24 @@ class eZDOMDocument
       Creates and returns a element node with a text node as child.
       \sa createTextNode, createElementNode
     */
-    function &createElementTextNode( $name, $text )
+    function &createElementTextNode( $name, $text, $attributes = array() )
     {
-        $node =& eZDOMDocument::createElementNode( $name );
+        $node =& eZDOMDocument::createElementNode( $name, $attributes );
         $textNode =& eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
+
+        return $node;
+    }
+
+    /*!
+      Creates and returns a element node with a CDATA node as child.
+      \sa createCDATANode, createElementNode
+    */
+    function &createElementCDATANode( $name, $text, $attributes = array() )
+    {
+        $node =& eZDOMDocument::createElementNode( $name, $attributes );
+        $cdataNode =& eZDOMDocument::createCDATANode( $text );
+        $node->appendChild( $cdataNode );
 
         return $node;
     }
