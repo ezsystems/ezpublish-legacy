@@ -1,4 +1,3 @@
-
 <h1>{$object.name}</h1>
 
 <table>
@@ -27,7 +26,7 @@
     <td width="20%" valign="top">
     {let related=$object.related_contentobject_array}
       {section show=$related}
-        <h3>Related objects</h3>
+        <h3>{"Related objects"|i18n("design/standard/content/view")}</h3>
         <table width="100%" cellspacing="0">
         {section name=Object loop=$related sequence=array(bglight,bgdark)}
         <tr>
@@ -38,7 +37,7 @@
         {section-else}
         <tr>
             <td class="{$Object:sequence}">
-            None
+            {"None"|i18n("design/standard/content/view")}
             </td>
         </tr>
         {/section}

@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-<label>Current version:</label><div class="labelbreak"></div>
+<label>{"Current version:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 <p class="box">{$object.current_version}</p>
 </div>
 
@@ -16,7 +16,7 @@
 </div>
 {/section}
 
-<h2>Related objects</h2>
+<h2>{"Related objects"|i18n("design/standard/content/view")}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section name=Object loop=$related_contentobject_array show=$related_contentobject_array sequence=array(bglight,bgdark)}
@@ -28,7 +28,7 @@
 {section-else}
 <tr>
 	<td class="bglight">
-	None
+	{"None"|i18n("design/standard/content/view")}
 	</td>
 </tr>
 {/section}

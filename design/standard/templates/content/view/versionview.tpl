@@ -9,7 +9,7 @@
 <div class="block">
 {section show=$version.language_list|gt(1)}
 <div class="element">
-<label>Translation:</label><div class="labelbreak"></div>
+<label>{"Translation:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
   
 <select name="SelectedLanguage" >
 {section name=Translation loop=$version.language_list}
@@ -23,7 +23,7 @@
 {section show=$Placement:node_assignment_list|gt(1)}
 
 <div class="element">
-<label>Placement:</label><div class="labelbreak"></div>
+<label>{"Placement:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 
 <select name="SelectedPlacement" >
 {section loop=$Placement:node_assignment_list}
@@ -40,7 +40,7 @@
 {section show=$Sitedesign:sitedesign_list|gt(1)}
 
 <div class="element">
-<label>Site Design:</label><div class="labelbreak"></div>
+<label>{"Site Design:"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
 
 <select name="SelectedSitedesign" >
 {section loop=$Sitedesign:sitedesign_list}
@@ -55,7 +55,7 @@
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('content/object')}" />
+<input class="button" type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('design/standard/content/view')}" />
 </div>
 
 <input type="hidden" name="ContentObjectID" value="{$object.id}" />
@@ -65,11 +65,11 @@
 
 <div class="buttonblock">
 {section show=and(eq($version.status,0),$is_creator,$object.can_edit)}
-<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('content/object')}" />
-<input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('content/object')}" />
+<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
+<input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('design/standard/content/view')}" />
 {/section}
 
-<input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
+<input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('design/standard/content/view')}" />
 </div>
 
 
