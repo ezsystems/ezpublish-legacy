@@ -54,6 +54,8 @@ else if ( $http->hasPostVariable( 'RemoveExportButton' ) )
     foreach ( $deleteArray as $deleteID )
     {
         $rssExport =& eZRSSExport::fetch( $deleteID );
+        if ( $rssExport === null )
+            continue;
         $rssExport->remove();
     }
 }
@@ -67,6 +69,8 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
     foreach ( $deleteArray as $deleteID )
     {
         $rssImport =& eZRSSImport::fetch( $deleteID );
+        if ( $rssImport === null )
+            continue;
         $rssImport->remove();
     }
 }
