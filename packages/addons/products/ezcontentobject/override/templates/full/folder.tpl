@@ -16,6 +16,7 @@
             </div>
         {/section}
 
+        {section show=is_unset( $versionview_mode )}
         {section show=$node.object.data_map.show_children.content}
             {let page_limit=10
                  list_items=array()
@@ -58,6 +59,7 @@
                      item_limit=$page_limit}
             {/let}
 
+        {/section}
         {/section}
 
     </div>

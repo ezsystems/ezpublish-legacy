@@ -25,6 +25,7 @@
           </p>
         </div>
 
+        {section show=is_unset( $versionview_mode )}
         <div class="content-action">
         <form method="post" action={"content/action"|ezurl}>
             <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="{"Add to basket"|i18n("design/base")}" />
@@ -33,10 +34,11 @@
             <input type="hidden" name="ViewMode" value="full" />
         </form>
         </div>
+        {/section}
 
         <div class="attribute-pdf">
           <p>
-             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{"Download PDF"|i18n("design/base")}</a>
+             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{"Download this product sheet as PDF"|i18n("design/base")}</a>
           </p>
         </div>
 
