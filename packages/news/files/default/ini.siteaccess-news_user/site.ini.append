@@ -1,0 +1,25 @@
+[SiteSettings]
+LoginPage=embeded
+SiteURL=myuser.wy.dvh1.ez.no
+
+[SiteAccessSettings]
+RequireUserLogin=false
+
+[DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezmysql
+Server=bf.ez.no
+User=root
+Password=mofser
+Database=news
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=news
+
+[FileSettings]
+VarDir=var/news
+
+[DebugSettings]
+DebugOutput=disabled
