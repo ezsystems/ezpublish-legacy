@@ -779,8 +779,8 @@ class eZContentObject extends eZPersistentObject
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
 
-        return $version;
-//        return $clonedVersion;
+        //   return $version;
+        return $clonedVersion;
 
     }
 
