@@ -122,9 +122,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $message = $data[1];
             if ( $message == "Valid" )
             {
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     $message,
-                                                                     'ezXMLTextType' ) );
+                $contentObjectAttribute->setValidationError( $message );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
             else
@@ -532,7 +530,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
                         }break;
                         case 'strong' :
@@ -579,7 +580,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
                         }break;
                         case 'i' :
@@ -629,7 +633,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
                         }break;
                         case 'table' :
@@ -681,7 +688,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
                         }break;
                         case 'tr' :
@@ -694,7 +704,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $lastInsertedChildTag = array( "tr" );
                                 unset( $currentNode );
                                 $currentNode =& $lastNode;
-                                $message .= "<li>Tag '" . $justName . "' does not have an end tag '" . $originalTagName ."' (fixed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' does not have an end tag '%2' (fixed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
 
                             if ( in_array( $justName, $lastInsertedChildTag ) )
@@ -719,7 +732,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                             }
                         }break;
                         case 'td' :
@@ -784,6 +800,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
+                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
+                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
+                                                            'ezXMLTextType',
+                                                            array( $justName, $originalTagName ) ) . "</li>";
                                 $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
                             }
                         }break;
