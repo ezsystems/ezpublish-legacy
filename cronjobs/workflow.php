@@ -103,6 +103,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
         if ( is_null( $bodyMemento ) )
         {
             eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
+            continue;
         }
         $bodyMementoData = $bodyMemento->data();
         $mainMemento =& $bodyMemento->attribute( 'main_memento' );

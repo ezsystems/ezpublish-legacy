@@ -151,6 +151,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed problem with approve workflow event which displayed non-published users. Also users that are
   disabled are no longer shown.
   http://ez.no/developer/ez_publish_3/bug_reports/bogus_users_in_gallery_package
+- Made sure empty body mementos are skipped
+  http://ez.no/developer/ez_publish_3/bug_reports/missing_error_handling_in_workflow_cronjob
 
 *Setup:
 - Added check for specific unstable PHP versions.
