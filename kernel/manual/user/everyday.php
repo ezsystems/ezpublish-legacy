@@ -35,10 +35,12 @@ create and edit articles, add pictures and manage workflows - this is where you 
 You will use sections to name the different parts of your site. These are the main folders where all 
 the content is stored and published. In our demo the sections are Standard, Whitebox, News, Crossroads,
  Bookcorner, My company, Intranet and MySite. for a newspaper typical sections can be News, Sports, Economy,
- Weather etc.
-The section information are basically used for two things, permissions and layout. You make different
+ Weather etc.</p>
+<p>The section information are basically used for two things, permissions and layout. You make different
 people access different parts of your site based on the section information. You normally also use
-the section information to create different layout on the different parts of your site.
+the section information to create different layout on the different parts of your site.</p>
+
+<p>Visit <a href="http://sdk.ez.no">sdk.ez.no</a> for a more indepth tutorial.
 
 </p>
 
@@ -50,15 +52,15 @@ that you want to publish in "Sports". for a newspaper the folder can be: Editori
 and Economy. There are no limits to how many folders you can create. 
 When you want to create folders you have to be sure that you are in the Content view mode (list). You will
  get there by using the "Content box" in the to left corner of the admin interface.
-</p><p><img src="/kernel/manual/user/images/content1.jpg"></p>
+</p><p><img src="/kernel/manual/user/images/content1.jpg" border="1"></p>
 <p>In the "Content" window you will get a view over all the folders you have created. 
 When in this window you will also see a button and a dropdown many that says "New" and "Folder".
-</p><p><img src="/kernel/manual/user/images/new.jpg"></p>
+</p><p><img src="/kernel/manual/user/images/new.jpg" border="1"></p>
  <p>Click "New" and you will go to the "Edit folder - New folder" page. Write in the name of the folder, 
  for example "Sports" and a description of the folder if you want that. 
 You will also get some different choices on what you want to do with your folder. You can preview it, 
 store it as a draft that you can work with later or publish it.</p>
-<p><img src="/kernel/manual/user/images/muligheter1.jpg"></p>
+<p><img src="/kernel/manual/user/images/muligheter1.jpg" border="1"></p>
 <p>We choose to publish it. Now this folder will appear on your site as "Sports". 
 Now you have created a folder. When you have clicked the "Publish" button you will see the Folder in a 
 new window. The next step is to put content like; articles and pictures in the folder. 
@@ -74,7 +76,7 @@ if you just made the folder you are where you are supposed to be, in the folder 
 
 You will now get the same choice you got when creating the folder. But instead of creating a new folder 
 you choose "Article" in the drop down menu.</p>
-<p><img src="/kernel/manual/user/images/sport.jpg"> </p>
+<p><img src="/kernel/manual/user/images/sport.jpg" border="1"> </p>
 <p>Click "New" and you will get into the "Edit article - New article" window. Write in the title, the intro 
 and the body of the article. You can also add pictures to your article.
 You will then get the same choices for what you want to do with your article that you got for you folder.
@@ -100,7 +102,7 @@ images, MPEG's etc. Click the "Find object" button and find the object that you 
  Select the file with a check and click the "Select" button.</p> 
 <p>This will take you back to the "Edit article" page and show the selected file in the "Related objects" box. 
 if you want to add this file in the article copy the <tag> and paste it wherever you want in the text.</p>
-<p><img src="/kernel/manual/user/images/object2.jpg">.</p>
+<p><img src="/kernel/manual/user/images/object2.jpg" border="1">.</p>
 <p>do the same procedure over again if you want to add more objects to your article.
 
 </p>
@@ -117,7 +119,7 @@ Often a site can be very large and the content can be difficult to find or perha
 
 <p>We have placed this search engine on the top of the Admin user interface so that it will always be easily 
 accessible. In the search field you can search between everything that is published on your site. We have 
-also included an "Advanced search".</p><p><img src="/kernel/manual/user/images/sok.jpg"></p> 
+also included an "Advanced search".</p><p><img src="/kernel/manual/user/images/sok.jpg" border="1"></p> 
 <p>With the search engine you can search through your site in many ways. Search for words, exact phrases or folders.
  You can also search within sections. There are also possibilities to do advanced search as: Search for all 
  images of a "Ball" in the "Sports" section that is published the last year. </p> 
@@ -140,7 +142,7 @@ a later time.</p>
 the "Store draft" button you will get this message: "Input was stored successfully". That means that your 
 draft is saved. When you want to find the draft and continue working on it you will find it in the drafts section in the
  "Content" box. </p>
-<p><img src="/kernel/manual/user/images/content1.jpg"></p>
+<p><img src="/kernel/manual/user/images/content1.jpg" border="1"></p>
 </p>
 
 <br>
@@ -154,7 +156,7 @@ also be put in other folders like Programming books and Computers. This is easil
 <p>First you find the article or product that you want to publish in several folders. Click the "Edit" button 
 and you will get to the "Edit article - article name" page. On that site you will find the button "Add location".
  With this button you can add as many places you want your article to be published at.</p>
-<p><img src="/kernel/manual/user/images/location1.jpg"></p>
+<p><img src="/kernel/manual/user/images/location1.jpg" border="1"></p>
 
 <p>Click the "Add location" button. You will now get an overview of all the folders on your site. if you want 
 your article to be published on the top level of one of these folders you choose select that folder by ticking 
@@ -173,7 +175,7 @@ click the "Remove location" button.  That's it. Your article or product is remov
 Objects like folders, articles, forums and products can be edited anytime you wish. 
 This is no big deal in eZ publish 3 and it really explains itself. All you need to do is find the object you 
 want to edit, click the "Edit" button and start editing.</p>
-<p><img src="/kernel/manual/user/images/edit.jpg"></p>
+<p><img src="/kernel/manual/user/images/edit.jpg" border="1"></p>
 <p>You can everything in the object. Change the title, location, intro and body text, add pictures or relate 
 other objects. Everything is done in this window. </p>
 <p>Every time you edit an object like an article you can choose to save the different versions of this object. 
@@ -228,7 +230,7 @@ clicking the "Copy" button. Now you can edit the copy of the "Current" version a
 save it as another draft. When you have published the "Copy" that is set to be the current version and the 
 former current version is set to "Archived". Back in the "Edit view" you will find information about which 
 version you are now working on and how many versions exists of this object.</p>
-<p><img src="/kernel/manual/user/images/versions1.jpg"></p>
+<p><img src="/kernel/manual/user/images/versions1.jpg" border="1"></p>
 
 <p>In the picture we are working on/editing version "2" while version 1 is the current version or the version 
 that is published.
@@ -242,11 +244,11 @@ that is published.
 The preview function shows how your object (article) will look after you have published it.</p>
 
 <p>When you click the "Preview" button</p>
-<p><img src="/kernel/manual/user/images/preview.jpg"></p>
+<p><img src="/kernel/manual/user/images/preview.jpg" border="1"></p>
 
 <p>you will get into the "Preview" window. Here you can also change what design you want this article to be 
 previewed in by changing the "Site design" dropdown menu. </p>
-</p><img src="/kernel/manual/user/images/sitedesign1.jpg"></p>
+</p><img src="/kernel/manual/user/images/sitedesign1.jpg" border="1"></p>
 
 <p>By doing this you can preview the article in the different designs you have on your site.   
 This function gives you the possibility to edit your article if you're not satisfied with it. When in the 
@@ -263,7 +265,7 @@ means that you can publish an article in different languages depending on where 
 
 <p>To translate you go to the object (article) you want to translate and click the "Manage" button in the
  "Translations" box. </p>
-<p><img src="/kernel/manual/user/images/translate.jpg"></p>
+<p><img src="/kernel/manual/user/images/translate.jpg" border="1"></p>
 
 <p>This will take you to the "Translating - object" window. Click the "Translate" button. Now you will see a 
 different window with the text you want to translate on the right side and the "Edit" windows for your new 
@@ -284,7 +286,7 @@ folders, articles etc. </p>
 if you want to sort the different contents in a folder, click on the  "Edit" button on the folder itself. 
 Then you will get into the "Edit folder - Folder name" page. Use the "Sort by" drop down menu and decide 
 in what manner you want to sort your content.</p> 
-<p><img src="/kernel/manual/user/images/sorting.jpg"></p>
+<p><img src="/kernel/manual/user/images/sorting.jpg" border="1"></p>
 
 <p>Let us say that you want to sort it by Priority. Highlight "Priority" and click "Send for publishing". 
 Back in the Folder page you will now find a new box on the right hand side with a "0" inside. 
@@ -332,6 +334,6 @@ for that we use simple tags *.</p>
 <li>&lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt; where attribute 'border' and 'width' could be not presented. Table content should be written according to normal table syntax with &lt;tr&gt; and &lt;td&gt; tag.</li>
 <li>&lt;image align="" src="..."&gt; if you want to change size and placement of a picture.</li>
 </ul>
-<p>* Editors will be available at ez.no to make this process much easier.</p>  
+<p>* Editors will be available at <a href="www.ez.no"> ez.no</a> to make this process much easier.</p>  
 
 
