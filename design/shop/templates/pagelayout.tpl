@@ -54,8 +54,11 @@
                  {section show=$current_user.is_logged_in}
 		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
                  <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
-                 {/section}
 		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
+		 <li><a href={"/user/logout"|ezurl}>logout</a></li>
+		 {section-else}
+		 <li><a href={"/user/login"|ezurl}>login</a></li>
+                 {/section}
              </ul>
         </div>
         
