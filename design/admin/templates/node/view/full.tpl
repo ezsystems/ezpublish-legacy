@@ -47,7 +47,7 @@
 {* Custom content action buttons. *}
 <div class="right">
 {section var=ContentActions loop=$node.object.content_action_list}
-    <input class="button" type="button" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
+    <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
 {/section}
 </div>
 
