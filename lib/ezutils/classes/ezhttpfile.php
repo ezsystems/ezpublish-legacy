@@ -132,6 +132,7 @@ class eZHTTPFile
 
 //        $dest_name = tempnam( $dir, $this->MimePart . "-" );
         $dest_name = tempnam( $dir , '');
+        eZDebug::writeNotice( $this->Filename . " " . $dest_name . $suffixString );
         if ( !copy( $this->Filename, $dest_name . $suffixString ) )
         {
             unlink( $dest_name );

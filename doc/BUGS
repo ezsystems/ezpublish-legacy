@@ -41,3 +41,9 @@ of the class.
 eZ sys
 ________________
 the code for nvh detection needs to be redone.
+
+
+Binary file upload
+------------------
+Must check if the file was too big. You should be able to
+set the max filesize in the class edit.

@@ -78,7 +78,8 @@ class eZUser extends eZPersistentObject
                                          ),
                       'keys' => array( 'contentobject_id' ),
                       'function_attributes' => array( 'groups' => 'groups',
-                                                      'roles' => 'roles'
+                                                      'roles' => 'roles',
+                                                      'is_logged_in' => 'isLoggedIn'
                                                       ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                                  'field' => 'id' ) ),
@@ -91,6 +92,10 @@ class eZUser extends eZPersistentObject
         if ( $attr == 'groups')
         {
             return $this->groups();
+        }
+        if ( $attr == 'is_logged_in')
+        {
+            return $this->isLoggedIn();
         }
         if ( $attr == 'roles')
         {
@@ -245,7 +250,7 @@ class eZUser extends eZPersistentObject
      The instance is then returned.
      If \a $id is false then the current user is fetched.
     */
-    function & instance( $id = false )
+    function &instance( $id = false )
     {
         $currentUser =& $GLOBALS["eZUserGlobalInstance"];
         if( get_class( $currentUser ) == 'ezuser' )
@@ -379,6 +384,20 @@ class eZUser extends eZPersistentObject
             $this->Roles =& $roles;
         }
         return $this->Roles;
+    }
+
+    /*!
+     Returns true if it's a real user which is logged in. False if the user
+     is the default user or the fallback buildtin user.
+    */
+    function &isLoggedIn()
+    {
+        $return = true;
+        if ( $this->ContentObjectID == EZ_USER_ANONYMOUS_ID or
+             $this->ContentObjectID == -1
+             )
+            $return = false;
+        return $return;
     }
 
     /*!

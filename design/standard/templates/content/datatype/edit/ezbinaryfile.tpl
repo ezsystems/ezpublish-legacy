@@ -7,7 +7,7 @@
 </tr>
 <tr>
 	<td class="bglight">
-	<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
 	<input name="ContentObjectAttribute_data_binaryfilename_{$attribute.id}" type="file" />
 
 	</td>

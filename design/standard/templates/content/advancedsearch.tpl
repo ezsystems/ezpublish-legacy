@@ -1,5 +1,5 @@
 <form action="/content/advancedsearch/" method="get">
-<h1>Search for: {$search_text} returned {$search_count} objects</h1>
+<h1>Search for: "{$search_text}" returned {$search_count} objects</h1>
 
 <table cellspacing="0">
 <tr>
@@ -52,7 +52,7 @@
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$SearchResult:sequence}">
-	{content_view_gui view=line content_object=$SearchResult:item} 
+	{content_view_gui view=searchline content_object=$SearchResult:item} 
 	</td>
 </tr>
   {section-else}

@@ -1,5 +1,5 @@
 
-<h1>Search for: {$search_text} returned {$search_count} objects</h1>
+<h1>Search for: "{$search_text}" returned {$search_count} objects</h1>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 {section show=$search_text}
@@ -7,7 +7,7 @@
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 
 	<td class="{$SearchResult:sequence}" valign="top">
-	{content_view_gui view=line content_object=$SearchResult:item} 
+	{content_view_gui view=searchline content_object=$SearchResult:item} 
 	</td>
 
 {delimiter modulo=2}
