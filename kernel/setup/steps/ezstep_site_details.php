@@ -130,18 +130,17 @@ class eZStepSiteDetails extends eZStepInstaller
                                    'database' => $dbName,
                                    'charset' => $dbCharset );
             $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-
             $dbVersion = $db->databaseServerVersion();
 
             if ( $dbVersion != null )
             {
-                if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] != 3 )
+                if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] >= 3 )
                 {
-                    $dbStatus['connected'] = false;
+                    $dbStatus['connected'] = $db->isConnected();
                 }
                 else
                 {
-                    $dbStatus['connected'] = $db->isConnected();
+                    $dbStatus['connected'] = false;
                 }
             }
             else
@@ -173,7 +172,6 @@ class eZStepSiteDetails extends eZStepInstaller
                 return 'DatabaseInit';
             }
         }
-
         return ( count( $this->Error ) == 0 );
     }
 
