@@ -17,12 +17,13 @@
 {* Name. *}
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/role/edit' )}</label>
-    <input class="box" type="edit" name="NewName" value="{$role.name|wash}" />
+    <input class="box" type="text" name="NewName" value="{$role.name|wash}" />
 </div>
 
 {* Policies. *}
 <div class="block">
-<label>{'Policies'|i18n( 'design/admin/role/edit' )}</label>
+<fieldset>
+<legend>{'Policies'|i18n( 'design/admin/role/edit' )}</legend>
 {section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
@@ -93,7 +94,7 @@
 {/section}
 
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" title="{'Create a new policy.'|i18n( 'design/admin/role/edit' )}" />
-
+</fieldset>
 </div>
 
 </div>
