@@ -400,13 +400,16 @@ class eZCLI
         return !$this->IsQuiet;
     }
 
-    function parseOptionString( $configString )
+    function parseOptionString( $configString, &$optionConfig )
     {
         $len = strlen( $configString );
         $i = 0;
-        $optionConfig = array( 'list' => array(),
-                               'short' => array(),
-                               'long' => array() );
+        if ( !is_array( $optionConfig ) )
+        {
+            $optionConfig = array( 'list' => array(),
+                                   'short' => array(),
+                                   'long' => array() );
+        }
         while ( $i < $len )
         {
             $option = $configString[$i];
@@ -500,7 +503,7 @@ class eZCLI
             $cli =& eZCLI::instance();
 
         if ( is_string( $config ) )
-            $config = eZCLI::parseOptionString( $config );
+            $config = eZCLI::parseOptionString( $config, $optionConfig );
 
         $options = array();
 

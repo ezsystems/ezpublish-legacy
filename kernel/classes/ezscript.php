@@ -96,6 +96,7 @@ class eZScript
                                         'use-extensions' => false,
                                         'use-modules' => false,
                                         'user' => false,
+                                        'description' => 'eZ publish script',
                                         'site-access' => false ),
                                  $settings );
         $this->DebugMessage = $settings['debug-message'];
@@ -109,8 +110,10 @@ class eZScript
         $this->UseExtensions = $settings['use-extensions'];
         $this->User = $settings['user'];
         $this->SiteAccess = $settings['site-access'];
+        $this->Description = $settings['description'];
         $this->ExitCode = false;
         $this->IsQuiet = false;
+        $this->IsInitialized = false;
     }
 
     /*!
@@ -236,6 +239,7 @@ class eZScript
             include_once( 'lib/ezutils/classes/ezmodule.php' );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
+        $this->IsInitialized = true;
     }
 
     function shutdown()
@@ -266,6 +270,7 @@ class eZScript
         include_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+        $this->IsInitialized = false;
         if ( $this->ExitCode !== false )
             exit( $this->ExitCode );
     }
@@ -368,6 +373,275 @@ class eZScript
     function isLoud()
     {
         return !$this->IsQuiet;
+    }
+
+    function showHelp( $useStandardOptions, $optionList, $arguments = false )
+    {
+        if ( $arguments === false )
+        {
+            $arguments = $_SERVER['argv'];
+            $program = $arguments[0];
+        }
+        $cli =& eZCLI::instance();
+        $generalOptionList = array();
+        $generalOptionList = array();
+        if ( $useStandardOptions )
+        {
+            $generalOptionList[] = array( '-h,--help', 'display this help and exit');
+            $generalOptionList[] = array( '-q,--quiet', 'do not give any output except when errors occur' );
+            if ( $useStandardOptions['siteaccess'] )
+                $generalOptionList[] = array( '-s,--siteaccess', "selected siteaccess for operations,\nif not specified default siteaccess is used" );
+            if ( $useStandardOptions['debug'] )
+                $generalOptionList[] = array( '-d,--debug', 'display debug output at end of execution' );
+            if ( $useStandardOptions['colors'] )
+            {
+                $generalOptionList[] = array( '-c,--colors', 'display output using ANSI colors (default)' );
+                $generalOptionList[] = array( '--no-colors', 'do not use ANSI coloring' );
+            }
+            if ( $useStandardOptions['user'] )
+            {
+                $generalOptionList[] = array( '-l,--login USER', 'login with USER and use it for all operations' );
+                $generalOptionList[] = array( '-p,--password PWD', 'use PWD as password for USER' );
+            }
+            if ( $useStandardOptions['log'] )
+            {
+                $generalOptionList[] = array( '--logfiles', 'create log files' );
+                $generalOptionList[] = array( '--no-logfiles', 'do not create log files (default)' );
+            }
+        }
+        $description = $this->Description;
+        $helpText =  "Usage: " . $argv[0];
+        if ( count( $optionList ) > 0 or count( $generalOptionList ) > 0 )
+        {
+            $helpText .= " [OPTION]...";
+        }
+        if ( $description )
+            $helpText .= "\n" . $description . "\n";
+        if ( count( $generalOptionList ) > 0 )
+        {
+            $helpText .= "\nGeneral options:\n";
+            $maxLength = 0;
+            foreach ( $generalOptionList as $optionItem )
+            {
+                $maxLength = max( strlen( $optionItem[0] ), $maxLength );
+            }
+            $spacingLength = $maxLength + 2;
+            foreach ( $generalOptionList as $optionItem )
+            {
+                $option = $optionItem[0];
+                $optionDescription = $optionItem[1];
+                $optionLines = explode( "\n", $option );
+                $optionDescriptionLines = explode( "\n", $optionDescription );
+                $count = max( count( $optionLines ), count( $optionDescriptionLines ) );
+                for ( $i = 0; $i < $count; ++$i )
+                {
+                    $optionText = '';
+                    if ( isset( $optionLines[$i] ) )
+                        $optionText = $optionLines[$i];
+                    $optionDescriptionText = '';
+                    if ( isset( $optionDescriptionLines[$i] ) )
+                        $optionDescriptionText = $optionDescriptionLines[$i];
+                    $spacing = $spacingLength - strlen( $optionText );
+                    if ( $optionText or $optionDescriptionText )
+                        $helpText .= '  ';
+                    $helpText .= $optionText;
+                    if ( $i > 0 )
+                        $spacing += 2;
+                    if ( $optionDescriptionText )
+                        $helpText .= str_repeat( ' ', $spacing ) . $optionDescriptionText;
+                    $helpText .= "\n";
+                }
+            }
+        }
+        if ( count( $optionList ) > 0 )
+        {
+            $helpText .= "\nOptions:\n";
+            $maxLength = 0;
+            foreach ( $optionList as $optionItem )
+            {
+                $maxLength = max( strlen( $optionItem[0] ), $maxLength );
+            }
+            $spacingLength = $maxLength + 2;
+            foreach ( $optionList as $optionItem )
+            {
+                $option = $optionItem[0];
+                $optionDescription = $optionItem[1];
+                $optionLines = explode( "\n", $option );
+                $optionDescriptionLines = explode( "\n", $optionDescription );
+                $count = max( count( $optionLines ), count( $optionDescriptionLines ) );
+                for ( $i = 0; $i < $count; ++$i )
+                {
+                    $optionText = '';
+                    if ( isset( $optionLines[$i] ) )
+                        $optionText = $optionLines[$i];
+                    $optionDescriptionText = '';
+                    if ( isset( $optionDescriptionLines[$i] ) )
+                        $optionDescriptionText = $optionDescriptionLines[$i];
+                    $spacing = $spacingLength - strlen( $optionText );
+                    if ( $optionText or $optionDescriptionText )
+                        $helpText .= '  ';
+                    $helpText .= $optionText;
+                    if ( $i > 0 )
+                        $spacing += 2;
+                    if ( $optionDescriptionText )
+                        $helpText .= str_repeat( ' ', $spacing ) . $optionDescriptionText;
+                    $helpText .= "\n";
+                }
+            }
+        }
+        $cli->output( $helpText );
+    }
+
+    function getOptions( $config = '', $optionHelp = false,
+                         $arguments = false, $useStandardOptions = true )
+    {
+        if ( is_string( $config ) )
+            $config = eZCLI::parseOptionString( $config, $optionConfig );
+
+        if ( $useStandardOptions )
+        {
+            if ( !is_array( $useStandardOptions ) )
+                $useStandardOptions = array();
+            $useStandardOptions = array_merge( array( 'debug' => true,
+                                                      'colors' => true,
+                                                      'log' => true,
+                                                      'siteaccess' => true,
+                                                      'user' => false ),
+                                               $useStandardOptions );
+        }
+
+        if ( $useStandardOptions )
+        {
+            $optionConfig = $config;
+            $excludeOptions = array();
+            $optionString = "[h|help][q|quiet]";
+            $excludeOptions[] = 'h';
+            $excludeOptions[] = 'help';
+            $excludeOptions[] = 'q';
+            $excludeOptions[] = 'quiet';
+            if ( $useStandardOptions['debug'] )
+            {
+                $optionString .= "[d:|debug;]";
+                $excludeOptions[] = 'd';
+                $excludeOptions[] = 'debug';
+            }
+            if ( $useStandardOptions['colors'] )
+            {
+                $optionString .= "[c|colors][no-colors]";
+                $excludeOptions[] = 'c';
+                $excludeOptions[] = 'colors';
+                $excludeOptions[] = 'no-colors';
+            }
+            if ( $useStandardOptions['log'] )
+            {
+                $optionString .= "[logfiles][no-logfiles]";
+                $excludeOptions[] = 'logfiles';
+                $excludeOptions[] = 'no-logfiles';
+            }
+            if ( $useStandardOptions['siteaccess'] )
+            {
+                $optionString .= "[s:|siteaccess:]";
+                $excludeOptions[] = 's';
+                $excludeOptions[] = 'siteaccess';
+            }
+            if ( $useStandardOptions['user'] )
+            {
+                $optionString .= "[l:|login:][p:|password:]";
+                $excludeOptions[] = 'l';
+                $excludeOptions[] = 'login';
+                $excludeOptions[] = 'p';
+                $excludeOptions[] = 'password';
+            }
+            $config = eZCLI::parseOptionString( $optionString, $optionConfig );
+        }
+        $cli =& eZCLI::instance();
+        $options = $cli->getOptions( $config, $arguments );
+        if ( $useStandardOptions )
+        {
+            if ( $options['quiet'] )
+                $this->setIsQuiet( true );
+            $useColors = true;
+            if ( $options['colors'] )
+                $useColors = true;
+            if ( $options['no-colors'] )
+                $useColors = false;
+            $cli->setUseStyles( $useColors );
+            if ( $options['debug'] )
+            {
+                $levels = explode( ',', $options['debug'] );
+                $allowedDebugLevels = array();
+                $useDebugAccumulators = false;
+                $useDebugTimingpoints = false;
+                $useIncludeFiles = false;
+                foreach ( $levels as $level )
+                {
+                    if ( $level == 'all' )
+                    {
+                        $useDebugAccumulators = true;
+                        $allowedDebugLevels = false;
+                        $useDebugTimingpoints = true;
+                        break;
+                    }
+                    if ( $level == 'accumulator' )
+                    {
+                        $useDebugAccumulators = true;
+                        continue;
+                    }
+                    if ( $level == 'timing' )
+                    {
+                        $useDebugTimingpoints = true;
+                        continue;
+                    }
+                    if ( $level == 'include' )
+                    {
+                        $useIncludeFiles = true;
+                    }
+                    if ( $level == 'error' )
+                        $level = EZ_LEVEL_ERROR;
+                    else if ( $level == 'warning' )
+                        $level = EZ_LEVEL_WARNING;
+                    else if ( $level == 'debug' )
+                        $level = EZ_LEVEL_DEBUG;
+                    else if ( $level == 'notice' )
+                        $level = EZ_LEVEL_NOTICE;
+                    else if ( $level == 'timing' )
+                        $level = EZ_LEVEL_TIMING;
+                    $allowedDebugLevels[] = $level;
+                }
+                $this->setUseDebugOutput( true );
+                $this->setAllowedDebugLevels( $allowedDebugLevels );
+                $this->setUseDebugAccumulators( $useDebugAccumulators );
+                $this->setUseDebugTimingPoints( $useDebugTimingpoints );
+                $this->setUseIncludeFiles( $useIncludeFiles );
+                $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
+            }
+            if ( $options['help'] )
+            {
+                if ( !$this->IsInitialized )
+                    $this->initialize();
+                $options = array();
+                foreach ( $config['list'] as $configItem )
+                {
+                    if ( in_array( $configItem['name'], $excludeOptions ) )
+                        continue;
+                    $optionText = '-';
+                    if ( $configItem['is-long-option'] )
+                        $optionText .= '-';
+                    $optionText .= $configItem['name'];
+                    if ( $configItem['has-value'] and $configItem['is-long-option'] )
+                        $optionText .= "=VALUE";
+                    $optionDescription = '';
+                    if ( isset( $optionHelp[$configItem['name']] ) )
+                        $optionDescription = $optionHelp[$configItem['name']];
+                    $options[] = array( $optionText, $optionDescription );
+                }
+                $this->showHelp( $useStandardOptions, $options );
+                $this->shutdown();
+                exit;
+            }
+            if ( $options['siteaccess'] )
+                $this->setUseSiteAccess( $options['siteaccess'] );
+        }
     }
 
     function &instance( $settings = array() )

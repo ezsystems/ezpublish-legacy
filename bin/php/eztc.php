@@ -33,114 +33,20 @@
 // you.
 //
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'debug-message' => '',
-                                      'use-session' => true,
+$script =& eZScript::instance( array( 'description' => 'eZ publish Template Compiler',
+                                      'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
 
 $script->startup();
 
-$endl = $cli->endlineString();
-$webOutput = $cli->isWebOutput();
-
-function help()
-{
-    $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
-    $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
-                  "eZ publish Template Compiler.\n" .
-                  "\n" .
-                  "Type " . $argv[0] . " help for command overview\n" .
-                  "\n" .
-                  "General options:\n" .
-                  "  -h,--help          display this help and exit \n" .
-                  "  -q,--quiet         do not give any output except when errors occur\n" .
-                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                  "                     separate multiple siteaccesses with a comma\n" .
-                  "  -d,--debug         display debug output at end of execution\n" .
-                  "  -c,--colors        display output using ANSI colors (default)\n" .
-                  "  --logfiles         create log files\n" .
-                  "  --no-logfiles      do not create log files (default)\n" .
-                  "  --no-colors        do not use ANSI coloring\n" );
-}
-
-/*function changeSiteAccessSetting( &$siteaccess, $optionData )
-{
-    global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
-    {
-        $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for cronjob" );
-    }
-    else
-    {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
-    }
-}*/
-
-$siteaccess = false;
-$debugOutput = false;
-$allowedDebugLevels = false;
-$useDebugAccumulators = false;
-$useDebugTimingpoints = false;
-$useIncludeFiles = false;
-$useColors = true;
-$isQuiet = false;
-$useLogFiles = false;
-$command = false;
-$repositoryPath = false;
-
-$optionsWithData = array( 's', 'o' );
-$longOptionsWithData = array( 'siteaccess' );
-
-$commandAlias = array();
-$commandAlias['help'] = array( '?', 'h' );
-$commandAlias['delete'] = array( 'del', 'remove', 'rm' );
-$commandAlias['list'] = array( 'ls' );
-$commandMap = array();
-
-foreach ( $commandAlias as $alias => $list )
-{
-    foreach ( $list as $commandName )
-    {
-        $commandMap[$commandName] = $alias;
-    }
-}
-
-$options = $cli->getOptions( "[h|help][q|quiet][s:|siteaccess;][d:|debug;][c|colors][logfiles][no-colors]" );
-var_dump( $options );
-exit( 1 );
-
-$readOptions = true;
-
-$script->setIsQuiet( $isQuiet );
-$script->setUseDebugOutput( $debugOutput );
-$script->setAllowedDebugLevels( $allowedDebugLevels );
-$script->setUseDebugAccumulators( $useDebugAccumulators );
-$script->setUseDebugTimingPoints( $useDebugTimingpoints );
-$script->setUseIncludeFiles( $useIncludeFiles );
-
-
-if ( $webOutput )
-    $useColors = true;
-
-$cli->setUseStyles( $useColors );
-$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
-
-$script->setUseSiteAccess( $siteaccess );
-
+$options = $script->getOptions( "[compile-directory:]",
+                                array( 'compile-directory' => 'Where to place compiled files, default is var' ) );
 $script->initialize();
-
-include_once( 'kernel/classes/ezpackage.php' );
 
 $script->shutdown();
 
