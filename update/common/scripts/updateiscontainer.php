@@ -45,7 +45,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish is_container update script\n\n" .
                                                          "This script will set the is_container attribute on known eZ publish classes\n" .
-                                                         "This script must be run for each siteaccess.
+                                                         "This script must be run for each siteaccess" .
                                                          "\n" .
                                                          "updateiscontainer.php" ),
                                       'use-session' => false,
@@ -58,8 +58,13 @@ $script->initialize();
 
 $db =& eZDB::instance();
 
-$sql = "UPDATE ezcontentclass SET is_container='1' WHERE identifier IN ( 'folder', 'article', 'user_group', 'forum', 'forum_topic', 'gallery', 'weblog' )";
+$classList = array( 'folder', 'article', 'user_group', 'forum', 'forum_topic', 'gallery', 'weblog' );
+$idText = "'" . implode( "', '", $classList ) . "'";
+
+$sql = "UPDATE ezcontentclass SET is_container='1' WHERE identifier IN ( $idText )";
 $db->query( $sql );
+
+$cli->output( "Updated classes: $idText" );
 
 $script->shutdown();
 
