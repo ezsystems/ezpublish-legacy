@@ -55,20 +55,22 @@ $versions32 = array( 'unstable' => array( array( '3.1-1', '3.2.0-1' ),
                                           array( '3.2.0-1', '3.2.0-2' ),
                                           array( '3.2.0-2', '3.2-1' ) ),
                      'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.1-1', '3.2-1' ),
-                                        array( '3.2-1', '3.2-2' ),
-                                        array( '3.2-2', '3.2-3' ),
-                                        array( '3.2-3', '3.2-4' ),
-                                        array( '3.2-4', '3.2-5' ),
-                                        array( '3.2-5', '3.2-6' ) ) );
+                     'stable' => array( array( '3.1-1', '3.2-1' )
+                                        ,array( '3.2-1', '3.2-2' )
+                                        ,array( '3.2-2', '3.2-3' )
+                                        ,array( '3.2-3', '3.2-4' )
+                                        ,array( '3.2-4', '3.2-5' )
+                                        ,array( '3.2-5', '3.2-6' )
+                                        ) );
 $versions33 = array( 'unstable' => array( array( '3.2-3', '3.3.0-1' ),
                                           array( '3.3.0-1', '3.3.0-2' ),
                                           array( '3.3.0-2', '3.3-1' ) ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.2-4', '3.3-1' ),
-                                        array( '3.3-1', '3.3-2' ),
-                                        array( '3.3-2', '3.3-3' ),
-                                        array( '3.3-3', '3.3-4' ) ) );
+                                        ,array( '3.3-1', '3.3-2' )
+                                        ,array( '3.3-2', '3.3-3' )
+                                        ,array( '3.3-3', '3.3-4' )
+                                        ) );
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
 $versions['3.2'] = $versions32;
