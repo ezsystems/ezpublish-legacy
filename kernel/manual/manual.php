@@ -39,6 +39,7 @@ $Chapter = $Params['Chapter'];
 
 $includeFile = "kernel/manual/$Part/$Chapter.php";
 
+
 if ( file_exists( $includeFile ) )
 {
     ob_start();
@@ -54,7 +55,15 @@ else
     ob_end_clean();
 }
 
+$path[] = array( 'text' => $Part,
+    'url' => false );
+$path[] = array( 'text' => $Chapter,
+    'url' => false );
+
+
 $Result = array();
+$Result['path'] =& $path;
+
 $Result["content"] = $result;
 $Result["pagelayout"] = "pagelayout_manual.tpl";
 
