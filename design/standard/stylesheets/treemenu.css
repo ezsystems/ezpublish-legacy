@@ -125,12 +125,12 @@ div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbypa
     display: none;
 }
 
-a.openclose, span.openclose
+div#contentstructure a.openclose, span.openclose
 {
     text-decoration: none;
 }
 
-a.openclose img, span.openclose img
+div#contentstructure a.openclose img, span.openclose img
 {
     margin: 0;
     cursor: default;
