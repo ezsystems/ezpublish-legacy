@@ -780,8 +780,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             if ( !eZFileHandler::copy( $sourcePath, $destinationPath ) )
                 return false;
 
-            eZDebug::writeNotice( 'Copied: "' . $sourcePath . '" to: "' . $destinationPath . '"',
-                                  'eZContentObjectPackageHandler::installTemplates()' );
+//             eZDebug::writeNotice( 'Copied: "' . $sourcePath . '" to: "' . $destinationPath . '"',
+//                                   'eZContentObjectPackageHandler::installTemplates()' );
         }
         return true;
     }
@@ -834,24 +834,24 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
                 $blockArray[$blockName]['Match']['object'] = $contentObject->attribute( 'id' );
                 unset( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
-                eZDebug::writeNotice( 'Found object id: "' . $blockArray[$blockName]['Match']['object'] . '" for matchblock "[' . $blockName . '][Match][object]"',
-                                      'eZContentObjectPackageHandler::installOverrides()' );
+//                 eZDebug::writeNotice( 'Found object id: "' . $blockArray[$blockName]['Match']['object'] . '" for matchblock "[' . $blockName . '][Match][object]"',
+//                                       'eZContentObjectPackageHandler::installOverrides()' );
             }
             if ( isset( $blockArray[$blockName][$this->OverrideNodeRemoteID] ) )
             {
                 $contentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
                 $blockArray[$blockName]['Match']['node'] = $contentNode->attribute( 'node_id' );
                 unset( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
-                eZDebug::writeNotice( 'Found node id: "' . $blockArray[$blockName]['Match']['node'] . '" for matchblock "[' . $blockName . '][Match][node]"',
-                                      'eZContentObjectPackageHandler::installOverrides()' );
+//                 eZDebug::writeNotice( 'Found node id: "' . $blockArray[$blockName]['Match']['node'] . '" for matchblock "[' . $blockName . '][Match][node]"',
+//                                       'eZContentObjectPackageHandler::installOverrides()' );
             }
             if ( isset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] ) )
             {
                 $parentContentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
                 $blockArray[$blockName]['Match']['parent_node'] = $parentContentNode->attribute( 'node_id' );
                 unset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
-                eZDebug::writeNotice( 'Found parent node id: "' . $blockArray[$blockName]['Match']['parent_node'] . '" for matchblock "[' . $blockName . '][Match][parent_node]"',
-                                      'eZContentObjectPackageHandler::installOverrides()' );
+//                 eZDebug::writeNotice( 'Found parent node id: "' . $blockArray[$blockName]['Match']['parent_node'] . '" for matchblock "[' . $blockName . '][Match][parent_node]"',
+//                                       'eZContentObjectPackageHandler::installOverrides()' );
             }
             if ( isset( $blockArray[$blockName][$this->OverrideClassRemoteID] ) )
             {
@@ -864,8 +864,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
                 $blockArray[$blockName]['Match']['class'] = $contentClass->attribute( 'id' );
                 unset( $blockArray[$blockName][$this->OverrideClassRemoteID] );
-                eZDebug::writeNotice( 'Found class id: "' . $blockArray[$blockName]['Match']['class'] . '" for matchblock "[' . $blockName . '][Match][class]"',
-                                      'eZContentObjectPackageHandler::installOverrides()' );
+//                 eZDebug::writeNotice( 'Found class id: "' . $blockArray[$blockName]['Match']['class'] . '" for matchblock "[' . $blockName . '][Match][class]"',
+//                                       'eZContentObjectPackageHandler::installOverrides()' );
             }
 
             $overrideINIArray[$newSiteAccess]->setVariables( $blockArray );
