@@ -10,10 +10,10 @@
     @import url({"stylesheets/core.css"|ezdesign});
 {*    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign}); *}
     @import url({"stylesheets/site.css"|ezdesign});
-  {*  @import url({"stylesheets/t1/site-colors.css"|ezdesign});  todo -> read from design settings  *}
+{*    @import url({"stylesheets/t1/site-colors.css"|ezdesign});   todo -> read from design settings *}
     @import url({ezini('StylesheetSettings','SiteCSS','design.ini')|ezdesign});
     @import url({"stylesheets/classes.css"|ezdesign});
-   {* @import url({"stylesheets/t1/classes-colors.css"|ezdesign});  todo -> read from design settings  *}
+ {*    @import url({"stylesheets/t1/classes-colors.css"|ezdesign}); todo -> read from design settings  *}
     @import url({ezini('StylesheetSettings','ClassesCSS','design.ini')|ezdesign});
     @import url({"stylesheets/debug.css"|ezdesign});
 </style>
@@ -59,7 +59,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 </div>
 {/section}
 
-{cache-block keys=$module_result.path[1]}
+{cache-block keys=$uri_string}
 <div class="break"></div>
 
 </div>
