@@ -5,7 +5,8 @@ Changes from 3.0-? to 3.1
 - eZPersistentObject class changed to support postgresql 7.3.x. Also all persistent classes definitions have been changed to support new syntax.
 - Added support for searching in multiple sections, classes and content class attributes
 - kernel sql files has been devided in two parts, one for schema and another for data
-- added possibility to switch of operations.
+- Added possibility to switch off operations.
+- Optimized reading of view cache, operations and triggers are skipped resulting in less memory and speed improvements
 Binary file:
 - Added support for resuming downloads.
 Search:
@@ -15,6 +16,9 @@ Setup tool:
 Shop:
 - Added support for choosing objects ( products ) to discount rule editing.
 - Added support for sorting of order list.
+
+*Doc :
+- Added document describing authentification and authorization handling in eZ publish
 
 *SDK :
 - Swaped the last two images in the main concepts tutorial.

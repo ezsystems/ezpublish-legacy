@@ -57,6 +57,46 @@ if ( !is_numeric( $Offset ) )
 $ini =& eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
+// Check if read operations should be used
+$workflowINI =& eZINI::instance( 'workflow.ini' );
+if ( in_array( 'content_read', $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations') ) )
+{
+    $useTriggers = true;
+}
+else
+{
+    $useTriggers = false;
+}
+
+// Should we load the cache now, or check operation
+if ( $viewCacheEnabled and ( $useTriggers == false ) )
+{
+    // Note: this code is duplicate, see about 100 lines down
+    include_once( 'kernel/classes/ezcontentcache.php' );
+    $cacheInfo = eZContentObject::cacheInfo( $Params );
+    $language = $cacheInfo['language'];
+    $roleList = $cacheInfo['role_list'];
+    $discountList = $cacheInfo['discount_list'];
+    $designSetting = eZTemplateDesignResource::designSetting( 'site' );
+    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
+    {
+        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
+        if ( $Result )
+        {
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ), // Object ID
+                                  array( 'node', $Result['content_info']['node_id'] ), // Node ID
+                                  array( 'parent_node', $Result['content_info']['parent_node_id'] ), // Parent Node ID
+                                  array( 'class', $Result['content_info']['class_id'] ), // Class ID
+                                  array( 'view_offset', $Result['content_info']['offset'] ),
+                                  array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                  array( 'depth', $Result['content_info']['node_depth'] )
+                                  ) );
+            return $Result;
+        }
+    }
+}
+
 $limitationList = array();
 
 if ( array_key_exists( 'Limitation', $Params ) )
@@ -72,15 +112,7 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
-$workflowINI =& eZINI::instance( 'workflow.ini' );
-if ( in_array( 'content_read', $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations') ) )
-{
-    $useTriggers = true;
-}
-else
-{
-    $useTriggers = false;
-}
+
 $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
                                                                           'language_code' => $LanguageCode ), null, $useTriggers );
@@ -99,6 +131,7 @@ switch( $operationResult['status'] )
         {
             if ( $viewCacheEnabled )
             {
+                // Note: this code is duplicate, see about 100 lines up
                 include_once( 'kernel/classes/ezcontentcache.php' );
                 $cacheInfo = eZContentObject::cacheInfo( $Params );
                 $language = $cacheInfo['language'];
