@@ -1229,10 +1229,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $showInvisible          = $fetchHidden;
 
         if ( $useSettings )
-        {
-            $ini =& eZINI::instance( 'site.ini' );
-            $showInvisible = $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) ? $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) : true;
-        }
+            $showInvisible = eZContentObjectTreeNode::showInvisibleNodes();
 
         if ( !$showInvisible )
             $showInvisibleNodesCond = 'AND ezcontentobject_tree.is_invisible = 0';
@@ -1240,6 +1237,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $showInvisibleNodesCond;
     }
 
+    /*!
+     \a static
+     \returns true if we should show invisible nodes (determined by ini setting), false otherwise.
+    */
+    function showInvisibleNodes()
+    {
+        static $cachedResult;
+
+        if ( !isset( $cachedResult ) )
+        {
+            $ini =& eZINI::instance( 'site.ini' );
+            $cachedResult = $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) ?
+                            $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'true' :
+                            true;
+        }
+
+        return $cachedResult;
+    }
 
     /*!
         \a static
@@ -1294,13 +1309,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                              'GroupBy'                  => false );
         }
 
-        $offset         = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
-        $limit          = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
-        $depth          = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
-        $depthOperator  = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
-        $asObject       = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
-        $groupBy        = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
-        $mainNodeOnly   = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
+        $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
+        $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
+        $depth            = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
+        $depthOperator    = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
+        $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
+        $groupBy          = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
+        $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
+        $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
@@ -1330,7 +1346,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.
-        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( true );
+        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
@@ -1788,6 +1804,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTargets = '';
         $versionNameJoins = '';
 
+        // Determine whether we should show invisible nodes.
+        $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
+        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -1855,6 +1875,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id
                             $versionNameJoins
+                            $showInvisibleNodesCond
                             $sqlPermissionCheckingString ";
 
         }
@@ -1879,6 +1900,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject_tree.contentobject_is_published = 1 AND
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id
+                           $showInvisibleNodesCond
                            $versionNameJoins ";
         }
 

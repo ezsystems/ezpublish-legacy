@@ -264,6 +264,9 @@ else
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+    if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 //    if ( !$object->attribute( 'can_read' ) )
     if ( !$object->canRead() )
     {
