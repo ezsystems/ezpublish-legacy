@@ -1471,6 +1471,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             if ( $dom )
                 $node =& $dom->elementsByName( "section" );
 
+            // Fetch all links and cache the url's
+            $links =& $dom->elementsByName( "link" );
+
+            if ( count( $links ) > 0 )
+            {
+                $linkIDArray = array();
+                // Find all Link id's
+                foreach ( $links as $link )
+                {
+                    if ( !in_array( $link->attributeValue( 'id' ), $linkIDArray ) )
+                         $linkIDArray[] = $link->attributeValue( 'id' );
+                }
+
+                $inIDSQL = implode( ', ', $linkIDArray );
+
+                $db =& eZDB::instance();
+
+                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+
+                foreach ( $linkArray as $linkRow )
+                {
+                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                }
+            }
+
             $output = "";
             if ( count( $node ) > 0 )
             {
@@ -1799,7 +1824,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $target = $tag->attributeValue( 'target' );
                 $className = $tag->attributeValue( 'class' );
                 if ( $linkID != null )
-                    $href =& eZURL::url( $linkID );
+                {
+                    // Fetch URL from cached array
+                    $href = $this->LinkArray[$linkID];
+//                    $href =& eZURL::url( $linkID );
+                }
                 else
                 {
                     $href = $tag->attributeValue( 'href' );
@@ -1860,5 +1889,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     var $ContentObjectAttribute;
 
     var $IsInputValid;
+
+    /// Contains all links hashed by ID
+    var $LinkArray = array();
 }
 ?>
