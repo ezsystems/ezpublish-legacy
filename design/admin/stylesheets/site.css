@@ -261,3 +261,42 @@ div.mainobject-vindow
     height: 200px;
     overflow: scroll;
 }
+
+div.viewbar, div.controlbar
+{
+    background-color: #e8e8e8;
+    padding: 0.25em;
+    border: 1px solid #f8f8f8;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
+
+div.viewbar label, div.controlbar label
+{
+    padding: 0;
+    display: inline;
+    vertical-align: bottom;
+}
+
+div.viewbar select, div.controlbar select
+{
+    vertical-align: bottom;
+    margin-right: 0.5em;
+}
+
+div.viewbar input.menubutton
+{
+    margin: 0 0.5em 0 0;
+    padding: 0;
+    vertical-align: bottom;
+}
+
+div.controlbar
+{
+    margin-bottom: 2em;    
+}
+
+div.controlbar div.createblock
+{
+    margin-top: 0.5em;    
+}

@@ -1,5 +1,4 @@
 <form method="post" action={"content/action"|ezurl}>
-{section}
     {let name=Child
         children=fetch( content, list, hash( parent_node_id, $node.node_id,
                                              sort_by, $node.sort_array,
@@ -103,6 +102,15 @@
         {/section}
         </table>
 
+{*           {include name=navigator
+             uri='design:navigator/google.tpl'
+             page_uri=concat('/content/view','/full/',$node.node_id)
+             item_count=$list_count
+             view_parameters=$view_parameters
+             item_limit=$page_limit}
+*}
+
+<div class="controlbar">
         {section show=$:can_edit}
         {/section}
         {section show=$:can_copy}
@@ -113,7 +121,7 @@
                                                sort_by, $node.sort_array,
                                                limit, $page_limit,
                                                offset, $view_parameters.offset ) )}
-                <input type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" />
+                <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
@@ -121,24 +129,15 @@
                  <input class="button" align="right" type="submit" name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
         {/section}
+    {section-else}
+    <div class="controlbar">
     {/section}
     {/let}
 
-    {include name=navigator
-             uri='design:navigator/google.tpl'
-             page_uri=concat('/content/view','/full/',$node.node_id)
-             item_count=$list_count
-             view_parameters=$view_parameters
-             item_limit=$page_limit}
-
-
-{/section}
-</form>
-
-
 {* The "Create new here" thingy: *}
-<form method="post" action={"content/action"|ezurl}>
+
 {section show=$node.object.can_create}
+<div class="createblock">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <select name="ClassID">
 {section name=Classes loop=$node.object.can_create_class_list}
@@ -146,8 +145,9 @@
 {/section}
 </select>
 <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-{/section}
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-<input type="hidden" name="ViewMode" value="full" />
+<input type="hidden" nam="ViewMode" value="full" />
+</div>
 </form>
+</div>

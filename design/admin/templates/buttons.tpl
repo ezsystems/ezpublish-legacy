@@ -1,3 +1,5 @@
+<div class="controlbar">
+<div class="editblock">
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -22,11 +24,6 @@
 <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
 
 </form>
-
-<div class="controlbar">
-<div class="editblock">
-<span class="advanced-mode">
-</span>
 </div>
 
 
