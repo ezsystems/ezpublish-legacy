@@ -388,6 +388,10 @@ class eZModule
                 }
             }
         }
+
+        if( !isset( $viewParameters ) )
+            $viewParameters = array(); // prevent PHP warning below
+
         foreach ( $viewParameters as $viewParameter )
         {
             if ( !isset( $parameters[$parameterIndex] ) )
