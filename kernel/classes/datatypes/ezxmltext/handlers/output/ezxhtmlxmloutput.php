@@ -243,66 +243,69 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // fetch attributes
                 $objectAttributes =& $tag->attributes();
                 $object =& eZContentObject::fetch( $objectID );
-                $view = $tag->attributeValue( 'view' );
-                $alignment = $tag->attributeValue( 'align' );
-                $size = $tag->attributeValue( 'size' );
-                $src = "";
-                $classID = $object->attribute( 'contentclass_id' );
-                $class = $tag->attributeValue( 'class' );
-
-                $res =& eZTemplateDesignResource::instance();
-                $res->setKeys( array( array( 'classification', $class ) ) );
-
-                $hasLink = false;
-                $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
-
-                if ( $linkID != null )
+                if ( get_class( $object ) == "ezcontentobject" )
                 {
-                    $href =& eZURL::url( $linkID );
-                    $target = $tag->attributeValueNS( 'ezurl_target', "http://ez.no/namespaces/ezpublish3/image/" );
-                    if ( $target == null )
-                        $target = "_self";
-                    $hasLink = true;
+                    $view = $tag->attributeValue( 'view' );
+                    $alignment = $tag->attributeValue( 'align' );
+                    $size = $tag->attributeValue( 'size' );
+                    $src = "";
+                    $classID = $object->attribute( 'contentclass_id' );
+                    $class = $tag->attributeValue( 'class' );
+
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'classification', $class ) ) );
+
+                    $hasLink = false;
+                    $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
+
+                    if ( $linkID != null )
+                    {
+                        $href =& eZURL::url( $linkID );
+                        $target = $tag->attributeValueNS( 'ezurl_target', "http://ez.no/namespaces/ezpublish3/image/" );
+                        if ( $target == null )
+                            $target = "_self";
+                        $hasLink = true;
+                    }
+
+                    $objectParameters = array();
+                    foreach ( $objectAttributes as $attribute )
+                    {
+                        if ( $attribute->name() == "ezurl_id" )
+                            $objectParameters['href'] = $href;
+                        else if ( $attribute->name() == "ezurl_target" )
+                            $objectParameters['target'] = $target;
+                        else
+                            $objectParameters[$attribute->name()] = $attribute->content();
+                    }
+
+                    if ( strlen( $view ) == 0 )
+                        $view = "embed";
+                    $tpl->setVariable( 'classification', $class, 'xmltagns' );
+                    $tpl->setVariable( 'object', $object, 'xmltagns' );
+                    $tpl->setVariable( 'view', $view, 'xmltagns' );
+                    $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                    $tagText = implode( '', $textElements );
+
+                    // Set to true if tag breaks paragraph flow as default
+                    $isBlockTag = true;
+
+                    // Check if the template overrides the block flow setting
+                    if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
+                    {
+                        $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
+
+                        if ( $isBlockTagOverride == 'true' )
+                            $isBlockTag = true;
+                        else
+                            $isBlockTag = false;
+                    }
+
+                    // Remove the design key, so it will not override other tags
+                    $res->removeKey( 'classification' );
                 }
-
-                $objectParameters = array();
-                foreach ( $objectAttributes as $attribute )
-                {
-                    if ( $attribute->name() == "ezurl_id" )
-                        $objectParameters['href'] = $href;
-                    else if ( $attribute->name() == "ezurl_target" )
-                        $objectParameters['target'] = $target;
-                    else
-                        $objectParameters[$attribute->name()] = $attribute->content();
-                }
-
-                if ( strlen( $view ) == 0 )
-                    $view = "embed";
-                $tpl->setVariable( 'classification', $class, 'xmltagns' );
-                $tpl->setVariable( 'object', $object, 'xmltagns' );
-                $tpl->setVariable( 'view', $view, 'xmltagns' );
-                $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
-                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
-                $textElements = array();
-                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
-                $tagText = implode( '', $textElements );
-
-                // Set to true if tag breaks paragraph flow as default
-                $isBlockTag = true;
-
-                // Check if the template overrides the block flow setting
-                if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
-                {
-                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
-
-                    if ( $isBlockTagOverride == 'true' )
-                        $isBlockTag = true;
-                    else
-                        $isBlockTag = false;
-                }
-
-                // Remove the design key, so it will not override other tags
-                $res->removeKey( 'classification' );
             }break;
 
             case 'table' :
