@@ -10,7 +10,7 @@ Database=forum
 
 [DesignSettings]
 StandardDesign=standard
-SiteDesign=corporate
+SiteDesign=forum
 
 [FileSettings]
 VarDir=var/forum
