@@ -4,14 +4,19 @@
 Source=node/view/full.tpl
 MatchFile=navigation_full.tpl
 Subdir=templates
-Match[navigation_part_identifier]=ezcontentnavigationpart
+#Match[navigation_part_identifier]=ezcontentnavigationpart
 
 [folder]
 Source=node/view/navigation.tpl
 MatchFile=folder.tpl
 Subdir=templates
-#Match[class_identifier]=folder
+Match[class_identifier]=folder
 
+[article]
+Source=node/view/navigation.tpl
+MatchFile=full/article.tpl
+Subdir=templates
+Match[class_identifier]=article
 
 [thumbnail_image]
 Source=node/view/thumbnail.tpl
@@ -63,12 +68,6 @@ Match[class_identifier]=image
 #MatchFile=folder_plain.tpl
 #Subdir=templates
 #Match[class_identifier]=folder
-
-#[article]
-#Source=node/view/full.tpl
-#MatchFile=article.tpl
-#Subdir=templates
-#Match[class_identifier]=article
 
 #[article_plain]
 #Source=node/view/plain.tpl
