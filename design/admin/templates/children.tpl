@@ -210,14 +210,6 @@
     </div>
     {/section}
 
-{* Hiding *}
-&nbsp;&nbsp;&nbsp;<label>Hidden state:</label>
-{section show=$node.can_edit}
-    <a href={concat( 'content/hide/', $node.node_id )|ezurl}>{$node.hidden_invisible_string}</a>
-{section-else}
-    {$node.hidden_invisible_string}
-{/section}
-
 {* Sorting *}
 <div class="right">
 <label>{'Sorting:'|i18n( 'design/admin/node/view/full' )}</label>

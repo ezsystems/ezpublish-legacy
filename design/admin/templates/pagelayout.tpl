@@ -55,7 +55,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div id="logo">
 <a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
-<p>version 3.5 - alpha release</p>
+<p>version 3.5 - alpha</p>
 </div>
 
 {* --- Search ---*}
@@ -352,7 +352,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
-<p>test</p>
 <ul>
 {let bookmark_list=fetch( content, bookmarks )}
 {section var=Bookmarks loop=$bookmark_list}

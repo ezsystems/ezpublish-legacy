@@ -370,12 +370,12 @@ div.box-content div p
 
 div#leftmenu div.box-content
 {
-    padding: 0.1em 0.5em 0.5em 0.5em;  
+    padding: 0.1em 0.3em 0.5em 0.3em;  
 }
 
 div#rightmenu div.box-content
 {
-    padding: 0.5em 0.5em 0.5em 0.5em;  
+    padding: 0.3em 0.3em 0.5em 0.3em;  
 }
 
 div.controlbar div.box-br
@@ -530,7 +530,7 @@ div#currentuser ul
 
 div#history ul, div#bookmarks ul
 {
-    margin: 0;
+    margin: 0 0.3em 0 0.3em;
 }
 
 div#history li, div#bookmarks li
@@ -885,7 +885,7 @@ div.controlbar div.block
 
 div.controlbar label
 {
-    color: #ffffff;
+    color: #979690;
 }
 
 div.controlbar input.button

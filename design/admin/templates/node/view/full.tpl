@@ -63,6 +63,14 @@
 
 {* Custom content action buttons. *}
 <div class="right">
+{* Hiding *}
+<label>Hidden state:</label>
+{section show=$node.can_edit}
+    <a href={concat( 'content/hide/', $node.node_id )|ezurl}>{$node.hidden_invisible_string}</a>
+{section-else}
+    {$node.hidden_invisible_string}
+{/section}
+
 {section var=ContentActions loop=$node.object.content_action_list}
     <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
 {/section}
