@@ -83,7 +83,26 @@ class eZMail
         if (! defined( 'EZ_MAIL_LINE_SEPARATOR' ) )
         {
             $ini =& eZINI::instance( 'site.ini' );
-            define( 'EZ_MAIL_LINE_SEPARATOR', urldecode( $ini->variable( 'MailSettings', 'HeaderLineEnding' ) ) );
+            $ending = $ini->variable( 'MailSettings', 'HeaderLineEnding' );
+            if ( $ending == 'auto' )
+            {
+                $sys =& eZSys::instance();
+                // For windows we use \r\n which is the endline defined in RFC 2045
+                if ( $sys->osType() == 'win32' )
+                {
+                    $separator = "\r\n";
+                }
+                else // for linux/unix/mac we use \n only due to some mail transfer agents destroying
+                     // emails containing \r\n
+                {
+                    $separator = "\n";
+                }
+            }
+            else
+            {
+                $separator = urldecode( $ending );
+            }
+            define( 'EZ_MAIL_LINE_SEPARATOR', $separator );
         }
     }
 
