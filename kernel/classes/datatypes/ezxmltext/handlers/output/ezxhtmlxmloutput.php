@@ -294,7 +294,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                     $tableRows .= implode( '', $textElements );
                 }
-
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
@@ -383,7 +382,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $href =& eZURL::url( $linkID, true );
                 else
                     $href = $tag->attributeValue( 'href' );
-
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
 
                 if ( eZMail::validate( $href ) )
