@@ -125,7 +125,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                 'attribute_edit_gui' => array( 'template_root' => 'content/datatype/edit',
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
-                                               'namespace' => '',
+                                               'namespace' => 'ContentAttribute',
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
 
