@@ -94,11 +94,16 @@ class eZTemplateImageFont
             $family_file = $fontFamily;
         else
             $family_file = $fontFamily . '.ttf';
-        if ( $fontPath != '' )
+        if ( $fontPath != null )
         {
-            $font = $fontPath . "/$family_file";
-            if ( !file_exists( $font ) )
-                $font = false;
+            foreach ( $fontPath as $singleFontPath )
+            {
+                $font = $singleFontPath . "/$family_file";
+                if ( !file_exists( $font ) )
+                    $font = false;
+                else
+                    return $font;
+            }
         }
         else
             $font = $fontFamily;
@@ -559,9 +564,9 @@ class eZTemplateImageLayer
     {
         if ( get_class( $font ) != 'eztemplateimagefont' )
             return false;
-
         $bbox = @ImageTTFBBox( $font->pointSize(), $angle, $font->file(), $text );
-        if ( !$bbox )
+
+       if ( !$bbox )
             return false;
 
         $width = $bbox[4] - $bbox[6];
@@ -569,6 +574,8 @@ class eZTemplateImageLayer
         $width += $widthAdjustment;
         $height += $heightAdjustment;
         $imageObject = ImageCreate( $width, $height );
+
+
         $imageObjectRef = eZTemplateImageObject::registerImage( $imageObject );
         return new eZTemplateImageLayer( $imageObjectRef, $imageObject, $width, $height,
                                          0, 0, $font, $bbox );
