@@ -2339,6 +2339,17 @@ CREATE TABLE ezsubtree_expiry (
 
 
 
+CREATE TABLE eztipafriend_request (
+    email_receiver character varying(100) NOT NULL,
+    created integer NOT NULL
+);
+
+
+
+
+
+
+
 CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
 
 
@@ -2764,6 +2775,22 @@ CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree (path_identification_string);
+
+
+
+
+
+
+
+CREATE INDEX eztipafriend_request_email_receiver ON eztipafriend_request USING btree (email_receiver);
+
+
+
+
+
+
+
+CREATE INDEX eztipafriend_request_created ON eztipafriend_request USING btree (created);
 
 
 
