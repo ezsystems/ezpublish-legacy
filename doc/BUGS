@@ -5,6 +5,10 @@ DEBUG
 ---------
 Does not work with IP settings anymore.
 
+Image
+---------
+If no image is uploaded, image should not be shown. Now an invalid url is used
+and you get broken image.
 
 Versioning
 ----------
