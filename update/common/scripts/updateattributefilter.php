@@ -295,7 +295,7 @@ $classDataTypeList = array();
 // A list of datatypes which we know to have simple values and the field they use
 $simpleTypes = array( array( 'field' => 'data_int',
                              'sort_field' => 'sort_key_int',
-                             'datatypes' => array( 'ezinteger', 'ezboolean' ) ),
+                             'datatypes' => array( 'ezinteger', 'ezboolean', 'ezdate', 'eztime', 'ezdatetime' ) ),
                       array( 'field' => 'data_string',
                              'sort_field' => 'sort_key_string',
                              'datatypes' => array( 'ezstring' ) ) );

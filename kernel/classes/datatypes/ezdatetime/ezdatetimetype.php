@@ -184,13 +184,20 @@ class eZDateTimeType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-
     /*!
      \reimp
     */
     function &sortKey( &$contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
+    }
+
+        /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'int';
     }
 
     /*!

@@ -187,6 +187,14 @@ class eZDateType extends eZDataType
     /*!
      \reimp
     */
+    function &sortKeyType()
+    {
+        return 'int';
+    }
+
+    /*!
+     \reimp
+    */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
