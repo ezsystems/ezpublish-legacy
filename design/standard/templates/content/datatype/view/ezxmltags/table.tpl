@@ -1,3 +1,3 @@
-<table border="{$border}" width="100%">
+<table border="{$border}" width="{$width}">
 {$rows}
 </table>

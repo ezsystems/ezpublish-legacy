@@ -336,6 +336,7 @@ class eZXMLTextType extends eZDataType
             {
                 $tableRows = "";
                 $border = $tag->attributeValue( 'border' );
+                $width = $tag->attributeValue( 'width' );
                 if ($border === null )
                     $border = 1;
                 // find all table rows
@@ -363,6 +364,7 @@ class eZXMLTextType extends eZDataType
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
+                $tpl->setVariable( 'width', $width, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
