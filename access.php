@@ -244,7 +244,7 @@ function changeAccess( $access )
 
     if ( file_exists( "settings/siteaccess/$name" ) )
     {
-        $ini->appendOverrideDir( "siteaccess/$name", false, 'siteaccess' );
+        $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
         $ini->loadCache();
         eZUpdateDebugSettings();
         if ( accessDebugEnabled() )

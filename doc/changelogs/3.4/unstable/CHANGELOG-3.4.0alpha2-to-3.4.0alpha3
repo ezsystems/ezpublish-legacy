@@ -137,8 +137,6 @@ eZPDF:
   http://ez.no/community/bug_reports/typing_error_in_danish_translation
 - Fixed bug in the compilation steps for the ezurl operator.
   http://ez.no/community/bug_reports/bug_in_url_datatype
-- Fixed bug in ini settings order.
-  http://ez.no/community/bug_reports/settings_in_extensions_override_siteaccess_settings
 
 *Update
 
