@@ -119,44 +119,14 @@ class eZBasket extends eZPersistentObject
 
             if ( $contentObject !== null )
             {
-                $attributes = $contentObject->contentObjectAttributes();
-                foreach ( $attributes as $attribute )
-                {
-                    $dataType =& $attribute->dataType();
-                    if ( $dataType->isA() == "ezprice" )
-                    {
-                        $priceObj =& $attribute->content();
-                        $discountPercent = $priceObj->discount();
-                        $vatValue = $priceObj->attribute( 'vat_percent' );
-                        $isVATIncluded = $priceObj->attribute( 'is_vat_included' );
-                        eZDebug::writeDebug( $vatValue, 'VAT Value' . $contentObject->attribute( 'name' ) );
-/*
-                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
-                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
-                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
-                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
-                            $isVATIncluded = true;
-                        else
-                            $isVATIncluded = false;
-                        $vatType =& eZVatType::fetch( $VATID );
-                        if ( get_class( $vatType ) == 'ezvattype' )
-                        {
-                            $vatValue = $vatType->attribute( 'percentage' );
-                        }
-                        else
-                        {
-                            $vatValue = 0.0;
-                        }
-*/
-                        break;
-
-                    }
-                }
+                $vatValue = $productItem->attribute( 'vat_value' );
+                $count = $productItem->attribute( 'item_count' );
+                $discountPercent = $productItem->attribute( 'discount' );
                 $nodeID = $contentObject->attribute( 'main_node_id' );
                 $objectName = $contentObject->attribute( 'name' );
-                $count = $productItem->attribute( 'item_count' );
-                $price = $productItem->attribute( 'price' );
 
+                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
+                $price = $productItem->attribute( 'price' );
 
                 if ( $isVATIncluded )
                 {
@@ -173,6 +143,61 @@ class eZBasket extends eZPersistentObject
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
 
+/*
+                $attributes = $contentObject->contentObjectAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $dataType =& $attribute->dataType();
+                    if ( $dataType->isA() == "ezprice" )
+                    {
+                        $priceObj =& $attribute->content();
+                        $discountPercent = $priceObj->discount();
+                        $vatValue = $priceObj->attribute( 'vat_percent' );
+                        $isVATIncluded = $priceObj->attribute( 'is_vat_included' );
+                        eZDebug::writeDebug( $vatValue, 'VAT Value' . $contentObject->attribute( 'name' ) );
+
+                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
+                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
+                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
+                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
+                            $isVATIncluded = true;
+                        else
+                            $isVATIncluded = false;
+                        $vatType =& eZVatType::fetch( $VATID );
+                        if ( get_class( $vatType ) == 'ezvattype' )
+                        {
+                            $vatValue = $vatType->attribute( 'percentage' );
+                        }
+                        else
+                        {
+                            $vatValue = 0.0;
+                        }
+
+                        break;
+
+                    }
+                }
+                $nodeID = $contentObject->attribute( 'main_node_id' );
+                $objectName = $contentObject->attribute( 'name' );
+                $count = $productItem->attribute( 'item_count' );
+                $price = $productItem->attribute( 'price' );
+
+                if ( $isVATIncluded )
+                {
+                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
+                    $priceIncVAT = $price;
+                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+                else
+                {
+                    $priceExVAT = $price;
+                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
+                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+
+*/
                 $addedProduct = array( "id" => $id,
                                        "vat_value" => $vatValue,
                                        "item_count" => $count,

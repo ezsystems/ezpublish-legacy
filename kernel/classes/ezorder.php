@@ -259,6 +259,31 @@ class eZOrder extends eZPersistentObject
 
             if ( $contentObject !== null )
             {
+                $vatValue = $productItem->attribute( 'vat_value' );
+                $count = $productItem->attribute( 'item_count' );
+                $discountPercent = $productItem->attribute( 'discount' );
+                $nodeID = $contentObject->attribute( 'main_node_id' );
+                $objectName = $contentObject->attribute( 'name' );
+
+                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
+                $price = $productItem->attribute( 'price' );
+
+                if ( $isVATIncluded )
+                {
+                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
+                    $priceIncVAT = $price;
+                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+                else
+                {
+                    $priceExVAT = $price;
+                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
+                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+
+/*
                 $attributes = $contentObject->contentObjectAttributes();
                 foreach ( $attributes as $attribute )
                 {
@@ -302,8 +327,9 @@ class eZOrder extends eZPersistentObject
                     $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
+*/
                 $addedProduct = array( "id" => $id,
-                                       "vat_value" => $VATValue,
+                                       "vat_value" => $vatValue,
                                        "item_count" => $count,
                                        "node_id" => $nodeID,
                                        "object_name" => $objectName,
@@ -311,7 +337,8 @@ class eZOrder extends eZPersistentObject
                                        "price_inc_vat" => $priceIncVAT,
                                        "discount_percent" => $discountPercent,
                                        "total_price_ex_vat" => $totalPriceExVAT,
-                                       "total_price_inc_vat" => $totalPriceIncVAT );
+                                       "total_price_inc_vat" => $totalPriceIncVAT,
+                                       'item_object' =>$productItem );
                 $addedProducts[] = $addedProduct;
             }
         }

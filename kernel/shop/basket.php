@@ -90,19 +90,20 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
     $item->store();
     $priceWithoutOptions = $price;
-
+    eZDebug::writeDebug( $optionList, 'optionlist' );
     foreach ( array_keys( $optionList ) as $key )
     {
         $attributeID = $key;
         $optionSelected = $optionList[$key];
         $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
         $option =& $attribute->attribute( 'content' );
+        eZDebug::writeDebug( $option->attribute( 'option_list' ), "optionitems" );
         foreach( $option->attribute( 'option_list' ) as $optionArray )
         {
             if( $optionArray['id'] == $optionSelected )
             {
                 $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
-                                                                      $optionArray['value'], $optionArray['additional_price'] );
+                                                                      $optionArray['value'], $optionArray['additional_price'], $attributeID );
                 $optionItem->store();
                 $price += $optionArray['additional_price'];
                 break;
@@ -110,7 +111,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
         }
 
     }
-    if ( $price != $priceWthoutOptions )
+    if ( $price != $priceWithoutOptions )
     {
         $item->setAttribute( "price", $price );
         $item->store();
@@ -189,9 +190,11 @@ if ( eZHTTPTool::hasSessionVariable( 'DoCheckoutAutomatically' ) )
     if ( eZHTTPTool::sessionVariable( 'DoCheckoutAutomatically' ) === true )
     {
         $doCheckout = true;
+        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', false );
     }
 }
 
+$removedItems = array();
 
 if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 {
@@ -222,23 +225,39 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     $basket =& eZBasket::currentBasket();
     $productCollectionID = $basket->attribute( 'productcollection_id' );
 
-    $user =& eZUser::currentUser();
-    $userID = $user->attribute( 'contentobject_id' );
+    $verifyResult =& eZProductCollection::verify( $productCollectionID  );
 
-    $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
-                                 'user_id' => $userID,
-                                 'is_temporary' => 1,
-                                 'created' => mktime() ) );
-    $order->store();
+    if ( $verifyResult === true )
+    {
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
 
-    eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+        $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
+                                     'user_id' => $userID,
+                                     'is_temporary' => 1,
+                                     'created' => mktime() ) );
+        $order->store();
 
-    $module->redirectTo( '/shop/confirmorder/' );
-    return;
+        eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+
+        $module->redirectTo( '/shop/confirmorder/' );
+        return;
+    }else
+    {
+        $basket =& eZBasket::currentBasket();
+        $itemList =& $verifyResult;
+        $removedItems = array();
+        foreach ( $itemList as $item )
+        {
+            $removedItems[] = $item;
+            $basket->removeItem( $item->attribute( 'id' ) );
+        }
+    }
 }
 
 $basket = eZBasket::currentBasket();
 $tpl =& templateInit();
+$tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 
 $Result = array();

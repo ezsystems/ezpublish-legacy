@@ -3,6 +3,16 @@
 <div class="maincontentheader">
 <h1>{"Basket"|i18n("design/standard/shop")}</h1>
 </div>
+{section show=$removed_items}
+<div class="warning">
+<h2>{"Folowing items were removed from basket because products where changed"|i18n("design/standard/node",,)}</h2>
+<ul>
+{section name=RemovedItem loop=$removed_items}
+    <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name}</a></li>
+{/section}
+</ul>
+</div>
+{/section}
 
 {section name=Basket show=$basket.items|gt(0)}
 

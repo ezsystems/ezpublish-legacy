@@ -59,6 +59,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
         return array( "fields" => array( "id" => "ID",
                                          'item_id' => 'ItemID',
                                          'option_item_id' => 'OptionItemID',
+                                         'object_attribute_id' => 'ObjectAttributeID',
                                          'name' => 'Name',
                                          'value' => 'Value',
                                          'price' => 'Price' ),
@@ -68,13 +69,14 @@ class eZProductCollectionItemOption extends eZPersistentObject
                       "name" => "ezproductcollection_item_opt" );
     }
 
-    function &create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice )
+    function &create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice, $attributeID )
     {
         $row = array( 'item_id' => $productCollectionItemID,
                       'option_item_id' => $optionItemID,
                       'name' => $optionName,
                       'value' => $optionValue,
-                      'price' => $optionPrice );
+                      'price' => $optionPrice,
+                      'object_attribute_id' => $attributeID );
         return new eZProductCollectionItemOption( $row );
     }
 

@@ -61,6 +61,30 @@
 	{$ProductItem:item.total_price_inc_vat|l10n(currency)}
 	</td>
 </tr>
+{section show=$ProductItem:item.item_object.option_list}
+<tr>
+  <td class="{$ProductItem:sequence}" colspan='4'>
+     <table width="100%"  border="0">
+<tr>
+<td colspan='3'>
+Selected options
+</td> 
+</tr>
+     {section name=Options loop=$ProductItem:item.item_object.option_list}
+      <tr> 
+        <td width="33%">{$ProductItem:Options:item.name}</td>
+        <td width="33%">{$ProductItem:Options:item.value}</td>
+        <td width="33%">{$ProductItem:Options:item.price}</td>
+      </tr>
+    {/section}
+     </table>
+   </td>
+  <td class="{$ProductItem:sequence}" colspan='5'>
+  </td>
+</tr>
+{/section}
+
+
 {/section}
 </table>
 

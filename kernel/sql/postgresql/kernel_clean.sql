@@ -561,7 +561,7 @@ CREATE TABLE "ezproductcollection_item" (
 	"productcollection_id" integer NOT NULL,
 	"contentobject_id" integer NOT NULL,
 	"item_count" integer NOT NULL,
-	"price" integer NOT NULL,
+	"price" float NOT NULL,
 	Constraint "ezproductcollection_item_pkey" Primary Key ("id")
 );
 
@@ -2788,3 +2788,18 @@ SELECT setval ('"ezurl_s"', 1, false);
 
 SELECT setval ('"ezmessage_s"', 1, false);
 
+
+
+
+CREATE SEQUENCE "ezproductcollection_item_opt_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+
+create table ezproductcollection_item_opt(
+	id integer DEFAULT nextval('ezproductcollection_item_opt_s'::text) NOT NULL,
+    item_id int not null,
+    option_item_id int not null,
+    name varchar(255) not null,
+    value varchar(255) not null,
+    price float not null default 0,
+    PRIMARY KEY  (id)
+    );

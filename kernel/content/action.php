@@ -39,7 +39,6 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
-
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'SelectParentNode' )  )
 {
     if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'SelectParentNode' ) )
@@ -230,19 +229,19 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     $objectID = $http->postVariable( "ContentObjectID" );
     $action = $http->postVariable( "ContentObjectID" );
 
+
     // Check which action to perform
     if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     {
         $shopModule =& eZModule::exists( "shop" );
-
         $result =& $shopModule->run( "basket", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
+
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
         $shopModule =& eZModule::exists( "shop" );
-
         $result =& $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
@@ -289,6 +288,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }*/
+
 
 // return module contents
 $Result = array();

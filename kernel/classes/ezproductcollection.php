@@ -67,6 +67,33 @@ class eZProductCollection extends eZPersistentObject
         return new eZProductCollection( $row );
     }
 
+    function &verify( $id )
+    {
+        $productItemList =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                                 null, array( "productcollection_id" => $id ),
+                                                                 null,
+                                                                 null,
+                                                                 true );
+        $isValid = true;
+        $invalidItemArray = array();
+        foreach ( array_keys( $productItemList ) as $key )
+        {
+            $productItem =& $productItemList[$key];
+
+            if ( !$productItem->verify() )
+            {
+                $invalidItemArray[] =& $productItem;
+                //  eZDebug::writeDebug( $productItem , "invalid item" );
+                $isValid = false;
+            }
+        }
+        if ( !$isValid )
+        {
+            return $invalidItemArray;
+        }
+        return $isValid;
+    }
+
 }
 
 ?>

@@ -148,6 +148,7 @@ class eZProductCollectionItem extends eZPersistentObject
     {
         return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
     }
+
     function remove()
     {
         $itemOptionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
@@ -159,6 +160,87 @@ class eZProductCollectionItem extends eZPersistentObject
         eZPersistentObject::remove();
     }
 
+    function calculatePriceWithOptions()
+    {
+         $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+         $contentObject =& $this->contentObject();
+         $contentObjectVersion =& $contentObject->attribute( 'current_version' );
+         $optionsPrice = 0.0;
+         foreach( $optionList as $option )
+         {
+             $objectAttribute =& eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
+             $optionContent = $objectAttribute->content();
+             $optionContentItems =& $optionContent->attribute( 'option_list' );
+             $optionFound = false;
+             foreach( $optionContentItems as $optionContentItem )
+             {
+                 if ( $optionContentItem['id'] == $option->attribute( 'option_item_id' ) &&
+                      $optionContent->name() == $option->attribute( 'name' ) &&
+                      $optionContentItem['value'] == $option->attribute( 'value' ) )
+                 {
+                     if ( $optionContentItem[ 'additional_price' ] == $option->attribute( 'price' ) )
+                     {
+                         $optionFound = true;
+                         $optionsPrice += $optionContentItem['additional_price'];
+                     }
+                     else
+                     {
+                         $optionFound = false;
+                         return false;
+
+                     }
+                 }
+
+             }
+         }
+         return $optionsPrice;
+    }
+
+    function verify()
+    {
+        $contentObject =& $this->attribute( 'contentobject' );
+        if ( $contentObject != null && $contentObject->attribute( 'main_node_id' ) > 0 )
+        {
+            $attributes = $contentObject->contentObjectAttributes();
+            $optionsPrice = $this->calculatePriceWithOptions();
+            if (  $optionsPrice === false )
+            {
+                eZDebug::writeDebug( $optionPrice , "Option price is not the same" );
+
+                return false;
+            }
+            foreach ( $attributes as $attribute )
+            {
+                $dataType =& $attribute->dataType();
+                if ( $dataType->isA() == "ezprice" )
+                {
+                    $priceObj =& $attribute->content();
+
+                    $price = $priceObj->attribute( 'price' );
+                    $priceWithOptions = $price + $optionsPrice;
+                    if ( $priceWithOptions != $this->attribute( 'price' ) )
+                    {
+                        return false;
+                    }
+                    if ( $priceObj->attribute( 'is_vat_included' ) != ( $this->attribute( 'is_vat_inc' ) > 0 ) )
+                    {
+                        return false;
+                    }
+                    if ( $priceObj->attribute( 'vat_percent' ) != $this->attribute( 'vat_value' ) )
+                    {
+                        return false;
+                    }
+                    if ( $priceObj->discount() != $this->attribute( 'discount' ) )
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
     /// Stores the content object
     var $ContentObject = null;
 }

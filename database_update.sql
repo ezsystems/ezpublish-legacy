@@ -371,6 +371,6 @@ alter table ezproductcollection_item modify price double;
 alter table ezproductcollection_item add is_vat_inc int;
 alter table ezproductcollection_item add vat_value float;
 alter table ezproductcollection_item add discount float;
-
+alter table ezproductcollection_item_opt add object_attribute_id int;
 
 
