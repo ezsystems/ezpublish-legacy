@@ -113,10 +113,13 @@ class eZTemplateTreeCache
     */
     function isCacheEnabled()
     {
-        $siteBasics = $GLOBALS['eZSiteBasics'];
-        if ( $siteBasics['no-cache-adviced'] )
+        if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
-            return false;
+            $siteBasics = $GLOBALS['eZSiteBasics'];
+            if ( $siteBasics['no-cache-adviced'] )
+            {
+                return false;
+            }
         }
 
         include_once( 'lib/ezutils/classes/ezini.php' );

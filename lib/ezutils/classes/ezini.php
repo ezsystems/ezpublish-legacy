@@ -134,6 +134,8 @@ class eZINI
     */
     function isNoCacheAdviced()
     {
+        if ( !isset( $GLOBALS['eZSiteBasics'] ) )
+            return false;
         $siteBasics = $GLOBALS['eZSiteBasics'];
         return $siteBasics['no-cache-adviced'];
     }

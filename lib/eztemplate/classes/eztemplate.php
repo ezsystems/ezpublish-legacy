@@ -777,7 +777,7 @@ class eZTemplate
                         if ( is_array( $value ) )
                         {
                             if ( isset( $value[$attributeValue] ) )
-                                $value = $value[$attributeValue];
+                                $value =& $value[$attributeValue];
                             else
                             {
                                 $this->error( "",

@@ -267,10 +267,13 @@ class eZContentClassAttribute extends eZPersistentObject
         return $attr == 'data_type' or eZPersistentObject::hasAttribute( $attr);
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == 'data_type' )
-            return $this->dataType();
+        {
+            $datatype =& $this->dataType();
+            return $datatype;
+        }
         else if ( $attr == "content" )
             return $this->content( );
         else
@@ -280,7 +283,8 @@ class eZContentClassAttribute extends eZPersistentObject
     function &dataType()
     {
         include_once( 'kernel/classes/ezdatatype.php' );
-        return eZDataType::create( $this->DataTypeString );
+        $datatype =& eZDataType::create( $this->DataTypeString );
+        return $datatype;
     }
 
     /*!
