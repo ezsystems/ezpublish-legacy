@@ -154,6 +154,27 @@ div#contentstructure ul#content_tree_menu li img
     vertical-align: middle;
 }
 
+div#contentstructure a.nodetext
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+div#contentstructure a.nodetext:hover
+{
+    text-decoration: underline;
+}
+
+div#contentstructure li.currentnode a.nodetext
+{
+    background-color: #ffffff;
+}
+
+div#contentstructure li.currentnode li a.nodetext
+{
+    background-color: transparent;
+}
+
 div#leftmenu div.translations label
 {
     font-weight: normal;

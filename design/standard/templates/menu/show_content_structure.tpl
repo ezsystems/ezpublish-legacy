@@ -14,7 +14,7 @@
             {/section}
             
         {* Icon *}
-            <a href={$:parentNode.node.path_identification_string|ezurl}111>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+            <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         
         {* Label *}
             {* Tooltip *}
@@ -28,7 +28,7 @@
             {/section}
             
             {* Text *}    
-            <a href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+            <a class="nodetext" href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
             
         {* Show children *}    
             {section show=$:haveChildren}
