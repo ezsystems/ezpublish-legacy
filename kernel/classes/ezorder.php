@@ -85,7 +85,8 @@ class eZOrder extends eZPersistentObject
     function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                    null, null, null, null,
+                                                    null, null,
+                                                    array( "created" => "desc" ), null,
                                                     $asObject );
     }
 

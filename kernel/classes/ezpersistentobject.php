@@ -351,7 +351,6 @@ class eZPersistentObject
                                $custom_fields = null )
     {
         $db =& eZDB::instance();
-
         $fields =& $def["fields"];
         $table =& $def["name"];
         $class_name =& $def["class_name"];
@@ -388,7 +387,7 @@ class eZPersistentObject
 
         $where_text = eZPersistentObject::conditionText( $conds );
         $sort_text = "";
-        if ( isset( $def["sort"] ) )
+        if ( isset( $def["sort"] ) or is_array( $sorts ) )
         {
             $sort_list =& $def["sort"];
             if ( is_array( $sorts ) )
@@ -448,7 +447,6 @@ class eZPersistentObject
         $sqlText = "SELECT $field_text\nFROM   $table" . $where_text . $grouping_text . $sort_text;
         $rows =& $db->arrayQuery( $sqlText,
                                   $db_params );
-
 
         return eZPersistentObject::handleRows( $rows, $class_name, $asObject );
     }
