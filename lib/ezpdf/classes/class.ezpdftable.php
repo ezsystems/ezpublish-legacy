@@ -256,6 +256,7 @@ class eZPDFTable extends Cezpdf
         // figure out the maximum widths of the text within each column
         $maxWidth = array();
 
+        $maxRowCount = 0;
         // find the maximum cell widths based on the data
         foreach ( $data as $rowCount=>$row)
         {
@@ -299,6 +300,11 @@ class eZPDFTable extends Cezpdf
 
 //                echo "row: $rowCount, column: $columnCount:$realColCount,<br/>";
                 $realColCount += $colSpan;
+
+                if ( $realColCount > $maxRowCount )
+                {
+                    $maxRowCount = $realColCount;
+                }
             }
         }
 
@@ -722,7 +728,7 @@ class eZPDFTable extends Cezpdf
 
                             $rowHeight = $mx - $height + $decender;
                             $realColumnCount = 0;
-                            for ( $columnCount = 0; $columnCount < count ( $row ); $columnCount++ )
+                            for ( $columnCount = 0; $columnCount < $maxRowCount; $columnCount++ )
                             {
                                 if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
                                 {
