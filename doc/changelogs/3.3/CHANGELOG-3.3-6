@@ -272,6 +272,9 @@ edit_placement.tpl:
   a translation chosen or using attribute( show, 2 ) on a node.
   http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map
 - Fixed template warning with ISBN datatype when no number is entered.
+- Fixed problem with versionview not displaying objects in trash.
+  http://ez.no/community/bug_reports/view_in_trash
+  (Merged from stable/3.3 (3.3-6) rev. 9266)
 
 *Library:
 
