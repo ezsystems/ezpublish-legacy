@@ -45,6 +45,7 @@ include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+include_once( "kernel/common/i18n.php" );
 
 define( "EZ_CLASS_VERSION_STATUS_DEFINED", 0 );
 define( "EZ_CLASS_VERSION_STATUS_TEMPORARY", 1 );
