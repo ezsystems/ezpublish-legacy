@@ -22,7 +22,7 @@
     <th>{'Object ID'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
 <tr class="bglight">
-    <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name}</a></td>
+    <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name|wash}</a></td>
     <td>{$node.object.published|l10n( shortdatetime )}</td>
     <td>{$node.object.versions|count()}</td>
     <td>{$node.contentobject_version_object.language_list|count}</td>

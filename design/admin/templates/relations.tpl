@@ -24,7 +24,7 @@
         <tr class="{$RelatedObjects.sequence}">
 
         {* Name. *}
-        <td>{$RelatedObjects.item.content_class.identifier|class_icon( small, $RelatedObjects.item.content_class.name )}&nbsp;{content_view_gui view=text_linked content_object=$RelatedObjects.item}</td>
+        <td>{$RelatedObjects.item.content_class.identifier|class_icon( small, $RelatedObjects.item.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$RelatedObjects.item}</td>
 
         {* Type. *}
         {section show=$node.object.related_contentobject_count}
@@ -51,7 +51,7 @@
         <tr class="{$ReverseRelatedObjects.sequence}">
 
         {* Name. *}
-        <td>{$ReverseRelatedObjects.content_class.identifier|class_icon( small, $ReverseRelatedObjects.item.content_class.name )}&nbsp;{content_view_gui view=text_linked content_object=$ReverseRelatedObjects.item}</td>
+        <td>{$ReverseRelatedObjects.content_class.identifier|class_icon( small, $ReverseRelatedObjects.item.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$ReverseRelatedObjects.item}</td>
 
         {* Type. *}
         {section show=$node.object.reverse_related_contentobject_count}

@@ -4,8 +4,8 @@
 <table class="list-thumbnails" cellspacing="0">
     <tr>
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let child_name=$Nodes.item.name
-         node_name=$node.name}
+    {let child_name=$Nodes.item.name|wash
+         node_name=$node.name|wash}
         <td width="25%">
         {node_view_gui view=thumbnail content_node=$Nodes.item}
 
@@ -24,7 +24,7 @@
             <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
         {/section}
 
-        <p><a href={$Nodes.url_alias|ezurl}>{$Nodes.name|wash}</a></p>
+        <p><a href={$Nodes.url_alias|ezurl}>{$child_name}</a></p>
         </div>
     {/let}
 </td>
