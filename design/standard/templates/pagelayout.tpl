@@ -76,20 +76,29 @@
 
 <!-- Top box END -->
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td class="pathline" colspan="3">
 
 <!-- Main path START -->
 
-    <p class="path"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="path" href="/">Browse</a> <span class="slash">/</span> <a class="path" href="/">Toplevel</a> <span class="slash">/</span> <a class="path" href="/">Subcategory</a> <span class="slash">/</span> <a class="path" href="/">Subsubcategory</a></p>
+<table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><br />
+    </td>
+    <td width="99%">
+    <p class="path"><a class="path" href="/">Browse</a> <span class="slash">/</span> <a class="path" href="/">Toplevel</a> <span class="slash">/</span> <a class="path" href="/">Subcategory</a> <span class="slash">/</span> <a class="path" href="/">Subsubcategory</a></p>
+    </td>
+</tr>
+</table>
 
 <!-- Main path END -->
 
     </td>
 </tr>
 <tr>
-    <td width="120" valign="top">
+    <td width="120" valign="top" style="padding-right: 4px;">
 
 <!-- Left menu START -->
 
@@ -101,7 +110,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/content/view/full/2/">Contents</a></p>
@@ -109,7 +118,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/content/sitemap/2/">Sitemap</a></p>
@@ -117,7 +126,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem"  href="/search/stats/">Search stats</a></p>
@@ -133,7 +142,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/class/grouplist/">Classes</a></p>
@@ -141,7 +150,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/section/list/">Sections</a></p>
@@ -149,7 +158,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/workflow/grouplist/">Workflows</a></p>
@@ -165,7 +174,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/shop/orderlist/">Order lists</a></p>
@@ -173,7 +182,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/shop/wishlist/">Wish list</a></p>
@@ -181,7 +190,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/shop/cart/">Shopping cart</a></p>
@@ -197,7 +206,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/content/sitemap/5/">Users</a></p>
@@ -205,7 +214,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/role/list/">Roles</a></p>
@@ -213,7 +222,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/notification/list/">Notification rule list</a></p>
@@ -221,7 +230,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/task/view/">Tasks</a></p>
@@ -237,7 +246,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/">New article</a></p>
@@ -245,7 +254,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/">New link</a></p>
@@ -253,7 +262,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/">New product blah blah</a></p>
@@ -273,7 +282,7 @@
 <!-- Main area END -->
 
     </td>
-    <td width="120" valign="top">
+    <td width="120" valign="top" style="padding-left: 4px;">
 
 <!-- Right menu START -->
 
@@ -306,7 +315,7 @@
 </tr>
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" />
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
     <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p>

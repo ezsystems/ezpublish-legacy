@@ -1,1 +1,3 @@
-<h1>2 - Not found</h1>
+<div class="warning">
+<h3 class="warning">Not found</h3>
+</div>

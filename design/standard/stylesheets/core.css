@@ -51,9 +51,17 @@ h1, h2, h3
 {
     padding-top: 0.5ex;
     padding-bottom: 0.25ex;
+    padding-left: 0;
+    padding-right: 0;
     margin: 0;
     font-weight: normal;
     clear: left;
+}
+
+h1
+{
+    padding-top: 0.5ex;
+    padding-bottom: 1ex;
 }
 
 /* Regular text */
@@ -217,12 +225,18 @@ div.break
     margin-bottom: 1ex;
 }
 
-div.block
+div.block, div.buttons
 {
     clear: both;
     padding: 0;
     margin-top: 0.5ex;
     margin-bottom: 0.5ex;
+}
+
+div.buttonblock
+{
+    margin-top: 2ex;
+    margin-bottom: 2ex;
 }
 
 div.element

@@ -33,7 +33,6 @@ td.pathline
 p.path
 {
 	font-weight: bold;
-	padding-left: 2px;
 }
 
 p.path a.path
@@ -57,7 +56,7 @@ table.menuboxleft
 	border-top: solid 1px #000000;
 	border-right: solid 1px #000000;
 	border-bottom: solid 1px #000000;
-	margin-top: 16px;
+	margin-top: 12px;
 }
 
 table.menuboxright
@@ -65,7 +64,7 @@ table.menuboxright
 	border-top: solid 1px #000000;
 	border-left: solid 1px #000000;
 	border-bottom: solid 1px #000000;
-	margin-top: 16px;
+	margin-top: 12px;
 }
 
 th.menuheaddark
@@ -95,7 +94,7 @@ th.menuheadlight p.menuhead
 	color: #000000;
 }
 
-td.bullet, td.menu
+td.menu, table.menuboxleft td.bullet, table.menuboxright td.bullet  
 {
 	background-color: #ffffff;
 }
@@ -152,6 +151,5 @@ p.menutext
 td.mainarea
 {
 	background-color: #ffffff;
-	padding-right: 12px;
-	padding-left: 12px;
+	padding: 12px;
 }                                                                                                                                                                                                                                                              
