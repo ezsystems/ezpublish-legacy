@@ -104,13 +104,8 @@ class eZBooleanType extends eZDataType
             $data = $http->postVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) );
             if ( isset( $data ) )
                 $data = 1;
+            $classAttribute->setAttribute( "data_int3", $data );
         }
-        else
-        {
-            $data = 0;
-        }
-
-        $classAttribute->setAttribute( "data_int3", $data );
         return true;
     }
 
