@@ -415,7 +415,7 @@ class eZXMLTextType extends eZDataType
     */
     function &serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
-        include_once( 'lib/ezutils/classes/ezxml.php' );
+        include_once( 'lib/ezxml/classes/ezxml.php' );
 
         $node = new eZDOMNode();
 

@@ -2452,32 +2452,20 @@ class eZPackage
         {
             if ( $export )
             {
-                $packagePath = $fileInfo['package-path'];
-                if ( $packagePath )
-                {
-                    $sourcePath = $this->path() . '/' . $packagePath;
-                    $destinationPath = $exportPath . '/' . $packagePath;
-                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                    eZFileHandler::copy( $sourcePath, $destinationPath );
-                }
-                else
-                {
-                    $suffix = eZFile::suffix( $fileInfo['original-path'] );
-                    $sourcePath = $fileInfo['original-path'];
-                    $simpleFileList[$key]['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
-                    $destinationPath = $exportPath . '/' . $simpleFileList[$key]['package-path'];
-                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                    eZFileHandler::copy( $sourcePath, $destinationPath );
-                }
+                $sourcePath = $this->path() . '/' . $fileInfo['package-path'];
+                $destinationPath = $exportPath . '/' . $fileInfo['package-path'];
+                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                eZFileHandler::copy( $sourcePath, $destinationPath );
             }
             else if ( $simpleFileList[$key]['package-path'] == '' )
             {
                 $suffix = eZFile::suffix( $fileInfo['original-path'] );
                 $sourcePath = $fileInfo['original-path'];
-                $simpleFileList[$key]['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
-                $destinationPath = $this->path() . '/' . $simpleFileList[$key]['package-path'];
+                $fileInfo['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
+                $destinationPath = $this->path() . '/' . $fileInfo['package-path'];
                 eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
                 eZFileHandler::copy( $sourcePath, $destinationPath );
+                $this->Parameters['simple-file-list'][$key] = $fileInfo;
             }
         }
         $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $simpleFileList ) );
