@@ -683,7 +683,7 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
                 ),
             'text_linked_image' => 
             array (
-                'Source' => 'content/view/text_linked.tpl',
+                'Source' => 'node/view/line.tpl',
                 'MatchFile' => 'text_linked_image.tpl',
                 'Subdir' => 'templates',
                 'Match' => 
