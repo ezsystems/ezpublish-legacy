@@ -88,7 +88,7 @@ class eZPackageType extends eZDataType
             $data =& $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $data );
         }
-        return false;
+        return true;
     }
 
     /*!
