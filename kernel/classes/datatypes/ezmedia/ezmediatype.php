@@ -147,7 +147,7 @@ class eZMediaType extends eZDataType
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
             $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
-            if ( $media === null )
+            if ( $media === null || !$media->attribute( 'filename' ) )
             {
                 $mustUpload = true;
             }
@@ -207,8 +207,33 @@ class eZMediaType extends eZDataType
         $quality = $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) );
         $controls = $http->postVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
 
+        $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        if ( $media == null )
+        {
+           $media =& eZMedia::create( $contentObjectAttributeID, $version );
+        }
+        $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
+        $media->setAttribute( "version", $version );
+        $media->setAttribute( "width", $width );
+        $media->setAttribute( "height", $height );
+        $media->setAttribute( "quality", $quality );
+        $media->setAttribute( "controls", $controls );
+        $media->setAttribute( "pluginspage", $plugin );
+        if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
+            $media->setAttribute( "is_autoplay", true );
+        else
+            $media->setAttribute( "is_autoplay", false );
+        if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
+            $media->setAttribute( "has_controller", true );
+        else
+            $media->setAttribute( "has_controller", false );
+        if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
+            $media->setAttribute( "is_loop", true );
+        else
+            $media->setAttribute( "is_loop", false );
+
+        $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
         if ( get_class( $mediaFile ) == "ezhttpfile" )
         {
             $mimeData =& eZMimeType::findByFileContents( $mediaFile->attribute( "original_filename" ) );
@@ -226,69 +251,14 @@ class eZMediaType extends eZDataType
                 return false;
             }
 
-            $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
-            if ( $media == null )
-            {
-                $media =& eZMedia::create( $contentObjectAttributeID, $version );
-            }
-
             $orig_dir = $mediaFile->storageDir( "original" );
             eZDebug::writeNotice( "dir=$orig_dir" );
-            $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
-            $media->setAttribute( "version", $version );
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
-            $media->setAttribute( "width", $width );
-            $media->setAttribute( "height", $height );
-            $media->setAttribute( "quality", $quality );
-            $media->setAttribute( "controls", $controls );
-            $media->setAttribute( "pluginspage", $plugin );
-            if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
-                $media->setAttribute( "is_autoplay", true );
-            else
-                $media->setAttribute( "is_autoplay", false );
-            if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
-                $media->setAttribute( "has_controller", true );
-            else
-                $media->setAttribute( "has_controller", false );
-            if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
-                $media->setAttribute( "is_loop", true );
-            else
-                $media->setAttribute( "is_loop", false );
-            $media->store();
-            $contentObjectAttribute->setContent( $media );
         }
-        else
-        {
-            $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
-            if ( $media === null )
-            {
-                eZDebug::writeError("No file uploaded");
-            }
-            else
-            {
-                $media->setAttribute( "width", $width );
-                $media->setAttribute( "height", $height );
-                $media->setAttribute( "quality", $quality );
-                $media->setAttribute( "controls", $controls );
-                $media->setAttribute( "pluginspage", $plugin );
-                if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
-                    $media->setAttribute( "is_autoplay", true );
-                else
-                    $media->setAttribute( "is_autoplay", false );
-                if ( $http->hasPostVariable( $base . "_data_media_has_controller_" . $contentObjectAttribute->attribute( "id" ) ) )
-                    $media->setAttribute( "has_controller", true );
-                else
-                    $media->setAttribute( "has_controller", false );
-                if ( $http->hasPostVariable( $base . "_data_media_is_loop_" . $contentObjectAttribute->attribute( "id" ) ) )
-                    $media->setAttribute( "is_loop", true );
-                else
-                    $media->setAttribute( "is_loop", false );
-                $media->store();
-                $contentObjectAttribute->setContent( $media );
-            }
-        }
+        $media->store();
+        $contentObjectAttribute->setContent( $media );
         return true;
     }
 
@@ -298,11 +268,13 @@ class eZMediaType extends eZDataType
 
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
-        if( $action == "delete_media" )
+        if ( $action == "delete_media" )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
             $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
+            $media =& eZMedia::create( $contentObjectAttributeID, $version );
+            $contentObjectAttribute->setContent( $media );
         }
     }
 
@@ -585,12 +557,7 @@ class eZMediaType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
-                                      $contentObjectAttribute->attribute( "version" ) );
-
-        if ( $mediaFile != null )
-            return true;
-        return false;
+        return true;
     }
 
     function &objectAttributeContent( $contentObjectAttribute )
@@ -599,7 +566,7 @@ class eZMediaType extends eZDataType
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
         {
-            return false;
+            $mediaFile =& eZMedia::create( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute( "version" ) );
         }
         return $mediaFile;
     }
