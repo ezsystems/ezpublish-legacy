@@ -126,6 +126,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed cache bug when adding bookmarks in admin interface. http://ez.no/developer/ez_publish_3/bug_reports/bookmarks_cacheblock_dont_expires
 - Fixed timeout for editing class drafts from other user. This will prevent users beeing permanently unable to edit classes.
   http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
+- Fixed updating section id when moving unpublished objects. http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
 
 *Setup:
 - Added check for specific unstable PHP versions.
