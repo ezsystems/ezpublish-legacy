@@ -12,40 +12,54 @@
 </tr>
 <tr class="bglightforum">
     <td class="author">
-    <p class="author">{$node.object.owner.name|wash}<br />
-    {$node.object.owner.data_map.title.content|wash}</p>
+    {let owner=$node.object.owner owner_map=$owner.data_map}
+        <p class="author">{$owner.name|wash}
+        {section show=is_set( $owner_map.title )}
+            <br />{$owner_map.title.content|wash}
+        {/section}</p>
+        {section show=$owner_map.image.has_content}
+        <div class="authorimage">
+            {attribute_view_gui attribute=$owner_map.image image_class=small}
+        </div>
+        {/section}
 
-    <p class="date">({$node.object.published|l10n(datetime)})</p>
-
-    <div class="authorimage">
-    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
-    </div>
-
-    <p>{"Location:"|i18n("design/base")}{$node.object.owner.data_map.location.content|wash}</p>
-    <p>
-    {let owner_id=$node.object.owner.id}
-        {section name=Author loop=$node.object.author_array}
-            {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name}
+        {section show=is_set( $owner_map.location )}
+            <p>{"Location:"|i18n("design/base")}{$owner_map.location.content|wash}</p>
+        {/section}
+        <p>
+        {let owner_id=$node.object.owner.id}
+            {section name=Author loop=$node.object.author_array}
+                {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
+                    {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name}
+                 {/section}
              {/section}
-         {/section}
-    {/let}
-    </p>
+        {/let}
+        </p>
 
-    {section show$node.object.can_edit}
-    <form method="post" action={"content/action/"|ezurl}>
+        {section show$node.object.can_edit}
+        <form method="post" action={"content/action/"|ezurl}>
 
-    <br/>
-    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-    </form>
-    {/section}
+        <br/>
+
+        <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+
+        </form>
+        {/section}
+
     </td>
     <td class="message">
-    <h3>{$node.name|wash}</h3>
-    <p>
-    {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
-    </p>
+        <p class="date">{$node.object.published|l10n(datetime)}</p>
+
+        <h3>{$node.name|wash}</h3>
+
+        <p>
+            {$node.object.data_map.message.content|simpletags|wordtoimage|autolink}
+        </p>
+        {section show=$owner_map.signature.has_content}
+            <p class="author-signature">{$owner_map.signature.content|simpletags|autolink}</p>
+        {/section}
+    {/let}
     </td>
 </tr>
 </table>

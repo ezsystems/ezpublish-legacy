@@ -509,6 +509,7 @@ table.forum div.attribute-byline p.author, table.forum div.attribute-byline p.da
 table.forum p.date
 {
     font-size: 0.8em;
+    border-bottom: 1px solid #aaa;
 }
 
 div.content-view-children table.forum th.topic
@@ -529,6 +530,11 @@ div.content-view-children table.forum th.lastreply
 div.content-view-children table.forum th.author
 {
     width: 25%;
+}
+
+table.forum td.author p.author
+{
+    font-weight: bold;
 }
 
 div.content-view-children table.forum th.message
