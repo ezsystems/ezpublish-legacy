@@ -68,7 +68,7 @@
         <td class="modified">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
 
         {* Section *}
-        <td>{fetch( section, object, hash( section_id, $Nodes.item.object.section_id ) ).name|wash}</td>
+        <td>{let section_object=fetch( section, object, hash( section_id, $Nodes.object.section_id ) )}{section show=$section_object}<a href={concat( '/section/view/', $Nodes.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown section'|i18n( 'design/admin/node/view/full' )}</i>{/section}{/let}</td>
 
         {* Priority *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
