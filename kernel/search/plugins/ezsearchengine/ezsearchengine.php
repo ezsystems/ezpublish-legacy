@@ -40,6 +40,7 @@
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 class eZSearchEngine
 {
@@ -148,6 +149,8 @@ class eZSearchEngine
         $prevWordID = 0;
         $nextWordID = 0;
         $classID = $contentObject->attribute( 'contentclass_id' );
+        $sectionID = $contentObject->attribute( 'section_id' );
+        $published = $contentObject->attribute( 'published' );
         for ( $i = 0; $i < count( $indexArray ); $i++ )
         {
             $indexWord = $indexArray[$i]['Word'];
@@ -170,8 +173,8 @@ class eZSearchEngine
             $frequency = 0;
 
             $db->query( "INSERT INTO
-                       ezsearch_object_word_link ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id )
-                     VALUES ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID' )" );
+                       ezsearch_object_word_link ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
+                     VALUES ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID', '$published', '$sectionID' )" );
 
             $prevWordID = $wordID;
             $placement++;
@@ -215,6 +218,16 @@ class eZSearchEngine
             else
                 $searchContentClassID = -1;
 
+            if ( isset( $params['SearchSectionID'] ) )
+                $searchSectionID = $params['SearchSectionID'];
+            else
+                $searchSectionID = -1;
+
+            if ( isset( $params['SearchDate'] ) )
+                $searchDate = $params['SearchDate'];
+            else
+                $searchDate = -1;
+
             if ( isset( $params['SearchContentClassAttributeID'] ) )
                 $searchContentClassAttributeID = $params['SearchContentClassAttributeID'];
             else
@@ -245,6 +258,66 @@ class eZSearchEngine
                 }
             }
 
+            $sectionQuery = "";
+            if ( is_numeric( $searchSectionID ) and  $searchSectionID > 0 )
+            {
+                $sectionQuery = "ezsearch_object_word_link.section_id = '$searchSectionID' AND ";
+            }
+
+            if ( is_numeric( $searchDate ) and  $searchDate > 0 )
+            {
+                $date = new eZDateTime();
+                $timestamp = $date->timeStamp();
+                $day = $date->attribute('day');
+                $month = $date->attribute('month');
+                $year = $date->attribute('year');
+                switch ( $searchDate )
+                {
+                    case 1:
+                    {
+                        $adjustment = 24*60*60; //seconds for one day
+                        $publishedDate = $timestamp - $adjustment;
+                    } break;
+                    case 2:
+                    {
+                        $adjustment = 7*24*60*60; //seconds for one week
+                        $publishedDate = $timestamp - $adjustment;
+                    } break;
+                    case 3:
+                    {
+                        $adjustment = 31*24*60*60; //seconds for one month
+                        $publishedDate = $timestamp - $adjustment;
+                    } break;
+                    case 4:
+                    {
+                        $adjustment = 3*31*24*60*60; //seconds for three months
+                        $publishedDate = $timestamp - $adjustment;
+                    } break;
+                    case 5:
+                    {
+                        $adjustment = 365*24*60*60;; //seconds for one year
+                        $publishedDate = $timestamp - $adjustment;
+                    } break;
+                    default:
+                    {
+                        $publishedDate = $date->timeStamp();
+                    }
+                }
+                $searchDateQuery = "ezsearch_object_word_link.published >= '$publishedDate' AND ";
+            }
+
+            $classQuery = "";
+            if ( is_numeric( $searchContentClassID ) and  $searchContentClassID > 0 )
+            {
+                $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
+            }
+
+            $classAttributeQuery = "";
+            if ( is_numeric( $searchContentClassAttributeID ) and  $searchContentClassAttributeID > 0 )
+            {
+                $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
+            }
+
             $searchWordArray = $this->splitString( $searchText );
             $tempTableCount = 1;
             if( ( count( $searchWordArray )> 1 ) and ( count( $phraseTextArray ) == 0 ) )
@@ -255,14 +328,15 @@ class eZSearchEngine
                     $db->query( "CREATE TEMPORARY TABLE $tableName SELECT DISTINCT ezcontentobject.*,
                                                                  ezsearch_object_word_link.frequency
                                                  FROM ezcontentobject,ezsearch_object_word_link, ezsearch_word
-                                                 WHERE word='$searchWord'
+                                                 WHERE $searchDateQuery $sectionQuery $classQuery $classAttributeQuery
+                                                       word='$searchWord'
                                                       AND ezcontentobject.id=ezsearch_object_word_link.contentobject_id
                                                       AND ezsearch_word.id=ezsearch_object_word_link.word_id
                                                  ORDER BY ezsearch_object_word_link.frequency" );
                     $tempTableCount++;
                 }
                 $table = "tmptable1, ";
-                $condition = "WHERE ";
+                $condition = "";
                 for ( $i=2;$i<$tempTableCount;$i++ )
                 {
                     if ( $i == ( $tempTableCount-1 ) )
@@ -276,8 +350,8 @@ class eZSearchEngine
                     }
                 }
                 $searchCount = 0;
-                $finalRes =& $db->arrayQuery( "SELECT * FROM $table $condition" );
-                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT tmptable1.id ) as count FROM $table $condition" );
+                $finalRes =& $db->arrayQuery( "SELECT * FROM $table WHERE $condition" );
+                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT tmptable1.id ) as count FROM $table WHERE $condition" );
                 $searchCount = $countRes[0]['count'];
                 for ( $i=1;$i<$tempTableCount;$i++ )
                 {
@@ -398,23 +472,13 @@ class eZSearchEngine
                 $fullTextSQL = " ( $fullTextSQL ) AND ";
             }
 
-            $classQuery = "";
-            if ( is_numeric( $searchContentClassID ) and  $searchContentClassID > 0 )
-            {
-                $classQuery = "ezsearch_object_word_link.contentclass_id = '$searchContentClassID' AND ";
-            }
-
-            $classAttributeQuery = "";
-            if ( is_numeric( $searchContentClassAttributeID ) and  $searchContentClassAttributeID > 0 )
-            {
-                $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$searchContentClassAttributeID' AND ";
-            }
-
             $searchQuery = "SELECT DISTINCT ezcontentobject.id, ezcontentobject.*, ezsearch_object_word_link.frequency
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
                     WHERE
+                    $searchDateQuery
+                    $sectionQuery
                     $classQuery
                     $classAttributeQuery
                     $phraseSQL
@@ -427,6 +491,8 @@ class eZSearchEngine
                        ezcontentobject,
                        ezsearch_object_word_link
                     WHERE
+                    $searchDateQuery
+                    $sectionQuery
                     $classQuery
                     $classAttributeQuery
                     $phraseSQL

@@ -46,7 +46,7 @@
             {case match=$EnumList:EnumObjectList:item.enumelement}
 	       checked
             {/case}
-          {/switch} 
+          {/switch}
           {/section}
             >{$EnumList:item.enumelement} <br />
           {/section}

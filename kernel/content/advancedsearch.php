@@ -40,6 +40,7 @@ include_once( "kernel/classes/ezsearch.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 
 include_once( "kernel/classes/ezsearchlog.php" );
+include_once( "kernel/classes/ezsection.php" );
 
 $http =& eZHTTPTool::instance();
 
@@ -81,14 +82,34 @@ if ( $http->hasVariable( "SearchContentClassAttributeID" ) and
     $searchContentClassAttributeID = $http->variable( "SearchContentClassAttributeID" );
 }
 
+$searchDate = -1;
+if ( $http->hasVariable( "SearchDate" ) and
+     $http->variable( "SearchDate" ) != -1 )
+{
+    $searchDate = $http->variable( "SearchDate" );
+}
+
+$searchSectionID = -1;
+if ( $http->hasVariable( "SearchSectionID" ) and
+     $http->variable( "SearchSectionID" ) != -1 )
+{
+    $searchSectionID = $http->variable( "SearchSectionID" );
+}
+
 $Module->setTitle( "Search for: $searchText" );
 
 $classArray =& eZContentClass::fetchList();
 
-$searchResult =& eZSearch::search( $searchText, array( "SearchContentClassID" => $searchContentClassID,
-                                                       "SearchContentClassAttributeID" => $searchContentClassAttributeID ) );
+$sectionArray =& eZSection::fetchList();
+
+$searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $searchSectionID,
+                                                       "SearchContentClassID" => $searchContentClassID,
+                                                       "SearchContentClassAttributeID" => $searchContentClassAttributeID,
+                                                       "SearchDate" => $searchDate ) );
 
 $tpl->setVariable( "search_contentclass_id", $searchContentClassID );
+$tpl->setVariable( "search_section_id", $searchSectionID );
+$tpl->setVariable( "search_date", $searchDate );
 
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
@@ -96,6 +117,7 @@ $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "full_search_text", $fullSearchText );
 $tpl->setVariable( "phrase_search_text", $phraseSearchText );
 $tpl->setVariable( "content_class_array", $classArray );
+$tpl->setVariable( "section_array", $sectionArray );
 $tpl->setVariable( "search_content_class_attribute_array", $searchContentClassAttributeArray );
 
 $Result = array();

@@ -85,7 +85,6 @@ if ( is_numeric( $ClassID ) )
     if ( $class->attribute("id") == null )
     {
         $class =& eZContentClass::fetch( $ClassID, true, 0 );
-        eZDebug::writeError($class, "WWWW");
         $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, 0);
         foreach ( $classGroups as $classGroup )
         {
