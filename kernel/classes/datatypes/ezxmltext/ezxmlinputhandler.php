@@ -141,7 +141,7 @@ class eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
-        $message = null;
+		$message = null;
         // fix newlines
         // Convet windows newlines
         $text =& preg_replace( "#\r\n#", "\n", $text );
@@ -155,6 +155,7 @@ class eZXMLInputHandler
         $sectionData = "<section>";
         $sectionArray =& preg_split( "#(<header.*?>.*?</header>)#", $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
         $sectionLevel = 1;
+        $unMatchedSection = 0;
         foreach ( $sectionArray as $sectionPart )
         {
             // check for header
@@ -166,15 +167,34 @@ class eZXMLInputHandler
                 if ( $newSectionLevel > $sectionLevel )
                 {
                     $sectionData .= "<section>\n";
+                    $unMatchedSection += 1;
                 }
 
                 if ( $newSectionLevel < $sectionLevel )
                 {
                     $sectionData .= "\n</section>\n";
+                    $unMatchedSection -= 1;
                 }
+
+                /*  $sectionLevel = $newSectionLevel;
+                $sectionData .= $sectionPart;
+
+                if ( $newSectionLevel < $sectionLevel )
+                {
+                    $sectionData .= "\n</section>\n";
+                    $sectionData .= "\n</section>\n";
+                    $sectionData .= "\n</section>\n";
+                }
+                if ( $newSectionLevel == $sectionLevel )
+                {
+                    $sectionData .= "\n</section>\n";
+                    $sectionData .= "\n<section>\n";
+                }*/
 
                 $sectionLevel = $newSectionLevel;
                 $sectionData .= $sectionPart;
+                // Remove header level.
+                $sectionData = preg_replace( "# level=.*?>#", ">" , $sectionData );
             }
             else
             {
@@ -189,9 +209,15 @@ class eZXMLInputHandler
                 }
             }
         }
-        if ( $sectionLevel > 1 )
+        /* if ( $sectionLevel > 1 )
         {
             $sectionData .= str_repeat( "\n</section>\n", $sectionLevel - 1 );
+        }*/
+
+        while ( $unMatchedSection > 0 )
+        {
+            $sectionData .= "</section>";
+            $unMatchedSection -= 1;
         }
         $sectionData .= "</section>";
 
@@ -401,7 +427,7 @@ class eZXMLInputHandler
         {
             $children =& $node[0]->children();
             if ( count( $children ) > 0 )
-                $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
+                $output .= $this->inputSectionXML( $node[0], 1 );
         }
         return $output;
     }
@@ -410,7 +436,7 @@ class eZXMLInputHandler
      \private
      \return the user input format for the given section
     */
-    function &inputSectionXML( &$section )
+    function &inputSectionXML( &$section, $sectionLevel )
     {
         $output = "";
         foreach ( $section->children() as $sectionNode )
@@ -421,11 +447,13 @@ class eZXMLInputHandler
             {
                 case 'header' :
                 {
-                    $level = $sectionNode->attributeValue( 'level' );
+                    /* $level = $sectionNode->attributeValue( 'level' );
                     if ( is_numeric( $level ) )
                         $level = $sectionNode->attributeValue( 'level' );
                     else
-                        $level = 1;
+                        $level = 1;*/
+
+                    $level = $sectionLevel;
                     $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
                 }break;
 
@@ -436,7 +464,8 @@ class eZXMLInputHandler
 
                 case 'section' :
                 {
-                    $output .= $this->inputSectionXML( $sectionNode );
+                    $sectionLevel += 1;
+                    $output .= $this->inputSectionXML( $sectionNode, $sectionLevel );
                 }break;
 
                 default :
