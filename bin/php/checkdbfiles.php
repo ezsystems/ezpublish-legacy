@@ -33,12 +33,15 @@
 // you.
 //
 
-$dbTypes = array( 'mysql',
-                  'postgresql' );
+$dbTypes = array();
+$dbTypes[] = 'mysql';
+$dbTypes[] = 'postgresql';
 
-$branches = array( '3.0',
-                   '3.1',
-                   '3.2' );
+$branches = array();
+$branches[] = '3.0';
+$branches[] = '3.1';
+$branches[] = '3.2';
+
 $versions = array();
 $versions30 = array( 'stable' => array( array( '2.9.7', '3.0-1' ),
                                         array( '3.0-1', '3.0-2' ) ),
