@@ -66,6 +66,9 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
             if ( $selectedObjectID != $objectID && !in_array( $selectedObjectID, $relatedObjectIDArray ) )
                 $object->addContentObjectRelation( $selectedObjectID, $editVersion );
         }
+        $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
+                                 null, false, 'content-relation-items' );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'UploadedFileRelation' ) )
     {
