@@ -60,6 +60,7 @@ links to clickable links.
 - Added site URL and eZ publish version to admin interface, under setup.
 - If require user login is on and the siteaccess is not allowed the user login
   page is shown with a warning about access denied.
+- Added node_id to url array
 
 *SDK :
 
