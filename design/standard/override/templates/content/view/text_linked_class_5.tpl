@@ -1,0 +1,1 @@
+{attribute_view_gui attribute=$object.data_map.image image_class=small}
