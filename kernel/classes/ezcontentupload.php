@@ -644,6 +644,42 @@ class eZContentUpload
     }
 
     /*!
+      Finds the file attribute for object \a $contentObject and tries to extract
+      file information using eZDataType::storedFileInformation().
+      \return The information structure or \c false if it fails somehow.
+    */
+    function objectFileInfo( &$contentObject )
+    {
+        $uploadINI =& eZINI::instance( 'upload.ini' );
+
+        $class =& $contentObject->contentClass();
+        $classIdentifier = $class->attribute( 'identifier' );
+        $classDataMap =& $class->dataMap();
+        $attributeIdentifier = false;
+        if ( $uploadINI->hasGroup( $classIdentifier . '_ClassSettings' ) )
+        {
+            $attributeIdentifier = $uploadINI->variable( $classIdentifier . '_ClassSettings', 'FileAttribute' );
+        }
+
+        $attributeIdentifier = $this->findRegularFileAttribute( $classDataMap, $attributeIdentifier );
+        if ( !$attributeIdentifier )
+        {
+            // No file information for this object
+            return false;
+        }
+
+        $dataMap =& $contentObject->dataMap();
+        $fileAttribute =& $dataMap[$attributeIdentifier];
+
+        if ( $fileAttribute->hasStoredFileInformation( $contentObject, false, false ) )
+        {
+            $info = $fileAttribute->storedFileInformation( $contentObject, false, false );
+            return $info;
+        }
+        return false;
+    }
+
+    /*!
      \private
      Fetches the HTTP-File into \a $file and fills in MIME-Type information into \a $mimeData.
      \return \c false if something went wrong.
