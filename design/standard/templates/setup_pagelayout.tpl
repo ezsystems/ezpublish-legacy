@@ -62,8 +62,12 @@
 
         <tr height="421">
           <td class="setup_main_area" width="550" colspan="2">
-            {* Main stuff goes here *}
-	    {$module_result.content}
+
+          {* Debug errors and warnings are displayed here *}
+          {include uri="design:page_warning.tpl"}
+
+          {* Main stuff goes here *}
+          {$module_result.content}
           </td>
         
           <td class="setup_noborder_blue" width="210" colspan="2">
