@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DIST_PROP="ez:distribution"
-DIST_DIR_PROP="ez:distribution_include_all"
 DIST_TYPE='full'
 NAME="ezpublish"
 DEST_ROOT="/tmp/ez-$USER"
@@ -26,6 +24,7 @@ if [ -f $CACHE ]; then
 fi
 
 . ./bin/shell/common.sh
+. ./bin/shell/distcommon.sh
 . ./bin/shell/packagescommon.sh
 . ./bin/shell/extensionscommon.sh
 
@@ -34,99 +33,18 @@ if ! which php &>/dev/null; then
     exit 1
 fi
 
-function make_dir
-{
-    local DIR
-    DIR=`echo "$1" | sed 's#^\./##'`
-    if [ ! -d "$DEST/$DIR" ]; then
-	mkdir "$DEST/$DIR"
-    fi
-}
-
-function copy_file
-{
-    local SRC_FILE DST_FILE
-    SRC_FILE=`echo $1 | sed 's#^\./##'`
-    DST_FILE="$SRC_FILE"
-    cp -f "$SRC_FILE" "$DEST/$DST_FILE"
-
-}
-
-function scan_dir_normal
-{
-    local file
-    local DIR
-
-    DIR=$1
-#    echo "Scanning dir $DIR normally"
-    for file in $DIR/*; do
-	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
-# 	if ! echo $file | grep "/\*" &>/dev/null; then
-	    if [ -d "$file" ]; then
-	        # Do not include .svn dirs
-		if [ "$file" != ".svn" ]; then
-		    make_dir "$file"
-		    scan_dir_normal "$file"
-		fi
-	    else
-	        # Do not include temporary files
-		if ! echo "$file" | grep '[~#]$' &>/dev/null; then
-		    copy_file "$file"
-		fi
-	    fi
-	fi
-    done
-}
-
-function scan_dir
-{
-    local file
-    local DIR
-    local DIST_PROP_TYPE
-    local DIST_DIR
-
-    DIR=$1
-#    echo "Scanning dir $DIR"
-    for file in $DIR/* $DIR/.*; do
-#	if ! echo $file | grep "/\*" &>/dev/null; then
-	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
-	    DIST_PROP_TYPE=`svn propget $DIST_PROP $file 2>/dev/null`
-	    if [ $? -eq 0 ] && [ ! -z "$DIST_PROP_TYPE" ]; then
-		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
-		    DIST_DIR=`svn propget $DIST_DIR_PROP $file 2>/dev/null`
-		    DIST_DIR_RECURSIVE=""
-		    if [ $? -eq 0 ] && [ ! -z "$DIST_DIR" ]; then
-			if echo $DIST_DIR | grep $DIST_TYPE &>/dev/null; then
-#			    echo "Found include all marker for $file"
-			    DIST_DIR_RECURSIVE=$DIST_TYPE
-			fi
-		    fi
-		    if [ -d "$file" ]; then
-			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
-			make_dir "$file"
-			if [ -z $DIST_DIR_RECURSIVE ]; then
-			    scan_dir "$file"
-			else
-			    echo -n "*"
-			    scan_dir_normal "$file"
-			fi
-		    else
-			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
-			copy_file "$file"
-		    fi
-		fi
-	    fi
-	fi
-    done
-}
-
 SVN_SERVER=""
 REPOS_RELEASE="trunk"
 
-DB_USER="root"
 DB_NAME="ez_tmp_makedist"
-DB_SERVER="localhost"
-DB_PASSWORD=""
+MYSQL_USER='root'
+MYSQL_HOST='localhost'
+MYSQL_PORT=''
+MYSQL_PASSWORD=''
+PGSQL_USER='postgres'
+PGSQL_HOST='localhost'
+PGSQL_PORT=''
+PGSQL_PASSWORD=''
 
 # Check parameters
 for arg in $*; do
@@ -158,11 +76,21 @@ for arg in $*; do
 	    echo "         --skip-changelogs          Do not changelogs from earlier versions*"
 	    echo "         --skip-sql-generation      Do not generate SQL files*"
 	    echo "         --skip-extensions          Do not package extensions*"
-	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
-            echo "         --db-user=user             Mysql DB user ( default: root )"
-            echo "         --db-name=databasename     Mysql DB name ( default: ez_tmp_makedist )"
-            echo "         --db-password=password     Mysql DB password ( default: <empty> )"
-	    echo
+            echo "         --use-local-translations   Do not fetch translation from the SVN repository"
+            echo "         --use-local-locales        Do not fetch locales from the SVN repository"
+            echo "         --use-local-changelogs     Do not fetch changelogs from the SVN repository"
+            echo "         --use-local-extensions     Do not fetch extensions from the SVN repository"
+            echo "         --mysql-host=server        MySQL DB server ( default: localhost )"
+            echo "         --mysql-port=port          MySQL DB port"
+            echo "         --mysql-user=user          MySQL DB user ( default: root )"
+            echo "         --mysql-password=password  MySQL DB password ( default: <empty> )"
+            echo "         --db-name=databasename     MySQL DB name ( default: ez_tmp_makedist )"
+            echo "         --pgsql-host=server        PostgreSQL DB server ( default: localhost )"
+            echo "         --pgsql-port=port          PostgreSQL DB port"
+            echo "         --pgsql-user=user          PostgreSQL DB user ( default: root )"
+            echo "         --pgsql-password=password  PostgreSQL DB password ( default: <empty> )"
+            echo "         --pgsql-db=databasename    PostgreSQL DB name ( default: ez_tmp_makedist )"
+            echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
             echo "Example:"
@@ -197,24 +125,49 @@ for arg in $*; do
 		REPOS_RELEASE="trunk"
 	    fi
 	    ;;
-	--db-server*)
-	    if echo $arg | grep -e "--db-server=" >/dev/null; then
-		DB_SERVER=`echo $arg | sed 's/--db-server=//'`
+	--mysql-host=*)
+	    if echo $arg | grep -e "--mysql-host=" >/dev/null; then
+		MYSQL_HOST=`echo $arg | sed 's/--mysql-host=//'`
 	    fi
 	    ;;
-	--db-user*)
-	    if echo $arg | grep -e "--db-user=" >/dev/null; then
-		DB_USER=`echo $arg | sed 's/--db-user=//'`
+	--mysql-port=*)
+	    if echo $arg | grep -e "--mysql-port=" >/dev/null; then
+		MYSQL_PORT=`echo $arg | sed 's/--mysql-port=//'`
 	    fi
 	    ;;
-	--db-name*)
-	    if echo $arg | grep -e "--db-name=" >/dev/null; then
-		DB_NAME=`echo $arg | sed 's/--db-name=//'`
+	--mysql-user=*)
+	    if echo $arg | grep -e "--mysql-user=" >/dev/null; then
+		MYSQL_USER=`echo $arg | sed 's/--mysql-user=//'`
 	    fi
 	    ;;
-	--db-password*)
-	    if echo $arg | grep -e "--db-password=" >/dev/null; then
-		DB_PASSWORD=`echo $arg | sed 's/--db-password=//'`
+	--mysql-password=*)
+	    if echo $arg | grep -e "--mysql-password=" >/dev/null; then
+		MYSQL_PASS=`echo $arg | sed 's/--mysql-password=//'`
+	    fi
+	    ;;
+	--db-name=*)
+	    if echo $arg | grep -e "--mysql-db=" >/dev/null; then
+		MYSQL_DB=`echo $arg | sed 's/--mysql-db=//'`
+	    fi
+	    ;;
+	--pgsql-host=*)
+	    if echo $arg | grep -e "--pgsql-host=" >/dev/null; then
+		PGSQL_HOST=`echo $arg | sed 's/--pgsql-host=//'`
+	    fi
+	    ;;
+	--pgsql-port=*)
+	    if echo $arg | grep -e "--pgsql-port=" >/dev/null; then
+		PGSQL_PORT=`echo $arg | sed 's/--pgsql-port=//'`
+	    fi
+	    ;;
+	--pgsql-user=*)
+	    if echo $arg | grep -e "--pgsql-user=" >/dev/null; then
+		PGSQL_USER=`echo $arg | sed 's/--pgsql-user=//'`
+	    fi
+	    ;;
+	--pgsql-password=*)
+	    if echo $arg | grep -e "--pgsql-password=" >/dev/null; then
+		PGSQL_PASS=`echo $arg | sed 's/--pgsql-password=//'`
 	    fi
 	    ;;
 #	--skip-site-creation)
@@ -273,6 +226,18 @@ for arg in $*; do
 	    ;;
 	--skip-extensions)
 	    SKIP_EXTENSIONS="1"
+	    ;;
+	--use-local-translations)
+	    USE_LOCAL_TRANSLATIONS="1"
+	    ;;
+	--use-local-locales)
+	    USE_LOCAL_LOCALES="1"
+	    ;;
+	--use-local-changelogs)
+	    USE_LOCAL_CHANGELOGS="1"
+	    ;;
+	--use-local-extensions)
+	    USE_LOCAL_EXTENSIONS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -410,7 +375,16 @@ fi
 
 if [ -z $SKIPDBCHECK ]; then
     echo -n "Checking database schemas"
-    ./bin/shell/checkdbschema.sh "$DB_NAME" &>/dev/null
+    CHECKDBSCHEMA_PARAMS=''
+    [ -n "$MYSQL_HOST" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-host=$MYSQL_HOST"
+    [ -n "$MYSQL_PORT" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-port=$MYSQL_PORT"
+    [ -n "$MYSQL_USER" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-user=$MYSQL_USER"
+    [ -n "$MYSQL_PASS" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-password=$MYSQL_PASS"
+    [ -n "$PGSQL_HOST" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-host=$PGSQL_HOST"
+    [ -n "$PGSQL_PORT" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-port=$PGSQL_PORT"
+    [ -n "$PGSQL_USER" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-user=$PGSQL_USER"
+    [ -n "$PGSQL_PASS" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-password=$PGSQL_PASS"
+    ./bin/shell/checkdbschema.sh $CHECKDBSCHEMA_PARAMS "$DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database schema check failed"
@@ -423,7 +397,11 @@ fi
 
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --mysql "$DB_NAME" &>/dev/null
+    CHECKDBUPDATE_PARAMS=''
+    [ -n "$MYSQL_HOST" ] && CHECKDBUPDATE_PARAMS="$CHECKDBUPDATE_PARAMS --db-host=$MYSQL_HOST"
+    [ -n "$MYSQL_PORT" ] && CHECKDBUPDATE_PARAMS="$CHECKDBUPDATE_PARAMS --db-port=$MYSQL_PORT"
+
+    ./bin/shell/checkdbupdate.sh --check-stable --mysql $CHECKDBUPDATE_PARAMS "$DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
@@ -431,7 +409,7 @@ if [ -z $SKIPDBUPDATE ]; then
 	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $DB_NAME"
 	exit 1
     fi
-    ./bin/shell/checkdbupdate.sh --check-previous --mysql "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-previous --mysql $CHECKDBUPDATE_PARAMS "$DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
@@ -564,11 +542,16 @@ mkdir -p "$DEST/share"
 
 echo -n "Exporting translations"
 rm -rf "$DEST/share/translations"
-svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+if [ "$USE_LOCAL_TRANSLATIONS" = 1 ]; then
+    TRANSLATIONS_LOCALTION='share/translations'
+else
+    TRANSLATIONS_LOCALTION="$TRANSLATION_URL"
+fi
+svn export "$TRANSLATIONS_LOCALTION" "$DEST/share/translations" &>/dev/null
 ez_result_output $? "
-svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null
+svn export $TRANSLATIONS_LOCALTION $DEST/share/translations &>/dev/null
 Failed to check out translations from trunk" || exit 1
-
+unset TRANSLATIONS_LOCATION
 dir=`pwd`
 # We do not validate the translations if SKIPTRANSLATION is set
 if [ -z "$SKIPTRANSLATION" ]; then
@@ -690,10 +673,16 @@ fi
 
 echo -n "Exporting locales"
 rm -rf "$DEST/share/locale"
-svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+if [ "$USE_LOCAL_LOCALES" = 1 ]; then
+    LOCALES_LOCATION='share/translations'
+else
+    LOCALES_LOCATION="$LOCALE_URL"
+fi
+svn export "$LOCALES_LOCATION" "$DEST/share/locale" &>/dev/null
 ez_result_output $? "
-svn export $LOCALE_URL $DEST/share/locale &>/dev/null
+svn export LOCALES_LOCATION $DEST/share/locale &>/dev/null
 Failed to check out locale from trunk" || exit 1
+unset LOCALES_LOCATION
 
 #
 # *****   Handle changelogs from earlier versions   *****
@@ -705,7 +694,12 @@ if [ -z "$SKIP_CHANGELOGS" ]; then
 	changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
 	rm -rf "$DEST/doc/changelogs/$version"
 	echo -n " `ez_store_pos`$version"
-	svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
+        if [ "$USE_LOCAL_CHANGELOGS" = 1 ]; then
+            CHANGELOGS_LOCALTION="doc/changelogs/$version"
+        else
+            CHANGELOGS_LOCALTION="$changelog_url"
+        fi
+        svn export "$CHANGELOGS_LOCALTION" "$DEST/doc/changelogs/$version" &>/dev/null
 	if [ $? -ne 0 ]; then
 	    ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
 	    exit 1
@@ -1008,7 +1002,7 @@ fi
 
 # if [ -z "$SKIPDBSCHEMA" ]; then
 # # Create SQL schema definition for later checks
-# 
+#
 #     echo "Creating MySQL schema"
 #     if [ "$DB_PASSWORD"x == x ]; then
 # 	DBPWDOPTION=""
@@ -1020,12 +1014,12 @@ fi
 #     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
 #     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION create "$DB_NAME"  &>/dev/null || exit 1
 #     mysql -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
-# 
+#
 #     ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_mysql_schema.dat  &>/dev/null || exit 1
-# 
+#
 #     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
-# 
-# 
+#
+#
 #     echo "Creating PostgreSQL schema"
 #     if [ "$DB_PASSWORD"x == x ]; then
 # 	DBPWDOPTION=""
@@ -1034,14 +1028,14 @@ fi
 # 	DBPWDOPTION=""
 # 	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
 #     fi
-# 
+#
 #     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
 #     createdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME"  &>/dev/null || exit 1
 #     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/kernel_schema.sql  &>/dev/null || exit 1
 #     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/setval.sql  &>/dev/null || exit 1
-# 
+#
 #     ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_postgresql_schema.dat  &>/dev/null || exit 1
-# 
+#
 #     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
 # fi
 
@@ -1075,138 +1069,17 @@ if [ -z "$SKIP_EXTENSIONS" ]; then
     echo
     echo "`ez_color_h1 'Building extension packages'`"
 
-    DEST_EXT="$DEST_ROOT/extension"
     EXTENSION_FILES=""
-    if [ -d "$DEST_EXT" ]; then
-	rm -rf "$DEST_EXT"
-    fi
-    mkdir -p "$DEST_EXT"
-
     for extension in $EXTENSIONS; do
-	echo "Working with extension `ez_color_url $extension`"
-	echo -n "Fetching extension from SVN"
-	svn co "$extension" "$DEST_EXT" &>.svn.log
-	ez_result_output $? "Failed to export $extension, see `ez_color_file .svn.log` for more info" || exit 1
-
-	if [ ! -f "$DEST_EXT/dist.sh" ]; then
-	    echo "Distribution info file `ez_color_file dist.sh` is missing from extension"
-	    echo "This must be created before it can be packaged"
-	    exit 1
-	fi
-
-	if [ ! -x "$DEST_EXT/dist.sh" ]; then
-	    echo "Distribution info file `ez_color_file dist.sh` is not executable"
-	    echo "This file must be executable for this script to read its contents"
-	    exit 1
-	fi
-
-        # Load variables from distribution file
-	EXTENSION_NAME=""
-	EXTENSION_IDENTIFIER=""
-	EXTENSION_SUMMARY=""
-	EXTENSION_LICENSE=""
-	EXTENSION_VERSION=""
-	EXTENSION_PUBLISH_VERSION=""
-	EXTENSION_ARCHIVE_NAME=""
-	EXTENSION_PHP_VERSION=""
-	EXTENSION_FILTER_FILES=""
-	. "$DEST_EXT/dist.sh"
-
-	rm -f "$DEST_EXT/dist.sh"
-
-	if [ -z "$EXTENSION_IDENTIFIER" ]; then
-	    echo "Identifier was not set for extension"
-	    exit 1
-	fi
-
-	OLD_DEST="$DEST"
-	DEST="$DEST/extension/$EXTENSION_IDENTIFIER"
-	mkdir -p "$DEST"
-	echo "Copying distribution files"
-	(cd "$DEST_EXT" && scan_dir .)
-
-	echo
-	echo -n "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
-	(cd $DEST
-	    find . -name .svn -print &>.find.log
-	    if [ $? -ne 0 ]; then
-		ez_result_output 1 "The following .svn directories was found"
-		cat .find.log
-		rm .find.log
-		exit 1
-	    fi
-	    ez_result_output 0 ""
-	    rm .find.log ) || exit 1
-
-	echo -n "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
-	(cd $DEST
-	    TEMPFILES=`find . -name '*[~#]' -print`
-	    echo $TEMPFILES | grep -e '[~#]' -q
-	    if [ $? -eq 0 ]; then
-		ez_result_output 1 "Cannot create extension distribution, the following temporary files were found:"
-		for tempfile in $TEMPFILES; do
-		    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
-		done
-		echo "The files must be removed before the extension distribution can be made"
-		exit 1
-	    fi
-	)
-	ez_result_output $? "" || exit 1
-
-	function ez_skeleton_replace_variables
-	{
-	    sed 's/\[ExtensionName\]/'"$EXTENSION_NAME"'/g' | \
-		sed 's/\[ExtensionIdentifier\]/'"$EXTENSION_IDENTIFIER"'/g' | \
-		sed 's/\[ExtensionSummary\]/'"$EXTENSION_SUMMARY"'/g' | \
-		sed 's/\[ExtensionLicense\]/'"$EXTENSION_LICENSE"'/g' | \
-		sed 's/\[ExtensionPublishVersion\]/'"$EXTENSION_PUBLISH_VERSION"'/g' | \
-		sed 's/\[ExtensionArchiveName\]/'"$EXTENSION_ARCHIVE_NAME"'/g' | \
-		sed 's/\[ExtensionVersion\]/'"$EXTENSION_VERSION"'/g' | \
-		sed 's/\[PHPVersion\]/'"$EXTENSION_PHP_VERSION"'/g' | \
-		sed 's/\[Timestamp\]/'`date "+%s"`'/g' | \
-		sed 's/\[Host\]/'`uname -n`'/g'
-	}
-
-	echo -n "Applying filters"
-	(cd $DEST
-	    for file in $EXTENSION_FILTER_FILES; do
-		cat "$file" | ez_skeleton_replace_variables > "$file.1"
-		if [ $? -ne 0 ]; then
-		    rm -f "$file.1"
-		    ez_result_output 1 "Failed to apply filter to `ez_color_file $file`"
-		    exit 1
-		fi
-		mv -f "$file.1" "$file"
-	    done
-	)
-	ez_result_output $? "" || exit 1
-
-	DEST="$OLD_DEST"
-	if [ "$BUILD_SNAPSHOT" == "1" ]; then
-	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION-build$CURRENT_BUILD_NUMBER.tgz"
-	else
-	    EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION.tgz"
-	fi
-
-	# Store paypal archive name
-	if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
-	    EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
-	fi
-
-	echo -n "Creating extension archive `ez_color_file $EXTENSION_TGZFILE`"
-	(cd "$DEST/extension" && \
-	    tar cfz "$EXTENSION_TGZFILE" "$EXTENSION_IDENTIFIER" && \
-	    rm -rf "$EXTENSION_IDENTIFIER" && \
-	    mv "$EXTENSION_TGZFILE" "$DEST_EXTENSION_ARCHIVE/")
-	ez_result_output $? "Failed to package extension" || exit 1
-	rm -rf "$DEST_EXT"
-	EXTENSION_FILES="$EXTENSION_FILES $EXTENSION_TGZFILE"
-	echo
+        touch .ez.extension-name
+        # FIXME: make an option to (not) use SVN when exporting extensions
+        [ "$BUILD_SNAPSHOT" = 1 ] && build_number_opt="--build-number=$CURRENT_BUILD_NUMBER"
+        [ "$USE_LOCAL_EXTENSIONS" != 1 ] && use_svn_opt='--svn'
+        bin/shell/packext.sh $use_svn_opt --dist-type=$DIST_TYPE --output-dir=$DEST_EXTENSION_ARCHIVE $build_number_opt $extension
+        [ -s .ez.extension-name ] && EXTENSION_FILES="$EXTENSION_FILES `cat .ez.extension-name`"
+        rm -f .ez.extension-name
     done
-
-    echo "Extensions have been packaged to dir `ez_color_dir $DEST_EXTENSION_ARCHIVE`"
 fi
-
 
 #
 # *****   Unpack ezpaypal as part of standard dist   *****
@@ -1252,11 +1125,13 @@ fi
 
 if [ -z "$SKIP_EXTENSIONS" ]; then
     echo
-    echo "The following extensions have been packaged:"
-    for extension_file in $EXTENSION_FILES; do
-	echo "`ez_color_em $DEST_EXTENSION_ARCHIVE/$extension_file`"
-    done
-    echo
+    if [ -n "EXTENSION_FILES" ]; then
+        echo "The following extensions have been packaged:"
+        for extension_file in $EXTENSION_FILES; do
+            echo "`ez_color_em $DEST_EXTENSION_ARCHIVE/$extension_file`"
+        done
+        echo
+    fi
 fi
 
 if [ "$BUILD_SNAPSHOT" == "1" ]; then
