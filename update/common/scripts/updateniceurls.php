@@ -273,7 +273,6 @@ $maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
 
-print( $maxColumn . "\n" );
 $topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE depth = 1 ORDER BY node_id' );
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
