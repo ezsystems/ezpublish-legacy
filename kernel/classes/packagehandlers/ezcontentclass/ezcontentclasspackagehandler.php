@@ -64,10 +64,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content )
+                      &$content, $installParameters )
     {
         print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
-        return false;
+//         return false;
         $className = $content->elementTextContentByName( 'name' );
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );

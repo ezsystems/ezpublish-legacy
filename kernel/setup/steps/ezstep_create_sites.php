@@ -93,6 +93,18 @@ class eZStepCreateSites extends eZStepInstaller
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
 //        $db =& eZDB::instance( );
+        eZDB::setInstance( $db );
+
+        $siteCount = $this->PersistenceList['site_templates']['count'];
+        for ( $counter = 0; $counter < $siteCount; ++$counter )
+        {
+            $sitePackage = $this->PersistenceList['site_templates_'.$counter];
+            $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages/' . $sitePackage['identifier'] );
+            if ( $package )
+            {
+                $package->install();
+            }
+        }
 
         $db->query ( 'show tables');
 

@@ -129,6 +129,15 @@ class eZDB
     }
 
     /*!
+     \static
+     Sets the global database instance to \a $instance.
+    */
+    function setInstance( &$instance )
+    {
+        $GLOBALS['eZDBGlobalInstance'] =& $instance;
+    }
+
+    /*!
       \static
       Returns an instance of the database object.
       If you want to change the current database values you should set \a $forceNewInstance to \c true to force a new instance.

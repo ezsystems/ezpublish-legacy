@@ -58,9 +58,13 @@ class eZPackage
     /*!
      Constructor
     */
-    function eZPackage( $parameters = array(), $modifiedParameters = array() )
+    function eZPackage( $parameters = array(), $modifiedParameters = array(),
+                        $repositoryPath = false )
     {
         $this->setParameters( $parameters, $modifiedParameters );
+        if ( !$repositoryPath )
+            $repositoryPath = eZPackage::repositoryPath();
+        $this->RepositoryPath = $repositoryPath;
     }
 
     /*!
@@ -733,6 +737,7 @@ class eZPackage
                            array( 'full-tree' => true ) );
         $php->addVariable( 'ModifiedParameters', $this->ModifiedParameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                            array( 'full-tree' => true ) );
+        $php->addVariable( 'RepositoryPath', $this->RepositoryPath );
         $php->store();
     }
 
@@ -805,7 +810,8 @@ class eZPackage
 
     function import( $archiveName, $packageName )
     {
-        $tempPath = eZPackage::temporaryImportPath() . '/' . $packageName;
+        $tempDirPath = eZPackage::temporaryImportPath();
+        $tempPath = $tempDirPath . '/' . $packageName;
         eZPackage::removePackageFiles( $tempPath );
         if ( !file_exists( $tempPath ) )
         {
@@ -819,7 +825,7 @@ class eZPackage
         $fileList[] = eZPackage::definitionFilename();
         $archive->extractList( $fileList, $tempPath, '' );
 
-        $package =& eZPackage::fetch( $packageName, $tempPath );
+        $package =& eZPackage::fetch( $packageName, $tempDirPath );
         eZPackage::removePackageFiles( $tempPath );
         if ( $package )
         {
@@ -831,7 +837,7 @@ class eZPackage
             $tempPath = eZPackage::temporaryImportPath() . '/' . $packageName;
             $archive->extractModify( $tempPath, '' );
 
-            $package =& eZPackage::fetch( $packageName, $tempPath );
+            $package =& eZPackage::fetch( $packageName, $tempDirPath );
 
 //             eZPackage::removePackageFiles( $tempPath );
         }
@@ -953,9 +959,10 @@ class eZPackage
     */
     function &fetch( $packageName, $packagePath = false )
     {
-        $path = eZPackage::repositoryPath() . '/' . $packageName;
+        $path = eZPackage::repositoryPath();
         if ( $packagePath )
             $path = $packagePath;
+        $path .= '/' . $packageName;
         $filePath = $path . '/' . eZPackage::definitionFilename();
         if ( file_exists( $filePath ) )
         {
@@ -967,6 +974,8 @@ class eZPackage
             if ( $package )
                 return $package;
             $package =& eZPackage::fetchFromFile( $filePath );
+            if ( $packagePath )
+                $package->RepositoryPath = $packagePath;
             if ( $cacheExpired and
                  eZPackage::useCache() )
             {
@@ -1005,7 +1014,7 @@ class eZPackage
                 if ( isset( $Parameters ) and
                      isset( $ModifiedParameters ) )
                 {
-                    $package = new eZPackage( $Parameters );
+                    $package = new eZPackage( $Parameters, array(), $RepositoryPath );
                     $package->ModifiedParameters = $ModifiedParameters;
                     return $package;
                 }
@@ -1048,7 +1057,8 @@ class eZPackage
     */
     function path()
     {
-        $path = eZPackage::repositoryPath();
+//         $path = eZPackage::repositoryPath();
+        $path = $this->RepositoryPath;
         $path .= '/' . $this->attribute( 'name' );
         return $path;
     }
@@ -1200,7 +1210,7 @@ class eZPackage
         }
     }
 
-    function install()
+    function install( $installParameters = array() )
     {
         $installs = $this->Parameters['install']['pre'];
         foreach ( $installs as $install )
@@ -1236,7 +1246,7 @@ class eZPackage
                 }
                 $installResult = $handler->install( $this, $partType, $parameters,
                                                     $name, $os, $filename, $subdirectory,
-                                                    $content );
+                                                    $content, $installParameters );
             }
         }
     }

@@ -61,7 +61,7 @@ class eZDBPackageHandler extends eZPackageHandler
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content )
+                      &$content, $installParameters )
     {
         if ( $installType == 'sql' )
         {
@@ -71,6 +71,8 @@ class eZDBPackageHandler extends eZPackageHandler
             if ( file_exists( $path ) )
             {
                 print( "install SQL $path\n" );
+                $db =& eZDB::instance();
+                $db->insertFile( $path );
                 return true;
             }
             else

@@ -68,11 +68,11 @@ class eZPackageHandler
 
     /*!
      \pure
-     Installs the package type
+     Installs the package item
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content )
+                      &$content, $installParameters )
     {
     }
 

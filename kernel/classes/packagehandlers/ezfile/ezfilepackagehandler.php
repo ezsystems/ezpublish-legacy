@@ -58,7 +58,7 @@ class eZFilePackageHandler extends eZPackageHandler
 
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content )
+                      &$content, $installParameters )
     {
         print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
         $collectionName = $parameters['collection'];
@@ -67,6 +67,13 @@ class eZFilePackageHandler extends eZPackageHandler
         {
             foreach ( $fileList as $fileItem )
             {
+                $filePath = $package->fileItemPath( $fileItem, $collectionName );
+                if ( is_dir( $filePath ) )
+                {
+                }
+                else
+                {
+                }
             }
         }
         return true;
