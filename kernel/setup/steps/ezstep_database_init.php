@@ -156,13 +156,13 @@ class eZStepDatabaseInit extends eZStepInstaller
     function init()
     {
         // If using windows installer, set standard values, and continue
-        if ( eZSetupTestInstaller() == 'windows' )
+/*        if ( eZSetupTestInstaller() == 'windows' )
         {
             $this->PersistenceList['database_info']['server'] = 'localhost';
             $this->PersistenceList['database_info']['user'] = 'root';
             $this->PersistenceList['database_info']['password'] = '';
             return true;
-        }
+        }*/
 
         $config =& eZINI::instance( 'setup.ini' );
         if ( !isset( $this->PersistenceList['database_info']['server'] ) or
