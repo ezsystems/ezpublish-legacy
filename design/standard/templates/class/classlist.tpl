@@ -1,19 +1,19 @@
 {*?template charset=iso-8859-1 ?*}
-<form action="{$module.functions.classlist.uri}/{$group_id}" method="post" name="ClassEdit">
+<form action="{$module.functions.classlist.uri}/{$GroupID}" method="post" name="ClassEdit">
 
 <h1>{"Defined class types for "|i18n('content/class')}{$group_name} </h1>
 
 {section show=$groupclasses}
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/identifier">{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/status">{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/id">{"ID"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/name">{"Name"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/identifier">{"Identifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/status">{"Status"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/creator">{"Creator"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modifier">{"Modifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/created">{"Created"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
@@ -41,14 +41,14 @@
 </p>
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/identifier">{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/status">{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/id">{"ID"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/name">{"Name"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/identifier">{"Identifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/status">{"Status"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/creator">{"Creator"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modifier">{"Modifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/created">{"Created"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$GroupID}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
 
 {section name=TempClasses loop=$temp_groupclasses sequence=array(bglight,bgdark)}
@@ -75,6 +75,6 @@
   <td>{include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Delete"|i18n('content/class')}</td>
 </tr>
 </table>
-<input type="hidden" name = "CurrentGroupID" value="{$group_id}">
+<input type="hidden" name = "CurrentGroupID" value="{$GroupID}">
 <input type="hidden" name = "CurrentGroupName" value="{$group_name}">
 </form>

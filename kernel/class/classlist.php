@@ -41,7 +41,7 @@ $Module =& $Params["Module"];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
-function &removeSelectedClasses( &$http, &$classes, $base )
+function &removeSelectedClasses( &$http, &$classes, $base, &$Module, $GroupID )
 {
     if ( $http->hasPostVariable( "DeleteButton" ) )
     {
@@ -53,10 +53,16 @@ function &removeSelectedClasses( &$http, &$classes, $base )
             for ( $i = 0; $i < count( $rejects ); ++$i )
             {
                 $reject =& $rejects[$i];
-                $reject->remove( true );
                 $ClassID =  $reject->attribute( "id" );
                 $ClassVersion = $reject->attribute( "version" );
-                eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
+                if ( $ClassVersion == 0 )
+                {
+                    $Module->redirectTo( "/class/delete/" . $GroupID . '/' . $ClassID );
+                }else
+                {
+                    $reject->remove( true, $ClassVersion );
+                    eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
+                }
             }
         }
     }
@@ -140,11 +146,11 @@ foreach( $TemplateData as $tpldata )
             }
         }
     }
-    removeSelectedClasses( $http, $list, $base );
+    removeSelectedClasses( $http, $list, $base, $Module, $GroupID );
     $tpl->setVariable( $tplname, $list );
-    removeSelectedClasses( $http, $temp_list, $temp_base );
+    removeSelectedClasses( $http, $temp_list, $temp_base, $Module, $GroupID );
     $tpl->setVariable( "temp_groupclasses", $temp_list );
-    $tpl->setVariable( "group_id", $GroupID );
+    $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $GroupName = $groupInfo->attribute("name");
     $tpl->setVariable( "group_name", $GroupName );
