@@ -259,7 +259,9 @@ class eZModule
             return $this->redirectModule( $module, $viewName, $parameters, $unorderedParameters );
         }
         else
+        {
             eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirect' );
+        }
         return false;
     }
 
@@ -344,13 +346,16 @@ class eZModule
             {
                 eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
                                        " in view '$viewName'", 'eZModule::redirect' );
-                if ( $hasUnorderedParameter )
-                    $uri .= $unorderedURI;
             }
             else
                 $uri .= $parameters[$parameterIndex] . '/';
             ++$parameterIndex;
         }
+        if ( $hasUnorderedParameter )
+        {
+            $uri .= $unorderedURI;
+        }
+
         $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
         return $uri;
     }
