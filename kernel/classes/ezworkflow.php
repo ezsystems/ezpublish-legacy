@@ -508,6 +508,35 @@ class eZWorkflow extends eZPersistentObject
         return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 
+    function cleanupWorkFlowProcess()
+    {
+        if ( isset( $this ) )
+        {
+            $db =& eZDB::instance();
+            $workflowID = $this->attribute( 'id' );
+            $event_list =& $this->fetchEvents();
+            if ( $event_list != null )
+            {
+                $existEventIDArray = array();
+                foreach ( array_keys( $event_list ) as $key )
+                {
+                    $event =& $event_list[$key];
+                    $eventID = $event->attribute( 'id' );
+                    $existEventIDArray[] = $eventID;
+                }
+                $existEventIDString = implode( ',', $existEventIDArray );
+                $db->query( "DELETE FROM ezworkflow_process
+                                   WHERE workflow_id=$workflowID
+                                     AND event_id not in ( $existEventIDString )" );
+            }
+            else
+            {
+                $db->query( "DELETE FROM ezworkflow_process
+                                   WHERE workflow_id=$workflowID");
+            }
+        }
+    }
+
     /// \privatesection
     var $ID;
     var $Name;

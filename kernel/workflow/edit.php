@@ -273,7 +273,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $workflow->setVersion( 0, $event_list );
     $workflow->adjustEventPlacements( $event_list );
     $workflow->store( $event_list );
-
+    $workflow->cleanupWorkFlowProcess();
     $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
     if ( count( $workflowGroups ) > 0 )
