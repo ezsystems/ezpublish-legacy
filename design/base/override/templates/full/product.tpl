@@ -74,7 +74,6 @@
             </div>
        {/section}
        {/let}
-</div>
 
    </div>
 </div>
