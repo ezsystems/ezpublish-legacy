@@ -40,9 +40,6 @@ for arg in $*; do
 	-q)
 	    QUIET="-q"
 	    ;;
-	--auto-commit)
-	    AUTO_COMMIT="true"
-	    ;;
 	--addon=*)
 	    if echo $arg | grep -e "--addon=" >/dev/null; then
 		ADDON=`echo $arg | sed 's/--addon=//'`
@@ -220,24 +217,10 @@ if [[ -z $ADDON || $ADDON = 'weblog' ]]; then
 	|| exit 1
 fi
 
-#if [ -z "$ADDON" ]; then
-#    if [ -n "$AUTO_COMMIT" ]; then
-#	svn rm "$EXPORT_PATH/*" &>/dev/null || exit 1
-#	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
-#    fi
-#fi
-
-
 for addon in $ADDON_PACKAGES; do
     [[ -z $ADDON || $ADDON = $addon ]] || continue
 
-    if [ -n "$ADDON" ]; then
-	if [ -n "$AUTO_COMMIT" ]; then
-# 	    svn rm "$EXPORT_PATH/$addon" &>/dev/null || exit 1
-# 	    svn ci "$EXPORT_PATH"
-	    find "$EXPORT_PATH/$addon/" ! -path \*/.svn\* -exec rm -f {} \; &>/dev/null
-	fi
-    fi
+    find "$EXPORT_PATH/$addon/" ! -path \*/.svn\* -exec rm -f {} \; &>/dev/null
 
     if [ -d "$OUTPUT_REPOSITORY/$addon" ]; then
 	$PMBIN -r "$OUTPUT_REPOSITORY" $QUIET \
@@ -245,20 +228,5 @@ for addon in $ADDON_PACKAGES; do
 	    export $addon -d "$OUTPUT_REPOSITORY_EXPORT" || exit 1
     fi
 
-    if [ -n "$AUTO_COMMIT" ]; then
-#	svn add "$EXPORT_PATH/$addon" &>/dev/null || exit 1
-	cp -R "$OUTPUT_REPOSITORY_EXPORT/$addon"/* "$EXPORT_PATH/$addon/"
-    fi
-#    if [ -n "$ADDON" ]; then
-#	if [ -n "$AUTO_COMMIT" ]; then
-#	    svn ci "$EXPORT_PATH/$addon" &>/dev/null || exit 1
-#	fi
-#    fi
-
+    cp -R "$OUTPUT_REPOSITORY_EXPORT/$addon"/* "$EXPORT_PATH/$addon/"
 done
-
-#if [ -z "$ADDON" ]; then
-#    if [ -n "$AUTO_COMMIT" ]; then
-#	svn ci "$EXPORT_PATH" &>/dev/null || exit 1
-#    fi
-#fi
