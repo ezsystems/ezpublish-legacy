@@ -1083,16 +1083,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &viewTemplateName()
     {
+        /* This will not work, datatypes should be able to override this .e.g Online Editor
         // Don't need to do lookup since we already know the datatype string, which is the result
         return $this->DataTypeString;
+        */
 
-        /*
         $classAttribute =& $this->contentClassAttribute();
         if ( $classAttribute->attribute( 'is_information_collector' ) )
             return $this->informationTemplate();
         else
             return $this->viewTemplate();
-        */
     }
 
     /*!
@@ -1110,19 +1110,17 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &viewTemplate()
     {
+        /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
         // We really don't need to do a lookup via the datatype since we already have the string
-        /*
-        eZDebug::accumulatorStart( 'view_template', 'Sytem overhead', 'Returning the view template string' );
+        */
+
         $dataType =& $this->dataType();
         if ( $dataType )
         {
             $str = $dataType->viewTemplate( $this );
-            eZDebug::accumulatorStop( 'view_template' );
-            print( "$str <br>" );
             return $str;
         }
-        */
     }
 
     /*!
@@ -1144,13 +1142,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &informationTemplate()
     {
+        /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
+        */
 
-        // No need to do dynamic lookup since the datatype string is directly used
-        /*
         $dataType =& $this->dataType();
         return $dataType->informationTemplate( $this );
-        */
     }
 
     /*!
@@ -1160,12 +1157,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &resultTemplate()
     {
+        /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
+        */
 
-        /*
         $dataType =& $this->dataType();
         return $dataType->resultTemplate( $this );
-        */
     }
 
     /// Contains the value(s) submitted in HTTP form
