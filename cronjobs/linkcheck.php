@@ -39,6 +39,8 @@
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
+ini_set('user_agent','eZ publish Link Validator');
+
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
