@@ -64,7 +64,6 @@
 	<input type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
 	<input type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
 	<input type="submit" name="TranslateButton" value="{'Translate'|i18n('content/object')}" />
-	<input type="submit" name="PermissionButton" value="{'Permission'|i18n('content/object')}" />
 
 	<br /><br />
 	<input type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
