@@ -30,5 +30,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/invalid_xhtml_with_two_search_box
 - Fixed bug with generating package names with non-standard-latin characters.
   http://ez.no/community/bug_reports/3_5_package_create_no_utf_8_package_name
+- Fixed bug related to a typo in comments:
+  http://ez.no/community/bug_reports/dbschema_and_end_comment
 
 *Library:

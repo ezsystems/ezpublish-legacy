@@ -147,7 +147,7 @@ class eZDbSchema
 
 	/*!
      \static
-    /
+    */
 	function generateUpgradeFile( $differences )
 	{
 		$diff = var_export( $differences, true );
