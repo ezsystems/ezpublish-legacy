@@ -48,7 +48,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 
-function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
     $http =& eZHTTPTool::instance();
 
@@ -112,6 +112,8 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 if ( !$isPermitted )
                 {
                     eZDebug::writeError( $newNode->attribute( 'path_identification_string' ), "You are not allowed to place this object under:" );
+                    $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'You are not allowed to place this object under: %1', null, array( $newNode->attribute( 'path_identification_string' ) ) ) );
+                    $validation[ 'processed' ] = true;
                     // Error message.
                 }
                 else
@@ -127,7 +129,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
     $http =& eZHTTPTool::instance();
 
@@ -150,7 +152,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
         if ( $selectedNodeIDArray != null )
         {
             $assignedNodes =& $version->nodeAssignments();
-            $assignedIDArray =array();
+            $assignedIDArray = array();
             foreach ( $assignedNodes as  $assignedNode )
             {
                 $assignedNodeID = $assignedNode->attribute( 'parent_node' );
@@ -185,6 +187,8 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     if ( !$isPermitted )
                     {
                         eZDebug::writeError( $newNode->attribute( 'path_identification_string' ), "You are not allowed to place this object under:" );
+                        $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', "You are not allowed to place this object under: %1", null, array( $newNode->attribute( 'path_identification_string' ) ) ) );
+                        $validation[ 'processed' ] = true;
                         // Error message.
                     }
                     else

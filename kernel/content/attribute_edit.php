@@ -114,7 +114,11 @@ if ( $FromLanguage !== false )
 
 $http =& eZHTTPTool::instance();
 
-if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
+$validation = array( 'processed' => false,
+                     'attributes' => array(),
+                     'placement' => array( ) );
+
+if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
     return;
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
@@ -125,9 +129,6 @@ if ( count( $assignments ) < 1 && $Module->isCurrentAction( 'Publish' ) )
 }
 
 
-$validation = array( 'processed' => false,
-                     'attributes' => array(),
-                     'placement' => array() );
 
 // Custom Action Code Start
 $customAction = false;
