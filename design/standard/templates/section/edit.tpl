@@ -1,13 +1,13 @@
 <form method="post" action={concat("/section/edit/",$section.id,"/")|ezurl}>
 
 <div class="maincontentheader">
-<h1>Section edit</h1>
+<h1>{"Section edit"|i18n("design/standard/section")}</h1>
 </div>
 
 <input type="hidden" name="SectionID" value="{$section.id}" />
 
 <div class="block">
-<label>Name:</label><div class="labelbreak"></div>
+<label>{"Name:"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <input class="box" type="text" name="Name" value="{$section.name}" />
 </div>
 
@@ -18,7 +18,7 @@
 </div>
 *}
 <div class="buttonblock">
-<input class="button" type="submit" name="StoreButton" value="Store" />
+<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/section')}" />
 </div>
 
 </form>
