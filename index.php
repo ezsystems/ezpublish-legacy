@@ -352,6 +352,7 @@ while ( $moduleRunRequired )
             if ( $accessResult['accessWord'] == 'limited' )
             {
                 $params['Limitation'] =& $accessResult['policies'];
+                $GLOBALS['ezpolicylimitation_list'] =& $params['Limitation'];
             }
 
             if ( $accessResult['accessWord'] == 'no' )

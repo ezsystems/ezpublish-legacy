@@ -187,6 +187,7 @@ class eZContentOperationCollection
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
         $existingNode->setAttribute( 'contentobject_is_published', 1 );
+        $existingNode->setName( $objectName );
 
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {

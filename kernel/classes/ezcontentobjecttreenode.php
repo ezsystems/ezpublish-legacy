@@ -732,16 +732,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $crcSum = crc32( $pathStr );
         $db =& eZDB::instance();
 
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
+
         $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
+                           $versionNameTargets
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
+                         $versionNameTables
                     WHERE crc32_path = $crcSum AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                         $versionNameJoins";
 
         $nodeListArray = $db->arrayQuery( $query );
         $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
@@ -804,6 +821,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         return null;
     }
+
     function &fetch( $nodeID )
     {
         $returnValue = null;
@@ -897,16 +915,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $pathString = '('. substr( $pathString, 2 ) . ') and ';
         }
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+            
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
+        
         $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.name as class_name
+                       $versionNameTargets
                 FROM ezcontentobject_tree,
                      ezcontentobject,
                      ezcontentclass
+                     $versionNameTables
                 WHERE $pathString
                       ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
                       ezcontentclass.version=0 AND
                       ezcontentclass.id = ezcontentobject.contentclass_id
+                      $versionNameJoins
                 ORDER BY path_string";
 
         $db =& eZDB::instance();
@@ -1217,6 +1252,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->Name = $name;
     }
 
+    function store()
+    {
+        $newPathString = $this->pathWithNames();
+
+        if ( $newPathString != $this->attribute ( 'path_identification_string' ) )
+        {
+
+            $this->setAttribute( 'path_identification_string', $newPathString );
+            $this->setAttribute( 'crc32_path', crc32 ( $this->attribute( 'path_identification_string' ) ) );
+            $this->updateSubTreePath();
+        }
+        eZPersistentObject::storeObject( $this );
+    }
     function &object()
     {
         if ( $this->hasContentObject() )
