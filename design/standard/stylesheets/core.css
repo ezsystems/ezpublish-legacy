@@ -557,3 +557,9 @@ hr
 {
     display: none;
 }
+
+/* anti spam handling */
+span.spamfilter
+{
+     display: none;
+}
