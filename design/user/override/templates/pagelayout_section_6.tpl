@@ -109,7 +109,7 @@ function OpenWindow ( URL, WinName, Features ) {
     &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a href="{$Path:item.url}">{$Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
         {section-else}
 	{$Path:item.text}
         {/section}
@@ -120,7 +120,7 @@ function OpenWindow ( URL, WinName, Features ) {
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:Path:item.text}</a>
         {section-else}
 	    {$Path:Path:item.text}
         {/section}
