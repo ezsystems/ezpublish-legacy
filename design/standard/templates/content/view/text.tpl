@@ -1,1 +1,1 @@
-{$object.name}
+{$object.name|wash}

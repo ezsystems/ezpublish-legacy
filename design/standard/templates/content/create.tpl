@@ -1,11 +1,11 @@
 <form method="post" action={"/content/create/"|ezurl}>
 <div class="maincontentheader">
-<h1>{"Create new"|i18n("design/standard/content/create")} {$class.name}</h1>
+<h1>{"Create new"|i18n("design/standard/content/create")} {$class.name|wash}</h1>
 </div>
 
 {section name=attributes loop=$attributes sequence=array(aaaaff,eeeeff)}
 {$attributes:item.id}
-{$attributes:item.name}
+{$attributes:item.name|wash}
 <textarea class="box"name="Content_{$attributes:item.id}" columns="50" rows="5"></textarea>
 
 {/section}

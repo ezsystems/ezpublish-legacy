@@ -8,7 +8,7 @@
             {case match=$class_attribute.data_float1}
 	       selected
             {/case}
-	  {/switch} >{$VatTypeList:item.name}, {$VatTypeList:item.percentage}%</option>
+	  {/switch} >{$VatTypeList:item.name|wash}, {$VatTypeList:item.percentage}%</option>
 {/section}
 </select>
 </div>

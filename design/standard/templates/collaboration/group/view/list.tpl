@@ -2,7 +2,7 @@
          current_depth=0
          offset=$view_parameters.offset item_limit=10
          summary_indentation=10}
-<h1>{"Group list for '%1'"|i18n('design/standard/collaboration',,array($collab_group.title))}</h1>
+<h1>{"Group list for '%1'"|i18n('design/standard/collaboration',,array($collab_group.title|wash))}</h1>
 
 {let  group_item_count=fetch("collaboration","item_count",hash("parent_group_id",$collab_group.id))
       group_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"parent_group_id",$collab_group.id))}

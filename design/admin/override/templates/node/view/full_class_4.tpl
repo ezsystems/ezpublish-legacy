@@ -15,7 +15,7 @@
 <tr>
 	<td>
  	<div class="maincontentheader">
-        <h1>{$node_name}</h1>
+        <h1>{$node_name|wash}</h1>
         </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
@@ -45,7 +45,7 @@
     {section show=$is_standalone}
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
-      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
+      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
       </div>
       {/section}
     {/section}

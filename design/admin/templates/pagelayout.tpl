@@ -110,7 +110,7 @@
       {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
       <a class="menuheadlink" href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a>
       {section-else}
-      <a class="menuheadlink" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name})
+      <a class="menuheadlink" href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')}</a> ({$current_user.contentobject.name|wash})
       {/section}
       </p>
     </td>

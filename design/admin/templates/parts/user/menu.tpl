@@ -8,7 +8,7 @@
     <form method="post" action={"content/action"|ezurl}>
          <select name="ClassID" class="classcreate">
 	      {section name=Classes loop=$user_class_list}
-	      <option value="{$:item.id}">{$:item.name}</option>
+	      <option value="{$:item.id}">{$:item.name|wash}</option>
 	      {/section}
          </select>
 	 <br />

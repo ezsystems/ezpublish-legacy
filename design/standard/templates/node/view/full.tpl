@@ -16,7 +16,7 @@
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
  	<div class="maincontentheader">
-        <h1>{$node_name}</h1>
+        <h1>{$node_name|wash}</h1>
         </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
@@ -29,7 +29,7 @@
 
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
-        <label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label>
+        <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label>
 	{switch match=$ContentObjectAttribute:item.is_a}
 	{case match=ezstring}
     	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
@@ -59,7 +59,7 @@
     {section show=$is_standalone}
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
-      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
+      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
       </div>
       {/section}
     {/section}
@@ -140,7 +140,7 @@
 {*        <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>*}
         {node_view_gui view=line content_node=$Child:item}
 	</td>
-        <td class="{$Child:sequence}">{$Child:item.object.class_name}
+        <td class="{$Child:sequence}">{$Child:item.object.class_name|wash}
 	</td>
         <td class="{$Child:sequence}">{$Child:item.object.section_id}
 	</td>
@@ -222,7 +222,7 @@
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
 	      {/section}
          </select>
          <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />

@@ -1,7 +1,7 @@
 <form method="post" action={"content/action/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{$object.name}</h1>
+<h1>{$object.name|wash}</h1>
 </div>
 
 <div class="block">
@@ -11,7 +11,7 @@
 
 {section name=ContentObjectAttribute loop=$version_attributes}
 <div class="block">
-<label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
+<label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
 {attribute_view_gui attribute=$ContentObjectAttribute:item}
 </div>
 {/section}

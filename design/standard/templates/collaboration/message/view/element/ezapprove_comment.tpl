@@ -12,6 +12,6 @@
 </tr>
 <tr>
   <td class="{$sequence}" colspan="2">
-  {$item.data_text1|wash(xhtml)}
+  {$item.data_text1|wash}
   </td>
 </tr>

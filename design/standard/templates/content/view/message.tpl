@@ -1,4 +1,4 @@
-<h1>{$object.name}</h1>
+<h1>{$object.name|wash}</h1>
 
 <table>
 <tr>
@@ -9,7 +9,7 @@
 
     <tr>
 	<td>
-	<i>{$ContentObjectAttribute:item.contentclass_attribute.name}</i>
+	<i>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</i>
 	</td>
     </tr>
     <tr><td>

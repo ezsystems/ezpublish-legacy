@@ -57,9 +57,9 @@
        &gt;
        {section name=Path loop=$module_result.path offset=2}
         {section show=$Path:item.url}
-        <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
         {section-else}
-        {$Path:item.text}
+        {$Path:item.text|wash}
         {/section}
 
         {delimiter}

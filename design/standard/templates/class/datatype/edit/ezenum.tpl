@@ -18,11 +18,11 @@
 <input type="hidden" name="ContentClass_data_enumid_{$class_attribute.id}[]" value="{$EnumList:item.id}" />
 <div class="element">
 <label>{"Enum Element"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" name="ContentClass_data_enumelement_{$class_attribute.id}[]" value="{$EnumList:item.enumelement}" size="10" maxlength="255" />
+<input class="halfbox" type="text" name="ContentClass_data_enumelement_{$class_attribute.id}[]" value="{$EnumList:item.enumelement|wash}" size="10" maxlength="255" />
 </div>
 <div class="element">
 <label>{"Enum Value"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
-<input type="text" name="ContentClass_data_enumvalue_{$class_attribute.id}[]" value="{$EnumList:item.enumvalue}" size="10" maxlength="255" />
+<input type="text" name="ContentClass_data_enumvalue_{$class_attribute.id}[]" value="{$EnumList:item.enumvalue|wash}" size="10" maxlength="255" />
 </div>
 <div class="element">
 <input type="checkbox" name="ContentClass_data_enumremove_{$class_attribute.id}[]" value="{$EnumList:item.id}" />

@@ -3,9 +3,9 @@
 
 {set-block variable=site_title}
   {section show=is_set($module_result.title_path)}
-{$site.title} - {section name=Path loop=$module_result.title_path}{$:item.text}{delimiter} / {/delimiter}{/section}
+{$site.title|wash} - {section name=Path loop=$module_result.title_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section}
   {section-else}
-{$site.title} - {section name=Path loop=$module_result.path}{$:item.text}{delimiter} / {/delimiter}{/section}
+{$site.title|wash} - {section name=Path loop=$module_result.path}{$:item.text|wash}{delimiter} / {/delimiter}{/section}
   {/section}
 {/set-block}
 
@@ -24,12 +24,12 @@
     {/section}
 
     {section name=HTTP loop=$site.http_equiv}
-    <meta http-equiv="{$HTTP:key}" content="{$HTTP:item}" />
+    <meta http-equiv="{$HTTP:key|wash}" content="{$HTTP:item|wash}" />
 
     {/section}
 
     {section name=meta loop=$site.meta}
-    <meta name="{$meta:key}" content="{$meta:item}" />
+    <meta name="{$meta:key|wash}" content="{$meta:item|wash}" />
 
     {/section}
 

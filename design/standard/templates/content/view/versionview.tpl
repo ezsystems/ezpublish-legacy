@@ -1,7 +1,5 @@
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language|not|choose(array($language,"/"),""))|ezurl}>
 
-
-
 {section show=$assignment}
   {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node}
 {/section}
@@ -27,7 +25,7 @@
 
 <select name="SelectedPlacement" >
 {section loop=$Placement:node_assignment_list}
-<option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name}</option>
+<option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name|wash}</option>
 {/section}
 </select>
 </div>
@@ -44,7 +42,7 @@
 
 <select name="SelectedSitedesign" >
 {section loop=$Sitedesign:sitedesign_list}
-<option value="{$Sitedesign:item}" {section show=eq($Sitedesign:item,$sitedesign)}selected="selected"{/section}>{$Sitedesign:item}</option>
+<option value="{$Sitedesign:item}" {section show=eq($Sitedesign:item,$sitedesign)}selected="selected"{/section}>{$Sitedesign:item|wash}</option>
 {/section}
 </select>
 </div>

@@ -51,9 +51,9 @@
 &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
         {section-else}
-	<span class="small">{$Path:item.text}</span>
+	<span class="small">{$Path:item.text|wash}</span>
         {/section}
 
         {delimiter}
@@ -62,9 +62,9 @@
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        <a class="small" href="{$Path:item.url}">{$Path:Path:item.text|wash}</a>
         {section-else}
-	<span class="small">{$Path:Path:item.text}</span>
+	<span class="small">{$Path:Path:item.text|wash}</span>
         {/section}
 
         {delimiter}
@@ -87,7 +87,7 @@
     {section name=News loop=$news_list}
     <tr>
         <td class="menuchoice" colspan="2">
-        <a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
+        <a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name|wash}</a>
 	</td>
     </tr>
     {/section}
@@ -123,7 +123,7 @@
     {section name=File loop=$file_list}
     <tr>
         <td class="menuchoice" colspan="2">
-        <a href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name}</a>
+        <a href={concat("/content/view/full/",$File:item.node_id,"/")|ezurl}>{$File:item.name|wash}</a>
 	</td>
     </tr>
     {/section}

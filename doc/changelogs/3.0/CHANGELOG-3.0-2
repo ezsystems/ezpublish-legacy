@@ -25,6 +25,7 @@ Changes from 3.0-1 to 3.0-2
 - Fixed bug in datatype object relation which always causes validation error
   if there is an object relation.
 - Added remove function for datatype object relation.
+- All templates has been controlled and fixed to make sure that they wash all content output.
 
 Content:
 - Made sure a title path is returned in content/view, it no longer includes the root object (Frontpage, Users etc.).

@@ -4,7 +4,7 @@
 
 <b>product</b>
 
-{$node_name}
+{$node_name|wash}
 
 {attribute_view_gui attribute=$content_version.data_map.name}
 <p>

@@ -1,7 +1,7 @@
 <form action={concat("/content/translate/",$object.id,"/",$edit_version)|ezurl} method="post">
 
 <div class="maincontentheader">
-<h1>{"Translating"|i18n("design/standard/content/translate")} '{$object.name}'</h1>
+<h1>{"Translating '%1'"|i18n("design/standard/content/translate",,array($object.name|wash))}</h1>
 </div>
 
 {section show=$validation.processed}
@@ -10,7 +10,7 @@
     <div class="warning">
     <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
     <ul>
-    	<li>{$:item.name}: {$:item.description}</li>
+    	<li>{$:item.name|wash}: {$:item.description}</li>
     </ul>
     </div>
 
@@ -27,7 +27,7 @@
 <!-- Translation removal start -->
 
 <p>
-{"Remove the following translations from"|i18n("design/standard/content/translate")} '{$object.name}'?
+{"Remove the following translations from '%1'"|i18n("design/standard/content/translate",,array($object.name|wash))}?
 </p>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -150,11 +150,11 @@
 
 <tr>
     <td>
-    <label>{$ContentAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
+    <label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentAttribute:item.id}" />
     </td>
     <td>
-    <label>{$ContentAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
+    <label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
     </td>
 </tr>
 <tr>

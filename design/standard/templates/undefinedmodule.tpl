@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>{$site.title}{section show=$site.page_title} - {$site.page_title}{/section}</title>
+<title>{$site.title}{section show=$site.page_title|wash} - {$site.page_title|wash}{/section}</title>
 
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
@@ -18,7 +18,7 @@
 <!-- set the content meta information -->
 
 {section name=meta loop=$site.meta}
-<meta name="{$meta:key}" content="{$meta:item}" />
+<meta name="{$meta:key}" content="{$meta:item|wash}" />
 
 {/section}
 

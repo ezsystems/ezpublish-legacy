@@ -79,7 +79,7 @@
 
    <h1>{"Participants"|i18n('design/standard/collaboration/approval')}</h1>
    {section name=Role loop=$participant_list sequence=array(bglight,bgdark)}
-   <label>{$:item.name}</label>
+   <label>{$:item.name|wash}</label>
    <table cellspacing="0" cellpadding="0" border="0">
    {section name=Participant loop=$:item.items sequence=array(bglight,bgdark)}
    <tr>

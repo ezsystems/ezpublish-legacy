@@ -2,7 +2,7 @@
 <h2>{"Are you sure you want to remove these classes?"|i18n("design/standard/class/edit")}</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
-	<li>{"Removing class %1 will remove %2!"|i18n("design/standard/class/edit",,hash("%1",$Result:item.className,"%2",$Result:item.objectCount))}</li>
+	<li>{"Removing class %1 will remove %2!"|i18n("design/standard/class/edit",,array($Result:item.className|wash,$Result:item.objectCount))}</li>
 {/section}
 </ul>
 </div>

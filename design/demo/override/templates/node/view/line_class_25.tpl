@@ -4,7 +4,7 @@
 <table class="linklist" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th class="linkheader">
-    {$node_name}
+    {$node_name|wash}
     </th>
 </tr>
 <tr>

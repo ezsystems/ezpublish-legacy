@@ -2,7 +2,7 @@
 <form action={concat($return_url)|ezurl} method="post">
 
 <div class="maincontentheader">
-<h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name}</h1>
+<h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name|wash}</h1>
 </div>
 
 <p>{'To select objects, choose the appriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
@@ -25,11 +25,11 @@
 </tr>
 <tr>
 	<td class="bglight">
-	{$main_node.name}
+	{$main_node.name|wash}
 	</td>
 
 	<td class="bglight">
-	{$main_node.object.content_class.name}
+	{$main_node.object.content_class.name|wash}
 	</td>
 
 	<td class="bglight">
@@ -67,12 +67,12 @@
 	<td class="{$Object:sequence}">
         <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
-	{$Object:item.name}
+	{$Object:item.name|wash}
         </a>
 	</td>
 
 	<td class="{$Object:sequence}">
-	{$Object:item.object.content_class.name}
+	{$Object:item.object.content_class.name|wash}
 	</td>
 
 	<td class="{$Object:sequence}">

@@ -16,11 +16,11 @@
 <h1>{"Site map"|i18n("design/standard/node/view")}</h1>
 </div>
 
-<h1>{$node_name}</h1>
+<h1>{$node_name|wash}</h1>
 
 {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
 <div class="block">
-<label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label><div class="labelbreak"></div>
+<label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
 {attribute_view_gui attribute=$ContentObjectAttribute:item}
 </div>
 {/section}
@@ -64,9 +64,9 @@
 <tr>
 	<td class="{$Tree:sequence}">
        	<img src={"1x1.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
-	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_2.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
+	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_2.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name|wash}</a>
 	</td>
-	<td class="{$Tree:sequence}">{$Tree:item.object.class_name}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.class_name|wash}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
 	{section show=$:can_edit}
 	<td class="{$Tree:sequence}">
@@ -128,7 +128,7 @@
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
 	      {/section}
          </select>
          <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />

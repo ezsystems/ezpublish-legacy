@@ -2,7 +2,7 @@
 
 {* loop children and print name with link *}
 {section name=Child loop=$children}
-<a href={$Child:item.url_alias|ezurl}>{$Child:item.name}</a><br>
+<a href={$Child:item.url_alias|ezurl}>{$Child:item.name|wash}</a><br>
 {/section}
 
 {/let}
