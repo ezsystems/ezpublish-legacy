@@ -456,7 +456,7 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCur
 
             // Highlight current node
             var currentNode = ezjslib_getHTMLNodeById( currentNodeID );
-            ezjslib_setHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
+            ezjslib_appendHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
 
             if( autoopenCurrentNode == "enabled" )
             {

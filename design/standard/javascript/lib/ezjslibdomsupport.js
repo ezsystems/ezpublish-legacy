@@ -23,40 +23,41 @@
 // http://ez.no/home/licences/professional/. For pricing of this licence
 // please contact us via e-mail to licence@ez.no. Further contact
 // information is available at http://ez.no/home/contact/.
-//              
+//
 // The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-            
-/*! \file ezjslibdomsupport.js 
+
+/*! \file ezjslibdomsupport.js
 */
 
-/*!    
+/*!
     \brief
-    
+
     Functions which works with HTMLElements:
         ezjslib_findHTMLChildTextNode,
         ezjslib_setTextToHTMLChildTextNode,
         ezjslib_removeHTMLChildTextNode,
         ezjslib_createHTMLChildTextNode,
         ezjslib_setHTMLNodeClassStyle,
+        ezjslib_appendHTMLNodeClassStyle,
         ezjslib_getHTMLNodeById,
         ezjslib_getHTMLChildNodeByTag,
         ezjslib_getHTMLChildNodeByProperty,
 	ezjslib_getStyleObject.
-*/        
+*/
 
-/*! 
+/*!
     Finds the text of \a node
 */
 function ezjslib_findHTMLChildTextNode( node )
 {
     if( node )
     {
-        for ( var i = 0; i < node.childNodes.length; i++ ) 
+        for ( var i = 0; i < node.childNodes.length; i++ )
         {
             if ( node.childNodes[i].nodeType == 3 )
             {
@@ -68,7 +69,7 @@ function ezjslib_findHTMLChildTextNode( node )
     return null;
 }
 
-/*! 
+/*!
     Finds the text of \a node and replaces it with \a text
 */
 function ezjslib_setTextToHTMLChildTextNode( node, text )
@@ -80,7 +81,7 @@ function ezjslib_setTextToHTMLChildTextNode( node, text )
     }
 }
 
-/*! 
+/*!
     Finds text of \a node and removes it
 */
 function ezjslib_removeHTMLChildTextNode( node )
@@ -92,7 +93,7 @@ function ezjslib_removeHTMLChildTextNode( node )
     }
 }
 
-/*! 
+/*!
     Creates and appends child text node with text \a text to node \a node
 */
 function ezjslib_createHTMLChildTextNode( node, text )
@@ -104,7 +105,7 @@ function ezjslib_createHTMLChildTextNode( node, text )
     }
 }
 
-/*! 
+/*!
     \return HTMLElement with id \a node_id
 */
 function ezjslib_getHTMLNodeById( node_id )
@@ -112,7 +113,7 @@ function ezjslib_getHTMLNodeById( node_id )
     return document.getElementById( node_id );
 }
 
-/*! 
+/*!
     \return a FIRST child HTMLElement of \a node with tag \a tag
 */
 function ezjslib_getHTMLChildNodeByTag( node, tag )
@@ -130,8 +131,8 @@ function ezjslib_getHTMLChildNodeByTag( node, tag )
     return null;
 }
 
-/*! 
-    \return a FIRST child HTMLElement of \a node with property name 
+/*!
+    \return a FIRST child HTMLElement of \a node with property name
     \a attrName and property value \a attrValue
 */
 function ezjslib_getHTMLChildNodeByProperty( node, propName, propValue )
@@ -142,7 +143,7 @@ function ezjslib_getHTMLChildNodeByProperty( node, propName, propValue )
         {
             var child   = node.childNodes[i];
             var value   = child[propName];
-            
+
             if ( value && value == propValue )
             {
                 return child;
@@ -158,9 +159,23 @@ function ezjslib_getHTMLChildNodeByProperty( node, propName, propValue )
 */
 function ezjslib_setHTMLNodeClassStyle( node, styleClassName )
 {
-    if ( node )
+    if ( node && styleClassName )
     {
         node['className'] = styleClassName;
+    }
+}
+
+/*!
+    Appends to 'className' property of node \a node the value \a styleClassName
+*/
+function ezjslib_appendHTMLNodeClassStyle( node, styleClassName )
+{
+    if ( node && styleClassName )
+    {
+        if ( node['className'] == '' )
+            node['className'] = styleClassName;
+        else
+            node['className'] = node['className'] + ' ' + styleClassName;
     }
 }
 
@@ -203,19 +218,19 @@ function ezjslib_getScreenProperties()
   result.Height = 0;
   result.Width = 0;
 
-  if( typeof( window.innerWidth ) == 'number' ) 
+  if( typeof( window.innerWidth ) == 'number' )
   {
     // all but IE
     result.Width = window.innerWidth;
     result.Height = window.innerHeight;
-  } 
-  else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) 
+  }
+  else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) )
   {
     // IE 6
     result.Width = document.documentElement.clientWidth;
     result.Height = document.documentElement.clientHeight;
-  } 
-  else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) 
+  }
+  else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) )
   {
     // IE 4
     result.Width = document.body.clientWidth;
@@ -223,19 +238,19 @@ function ezjslib_getScreenProperties()
   }
 
   // offsets
-  if( typeof( window.pageYOffset ) == 'number' ) 
+  if( typeof( window.pageYOffset ) == 'number' )
   {
     // Netscape compliant
     result.ScrollY = window.pageYOffset;
     result.ScrollX = window.pageXOffset;
-  } 
-  else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) 
+  }
+  else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) )
   {
     // DOM
     result.ScrollY = document.body.scrollTop;
     result.ScrollX = document.body.scrollLeft;
-  } 
-  else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) 
+  }
+  else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) )
   {
     // IE6
     result.ScrollY = document.documentElement.scrollTop;
