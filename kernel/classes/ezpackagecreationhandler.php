@@ -586,7 +586,7 @@ class eZPackageCreationHandler
                                'collection' => 'default',
                                'file-type' => false,
                                'role-value' => false,
-                               'variable-name' => false );
+                               'variable-name' => 'thumbnail' );
 
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
@@ -943,6 +943,10 @@ class eZPackageCreationHandler
     function validatePackageThumbnail( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        // If we don't have an image we continue as normal
+        if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
+            return true;
+
         $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;

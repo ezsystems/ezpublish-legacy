@@ -205,19 +205,21 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $hasSiteFile =& eZHTTPFile::canFetch( 'PackageSiteCSSFile' );
+        $hasClassesFile =& eZHTTPFile::canFetch( 'PackageClassesCSSFile' );
 
         $result = true;
-        if ( !$siteFile or !$classesFile )
+        if ( !$hasSiteFile or !$hasClassesFile )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
                                   'description' => ezi18n( 'kernel/package', 'You must upload both CSS files' ) );
-            $result = false;
+            return false;
         }
-        else if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
-                  !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
+
+        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
+        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
+             !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
                                   'description' => ezi18n( 'kernel/package', 'File did not have a .css suffix, this is most likely not a CSS file' ) );
@@ -255,6 +257,10 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function validateImageFiles( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        // If we don't have an image we continue as normal
+        if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
+            return true;
+
         $file =& eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;
@@ -281,10 +287,16 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
 	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
 	{
-        $cssfile = $persistentData['cssfile'];
+        $cssfile = $persistentData['sitecssfile'];
+        if ( $cssfile )
+            $cssfile = $persistentData['classescssfile'];
+
 		if ( $cssfile )
 		{
-			$packageInformation['name'] = $cssfile['basename'];
+            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            $trans =& eZCharTransform::instance();
+
+            $packageInformation['name'] = $trans->transformByGroup( $cssfile['basename'], 'urlalias' );
 			$packageInformation['summary'] = $cssfile['basename'] . ' site style';
 			$packageInformation['description'] = 'A site style called ' . $cssfile['basename'];
 		}
