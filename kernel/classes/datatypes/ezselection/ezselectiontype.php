@@ -238,6 +238,22 @@ class eZSelectionType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function sortKeyType()
+    {
+        return 'string';
+    }
+
+    /*!
      \return true if the datatype can be indexed
     */
     function isIndexable()
