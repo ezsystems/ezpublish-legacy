@@ -77,5 +77,4 @@ class eZConfirmOrderType extends eZWorkflowEventType
 
 eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_CONFIRMORDER_ID, "ezconfirmordertype" );
 
-
 ?>
