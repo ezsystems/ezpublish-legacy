@@ -160,7 +160,7 @@ class eZPolicy extends eZPersistentObject
                      WHERE id='$delID'" );
     }
 
-    function & limitationList()
+    function & limitationList( $useAvailCache = true )
     {
         if ( !isset( $this->Limitations ) )
         {
@@ -177,7 +177,7 @@ class eZPolicy extends eZPersistentObject
 
             $loadFromDb = true;
             $policyID = $this->attribute( 'id' );
-            if ( $enableCaching == 'true' )
+            if ( $enableCaching == 'true' && $useAvailCache )
             {
                 //  $http =& eZHTTPTool::instance();
 

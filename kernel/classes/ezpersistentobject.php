@@ -910,20 +910,18 @@ function definition()
         $def =& $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
-        $attr_functions = null;
-        if ( isset( $def["function_attributes"] ) )
-            $attr_functions = $def["function_attributes"];
-        if ( !isset( $fields[$attr] ) )
+        $attr_functions =& $def["function_attributes"];
+        if ( isset( $fields[$attr] ) )
         {
-            if ( !is_null( $attr_functions ) or
-                 !isset( $attr_functions[$attr] ) )
+            $attr_name = $fields[$attr];
+            if ( is_array( $attr_name ) )
             {
-                eZDebug::writeError( "Undefined attribute '$attr', cannot get",
-                                     $def['class_name'] );
-                return null;
+                $attr_name =& $attr_name['name'];
             }
+            return $this->$attr_name;
+
         }
-        if ( !is_null( $attr_functions ) and isset( $attr_functions[$attr] ) )
+        else if ( isset( $attr_functions[$attr] ) )
         {
             $function_name = $attr_functions[$attr];
             return $this->$function_name();
@@ -935,12 +933,9 @@ function definition()
         }
         else
         {
-            $attr_name = $fields[$attr];
-            if ( is_array( $attr_name ) )
-            {
-                $attr_name =& $attr_name['name'];
-            }
-            return $this->$attr_name;
+            eZDebug::writeError( "Undefined attribute '$attr', cannot get",
+                                 $def['class_name'] );
+            return null;
         }
     }
 
