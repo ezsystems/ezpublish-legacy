@@ -137,7 +137,7 @@ class eZContentCache
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
         $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
-        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+        $siteDesigns = $ini->variableArray( 'VersionView', 'AvailableSiteDesigns' );
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
 //         eZDebug::writeDebug( $languages, 'languages' );
 //         eZDebug::writeDebug( $nodeList, 'nodeList' );
