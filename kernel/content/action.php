@@ -239,6 +239,32 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
+else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
+{
+    $user =& eZUser::currentUser();
+    $nodeID = false;
+    if ( $http->hasPostVariable( 'ContentNodeID' ) )
+    {
+        $nodeID = $http->postVariable( 'ContentNodeID' );
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        $bookmark = eZContentBrowseBookmark::createNew( $user->id(), $nodeID, $node->attribute( 'name' ) );
+    }
+    if ( !$nodeID )
+    {
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $nodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+    }
+    if ( $http->hasPostVariable( 'ViewMode' ) )
+    {
+        $viewMode = $http->postVariable( 'ViewMode' );
+    }
+    else
+    {
+        $viewMode = 'full';
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+    return;
+}
 else if ( $http->hasPostVariable( "ContentObjectID" )  )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
@@ -264,33 +290,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         $result =& $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
-    }
-    else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
-    {
-        $user =& eZUser::currentUser();
-        $nodeID = false;
-        if ( $http->hasPostVariable( 'ContentNodeID' ) )
-        {
-            $nodeID = $http->postVariable( 'ContentNodeID' );
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
-            $bookmark = eZContentBrowseBookmark::createNew( $user->id(), $nodeID, $node->attribute( 'name' ) );
-        }
-        if ( !$nodeID )
-        {
-            $contentINI =& eZINI::instance( 'content.ini' );
-            $nodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-        }
-        if ( $http->hasPostVariable( 'ViewMode' ) )
-        {
-            $viewMode = $http->postVariable( 'ViewMode' );
-        }
-        else
-        {
-            $viewMode = 'full';
-        }
-        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
-        return;
-
     }
     else if ( $http->hasPostVariable( "ActionAddToNotification" ) )
     {
