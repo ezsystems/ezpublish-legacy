@@ -75,7 +75,7 @@
     <p class="path">
     {section name=Path loop=$module_result.path}
         {section show=$Path:item.url}
-        <a class="path" href="{$Path:item.url}">{$Path:item.text}</a> 
+        <a class="path" href="{$Path:item.url}">{$Path:item.text}</a>
         {section-else}
         {$Path:item.text}
         {/section}

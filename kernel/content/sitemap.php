@@ -185,6 +185,8 @@ $tpl->setVariable( 'page', array( 'limit' => $pageLimit,
                                   'previous' => $Offset - $pageLimit,
                                   'next' => $Offset + $pageLimit ) );
 
-$Result =& $tpl->fetch( 'design:content/sitemap.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:content/sitemap.tpl' );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Obsolete' ) );
 
 ?>

@@ -62,7 +62,7 @@ function &removeSelectedClasses( &$http, &$classes, $base )
     }
 }
 
-$http =& eZHttpTool::instance();
+$http =& eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "NewButton" ) )
 {
@@ -107,9 +107,9 @@ foreach( $TemplateData as $tpldata )
                                                  $sort,
                                                  $fields );
     $list =array();
-    for ( $i=0;$i<count( $classes_list );$i++ )
+    for ( $i=0; $i<count( $classes_list ); $i++ )
     {
-        for ( $j=0;$j<count( $classids );$j++ )
+        for ( $j=0; $j<count( $classids ); $j++ )
         {
             $id =  $classes_list[$i]->attribute("id");
             $contentclass_id =  $classids[$j]->attribute("contentclass_id");
@@ -152,6 +152,7 @@ foreach( $TemplateData as $tpldata )
 
 $tpl->setVariable( "module", $Module );
 
-$Result =& $tpl->fetch( "design:class/classlist.tpl" );
-
+$Result['content'] =& $tpl->fetch( "design:class/classlist.tpl" );
+$Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                'text' => 'Class list' ) );
 ?>

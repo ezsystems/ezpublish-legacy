@@ -113,6 +113,8 @@ foreach( $TemplateData as $tpldata )
 
 $tpl->setVariable( "module", $Module );
 
-$Result =& $tpl->fetch( "design:class/grouplist.tpl" );
+$Result['content'] =& $tpl->fetch( "design:class/grouplist.tpl" );
+$Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                'text' => 'Class list' ) );
 
 ?>

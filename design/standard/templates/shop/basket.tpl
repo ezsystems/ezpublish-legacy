@@ -2,7 +2,7 @@
 
 <h1>{"Basket"|i18n}</h1>
 
-{section name=Basket show=$basket.items|gt(0) }
+{section name=Basket show=$basket.items|gt(0)}
 
 Basket ID: {$basket.id}, Session ID: {$basket.session_id} <br />
 
