@@ -83,6 +83,7 @@ eZ module :
 - Added support for freely placed parameters in URI.
 - Added setGlobalPathList function to set the path list once and swapped the parameter positions of the
   /exists/ function, this means that only the module name is required.
+- Added support for running an error module directly with an error code.
 
 eZ file :
 - New class for handling file operations

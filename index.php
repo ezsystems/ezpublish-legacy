@@ -202,7 +202,8 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
          !( $module->attribute( 'name' ) == 'content'  &&  $function_name == 'browse' )
          )
     {
-        $module->redirectTo( '/error/403' );
+//         $module->redirectTo( '/error/403' );
+        $result =& $module->handleError( 403 );
     }
     else
     {

@@ -52,7 +52,12 @@ define( "EZ_MODULE_STATUS_SHOW_LOGIN_PAGE", 4 );
 
 class eZModule
 {
-    function eZModule( $path, $file, $module_name )
+    function eZModule( $path, $file, $moduleName )
+    {
+        $this->initialize( $path, $file, $moduleName );
+    }
+
+    function initialize( $path, $file, $moduleName )
     {
         unset( $FunctionArray );
         unset( $Module );
@@ -62,7 +67,7 @@ class eZModule
             $this->Functions =& $ViewList;
             $this->FunctionList =& $FunctionList;
             $this->Module =& $Module;
-            $this->Name = $module_name;
+            $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
             $this->Features = array();
@@ -73,7 +78,7 @@ class eZModule
             while( ( $key = key( $this->Functions ) ) !== null )
             {
                 $func =& $this->Functions[$key];
-                $func["uri"] = "/$module_name/$key";
+                $func["uri"] = "/$moduleName/$key";
                 next( $this->Functions );
             }
         }
@@ -84,11 +89,12 @@ class eZModule
             $this->Module = array( "name" => "null",
                                    "variable_params" => false,
                                    "function" => array() );
-            $this->Name = $module_name;
+            $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
         }
         $this->ExitStatus = EZ_MODULE_STATUS_IDLE;
+        $this->ErrorCode = 0;
     }
 
     function uri()
@@ -131,17 +137,84 @@ class eZModule
         $this->ExitStatus = $stat;
     }
 
+    /*!
+     \return the error code if the function failed to run or \a 0 if no error code.
+     \sa setErrorCode
+    */
+    function errorCode()
+    {
+        return $this->ErrorCode;
+    }
+
+    /*!
+     Sets the current error code.
+     \note You need to set the exit status to EZ_MODULE_STATUS_FAILED for the error code to be used.
+     \sa setExitStatus, errorCode
+    */
+    function setErrorCode( $errorCode )
+    {
+        $this->ErrorCode = $errorCode;
+    }
+
+    /*!
+     \return the name of the module which will be run on errors.
+             The default name is 'errror'.
+     \sa handleError
+    */
+    function errorModule()
+    {
+        $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
+        if ( !isset( $globalErrorModule ) )
+            $globalErrorModule = 'error';
+        return $globalErrorModule;
+    }
+
+    /*!
+     Sets the name of the module which will be run on errors.
+     \sa handleError
+    */
+    function setErrorModule( $moduleName )
+    {
+        $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
+        $globalErrorModule = $moduleName;
+    }
+
+    /*!
+     Tries to run the error module with the error code \a $errorCode.
+     Sets the state of the module object to \c failed and sets the error code.
+    */
+    function handleError( $errorCode )
+    {
+        $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        $this->setErrorCode( $errorCode );
+        $errorModule =& eZModule::errorModule();
+        $module =& eZModule::findModule( $errorModule, $this );
+        if ( $module === null )
+            return false;
+        return $module->run( $errorCode, array() );
+    }
+
+    /*!
+     Makes sure that the module is redirected to the URI \a $uri when the function exits.
+     \sa setRedirectURI, setExitStatus
+    */
     function redirectTo( $uri )
     {
         $this->RedirectURI = $uri;
         $this->setExitStatus( EZ_MODULE_STATUS_REDIRECT );
     }
 
+    /*!
+     \return the URI which will be redirected to when the function exits.
+    */
     function redirectURI()
     {
         return $this->RedirectURI;
     }
 
+    /*!
+     Sets the URI which will be redirected to when the function exits.
+    */
     function setRedirectURI( $uri )
     {
         $this->RedirectURI = $uri;
@@ -189,23 +262,35 @@ class eZModule
         return null;
     }
 
-    function &run( $function_name, $parameters, $override_parameters = false )
+    /*!
+     Tries to run the function \a $functionName in the current module.
+     \param parameters An indexed list of parameters, these will be mapped
+                       onto real parameter names using the defined parameter
+                       names in the module/function definition.
+                       If this variable is shorter than the required parameters
+                       they will be set to \a null.
+     \param overrideParameters An associative array of parameters which
+                               will override any parameters found using the
+                               defined parameters.
+     \return null if function could not be run or no return value was found.
+    */
+    function &run( $functionName, $parameters, $overrideParameters = false )
     {
         if ( count( $this->Functions ) > 0 and
-             !isset( $this->Functions[$function_name] ) )
+             !isset( $this->Functions[$functionName] ) )
         {
-            eZDebug::writeWarning( "Undefined function: " . $this->Module["name"] . "::$function_name ",
-                                   "eZModule" );
+            eZDebug::writeError( "Undefined function: " . $this->Module["name"] . "::$functionName ",
+                                 "eZModule" );
             return null;
         }
         if ( $this->singleFunction() )
             $function =& $this->Module["function"];
         else
-            $function =& $this->Functions[$function_name];
-        $function_params =& $function["params"];
+            $function =& $this->Functions[$functionName];
+        $functionParameterDefinitions =& $function["params"];
         $params = array();
         $i = 0;
-        foreach ( $function_params as $param )
+        foreach ( $functionParameterDefinitions as $param )
         {
             if ( isset( $parameters[$i] ) )
                 $params[$param] = $parameters[$i];
@@ -239,16 +324,16 @@ class eZModule
             }
         }
 
-        if ( is_array( $override_parameters ) )
+        if ( is_array( $overrideParameters ) )
         {
-            foreach ( $override_parameters as $param => $value )
+            foreach ( $overrideParameters as $param => $value )
             {
                 $params[$param] = $value;
             }
         }
         $params["Module"] =& $this;
         $params["ModuleName"] = $this->Name;
-        $params["FunctionName"] = $function_name;
+        $params["FunctionName"] = $functionName;
         $params["Parameters"] =& $parameters;
         $params_as_var = isset( $this->Module["variable_params"] ) ? $this->Module["variable_params"] : false;
         include_once( "lib/ezutils/classes/ezprocess.php" );
@@ -317,6 +402,12 @@ class eZModule
     */
     function &exists( $moduleName, $pathList = null )
     {
+        $module = null;
+        return eZModule::findModule( $moduleName, $module, $pathList );
+    }
+
+    function &findModule( $moduleName, &$module, $pathList = null )
+    {
         if ( $pathList === null )
             $pathList = array();
         else if ( !is_array( $pathList ) )
@@ -330,8 +421,11 @@ class eZModule
             $file = "$path/$moduleName/module.php";
             if ( file_exists( $file ) )
             {
-                $mod = new eZModule( $path, $file, $moduleName );
-                return $mod;
+                if ( $module === null )
+                    $module = new eZModule( $path, $file, $moduleName );
+                else
+                    $module->initialize( $path, $file, $moduleName );
+                return $module;
             }
         }
         return null;
@@ -345,6 +439,7 @@ class eZModule
     var $Name;
     var $Path;
     var $ExitStatus;
+    var $ErrorCode;
     var $RedirectURI;
     var $Title;
 }
