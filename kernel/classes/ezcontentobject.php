@@ -405,7 +405,6 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentObjectAttributes( $as_object=true )
     {
-        print( "hh" );
         $db =& eZDB::instance();
 
         $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
