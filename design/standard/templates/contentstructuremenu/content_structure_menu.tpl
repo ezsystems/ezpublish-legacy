@@ -1,4 +1,7 @@
-<script language="JavaScript" src={"javascript/contentstructuremenu.js"|ezdesign}></script>
+<script language="JavaScript" src={"javascript/lib/ezjslibie50support.js"|ezdesign}></script>
+<script language="JavaScript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
+<script language="JavaScript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
+<script language="JavaScript" src={"javascript/contentstructuremenu/contentstructuremenu.js"|ezdesign}></script>
 
 {let rootNodeID             = ezini( 'TreeMenu', 'RootNodeID'       , 'contentstructuremenu.ini' )
      classFilter            = ezini( 'TreeMenu', 'ShowClasses'      , 'contentstructuremenu.ini' )                            
@@ -23,7 +26,7 @@
     
         {* Show menu tree. All container nodes are unfolded. *}
         <ul id="{$:menuID}">
-            {include uri="design:menu/show_content_structure.tpl" contentStructureTree=$contentStructureTree}                                                
+            {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree}                                                
         </ul>
 
     {/cache-block}        

@@ -8,7 +8,7 @@
                                                       
         {* Fold/Unfold/Empty: [-]/[+]/[ ] *}                                                                          
             {section show=$:haveChildren}
-               <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('menu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
+               <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
             {section-else}
                 <span class="openclose"></span>
             {/section}
@@ -20,9 +20,9 @@
             {* Tooltip *}
             {section show=$:showToolTips|eq('enabled')}
                 {set toolTip = 'Node ID: %node_id Created: %created Children num: %children_num' | 
-                                i18n("menu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
-                                                                            '%created'      , $:parentNode.object.published|l10n(shortdatetime),
-                                                                            '%children_num' , $:parentNode.node.children_count ) ) }
+                                i18n("contentstructuremenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
+                                                                                            '%created'      , $:parentNode.object.published|l10n(shortdatetime),
+                                                                                            '%children_num' , $:parentNode.node.children_count ) ) }
             {section-else}
                 {set toolTip = ''}
             {/section}
@@ -34,7 +34,7 @@
             {section show=$:haveChildren}
                 <ul>
                     {section var=child loop=$:children}
-                        {include uri="design:menu/show_content_structure.tpl" contentStructureTree=$:child}
+                        {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child}
                     {/section}
                 </ul>
             {/section}        
