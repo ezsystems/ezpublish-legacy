@@ -1,4 +1,5 @@
-{default content_object=$node.object}
+{default content_object=$node.object
+         content_version=$node.contentobject_version_object}
 
 <table width="95%" border="0" align="left" cellpadding="0" cellspacing="0" >
 <tr> 
@@ -7,7 +8,7 @@
     <tr>
         <td class="header">
 	&nbsp;
-        {attribute_view_gui attribute=$content_object.data_map.title}
+        {attribute_view_gui attribute=$content_version.data_map.title}
         </td>
     </tr>
     </table>
@@ -20,12 +21,12 @@
         <td valign="top">
         <div class="imageright">
 	<a class="small" href={concat("/content/view/full/",$node.node_id,"/")|ezurl}>
-        {attribute_view_gui attribute=$content_object.data_map.thumbnail image_class=medium}
+        {attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium}
 	</a>
         </div>
         <span class="small"><i>{$content_object.published|l10n(datetime)}</i></span>
         <br /><br />
-        {attribute_view_gui attribute=$content_object.data_map.intro}
+        {attribute_view_gui attribute=$content_version.data_map.intro}
         <strong>
         <a class="small" href={concat("/content/view/full/",$node.node_id,"/")|ezurl}>Read more...</a>
         </strong>

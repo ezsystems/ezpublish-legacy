@@ -1,5 +1,5 @@
-{default content_object=$node.object}
-{let map=$content_object.data_map}
+{default content_version=$node.contentobject_version_object}
+{let map=$content_version.data_map}
 
 <p class="heading">
   <strong><a href={concat("content/view/full/",$node.node_id)|ezurl}>{attribute_view_gui attribute=$map.title}</a></strong>

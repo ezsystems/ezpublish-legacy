@@ -1,8 +1,9 @@
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()
-         content_object=$node.object}
-{let map=$content_object.data_map
+         content_object=$node.object
+         content_version=$node.contentobject_version_object}
+{let map=$content_version.data_map
      comment_limit=3
      list_count=array($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 

@@ -80,8 +80,11 @@ class eZContentObjectVersion extends eZPersistentObject
                       'function_attributes' => array( // 'data' => 'fetchData',
                                                       'creator' => 'creator',
                                                       'main_parent_node_id' => 'mainParentNodeID',
+                                                      "contentobject_attributes" => "contentObjectAttributes",
+                                                      "related_contentobject_array" => "relatedContentObjectArray",
                                                       'parent_nodes' => 'parentNodes',
                                                       "can_read" => "canVersionRead",
+                                                      "data_map" => "dataMap",
                                                       'node_assignments' => 'nodeAssignments',
                                                       'contentobject' => 'contentObject',
                                                       'language_list' => 'translations',
@@ -104,7 +107,7 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      \return true if the requested attribute exists in object.
     */
-    
+
     function hasAttribute( $attr )
     {
         return $attr == 'creator'
@@ -152,6 +155,14 @@ class eZContentObjectVersion extends eZPersistentObject
         elseif ( $attr == 'contentobject' )
         {
             return  $this->contentObject();
+        }
+        elseif ( $attr == 'contentobject_attributes' )
+        {
+            return  $this->contentObjectAttributes();
+        }
+        elseif ( $attr == 'related_contentobject_array' )
+        {
+            return  $this->relatedContentObjectArray();
         }
         elseif ( $attr == 'language_list' )
         {
@@ -388,8 +399,9 @@ class eZContentObjectVersion extends eZPersistentObject
      Returns the attributes for the current content object version. The wanted language
      must be specified.
     */
-/*    function contentObjectAtributes( $language = false, $as_object = true )
+/*    function &contentObjectAtributes( $language = false, $asObject = true )
     {
+        return eZContentObject::contentObjectAttributes( $asObject, $this->Version, $language );
         if ( $language === false )
         {
             $language = eZContentObject::defaultLanguage();
@@ -404,6 +416,61 @@ class eZContentObjectVersion extends eZPersistentObject
                                                     $as_object );
     }
 */
+
+    /*!
+	 \return the content object attribute
+    */
+    function &dataMap()
+    {
+        if ( $this->ContentObjectAttributeArray === false )
+        {
+            $data =& $this->contentObjectAttributes();
+            // Store the attributes for later use
+            $this->ContentObjectAttributeArray =& $data;
+        }
+        else
+        {
+            $data =& $this->ContentObjectAttributeArray;
+        }
+
+        if ( $this->DataMap == false )
+        {
+            $ret = array();
+            reset( $data );
+            while( ( $key = key( $data ) ) !== null )
+            {
+                $item =& $data[$key];
+
+                $identifier = $item->contentClassAttributeIdentifier();
+
+                $ret[$identifier] =& $item;
+
+                next( $data );
+            }
+            $this->DataMap =& $ret;
+        }
+        else
+        {
+            $ret =& $this->DataMap;
+        }
+        return $ret;
+    }
+
+    function resetDataMap()
+    {
+        $this->ContentObjectAttributeArray = false;
+        $this->DataMap = false;
+        return $this->DataMap;
+    }
+
+    /*!
+     Returns the related objects.
+    */
+    function &relatedContentObjectArray()
+    {
+        return eZContentObject::relatedContentObjectArray( $this->Version );
+    }
+
     function create( $contentobjectID, $userID = false, $version = 1 )
     {
         if ( $userID === false )

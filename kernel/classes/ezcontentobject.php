@@ -88,7 +88,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_create_class_list" => "canCreateClassList",
                                                       "can_edit" => "canEdit",
                                                       "can_remove" => "canRemove",
-                                                      "data_map" => "fetchData",
+                                                      "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
                                                       "parent_nodes" => "parentNodes",
@@ -467,18 +467,22 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function &contentObjectAttributes( $asObject=true )
+    function &contentObjectAttributes( $asObject = true, $version = false, $language = false )
     {
         $db =& eZDB::instance();
+        if ( $version === false )
+            $version = $this->CurrentVersion;
+        if ( $language === false )
+            $language = eZContentObject::defaultLanguage();
 
         $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
-                    ezcontentobject_attribute.version = '$this->CurrentVersion' AND
+                    ezcontentobject_attribute.version = '$version' AND
                     ezcontentobject_attribute.contentobject_id = '$this->ID' AND
-                    ezcontentobject_attribute.language_code = '$this->CurrentLanguage'
+                    ezcontentobject_attribute.language_code = '$language'
                   ORDER by
                     ezcontentclass_attribute.placement ASC";
 

@@ -1,4 +1,4 @@
-{default content_object=$node.object
+{default content_version=$node.contentobject_version_object
          node_name=$node.name}
 
 <table width="150" border="0" cellspacing="0" cellpadding="3">
@@ -16,7 +16,7 @@
    <table width="100%" border="0" cellspacing="4" cellpadding="0">
    <tr>
        <td align="center">
-       <a href={concat('content/view/full/',$node.node_id,'/')|ezurl}>{attribute_view_gui attribute=$content_object.data_map.icon}</a>
+       <a href={concat('content/view/full/',$node.node_id,'/')|ezurl}>{attribute_view_gui attribute=$content_version.data_map.icon}</a>
        </td>
    </tr>
    </table>

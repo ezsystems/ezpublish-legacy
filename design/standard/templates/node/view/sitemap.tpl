@@ -5,6 +5,7 @@
      tree=and($with_children,fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)))
      tree_count=and($with_children,fetch('content','tree_count',hash(parent_node_id,$node.node_id)))}
 {default content_object=$node.object
+         content_version=$node.contentobject_version_object
          node_name=$node.name}
 
 {section show=$is_standalone}
@@ -18,7 +19,7 @@
 <p>{$node_name|texttoimage('archtura')}</p>
 {* 	<h1>{$node_name}</h1> *}
 
-{section name=ContentObjectAttribute loop=$content_object.contentobject_attributes}
+{section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
 <div class="block">
 <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
 {attribute_view_gui attribute=$ContentObjectAttribute:item}

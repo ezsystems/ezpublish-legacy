@@ -4,6 +4,7 @@
 {let page_limit=25
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 {default content_object=$node.object
+         content_version=$node.contentobject_version_object
          node_name=$node.name}
 
 {section show=$is_standalone}
@@ -41,7 +42,7 @@
 <tr>
     <td valign="top">
 
-    {section name=ContentObjectAttribute loop=$content_object.contentobject_attributes}
+    {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label>
     	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
@@ -51,15 +52,18 @@
     </td>
     <td width="120" valign="top">
     <h2>Related objects</h2>
-    {section name=Object loop=$content_object.related_contentobject_array show=$content_object.related_contentobject_array sequence=array(bglight,bgdark)}
+    {let name=Object
+         related_objects=$content_version.related_contentobject_array}
+      {section loop=$Object:related_objects show=$Object:related_objects sequence=array(bglight,bgdark)}
 
-    <div class="block">
-    {content_view_gui view=text_linked content_object=$content_object:item}
-    </div>
+        <div class="block">
+        {content_view_gui view=text_linked content_object=$content_object:item}
+        </div>
     
-    {section-else}
-    <p>None</p>
-    {/section}
+      {section-else}
+        <p>None</p>
+      {/section}
+    {/let}
 
     {section show=$is_standalone}
       <h2>Content actions</h2>

@@ -1,9 +1,9 @@
 {default with_children=true()}
 {let page_limit=8
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id,sort_by,array(published,true()),class_filter_type,exclude,class_filter_array,array(1,24))))}
-{default content_object=$node.object}
+{default content_version=$node.contentobject_version_object}
 
-{attribute_view_gui attribute=$content_object.data_map.description}
+{attribute_view_gui attribute=$content_version.data_map.description}
 
 {section show=$with_children}
 

@@ -1,18 +1,19 @@
 {default content_object=$node.object
+         content_version=$node.contentobject_version_object
          node_name=$node.name}
 
 <b>product</b>
 
 {$node_name}
 
-{attribute_view_gui attribute=$content_object.data_map.name}
+{attribute_view_gui attribute=$content_version.data_map.name}
 <p>
-{attribute_view_gui attribute=$content_object.data_map.description}
+{attribute_view_gui attribute=$content_version.data_map.description}
 </p>
-<b>{attribute_view_gui attribute=$content_object.data_map.product_nr}</b>
+<b>{attribute_view_gui attribute=$content_version.data_map.product_nr}</b>
 
-{attribute_view_gui attribute=$content_object.data_map.name}
-{attribute_view_gui attribute=$content_object.data_map.name}
+{attribute_view_gui attribute=$content_version.data_map.name}
+{attribute_view_gui attribute=$content_version.data_map.name}
 
 
 

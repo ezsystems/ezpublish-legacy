@@ -50,7 +50,6 @@
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$edit_language|not|choose(array($edit_language,"/"),""))|ezurl}>{$Version:item.version}</a>
         {section show=eq($Version:item.version,$object.current_version)}*{/section}
-	{section show=$Version:item.status|eq(3)}<div class="listicon"><img src={"history.png"|ezimage}  alt="History" /></div>{/section}
 
 	</td>
 	<td class="{$Version:sequence}">
@@ -77,7 +76,7 @@
 
 <div class="buttonblock">
 <input class="button" type="submit" name="EditButton" value="Object Edit" />
-<input class="button" type="submit" name="CopyVersionButton" value="Copy From" />
+<input class="button" type="submit" name="CopyVersionButton" value="Copy" />
 </div>
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />

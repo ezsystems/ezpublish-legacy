@@ -1,4 +1,4 @@
-<?php
+s<?php
 //
 // Definition of eZContentObjectTreeNode class
 //
@@ -121,6 +121,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "subtree" => "subTree",
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
+                                                      'contentobject_version_object' => 'contentObjectVersionObject',
                                                       'sort_array' => 'sortArray',
                                                       "path" => "fetchPath",
                                                       "parent" => "fetchParent"
@@ -144,7 +145,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'sort_field' => $sortField,
                       'sort_order' => $sortOrder,
                       'priority' => 0 );
-        $node =& new eZContentObjectTreeNode();
+        $node =& new eZContentObjectTreeNode( $row );
         return $node;
     }
 
@@ -167,6 +168,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'subtree' )
         {
             return $this->subTree();
+        }
+        else if ( $attr == 'contentobject_version_object' )
+        {
+            return $this->contentObjectVersionObject();
         }
         elseif ( $attr == 'children' )
         {
@@ -1233,6 +1238,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $this->ContentObject =& $obj;
         $this->HasContentObject = true;
+    }
+
+    function &contentObjectVersionObject( $asObject = true )
+    {
+        return eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
     }
 }
 

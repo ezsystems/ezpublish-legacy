@@ -1,7 +1,8 @@
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()
-         content_object=$node.object}
+         content_object=$node.object
+         content_version=$node.contentobject_version_object}
 
 {section show=$is_standalone}
 <form method="post" action={"content/action/"|ezurl}>
@@ -12,7 +13,7 @@
 <tr>
     <th bgcolor="#FF9900" width="70%" valign="top">
     <span class="small">
-    {attribute_view_gui attribute=$content_object.data_map.topic}
+    {attribute_view_gui attribute=$content_version.data_map.topic}
     </span>
     </th>
     <td bgcolor="#FF9900" align="rigtht" width="30%" valign="top">
@@ -22,7 +23,7 @@
 <tr>
     <td bgcolor="#FFFFFF" colspan="2">
     <span class="small">
-    {attribute_view_gui attribute=$content_object.data_map.message}
+    {attribute_view_gui attribute=$content_version.data_map.message}
     </span>
     </td>
 </tr>

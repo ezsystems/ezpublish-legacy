@@ -29,7 +29,6 @@
     </table>
 *}
 
-
 {section show=$assignment}
   {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node}
 {/section}
