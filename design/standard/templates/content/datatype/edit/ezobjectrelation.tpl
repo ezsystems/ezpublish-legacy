@@ -50,7 +50,6 @@
 {section show=$attribute.contentclass_attribute.is_required|not}
 <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
 {/section}
-
 {section var=Nodes loop=fetch( content, list, hash( parent_node_id, $parent_node.node_id, sort_by, $parent_node.sort_array ) )}
 <option value="{$Nodes.item.contentobject_id}" {section show=eq( $attribute.data_int, $Nodes.item.contentobject_id )}selected="selected"{/section}>{$Nodes.item.name|wash}</option>
 {/section}
@@ -59,6 +58,7 @@
 {section show=$class_content.fuzzy_match}
 <input type="text" name="{$attribute_base}_data_object_relation_fuzzy_match_{$attribute.id}" value="" />
 {/section}
+
 {/let}
 {/case}
 
