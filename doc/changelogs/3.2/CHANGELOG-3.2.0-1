@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Fixed correct indexing of chinese/japanese multibyte characters in search engine
 - By adding a specific postvariable it is now possible to avoid having the class edit try load in data
   for the attributes, this is required when a datatype redirects to another page and then back again.
 - Added template fetch functions class/list and class/attribute_list.
