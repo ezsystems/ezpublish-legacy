@@ -362,8 +362,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price;
                 $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
                 $totalSumExVAT += $totalPriceExVAT;
                 $totalSumIncVAT += $totalPriceIncVAT;
             }
@@ -373,8 +373,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                 $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
                 $totalSumExVAT += $totalPriceExVAT;
                 $totalSumIncVAT += $totalPriceIncVAT;
             }
@@ -494,8 +494,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price;
                 $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
             else
             {
@@ -503,8 +503,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                 $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
             $sumCount += $count;
@@ -650,8 +650,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price;
                 $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
             else
             {
@@ -659,8 +659,8 @@ class eZOrder extends eZPersistentObject
                 $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                 $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                $totalPriceExVAT = round( $totalPriceExVAT );
-                $totalPriceIncVAT = round( $totalPriceIncVAT );
+                $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
             $sumExVAT += $totalPriceExVAT;
@@ -798,8 +798,8 @@ class eZOrder extends eZPersistentObject
                     $priceIncVAT = $price;
                     $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    $totalPriceExVAT = round( $totalPriceExVAT );
-                    $totalPriceIncVAT = round( $totalPriceIncVAT );
+                    $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                    $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
                 }
                 else
                 {
@@ -807,8 +807,8 @@ class eZOrder extends eZPersistentObject
                     $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                     $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    $totalPriceExVAT = round( $totalPriceExVAT );
-                    $totalPriceIncVAT = round( $totalPriceIncVAT );
+                    $totalPriceExVAT = round( $totalPriceExVAT, 2 );
+                    $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
                 }
 
                 $addedProduct = array( "id" => $id,

@@ -157,6 +157,8 @@ eztc.php:
 - Fixed bug with not using an entered MySQL socket during setup.
   http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
   Merged from stable/3.3 rev. 6950, stable/3.4 rev. 6951
+- Fixed bug in ezorder.php with incorrect rounding in product item price.
+  Merged from stable/3.4 rev. 6959.
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
