@@ -60,7 +60,7 @@ div#maincontent div.content-view-full div.attribute-link-disabled p, div#maincon
 { 
     font-weight: normal;
     padding-left: 8px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 
@@ -166,7 +166,7 @@ div.content-view-listitem div.class-product div.attribute-link-disabled a
 { 
     font-weight: normal;
     padding-left: 8px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 span.oldprice
@@ -189,7 +189,7 @@ div#maincontent div.class-folder div.class-gallery div.attribute-link-disabled p
 { 
     font-weight: normal;
     padding-left: 8px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 
@@ -228,7 +228,7 @@ div.factbox-design, div.content-view-embed
 
 div#maincontent div.factbox-design h2, div#maincontent div.content-view-embed h2
 { 
-    font: 1.2em;
+    font-size: 1.2em;
     margin-top: 0px;
     padding: 2px 0 3px 10px;
 }
@@ -296,7 +296,7 @@ div.object-center
 
 div.factbox h3
 { 
-    font: 1em;
+    font-size: 1em;
     margin: 0px;
 }
 
