@@ -78,7 +78,8 @@ class eZDefaultShopAccountHandler
     function accountName( $order )
     {
         $user =& eZUser::currentUser();
-        $accountName = $user->attribute( 'name' );
+        $userObject = $user->attribute( 'contentobject' );
+        $accountName = $userObject->attribute( 'name' );
         return $accountName;
     }
 
