@@ -28,7 +28,7 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-
+test
 // if ( file_exists( 'ezp.xt' ) )
 // {
 //     $fd = fopen( 'ezp.xt', 'w' ); fclose( $fd );
