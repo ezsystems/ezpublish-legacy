@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Required</source>
-        <translation>Påkrevd</translation>
+        <translation>Påkrevet</translation>
     </message>
     <message>
         <source>Searchable</source>
