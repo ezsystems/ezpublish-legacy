@@ -192,6 +192,10 @@
         <source>Preferred number of rows:</source>
         <translation>Foretrukket antall rader:</translation>
     </message>
+    <message>
+        <source>Default name:</source>
+        <translation>Standardnavn:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -857,7 +861,7 @@
     </message>
     <message>
         <source>e-mail:</source>
-        <translation>E-post:</translation>
+        <translation type="obsolete">E-post:</translation>
     </message>
     <message>
         <source>Password:</source>
@@ -865,7 +869,7 @@
     </message>
     <message>
         <source>Password confirmation:</source>
-        <translation>Bekreft passord</translation>
+        <translation type="obsolete">Bekreft passord</translation>
     </message>
     <message>
         <source>Price:</source>
@@ -898,6 +902,26 @@
     <message>
         <source>Filesize:</source>
         <translation>Filstørrelse:</translation>
+    </message>
+    <message>
+        <source>Start value:</source>
+        <translation>Startverdi:</translation>
+    </message>
+    <message>
+        <source>Stop value:</source>
+        <translation>Stoppverdi:</translation>
+    </message>
+    <message>
+        <source>Step value:</source>
+        <translation>Stegverdi:</translation>
+    </message>
+    <message>
+        <source>E-Mail:</source>
+        <translation>E-post:</translation>
+    </message>
+    <message>
+        <source>Confirm password:</source>
+        <translation>Gjenta passord:</translation>
     </message>
 </context>
 <context>
@@ -1160,6 +1184,18 @@
     <message>
         <source>Class name</source>
         <translation>Klassenavn</translation>
+    </message>
+    <message>
+        <source>For more options try the </source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>advanced search</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>For more options try the %1advanced search%2</source>
+        <translation>For flere valg, prøv %1avansert søk%2</translation>
     </message>
 </context>
 <context>
@@ -2538,7 +2574,7 @@
     </message>
     <message>
         <source>Confirm password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gjenta passord:</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
@@ -4455,27 +4491,27 @@
     <message>
         <source>An user account must be filled up</source>
         <comment>eZUserType</comment>
-        <translation>Opprett en brukerkonto</translation>
+        <translation type="obsolete">Opprett en brukerkonto</translation>
     </message>
     <message>
         <source>Login name exist, please choose another one.</source>
         <comment>eZUserType</comment>
-        <translation>Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
+        <translation type="obsolete">Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZUserType</comment>
-        <translation>E-postadressen er ikke gyldig.</translation>
+        <translation type="obsolete">E-postadressen er ikke gyldig.</translation>
     </message>
     <message>
         <source>Please confirm your password.</source>
         <comment>eZUserType</comment>
-        <translation>Bekreft passordet.</translation>
+        <translation type="obsolete">Bekreft passordet.</translation>
     </message>
     <message>
         <source>The minimum length of password should be 3.</source>
         <comment>eZUserType</comment>
-        <translation>Passord bør være minst 3 tegn lange.</translation>
+        <translation type="obsolete">Passord bør være minst 3 tegn lange.</translation>
     </message>
     <message>
         <source>Object </source>
@@ -4489,6 +4525,31 @@
         <source>Additional price for option value is invalid.</source>
         <comment>eZOptionType</comment>
         <translation>Ekstra pris for opsjonsverdi er ugyldig.</translation>
+    </message>
+    <message>
+        <source>The login must be specified</source>
+        <comment>eZUserType</comment>
+        <translation>Du må oppgi brukernavn</translation>
+    </message>
+    <message>
+        <source>Login name already exists, please choose another one.</source>
+        <comment>eZUserType</comment>
+        <translation>Brukernavnet er opptatt, vennligst velg et annet brukernavn.</translation>
+    </message>
+    <message>
+        <source>The E-Mail address is not valid.</source>
+        <comment>eZUserType</comment>
+        <translation>E-postadressen er ikke gyldig.</translation>
+    </message>
+    <message>
+        <source>The confirmation password did not match.</source>
+        <comment>eZUserType</comment>
+        <translation>Passordet for bekreftelse er ikke det samme som det første passordet.</translation>
+    </message>
+    <message>
+        <source>The password must be at least 3 characters.</source>
+        <comment>eZUserType</comment>
+        <translation>Passordet må være minst 3 tegn langt.</translation>
     </message>
 </context>
 <context>

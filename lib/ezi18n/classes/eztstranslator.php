@@ -314,7 +314,6 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     {
                         $translation_el = $translation_el[0];
                         $translation = $translation_el->content();
-                        $translation = $codec->convertString( $translation );
                     }
                 }
                 else if ( $message_child->name() == "comment" )

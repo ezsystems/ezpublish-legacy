@@ -3,7 +3,7 @@
 </div>
 
 <div class="block">
-<label>{"For more options try the "|i18n("design/standard/content/search")} <a href={"/content/advancedsearch/"|ezurl}>{"advanced Search"|i18n("design/standard/content/search")}</a></label>
+<label>{"For more options try the %1advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array("<a href='/content/advancedsearch/'|ezurl>","</a>"))}</label>
 </div>
 
 
