@@ -108,12 +108,6 @@ class eZFunctionHandler
                 }
             }
 
-            $paramstr = '';
-            foreach ( array_keys( $functionArray ) as $key )
-            {
-                    $paramstr .= $key . '=' . $functionArray[$key] . "\n";
-            }
-
             return $moduleFunctionInfo->execute( $functionName, $functionArray );
         }
         eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' ,

@@ -353,6 +353,9 @@ class eZTemplateArrayOperator
                 $paramCount = 0;
                 $values = array();
                 $staticArray = array();
+                $staticKeys = true;
+                $keys = array();
+                $vals = array();
                 $hashCount = (int)( count( $parameters ) / 2 );
                 for ( $i = 0; $i < $hashCount; ++$i )
                 {
@@ -367,12 +370,14 @@ class eZTemplateArrayOperator
 
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2] ) )
                     {
+                        $staticKeys = false;
                         $values[] = $parameters[$i*2];
                         ++$paramCount;
                         $code .= '%' . $paramCount . '%';
                     }
                     else
                     {
+                        $keys[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] );
                         $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] ), 0, 0, false );
                     }
 
@@ -380,7 +385,7 @@ class eZTemplateArrayOperator
 
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2+1] ) )
                     {
-                        $values[] = $parameters[$i*2+1];
+                        $values[] = $parameters[$i*2 + 1];
                         ++$paramCount;
                         $code .= '%' . $paramCount . '%';
                     }
@@ -392,11 +397,21 @@ class eZTemplateArrayOperator
                         }
                         $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2+1] ), 0, 0, false );
                     }
+
+                    if ( $staticKeys )
+                    {
+                        $vals[$keys[count( $keys ) - 1]] = $parameters[$i*2 + 1];
+                    }
                 }
 
                 if ( $paramCount == 0 )
                 {
                     return array( eZTemplateNodeTool::createArrayElement( $staticArray ) );
+                }
+
+                if ( $staticKeys )
+                {
+                    return array( eZTemplateNodeTool::createDynamicArrayElement( $keys, $vals ) );
                 }
 
                 $code .= ' );';
@@ -1004,6 +1019,7 @@ class eZTemplateArrayOperator
             $code .= ' )';
         }
 
+        $code2 = false;
         if ( $parameters[0] )
         {
             if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )

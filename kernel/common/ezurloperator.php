@@ -250,7 +250,7 @@ class eZURLOperator
                 }
                 else
                 {
-                    $code .='if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
+                    $code ='if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
                          'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
                          '  %1% = \'/\';' . "\n" .
                          'else if ( strlen( %1% ) > 0 and' . "\n" .
@@ -305,7 +305,7 @@ class eZURLOperator
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
 
-                $code .= '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
+                $code = '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
                          'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
                          '%tmp2% = array();' . "\n" .
                          '%tmp1% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .

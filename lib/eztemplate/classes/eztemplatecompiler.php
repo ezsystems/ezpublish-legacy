@@ -1458,6 +1458,12 @@ class eZTemplateCompiler
                 $dataInspection['is-variable'] = false;
                 $newVariableData[] = $variableItem;
             }
+            else if ( $variableItemType == EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY )
+            {
+                $dataInspection['is-constant'] = false;
+                $dataInspection['is-variable'] = true;
+                $newVariableData[] = $variableItem;
+            }
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_ARRAY )
             {
                 $dataInspection['is-constant'] = true;
@@ -2592,6 +2598,50 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_VOID )
             {
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY )
+            {
+                $code = '%output% = array( ';
+
+                $matchMap = array( '%input%', '%output%' );
+                $replaceMap = array( '$' . $variableAssignmentName, '$' . $variableAssignmentName );
+                $unsetList = array();
+                $counter = 1;
+                $paramCount = 0;
+
+                $values = $variableDataItem[2];
+                $newParameters = $parameters;
+                foreach ( $values as $key => $value )
+                {
+                    if ( $paramCount != 0 )
+                    {
+                        $code .= ', ';
+                    }
+                    ++$paramCount;
+                    $code .= '\'' . $key . '\' => ';
+                    if( eZTemplateNodeTool::isStaticElement( $value ) )
+                    {
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $value ), 0, 0, false );
+                        continue;
+                    }
+                    $code .= '%' . $counter . '%';
+                    $newParameters['counter'] += 1;
+                    $newVariableAssignmentName = $newParameters['variable'];
+                    $newVariableAssignmentCounter = $newParameters['counter'];
+                    if ( $newVariableAssignmentCounter > 0 )
+                        $newVariableAssignmentName .= $newVariableAssignmentCounter;
+                    $matchMap[] = '%' . $counter . '%';
+                    $replaceMap[] = '$' . $newVariableAssignmentName;
+                    $unsetList[] = $newVariableAssignmentName;
+                    eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                                                                  $persistence, $newParameters );
+                    ++$counter;
+                }
+
+                $code .= ' );';
+                $code = str_replace( $matchMap, $replaceMap, $code );
+                $php->addCodePiece( $code, array( 'spacing' => $spacing ) );
+                $php->addVariableUnsetList( $unsetList, array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE )
             {

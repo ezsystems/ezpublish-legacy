@@ -141,6 +141,20 @@ class eZTemplateNodeTool
     /*!
      \static
      Creates an element which represents an array and returns it.
+
+     \param array key list, static.
+     \param array values as php code.
+     \param values.
+    */
+    function createDynamicArrayElement( &$arrayKeys, &$arrayValues, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY,
+                      $arrayKeys, $arrayValues, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents an array and returns it.
     */
     function createArrayElement( $array, $variablePlacement = false )
     {
@@ -211,6 +225,27 @@ class eZTemplateNodeTool
             return null;
         return $elements[0][1];
     }
+
+    /*!
+     \return the array keys of the Dynamic array
+    */
+    function elementDynamicArrayKeys( $elements )
+    {
+        if ( !eZTemplateNodeTool::isDynamicArrayElement( $elements ) )
+            return null;
+        return $elements[0][1];
+    }
+
+    /*!
+     \return assosiative array of parameters in Dynamic Array
+    */
+    function elementDynamicArray( $elements )
+    {
+        if ( !eZTemplateNodeTool::isDynamicArrayElement( $elements ) )
+            return null;
+        return $elements[0][2];
+    }
+
 
     /*!
      \return \c true if the element list \a $elements is considered to have a static value.
@@ -316,6 +351,20 @@ class eZTemplateNodeTool
             return false;
 
         if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+      \static
+      Check if element id Dynamic Array
+    */
+    function isDynamicArrayElement( $elements )
+    {
+        if ( count( $elements ) == 0 )
+            return false;
+
+        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY )
             return true;
         return false;
     }
