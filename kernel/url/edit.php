@@ -37,6 +37,7 @@
 */
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( "kernel/classes/datatypes/ezurl/ezurlobjectlink.php" );
 
 $Module =& $Params["Module"];
 $urlID = null;
@@ -60,6 +61,7 @@ $http =& eZHttpTool::instance();
 if ( $Module->isCurrentAction( 'Cancel' ) )
 {
     $Module->redirectToView( 'list' );
+    return;
 }
 
 if ( $Module->isCurrentAction( 'Store' ) )
@@ -69,8 +71,10 @@ if ( $Module->isCurrentAction( 'Store' ) )
         $link = $http->postVariable( 'link' );
         $url->setAttribute( 'url', $link );
         $url->store();
+        eZURLObjectLink::clearCacheForObjectLink( $urlID );
     }
     $Module->redirectToView( 'list' );
+    return;
 }
 
 $Module->setTitle( "Edit link " . $url->attribute( "id" ) );
