@@ -102,13 +102,17 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $mail->setBody( $templateResult );
     $mailResult = eZMailTransport::send( $mail );
 
+    // Store the information collection ID in session, so the user can fetch it later.
+    eZHTTPTool::setSessionVariable( 'InformationCollectionID', $collection->attribute( 'id' ) );
+
     if ( is_numeric( $redirectToNodeID ) )
     {
         $Module->redirectToView( 'view', array( 'full', $redirectToNodeID ) );
     }
     else
     {
-        $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+        $Module->redirectToView( 'collectedinfo', array( $object->attribute( 'main_node_id' ) ) );
+//        $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
     }
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }

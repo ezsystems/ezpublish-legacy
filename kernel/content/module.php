@@ -237,6 +237,12 @@ $ViewList["tipafriend"] = array(
     "script" => "tipafriend.php",
     "params" => array( "NodeID" ) );
 
+$ViewList["collectedinfo"] = array(
+    "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
+    "script" => "collectedinfo.php",
+    "params" => array( "NodeID" ) );
+
 $ViewList["bookmark"] = array(
     "functions" => array( 'bookmark' ),
     "default_navigation_part" => 'ezmynavigationpart',

@@ -539,4 +539,19 @@ $FunctionList['view_top_list'] = array( 'name' => 'view_top_list',
                                                                       'required' => false,
                                                                       'default' => false ) ) );
 
+$FunctionList['collected_info_count'] = array( 'name' => 'collected_info_count',
+                                               'operation_types' => array( 'read' ),
+                                               'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                       'class' => 'eZContentFunctionCollection',
+                                                                       'method' => 'fetchCollectedInfoCount' ),
+                                               'parameter_type' => 'standard',
+                                               'parameters' => array( array( 'name' => 'object_id',
+                                                                             'type' => 'integer',
+                                                                             'required' => true,
+                                                                             'default' => false ),
+                                                                      array( 'name' => 'value',
+                                                                             'type' => 'integer',
+                                                                             'required' => false,
+                                                                             'default' => false ) ) );
+
 ?>

@@ -90,6 +90,19 @@ class eZInformationCollection extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
+    /*!
+     \static
+      Fetches the information collection by ID.
+    */
+    function &fetch( $id, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZInformationCollection::definition(),
+                                                null,
+                                                array( "id" => $id
+                                                      ),
+                                                $asObject );
+    }
+
     function &informationCollectionAttributes( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZInformationCollectionAttribute::definition(),

@@ -148,8 +148,6 @@ class eZStringType extends eZDataType
     {
         $optionValue =& $http->postVariable( $base . "_ezstring_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
-        print( "value: $optionValue<br/> " );
-
         $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
         $collectionAttribute->setAttribute( 'data_text', $optionValue );
         $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
