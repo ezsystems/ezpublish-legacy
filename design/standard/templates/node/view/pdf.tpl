@@ -2,7 +2,8 @@
 
 {let content_version=$node.contentobject_version_object
      node_name=$node.name
-     children=$node.children}
+     children=fetch(content, list, hash( parent_node_id, $node.node_id,
+                                         sort_by, $node.sort_array ) ) }
 
 {section show=$generate_toc|eq(1)}
   {pdf(pageNumber, hash( identifier, "main",

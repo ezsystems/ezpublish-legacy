@@ -58,23 +58,19 @@ else
 
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDF_EXPORT_GENERATE_STRING )
 {
-    $firstExportAttemt =& eZSessionRead( $http->sessionVariable( 'ExportPDFTicket' ) );
-    if ( $firstExportAttemt )
+    generatePDF( $pdfExport );
+
+    if ( $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
     {
-        eZSessionDestroy( $http->sessionVariable( 'ExportPDFTicket' ) );
-        generatePDF( $pdfExport );
-
-        if ( $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
-        {
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
-        }
-
-        $http->removeSessionVariable( 'ExportPDFTicket' );
-        eZExecution::cleanExit();
+        include_once( 'lib/ezutils/classes/ezexecution.php' );
     }
+
+    eZExecution::cleanExit();
+
 }
 
 $http =& eZHTTPTool::instance();
+
 if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) ) // Get Source node ID from browse
 {
     $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
@@ -115,15 +111,9 @@ else if ( $Module->isCurrentAction( 'Export' ) )
 {
     if ( $Module->actionParameter( 'DestinationType' ) != 'download' )
     {
-        $firstExportAttemt =& eZSessionRead( $http->sessionVariable( 'ExportPDFTicket' ) );
-        if ( $firstExportAttemt )
-        {
-            eZSessionDestroy( $http->sessionVariable( 'ExportPDFTicket' ) );
+        generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
+        $pdfExport->store( 1 );
 
-            generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
-            $pdfExport->store( 1 );
-            $http->removeSessionVariable( 'ExportPDFTicket' );
-        }
         return $Module->redirect( 'pdf', 'list' );
     }
     else
@@ -132,12 +122,6 @@ else if ( $Module->isCurrentAction( 'Export' ) )
         return $Module->redirect( 'pdf', 'list' );
     }
 }
-
-if ( !$http->hasSessionVariable( 'ExportPDFTicket' ) )
-{
-    $http->setSessionVariable( 'ExportPDFTicket', md5( (string)rand() ) );
-}
-eZSessionWrite( $http->sessionVariable( 'ExportPDFTicket' ), 1 );
 
 $tpl =& templateInit();
 

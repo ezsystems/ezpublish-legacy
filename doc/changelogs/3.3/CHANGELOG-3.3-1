@@ -46,6 +46,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/image_troubles_bugs_ez_33_beta_2
   Added check for is_valid in ezimage.tpl
 - Fixed bogus html data when showing non-existent image datatypes. The parameters alignment and href should now be used to the attribute_view_gui function to specify alignment and link information on images.
+- Fixed sort order of PDF export. http://ez.no/developer/ez_publish_3/bug_reports/pdf_does_not_keep_sort_order
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
