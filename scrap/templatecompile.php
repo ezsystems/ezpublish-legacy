@@ -60,7 +60,7 @@ class MySubObject
 
 $myobj = new MyObject();
 
-$tpl->setVariable( 'obj', $MyObject );
+$tpl->setVariable( 'obj', $myobj );
 
 print( $tpl->fetch( 'scrap/templatecompile_a.tpl' ) );
 

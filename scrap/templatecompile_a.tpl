@@ -3,6 +3,7 @@
 {*{my_gui attribute=$obj}*}
 {*{my_gui_view view=first attribute=$obj}*}
 
+{*
 Sum, Sub and Mul tests
 {sum( 4, 7, 6 )}
 
@@ -12,13 +13,14 @@ Sum, Sub and Mul tests
 
 {sum( 2, sub( 3, 2 ), 5, mul( 2, 7) )}
 
-
+{9|sum( -12 )}
 
 
 Min and Max tests
 
 {max( 1, 9, 1, 3 )}
 {min( 1, 9, -1, 3 )}
+{8|max( -1, 2 )}
 
 {let foo=12}
 {max( 1, 9, 1, 3, $foo )}
@@ -75,3 +77,53 @@ Roman stuff
 {let geboortejaar=1978)}
 {roman($geboortejaar)}
 {/let}
+
+
+Dec and Inc
+{90|dec()}
+{90|dec(89)}
+{dec( 89 )}
+
+{inc( 123 )}
+*}
+
+Ge/Gt/Le/Lt
+
+{41|gt( 8 )}
+{lt( 8, 12 )}
+{8|lt( 12 )}
+
+
+{8|le( 8 )}
+{8|ge( 8 )}
+
+{8|ge( 12 )}
+
+{let value=false()}
+{and( 0, 0, 0, 0 )}
+{and( 1, $value, 1, 1 )}
+{and( 1, 1, 1, 1 )}
+
+{or( 0, 0, 0, 0 )}
+{or( 1, 0, 1, 1 )}
+{or( 1, 1, 1, 1 )}
+{/let}
+
+{not( 1 )}
+{45|not()}
+
+{true()}
+{false()}
+
+{or( true(), false() )}
+
+{choose( 3, 'a', 'b', 'c', 'd', 'e' )}
+
+{let select=4}
+{choose( $select, 'a', 'b', 'c', 'd', 'e' )}
+{/let}
+
+{let select=1}
+{choose( $select, 'a', 'b', 'c', 'd', 'e' )}
+{/let}
+
