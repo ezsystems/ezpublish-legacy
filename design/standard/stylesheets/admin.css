@@ -3,8 +3,8 @@
 body
 {
 	background-color: #ffffff;
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 }
 
 td.topline
@@ -139,7 +139,7 @@ p.menufieldlabel
 	font-weight: bold;
 	padding-left: 4px;
 	padding-right: 4px;
-	padding-bottom: 0;
+	padding-bottom: 0px;
 
 }
 

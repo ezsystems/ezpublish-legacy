@@ -6,7 +6,7 @@
 <tr>
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
- 	<h1>{$node.name}</h1>
+ 	<h1 class="top">{$node.name}</h1>
 	</td>
 	<td align="right">
 	{switch match=$node.object.can_edit}
@@ -28,8 +28,8 @@
 
     {section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
     <div class="block">
-        <h3>{$ContentObjectAttribute:item.contentclass_attribute.name}:</h3>
-    	<p>{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
+        <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label>
+    	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
     </div>
     {/section}
 

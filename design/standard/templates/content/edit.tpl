@@ -5,7 +5,7 @@
 <tr>
     <td valign="top">
     <!-- Left part start -->
-    <h1>Edit {$class.name} - {$object.name}</h1>
+    <h1 class="top">Edit {$class.name} - {$object.name}</h1>
 
     {section show=$validation.processed}
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}

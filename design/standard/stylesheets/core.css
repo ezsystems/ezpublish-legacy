@@ -32,7 +32,7 @@ h2
 
 h3
 {
-    font-size: 80%;
+    font-size: 100%;
 }
 
 p, li, dl, label, input, .normal
@@ -51,20 +51,13 @@ h1, h2, h3
 {
     padding-top: 0.5ex;
     padding-bottom: 0.25ex;
-    padding-left: 0;
-    padding-right: 0;
-    margin: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px;
     clear: left;
 }
 
-h1
-{
-    padding-top: 0.5ex;
-    padding-bottom: 1ex;
-    font-weight: normal;
-}
-
-h2
+h1, h2
 {
     font-weight: normal;
 }
@@ -80,7 +73,7 @@ p
 {
     padding-top: 0.5ex;
     padding-bottom: 0.5ex;
-    margin: 0;
+    margin: 0px;
 }
 
 a
@@ -107,8 +100,8 @@ a:visited
 
 table
 {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 table.list
@@ -119,8 +112,8 @@ table.list
 
 th
 {
-    padding-top: 0;
-    margin-top: 0;
+    padding-top: 0px;
+    margin-top: 0px;
     font-weight: bold;
     text-align: left;
 }
@@ -149,7 +142,7 @@ td.tight
 
 ul, ol
 {
-    padding: 0;
+    padding: 0px;
     margin-top: 0.5ex;
     margin-bottom: 0.5ex;
     margin-left: 2ex;
@@ -157,14 +150,14 @@ ul, ol
 
 li
 {
-    padding: 0;
+    padding: 0px;
     margin-top: 0.25ex;
     margin-bottom: 0.25ex;
 }
 
 dl
 {
-    padding: 0;
+    padding: 0px;
     margin-top: 0.5ex;
     margin-bottom: 0.5ex;
 }
@@ -173,14 +166,14 @@ dt
 {
     font-style: italic;
     font-weight: bold;
-    margin-top: 0;
+    margin-top: 0px;
     margin-bottom: 1ex;
 }
 
 dd
 {
     font-style: italic;
-    margin-top: 0;
+    margin-top: 0px;
     margin-bottom: 0.5ex;
     margin-left: 2ex;
     margin-right: 2ex;
@@ -190,16 +183,16 @@ dd
 
 form
 {
-    padding: 0;
-    margin: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
-.box
+input.box, textarea.box
 {
     width: 80ex;
 }
 
-.halfbox
+input.halfbox, textarea.halfbox
 {
     width: 39ex;
 }
@@ -220,6 +213,11 @@ input.button
     font-weight: bold;
 }
 
+p.box
+{
+    padding-top: 0.25ex;
+}
+
 /* Page dividers */
 
 div.bodyblock
@@ -238,7 +236,7 @@ div.break
 div.block
 {
     clear: both;
-    padding: 0;
+    padding: 0px;
     margin-top: 0.5ex;
     margin-bottom: 0.5ex;
 }
@@ -254,7 +252,7 @@ div.element
     float: left;
     display: block;
     padding-right: 1ex;
-    padding-left: 0;
+    padding-left: 0px;
     clear: right;
 }
 
@@ -307,7 +305,8 @@ div.faxtboxleft, div.faxtboxright
 
 div.error, div.warning, div.feedback
 {
-    margin-top: 0;
+    width: 100%;
+    margin-top: 0px;
     margin-bottom: 2ex;
     padding: 0.5ex;
     padding-left: 1ex;
@@ -337,7 +336,7 @@ div.feedback
 hr
 {
     height: 1px;
-    padding-bottom: 0;
+    padding-bottom: 0px;
     margin-bottom: 1ex;
 }
 
@@ -366,35 +365,10 @@ div.bodyblock p.body
 h1.top
 {
     padding-top: 0px;
+    padding-bottom: 1ex;
 }
 
 .invisible
 {
     display: none;
-}
-
-/* Debug stylesheets */
-td.debugheader
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	border-bottom : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.timingpoint1
-{
-	background-color : #ffffff;
-	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.timingpoint2
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
