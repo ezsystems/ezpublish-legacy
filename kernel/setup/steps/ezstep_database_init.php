@@ -45,6 +45,7 @@ define( 'EZ_SETUP_DB_ERROR_EMPTY_PASSWORD', 1 );
 define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
 define( 'EZ_SETUP_DB_ERROR_CONNECTION_FAILED', 3 );
 define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
+define( 'EZ_SETUP_DB_ERROR_NO_DATABASES', 5 );
 
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
@@ -105,6 +106,11 @@ class eZStepDatabaseInit extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $regionalInfo = $this->PersistenceList['regional_info'];
 
+//        if ( strtolower( $databaseInfo['info']['name'] ) == 'postgresql' ) // user and password checks must be done when database is known
+//        {
+//            return true;
+//        }
+
         $demoDataResult = false;
 
         $dbStatus = array();
@@ -121,9 +127,31 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'user' => $dbUser,
                                'password' => $dbPwd,
                                'socket' => $dbSocket,
-                               'database' => $dbName,
+//                               'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $availDatabases = $db->availableDatabases();
+
+        if ( $availDatabases === false ) // not possible to determine if username and password is correct here
+        {
+            return true;
+        }
+        else if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
+        {
+            $this->PersistenceList['database_info_available'] = $availDatabases;
+            return true;
+        }
+        else if ( $availDatabases == null && $db->isConnected() === true )
+        {
+            $this->Error = EZ_SETUP_DB_ERROR_NO_DATABASES;
+            return false;
+        }
+
+        $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+
+        return false;
+
+        /*
         $dbStatus['connected'] = $db->isConnected();
 
         $dbError = false;
@@ -166,6 +194,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         }
 
         return ( $this->Error == 0 ); // Error == 0 , no errors.
+        */
     }
 
     /*!
@@ -220,6 +249,13 @@ class eZStepDatabaseInit extends eZStepInstaller
                                                     'The selected database was not empty, please choose from the alternatives below.' ),
                                   'number' => EZ_SETUP_DB_ERROR_NOT_EMPTY );
                 $this->Tpl->setVariable( 'db_not_empty', 1 );
+                break;
+            }
+            case EZ_SETUP_DB_ERROR_NO_DATABASES:
+            {
+                $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
+                                                    'The selected selected user has not got access to any databases. Change user or create a database for the user.' ),
+                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
                 break;
             }
         }

@@ -141,7 +141,7 @@ class eZMySQLDB extends eZDBInterface
             $this->IsConnected = false;
         }
 
-        if ( $this->isConnected() )
+        if ( $this->isConnected() && $db != null )
         {
             $ret = @mysql_select_db( $db, $connection );
             $this->setError();
@@ -563,6 +563,29 @@ class eZMySQLDB extends eZDBInterface
             $this->ErrorMessage = mysql_error();
             $this->ErrorNumber = mysql_errno();
         }
+    }
+
+    /*!
+     \reimp
+    */
+    function availableDatabases()
+    {
+        $databaseArray = $this->arrayQuery( 'show databases' );
+
+        if ( $this->errorNumber() != 0 )
+        {
+            return null;
+        }
+
+        $databases = array();
+        foreach ( $databaseArray as $key => $database )
+        {
+            if ( $database['Database'] != 'mysql' )
+            {
+                $databases[] = $database['Database'];
+            }
+        }
+        return $databases;
     }
 
 

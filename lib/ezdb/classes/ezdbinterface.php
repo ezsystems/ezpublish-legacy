@@ -567,6 +567,18 @@ class eZDBInterface
         return $this->ErrorNumber;
     }
 
+    /*!
+      Return alvailable databases in database.
+
+      \return array of available databases,
+              null of none available
+              false if listing databases not supported by database
+    */
+    function availableDatabases()
+    {
+        return false;
+    }
+
     /// \protectedsection
     /// Contains the current server
     var $Server;

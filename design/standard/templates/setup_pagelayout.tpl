@@ -1,4 +1,3 @@
-{*?template charset=latin1?*}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
@@ -44,8 +43,7 @@
 
         <tr>
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_top_left_corner.png"|ezroot} alt="" />
-          </td>
+            <img src={"/design/standard/images/setup/eZ_setup_top_left_corner.png"|ezroot} alt="" /></td>
 
           <td class="setup_noborder_white" width="549">
           </td>
@@ -54,8 +52,7 @@
           </td>
 
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_top_right_corner.png"|ezroot} alt="" />
-          </td>
+            <img src={"/design/standard/images/setup/eZ_setup_top_right_corner.png"|ezroot} alt="" /></td>
         </tr>
     
 {* Top view area END *}
@@ -88,8 +85,7 @@
 
         <tr>
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_bottom_left_corner.png"|ezroot} alt="" />
-          </td>
+            <img src={"/design/standard/images/setup/eZ_setup_bottom_left_corner.png"|ezroot} alt="" /></td>
 
           <td class="setup_noborder_white" width="549">
           </td>
@@ -98,8 +94,7 @@
           </td>
 
           <td class="setup_noborder" width="11">
-            <img src={"/design/standard/images/setup/eZ_setup_bottom_right_corner.png"|ezroot} alt="" />
-          </td>
+            <img src={"/design/standard/images/setup/eZ_setup_bottom_right_corner.png"|ezroot} alt="" /></td>
         </tr>
     
 {* Bottom view area END *}

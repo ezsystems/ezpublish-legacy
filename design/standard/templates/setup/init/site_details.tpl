@@ -44,6 +44,20 @@
 	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
 	      <td><input type="text" size="20" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type|wash}" /></td>
 	    </tr>
+	    <tr>
+	      <td>{"Database"|i18n("design/standard/setup/init")}: </td>
+	      <td>
+	        {section show=count( $database_available )|gt(0) }
+		  <select name="eZSetup_site_templates_{$:index}_database">
+		  {section loop=$database_available}
+		    <option value="{$:item}">{$:item|wash}</option>
+		  {/section}
+		  </select>
+		{section-else}
+		  <input type="text" size="20" name="eZSetup_site_templates_{$:index}_database" value="{$database_default}" />
+		{/section}
+	      </td>
+	    </tr>
 	  </table>
 
         </div>

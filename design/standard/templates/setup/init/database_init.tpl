@@ -123,10 +123,6 @@
 </tr>
 {/section}
 <tr>
-  <td class="normal">{"Databasename"|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" name="eZSetupDatabaseName" size="16" value="{$database_info.dbname}" maxlength="60" /></td>
-</tr>
-<tr>
   <td class="normal">{"Username"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user}" /></td>
 </tr>

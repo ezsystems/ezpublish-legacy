@@ -89,6 +89,8 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function &display()
     {
+        $config =& eZINI::instance( 'setup.ini' );
+
         $templates = array();
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
@@ -99,6 +101,8 @@ class eZStepSiteDetails extends eZStepInstaller
                 $templates[$counter]['email'] = 'admin@localhost';
         }
 
+        $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
+        $this->Tpl->setVariable( 'database_available', $this->PersistenceList['database_info_available'] );
         $this->Tpl->setVariable( 'site_templates', $templates );
 
         $this->Tpl->setVariable( 'setup_previous_step', 'SiteDetails' );
@@ -113,6 +117,6 @@ class eZStepSiteDetails extends eZStepInstaller
                                         'url' => false ) );
         return $result;
     }
-    }
+}
 
 ?>

@@ -4,14 +4,12 @@
         <tr>
 
           <td class="setup_noborder">
-            <div align="left">
 	      {section show=$progress|gt(0)}
-	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left_full.png"|ezroot} alt=""/>
+	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left_full.png"|ezroot} alt=""/></td>
 	      {section-else}
-	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left.png"|ezroot} alt=""/>
+	        <img src={"/design/standard/images/setup/eZ_setup_progress_bar_left.png"|ezroot} alt=""/></td>
 	      {/section}
-	    </div>
-	  </td>
+
 	  <td>
 
 	    <table cellpadding="0" cellspacing="0" border="0" width="758">
@@ -30,11 +28,10 @@
 	  </td>
 	  <td>
 	    {section show=$progress|lt(100)}
-	      <img src={"/design/standard/images/setup/eZ_setup_progress_bar_right.png"|ezroot} alt=""/>
+	      <img src={"/design/standard/images/setup/eZ_setup_progress_bar_right.png"|ezroot} alt=""/></td>
 	    {section-else}
-	      <img src={"/design/standard/images/setup/eZ_setup_progress_bar_right_full.png"|ezroot} alt=""/>
+	      <img src={"/design/standard/images/setup/eZ_setup_progress_bar_right_full.png"|ezroot} alt=""/></td>
 	    {/section}
-          </td>
 
 	</tr>
       </table>

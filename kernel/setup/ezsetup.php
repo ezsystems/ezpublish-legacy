@@ -185,8 +185,8 @@ while( !$done && $step != null )
         }
         else
         {
-            $result = $stepInstaller->display();
-            $result['help'] = $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
+            $result =& $stepInstaller->display();
+            $result['help'] =& $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
             $done = true;
         }
     }
