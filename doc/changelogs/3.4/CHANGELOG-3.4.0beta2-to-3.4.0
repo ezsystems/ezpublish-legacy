@@ -5,5 +5,7 @@ Changes from 3.4.0beta2 to 3.4.0
 *DataType:
 
 *Bugfixes:
+- Fixed bug of unabling to login when using limited assignment of roles.
+  http://ez.no/community/bug_reports/policy_and_problem_with_login
 
 *Library:

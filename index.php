@@ -529,11 +529,13 @@ while ( $moduleRunRequired )
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
             {
+                $policyChecked = false;
                 foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                 {
                     $policy =& $siteAccessResult['policies'][$key];
                     if ( isset( $policy['SiteAccess'] ) )
                     {
+                        $policyChecked = true;
                         eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
                         if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
                         {
@@ -544,6 +546,8 @@ while ( $moduleRunRequired )
                     if ( $hasAccessToSite )
                         break;
                 }
+                if ( !$policyChecked )
+                    $hasAccessToSite = true;
             }
             else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
             {
