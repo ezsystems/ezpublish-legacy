@@ -139,6 +139,9 @@ $tpl->setVariable( 'task_id', $TaskID );
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'view_type', $ini->variable( 'TaskSettings', 'MessageViewMode' ) );
 
-$Result =& $tpl->fetch( "design:task/view.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:task/view.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Task list' ) );
 
 ?>
