@@ -93,6 +93,23 @@ class eZCharTransform
 
     /*!
      \private
+     \static
+     \return the path of the cached transformation tables.
+    */
+    function cachedTransformationPath()
+    {
+        $dir =& $GLOBALS['eZCodeMapperCachePath'];
+        if ( isset( $dir ) )
+            return $dir;
+
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        $sys =& eZSys::instance();
+        $dir = $sys->cacheDirectory() . '/trans';
+        return $dir;
+    }
+
+    /*!
+     \private
      Finds all commands defined for group \a $group.
      The groups and their commands are defined in \c transform.ini.
 
@@ -142,97 +159,6 @@ class eZCharTransform
         }
 
         return $rules;
-    }
-
-    /*!
-     \private
-     Decodes a command into transformation rules.
-     \param $mapper The eZCodeMapper instance to work with, this is required to
-                    query about existing rules.
-     \param $name Name of the command
-     \param $parameters Array of parameters for the command
-     \return An array with transformation rules.
-    */
-    function decodeCommand( &$mapper, $name, $parameters )
-    {
-        $names = $mapper->ruleNames();
-        $rules = array();
-        switch ( $name )
-        {
-            case 'normalize':
-            case 'search_normalize':
-            case 'decompose':
-            case 'diacritical':
-            case 'lowercase':
-            case 'uppercase':
-            {
-                if ( count( $parameters ) == 0 )
-                {
-                    // Include all normalize rules
-                    foreach ( $names as $rule )
-                    {
-                        if ( preg_match( '#_'. $name . '$#', $rule ) )
-                            $rules[] = $rule;
-                    }
-                }
-                else
-                {
-                    foreach ( $parameters as $parameter )
-                    {
-                        $rule = $parameter . '_' . $name;
-                        if ( in_array( $rule, $names ) )
-                            $rules[] = $rule;
-                    }
-                }
-            } break;
-
-            case 'transform':
-            case 'transliterate':
-            {
-                $dividers = array( 'transform' => '_to_',
-                                   'transliterate' => '_transliterate_' );
-                $divider = $dividers[$name];
-                if ( count( $parameters ) == 0 )
-                {
-                    // Include all transformation rules
-                    foreach ( $names as $rule )
-                    {
-                        if ( preg_match( '#^[a-zA-Z][a-zA-Z0-9-]+'. $divider . '[a-zA-Z][a-zA-Z0-9-]+$#', $rule ) )
-                            $rules[] = $rule;
-                    }
-                }
-                else if ( count( $parameters ) == 2 )
-                {
-                    $rule = $parameters[0] . $divider . $parameters[1];;
-                    if ( in_array( $rule, $names ) )
-                        $rules[] = $rule;
-                }
-            } break;
-
-            default:
-            {
-                eZDebug::writeError( "Unknown command '$name'",
-                                     'eZCharTransform::decodeCommand' );
-            } break;
-        }
-        return $rules;
-    }
-
-    /*!
-     \private
-     \static
-     \return the path of the cached transformation tables.
-    */
-    function cachedTransformationPath()
-    {
-        $dir =& $GLOBALS['eZCodeMapperCachePath'];
-        if ( isset( $dir ) )
-            return $dir;
-
-        include_once( 'lib/ezutils/classes/ezsys.php' );
-        $sys =& eZSys::instance();
-        $dir = $sys->cacheDirectory() . '/trans';
-        return $dir;
     }
 
     /*!
@@ -323,8 +249,7 @@ class eZCharTransform
         foreach ( $commands as $command )
         {
             $rules = array_merge( $rules,
-                                  $this->decodeCommand( $this->Mapper,
-                                                        $command['command'], $command['parameters'] ) );
+                                  $this->Mapper->decodeCommand( $command['command'], $command['parameters'] ) );
         }
 
         // First generate a unicode based mapping table from the rules
