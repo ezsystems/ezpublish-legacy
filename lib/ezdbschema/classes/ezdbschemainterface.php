@@ -287,8 +287,9 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
+                $data =& $this->data( $schema );
                 $this->transformData( $data, true );
-                fputs( $fp, $this->generateDataFile( $schema, $this->data( $schema ), $params ) );
+                fputs( $fp, $this->generateDataFile( $schema, $data, $params ) );
             }
             fclose( $fp );
 			return true;
@@ -486,7 +487,7 @@ class eZDBSchemaInterface
 		foreach ( $schema as $tableName => $tableDef )
 		{
             // Skip the info structure, this is not a table
-            if ( $table == '_info' )
+            if ( $tableName == '_info' )
                 continue;
 
             if ( !isset( $data[$tableName] ) )
