@@ -16,7 +16,7 @@
     <label>{'Policies'|i18n( 'design/admin/role/edit' )}</label><div class="labelbreak" />
 <table class="list" cellspacing="0">
 <tr>
-    <th><a href="" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" /></a></th>
+    <th><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Module'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Function'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Limitations'|i18n( 'design/admin/role/edit' )}</th>
