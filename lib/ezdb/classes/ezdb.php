@@ -315,6 +315,8 @@ class eZDB
             {
                 include_once( 'lib/ezdb/classes/eznulldb.php' );
                 $impl = new eZNullDB( $databaseParameters );
+                $impl->ErrorMessage = "No database handler was found for '$databaseImplementation'";
+                $impl->ErrorNumber = -1;
                 eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
             }
 
