@@ -57,10 +57,10 @@ $contentINI =& eZINI::instance( 'content.ini' );
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$checkNodes = array( array( 'Content', 'RootNode' ),
-                     array( 'Users', 'UserRootNode' ),
-                     array( 'Media', 'MediaRootNode' ),
-                     array( 'Setup', 'SetupRootNode' ) );
+$checkNodes = array( array( 'Content', 'RootNode',      '',      'Standard section', 'ezcontentnavigationpart', false ),
+                     array( 'Users',   'UserRootNode',  'users', 'Users',            'ezusernavigationpart',    true ),
+                     array( 'Media',   'MediaRootNode', 'media', 'Media',            'ezmedianavigationpart',   true ),
+                     array( 'Setup',   'SetupRootNode', 'setup', 'Setup',            'ezsetupnavigationpart',   true ) );
 
 $contentClassIdentifier = 'folder';
 if ( $options['class-identifier'] )
@@ -72,6 +72,9 @@ $class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
 if ( !is_object( $class ) )
     $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
 
+include_once( 'kernel/classes/ezsection.php' );
+$sections = eZSection::fetchList();
+
 $storeContentINI = false;
 $i = 0;
 foreach ( $checkNodes as $checkNode )
@@ -80,6 +83,10 @@ foreach ( $checkNodes as $checkNode )
         $cli->output();
     $name = $checkNode[0];
     $iniVariable = $checkNode[1];
+    $nodeURLName = $checkNode[2];
+    $nodeSectionName = strtolower( $checkNode[3] );
+    $nodeNavigationPartIdentifier = $checkNode[4];
+    $createNewNode = $checkNode[5];
     $rootNodeID = $contentINI->variable( 'NodeSettings', $iniVariable );
 
     $cli->output( "Checking node " . $cli->stylize( 'highlight', $name ) . " (" . $cli->stylize( 'emphasize', $rootNodeID ) . ")",
@@ -104,7 +111,7 @@ foreach ( $checkNodes as $checkNode )
     }
     else
     {
-        $rootNode =& eZContentObjectTreeNode::fetchByURLPath( $name );
+        $rootNode =& eZContentObjectTreeNode::fetchByURLPath( $nodeURLName );
         if ( is_object( $rootNode ) )
         {
             $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
@@ -124,6 +131,36 @@ foreach ( $checkNodes as $checkNode )
     if ( $createNode )
     {
         $cli->output( 'Creating', false );
+
+        $sectionID = false;
+        foreach ( $sections as $section )
+        {
+            $sectionName = strtolower( $section->attribute( 'name' ) );
+            $sectionNavigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+            if ( $sectionName == $nodeSectionName and
+                 $sectionNavigationPartIdentifier == $nodeNavigationPartIdentifier )
+            {
+                $sectionID = $section->attribute( 'id' );
+                break;
+            }
+        }
+        if ( !$sectionID )
+        {
+            if ( $createNewNode )
+            {
+                $row = array( 'id' => false,
+                              'name' => $name,
+                              'navigation_part_identifier' => $nodeNavigationPartIdentifier );
+                $section = new eZSection( $row );
+                $section->store();
+                $sectionID = $section->attribute( 'id' );
+                $sections[] = $section;
+            }
+            else
+            {
+                $sectionID = 1;
+            }
+        }
 
         $contentObject =& $class->instantiate( $userID, $sectionID );
 
