@@ -501,10 +501,10 @@ div#poll_result
 
 #poll_result div.object_title
 { 
-    font: 120%/1.6em Georgia,Serif;
-    border-bottom: 1px dotted #ccc; 
-    color: #003366;
-    padding-left: 0px;
+    font: bold 100% Georgia,Serif;
+    color: #999999;
+    margin: 0px;
+    padding: 0px;
 }
 
 

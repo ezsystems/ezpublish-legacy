@@ -53,10 +53,10 @@
             </td>
         </tr>
         <tr>
-            <td bgcolor="#ff3366" width="{div(mul($:item_count,300),$total_count)}">
+            <td bgcolor="#ff6633" width="{div(mul($:item_count,300),$total_count)}">
                 &nbsp;
             </td>
-            <td bgcolor="eeeeee" width="{sub(300,div(mul($:item_count,300),$total_count))}">
+            <td bgcolor="#eeeeee" width="{sub(300,div(mul($:item_count,300),$total_count))}">
     
             </td>
         </tr>
