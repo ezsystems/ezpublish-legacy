@@ -12,21 +12,6 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-{literal}
-<script language="JavaScript" type="text/javascript">
-<!--
-    function confirmDiscard( question )
-    {
-        // Disable/bypass the reload-based (plain HTML) confirmation interface.
-        document.editform.DiscardConfirm.value = "0";
-
-        // Ask user if she really wants do it, return this to the handler.
-        return confirm( question );
-    }
--->
-</script>
-{/literal}
-
 {include uri="design:content/edit_validation.tpl"}
 
 <div class="content-edit">
@@ -124,3 +109,33 @@
 
 </form>
 
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        with( editform )
+        {
+            for( var i=0; i<elements.length; i++ )
+            {
+                if( elements[i].type == 'text' )
+                {
+                    elements[i].focus();
+                    return;
+                }
+            }
+        }
+    }
+
+    function confirmDiscard( question )
+    {
+        // Disable/bypass the reload-based (plain HTML) confirmation interface.
+        document.editform.DiscardConfirm.value = "0";
+
+        // Ask user if she really wants do it, return this to the handler.
+        return confirm( question );
+    }
+-->
+</script>
+{/literal}
