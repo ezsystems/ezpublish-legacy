@@ -491,7 +491,7 @@ div.widthcontrol p
 div.widthcontrol a, div.settings a
 {
     color: #8a8a85;
-    padding: 0.1em 0.2em 0.1em 0.2em;
+    padding: 0 0.25em 0 0.25em;
     text-decoration: none;
 }
 

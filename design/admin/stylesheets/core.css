@@ -526,3 +526,15 @@ div.remove
 {
     border: 2px solid #a00000;
 }
+
+div.object-left
+{
+    float: left;
+    clear: left;
+}
+
+div.object-right
+{
+    float: right;
+    clear: right;
+}
