@@ -137,7 +137,8 @@ function configuration()
 	$config = eZINI::instance( "setup.ini" );
 	$namedArray = $config->getNamedArray();
 
-	// Convert the pseudo array (like "item1;item2;item3") to real arrays and convert "true" and "false" to real true and false
+	// Convert the pseudo array (like "item1;item2;item3") to real arrays 
+	// and convert "true" and "false" to real true and false
 	foreach( array_keys( $namedArray ) as $mainKey )
 	{
 		foreach( array_keys( $namedArray[$mainKey] ) as $key )

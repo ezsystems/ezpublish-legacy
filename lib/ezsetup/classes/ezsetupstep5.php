@@ -38,41 +38,44 @@
 
 /*!
 
-    Step 4: Write site.ini
+    Step 5: Write site.ini
 
 */
 function stepFive( &$tpl, &$http, &$ini )
 {
-    $testItems = configuration();
+    // Get our configuration
+	$testItems = configuration();
 
-    // Get our variables
-    $dbType       = $http->postVariable( "dbType" );
-    $dbServer     = $http->postVariable( "dbServer" );
-    $dbName       = $http->postVariable( "dbName" );
-    $dbUser   = $http->postVariable( "dbUser" );
-    $dbPass   = $http->postVariable( "dbPass" );
+ 	// Complete testItems with the test results
+	completeItems( $testItems, $http );
+
+
+	//
+    // Get our variables from the post form
+    $dbType      = $http->postVariable( "dbType" );
+    $dbServer    = $http->postVariable( "dbServer" );
+    $dbName      = $http->postVariable( "dbName" );
+    $dbUser      = $http->postVariable( "dbUser" );
+    $dbPass      = $http->postVariable( "dbPass" );
     $siteName    = $http->postVariable( "siteName" );
-    $siteURL      = $http->postVariable( "siteURL" );
-    $siteCharset  = $http->postVariable( "siteCharset" );
+    $siteURL     = $http->postVariable( "siteURL" );
+    $siteCharset = $http->postVariable( "siteCharset" );
     
-    
-    // Write values to site.ini
+    // Set values in ini
+    $ini->setVariable( "SiteSettings", "SiteName", $siteName );
+    $ini->setVariable( "SiteSettings", "SiteURL", $siteURL );
     $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", "ez" . $dbType );
     $ini->setVariable( "DatabaseSettings", "Server", $dbServer );
     $ini->setVariable( "DatabaseSettings", "Database", $dbName );
     $ini->setVariable( "DatabaseSettings", "User", $dbUser );
     $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    
-    // deactivate setup
     $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
-    $ini->setVariable( "SiteSettings", "SiteName", $siteName );
-    $ini->setVariable( "SiteSettings", "SiteURL", $siteURL );
                         
     
+	// Write ini file
     $savingStatus = writeIni( $ini );
     if ( $savingStatus )
     {
-        @unlink( $filePath );
         $tpl->setVariable( "configWrite", "successful" );
         $tpl->setVariable( "continue", true );
         $tpl->setVariable( "url", eZSys::wwwDir() . eZSys::indexFile() );
@@ -83,17 +86,6 @@ function stepFive( &$tpl, &$http, &$ini )
         $tpl->setVariable( "continue", false );
     }
     
-    // TODO: do this better and more secure!
-    if ($dir = @opendir("var/cache/ini"))
-    {
-        while ( ( $file = readdir( $dir ) ) !== false )
-        {
-            if($item=="." or $item=="..") continue;
-            unlink( $file );
-        }  
-          closedir( $dir );
-    }   
-    
     // Show template
     $tpl->display( "design/standard/templates/setup/step5.tpl" );    
 }
@@ -101,25 +93,48 @@ function stepFive( &$tpl, &$http, &$ini )
 
 
 
+/*!
+	Complete the testItems array with the values that we got of the former post form
+*/
+function completeItems( &$testItems, &$http )
+{
+	foreach( array_keys( $testItems ) as $key )
+	{
+		if ( $http->hasVariable( $key ) )
+		{
+			// Transform "true" to true and "false" to false
+			switch( $http->postVariable( $key ) )
+			{
+				case "true":
+				{
+					$testItems[$key]["pass"] = true;
+				}break;
 
+				case "false":
+				{
+					$testItems[$key]["pass"] = false;
+				}break;
+			}
+		}
+	}   
+}
+
+
+
+/*!
+	Write the ini file, delete the old cache file and make backups
+*/
 function writeIni( $iniLocal )
 {
-    // Make backup of site.ini
+	// We are tinkering with the ini file, so delete the cache
+	if ( file_exists( $iniLocal->CacheFile ) )
+		unlink( $iniLocal->CacheFile );
+
+	// Create the proper path
     $filePath = $iniLocal->rootDir() . "/" . $iniLocal->FileName;
-    $ext = ".bak.php";
-    $i=0;
-    while( file_exists( $filePath . $ext ) )
-    {
-        if ( $i < 10 )
-            $ext = ".b0$i.php";
-        else
-            $ext = ".b$i.php";
-        $i++;
-    }
-    if ( file_exists( $filePath . ".php" ) )
-        $backup = copy( $filePath . ".php", $filePath . $ext ); 
-    else
-        $backup = copy( $filePath, $filePath . $ext ); 
+	
+	//Backup file
+	$backup = backupFile( $filePath );
     if ( $backup )
     {
         // write back ini file
@@ -131,7 +146,34 @@ function writeIni( $iniLocal )
     }
     else
         return false;
-    
-    
 }
+
+
+
+/*!
+	Backup file with extension .bak, .b00, .b01, ...
+*/
+function backupFile( $filePath )
+{
+	// Find the right backup extension if there are already backup files
+	$ext = ".bak.php";
+    $i=0;
+    while( file_exists( $filePath . $ext ) )
+    {
+        if ( $i < 10 )
+            $ext = ".b0$i.php";
+        else
+            $ext = ".b$i.php";
+        $i++;
+    }
+    
+	// Backup the file with the right extension
+	if ( file_exists( $filePath . ".php" ) )
+        $backup = rename( $filePath . ".php", $filePath . $ext ); 
+    else
+        $backup = rename( $filePath, $filePath . $ext ); 
+	
+	return $backup;
+}
+
 ?>
