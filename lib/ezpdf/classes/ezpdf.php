@@ -390,6 +390,28 @@ class eZPDF
                 return $operatorValue;
             } break;
 
+            case 'footer_block':
+            case 'header_block':
+            {
+                $frameDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $operatorValue = '<ezGroup:callBlockFrame';
+                $operatorValue .= ':location:'. $namedParameters['operation'];
+                $operatorValue .= '>';
+
+                if ( isset( $frameDesc['block_code'] ) )
+                {
+                    $operatorValue .= urlencode( $frameDesc['block_code'] );
+                }
+
+                $operatorValue .= '</ezGroup:callFrame>';
+
+                eZDebug::writeNotice( 'PDF: Added Block '.$namedParameters['operation'] .': '.$operatorValue, 'eZPDF::modify' );
+                return $operatorValue;
+
+            } break;
+
+            /* depricated */
             case 'footer':
             case 'frame_header':
             {

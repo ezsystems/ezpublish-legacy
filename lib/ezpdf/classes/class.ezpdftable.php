@@ -1578,6 +1578,11 @@ class eZPDFTable extends Cezpdf
         if ( isset( $options['top'] ) )
         {
             $this->ez['topMargin'] = (float)$options['top'];
+	    if ( $this->yOffset() < $this->ez['topMargin'] )
+	      {
+		$this->ez['yOffset'] = (float)$options['y'];
+		$this->y = (float)$options['y'];
+	      } 
         }
 
         if ( isset( $options['x'] ) )
@@ -1687,6 +1692,20 @@ class eZPDFTable extends Cezpdf
       \param parameters
       \text inside ezGroup Tags
     */
+    function callBlockFrame( $params, $text )
+    {
+        if ( strlen( $text ) > 0 )
+        {
+            $this->addDocSpecFunction( 'ezInsertBlockFrame', array( $this->fixWhitespace( $text ), $params) );
+        }
+    }
+
+    /*!
+      Function for adding footer definition to PDF document. creates call on stack for ezInsertFooter
+
+      \param parameters
+      \text inside ezGroup Tags
+    */
     function callFrame( $params, $text )
     {
         if ( strlen( $text ) > 0 )
@@ -1751,6 +1770,102 @@ class eZPDFTable extends Cezpdf
             $this->closeObject();
         }
         reset( $this->ezPages );
+    }
+
+    /*!
+      Insert footer/header into PDF document
+
+      \param text
+      \param text parameters
+    */
+    function ezInsertBlockFrame( $text, $textParameters )
+    {
+        switch( $textParameters['location'] )
+        {
+            case 'footer_block':
+            {
+                $frameCoords = $this->ezFrame['footer'];
+            } break;
+
+            case 'header_block':
+            {
+                $frameCoords = $this->ezFrame['header'];
+            } break;
+        }
+
+        $text = str_replace( array( ' ', "\t", "\r\n", "\n" ),
+			     '',
+			     urldecode( $text ) );
+
+        foreach ( $this->ezPages as $pageNum => $pageID )
+	  {
+	    $this->pushStack();
+
+	    foreach( $frameCoords as $key => $value )
+	      {
+		$this->ez[$key] = $value;
+	      }
+
+
+	    foreach( $frameCoords as $key => $value )
+	      {
+		$this->ez[$key] = $value;
+	      }
+	  
+	    $this->setXOffset( 0 );
+	    $this->setYOffset( $this->ez['pageHeight'] - $this->ez['topMargin'] );
+
+	    $frameText = $text; //Create copy of text
+	    if( $textParameters['page'] == 'even' &&
+		$pageNum % 2 == 1 )
+	      continue;
+	    else if ( $textParameters['page'] == 'odd' &&
+		      $pageNum % 2 == 0 )
+	      continue;
+
+	    if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
+	      {
+		foreach ( array_keys( $this->PageCounter ) as $identifier )
+		  {
+		    if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
+			 $this->PageCounter[$identifier]['stop'] >= $pageNum )
+		      {
+			$frameText = str_replace( EZ_PDF_LIB_PAGENUM,
+						  $this->ezWhatPageNumber( $pageNum, $identifier ),
+						  $frameText );
+
+			if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+			  {
+			    $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+						      $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
+						      $frameText );
+			  }
+		      }
+		  }
+	      }
+
+	    for( $levelCount = 0; $levelCount < 9; $levelCount++ )
+	      {
+		if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+		  {
+		    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+					      $this->headerLabel( $pageNum, $levelCount ),
+					      $frameText );
+		  }
+
+		if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+		  {
+		    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+					      $this->headerIndex( $pageNum, $levelCount ),
+					      $frameText );
+		  }
+	      }
+
+	    $this->reopenObject($pageID);
+	    $this->ezText( $frameText );
+	    $this->closeObject();
+	    $this->popStack();
+	  }
     }
 
     /*!
