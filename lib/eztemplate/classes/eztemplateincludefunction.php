@@ -118,6 +118,9 @@ class eZTemplateIncludeFunction
         $newNodes = array();
 
         $variableList = array();
+        $uniqID = md5( uniqid('inc') );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$oldRestoreIncludeArray" . "_$uniqID = isset( \$restoreIncludeArray ) ? \$restoreIncludeArray : array();\n".
+                                                               "\$restoreIncludeArray = array();\n");
         foreach ( array_keys( $parameters ) as $parameterName )
         {
             if ( $parameterName == 'uri' or
@@ -126,15 +129,16 @@ class eZTemplateIncludeFunction
             $parameterData =& $parameters[$parameterName];
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                   array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( \$currentNamespace, '$parameterName', \$vars[\$currentNamespace]['$parameterName'] );\n" );
             $variableList[] = $parameterName;
         }
 
         $newNodes = array_merge( $newNodes, $includeNodes );
-
-        foreach ( $variableList as $variableName )
-        {
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
-        }
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "foreach ( \$restoreIncludeArray as \$element )\n".
+                                                               "{\n".
+                                                               "    \$vars[\$element[0]][\$element[1]] = \$element[2];\n".
+                                                               "}\n".
+                                                               "\$restoreIncludeArray = \$oldRestoreIncludeArray" . "_$uniqID;\n" );
 
         return $newNodes;
     }
