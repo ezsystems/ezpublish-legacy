@@ -270,13 +270,15 @@
             if ( !preg_match( "/<.+>/", $from ) )
                 $from = '<' . $from .'>';
             if($this->is_connected()
-                AND $this->send_data('MAIL FROM: '.$from.'')
-                AND substr(trim($this->get_data()), 0, 2) === '250' ){
+                AND $this->send_data('MAIL FROM:'.$from.'')
+                AND substr(trim($this->get_data()), 0, 3) === '250' ){
 
                 return TRUE;
 
             }else
+            {
                 return FALSE;
+            }
         }
 
         /***************************************
@@ -288,13 +290,13 @@
             if ( !preg_match( "/<.+>/", $to ) )
                 $to = '<' . $to .'>';
             if($this->is_connected()
-                AND $this->send_data('RCPT TO: '.$to.'' )
-                AND substr(trim($error = $this->get_data()), 0, 2) === '25' ){
+                AND $this->send_data('RCPT TO:'.$to.'' )
+                AND substr(trim($error = $this->get_data()), 0, 3) === '250' ){
 
                 return TRUE;
 
             }else{
-                $this->errors[] = trim(substr(trim($error), 3));
+                $this->errors[] = trim(substr(trim($error), 3 ) );
                 return FALSE;
             }
         }
@@ -331,7 +333,6 @@
         ***************************************/
 
         function send_data($data){
-
             if(is_resource($this->connection)){
                 return fwrite($this->connection, $data.CRLF, strlen($data)+2);
 
