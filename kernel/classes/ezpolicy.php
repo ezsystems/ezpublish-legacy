@@ -91,7 +91,7 @@ class eZPolicy extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function & attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {
@@ -142,7 +142,7 @@ class eZPolicy extends eZPersistentObject
         }
     }
 
-    function & createNew( $roleID , $params = array() )
+    function &createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
         $policy->setAttribute( 'role_id', $roleID );

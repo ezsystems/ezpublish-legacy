@@ -128,7 +128,7 @@ class eZRole extends eZPersistentObject
      \note This will only be available when fetching roles for a specific user
      \sa limitValue
     */
-    function limitIdentifier()
+    function &limitIdentifier()
     {
         return $this->LimitIdentifier;
     }
@@ -138,7 +138,7 @@ class eZRole extends eZPersistentObject
      \note This will only be available when fetching roles for a specific user
      \sa limitIdentifier
     */
-    function limitValue()
+    function &limitValue()
     {
         return $this->LimitValue;
     }

@@ -420,7 +420,7 @@ class eZContentObject extends eZPersistentObject
 
                 $identifier = $item->contentClassAttributeIdentifier();
 
-                $ret[$identifier] =& $item;
+                $ret[$identifier] =/*&*/ $item;
 
                 next( $data );
             }
