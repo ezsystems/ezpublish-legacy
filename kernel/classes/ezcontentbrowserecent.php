@@ -165,7 +165,7 @@ class eZContentBrowseRecent extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                     null, array( 'user_id' => $userID ),
-                                                    null, null, true );
+                                                    array( 'created' => 'desc' ), null, true );
     }
 
     /*!
@@ -224,11 +224,15 @@ class eZContentBrowseRecent extends eZPersistentObject
             $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                                     null,
                                                                     array( 'user_id' => $userID ),
-                                                                    array( 'created' => 'desc' ),
-                                                                    array( 'length' => 1, 'offset' => 0 ),
+                                                                    array( 'created' => 'asc' ),
+                                                                    array( 'length' => ( $recentCount - $maximumCount ), 'offset' => 0 ),
                                                                     true );
-            $eldest = $recentCountList[0];
-            $eldest->remove();
+            foreach($recentCountList as $countList)
+            {
+                 $eldest = $countList;
+                 $eldest->remove();
+            }
+
         }
 
         $recent =& new eZContentBrowseRecent( array( 'user_id' => $userID,

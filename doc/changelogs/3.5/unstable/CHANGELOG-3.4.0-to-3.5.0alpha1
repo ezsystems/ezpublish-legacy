@@ -71,7 +71,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   used to configure the page where is redirected to. Before this was hardcoded to
   /content/view/sitemap/2.
   http://ez.no/community/bug_reports/hard_coded_redirect_path_unpossible_to_change_from_a_template
-  
+- Changed the recent list order in ascending and also now it works according to MaximumRecentItems setting in browse.ini
+
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
   the old code in basket and wishlist which were hardcoded against ezoption.
