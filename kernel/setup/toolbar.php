@@ -209,10 +209,15 @@ foreach ( array_keys( $toolArray ) as $toolKey )
     unset( $actionParameters );
     $actionParameters = array();
     $defaultActionParameters = array();
+    $actionDescription = false;
     $toolName = $toolArray[$toolKey];
     if ( $ini->hasGroup( "Tool_" . $toolName ) )
     {
         $defaultActionParameters = $ini->group( "Tool_" . $toolName );
+    }
+    if ( $ini->hasGroup( "Tool_" . $toolName . '_description' ) )
+    {
+        $actionDescription = $ini->group( "Tool_" . $toolName . '_description' );
     }
     /* if ( $ini->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
     {
@@ -228,9 +233,20 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         $actionParameters = array_merge( $actionParameters, $iniAppend->group( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) );
     }
     $actionParameters = array_merge( $defaultActionParameters, $actionParameters );
+    if ( !$actionDescription )
+    {
+        $actionDescription = array();
+        foreach ( $actionParameters as $actionParameterKey => $actionParameter )
+        {
+            $actionDescription[$actionParameterKey] = $actionParameterKey;
+        }
+    }
     $removeNewBlock = true;
     $newActionParameters = array();
     $toolParameters = array();
+    $customInputList = array();
+    if ( $http->hasPostVariable( 'CustomInputList' ) )
+        $customInputList = $http->postVariable( 'CustomInputList' );
     foreach ( array_keys( $actionParameters ) as $key )
     {
         $oldParameterValue = false;
@@ -247,6 +263,16 @@ foreach ( array_keys( $toolArray ) as $toolKey )
                 $newActionParameters[$key] = $parameterValue;
             }
         }
+        else if ( $storeList and
+                  isset( $customInputList[$toolKey . "_parameter_" . $key] ) )
+        {
+            $parameterValue = implode( ',', $customInputList[$toolKey . "_parameter_" . $key] );
+            if ( $oldParameterValue != $parameterValue )
+            {
+                $makeNewBlock = true;
+                $newActionParameters[$key] = $parameterValue;
+            }
+        }
         else
         {
             $parameterValue = $defaultParameterValue;
@@ -255,9 +281,11 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         $toolParameterArray = array();
         $toolParameterArray['name'] = $key;
         $toolParameterArray['value'] = $parameterValue;
+        $toolParameterArray['description'] = $actionDescription[$key];
         $toolParameters[] = $toolParameterArray;
     }
-    $toolList[] = array( 'name' => $toolName, 'parameters' => $toolParameters );
+    $toolList[] = array( 'name' => $toolName,
+                         'parameters' => $toolParameters );
     if ( $storeList )
     {
         if ( count( $newActionParameters ) == 0 )

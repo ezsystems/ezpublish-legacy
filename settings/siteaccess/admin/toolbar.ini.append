@@ -17,32 +17,37 @@ Tool[]=setup_link
 Tool[]=setup_link
 
 [Tool_setup_link]
-Title=
-Icon=
-URL=
+title=
+link_icon=
+url=
+
+[Tool_setup_link_description]
+title=Title
+link_icon=Icon
+url=URL
 
 [Tool_setup_setup_link_1]
-Title=Classes
-Icon=classes.png
-URL=/class/grouplist
+title=Classes
+link_icon=classes.png
+url=/class/grouplist
 
 [Tool_setup_setup_link_2]
-Title=Cache
-Icon=cache.png
-URL=/setup/cache
+title=Cache
+link_icon=cache.png
+url=/setup/cache
 
 [Tool_setup_setup_link_3]
-Title=URL translator
-Icon=url_translator.png
-URL=/content/urltranslator
+title=URL translator
+link_icon=url_translator.png
+url=/content/urltranslator
 
 [Tool_setup_setup_link_4]
-Title=Common ini settings
-Icon=common_ini_settings.png
-URL=/content/edit/52
+title=Common ini settings
+link_icon=common_ini_settings.png
+url=/content/edit/52
 
 [Tool_setup_setup_link_5]
-Title=Look and feel
-Icon=look_and_feel.png
-URL=/content/edit/54
+title=Look and feel
+link_icon=look_and_feel.png
+url=/content/edit/54
 */ ?>

@@ -33,16 +33,47 @@
         {section var=Parameter loop=$Tool.parameters}
         <tr>
             <td>
-            {$Parameter.name}
+            {$Parameter.description}
             </td>
             <td>
-            {section show=$Parameter.name|ends_with('_node')}
-                {$Parameter.value}
+            {switch match=cond( $Parameter.name|ends_with( '_node' ), 1,
+                                $Parameter.name|ends_with( '_classidentifier' ), 2,
+                                $Parameter.name|ends_with( '_classidentifiers' ), 3,
+                                0 )}
+            {case match=1}
+                {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
+                {section show=$used_node}
+                    {$used_node.name|wash} ({$Parameter.value})
+                {section-else}
+                    {$Parameter.value}
+                {/section}
+                {/let}
+                <br/>
                 <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name}]" value="{"Browse"|i18n("design/standard/setup/toolbar")}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
-            {section-else}
+            {/case}
+            {case match=2}
+                {let class_list=fetch( class, list )}
+                <select name="{$Tool.index}_parameter_{$Parameter.name}">
+                {section var=class loop=$class_list}
+                    <option value="{$class.identifier|wash}" {section show=eq( $class.identifier, $Parameter.value )}selected="selected"{/section}>{$class.name|wash}</option>
+                {/section}
+                </select>
+                {/let}
+            {/case}
+            {case match=3}
+                {let class_list=fetch( class, list ) match_list=$Parameter.value|explode( ',' )}
+                <select multiple="multiple" name="List[{$Tool.index}_parameter_{$Parameter.name}][]">
+                {section var=class loop=$class_list}
+                    <option value="{$class.identifier|wash}" {section show=$match_list|contains( $class.identifier )}selected="selected"{/section}>{$class.name|wash}</option>
+                {/section}
+                </select>
+                {/let}
+            {/case}
+            {case}
                 <input type="text" name="{$Tool.index}_parameter_{$Parameter.name}" size="20" value="{$Parameter.value}">
-            {/section}
+            {/case}
+            {/switch}
 
             </td>
         </tr>

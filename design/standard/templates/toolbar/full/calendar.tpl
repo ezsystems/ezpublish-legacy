@@ -2,10 +2,10 @@
 {section show=and( is_set( $module_result.content_info ),
                    is_set( $module_result.view_parameters ),
                    or( $module_result.content_info.url_alias|begins_with( $show_subtree ),
-                       $class_identifier|explode( ',' )|contains( $module_result.content_info.class_identifier ) ) )}
+                       $show_classidentifiers|explode( ',' )|contains( $module_result.content_info.class_identifier ) ) )}
 
 {let today_info=$view_parameters
-     class_identifier_list=$class_identifier|explode( ',' )
+     class_identifier_list=$show_classidentifier|explode( ',' )
      cache_keys=array( $today_info.year, $today_info.month, $today_info.day )
      time_start=false()
      time_end=false()
