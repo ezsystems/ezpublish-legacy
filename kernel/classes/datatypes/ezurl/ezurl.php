@@ -74,12 +74,13 @@ class eZURL extends eZPersistentObject
             // store URL
             $insertURLQuery = "INSERT INTO ezurl ( url  ) VALUES ( '$url' )";
             $db->query( $insertURLQuery );
+
+            $urlID = $db->lastSerialID( 'ezurl', 'id' );
         }
         else
         {
             $urlID = $urlArray[0]['id'];
         }
-
         return $urlID;
     }
 
@@ -100,7 +101,6 @@ class eZURL extends eZPersistentObject
         {
             $url =& $urlArray[0]['url'];
         }
-
         return $url;
     }
 }

@@ -1,0 +1,1 @@
+<a href="/content/view/full/{$object.main_node_id}/">{$object.name}</a>
