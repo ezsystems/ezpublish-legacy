@@ -67,21 +67,34 @@ class eZExtension
 
     /*!
      \static
-     \return an array with extensions that has been activated
+     \return an array with extensions that has been activated.
+     \param $extensionType Decides which extension to include in the list, the follow values are possible.
+            - \c false - Means add both default and access extensions
+            - 'default' - Add only default extensions
+            - 'access' - Add only access extensions
+
+     Default extensions are those who are loaded before a siteaccess are determined while access extensions
+     are loaded after siteaccess is set.
     */
-    function activeExtensions( $preAccessExtensions = true )
+    function activeExtensions( $extensionType = false )
     {
         $ini =& eZINI::instance();
-        $variableName = 'ActiveExtensions';
-        if ( !$preAccessExtensions )
-            $variableName = 'ActiveAccessExtensions';
-        $activeExtensions = $ini->variable( 'ExtensionSettings', $variableName );
+        $activeExtensions = array();
+        if ( !$extensionType or
+             $extensionType == 'default' )
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $ini->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
+        if ( !$extensionType or
+             $extensionType == 'access' )
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $ini->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
         $globalActiveExtensions =& $GLOBALS['eZActiveExtensions'];
         if ( isset( $globalActiveExtensions ) )
         {
-            $activeExtensions = array_unique( array_merge( $activeExtensions,
-                                                           $globalActiveExtensions ) );
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $globalActiveExtensions );
         }
+        $activeExtensions = array_unique( $activeExtensions );
         return $activeExtensions;
     }
 
@@ -90,10 +103,10 @@ class eZExtension
      Will make sure that all extensions that has settings directories
      are added to the eZINI override list.
     */
-    function activateExtensions( $preAccessExtensions = true )
+    function activateExtensions( $extensionType = false )
     {
         $extensionDirectory = eZExtension::baseDirectory();
-        $activeExtensions = eZExtension::activeExtensions( $preAccessExtensions );
+        $activeExtensions = eZExtension::activeExtensions( $extensionType );
         $hasExtensions = false;
         $ini =& eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
