@@ -75,7 +75,7 @@ eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                           'user_id' => $user->id(),
                                                                           'language_code' => $LanguageCode ) );
-eZDebug::writeDebug( $operationResult, "operationResult" );
+eZDebugSetting::writeDebug( 'kernel-content-view', $operationResult, 'operationResult' );
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation end' );
 
 eZDebugSetting::writeDebug( 'kernel-content-view', $NodeID, "Fetching node" );
@@ -100,7 +100,19 @@ switch( $operationResult['status'] )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'found cache', 'content/view' );
                     $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
-                    return $Result;
+                    if ( $Result )
+                    {
+                        $res =& eZTemplateDesignResource::instance();
+                        $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ), // Object ID
+                                              array( 'node', $Result['content_info']['node_id'] ), // Node ID
+                                              array( 'parent_node', $Result['content_info']['parent_node_id'] ), // Parent Node ID
+                                              array( 'class', $Result['content_info']['class_id'] ), // Class ID
+                                              array( 'view_offset', $Result['content_info']['offset'] ),
+                                              array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                              array( 'depth', $Result['content_info']['node_depth'] )
+                                              ) );
+                        return $Result;
+                    }
                 }
             }
 
@@ -129,7 +141,7 @@ switch( $operationResult['status'] )
             $res =& eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                                   array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
+                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
                                   array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
@@ -177,7 +189,14 @@ switch( $operationResult['status'] )
                 $language = $cacheInfo['language'];
                 $roleList = $cacheInfo['role_list'];
                 $discountList = $cacheInfo['discount_list'];
-                if ( eZContentCache::store( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $Result ) )
+                $sectionID = $object->attribute( 'section_id' );
+                $objectID = $object->attribute( 'id' );
+                $parentNodeID = $node->attribute( 'parent_node_id' );
+                $classID = $object->attribute( 'contentclass_id' );
+                $nodeDepth = $node->attribute( 'depth' );
+                if ( eZContentCache::store( $designSetting, $objectID, $classID,
+                                            $NodeID, $parentNodeID, $nodeDepth, $ViewMode, $sectionID, $language,
+                                            $Offset, $roleList, $discountList, $Result ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }

@@ -48,6 +48,7 @@ define( 'EZ_PHPCREATOR_SPACE', 2 );
 define( 'EZ_PHPCREATOR_TEXT', 3 );
 define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
 define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
+define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
@@ -124,13 +125,25 @@ class eZPHPCreator
         include( $path );
         foreach ( $variableDefinitions as $variableReturnName => $variableName )
         {
+            $variableRequired = true;
+            $variableDefault = false;
+            if ( is_array( $variableName ) )
+            {
+                $variableDefinition = $variableName;
+                $variableName = $variableDefinition['name'];
+                $variableRequired = $variableDefinition['required'];
+                if ( isset( $variableDefinition['default'] ) )
+                    $variableDefault = $variableDefinition['default'];
+            }
             if ( isset( ${$variableName} ) )
             {
                 $returnVariables[$variableReturnName] =& ${$variableName};
             }
-            else
+            else if ( $variableRequired )
                 eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'",
                                      'eZPHPCreator::restore' );
+            else
+                $returnVariables[$variableReturnName] = $variableDefault;
         }
         return $returnVariables;
     }
@@ -165,6 +178,10 @@ class eZPHPCreator
                 {
                     $this->writeCodePiece( $element );
                 }
+                else if ( $element[0] == EZ_PHPCREATOR_EOL_COMMENT )
+                {
+                    $this->writeComment( $element );
+                }
             }
 
             $this->write( "?>\n" );
@@ -193,6 +210,17 @@ class eZPHPCreator
     {
 //         fwrite( $this->FileResource, $text );
         $this->TextChunks[] = $text;
+    }
+
+    function writeComment( $element )
+    {
+        $commentArray = explode( "\n", $element[1] );
+        $text = '';
+        foreach ( $commentArray as $comment )
+        {
+            $text .= '// ' . $comment . "\n";
+        }
+        $this->write( $text );
     }
 
     function writeSpace( $element )
@@ -438,6 +466,13 @@ class eZPHPCreator
     {
         $element = array( EZ_PHPCREATOR_CODE_PIECE,
                           $code );
+        $this->Elements[] = $element;
+    }
+
+    function addComment( $comment, $eol = true )
+    {
+        $element = array( EZ_PHPCREATOR_EOL_COMMENT,
+                          $comment );
         $this->Elements[] = $element;
     }
 

@@ -46,6 +46,10 @@
 include_once( 'lib/ezutils/classes/ezsys.php' );
 include_once( 'lib/ezutils/classes/ezdir.php' );
 
+// The timestamp for the cache format, will expire
+// cache which differs from this.
+define( 'EZ_CONTENT_CACHE_CODE_DATE', 1046443176 );
+
 class eZContentCache
 {
     /*!
@@ -93,16 +97,24 @@ class eZContentCache
                                          'content_path' => 'contentPath',
                                          'content_data' => 'contentData',
                                          'node_id' => 'nodeID',
-                                         'viewmode' => 'viewMode',
                                          'section_id' => 'sectionID',
+                                         'cache_code_date' => array( 'name' => 'eZContentCacheCodeDate',
+                                                                     'required' => false,
+                                                                     'default' => false ),
                                          'navigation_part_identifier' => 'navigationPartIdentifier'
                                          ) );
+        $cacheCodeDate = $values['cache_code_date'];
+        if ( $cacheCodeDate != EZ_CONTENT_CACHE_CODE_DATE )
+            return false;
+
+        $viewMode = $values['content_info']['viewmode'];
 
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'node', $nodeID ),
                               array( 'view_offset', $offset ),
                               array( 'viewmode', $viewMode )
                               ) );
+        $result['content_info'] = $values['content_info'];
         $result['content'] = $values['content_data'];
         if ( isset( $values['content_path'] ) )
             $result['path'] = $values['content_path'];
@@ -125,7 +137,9 @@ class eZContentCache
         return $result;
     }
 
-    function store( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
+    function store( $siteDesign, $objectID, $classID,
+                    $nodeID, $parentNodeID, $nodeDepth, $viewMode, $sectionID,
+                    $language, $offset, $roleList, $discountList,
                     $result )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
@@ -135,6 +149,10 @@ class eZContentCache
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
         $contentInfo = array( 'site_design' => $siteDesign,
                               'node_id' => $nodeID,
+                              'parent_node_id' => $parentNodeID,
+                              'node_depth' => $nodeDepth,
+                              'object_id' => $objectID,
+                              'class_id' => $classID,
                               'section_id' => $sectionID,
                               'viewmode' => $viewMode,
                               'language' => $language,
@@ -162,6 +180,8 @@ class eZContentCache
         {
             $php->addVariable( 'navigationPartIdentifier', $result['navigation_part'] );
         }
+        $php->addComment( 'Timestamp for the cache format' );
+        $php->addVariable( 'eZContentCacheCodeDate', EZ_CONTENT_CACHE_CODE_DATE );
 
         $php->addSpace();
         $php->addCodePiece( "ob_start();\n" );

@@ -1,7 +1,7 @@
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()}
-{let page_limit=25
+{let page_limit=15
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
@@ -54,18 +54,10 @@
 </tr>
 </table>
 
-{section show=$is_editable}
-   {switch match=$content_object.can_edit}
-   {case match=1}
+{section show=and($is_editable,$content_object.can_edit)}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
    <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-   {/case}
-   {case match=0}
-   {/case}
-   {/switch}
 {/section}
-
-
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
@@ -74,7 +66,6 @@
 </div>
 
 {/section}
-
 
 {section show=$is_standalone}
 </form>

@@ -1,7 +1,7 @@
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()}
-{let page_limit=25
+{let page_limit=15
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
@@ -64,34 +64,56 @@
 
 {section show=$with_children}
 
-{let children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+{let name=Child
+     children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))
+     can_remove=false() can_edit=false() can_create=false() can_copy=false()}
 
-{section show=$children}
+{section show=$:children}
+
+{section loop=$:children}
+  {section show=$:item.object.can_remove}
+    {set can_remove=true()}
+  {/section} 
+  {section show=$:item.object.can_edit}
+    {set can_edit=true()}
+  {/section} 
+  {section show=$:item.object.can_create}
+    {set can_create=true()}
+  {/section} 
+{/section}
+
+{set can_copy=$content_object.can_create}
 
  <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
-    {"Name:"|i18n("design/standard/node/view")}
+    {"Name"|i18n("design/standard/node/view")}
     </th>
     <th>
-    {"Class:"|i18n("design/standard/node/view")}
+    {"Class"|i18n("design/standard/node/view")}
     </th>
     {section show=eq($node.sort_array[0][0],'priority')}
     <th>
-    {"Priority:"|i18n("design/standard/node/view")}
+    {"Priority"|i18n("design/standard/node/view")}
     </th>
     {/section}
+    {section show=$:can_edit}
     <th>
-    {"Edit:"|i18n("design/standard/node/view")}
+    {"Edit"|i18n("design/standard/node/view")}
     </th>
+    {/section}
+    {section show=$:can_copy}
     <th>
-    {"Copy:"|i18n("design/standard/node/view")}
+    {"Copy"|i18n("design/standard/node/view")}
     </th>
+    {/section}
+    {section show=$:can_remove}
     <th colspan="2" align="right" width="1">
-    {"Remove:"|i18n("design/standard/node/view")}
+    {"Remove"|i18n("design/standard/node/view")}
     </th>
+    {/section}
 </tr>
-{section name=Child loop=$children  sequence=array(bglight,bgdark)}
+{section loop=$:children  sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
         <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
@@ -120,33 +142,26 @@
 	</td>
 	{/section}
 
-	{switch name=sw match=$Child:item.object.can_edit}
-        {case match=1}
+        {section show=$:can_edit}
 	<td width="1%" class="{$Child:sequence}">
-        <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
+	{section show=$:item.object.can_edit}
+          <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} alt="Edit" border="0" /></a>
+        {/section}
         </td>
-	{/case}
-        {case} 
-	<td class="{$Child:sequence}" width="1%">
-	</td>
-        {/case}
-        {/switch}
+        {/section}
+        {section show=$:can_copy}
         <td class="{$Child:sequence}">
           <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" border="0"></a>
         </td>
+        {/section}
 
-	{switch name=sw match=$Child:item.object.can_remove}
-        {case match=1}
+        {section show=$:can_remove}
 	<td class="{$Child:sequence}" align="right" width="1">
+	{section show=$:item.object.can_remove}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
+        {/section} 
 	</td>
-	{/case}
-        {case} 
-	<td class="{$Child:sequence}" align="right" width="1%">
-	</td>
-	<td width="1%" class="{$Child:sequence}"></td>
-        {/case}
-        {/switch} 
+        {/section} 
 </tr>
 {/section}
 <tr>
@@ -156,26 +171,26 @@
     </td>
     {section show=eq($node.sort_array[0][0],'priority')}
     <td>
-    {switch match=$content_object.can_edit}
-        {case match=1}
-        {section show=eq($node.sort_array[0][0],'priority')}
+    {section show=and($content_object.can_edit,eq($node.sort_array[0][0],'priority'))}
          <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
-        {/section}
-        {/case}
-        {case}
-        {/case}
-    {/switch}
+    {/section}
     </td>
     {/section}
+    {section show=$:can_edit}
     <td>
     </td>
+    {/section}
+    {section show=$:can_copy}
     <td>
     </td>
+    {/section}
+    {section show=$:can_remove}
     <td align="right" width="1">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
     <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" src={"trash.png"|ezimage} />
     {/section}
     </td>
+    {/section}
 </tr>
 </table>
 

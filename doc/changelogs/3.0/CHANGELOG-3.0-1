@@ -64,6 +64,9 @@ links to clickable links.
 - Template cleanups to use the newly revised user interface guidelines.
 - Fixed object rendering as block tag
 - Added uri_string as global template variable in pagelayout
+- Fixed problem with missing variables in content cache files.
+- Content cache now restores template design keys.
+- Full and sitemap now only shows edit/copy/remove columns when you actually can do it.
 
 *SDK :
 
@@ -87,6 +90,11 @@ eZ utils:
 - Removed unneeded global definition of $_ENV and $_SERVER
 - eZHTTPTool now has a redirect function which takes care of constructing
   a HTTP/1.1 compatible redirect string, is to be used instead of pure header().
+
+eZ PHP creator:
+- Added support for end-of-line comments.
+- When restoring PHP files the variables fetching can now be set as optional
+  with default values incase the variable does not exist.
 
 eZ sys:
 - Added support for Mac specific settings.
