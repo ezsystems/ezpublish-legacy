@@ -14,12 +14,14 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 --        (role_id, contentobject_id, limit_identifier,limit_value)
 --        VALUES (3,13,'Subtree','/1/43/');
 
-CREATE SEQUENCE tmp_notification_rule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
+-- This is present in 3.4.2, uncomment and run this if
+-- this is missing from your DB
+-- CREATE SEQUENCE tmp_notification_rule_s
+--     START 1
+--     INCREMENT 1
+--     MAXVALUE 9223372036854775807
+--     MINVALUE 1
+--     CACHE 1;
 
 -- the support of redirect payment gateways
 -- create table for eZPaymentObjects
@@ -42,7 +44,10 @@ ALTER TABLE ezbasket ADD COLUMN order_id integer;
 UPDATE ezbasket SET order_id=0;
 ALTER TABLE ezbasket ALTER order_id SET NOT NULL;
 ALTER TABLE ezbasket ALTER order_id SET DEFAULT 0;
-ALTER TABLE ezbinaryfile ADD COLUMN download_count integer NOT NULL default 0;
+
+ALTER TABLE ezbinaryfile ADD COLUMN download_count integer;
+ALTER TABLE ezbinaryfile ALTER download_count SET NOT NULL;
+ALTER TABLE ezbinaryfile ALTER download_count SET DEFAULT 0;
 
 ALTER TABLE ezcontentclass ADD is_container integer;
 UPDATE ezcontentclass SET is_container=0;

@@ -282,16 +282,27 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 
     echo -n " "
     db_step_start "Initializing" ""
-    psql "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>/dev/null
-    if [ $? -ne 0 ]; then
+    psql "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>.psql.log
+    if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	db_initialize_failure $DB_TYPE "$DATABASE_NAME"
+	echo `$SETCOLOR_FAILURE`
+	cat .psql.log
+	echo `$SETCOLOR_NORMAL`
+	rm .psql.log
 	exit 1
     fi
+    rm .psql.log
     if [ "$has_setval" == "true" ]; then
-	psql "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>/dev/null
-	if [ $? -ne 0 ]; then
+	psql "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>.psql.log
+	if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	    db_initialize_failure_setval $DB_TYPE "$DATABASE_NAME"
+	    echo `$SETCOLOR_FAILURE`
+	    cat .psql.log
+	    echo `$SETCOLOR_NORMAL`
+	    rm .psql.log
+	    exit 1
 	fi
+	rm .psql.log
     fi
     db_step_done "Initializing" ""
 
@@ -305,11 +316,16 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 	db_update_failure_dbfile $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
-    psql "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
-    if [ $? -ne 0 ]; then
+    psql "$DATABASE_NAME" < "$dbupdatefile" &>.psql.log
+    if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	db_update_failure_import $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
+	echo `$SETCOLOR_FAILURE`
+	cat .psql.log
+	echo `$SETCOLOR_NORMAL`
+	rm .psql.log
 	exit 1
     fi
+    rm .psql.log
     db_step_done "Updating" "$from_to_str"
 
     echo -n " "

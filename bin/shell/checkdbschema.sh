@@ -84,12 +84,17 @@ echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`"
 
 echo -n " `$POSITION_STORE`Initializing"
 for sql_file in $KERNEL_POSTGRESQL_SCHEMA_FILES; do
-    psql "$DATABASE_NAME" < "$sql_file" &>/dev/null
-    if [ $? -ne 0 ]; then
+    psql "$DATABASE_NAME" < "$sql_file" &>.psql.log
+    if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	echo
 	echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with $sql_file"
+	echo `$SETCOLOR_FAILURE`
+	cat .psql.log
+	echo `$SETCOLOR_NORMAL`
+	rm .psql.log
 	exit 1
     fi
+    rm .psql.log
 done
 echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Initializing`$SETCOLOR_NORMAL`"
 
