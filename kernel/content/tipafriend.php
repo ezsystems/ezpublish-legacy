@@ -53,20 +53,19 @@ $tpl =& templateInit();
 $tpl->setVariable( 'action', '' );
 
 $error_strings = array();
-$your_name = '';
-$your_email = '';
+$yourName = '';
+$yourEmail = '';
 $user = eZUser::currentUser();
 $ini =& eZINI::instance();
 // Get name and email from current user, unless it is the anonymous user
 if ( is_object( $user ) && $user->id() != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
 {
-    $user_content = $user->attribute( 'contentobject' );
-    $map = $user_content->attribute( 'data_map' );
-    $your_name = $map['first_name']->content() . ' ' . $map['last_name']->content();
-    $your_email = $user->attribute( 'email' );
+    $userObject = $user->attribute( 'contentobject' );
+    $yourName = $userObject->attribute( 'name' );
+    $yourEmail = $user->attribute( 'email' );
 }
-$receivers_name = '';
-$receivers_email = '';
+$receiversName = '';
+$receiversEmail = '';
 
 if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = $http->variable( 'NodeID' );
@@ -81,16 +80,16 @@ $comment = '';
 if ( $http->hasPostVariable( 'SendButton' ) )
 {
     if ( $http->hasPostVariable( 'YourName' ) )
-        $your_name = $http->variable( 'YourName' );
+        $yourName = $http->variable( 'YourName' );
 
-    if ( $http->hasPostVariable( 'YourEmail' ) && $your_email == '' )
-            $your_email = $http->variable( 'YourEmail' );
+    if ( $http->hasPostVariable( 'YourEmail' ) )
+        $yourEmail = $http->variable( 'YourEmail' );
 
     if ( $http->hasPostVariable( 'ReceiversName' ) )
-        $receivers_name = $http->variable( 'ReceiversName' );
+        $receiversName = $http->variable( 'ReceiversName' );
 
     if ( $http->hasPostVariable( 'ReceiversEmail' ) )
-        $receivers_email = $http->variable( 'ReceiversEmail' );
+        $receiversEmail = $http->variable( 'ReceiversEmail' );
 
     if ( $http->hasPostVariable( 'Subject' ) )
         $subject = $http->variable( 'Subject' );
@@ -99,17 +98,17 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $comment = $http->variable( 'Comment' );
 
     // email validation
-    if ( !eZMail::validate( $your_email ) )
+    if ( !eZMail::validate( $yourEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The email address of the sender is not valid' );
-    if ( !eZMail::validate( $receivers_email ) )
+    if ( !eZMail::validate( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The email address of the receiver is not valid' );
 
     // no validation errors
     if ( count( $error_strings ) == 0 )
     {
         $mail = new eZMail();
-        $mail->setSender( $your_email, $your_name );
-        $mail->setReceiver( $receivers_email, $receivers_name );
+        $mail->setSender( $yourEmail, $yourName );
+        $mail->setReceiver( $receiversEmail, $receiversName );
         $mail->setSubject( $subject );
 
         // fetch text from mail template
@@ -117,10 +116,10 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mailtpl->setVariable( 'hostname', $hostname );
         $mailtpl->setVariable( 'nodename', $nodename );
         $mailtpl->setVariable( 'node_id', $NodeID );
-        $mailtpl->setVariable( 'your_name', $your_name );
-        $mailtpl->setVariable( 'your_email', $your_email );
-        $mailtpl->setVariable( 'receivers_name', $receivers_name );
-        $mailtpl->setVariable( 'receivers_email', $receivers_email );
+        $mailtpl->setVariable( 'your_name', $yourName );
+        $mailtpl->setVariable( 'your_email', $yourEmail );
+        $mailtpl->setVariable( 'receivers_name', $receiversName );
+        $mailtpl->setVariable( 'receivers_email', $receiversEmail );
         $mailtpl->setVariable( 'comment', $comment );
         $mailtext =& $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
 
@@ -162,10 +161,10 @@ $Module->setTitle( 'Tip a friend' );
 
 $tpl->setVariable( 'node_id', $NodeID );
 $tpl->setVariable( 'error_strings', $error_strings );
-$tpl->setVariable( 'your_name', $your_name );
-$tpl->setVariable( 'your_email', $your_email );
-$tpl->setVariable( 'receivers_name', $receivers_name );
-$tpl->setVariable( 'receivers_email', $receivers_email );
+$tpl->setVariable( 'your_name', $yourName );
+$tpl->setVariable( 'your_email', $yourEmail );
+$tpl->setVariable( 'receivers_name', $receiversName );
+$tpl->setVariable( 'receivers_email', $receiversEmail );
 $tpl->setVariable( 'subject', $subject );
 $tpl->setVariable( 'comment', $comment );
 
