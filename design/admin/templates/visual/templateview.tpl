@@ -116,6 +116,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
+        <div class="button-left">
         {section show=$template_settings.custom_match}
         <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/visual/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/visual/templateview' )}" />
         {section-else}
@@ -123,13 +124,15 @@
         {/section}
 
         <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/admin/visual/templateview' )}" title="{'Create a new template override.'|i18n( 'design/admin/visual/templateview' )}" />
-        <div class="right">
+        </div>
+        <div class="button-right">
             {section show=$template_settings.custom_match}
             <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" />
             {section-else}
             <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" disabled="disabled"/>
             {/section}
         </div>
+        <div class="break"></div>
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
