@@ -76,8 +76,12 @@ function helpCreate()
 {
     $cli =& eZCLI::instance();
     $cli->output( "create: Create a new package.\n" .
-                  "usage: create NAME [SUMMARY [VERSION [LICENCE]]] [PARAMETERS]\n" .
+                  "usage: create NAME [SUMMARY [VERSION [INSTALLTYPE]]] [PARAMETERS]\n" .
                   "\n" .
+                  "SUMMARY:     A short summary of your package\n" .
+                  "VERSION:     The version of your package, default is 1.0\n" .
+                  "INSTALLTYPE: Use install (default) for a package that installs files or\n" .
+                  "             import for a package that can only be imported.\n" .
                   "Parameters:\n"
                   );
 }
@@ -202,6 +206,7 @@ function helpHelp()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    global $isQuiet;
     $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
@@ -252,7 +257,7 @@ function resetCommandItem( &$commandItem )
                           'item' => false,
                           'item-parameters' => array(),
                           'summary' => false,
-                          'licence' => false,
+                          'installtype' => false,
                           'version' => false,
                           'file' => false );
 }
@@ -502,8 +507,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     $commandItem['summary'] = $arg;
                 else if ( $commandItem['version'] === false )
                     $commandItem['version'] = $arg;
-                else if ( $commandItem['licence'] === false )
-                    $commandItem['licence'] = $arg;
+                else if ( $commandItem['installtype'] === false )
+                    $commandItem['installtype'] = strtolower( $arg );
             }
             else if ( $commandItem['command'] == 'set' )
             {
@@ -739,7 +744,6 @@ foreach ( $commandList as $commandItem )
                     ++$i;
                 }
             }
-//             print_r( $package->Parameters );
         }
         else
             $cli->output( "package " . $commandItem['name'] . " is not in the repository" );
@@ -801,7 +805,6 @@ foreach ( $commandList as $commandItem )
                                     'extension',
                                     'source',
                                     'version',
-//                                 'licence',
                                     'state' );
         if ( !in_array( $commandItem['attribute'], $packageAttributes ) )
         {
@@ -821,7 +824,6 @@ foreach ( $commandList as $commandItem )
                     case 'source':
                     case 'type':
                     case 'priority':
-//                 case 'licence':
                     case 'state':
                     {
                         $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
@@ -836,26 +838,9 @@ foreach ( $commandList as $commandItem )
                 $cli->output( "package " . $commandItem['name'] . " is not in repository" );
         }
     }
-//     else if ( $command == 'install' )
-//     {
-//         $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
-//         if ( $package )
-//         {
-//             $installParameters = array( 'path' => '.' );
-//             $cli->error( "Installing package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) );
-//             $package->install( $installParameters );
-//         }
-//         else
-//         {
-//             if ( !$isQuiet )
-//                 $cli->error( "No such package " . $cli->stylize( 'emphasize', $commandItem['name'] ) );
-//         }
-//     }
     else if ( $command == 'import' or
               $command == 'install' )
     {
-//         if ( !$isQuiet )
-//             $cli->notice( "Disabled for now" );
         $archiveNames = array();
         $archiveName = $commandItem['name'];
         $archiveNames[] = $archiveName;
@@ -928,13 +913,16 @@ foreach ( $commandList as $commandItem )
         $user =& eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );
 
-        if ( !$commandItem['licence'] )
-            $commandItem['licence'] = 'GPL';
+        $commandItem['licence'] = 'GPL';
+        print( "installtype=" . $commandItem['installtype'] . "\n" );
+        if ( !in_array( $commandItem['installtype'], array( 'install', 'import' ) ) )
+            $commandItem['installtype'] = 'install';
         if ( !$commandItem['version'] )
             $commandItem['version'] = '1.0';
 
         $package->setRelease( $commandItem['version'], '1', false,
                               $commandItem['licence'], 'alpha' );
+        $package->setAttribute( 'install_type', $commandItem['installtype'] );
         if ( $userObject )
             $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
         $package->appendDocument( 'README', false, false, false, true,

@@ -484,6 +484,55 @@ div.object div.buttonblock
     font-weight: bold;
 }
 
+#package .creatorlist ul
+{
+    list-style-type: none;
+}
+
+#package .creatorlist ul
+{
+    margin-left: 0px;
+}
+
+#package label
+{
+    display: block;
+}
+
+#package div.navigator
+{
+    margin-top: 1em;
+    margin-bottom: 1ex;
+}
+
+#package p.summary
+{
+    font-size: 95%;
+    font-style: italic;
+}
+
+#package select
+{
+    width: 12em;
+    height: 25em;
+}
+
+#package input.textline
+{
+    width: 12em;
+}
+
+#package textarea
+{
+    width: 16em;
+}
+
+#package .description textarea
+{
+    height: 8em;
+}
+
+
 /* Doxygen related stylse */
 p.footnote
 {
@@ -560,3 +609,4 @@ span.dox_comment       { color: #800000 }
 span.dox_preprocessor  { color: #806020 }
 span.dox_stringliteral { color: #002080 }
 span.dox_charliteral   { color: #008080 }
+

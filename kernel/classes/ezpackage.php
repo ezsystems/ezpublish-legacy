@@ -48,10 +48,10 @@ include_once( 'lib/ezutils/classes/ezfile.php' );
 include_once( 'lib/ezutils/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-define( 'EZ_PACKAGE_VERSION', '3.2-1' );
+define( 'EZ_PACKAGE_VERSION', '3.3.0-1' );
 define( 'EZ_PACKAGE_DEVELOPMENT', false );
-define( 'EZ_PACKAGE_USE_CACHE', false );
-define( 'EZ_PACKAGE_CACHE_CODEDATE', 1061114927 );
+define( 'EZ_PACKAGE_USE_CACHE', true );
+define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
 
 class eZPackage
 {
@@ -65,6 +65,18 @@ class eZPackage
         if ( !$repositoryPath )
             $repositoryPath = eZPackage::repositoryPath();
         $this->RepositoryPath = $repositoryPath;
+    }
+
+    /*!
+     Removes the package directory and all it's subfiles/directories.
+    */
+    function remove()
+    {
+        $path = $this->path();
+        if ( file_exists( $path ) )
+        {
+            eZDir::recursiveDelete( $path );
+        }
     }
 
     /*!
@@ -94,6 +106,9 @@ class eZPackage
                            'priority' => false,
                            'type' => false,
                            'extension' => false,
+                           'is_installed' => false,
+                           'is_active' => true,
+                           'install_type' => 'install',
                            'ezpublish' => $ezpublish,
                            'maintainers' => array(),
                            'packaging' => $packaging,
@@ -149,6 +164,26 @@ class eZPackage
     }
 
     /*!
+     \return the attribuets for this package.
+    */
+    function attributes()
+    {
+        return array_merge( array( 'development',
+                                   'name', 'summary', 'description',
+                                   'vendor', 'priority', 'type',
+                                   'extension', 'source',
+                                   'version-number', 'release-number', 'release-timestamp',
+                                   'maintainers', 'documents', 'groups',
+                                   'file-list',
+                                   'changelog', 'dependencies',
+                                   'is_installed', 'is_active', 'install_type',
+                                   'install', 'uninstall',
+                                   'licence', 'state',
+                                   'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
+                                   'packaging-host', 'packaging-packager' ) );
+    }
+
+    /*!
      Sets the attribute named \a $attributeName to have the value \a $attributeValue.
     */
     function setAttribute( $attributeName, $attributeValue )
@@ -157,6 +192,7 @@ class eZPackage
                         array( 'development',
                                'name', 'summary', 'description',
                                'vendor', 'priority', 'type',
+                               'install_type', 'is_active',
                                'extension', 'source',
                                'licence', 'state' ) ) )
             return false;
@@ -184,6 +220,7 @@ class eZPackage
                                 'maintainers', 'documents', 'groups',
                                 'file-list',
                                 'changelog', 'dependencies',
+                                'is_installed', 'is_active', 'install_type',
                                 'install', 'uninstall',
                                 'licence', 'state',
                                 'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
@@ -205,6 +242,7 @@ class eZPackage
                               'file-list',
                               'changelog', 'dependencies',
                               'install', 'uninstall',
+                              'is_installed', 'is_active', 'install_type',
                               'licence', 'state' ) ) )
             return $this->Parameters[$attributeName];
         else if ( $attributeName == 'ezpublish-version' )
@@ -401,9 +439,6 @@ class eZPackage
 
     function fileStorePath( $fileItem, $collectionName, $path = false, $installVariables = array() )
     {
-//         print( "<pre>fileItem\n" );
-//         print_r( $fileItem );
-//         print( "</pre>" );
         $type = $fileItem['type'];
         $variableName = $fileItem['variable-name'];
         if ( $type == 'file' )
@@ -473,7 +508,6 @@ class eZPackage
                 $pathArray[] = $fileItem['name'];
             $path = eZDir::path( $pathArray );
         }
-//         print( "path=$path<br/>" );
         return $path;
     }
 
@@ -931,7 +965,7 @@ class eZPackage
                 return false;
             }
 
-            $package =& eZPackage::fetch( $packageName, $archivePath );
+            $package =& eZPackage::fetch( $packageName, $tempDirPath );
             eZPackage::removePackageFiles( $archivePath );
             if ( $package )
             {
@@ -956,7 +990,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeError( "Failed loading temporary package $packageName from $arhivePath" );
+                eZDebug::writeError( "Failed loading temporary package $packageName from $archivePath" );
             }
         }
 
@@ -985,7 +1019,6 @@ class eZPackage
     */
     function storeToFile( $filename )
     {
-        print( "Storing package $filename\n" );
         return $this->storeString( $filename, $this->toString() );
     }
 
@@ -1050,20 +1083,8 @@ class eZPackage
      and create a package object from it.
      \return \c false if it could be fetched.
     */
-    function &fetchFromFile( $filename, $filterArray = false )
+    function &fetchFromFile( $filename )
     {
-        $requiredType = null;
-        $requiredPriority = null;
-        $requiredVendor = null;
-        $requiredExtension = null;
-        if ( isset( $filterArray['type'] ) )
-             $requiredType = $filterArray['type'];
-        if ( isset( $filterArray['priority'] ) )
-             $requiredPriority = $filterArray['priority'];
-        if ( isset( $filterArray['vendor'] ) )
-             $requiredVendor = $filterArray['vendor'];
-        if ( isset( $filterArray['extension'] ) )
-             $requiredExtension = $filterArray['extension'];
 
         if ( !file_exists( $filename ) )
         {
@@ -1100,33 +1121,6 @@ class eZPackage
             if ( !$root )
                 return false;
 
-            if ( $requiredType !== null )
-            {
-                $type = $root->elementAttributeValueByName( 'type', 'value' );
-                if ( $type != $requiredType )
-                    return false;
-            }
-
-            if ( $requiredPriority !== null )
-            {
-                $priority = $root->elementAttributeValueByName( 'priority', 'value' );
-                if ( $priority != $requiredPriority )
-                    return false;
-            }
-
-            if ( $requiredExtension !== null )
-            {
-                $extension = $root->elementAttributeValueByName( 'extension', 'name' );
-                if ( $extension != $requiredExtension )
-                    return false;
-            }
-
-            if ( $requiredVendor !== null )
-            {
-                $vendor = $root->elementTextContentByName( 'vendor' );
-                if ( $vendor != $requiredVendor )
-                    return false;
-            }
             return $package;
         }
     }
@@ -1174,21 +1168,8 @@ class eZPackage
     /*!
      \private
     */
-    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired, $filterArray = false )
+    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired )
     {
-        $requiredType = null;
-        $requiredPriority = null;
-        $requiredVendor = null;
-        $requiredExtension = null;
-        if ( isset( $filterArray['type'] ) )
-             $requiredType = $filterArray['type'];
-        if ( isset( $filterArray['priority'] ) )
-             $requiredPriority = $filterArray['priority'];
-        if ( isset( $filterArray['vendor'] ) )
-             $requiredVendor = $filterArray['vendor'];
-        if ( isset( $filterArray['extension'] ) )
-             $requiredExtension = $filterArray['extension'];
-
 //        $path = $this->currentRepositoryPath() . '/' . $packageName;
         $path = eZPackage::repositoryPath() . '/' . $packageName;
         $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
@@ -1219,33 +1200,6 @@ class eZPackage
                         }
                     }
 
-                    if ( $requiredType !== null )
-                    {
-                        $type = $Parameters['type'];
-                        if ( $type != $requiredType )
-                            return false;
-                    }
-
-                    if ( $requiredPriority !== null )
-                    {
-                        $priority = $Parameters['priority'];
-                        if ( $priority != $requiredPriority )
-                            return false;
-                    }
-
-                    if ( $requiredExtension !== null )
-                    {
-                        $extension = $Parameters['extension'];
-                        if ( $extension != $requiredExtension )
-                            return false;
-                    }
-
-                    if ( $requiredVendor !== null )
-                    {
-                        $vendor = $Parameters['vendor'];
-                        if ( $vendor != $requiredVendor )
-                            return false;
-                    }
                     $package = new eZPackage( $Parameters, array(), $RepositoryPath );
                     $package->ModifiedParameters = $ModifiedParameters;
                     return $package;
@@ -1438,6 +1392,20 @@ class eZPackage
         /* if ( isset( $parameters['type'] ) )
             $type = $parameters['type'];*/
         $packages = array();
+
+        $requiredType = null;
+        $requiredPriority = null;
+        $requiredVendor = null;
+        $requiredExtension = null;
+        if ( isset( $filterArray['type'] ) )
+            $requiredType = $filterArray['type'];
+        if ( isset( $filterArray['priority'] ) )
+            $requiredPriority = $filterArray['priority'];
+        if ( isset( $filterArray['vendor'] ) )
+            $requiredVendor = $filterArray['vendor'];
+        if ( isset( $filterArray['extension'] ) )
+            $requiredExtension = $filterArray['extension'];
+
         if ( file_exists( $path ) )
         {
             $fileList = array();
@@ -1467,11 +1435,11 @@ class eZPackage
                     $cacheExpired = false;
                     if ( eZPackage::useCache() )
                     {
-                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired, $filterParams );
+                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                     }
                     if ( !$package )
                     {
-                        $package =& eZPackage::fetchFromFile( $filePath, $filterParams );
+                        $package =& eZPackage::fetchFromFile( $filePath );
                         if ( $package and
                              $cacheExpired and
                              eZPackage::useCache() )
@@ -1481,6 +1449,37 @@ class eZPackage
                     }
                     if ( !$package )
                         continue;
+                    if ( !$package->attribute( 'is_active' ) )
+                        continue;
+
+                    if ( $requiredType !== null )
+                    {
+                        $type = $package->attribute( 'type' );
+                        if ( $type != $requiredType )
+                            return false;
+                    }
+
+                    if ( $requiredPriority !== null )
+                    {
+                        $type = $package->attribute( 'priority' );
+                        if ( $priority != $requiredPriority )
+                            return false;
+                    }
+
+                    if ( $requiredExtension !== null )
+                    {
+                        $type = $package->attribute( 'extension' );
+                        if ( $extension != $requiredExtension )
+                            return false;
+                    }
+
+                    if ( $requiredVendor !== null )
+                    {
+                        $type = $package->attribute( 'vendor' );
+                        if ( $vendor != $requiredVendor )
+                            return false;
+                    }
+
                     $packages[] =& $package;
                 }
             }
@@ -1506,6 +1505,8 @@ class eZPackage
 
     function install( $installParameters = array() )
     {
+        if ( $this->Parameters['install_type'] != 'install' )
+            return;
         $installs = $this->Parameters['install'];
         if ( !isset( $installParameters['path'] ) )
             $installParameters['path'] = false;
@@ -1547,6 +1548,8 @@ class eZPackage
                                                     $content, $installParameters );
             }
         }
+        $this->Parameters['is_installed'] = true;
+        $this->store();
     }
 
     /*!
@@ -1575,6 +1578,20 @@ class eZPackage
         $parameters['vendor'] = $root->elementTextContentByName( 'vendor' );
         $parameters['priority'] = $root->elementAttributeValueByName( 'priority', 'value' );
         $parameters['type'] = $root->elementAttributeValueByName( 'type', 'value' );
+        $parameters['is_installed'] = false;
+        $isInstalled =& $root->attributeValue( 'is_installed' ) == 'true';
+        if ( $isInstalled )
+            $parameters['is_installed'] = true;
+
+        $parameters['is_active'] = true;
+        $isActive =& $root->attributeValue( 'is_active' );
+        if ( $isActive )
+            $parameters['is_active'] = $isActive == 'true';
+
+        $parameters['install_type'] = 'install';
+        $installType =& $root->attributeValue( 'install_type' );
+        if ( $installType )
+            $parameters['install_type'] = $installType;
         $parameters['source'] = $root->elementTextContentByName( 'source' );
         $parameters['development'] = $root->attributeValue( 'development' ) == 'true';
         $extensionNode =& $root->elementByName( 'extension' );
@@ -1615,18 +1632,21 @@ class eZPackage
 
         // Read documents
         $documentList =& $root->elementChildrenByName( 'documents' );
-        foreach ( array_keys( $documentList ) as $documentKey )
+        if ( is_array( $documentList ) )
         {
-            $documentNode =& $documentList[$documentKey];
-            $documentModified = $documentNode->attributeValue( 'modified' );
-            $documentName = $documentNode->attributeValue( 'name' );
-            $documentMimeType = $documentNode->attributeValue( 'mime-type' );
-            $documentOS = $documentNode->attributeValue( 'os' );
-            $documentAudience = $documentNode->attributeValue( 'audience' );
-            $this->appendDocument( $documentName, $documentMimeType,
-                                   $documentOS, $documentAudience,
-                                   false, false,
-                                   $documentModified );
+            foreach ( array_keys( $documentList ) as $documentKey )
+            {
+                $documentNode =& $documentList[$documentKey];
+                $documentModified = $documentNode->attributeValue( 'modified' );
+                $documentName = $documentNode->attributeValue( 'name' );
+                $documentMimeType = $documentNode->attributeValue( 'mime-type' );
+                $documentOS = $documentNode->attributeValue( 'os' );
+                $documentAudience = $documentNode->attributeValue( 'audience' );
+                $this->appendDocument( $documentName, $documentMimeType,
+                                       $documentOS, $documentAudience,
+                                       false, false,
+                                       $documentModified );
+            }
         }
 
         // Read changelog
@@ -1711,8 +1731,6 @@ class eZPackage
                 }
             }
         }
-//         print_r( $this->Parameters['file-list'] );
-
         // Read release info
         $versionNode =& $root->elementByName( 'version' );
         $versionNumber = false;
@@ -1871,6 +1889,9 @@ class eZPackage
         $extensionAttributes = array( 'name' => $extension );
         if ( !$exportFormat and $this->isModified( 'extension' ) )
             $extensionAttributes['modified'] = $this->isModified( 'extension' );
+        $isInstalled = $this->attribute( 'is_installed' );
+        $isActive= $this->attribute( 'is_active' );
+        $installType = $this->attribute( 'install_type' );
         $source = $this->attribute( 'source' );
         $sourceAttributes = array();
         if ( !$exportFormat and $this->isModified( 'source' ) )
@@ -1923,6 +1944,12 @@ class eZPackage
         if ( $source )
             $root->appendChild( $dom->createElementTextNode( 'source', $source,
                                                              $sourceAttributes ) );
+
+        if ( !$exportFormat and $isInstalled )
+            $root->appendAttribute( $dom->createAttributeNode( 'is_installed', 'true' ) );
+        if ( !$exportFormat )
+            $root->appendAttribute( $dom->createAttributeNode( 'is_active', ( $isActive ? 'true' : 'false' ) ) );
+        $root->appendAttribute( $dom->createAttributeNode( 'install_type', $installType ) );
 
         $ezpublishNode =& $dom->createElementNode( 'ezpublish' );
         $ezpublishNode->appendAttribute( $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' ) );

@@ -13,6 +13,7 @@
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
+    <th width="1">{'Selection'|i18n('design/standard/package')}</th>
     <th>{'Name'|i18n('design/standard/package')}</th>
     <th>{'Version'|i18n('design/standard/package')}</th>
     <th>{'Summary'|i18n('design/standard/package')}</th>
@@ -20,17 +21,34 @@
 </tr>
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
+    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}" /></td>
     <td><a href={concat('package/view/full/',$:item.name)|ezurl}>{$:item.name|wash}</a></td>
-    <td>{$:item.version-number}-{$:item.release-number}</td>
+    <td>{$:item.version-number}-{$:item.release-number}{section show=$:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/section}{section show=$:item.type} [{$:item.type|wash}]{/section}</td>
     <td>{$:item.summary|wash}</td>
-    <td></td>
+    <td>
+        {section show=$:item.install_type|eq( 'install' )}
+            {section show=$:item.is_installed}
+                {'Installed'|i18n('design/standard/package')}
+            {section-else}
+                {'Not installed'|i18n('design/standard/package')}
+            {/section}
+        {section-else}
+            {'Imported'|i18n('design/standard/package')}
+        {/section}
+    </td>
 </tr>
 {/section}
+<tr>
+    <td colspan="5">
+    <div class="buttonblock">
+        <input class="button" type="submit" name="RemovePackageButton" value="{'Remove package'|i18n('design/standard/package')}" />
+        <input class="button" type="submit" name="InstallPackageButton" value="{'Upload package'|i18n('design/standard/package')}" />
+        <input class="button" type="submit" name="CreatePackageButton" value="{'Create package'|i18n('design/standard/package')}" />
+    </div>
+    </td>
+</tr>
 </table>
 
-<div class="buttonblock">
-    <input class="button" type="submit" name="InstallPackageButton" value="{'Upload package'|i18n('design/standard/package')}" />
-</div>
 
 </form>
 

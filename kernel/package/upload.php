@@ -47,10 +47,29 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
         if ( $file )
         {
             print( "Got package file<br/>" );
-            if ( $installPackage )
+            $packageFilename = $file->attribute( 'filename' );
+            $packageName = $file->attribute( 'original_filename' );
+            if ( preg_match( "#^(.+)-[0-9](\.[0-9]+)-[0-9].ezpkg$#", $packageName, $matches ) )
+                $packageName = $matches[1];
+            $packageName = preg_replace( array( "#[^a-zA-Z0-9]+#",
+                                                "#_+#",
+                                                "#(^_)|(_$)#" ),
+                                         array( '_',
+                                                '_',
+                                                '' ), $packageName );
+            print( "packageName=$packageName<br/>" );
+            $package =& eZPackage::import( $packageFilename, $packageName );
+            if ( $package )
             {
-                print( "Installing package file<br/>" );
+                if ( $installPackage )
+                {
+                    $package->install();
+                    print( "Installing package file<br/>" );
+                }
+                return $module->redirectToView( 'list' );
             }
+            else
+                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
         }
         else
             eZDebug::writeError( "Failed fetching upload package file" );

@@ -43,6 +43,11 @@ $package =& eZPackage::fetch( $packageName );
 if ( !$package )
     return $module->handleError( 'kernel', EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
+if ( $module->isCurrentAction( 'Export' ) )
+{
+    return $module->run( 'export', array( $packageName ) );
+}
+
 $tpl =& templateInit();
 
 $tpl->setVariable( 'package_name', $packageName );

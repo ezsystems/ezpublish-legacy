@@ -38,21 +38,43 @@ $ViewList = array();
 $ViewList['list'] = array(
     'script' => 'list.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage' ),
+    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
+                                    'RemovePackageButton' => 'RemovePackage',
+                                    'CreatePackageButton' => 'CreatePackage' ),
+    'post_action_parameters' => array( 'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ) ),
     "unordered_params" => array( "offset" => "Offset" ),
     'params' => array() );
 
 $ViewList['upload'] = array(
     'script' => 'upload.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage' ),
+    'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage',
+                                    'RemovePackageButton' => 'RemovePackage' ),
     'post_action_parameters' => array( 'UploadPackage' => array( 'InstallPackage' => 'InstallPackageCheck' ) ),
     "unordered_params" => array( "offset" => "Offset" ),
     'params' => array() );
 
+$ViewList['create'] = array(
+    'script' => 'create.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'CreatePackageButton' => 'CreatePackage',
+                                    'PackageStep' => 'PackageStep' ),
+    'post_action_parameters' => array( 'CreatePackage' => array( 'CreatorItemID' => 'CreatorItemID' ),
+                                       'PackageStep' => array( 'CreatorItemID' => 'CreatorItemID',
+                                                               'CreatorStepID' => 'CreatorStepID',
+                                                               'PreviousStep' => 'PreviousStepButton',
+                                                               'NextStep' => 'NextStepButton' ) ),
+    'params' => array() );
+
+$ViewList['export'] = array(
+    'script' => 'export.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'params' => array( 'PackageName' ) );
+
 $ViewList['view'] = array(
     'script' => 'view.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'ExportButton' => 'Export' ),
     'params' => array( 'ViewMode', 'PackageName' ) );
 
 ?>

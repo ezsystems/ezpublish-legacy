@@ -36,11 +36,32 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezpackage.php" );
 
 $module =& $Params['Module'];
-$offset = $Params['Offset'];
+$offset = (int)$Params['Offset'];
 
 if ( $module->isCurrentAction( 'InstallPackage' ) )
 {
     return $module->redirectToView( 'upload' );
+}
+
+if ( $module->isCurrentAction( 'RemovePackage' ) )
+{
+    if ( $module->hasActionParameter( 'PackageSelection' ) )
+    {
+        $packageSelection = $module->actionParameter( 'PackageSelection' );
+        foreach ( $packageSelection as $packageID )
+        {
+            $package =& eZPackage::fetch( $packageID );
+            if ( $package )
+            {
+                $package->remove();
+            }
+        }
+    }
+}
+
+if ( $module->isCurrentAction( 'CreatePackage' ) )
+{
+    return $module->redirectToView( 'create' );
 }
 
 $tpl =& templateInit();

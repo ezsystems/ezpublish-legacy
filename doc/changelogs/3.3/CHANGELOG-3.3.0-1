@@ -85,6 +85,13 @@ eZImage
 - Fixed bug of unable to show checkboxes if available packages less than 4.
 
 *Package system:
+- Finished the upload package system.
+- Added install type to packages, it will determine if the package can be install or just imported.
+- Added information on whether the packages are active or not, only active packages
+  will show up in the admin interface.
+- Added support for removing packages (remove, not uninstall).
+- Added system for creating packages using a wizard.
+- Added export of packages.
 
 *Bugs:
 - http://ez.no/developer/ez_publish_3/bug_reports/logical_operators_do_not_work
