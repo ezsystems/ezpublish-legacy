@@ -2,6 +2,10 @@
 
 <div class="block">
 <div class="element">
+<label>{"User ID:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<p class="box">{$attribute.content.contentobject_id}</p>
+</div>
+<div class="element">
 <label>{"Login:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.login|wash(xhtml)}</p>
 </div>

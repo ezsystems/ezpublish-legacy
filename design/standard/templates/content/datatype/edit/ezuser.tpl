@@ -1,5 +1,9 @@
 <div class="block">
 <div class="element">
+<label>{"User ID:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<p class="box">{$attribute.content.contentobject_id}</p>
+</div>
+<div class="element">
 <label>{"Login:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 {section show=$attribute.content.has_stored_login}
 <input type="hidden" name="ContentObjectAttribute_data_user_login_{$attribute.id}" value="{$attribute.content.login}" />
