@@ -105,13 +105,10 @@ class eZDataType
         if ( isset( $types[$dataTypeString] ) )
         {
             $className = $types[$dataTypeString];
-            print( "className=$className<br/>" );
             $def =& $GLOBALS["eZDataTypeObjects"][$dataTypeString];
-            print( "def=" . get_class( $def ) . "<br/>" );
             if ( get_class( $def ) != $className )
             {
                 $def = new $className();
-                print( "new def=" . get_class( $def ) . "<br/>" );
             }
         }
         return $def;
