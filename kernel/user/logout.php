@@ -41,6 +41,8 @@ $http =& eZHTTPTool::instance();
 $user =& eZUser::instance();
 $user->logoutCurrent();
 
+$http->setSessionVariable( 'force_logout', 1 );
+
 $ini =& eZINI::instance();
 $redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );
 

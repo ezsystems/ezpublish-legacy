@@ -69,63 +69,6 @@ function eZCheckValidity( &$siteBasics, &$uri )
 }
 
 /*!
- Checks if user is logged in, if not and the site requires user login for access
- a module redirect is returned.
-*/
-function eZCheckUser( &$siteBasics, &$uri )
-{
-//     eZDebug::writeDebug( "Checking user" );
-    if ( !$siteBasics['user-object-required'] )
-    {
-//         eZDebug::writeDebug( "Skipping user requirements" );
-        return null;
-    }
-    $ini =& eZINI::instance();
-    $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
-    $check = null;
-    $http =& eZHTTPTool::instance();
-    if ( !$requireUserLogin )
-        return null;
-//     $uri =& $GLOBALS['eZRequestedURI'];
-    $check = array( "module" => "user",
-                    "function" => "login" );
-    if ( $http->hasSessionVariable( "eZUserLoggedInID" ) and
-         $http->sessionVariable( "eZUserLoggedInID" ) != '' and
-         $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
-    {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $currentUser =& eZUser::currentUser();
-        if ( !$currentUser->isEnabled() )
-        {
-            eZUser::logoutCurrent();
-            $currentUser =& eZUser::currentUser();
-        }
-        else
-            return null;
-    }
-    $moduleName = $uri->element();
-    $viewName = $uri->element( 1 );
-    $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
-    $anonymousAccessList[] = 'ezinfo';
-    foreach ( $anonymousAccessList as $anonymousAccess )
-    {
-        $elements = explode( '/', $anonymousAccess );
-        if ( count( $elements ) == 1 )
-        {
-            if ( $moduleName == $elements[0] )
-                return null;
-        }
-        else
-        {
-            if ( $moduleName == $elements[0] and
-                 $viewName == $elements[1] )
-                return null;
-        }
-    }
-    return $check;
-}
-
-/*!
  \return an array with items to run a check on, each items
  is an associative array. The item must contain:
  - function - name of the function to run
@@ -136,6 +79,30 @@ function eZCheckList()
     $checks["validity"] = array( "function" => "eZCheckValidity" );
     $checks["user"] = array( "function" => "eZCheckUser" );
     return $checks;
+}
+
+/*!
+ Check if user login is required. If so, use login handler to redirect user.
+*/
+function eZCheckUser( &$siteBasics, &$uri )
+{
+    include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
+    if ( !$siteBasics['user-object-required'] )
+    {
+        return null;
+    }
+
+    $http =& eZHTTPTool::instance();
+    $ini =& eZINI::instance();
+    $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
+    $forceLogin =& $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
+    if ( !$requireUserLogin &&
+         !$forceLogin )
+    {
+        return null;
+    }
+
+    return eZUserLoginHandler::checkUser( $siteBasics, $uri );
 }
 
 /*!

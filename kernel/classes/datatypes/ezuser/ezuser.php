@@ -44,7 +44,6 @@
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/ezcontentobject.php" );
 
 $ini =& eZINI::instance();
 define( 'EZ_USER_ANONYMOUS_ID', (int)$ini->variable( 'UserSettings', 'AnonymousUserID' ) );
@@ -704,6 +703,8 @@ WHERE user_id = '" . $userID . "' AND
     */
     function &loginUser( $login, $password, $authenticationMatch = false )
     {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+
         $http =& eZHTTPTool::instance();
         $db =& eZDB::instance();
 
@@ -834,6 +835,14 @@ WHERE user_id = '" . $userID . "' AND
         eZSessionRegenerate();
         $user->cleanup();
         eZSessionSetUserID( $userID );
+    }
+
+    /*!
+     \virtual
+     Used by login handler to clean up session variables
+    */
+    function sessionCleanup()
+    {
     }
 
     /*!
@@ -1363,6 +1372,8 @@ WHERE user_id = '" . $userID . "' AND
             $this->Groups = array();
             if ( !isset( $this->GroupsAsObjects ) )
             {
+                include_once( 'kernel/classes/ezcontentobject.php' );
+
                 if ( $userID )
                 {
                     $contentobjectID = $userID;
@@ -1489,6 +1500,106 @@ WHERE user_id = '" . $userID . "' AND
             }
             return $this->Groups;
         }
+    }
+
+    /*!
+     Checks if user is logged in, if not and the site requires user login for access
+     a module redirect is returned.
+
+     \return null, user login not required.
+    */
+    function checkUser( &$siteBasics, &$uri )
+    {
+        $ini =& eZINI::instance();
+        $http =& eZHTTPTool::instance();
+        $check = array( "module" => "user",
+                        "function" => "login" );
+        if ( $http->hasSessionVariable( "eZUserLoggedInID" ) and
+             $http->sessionVariable( "eZUserLoggedInID" ) != '' and
+             $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $currentUser =& eZUser::currentUser();
+            if ( !$currentUser->isEnabled() )
+            {
+                eZUser::logoutCurrent();
+                $currentUser =& eZUser::currentUser();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        $moduleName = $uri->element();
+        $viewName = $uri->element( 1 );
+        $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
+        $anonymousAccessList[] = 'ezinfo';
+        foreach ( $anonymousAccessList as $anonymousAccess )
+        {
+            $elements = explode( '/', $anonymousAccess );
+            if ( count( $elements ) == 1 )
+            {
+                if ( $moduleName == $elements[0] )
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if ( $moduleName == $elements[0] and
+                     $viewName == $elements[1] )
+                {
+                    return null;
+                }
+            }
+        }
+
+        return $check;
+    }
+
+    /*!
+     Funtion performed before user login info is collected.
+     It's optional to implement this function in new login handler.
+
+     \return @see eZUserLoginHandler::checkUser()
+    */
+    function preCollectUserInfo()
+    {
+        return array( 'user', 'login' );
+    }
+
+    /*!
+     Function performed after user login info has been collected.
+     Store login data as array:
+     array( 'login' => <username>,
+            'password' = <password> )
+     to session variable EZ_LOGIN_HANDLER_USER_INFO for automatic processing of login data.
+
+     \return @see eZUserLoginHandler::checkUser()
+     */
+    function postCollectUserInfo()
+    {
+    }
+
+    /*!
+     Check if login handler require special login URI
+
+     \return Special login uri. If false, use system standard login uri.
+    */
+    function loginURI()
+    {
+        return false;
+    }
+
+    /*!
+     Check if login handler require forced login at user check.
+
+     \return true if force login on user check, false if not.
+    */
+    function forceLogin()
+    {
+        return false;
     }
 
     /// \privatesection

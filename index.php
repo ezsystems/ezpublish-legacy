@@ -778,6 +778,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     $translatedModuleRedirectUri = $moduleRedirectUri;
     if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
+        include_once( 'kernel/classes/ezurlalias.php' );
         if ( eZURLAlias::translate( $translatedModuleRedirectUri, true ) )
         {
             $moduleRedirectUri = $translatedModuleRedirectUri;
