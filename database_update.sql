@@ -344,4 +344,4 @@ alter table ezoperation_memento drop main_key;
 alter table ezoperation_memento add main_key varchar(32) NOT NULL;
 
 # Fixed a bug with a lacking field in ezmedia
-alter table ezmedia add controls var(char 50);
+alter table ezmedia add controls varchar(50);
