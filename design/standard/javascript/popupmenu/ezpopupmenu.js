@@ -375,7 +375,7 @@ function ez_createAArray( flat )
     if( flat.length % 2 != 0 ) return resultArray;
 
     var len = flat.length / 2;
-    for ( var i = 0; i <= len; i += 2 )
+    for ( var i = 0; i <= flat.length; i += 2 )
         resultArray[flat[i]] = flat[i+1];
 
    return resultArray;

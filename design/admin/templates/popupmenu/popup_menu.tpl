@@ -40,6 +40,10 @@ menuArray['ClassMenu']['elements']['class-view'] = new Array();
 menuArray['ClassMenu']['elements']['class-view']['url'] = {"/class/view/%classID%"|ezurl};
 menuArray['ClassMenu']['elements']['class-edit'] = new Array();
 menuArray['ClassMenu']['elements']['class-edit']['url'] = {"/class/edit/%classID%"|ezurl};
+menuArray['ClassMenu']['elements']['view-cache-delete'] = new Array();
+menuArray['ClassMenu']['elements']['view-cache-delete']['url'] = {"%currentURL%"|ezurl};
+menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = new Array();
+menuArray['ClassMenu']['elements']['recursive-view-cache-delete']['url'] = {"%currentURL%"|ezurl};
 
 menuArray['BookmarkMenu'] = new Array();
 menuArray['BookmarkMenu']['depth'] = 0;
@@ -122,11 +126,13 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     </div>
     <a id="class-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"View class"|i18n("design/admin/popupmenu")}</a>
     <a id="class-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Edit class"|i18n("design/admin/popupmenu")}</a>
-<!--
     <hr />
-    <a id="view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete view cache"|i18n("design/admin/popupmenu")}</a>
+    <a id="view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-view-cache-delete' ); return false;">{"Delete view cache"|i18n("design/admin/popupmenu")}</a>
+<!--
     <a id="template-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete template cache"|i18n("design/admin/popupmenu")}</a>
-    <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete view cache from here"|i18n("design/admin/popupmenu")}</a>
+-->
+    <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-recursive-view-cache-delete' ); return false;">{"Delete view cache from here"|i18n("design/admin/popupmenu")}</a>
+<!--
     <hr />
     <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Template overrides"|i18n("design/admin/popupmenu")}</a>
     <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"New class override"|i18n("design/admin/popupmenu")}</a>
@@ -184,4 +190,20 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 <form id="menu-form-notify" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
   <input type="hidden" name="ActionAddToNotification" value="x" />
+</form>
+
+{* Delete view cache for node. *}
+<form id="menu-form-view-cache-delete" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="ObjectID" value="%objectID%" />
+  <input type="hidden" name="CurrentURL" value={"%currentURL%"|ezurl} />
+  <input type="hidden" name="ClearViewCacheButton" value="x" />
+</form>
+
+{* Delete view cache for subtree. *}
+<form id="menu-form-recursive-view-cache-delete" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="ObjectID" value="%objectID%" />
+  <input type="hidden" name="CurrentURL" value={"%currentURL%"|ezurl} />
+  <input type="hidden" name="ClearViewCacheSubtreeButton" value="x" />
 </form>

@@ -43,6 +43,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
     if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
@@ -288,7 +289,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
@@ -360,7 +361,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
@@ -408,13 +409,13 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     {
         eZDebug::writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as exchanging node for node $nodeID",
                                'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$selectedNode->checkAccess( 'edit' ) )
     {
         eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     // clear cache.
@@ -472,7 +473,7 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
@@ -543,13 +544,13 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
     {
         eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $objectID = $module->actionParameter( 'ObjectID' );
@@ -614,13 +615,13 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     {
         eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $objectID = $module->actionParameter( 'ObjectID' );
@@ -770,13 +771,13 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     {
         eZDebug::writeError( "Missing ObjectID parameter for action RemoveAssignment",
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action RemoveAssignment",
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $objectID = $module->actionParameter( 'ObjectID' );
@@ -1201,6 +1202,101 @@ else if ( $http->hasPostVariable( 'DestinationURL' ) )
 
     $module->redirectTo( '/' . $destinationURL . $additionalParams );
     return;
+}
+else if ( $module->isCurrentAction( 'ClearViewCache' ) or
+          $module->isCurrentAction( 'ClearViewCacheSubtree' ) )
+{
+    if ( !$module->hasActionParameter( 'ObjectID' ) )
+    {
+        eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
+    }
+    if ( !$module->hasActionParameter( 'NodeID' ) )
+    {
+        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
+    }
+
+    $objectID = $module->actionParameter( 'ObjectID' );
+    $nodeID = $module->actionParameter( 'NodeID' );
+    $viewMode = 'full';
+    if ( $module->hasActionParameter( 'ViewMode' ) )
+        $viewMode = $module->actionParameter( 'ViewMode' );
+    if ( $module->hasActionParameter( 'LanguageCode' ) )
+    {
+        $languageCode = $module->actionParameter( 'LanguageCode' );
+    }
+    else
+    {
+        $languageCode = eZContentObject::defaultLanguage();
+    }
+
+    $object =& eZContentObject::fetch( $objectID );
+    if ( !$object )
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+
+    $user =& eZUser::currentUser();
+    $result = $user->hasAccessTo( 'setup', 'managecache' );
+    if ( $result['accessWord'] != 'yes' )
+    {
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    if ( $module->isCurrentAction( 'ClearViewCache' ) )
+    {
+        eZContentCacheManager::clearViewCache( $objectID, true );
+    }
+    else
+    {
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$node )
+        {
+            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+        $limit = 50;
+        $offset = 0;
+        $params = array( 'AsObject' => false,
+                         'Depth' => false,
+                         'Limitation' => array() ); // Empty array means no permission checking
+        $subtreeCount = $node->subTreeCount( $params );
+        while ( $offset < $subtreeCount )
+        {
+            $params['Offset'] = $offset;
+            $params['Limit'] = $limit;
+            $subtree =& $node->subTree( $params );
+            $offset += count( $subtree );
+            if ( count( $subtree ) == 0 )
+            {
+                break;
+            }
+            $objectIDList = array();
+            foreach ( $subtree as $subtreeNode )
+            {
+                $objectIDList[] = $subtreeNode['contentobject_id'];
+            }
+            $objectIDList = array_unique( $objectIDList );
+            unset( $subtree );
+
+            foreach ( $objectIDList as $objectID )
+            {
+                eZContentCacheManager::clearViewCache( $objectID, true );
+            }
+        }
+    }
+
+    if ( $module->hasActionParameter( 'CurrentURL' ) )
+    {
+        var_dump( $_POST );
+        $currentURL = $module->actionParameter( 'CurrentURL' );
+        return $module->redirectTo( $currentURL );
+    }
+
+    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
 /*else if ( $http->hasPostVariable( 'RemoveObject' ) )
 {

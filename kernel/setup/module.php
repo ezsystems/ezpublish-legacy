@@ -49,6 +49,7 @@ $ViewList["init"] = array(
 
 $ViewList["cache"] = array(
     "script" => "cache.php",
+    'functions' => array( 'managecache' ),
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ClearCacheButton' => 'ClearCache',
@@ -120,5 +121,8 @@ $ViewList['systemupgrade'] = array(
     'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check',
                                     'DBCheckButton' => 'DBCheck' ),
     'params' => array( ) );
+
+
+$FunctionList['managecache'] = array();
 
 ?>
