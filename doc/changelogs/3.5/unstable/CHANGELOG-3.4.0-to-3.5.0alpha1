@@ -148,6 +148,9 @@ eztc.php:
 - Fixed bug with missing NodeID and ObjectID when displaying media folders.
   Merged from stable/3.3 rev.6926, stable/3.4 rev.6927
   http://ez.no/community/bug_reports/media_folder_doesn_t_show_node_id_and_object_id
+- Fixed bug related to wrong working thumbnail folders without frendly URLs.
+  Merged from stable/3.3 rev.6931, stable/3.4 rev.6932
+  http://ez.no/community/bug_reports/folder_thumnbnail_tpl_doesn_t_work_without_friendly_url_s
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

@@ -101,6 +101,8 @@ eZINI:
   http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
 - Fixed bug with missing NodeID and ObjectID when displaying media folders.
   http://ez.no/community/bug_reports/media_folder_doesn_t_show_node_id_and_object_id
+- Fixed bug related to wrong working thumbnail folders without frendly URLs.
+  http://ez.no/community/bug_reports/folder_thumnbnail_tpl_doesn_t_work_without_friendly_url_s
 
 *Library:
 
