@@ -180,19 +180,19 @@ INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, mod
 
 
 
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (1,14,1,1,'Root folder',1,0,1033917596,1033917596,0,'9459d3c29e15006e45197295722c7ade');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (4,14,2,3,'Users',1,0,1033917596,1033917596,0,'f5c88a2209584891056f987fd965b0ba');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (10,14,2,4,'Anonymous User',2,0,1033920665,1072180405,0,'faaeb9be3bd98ed09f606fc16d144eca');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (11,14,2,3,'Guest accounts',1,0,1033920746,1033920746,0,'5f7f0bdb3381d6a461d8c29ff53d908f');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (12,14,2,3,'Administrator users',1,0,1033920775,1033920775,0,'9b47a45624b023b1a76c73b74d704acf');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (13,14,2,3,'Editors',1,0,1033920794,1033920794,0,'3c160cca19fb135f83bd02d911f04db2');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (14,14,2,4,'Administrator User',1,0,1033920830,1033920830,0,'1bb4fe25487f05527efa8bfd394cecc7');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (41,14,3,1,'Media',1,0,1060695457,1060695457,0,'a6e35cbcb7cd6ae4b691f3eee30cd262');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (42,14,2,3,'Anonymous Users',1,0,1072180330,1072180330,0,'15b256dbea2ae72418ff5facc999e8f9');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (45,14,4,1,'Setup',1,0,1079684190,1079684190,0,'241d538ce310074e602f29f49e44e938');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (49,14,3,1,' Images',1,0,1080220197,1080220197,0,'e7ff633c6b8e0fd3531e74c6e712bead');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (50,14,3,1,' Files',1,0,1080220220,1080220220,0,'732a5acd01b51a6fe6eab448ad4138a9');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (51,14,3,1,' Multimedia',1,0,1080220233,1080220233,0,'09082deb98662a104f325aaa8c4933d3');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (1,14,1,1,'Root folder',1,0,1033917596,1033917596,1,'9459d3c29e15006e45197295722c7ade');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (4,14,2,3,'Users',1,0,1033917596,1033917596,1,'f5c88a2209584891056f987fd965b0ba');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (10,14,2,4,'Anonymous User',2,0,1033920665,1072180405,1,'faaeb9be3bd98ed09f606fc16d144eca');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (11,14,2,3,'Guest accounts',1,0,1033920746,1033920746,1,'5f7f0bdb3381d6a461d8c29ff53d908f');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (12,14,2,3,'Administrator users',1,0,1033920775,1033920775,1,'9b47a45624b023b1a76c73b74d704acf');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (13,14,2,3,'Editors',1,0,1033920794,1033920794,1,'3c160cca19fb135f83bd02d911f04db2');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (14,14,2,4,'Administrator User',1,0,1033920830,1033920830,1,'1bb4fe25487f05527efa8bfd394cecc7');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (41,14,3,1,'Media',1,0,1060695457,1060695457,1,'a6e35cbcb7cd6ae4b691f3eee30cd262');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (42,14,2,3,'Anonymous Users',1,0,1072180330,1072180330,1,'15b256dbea2ae72418ff5facc999e8f9');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (45,14,4,1,'Setup',1,0,1079684190,1079684190,1,'241d538ce310074e602f29f49e44e938');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (49,14,3,1,' Images',1,0,1080220197,1080220197,1,'e7ff633c6b8e0fd3531e74c6e712bead');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (50,14,3,1,' Files',1,0,1080220220,1080220220,1,'732a5acd01b51a6fe6eab448ad4138a9');
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (51,14,3,1,' Multimedia',1,0,1080220233,1080220233,1,'09082deb98662a104f325aaa8c4933d3');
 
 
 
