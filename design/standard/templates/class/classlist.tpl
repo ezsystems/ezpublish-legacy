@@ -16,11 +16,11 @@
 {section show=$groupclasses}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th>{"ID"|i18n("design/standard/class/view")}:</th>
-    <th>{"Name"|i18n("design/standard/class/view")}:</th>
-    <th>{"Identifier"|i18n("design/standard/class/view")}:</th>
-    <th>{"Modifier"|i18n("design/standard/class/view")}:</th>
-    <th>{"Modified"|i18n("design/standard/class/view")}:</th>
+    <th>{"ID:"|i18n("design/standard/class/view")}</th>
+    <th>{"Name:"|i18n("design/standard/class/view")}</th>
+    <th>{"Identifier:"|i18n("design/standard/class/view")}</th>
+    <th>{"Modifier:"|i18n("design/standard/class/view")}</th>
+    <th>{"Modified:"|i18n("design/standard/class/view")}</th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}

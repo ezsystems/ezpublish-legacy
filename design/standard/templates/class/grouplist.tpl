@@ -6,9 +6,9 @@
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th>{"Name"|i18n("design/standard/class/list")}:</th>
-    <th>{"Modifier"|i18n("design/standard/class/list")}:</th>
-    <th>{"Modified"|i18n("design/standard/class/list")}:</th>
+    <th>{"Name:"|i18n("design/standard/class/list")}</th>
+    <th>{"Modifier:"|i18n("design/standard/class/list")}</th>
+    <th>{"Modified:"|i18n("design/standard/class/list")}</th>
 </tr>
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
