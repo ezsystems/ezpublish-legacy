@@ -625,7 +625,8 @@ class eZMySQLDB extends eZDBInterface
         $databases = array();
         $i = 0;
         $numRows = mysql_num_rows( $databaseArray );
-        while ( $i < $numRows ) {
+        while ( $i < $numRows )
+        {
             $databases[] = mysql_db_name($databaseArray, $i);
             ++$i;
         }

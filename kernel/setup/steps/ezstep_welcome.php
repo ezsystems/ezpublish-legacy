@@ -74,26 +74,19 @@ class eZStepWelcome extends eZStepInstaller
      */
     function init()
     {
-        $criticalTests = eZSetupCriticalTests();
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
 
         $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
         $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check' );
-        $this->Results = $runResult['results'];
-        $this->Result = $runResult['result'];
         $this->OptionalResults = $optionalRunResult['results'];
         $this->OptionalResult = $optionalRunResult['result'];
-        $persistenceData = $runResult['persistence_list'];
 
         $testsRun = array();
         foreach ( $this->Results as $testResultItem )
         {
             $testsRun[$testResultItem[1]] = $testResultItem[0];
         }
-
-        eZSetupMergePersistenceList( $this->PersistenceList, $persistenceData );
 
         $this->PersistenceList['tests_run'] = $testsRun;
         $this->PersistenceList['optional_tests_run'] = $testsRun;
@@ -107,8 +100,6 @@ class eZStepWelcome extends eZStepInstaller
     function &display()
     {
         $result = array();
-        $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
-                                                'results' => $this->Results ) );
         $this->Tpl->setVariable( 'optional_test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/welcome.tpl' );
