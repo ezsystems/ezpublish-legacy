@@ -15,8 +15,7 @@
     </div>
     {/section}
 
-    {section show=$basket.items|gt(0)}
-
+    {section show=$basket.items}
 
     <div class="content-basket">
     <table cellspacing="0">
@@ -108,15 +107,13 @@
          <input class="shopbutton" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base')}" />
      </div>
 
-    {/section}
-
-    {section name=Basket show=$basket.items|lt(1) }
+    {section-else}
 
     <div class="feedback">
         <h2>{"You have no products in your basket"|i18n("design/standard/shop")}</h2>
     </div>
 
-     {/section}
+    {/section}
 
     </form>
 </div>

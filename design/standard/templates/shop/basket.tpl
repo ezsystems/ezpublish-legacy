@@ -15,8 +15,7 @@
 </div>
 {/section}
 
-{section name=Basket show=$basket.items|gt(0)}
-
+{section name=Basket show=$basket.items}
 
 <table class="list"  width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -52,11 +51,10 @@
 <tr>
 	<td class="{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
-	{*{$Basket:ProductItem:item.id}-*} 
+	{*{$Basket:ProductItem:item.id}-*}
 	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name}</a>
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-
 	<input type="text" name="ProductItemCountList[]" value="{$Basket:ProductItem:item.item_count}" size="5" />
 
 	</td>
@@ -147,10 +145,7 @@
 <input class="button" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
 </div>
 
-{/section}
-
-
-{section name=Basket show=$basket.items|lt(1) }
+{section-else}
 
 <div class="feedback">
 <h2>{"You have no products in your basket"|i18n("design/standard/shop")}</h2>
