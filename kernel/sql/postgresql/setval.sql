@@ -1,4 +1,5 @@
 SELECT setval('ezapprove_items_s',max(id)+1) FROM ezapprove_items;
+SELECT setval('ezbasket_s',max(id)+1) FROM ezbasket;
 SELECT setval('ezcollab_group_s',max(id)+1) FROM ezcollab_group;
 SELECT setval('ezcollab_item_s',max(id)+1) FROM ezcollab_item;
 SELECT setval('ezcollab_item_message_link_s',max(id)+1) FROM ezcollab_item_message_link;
@@ -8,6 +9,7 @@ SELECT setval('ezcollab_simple_message_s',max(id)+1) FROM ezcollab_simple_messag
 SELECT setval('ezcontent_translation_s',max(id)+1) FROM ezcontent_translation;
 SELECT setval('ezcontentbrowsebookmark_s',max(id)+1) FROM ezcontentbrowsebookmark;
 SELECT setval('ezcontentbrowserecent_s',max(id)+1) FROM ezcontentbrowserecent;
+SELECT setval('ezcontentclass_s',max(id)+1) FROM ezcontentclass;
 SELECT setval('ezcontentclass_attribute_s',max(id)+1) FROM ezcontentclass_attribute;
 SELECT setval('ezcontentclassgroup_s',max(id)+1) FROM ezcontentclassgroup;
 SELECT setval('ezcontentobject_s',max(id)+1) FROM ezcontentobject;
@@ -66,6 +68,4 @@ SELECT setval('ezrss_import_s',max(id)+1) FROM ezrss_import;
 SELECT setval('ezimagefile_s',max(id)+1) FROM ezimagefile;
 SELECT setval('ezsubtree_notification_rule_s',max(id)+1) FROM ezsubtree_notification_rule;
 SELECT setval('ezpaymentobject_s',max(id)+1) FROM ezpaymentobject;
-SELECT setval('ezbasket_s',max(id)+1) FROM ezbasket;
-SELECT setval('ezcontentclass_s',max(id)+1) FROM ezcontentclass;
 SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;

@@ -775,7 +775,7 @@ CREATE TABLE ezpaymentobject (
   id int(11) NOT NULL auto_increment,
   workflowprocess_id int(11) NOT NULL default '0',
   order_id int(11) NOT NULL default '0',
-  payment_string varchar(255) NOT NULL DEFAULT '',
+  payment_string varchar(255) NOT NULL default '',
   status int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -1235,6 +1235,17 @@ CREATE TABLE ezuser_setting (
 
 
 
+CREATE TABLE ezuservisit (
+  user_id int(11) NOT NULL default '0',
+  current_visit_timestamp int(11) NOT NULL default '0',
+  last_visit_timestamp int(11) NOT NULL default '0',
+  PRIMARY KEY  (user_id)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE ezvattype (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
@@ -1385,10 +1396,3 @@ CREATE TABLE ezworkflow_process (
   KEY ezworkflow_process_process_key (process_key)
 ) TYPE=MyISAM;
 
-
-create table ezuservisit
-(
-user_id int primary key not null,
-current_visit_timestamp int not null,
-last_visit_timestamp int not null
-) TYPE=MyISAM;
