@@ -25,9 +25,9 @@
 	  {/section} 
 	  <select name = "ContentObjectAttribute_select_data_enumelement_{$attribute.id}[]" size=4 multiple>
 	  {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	    <option name = "ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">{$EnumList:item.enumelement}</option>	  
+	    <option name = "ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">{$EnumList:item.enumelement}</option>
+          {/section}	  
 	  </select>
-	  {/section}
        {/case}
      {/switch} 
   {/case}
