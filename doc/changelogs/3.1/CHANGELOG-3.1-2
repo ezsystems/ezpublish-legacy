@@ -13,3 +13,4 @@ Changes from 3.1-1 to 3.1-2
 - Fixed bug for xml datatype which can't be validate if content only has header.
 - Fixed bug for feil conversion of tiff and gif image.
 - Fixed bug of wrong MAX_FILE_SIZE for QuickTime and Windows Media in datatype ezmedia.
+- Fixed bug of unable to remove user in admin override template for user.

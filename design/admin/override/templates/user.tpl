@@ -35,7 +35,7 @@
         {/case}
         {/switch}
     {/section}
-    <input class="button" type="submit" value="Remove" />
+    <input class="button" type="submit" name="ActionRemove" value="Remove" />
     </div>
 </div>
 
