@@ -58,6 +58,7 @@ class eZMySQLDB extends eZDBInterface
 //         eZDebug::writeDebug( "server=" . $this->Server . "\nuser=" . $this->User . "\npassword=" . $this->Password,
 //                              'mysqldb' );
         $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+        $dbErrorText = mysql_error();
         $numAttempts = 1;
         while ( $this->DBConnection == false && $numAttempts < 5 )
         {
@@ -71,7 +72,7 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $this->DBConnection == false )
         {
-            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.", "eZMySQLDB" );
+            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLDB" );
             $this->IsConnected = false;
         }
 
