@@ -114,7 +114,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   set when using fetch aliases.
 - Fixed bug: PostgreSQL - empty ezobjectrelation.
   http://ez.no/community/bug_reports/postgresql_empty_ezobjectrelation
-- Fixed bug: Can`t remove selected objects from trash.
+- Fixed bug: Can't remove selected objects from trash.
   http://ez.no/community/bug_reports/can_t_remove_selected_objects_from_trash
 - eZIdentifier datatype now correctly sets the sort_key_string value
   (Merged from stable/3.3 rev. 10311)
