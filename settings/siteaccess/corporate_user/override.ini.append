@@ -1,4 +1,10 @@
 
+[info_page]
+Source=node/view/full.tpl
+MatchFile=infopage.tpl
+Subdir=templates
+Match[class]=10
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
@@ -22,3 +28,8 @@ Source=node/view/line.tpl
 MatchFile=article_line.tpl
 Subdir=templates
 Match[class]=2
+
+[search]
+Source=content/search.tpl
+MatchFile=search.tpl
+Subdir=templates
