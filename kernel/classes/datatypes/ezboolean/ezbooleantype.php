@@ -107,6 +107,10 @@ class eZBooleanType extends eZDataType
                 $data = 1;
             $classAttribute->setAttribute( "data_int3", $data );
         }
+        else
+        {
+            $classAttribute->setAttribute( "data_int3", 0 );
+        }
         return true;
     }
 
