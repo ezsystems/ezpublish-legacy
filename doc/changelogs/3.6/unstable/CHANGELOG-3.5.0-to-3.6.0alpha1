@@ -140,6 +140,8 @@ eZ Xmltext:
   (Merged from stable/3.5 (3.5.1) rev. 10823)
 - Fixed bug #6192: Unwanted XML field behavior in <table> tag.
   (Merged from stable/3.5 (3.5.1) rev. 10854)
+- Fixed bug: eZGeneralDigesthandler returns users when no users should be returned
+  (Merged from stable/3.3 (3.3-7) rev. 10861)
 
 *Library:
 PDF:
