@@ -11,3 +11,13 @@ echo "Check codingstandard"
 echo "Searching for bad 'foreach' statements"
 find . -name \*.php -exec ./bin/shell/checkforeach.sh {} \;
 
+echo "Check for elsif"
+
+echo
+echo "Check for global variable access"
+find . -name \*.php -exec grep -n -H 'getenv' {} \;
+
+
+echo "Checking doxygen code"
+echo "Check for proper use of \return"
+
