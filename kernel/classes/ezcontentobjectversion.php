@@ -62,6 +62,8 @@ class eZContentObjectVersion extends eZPersistentObject
 {
     function eZContentObjectVersion( $row=array() )
     {
+        $this->ContentObjectAttributeArray = false;
+        $this->DataMap = false;
         $this->eZPersistentObject( $row );
     }
 
@@ -155,6 +157,10 @@ class eZContentObjectVersion extends eZPersistentObject
         elseif ( $attr == 'contentobject' )
         {
             return  $this->contentObject();
+        }
+        else if ( $attr == "data_map" )
+        {
+            return $this->dataMap();
         }
         elseif ( $attr == 'contentobject_attributes' )
         {

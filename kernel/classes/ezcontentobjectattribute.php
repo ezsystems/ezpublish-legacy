@@ -53,12 +53,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function eZContentObjectAttribute( $row )
     {
-        $this->eZPersistentObject( $row );
         $this->Content = null;
         $this->ValidationError = null;
         $this->InputXML = null;
-        $ContentClassAttributeIdentifier = null;
-        $ContentClassAttributeID = null;
+        $this->ContentClassAttributeIdentifier = null;
+        $this->ContentClassAttributeID = null;
+        $this->eZPersistentObject( $row );
     }
 
     function &definition()
@@ -182,8 +182,10 @@ class eZContentObjectAttribute extends eZPersistentObject
       Returns the attribute  for the current data attribute instance
       \todo read from cached information
     */
-    function contentClassAttribute()
+    function &contentClassAttribute()
     {
+        eZDebug::writeDebug( $this, '$this' );
+        eZDebug::writeDebug( $this->ContentClassAttributeID, '$this->ContentClassAttributeID' );
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
         return $classAttribute;
     }
@@ -191,7 +193,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       \todo read from cached information
     */
-    function contentClassAttributeName()
+    function &contentClassAttributeName()
     {
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
         return $classAttribute->attribute( "name" );
@@ -213,7 +215,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $this->ContentClassAttributeIdentifier === null )
         {
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'idenfifier' );
+            $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
             eZDebug::writeNotice( "Identifier not cached, fetching from db", "eZContentClassAttribute::contentClassAttributeIdentifier()" );
         }
         return $this->ContentClassAttributeIdentifier;
@@ -421,6 +423,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &contentActionList()
     {
         $classAttribute =& $this->contentClassAttribute();
+        eZDebug::writeDebug( $classAttribute, 'classAttribute' );
         $dataType =& $classAttribute->dataType();
         return $dataType->contentActionList( $classAttribute );
     }
