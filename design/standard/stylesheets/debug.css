@@ -89,3 +89,7 @@ td.ezsetup_req
 	color: #00B500;
 }
 
+div.debug-toolbar label
+{
+    font-weight: normal;
+}
