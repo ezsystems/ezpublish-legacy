@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.3-3"
+VERSION="3.3-4"
 VERSION_ONLY="3.3"
 VERSION_NICK="3.3"
 
