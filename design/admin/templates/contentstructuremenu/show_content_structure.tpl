@@ -53,24 +53,24 @@
                 {section-else}
                         <a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">
                 {/section}
-        {section show=$:parentNode.node.is_hidden}
-                <span class="node-name-hidden">{$:parentNode.object.name|wash}</span>
-        {section-else}
-            {section show=$:parentNode.node.is_invisible}
-                <span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>
-            {section-else}
-                <span class="node-name-normal">{$:parentNode.object.name|wash}</span>
-            {/section}
-        {/section}
                 {section show=$:parentNode.node.is_hidden}
-                <span class="node-hidden">(Hidden)</span>
+                        <span class="node-name-hidden">{$:parentNode.object.name|wash}</span></a>
                 {section-else}
                     {section show=$:parentNode.node.is_invisible}
-                    <span class="node-hiddenbyparent">(Hidden by parent)</span>
+                        <span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span></a>
+                    {section-else}
+                        <span class="node-name-normal">{$:parentNode.object.name|wash}</span></a>
                     {/section}
                 {/section}
-                </a>
-
+                {section show=$:parentNode.node.is_hidden}
+                    <span class="node-hidden">(Hidden)</span></a>
+                {section-else}
+                    {section show=$:parentNode.node.is_invisible}
+                        <span class="node-hiddenbyparent">(Hidden by parent)</span></a>
+                    {section-else}
+                        </a>
+                    {/section}
+                {/section}
 
             {* Show children *}
                 {section show=$:haveChildren}
