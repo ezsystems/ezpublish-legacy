@@ -288,6 +288,8 @@ switch( $operationResult['status'] )
                                   'url' => false,
                                   'url_alias' => false );
 
+            $tpl->setVariable( 'node_path', $path );
+
             $Result = array();
             $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
             $Result['view_parameters'] =& $viewParameters;

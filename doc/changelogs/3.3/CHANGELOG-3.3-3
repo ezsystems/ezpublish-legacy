@@ -1,6 +1,7 @@
 Changes from 3.3-2 to 3.3-3
 
 *Kernel:
+- Made path variable available in node view templates, the variable is called node_path and it's the same variable as $module_result.path.
 - Fixed problem with section last-value, it was set to current item
 - Fixed eZImageType::metaData
 - Fixed eZObjectRelationList::metaData
