@@ -255,3 +255,9 @@ input#searchbutton, input.menubutton
     font-weight: normal;
     background-color: #e0e0e0;
 }
+
+div.mainobject-vindow
+{
+    height: 200px;
+    overflow: scroll;
+}

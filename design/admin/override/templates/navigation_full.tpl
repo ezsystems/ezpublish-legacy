@@ -4,7 +4,10 @@
 <hr />
 
 {* Show the contents of the current node (will probably use an override)*}
+
+<div class="mainobject-vindow">
 {node_view_gui content_node=$node view=navigation}
+</div>
 
 <hr />
 
