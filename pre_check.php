@@ -36,6 +36,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
  Checks if the installation is valid and returns a module redirect if required.
  If CheckValidity in SiteAccessSettings is false then no check is done.
 */
+
 function eZCheckValidity()
 {
     $ini =& eZINI::instance();
