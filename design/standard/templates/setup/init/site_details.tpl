@@ -118,7 +118,7 @@
 	    </tr>
 	    {section show=eq( $:item.db_not_empty, 1 )}
 	      <tr>
-	        <td>{"Database not empty:&nbps;"|i18n("design/standard/setup/init")}</td>
+	        <td>{"Database not empty: "|i18n("design/standard/setup/init")}</td>
 		<td><select name="eZSetup_site_templates_{$SiteTemplate:index}_existing_database">
 		      <option value="1">{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
 		      <option value="2">{"Remove existing data"|i18n("design/standard/setup/init")}</option>
