@@ -31,7 +31,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 
 $Module = array( 'name' => 'eZSection' );

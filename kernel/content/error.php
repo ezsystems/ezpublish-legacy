@@ -30,7 +30,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 
 include_once( "kernel/common/template.php" );

@@ -33,7 +33,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 // Portions are modifications on patches by Andreas Böckler and Francis Nart
 //

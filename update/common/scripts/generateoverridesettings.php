@@ -32,7 +32,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );

@@ -29,7 +29,6 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-
 //
 
 define( 'EZ_ACCESS_TYPE_DEFAULT', 1 );
