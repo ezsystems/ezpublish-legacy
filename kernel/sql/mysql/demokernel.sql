@@ -57,6 +57,14 @@ CREATE TABLE ezbinaryfile (
 # Dumping data for table 'ezbinaryfile'
 #
 
+INSERT INTO ezbinaryfile VALUES (617,1,'phpNS7wkL.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (630,1,'phpCeZRCW.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (630,2,'phpCeZRCW.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (630,3,'phpCeZRCW.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (633,1,'php23Q4Ut.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (633,2,'php23Q4Ut.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (633,3,'php23Q4Ut.txt','tmp.txt','text/plain');
+INSERT INTO ezbinaryfile VALUES (633,4,'php23Q4Ut.txt','tmp.txt','text/plain');
 
 #
 # Table structure for table 'ezcontentclass'
@@ -93,6 +101,7 @@ INSERT INTO ezcontentclass VALUES (8,1,'Forum message','','<topic>',14,14,103418
 INSERT INTO ezcontentclass VALUES (3,1,'User group','user_group','<name>',-1,14,1024392098,1035975737);
 INSERT INTO ezcontentclass VALUES (22,1,'Product','product','<title>',14,14,1034251361,1037266573);
 INSERT INTO ezcontentclass VALUES (25,0,'Link','','<title>',14,14,1037280490,1037280671);
+INSERT INTO ezcontentclass VALUES (26,0,'File','','<name>',14,14,1038917558,1038917625);
 
 #
 # Table structure for table 'ezcontentclass_attribute'
@@ -120,6 +129,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
   data_text4 varchar(50) default NULL,
+  is_information_collector int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
@@ -127,53 +137,56 @@ CREATE TABLE ezcontentclass_attribute (
 # Dumping data for table 'ezcontentclass_attribute'
 #
 
-INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (126,0,6,'description','Description','ezxmltext',1,0,3,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (125,0,6,'icon','Icon','ezimage',1,0,2,1,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (124,0,6,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','');
-INSERT INTO ezcontentclass_attribute VALUES (128,0,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','');
-INSERT INTO ezcontentclass_attribute VALUES (129,0,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (7,1,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (6,1,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (128,1,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','');
-INSERT INTO ezcontentclass_attribute VALUES (129,1,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (153,0,23,'review','Review','ezxmltext',1,0,5,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (152,0,23,'geography','Town, Country','ezstring',1,1,4,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (150,0,23,'rating','Rating','ezenum',1,0,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (151,0,23,'reviewer_name','Reviewer Name','ezstring',1,1,3,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (156,0,24,'image','Image','ezimage',1,0,3,1,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (155,0,24,'body','Body','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (154,0,24,'name','Name','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,10,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (145,1,22,'description','Description','ezxmltext',1,0,4,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (157,1,22,'intro','Intro','ezxmltext',1,0,3,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (148,0,22,'photo','Photo','ezimage',1,0,6,1,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (149,0,23,'title','Title','ezstring',1,1,1,50,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',0,0,4,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,20,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',1,0,1,255,0,0,0,0,0,0,0,'New article','','','');
-INSERT INTO ezcontentclass_attribute VALUES (147,0,22,'price','Price','ezprice',1,1,5,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (145,0,22,'description','Description','ezxmltext',1,0,4,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (157,0,22,'intro','Intro','ezxmltext',1,0,3,5,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (144,0,22,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (142,0,22,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (142,1,22,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (144,1,22,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (147,1,22,'price','Price','ezprice',1,1,5,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (148,1,22,'photo','Photo','ezimage',1,0,6,1,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (160,0,25,'link','Link','ezurl',1,1,3,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (159,0,25,'description','Description','ezxmltext',1,0,2,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (158,0,25,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (126,0,6,'description','Description','ezxmltext',1,0,3,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (125,0,6,'icon','Icon','ezimage',1,0,2,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (124,0,6,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (128,0,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (129,0,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (7,1,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (6,1,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (128,1,8,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (129,1,8,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (153,0,23,'review','Review','ezxmltext',1,0,5,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (152,0,23,'geography','Town, Country','ezstring',1,1,4,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (150,0,23,'rating','Rating','ezenum',1,0,2,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (151,0,23,'reviewer_name','Reviewer Name','ezstring',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (156,0,24,'image','Image','ezimage',1,0,3,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (155,0,24,'body','Body','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (154,0,24,'name','Name','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,10,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (145,1,22,'description','Description','ezxmltext',1,0,4,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (157,1,22,'intro','Intro','ezxmltext',1,0,3,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (148,0,22,'photo','Photo','ezimage',1,0,6,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (149,0,23,'title','Title','ezstring',1,1,1,50,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',0,0,4,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,20,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',1,0,1,255,0,0,0,0,0,0,0,'New article','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (147,0,22,'price','Price','ezprice',1,1,5,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (145,0,22,'description','Description','ezxmltext',1,0,4,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (157,0,22,'intro','Intro','ezxmltext',1,0,3,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (144,0,22,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (142,0,22,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (142,1,22,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (144,1,22,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (147,1,22,'price','Price','ezprice',1,1,5,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (148,1,22,'photo','Photo','ezimage',1,0,6,1,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (160,0,25,'link','Link','ezurl',1,1,3,0,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (159,0,25,'description','Description','ezxmltext',1,0,2,2,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (158,0,25,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (163,0,26,'file','File','ezbinaryfile',0,1,3,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (162,0,26,'description','Description','ezxmltext',1,0,2,5,0,0,0,0,0,0,0,'','','','',0);
+INSERT INTO ezcontentclass_attribute VALUES (161,0,26,'name','Name','ezstring',1,1,1,0,0,0,0,0,0,0,0,'New file','','','',0);
 
 #
 # Table structure for table 'ezcontentclass_classgroup'
@@ -208,6 +221,7 @@ INSERT INTO ezcontentclass_classgroup VALUES (22,1,5,'Book Corner');
 INSERT INTO ezcontentclass_classgroup VALUES (22,1,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (22,0,5,'Book Corner');
 INSERT INTO ezcontentclass_classgroup VALUES (25,0,1,'Content');
+INSERT INTO ezcontentclass_classgroup VALUES (26,0,3,'Media');
 
 #
 # Table structure for table 'ezcontentclassgroup'
@@ -385,6 +399,15 @@ INSERT INTO ezcontentobject VALUES (197,14,0,193,4,25,'eZ systems',1,0,1,1037280
 INSERT INTO ezcontentobject VALUES (201,14,0,197,4,25,'eZ publish',1,0,1,1037281396,1037281396);
 INSERT INTO ezcontentobject VALUES (202,14,0,198,4,24,'About this forum',1,0,1,1037281592,1037281592);
 INSERT INTO ezcontentobject VALUES (200,14,0,196,3,2,'Test article',1,0,1,1037281016,1037281016);
+INSERT INTO ezcontentobject VALUES (203,14,0,199,7,1,'My Intranet',1,0,1,1038916142,1038916142);
+INSERT INTO ezcontentobject VALUES (204,14,0,200,7,1,'News',1,0,1,1038916156,1038916156);
+INSERT INTO ezcontentobject VALUES (205,14,0,201,7,1,'Files',1,0,1,1038916201,1038916201);
+INSERT INTO ezcontentobject VALUES (206,14,0,202,7,26,'Important document',1,0,1,1038917707,1038917707);
+INSERT INTO ezcontentobject VALUES (207,14,0,203,7,2,'This months budget',1,0,1,1038919010,1038919010);
+INSERT INTO ezcontentobject VALUES (208,14,0,208,7,2,'Wine lottery today',1,0,1,1038919541,1038919541);
+INSERT INTO ezcontentobject VALUES (209,14,0,205,7,26,'Document template',3,0,1,1038919177,1038919177);
+INSERT INTO ezcontentobject VALUES (210,14,0,207,7,26,'Another template',4,0,1,1038919287,1038919287);
+INSERT INTO ezcontentobject VALUES (211,14,0,209,7,2,'Meeting today at 13',1,0,1,1038920436,1038920436);
 
 #
 # Table structure for table 'ezcontentobject_attribute'
@@ -1268,6 +1291,51 @@ INSERT INTO ezcontentobject_attribute VALUES (481,'eng-GB',6,170,156,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (476,'eng-GB',3,169,154,'About',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (477,'eng-GB',3,169,155,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Welcome to My company</paragraph>\n  <paragraph>My company is a leader in technology that enable programming and industry customers to improve performance and satisfaction while lowering costs and time spend.</paragraph>\n  <paragraph>My company is located in downtown Metropolis and we operate in about 65 countries and employ around 1,000 people.</paragraph>\n</section>\n',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (478,'eng-GB',3,169,156,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (609,'eng-GB',1,203,4,'My Intranet',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (610,'eng-GB',1,203,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (611,'eng-GB',1,204,4,'News',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (612,'eng-GB',1,204,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (613,'eng-GB',1,205,4,'Files',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (614,'eng-GB',1,205,119,'<?xml version=\"1.0\"?>\n<section />',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (615,'eng-GB',1,206,161,'Important document',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (616,'eng-GB',1,206,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>This is the most important document ever written.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (617,'eng-GB',1,206,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (618,'eng-GB',1,207,1,'This months budget',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (619,'eng-GB',1,207,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>This is just a reminder for you all to send in the latest numbers for this month. No delays are accepted.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (620,'eng-GB',1,207,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>The numbers need to include:\n- Total sales\n- Total sales in $\n- Sales per product\n- Total calls made\n- Breakthrough rate (How many have bought)\n- Returns\n- Estimates for the next month</paragraph>\n  <paragraph>These numbers have to be in my mailbox before 1600 today.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (621,'eng-GB',1,207,122,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (622,'eng-GB',1,207,123,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (623,'eng-GB',1,208,1,'Wine lottery today',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (624,'eng-GB',1,208,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Today we introduce the best wine lottery ever. The success of the lottery brings the wine quality one step up.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (625,'eng-GB',1,208,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Since so many of you have joined this lottery earlier we will make it even more fun this time. In addition to the wine we also give away cheese and cracers to the lucky winners.</paragraph>\n  <paragraph>Drop by my office if you want to purchase a chance to win high quality wine. You can also send me an e-mail if you are prevented from coming.</paragraph>\n  <paragraph>The lottery ticket only cost $ 2.</paragraph>\n  <paragraph>Linda Loo</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (626,'eng-GB',1,208,122,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (627,'eng-GB',1,208,123,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (628,'eng-GB',1,209,161,'Document template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (629,'eng-GB',1,209,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>A template you can use when creating very large documents.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (630,'eng-GB',1,209,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (628,'eng-GB',2,209,161,'Document template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (629,'eng-GB',2,209,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>A template you can use when creating very large documents.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (630,'eng-GB',2,209,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (628,'eng-GB',3,209,161,'Document template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (629,'eng-GB',3,209,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>A template you can use when creating very large documents.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (630,'eng-GB',3,209,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (631,'eng-GB',1,210,161,'Another template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (632,'eng-GB',1,210,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Just another dummy text file for your amusement.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (633,'eng-GB',1,210,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (631,'eng-GB',2,210,161,'Another template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (632,'eng-GB',2,210,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Just another dummy text file for your amusement.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (633,'eng-GB',2,210,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (631,'eng-GB',3,210,161,'Another template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (632,'eng-GB',3,210,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Just another dummy text file for your amusement.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (633,'eng-GB',3,210,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (631,'eng-GB',4,210,161,'Another template',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (632,'eng-GB',4,210,162,'<?xml version=\"1.0\"?>\n<section>  <paragraph>Just another dummy text file for your amusement.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (633,'eng-GB',4,210,163,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (634,'eng-GB',1,211,1,'Meeting today at 13',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (635,'eng-GB',1,211,120,'<?xml version=\"1.0\"?>\n<section>  <paragraph>This is an update for those of you who didn&apos;t attend todays meeting.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (636,'eng-GB',1,211,121,'<?xml version=\"1.0\"?>\n<section>  <paragraph>This was the first &quot;Monday-meeting&quot; in the new year.</paragraph>\n  <paragraph>1. First of all the CEO wished us all a very heppy new year. He also told us shortly about the plans for this year. You will getthat in another memo by e-mail later today or tomorrow.</paragraph>\n  <paragraph>2. a suggestion was that we need to get better when we talk about internal communiucation. To many errors and mistakes come from bad communication. We all have to get betterat this. Inform eachother and at least your manager.</paragraph>\n  <paragraph>PROJECTS: \n- Didi.net: Lot&apos;s of work to do, Tre hope they can have something to show up on Friday and everything should be under control :)\n- Dimm Media: Arthurs and Timm will show them the many fancy things in our new software. This projects wil include most of you and are therefore the number one priority this week.\n- Green lawn: Simmson are going set up an accounting system for them.\n- Billingsaccout: They will visit us today so keep your desks clean and tidy. First impression is everything. We need to get this customer because of the money he will bring in.</paragraph>\n  <paragraph>INTERNAL:\n- The new kitchen help will begin today. Give her the support she needs and do not get angry with her if she makes mistakes on her first day.</paragraph>\n</section>\n',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (637,'eng-GB',1,211,122,'',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (638,'eng-GB',1,211,123,'',0,0);
 
 #
 # Table structure for table 'ezcontentobject_link'
@@ -1463,6 +1531,15 @@ INSERT INTO ezcontentobject_tree VALUES (188,162,191,2,1,828899645,5,'/1/2/158/1
 INSERT INTO ezcontentobject_tree VALUES (193,192,197,1,1,475615198,4,'/1/2/31/192/193/','',0,0,'my_folder/crossroads_forum/links/',1,1,0);
 INSERT INTO ezcontentobject_tree VALUES (197,192,201,1,1,475615198,4,'/1/2/31/192/197/','',0,0,'my_folder/crossroads_forum/links/',1,1,0);
 INSERT INTO ezcontentobject_tree VALUES (198,31,202,1,1,-427161665,3,'/1/2/31/198/','',0,0,'my_folder/crossroads_forum/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (199,2,203,1,1,370369276,2,'/1/2/199/','',0,0,'my_folder/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (200,199,204,1,1,-528671633,3,'/1/2/199/200/','',0,0,'my_folder/my_intranet/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (201,199,205,1,1,-528671633,3,'/1/2/199/201/','',0,0,'my_folder/my_intranet/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (202,201,206,1,1,124215593,4,'/1/2/199/201/202/','',0,0,'my_folder/my_intranet/files/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (203,200,207,1,1,291459309,4,'/1/2/199/200/203/','',0,0,'my_folder/my_intranet/news/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (208,200,208,1,1,291459309,4,'/1/2/199/200/208/','',0,0,'my_folder/my_intranet/news/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (205,201,209,3,1,124215593,4,'/1/2/199/201/205/','',0,0,'my_folder/my_intranet/files/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (207,201,210,4,1,124215593,4,'/1/2/199/201/207/','',0,0,'my_folder/my_intranet/files/',1,1,0);
+INSERT INTO ezcontentobject_tree VALUES (209,200,211,1,1,291459309,4,'/1/2/199/200/209/','',0,0,'my_folder/my_intranet/news/',1,1,0);
 
 #
 # Table structure for table 'ezcontentobject_version'
@@ -1737,6 +1814,54 @@ INSERT INTO ezcontentobject_version VALUES (773,165,14,2,1037281412,1037281706,1
 INSERT INTO ezcontentobject_version VALUES (774,202,14,1,1037281569,1037281592,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (775,170,14,6,1037284934,1037284973,1,0,0);
 INSERT INTO ezcontentobject_version VALUES (776,169,14,3,1037285268,1037285403,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (777,203,14,1,1038916133,1038916142,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (778,204,14,1,1038916149,1038916156,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (779,205,14,1,1038916171,1038916201,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (780,206,14,1,1038917669,1038917707,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (781,207,14,1,1038918544,1038919010,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (782,208,14,1,1038919033,1038919541,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (783,209,14,1,1038919113,1038919152,3,0,0);
+INSERT INTO ezcontentobject_version VALUES (784,209,14,2,1038919156,1038919163,3,0,0);
+INSERT INTO ezcontentobject_version VALUES (785,209,14,3,1038919168,1038919177,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (786,210,14,1,1038919214,1038919252,3,0,0);
+INSERT INTO ezcontentobject_version VALUES (787,210,14,2,1038919256,1038919262,3,0,0);
+INSERT INTO ezcontentobject_version VALUES (788,210,14,3,1038919266,1038919275,3,0,0);
+INSERT INTO ezcontentobject_version VALUES (789,210,14,4,1038919279,1038919287,1,0,0);
+INSERT INTO ezcontentobject_version VALUES (790,211,14,1,1038919602,1038920435,1,0,0);
+
+#
+# Table structure for table 'ezdiscountsubrule'
+#
+
+CREATE TABLE ezdiscountsubrule (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  discountrule_id int(11) NOT NULL default '0',
+  discount_percent float default NULL,
+  limitation char(1) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezdiscountsubrule'
+#
+
+
+#
+# Table structure for table 'ezdiscountsubrule_value'
+#
+
+CREATE TABLE ezdiscountsubrule_value (
+  discountsubrule_id int(11) NOT NULL default '0',
+  value int(11) NOT NULL default '0',
+  issection int(1) NOT NULL default '0',
+  PRIMARY KEY  (discountsubrule_id,value,issection)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezdiscountsubrule_value'
+#
+
 
 #
 # Table structure for table 'ezenumobjectvalue'
@@ -1942,6 +2067,40 @@ CREATE TABLE ezimagevariation (
 
 
 #
+# Table structure for table 'ezinformationcollection'
+#
+
+CREATE TABLE ezinformationcollection (
+  id int(11) NOT NULL auto_increment,
+  contentobject_id int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezinformationcollection'
+#
+
+
+#
+# Table structure for table 'ezinformationcollection_attribute'
+#
+
+CREATE TABLE ezinformationcollection_attribute (
+  id int(11) NOT NULL auto_increment,
+  informationcollection_id int(11) NOT NULL default '0',
+  data_text text,
+  data_int int(11) default NULL,
+  data_float float default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezinformationcollection_attribute'
+#
+
+
+#
 # Table structure for table 'ezmedia'
 #
 
@@ -2030,7 +2189,7 @@ INSERT INTO eznode_assignment VALUES (2,1,1,1,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (3,4,2,1,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (4,8,2,5,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (144,4,4,1,1,1,1,0);
-INSERT INTO eznode_assignment VALUES (147,210,1,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (147,210,1,5,0,1,1,0);
 INSERT INTO eznode_assignment VALUES (146,209,1,5,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (145,1,2,1,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (148,9,1,2,1,1,1,0);
@@ -2336,6 +2495,23 @@ INSERT INTO eznode_assignment VALUES (502,165,2,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (503,202,1,31,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (504,170,6,158,1,1,1,0);
 INSERT INTO eznode_assignment VALUES (505,169,3,158,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (506,203,1,2,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (507,204,1,199,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (508,205,1,199,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (509,206,1,201,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (510,207,1,200,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (511,208,1,200,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (512,209,1,201,0,1,1,0);
+INSERT INTO eznode_assignment VALUES (513,209,2,5,0,1,1,0);
+INSERT INTO eznode_assignment VALUES (514,209,2,201,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (517,210,1,201,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (516,209,3,201,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (518,210,2,5,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (519,210,2,201,0,1,1,0);
+INSERT INTO eznode_assignment VALUES (520,210,3,5,0,1,1,0);
+INSERT INTO eznode_assignment VALUES (521,210,3,201,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (524,211,1,200,1,1,1,0);
+INSERT INTO eznode_assignment VALUES (523,210,4,201,1,1,1,0);
 
 #
 # Table structure for table 'eznotification_rule'
@@ -2375,6 +2551,22 @@ CREATE TABLE eznotification_user_link (
 #
 
 
+#
+# Table structure for table 'ezoperation_memento'
+#
+
+CREATE TABLE ezoperation_memento (
+  id int(11) NOT NULL auto_increment,
+  main int(11) NOT NULL default '0',
+  memento_key varchar(32) NOT NULL default '',
+  main_key varchar(32) NOT NULL default '',
+  memento_data text NOT NULL,
+  PRIMARY KEY  (id,memento_key)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezoperation_memento'
+#
 
 
 #
@@ -2419,12 +2611,12 @@ CREATE TABLE ezpolicy (
 INSERT INTO ezpolicy VALUES (376,3,'*','content','*');
 INSERT INTO ezpolicy VALUES (308,2,'*','*','*');
 INSERT INTO ezpolicy VALUES (367,6,'*','*','*');
-INSERT INTO ezpolicy VALUES (369,1,'create','content','');
-INSERT INTO ezpolicy VALUES (370,1,'edit','content','');
-INSERT INTO ezpolicy VALUES (371,1,'create','content','');
-INSERT INTO ezpolicy VALUES (372,1,'*','layout','*');
-INSERT INTO ezpolicy VALUES (373,1,'read','content','');
-INSERT INTO ezpolicy VALUES (374,1,'*','shop','*');
+INSERT INTO ezpolicy VALUES (377,1,'create','content','');
+INSERT INTO ezpolicy VALUES (378,1,'edit','content','');
+INSERT INTO ezpolicy VALUES (379,1,'create','content','');
+INSERT INTO ezpolicy VALUES (380,1,'*','layout','*');
+INSERT INTO ezpolicy VALUES (382,1,'*','shop','*');
+INSERT INTO ezpolicy VALUES (383,1,'read','content','');
 
 #
 # Table structure for table 'ezpolicy_limitation'
@@ -2444,13 +2636,13 @@ CREATE TABLE ezpolicy_limitation (
 # Dumping data for table 'ezpolicy_limitation'
 #
 
-INSERT INTO ezpolicy_limitation VALUES (307,369,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (308,369,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (309,370,'Owner',0,'edit','content');
-INSERT INTO ezpolicy_limitation VALUES (310,371,'Class',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (311,371,'Section',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (312,371,'ParentClass',0,'create','content');
-INSERT INTO ezpolicy_limitation VALUES (313,373,'Class',0,'read','content');
+INSERT INTO ezpolicy_limitation VALUES (314,377,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (315,377,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (316,378,'Owner',0,'edit','content');
+INSERT INTO ezpolicy_limitation VALUES (317,379,'Class',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (318,379,'Section',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (319,379,'ParentClass',0,'create','content');
+INSERT INTO ezpolicy_limitation VALUES (321,383,'Class',0,'read','content');
 
 #
 # Table structure for table 'ezpolicy_limitation_value'
@@ -2467,20 +2659,22 @@ CREATE TABLE ezpolicy_limitation_value (
 # Dumping data for table 'ezpolicy_limitation_value'
 #
 
-INSERT INTO ezpolicy_limitation_value VALUES (492,307,8);
-INSERT INTO ezpolicy_limitation_value VALUES (493,308,6);
-INSERT INTO ezpolicy_limitation_value VALUES (494,309,1);
-INSERT INTO ezpolicy_limitation_value VALUES (495,310,8);
-INSERT INTO ezpolicy_limitation_value VALUES (496,311,4);
-INSERT INTO ezpolicy_limitation_value VALUES (497,312,8);
-INSERT INTO ezpolicy_limitation_value VALUES (498,313,1);
-INSERT INTO ezpolicy_limitation_value VALUES (499,313,2);
-INSERT INTO ezpolicy_limitation_value VALUES (500,313,5);
-INSERT INTO ezpolicy_limitation_value VALUES (501,313,6);
-INSERT INTO ezpolicy_limitation_value VALUES (502,313,8);
-INSERT INTO ezpolicy_limitation_value VALUES (503,313,22);
-INSERT INTO ezpolicy_limitation_value VALUES (504,313,23);
-INSERT INTO ezpolicy_limitation_value VALUES (505,313,24);
+INSERT INTO ezpolicy_limitation_value VALUES (506,314,8);
+INSERT INTO ezpolicy_limitation_value VALUES (507,315,6);
+INSERT INTO ezpolicy_limitation_value VALUES (508,316,1);
+INSERT INTO ezpolicy_limitation_value VALUES (509,317,8);
+INSERT INTO ezpolicy_limitation_value VALUES (510,318,4);
+INSERT INTO ezpolicy_limitation_value VALUES (511,319,8);
+INSERT INTO ezpolicy_limitation_value VALUES (520,321,1);
+INSERT INTO ezpolicy_limitation_value VALUES (521,321,2);
+INSERT INTO ezpolicy_limitation_value VALUES (522,321,5);
+INSERT INTO ezpolicy_limitation_value VALUES (523,321,6);
+INSERT INTO ezpolicy_limitation_value VALUES (524,321,8);
+INSERT INTO ezpolicy_limitation_value VALUES (525,321,22);
+INSERT INTO ezpolicy_limitation_value VALUES (526,321,23);
+INSERT INTO ezpolicy_limitation_value VALUES (527,321,24);
+INSERT INTO ezpolicy_limitation_value VALUES (528,321,25);
+INSERT INTO ezpolicy_limitation_value VALUES (529,321,26);
 
 #
 # Table structure for table 'ezproductcollection'
@@ -2517,7 +2711,6 @@ CREATE TABLE ezproductcollection_item (
   productcollection_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
   item_count int(11) NOT NULL default '0',
-  price_is_inc_vat int(11) NOT NULL default '0',
   price int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -2526,13 +2719,13 @@ CREATE TABLE ezproductcollection_item (
 # Dumping data for table 'ezproductcollection_item'
 #
 
-INSERT INTO ezproductcollection_item VALUES (5,5,125,1,0,12);
-INSERT INTO ezproductcollection_item VALUES (4,5,125,1,0,12);
-INSERT INTO ezproductcollection_item VALUES (11,10,150,1,0,39);
-INSERT INTO ezproductcollection_item VALUES (10,8,125,1,0,12);
-INSERT INTO ezproductcollection_item VALUES (12,11,151,1,0,0);
-INSERT INTO ezproductcollection_item VALUES (13,12,125,1,0,12);
-INSERT INTO ezproductcollection_item VALUES (14,12,192,1,0,34489);
+INSERT INTO ezproductcollection_item VALUES (5,5,125,1,12);
+INSERT INTO ezproductcollection_item VALUES (4,5,125,1,12);
+INSERT INTO ezproductcollection_item VALUES (11,10,150,1,39);
+INSERT INTO ezproductcollection_item VALUES (10,8,125,1,12);
+INSERT INTO ezproductcollection_item VALUES (12,11,151,1,0);
+INSERT INTO ezproductcollection_item VALUES (13,12,125,1,12);
+INSERT INTO ezproductcollection_item VALUES (14,12,192,1,34489);
 
 #
 # Table structure for table 'ezrole'
@@ -9550,6 +9743,436 @@ INSERT INTO ezsearch_object_word_link VALUES (13133,165,615,0,87,3314,11,1,119,1
 INSERT INTO ezsearch_object_word_link VALUES (13134,165,11,0,88,615,2427,1,119,1037281706,6);
 INSERT INTO ezsearch_object_word_link VALUES (13135,165,2427,0,89,11,601,1,119,1037281706,6);
 INSERT INTO ezsearch_object_word_link VALUES (13136,165,601,0,90,2427,0,1,119,1037281706,6);
+INSERT INTO ezsearch_object_word_link VALUES (13299,203,210,0,0,0,3334,1,4,1038916142,7);
+INSERT INTO ezsearch_object_word_link VALUES (13300,203,3334,0,1,210,0,1,4,1038916142,7);
+INSERT INTO ezsearch_object_word_link VALUES (13301,204,8,0,0,0,0,1,4,1038916156,7);
+INSERT INTO ezsearch_object_word_link VALUES (13302,205,3335,0,0,0,0,1,4,1038916201,7);
+INSERT INTO ezsearch_object_word_link VALUES (13303,206,2055,0,0,0,3336,26,161,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13304,206,3336,0,1,2055,179,26,161,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13305,206,179,0,2,3336,108,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13306,206,108,0,3,179,11,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13307,206,11,0,4,108,1099,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13308,206,1099,0,5,11,2055,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13309,206,2055,0,6,1099,3336,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13310,206,3336,0,7,2055,180,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13311,206,180,0,8,3336,3175,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13312,206,3175,0,9,180,0,26,162,1038917707,7);
+INSERT INTO ezsearch_object_word_link VALUES (13313,207,179,0,0,0,1185,2,1,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13314,207,1185,0,1,179,3337,2,1,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13315,207,3337,0,2,1185,179,2,1,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13316,207,179,0,3,3337,108,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13317,207,108,0,4,179,721,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13318,207,721,0,5,108,546,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13319,207,546,0,6,721,3338,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13320,207,3338,0,7,546,575,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13321,207,575,0,8,3338,201,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13322,207,201,0,9,575,931,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13323,207,931,0,10,201,219,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13324,207,219,0,11,931,3329,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13325,207,3329,0,12,219,181,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13326,207,181,0,13,3329,11,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13327,207,11,0,14,181,2809,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13328,207,2809,0,15,11,3339,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13329,207,3339,0,16,2809,575,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13330,207,575,0,17,3339,179,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13331,207,179,0,18,575,3340,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13332,207,3340,0,19,179,174,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13333,207,174,0,20,3340,3341,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13334,207,3341,0,21,174,637,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13335,207,637,0,22,3341,3342,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13336,207,3342,0,23,637,11,2,120,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13337,207,11,0,24,3342,3339,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13338,207,3339,0,25,11,701,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13339,207,701,0,26,3339,219,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13340,207,219,0,27,701,3343,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13341,207,3343,0,28,219,3344,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13342,207,3344,0,29,3343,2061,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13343,207,2061,0,30,3344,3344,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13344,207,3344,0,31,2061,2061,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13345,207,2061,0,32,3344,181,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13346,207,181,0,33,2061,2061,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13347,207,2061,0,34,181,3345,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13348,207,3345,0,35,2061,2060,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13349,207,2060,0,36,3345,3344,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13350,207,3344,0,37,2060,3346,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13351,207,3346,0,38,3344,1324,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13352,207,1324,0,39,3346,3347,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13353,207,3347,0,40,1324,3348,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13354,207,3348,0,41,3347,199,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13355,207,199,0,42,3348,654,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13356,207,654,0,43,199,251,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13357,207,251,0,44,654,2040,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13358,207,2040,0,45,251,3349,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13359,207,3349,0,46,2040,3350,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13360,207,3350,0,47,3349,575,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13361,207,575,0,48,3350,11,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13362,207,11,0,49,575,544,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13363,207,544,0,50,11,3340,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13364,207,3340,0,51,544,2016,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13365,207,2016,0,52,3340,3339,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13366,207,3339,0,53,2016,251,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13367,207,251,0,54,3339,219,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13368,207,219,0,55,251,734,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13369,207,734,0,56,219,181,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13370,207,181,0,57,734,210,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13371,207,210,0,58,181,3351,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13372,207,3351,0,59,210,1272,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13373,207,1272,0,60,3351,3352,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13374,207,3352,0,61,1272,703,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13375,207,703,0,62,3352,0,2,121,1038919010,7);
+INSERT INTO ezsearch_object_word_link VALUES (13411,209,3358,0,11,3357,0,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13410,209,3357,0,10,708,3358,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13409,209,708,0,9,1948,3357,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13408,209,1948,0,8,237,708,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13407,209,237,0,7,2014,1948,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13406,209,2014,0,6,200,237,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13405,209,200,0,5,201,2014,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13404,209,201,0,4,1980,200,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13403,209,1980,0,3,546,201,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13402,209,546,0,2,1980,1980,26,162,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13401,209,1980,0,1,3336,546,26,161,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13400,209,3336,0,0,0,1980,26,161,1038919177,7);
+INSERT INTO ezsearch_object_word_link VALUES (13451,210,3370,0,9,1633,0,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13450,210,1633,0,8,575,3370,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13449,210,575,0,7,3105,1633,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13448,210,3105,0,6,3369,575,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13447,210,3369,0,5,3368,3105,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13446,210,3368,0,4,749,3369,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13445,210,749,0,3,721,3368,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13444,210,721,0,2,1980,749,26,162,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13443,210,1980,0,1,749,721,26,161,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13442,210,749,0,0,0,1980,26,161,1038919287,7);
+INSERT INTO ezsearch_object_word_link VALUES (13452,208,240,0,0,0,3371,2,1,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13453,208,3371,0,1,240,703,2,1,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13454,208,703,0,2,3371,703,2,1,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13455,208,703,0,3,703,636,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13456,208,636,0,4,703,1141,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13457,208,1141,0,5,636,11,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13458,208,11,0,6,1141,2330,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13459,208,2330,0,7,11,240,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13460,208,240,0,8,2330,3371,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13461,208,3371,0,9,240,180,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13462,208,180,0,10,3371,11,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13463,208,11,0,11,180,1156,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13464,208,1156,0,12,11,234,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13465,208,234,0,13,1156,11,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13466,208,11,0,14,234,3371,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13467,208,3371,0,15,11,3372,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13468,208,3372,0,16,3371,11,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13469,208,11,0,17,3372,240,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13470,208,240,0,18,11,2188,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13471,208,2188,0,19,240,553,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13472,208,553,0,20,2188,1151,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13473,208,1151,0,21,553,630,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13474,208,630,0,22,1151,1157,2,120,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13475,208,1157,0,23,630,247,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13476,208,247,0,24,1157,654,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13477,208,654,0,25,247,234,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13478,208,234,0,26,654,201,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13479,208,201,0,27,234,251,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13480,208,251,0,28,201,3373,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13481,208,3373,0,29,251,179,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13482,208,179,0,30,3373,3371,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13483,208,3371,0,31,179,2571,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13484,208,2571,0,32,3371,636,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13485,208,636,0,33,2571,739,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13486,208,739,0,34,636,220,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13487,208,220,0,35,739,203,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13488,208,203,0,36,220,2242,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13489,208,2242,0,37,203,638,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13490,208,638,0,38,2242,1971,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13491,208,1971,0,39,638,179,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13492,208,179,0,40,1971,748,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13493,208,748,0,41,179,181,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13494,208,181,0,42,748,3374,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13495,208,3374,0,43,181,219,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13496,208,219,0,44,3374,11,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13497,208,11,0,45,219,240,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13498,208,240,0,46,11,636,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13499,208,636,0,47,240,733,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13500,208,733,0,48,636,2058,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13501,208,2058,0,49,733,1614,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13502,208,1614,0,50,2058,3375,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13503,208,3375,0,51,1614,243,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13504,208,243,0,52,3375,3376,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13505,208,3376,0,53,243,219,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13506,208,219,0,54,3376,11,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13507,208,11,0,55,219,3377,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13508,208,3377,0,56,11,3378,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13509,208,3378,0,57,3377,3379,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13510,208,3379,0,58,3378,564,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13511,208,564,0,59,3379,210,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13512,208,210,0,60,564,1222,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13513,208,1222,0,61,210,1254,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13514,208,1254,0,62,1222,201,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13515,208,201,0,63,1254,2024,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13516,208,2024,0,64,201,219,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13517,208,219,0,65,2024,3380,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13518,208,3380,0,66,219,546,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13519,208,546,0,67,3380,1626,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13520,208,1626,0,68,546,219,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13521,208,219,0,69,1626,1737,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13522,208,1737,0,70,219,1138,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13523,208,1138,0,71,1737,2188,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13524,208,2188,0,72,1138,240,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13525,208,240,0,73,2188,201,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13526,208,201,0,74,240,200,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13527,208,200,0,75,201,733,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13528,208,733,0,76,200,3329,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13529,208,3329,0,77,733,221,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13530,208,221,0,78,3329,28,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13531,208,28,0,79,221,2053,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13532,208,2053,0,80,28,3381,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13533,208,3381,0,81,2053,1254,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13534,208,1254,0,82,3381,201,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13535,208,201,0,83,1254,637,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13536,208,637,0,84,201,3382,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13537,208,3382,0,85,637,615,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13538,208,615,0,86,3382,1136,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13539,208,1136,0,87,615,11,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13540,208,11,0,88,1136,3371,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13541,208,3371,0,89,11,3383,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13542,208,3383,0,90,3371,261,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13543,208,261,0,91,3383,3384,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13544,208,3384,0,92,261,7,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13545,208,7,0,93,3384,3385,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13546,208,3385,0,94,7,3386,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13547,208,3386,0,95,3385,0,2,121,1038919541,7);
+INSERT INTO ezsearch_object_word_link VALUES (13548,211,3387,0,0,0,703,2,1,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13549,211,703,0,1,3387,686,2,1,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13550,211,686,0,2,703,3388,2,1,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13551,211,3388,0,3,686,179,2,1,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13552,211,179,0,4,3388,108,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13553,211,108,0,5,179,28,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13554,211,28,0,6,108,3389,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13555,211,3389,0,7,28,575,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13556,211,575,0,8,3389,988,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13557,211,988,0,9,575,234,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13558,211,234,0,10,988,201,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13559,211,201,0,11,234,989,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13560,211,989,0,12,201,743,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13561,211,743,0,13,989,744,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13562,211,744,0,14,743,3390,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13563,211,3390,0,15,744,2827,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13564,211,2827,0,16,3390,3387,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13565,211,3387,0,17,2827,179,2,120,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13566,211,179,0,18,3387,561,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13567,211,561,0,19,179,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13568,211,11,0,20,561,177,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13569,211,177,0,21,11,3391,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13570,211,3391,0,22,177,3387,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13571,211,3387,0,23,3391,181,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13572,211,181,0,24,3387,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13573,211,11,0,25,181,228,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13574,211,228,0,26,11,582,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13575,211,582,0,27,228,6,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13576,211,6,0,28,582,177,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13577,211,177,0,29,6,234,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13578,211,234,0,30,177,931,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13579,211,931,0,31,234,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13580,211,11,0,32,931,3392,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13581,211,3392,0,33,11,3393,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13582,211,3393,0,34,3392,968,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13583,211,968,0,35,3393,931,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13584,211,931,0,36,968,546,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13585,211,546,0,37,931,708,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13586,211,708,0,38,546,3394,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13587,211,3394,0,39,708,228,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13588,211,228,0,40,3394,582,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13589,211,582,0,41,228,578,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13590,211,578,0,42,582,733,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13591,211,733,0,43,578,3395,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13592,211,3395,0,44,733,968,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13593,211,968,0,45,3395,3396,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13594,211,3396,0,46,968,193,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13595,211,193,0,47,3396,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13596,211,11,0,48,193,3397,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13597,211,3397,0,49,11,575,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13598,211,575,0,50,3397,179,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13599,211,179,0,51,575,582,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13600,211,582,0,52,179,201,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13601,211,201,0,53,582,739,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13602,211,739,0,54,201,3398,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13603,211,3398,0,55,739,181,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13604,211,181,0,56,3398,749,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13605,211,749,0,57,181,3399,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13606,211,3399,0,58,749,564,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13607,211,564,0,59,3399,2053,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13608,211,2053,0,60,564,3381,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13609,211,3381,0,61,2053,1170,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13610,211,1170,0,62,3381,703,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13611,211,703,0,63,1170,610,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13612,211,610,0,64,703,3400,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13613,211,3400,0,65,610,7,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13614,211,7,0,66,3400,546,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13615,211,546,0,67,7,3401,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13616,211,3401,0,68,546,561,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13617,211,561,0,69,3401,194,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13618,211,194,0,70,561,636,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13619,211,636,0,71,194,701,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13620,211,701,0,72,636,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13621,211,219,0,73,701,1632,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13622,211,1632,0,74,219,698,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13623,211,698,0,75,1632,237,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13624,211,237,0,76,698,636,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13625,211,636,0,77,237,3402,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13626,211,3402,0,78,636,193,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13627,211,193,0,79,3402,3403,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13628,211,3403,0,80,193,3404,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13629,211,3404,0,81,3403,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13630,211,219,0,82,3404,654,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13631,211,654,0,83,219,3405,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13632,211,3405,0,84,654,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13633,211,243,0,85,3405,3406,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13634,211,3406,0,86,243,1191,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13635,211,1191,0,87,3406,615,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13636,211,615,0,88,1191,207,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13637,211,207,0,89,615,1983,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13638,211,1983,0,90,207,636,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13639,211,636,0,91,1983,931,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13640,211,931,0,92,636,251,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13641,211,251,0,93,931,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13642,211,219,0,94,251,1632,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13643,211,1632,0,95,219,3407,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13644,211,3407,0,96,1632,179,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13645,211,179,0,97,3407,3408,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13646,211,3408,0,98,179,3409,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13647,211,3409,0,99,3408,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13648,211,243,0,100,3409,686,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13649,211,686,0,101,243,3410,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13650,211,3410,0,102,686,1633,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13651,211,1633,0,103,3410,3411,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13652,211,3411,0,104,1633,3412,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13653,211,3412,0,105,3411,3413,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13654,211,3413,0,106,3412,2663,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13655,211,2663,0,107,3413,1252,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13656,211,1252,0,108,2663,204,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13657,211,204,0,109,1252,234,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13658,211,234,0,110,204,597,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13659,211,597,0,111,234,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13660,211,219,0,112,597,715,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13661,211,715,0,113,219,3414,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13662,211,3414,0,114,715,2676,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13663,211,2676,0,115,3414,607,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13664,211,607,0,116,2676,200,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13665,211,200,0,117,607,251,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13666,211,251,0,118,200,227,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13667,211,227,0,119,251,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13668,211,219,0,120,227,1198,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13669,211,1198,0,121,219,630,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13670,211,630,0,122,1198,718,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13671,211,718,0,123,630,693,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13672,211,693,0,124,718,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13673,211,243,0,125,693,2244,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13674,211,2244,0,126,243,1742,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13675,211,1742,0,127,2244,734,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13676,211,734,0,128,1742,2045,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13677,211,2045,0,129,734,1979,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13678,211,1979,0,130,2045,3415,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13679,211,3415,0,131,1979,3416,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13680,211,3416,0,132,3415,3417,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13681,211,3417,0,133,3416,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13682,211,243,0,134,3417,3418,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13683,211,3418,0,135,243,739,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13684,211,739,0,136,3418,1198,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13685,211,1198,0,137,739,634,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13686,211,634,0,138,1198,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13687,211,11,0,139,634,654,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13688,211,654,0,140,11,3419,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13689,211,3419,0,141,654,1862,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13690,211,1862,0,142,3419,181,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13691,211,181,0,143,1862,974,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13692,211,974,0,144,181,228,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13693,211,228,0,145,974,1166,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13694,211,1166,0,146,228,179,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13695,211,179,0,147,1166,3412,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13696,211,3412,0,148,179,3178,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13697,211,3178,0,149,3412,3343,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13698,211,3343,0,150,3178,1099,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13699,211,1099,0,151,3343,234,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13700,211,234,0,152,1099,201,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13701,211,201,0,153,234,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13702,211,243,0,154,201,637,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13703,211,637,0,155,243,3317,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13704,211,3317,0,156,637,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13705,211,11,0,157,3317,3420,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13706,211,3420,0,158,11,553,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13707,211,553,0,159,3420,3421,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13708,211,3421,0,160,553,179,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13709,211,179,0,161,3421,2679,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13710,211,2679,0,162,179,3422,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13711,211,3422,0,163,2679,3192,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13712,211,3192,0,164,3422,3423,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13713,211,3423,0,165,3192,637,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13714,211,637,0,166,3423,3424,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13715,211,3424,0,167,637,1849,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13716,211,1849,0,168,3424,630,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13717,211,630,0,169,1849,28,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13718,211,28,0,170,630,3425,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13719,211,3425,0,171,28,1960,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13720,211,1960,0,172,3425,575,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13721,211,575,0,173,1960,634,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13722,211,634,0,174,575,3426,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13723,211,3426,0,175,634,607,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13724,211,607,0,176,3426,739,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13725,211,739,0,177,607,1834,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13726,211,1834,0,178,739,968,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13727,211,968,0,179,1834,703,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13728,211,703,0,180,968,247,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13729,211,247,0,181,703,3427,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13730,211,3427,0,182,247,1633,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13731,211,1633,0,183,3427,3428,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13732,211,3428,0,184,1633,3429,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13733,211,3429,0,185,3428,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13734,211,243,0,186,3429,3430,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13735,211,3430,0,187,243,177,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13736,211,177,0,188,3430,3431,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13737,211,3431,0,189,177,108,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13738,211,108,0,190,3431,2244,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13739,211,2244,0,191,108,636,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13740,211,636,0,192,2244,701,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13741,211,701,0,193,636,219,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13742,211,219,0,194,701,1632,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13743,211,1632,0,195,219,179,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13744,211,179,0,196,1632,2049,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13745,211,2049,0,197,179,628,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13746,211,628,0,198,2049,234,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13747,211,234,0,199,628,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13748,211,11,0,200,234,1253,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13749,211,1253,0,201,11,578,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13750,211,578,0,202,1253,739,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13751,211,739,0,203,578,3432,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13752,211,3432,0,204,739,181,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13753,211,181,0,205,3432,3403,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13754,211,3403,0,206,181,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13755,211,11,0,207,3403,228,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13756,211,228,0,208,11,3433,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13757,211,3433,0,209,228,2538,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13758,211,2538,0,210,3433,739,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13759,211,739,0,211,2538,249,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13760,211,249,0,212,739,703,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13761,211,703,0,213,249,2058,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13762,211,2058,0,214,703,3434,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13763,211,3434,0,215,2058,11,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13764,211,11,0,216,3434,1856,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13765,211,1856,0,217,11,2302,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13766,211,2302,0,218,1856,2537,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13767,211,2537,0,219,2302,243,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13768,211,243,0,220,2537,715,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13769,211,715,0,221,243,591,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13770,211,591,0,222,715,1632,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13771,211,1632,0,223,591,3435,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13772,211,3435,0,224,1632,10,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13773,211,10,0,225,3435,3434,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13774,211,3434,0,226,10,1254,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13775,211,1254,0,227,3434,2302,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13776,211,2302,0,228,1254,1968,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13777,211,1968,0,229,2302,3406,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13778,211,3406,0,230,1968,718,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13779,211,718,0,231,3406,3434,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13780,211,3434,0,232,718,177,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13781,211,177,0,233,3434,946,2,121,1038920436,7);
+INSERT INTO ezsearch_object_word_link VALUES (13782,211,946,0,234,177,0,2,121,1038920436,7);
 
 #
 # Table structure for table 'ezsearch_return_count'
@@ -9599,15 +10222,15 @@ CREATE TABLE ezsearch_word (
 # Dumping data for table 'ezsearch_word'
 #
 
-INSERT INTO ezsearch_word VALUES (988,'those',5);
+INSERT INTO ezsearch_word VALUES (988,'those',6);
 INSERT INTO ezsearch_word VALUES (1659,'strong',1);
 INSERT INTO ezsearch_word VALUES (5,'gallery',3);
-INSERT INTO ezsearch_word VALUES (6,'1',10);
-INSERT INTO ezsearch_word VALUES (7,'2',3);
-INSERT INTO ezsearch_word VALUES (8,'news',10);
+INSERT INTO ezsearch_word VALUES (6,'1',11);
+INSERT INTO ezsearch_word VALUES (7,'2',5);
+INSERT INTO ezsearch_word VALUES (8,'news',11);
 INSERT INTO ezsearch_word VALUES (9,'folder',7);
-INSERT INTO ezsearch_word VALUES (10,'with',39);
-INSERT INTO ezsearch_word VALUES (11,'the',305);
+INSERT INTO ezsearch_word VALUES (10,'with',40);
+INSERT INTO ezsearch_word VALUES (11,'the',325);
 INSERT INTO ezsearch_word VALUES (12,'quo',9);
 INSERT INTO ezsearch_word VALUES (13,'tuus',9);
 INSERT INTO ezsearch_word VALUES (14,'consuasteris',11);
@@ -9624,7 +10247,7 @@ INSERT INTO ezsearch_word VALUES (24,'ex',9);
 INSERT INTO ezsearch_word VALUES (25,'maximus',10);
 INSERT INTO ezsearch_word VALUES (26,'egitam',9);
 INSERT INTO ezsearch_word VALUES (27,'aus',13);
-INSERT INTO ezsearch_word VALUES (28,'an',27);
+INSERT INTO ezsearch_word VALUES (28,'an',30);
 INSERT INTO ezsearch_word VALUES (29,'averum',9);
 INSERT INTO ezsearch_word VALUES (30,'te',19);
 INSERT INTO ezsearch_word VALUES (31,'condiervium',9);
@@ -9704,7 +10327,7 @@ INSERT INTO ezsearch_word VALUES (104,'vivitem',3);
 INSERT INTO ezsearch_word VALUES (105,'ortum',3);
 INSERT INTO ezsearch_word VALUES (106,'consus',4);
 INSERT INTO ezsearch_word VALUES (107,'auc',3);
-INSERT INTO ezsearch_word VALUES (108,'is',105);
+INSERT INTO ezsearch_word VALUES (108,'is',109);
 INSERT INTO ezsearch_word VALUES (109,'la',7);
 INSERT INTO ezsearch_word VALUES (110,'rei',5);
 INSERT INTO ezsearch_word VALUES (111,'terem',3);
@@ -9770,14 +10393,14 @@ INSERT INTO ezsearch_word VALUES (170,'veriven',1);
 INSERT INTO ezsearch_word VALUES (171,'inteluterum',1);
 INSERT INTO ezsearch_word VALUES (172,'3',16);
 INSERT INTO ezsearch_word VALUES (173,'4',1);
-INSERT INTO ezsearch_word VALUES (174,'no',11);
+INSERT INTO ezsearch_word VALUES (174,'no',12);
 INSERT INTO ezsearch_word VALUES (175,'title',2);
 INSERT INTO ezsearch_word VALUES (176,'default',3);
-INSERT INTO ezsearch_word VALUES (177,'first',9);
+INSERT INTO ezsearch_word VALUES (177,'first',13);
 INSERT INTO ezsearch_word VALUES (178,'post',5);
-INSERT INTO ezsearch_word VALUES (179,'this',80);
-INSERT INTO ezsearch_word VALUES (180,'ever',7);
-INSERT INTO ezsearch_word VALUES (181,'in',89);
+INSERT INTO ezsearch_word VALUES (179,'this',93);
+INSERT INTO ezsearch_word VALUES (180,'ever',9);
+INSERT INTO ezsearch_word VALUES (181,'in',97);
 INSERT INTO ezsearch_word VALUES (182,'ez',90);
 INSERT INTO ezsearch_word VALUES (183,'publish',52);
 INSERT INTO ezsearch_word VALUES (184,'second',4);
@@ -9789,24 +10412,24 @@ INSERT INTO ezsearch_word VALUES (189,'reply',3);
 INSERT INTO ezsearch_word VALUES (190,'what',24);
 INSERT INTO ezsearch_word VALUES (191,'i',23);
 INSERT INTO ezsearch_word VALUES (192,'think',5);
-INSERT INTO ezsearch_word VALUES (193,'about',19);
-INSERT INTO ezsearch_word VALUES (194,'that',69);
+INSERT INTO ezsearch_word VALUES (193,'about',21);
+INSERT INTO ezsearch_word VALUES (194,'that',70);
 INSERT INTO ezsearch_word VALUES (195,'b',2);
 INSERT INTO ezsearch_word VALUES (196,'ethgheh',1);
 INSERT INTO ezsearch_word VALUES (197,'agree',4);
 INSERT INTO ezsearch_word VALUES (198,'but',11);
-INSERT INTO ezsearch_word VALUES (199,'how',20);
-INSERT INTO ezsearch_word VALUES (200,'can',38);
-INSERT INTO ezsearch_word VALUES (201,'you',103);
+INSERT INTO ezsearch_word VALUES (199,'how',21);
+INSERT INTO ezsearch_word VALUES (200,'can',41);
+INSERT INTO ezsearch_word VALUES (201,'you',112);
 INSERT INTO ezsearch_word VALUES (202,'know',6);
-INSERT INTO ezsearch_word VALUES (203,'it',47);
-INSERT INTO ezsearch_word VALUES (204,'s',14);
+INSERT INTO ezsearch_word VALUES (203,'it',48);
+INSERT INTO ezsearch_word VALUES (204,'s',15);
 INSERT INTO ezsearch_word VALUES (205,'true',3);
 INSERT INTO ezsearch_word VALUES (206,'c',18);
-INSERT INTO ezsearch_word VALUES (207,'bad',1);
+INSERT INTO ezsearch_word VALUES (207,'bad',2);
 INSERT INTO ezsearch_word VALUES (208,'yeah',1);
 INSERT INTO ezsearch_word VALUES (209,'76u4u5',1);
-INSERT INTO ezsearch_word VALUES (210,'my',37);
+INSERT INTO ezsearch_word VALUES (210,'my',40);
 INSERT INTO ezsearch_word VALUES (211,'foo',1);
 INSERT INTO ezsearch_word VALUES (212,'bar',1);
 INSERT INTO ezsearch_word VALUES (213,'d',1);
@@ -9815,39 +10438,39 @@ INSERT INTO ezsearch_word VALUES (215,'rfdegrw3',1);
 INSERT INTO ezsearch_word VALUES (216,'grwegwgw',1);
 INSERT INTO ezsearch_word VALUES (217,'education',2);
 INSERT INTO ezsearch_word VALUES (218,'suppose',2);
-INSERT INTO ezsearch_word VALUES (219,'to',143);
-INSERT INTO ezsearch_word VALUES (220,'make',27);
-INSERT INTO ezsearch_word VALUES (221,'me',5);
+INSERT INTO ezsearch_word VALUES (219,'to',156);
+INSERT INTO ezsearch_word VALUES (220,'make',28);
+INSERT INTO ezsearch_word VALUES (221,'me',6);
 INSERT INTO ezsearch_word VALUES (222,'feel',5);
 INSERT INTO ezsearch_word VALUES (223,'smarter',2);
 INSERT INTO ezsearch_word VALUES (224,'besides',3);
 INSERT INTO ezsearch_word VALUES (225,'everytime',2);
 INSERT INTO ezsearch_word VALUES (226,'learn',4);
-INSERT INTO ezsearch_word VALUES (227,'something',7);
-INSERT INTO ezsearch_word VALUES (228,'new',8);
+INSERT INTO ezsearch_word VALUES (227,'something',8);
+INSERT INTO ezsearch_word VALUES (228,'new',12);
 INSERT INTO ezsearch_word VALUES (229,'pushes',2);
 INSERT INTO ezsearch_word VALUES (230,'some',13);
 INSERT INTO ezsearch_word VALUES (231,'old',3);
 INSERT INTO ezsearch_word VALUES (232,'stuff',2);
 INSERT INTO ezsearch_word VALUES (233,'out',10);
-INSERT INTO ezsearch_word VALUES (234,'of',119);
+INSERT INTO ezsearch_word VALUES (234,'of',126);
 INSERT INTO ezsearch_word VALUES (235,'brain',2);
 INSERT INTO ezsearch_word VALUES (236,'remember',4);
-INSERT INTO ezsearch_word VALUES (237,'when',17);
+INSERT INTO ezsearch_word VALUES (237,'when',19);
 INSERT INTO ezsearch_word VALUES (238,'took',3);
 INSERT INTO ezsearch_word VALUES (239,'home',4);
-INSERT INTO ezsearch_word VALUES (240,'wine',2);
+INSERT INTO ezsearch_word VALUES (240,'wine',7);
 INSERT INTO ezsearch_word VALUES (241,'making',3);
 INSERT INTO ezsearch_word VALUES (242,'course',3);
-INSERT INTO ezsearch_word VALUES (243,'and',180);
+INSERT INTO ezsearch_word VALUES (243,'and',188);
 INSERT INTO ezsearch_word VALUES (244,'forgot',2);
 INSERT INTO ezsearch_word VALUES (245,'drive',2);
 INSERT INTO ezsearch_word VALUES (246,'cool',1);
-INSERT INTO ezsearch_word VALUES (247,'so',8);
+INSERT INTO ezsearch_word VALUES (247,'so',10);
 INSERT INTO ezsearch_word VALUES (248,'let',7);
-INSERT INTO ezsearch_word VALUES (249,'begin',1);
+INSERT INTO ezsearch_word VALUES (249,'begin',2);
 INSERT INTO ezsearch_word VALUES (250,'hi',1);
-INSERT INTO ezsearch_word VALUES (251,'have',39);
+INSERT INTO ezsearch_word VALUES (251,'have',44);
 INSERT INTO ezsearch_word VALUES (252,'added',1);
 INSERT INTO ezsearch_word VALUES (253,'three',3);
 INSERT INTO ezsearch_word VALUES (254,'tables',4);
@@ -9857,7 +10480,7 @@ INSERT INTO ezsearch_word VALUES (257,'database',3);
 INSERT INTO ezsearch_word VALUES (258,'eznotification_rule',1);
 INSERT INTO ezsearch_word VALUES (259,'eznotification_user_link',1);
 INSERT INTO ezsearch_word VALUES (260,'ezmessage',1);
-INSERT INTO ezsearch_word VALUES (261,'only',10);
+INSERT INTO ezsearch_word VALUES (261,'only',11);
 INSERT INTO ezsearch_word VALUES (262,'changed',1);
 INSERT INTO ezsearch_word VALUES (263,'kernel',1);
 INSERT INTO ezsearch_word VALUES (264,'sql',1);
@@ -10007,9 +10630,9 @@ INSERT INTO ezsearch_word VALUES (407,'retis',1);
 INSERT INTO ezsearch_word VALUES (633,'catch',1);
 INSERT INTO ezsearch_word VALUES (632,'teams',2);
 INSERT INTO ezsearch_word VALUES (631,'other',14);
-INSERT INTO ezsearch_word VALUES (630,'up',11);
+INSERT INTO ezsearch_word VALUES (630,'up',14);
 INSERT INTO ezsearch_word VALUES (629,'dominant',1);
-INSERT INTO ezsearch_word VALUES (628,'because',4);
+INSERT INTO ezsearch_word VALUES (628,'because',5);
 INSERT INTO ezsearch_word VALUES (627,'reaction',2);
 INSERT INTO ezsearch_word VALUES (626,'jerk',1);
 INSERT INTO ezsearch_word VALUES (625,'knee',1);
@@ -10022,15 +10645,15 @@ INSERT INTO ezsearch_word VALUES (619,'tim',1);
 INSERT INTO ezsearch_word VALUES (618,'meets',1);
 INSERT INTO ezsearch_word VALUES (617,'racket',1);
 INSERT INTO ezsearch_word VALUES (616,'his',7);
-INSERT INTO ezsearch_word VALUES (615,'from',35);
+INSERT INTO ezsearch_word VALUES (615,'from',37);
 INSERT INTO ezsearch_word VALUES (614,'strings',1);
 INSERT INTO ezsearch_word VALUES (613,'two',2);
 INSERT INTO ezsearch_word VALUES (612,'sampras',1);
 INSERT INTO ezsearch_word VALUES (611,'pete',1);
-INSERT INTO ezsearch_word VALUES (610,'or',20);
+INSERT INTO ezsearch_word VALUES (610,'or',21);
 INSERT INTO ezsearch_word VALUES (609,'chelsea',1);
 INSERT INTO ezsearch_word VALUES (608,'play',3);
-INSERT INTO ezsearch_word VALUES (607,'they',10);
+INSERT INTO ezsearch_word VALUES (607,'they',12);
 INSERT INTO ezsearch_word VALUES (606,'men',1);
 INSERT INTO ezsearch_word VALUES (605,'nine',1);
 INSERT INTO ezsearch_word VALUES (604,'arsenal',1);
@@ -10040,13 +10663,13 @@ INSERT INTO ezsearch_word VALUES (601,'themselves',2);
 INSERT INTO ezsearch_word VALUES (600,'gap',1);
 INSERT INTO ezsearch_word VALUES (599,'close',3);
 INSERT INTO ezsearch_word VALUES (598,'harder',3);
-INSERT INTO ezsearch_word VALUES (597,'work',11);
+INSERT INTO ezsearch_word VALUES (597,'work',12);
 INSERT INTO ezsearch_word VALUES (596,'must',4);
 INSERT INTO ezsearch_word VALUES (595,'rivals',1);
 INSERT INTO ezsearch_word VALUES (594,'champions',1);
 INSERT INTO ezsearch_word VALUES (593,'saying',2);
 INSERT INTO ezsearch_word VALUES (592,'way',7);
-INSERT INTO ezsearch_word VALUES (591,'not',30);
+INSERT INTO ezsearch_word VALUES (591,'not',31);
 INSERT INTO ezsearch_word VALUES (590,'insisted',1);
 INSERT INTO ezsearch_word VALUES (589,'challengers',1);
 INSERT INTO ezsearch_word VALUES (588,'closest',1);
@@ -10055,14 +10678,14 @@ INSERT INTO ezsearch_word VALUES (586,'been',8);
 INSERT INTO ezsearch_word VALUES (585,'team',6);
 INSERT INTO ezsearch_word VALUES (584,'whose',1);
 INSERT INTO ezsearch_word VALUES (583,'however',1);
-INSERT INTO ezsearch_word VALUES (582,'year',7);
+INSERT INTO ezsearch_word VALUES (582,'year',10);
 INSERT INTO ezsearch_word VALUES (581,'field',2);
 INSERT INTO ezsearch_word VALUES (580,'over',5);
 INSERT INTO ezsearch_word VALUES (579,'held',2);
-INSERT INTO ezsearch_word VALUES (578,'he',8);
+INSERT INTO ezsearch_word VALUES (578,'he',10);
 INSERT INTO ezsearch_word VALUES (577,'point',2);
 INSERT INTO ezsearch_word VALUES (576,'every',4);
-INSERT INTO ezsearch_word VALUES (575,'for',69);
+INSERT INTO ezsearch_word VALUES (575,'for',76);
 INSERT INTO ezsearch_word VALUES (574,'kilogramme',1);
 INSERT INTO ezsearch_word VALUES (573,'extra',1);
 INSERT INTO ezsearch_word VALUES (572,'carry',1);
@@ -10073,10 +10696,10 @@ INSERT INTO ezsearch_word VALUES (568,'see',11);
 INSERT INTO ezsearch_word VALUES (567,'would',3);
 INSERT INTO ezsearch_word VALUES (566,'ecclestone',1);
 INSERT INTO ezsearch_word VALUES (565,'bernie',1);
-INSERT INTO ezsearch_word VALUES (564,'by',16);
+INSERT INTO ezsearch_word VALUES (564,'by',18);
 INSERT INTO ezsearch_word VALUES (563,'forward',4);
 INSERT INTO ezsearch_word VALUES (562,'put',2);
-INSERT INTO ezsearch_word VALUES (561,'was',24);
+INSERT INTO ezsearch_word VALUES (561,'was',26);
 INSERT INTO ezsearch_word VALUES (560,'racing',2);
 INSERT INTO ezsearch_word VALUES (559,'formula',2);
 INSERT INTO ezsearch_word VALUES (558,'interest',4);
@@ -10084,16 +10707,16 @@ INSERT INTO ezsearch_word VALUES (557,'boost',1);
 INSERT INTO ezsearch_word VALUES (556,'suggested',1);
 INSERT INTO ezsearch_word VALUES (555,'being',7);
 INSERT INTO ezsearch_word VALUES (554,'several',2);
-INSERT INTO ezsearch_word VALUES (553,'one',19);
+INSERT INTO ezsearch_word VALUES (553,'one',21);
 INSERT INTO ezsearch_word VALUES (552,'idea',1);
 INSERT INTO ezsearch_word VALUES (551,'domination',1);
 INSERT INTO ezsearch_word VALUES (550,'level',5);
 INSERT INTO ezsearch_word VALUES (549,'their',11);
 INSERT INTO ezsearch_word VALUES (548,'cut',2);
 INSERT INTO ezsearch_word VALUES (547,'bid',1);
-INSERT INTO ezsearch_word VALUES (546,'a',120);
+INSERT INTO ezsearch_word VALUES (546,'a',125);
 INSERT INTO ezsearch_word VALUES (545,'season',4);
-INSERT INTO ezsearch_word VALUES (544,'next',7);
+INSERT INTO ezsearch_word VALUES (544,'next',8);
 INSERT INTO ezsearch_word VALUES (543,'ferraris',1);
 INSERT INTO ezsearch_word VALUES (542,'ballast',1);
 INSERT INTO ezsearch_word VALUES (541,'add',1);
@@ -10106,11 +10729,11 @@ INSERT INTO ezsearch_word VALUES (535,'patrick',1);
 INSERT INTO ezsearch_word VALUES (534,'director',2);
 INSERT INTO ezsearch_word VALUES (533,'technical',2);
 INSERT INTO ezsearch_word VALUES (532,'williams',3);
-INSERT INTO ezsearch_word VALUES (634,'them',6);
+INSERT INTO ezsearch_word VALUES (634,'them',8);
 INSERT INTO ezsearch_word VALUES (635,'overtake',1);
-INSERT INTO ezsearch_word VALUES (636,'we',43);
-INSERT INTO ezsearch_word VALUES (637,'are',32);
-INSERT INTO ezsearch_word VALUES (638,'more',13);
+INSERT INTO ezsearch_word VALUES (636,'we',50);
+INSERT INTO ezsearch_word VALUES (637,'are',36);
+INSERT INTO ezsearch_word VALUES (638,'more',14);
 INSERT INTO ezsearch_word VALUES (639,'than',7);
 INSERT INTO ezsearch_word VALUES (640,'capable',1);
 INSERT INTO ezsearch_word VALUES (641,'doing',2);
@@ -10126,54 +10749,54 @@ INSERT INTO ezsearch_word VALUES (650,'scored',2);
 INSERT INTO ezsearch_word VALUES (651,'less',3);
 INSERT INTO ezsearch_word VALUES (652,'half',3);
 INSERT INTO ezsearch_word VALUES (653,'as',23);
-INSERT INTO ezsearch_word VALUES (654,'many',6);
+INSERT INTO ezsearch_word VALUES (654,'many',10);
 INSERT INTO ezsearch_word VALUES (655,'points',1);
 INSERT INTO ezsearch_word VALUES (720,'m',1);
 INSERT INTO ezsearch_word VALUES (719,'evening',2);
-INSERT INTO ezsearch_word VALUES (693,'friday',3);
-INSERT INTO ezsearch_word VALUES (718,'on',41);
+INSERT INTO ezsearch_word VALUES (693,'friday',4);
+INSERT INTO ezsearch_word VALUES (718,'on',43);
 INSERT INTO ezsearch_word VALUES (717,'street',1);
 INSERT INTO ezsearch_word VALUES (716,'go',6);
-INSERT INTO ezsearch_word VALUES (715,'do',28);
+INSERT INTO ezsearch_word VALUES (715,'do',30);
 INSERT INTO ezsearch_word VALUES (688,'bear',2);
 INSERT INTO ezsearch_word VALUES (714,'drink',1);
-INSERT INTO ezsearch_word VALUES (686,'at',13);
+INSERT INTO ezsearch_word VALUES (686,'at',15);
 INSERT INTO ezsearch_word VALUES (713,'sit',1);
 INSERT INTO ezsearch_word VALUES (712,'recomended',1);
 INSERT INTO ezsearch_word VALUES (711,'norway',10);
 INSERT INTO ezsearch_word VALUES (710,'town',1);
 INSERT INTO ezsearch_word VALUES (709,'skien',3);
-INSERT INTO ezsearch_word VALUES (708,'very',6);
+INSERT INTO ezsearch_word VALUES (708,'very',8);
 INSERT INTO ezsearch_word VALUES (707,'now',4);
 INSERT INTO ezsearch_word VALUES (706,'huge',1);
 INSERT INTO ezsearch_word VALUES (705,'near',2);
 INSERT INTO ezsearch_word VALUES (704,'typhoon',2);
-INSERT INTO ezsearch_word VALUES (698,'better',4);
+INSERT INTO ezsearch_word VALUES (698,'better',5);
 INSERT INTO ezsearch_word VALUES (699,'seet',1);
 INSERT INTO ezsearch_word VALUES (700,'whole',1);
-INSERT INTO ezsearch_word VALUES (701,'need',7);
+INSERT INTO ezsearch_word VALUES (701,'need',10);
 INSERT INTO ezsearch_word VALUES (702,'buy',2);
-INSERT INTO ezsearch_word VALUES (703,'today',6);
-INSERT INTO ezsearch_word VALUES (721,'just',7);
+INSERT INTO ezsearch_word VALUES (703,'today',13);
+INSERT INTO ezsearch_word VALUES (721,'just',9);
 INSERT INTO ezsearch_word VALUES (722,'kidding',1);
 INSERT INTO ezsearch_word VALUES (732,'ipsum',19);
-INSERT INTO ezsearch_word VALUES (733,'also',14);
-INSERT INTO ezsearch_word VALUES (734,'be',28);
+INSERT INTO ezsearch_word VALUES (733,'also',17);
+INSERT INTO ezsearch_word VALUES (734,'be',30);
 INSERT INTO ezsearch_word VALUES (735,'used',4);
 INSERT INTO ezsearch_word VALUES (736,'beta',1);
 INSERT INTO ezsearch_word VALUES (737,'find',9);
 INSERT INTO ezsearch_word VALUES (738,'bugs',2);
-INSERT INTO ezsearch_word VALUES (739,'will',48);
+INSERT INTO ezsearch_word VALUES (739,'will',54);
 INSERT INTO ezsearch_word VALUES (740,'game',6);
 INSERT INTO ezsearch_word VALUES (741,'beta1',1);
 INSERT INTO ezsearch_word VALUES (742,'ok',2);
-INSERT INTO ezsearch_word VALUES (743,'didn',2);
-INSERT INTO ezsearch_word VALUES (744,'t',5);
+INSERT INTO ezsearch_word VALUES (743,'didn',3);
+INSERT INTO ezsearch_word VALUES (744,'t',6);
 INSERT INTO ezsearch_word VALUES (745,'prove',2);
 INSERT INTO ezsearch_word VALUES (746,'hard',5);
 INSERT INTO ezsearch_word VALUES (747,'say',1);
-INSERT INTO ezsearch_word VALUES (748,'time',7);
-INSERT INTO ezsearch_word VALUES (749,'another',4);
+INSERT INTO ezsearch_word VALUES (748,'time',8);
+INSERT INTO ezsearch_word VALUES (749,'another',7);
 INSERT INTO ezsearch_word VALUES (750,'article',11);
 INSERT INTO ezsearch_word VALUES (751,'information',4);
 INSERT INTO ezsearch_word VALUES (752,'much',3);
@@ -10195,13 +10818,13 @@ INSERT INTO ezsearch_word VALUES (979,'sights',3);
 INSERT INTO ezsearch_word VALUES (1652,'presents',1);
 INSERT INTO ezsearch_word VALUES (1651,'drift',1);
 INSERT INTO ezsearch_word VALUES (1650,'mind',2);
-INSERT INTO ezsearch_word VALUES (974,'our',19);
+INSERT INTO ezsearch_word VALUES (974,'our',20);
 INSERT INTO ezsearch_word VALUES (973,'outside',7);
 INSERT INTO ezsearch_word VALUES (1649,'feelings',2);
 INSERT INTO ezsearch_word VALUES (1648,'smells',1);
 INSERT INTO ezsearch_word VALUES (970,'still',2);
 INSERT INTO ezsearch_word VALUES (969,'people',6);
-INSERT INTO ezsearch_word VALUES (968,'us',18);
+INSERT INTO ezsearch_word VALUES (968,'us',21);
 INSERT INTO ezsearch_word VALUES (1662,'reached',1);
 INSERT INTO ezsearch_word VALUES (1647,'sounds',3);
 INSERT INTO ezsearch_word VALUES (966,'minutes',2);
@@ -10220,9 +10843,9 @@ INSERT INTO ezsearch_word VALUES (1637,'where',3);
 INSERT INTO ezsearch_word VALUES (1636,'space',1);
 INSERT INTO ezsearch_word VALUES (1635,'breathing',1);
 INSERT INTO ezsearch_word VALUES (1634,'deserved',1);
-INSERT INTO ezsearch_word VALUES (1633,'your',31);
-INSERT INTO ezsearch_word VALUES (1632,'get',12);
-INSERT INTO ezsearch_word VALUES (946,'day',6);
+INSERT INTO ezsearch_word VALUES (1633,'your',34);
+INSERT INTO ezsearch_word VALUES (1632,'get',16);
+INSERT INTO ezsearch_word VALUES (946,'day',7);
 INSERT INTO ezsearch_word VALUES (945,'winter',2);
 INSERT INTO ezsearch_word VALUES (1631,'encounter',1);
 INSERT INTO ezsearch_word VALUES (1630,'hectic',1);
@@ -10230,7 +10853,7 @@ INSERT INTO ezsearch_word VALUES (1629,'noisy',1);
 INSERT INTO ezsearch_word VALUES (940,'beauty',5);
 INSERT INTO ezsearch_word VALUES (1628,'stressful',1);
 INSERT INTO ezsearch_word VALUES (1627,'escape',1);
-INSERT INTO ezsearch_word VALUES (1626,'chance',1);
+INSERT INTO ezsearch_word VALUES (1626,'chance',2);
 INSERT INTO ezsearch_word VALUES (1625,'clear',1);
 INSERT INTO ezsearch_word VALUES (935,'life',3);
 INSERT INTO ezsearch_word VALUES (1624,'cold',1);
@@ -10238,7 +10861,7 @@ INSERT INTO ezsearch_word VALUES (844,'box',3);
 INSERT INTO ezsearch_word VALUES (843,'white',4);
 INSERT INTO ezsearch_word VALUES (1661,'roots',1);
 INSERT INTO ezsearch_word VALUES (1623,'mountain',5);
-INSERT INTO ezsearch_word VALUES (931,'all',21);
+INSERT INTO ezsearch_word VALUES (931,'all',25);
 INSERT INTO ezsearch_word VALUES (1622,'snowy',1);
 INSERT INTO ezsearch_word VALUES (929,'getting',5);
 INSERT INTO ezsearch_word VALUES (1660,'wither',1);
@@ -10247,10 +10870,10 @@ INSERT INTO ezsearch_word VALUES (1620,'smell',1);
 INSERT INTO ezsearch_word VALUES (1619,'bee',1);
 INSERT INTO ezsearch_word VALUES (1618,'humming',1);
 INSERT INTO ezsearch_word VALUES (1617,'thing',4);
-INSERT INTO ezsearch_word VALUES (989,'who',9);
+INSERT INTO ezsearch_word VALUES (989,'who',10);
 INSERT INTO ezsearch_word VALUES (1616,'small',13);
 INSERT INTO ezsearch_word VALUES (1615,'forgotten',1);
-INSERT INTO ezsearch_word VALUES (1614,'away',4);
+INSERT INTO ezsearch_word VALUES (1614,'away',5);
 INSERT INTO ezsearch_word VALUES (994,'deep',4);
 INSERT INTO ezsearch_word VALUES (1613,'difficulties',1);
 INSERT INTO ezsearch_word VALUES (1612,'having',3);
@@ -10259,7 +10882,7 @@ INSERT INTO ezsearch_word VALUES (1610,'contemporary',1);
 INSERT INTO ezsearch_word VALUES (1609,'whitebox',1);
 INSERT INTO ezsearch_word VALUES (1153,'growing',1);
 INSERT INTO ezsearch_word VALUES (1152,'always',4);
-INSERT INTO ezsearch_word VALUES (1151,'step',3);
+INSERT INTO ezsearch_word VALUES (1151,'step',4);
 INSERT INTO ezsearch_word VALUES (1150,'shows',3);
 INSERT INTO ezsearch_word VALUES (1149,'picked',1);
 INSERT INTO ezsearch_word VALUES (1148,'proudly',2);
@@ -10269,12 +10892,12 @@ INSERT INTO ezsearch_word VALUES (1145,'assist',1);
 INSERT INTO ezsearch_word VALUES (1144,'investors',1);
 INSERT INTO ezsearch_word VALUES (1143,'asian',1);
 INSERT INTO ezsearch_word VALUES (1142,'key',3);
-INSERT INTO ezsearch_word VALUES (1141,'introduce',1);
+INSERT INTO ezsearch_word VALUES (1141,'introduce',2);
 INSERT INTO ezsearch_word VALUES (1140,'privately',1);
 INSERT INTO ezsearch_word VALUES (1139,'growth',1);
-INSERT INTO ezsearch_word VALUES (1138,'high',3);
+INSERT INTO ezsearch_word VALUES (1138,'high',4);
 INSERT INTO ezsearch_word VALUES (1137,'20+',1);
-INSERT INTO ezsearch_word VALUES (1136,'coming',2);
+INSERT INTO ezsearch_word VALUES (1136,'coming',3);
 INSERT INTO ezsearch_word VALUES (1135,'identify',1);
 INSERT INTO ezsearch_word VALUES (1134,'objective',1);
 INSERT INTO ezsearch_word VALUES (1133,'corporate',1);
@@ -10311,7 +10934,7 @@ INSERT INTO ezsearch_word VALUES (1103,'ett',1);
 INSERT INTO ezsearch_word VALUES (1102,'26',3);
 INSERT INTO ezsearch_word VALUES (1101,'companies',8);
 INSERT INTO ezsearch_word VALUES (1100,'exciting',1);
-INSERT INTO ezsearch_word VALUES (1099,'most',13);
+INSERT INTO ezsearch_word VALUES (1099,'most',15);
 INSERT INTO ezsearch_word VALUES (1098,'association',2);
 INSERT INTO ezsearch_word VALUES (1097,'tour',3);
 INSERT INTO ezsearch_word VALUES (1096,'tech',3);
@@ -10325,8 +10948,8 @@ INSERT INTO ezsearch_word VALUES (1089,'earns',1);
 INSERT INTO ezsearch_word VALUES (1088,'systems',38);
 INSERT INTO ezsearch_word VALUES (1154,'popularity',1);
 INSERT INTO ezsearch_word VALUES (1155,'great',8);
-INSERT INTO ezsearch_word VALUES (1156,'success',1);
-INSERT INTO ezsearch_word VALUES (1157,'since',5);
+INSERT INTO ezsearch_word VALUES (1156,'success',2);
+INSERT INTO ezsearch_word VALUES (1157,'since',6);
 INSERT INTO ezsearch_word VALUES (1158,'start',2);
 INSERT INTO ezsearch_word VALUES (1159,'august',1);
 INSERT INTO ezsearch_word VALUES (1160,'2002',2);
@@ -10335,11 +10958,11 @@ INSERT INTO ezsearch_word VALUES (1162,'worldwide',2);
 INSERT INTO ezsearch_word VALUES (1163,'leaders',1);
 INSERT INTO ezsearch_word VALUES (1164,'content',19);
 INSERT INTO ezsearch_word VALUES (1165,'management',16);
-INSERT INTO ezsearch_word VALUES (1166,'software',13);
+INSERT INTO ezsearch_word VALUES (1166,'software',14);
 INSERT INTO ezsearch_word VALUES (1167,'expected',1);
 INSERT INTO ezsearch_word VALUES (1168,'release',2);
 INSERT INTO ezsearch_word VALUES (1169,'completely',1);
-INSERT INTO ezsearch_word VALUES (1170,'later',1);
+INSERT INTO ezsearch_word VALUES (1170,'later',2);
 INSERT INTO ezsearch_word VALUES (1171,'seams',1);
 INSERT INTO ezsearch_word VALUES (1172,'bright',3);
 INSERT INTO ezsearch_word VALUES (1173,'present',1);
@@ -10354,20 +10977,20 @@ INSERT INTO ezsearch_word VALUES (1181,'possible',5);
 INSERT INTO ezsearch_word VALUES (1182,'markets',1);
 INSERT INTO ezsearch_word VALUES (1183,'during',2);
 INSERT INTO ezsearch_word VALUES (1184,'last',5);
-INSERT INTO ezsearch_word VALUES (1185,'months',3);
+INSERT INTO ezsearch_word VALUES (1185,'months',4);
 INSERT INTO ezsearch_word VALUES (1186,'focused',1);
 INSERT INTO ezsearch_word VALUES (1187,'part',4);
 INSERT INTO ezsearch_word VALUES (1188,'beautiful',1);
 INSERT INTO ezsearch_word VALUES (1189,'visited',1);
 INSERT INTO ezsearch_word VALUES (1190,'corners',1);
-INSERT INTO ezsearch_word VALUES (1191,'come',2);
+INSERT INTO ezsearch_word VALUES (1191,'come',3);
 INSERT INTO ezsearch_word VALUES (1192,'winner',1);
 INSERT INTO ezsearch_word VALUES (1193,'analysis',2);
 INSERT INTO ezsearch_word VALUES (1194,'map',1);
 INSERT INTO ezsearch_word VALUES (1195,'identity',1);
 INSERT INTO ezsearch_word VALUES (1196,'different',9);
 INSERT INTO ezsearch_word VALUES (1197,'places',1);
-INSERT INTO ezsearch_word VALUES (1198,'show',4);
+INSERT INTO ezsearch_word VALUES (1198,'show',6);
 INSERT INTO ezsearch_word VALUES (1199,'selected',1);
 INSERT INTO ezsearch_word VALUES (1200,'parts',3);
 INSERT INTO ezsearch_word VALUES (1201,'offer',5);
@@ -10391,7 +11014,7 @@ INSERT INTO ezsearch_word VALUES (1218,'interviews',1);
 INSERT INTO ezsearch_word VALUES (1219,'showed',1);
 INSERT INTO ezsearch_word VALUES (1220,'wanted',1);
 INSERT INTO ezsearch_word VALUES (1221,'stay',3);
-INSERT INTO ezsearch_word VALUES (1222,'office',2);
+INSERT INTO ezsearch_word VALUES (1222,'office',3);
 INSERT INTO ezsearch_word VALUES (1223,'member',1);
 INSERT INTO ezsearch_word VALUES (1224,'anonymous',1);
 INSERT INTO ezsearch_word VALUES (1225,'own',2);
@@ -10421,9 +11044,9 @@ INSERT INTO ezsearch_word VALUES (1248,'there',6);
 INSERT INTO ezsearch_word VALUES (1249,'investigations',1);
 INSERT INTO ezsearch_word VALUES (1250,'ready',4);
 INSERT INTO ezsearch_word VALUES (1251,'spend',5);
-INSERT INTO ezsearch_word VALUES (1252,'lot',5);
-INSERT INTO ezsearch_word VALUES (1253,'money',1);
-INSERT INTO ezsearch_word VALUES (1254,'if',13);
+INSERT INTO ezsearch_word VALUES (1252,'lot',6);
+INSERT INTO ezsearch_word VALUES (1253,'money',2);
+INSERT INTO ezsearch_word VALUES (1254,'if',16);
 INSERT INTO ezsearch_word VALUES (1255,'destination',1);
 INSERT INTO ezsearch_word VALUES (1256,'enough',1);
 INSERT INTO ezsearch_word VALUES (1257,'language',1);
@@ -10441,7 +11064,7 @@ INSERT INTO ezsearch_word VALUES (1268,'india',2);
 INSERT INTO ezsearch_word VALUES (1269,'able',1);
 INSERT INTO ezsearch_word VALUES (1270,'yet',3);
 INSERT INTO ezsearch_word VALUES (1271,'done',3);
-INSERT INTO ezsearch_word VALUES (1272,'before',2);
+INSERT INTO ezsearch_word VALUES (1272,'before',3);
 INSERT INTO ezsearch_word VALUES (1273,'decision',1);
 INSERT INTO ezsearch_word VALUES (1274,'speculate',1);
 INSERT INTO ezsearch_word VALUES (1275,'conclusions',1);
@@ -10462,7 +11085,7 @@ INSERT INTO ezsearch_word VALUES (1838,'tibetanian',1);
 INSERT INTO ezsearch_word VALUES (1837,'lived',1);
 INSERT INTO ezsearch_word VALUES (1836,'periods',1);
 INSERT INTO ezsearch_word VALUES (1835,'long',1);
-INSERT INTO ezsearch_word VALUES (1834,'visit',6);
+INSERT INTO ezsearch_word VALUES (1834,'visit',7);
 INSERT INTO ezsearch_word VALUES (1833,'influenced',1);
 INSERT INTO ezsearch_word VALUES (1832,'pictures',3);
 INSERT INTO ezsearch_word VALUES (1831,'nepal',1);
@@ -10482,7 +11105,7 @@ INSERT INTO ezsearch_word VALUES (1819,'educated',1);
 INSERT INTO ezsearch_word VALUES (1818,'photographer',1);
 INSERT INTO ezsearch_word VALUES (1817,'freelance',1);
 INSERT INTO ezsearch_word VALUES (1816,'1972',1);
-INSERT INTO ezsearch_word VALUES (1324,'made',2);
+INSERT INTO ezsearch_word VALUES (1324,'made',3);
 INSERT INTO ezsearch_word VALUES (1815,'houge',2);
 INSERT INTO ezsearch_word VALUES (1814,'christian',1);
 INSERT INTO ezsearch_word VALUES (1813,'powered',1);
@@ -10503,7 +11126,7 @@ INSERT INTO ezsearch_word VALUES (2666,'passer',1);
 INSERT INTO ezsearch_word VALUES (2665,'developed',2);
 INSERT INTO ezsearch_word VALUES (1773,'follow',2);
 INSERT INTO ezsearch_word VALUES (2664,'stevenson',1);
-INSERT INTO ezsearch_word VALUES (2663,'net',2);
+INSERT INTO ezsearch_word VALUES (2663,'net',3);
 INSERT INTO ezsearch_word VALUES (2662,'back',2);
 INSERT INTO ezsearch_word VALUES (2661,'ball',1);
 INSERT INTO ezsearch_word VALUES (2660,'slammed',1);
@@ -10530,12 +11153,12 @@ INSERT INTO ezsearch_word VALUES (2641,'surging',1);
 INSERT INTO ezsearch_word VALUES (1745,'30',2);
 INSERT INTO ezsearch_word VALUES (2640,'score',1);
 INSERT INTO ezsearch_word VALUES (2639,'unfortunate',2);
-INSERT INTO ezsearch_word VALUES (1742,'should',3);
+INSERT INTO ezsearch_word VALUES (1742,'should',4);
 INSERT INTO ezsearch_word VALUES (2638,'crossbar',1);
 INSERT INTO ezsearch_word VALUES (2637,'cudic',2);
 INSERT INTO ezsearch_word VALUES (2636,'shot',1);
 INSERT INTO ezsearch_word VALUES (2635,'bounding',1);
-INSERT INTO ezsearch_word VALUES (1737,'win',3);
+INSERT INTO ezsearch_word VALUES (1737,'win',4);
 INSERT INTO ezsearch_word VALUES (2634,'yard',1);
 INSERT INTO ezsearch_word VALUES (2633,'52nd',1);
 INSERT INTO ezsearch_word VALUES (2632,'spectacular',1);
@@ -10618,26 +11241,26 @@ INSERT INTO ezsearch_word VALUES (2573,'toughest',1);
 INSERT INTO ezsearch_word VALUES (2572,'considered',1);
 INSERT INTO ezsearch_word VALUES (1793,'free',5);
 INSERT INTO ezsearch_word VALUES (1794,'games',5);
-INSERT INTO ezsearch_word VALUES (2571,'earlier',1);
+INSERT INTO ezsearch_word VALUES (2571,'earlier',2);
 INSERT INTO ezsearch_word VALUES (2570,'outfield',2);
 INSERT INTO ezsearch_word VALUES (2569,'kings',2);
 INSERT INTO ezsearch_word VALUES (2568,'beat',2);
 INSERT INTO ezsearch_word VALUES (1800,'saturday',2);
 INSERT INTO ezsearch_word VALUES (2567,'again',2);
-INSERT INTO ezsearch_word VALUES (1849,'set',4);
+INSERT INTO ezsearch_word VALUES (1849,'set',5);
 INSERT INTO ezsearch_word VALUES (1850,'official',3);
 INSERT INTO ezsearch_word VALUES (1851,'partners',2);
 INSERT INTO ezsearch_word VALUES (1852,'petraflux',1);
 INSERT INTO ezsearch_word VALUES (1853,'com',1);
 INSERT INTO ezsearch_word VALUES (1854,'assisted',1);
 INSERT INTO ezsearch_word VALUES (1855,'partner',2);
-INSERT INTO ezsearch_word VALUES (1856,'support',14);
+INSERT INTO ezsearch_word VALUES (1856,'support',15);
 INSERT INTO ezsearch_word VALUES (1857,'automatical',1);
 INSERT INTO ezsearch_word VALUES (1858,'image',6);
 INSERT INTO ezsearch_word VALUES (1859,'import',1);
 INSERT INTO ezsearch_word VALUES (1860,'created',1);
 INSERT INTO ezsearch_word VALUES (1861,'amongst',1);
-INSERT INTO ezsearch_word VALUES (1862,'things',4);
+INSERT INTO ezsearch_word VALUES (1862,'things',5);
 INSERT INTO ezsearch_word VALUES (2007,'documentation',1);
 INSERT INTO ezsearch_word VALUES (2006,'completing',1);
 INSERT INTO ezsearch_word VALUES (2005,'diagrams',1);
@@ -10662,11 +11285,11 @@ INSERT INTO ezsearch_word VALUES (1987,'integration',3);
 INSERT INTO ezsearch_word VALUES (1986,'simple',1);
 INSERT INTO ezsearch_word VALUES (1985,'interface',3);
 INSERT INTO ezsearch_word VALUES (1984,'library',2);
-INSERT INTO ezsearch_word VALUES (1983,'communication',2);
+INSERT INTO ezsearch_word VALUES (1983,'communication',3);
 INSERT INTO ezsearch_word VALUES (1982,'soap',2);
 INSERT INTO ezsearch_word VALUES (1981,'workflow',1);
-INSERT INTO ezsearch_word VALUES (1980,'template',1);
-INSERT INTO ezsearch_word VALUES (1979,'control',3);
+INSERT INTO ezsearch_word VALUES (1980,'template',4);
+INSERT INTO ezsearch_word VALUES (1979,'control',4);
 INSERT INTO ezsearch_word VALUES (1978,'access',2);
 INSERT INTO ezsearch_word VALUES (1977,'centralized',1);
 INSERT INTO ezsearch_word VALUES (1976,'engine',2);
@@ -10676,7 +11299,7 @@ INSERT INTO ezsearch_word VALUES (1973,'defined',1);
 INSERT INTO ezsearch_word VALUES (1972,'user',2);
 INSERT INTO ezsearch_word VALUES (1970,'easy',9);
 INSERT INTO ezsearch_word VALUES (1969,'flexible',2);
-INSERT INTO ezsearch_word VALUES (1968,'makes',4);
+INSERT INTO ezsearch_word VALUES (1968,'makes',5);
 INSERT INTO ezsearch_word VALUES (1967,'generation',2);
 INSERT INTO ezsearch_word VALUES (1966,'features',4);
 INSERT INTO ezsearch_word VALUES (1965,'useful',1);
@@ -10684,7 +11307,7 @@ INSERT INTO ezsearch_word VALUES (1964,'communicate',1);
 INSERT INTO ezsearch_word VALUES (1963,'stored',1);
 INSERT INTO ezsearch_word VALUES (1962,'everyone',4);
 INSERT INTO ezsearch_word VALUES (1961,'publishing',2);
-INSERT INTO ezsearch_word VALUES (1960,'system',20);
+INSERT INTO ezsearch_word VALUES (1960,'system',21);
 INSERT INTO ezsearch_word VALUES (1959,'intranet/extranets',1);
 INSERT INTO ezsearch_word VALUES (1958,'portals',1);
 INSERT INTO ezsearch_word VALUES (1957,'shops',1);
@@ -10696,9 +11319,9 @@ INSERT INTO ezsearch_word VALUES (1952,'solutions',11);
 INSERT INTO ezsearch_word VALUES (1951,'internet',3);
 INSERT INTO ezsearch_word VALUES (1950,'dynamic',1);
 INSERT INTO ezsearch_word VALUES (1949,'advanced',5);
-INSERT INTO ezsearch_word VALUES (1948,'creating',1);
+INSERT INTO ezsearch_word VALUES (1948,'creating',2);
 INSERT INTO ezsearch_word VALUES (1947,'tool',2);
-INSERT INTO ezsearch_word VALUES (1971,'fun',1);
+INSERT INTO ezsearch_word VALUES (1971,'fun',2);
 INSERT INTO ezsearch_word VALUES (1946,'professional',8);
 INSERT INTO ezsearch_word VALUES (2008,'xml',1);
 INSERT INTO ezsearch_word VALUES (2009,'handling',2);
@@ -10706,9 +11329,9 @@ INSERT INTO ezsearch_word VALUES (2010,'parsing',1);
 INSERT INTO ezsearch_word VALUES (2011,'suites',2);
 INSERT INTO ezsearch_word VALUES (2012,'&nbsp',1);
 INSERT INTO ezsearch_word VALUES (2013,'easier',4);
-INSERT INTO ezsearch_word VALUES (2014,'use',11);
+INSERT INTO ezsearch_word VALUES (2014,'use',12);
 INSERT INTO ezsearch_word VALUES (2015,'advenced',1);
-INSERT INTO ezsearch_word VALUES (2016,'these',2);
+INSERT INTO ezsearch_word VALUES (2016,'these',3);
 INSERT INTO ezsearch_word VALUES (2017,'customized',1);
 INSERT INTO ezsearch_word VALUES (2018,'specific',4);
 INSERT INTO ezsearch_word VALUES (2019,'usergroups',1);
@@ -10716,7 +11339,7 @@ INSERT INTO ezsearch_word VALUES (2020,'licence',6);
 INSERT INTO ezsearch_word VALUES (2021,'open',15);
 INSERT INTO ezsearch_word VALUES (2022,'source',10);
 INSERT INTO ezsearch_word VALUES (2023,'gpl',2);
-INSERT INTO ezsearch_word VALUES (2024,'want',8);
+INSERT INTO ezsearch_word VALUES (2024,'want',9);
 INSERT INTO ezsearch_word VALUES (2025,'change',1);
 INSERT INTO ezsearch_word VALUES (2026,'resell',1);
 INSERT INTO ezsearch_word VALUES (2027,'products',7);
@@ -10732,28 +11355,28 @@ INSERT INTO ezsearch_word VALUES (2036,'sbs',8);
 INSERT INTO ezsearch_word VALUES (2037,'entered',1);
 INSERT INTO ezsearch_word VALUES (2038,'market',1);
 INSERT INTO ezsearch_word VALUES (2039,'sell',1);
-INSERT INTO ezsearch_word VALUES (2040,'bought',1);
+INSERT INTO ezsearch_word VALUES (2040,'bought',2);
 INSERT INTO ezsearch_word VALUES (2041,'become',2);
 INSERT INTO ezsearch_word VALUES (2042,'premier',2);
 INSERT INTO ezsearch_word VALUES (2043,'build',4);
 INSERT INTO ezsearch_word VALUES (2044,'basis',2);
-INSERT INTO ezsearch_word VALUES (2045,'under',2);
+INSERT INTO ezsearch_word VALUES (2045,'under',3);
 INSERT INTO ezsearch_word VALUES (2046,'brand',1);
 INSERT INTO ezsearch_word VALUES (2047,'portal',1);
 INSERT INTO ezsearch_word VALUES (2048,'plattform',1);
-INSERT INTO ezsearch_word VALUES (2049,'customer',4);
+INSERT INTO ezsearch_word VALUES (2049,'customer',5);
 INSERT INTO ezsearch_word VALUES (2050,'bernd',1);
 INSERT INTO ezsearch_word VALUES (2051,'frey',1);
 INSERT INTO ezsearch_word VALUES (2052,'principal',1);
-INSERT INTO ezsearch_word VALUES (2053,'e',1);
+INSERT INTO ezsearch_word VALUES (2053,'e',3);
 INSERT INTO ezsearch_word VALUES (2054,'creators',2);
-INSERT INTO ezsearch_word VALUES (2055,'important',3);
+INSERT INTO ezsearch_word VALUES (2055,'important',5);
 INSERT INTO ezsearch_word VALUES (2056,'contributing',1);
 INSERT INTO ezsearch_word VALUES (2057,'developement',1);
-INSERT INTO ezsearch_word VALUES (2058,'give',3);
+INSERT INTO ezsearch_word VALUES (2058,'give',5);
 INSERT INTO ezsearch_word VALUES (2059,'income',1);
-INSERT INTO ezsearch_word VALUES (2060,'product',6);
-INSERT INTO ezsearch_word VALUES (2061,'sales',2);
+INSERT INTO ezsearch_word VALUES (2060,'product',7);
+INSERT INTO ezsearch_word VALUES (2061,'sales',5);
 INSERT INTO ezsearch_word VALUES (2062,'germany',2);
 INSERT INTO ezsearch_word VALUES (2063,'giving',1);
 INSERT INTO ezsearch_word VALUES (2064,'competent',1);
@@ -10835,7 +11458,7 @@ INSERT INTO ezsearch_word VALUES (2192,'quickly',2);
 INSERT INTO ezsearch_word VALUES (2191,'ambience',1);
 INSERT INTO ezsearch_word VALUES (2190,'accessibility',1);
 INSERT INTO ezsearch_word VALUES (2189,'rock',1);
-INSERT INTO ezsearch_word VALUES (2188,'quality',4);
+INSERT INTO ezsearch_word VALUES (2188,'quality',6);
 INSERT INTO ezsearch_word VALUES (2187,'combination',1);
 INSERT INTO ezsearch_word VALUES (2186,'areas',3);
 INSERT INTO ezsearch_word VALUES (2185,'finest',1);
@@ -10871,9 +11494,9 @@ INSERT INTO ezsearch_word VALUES (2238,'ve',1);
 INSERT INTO ezsearch_word VALUES (2239,'read',2);
 INSERT INTO ezsearch_word VALUES (2240,'torture',1);
 INSERT INTO ezsearch_word VALUES (2241,'don',2);
-INSERT INTO ezsearch_word VALUES (2242,'even',7);
+INSERT INTO ezsearch_word VALUES (2242,'even',8);
 INSERT INTO ezsearch_word VALUES (2243,'hate',3);
-INSERT INTO ezsearch_word VALUES (2244,'everything',4);
+INSERT INTO ezsearch_word VALUES (2244,'everything',6);
 INSERT INTO ezsearch_word VALUES (2245,'full',2);
 INSERT INTO ezsearch_word VALUES (2246,'channels',1);
 INSERT INTO ezsearch_word VALUES (2247,'kicks',2);
@@ -10931,7 +11554,7 @@ INSERT INTO ezsearch_word VALUES (2298,'articles',7);
 INSERT INTO ezsearch_word VALUES (2299,'editor',10);
 INSERT INTO ezsearch_word VALUES (2300,'story',3);
 INSERT INTO ezsearch_word VALUES (2301,'emigration',1);
-INSERT INTO ezsearch_word VALUES (2302,'she',1);
+INSERT INTO ezsearch_word VALUES (2302,'she',3);
 INSERT INTO ezsearch_word VALUES (2303,'assigns',1);
 INSERT INTO ezsearch_word VALUES (2304,'tasks',2);
 INSERT INTO ezsearch_word VALUES (2305,'photograph',1);
@@ -10959,7 +11582,7 @@ INSERT INTO ezsearch_word VALUES (2326,'invitations',1);
 INSERT INTO ezsearch_word VALUES (2327,'meetings/events',1);
 INSERT INTO ezsearch_word VALUES (2328,'newspaper',1);
 INSERT INTO ezsearch_word VALUES (2329,'collaborate',1);
-INSERT INTO ezsearch_word VALUES (2330,'best',12);
+INSERT INTO ezsearch_word VALUES (2330,'best',13);
 INSERT INTO ezsearch_word VALUES (2331,'football',2);
 INSERT INTO ezsearch_word VALUES (2332,'england',2);
 INSERT INTO ezsearch_word VALUES (2333,'idiots',1);
@@ -11024,12 +11647,12 @@ INSERT INTO ezsearch_word VALUES (3247,'ll',1);
 INSERT INTO ezsearch_word VALUES (3246,'clues',2);
 INSERT INTO ezsearch_word VALUES (3180,'downloading',1);
 INSERT INTO ezsearch_word VALUES (3179,'takes',1);
-INSERT INTO ezsearch_word VALUES (3178,'wil',2);
+INSERT INTO ezsearch_word VALUES (3178,'wil',3);
 INSERT INTO ezsearch_word VALUES (3177,'uses',1);
 INSERT INTO ezsearch_word VALUES (2429,'gives',5);
 INSERT INTO ezsearch_word VALUES (3176,'ofthe',2);
 INSERT INTO ezsearch_word VALUES (2427,'developers',7);
-INSERT INTO ezsearch_word VALUES (3175,'written',3);
+INSERT INTO ezsearch_word VALUES (3175,'written',4);
 INSERT INTO ezsearch_word VALUES (3174,'tutorial',3);
 INSERT INTO ezsearch_word VALUES (2434,'optimized',5);
 INSERT INTO ezsearch_word VALUES (3245,'tips',1);
@@ -11043,7 +11666,7 @@ INSERT INTO ezsearch_word VALUES (3196,'sizes',1);
 INSERT INTO ezsearch_word VALUES (3195,'forms',1);
 INSERT INTO ezsearch_word VALUES (3194,'recommend',1);
 INSERT INTO ezsearch_word VALUES (3193,'author',1);
-INSERT INTO ezsearch_word VALUES (3192,'lawn',1);
+INSERT INTO ezsearch_word VALUES (3192,'lawn',2);
 INSERT INTO ezsearch_word VALUES (3191,'stones',1);
 INSERT INTO ezsearch_word VALUES (3190,'plants',1);
 INSERT INTO ezsearch_word VALUES (3189,'backyard',3);
@@ -11081,8 +11704,8 @@ INSERT INTO ezsearch_word VALUES (2532,'answered',1);
 INSERT INTO ezsearch_word VALUES (2534,'anything',1);
 INSERT INTO ezsearch_word VALUES (2535,'respond',1);
 INSERT INTO ezsearch_word VALUES (2536,'teckie',1);
-INSERT INTO ezsearch_word VALUES (2537,'needs',2);
-INSERT INTO ezsearch_word VALUES (2538,'help',9);
+INSERT INTO ezsearch_word VALUES (2537,'needs',3);
+INSERT INTO ezsearch_word VALUES (2538,'help',10);
 INSERT INTO ezsearch_word VALUES (2539,'issue',1);
 INSERT INTO ezsearch_word VALUES (2540,'programmers',1);
 INSERT INTO ezsearch_word VALUES (2541,'favorite',1);
@@ -11103,17 +11726,17 @@ INSERT INTO ezsearch_word VALUES (2559,'surely',1);
 INSERT INTO ezsearch_word VALUES (2673,'roney',1);
 INSERT INTO ezsearch_word VALUES (2674,'doppel',1);
 INSERT INTO ezsearch_word VALUES (2675,'hit',1);
-INSERT INTO ezsearch_word VALUES (2676,'hope',1);
+INSERT INTO ezsearch_word VALUES (2676,'hope',2);
 INSERT INTO ezsearch_word VALUES (2677,'injury',1);
 INSERT INTO ezsearch_word VALUES (2678,'break',1);
-INSERT INTO ezsearch_word VALUES (2679,'week',1);
+INSERT INTO ezsearch_word VALUES (2679,'week',2);
 INSERT INTO ezsearch_word VALUES (2680,'end',1);
 INSERT INTO ezsearch_word VALUES (2681,'highend',1);
 INSERT INTO ezsearch_word VALUES (2682,'road',1);
 INSERT INTO ezsearch_word VALUES (2683,'reds',1);
 INSERT INTO ezsearch_word VALUES (2811,'contract',3);
 INSERT INTO ezsearch_word VALUES (2810,'signed',1);
-INSERT INTO ezsearch_word VALUES (2809,'latest',1);
+INSERT INTO ezsearch_word VALUES (2809,'latest',2);
 INSERT INTO ezsearch_word VALUES (2690,'recruiting',1);
 INSERT INTO ezsearch_word VALUES (2715,'metropolis',2);
 INSERT INTO ezsearch_word VALUES (2714,'located',3);
@@ -11131,7 +11754,7 @@ INSERT INTO ezsearch_word VALUES (2717,'employ',2);
 INSERT INTO ezsearch_word VALUES (2718,'000',3);
 INSERT INTO ezsearch_word VALUES (3333,'downtown',1);
 INSERT INTO ezsearch_word VALUES (2790,'hesitate',3);
-INSERT INTO ezsearch_word VALUES (3329,'send',2);
+INSERT INTO ezsearch_word VALUES (3329,'send',4);
 INSERT INTO ezsearch_word VALUES (3328,'please',1);
 INSERT INTO ezsearch_word VALUES (2786,'co',4);
 INSERT INTO ezsearch_word VALUES (2787,'workers',5);
@@ -11147,7 +11770,7 @@ INSERT INTO ezsearch_word VALUES (3321,'skills',1);
 INSERT INTO ezsearch_word VALUES (3320,'diverse',1);
 INSERT INTO ezsearch_word VALUES (3319,'opportunities',1);
 INSERT INTO ezsearch_word VALUES (3318,'career',1);
-INSERT INTO ezsearch_word VALUES (3317,'therefore',1);
+INSERT INTO ezsearch_word VALUES (3317,'therefore',2);
 INSERT INTO ezsearch_word VALUES (3316,'handle',1);
 INSERT INTO ezsearch_word VALUES (3315,'careers',1);
 INSERT INTO ezsearch_word VALUES (2795,'wins',2);
@@ -11179,7 +11802,7 @@ INSERT INTO ezsearch_word VALUES (2823,'translated',1);
 INSERT INTO ezsearch_word VALUES (2824,'founded',1);
 INSERT INTO ezsearch_word VALUES (2825,'mai',1);
 INSERT INTO ezsearch_word VALUES (2826,'kongsberg',1);
-INSERT INTO ezsearch_word VALUES (2827,'todays',1);
+INSERT INTO ezsearch_word VALUES (2827,'todays',2);
 INSERT INTO ezsearch_word VALUES (2828,'strategy',1);
 INSERT INTO ezsearch_word VALUES (2829,'center',1);
 INSERT INTO ezsearch_word VALUES (2830,'focus',2);
@@ -11281,7 +11904,7 @@ INSERT INTO ezsearch_word VALUES (3109,'operating',3);
 INSERT INTO ezsearch_word VALUES (3108,'supported',2);
 INSERT INTO ezsearch_word VALUES (3107,'requirements',2);
 INSERT INTO ezsearch_word VALUES (3106,'editing',2);
-INSERT INTO ezsearch_word VALUES (3105,'file',3);
+INSERT INTO ezsearch_word VALUES (3105,'file',4);
 INSERT INTO ezsearch_word VALUES (3104,'functions',2);
 INSERT INTO ezsearch_word VALUES (3103,'immitate',2);
 INSERT INTO ezsearch_word VALUES (3102,'browsers',4);
@@ -11376,6 +11999,95 @@ INSERT INTO ezsearch_word VALUES (3314,'deserve',1);
 INSERT INTO ezsearch_word VALUES (3330,'skill',1);
 INSERT INTO ezsearch_word VALUES (3331,'email',1);
 INSERT INTO ezsearch_word VALUES (3332,'careers@mycompany',1);
+INSERT INTO ezsearch_word VALUES (3334,'intranet',1);
+INSERT INTO ezsearch_word VALUES (3335,'files',1);
+INSERT INTO ezsearch_word VALUES (3336,'document',3);
+INSERT INTO ezsearch_word VALUES (3337,'budget',1);
+INSERT INTO ezsearch_word VALUES (3338,'reminder',1);
+INSERT INTO ezsearch_word VALUES (3339,'numbers',3);
+INSERT INTO ezsearch_word VALUES (3340,'month',2);
+INSERT INTO ezsearch_word VALUES (3341,'delays',1);
+INSERT INTO ezsearch_word VALUES (3342,'accepted',1);
+INSERT INTO ezsearch_word VALUES (3343,'include',2);
+INSERT INTO ezsearch_word VALUES (3344,'total',3);
+INSERT INTO ezsearch_word VALUES (3345,'per',1);
+INSERT INTO ezsearch_word VALUES (3346,'calls',1);
+INSERT INTO ezsearch_word VALUES (3347,'breakthrough',1);
+INSERT INTO ezsearch_word VALUES (3348,'rate',1);
+INSERT INTO ezsearch_word VALUES (3349,'returns',1);
+INSERT INTO ezsearch_word VALUES (3350,'estimates',1);
+INSERT INTO ezsearch_word VALUES (3351,'mailbox',1);
+INSERT INTO ezsearch_word VALUES (3352,'1600',1);
+INSERT INTO ezsearch_word VALUES (3358,'documents',1);
+INSERT INTO ezsearch_word VALUES (3357,'large',1);
+INSERT INTO ezsearch_word VALUES (3370,'amusement',1);
+INSERT INTO ezsearch_word VALUES (3369,'text',1);
+INSERT INTO ezsearch_word VALUES (3368,'dummy',1);
+INSERT INTO ezsearch_word VALUES (3371,'lottery',5);
+INSERT INTO ezsearch_word VALUES (3372,'brings',1);
+INSERT INTO ezsearch_word VALUES (3373,'joined',1);
+INSERT INTO ezsearch_word VALUES (3374,'addition',1);
+INSERT INTO ezsearch_word VALUES (3375,'cheese',1);
+INSERT INTO ezsearch_word VALUES (3376,'cracers',1);
+INSERT INTO ezsearch_word VALUES (3377,'lucky',1);
+INSERT INTO ezsearch_word VALUES (3378,'winners',1);
+INSERT INTO ezsearch_word VALUES (3379,'drop',1);
+INSERT INTO ezsearch_word VALUES (3380,'purchase',1);
+INSERT INTO ezsearch_word VALUES (3381,'mail',2);
+INSERT INTO ezsearch_word VALUES (3382,'prevented',1);
+INSERT INTO ezsearch_word VALUES (3383,'ticket',1);
+INSERT INTO ezsearch_word VALUES (3384,'cost',1);
+INSERT INTO ezsearch_word VALUES (3385,'linda',1);
+INSERT INTO ezsearch_word VALUES (3386,'loo',1);
+INSERT INTO ezsearch_word VALUES (3387,'meeting',3);
+INSERT INTO ezsearch_word VALUES (3388,'13',1);
+INSERT INTO ezsearch_word VALUES (3389,'update',1);
+INSERT INTO ezsearch_word VALUES (3390,'attend',1);
+INSERT INTO ezsearch_word VALUES (3391,'monday',1);
+INSERT INTO ezsearch_word VALUES (3392,'ceo',1);
+INSERT INTO ezsearch_word VALUES (3393,'wished',1);
+INSERT INTO ezsearch_word VALUES (3394,'heppy',1);
+INSERT INTO ezsearch_word VALUES (3395,'told',1);
+INSERT INTO ezsearch_word VALUES (3396,'shortly',1);
+INSERT INTO ezsearch_word VALUES (3397,'plans',1);
+INSERT INTO ezsearch_word VALUES (3398,'getthat',1);
+INSERT INTO ezsearch_word VALUES (3399,'memo',1);
+INSERT INTO ezsearch_word VALUES (3400,'tomorrow',1);
+INSERT INTO ezsearch_word VALUES (3401,'suggestion',1);
+INSERT INTO ezsearch_word VALUES (3402,'talk',1);
+INSERT INTO ezsearch_word VALUES (3403,'internal',2);
+INSERT INTO ezsearch_word VALUES (3404,'communiucation',1);
+INSERT INTO ezsearch_word VALUES (3405,'errors',1);
+INSERT INTO ezsearch_word VALUES (3406,'mistakes',2);
+INSERT INTO ezsearch_word VALUES (3407,'betterat',1);
+INSERT INTO ezsearch_word VALUES (3408,'inform',1);
+INSERT INTO ezsearch_word VALUES (3409,'eachother',1);
+INSERT INTO ezsearch_word VALUES (3410,'least',1);
+INSERT INTO ezsearch_word VALUES (3411,'manager',1);
+INSERT INTO ezsearch_word VALUES (3412,'projects',2);
+INSERT INTO ezsearch_word VALUES (3413,'didi',1);
+INSERT INTO ezsearch_word VALUES (3414,'tre',1);
+INSERT INTO ezsearch_word VALUES (3415,'dimm',1);
+INSERT INTO ezsearch_word VALUES (3416,'media',1);
+INSERT INTO ezsearch_word VALUES (3417,'arthurs',1);
+INSERT INTO ezsearch_word VALUES (3418,'timm',1);
+INSERT INTO ezsearch_word VALUES (3419,'fancy',1);
+INSERT INTO ezsearch_word VALUES (3420,'number',1);
+INSERT INTO ezsearch_word VALUES (3421,'priority',1);
+INSERT INTO ezsearch_word VALUES (3422,'green',1);
+INSERT INTO ezsearch_word VALUES (3423,'simmson',1);
+INSERT INTO ezsearch_word VALUES (3424,'going',1);
+INSERT INTO ezsearch_word VALUES (3425,'accounting',1);
+INSERT INTO ezsearch_word VALUES (3426,'billingsaccout',1);
+INSERT INTO ezsearch_word VALUES (3427,'keep',1);
+INSERT INTO ezsearch_word VALUES (3428,'desks',1);
+INSERT INTO ezsearch_word VALUES (3429,'clean',1);
+INSERT INTO ezsearch_word VALUES (3430,'tidy',1);
+INSERT INTO ezsearch_word VALUES (3431,'impression',1);
+INSERT INTO ezsearch_word VALUES (3432,'bring',1);
+INSERT INTO ezsearch_word VALUES (3433,'kitchen',1);
+INSERT INTO ezsearch_word VALUES (3434,'her',3);
+INSERT INTO ezsearch_word VALUES (3435,'angry',1);
 
 #
 # Table structure for table 'ezsection'
@@ -11398,6 +12110,7 @@ INSERT INTO ezsection VALUES (3,'News section','nor-NO');
 INSERT INTO ezsection VALUES (4,'Crossroards forum','');
 INSERT INTO ezsection VALUES (5,'The book corner','');
 INSERT INTO ezsection VALUES (6,'My company','');
+INSERT INTO ezsection VALUES (7,'Intranet','');
 
 #
 # Table structure for table 'ezsession'
@@ -11415,91 +12128,8 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession VALUES ('beea3def7581c9fac9a3959546d91691',1034587368,'eZExecutionStack|a:1:{i:0;a:3:{s:3:\"uri\";s:16:\"/workflow/edit/1\";s:6:\"module\";s:8:\"workflow\";s:8:\"function\";s:4:\"edit\";}}BrowseFromPage|s:18:\"/section/assign/3/\";BrowseActionName|s:13:\"AssignSection\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('c427b1ec51dfaf03fb7675aea7769c85',1034594229,'eZExecutionStack|a:0:{}BrowseFromPage|s:18:\"/section/assign/2/\";BrowseActionName|s:13:\"AssignSection\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('e66ed7e483d28d41737353c598287aa5',1034522642,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('99d098b736fb61db5c333e7d1a56b110',1034238746,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('94d1f9d4cd565343b21ff10ce34de43d',1034239641,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('8e2554ea6bfe168fea529dc7f07135c8',1034446448,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('b918bfe045dec5d0907760bf0db2b534',1034521240,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";BrowseFromPage|s:18:\"/content/edit/68/1\";BrowseActionName|s:17:\"AddNodeAssignment\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;');
-INSERT INTO ezsession VALUES ('0ccdc70a53550781158f228da99791f4',1034447434,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('36f9ce37384034da344b7e72ea15683c',1034344414,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('e0c0ef8c2c7260390d5c275419614e5f',1034333040,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('c1e4057be6d6d87912d522aac0f7ee5e',1034331650,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('48f368c974b611e6c02d511e248ce3fa',1034345997,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('87d35623ea70a5dd6dee5cafd4a2ef02',1034337177,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('cbbcf2c0ad7e8b3278b0591f1b626346',1034343736,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('ae347ef56223eb6a9e25234b029300f3',1034427990,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('8eecfba7db10e336fc74c16628a11f87',1034417202,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('358f425b469b1d2e82dd20b426280302',1034426253,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('c3e7f52ac5da96d0fef286f7e8c185b1',1034429040,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('2746fba4e3afcb929a557dc529006c14',1034434068,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('e0bc670f80404de376ad97027c205099',1034592532,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('f735df229eacdc0b998104ebb298f1b5',1034593973,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";BrowseFromPage|s:18:\"/section/assign/4/\";BrowseActionName|s:13:\"AssignSection\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;');
-INSERT INTO ezsession VALUES ('5115b8e4a3a02aae9251c1fefb42203c',1034491213,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('d7ee037544659a173afa44758a7b8821',1034450534,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('c456a62418c896b01a19891c291da709',1034499935,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('6cc60c4cc0cbd2d3881dfbd8eeda2926',1034500521,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('05521fac5ddd35dfb6d0a97ffbef4afe',1034504896,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('d32dfd9e73424f3eaea57e42b0e4dd3d',1034507595,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('5f0733745e3631400146ad76b7a1fae8',1034507690,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('6ff5aab7013a7cef5acdb6628e9bf625',1034507741,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('43d2fbf94cda78496db021fc5bde0671',1034524700,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('cdd7e91fb890f84533998dec0eb6569d',1034523708,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('cdb8566a979b98a649140e298541c6fd',1034525939,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('592c294778368d74296d4361d91eae0f',1034528766,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('d3802b39b6395a29bbf6ce103955a896',1034581976,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('513f511897b3a7bf58533f8a8d0996fd',1036315867,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('9f69cb65ba8a7394527b9fe4bc9d0d6e',1036142663,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('88f41e27ed36a4c60b4f711480eadffb',1036166245,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('b8fe62ad6be08482cd8381ee02d1a698',1036163567,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('13a1fbce0b1bba491c2ac80fe3a8395b',1036316413,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('b8003761a93c3d8874e703187fd9f3b0',1036162506,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('e49707a2980e212dfd7d449b836f34eb',1036223372,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('090269585ff6a391178434dfeec72302',1036153733,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('ce761a9cd05e4f7e912e558a275ca57d',1036247720,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}BrowseFromPage|s:19:\"/content/edit/148/5\";BrowseActionName|s:17:\"AddNodeAssignment\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;');
-INSERT INTO ezsession VALUES ('2d1299c3dbbb0d4d21c3de6862dfadc5',1036245928,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}');
-INSERT INTO ezsession VALUES ('2e85864e35f8b48c45b5d31c94c25bb9',1036234938,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('799edd0e653d2111111332a04d0c8d27',1036255264,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('686d88c676bf34e1f12bba67871d90a4',1036229212,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
-INSERT INTO ezsession VALUES ('bc7f8b097cb625508475be441d44c687',1036243100,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('88a01ba6527b3cab7a3e9157ec6609dc',1036240256,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}');
-INSERT INTO ezsession VALUES ('6585a4db2725203b0c207f4123d91ac3',1036239856,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('1b525e9e45df13bac7a341c509678562',1036309960,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('461887c6260b5fa2dedd6ad6c4432a1f',1036313807,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('1d2eb0341be812129c031c16ecd37f6d',1036247875,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('86c8e6f7a340a48d287e70aa4fbbf98c',1036251205,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('9e0b4e758b70a6bad383b9ee8180e576',1036251223,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('543f27feb1f23dc0bb4a1f9553edbd1c',1036313526,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}');
-INSERT INTO ezsession VALUES ('8e111e92d4d8fa481d4ae91d712d4def',1036309033,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('f395fa825f6e3731174180d832e6c53b',1036312080,'eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('116b51f1d7b8b41952879a5b7def24d0',1036318133,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}BrowseFromPage|s:19:\"/content/edit/160/1\";BrowseActionName|s:17:\"AddNodeAssignment\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;');
-INSERT INTO ezsession VALUES ('90dab01e6e7aacdc917b8e001db37526',1036315072,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}');
-INSERT INTO ezsession VALUES ('b93a9ad32f024d958a02d8d3b3086bdb',1036315973,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
-INSERT INTO ezsession VALUES ('56deac4bee6967e8ecf716752b099487',1036317438,'eZExecutionStack|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('7fb875c4861135f0e227427bbebe0ac7',1036313576,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"2\";}');
-INSERT INTO ezsession VALUES ('2f2a94a0b96c90918d86f6d4f46380eb',1036314128,'!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('a18b3bcbfe80be83a86074e578157664',1036316227,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
-INSERT INTO ezsession VALUES ('9f5e40eeecf57c5953313d65f1ba03fc',1037545648,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";BrowseFromPage|s:19:\"/content/edit/169/3\";BrowseActionName|s:16:\"AddRelatedObject\";BrowseReturnType|s:8:\"ObjectID\";CustomActionButton|N;BrowseSelectionType|N;');
-INSERT INTO ezsession VALUES ('60e8ef8cfb3c4ec805bc0f0e53833b06',1037462633,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}');
-INSERT INTO ezsession VALUES ('16467d34b89b7eaf9d34d828550c176c',1037548314,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('5e042886067ea49e28aa54f5d38e8b9d',1037462643,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('c05833833388ddc2e525b87290f66bc5',1037540911,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}BrowseFromPage|s:19:\"/content/edit/158/3\";BrowseActionName|s:17:\"AddNodeAssignment\";BrowseReturnType|s:6:\"NodeID\";BrowseSelectionType|s:8:\"Multiple\";CustomActionButton|N;');
-INSERT INTO ezsession VALUES ('4341cfd69d070f1387285699d76ee23f',1037517456,'!eZGlobalSection|!eZExecutionStack|');
-INSERT INTO ezsession VALUES ('1ec3a688e37cda8013f4bd18119cf263',1037540942,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('114de602aa2266ef1a11156d4052ba62',1037520710,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}');
-INSERT INTO ezsession VALUES ('0359e173d7f5422f2b4c9c18b4fdc237',1037523281,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('0e766f00f30d5d4d12d8f95aee0371d0',1037524660,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('768510f39db26663fd2c4008c5762169',1037528434,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('5c1a3d8d009ae1fa5fd97f1c289ac5b5',1037528158,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('8633c9085da0058e4f1ca5c719f74a74',1037527590,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('cd8211260d2a832adb9ca4b4e2deff6c',1037527656,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('81ec4ab986bb1e88d67a2a6dea4fbf7a',1037529714,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}');
-INSERT INTO ezsession VALUES ('38349bf8719d3eff5cb55f818ae9c51b',1037539517,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('d4f17866676265d73a2f65cf0e13902f',1037543658,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('4f20ec90e801e55cf5183b0dac4495bf',1037541534,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('d0653246666f6fc393ba0cad7a5c8b70',1037545127,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"4\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
-INSERT INTO ezsession VALUES ('0d22b00d3575382fb1e7fe91e41071a8',1037544847,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"5\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
+INSERT INTO ezsession VALUES ('173dd278b9413868ad2c6715a7e0553d',1039181029,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"7\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
+INSERT INTO ezsession VALUES ('9ad8f15729b40ed612a4f9c4cea3d3d0',1039181068,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"7\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 
 #
 # Table structure for table 'eztask'
@@ -11552,7 +12182,7 @@ CREATE TABLE eztask_message (
 
 CREATE TABLE eztrigger (
   id int(11) NOT NULL auto_increment,
-  name varchar(255),
+  name varchar(255) default NULL,
   module_name varchar(200) NOT NULL default '',
   function_name varchar(200) NOT NULL default '',
   connect_type char(1) NOT NULL default '',
@@ -11604,6 +12234,23 @@ INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',3,'db52c38a553f88038643
 INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',3,'adcd37bc8ee8b2845e8419ac0f752e0f');
 
 #
+# Table structure for table 'ezuser_discountrule'
+#
+
+CREATE TABLE ezuser_discountrule (
+  id int(11) NOT NULL auto_increment,
+  discountrule_id int(11) default NULL,
+  contentobject_id int(11) default NULL,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezuser_discountrule'
+#
+
+
+#
 # Table structure for table 'ezuser_role'
 #
 
@@ -11638,6 +12285,22 @@ CREATE TABLE ezuser_setting (
 
 INSERT INTO ezuser_setting VALUES (10,1,NULL);
 INSERT INTO ezuser_setting VALUES (14,1,NULL);
+
+#
+# Table structure for table 'ezvattype'
+#
+
+CREATE TABLE ezvattype (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  percentage float default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezvattype'
+#
+
 
 #
 # Table structure for table 'ezwishlist'
@@ -11756,9 +12419,9 @@ INSERT INTO ezworkflow_group VALUES (1,'Standard',-1,-1,1024392098,1024392098);
 CREATE TABLE ezworkflow_group_link (
   workflow_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0',
-  workflow_version int(11) default NULL,
+  workflow_version int(11) NOT NULL default '0',
   group_name varchar(255) default NULL,
-  PRIMARY KEY  (workflow_id,group_id)
+  PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
 
 #
@@ -11792,7 +12455,7 @@ CREATE TABLE ezworkflow_process (
   event_state int(11) default NULL,
   status int(11) default NULL,
   parameters text,
-  memento_key char(32),
+  memento_key varchar(32) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -11801,10 +12464,3 @@ CREATE TABLE ezworkflow_process (
 #
 
 
-CREATE TABLE ezoperation_memento (
-    id int NOT NULL auto_increment,
-    main int NOT NULL default 0,
-    memento_key char(32) NOT NULL,
-    main_key char(32) NOT NULL,
-    memento_data text NOT NULL,
-    PRIMARY KEY(id, memento_key) );

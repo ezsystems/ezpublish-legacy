@@ -105,7 +105,12 @@ switch( $operationResult['status'] )
         {
             $viewParameters = array( 'offset' => $Offset );
             $object = $operationResult[ 'object' ];
-            $node = $operationResult[ 'node' ];
+
+            if ( !get_class( $object ) == 'ezcontentobject' )
+                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+
+                $node = $operationResult[ 'node' ];
             if ( ! is_object( $object ) )
             {
                 eZDebug::printReport();
