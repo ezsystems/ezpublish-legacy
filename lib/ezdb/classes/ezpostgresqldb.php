@@ -420,6 +420,14 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
+     \reimp
+    */
+    function relationMatchRegexp( $relationType )
+    {
+        return "#^(ez|tmp_notification_rule_s)#";
+    }
+
+    /*!
       \reimp
     */
     function removeRelation( $relationName, $relationType )
@@ -578,8 +586,8 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function &escapeString( $str )
     {
-        $str = str_replace ("'", "\'", $str );
-        $str = str_replace ("\"", "\\\"", $str );
+        $str = str_replace( "'", "\'", $str );
+        $str = str_replace( "\"", "\\\"", $str );
         return $str;
     }
 
@@ -618,7 +626,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 $array = pg_fetch_row( $result, 0 );
                 $versionText = $array[0];
             }
-            list ( $dbType, $versionInfo ) = split( " ", $versionText );
+            list( $dbType, $versionInfo ) = split( " ", $versionText );
             $versionArray = explode( '.', $versionInfo );
             return array( 'string' => $versionInfo,
                           'values' => $versionArray );

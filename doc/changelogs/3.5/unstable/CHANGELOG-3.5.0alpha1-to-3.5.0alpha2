@@ -48,3 +48,10 @@ Payment:
   in the setup wizard.
   (Merged from stable/3.4 (3.4.3) rev. 8497)
 - Fixed bug: popupmenu fails on objects with quotes in their names.
+
+*Library:
+
+eZDB:
+- Added new method relationMatchRegexp() to eZDBInterface,
+  this can be implemented by DB drivers to provide information
+  about which tables, triggers etc. belongs to eZ publish.

@@ -520,6 +520,14 @@ class eZMySQLDB extends eZDBInterface
     }
 
     /*!
+     \reimp
+    */
+    function relationMatchRegexp( $relationType )
+    {
+        return "#^ez#";
+    }
+
+    /*!
       \reimp
     */
     function removeRelation( $relationName, $relationType )

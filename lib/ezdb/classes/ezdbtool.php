@@ -78,13 +78,25 @@ class eZDBTool
             $db =& eZDB::instance();
         $relationTypes = $db->supportedRelationTypes();
         $result = true;
+        $defaultRegexp = "#^ez|tmp_notification_rule_s#";
         foreach ( $relationTypes as $relationType )
         {
             $relationItems = $db->relationList( $relationType );
+            // This is the default regexp, unless the db driver provides one
+            $matchRegexp = null;
+            if ( method_exists( $db, 'relationMatchRegexp' ) )
+            {
+                $matchRegexp = $db->relationMatchRegexp( $relationType );
+            }
+            if ( $matchRegexp === null )
+                $matchRegexp = $defaultRegexp;
+            eZDebug::writeDebug( $relationItems, 'relationitems' );
+            eZDebug::writeDebug( $matchRegexp, 'regexp' );
             foreach ( $relationItems as $relationItem )
             {
-                // skip non-ez relations
-                if ( !eregi( "^ez|tmp_notification_rule_s", $relationItem ) )
+                // skip relations that shouldn't be touched
+                if ( $matchRegexp !== false and
+                     !preg_match( $matchRegexp, $relationItem ) )
                     continue;
 
                 if ( !$db->removeRelation( $relationItem, $relationType ) )

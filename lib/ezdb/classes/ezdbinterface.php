@@ -288,6 +288,10 @@ class eZDBInterface
                 foreach( $sqlArray as $singleQuery )
                 {
                     $singleQuery = preg_replace( "/\n|\r\n|\r/", " ", $singleQuery );
+                    if ( preg_match( "#^ */(.+)$#", $singleQuery, $matches ) )
+                    {
+                        $singleQuery = $matches[1];
+                    }
                     if ( trim( $singleQuery ) != "" )
                     {
 //                    eZDebug::writeDebug( $singleQuery );
@@ -617,6 +621,25 @@ class eZDBInterface
         if ( !isset( $names[$relationType] ) )
             return false;
         return $names[$relationType];
+    }
+
+    /*!
+     \pure
+     \return A regexp (PCRE) that can be used to filter out certain relation elements.
+             If no special regexp is provided it will return \c false.
+     \param $relationType The type which needs to be filtered, this allows one regexp per type.
+
+     An example, will only match tables that start with 'ez'.
+     \code
+     return "#^ez#";
+     \endcode
+
+     \note This function is currently used by the eZDBTool class to remove relation elements
+           of a specific kind (Most likely eZ publish related elements).
+    */
+    function relationMatchRegexp( $relationType )
+    {
+        return false;
     }
 
     /*!
