@@ -53,7 +53,7 @@ class eZXMLInputHandler
     /*!
      Constructor
     */
-    function eZXMLInputHandler(  &$xmlData, $aliasedType, $contentObjectAttribute )
+    function eZXMLInputHandler(  &$xmlData, $aliasedType, &$contentObjectAttribute )
     {
         $this->XMLData =& $xmlData;
         $this->ContentObjectAttribute =& $contentObjectAttribute;
