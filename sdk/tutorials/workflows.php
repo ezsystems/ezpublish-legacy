@@ -264,7 +264,7 @@ In addition, you need to create result template.
 <?php  print( htmlspecialchars ( '<form action={$return_uri|ezurl} method="post" >
 
 <div class="maincontentheader">
-<h1>{"Hello"|i18n(\'workflow/eventtype/result/event_ezcheckout\')} {$user_name}</h1>
+<h1>{"Hello"|i18n(\'workflow/eventtype/result/event_hellouser\')} {$user_name}</h1>
 </div>
 <div class="buttonblock">
 <input type="submit" name="Next" value="next" />
@@ -298,13 +298,17 @@ Simply click on store button after you have added the event.
 
 </p>
 <p>
-The last step is to create a trigger. This step has to be done manually.
-Connecting to the database from command line and insert next record to the eztrigger table.
-<pre class="example">
-insert into eztrigger( module_name,function_name,name,workflow_id ) values ( 'content', 'read', 'pre_read', <i>new_workflow_id</i> );
-</pre>
-Where workflow_id is the internal id of newly created workflow. You can get it from the url when editing the workflow.
+Now workflow is ready and you need to create a trigger.
 </p>
+
+<p>
+Go to the "Triggers" ( under "Set up" box ) and select newlly created workflow from dropdown in front of the place you need to run it. (content-read-before)
+</p>
+<img src="/doc/images/triggers.png" alt="Triggers" />
+<p>
+Click "Store" button. Workflow is connected to the operation now.
+</p>
+
 <br/>
 
 Finally the workflow is ready and has beenconnected to the operation.

@@ -62,7 +62,6 @@ class eZApproveType extends eZWorkflowEventType
             case 'selected_sections':
             {
                 $sections = explode( ',', $event->attribute( 'data_text1' ) );
-                var_dump( $sections );
                 return $sections;
             }break;
             case 'selected_users':

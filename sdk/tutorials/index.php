@@ -58,6 +58,11 @@ $featureArray[] = array( "uri" => "content_classes",
 $featureArray[] = array( "uri" => "workflows",
                          "level" => 0,
                          "name" => "Custom workflow" );
+
+$featureArray[] = array( "uri" => "wrappingworkflow",
+                         "level" => 0,
+                         "name" => "Example of wrapping workflow" );
+
 $featureArray[] = array( "uri" => "permissions",
                          "level" => 0,
                          "name" => "Permissions and sections" );

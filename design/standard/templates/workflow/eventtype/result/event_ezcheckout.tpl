@@ -1,4 +1,4 @@
-<form action={concat('content/view/',$viewmode,'/',$node.node_id,'/')|ezurl} method="post" >
+<form action={$request_uri|ezurl} method="post" >
 
 <div class="maincontentheader">
 <h1>{"Checkout"|i18n("design/standard/workflow/eventtype/result")}</h1>

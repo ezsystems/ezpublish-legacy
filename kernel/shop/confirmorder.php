@@ -78,13 +78,43 @@ switch( $operationResult['status'] )
 {
     case EZ_MODULE_OPERATION_CONTINUE:
     {
+        if ( $operationResult != null &&
+             !isset( $operationResult['result'] ) &&
+             ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
+        {
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
+            $Result['path'] = array( array( 'url' => false,
+                                            'text' => 'Confirm order' ) );
+        }
+    }break;
+    case EZ_MODULE_OPERATION_HALTED:
+    {
+        if (  isset( $operationResult['redirect_url'] ) )
+        {
+            $module->redirectTo( $operationResult['redirect_url'] );
+            return;
+        }
+        else if ( isset( $operationResult['result'] ) )
+        {
+            $Result['content'] =& $operationResult['result'];
+        }
+    }break;
+    case EZ_MODULE_OPERATION_CANCELED:
+    {
+        $Result = array();
+        $Result['content'] = "- I think you are not able to view that object :) <br/>
+                              - Why?<br/>
+                              - Because I think so :)";
     }
+
 }
 
-
+/*
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => 'Confirm order' ) );
-
+*/
 ?>

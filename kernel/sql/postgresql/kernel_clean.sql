@@ -593,6 +593,7 @@ CREATE TABLE "ezorder" (
 	"productcollection_id" integer NOT NULL,
 	"created" integer NOT NULL,
     "is_temporary" integer not null default '1'
+    "order_nr" integer not null default '0';
 	Constraint "ezorder_pkey" Primary Key ("id")
 );
 
