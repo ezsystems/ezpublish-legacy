@@ -105,7 +105,11 @@ $FunctionList['list_count'] = array( 'name' => 'list_count',
                                                             array( 'name' => 'class_filter_array',
                                                                    'type' => 'array',
                                                                    'required' => false,
-                                                                   'default' => false ) ) );
+                                                                   'default' => false ),
+                                                            array( 'name' => 'depth',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => 1 ) ) );
 $FunctionList['tree'] = array( 'name' => 'tree',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

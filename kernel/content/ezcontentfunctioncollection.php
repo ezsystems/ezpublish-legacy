@@ -95,13 +95,14 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array  )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
-                                                      'ClassFilterArray' => $class_filter_array ) );
+                                                      'ClassFilterArray' => $class_filter_array,
+                                                      'Depth' => $depth ) );
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
