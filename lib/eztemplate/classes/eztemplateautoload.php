@@ -40,7 +40,34 @@
 $eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearrayoperator.php',
                                     'class' => 'eZTemplateArrayOperator',
-                                    'operator_names' => array( 'array', 'hash', 'contains' ) );
+                                    'operator_names' => array( 'array',
+                                                               'hash',
+                                                               'array_prepend', // DEPRECATED/OBSOLETE
+                                                               'prepend',       // New,replaces array_prepend.
+                                                               'array_append',  // DEPRECATED/OBSOLETE
+                                                               'append',        // New,replaces array_append.
+                                                               'array_merge',   // DEPRECATED/OBSOLETE
+                                                               'merge',         // New,replaces array_merge.
+                                                               'contains',
+                                                               'compare',
+                                                               'extract',
+                                                               'extract_left',
+                                                               'extract_right',
+                                                               'begins_with',
+                                                               'ends_with',
+                                                               'implode',
+                                                               'explode',
+                                                               'repeat',
+                                                               'reverse',
+                                                               'insert',
+                                                               'remove',
+                                                               'replace',
+                                                               'unique',
+                                                               'sum'
+                                                               ) );
+
+
+
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
                                     'class' => 'eZTemplateExecuteOperator',
                                     'operator_names' => array( 'fetch' ) );
@@ -50,9 +77,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
                                     'class' => 'eZTemplateAttributeOperator',
                                     'operator_names' => array( 'attribute' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatewashoperator.php',
-                                    'class' => 'eZTemplateWashOperator',
-                                    'operator_names' => array( 'wash' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatenl2broperator.php',
                                     'class' => 'eZTemplateNl2BrOperator',
                                     'operator_names' => array( 'nl2br' ) );
@@ -77,6 +101,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecontroloperator.php',
                                     'class' => 'eZTemplateControlOperator',
                                     'operator_names' => array( 'cond', 'first_set' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearithmeticoperator.php',
                                     'class' => 'eZTemplateArithmeticOperator',
                                     'operator_names' => array( 'sum', 'sub', 'inc', 'dec',
@@ -84,11 +109,40 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'max', 'min',
                                                                'abs', 'ceil', 'floor', 'round',
                                                                'count' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
                                     'operator_names' => array( 'texttoimage',
                                                                'image',
                                                                'imagefile' ) );
+
+
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatestringoperator.php',
+                                    'class' => 'eZTemplateStringOperator',
+                                    'operator_names' => array( 'upcase',
+                                                               'downcase',
+                                                               'count_words',
+                                                               'count_chars',
+                                                               'trim',
+                                                               'break',
+                                                               'wrap',
+                                                               'upfirst',
+                                                               'upword',
+                                                               'simplify',
+                                                               'trim',
+                                                               'wash',
+                                                               'chr',
+                                                               'ord',
+                                                               'shorten',
+                                                               'pad') );
+
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedigestoperator.php',
+                                    'class' => 'eZTemplateDigestOperator',
+                                    'operator_names' => array( 'crc32',
+                                                               'md5',
+                                                               'rot13', ) );
+
+
 
 // Function autoloading
 

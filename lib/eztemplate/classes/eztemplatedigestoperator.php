@@ -1,8 +1,8 @@
 <?php
 //
-// Definition of eZTemplateWashOperator class
+// Definition of eZTemplateDigestOperator class
 //
-// Created on: <17-Dec-2002 13:20:18 bf>
+// Created on: <18-Jul-2003 13:00:18 bh>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -35,7 +35,7 @@
 //
 
 /*!
-  \class eZTemplateWashOperator eztemplatewashoperator.php
+  \class eZTemplateDigestOperator eztemplatedigestoperator.php
   \ingroup eZTemplateOperators
 \code
 
@@ -43,14 +43,19 @@
 
 */
 
-class eZTemplateWashOperator
+class eZTemplateDigestOperator
 {
     /*!
-     Initializes the object with the name $name, default is "wash".
+     Constructor.
     */
-    function eZTemplateWashOperator( $name = "wash" )
+    function eZTemplateDigestOperator( $crc32Name = 'crc32',
+                                       $md5Name   = 'md5',
+                                       $rot13Name = 'rot13')
     {
-        $this->Operators = array( $name );
+        $this->Operators = array( $crc32Name, $md5Name, $rot13Name );
+        $this->Crc32Name = $crc32Name;
+        $this->Md5Name   = $md5Name;
+        $this->Rot13Name = $rot13Name;
     }
 
     /*!
@@ -62,41 +67,48 @@ class eZTemplateWashOperator
     }
 
     /*!
+     \return true to tell the template engine that the parameter list exists per operator type.
+    */
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+    /*!
      See eZTemplateOperator::namedParameterList()
     */
     function namedParameterList()
     {
-        return array( "type" => array( "type" => "string",
-                                       "required" => false,
-                                       "default" => "xhtml" ) );
+        return false;
     }
-
     /*!
      Display the variable.
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $type = $namedParameters["type"];
-        switch ( $type )
+        switch ( $operatorName )
         {
-            case "xhtml":
+            // Calculate and return crc32 polynomial.
+            case $this->Crc32Name:
             {
-                $operatorValue = htmlspecialchars( $operatorValue );
-            } break;
-            case "email":
+                $operatorValue = crc32( $operatorValue );
+            }break;
+
+            // Calculate the MD5 hash.
+            case $this->Md5Name:
             {
-                $ini =& $tpl->ini();
-                $dotText = $ini->variable( 'WashSettings', 'EmailDotText' );
-                $atText = $ini->variable( 'WashSettings', 'EmailAtText' );
-                $operatorValue = str_replace( array( '.',
-                                                     '@' ),
-                                              array( $dotText,
-                                                     $atText ),
-                                              $operatorValue );
-            } break;
+                $operatorValue = md5( $operatorValue );
+            }break;
+
+            // Preform rot13 transform on the string.
+            case $this->Rot13Name:
+            {
+                $operatorValue = str_rot13( $operatorValue );
+            }break;
+
+            // Default case: something went wrong - unknown things...
             default:
             {
-                $tpl->warning( $operatorName, "Unknown wash type '$type'" );
+                $tpl->warning( $operatorName, "Unknown input type '$type'" );
             } break;
         }
     }

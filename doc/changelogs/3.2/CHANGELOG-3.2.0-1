@@ -138,6 +138,7 @@ eZ i18n:
 - Removed bad use of reference in eZUTF8Codec.
 
 eZ template:
+- Added basic string and array handling operators.
 - Added support for defining template function and operator names dynamically trought a php function
   in template autoloading.
 
