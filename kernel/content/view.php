@@ -36,6 +36,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
