@@ -93,10 +93,16 @@ class eZContentCache
                                          'content_path' => 'contentPath',
                                          'content_data' => 'contentData',
                                          'node_id' => 'nodeID',
+                                         'viewmode' => 'viewMode',
                                          'section_id' => 'sectionID',
                                          'navigation_part_identifier' => 'navigationPartIdentifier'
                                          ) );
 
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'node', $nodeID ),
+                              array( 'view_offset', $offset ),
+                              array( 'viewmode', $viewMode )
+                              ) );
         $result['content'] = $values['content_data'];
         if ( isset( $values['content_path'] ) )
             $result['path'] = $values['content_path'];
@@ -130,7 +136,7 @@ class eZContentCache
         $contentInfo = array( 'site_design' => $siteDesign,
                               'node_id' => $nodeID,
                               'section_id' => $sectionID,
-                              'view_mode' => $viewMode,
+                              'viewmode' => $viewMode,
                               'language' => $language,
                               'offset' => $offset,
                               'role_list' => $roleList,
