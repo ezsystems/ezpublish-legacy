@@ -1,3 +1,7 @@
+Changes from 3.3.0-1 to 3.3.0-2
+
+*Kernel:
+- Added ignore_content_expiry parameter to cache-block. Using this cache blocks will not expire when any content is published.
 
 *Bugfixes:
 - Fixed bug where advanced setup menu in admin open/close did not work due to cache.

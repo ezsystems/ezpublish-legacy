@@ -133,13 +133,22 @@ class eZTemplateCacheFunction
 
                     $localExpiryTime = mktime() - $expiry;
 
-                    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                    $handler =& eZExpiryHandler::instance();
-                    $expiryTime = $localExpiryTime;
-                    if ( $handler->hasTimestamp( 'content-cache' ) )
+                    $ignoreContentExpiry = false;
+                    if ( isset( $functionParameters["ignore_content_expiry"] ) )
                     {
-                        $globalExpiryTime = $handler->timestamp( 'content-cache' );
-                        $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+                        $ignoreContentExpiry = $tpl->elementValue( $functionParameters["ignore_content_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ) === true;
+                    }
+
+                    if ( $ignoreContentExpiry == false )
+                    {
+                        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                        $handler =& eZExpiryHandler::instance();
+                        $expiryTime = $localExpiryTime;
+                        if ( $handler->hasTimestamp( 'content-cache' ) )
+                        {
+                            $globalExpiryTime = $handler->timestamp( 'content-cache' );
+                            $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+                        }
                     }
 
                     // Check if we can restore
