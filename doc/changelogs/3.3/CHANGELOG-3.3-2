@@ -41,6 +41,8 @@ Changes from 3.3-1 to 3.3-2
 - Fixed ezsubtreehandler to check if parentclass exists. http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_runcronjobs
 - Fixed {$node.name} to {$node.name|wash} in package templates. http://ez.no/developer/ez_publish_3/bug_reports/no_output_wash_in_some_of_the_new_templates
 - Fixed closing bracket in design/standard/templates/node/view/full.tpl. http://ez.no/developer/ez_publish_3/bug_reports/close_a_bracket_in_design_standard_templates_node_view_full_tpl
+- Fixed ezdesign operator priority. ( merged from rev. 4737 )
+  http://ez.no/developer/ez_publish_3/bug_reports/extension_problem_with_ezdesign_operator
 
 *Setup:
 - Added check for imagegd2. http://ez.no/developer/ez_publish_3/bug_reports/gd_version_requirements
