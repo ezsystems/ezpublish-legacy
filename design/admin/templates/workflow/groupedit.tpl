@@ -1,7 +1,7 @@
 <form action={concat( $module.functions.groupedit.uri, '/', $workflow_group.id )|ezurl} method="post" name="WorkflowGroupEdit">
 
 <div class="context-block">
-<h2 class="context-title">{'Edit'|i18n( 'design/admin/workflow/groupedit',, array( $workflow_group.name ) )}&nbsp;<i>{$workflow_group.name|wash}</i>&nbsp;[{'Workflow group'|i18n( 'design/admin/workflow/groupedit' )}]</h2>
+<h2 class="context-title">{'Edit <%group_name> [Workflow group]'|i18n( 'design/admin/workflow/groupedit',, hash( '%group_name', $workflow_group.name ) )|wash}</h2>
 
 <div class="context-attributes">
 <div class="block">

@@ -1,7 +1,7 @@
 <form action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
 
 <div class="context-block">
-<h2 class="context-title">{'Workflow groups'|i18n( 'design/admin/workflow/grouplist' )}&nbsp;[{$groups|count}]</h2>
+<h2 class="context-title">{'Workflow groups [%groups_count]'|i18n( 'design/admin/workflow/grouplist',, hash( '%groups_count', $groups|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 {section show=$groups|count}
