@@ -67,7 +67,10 @@ class eZMailNotificationTransport extends eZNotificationTransport
             return false;
         }
 
-        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $emailSender = $notificationINI->variable( 'MailSettings', 'EmailSender' );
+        if ( !$emailSender )
+            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
 
