@@ -1,10 +1,10 @@
 {*?template charset=latin1?*}
 
 <div align="center">
-  <h1>{"Language and country selection"|i18n("design/standard/setup/init")}</h1>
+  <h1>{"Language support"|i18n("design/standard/setup/init")}</h1>
 </div>
 <p>
-{"Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
+{"Use the radio buttons to choose the primary language, and checkboxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
 </p>
 <p>
 {section show=$show_unicode_error}

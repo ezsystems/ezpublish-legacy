@@ -69,6 +69,7 @@ class eZStepCreateSites extends eZStepInstaller
      */
     function init()
     {
+        set_time_limit( 10*60 );
         $saveData = true; // set to true to save data
 
         $ini =& eZINI::create();

@@ -13,7 +13,7 @@
 {/section}
 
 <p>
-{"Enter database system user information in the boxes below"|i18n("design/standard/setup/init")}
+{"Enter database system user information in the boxes below."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">
