@@ -804,35 +804,38 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $blockName = $blockNode->attributeValue( 'name' );
             $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
 
-            foreach( $blockArray[$blockName]['Constant'] as $matchKey => $value )
+            if ( isset( $blockArray[$blockName]['Constant'] ) )
             {
-                if ( strpos( $matchKey, 'class_' ) === 0 &&
-                     is_int( $value ) )
+                foreach( $blockArray[$blockName]['Constant'] as $matchKey => $value )
                 {
-                    $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName]['Constant']['class_remote_id'] );
-                    $blockArray[$blockName]['Constant'][$matchKey] = $contentClass->attribute( 'id' );
-                    unset( $blockArray[$blockName]['Constant']['class_remote_id'] );
-                }
-                if( strpos( $matchKey, 'node_' ) === 0 &&
-                    is_int( $value ) )
-                {
-                    $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['node_remote_id'] );
-                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
-                    unset( $blockArray[$blockName]['Constant']['node_remote_id'] );
-                }
-                if( strpos( $matchKey, 'parent_node_' ) === 0 &&
-                    is_int( $value ) )
-                {
-                    $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
-                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
-                    unset( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
-                }
-                if( strpos( $matchKey, 'object_' ) === 0 &&
-                    is_int( $value ) )
-                {
-                    $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName]['Constant']['object_remote_id'] );
-                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'id' );
-                    unset( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                    if ( strpos( $matchKey, 'class_' ) === 0 &&
+                         is_int( $value ) )
+                    {
+                        $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName]['Constant']['class_remote_id'] );
+                        $blockArray[$blockName]['Constant'][$matchKey] = $contentClass->attribute( 'id' );
+                        unset( $blockArray[$blockName]['Constant']['class_remote_id'] );
+                    }
+                    if( strpos( $matchKey, 'node_' ) === 0 &&
+                        is_int( $value ) )
+                    {
+                        $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['node_remote_id'] );
+                        $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
+                        unset( $blockArray[$blockName]['Constant']['node_remote_id'] );
+                    }
+                    if( strpos( $matchKey, 'parent_node_' ) === 0 &&
+                        is_int( $value ) )
+                    {
+                        $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
+                        $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
+                        unset( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
+                    }
+                    if( strpos( $matchKey, 'object_' ) === 0 &&
+                        is_int( $value ) )
+                    {
+                        $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                        $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'id' );
+                        unset( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                    }
                 }
             }
 

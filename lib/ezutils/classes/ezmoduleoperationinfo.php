@@ -231,6 +231,7 @@ class eZModuleOperationInfo
 //                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
             if ( is_array( $resultArray ) and
+                 isset( $resultArray['status'] ) and 
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
 //                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
@@ -537,7 +538,7 @@ class eZModuleOperationInfo
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
-                            if ( $result != null && !$result['status'] )
+                            if ( $result != null && ( !isset( $result['status'] ) || !$result['status'] ) )
                             {
                                 return $result;
                             }

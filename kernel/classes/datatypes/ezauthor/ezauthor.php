@@ -145,10 +145,13 @@ class eZAuthor
 
         if ( $dom )
         {
-            $authorArray =& $dom->elementsByName( "author" );
-            foreach ( $authorArray as $author )
+            $authorArray =& $dom->elementsByName( 'author' );
+            if ( is_array( $authorArray ) )
             {
-                $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
+                foreach ( $authorArray as $author )
+                {
+                    $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
+                }
             }
         }
         else
@@ -170,14 +173,17 @@ class eZAuthor
 
         $root->appendChild( $authors );
         $id=0;
-        foreach ( $this->Authors as $author )
+        if ( is_array( $this->Authors ) )
         {
-            $authorNode =& $doc->createElementNode( "author" );
-            $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
-            $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
-            $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );
+            foreach ( $this->Authors as $author )
+            {
+                $authorNode =& $doc->createElementNode( "author" );
+                $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
+                $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
+                $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );
 
-            $authors->appendChild( $authorNode );
+                $authors->appendChild( $authorNode );
+            }
         }
 
         $xml =& $doc->toString();
