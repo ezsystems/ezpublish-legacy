@@ -130,7 +130,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
             unset( $existingObject ); // delete object to preserve memory
             if ( !$isQuiet )
             {
-//                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
+                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
                 continue;
             }
         }

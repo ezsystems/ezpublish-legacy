@@ -42,7 +42,6 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++)
     {
         $rssExportItem =& eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ) );
-//        $rssExportItem->setAttribute( 'source_node_id', $http->postVariable( 'Item_Source_'.$itemCount ) ); // This is set by browse
         $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
         $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
         $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );

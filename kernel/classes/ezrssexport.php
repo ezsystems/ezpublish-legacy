@@ -386,12 +386,20 @@ class eZRSSExport extends eZPersistentObject
 
                 $itemTitle =& $doc->createElementNode( 'title' );
                 $title =& $dataMap[$rssItem->attribute( 'title' )];
-                $itemTitle->appendChild( $doc->createTextNode( $title->attribute( 'content' ) ) );
+                $titleContent =& $title->attribute( 'content' );
+                if ( get_class( $titleContent ) == 'ezxmltext' )
+                {
+                    $outputHandler =& $titleContent->attribute( 'output' );
+                    $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                }
+                else
+                {
+                    $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                }
 
                 $itemDescription =& $doc->createElementNode( 'description' );
                 $description =& $dataMap[$rssItem->attribute( 'description' )];
                 $descriptionContent =& $description->attribute( 'content' );
-
                 if ( get_class( $descriptionContent ) == 'ezxmltext' )
                 {
                     $outputHandler =& $descriptionContent->attribute( 'output' );
