@@ -48,7 +48,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <form action={'/content/search/'|ezurl} method="get">
     <input id="searchtext" type="text" size="20" name="SearchText" id="Search" value="" />
     <input id="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-    <p><label><input type="radio" checked="checked" />All content</label> <label><input type="radio" />Current location</label> <a href="/content/advancedsearch/">Advanced</a></p>
+    <p><label><input type="radio" checked="checked" />{'All content'|i18n( 'design/admin/pagelayout' )}</label> <label><input type="radio" />{'Current location'|i18n( 'design/admin/pagelayout' )}</label> <a href="/content/advancedsearch/">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
 </form>
 </div>
 
@@ -63,7 +63,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="topmenu-design">
 
 <h3 class="hide">Top menu</h3>
-
 
 {* Browse mode... *}
 {section show=eq( $ui_context, 'browse' )}
@@ -244,22 +243,22 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <h3 class="hide">Right</h3>
 {* --- Current user ---*}
-<h4>Current user</h4>
+<h4>{'Current user'|i18n( 'design/admin/pagelayout' )}</h4>
 <p>{$current_user.contentobject.name|wash}</p>
 <ul>
 {let basket=fetch( shop, basket )}
 {section show=ne( $ui_context, 'edit' )}
-    <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>Change information</a></li>
-    <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>Change password</a></li>
+    <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>{'Change information'|i18n( 'design/admin/pagelayout' )}</a></li>
+    <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
 
 {section show=$basket.is_empty|not}
-<li><a href={'shop/basket'|ezurl}>Webshop basket ({$basket.items|count})</a></li>
+<li><a href={'shop/basket'|ezurl}>{'Webshop basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( %basket_count, $basket.items|count ) )}</a></li>
 {/section}
 
-    <li><a href={'/user/logout'|ezurl}>Logout</a></li>
+        <li><a href={'/user/logout'|ezurl}>{'Logout'|i18n( 'design/admin/pagelayout' )}</a></li>
 {section-else}
-    <li><span class="disabled">Change user info</span></li>
-    <li><span class="disabled">Logout</span></li>
+    <li><span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span></li>
+    <li><span class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span></li>
 {/section}
 {/let}
 </ul>
