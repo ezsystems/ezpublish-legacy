@@ -6,6 +6,13 @@
 {section show=$database_status}
 <div class="error">
 <p>
+{section show=$demo_status|not}
+  <h2>Demo data failure</h2>
+  <ul>
+    <li>Could not unpack the demo data.</li>
+  </ul>
+{section-else}
+
 {section show=$database_status.connected|not}
   <h2>No database connection</h2>
   <ul>
@@ -14,6 +21,9 @@
     <li>{$database_info.info.name} Error #{$database_status.error.number}</li>
   </ul>
 {/section}
+
+{/section}
+
 </p>
 </div>
 
@@ -26,7 +36,7 @@
 
 <p>
  We're now ready to initialize the database, the database will be created and the basic structure initialized.
- To start the initialization please enter the relevant information in the boxes below and the password you want on the database and click the <i>Create Database</i> button.
+ To start the initialization please enter the relevant information in the boxes below and the password you want on the database and click the <i>Connect To Database</i> button.
 </p>
 <p>If you have an already existing eZ publish database enter the information and the setup will use that as database.</p>
 
@@ -53,10 +63,6 @@
 </p>
 </div>
 {/section}
-
-<blockquote class="note">
-<p><b>Note:</b> If unsure of what information to enter just use the defaults.</p>
-</blockquote>
 
 {/section}
 
@@ -86,11 +92,11 @@
 </tr>
 
 <tr>
-  <td class="normal">Server:</td>
+  <td class="normal">Servername:</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server}" /></td>
 </tr>
 <tr>
-  <td class="normal">Name:</td>
+  <td class="normal">Databasename:</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseName" size="16" value="{$database_info.name}" maxlength="60" /></td>
 </tr>
 <tr>
@@ -110,17 +116,9 @@
 </table>
 </div>
 
-<blockquote class="note">
-<p>
- <b>Note:</b>
- It can take some time creating the database so please be patient and wait until the new page is finished.
-</p>
-</blockquote>
-
-
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="button" type="submit" name="StepButton_8" value="Create Database" />
+    <input class="button" type="submit" name="StepButton_8" value="Connect To Database" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

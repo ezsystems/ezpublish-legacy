@@ -29,6 +29,7 @@ index.php:
 - Moved ezsetup include to pre_check.php where it belongs.
 - Moved precheck function call to before the module loop.
 - Added flags for user-object, session and database object.
+- Made sure the database object weren't used unless it was included and initialized when cleaning up.
 
 pre_check.php:
 - Fixed the code to make sure prechecks are run in a specific order
@@ -41,6 +42,7 @@ eZ setup:
   first and mandatory part.
 - Redone the checking and info collection code.
 - Lot's of fixes to make it all more user friendly.
+- Some fixes to the program file detection.
 
 eZ section:
 - Section init will not fetch section from session if session is disabled.
@@ -71,6 +73,7 @@ eZ template:
 - New operator is_array which returns true if either the input or all of the parameters are arrays.
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
 - New function set-block which renders all it's children as text and sets it in a template variable.
+- Function parameters can now be set without a type, this means that the parameter is set to true.
 
 eZ executionstack:
 - Removed. It no longer had any use as it was.
@@ -108,3 +111,7 @@ eZ ini:
 
 eZ codepage:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
+
+eZ db:
+- New function hasInstance() which returns true if there is an eZDB instance active.
+

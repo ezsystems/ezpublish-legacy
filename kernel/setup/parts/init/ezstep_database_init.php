@@ -47,7 +47,6 @@ function prepareSqlQuery( $path, $type, $file )
 {
     include_once( 'lib/ezutils/classes/ezdir.php' );
     $sqlFile = eZDir::path( array( $path, $type, $file ) );
-    eZDebug::writeDebug( "reading sql from file $sqlFile" );
     $sqlQuery = fread( fopen( $sqlFile, 'r' ), filesize( $sqlFile ));
     if ( $sqlQuery )
     {
@@ -127,11 +126,11 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $password = $http->postVariable( 'eZSetupDatabasePassword' );
         $passwordConfirm = $http->postVariable( 'eZSetupDatabasePasswordConfirm' );
-        if ( !$password )
-        {
-            $error = EZ_SETUP_DB_ERROR_EMPTY_PASSWORD;
-        }
-        else if ( $password != $passwordConfirm )
+//         if ( !$password )
+//         {
+//             $error = EZ_SETUP_DB_ERROR_EMPTY_PASSWORD;
+//         }
+        if ( $password != $passwordConfirm )
         {
             $error = EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD;
         }
@@ -175,6 +174,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         $dbStatus['connected'] = $db->isConnected();
 
         $dbError = false;
+        $demoDataResult = false;
         if ( $dbStatus['connected'] )
         {
             $template = "design:setup/init/database_check.tpl";
@@ -212,7 +212,25 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                 if ( $demoData['use'] )
                     $sqlFile = $setupINI->variable( 'DatabaseSettings', 'DemoSQL' );
                 $result = doQuery( $db, 'kernel/sql/', $sqlFile );
-                if ( !$result )
+
+                $demoDataResult = true;
+                if ( $result and
+                     $demoData['use'] )
+                {
+                    // unpack the demo data
+                    $file = $setupINI->variable( 'DemoSettings', 'DataFile' );
+
+                    //require_once( "lib/ezsetup/classes/PEAR.php" );
+                    require_once( "lib/ezsetup/classes/Tar.php" );
+                    $tarObject = new Archive_Tar( $file, true );
+                    $tarObject->setErrorHandling( PEAR_ERROR_PRINT );
+
+                    if ( !$tarObject->extract( eZSys::siteDir() ) )
+                        $demoDataResult = false;
+                }
+
+                if ( !$result or
+                     !$demoDataResult )
                 {
                     $dbError = true;
                 }
@@ -235,6 +253,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
     $tpl->setVariable( 'database_info', $databaseInfo );
     $tpl->setVariable( 'regional_info', $regionalInfo );
     $tpl->setVariable( 'database_status', $dbStatus );
+    $tpl->setVariable( 'demo_status', $demoDataResult );
 
     $tpl->setVariable( 'error', $error );
 

@@ -18,6 +18,8 @@ fi
 chmod $DIR_MODE ../var/cache/ini
 chmod -R $DIR_MODE ../var/storage
 
+chmod -R $DIR_MODE settings
+
 if [ ! -d ../var/cache/template/tree ]; then
     mkdir -p ../var/cache/template/tree
 fi

@@ -59,7 +59,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
     $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
 
-    $saveResult = $ini->save( false, '.php', false );
+//    $saveResult = $ini->save( false, '.php', false );
 
     $tpl->setVariable( 'site_info', $siteInfo );
 

@@ -79,7 +79,8 @@ include_once( 'lib/ezutils/classes/ezexecution.php' );
 
 function eZDBCleanup()
 {
-    if ( class_exists( 'ezdb' ) )
+    if ( class_exists( 'ezdb' )
+         and eZDB::hasInstance() )
     {
         $db =& eZDB::instance();
         $db->setIsSQLOutputEnabled( false );

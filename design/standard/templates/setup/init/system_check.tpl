@@ -5,7 +5,7 @@
 
 {section show=$test.result|eq(1)}
   <p>No problems was found with your system, you can continue by clicking the <i>Next</i> button.</p>
-  <p>However if you wish to finetune your system you should click the <i>Show Details</i> button.</p>
+  <p>However if you wish to finetune your system you should click the <i>Finetune System</i> button.</p>
 
   <form method="post" action="{$script}">
 {*                {section name=handover loop=$handover}
@@ -14,7 +14,7 @@
 {*                <input type="hidden" name="currentStep" value="{$nextStep}" />*}
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="button" type="submit" name="StepButton_3" value="Show Details" />
+      <input class="button" type="submit" name="StepButton_3" value="Finetune System" />
       <input class="button" type="submit" name="StepButton_4" value="Next" />
     </div>
     {include uri='design:setup/persistence.tpl'}

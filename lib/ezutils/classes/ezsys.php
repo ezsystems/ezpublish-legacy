@@ -260,7 +260,7 @@ class eZSys
     */
     function hostname()
     {
-	return eZSys::serverVariable( 'HTTP_HOST' );
+        return eZSys::serverVariable( 'HTTP_HOST' );
     }
 
     /*!

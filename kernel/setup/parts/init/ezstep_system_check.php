@@ -52,7 +52,15 @@ function eZSetupStep_system_check( &$tpl, &$http, &$ini, &$persistenceList )
     $successCount = $runResult['success_count'];
     $persistenceData = $runResult['persistence_list'];
 
+    $testsRun = array();
+    foreach ( $testResults as $testResultItem )
+    {
+        $testsRun[$testResultItem[1]] = $testResultItem[0];
+    }
+
     eZSetupMergePersistenceList( $persistenceList, $persistenceData );
+
+    $persistenceList['tests_run'] = $testsRun;
 
     $tpl->setVariable( 'test', array( 'result' => $testResult,
                                       'results' => $testResults ) );

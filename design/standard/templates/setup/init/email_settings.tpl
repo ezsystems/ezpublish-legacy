@@ -42,7 +42,7 @@
   </td>
   <td align="right">
 {section show=eq($system.type,"unix")}
-    <input type="radio" name="eZSetupEmailTransport" value="2" checked="checked" />
+    <input type="radio" name="eZSetupEmailTransport" value="2" />
 {section-else}
     <input type="hidden" name="eZSetupEmailTransport" value="2" />
     &nbsp;

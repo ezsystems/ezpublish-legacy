@@ -56,8 +56,10 @@ function eZSetupStep_site_details( &$tpl, &$http, &$ini, &$persistenceList )
         }
     }
 
-    $siteInfo = array( 'title' => false,
-                       'url' => false );
+    $siteInfo = array( 'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
+                       'url' => 'http://' . eZSys::hostName() . eZSys::indexDir() );
+    if ( isset( $persistenceList['site_info'] ) )
+        $siteInfo = $persistenceList['site_info'];
 
     $tpl->setVariable( 'site_info', $siteInfo );
 

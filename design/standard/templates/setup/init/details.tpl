@@ -20,7 +20,9 @@
   Each issue will give you instructions on how to do the finetuning.
   </p>
   <p>
-   After you have fixed the problems click the <i>System Check</i> button to re-run the system checking which is recommended after system changes.
+   After you have fixed the problems click the <i>System Check</i> button to re-run the system checking which is recommended after system changes
+   to check for critical failures,
+   you can also click the <i>Check Again</i> button to rerun the finetuning checks.
    However if you wish you can skip straight to the next step by clicking the <i>Next</i> button.
   </p>
 

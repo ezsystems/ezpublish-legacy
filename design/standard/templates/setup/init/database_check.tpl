@@ -21,12 +21,20 @@
 {section show=$database_status.error}
 <div class="error">
 <p>
+{section show=$demo_status|not}
+  <h2>Demo data failure</h2>
+  <ul>
+    <li>Could not unpack the demo data.</li>
+    <li>You should try to install without demo data.</li>
+  </ul>
+{section-else}
   <h2>Initialization failed</h2>
   <ul>
     <li>The database could not be properly initialized.</li>
     <li>{$database_status.error.text}</li>
     <li>{$database_info.info.name} Error #{$database_status.error.number}</li>
   </ul>
+{/section}
 </p>
 </div>
 {/section}

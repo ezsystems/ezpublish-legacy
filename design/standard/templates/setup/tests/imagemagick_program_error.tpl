@@ -6,8 +6,8 @@
  image conversion unless the imagegd extension is available.
 </p>
 <p>
- If you known where the program is installed, the executable is called <i>convert</i> or <i>convertim</i>, then enter the path
- in the input field below and do a recheck (Separate multiple directories with a {$program_info.env_separator}).
+ If you known where the program is installed, the executable is called <i>convert</i> or <i>convertim</i>, then enter the directory
+ in the input field below and do a recheck (Separate multiple directories with a {section show=eq($program_info.filesystem_type,'unix')}colon{section-else}semicolon{/section} <b>{$program_info.env_separator}</b> ).
  <div class="buttonblock">
   <label>Path to ImageMagick:</label><br/>
   <input class="box" type="text" size="40" name="imagemagick_program_ExtraPath" value="{section name=Path loop=$program_info.extra_path}{$:item}{delimiter}{$program_info.env_separator}{/delimiter}{/section}" />

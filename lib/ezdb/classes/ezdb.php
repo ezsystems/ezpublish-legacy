@@ -116,6 +116,22 @@ class eZDB
       \static
       Returns an instance of the database object.
     */
+    function hasInstance()
+    {
+        $impl =& $GLOBALS['eZDBGlobalInstance'];
+        $class =& get_class( $impl );
+        $hasDB = false;
+        if ( preg_match( '/.*?db/', $class ) )
+        {
+            $hasDB = true;
+        }
+        return $hasDB;
+    }
+
+    /*!
+      \static
+      Returns an instance of the database object.
+    */
     function &instance( $databaseImplementation = false, $databaseParameters = false )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];

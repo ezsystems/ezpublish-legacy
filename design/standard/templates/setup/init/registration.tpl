@@ -10,7 +10,7 @@
 </p>
 
 <div class="highlight">
-<p>The following data will be send to eZ systems:</p>
+<p>The following data will be sent to eZ systems:</p>
 <ul>
   <li>The test results for your system</li>
   <li>The database type you are using</li>

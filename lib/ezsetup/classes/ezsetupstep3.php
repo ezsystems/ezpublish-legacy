@@ -128,7 +128,7 @@ function eZSetupStep( &$tpl, &$http )
 		//require_once( "lib/ezsetup/classes/PEAR.php" );
 		require_once( "lib/ezsetup/classes/Tar.php" );
 		$tarObject = new Archive_Tar ( $file, true );
-		$tarObject->setErrorHandling(PEAR_ERROR_PRINT);
+		$tarObject->setErrorHandling( PEAR_ERROR_TRIGGER );
 
 		if ( $tarObject->extract( eZSys::siteDir() ) )
 		{
