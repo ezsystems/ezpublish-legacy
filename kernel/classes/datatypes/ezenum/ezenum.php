@@ -179,7 +179,7 @@ class eZEnum
     	}
     }
 
-    function removeOldVerion( $id, $version )
+    function removeOldVersion( $id, $version )
     {
         eZEnumValue::removeAllElements( $id, $version );
     }

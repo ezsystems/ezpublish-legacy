@@ -1,6 +1,8 @@
 <?php
 //
-// Created on: <31-Jul-2002 16:47:15 bf>
+// Definition of  class
+//
+// Created on: <25-Nov-2002 15:40:10 wy>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,37 +34,40 @@
 // you.
 //
 
-$Module = array( "name" => "eZShop",
-                 "variable_params" => true );
+include_once( "kernel/common/template.php" );
+include_once( "kernel/classes/ezdiscountrule.php" );
+include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$ViewList = array();
-$ViewList["orderview"] = array(
-    "script" => "orderview.php",
-    "params" => array( "OrderID" ) );
+$module =& $Params["Module"];
 
-$ViewList["basket"] = array(
-    "script" => "basket.php",
-    "params" => array(  ) );
+$http =& eZHttpTool::instance();
 
-$ViewList["wishlist"] = array(
-    "script" => "wishlist.php",
-    "params" => array(  ) );
+$discountRuleArray =& eZDiscountRule::fetchList();
 
-$ViewList["orderlist"] = array(
-    "script" => "orderlist.php",
-    "params" => array(  ) );
+if ( $http->hasPostVariable( "AddDiscountRuleButton" ) )
+{
+    $params = array();
+    $module->run( "discountruleedit", $params );
+    return;
+}
 
-$ViewList["vattype"] = array(
-    "script" => "vattype.php",
-    "params" => array(  ) );
+if ( $http->hasPostVariable( "RemoveDiscountRuleButton" ) )
+{
+    $discountRuleIDList = $http->postVariable( "discountRuleIDList" );
 
-$ViewList["discountrule"] = array(
-    "script" => "discountrule.php",
-    "params" => array(  ) );
-$ViewList["discountruleedit"] = array(
-    "script" => "discountruleedit.php",
-    "params" => array( 'DiscountRuleID' ) );
-$ViewList["discountrulemembershipview"] = array(
-    "script" => "discountrulemembershipview.php",
-    "params" => array( 'DiscountRuleID' ) );
+    foreach ( $discountRuleIDList  as $discountRuleID )
+    {
+        eZDiscountRule::remove( $discountRuleID );
+    }
+    $module->redirectTo( $module->functionURI( "discountrule" ) . "/" );
+    return;
+}
+$module->setTitle( "View discount rule" );
+$tpl =& templateInit();
+$tpl->setVariable( "discountrule_array", $discountRuleArray );
+$tpl->setVariable( "module", $module );
+
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:shop/discountrule.tpl" );
+
 ?>

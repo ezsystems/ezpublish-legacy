@@ -41,8 +41,15 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
+include_once( "kernel/classes/datatypes/ezprice/ezprice.php" );
 
 define( "EZ_DATATYPESTRING_PRICE", "ezprice" );
+define( 'EZ_DATATYPESTRING_INCLUDE_VAT_FIELD', 'data_int1' );
+define( 'EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE', '_ezprice_include_vat_' );
+define( 'EZ_DATATYPESTRING_VAT_ID_FIELD', 'data_float1' );
+define( 'EZ_DATATYPESTRING_VAT_ID_VARIABLE', '_ezprice_vat_id_' );
+define( "EZ_PRICE_INCLUDED_VAT", 1 );
+define( "EZ_PRICE_EXCLUDED_VAT", 2 );
 
 class eZPriceType extends eZDataType
 {
@@ -83,6 +90,31 @@ class eZPriceType extends eZDataType
     }
 
     /*!
+     Set default class attribute value
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 0 )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, EZ_PRICE_INCLUDED_VAT );
+        $classAttribute->store();
+    }
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $isVatIncludedVariable = $base . EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $isVatIncludedVariable ) )
+        {
+            $isVatIncluded = $http->postVariable( $isVatIncludedVariable );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $isVatIncluded );
+        }
+        $vatIDVariable = $base . EZ_DATATYPESTRING_VAT_ID_VARIABLE . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $vatIDVariable  ) )
+        {
+            $vatID = $http->postVariable( $vatIDVariable  );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        }
+    }
+
+    /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -95,7 +127,20 @@ class eZPriceType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_float" );
+        // return $contentObjectAttribute->attribute( "data_float" );
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $storedPrice = $contentObjectAttribute->attribute( "data_float" );
+        $price = new eZPrice( $classAttribute, $storedPrice );
+        return $price;
+    }
+
+    /*!
+     Returns class content.
+    */
+    function &classAttributeContent( &$classAttribute )
+    {
+        $price = new eZPrice( $classAttribute );
+        return $price;
     }
 
     function contentActionList( )

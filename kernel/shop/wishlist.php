@@ -51,7 +51,8 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 
         if ( $dataType->isA() == "ezprice" )
         {
-            $price += $attribute->content();
+            $content =& $attribute->content();
+            $price += $content->attribute( 'price' );
         }
     }
 

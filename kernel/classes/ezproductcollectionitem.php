@@ -57,15 +57,14 @@ class eZProductCollectionItem extends eZPersistentObject
                                          "productcollection_id" => "ProductCollectionID",
                                          "contentobject_id" => "ContentObjectID",
                                          "item_count" => "ItemCount",
-                                         "price" => "Price",
-                                         "price_is_inc_vat" => "PriceIsIncVAT"
+                                         "price" => "Price"
                                          ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "relations" => array( "contentobject_id" => array( "class" => "ezcontentobject",
-                                                                                 "field" => "id" ),
+                                                                         "field" => "id" ),
                                             "productcollection_id" => array( "class" => "ezproductcollection",
-                                                                                 "field" => "id" ) ),
+                                                                             "field" => "id" ) ),
                       "class_name" => "eZProductCollectionItem",
                       "name" => "ezproductcollection_item" );
     }
@@ -92,36 +91,6 @@ class eZProductCollectionItem extends eZPersistentObject
     {
         switch ( $attr )
         {
-            case "price_inc_vat" :
-            {
-                return $this->price();
-            }break;
-
-            case "price_ex_vat" :
-            {
-                return $this->price( false );
-            }break;
-
-            case "total_price_inc_vat" :
-            {
-                return $this->totalPrice();
-            }break;
-
-            case "total_price_ex_vat" :
-            {
-                return $this->totalPrice( false );
-            }break;
-
-            case "vat_value" :
-            {
-                return $this->vatValue( );
-            }break;
-
-            case "vat_percent" :
-            {
-                return $this->price( false );
-            }break;
-
             case "contentobject" :
             {
                 return $this->contentObject(  );
@@ -136,64 +105,11 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        if ( $attr == "price_inc_vat" or
-             $attr == "price_ex_vat" or
-             $attr == "total_price_inc_vat" or
-             $attr == "total_price_ex_vat" or
-             $attr == "vat_value" or
-             $attr == "contentobject"
-             )
+        if ( $attr == "contentobject" )
             return true;
         else
             return eZPersistentObject::hasAttribute( $attr );
     }
-
-    /*!
-     \return the price of the product item, including or excluding VAT
-    */
-    function price( $includeVAT = true )
-    {
-        $price = $this->Price;
-        if ( $includeVAT == true )
-        {
-            $vat = ( $price / ( $this->VATValue + 100  ) ) * $this->VATValue;
-            $price += $vat;
-        }
-        else
-        {
-
-        }
-
-        return $price;
-    }
-
-    /*!
-     \return the total price for this item price*count, including or excluding VAT
-    */
-    function totalPrice( $includeVAT = true )
-    {
-        $price = $this->Price * $this->ItemCount;
-        if ( $includeVAT == true )
-        {
-            $vat = ( $price / ( $this->VATValue + 100  ) ) * $this->VATValue;
-            $price += $vat;
-        }
-        else
-        {
-
-        }
-
-        return $price;
-    }
-
-    /*!
-     Returns the VAT value for this product item.
-    */
-    function vatValue()
-    {
-        return $this->VATValue;
-    }
-
     /*!
      \return Returns the content object defining the product.
     */
@@ -206,9 +122,6 @@ class eZProductCollectionItem extends eZPersistentObject
 
         return $this->ContentObject;
     }
-
-    /// Temporary, will read from VAT settings
-    var $VATValue = 25.0;
 
     /// Stores the content object
     var $ContentObject = null;

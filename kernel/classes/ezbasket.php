@@ -45,6 +45,9 @@
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+include_once( "kernel/classes/ezuserdiscountrule.php" );
+include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 class eZBasket extends eZPersistentObject
 {
@@ -94,14 +97,96 @@ class eZBasket extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
+    function discountPercent()
+    {
+        $discountPercent = 0;
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+        $nodes =& eZContentObjectTreeNode::fetchByContentObjectID( $userID );
+        $idArray = array();
+        $idArray[] = $userID;
+        foreach ( $nodes as $node )
+        {
+            $parentNodeID = $node->attribute( 'parent_node_id' );
+            $idArray[] = $parentNodeID;
+        }
+        $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
+        foreach ( $rules as $rule )
+        {
+            $percent = $rule->attribute( 'discount_percent' );
+            if ( $discountPercent < $percent )
+                $discountPercent = $percent;
+        }
+        return $discountPercent;
+    }
+
     function &items( $asObject=true )
     {
-        $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                       ),
-                                                          null, null,
-                                                          $asObject );
-        return $items;
+                                                                    ),
+                                                       null,
+                                                       null,
+                                                       $asObject );
+        $discountPercent = $this->discountPercent();
+        $addedProducts = array();
+        foreach ( $productItems as  $productItem )
+        {
+            $isVATIncluded = true;
+            $id = $productItem->attribute( 'id' );
+            $contentObject = $productItem->attribute( 'contentobject' );
+
+            if ( $contentObject !== null )
+            {
+                $attributes = $contentObject->contentObjectAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $dataType =& $attribute->dataType();
+                    if ( $dataType->isA() == "ezprice" )
+                    {
+                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
+                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
+                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
+                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
+                            $isVATIncluded = true;
+                        else
+                            $isVATIncluded = false;
+                        $VATType =& eZVatType::fetch( $VATID );
+                        $VATValue = $VATType->attribute( 'percentage' );
+                    }
+                }
+                $nodeID = $contentObject->attribute( 'main_node_id' );
+                $objectName = $contentObject->attribute( 'name' );
+                $count = $productItem->attribute( 'item_count' );
+                $price = $productItem->attribute( 'price' );
+                if ( $isVATIncluded )
+                {
+                    $priceExVAT = $price / ( 100 + $VATValue ) * 100;
+                    $priceIncVAT = $price;
+                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+                else
+                {
+                    $priceExVAT = $price;
+                    $priceIncVAT = $price * ( 100 + $VATValue ) / 100;
+                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+                $addedProduct = array( "id" => $id,
+                                       "vat_value" => $VATValue,
+                                       "item_count" => $count,
+                                       "node_id" => $nodeID,
+                                       "object_name" => $objectName,
+                                       "price_ex_vat" => $priceExVAT,
+                                       "price_inc_vat" => $priceIncVAT,
+                                       "discount_percent" => $discountPercent,
+                                       "total_price_ex_vat" => $totalPriceExVAT,
+                                       "total_price_inc_vat" => $totalPriceIncVAT );
+                $addedProducts[] = $addedProduct;
+            }
+        }
+        return $addedProducts;
     }
 
     function &total()

@@ -37,11 +37,13 @@ $module =& $Params["Module"];
 
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezbasket.php" );
+include_once( "kernel/classes/ezvattype.php" );
 include_once( "kernel/classes/ezorder.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
+include_once( "kernel/common/template.php" );
 
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
@@ -53,8 +55,10 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
         print( $option );
     }
     $object = eZContentObject::fetch( $objectID );
-
+    $nodeID = $object->attribute( 'main_node_id' );
+    $http->setSessionVariable( "FromPage", "/content/view/full/" . $nodeID . "/" );
     $price = 0.0;
+    $isVATIncluded = true;
     $attributes = $object->contentObjectAttributes();
     foreach ( $attributes as $attribute )
     {
@@ -62,7 +66,8 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 
         if ( $dataType->isA() == "ezprice" )
         {
-            $price += $attribute->content();
+            $content =& $attribute->content();
+            $price += $content->attribute( 'price' );
         }
     }
 
@@ -74,9 +79,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $item->setAttribute( "contentobject_id", $objectID );
     $item->setAttribute( "item_count", 1 );
     $item->setAttribute( "price", $price );
-
     $item->store();
-
     $module->redirectTo( "/shop/basket/" );
     return;
 }
@@ -114,6 +117,12 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     return;
 }
 
+if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
+{
+    $fromURL = $http->sessionVariable( "FromPage" );
+    $module->redirectTo( $fromURL );
+}
+
 if ( $http->hasPostVariable( "CheckoutButton" ) )
 {
     $basket =& eZBasket::currentBasket();
@@ -133,17 +142,12 @@ if ( $http->hasPostVariable( "CheckoutButton" ) )
     return;
 }
 
-include_once( "kernel/common/template.php" );
-
-$tpl =& templateInit();
-
 $basket = eZBasket::currentBasket();
-
+$tpl =& templateInit();
 $tpl->setVariable( "basket", $basket );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => 'Basket' ) );
-
 ?>
