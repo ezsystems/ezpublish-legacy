@@ -99,6 +99,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 PDF:
 - Added support for GIF images.
 
+eZFile:
+- Added a function to eZLog that appends a log message to a log file.
+
 eZDebug:
 - Added background highlighting for the queries in a transaction section.
 - Added "templates usage statistics".

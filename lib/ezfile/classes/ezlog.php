@@ -56,6 +56,41 @@ class eZLog
     }
 
     /*!
+     \public
+     Writes a message $message to a given file name $name and directory $dir for logging
+    */
+    function write( $message, $logName = 'common.log', $dir = 'var/log' )
+    {
+        $fileName = $dir . '/' . $logName;
+        if ( !file_exists( $dir ) )
+        {
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $dir, 0775, true );
+        }
+        $oldumask = @umask( 0 );
+
+        $fileExisted = @file_exists( $fileName );
+        if ( $fileExisted and
+             filesize( $fileName ) > eZLog::maxLogSize() )
+        {
+            if ( eZLog::rotateLog( $fileName ) )
+                $fileExisted = false;
+        }
+
+        $logFile = @fopen( $fileName, "a" );
+        if ( $logFile )
+        {
+            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $logMessage = "[ " . $time . " ] $message\n";
+            @fwrite( $logFile, $logMessage );
+            @fclose( $logFile );
+            if ( !$fileExisted )
+                @chmod( $fileName, 0666 );
+            @umask( $oldumask );
+        }
+    }
+
+    /*!
      \private
      Writes file name $name and storage directory $dir to storage log
     */
