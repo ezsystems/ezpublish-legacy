@@ -6,18 +6,10 @@
          classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
          toolTip        = "" }
 
+         <li id="n{$:parentNode.node.node_id}">
+
         {section show=is_set($class_icons_size)}
             {set classIconsSize=$class_icons_size}
-        {/section}
-
-        {section show=$:parentNode.node.is_hidden}
-            <li id="n{$:parentNode.node.node_id}" class="hiddennode">
-        {section-else}
-            {section show=$:parentNode.node.is_invisible}
-                <li id="n{$:parentNode.node.node_id}" class="invisiblenode">
-            {section-else}
-                <li id="n{$:parentNode.node.node_id}">
-            {/section}
         {/section}
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
@@ -44,12 +36,20 @@
                 {* Text *}
                 {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
                     <a class="nodetext" href="{$:defaultItemClickAction}" onclick="this.href='javascript:ezcst_onItemClicked( {$:parentNode.node.node_id}, \'{$:defaultItemClickAction}\' )'" title="{$:toolTip}">
-                <span class="node-name">{$:parentNode.object.name|wash}</span>
+        {section show=$:parentNode.node.is_hidden}
+                <span class="node-name-hidden">{$:parentNode.object.name|wash}</span>
+        {section-else}
+            {section show=$:parentNode.node.is_invisible}
+                <span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>
+            {section-else}
+                <span class="node-name-normal">{$:parentNode.object.name|wash}</span>
+            {/section}
+        {/section}
                 {section show=$:parentNode.node.is_hidden}
-                <span class="node-hidden">x</span>
+                <span class="node-hidden">(Hidden)</span>
                 {section-else}
                     {section show=$:parentNode.node.is_invisible}
-                    <span class="node-hiddenbyparent">-</span>
+                    <span class="node-hiddenbyparent">(Hidden by parent)</span>
                     {/section}
                 {/section}
                 </a>

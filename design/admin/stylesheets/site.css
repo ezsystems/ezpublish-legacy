@@ -513,6 +513,11 @@ div#contentstructure li.currentnode li a.nodetext:hover
     text-decoration: underline;
 }
 
+div#contentstructure li span.node-name-normal
+{
+    font-weight: bold;
+}
+
 div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
 {
     font-weight: bold;
@@ -523,35 +528,29 @@ div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#conten
 
 div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
 {
-    font-weight: normal;
+    font-weight: bold;
     color: #315578;
     background-color: transparent;
     padding: 0;
 }
 
-div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden
 {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 0.9em;
-    color: #ffffff;
-    background-color: #bfbfb7;
-    padding: 0 0.25em 0 0.2em;
+    font-weight: normal;
+    font-style: normal;
 }
 
-div#contentstructure span.node-hiddenbyparent
+div#contentstructure li a.nodetext span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
 {
-    background-color: #ffffff;
-}
-
-span.node-name-hidden, span.node-name-hiddenbyparent
-{
+    font-weight: normal;
     font-style: italic;
 }
 
-li.node-hidden li.normal span.node-name, li.node-hiddenbyparent li.normal span.node-name
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
 {
-    font-style: normal;
+    display: none;
 }
+
 
 div#leftmenu div.translations label
 {
@@ -1086,7 +1085,7 @@ div.controlbar input.button-disabled
 
 div.content-control
 {
-    margin-top: 1em;
+    margin: 1em 0 0.5em 0;
     padding: 0.5em;
     border: 1px solid #bfbfb7;
     background-color: #e7e8e0;
