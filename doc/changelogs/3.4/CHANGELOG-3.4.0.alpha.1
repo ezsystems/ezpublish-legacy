@@ -66,10 +66,18 @@ eZ PHP creator:
 - New creation type 'define' which creates a define() expression.
   Takes the name, value and optionally if it should be case sensitive.
 - Added optional parameter support to include, comment and code piece.
-- Added support for spacing to include, comment, code piece, variable
-  and define. The spacing will be added before each line in the
-  generated text.
+- Added support for spacing to include, comment, code piece, variable,
+  variable unset, method call and define. The spacing will be added
+  before each line in the generated text.
 - Added default value of 0 to the second parameter ($column) of variableText().
+- Added new static function prependSpacing() which is used to prepend the
+  proper spacing to a text block. 
+- Added new function fetch() which renders all elements to a string and 
+  returns it.
+- Created new private function writeElements() which writes all elements
+  to the text array, this function is now used in both store() and fetch().
+
+
 
 *Bugs:
 - Fixed several minor bugs with url prefix.

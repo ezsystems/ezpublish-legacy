@@ -275,13 +275,14 @@ $php->addMethodCall( 'node', 'name' );
      \endcode
 
     */
-    function addMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false )
+    function addMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false, $parameters = array() )
     {
         $element = array( EZ_PHPCREATOR_METHOD_CALL,
                           $objectName,
                           $methodName,
                           $methodParameters,
-                          $returnValue );
+                          $returnValue,
+                          $parameters );
         $this->Elements[] = $element;
     }
 
@@ -562,6 +563,33 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         return $text;
     }
 
+    /*!
+     \static
+     Splits \a $text into multiple lines using \a $splitString for splitting.
+     For each line it will prepend the string \a $spacingString n times as specified by \a $spacing.
+
+     It will try to be smart and not do anything when \a $spacing is set to \c 0.
+
+     \param $skipEmptyLines If \c true it will not prepend the string for empty lines.
+     \param $spacing Must be a positive number, \c 0 means to not prepend anything.
+    */
+    function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = " ", $splitString = "\n" )
+    {
+        if ( $spacing == 0 )
+            return $text;
+        $textArray = explode( $splitString, $text );
+        $newTextArray = array();
+        foreach ( $textArray as $text )
+        {
+            if ( trim( $text ) == '' )
+                $textLine = $text;
+            else
+                $textLine = str_repeat( $spacingString, $spacing ) . $text;
+            $newTextArray[] = $textLine;
+        }
+        return implode( $splitString, $newTextArray );
+    }
+
     //@{
 
     /*!
@@ -695,47 +723,7 @@ print( $values['MyValue'] );
         {
             $this->write( "<?php\n" );
 
-            $count = count( $this->Elements );
-            for ( $i = 0; $i < $count; ++$i )
-            {
-                $element =& $this->Elements[$i];
-                if ( $element[0] == EZ_PHPCREATOR_DEFINE )
-                {
-                    $this->writeDefine( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
-                {
-                    $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET )
-                {
-                    $this->writeVariableUnset( $element[1], $element[2] );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_SPACE )
-                {
-                    $this->writeSpace( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_TEXT )
-                {
-                    $this->writeText( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_METHOD_CALL )
-                {
-                    $this->writeMethodCall( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_CODE_PIECE )
-                {
-                    $this->writeCodePiece( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_EOL_COMMENT )
-                {
-                    $this->writeComment( $element );
-                }
-                else if ( $element[0] == EZ_PHPCREATOR_INCLUDE )
-                {
-                    $this->writeInclude( $element );
-                }
-            }
+            $this->writeElements();
 
             $this->write( "?>\n" );
 
@@ -754,6 +742,23 @@ print( $values['MyValue'] );
                                  'eZPHPCreator::store' );
             return false;
         }
+    }
+
+    /*!
+     Creates a text string out of all elements and returns it.
+     \note Calling this multiple times will resulting text processing each time.
+    */
+    function fetch()
+    {
+        $this->write( "<?php\n" );
+        $this->writeElements();
+        $this->write( "?>\n" );
+
+        $text = implode( '', $this->TextChunks );
+
+        $this->flushChunks();
+
+        return $text;
     }
 
     //@}
@@ -786,6 +791,54 @@ print( $values['MyValue'] );
     {
 //         fwrite( $this->FileResource, $text );
         $this->TextChunks[] = $text;
+    }
+
+    /*!
+     \private
+    */
+    function writeElements()
+    {
+        $count = count( $this->Elements );
+        for ( $i = 0; $i < $count; ++$i )
+        {
+            $element =& $this->Elements[$i];
+            if ( $element[0] == EZ_PHPCREATOR_DEFINE )
+            {
+                $this->writeDefine( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
+            {
+                $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET )
+            {
+                $this->writeVariableUnset( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_SPACE )
+            {
+                $this->writeSpace( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_TEXT )
+            {
+                $this->writeText( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_METHOD_CALL )
+            {
+                $this->writeMethodCall( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_CODE_PIECE )
+            {
+                $this->writeCodePiece( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_EOL_COMMENT )
+            {
+                $this->writeComment( $element );
+            }
+            else if ( $element[0] == EZ_PHPCREATOR_INCLUDE )
+            {
+                $this->writeInclude( $element );
+            }
+        }
     }
 
     /*!
@@ -880,17 +933,7 @@ print( $values['MyValue'] );
         $spacing = 0;
         if ( isset( $parameters['spacing'] ) )
             $spacing = $parameters['spacing'];
-        $codeArray = explode( "\n", $code );
-        $newCodeArray = array();
-        foreach ( $codeArray as $code )
-        {
-            if ( trim( $code ) == '' )
-                $codeLine = $code;
-            else
-                $codeLine = str_repeat( ' ', $spacing ) . $code;
-            $newCodeArray[] = $codeLine;
-        }
-        $text = implode( "\n", $newCodeArray );
+        $text = eZPHPCreator::prependSpacing( $code, $spacing );
         $this->write( $text );
     }
 
@@ -914,7 +957,11 @@ print( $values['MyValue'] );
         $methodName = $element[2];
         $parameters = $element[3];
         $returnValue = $element[4];
+        $parameters = $element[5];
         $text = '';
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
         if ( is_array( $returnValue ) )
         {
             $variableName = $returnValue[0];
@@ -943,16 +990,22 @@ print( $values['MyValue'] );
         if ( $i > 0 )
             $text .= ' ';
         $text .= ");\n";
+        $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
     }
 
     /*!
      \private
     */
-    function writeVariableUnset( $variableName,
-                                 $variableParameters = array() )
+    function writeVariableUnset( $element )
     {
+        $variableName = $element[1];
+        $parameters = $element[2];
+        $spacing = 0;
+        if ( isset( $parameters['spacing'] ) )
+            $spacing = $parameters['spacing'];
         $text = "unset( \$$variableName );\n";
+        $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
     }
 
@@ -967,12 +1020,13 @@ print( $values['MyValue'] );
                                            $variableParameters );
         $fullTree = $variableParameters['full-tree'];
         $spacing = $variableParameters['spacing'];
-        $text = str_repeat( ' ', $spacing ) . $this->variableNameText( $variableName, $assignmentType, $variableParameters );
+        $text = $this->variableNameText( $variableName, $assignmentType, $variableParameters );
         $maxIterations = 2;
         if ( $fullTree )
             $maxIterations = false;
         $text .= $this->variableText( $variableValue, strlen( $text ), 0, $maxIterations );
         $text .= ";\n";
+        $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
     }
 
