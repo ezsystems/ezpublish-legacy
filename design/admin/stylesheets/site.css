@@ -380,7 +380,7 @@ div#leftmenu div#content-tree div.box-content
 
 div.box-content
 {
-    position: relative;
+    /* position: relative; */
     padding: 0 2px 3px 1px;
 }
 
@@ -734,6 +734,11 @@ div.menu-block li
     float: left;
     width: 20%;
     background-color: #ffffff;
+}
+
+div.notranslations li
+{
+    width: 25%;
 }
 
 div.context-user div.menu-block li

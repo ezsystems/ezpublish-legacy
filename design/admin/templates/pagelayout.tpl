@@ -19,6 +19,7 @@
 div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
 div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
 div.menu-block li { width: 19%; } /* Avoid width bug in IE */
+div.notranslations li { width: 24%; } /* Avoid width bug in IE */
 div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 </style>
 <![endif]-->
@@ -40,7 +41,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
                            eq( $navigation_part.identifier, 'ezmedianavigationpart' ),
                            eq( $navigation_part.identifier, 'ezusernavigationpart' ) ),
                        ezpreference( 'admin_left_menu_width' )|gt( 0 ) )}
-<style>
+<style type="text/css">
 div#leftmenu {ldelim} width: {ezpreference( 'admin_left_menu_width' )}em; {rdelim}
 div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width' ), 0.5 )}em; {rdelim}
 </style>
@@ -325,7 +326,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<p><img src={'current-user.gif'|ezimage} height="22" width="22" style="align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
+<p><img src={'current-user.gif'|ezimage} height="22" width="22" alt="" style="align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
 
 <ul>
 {let basket=fetch( shop, basket )}

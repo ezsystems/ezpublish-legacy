@@ -1,5 +1,5 @@
 {* Window controls. *}
-<div class="menu-block">
+<div class="menu-block{section show=fetch( content, translation_list )|count|eq( 1 )} notranslations{/section}">
 <ul>
     {* Content preview. *}
     {section show=ezpreference( 'admin_navigation_content' )}
@@ -31,6 +31,7 @@
     </li>
     {/section}
 
+{section show=fetch( content, translation_list )|count|gt( 1 )}
     {* Translations. *}
     {section show=ezpreference( 'admin_navigation_translations' )}
     <li class="enabled">
@@ -44,6 +45,7 @@
     </div></div></div></div>
     </li>
     {/section}
+{/section}
 
     {* Locations. *}
     {section show=ezpreference( 'admin_navigation_locations' )}
