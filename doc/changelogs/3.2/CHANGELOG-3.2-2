@@ -71,6 +71,7 @@ eZURL:
 
 *Setup:
 - Added memory limit check
+- Added max execution time check
 
 *WebDAV:
 
