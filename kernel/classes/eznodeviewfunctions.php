@@ -227,11 +227,11 @@ class eZNodeviewfunctions
                 foreach( $depPreferences as $pref )
                 {
                     $pref = explode( '=', $pref );
-                    if ( $pref[0] )
+                    if ( isset( $pref[0] ) )
                     {
                         if ( isset( $preferences[$pref[0]] ) )
                             $pString .= 'p:' . $pref[0] . '='. $preferences[$pref[0]]. ';';
-                        else if ( $pref[1] )
+                        else if ( isset( $pref[1] ) )
                             $pString .= 'p:' . $pref[0] . '='. $pref[1]. ';';
                     }
                 }
