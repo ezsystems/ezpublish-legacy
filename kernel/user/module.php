@@ -41,6 +41,10 @@ $ViewList["logout"] = array(
     "params" => array(  ) );
 $ViewList["login"] = array(
     "script" => "login.php",
+    'single_post_actions' => array( 'LoginButton' => 'Login' ),
+    'post_action_parameters' => array( 'Login' => array( 'UserLogin' => 'Login',
+                                                         'UserPassword' => 'Password',
+                                                         'UserRedirectURI' => 'RedirectURI' ) ),
     "params" => array(  ) );
 
 ?>

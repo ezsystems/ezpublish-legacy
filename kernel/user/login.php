@@ -32,46 +32,77 @@
 // you.
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/common/template.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( 'kernel/common/template.php' );
 
 //$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
+
+$Module =& $Params['Module'];
 
 $ini =& eZINI::instance();
 $http =& eZHTTPTool::instance();
 
-if ( $http->hasPostVariable( "Login" ) &&
-     $http->hasPostVariable( "Password" )
+$userLogin = '';
+$userPassword = '';
+$userRedirectURI = '';
+
+print( $Module->currentAction( 'Login' ) );
+
+if ( $Module->isCurrentAction( 'Login' ) and
+     $Module->hasActionParameter( 'UserLogin' ) and
+     $Module->hasActionParameter( 'UserPassword' )
      )
 {
-    eZDebug::writeNotice( $http->postVariable( "Login" ), "userobject");
+    $userLogin = $Module->actionParameter( 'UserLogin' );
+    $userPassword = $Module->actionParameter( 'UserPassword' );
+    $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
 
-    $user = eZUser::loginUser( $http->postVariable( "Login" ), $http->postVariable( "Password" ) );
+    $user = eZUser::loginUser( $userLogin, $userPassword );
 
-    eZDebug::writeNotice( $user, "user");
-    $userID = $user->id();
+    $redirectionURI = $userRedirectURI;
+    if ( $redirectionURI == '' )
+        $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
+
+    eZDebug::writeNotice( $user, 'user');
+    $userID = 0;
+    if ( get_class( $user ) == 'ezuser' )
+        $userID = $user->id();
     if ( $userID > 0 )
     {
-        $http->removeSessionVariable( "eZUserLoggedInID" );
-        $http->setSessionVariable( "eZUserLoggedInID", $userID );
-        eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), "user");
-        $Module->redirectTo( $ini->variable( "SiteSettings", "DefaultPage" ) );
-        return;
+        $http->removeSessionVariable( 'eZUserLoggedInID' );
+        $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+        eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), 'user' );
+        return $Module->redirectTo( $redirectionURI );
     }
 
-    if ( $http->postVariable( "Login" ) == "admin" &&
-         $http->postVariable( "Password" ) == "publish" )
+    if ( $userLogin == 'admin' and
+         $userPassword == 'publish' )
     {
-        $http->setSessionVariable( "eZUserLoggedInID", 1 );
+        $http->setSessionVariable( 'eZUserLoggedInID', 1 );
 
-        $Module->redirectTo( $ini->variable( "SiteSettings", "DefaultPage" ) );
-        return;
+        return $Module->redirectTo( $redirectionURI );
+    }
+}
+else
+{
+    $requestedURI =& $GLOBALS['eZRequestedURI'];
+    if ( get_class( $requestedURI ) == 'ezuri' )
+    {
+        $requestedModule = $requestedURI->element( 1, false );
+        $requestedView = $requestedURI->element( 2, false );
+        if ( $requestedModule != 'user' or
+             $requestedView != 'login' )
+            $userRedirectURI = $GLOBALS['eZGlobalRequestURI'];
     }
 }
 
 $tpl =& templateInit();
 
-$Result =& $tpl->fetch( "design:user/login.tpl" );
+$tpl->setVariable( 'login', $userLogin, 'User' );
+$tpl->setVariable( 'password', $userPassword, 'User' );
+$tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
+
+$Result =& $tpl->fetch( 'design:user/login.tpl' );
 
 ?>

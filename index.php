@@ -52,6 +52,8 @@ include_once( "lib/ezutils/classes/ezsys.php" );
 
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
+$GLOBALS['eZGlobalRequestURI'] = $REQUEST_URI;
+
 // Initialize basic settings, such as vhless dirs and separators
 eZSys::init( $SCRIPT_FILENAME, $PHP_SELF, $DOCUMENT_ROOT,
              $SCRIPT_NAME, $REQUEST_URI, "index.php" );
@@ -75,6 +77,7 @@ $REQUEST_URI = $regs[1];
 include_once( "lib/ezutils/classes/ezuri.php" );
 
 $uri =& eZURI::instance( $REQUEST_URI );
+$GLOBALS['eZRequestedURI'] =& $uri;
 
 include_once( "pre_check.php" );
 
@@ -174,6 +177,8 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
         $params['Limitation'] =& $accessResult['policies'];
     }
 
+    $GLOBALS['eZRequestedModule'] =& $module;
+
     if ( $accessResult['accessWord'] == 'no' &&
          $module->attribute( 'name' ) != 'role' &&
          $module->attribute( 'name' ) != 'error' &&
@@ -193,6 +198,7 @@ else
 {
     eZDebug::writeError( "Undefined module: $module_name", "index" );
     $module = new eZModule( "", "", $module_name );
+    $GLOBALS['eZRequestedModule'] =& $module;
     $result = array();
     $result["pagelayout"] = "undefinedmodule.tpl";
     $tpl_vars = array( "module" => array( "name" => $module_name ) );
