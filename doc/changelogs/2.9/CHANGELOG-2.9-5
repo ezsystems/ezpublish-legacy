@@ -5,6 +5,9 @@ Changes from 2.9-3 to 2.9-4
 *SDK :
 
 *Kernel :
+- Debug report can now be place anywhere inside the resulting HTML, it must contain a marker which
+  is a HTML comment, it is <!--DEBUG_REPORT-->.
+
 *Library :
 
 eZ utils:
