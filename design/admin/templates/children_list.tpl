@@ -34,7 +34,7 @@
     {let quoted_child=concat( '"', $Nodes.item.name, '"' )|wash()
          quoted_node=concat( '"', $node.name, '"' )|wash()}
 
-        <tr class="{$Children.sequence}">
+        <tr class="{$Nodes.sequence}">
 
         {* Remove checkbox *}
         <td>
