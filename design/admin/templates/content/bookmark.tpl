@@ -23,15 +23,15 @@
 
 {section var=Bookmarks loop=$bookmark_list sequence=array( bglight, bgdark )}
 <tr class="{$Bookmarks.sequence}">
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Bookmarks.item.id}" /></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$Bookmarks.item.id}" title="{'Select bookmark for removal.'|i18n( 'design/admin/content/bookmark' )}" /></td>
     <td>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={concat( '/content/view/full/', $Bookmarks.item.node_id, '/' )|ezurl}>{$Bookmarks.item.node.name|wash}</a></td>
     <td>{$Bookmarks.item.node.object.content_class.name|wash}</td>
     <td>{fetch( section, object, hash( section_id, $Bookmarks.item.node.object.section_id ) ).name|wash}</td>
     <td>
     {section show=$Bookmarks.item.node.object.can_edit}
-        <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" /></a>
+        <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" /></a>
     {section-else}
-        <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" />
+        <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'You do not have permissions to edit the contents of <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" />
     {/section}
     </td>
 </tr>
@@ -64,12 +64,12 @@
 <div class="block">
 
 {section show=$bookmark_list}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" title="{'Remove selected bookmarks.'|i18n( 'design/admin/content/bookmark' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n( 'design/admin/content/bookmark' )}" />
+<input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n( 'design/admin/content/bookmark' )}" title="{'Add bookmarks to your personal bookmark list.'|i18n( 'design/admin/content/bookmark' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
