@@ -559,6 +559,16 @@ class eZDataType
     }
 
     /*!
+     \return the text which should be indexed in the search engine. An associative array can
+      be returned to enable searching in specific parts of the data. E.g. array( 'first_column' => "foo",
+     'second_column' => "bar" );
+    */
+    function &metaData()
+    {
+        return "";
+    }
+
+    /*!
      Adds the necessary dom structure to the attribute parameters.
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.

@@ -127,6 +127,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed timeout for editing class drafts from other user. This will prevent users beeing permanently unable to edit classes.
   http://ez.no/developer/ez_publish_3/bug_reports/admins_cant_edit_classes
 - Fixed updating section id when moving unpublished objects. http://ez.no/developer/ez_publish_3/bug_reports/section_malfunction
+- Fixed bug http://www.ez.no/developer/ez_publish_3/bug_reports/datatype_function_metadata_isnt_part_of_the_datatype_api
 
 *Setup:
 - Added check for specific unstable PHP versions.
