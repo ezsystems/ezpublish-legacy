@@ -709,7 +709,7 @@ class eZMail
         foreach ( $headers as $header )
         {
             $text .= $this->blankNewlines( $header['name'] ) . ': ';
-            $contenText = $this->blankNewlines( $this->contentString( $header['content'] ) );
+            $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
             if ( $convert )
                 $text .= $this->convertHeaderText( $contentText );
             else
