@@ -142,7 +142,7 @@ class eZStepSitePackages extends eZStepInstaller
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_packages.tpl' );
         $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                          'Site element selection' ),
+                                                          'Site functionality' ),
                                         'url' => false ) );
         return $result;
 

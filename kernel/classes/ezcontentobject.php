@@ -2421,16 +2421,21 @@ class eZContentObject extends eZPersistentObject
         $activeVersion = 1;
         $firstVersion = true;
 
+        $versionList = array();
         foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
         {
+            unset( $nodeList );
+            $nodeList = array();
             $contentObjectVersion = eZContentObjectVersion::unserialize( $versionDOMNode,
                                                                          $contentObject,
                                                                          $ownerID,
                                                                          $sectionID,
                                                                          $versionListNode->attributeValue( 'active_version' ),
                                                                          $firstVersion,
+                                                                         $nodeList,
                                                                          $options,
                                                                          $package );
+            $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList );
 
             $firstVersion = false;
             if ( $versionDOMNode->attributeValue( 'version' ) == $versionListNode->attributeValue( 'active_version' ) )
@@ -2439,6 +2444,12 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
+        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
+            $contentObject->setAttribute( 'modified', $modified );
+        }
         $contentObject->setAttribute( 'remote_id', $remoteID );
         $contentObject->setAttribute( 'current_version', $activeVersion );
         $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
@@ -2448,6 +2459,26 @@ class eZContentObject extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                   'version' => $activeVersion ) );
+
+        foreach ( $versionList[$activeVersion]['node_list'] as $nodeInfo )
+        {
+            unset( $parentNode );
+            $parentNode =& eZContentObjectTreeNode::fetchNode( $contentObject->attribute( 'id' ),
+                                                               $nodeInfo['parent_node'] );
+            if ( is_object( $parentNode ) )
+            {
+                $parentNode->setAttribute( 'priority', $nodeInfo['priority'] );
+                $parentNode->store( array( 'priority' ) );
+            }
+        }
+
+        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
+            $contentObject->setAttribute( 'published', $published );
+            $contentObject->store( array( 'published' ) );
+        }
         return $contentObject;
     }
 
@@ -2470,6 +2501,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
+        include_once( 'lib/ezlocale/classes/ezdateutils.php' );
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $objectNode = new eZDOMNode();
@@ -2481,8 +2513,8 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', strftime( "%b %d %Y %H:%M:%S", $this->attribute( 'published' ) ), 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', strftime( "%b %d %Y %H:%M:%S", $this->attribute( 'modified' ) ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
         if ( !$this->attribute( 'remote_id' ) )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)mktime() );

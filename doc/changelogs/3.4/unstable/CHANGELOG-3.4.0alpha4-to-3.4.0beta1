@@ -5,6 +5,12 @@ Changes from 3.4.0alpha4 to 3.4.0beta1
 - New script ezexec.php which can be used to include/execute other PHP
   scripts. When the scripts are called the necessary eZ publish  
   initialization is already done.
+- Changed the date format of the serialized content objects to use the rfc 1123 date,
+  this ensures dates are properly exported across timezones.
+- Made sure the priority values of nodes are updated after the an object is published
+  when importing content objects from packages.
+- Changed setup wizard to use the published, modified and created dates found in the
+  packages, without this multiple objects would the same dates.
 
 *Database:
 - Moved the 'Anonymous' role assignment from the 'Anonymous User' to the

@@ -924,7 +924,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
      \returns created object, false if could not create object/xml invalid
     */
-    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, $options, &$package )
+    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
     {
         $oldVersion =& $domNode->attributeValue( 'version' );
         $status =& $domNode->attributeValue( 'status' );
@@ -944,6 +944,14 @@ class eZContentObjectVersion extends eZPersistentObject
             return false;
         }
 
+        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $created = eZDateUtils::textToDate( $domNode->attributeValue( 'created' ) );
+            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
+            $contentObjectVersion->setAttribute( 'created', $created );
+            $contentObjectVersion->setAttribute( 'modified', $modified );
+        }
         $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $contentObjectVersion->store();
 
@@ -980,6 +988,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $contentObject,
                                                   $contentObjectVersion->attribute( 'version' ),
                                                   ( $oldVersion == $activeVersion ? 1 : 0 ),
+                                                  $nodeList,
                                                   $options );
         }
         $contentObjectVersion->store();
@@ -1001,10 +1010,14 @@ class eZContentObjectVersion extends eZPersistentObject
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $versionNode = new eZDOMNode();
 
+        include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+
         $versionNode->setName( 'version' );
         $versionNode->setPrefix( 'ezobject' );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'version', $this->Version ) );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'status', $this->Status ) );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'version', $this->Version, 'ezremote' ) );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'status', $this->Status, 'ezremote' ) );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', eZDateUtils::rfc1123Date( $this->attribute( 'created' ) ), 'ezremote' ) );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
 
         $translationList =& $this->translationList( false, false );
         foreach ( $translationList as $translationItem )

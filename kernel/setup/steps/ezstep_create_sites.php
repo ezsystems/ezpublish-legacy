@@ -391,6 +391,7 @@ class eZStepCreateSites extends eZStepInstaller
                     $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
                                               'top_nodes_map' => array( '*' => 2 ),
                                               'design_map' => array( '*' => $userDesignName ),
+                                              'restore_dates' => true,
                                               'user_id' => $user->attribute( 'contentobject_id' ) ) );
                 }
                 else

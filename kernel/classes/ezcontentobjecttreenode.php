@@ -2642,7 +2642,7 @@ WHERE
      \param isMain
      \param options
     */
-    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, $options )
+    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
     {
         $parentNodeID = -1;
         if ( $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' ) !== false )
@@ -2672,14 +2672,16 @@ WHERE
             }
         }
 
-        $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                            'contentobject_version' => $version,
-                                                            'is_main' => $isMain,
-                                                            'parent_node' => $parentNodeID,
-                                                            'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
-                                                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
-                                                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
-                                                            'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) ) );
+        $nodeInfo = array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                           'contentobject_version' => $version,
+                           'is_main' => $isMain,
+                           'parent_node' => $parentNodeID,
+                           'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
+                           'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
+                           'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
+                           'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) );
+        $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
+        $nodeList[] = $nodeInfo;
         $nodeAssignment->store();
     }
 
