@@ -205,6 +205,9 @@ class eZStepCreateSites extends eZStepInstaller
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
+        $ini->setVariable( 'MailSettings', 'AdminEmail', $admin['email'] );
+        $ini->setVariable( 'MailSettings', 'EmailSender', false );
+
         $defaultAccess = 'admin';
         if ( isset( $accessMap['accesses'][0] ) )
             $defaultAccess = $accessMap['accesses'][0];
@@ -350,11 +353,11 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else
                 $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
-            if ( $this->PersistenceList['admin']['email'] )
+            if ( $admin['email'] )
             {
                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
-                $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $this->PersistenceList['admin']['email'],
+                $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $admin['email'],
                                                          'EmailSender' => false );
             }
             $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
@@ -371,15 +374,8 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
 
-//             print( "<pre>" ); var_dump( $siteINIChanges ); print( "</pre>" );
-
-//             print( "user design: " . $userDesignName . "<br/>\n" );
-//             print( "user access: " . $userSiteaccessName . "<br/>\n" );
-//             print( "admin access: " . $adminSiteaccessName . "<br/>\n" );
-//             exit;
-
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::instance( 14 );
+            $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
             $ini =& eZINI::instance();
             $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
