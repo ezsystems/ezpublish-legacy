@@ -21,7 +21,7 @@
 </tr>
 {section var=Products loop=$statistic_result[0].product_list sequence=array( bglight, bgdark )}
 <tr class="{$Products.sequence}">
-	<td>{content_view_gui view=text_linked content_object=$Products.product}</td>
+	<td>{node_view_gui view=line content_node=$Products.product.main_node}</td>
     <td>{$Products.sum_count}</td>
 	<td>{$Products.sum_ex_vat|l10n(currency)}</td>
 	<td>{$Products.sum_inc_vat|l10n(currency)}</td>
