@@ -29,6 +29,7 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/ez_no_error_page_not_using_site_design
 - Fixed bug with the template variable $node.object.can_create_class_list. This variable could include incorrect
   classIDs if access was restricted by policyrules with Subtree limits
+  http://ez.no/community/bug_reports/can_create_class_list_incorrect
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
