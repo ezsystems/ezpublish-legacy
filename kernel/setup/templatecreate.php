@@ -65,6 +65,10 @@ else if ( strpos( $template, "content/view" ) )
 {
     $templateType = 'object_view';
 }
+else if ( strpos( $template, "content/edit" ) )
+{
+    $templateType = 'object_view';
+}
 else if ( strpos( $template, "pagelayout.tpl" ) )
 {
     $templateType = 'pagelayout';
