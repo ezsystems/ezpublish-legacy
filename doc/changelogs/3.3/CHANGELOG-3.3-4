@@ -53,6 +53,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/when_moving_a_folder_its_sorthing_method_is_reset
 - Fixed bug, data lost with invalid input in matrix datatype
   http://ez.no/community/bug_reports/error_in_matrix_datatype_when_creating_new_instance
+- Fixed bug, missing data in eznode_assignment table
+  http://ez.no/community/bug_reports/default_location_of_users_folder
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
