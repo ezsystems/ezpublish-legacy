@@ -113,7 +113,7 @@ class eZTime
         $time = ( $time % EZTIME_SECONDS_A_DAY );
         $this->Time =& $time;
         $this->Locale =& eZLocale::instance();
-        $this->IsValid = $time > 0;
+        $this->IsValid = $time >= 0;
     }
 
     function attributes()
@@ -254,7 +254,7 @@ class eZTime
     function setTimeStamp( $stamp )
     {
         $this->Time = $stamp;
-        $this->IsValid = $stamp > 0;
+        $this->IsValid = $stamp >= 0;
     }
 
     /*!
