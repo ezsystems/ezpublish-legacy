@@ -160,6 +160,12 @@ function eZSetupForumINISettings( $siteType, $parameters, $isAdmin )
                   'settings' => array( 'ForumSettings' => array( 'StickyUserGroupArray' => array( 12 ) ) ) );
 }
 
+function eZSetupViewCacheINISettings( $siteType, $parameters, $isAdmin )
+{
+    return array( 'name' => 'viewcache.ini',
+                  'settings' => array( 'ViewCacheSettings' => array( 'SmartCacheClear' => 'enabled' ) ) );
+}
+
 function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
 {
     $settings = array();
@@ -1812,6 +1818,7 @@ function eZSetupINISettings( $siteType, $parameters )
     $settings[] = eZSetupImageINISettings( $siteType, $parameters, false );
     $settings[] = eZSetupContentINISettings( $siteType, $parameters, false );
     $settings[] = eZSetupIconINISettings( $siteType, $parameters, false );
+    $settings[] = eZSetupViewCacheINISettings( $siteType, $parameters, false );
 
     return $settings;
 }
@@ -1826,6 +1833,7 @@ function eZSetupAdminINISettings( $siteType, $parameters )
     $settings[] = eZSetupSiteINISettings( $siteType, $parameters, true );
     $settings[] = eZSetupContentINISettings( $siteType, $parameters, true );
     $settings[] = eZSetupIconINISettings( $siteType, $parameters, true );
+    $settings[] = eZSetupViewCacheINISettings( $siteType, $parameters, true );
 
     return $settings;
 }
