@@ -2,7 +2,11 @@
 {default enable_glossary=true() enable_help=true()}
 
 {set-block variable=site_title}
+  {section show=is_set($module_result.title_path)}
+{$site.title} - {section name=Path loop=$module_result.title_path}{$:item.text}{delimiter} / {/delimiter}{/section}
+  {section-else}
 {$site.title} - {section name=Path loop=$module_result.path}{$:item.text}{delimiter} / {/delimiter}{/section}
+  {/section}
 {/set-block}
 
     <title>{$site_title}</title>

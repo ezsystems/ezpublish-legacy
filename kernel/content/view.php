@@ -158,6 +158,7 @@ switch( $operationResult['status'] )
             $parents =& $node->attribute( 'path' );
 
             $path = array();
+            $titlePath = array();
             foreach ( $parents as $parent )
             {
                 $path[] = array( 'text' => $parent->attribute( 'name' ),
@@ -170,10 +171,24 @@ switch( $operationResult['status'] )
                              'url' => false,
                              'url_alias' => false );
 
+            array_shift( $parents );
+            foreach ( $parents as $parent )
+            {
+                $titlePath[] = array( 'text' => $parent->attribute( 'name' ),
+                                      'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                                      'url_alias' => $parent->attribute( 'url_alias' ),
+                                      'node_id' => $parent->attribute( 'node_id' )
+                                      );
+            }
+            $titlePath[] = array( 'text' => $object->attribute( 'name' ),
+                                  'url' => false,
+                                  'url_alias' => false );
+
             $Result = array();
             $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
             $Result['view_parameters'] =& $viewParameters;
             $Result['path'] =& $path;
+            $Result['title_path'] =& $titlePath;
             $Result['section_id'] =& $object->attribute( 'section_id' );
             $Result['node_id'] =& $NodeID;
 
