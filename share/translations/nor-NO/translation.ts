@@ -1163,15 +1163,15 @@
     </message>
     <message>
         <source>No results were found when searching for \&quot;%1\&quot;</source>
-        <translation>Ingen treff ved søk etter \&quot;%1\&quot;</translation>
+        <translation type="obsolete">Ingen treff ved søk etter \&quot;%1\&quot;</translation>
     </message>
     <message>
         <source>Search for \&quot;%1\&quot; returned %2 matches</source>
-        <translation>Søk etter \&quot;%1\&quot; ga %2 treff</translation>
+        <translation type="obsolete">Søk etter \&quot;%1\&quot; ga %2 treff</translation>
     </message>
     <message>
         <source>Search all the words</source>
-        <translation>Search all the words</translation>
+        <translation>Søk etter alle ordene</translation>
     </message>
     <message>
         <source>Search the exact phrase</source>
@@ -1196,6 +1196,14 @@
     <message>
         <source>Published</source>
         <translation>Publiseringstidspunkt</translation>
+    </message>
+    <message>
+        <source>No results were found when searching for &quot;%1&quot;</source>
+        <translation>Ingen treff ved søk etter &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches</source>
+        <translation>Søk etter &quot;%1&quot; ga %2 treff</translation>
     </message>
 </context>
 <context>

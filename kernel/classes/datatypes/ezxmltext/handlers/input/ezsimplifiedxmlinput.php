@@ -417,7 +417,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 else
                 {
                     // attr is not allowed
-                    $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " does not support (removed)";
+                    $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " is not supported (removed)";
                 }
             }
             // Check if there should be any more attributes
@@ -855,7 +855,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                                 else
                                 {
-                                    $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " does not support (removed)";
+                                    $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " is not supported (removed)";
                                 }
                             }
 
