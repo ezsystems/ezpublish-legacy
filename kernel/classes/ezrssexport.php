@@ -69,7 +69,7 @@ class eZRSSExport extends eZPersistentObject
                                                         'required' => true ),
                                          'title' => array( 'name' => 'Title',
                                                            'datatype' => 'string',
-                                                           'default' => 'New RSS Export',
+                                                           'default' => ezi18n( 'kernel/rss', 'New RSS Export' ),
                                                            'required' => true ),
                                          'url' => array( 'name' => 'URL',
                                                          'datatype' => 'string',
@@ -139,7 +139,7 @@ class eZRSSExport extends eZPersistentObject
         $config =& eZINI::instance( 'site.ini' );
         $dateTime = time();
         $row = array( 'id' => null,
-                      'title' => 'New RSS Export',
+                      'title' => ezi18n( 'kernel/classes', 'New RSS Export' ),
                       'site_access' => '',
                       'modifier_id' => $user_id,
                       'modified' => $dateTime,

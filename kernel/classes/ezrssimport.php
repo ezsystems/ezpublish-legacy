@@ -140,7 +140,7 @@ class eZRSSImport extends eZPersistentObject
     {
         $dateTime = time();
         $row = array( 'id' => null,
-                      'name' => 'New RSS Import',
+                      'name' => ezi18n( 'kernel/rss', 'New RSS Import' ),
                       'modifier_id' => $user_id,
                       'modified' => $dateTime,
                       'creator_id' => $user_id,
