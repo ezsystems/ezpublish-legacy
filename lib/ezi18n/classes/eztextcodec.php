@@ -287,6 +287,17 @@ class eZTextCodec
         $charset = eZCharsetInfo::realCharsetCode( $ini->variable( "CharacterSettings", "Charset" ) );
         return $charset;
     }
+
+    function httpCharset()
+    {
+        $ini =& eZTextCodec::ini();
+        $charset = $ini->variable( "CharacterSettings", "HTTPCharset" );
+        if ( $charset == '' )
+            $charset = eZTextCodec::internalCharset();
+        else
+            $charset = eZCharsetInfo::realCharsetCode( $charset );
+        return $charset;
+    }
 }
 
 ?>

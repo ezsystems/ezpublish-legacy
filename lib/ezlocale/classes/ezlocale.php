@@ -391,6 +391,25 @@ class eZLocale
     }
 
     /*!
+     \return the locale code which can be set in either HTTP headers or the HTML file.
+             The locale code is first check for in the RegionalSettings/HTTPLocale setting in site.ini,
+             if that is empty it will use the value from localeCode().
+     \sa localeCode
+    */
+    function httpLocaleCode()
+    {
+        $ini =& eZINI::instance();
+        $localeCode = '';
+        if ( $ini->hasVariable( 'RegionalSettings', 'HTTPLocale' ) )
+        {
+            $localeCode =& $ini->variable( 'RegionalSettings', 'HTTPLocale' );
+        }
+        if ( $localeCode == '' )
+            $localeCode = $this->localeCode();
+        return $localeCode;
+    }
+
+    /*!
      \static
      Returns the current locale code for this language which is the language and the country with a dash (-) between them,
      for instance nor-NO or eng-GB.

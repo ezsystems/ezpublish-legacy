@@ -44,12 +44,23 @@ function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, 
 }
 
 // send header information
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
-header( "Cache-Control: no-cache, must-revalidate" );
-header( "Pragma: no-cache" );
-header( "Content-Type: text/html; charset=utf8" );
-header( "X-Powered-By: eZ publish" );
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . 'GMT' );
+header( 'Cache-Control: no-cache, must-revalidate' );
+header( 'Pragma: no-cache' );
+header( 'X-Powered-By: eZ publish' );
+
+include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+$httpCharset = eZTextCodec::httpCharset();
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
+$locale =& eZLocale::instance();
+$languageCode =& $locale->httpLocaleCode();
+
+header( 'Content-Type: text/html; charset=' . $httpCharset );
+header( 'Content-language: ' . $languageCode );
+
+// print( 'Content-Type: text/html; charset=' . $httpCharset . "<br/>" );
+// print( 'Content-language: ' . $languageCode . "<br/>" );
 
 include_once( "lib/ezutils/classes/ezsys.php" );
 

@@ -115,7 +115,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
 <tr>
   <td bgcolor="#e2e2e2" class="links"><center>
-    <table cellpadding="4" cellspacing="4">
+    <table cellpadding="4" cellspacing="4" border="0">
     <tr>
     {let gallery_page=int(div($DesignKeys:used.view_offset,$gallery_limit))
          gallery_page_offset=mul($Gallery:gallery_page,$gallery_limit)
@@ -128,7 +128,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {*      {section show=eq($module_result.view_parameters,$Gallery:Item:index)}
       <td>
       {section-else} *}
-      <td>
+      <td valign="top" align="left">
 {*      {/section} *}
 
       <a href={concat('content/view/slideshow/',$Gallery:item.node_id,'/offset/',sum($Gallery:Item:index,$Gallery:gallery_req_offset))|ezurl})>{node_view_gui view=small content_node=$Gallery:Item:item}</a>

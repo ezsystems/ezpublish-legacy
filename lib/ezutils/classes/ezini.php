@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1025169137 );
+define( "EZ_INI_CACHE_CODE_DATE", 1034245782 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
