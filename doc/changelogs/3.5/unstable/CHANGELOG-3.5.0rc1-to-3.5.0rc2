@@ -61,5 +61,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed some PHP warnings in the template system's sequence function
 - Fixed bug: Empty class list when creating new template override.
   http://ez.no/community/bug_reports/3_5_rc1_template_overriding_gui_seems_broken
+- Added extra check to see if there are any keywords at all when cleaning them up
+  http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
+  (Merged from stable/3.3, rev. 10150)
 
 *Library:
