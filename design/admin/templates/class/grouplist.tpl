@@ -10,7 +10,7 @@
     <th>{'Name'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/class/list' )}</th>
     <th>{'Modified'|i18n( 'design/admin/class/list' )}</th>
-    <th>{'Edit'|i18n( 'design/admin/class/list' )}</th>
+    <th>&nbsp;</th>
 </tr>
 
 {section var=Groups loop=$groups sequence=array( bglight, bgdark )}
@@ -28,7 +28,7 @@
 <div class="controlbar">
 <div class="block">
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n( 'design/admin/class/list' )}" />
-    <input class="button" type="submit" name="NewGroupButton" value="{'New group'|i18n( 'design/admin/class/list' )}" />
+    <input class="button" type="submit" name="NewGroupButton" value="{'New class group'|i18n( 'design/admin/class/list' )}" />
 </div>
 </div>
 
@@ -49,7 +49,7 @@
         <th>{'Identifier'|i18n( 'design/admin/class/list' )}</th>
         <th>{'Modifier'|i18n( 'design/admin/class/list' )}</th>
         <th>{'Modified'|i18n( 'design/admin/class/list' )}</th>
-        <th>{'Edit'|i18n( 'design/admin/class/list' )}</th>
+        <th>&nbsp;</th>
     </tr>
 
     {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}

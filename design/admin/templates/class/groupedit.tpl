@@ -1,6 +1,6 @@
 <form action={concat( $module.functions.groupedit.uri, '/', $classgroup.id)|ezurl} method="post" name="GroupEdit">
 <div class="context-block">
-<h2 class="context-title">{$classgroup.name|classgroup_icon( normal, $classgroup.name )}&nbsp;{'Edit'|i18n( 'design/admin/class/groupedit' )}&nbsp;<i>{$classgroup.name|wash}</i>&nbsp;[{'Class group'|i18n( 'design/admin/class/groupedit' )}] </h2>
+<h2 class="context-title">{$classgroup.name|classgroup_icon( normal, $classgroup.name )}&nbsp;{'Edit <%group_name> [Class group]'|i18n( 'design/admin/class/groupedit',, hash( '%group_name', $classgroup.name ) )|wash}</h2>
 
 <div class="context-attributes">
 <div class="block">

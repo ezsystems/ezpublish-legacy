@@ -97,11 +97,14 @@ foreach( $TemplateData as $tpldata )
     $tpl->setVariable( "class_count", count( $list ) );
     $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
-    $GroupName = '';
-    if ( $groupInfo !== null )
-        $GroupName = $groupInfo->attribute("name");
-    $tpl->setVariable( "group_name", $GroupName );
+    $tpl->setVariable( "group", $groupInfo );
+
+    $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
+
+    $tpl->setVariable( "group_modifier", $groupModifier );
 }
+
+
 
 $tpl->setVariable( "module", $Module );
 
