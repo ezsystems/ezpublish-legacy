@@ -102,6 +102,9 @@ class eZCollaborationGroup extends eZPersistentObject
                       'name' => 'ezcollab_group' );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function addChild( &$group, $store = true )
     {
         $pathString = $this->PathString;
@@ -117,6 +120,9 @@ class eZCollaborationGroup extends eZPersistentObject
             $group->sync();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
     {
         $depth = 0;
@@ -128,6 +134,10 @@ class eZCollaborationGroup extends eZPersistentObject
             $pathString = $parentGroup->attribute( 'path_string' );
         }
         $group =& eZCollaborationGroup::create( $userID, $title, '', $depth, $parentGroupID, $isOpen );
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         $group->store();
         if ( $pathString == '' )
             $pathString = $group->attribute( 'id' );
@@ -135,6 +145,8 @@ class eZCollaborationGroup extends eZPersistentObject
             $pathString .= '/' . $group->attribute( 'id' );
         $group->setAttribute( 'path_string', $pathString );
         $group->sync();
+
+        $db->commit();
         return $group;
     }
 

@@ -238,6 +238,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \reimp
+     \note transaction unsafe.
     */
     function store()
     {
@@ -254,10 +255,15 @@ class eZContentObjectAttribute extends eZPersistentObject
             $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
             $this->updateSortKey( false );
 
+            $db =& eZDB::instance();
+            $db->begin();
+
             // store the content data for this attribute
             $dataType->storeObjectAttribute( $this );
 
             eZPersistentObject::store();
+
+            $db->commit();
         }
     }
 
@@ -266,6 +272,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
      If you have some datatype code that needs to store attribute data you should
      call this instead of store(), this function will avoid infinite recursion.
+     \note transaction unsafe.
     */
     function storeData()
     {
@@ -286,6 +293,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Copies the sort key value from the attribute according to the datatype rules.
      \note The attribute is not stored
+     \note transaction unsafe.
     */
     function updateSortKey( $storeData = true )
     {
@@ -324,6 +332,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Store one row into content attribute table
+     \note transaction unsafe.
     */
     function storeNewRow()
     {
@@ -506,7 +515,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       Validates the data contents, returns true on success false if the data
       does not validate.
-    */
+     */
     function validateInput( &$http, $base,
                             &$inputParameters, $validationParameters = array() )
     {
@@ -679,6 +688,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+    */
     function onPublish( &$object, &$nodes  )
     {
         $dataType =& $this->dataType();
@@ -811,6 +823,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Initialized the attribute by using the datatype.
+     \note transaction unsafe.
     */
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )
     {
@@ -837,6 +850,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Remove the attribute by using the datatype.
+     \note transaction unsafe.
     */
     function &remove( $id, $currentVersion = null )
     {
@@ -871,22 +885,31 @@ class eZContentObjectAttribute extends eZPersistentObject
                 $tmp->setAttribute( 'id', null );
             $tmp->setAttribute( 'contentobject_id', $contentObjectID );
         }
+        
+        $db =& eZDB::instance();
+        $db->begin();
         $tmp->sync();
         $tmp->initialize( $currentVersionNumber, $this );
+        $db->commit();
         return $tmp;
     }
 
     /*!
      Clones the attribute to the translation \a $languageCode.
      \note The cloned attribute is not stored.
+     \note transaction unsafe.
     */
     function &translateTo( $languageCode )
     {
         $tmp = $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
+        
+        $db =& eZDB::instance();
+        $db->begin();
         $tmp->sync();
         $tmp->initialize( $this->attribute( 'version' ), $this );
+        $db->commit();
         return $tmp;
     }
 

@@ -48,6 +48,7 @@
 
 */
 
+include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
@@ -588,6 +589,8 @@ class eZImageAliasHandler
      of the images.
 
      After the images are removed the attribute will contained an internal structures with empty data.
+     
+     \note Transaction unsafe.
     */
     function removeAliases()
     {
@@ -661,6 +664,7 @@ class eZImageAliasHandler
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
         $this->resetImageSerialNumber();
+        
         foreach ( array_keys( $aliasList ) as $aliasName )
         {
             $alias =& $aliasList[$aliasName];

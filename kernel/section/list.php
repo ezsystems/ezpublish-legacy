@@ -86,6 +86,9 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
     $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $sectionIDArray as $sectionID )
     {
         $section =& eZSection::fetch( $sectionID );
@@ -93,6 +96,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
             continue;
         $section->remove( );
     }
+    $db->commit();
 }
 
 $viewParameters = array( 'offset' => $offset );

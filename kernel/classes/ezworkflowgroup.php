@@ -111,6 +111,9 @@ class eZWorkflowGroup extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeSelected ( $id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroup::definition(),

@@ -46,6 +46,8 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     $cacheFile = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
     unlink( $cacheFile );
 
+    $db =& eZDB::instance();
+    $db->begin();
     /* Create the new RSS feed */
     for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
     {
@@ -112,12 +114,14 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         $rssExport->store( true );
         // remove draft
         $rssExport->remove();
+        $db->commit();
         return $Module->redirectTo( '/rss/list' );
     }
     else
     {
         $rssExport->store();
     }
+    $db->commit();
 }
 
 function storeRSSImport( &$Module, &$http, $publish = false )
@@ -136,11 +140,15 @@ function storeRSSImport( &$Module, &$http, $publish = false )
 
     if ( $publish )
     {
+
+        $db =& eZDB::instance();
+        $db->begin();
         $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_VALID );
         $rssImport->store();
         // remove draft
         $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
         $rssImport->remove();
+        $db->commit();
         return $Module->redirectTo( '/rss/list' );
     }
     else

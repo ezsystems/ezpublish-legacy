@@ -226,6 +226,7 @@ class eZContentUpload
                           if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
+     \note transaction unsafe.
     */
     function handleLocalFile( &$result, $filePath, $location, $existingNode )
     {
@@ -427,6 +428,7 @@ class eZContentUpload
                           if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
+     \note transaction unsafe.
     */
     function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode )
     {
@@ -536,6 +538,9 @@ class eZContentUpload
         $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
         $nameString = $this->processNamePattern( $variables, $namePattern );
 
+        $db =& eZDB::instance();
+        $db->begin();
+
         // If we have an existing node we need to create
         // a new version in it.
         // If we don't we have to make a new object
@@ -546,6 +551,8 @@ class eZContentUpload
                 $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                             'Permission denied' ) );
+
+                $db->commit();
                 return false;
             }
             $version =& $object->createNewVersion( false, true );
@@ -567,6 +574,7 @@ class eZContentUpload
                     $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
                     $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                                 'Permission denied' ) );
+                    $db->commit();
                     return false;
                 }
             }
@@ -587,11 +595,13 @@ class eZContentUpload
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'The attribute %class_identifier does not support HTTP file storage.', null,
                                                         array( '%class_identifier' => $classIdentifier ) ) );
+            $db->commit();
             return false;
         }
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
+            $db->commit(); 
             return false;
         }
         if ( $storeResult['require_storage'] )
@@ -605,18 +615,23 @@ class eZContentUpload
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'The attribute %class_identifier does not support simple string storage.', null,
                                                         array( '%class_identifier' => $classIdentifier ) ) );
+            $db->commit(); 
             return false;
         }
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
+            $db->commit(); 
             return false;
         }
         if ( $storeResult['require_storage'] )
             $dataMap[$nameAttribute]->store();
 
-        return $this->publishObject( $result, $errors, $notices,
+        $tmpresult =  $this->publishObject( $result, $errors, $notices,
                                      $object, $publishVersion, $class, $parentNodes, $parentMainNode );
+
+        $db->commit(); 
+        return $tmpresult;
     }
 
     /*!

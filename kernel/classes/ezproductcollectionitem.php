@@ -129,6 +129,7 @@ class eZProductCollectionItem extends eZPersistentObject
      the new copy will point to the collection \a $collectionID.
      \return the new collection item object.
      \note The new collection item will already be present in the database.
+     \note transaction unsafe.
     */
     function &copy( $collectionID )
     {
@@ -207,15 +208,22 @@ class eZProductCollectionItem extends eZPersistentObject
         return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove()
     {
         $itemOptionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach( array_keys( $itemOptionList ) as $key )
         {
             $itemOption =& $itemOptionList[$key];
             $itemOption->remove();
         }
         eZPersistentObject::remove();
+        $db->commit();
     }
 
     /*!
@@ -299,10 +307,12 @@ class eZProductCollectionItem extends eZPersistentObject
     /*!
      \static
      Removes all product collection items which related to the product collections specified in the array \a $productCollectionIDList.
+     \note transaction unsafe.
     */
     function cleanupList( $productCollectionIDList )
     {
         $db =& eZDB::instance();
+        $db->begin();
         $idText = implode( ', ', $productCollectionIDList );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
         if ( count( $rows ) > 0 )
@@ -316,6 +326,8 @@ class eZProductCollectionItem extends eZPersistentObject
             eZProductCollectionItemOption::cleanupList( $itemIDList );
         }
         $db->query( "DELETE FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
+        $db->commit();
+
     }
 
     /// Stores the content object

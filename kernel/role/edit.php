@@ -217,6 +217,9 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         $functions =& $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
+        
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $currentFunctionLimitations as $functionLimitation )
         {
             if ( $http->hasPostVariable( $functionLimitation['name'] ) )
@@ -234,6 +237,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                 }
             }
         }
+        $db->commit();
     }
 }
 
@@ -246,11 +250,14 @@ if ( $http->hasPostVariable( 'RemovePolicy' ) )
 }
 if ( $http->hasPostVariable( 'RemovePolicies' )  )
 {
+    $db =& eZDB::instance();
+    $db->begin();
     foreach( $http->postVariable( 'DeleteIDArray' ) as $deleteID)
     {
         eZDebugSetting::writeDebug( 'kernel-role-edit', $deleteID, 'trying to remove policy' );
         eZPolicy::remove( $deleteID );
     }
+    $db->commit();
 }
 
 
@@ -306,6 +313,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
      $http->hasPostVariable( 'BrowseLimitationSubtreeButton' ) or
      $http->hasPostVariable( 'DeleteSubtreeButton' ) )
 {
+    $db =& eZDB::instance();
+    $db->begin();
     if ( $http->hasPostVariable( 'DeleteNodeButton' )  and $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         if ( $http->hasPostVariable( 'DeleteNodeIDArray' ) )
@@ -497,6 +506,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                 }
             }
         }
+        $db->commit();
+
         $http->setSessionVariable( 'BrowseCurrentModule', $currentModule );
         $http->setSessionVariable( 'BrowseCurrentFunction', $currentFunction );
         if ( $http->hasPostVariable( 'BrowseLimitationSubtreeButton' ) )
@@ -625,6 +636,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
     }
     else
     {
+        $db->commit();
 
         $currentLimitationList = array();
         foreach ( $currentFunctionLimitations as $currentFunctionLimitation )
@@ -669,6 +681,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
         return;
     }
+    $db->commit();
 }
 
 if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( 'Step2')  )

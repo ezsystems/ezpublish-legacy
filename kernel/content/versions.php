@@ -42,6 +42,7 @@ include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
 include_once( 'kernel/common/template.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $tpl =& templateInit();
 
@@ -85,6 +86,9 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+        
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -92,6 +96,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
             if ( $version != null )
                 $version->remove();
         }
+        $db->commit();
     }
 }
 
@@ -168,6 +173,8 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         else
             $versionID = $Module->actionParameter( 'VersionID' );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
@@ -179,11 +186,12 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                     $EditLanguage = $Module->actionParameter( 'EditLanguage' );
 		    
     	        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
-		{
+		        {
                     return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
-		}
+		        }
             }
         }
+        $db->commit();
     }
     else
     {
@@ -211,6 +219,9 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                     $removeVersion = $version;
                 }
             }
+
+            $db =& eZDB::instance();
+            $db->begin();
             $removeVersion->remove();
 
             if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
@@ -231,11 +242,18 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                     if ( $Module->hasActionParameter( 'EditLanguage' ) and
                          $Module->actionParameter( 'EditLanguage' ) )
                         $EditLanguage = $Module->actionParameter( 'EditLanguage' );
-		    if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
-  		    {
-                        return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
-		    }
+
+                    if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+                    {
+                        break;
+                    }
                 }
+            }
+            $db->commit();
+
+            if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+            {
+                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
             }
         }
         else

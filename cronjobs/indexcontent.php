@@ -60,6 +60,7 @@ while( true )
 
     if ( is_array( $entries ) && count( $entries ) != 0 )
     {
+        $db->begin();
         foreach ( $entries as $entry )
         {
             $objectID = $entry['param'];
@@ -80,6 +81,8 @@ while( true )
         }
 
         $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param IN ($inSQL)" );
+        $db->commit();
+
         $offset += $limit;
     }
     else

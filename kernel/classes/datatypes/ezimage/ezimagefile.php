@@ -112,8 +112,14 @@ class eZImageFile extends eZPersistentObject
 
     function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         eZImageFile::removeFilepath( $contentObjectAttributeID, $oldFilepath );
-        return eZImageFile::appendFilepath( $contentObjectAttributeID, $newFilepath );
+        $result = eZImageFile::appendFilepath( $contentObjectAttributeID, $newFilepath );
+
+        $db->commit();
+        return $result;
     }
 
     function appendFilepath( $contentObjectAttributeID, $filepath )

@@ -445,6 +445,9 @@ class eZWorkflowProcess extends eZPersistentObject
     }
 
 
+    /*!
+     \note transaction unsafe.
+     */
     function store()
     {
         eZPersistentObject::store();
@@ -636,10 +639,16 @@ class eZWorkflowProcess extends eZPersistentObject
 
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove()
     {
         $workflowParameters = $this->attribute( 'parameter_list' );
         $cleanupList = array();
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( isset( $workflowParameters['cleanup_list'] ) && is_array( $workflowParameters['cleanup_list'] ) )
         {
             $cleanupList = $workflowParameters['cleanup_list'];
@@ -652,11 +661,13 @@ class eZWorkflowProcess extends eZPersistentObject
             }
         }
         eZPersistentObject::removeObject( eZWorkflowProcess::definition(), array( 'id' => $this->attribute( 'id' ) ) );
+        $db->commit();
     }
 
     /*!
      \static
      Removes all workflow processes from database.
+     \note transaction unsafe.
     */
     function cleanup()
     {

@@ -127,6 +127,7 @@ class eZInformationCollection extends eZPersistentObject
      Remove infomation collection from specified contentobject_id
 
      \param contentobject id
+     \note transaction unsafe.
     */
     function removeContentObject( $delID )
     {
@@ -136,11 +137,13 @@ class eZInformationCollection extends eZPersistentObject
         }
 
         $db =& eZDB::instance();
+        $db->begin();
 
         $db->query( "DELETE FROM ezinfocollection
                      WHERE contentobject_id = '$delID'" );
         $db->query( "DELETE FROM ezinfocollection_attribute
                      WHERE contentobject_id = '$delID'" );
+        $db->commit();
     }
 
     /*!
@@ -594,12 +597,15 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      \static
      Removes all collected information.
+     \note transaction unsafe.
     */
     function cleanup()
     {
         $db =& eZDB::instance();
+        $db->begin();
         eZInformationCollectionAttribute::cleanup();
         $db->query( "DELETE FROM ezinfocollection" );
+        $db->commit();
     }
 }
 

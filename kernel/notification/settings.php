@@ -41,6 +41,7 @@
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/common/template.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http =& eZHTTPTool::instance();
 
@@ -52,6 +53,8 @@ include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
 $availableHandlers =& eZNotificationEventFilter::availableHandlers();
 
 
+$db =& eZDB::instance();
+$db->begin();
 if ( $http->hasPostVariable( 'Store' ) )
 {
     foreach ( array_keys( $availableHandlers ) as $key )
@@ -68,6 +71,7 @@ foreach ( array_keys( $availableHandlers ) as $key )
 
     $handler->fetchHttpInput( $http, $Module );
 }
+$db->commit();
 
 $viewParameters = array( 'offset' => $Params['Offset'] );
 

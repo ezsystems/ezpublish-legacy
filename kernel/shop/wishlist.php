@@ -122,6 +122,11 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
         $item->setAttribute( "contentobject_id", $objectID );
         $item->setAttribute( "item_count", 1 );
         //$item->setAttribute( "price", $price );
+
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         $item->store();
 
         //if ( $priceObj->attribute( 'is_vat_included' ) )
@@ -174,6 +179,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
                 //$price += $optionData['additional_price'];
             }
         }
+        $db->commit();
 
         //if ( $price != $priceWithoutOptions )
         //{
@@ -192,10 +198,13 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 
     $wishList =& eZWishList::currentWishList();
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $itemList as $item )
     {
         $wishList->removeItem( $item );
     }
+    $db->commit();
     $module->redirectTo( $module->functionURI( "wishlist" ) . "/" );
     return;
 }

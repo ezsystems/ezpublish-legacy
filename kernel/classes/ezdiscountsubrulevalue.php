@@ -85,6 +85,9 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $discountSubRuleID, $value, $isSection )
     {
         eZPersistentObject::removeObject( eZDiscountSubRuleValue::definition(),
@@ -109,6 +112,9 @@ class eZDiscountSubRuleValue extends eZPersistentObject
         return new eZDiscountSubRuleValue( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeBySubRuleID ( $discountSubRuleID )
     {
         eZPersistentObject::removeObject( eZDiscountSubRuleValue::definition(),

@@ -36,6 +36,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpackage.php' );
 include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http =& eZHTTPTool::instance();
 
@@ -183,10 +184,13 @@ if ( $installer )
     }
     else
     {
+        $db =& eZDB::instance();
+        $db->begin();
         $installer->finalize( $package, $http, $persistentData );
         $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount + 1 );
         $package->setAttribute( 'is_active', true );
         $http->removeSessionVariable( 'eZPackageInstallerData' );
+        $db->commit();
         return $module->redirectToView( 'install', array( $packageName ) );
     }
 }

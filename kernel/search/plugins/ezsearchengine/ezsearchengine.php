@@ -135,10 +135,13 @@ class eZSearchEngine
 
         $wordIDArray =& $this->buildWordIDArray( $indexArrayOnlyWords );
 
+        $db =& eZDB::instance();
+        $db->begin();
         for( $arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 1000 )
         {
             $placement = $this->indexWords( $contentObject, array_slice( $indexArray, $arrayCount, 1000 ), $wordIDArray, $placement );
         }
+        $db->commit();
     }
 
     /*!
@@ -165,6 +168,7 @@ class eZSearchEngine
         $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
+            $db->begin();
             for( $arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 500 )
             {
                 // Fetch already indexed words from database
@@ -205,9 +209,11 @@ class eZSearchEngine
                     }
                 }
             }
+            $db->commit();
         }
         else
         {
+            $db->begin();
             foreach ( $indexArrayOnlyWords as $indexWord )
             {
                 $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
@@ -232,6 +238,7 @@ class eZSearchEngine
 
                 $wordArray[$indexWord] = $wordID;
             }
+            $db->commit();
         }
 
         return $wordArray;
@@ -365,6 +372,7 @@ class eZSearchEngine
         $db =& eZDB::instance();
         $objectID = $contentObject->attribute( "id" );
         $doDelete = false;
+        $db->begin();
 
         if ( $db->databaseName() == 'mysql' )
         {
@@ -395,6 +403,7 @@ class eZSearchEngine
             $db->query( "DELETE FROM ezsearch_word WHERE object_count='0'" );
             $db->query( "DELETE FROM ezsearch_object_word_link WHERE contentobject_id='$objectID'" );
         }
+        $db->commit();
     }
 
     /*!
@@ -2171,8 +2180,10 @@ class eZSearchEngine
     function cleanup()
     {
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "DELETE FROM ezsearch_word" );
         $db->query( "DELETE FROM ezsearch_object_word_link" );
+        $db->commit();
     }
 
 

@@ -144,6 +144,9 @@ class eZEnum
 
     function setValue( $array_enumid, $array_enumelement, $array_enumvalue, $version )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         for ($i=0;$i<count( $array_enumid );$i++ )
         {
             $enumvalue =& eZEnumValue::fetch( $array_enumid[$i], $version );
@@ -152,12 +155,17 @@ class eZEnum
             $enumvalue->store();
             $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
         }
+        $db->commit();
     }
 
     function setVersion( $version )
     {
         if ( $version == $this->ClassAttributeVersion )
             return;
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
         for ( $i=0;$i<count( $this->Enumerations );$i++ )
         {
@@ -181,6 +189,8 @@ class eZEnum
                 $enum->store();
             }
         }
+
+        $db->commit();
     }
 
     function removeOldVersion( $id, $version )

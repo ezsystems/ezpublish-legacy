@@ -62,10 +62,13 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "discountGroupIDList" );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
         eZDiscountRule::remove( $discountRuleID );
     }
+    $db->commit();
 
     // we changed prices of products (no discount now) => remove content caches
     include_once( 'kernel/classes/ezcontentobject.php' );

@@ -41,6 +41,7 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
@@ -279,6 +280,9 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $remoteIDOrderMap = array();
     if ( $http->hasPostVariable( 'SetRemoteIDOrderMap' ) )
         $remoteIDOrderMap = $http->postVariable( 'SetRemoteIDOrderMap' );
+
+    $db =& eZDB::instance();
+    $db->begin();
     if ( count( $setPlacementNodeIDArray ) > 0 )
     {
         foreach ( $setPlacementNodeIDArray as $setPlacementRemoteID => $setPlacementNodeID )
@@ -358,6 +362,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         }
         $nodeAssignment->store();
     }
+    $db->commit();
 }
 
 function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
@@ -649,6 +654,9 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
     {
         $assignedNode =& $assignedNodeArray[$assignedNodeKey];
@@ -681,6 +689,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
             unset( $assignedNodeArray[$assignedNodeKey] );
         }
     }
+    $db->commit();
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
 
     $currentVersion =& $object->version( $editVersion );

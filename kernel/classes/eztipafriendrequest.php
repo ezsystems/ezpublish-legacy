@@ -44,6 +44,7 @@
   \brief The class eZTipafriendRequest does
 
 */
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZTipafriendRequest extends eZPersistentObject
 {
@@ -103,6 +104,9 @@ class eZTipafriendRequest extends eZPersistentObject
         return true;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function cleanup()
     {
         $ini = eZINI::instance();

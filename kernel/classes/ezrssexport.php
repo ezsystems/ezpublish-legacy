@@ -47,6 +47,7 @@
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/ezrssexportitem.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 define( "EZ_RSSEXPORT_STATUS_VALID", 1 );
 define( "EZ_RSSEXPORT_STATUS_DRAFT", 0 );
@@ -167,6 +168,7 @@ class eZRSSExport extends eZPersistentObject
 
     /*!
      Store Object to database
+     \note transaction unsafe.
     */
     function store( $storeAsValid = false )
     {
@@ -178,6 +180,9 @@ class eZRSSExport extends eZPersistentObject
             eZPersistentObject::store();
             return;
         }
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( $storeAsValid )
         {
             $oldStatus = $this->attribute( 'status' );
@@ -186,6 +191,7 @@ class eZRSSExport extends eZPersistentObject
         $this->setAttribute( 'modified', $dateTime );
         $this->setAttribute( 'modifier_id', $user->attribute( "contentobject_id" ) );
         eZPersistentObject::store();
+        $db->commit();
         if ( $storeAsValid )
         {
             $this->setAttribute( 'status', $oldStatus );
@@ -194,15 +200,20 @@ class eZRSSExport extends eZPersistentObject
 
     /*!
      Remove the RSS Export.
+     \note transaction unsafe.
     */
     function remove()
     {
         $exportItems = $this->fetchItems();
+        
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $exportItems as $item )
         {
             $item->remove();
         }
         eZPersistentObject::remove();
+        $db->commit();
     }
 
     /*!
@@ -391,7 +402,7 @@ class eZRSSExport extends eZPersistentObject
 
      \param
 
-     \return RSS 2.0 XML docuemnt
+     \return RSS 2.0 XML document
     */
     function &fetchRSS2_0( $id = null )
     {

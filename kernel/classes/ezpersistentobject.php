@@ -177,6 +177,7 @@ class eZPersistentObject
      is defined as an array with fieldnames.
      It uses removeObject to do the real job and passes the object defintion,
      conditions and extra conditions \a $extraConditions to this function.
+     \note transaction unsafe.
     */
     function remove( $conditions = null, $extraConditions = null )
     {
@@ -199,6 +200,7 @@ class eZPersistentObject
      and extra conditions \a $extraConditions. The extra conditions will either be
      appended to the existing conditions or overwrite existing fields.
      Uses conditionText() to create the condition SQL.
+     \note transaction unsafe.
     */
     function removeObject( &$def, $conditions = null, $extraConditions = null )
     {
@@ -227,6 +229,7 @@ class eZPersistentObject
     /*!
      Stores the object in the database, uses storeObject() to do the actual
      job and passes \a $fieldFilters to it.
+     \note transaction unsafe.
     */
     function store( $fieldFilters = null )
     {
@@ -236,6 +239,7 @@ class eZPersistentObject
     /*!
      Makes sure data is stored if the data is considered dirty.
      \sa hasDirtyData
+     \note transaction unsafe.
     */
     function sync( $fieldFilters = null )
     {
@@ -247,6 +251,7 @@ class eZPersistentObject
      \private
      Stores the data in \a $obj to database.
      \param fieldFilters If specified only certain fields will be stored.
+     \note transaction unsafe.
     */
     function storeObject( &$obj, $fieldFilters = null )
     {
@@ -781,6 +786,7 @@ class eZPersistentObject
 
     /*!
      Sets row id \a $id2 to have the placement of row id \a $id1.
+     \note transaction unsafe.
     */
     function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
     {
@@ -824,6 +830,7 @@ class eZPersistentObject
      with the first item or the last item depending on whether this row is first or last.
      Uses \a $conditions to figure out unique rows.
      \sa swapRow
+     \note transaction unsafe.
     */
     function reorderObject( &$def,
                             /*! Associative array with one element, the key is the order id and values is order value. */
@@ -863,8 +870,10 @@ class eZPersistentObject
         {
             $swapSQL1 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 1, 0 );
             $swapSQL2 = eZPersistentObject::swapRow( $table, $keys, $order_id, $rows, 0, 1 );
+            $db->begin();
             $db->query( $swapSQL1 );
             $db->query( $swapSQL2 );
+            $db->commit();
         }
         else
         {
@@ -942,6 +951,9 @@ function definition()
         return $out;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updateObjectList( $parameters )
     {
         $db =& eZDB::instance();

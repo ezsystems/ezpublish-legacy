@@ -172,8 +172,9 @@ class eZTrigger extends eZPersistentObject
         return $triggers;
     }
 
-
-
+    /*!
+     \note transaction unsafe.
+     */
     function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
@@ -269,13 +270,18 @@ class eZTrigger extends eZPersistentObject
         }
     }
 
-
+    /*!
+     \note transaction unsafe.
+     */
     function runWorkflow( &$workflowProcess )
     {
         $workflow =& eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
         $workflowEvent = null;
 
         $workflowStatus = $workflowProcess->run( $workflow, $workflowEvent, $eventLog );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $workflowProcess->store();
 
         switch ( $workflowStatus )
@@ -286,6 +292,7 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_BUSY:
             {
                 $workflowProcess->remove();
+                $db->commit();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                               'Result' => null );
             } break;
@@ -302,6 +309,8 @@ class eZTrigger extends eZPersistentObject
                 $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
                 if ( isset( $workflowProcess->Template['path'] ) )
                     $result['path'] = $workflowProcess->Template['path'];
+
+                    $db->commit();
                 return array( 'Status' => EZ_TRIGGER_FETCH_TEMPLATE,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $result );
@@ -309,6 +318,7 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_REDIRECT:
             {
 //                var_dump( $workflowProcess->RedirectUrl  );
+                $db->commit();
                 return array( 'Status' => EZ_TRIGGER_REDIRECT,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $workflowProcess->RedirectUrl );
@@ -316,6 +326,8 @@ class eZTrigger extends eZPersistentObject
             } break;
             case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
             {
+
+                $db->commit();
                 return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => array( 'content' => 'Deffered to cron. Operation halted during execution. <br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
@@ -328,6 +340,7 @@ class eZTrigger extends eZPersistentObject
             } break;
             case EZ_WORKFLOW_STATUS_RESET:
             {
+                $db->commit();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_RESET,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => array( 'content' => 'Workflow was reset',
@@ -337,11 +350,13 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_DONE:
             {
                 $workflowProcess->remove();
+                $db->commit();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                               'Result' => null );
             }
         }
 
+        $db->commit();
         return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                       'Result' => null );
 
@@ -349,6 +364,9 @@ class eZTrigger extends eZPersistentObject
 
     }
 
+    /*!
+     \note transaction unsafe.
+    */
     function &createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
     {
         if ( !$name )
@@ -375,6 +393,7 @@ class eZTrigger extends eZPersistentObject
 
     /*!
      Removes triggers which uses the given workflowID.
+     \note transaction unsafe.
     */
     function removeTriggerForWorkflow( $workFlowID )
     {

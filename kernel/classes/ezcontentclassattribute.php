@@ -247,27 +247,40 @@ class eZContentClassAttribute extends eZPersistentObject
         return $stored;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function storeDefined()
     {
         $dataType =& $this->dataType();
+
+        $db =& eZDB::instance();
+        $db->begin();
         $dataType->preStoreDefinedClassAttribute( $this );
         $stored = eZPersistentObject::store();
 
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
         $dataType->storeDefinedClassAttribute( $this );
+        $db->commit();
 
         return $stored;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove()
     {
         $dataType =& $this->dataType();
         $version = $this->Version;
         if ( $dataType->isClassAttributeRemovable( $this ) )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $version );
             eZPersistentObject::remove();
+            $db->commit();
         }
         else
         {
@@ -381,6 +394,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      Moves the object down if $down is true, otherwise up.
      If object is at either top or bottom it is wrapped around.
+     \note transaction unsafe.
     */
     function &move( $down, $params = null )
     {

@@ -71,7 +71,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
 
     if ( trim( $userRedirectURI ) == "" )
     {
-        // Only use redirection if requireuser login is disabled
+        // Only use redirection if RequireUserLogin is disabled
         $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
         if ( !$requireUserLogin )
         {

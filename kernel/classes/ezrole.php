@@ -146,30 +146,44 @@ class eZRole extends eZPersistentObject
 
     /*!
      Copies this role, stores it and returns it.
+     \note transaction unsafe.
     */
     function copy()
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         $newRole =& eZRole::createNew();
         $this->copyPolicies( $newRole->attribute( 'id' ) );
         $newRole->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'Copy of %rolename', null,
                                                 array( '%rolename' => $this->attribute( 'name' ) ) ) );
         $newRole->store();
+        $db->commit();
         return $newRole;
     }
 
+    /*!
+     \note transaction unsafe.
+    */
     function createTemporaryVersion()
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         $newRole =& eZRole::createNew();
         $this->copyPolicies( $newRole->attribute( 'id' ) );
         $newRole->setAttribute( 'name', $this->attribute( 'name' ) );
         $newRole->setAttribute( 'version', $this->attribute( 'id' ) );
         $newRole->store();
+
+        $db->commit();
         return $newRole;
     }
 
     /*!
      \static
      Creates a new role with the name 'New role', stores it and returns it.
+     \note transaction unsafe.
     */
     function createNew()
     {
@@ -182,7 +196,7 @@ class eZRole extends eZPersistentObject
 
     /*!
      \static
-     Crates a new role with the name \a $roleName and version \a $version and returns it.
+     Creates a new role with the name \a $roleName and version \a $version and returns it.
      \note The role is not stored.
     */
     function &create( $roleName, $version = 0 )
@@ -209,11 +223,16 @@ class eZRole extends eZPersistentObject
      // Access to content/read for class 2 and 5
      $policy3 =& $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
      \encode
+
+     \note transaction unsafe.
     */
     function appendPolicy( $module, $function, $limitations = array() )
     {
         include_once( 'kernel/classes/ezpolicy.php' );
         $policy =& eZPolicy::create( $this->ID, $module, $function );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $policy->store();
         if ( count( $limitations ) > 0 )
         {
@@ -224,6 +243,8 @@ class eZRole extends eZPersistentObject
                 $policy->appendLimitation( $limitationIdentifier, $limitationValues );
             }
         }
+        $db->commit();
+
         if ( isset( $this->Policies ) )
         {
             $this->Policies[] =& $policy;
@@ -233,15 +254,22 @@ class eZRole extends eZPersistentObject
 
     /*!
      Copies all policies for this role and assigns them to the role identified by ID \a $roleID.
+     \note transaction unsafe.
     */
     function copyPolicies( $roleID )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $this->attribute( 'policies' ) as $policy )
         {
             $policy->copy( $roleID );
         }
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function revertFromTemporaryVersion()
     {
         $temporaryVersion =& eZRole::fetch( 0, $this->attribute( 'id' ) );
@@ -250,15 +278,18 @@ class eZRole extends eZPersistentObject
         $this->removePolicies();
         $this->setAttribute( 'name', $temporaryVersion->attribute( 'name') );
         $this->setAttribute( 'is_new', 0 );
-        $this->store();
 
         $db =& eZDB::instance();
+        $db->begin();
+        $this->store();
+
         $query = "UPDATE  ezpolicy
                   SET role_id = " . $this->attribute( 'id' ) . "
                   WHERE role_id = " . $temporaryVersion->attribute( 'id' );
         $db->query( $query );
         $temporaryVersion->removePolicies( false );
         $temporaryVersion->remove();
+        $db->commit();
 
         // Expire role cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
@@ -271,20 +302,26 @@ class eZRole extends eZPersistentObject
     /*!
      \static
      Removes all temporary roles and roles without policies from the database.
+     \note transaction unsafe.
     */
     function removeTemporary()
     {
         $temporaryRoles =& eZRole::fetchList( true );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $temporaryRoles as $role )
         {
             $role->remove();
         }
+        $db->commit();
     }
 
     /*!
      \static
      Removes the role, it's policies and any assignments to users/groups.
      \param $roleID If this is \c false then the function is not static and the ID is fetched from \c $this.
+     \note transaction unsafe.
     */
     function remove( $roleID = false )
     {
@@ -301,21 +338,27 @@ class eZRole extends eZPersistentObject
         {
             return 0;
         }
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $role->attribute( 'policies' ) as $policy )
         {
             $policy->remove();
         }
-        $db =& eZDB::instance();
         $db->query( "DELETE FROM ezrole WHERE id='$roleID'" );
         $db->query( "DELETE FROM ezuser_role WHERE role_id = '$roleID'" );
+        $db->commit();
     }
 
     /*!
      Removes the policy object list from this role.
      \param $fromDB If \c true then the policies are removed from database.
+     \note transaction unsafe.
     */
     function removePolicies( $fromDB = true )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         if ( $fromDB )
         {
             foreach ( $this->attribute( 'policies' ) as $policy )
@@ -323,17 +366,20 @@ class eZRole extends eZPersistentObject
                 $policy->remove();
             }
         }
+        $db->commit();
         unset( $this->Policies );
     }
 
     /*!
      \static
      Cleans up policies and role assignments related to node when this node is removed
+     \note transaction unsafe.
     */
     function cleanupByNode( $node )
     {
         // Clean up role assignments with limitations related to this object
         $db =& eZDB::instance();
+        $db->begin();
         $pathString = $node->attribute( 'path_string' );
         $nodeID = $node->attribute( 'node_id' );
         $db->query( "DELETE FROM ezuser_role
@@ -395,7 +441,7 @@ class eZRole extends eZPersistentObject
                 eZRole::expireCache();
             }
         }
-
+        $db->commit();
 
     }
 
@@ -636,10 +682,12 @@ class eZRole extends eZPersistentObject
 
     /*!
      Assigns the current role to the given user or user group identified by the id.
+     \note transaction unsafe.
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
         $db =& eZDB::instance();
+        $db->begin();
 
         switch( $limitIdent )
         {
@@ -680,6 +728,8 @@ class eZRole extends eZPersistentObject
         $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
+
+        $db->commit();
         return true;
     }
 
@@ -703,6 +753,7 @@ class eZRole extends eZPersistentObject
 
     /*!
      Removes the role assignment
+     \note transaction unsafe.
     */
     function removeUserAssignment( $userID )
     {
@@ -717,6 +768,7 @@ class eZRole extends eZPersistentObject
      Remove ezuser_role by id
 
      \param ezuser_role id
+     \note transaction unsafe.
     */
     function removeUserAssignmentByID( $id )
     {

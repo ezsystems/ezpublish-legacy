@@ -194,6 +194,7 @@ class eZSection extends eZPersistentObject
 
     /*!
      Will remove the current section from the database.
+     \note transaction unsafe.
     */
     function remove( )
     {

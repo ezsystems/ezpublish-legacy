@@ -116,9 +116,14 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
     function &addItem( $groupID, $collaborationID, $userID )
     {
         $groupLink =& eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $groupLink->store();
         $itemStatus =& eZCollaborationItemStatus::create( $collaborationID, $userID );
         $itemStatus->store();
+        $db->commit();
+
         return $groupLink;
     }
 

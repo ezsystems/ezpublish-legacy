@@ -41,6 +41,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
@@ -83,6 +84,8 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
     $nodeList = eZContentBrowse::result( 'AddBookmark' );
     if ( $nodeList )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $nodeList as $nodeID )
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
@@ -92,6 +95,7 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
                 eZContentBrowseBookmark::createNew( $userID, $nodeID, $nodeName );
             }
         }
+        $db->commit();
     }
 }
 

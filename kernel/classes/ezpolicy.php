@@ -142,6 +142,9 @@ class eZPolicy extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
@@ -186,12 +189,16 @@ class eZPolicy extends eZPersistentObject
      \note The limitation and it's values will be stored to the database before returning.
      \param $identifier The identifier for the limitation, e.g. \c 'Class'
      \param $values Array of values to store for limitation.
+     \note transaction unsafe.
     */
     function &appendLimitation( $identifier, $values )
     {
         include_once( 'kernel/classes/ezpolicylimitation.php' );
         include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
         $limitation =& eZPolicyLimitation::create( $this->ID, $identifier );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $limitation->store();
         $limitationID = $limitation->attribute( 'id' );
         $limitations = array();
@@ -204,6 +211,8 @@ class eZPolicy extends eZPersistentObject
                 $limitation->Values[] =& $limitationValue;
             }
         }
+        $db->commit();
+
         if ( isset( $this->Limitations ) )
         {
             $this->Limitations[] =& $limitation;
@@ -211,18 +220,28 @@ class eZPolicy extends eZPersistentObject
         return $limitation;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function copy( $roleID )
     {
         $params = array();
         $params['ModuleName'] = $this->attribute( 'module_name' );
         $params['FunctionName'] = $this->attribute( 'function_name' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $newPolicy = eZPolicy::createNew( $roleID, $params  );
         foreach ( $this->attribute( 'limitations' ) as $limitation )
         {
             $limitation->copy( $newPolicy->attribute( 'id' ) );
         }
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )
@@ -241,12 +260,14 @@ class eZPolicy extends eZPersistentObject
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
+        $db->begin();
         foreach ( $policy->attribute( 'limitations' ) as $limitation )
         {
             $limitation->remove();
         }
         $db->query( "DELETE FROM ezpolicy
                      WHERE id='$delID'" );
+        $db->commit();
     }
 
     /*!
@@ -278,7 +299,7 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
-     Fetch limitaion array()
+     Fetch limitation array()
 
      \param use limitation cache, true by default.
     */

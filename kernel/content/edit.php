@@ -34,6 +34,7 @@
 //
 
 include_once( 'kernel/classes/eztrigger.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 $Module =& $Params["Module"];
 include_once( 'kernel/content/node_edit.php' );
@@ -67,31 +68,31 @@ if( $http->hasPostVariable( 'CancelDraftButton' ) )
    {
         $contentINI =& eZINI::instance( 'content.ini' );
         $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-        return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
-   }
+    return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+}
 
 }
 
 if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
 {
-	$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
 }
 
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
-    if ( $http->hasPostVariable( 'SelectedVersion' ) )
+if ( $http->hasPostVariable( 'SelectedVersion' ) )
+{
+    $selectedVersion = $http->postVariable( 'SelectedVersion' );
+    if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
-        $selectedVersion = $http->postVariable( 'SelectedVersion' );
-        if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+        $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
+        if ( $EditLanguage == eZContentObject::defaultLanguage() )
         {
-            $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
-            if ( $EditLanguage == eZContentObject::defaultLanguage() )
-            {
-                $EditLanguage = false;
-            }
+            $EditLanguage = false;
         }
+    }
 
-        return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
+    return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
 else if ( $http->hasPostVariable( 'NewDraftButton' ) )
@@ -155,8 +156,12 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
                     $removeVersion = $version;
                 }
             }
+
+            $db =& eZDB::instance();
+            $db->begin();
             $removeVersion->remove();
             $version =& $obj->createNewVersion();
+            $db->commit();
 
             if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
             {
@@ -673,7 +678,10 @@ if ( !function_exists( 'checkContentActions' ) )
     }
 }
 $Module->addHook( 'action_check', 'checkContentActions' );
+$db =& eZDB::instance();
+$db->begin();
 $includeResult = include( 'kernel/content/attribute_edit.php' );
+$db->commit();
 
 if ( $includeResult != 1 )
     return $includeResult;

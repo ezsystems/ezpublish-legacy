@@ -161,6 +161,9 @@ class eZPolicyLimitation extends eZPersistentObject
         }
     }
 
+    /*! 
+     \note transaction unsafe.
+     */
     function createNew( $policyID, $identifier )
     {
         $policyParameter = new eZPolicyLimitation( array() );
@@ -185,6 +188,9 @@ class eZPolicyLimitation extends eZPersistentObject
         return $limitation;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeSelected( $ID )
     {
         eZPersistentObject::removeObject( eZPolicyLimitation::definition(),
@@ -210,6 +216,9 @@ class eZPolicyLimitation extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function copy( $policyID )
     {
         $newParameter = eZPolicyLimitation::createNew( $policyID, $this->attribute( 'identifier' ) );
@@ -218,6 +227,10 @@ class eZPolicyLimitation extends eZPersistentObject
             $value->copy( $newParameter->attribute( 'id' ) );
         }
     }
+
+    /*!
+     \note transaction unsafe.
+     */
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )
@@ -232,12 +245,14 @@ class eZPolicyLimitation extends eZPersistentObject
         }
 
         $db =& eZDB::instance();
+        $db->begin();
 
         $db->query( "DELETE FROM ezpolicy_limitation_value
                      WHERE ezpolicy_limitation_value.limitation_id = '$delID'" );
 
         $db->query( "DELETE FROM ezpolicy_limitation
                      WHERE ezpolicy_limitation.id = '$delID' " );
+        $db->commit();
     }
 
     function &allValuesAsString()

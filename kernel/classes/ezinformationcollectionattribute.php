@@ -195,6 +195,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      \static
      Removes all attributes for collected information.
+     \note transaction unsafe.
     */
     function cleanup()
     {

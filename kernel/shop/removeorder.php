@@ -48,10 +48,13 @@ $deleteIDArray = $http->sessionVariable( "DeleteOrderIDArray" );
 $deleteResult = implode( ", ", $deleteIDArray );
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $deleteIDArray as $deleteID )
     {
         eZOrder::cleanupOrder( $deleteID );
     }
+    $db->commit();
     $Module->redirectTo( '/shop/orderlist/' );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )

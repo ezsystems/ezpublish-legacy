@@ -44,6 +44,7 @@ include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.
 
@@ -240,6 +241,9 @@ function importRSSItem( &$item, &$rssImport, &$cli )
 
     // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
     $contentObject =& $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
+
+    $db =& eZDB::instance();
+    $db->begin();
     $contentObject->store();
 
     // Create node assignment
@@ -322,6 +326,7 @@ function importRSSItem( &$item, &$rssImport, &$cli )
 
     $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'.md5( $link->textContent() ) );
     $contentObject->store();
+    $db->commit();
 
     //publish new object
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),

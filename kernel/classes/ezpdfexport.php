@@ -166,6 +166,7 @@ class eZPDFExport extends eZPersistentObject
 
     /*!
      Store Object to database
+     \note transaction unsafe.
     */
     function store( $publish = false )
     {
@@ -180,6 +181,9 @@ class eZPDFExport extends eZPersistentObject
         $user =& eZUser::currentUser();
         $this->setAttribute( 'modified', time() );
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
+
+        $db =& eZDB::instance();
+        $db->begin();
         eZPersistentObject::store();
         if ( $publish )
         {
@@ -187,6 +191,7 @@ class eZPDFExport extends eZPersistentObject
             $this->remove();
             $this->setAttribute( 'version', $originalVersion );
         }
+        $db->commit();
     }
 
     /*!
@@ -206,6 +211,7 @@ class eZPDFExport extends eZPersistentObject
 
     /*!
      \reimp
+     \transaction unsafe.
     */
     function remove()
     {

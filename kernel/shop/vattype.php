@@ -55,6 +55,9 @@ if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 
 if ( $http->hasPostVariable( "SaveVatTypeButton" ) )
 {
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $vatTypeArray as $vatType )
     {
         $id = $vatType->attribute( 'id' );
@@ -70,6 +73,7 @@ if ( $http->hasPostVariable( "SaveVatTypeButton" ) )
         $vatType->setAttribute( 'percentage', $percentage );
         $vatType->store();
     }
+    $db->commit();
     $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
     return;
 }
@@ -78,10 +82,13 @@ if ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
 {
     $vatTypeIDList = $http->postVariable( "vatTypeIDList" );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $vatTypeIDList as $vatTypeID )
     {
         eZVatType::remove( $vatTypeID );
     }
+    $db->commit();
     $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
     return;
 }

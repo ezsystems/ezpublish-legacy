@@ -174,17 +174,26 @@ class eZOrder extends eZPersistentObject
      and sets the copied collection as the current collection.
      \note This will store the order with the new product collection.
      \return the new collection or \c false if something failed.
+     \note transaction unsafe.
     */
     function &detachProductCollection()
     {
         $collection =& $this->productCollection();
         if ( !$collection )
             return false;
+
+        $db =& eZDB::instance();
+        $db->begin();
         $newCollection =& $collection->copy();
-        if ( !$newCollection )
+        if ( !$newCollection ) 
+        {
+            $db->commit();
             return false;
+        }
         $this->setAttribute( 'productcollection_id', $newCollection->attribute( 'id' ) );
         $this->store();
+
+        $db->commit();
         return $newCollection;
     }
 
@@ -902,15 +911,20 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Removes the order and the product collection it uses.
+     \note transaction unsafe.
     */
     function purge()
     {
+        $db =& eZDB::instance();
+        $db->begin();
         $this->removeCollection();
         $this->remove();
+        $db->commit();
     }
 
     /*!
      Removes the product collection this order uses.
+     \note transaction unsafe.
     */
     function removeCollection()
     {
@@ -920,6 +934,7 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Removes the product collection item \a $itemID.
+     \note transaction unsafe.
     */
     function removeItem( $itemID )
     {
@@ -992,6 +1007,7 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Creates a real order from the temporary state
+     \note transaction unsafe.
     */
     function activate()
     {
@@ -1016,6 +1032,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \static
      Removes an order and its related data from the database.
+     \note transaction unsafe.
     */
     function cleanupOrder( $orderID )
     {
@@ -1024,20 +1041,27 @@ class eZOrder extends eZPersistentObject
         if ( count( $rows ) > 0 )
         {
             $productCollectionID = $rows[0]['productcollection_id'];
+            $db =& eZDB::instance();
+            $db->begin();
             $db->query( "DELETE FROM ezorder where id='$orderID'" );
             $db->query( "DELETE FROM ezproductcollection where id='$productCollectionID'" );
             $db->query( "DELETE FROM ezproductcollection_item where productcollection_id='$productCollectionID'" );
+            $db->commit();
         }
     }
 
     /*!
      \static
      Removes all orders from the database.
+     \note transaction unsafe.
     */
     function cleanup()
     {
         $db =& eZDB::instance();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezorder" );
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( count( $rows ) > 0 )
         {
             $productCollectionIDList = array();
@@ -1050,6 +1074,7 @@ class eZOrder extends eZPersistentObject
         include_once( 'kernel/classes/ezorderitem.php' );
         eZOrderItem::cleanup();
         $db->query( "DELETE FROM ezorder" );
+        $db->commit();
     }
 }
 

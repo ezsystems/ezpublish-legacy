@@ -104,6 +104,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
             $db =& eZDB::instance();
+            $db->begin();
             $db->query( "DELETE FROM ezcontentobject_link
 		                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
             $db->query( "DELETE FROM eznode_assignment
@@ -122,6 +123,7 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $object->purge();
             }
+            $db->commit();
             $http =& eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;

@@ -170,16 +170,16 @@ class eZWishList extends eZPersistentObject
                 {
                     $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                     $priceIncVAT = $price;
-                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
+				}
                 else
                 {
                     $priceExVAT = $price;
                     $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
+				}
+
+                $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                
                 $addedProduct = array( "id" => $id,
                                        "vat_value" => $vatValue,
                                        "item_count" => $count,
@@ -197,6 +197,9 @@ class eZWishList extends eZPersistentObject
         return $addedProducts;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
@@ -206,6 +209,7 @@ class eZWishList extends eZPersistentObject
     /*!
      Will return the wish list for the current user. If a wish list does not exist one will be created.
      \return current eZWishList object
+     \note transaction unsafe.
     */
     function &currentWishList( $asObject=true )
     {
@@ -239,10 +243,12 @@ class eZWishList extends eZPersistentObject
     /*!
      \static
      Removes all wishlists from the database.
+     \note transaction unsafe.
     */
     function cleanup()
     {
         $db =& eZDB::instance();
+        $db->begin();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezwishlist" );
         if ( count( $rows ) > 0 )
         {
@@ -254,6 +260,7 @@ class eZWishList extends eZPersistentObject
             eZProductCollection::cleanupList( $productCollectionIDList );
         }
         $db->query( "DELETE FROM ezwishlist" );
+        $db->commit();
     }
 }
 

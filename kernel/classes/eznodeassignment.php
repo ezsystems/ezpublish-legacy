@@ -193,6 +193,7 @@ class eZNodeAssignment extends eZPersistentObject
 
      \param $parentNodeID The ID of the parent node
      \param $contentObjectID The ID of the object
+     \note transaction unsafe.
      */
     function remove( $parentNodeID = false, $contentObjectID = false )
     {
@@ -218,6 +219,7 @@ class eZNodeAssignment extends eZPersistentObject
      \param $assignmentID Either an ID or an array with IDs.
      \return \c true if it were able to remove the assignments, \c false if something failed.
      \note If \a $assignmentID is an empty array it immediately returns \c false.
+     \note transaction unsafe.
     */
     function removeByID( $assignmentID )
     {
@@ -337,6 +339,7 @@ class eZNodeAssignment extends eZPersistentObject
     \static
     Chooses and sets new main assignment for the specified object, in case if there's main assignment already.
     \return false if there is already main assignment, true on success.
+     \note transaction unsafe.
     */
     function setNewMainAssignment( $objectID, $version )
     {
@@ -358,8 +361,10 @@ class eZNodeAssignment extends eZPersistentObject
         $parentMainNodeID = $newMainAssignment->attribute( 'parent_node' );
 
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
         $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node<>$parentMainNodeID" );
+        $db->commit();
 
         return true;
     }

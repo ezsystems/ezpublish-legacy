@@ -113,6 +113,10 @@ class eZURLType extends eZDataType
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $version );
         }
         $urls = array_unique( $urls );
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         foreach ( $urls as $urlID )
         {
             if ( !eZURLObjectLink::hasObjectLinkList( $urlID ) )
@@ -120,6 +124,8 @@ class eZURLType extends eZDataType
                 eZURL::removeByID( $urlID );
             }
         }
+
+        $db->commit();
     }
 
     /*!

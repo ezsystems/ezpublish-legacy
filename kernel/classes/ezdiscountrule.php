@@ -96,6 +96,9 @@ class eZDiscountRule extends eZPersistentObject
         return new eZDiscountRule( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $id )
     {
         eZPersistentObject::removeObject( eZDiscountRule::definition(),

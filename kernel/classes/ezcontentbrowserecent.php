@@ -189,6 +189,7 @@ class eZContentBrowseRecent extends eZPersistentObject
 
      It will also remove items when the maximum number of items for the user \a $userID is exceeded.
      \sa maximumRecentItems
+     \note transaction unsafe.
     */
     function &createNew( $userID, $nodeID, $nodeName )
     {
@@ -221,6 +222,9 @@ class eZContentBrowseRecent extends eZPersistentObject
             $recentCount = $recentCountList[0]['count'];
         $maximumCount = eZContentBrowseRecent::maximumRecentItems( $userID );
         // Remove oldest item
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( $recentCount > $maximumCount )
         {
             $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
@@ -242,6 +246,7 @@ class eZContentBrowseRecent extends eZPersistentObject
                                                      'name' => $nodeName,
                                                      'created' => time() ) );
         $recent->store();
+        $db->commit();
         return $recent;
     }
 
@@ -264,12 +269,18 @@ class eZContentBrowseRecent extends eZPersistentObject
         return null;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeRecentByNodeID( $nodeID )
     {
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezcontentbrowserecent WHERE node_id=$nodeID" );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updateNodeID( $oldNodeID, $newNodeID )
     {
         $db =& eZDB::instance();
@@ -279,6 +290,7 @@ class eZContentBrowseRecent extends eZPersistentObject
     /*!
      \static
      Removes all recent entries for all users.
+     \note transaction unsafe.
     */
     function cleanup()
     {

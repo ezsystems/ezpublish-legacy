@@ -76,6 +76,9 @@ class eZEnumType extends eZDataType
             $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
             $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
 
+            $db =& eZDB::instance();
+            $db->begin();
+
             // Delete stored object attributes when initialize translated attribute.
             if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
                 $this->deleteStoredObjectAttribute( $contentObjectAttribute, $currentVersion );
@@ -89,6 +92,8 @@ class eZEnumType extends eZDataType
                 $enumobjectvalue->setAttribute( 'contentobject_attribute_version',  $contentObjectAttributeVersion );
                 $enumobjectvalue->store();
             }
+
+            $db->commit();
         }
     }
 
@@ -100,6 +105,9 @@ class eZEnumType extends eZDataType
         $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
         $oldEnums =& eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
 
+        $db =& eZDB::instance();
+        $db->begin();
+
         foreach ( $oldEnums as $oldEnum )
         {
             $enum =& $oldEnum->clone();
@@ -107,6 +115,8 @@ class eZEnumType extends eZDataType
             $enum->setAttribute( 'contentclass_attribute_version', $newClassAttribute->attribute( 'version' ) );
             $enum->store();
         }
+
+        $db->commit();
     }
 
     /*!
@@ -117,11 +127,14 @@ class eZEnumType extends eZDataType
         $contentClassAttributeID = $classAttribute->attribute( 'id' );
         $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $enums as $enum )
         {
             $enum->setAttribute( 'contentclass_attribute_version', 1 );
             $enum->store();
         }
+        $db->commit();
     }
 
     /*!
@@ -168,6 +181,9 @@ class eZEnumType extends eZDataType
             else
                 $array_selectedEnumElement = null;
 
+            $db =& eZDB::instance();
+            $db->begin();
+
             // Remove stored enumerations before we store new enumerations
             eZEnum::removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion );
             for ( $i=0;$i<count( $array_enumElement );$i++ )
@@ -187,6 +203,7 @@ class eZEnumType extends eZDataType
                     }
                 }
             }
+            $db->commit();
             return true;
         }
         return false;

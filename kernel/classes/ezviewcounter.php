@@ -76,12 +76,18 @@ class eZViewCounter extends eZPersistentObject
         return new eZViewCounter( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $node_id )
     {
         eZPersistentObject::removeObject( eZViewCounter::definition(),
                                           array("node_id" => $node_id ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &clear( $node_id )
     {
         $counter = eZViewCounter::fetch( $node_id );
@@ -92,6 +98,9 @@ class eZViewCounter extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function increase()
     {
         $currentCount = $this->attribute( 'count' );

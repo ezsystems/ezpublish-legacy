@@ -53,6 +53,9 @@ class eZNotificationEventFilter
     {
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function process()
     {
         $eventList =& eZNotificationEvent::fetchUnhandledList();
@@ -150,11 +153,15 @@ class eZNotificationEventFilter
 
     /*!
      \static
-     Goes trough all event handlers and tells them to cleanup.
+     Goes through all event handlers and tells them to cleanup.
+     \note transaction unsafe. 
     */
     function cleanup()
     {
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach( array_keys( $availableHandlers ) as $handlerKey )
         {
             $handler =& $availableHandlers[$handlerKey];
@@ -163,8 +170,8 @@ class eZNotificationEventFilter
                 $handler->cleanup();
             }
         }
+        $db->commit();
     }
-
 }
 
 ?>

@@ -48,6 +48,7 @@
 */
 
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 define( 'EZ_PREFERENCES_SESSION_NAME', 'eZPreferences' );
 
@@ -67,6 +68,7 @@ class eZPreferences
      \param $storeUserID The user which should get the preference,
                          if \c false it will use the current user
      \return \c true if the preference was stored correctly or \c false if something went wrong
+     \note transaction unsafe.
     */
     function setValue( $name, $value, $storeUserID = false )
     {
@@ -223,6 +225,7 @@ class eZPreferences
     /*!
      \static
      Removes all preferences for all users.
+     \note transaction unsafe.
     */
     function cleanup()
     {

@@ -38,6 +38,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -108,6 +109,8 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                     $class =& eZContentClass::fetch( $contentClassID );
                 if ( is_object( $class ) )
                 {
+                    $db =& eZDB::instance();
+                    $db->begin();
                     $contentObject =& $class->instantiate( $userID, $sectionID );
                     $nodeAssignment =& eZNodeAssignment::create( array(
                                                                      'contentobject_id' => $contentObject->attribute( 'id' ),
@@ -121,6 +124,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                         $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
                     }
                     $nodeAssignment->store();
+                    $db->commit();
 
                     if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
                     {
@@ -176,10 +180,14 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     // store new sorting info
     $nodeAssignment->setAttribute( 'sort_field', $sortingField );
     $nodeAssignment->setAttribute( 'sort_order', $sortingOrder );
+
+    $db =& eZDB::instance();
+    $db->begin();
     $nodeAssignment->store();
     $node->setAttribute( 'sort_field', $sortingField );
     $node->setAttribute( 'sort_order', $sortingOrder );
     $node->store();
+    $db->commit();
 
     // invalidate node view cache
     include_once( 'kernel/classes/ezcontentcache.php' );
@@ -264,6 +272,9 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         eZUser::cleanupCache();
     }
 
+    $db =& eZDB::instance();
+    $db->begin();
+
     $node->move( $selectedNodeID );
 
     $newNode =& eZContentObjectTreeNode::fetchNode( $objectID, $selectedNodeID );
@@ -308,6 +319,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         eZDebug::writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
                              'content/action' );
     }
+    $db->commit();
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
@@ -460,6 +472,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
     $node->setAttribute( 'contentobject_id', $selectedObjectID );
     $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
+
+    $db =& eZDB::instance();
+    $db->begin();
     $node->store();
     $selectedNode->setAttribute( 'contentobject_id', $objectID );
     $selectedNode->setAttribute( 'contentobject_version', $objectVersion );
@@ -493,6 +508,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $changedOriginalNode->updateSubTreePath();
     $changedTargetNode =& eZContentObjectTreeNode::fetch( $selectedNodeID );
     $changedTargetNode->updateSubTreePath();
+    $db->commit();
 
     // clear cache for new placement.
     eZContentOperationCollection::clearObjectViewCache( $objectID, true );
@@ -725,6 +741,9 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
         $mainNodeID = $existingNode->attribute( 'main_node_id' );
         $objectName = $object->attribute( 'name' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $selectedNodeIDArray as $selectedNodeID )
         {
             if ( !in_array( $selectedNodeID, $assignedIDArray ) )
@@ -758,6 +777,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 }
             }
         }
+        $db->commit();
         include_once( 'kernel/content/ezcontentoperationcollection.php' );
         eZContentOperationCollection::clearObjectViewCache( $objectID, true );
         eZContentObject::expireTemplateBlockCacheIfNeeded();
@@ -904,6 +924,9 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     else
     {
         $mainNodeChanged = false;
+        
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $nodeRemoveList as $key => $node )
         {
             if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
@@ -916,6 +939,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             $mainNode =& $allNodes[0];
             eZContentObjectTreeNode::updateMainNodeID( $mainNode->attribute( 'node_id' ), $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
         }
+        $db->commit();
     }
 
     include_once( 'kernel/content/ezcontentoperationcollection.php' );
@@ -1056,15 +1080,18 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
             $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
             return;
         }
-        $db =& eZDB::instance();
         $priorityArray =& $http->postVariable( 'Priority' );
         $priorityIDArray =& $http->postVariable( 'PriorityID' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         for ( $i=0; $i<count( $priorityArray );$i++ )
         {
             $priority = (int) $priorityArray[$i];
             $nodeID = $priorityIDArray[$i];
             $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
         }
+        $db->commit();
     }
 
     $clearNodeArray = array();

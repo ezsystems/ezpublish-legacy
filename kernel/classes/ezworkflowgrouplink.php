@@ -84,6 +84,9 @@ class eZWorkflowGroupLink extends eZPersistentObject
         return new eZWorkflowGroupLink( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $workflow_id, $workflow_version, $group_id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
@@ -92,12 +95,18 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                 "group_id" => $group_id ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeGroupMembers( $group_id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
                                           array( "group_id" => $group_id ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeWorkflowMembers( $workflow_id, $workflow_version )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),

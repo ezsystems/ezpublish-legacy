@@ -94,6 +94,9 @@ if ( is_numeric( $WorkflowID ) )
     {
         $workflow =& eZWorkflow::fetch( $WorkflowID, true, 0 );
         $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $workflowGroups as $workflowGroup )
         {
             $groupID = $workflowGroup->attribute( "group_id" );
@@ -101,6 +104,7 @@ if ( is_numeric( $WorkflowID ) )
             $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
             $ingroup->store();
         }
+        $db->commit();
     }
 }
 else
@@ -112,11 +116,15 @@ else
     $workflowCount = eZWorkflow::fetchListCount();
     ++$workflowCount;
     $workflow->setAttribute( "name", ezi18n( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
+
+    $db =& eZDB::instance();
+    $db->begin();
     $workflow->store();
     $WorkflowID = $workflow->attribute( "id" );
     $WorkflowVersion = $workflow->attribute( "version" );
     $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
     $ingroup->store();
+    $db->commit();
     return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
 }
 
@@ -125,8 +133,12 @@ $WorkflowVersion = $workflow->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $workflow->setVersion( 1 );
+    
+    $db =& eZDB::instance();
+    $db->begin();
     $workflow->remove( true );
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
+    $db->commit();
 
     $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
@@ -250,15 +262,14 @@ while( ( $key = key( $event_list ) ) !== null )
     next( $event_list );
 }
 
-// Store changes
-if ( $canStore )
-{
-    $workflow->store( $event_list );
-}
-
-// Discard existing events, workflow version 1 and store version 0
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
+    // Discard existing events, workflow version 1 and store version 0
+    $db =& eZDB::instance();
+    $db->begin();
+
+    $workflow->store( $event_list ); // store changes.
+
     // Remove old version 0 first
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
 
@@ -278,6 +289,9 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $workflow->adjustEventPlacements( $event_list );
     $workflow->store( $event_list );
     $workflow->cleanupWorkFlowProcess();
+
+    $db->commit();
+
     $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
     if ( count( $workflowGroups ) > 0 )
@@ -291,27 +305,43 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 // Remove events which are to be deleted
 if ( $http->hasPostVariable( "DeleteButton" ) )
 {
+    $db =& eZDB::instance();
+    $db->begin();
+    if ($canStore) $workflow->store( $event_list );
+
 //     $http->setSessionVariable( "ExecutionStack", $executions );
     if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
                                            $http, "id",
                                            $keepers, $rejects ) )
     {
         $event_list = $keepers;
+
         foreach ( $rejects as $reject )
         {
             $reject->remove();
         }
     }
+    $db->commit();
 }
-
 
 if ( $http->hasPostVariable( "NewButton" ) )
 {
     $new_event =& eZWorkflowEvent::create( $WorkflowID, $cur_type );
     $new_event_type =& $new_event->eventType();
+    $db =& eZDB::instance();
+    $db->begin();
+
+    if ($canStore) $workflow->store( $event_list );
     $new_event_type->initializeEvent( $new_event );
     $new_event->store();
+
+    $db->commit();
     $event_list[] =& $new_event;
+}
+
+if ( $canStore && !$http->hasPostVariable( "NewButton" ) && !$http->hasPostVariable( "DeleteButton" ) && !$http->hasPostVariable( "StoreButton" ) )
+{
+    $workflow->store( $event_list );
 }
 
 $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );

@@ -43,6 +43,8 @@
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );
+include_once( "lib/ezdb/classes/ezdb.php" );
+
 class eZProductCollection extends eZPersistentObject
 {
     function eZProductCollection( $row )
@@ -89,10 +91,14 @@ class eZProductCollection extends eZPersistentObject
      Copies the collection object, the collection items and options.
      \return the new collection object.
      \note The new collection will already be present in the database.
+     \note transaction unsafe.
     */
     function &copy()
     {
         $collection =& $this->clone();
+
+        $db =& eZDB::instance();
+        $db->begin();
         $collection->store();
 
         $oldItems =& $this->itemList();
@@ -101,6 +107,7 @@ class eZProductCollection extends eZPersistentObject
             $oldItem =& $oldItems[$oldItemKey];
             $item =& $oldItem->copy( $collection->attribute( 'id' ) );
         }
+        $db->commit();
         return $collection;
     }
 
@@ -170,13 +177,16 @@ class eZProductCollection extends eZPersistentObject
      \static
      Removes all product collections which are specified in the array \a $productCollectionIDList.
      Will also remove the product collection items.
+     \note transaction unsafe.
     */
     function cleanupList( $productCollectionIDList )
     {
         $db =& eZDB::instance();
+        $db->begin();
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
         $idText = implode( ', ', $productCollectionIDList );
         $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );
+        $db->commit();
     }
 }
 

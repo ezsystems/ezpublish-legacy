@@ -199,7 +199,6 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
                 $rule->store();
             }
         }
-
     }
 
     /*!

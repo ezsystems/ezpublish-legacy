@@ -67,10 +67,13 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "removeRuleList" );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
         eZDiscountSubRule::remove( $discountRuleID );
     }
+    $db->commit();
 
     // we changed prices => remove content cache
     include_once( 'kernel/classes/ezcontentobject.php' );
@@ -96,6 +99,9 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
 {
     $selectedObjectIDArray = eZContentBrowse::result( 'AddCustomer' );
     $userIDArray = eZUserDiscountRule::fetchUserID( $discountGroupID );
+    
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
         if ( !in_array(  $objectID, $userIDArray ) )
@@ -104,6 +110,7 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
             $userRule->store();
         }
     }
+    $db->commit();
 
     // because we changed users, we have to remove content cache
     include_once( 'kernel/classes/ezcontentobject.php' );
@@ -114,10 +121,14 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
     if (  $http->hasPostVariable( "CustomerIDArray" ) )
     {
         $customerIDArray = $http->postVariable( "CustomerIDArray" );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $customerIDArray as $customerID )
         {
             eZUserDiscountRule::removeUser( $customerID );
         }
+        $db->commit();
     }
 
     include_once( 'kernel/classes/ezcontentobject.php' );

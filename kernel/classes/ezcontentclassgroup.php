@@ -124,6 +124,9 @@ class eZContentClassGroup extends eZPersistentObject
         return $user;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeSelected( $id )
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),
@@ -170,6 +173,7 @@ class eZContentClassGroup extends eZPersistentObject
      Appends the class \a $class to this group.
      \param $class Can either be an eZContentClass object or a class ID.
      \return the class group link object.
+     \note tranaction unsafe.
     */
     function &appendClass( &$class, $version = false )
     {

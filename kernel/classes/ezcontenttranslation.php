@@ -160,6 +160,9 @@ class eZContentTranslation extends eZPersistentObject
         return $localeList;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updateObjectNames()
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
@@ -170,6 +173,7 @@ class eZContentTranslation extends eZPersistentObject
                                                 FROM ezcontentobject_name
                                                 WHERE content_translation = '$defaultLanguage'  " );
         $nameCount =  count( $existingNamesArray );
+        $db->begin();
         for ( $i=0;$i<$nameCount;++$i )
         {
             if ( $existingNamesArray[$i]['content_translation'] == $newLanguage )
@@ -186,6 +190,7 @@ class eZContentTranslation extends eZPersistentObject
                                                           '$newLanguage',
                                                           '$defaultLanguage' )" );
         }
+        $db->commit();
     }
 
     function translatedObjectsCount()
@@ -197,14 +202,19 @@ class eZContentTranslation extends eZPersistentObject
         return $countResultArray[0]['object_count'];
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove()
     {
         $id = $this->attribute( 'id' );
         $locale = $this->attribute( 'locale' );
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "DELETE from ezcontentobject_name WHERE content_translation = '$locale' " );
         $db->query( "DELETE from ezcontentobject_attribute WHERE language_code = '$locale'" );
         eZPersistentObject::remove();
+        $db->commit();
     }
 }
 

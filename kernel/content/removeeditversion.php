@@ -65,6 +65,7 @@ if ( $isConfirmed )
     if ( !$object->attribute( 'can_edit' ) )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     $db =& eZDB::instance();
+    $db->begin();
     $db->query( "DELETE FROM ezcontentobject_link
 		         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
     $db->query( "DELETE FROM eznode_assignment
@@ -87,6 +88,7 @@ if ( $isConfirmed )
     {
         $versionObject->remove();
     }
+    $db->commit();
 
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )

@@ -1103,6 +1103,13 @@ eZDebug::addTimingPoint( "End" );
 
 ob_end_flush();
 
+$db =& eZDB::instance();
+while ( $db->TransactionCounter > 0 )
+{
+    eZDebug::writeError( "Internal error, transaction was not comitted." );
+    $db->commit();
+}
+
 eZDisplayResult( $templateResult );
 
 eZExecution::cleanup();

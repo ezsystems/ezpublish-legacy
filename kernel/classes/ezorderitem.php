@@ -160,6 +160,7 @@ class eZOrderItem extends eZPersistentObject
     /*!
      \static
      Removes all order items from the database.
+     \note transaction unsafe.
     */
     function cleanup()
     {

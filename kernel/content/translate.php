@@ -40,6 +40,7 @@ include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
@@ -118,10 +119,13 @@ if ( ( $Module->isCurrentAction( 'RemoveLanguage' ) or
     $removeLanguageList = $Module->actionParameter( 'SelectedLanguageList' );
     if ( $Module->isCurrentAction( 'RemoveLanguageConfirmation' ) )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $removeLanguageList as $removeLanguage )
         {
             $version->removeTranslation( $removeLanguage );
         }
+        $db->commit();
         $isRemoveActive = false;
     }
     else
@@ -149,6 +153,9 @@ if ( $createLanguage !== false )
     unset( $translateContentAttributes );
 //     $translateContentAttributes = $originalContentAttributes;
     $translateContentAttributes = array();
+    
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
     {
         $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
@@ -156,6 +163,7 @@ if ( $createLanguage !== false )
         $contentAttribute->sync();
         $translateContentAttributes[] =& $contentAttribute;
     }
+    $db->commit();
 //    $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
 }
 

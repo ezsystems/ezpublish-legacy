@@ -34,6 +34,7 @@
 //
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezsection.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/ezcontentbrowse.php" );
@@ -60,10 +61,13 @@ if ( $Module->isCurrentAction( 'AssignSection' ) )
 {
     $selectedNodeIDArray = eZContentBrowse::result( 'AssignSection' );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $selectedNodeIDArray as $nodeID )
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $section->attribute( 'id' ) );
     }
+    $db->commit();
     if ( count( $selectedNodeIDArray ) > 0 )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );

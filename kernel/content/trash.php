@@ -40,6 +40,7 @@
 
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
 $Offset = $Params['Offset'];
@@ -58,6 +59,9 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         if ( $access['accessWord'] == 'yes' )
         {
             $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( $deleteIDArray as $deleteID )
             {
 
@@ -76,6 +80,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 //                $object =& eZContentObject::fetch( $deleteID );
 //                $object->purge();
             }
+            $db->commit();
         }
         else
         {
@@ -96,11 +101,15 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
                                              null,
                                              null,
                                              true );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $objectList ) as $key )
         {
             $object =& $objectList[$key];
             $object->purge();
         }
+        $db->commit();
     }
     else
     {

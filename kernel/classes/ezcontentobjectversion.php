@@ -513,9 +513,15 @@ class eZContentObjectVersion extends eZPersistentObject
         return $nodeAssignment;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeAssignment( $nodeID )
     {
         $nodeAssignmentList =& $this->attribute( 'node_assignments' );
+        $db =& eZDb::instance();
+        $db->begin();
+
         foreach ( array_keys( $nodeAssignmentList ) as $key  )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
@@ -524,6 +530,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 $nodeAssignment->remove();
             }
         }
+        $db->commit();
     }
 
     /*!
@@ -631,12 +638,16 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove()
     {
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "DELETE FROM ezcontentobject_link
                          WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
         $db->query( "DELETE FROM eznode_assignment
@@ -667,8 +678,13 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         $db->query( "DELETE FROM ezcontentobject_name
                          WHERE contentobject_id=$contentobjectID AND content_version=$versionNum" );
+
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeTranslation( $languageCode )
     {
 //         eZDebug::writeDebug( $this, 'removeTranslation:version' );
@@ -676,11 +692,14 @@ class eZContentObjectVersion extends eZPersistentObject
 
         $contentObjectAttributes =& $this->contentObjectAttributes( $languageCode );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
         {
             $attribute =& $contentObjectAttributes[$attributeKey];
             $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
         }
+        $db->commit();
     }
 
     /*!
@@ -728,6 +747,8 @@ class eZContentObjectVersion extends eZPersistentObject
      \return An array with all the translations for the current version.
      \note The reference for the return value is required to workaround
            a bug with PHP references.
+
+     \note transaction unsafe.
     */
     function &translationList( $language = false, $asObject = true )
     {
@@ -792,6 +813,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \a $language defines the language to fetch.
      \static
      \sa attributes
+     \note transaction unsafe.
     */
     function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
@@ -838,6 +860,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \param package
 
      \returns created object, false if could not create object/xml invalid
+     \note transaction unsafe.
     */
     function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
     {
@@ -871,6 +894,9 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentObjectVersion->store();
 
         $languageNodeArray =& $domNode->elementsByName( 'object-translation' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach( array_keys( $languageNodeArray ) as $languageKey )
         {
             $languageNode =& $languageNodeArray[$languageKey];
@@ -912,6 +938,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $options );
         }
         $contentObjectVersion->store();
+        $db->commit();
 
         return $contentObjectVersion;
     }
@@ -923,6 +950,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \param package options ( optianal )
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
+     \note transaction unsafe.
     */
     function &serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
@@ -941,6 +969,9 @@ class eZContentObjectVersion extends eZPersistentObject
 
         $translationList =& $this->translationList( false, false );
         $contentObject   =& $this->attribute( 'contentobject' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $translationList as $translationItem )
         {
             $language = $translationItem;
@@ -992,7 +1023,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 $nodeAssignmentListNode->appendChild( $contentNodeDOMNode );
             }
         }
-
+        $db->commit();
         return $versionNode;
     }
 
@@ -1004,6 +1035,9 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZContentObject::fetch( $this->CreatorID );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function unpublish()
     {
         if ( $this->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )

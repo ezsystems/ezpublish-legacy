@@ -198,6 +198,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Store the object
+     \note transaction unsafe.
     */
     function store()
     {
@@ -209,13 +210,16 @@ class eZContentObject extends eZPersistentObject
         global $eZContentObjectVersionCache;
         unset( $eZContentObjectDataMapCache );
 
+        $db =& eZDB::instance();
+        $db->begin();
         $this->storeNodeModified();
-
         eZPersistentObject::store();
+        $db->commit();
     }
 
     /*!
      Update all nodes to set modified_subnode value
+     \note transaction unsafe.
     */
     function storeNodeModified()
     {
@@ -223,10 +227,13 @@ class eZContentObject extends eZPersistentObject
         {
             $nodeArray =& $this->assignedNodes();
 
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( array_keys( $nodeArray ) as $key )
             {
                 $nodeArray[$key]->updateAndStoreModified();
             }
+            $db->commit();
         }
     }
 
@@ -277,6 +284,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets the name of the object in all translations.
+     \note transaction unsafe.
     */
     function setName( $objectName, $versionNum = false, $translation = false )
     {
@@ -309,6 +317,7 @@ class eZContentObject extends eZPersistentObject
         $objectID = $this->attribute( 'id' );
         if ( !$default || count( $needTranslations ) == 1 )
         {
+            $db->begin();
             $query = "DELETE FROM ezcontentobject_name WHERE contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
             $db->query( $query );
             $query = "INSERT INTO ezcontentobject_name( contentobject_id,
@@ -322,6 +331,7 @@ class eZContentObject extends eZPersistentObject
                                       '$translation',
                                       '$translation' )";
             $db->query( $query );
+            $db->commit();
             return;
         }
         else
@@ -333,6 +343,7 @@ class eZContentObject extends eZPersistentObject
                 $existingTranslationList[] = $existingTranslation['content_translation'];
             }
             $realTranslation =  $translation;
+            $db->begin();
             foreach ( $needTranslations as $needTranslation )
             {
                 if ( $translation == $needTranslation )
@@ -366,6 +377,7 @@ class eZContentObject extends eZPersistentObject
                     $db->query( $query );
                 }
             }
+            $db->commit();
         }
     }
 
@@ -868,9 +880,13 @@ class eZContentObject extends eZPersistentObject
      If version number is given as argument that version is used to create a copy.
      \param $versionCheck If \c true it will check if there are too many version and
                           remove some of them to make room for a new.
+
+     \note transaction unsafe.
     */
     function &createNewVersion( $copyFromVersion = false, $versionCheck = false )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         // Check if we have enough space in version list
         if ( $versionCheck )
         {
@@ -925,12 +941,15 @@ class eZContentObject extends eZPersistentObject
         else
             $version =& $this->version( $copyFromVersion );
 
-       return $this->copyVersion( $this, $version, $nextVersionNumber );
+        $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber );
+        $db->commit();
+        return $copiedVersion;
     }
 
     /*!
      Creates a new version and returns it as an eZContentObjectVersion object.
      If version number is given as argument that version is used to create a copy.
+     \note transaction unsafe.
     */
     function &copyVersion( &$object, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
@@ -938,6 +957,9 @@ class eZContentObject extends eZPersistentObject
         $userID =& $user->attribute( 'contentobject_id' );
 
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
@@ -980,6 +1002,7 @@ class eZContentObject extends eZPersistentObject
             $object->addContentObjectRelation( $objectID, $newVersionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Add object relation', 'copyVersion' );
         }
+        $db->commit();
 
         return $clonedVersion;
 
@@ -1018,6 +1041,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Makes a copy of the object which is stored and then returns it.
+     \note transaction unsafe.
     */
     function &copy( $allVersions = true )
     {
@@ -1028,6 +1052,9 @@ class eZContentObject extends eZPersistentObject
         $contentObject =& $this->clone();
         $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->setAttribute( 'owner_id', $userID );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $contentObject->store();
 
         $contentObject->setName( $this->attribute('name') );
@@ -1064,6 +1091,8 @@ class eZContentObject extends eZPersistentObject
         // Set version number
         $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
         $contentObject->store();
+        
+        $db->commit();
 
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
         return $contentObject;
@@ -1072,10 +1101,12 @@ class eZContentObject extends eZPersistentObject
     /*!
       Reverts the object to the given version. All versions newer then the given version will
       be deleted.
+      \note transaction unsafe.
     */
     function revertTo( $version )
     {
         $db =& eZDB::instance();
+        $db->begin();
 
         // Delete stored attribute from other tables
         $contentobjectAttributes =& $this->allContentObjectAttributes( $this->ID );
@@ -1101,10 +1132,12 @@ class eZContentObject extends eZPersistentObject
 
         $this->CurrentVersion = $version;
         $this->store();
+        $db->commit();
     }
 
     /*!
      Copies the given version of the object and creates a new current version.
+     \note transaction unsafe.
     */
     function copyRevertTo( $version )
     {
@@ -1116,6 +1149,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
       Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
+      \note transaction unsafe.
     */
     function purge( $id = false )
     {
@@ -1130,6 +1164,7 @@ class eZContentObject extends eZPersistentObject
             $contentobject =& $this;
         }
         $db =& eZDB::instance();
+        $db->begin();
 
         $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
 
@@ -1167,8 +1202,13 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
+
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove( $id = false, $nodeID = null )
     {
         $delID = $this->ID;
@@ -1187,6 +1227,8 @@ class eZContentObject extends eZPersistentObject
         include_once( "kernel/classes/ezsearch.php" );
         if ( $nodeID === null  or count( $nodes ) <= 1 )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( $nodes as $node )
             {
                 $node->remove();
@@ -1196,6 +1238,7 @@ class eZContentObject extends eZPersistentObject
             eZSearch::removeObject( $contentobject );
             $contentobject->store();
             // Delete stored attribute from other tables
+            $db->commit();
 
         }
         else if ( $nodeID !== null )
@@ -1205,6 +1248,8 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( $node->attribute( 'main_node_id' )  == $nodeID )
                 {
+                    $db =& eZDB::instance();
+                    $db->begin();
                     foreach ( array_keys( $nodes ) as $key )
                     {
                         $node =& $nodes[$key];
@@ -1213,6 +1258,7 @@ class eZContentObject extends eZPersistentObject
                     $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
                     eZSearch::removeObject( $contentobject );
                     $contentobject->store();
+                    $db->commit();
                 }
                 else
                 {
@@ -1620,11 +1666,16 @@ class eZContentObject extends eZPersistentObject
         unset( $GLOBALS["ez_content_object_recursion_protect"] );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function storeInput( &$contentObjectAttributes,
                          $attributeInputMap )
     {
         $defaultLanguage = $this->defaultLanguage();
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
@@ -1678,6 +1729,7 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
+        $db->commit();
     }
 
     /*!
@@ -1733,6 +1785,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Adds a link to the given content object id.
+     \note transaction unsafe.
     */
     function addContentObjectRelation( $objectID, $version )
     {
@@ -1743,6 +1796,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Removes a link to the given content object id.
+     \note transaction unsafe.
     */
     function removeContentObjectRelation( $objectID, $version = null )
     {
@@ -1932,6 +1986,7 @@ class eZContentObject extends eZPersistentObject
      \param $isMain \c true if the created node is the main node of the object
      \param $remoteID A string denoting the unique remote ID of the assignment or \c false for no remote id.
      \note The return assignment will already be stored in the database
+     \note transaction unsafe.
     */
     function &createNodeAssignment( $nodeID, $isMain, $remoteID = false )
     {
@@ -2785,6 +2840,7 @@ class eZContentObject extends eZPersistentObject
      \param owner ID, override owner ID, null to use XML owner id (optional)
 
      \returns created object, false if could not create object/xml invalid
+     \note transaction unsafe.
     */
     function &unserialize( &$package, &$domNode, $options, $ownerID = false )
     {
@@ -2822,6 +2878,10 @@ class eZContentObject extends eZPersistentObject
         }
 
         $versionListNode =& $domNode->elementByName( 'version-list' );
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         $contentObject->store();
         $activeVersion = 1;
         $firstVersion = true;
@@ -2919,6 +2979,7 @@ class eZContentObject extends eZPersistentObject
             $contentObject->setAttribute( 'published', $published );
             $contentObject->store( array( 'published' ) );
         }
+        $db->commit();
 
         return $contentObject;
     }
@@ -2931,6 +2992,8 @@ class eZContentObject extends eZPersistentObject
      \param package options ( optianal )
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
+
+     \note transaction unsafe.
     */
     function &serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
@@ -3023,6 +3086,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets all content cache files to be expired. Both view cache and cache blocks are expired.
+     \note transaction unsafe.
     */
     function expireAllCache()
     {
@@ -3036,6 +3100,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Expires all template block cache. This should be expired anytime any content
      is published/modified or removed.
+     \note transaction unsafe.
     */
     function expireTemplateBlockCache()
     {
@@ -3058,6 +3123,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets all complex viewmode content cache files to be expired.
+     \note transaction unsafe.
     */
     function expireComplexViewModeCache()
     {
@@ -3150,6 +3216,7 @@ class eZContentObject extends eZPersistentObject
      Will remove all version that match the status set in \a $versionStatus.
      \param $versionStatus can either be a single value or an array with values,
                            if \c false the function will remove all status except published.
+     \note transaction unsafe.
     */
     function removeVersions( $versionStatus = false )
     {
@@ -3166,11 +3233,15 @@ class eZContentObject extends eZPersistentObject
             $versions =& eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
                                                                 $offset, $max );
             $hasVersions = count( $versions ) > 0;
+
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( array_keys( $versions ) as $versionKey )
             {
                 $version =& $versions[$versionKey];
                 $version->remove();
             }
+            $db->commit();
             $offset += count( $versions );
         }
     }

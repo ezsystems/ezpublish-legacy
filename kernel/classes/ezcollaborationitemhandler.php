@@ -130,6 +130,7 @@ class eZCollaborationItemHandler
      \static
      Handles a notification event for collaboration items.
      \note The default implementation sends out a generic email.
+     \note transaction unsafe.
     */
     function handleCollaborationEvent( &$event, &$item, &$parameters )
     {
@@ -167,6 +168,9 @@ class eZCollaborationItemHandler
 
         $itemHandler =& $item->attribute( 'handler' );
         $collectionHandling = $itemHandler->notificationCollectionHandling();
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( $collectionHandling == EZ_COLLABORATION_NOTIFICATION_COLLECTION_ONE_FOR_ALL )
         {
             include_once( 'kernel/classes/notification/eznotificationcollection.php' );
@@ -262,6 +266,7 @@ class eZCollaborationItemHandler
             eZDebug::writeError( "Unknown collaboration notification collection handling type '$collectionHandling', skipping notification",
                                  'eZCollaborationItemHandler::handleCollaborationEvent' );
         }
+        $db->commit();
 
         return EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
     }

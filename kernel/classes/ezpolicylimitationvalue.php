@@ -90,6 +90,9 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
 
+    /*!
+     \note transaction unsafe.
+     */
     function createNew( $limitationID, $value )
     {
         $limitationValue = new eZPolicyLimitationValue( array() );
@@ -114,6 +117,9 @@ class eZPolicyLimitationValue extends eZPersistentObject
         return $limitationValue;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function copy( $limitationID )
     {
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );
@@ -129,6 +135,9 @@ class eZPolicyLimitationValue extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeByValue( $value, $policyID = false )
     {
         if ( $policyID )
@@ -151,6 +160,9 @@ class eZPolicyLimitationValue extends eZPersistentObject
                                           array( "value" => $value ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove( $id = false )
     {
         if ( is_numeric( $id ) )

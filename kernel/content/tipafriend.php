@@ -150,7 +150,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
                 $counter =& eZTipafriendCounter::create( $NodeID );
             }
             $counter->increase();
-            $counter->store();
+            $counter->store(); // Not important to embrace in a transaction.
         }
         else // some error occured
         {

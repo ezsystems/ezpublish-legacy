@@ -110,6 +110,8 @@ foreach ( $operations as $operation )
 
 if ( $http->hasPostVariable( 'StoreButton' )  )
 {
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $possibleTriggers ) as $key )
     {
         $trigger =& $possibleTriggers[$key];
@@ -154,6 +156,7 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
             }
         }
     }
+    $db->commit();
     $Module->redirectToView( 'list' );
 
 }
@@ -173,10 +176,14 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
             eZTrigger::remove( $deleteID );
         }
+        $db->commit();
     }
 }
 

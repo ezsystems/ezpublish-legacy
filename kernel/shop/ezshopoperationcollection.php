@@ -65,10 +65,14 @@ class eZShopOperationCollection
         include_once( 'kernel/classes/ezorder.php' );
 
         $order =& eZOrder::fetch( $orderID );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $order->activate();
 
         $basket =& eZBasket::currentBasket( true, $orderID);
         $basket->remove();
+        $db->commit();
 
         include_once( "lib/ezutils/classes/ezhttptool.php" );
         eZHTTPTool::setSessionVariable( "UserOrderID", $orderID );

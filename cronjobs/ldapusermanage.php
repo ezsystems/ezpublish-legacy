@@ -210,6 +210,7 @@ else
     return false;
 }
 
+$db->begin();
 foreach ( array_keys ( $LDAPUsers ) as $key )
 {
     $LDAPUser =& $LDAPUsers[$key];
@@ -490,6 +491,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         }
     }
 }
+$db->commit();
 
 if ( !$isQuiet )
     $cli->output( "All LDAP users have been updated!" );

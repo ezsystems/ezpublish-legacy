@@ -39,6 +39,7 @@
 */
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
@@ -57,23 +58,29 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
             eZDebug::writeNotice( $deleteID, "deleteID" );
             $version =& eZContentObjectVersion::fetch( $deleteID );
             $version->remove();
         }
+        $db->commit();
     }
 }
 
 if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
     $versions =& eZContentObjectVersion::fetchForUser( $userID );
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $versions ) as $key )
     {
         $version =& $versions[$key];
         $version->remove();
     }
+    $db->commit();
 }
 
 //$versions =& eZContentObjectVersion::fetchForUser( $userID );

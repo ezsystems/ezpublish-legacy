@@ -132,10 +132,13 @@ if ( $http->hasPostVariable( "DeleteNodeButton" ) )
     {
         $deletedIDList = $http->postVariable( "DeleteNodeIDArray" );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deletedIDList as $deletedID )
         {
             eZPolicyLimitationValue::removeByValue( $deletedID, $policyID );
         }
+        $db->commit();
     }
 
     /* Clean up policy cache */
@@ -149,12 +152,15 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
     {
         $deletedIDList = $http->postVariable( "DeleteSubtreeIDArray" );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deletedIDList as $deletedID )
         {
             $subtree =& eZContentObjectTreeNode::fetch( $deletedID );
             $path = $subtree->attribute( 'path_string' );
             eZPolicyLimitationValue::removeByValue( $path, $policyID );
         }
+        $db->commit();
     }
 
     /* Clean up policy cache */
@@ -211,6 +217,8 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
 {
     $hasNodeLimitation = false;
     $hasLimitation = false;
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $limitationList ) as $key )
     {
         $limitation =& $limitationList[$key];
@@ -265,6 +273,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
     }
 
     $policy->store();
+    $db->commit();
 
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -323,6 +332,9 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
      !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
     // Remove other limitations. When the policy is applied to node, no other constraints needed.
+    $db =& eZDB::instance();
+    $db->begin();
+
     foreach ( $limitationList as $limitation )
     {
         $limitationID = $limitation->attribute( 'id' );
@@ -330,6 +342,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
         if ( $limitationIdentifier != "Node" and $limitationIdentifier != "Subtree" )
             eZPolicyLimitation::remove( $limitationID );
     }
+    $db->commit();
 
     $selectedNodeIDList = $http->postVariable( "SelectedNodeIDArray" );
 
@@ -351,6 +364,8 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "B
 {
     $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
 
+    $db =& eZDB::instance();
+    $db->begin();
     if ( $subtreeLimitation == null )
         $subtreeLimitation = eZPolicyLimitation::createNew( $policyID, "Subtree", $currentModule, $currentFunction);
 
@@ -364,6 +379,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "B
             $subtreeList[] = $subtree;
         }
     }
+    $db->commit();
 }
 
 $Module->setTitle( "Edit policy" );

@@ -78,10 +78,13 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
     $role =& eZRole::fetch( $roleID );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
         $role->assignToUser( $objectID, $limitIdent, $limitValue );
     }
+    $db->commit();
     if ( count( $selectedObjectIDArray ) > 0 )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );

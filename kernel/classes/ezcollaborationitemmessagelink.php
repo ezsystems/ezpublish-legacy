@@ -45,6 +45,7 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZCollaborationItemMessageLink extends eZPersistentObject
 {
@@ -105,6 +106,9 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         return new eZCollaborationItemMessageLink( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &addMessage( &$collaborationItem, &$message, $messageType, $participantID = false )
     {
         $messageID =& $message->attribute( 'id' );
@@ -124,9 +128,14 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         $collaborationID = $collaborationItem->attribute( 'id' );
         $timestamp = time();
         $collaborationItem->setAttribute( 'modified', $timestamp );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $collaborationItem->sync();
         $link =& eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
         $link->store();
+        $db->commit();
+
         return $link;
     }
 

@@ -98,6 +98,9 @@ class eZVatType extends eZPersistentObject
         return new eZVatType( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove ( $id )
     {
         eZPersistentObject::removeObject( eZVatType::definition(),

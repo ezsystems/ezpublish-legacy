@@ -514,10 +514,13 @@ class eZObjectRelationListType extends eZDataType
         if ( is_array( $content ) and
              is_array( $content['relation_list'] ) )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( $content['relation_list'] as $deletionItem )
             {
                 eZObjectRelationListType::removeRelationObject( $objectAttribute, $deletionItem );
             }
+            $db->commit();
         }
     }
 

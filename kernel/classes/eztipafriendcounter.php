@@ -76,12 +76,18 @@ class eZTipafriendCounter extends eZPersistentObject
         return new eZTipafriendCounter( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $node_id )
     {
         eZPersistentObject::removeObject( eZTipafriendCounter::definition(),
                                           array("node_id" => $node_id ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &clear( $node_id )
     {
         $counter = eZTipafriendCounter::fetch( $node_id );
@@ -92,6 +98,9 @@ class eZTipafriendCounter extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function increase()
     {
         $currentCount = $this->attribute( 'count' );
@@ -111,6 +120,7 @@ class eZTipafriendCounter extends eZPersistentObject
     /*!
      \static
      Removes all counters for tipafriend functionality.
+     \note transaction unsafe.
     */
     function cleanup()
     {

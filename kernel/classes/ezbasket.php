@@ -253,6 +253,9 @@ class eZBasket extends eZPersistentObject
         return $total;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
@@ -279,6 +282,7 @@ class eZBasket extends eZPersistentObject
     /*!
      Will return the basket for the current session. If a basket does not exist one will be created.
      \return current eZBasket object
+     \note transaction unsafe.
     */
     function &currentBasket( $asObject=true, $byOrderID=-1 )
     {
@@ -305,12 +309,15 @@ class eZBasket extends eZPersistentObject
         $currentBasket = false;
         if ( count( $basketList ) == 0 )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             $collection =& eZProductCollection::create();
             $collection->store();
 
             $currentBasket = new eZBasket( array( "session_id" => $sessionID,
                                               "productcollection_id" => $collection->attribute( "id" ) ) );
             $currentBasket->store();
+            $db->commit();
         }
         else
         {
@@ -322,6 +329,7 @@ class eZBasket extends eZPersistentObject
     /*!
      Creates a temporary order for the current basket.
      The order object is returned.
+     \note transaction unsafe.
     */
     function &createOrder()
     {
@@ -335,18 +343,28 @@ class eZBasket extends eZPersistentObject
                                      'user_id' => $userID,
                                      'is_temporary' => 1,
                                      'created' => mktime() ) );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $order->store();
 
         $orderID = $order->attribute( 'id' );
         $this->setAttribute( 'order_id', $orderID );
         $this->store();
+        $db->commit();
 
         return $order;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updatePrices()
     {
         $items =& $this->items();
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach( array_keys( $items ) as $key )
         {
             $itemArray =& $items[ $key ];
@@ -366,7 +384,7 @@ class eZBasket extends eZPersistentObject
                 }
             }
             if ( $priceObj == null )
-                return;
+                break;
             $optionsPrice = $item->calculatePriceWithOptions();
 
             $price += $optionsPrice;
@@ -383,16 +401,20 @@ class eZBasket extends eZPersistentObject
             $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
             $item->store();
         }
+        $db->commit();
     }
 
     /*!
      \static
      Removes all baskets for all users.
+     \note transaction unsafe.
     */
     function cleanup()
     {
         $db =& eZDB::instance();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezbasket" );
+
+        $db->begin();
         if ( count( $rows ) > 0 )
         {
             $productCollectionIDList = array();
@@ -403,6 +425,7 @@ class eZBasket extends eZPersistentObject
             eZProductCollection::cleanupList( $productCollectionIDList );
         }
         $db->query( "DELETE FROM ezbasket" );
+        $db->commit();
     }
 }
 

@@ -64,13 +64,16 @@ else
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+   if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
             eZRole::remove( $deleteID );
         }
+        $db->commit();
     }
 }
 // Redirect to content node browse in the user tree

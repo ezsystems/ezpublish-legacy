@@ -42,6 +42,7 @@ include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
@@ -178,10 +179,14 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         {
             $relationObjectIDs = $http->postVariable( 'DeleteRelationIDArray' );
         }
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $relationObjectIDs as $relationObjectID )
         {
             $object->removeContentObjectRelation( $relationObjectID, $editVersion );
         }
+        $db->commit();
 
     }
     if ( $module->isCurrentAction( 'NewObject' ) )
@@ -217,7 +222,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
                 $http->setSessionVariable( 'NewObjectID', $newObjectID );
 
-                /* Change session ID to the same one as the main node placement */
+                /* Change section ID to the same one as the main node placement */
                 $db =& eZDB::instance();
                 $db->query("UPDATE ezcontentobject SET section_id = {$sectionID} WHERE id = {$newObjectID}");
 
@@ -229,6 +234,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             {
                 $relatedContentObject->purge();
             }
+
             return;
         }
     }

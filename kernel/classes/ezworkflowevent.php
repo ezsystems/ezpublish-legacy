@@ -255,12 +255,18 @@ class eZWorkflowEvent extends eZPersistentObject
         $eventType->customWorkflowEventHTTPAction( $http, $action, $this );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function store()
     {
+        $db =& eZDB::instance();
+        $db->begin();
         $stored = eZPersistentObject::store();
 
         $eventType =& $this->eventType();
         $eventType->storeEventData( $this, $this->attribute( 'version' ) );
+        $db->commit();
 
         return $stored;
     }

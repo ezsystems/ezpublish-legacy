@@ -115,6 +115,9 @@ if ( $module->isCurrentAction( 'Store' ) )
     {
         // Check for validation
         $basket =& eZBasket::currentBasket();
+
+        $db =& eZDB::instance();
+        $db->begin();
         $order =& $basket->createOrder();
 
         $doc = new eZDOMDocument( 'account_information' );
@@ -168,6 +171,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         $order->setAttribute( 'ignore_vat', 0 );
 
         $order->store();
+        $db->commit();
 
         eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 

@@ -41,6 +41,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontenttranslation.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 function translations_clearCache()
 {
@@ -89,16 +90,23 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     if ( !eZContentTranslation::hasTranslation( $translationLocale ) )
     {
         $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $translation->store();
         $translation->updateObjectNames();
 
         translations_clearCache();
+        $db->commit();
     }
 }
 
 if ( $Module->isCurrentAction( 'Confirm' ) )
 {
     $tranlationList = $Module->actionParameter( 'ConfirmList' );
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $tranlationList as $translationID )
     {
         $translation =& eZContentTranslation::fetch( $translationID );
@@ -106,6 +114,7 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
     }
 
     translations_clearCache();
+    $db->commit();
 }
 
 if ( $Module->isCurrentAction( 'Remove' ) )
@@ -114,6 +123,9 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     $confirmTranslationList = array();
     $confirmTranslationIDList = array();
     $totalRemoveTranslation = 0;
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $seletedIDList as $translationID )
     {
         $translation =& eZContentTranslation::fetch( $translationID );
@@ -132,6 +144,8 @@ if ( $Module->isCurrentAction( 'Remove' ) )
             $confirmTranslationList[] = $item;
         }
     }
+    $db->commit();
+
     if ( count( $confirmTranslationList ) > 0 )
     {
         $tpl->setVariable( 'confirm_list', $confirmTranslationList );
@@ -172,6 +186,9 @@ if ( $Params['TranslationID'] )
 
 
 $translations = eZContentTranslation::fetchList();
+
+$db =& eZDB::instance();
+$db->begin();
 foreach ( array_keys( $translations ) as $translationKey )
 {
     $translation =& $translations[$translationKey];
@@ -181,6 +198,7 @@ foreach ( array_keys( $translations ) as $translationKey )
         $translation->updateObjectNames();
     }
 }
+$db->commit();
 
 $availableTranslations = array();
 

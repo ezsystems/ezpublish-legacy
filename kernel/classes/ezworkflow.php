@@ -156,6 +156,9 @@ class eZWorkflow extends eZPersistentObject
                                               );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeWorkflow( $id, $version )
     {
         eZPersistentObject::removeObject( eZWorkflow::definition(),
@@ -163,8 +166,13 @@ class eZWorkflow extends eZPersistentObject
                                                 "version" => $version ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function remove( $remove_childs = false )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         if ( is_array( $remove_childs ) or $remove_childs )
         {
             if ( is_array( $remove_childs ) )
@@ -184,33 +192,45 @@ class eZWorkflow extends eZPersistentObject
             }
         }
         eZPersistentObject::remove();
+        $db->commit();
     }
 
     /*!
      \static
      Removes all temporary versions.
+     \note transaction unsafe.
     */
     function removeTemporary()
     {
         $version = 1;
         $temporaryWorkflows =& eZWorkflow::fetchList( $version, null, true );
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $temporaryWorkflows as $workflow )
         {
             $workflow->remove( true );
         }
         eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
                                           array( 'version' => $version ) );
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeEvents( $events = false, $id = false, $version = false )
     {
         if ( is_array( $events ) )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             for ( $i = 0; $i < count( $events ); ++$i )
             {
                 $event =& $events[$i];
                 $event->remove();
             }
+            $db->commit();
         }
         else
         {
@@ -235,8 +255,14 @@ class eZWorkflow extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function store( $store_childs = false )
     {
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( is_array( $store_childs ) or $store_childs )
         {
             if ( is_array( $store_childs ) )
@@ -250,6 +276,7 @@ class eZWorkflow extends eZPersistentObject
             }
         }
         eZPersistentObject::store();
+        $db->commit();
     }
 
     function setVersion( $version, $set_childs = false )
@@ -521,6 +548,9 @@ class eZWorkflow extends eZPersistentObject
         return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function cleanupWorkFlowProcess()
     {
         if ( isset( $this ) )

@@ -35,6 +35,7 @@
 
 include_once( 'kernel/classes/ezinformationcollection.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezmail.php' );
 include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 include_once( 'kernel/common/template.php' );
@@ -204,6 +205,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         }
     }
     $collectionAttributes = array();
+
+    $db =& eZDB::instance();
+    $db->begin();
+    
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
@@ -229,6 +234,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $collectionAttributes[$contentObjectAttribute->attribute( 'id' )] =& $collectionAttribute;
         }
     }
+    $db->commit();
 
     if ( $canCollect )
     {

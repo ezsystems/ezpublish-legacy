@@ -34,6 +34,7 @@
 // you.
 //
 
+include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 
@@ -70,6 +71,8 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     $assignments     =& eZnodeAssignment::fetchListByID( $removeList );
     $mainNodeChanged = false;
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $assignments as $assignment )
     {
         $assignmentID = $assignment->attribute( 'id' );
@@ -79,6 +82,8 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     }
     if ( $mainNodeChanged )
         eZNodeAssignment::setNewMainAssignment( $objectID, $editVersion );
+
+    $db->commit();
 
     return $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) );
 }

@@ -162,6 +162,7 @@ class eZRSSImport extends eZPersistentObject
 
     /*!
      Store Object to database
+     \note transaction unsafe.
     */
     function store()
     {

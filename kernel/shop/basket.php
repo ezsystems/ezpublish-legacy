@@ -49,7 +49,7 @@ include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $basket =& eZBasket::currentBasket();
-$basket->updatePrices();
+$basket->updatePrices(); // Update the prices. Transaction not necessary. 
 
 
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
@@ -185,7 +185,9 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
                                          'option_string' => $optionString );
             }
         }
-
+        
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $optionIDList as $optionIDItem )
         {
             $attributeID = $optionIDItem['attribute_id'];
@@ -208,6 +210,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
             $item->setAttribute( "price", $price );
             $item->store();
         }
+        $db->commit();
     }
     $module->redirectTo( "/shop/basket/" );
     return;
@@ -218,6 +221,10 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
     $i = 0;
+
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $itemIDList as $id )
     {
         $item = eZProductCollectionItem::fetch( $id );
@@ -248,6 +255,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
             $basket->removeItem( $item );
         }
     }
+    $db->commit();
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
@@ -259,6 +267,9 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $itemIDList = $http->postVariable( "ProductItemIDList" );
 
     $i = 0;
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $itemIDList as $id )
     {
         $item = eZProductCollectionItem::fetch( $id );
@@ -274,6 +285,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
 
         $i++;
     }
+    $db->commit();
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
 }
@@ -284,6 +296,8 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
     $itemIDList = $http->postVariable( "ProductItemIDList" );
 
     $i = 0;
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $itemIDList as $id )
     {
         $item = eZProductCollectionItem::fetch( $id );
@@ -292,6 +306,7 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 
         $i++;
     }
+    $db->commit();
     $fromURL = $http->sessionVariable( "FromPage" );
     $module->redirectTo( $fromURL );
 }
@@ -316,6 +331,9 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $itemIDList = $http->postVariable( "ProductItemIDList" );
 
         $i = 0;
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $itemIDList as $id )
         {
             $item = eZProductCollectionItem::fetch( $id );
@@ -324,6 +342,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 
             $i++;
         }
+        $db->commit();
     }
 
     // Fetch the shop account handler
@@ -344,6 +363,9 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $productCollectionID = $basket->attribute( 'productcollection_id' );
 
         $verifyResult =& eZProductCollection::verify( $productCollectionID  );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $basket->updatePrices();
 
         if ( $verifyResult === true )
@@ -354,6 +376,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 
             eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 
+            $db->commit();
             $module->redirectTo( '/shop/confirmorder/' );
             return;
         }
@@ -368,12 +391,12 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
                 $basket->removeItem( $item->attribute( 'id' ) );
             }
         }
+        $db->commit();
     }
 }
 $basket =& eZBasket::currentBasket();
 
 $tpl =& templateInit();
-
 if ( isset( $Params['Error'] ) )
     $tpl->setVariable( 'error', $Params['Error'] );
 

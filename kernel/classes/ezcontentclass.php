@@ -179,6 +179,7 @@ class eZContentClass extends eZPersistentObject
      \param user ID (optional), current user if not set
      \param section ID (optional), 0 if not set
      \param version number, create initial version if not set
+     \note transaction unsafe.
     */
     function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false )
     {
@@ -194,6 +195,10 @@ class eZContentClass extends eZPersistentObject
                                             $this->attribute( "id" ),
                                             $userID,
                                             $sectionID );
+                                            
+        $db =& eZDB::instance();
+        $db->begin();
+
         $object->store();
         //  $object->setName( "New " . $this->attribute( "name" ) );
         $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
@@ -215,6 +220,7 @@ class eZContentClass extends eZPersistentObject
             $attribute->instantiate( $object->attribute( 'id' ) );
         }
 
+        $db->commit();
         return $object;
     }
 
@@ -575,12 +581,16 @@ class eZContentClass extends eZPersistentObject
     {
         $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
         $temporaryClasses =& eZContentClass::fetchList( $version, true );
+        $db =& eZDb::instance();
+        $db->begin();
         foreach ( $temporaryClasses as $class )
         {
             $class->remove( true, $version );
         }
         eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
                                           array( 'version' => $version ) );
+    
+        $db->commit();
     }
 
     /*!
@@ -610,12 +620,16 @@ class eZContentClass extends eZPersistentObject
         {
             if ( is_array( $remove_childs ) )
             {
+                $db =& eZDb::instance();
+                $db->begin();
+
                 $attributes =& $remove_childs;
                 for ( $i = 0; $i < count( $attributes ); ++$i )
                 {
                     $attribute =& $attributes[$i];
                     $attribute->remove();
                 }
+                $db->commit();
             }
             else
             {
@@ -724,12 +738,15 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         if ( is_array( $attributes ) )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             for ( $i = 0; $i < count( $attributes ); ++$i )
             {
                 $attribute =& $attributes[$i];
                 $attribute->remove();
                 $contentObject->purge();
             }
+            $db->commit();
         }
         else
         {
@@ -759,13 +776,17 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function store( $store_childs = false, $fieldFilters = null )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         if ( is_array( $store_childs ) or $store_childs )
         {
             if ( is_array( $store_childs ) )
                 $attributes =& $store_childs;
             else
                 $attributes =& $this->fetchAttributes();
-            for ( $i = 0; $i < count( $attributes ); ++$i )
+
+           for ( $i = 0; $i < count( $attributes ); ++$i )
             {
                 $attribute =& $attributes[$i];
                 if ( is_object ( $attribute ) )
@@ -779,6 +800,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->store();
 
         eZPersistentObject::store( $fieldFilters );
+        $db->commit();
     }
 
     /*!
@@ -827,6 +849,9 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function storeDefined( &$attributes )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
         eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_DEFINED );
         eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_TEMPORARY );
         $this->remove( false );
@@ -874,6 +899,7 @@ You will need to change the class of the node by using the swap functionality.' 
         eZContentObject::expireAllCache();
 
         eZPersistentObject::store();
+        $db->commit();
     }
 
     function setVersion( $version, $set_childs = false )

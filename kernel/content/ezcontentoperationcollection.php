@@ -236,6 +236,9 @@ class eZContentOperationCollection
             $object->setAttribute( 'published', mktime() );
         }
 
+        $db =& eZDB::instance();
+        $db->begin();
+        
         $object->setAttribute( 'modified', mktime() );
         $object->store();
 
@@ -354,6 +357,7 @@ class eZContentOperationCollection
             eZDebug::writeDebug( "will  update section ID " );
             eZContentOperationCollection::updateSectionID( $objectID, $versionNum );
         }
+        $db->commit();
 
         // Clear cache after publish
         include_once( 'kernel/classes/ezcontentobject.php' );
@@ -414,13 +418,16 @@ class eZContentOperationCollection
                     {
                         $oldSectionID = $object->attribute( 'section_id' );
                         $object->setAttribute( 'section_id', $newSectionID );
+
+                        $db =& eZDB::instance();
+                        $db->begin();
                         $object->store();
                         $mainNodeID = $object->attribute( 'main_node_id' );
                         if ( $mainNodeID > 0 )
                             eZContentObjectTreeNode::assignSectionToSubTree( $mainNodeID,
                                                                              $newSectionID,
                                                                              $oldSectionID );
-
+                        $db->commit();
                     }
                 }
             }
@@ -442,6 +449,9 @@ class eZContentOperationCollection
             $nodeAssignment =& $curentVersionNodeAssignments[$key];
             $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
         }
+        
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( array_keys( $assignedExistingNodes )  as $key )
         {
             $node =& $assignedExistingNodes[$key];
@@ -451,8 +461,12 @@ class eZContentOperationCollection
                 eZContentObjectTreeNode::removeSubtrees( array( $node->attribute( 'node_id' ) ), $moveToTrash );
             }
         }
+        $db->commit();
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function registerSearchObject( $objectID, $versionNum )
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
@@ -483,7 +497,9 @@ class eZContentOperationCollection
         }
     }
 
-
+    /*!
+     \note transaction unsafe.
+     */
     function createNotificationEvent( $objectID, $versionNum )
     {
         include_once( 'kernel/classes/notification/eznotificationevent.php' );

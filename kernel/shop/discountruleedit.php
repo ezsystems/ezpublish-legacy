@@ -246,6 +246,8 @@ foreach ( $discountRuleSelectedProducts as $productID )
 if ( $http->hasPostVariable( 'StoreButton' ) )
 {
     // remove products stored in the database and store them again
+    $db =& eZDB::instance();
+    $db->begin();
     if ( $discountRuleID )
     {
         $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
@@ -294,6 +296,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     }
 
     $discountRule->store();
+    $db->commit();
     return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 
     // we changed prices => remove content cache

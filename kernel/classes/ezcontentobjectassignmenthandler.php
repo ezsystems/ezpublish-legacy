@@ -112,6 +112,9 @@ class eZContentObjectAssignmentHandler
         return false;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function setupAssignments( $parameters )
     {
         $parameters = array_merge( array( 'group-name' => false,

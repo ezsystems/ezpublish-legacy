@@ -89,6 +89,9 @@ class eZContentClassClassGroup extends eZPersistentObject
         return new eZContentClassClassGroup( $row );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &remove( $contentclass_id, $contentclass_version, $group_id )
     {
         if ( $contentclass_version == null )
@@ -106,12 +109,18 @@ class eZContentClassClassGroup extends eZPersistentObject
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeGroupMembers( $group_id )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
                                           array( "group_id" => $group_id ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &removeClassMembers( $contentclass_id, $contentclass_version )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),

@@ -95,6 +95,9 @@ else if ( $Module->isCurrentAction( 'BrowseImage' ) )
 
 if ( $http->hasPostVariable( 'Item_Count' ) )
 {
+
+    $db =& eZDB::instance();
+    $db->begin();
     for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
     {
         if ( $http->hasPostVariable( 'SourceBrowse_'.$itemCount ) )
@@ -125,6 +128,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
             break;
         }
     }
+    $db->commit();
 }
 
 if ( is_numeric( $RSSExportID ) )
@@ -165,6 +169,8 @@ if ( is_numeric( $RSSExportID ) )
         $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_VALID );
         if ( $rssExport )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             $rssItems = $rssExport->fetchItems();
             $rssExport->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
             $rssExport->store();
@@ -174,6 +180,7 @@ if ( is_numeric( $RSSExportID ) )
                 $rssItem->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
                 $rssItem->store();
             }
+            $db->commit();
         }
         else
         {
@@ -212,6 +219,10 @@ else // New RSSExport
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
 
+
+    $db =& eZDB::instance();
+    $db->begin();
+
     // Create default rssExport object to use
     $rssExport = eZRSSExport::create( $user_id );
     $rssExport->store();
@@ -220,6 +231,8 @@ else // New RSSExport
     // Create One empty export item
     $rssExportItem = eZRSSExportItem::create( $rssExportID );
     $rssExportItem->store();
+
+    $db->commit();
 }
 
 $tpl =& templateInit();

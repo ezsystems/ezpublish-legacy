@@ -630,12 +630,14 @@ class eZDataType
     }
 
     /*!
-     Perfoms necessary actions with attribute data after object is published,
+     Performs necessary actions with attribute data after object is published,
      it means that you have access to published nodes.
      \return True if the value was stored correctly.
      \note The method is entirely up to the datatype, for instance
            it could reuse the available types in the the attribute or
            store in a separate object.
+
+     \note Might be transaction unsafe.
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
@@ -670,6 +672,9 @@ class eZDataType
     }
 
 
+    /*!
+     \note transaction unsafe.
+     */
     function storeDefinedClassAttribute( &$classAttribute )
     {
     }

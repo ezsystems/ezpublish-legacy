@@ -375,6 +375,10 @@ class eZBinaryFileType extends eZDataType
             $binary =& eZBinaryFile::create( $attributeID, $objectVersion );
 
         $httpFile->setMimeType( $mimeData['name'] );
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         if ( !$httpFile->store( "original", false, false ) )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
@@ -390,8 +394,10 @@ class eZBinaryFileType extends eZDataType
         $binary->setAttribute( "mime_type", $mimeData['name'] );
 
         $binary->store();
+        $db->commit();
 
         $objectAttribute->setContent( $binary );
+
         return true;
     }
 

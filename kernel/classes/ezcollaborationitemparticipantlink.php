@@ -120,6 +120,9 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return new eZCollaborationItemParticipantLink( $row );
     }
 
+    /*!
+     \note transaction unsafe
+     */
     function setLastRead( $collaborationID, $userID = false, $timestamp = false )
     {
         if ( $userID === false )

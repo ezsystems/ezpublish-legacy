@@ -172,15 +172,18 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \static
      Creates a new bookmark item for user \a $userID with node id \a $nodeID and name \a $nodeName.
      The new item is returned.
+     \note transaction unsafe.
     */
     function &createNew( $userID, $nodeID, $nodeName )
     {
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID and user_id=$userID" );
         $bookmark = new eZContentBrowseBookmark( array( 'user_id' => $userID,
                                                         'node_id' => $nodeID,
                                                         'name' => $nodeName ) );
         $bookmark->store();
+        $db->commit();
         return $bookmark;
     }
 
@@ -206,6 +209,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \static
      Removes all bookmark entries for all users.
+     \note transaction unsafe.
     */
     function cleanup()
     {
@@ -216,6 +220,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \static
      Removes all bookmark entries for node.
+     \note transaction unsafe.
     */
     function removeByNodeID( $nodeID )
     {

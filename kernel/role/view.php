@@ -89,6 +89,9 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     $selectedObjectIDArray = eZContentBrowse::result( 'AssignRole' );
 
     $assignedUserIDArray =& $role->fetchUserID();
+
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
         if ( !in_array(  $objectID, $assignedUserIDArray ) )
@@ -96,6 +99,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
             $role->assignToUser( $objectID );
         }
     }
+    $db->commit();
 
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -107,10 +111,13 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
 {
     $idArray = $http->postVariable( "IDArray" );
 
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( $idArray as $id )
     {
         $role->removeUserAssignmentByID( $id );
     }
+    $db->commit();
 
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );

@@ -37,6 +37,7 @@ $Module =& $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
 
 include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http =& eZHTTPTool::instance();
 
@@ -94,6 +95,8 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     unset( $classID );
 
 
+    $db =& eZDB::instance();
+    $db->begin();
     $newObject =& $object->copy( $allVersions );
 
     $curVersion        =& $newObject->attribute( 'current_version' );
@@ -122,6 +125,7 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     $newNode =& $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
 
+    $db->commit();
     return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
 }
 

@@ -2554,6 +2554,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Will assign a section to the current node and all child objects.
      Only main node assignments will be updated.
+     \note transaction unsafe.
     */
     function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
     {
@@ -2591,8 +2592,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filterPart = " section_id = '$oldSectionID' and ";
         }
 
+        $db->begin();
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart id IN ( $inSQL )" );
         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart contentobject_id IN ( $inSQL )" );
+        $db->commit();
     }
 
     /*!
@@ -2603,6 +2606,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $objectID The ID of the object that all nodes belong to
      \param $version The version of the object to update node assignments, use \c false for currently published version.
      \param $parentMainNodeID The ID of the parent node of the current main placement
+
+     \note transaction unsafe.
     */
     function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID )
     {
@@ -2612,6 +2617,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $version = (int)$version;
 
         $db =& eZDB::instance();
+        $db->begin();
         $db->query( "UPDATE ezcontentobject_tree SET main_node_id=$mainNodeID WHERE contentobject_id=$objectID" );
         if ( !$version )
         {
@@ -2620,6 +2626,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
         $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node!=$parentMainNodeID" );
+        $db->commit();
+
     }
 
     function &fetchByCRC( $pathStr )
@@ -2965,6 +2973,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $object;
     }
 
+    /*!
+     Add a child to the object tree.
+     \note transaction unsafe.
+    */
     function &addChild( $contentobjectID, $nodeID = 0, $asObject = false )
     {
         if ( $nodeID == 0 )
@@ -2986,12 +2998,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode =& eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
+
+        $db->begin();
         $insertedNode->store();
         $insertedID = $insertedNode->attribute( 'node_id' );
         $newNodePath = $parentPath . $insertedID . '/';
         $insertedNode->setAttribute( 'path_string', $newNodePath );
-
         $insertedNode->store();
+        $db->commit();
+
         if ( $asObject )
         {
             return $insertedNode;
@@ -3003,7 +3018,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \return a url alias for the current node. It will genereate a unique alias.
+     \return an url alias for the current node. It will generate a unique alias.
     */
     function pathWithNames( $nodeID = 0 )
     {
@@ -3159,6 +3174,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $path . '__' . $uniqueNumber;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updateURLAlias()
     {
         $hasChanged = 0;
@@ -3166,6 +3184,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $newPathString = $this->pathWithNames();
 
         $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( get_class( $existingUrlAlias ) == 'ezurlalias' )
         {
             $alias =& $existingUrlAlias;
@@ -3212,10 +3233,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $hasChanged++;
         $this->setAttribute( 'path_identification_string', $newPathString );
         $this->store();
+        $db->commit();
 
         return $hasChanged;
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function updateSubTreePath()
     {
         include_once( 'kernel/classes/ezurlalias.php' );
@@ -3237,6 +3262,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Remove existing aliases if they are forwarding aliases
         $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
+
+        $db =& eZDB::instance();
+        $db->begin();
         if ( get_class( $existingUrlAlias ) == 'ezurlalias' )
         {
             $alias =& $existingUrlAlias;
@@ -3301,10 +3329,13 @@ WHERE
         eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
 
         eZURLAlias::expireWildcards();
+        $db->commit();
     }
 
     /*!
       Removes the current node.
+      
+      \note transaction unsafe.
     */
     function remove( $nodeID = 0 )
     {
@@ -3328,6 +3359,9 @@ WHERE
             return;
         }
 
+        $db =& eZDB::instance();
+        $db->begin();
+        
         eZNodeAssignment::remove( $node->attribute( 'parent_node_id' ),
                                   $node->attribute( 'contentobject_id' ) );
 
@@ -3337,7 +3371,6 @@ WHERE
 
         $pathString = " path_string like '$childrensPath%' ";
 
-        $db =& eZDB::instance();
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
@@ -3398,6 +3431,20 @@ WHERE
         // Clean up tip-a-friend counter
         include_once( 'kernel/classes/eztipafriendcounter.php' );
         eZTipafriendCounter::remove( $nodeID );
+
+        $db->commit();
+
+        // Clean up template cache bocks
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
+
+        // Clean up content view cache
+        $ini =& eZINI::instance();
+        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+        if ( $viewCacheEnabled )
+        {
+            include_once( 'kernel/classes/ezcontentcache.php' );
+            eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
+        }
     }
 
     /*!
@@ -3420,6 +3467,8 @@ WHERE
      -- object_node_count  - The number of nodes the object has (before removal)
      -- sole_node_count    - The number of nodes in the subtree (excluding current) that does
                              not have multiple locations.
+
+     \note transaction unsafe.
     */
     function subtreeRemovalInformation( $deleteIDArray )
     {
@@ -3438,6 +3487,8 @@ WHERE
                       but instead return information on what will happen
                       if it is removed. See subtreeRemovalInformation() for the
                       returned structure.
+
+     \note transaction unsafe.
     */
     function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
     {
@@ -3451,6 +3502,9 @@ WHERE
         $totalChildCount = 0;
         $totalLoneNodeCount = 0;
         $canRemoveAll = true;
+
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
             $node =& eZContentObjectTreeNode::fetch( $deleteID );
@@ -3564,6 +3618,8 @@ WHERE
                            'new_main_node_id' => $newMainNodeID );
             $deleteResult[] = $item;
         }
+        $db->commit();
+
 
         if ( !$infoOnly )
             return true;
@@ -3585,6 +3641,7 @@ WHERE
                          the object will be purged from the system.
 
      \note This uses remove() to do the actual node removal but has some extra logic
+     \note transaction unsafe.
     */
     function removeNodeFromTree( $moveToTrash = true )
     {
@@ -3607,17 +3664,23 @@ WHERE
                 }
 
                 // We need to change the main node ID before we remove the current node
+                $db =& eZDB::instance();
+                $db->begin();
                 eZContentObjectTreeNode::updateMainNodeID( $newMainNode->attribute( 'node_id' ),
                                                            $object->attribute( 'id' ),
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
                 eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
                 $this->remove();
+                $db->commit();
             }
             else
             {
                 // This is the last assignment so we remove the object too
                 eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+
+                $db =& eZDB::instance();
+                $db->begin();
                 $this->remove();
                 if ( $moveToTrash )
                 {
@@ -3627,6 +3690,7 @@ WHERE
                 {
                     $object->purge();
                 }
+                $db->commit();
             }
         }
         else
@@ -3707,6 +3771,7 @@ WHERE
 
     /*!
       Moves the node to the given node.
+      \note transaction unsafe.
     */
     function move( $newParentNodeID, $nodeID = 0 )
     {
@@ -3751,6 +3816,7 @@ WHERE
                            WHERE
                                  $subStringString = '$childrensPath' OR
                                  path_string = '$oldPath' ";
+            $db->begin();
             $db->query( $moveQuery );
             $db->query( $moveQuery1 );
 
@@ -3782,6 +3848,7 @@ WHERE
             // Update "is_invisible" node attribute.
             $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
             eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
+            $db->commit();
         }
     }
 
@@ -4265,6 +4332,9 @@ WHERE
         return $parentArr[0]['parent_node_id'];
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function deleteNodeWhereParent( $node, $id )
     {
         eZContentObjectTreeNode::remove( eZContentObjectTreeNode::findNode( $node, $id ) );
@@ -4356,6 +4426,8 @@ WHERE
      \param version
      \param isMain
      \param options
+
+     \note transaction unsafe.
     */
     function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
     {
@@ -4447,6 +4519,7 @@ WHERE
 
     /*!
      Update and store modified_subnode value for this node and all super nodes.
+     \note transaction unsafe.
     */
     function updateAndStoreModified()
     {
@@ -4467,6 +4540,9 @@ WHERE
         }
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function store()
     {
         eZPersistentObject::storeObject( $this );
@@ -4653,6 +4729,7 @@ WHERE
      after content/move or content/copy.
      That's why $modifyRootNode argument is used.
 
+     \note transaction unsafe.
     */
     function &hideSubTree( &$node, $modifyRootNode = true )
     {
@@ -4661,6 +4738,8 @@ WHERE
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
         {
+            $db->begin();
+
             // 1) Mark root node as hidden and invisible.
             if ( $modifyRootNode )
                 $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
@@ -4668,6 +4747,8 @@ WHERE
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
             $nodePath =& $node->attribute( 'path_string' );
             $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1 WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
+
+            $db->commit();
         }
         else
         {
@@ -4697,6 +4778,7 @@ WHERE
         Mark root node as not hidden.
      }
 
+     \note transaction unsafe.
     */
     function &unhideSubTree( &$node, $modifyRootNode = true )
     {
@@ -4709,6 +4791,7 @@ WHERE
 
         if ( ! $parentNode->attribute( 'is_invisible' ) ) // if parent node is visible
         {
+            $db->begin();
             // 1) Mark root node as not hidden and visible.
             if ( $modifyRootNode )
                 $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
@@ -4724,6 +4807,7 @@ WHERE
 
             // 2.2) Mark those children as visible which are not under nodes in $hiddenChildren
             $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0 WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
+            $db->commit();
         }
         else
         {
@@ -4761,16 +4845,18 @@ WHERE
             $parentNodeIsVisible =& $parentNode->attribute( 'is_invisible' );
             $nodeID                 =& $node->attribute( 'node_id' );
             $db                     =& eZDB::instance();
+            $db->begin();
             $db->query( "UPDATE ezcontentobject_tree SET is_invisible=$parentNodeIsVisible WHERE node_id=$nodeID" );
 
-            if ( !$recursive )
-                return;
-
-            // update visibility for children of the node
-            if( $parentNodeIsVisible )
-                eZContentObjectTreeNode::hideSubTree( $node, $modifyRootNode = false );
-            else
-                eZContentObjectTreeNode::unhideSubTree( $node, $modifyRootNode = false );
+            if ( $recursive )
+            {
+                // update visibility for children of the node
+                if( $parentNodeIsVisible )
+                    eZContentObjectTreeNode::hideSubTree( $node, $modifyRootNode = false );
+                else
+                    eZContentObjectTreeNode::unhideSubTree( $node, $modifyRootNode = false );
+            }
+            $db->commit();
         }
     }
 

@@ -71,10 +71,13 @@ class eZWorkflowFunctions
         }
         else
         {
+            $db =& eZDB::instance();
+            $db->begin();
             foreach(  $selectedGroup as $group_id )
             {
                 eZWorkflowGroupLink::remove( $workflowID, $workflowVersion, $group_id );
             }
+            $db->commit();
         }
         return true;
     }

@@ -187,6 +187,7 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      Generates the md5 for the alias and stores the values.
+     \note transaction unsafe.
     */
     function store()
     {
@@ -205,17 +206,18 @@ class eZURLAlias extends eZPersistentObject
     {
         $id = $this->attribute( 'id' );
         $db =& eZDB::instance();
-        $sql = "DELETE FROM ezurlalias
- WHERE
-     forward_to_id = '" . $db->escapeString( $id ) . "'";
+        $db->begin();
+        $sql = "DELETE FROM ezurlalias WHERE forward_to_id = '" . $db->escapeString( $id ) . "'";
         $db->query( $sql );
         $this->remove();
+        $db->commit();
     }
 
     /*!
      \static
      Makes sure all aliases which are children of the alias \a $oldPathString is updated
      to have the correct \a $newPathString.
+     \note transaction unsafe.
     */
     function updateChildAliases( $newPathString, $oldPathString )
     {
@@ -232,6 +234,7 @@ WHERE
     is_wildcard = 0 AND
     source_url LIKE '$oldPathStringText/%'";
 
+        $db->begin();
         $db->query( $sql );
 
         $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
@@ -256,10 +259,12 @@ WHERE
     source_url like '$newPathStringText%'";
 
         $db->query( $sql );
+        $db->commit();
     }
 
     /*!
      Removes all wildcards that matches the base URL \a $baseURL.
+     \note transaction unsafe.
     */
     function cleanupWildcards( $baseURL )
     {
@@ -274,6 +279,7 @@ WHERE
 
     /*!
      Removes forwarding urls where source_url match \a $oldURL.
+     \note transaction unsafe.
     */
     function cleanupForwardingURLs( $oldURL )
     {
@@ -289,6 +295,7 @@ WHERE
     /*!
      Updates all forwards urls that originally points to \a $oldForwardID
      to point to correct url \a $newForardID.
+     \note transaction unsafe.
     */
     function updateForwardID( $newForwardID, $oldForwardID )
     {

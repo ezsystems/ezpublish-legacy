@@ -176,6 +176,9 @@ class eZNotificationCollection extends eZPersistentObject
                                                            'transport' => $transport ) );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function removeEmpty()
     {
         $db =& eZDB::instance();
@@ -190,21 +193,26 @@ class eZNotificationCollection extends eZPersistentObject
 
         $idArray =& $db->arrayQuery( $query );
 
+        $db->begin();
         foreach ( $idArray as $id )
         {
             eZPersistentObject::removeObject( eZNotificationCollection::definition(), array( 'id' => $id['id'] ) );
         }
+        $db->commit();
     }
 
     /*!
      \static
      Removes all notification collections.
+     \note transaction unsafe.
     */
     function cleanup()
     {
         $db =& eZDB::instance();
+        $db->begin();
         eZNotificationCollectionItem::cleanup();
         $db->query( "DELETE FROM eznotificationcollection" );
+        $db->commit();
     }
 }
 

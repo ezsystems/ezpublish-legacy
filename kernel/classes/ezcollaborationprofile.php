@@ -119,6 +119,9 @@ class eZCollaborationProfile extends eZPersistentObject
                                                 $asObject );
     }
 
+    /*!
+     \note transaction unsafe.
+     */
     function &instance( $userID = false )
     {
         if ( $userID === false )

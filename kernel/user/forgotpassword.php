@@ -68,6 +68,10 @@ if ( strlen( $hashKey ) == 32 )
 
         $userToSendEmail =& $user;
         $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
+
+        $db =& eZDB::instance();
+        $db->begin();
+
         $user->store();
 
         include_once( "kernel/common/template.php" );
@@ -101,6 +105,7 @@ if ( strlen( $hashKey ) == 32 )
         $tpl->setVariable( 'generated', true );
         $tpl->setVariable( 'email', $email );
         $forgotPasswdObj->remove();
+        $db->commit();
     }
     else
     {
