@@ -66,8 +66,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
                       $name, $os, $filename, $subdirectory,
                       &$content, $installParameters )
     {
-        print( "name=$name, os=$os, filename=$filename, subdirectory=$subdirectory, $content\n" );
-//         return false;
         $className = $content->elementTextContentByName( 'name' );
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
@@ -159,6 +157,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         foreach ( $parameters['class-list'] as $classItem )
         {
             $classID = $classItem['id'];
+            $classIdentifier = $classItem['identifier'];
             $classValue = $classItem['value'];
             $cli->notice( "Adding class $classValue to package" );
             unset( $class );
@@ -171,11 +170,11 @@ class eZContentClassPackageHandler extends eZPackageHandler
             if ( !$classNode )
                 continue;
             $package->appendInstall( 'ezcontentclass', false, false, true,
-                                     'class-' . $classID, 'ezcontentclass',
+                                     'class-' . $classIdentifier, 'ezcontentclass',
                                      array( 'content' => $classNode ) );
             $package->appendProvides( $this->handlerType(), 'contentclass', $class->attribute( 'identifier' ) );
             $package->appendInstall( 'ezcontentclass', false, false, false,
-                                     'class-' . $classID, 'ezcontentclass',
+                                     'class-' . $classIdentifier, 'ezcontentclass',
                                      array( 'content' => false ) );
         }
     }
@@ -222,8 +221,13 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                 $error = true;
                             }
                             else
+                            {
+                                unset( $class );
+                                $class =& eZContentClass::fetch( $classID );
                                 $classList[] = array( 'id' => $classID,
+                                                      'identifier' => $class->attribute( 'identifier' ),
                                                       'value' => $classID );
+                            }
                         }
                         else
                         {
@@ -234,8 +238,13 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                 $error = true;
                             }
                             else
+                            {
+                                unset( $class );
+                                $class =& eZContentClass::fetch( $realClassID );
                                 $classList[] = array( 'id' => $realClassID,
+                                                      'identifier' => $class->attribute( 'identifier' ),
                                                       'value' => $classID );
+                            }
                         }
                     }
                     if ( $error )
@@ -385,6 +394,31 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributesNode->appendChild( $attributeNode );
         }
         return $classNode;
+    }
+
+    function contentclassDirectory()
+    {
+        return 'ezcontentclass';
+    }
+
+    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    {
+        if ( $installNode->attributeValue( 'type' ) == 'ezcontentclass' )
+        {
+            if ( $export )
+            {
+                $classFile = $installItem['filename'] . '.xml';
+                if ( $installItem['sub-directory'] )
+                    $classFile = $installItem['sub-directory'] . '/' . $classFile;
+                $originalPath = $package->path() . '/' . $classFile;
+                $exportPath = $export['path'];
+                $installDirectory = $exportPath . '/' . eZContentClassPackageHandler::contentclassDirectory();
+                if ( !file_exists(  $installDirectory ) )
+                    eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
+                print( "eZFileHandler::copy( $originalPath, $installDirectory . '/' . " . $installItem['filename'] . " )" );
+                eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] . '.xml' );
+            }
+        }
     }
 }
 

@@ -894,38 +894,66 @@ class eZPackage
         return $archivePath;
     }
 
-    function import( $archiveName, $packageName )
+    function &import( $archiveName, $packageName )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
-        $tempPath = $tempDirPath . '/' . $packageName;
-        eZPackage::removePackageFiles( $tempPath );
-        if ( !file_exists( $tempPath ) )
+        if ( is_dir( $archiveName ) )
         {
-            eZDir::mkdir( $tempPath, eZDir::directoryPermission(), true );
+//             $archivePath = $archiveName;
+//             $package =& eZPackage::fetch( $packageName, $archivePath );
+//             if ( $package )
+//             {
+//             }
+            eZDebug::writeError( "Importing from directory is not supported yet." );
+            return false;
         }
-
-        include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
-
-        $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
-        $fileList = array();
-        $fileList[] = eZPackage::definitionFilename();
-        $archive->extractList( $fileList, $tempPath, '' );
-
-        $package =& eZPackage::fetch( $packageName, $tempDirPath );
-        eZPackage::removePackageFiles( $tempPath );
-        if ( $package )
+        else
         {
-            $packageName = $package->attribute( 'name' );
-            unset( $archive );
-            unset( $package );
+            $archivePath = $tempDirPath . '/' . $packageName;
+            eZPackage::removePackageFiles( $archivePath );
+            if ( !file_exists( $archivePath ) )
+            {
+                eZDir::mkdir( $archivePath, eZDir::directoryPermission(), true );
+            }
+
+            include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
 
             $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
-            $tempPath = eZPackage::temporaryImportPath() . '/' . $packageName;
-            $archive->extractModify( $tempPath, '' );
+            $fileList = array();
+            $fileList[] = eZPackage::definitionFilename();
+            if ( !$archive->extractList( $fileList, $archivePath, '' ) )
+            {
+                eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
+                return false;
+            }
 
-            $package =& eZPackage::fetch( $packageName, $tempDirPath );
+            $package =& eZPackage::fetch( $packageName, $archivePath );
+            eZPackage::removePackageFiles( $archivePath );
+            if ( $package )
+            {
+                $packageName = $package->attribute( 'name' );
+                unset( $archive );
+                unset( $package );
 
-//             eZPackage::removePackageFiles( $tempPath );
+                $archivePath = eZPackage::repositoryPath();
+                $archivePackagePath = $archivePath . '/' . $packageName;
+                if ( !file_exists( $archivePackagePath ) )
+                {
+                    eZDir::mkdir( $archivePackagePath, eZDir::directoryPermission(), true );
+                }
+                $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
+                $archive->extractModify( $archivePackagePath, '' );
+
+                $package =& eZPackage::fetch( $packageName, $archivePath );
+                if ( !$package )
+                {
+                    eZDebug::writeError( "Failed loading imported package $packageName from $archivePath" );
+                }
+            }
+            else
+            {
+                eZDebug::writeError( "Failed loading temporary package $packageName from $arhivePath" );
+            }
         }
 
         return $package;
@@ -1252,12 +1280,19 @@ class eZPackage
         $packages = array();
         if ( file_exists( $path ) )
         {
+            $fileList = array();
             $dir = opendir( $path );
             while( ( $file = readdir( $dir ) ) !== false )
             {
                 if ( $file == '.' or
                      $file == '..' )
                     continue;
+                $fileList[] = $file;
+            }
+            closedir( $dir );
+            sort( $fileList );
+            foreach ( $fileList as $file )
+            {
                 $dirPath = $path . '/' . $file;
                 if ( !is_dir( $dirPath ) )
                     continue;
@@ -1286,7 +1321,6 @@ class eZPackage
                     $packages[] =& $package;
                 }
             }
-            closedir( $dir );
         }
         return $packages;
     }
@@ -1336,11 +1370,13 @@ class eZPackage
                         else
                             $filepath = $filename . '.xml';
 
+                        $filepath = $this->path() . '/' . $filepath;
+
                         $dom =& $this->fetchDOMFromFile( $filepath );
                         if ( $dom )
                             $content =& $dom->root();
                         else
-                            print( "Failed fetching dom from file $filepath\n" );
+                            eZDebug::writeError( "Failed fetching dom from file $filepath" );
                     }
                 }
                 $installResult = $handler->install( $this, $type, $parameters,
