@@ -70,7 +70,7 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it something nice like 'ezpublish'</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it something nice like 'ezpublish'</li>
 
 	<li>Open a browser and point it to the server where you extracted ezpublish with the correct url</li>
 	<li>Follow the setup guide instructions</li>
@@ -89,7 +89,7 @@
 </p>
 
 <ol>
-	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the windows version)</li>
+	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the Windows version)</li>
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
 	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
@@ -102,9 +102,14 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot</li>
 	<li>Open a browser and point it to the server where you extracted ezpublish</li>
 	<li>Follow the setup guide instructions</li>
+	<li>To access the user site use this URL: http://your_host/index.php/user</li>
 </ol>
+
+<p>
+	See the <a href="siteaccess">site access section</a> for more info on changing the way you access the user/admin site.
+</p>
 
 <p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
