@@ -399,6 +399,11 @@ MatchFile=embed/poll.tpl
 Subdir=templates
 Match[class_identifier]=poll
 
+[poll_result]
+Source=content/collectedinfo/poll.tpl
+MatchFile=poll_result.tpl
+Subdir=templates
+
 # General templates
 
 [factbox]

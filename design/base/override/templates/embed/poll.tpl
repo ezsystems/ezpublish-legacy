@@ -7,8 +7,18 @@
         <input type="hidden" name="ContentObjectID" value="{$object.id}" />
         <input type="hidden" name="ViewMode" value="full" />
 
-        {attribute_view_gui attribute=$object.data_map.question}
+        {let attribute=$object.data_map.question
+             option_id=cond( is_set( $#collection_attributes[$attribute.id]), $#collection_attributes[$attribute.id].data_int,false() )}
 
+        <h4>{$attribute.content.name}</h4>
+
+        {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
+            <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$OptionList:item.id}"
+           {section show=$OptionList:item.id|eq($option_id)}checked="checked"{/section}
+           />{$OptionList:item.value}<br />
+        {/section}
+
+        {/let}
         <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
 
         </form>

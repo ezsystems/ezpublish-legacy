@@ -369,11 +369,10 @@ div#leftmenu-design ul
 
 div#leftmenu-design li.menu-level-0
 { 
+    width: 140px;
     text-decoration: none;
-    width: 150px;
     border-top: 1px solid #99ccff;
-    padding-top: 4px;
-    padding-bottom: 2px;
+    padding: 4px 0 2px 10px;
     list-style-type: none;
 }
 
@@ -384,7 +383,6 @@ div#leftmenu-design li.menu-level-0 a
     font-size: 9px;
     font-weight: bold;
     text-decoration: none;
-    margin-left: 10px;
 }
 
 div#leftmenu-design li.menu-level-0 a:hover
@@ -403,6 +401,7 @@ div#leftmenu-design li.menu-level-1
     width: 140px;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 10px;
     list-style-type: none;
 }
 
@@ -413,7 +412,6 @@ div#leftmenu-design li.menu-level-1 a
     font-size: 9px;
     font-weight: bold;
     text-decoration: none;
-    margin-left: 10px;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover

@@ -27,7 +27,9 @@
            </li>
 
         {/section}
-        <li class="menu-level-0"></li>
+        {section show=$docs|count}
+            <li class="menu-level-0"></li>
+        {/section}
         </ul>
 
         {section show=$depth|gt(1) loop=$depth|sub(1)}
