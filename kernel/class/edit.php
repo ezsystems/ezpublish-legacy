@@ -79,6 +79,10 @@ if ( is_numeric( $ClassID ) )
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
         $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        if( is_null( $class ) ) // Class does not exist
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
         $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
         foreach ( $classGroups as $classGroup )
         {
