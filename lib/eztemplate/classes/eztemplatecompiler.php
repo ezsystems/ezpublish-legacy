@@ -1181,10 +1181,7 @@ class eZTemplateCompiler
                         if ( isset( $hints[$operatorName] ) and
                              isset( $hints[$operatorName]['input-as-parameter'] ) )
                         {
-                            if ( eZTemplateNodeTool::isStaticElement( $newElementList ) )
-                            {
-                                $inputAsParameter = $hints[$operatorName]['input-as-parameter'];
-                            }
+                            $inputAsParameter = $hints[$operatorName]['input-as-parameter'];
                         }
                     }
                     if ( $hasTransformationSupport and
