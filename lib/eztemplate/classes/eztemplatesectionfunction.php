@@ -497,7 +497,7 @@ class eZTemplateSectionFunction
 //                                     'last' => false );
 //             if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
 //                 $variableValue['last'] =& $tpl->variable( $variableIterator, $name );
-            $tpl->setVariable( $variableIterator, $variableValue, $name );
+            $tpl->setVariableRef( $variableIterator, $variableValue, $name );
         }
         else
         {
