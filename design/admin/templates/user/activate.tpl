@@ -14,9 +14,9 @@
 
 <p>
 {section show=$account_activated}
-{'Your account is now activated.'|i18n('design/standard/user')}
+{'Your account is now activated.'|i18n('design/admin/user')}
 {section-else}
-{'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/standard/user')}
+{'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/admin/user')}
 {/section}
 </p>
 

@@ -25,7 +25,7 @@
 
 {section-else}
 
-<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/admin/content/feedback')}</p>
+<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/admin/content/collectedinfo/feedback')}</p>
 
 {/section}
 
@@ -41,7 +41,7 @@
 
 <p/>
 
-<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/admin/content/feedback')}</a>
+<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/admin/content/collectedinfo/feedback')}</a>
 
 </div>
 
