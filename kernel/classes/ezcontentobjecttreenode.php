@@ -708,7 +708,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                    eZDebug::writeWarning( "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
 
@@ -1650,7 +1650,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                    eZDebug::writeWarning( "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
             if ( count( $classIDArray ) > 0  )
