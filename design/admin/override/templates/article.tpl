@@ -1,4 +1,4 @@
-{* Folder admin view template *}
+{* Article admin view template *}
 
 {default with_children=true()
          is_editable=true()
@@ -15,30 +15,25 @@
 
 
 <div class="objectheader">
-    <h2>Article</h2>
+    <h2>{'Article'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash( xhtml )}</h1>
+    <h1>{$node_name|wash}</h1>
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <div class="imageright">
-    {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
+        {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
     </div>
+    
     {attribute_view_gui attribute=$node.object.data_map.intro}
     {attribute_view_gui attribute=$node.object.data_map.body}
 
     <div class="buttonblock">
-    {section show=$is_editable}
-        {switch match=$content_object.can_edit}
-        {case match=1}
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
-        {/case}
-        {case match=0}
-        {/case}
-        {/switch}
+    {section show=and($is_editable,$content_object.can_edit)}
+        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     <input class="button" type="submit" name="ActionPreview" value="Preview" />
     <input class="button" type="submit" name="ActionRemove" value="Remove" />
@@ -53,7 +48,6 @@
     <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
     </div>
-{section-else}
 {/section}
 {/let}
 
@@ -65,6 +59,7 @@
     {/section}
 {/section}
 
+{*
 <div class="buttonblock">
     {switch match=$content_object.can_create}
     {case match=1}
@@ -83,6 +78,7 @@
     <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
     <input type="hidden" name="ViewMode" value="full" />
 </div>
+*}
 
 {section show=$with_children}
     {let name=Child
@@ -218,7 +214,6 @@
 
 
 {/section}
-
 
 {section show=$is_standalone}
     </form>

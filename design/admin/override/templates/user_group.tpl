@@ -9,32 +9,25 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}
 
-
 {section show=$is_standalone}
     <form method="post" action={"content/action"|ezurl}>
 {/section}
 
 <div class="objectheader">
-    <h2>User group</h2>
+    <h2>{'User group'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash( xhtml )}</h1>
+    <h1>{$node_name|wash}</h1>
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>
 
     <div class="buttonblock">
-    {section show=$is_editable}
-        {switch match=$content_object.can_edit}
-        {case match=1}
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
-        {/case}
-        {case match=0}
-        {/case}
-        {/switch}
+    {section show=and($is_editable,$content_object.can_edit)}
+        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     </div>
 </div>
@@ -45,7 +38,6 @@
     <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
     </div>
-{section-else}
 {/section}
 {/let}
 
@@ -57,7 +49,7 @@
     {/section}
 {/section}
 
-<h2>Users</h2>
+<h2>{'Users'|i18n('design/admin/node/view')}</h2>
 
 {let user_class_group_id=ezini('UserSettings','UserClassGroupID')
      user_class_list_allowed=fetch('content','can_instantiate_classes',hash(parent_node,$node))
@@ -217,7 +209,6 @@
 
 
 {/section}
-
 
 {section show=$is_standalone}
     </form>

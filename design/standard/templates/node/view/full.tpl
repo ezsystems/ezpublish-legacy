@@ -58,14 +58,7 @@ function checkAll()
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label>
-	{switch match=$ContentObjectAttribute:item.is_a}
-	{case match=ezstring}
     	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
-	{/case}
-	{case}
-    	<p class="box">{attribute_view_gui attribute=$ContentObjectAttribute:item}</p>
-	{/case}
-	{/switch}
     </div>
     {/section}
 
@@ -103,12 +96,9 @@ function checkAll()
     {let name=Object related_objects=$content_version.related_contentobject_array}
 
       {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array(bglight,bgdark)}
-
         <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
         </div>
-    
-      {section-else}
       {/section}
     {/let}
 
@@ -122,8 +112,7 @@ function checkAll()
 
 <div class="buttonblock">
 
-{switch match=$content_object.can_create}
-{case match=1}
+{section show=$content_object.can_create}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
@@ -131,10 +120,7 @@ function checkAll()
 	      {/section}
          </select>
          <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-{/case}
-{case match=0}
-{/case}
-{/switch}
+{/section}
 </div>
 
 

@@ -6,9 +6,21 @@ MatchFile=folder.tpl
 Subdir=templates
 Match[class]=1
 
+[folder_plain]
+Source=node/view/plain.tpl
+MatchFile=folder_plain.tpl
+Subdir=templates
+Match[class]=1
+
 [article]
 Source=node/view/full.tpl
 MatchFile=article.tpl
+Subdir=templates
+Match[class]=2
+
+[article_plain]
+Source=node/view/plain.tpl
+MatchFile=article_plain.tpl
 Subdir=templates
 Match[class]=2
 
@@ -18,15 +30,33 @@ MatchFile=user_group.tpl
 Subdir=templates
 Match[class]=3
 
+[user_group_plain]
+Source=node/view/plain.tpl
+MatchFile=user_group_plain.tpl
+Subdir=templates
+Match[class]=3
+
 [user]
 Source=node/view/full.tpl
 MatchFile=user.tpl
 Subdir=templates
 Match[class]=4
 
+[user_plain]
+Source=node/view/plain.tpl
+MatchFile=user_plain.tpl
+Subdir=templates
+Match[class]=4
+
 [forum]
 Source=node/view/full.tpl
 MatchFile=forum.tpl
+Subdir=templates
+Match[class]=6
+
+[forum_plain]
+Source=node/view/plain.tpl
+MatchFile=forum_plain.tpl
 Subdir=templates
 Match[class]=6
 
@@ -42,6 +72,12 @@ MatchFile=product.tpl
 Subdir=templates
 Match[class]=8
 
+[product_plain]
+Source=node/view/plain.tpl
+MatchFile=product_plain.tpl
+Subdir=templates
+Match[class]=8
+
 [product_review]
 Source=node/view/full.tpl
 MatchFile=product_review.tpl
@@ -54,9 +90,21 @@ MatchFile=info_page.tpl
 Subdir=templates
 Match[class]=10
 
+[info_page_plain]
+Source=node/view/plain.tpl
+MatchFile=info_page_plain.tpl
+Subdir=templates
+Match[class]=10
+
 [file]
 Source=node/view/full.tpl
 MatchFile=file.tpl
+Subdir=templates
+Match[class]=12
+
+[file_plain]
+Source=node/view/plain.tpl
+MatchFile=file_plain.tpl
 Subdir=templates
 Match[class]=12
 
@@ -87,6 +135,12 @@ Match[class]=5
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
+Subdir=templates
+Match[class]=5
+
+[image_plain]
+Source=node/view/plain.tpl
+MatchFile=image_plain.tpl
 Subdir=templates
 Match[class]=5
 

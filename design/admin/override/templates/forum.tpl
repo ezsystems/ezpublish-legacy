@@ -1,4 +1,4 @@
-{* Folder admin view template *}
+{* Forum admin view template *}
 
 {default with_children=true()
          is_editable=true()
@@ -13,13 +13,12 @@
     <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-
 <div class="objectheader">
-    <h2>Forum</h2>
+    <h2>{'Forum'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash( xhtml )}</h1>
+    <h1>{$node_name|wash}</h1>
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
@@ -27,15 +26,9 @@
     {attribute_view_gui attribute=$node.object.data_map.icon}
 
     <div class="buttonblock">
-    {section show=$is_editable}
-        {switch match=$content_object.can_edit}
-        {case match=1}
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
-        {/case}
-        {case match=0}
-        {/case}
-        {/switch}
+    {section show=and($is_editable,$content_object.can_edit)}
+        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     <input class="button" type="submit" name="ActionPreview" value="Preview" />
     <input class="button" type="submit" name="ActionRemove" value="Remove" />
@@ -50,7 +43,6 @@
     <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
     </div>
-{section-else}
 {/section}
 {/let}
 
@@ -215,7 +207,6 @@
 
 
 {/section}
-
 
 {section show=$is_standalone}
     </form>

@@ -11,11 +11,15 @@
 {content_version_view_gui view=text_linked content_version=$content_version}
 {/set-block}
 
-<table width="100%" cellspacing="4" cellpadding="4" border="0">
+<table cellspacing="4" cellpadding="4" border="0">
 <tr>
   <td rowspan="2" align="top">
 
-<h1>{"Approval"|i18n('design/standard/collaboration/approval')}</h1>
+<div class="objectheader">
+<h2>{"Approval"|i18n('design/standard/collaboration/approval')}</h2>
+</div>
+
+<div class="object">
 
 {switch match=$collab_item.data_int3}
 {case match=0}
@@ -54,7 +58,7 @@
 
 {section show=eq($collab_item.data_int3,0)}
 <label>{"Comment"|i18n('design/standard/collaboration/approval')}</label><div class="break"/>
-<textarea class="box" name="Collaboration_ApproveComment" cols="50" rows="5"></textarea>
+<textarea name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
 
 <div class="buttonblock">
 <input type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/standard/collaboration/approval')}" />
@@ -69,10 +73,23 @@
 </div>
 {/section}
 
+</div>
+
   </td>
+
   <td rowspan="2" valign="top">
 
-   <h1>{"Participants"|i18n('design/standard/collaboration/approval')}</h1>
+{content_version_view_gui view=plain content_version=$content_version}
+
+  </td>
+
+  <td rowspan="2" valign="top">
+
+<div class="objectheader">
+   <h2>{"Participants"|i18n('design/standard/collaboration/approval')}</h2>
+</div>
+
+<div class="object">
    {section name=Role loop=$participant_list sequence=array(bglight,bgdark)}
    <label>{$:item.name|wash}</label>
    <table cellspacing="0" cellpadding="0" border="0">
@@ -86,15 +103,10 @@
    </table>
    {delimiter}<br/>{/delimiter}
    {/section}
+</div>
 
   </td>
-  <th>{"Content object class - %1"|i18n('design/standard/collaboration/approval',,array($content_version.contentobject.content_class.name))}</th>
-</tr>
-  <td valign="top">
 
-{content_version_view_gui view=full content_version=$content_version}
-
-  </td>
 </tr>
 </table>
 

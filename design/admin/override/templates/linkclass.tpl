@@ -1,11 +1,9 @@
 {* Link admin view template *}
         
-{default with_children=true()
+{default with_children=false()
          is_editable=true()
-	 is_standalone=true()}
-{let page_limit=15
-     list_count=and( $with_children, fetch( content , list_count, hash( parent_node_id, $node.node_id ) ) )}
-{default content_object=$node.object
+	 is_standalone=true()
+         content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
 
@@ -14,7 +12,7 @@
 {/section}
 
 <div class="objectheader">
-    <h2>Default object view</h2>
+    <h2>{'Default object view'|i18n('design/admin/node/view')}</h2>
 </div>
 
 <div class="object">
@@ -26,15 +24,9 @@
     <p>{attribute_view_gui attribute=$node.object.data_map.link}</p>
 
     <div class="buttonblock">
-        {section show=$is_editable}
-            {switch match=$content_object.can_edit}
-            {case match=1}
-                <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-                <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-            {/case}
-            {case match=0}
-            {/case}
-            {/switch}
+        {section show=and($is_editable,$content_object.can_edit)}
+            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+            <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
         {/section}
     <input class="button" type="submit" name="ActionPreview" value="Preview" />
     <input class="button" type="submit" name="ActionRemove" value="Remove" />
@@ -48,7 +40,6 @@
     <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
     </div>
-{section-else}
 {/section}
 {/let}
 
@@ -64,6 +55,4 @@
     </form>
 {/section}
 
-{/default}
-{/let}
 {/default}

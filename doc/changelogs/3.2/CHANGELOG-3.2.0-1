@@ -71,7 +71,10 @@ Changes from 3.1-1 to 3.2.0-1
 - Made sitemap template more useful
 - Added support for search for objects which are published between two dates, the dates are
   specfyied using timestamps.
-- Added posibilty to limit filter results of advanced search thru general search filter. Filter works for classes and subtree. 
+- Added posibilty to limit filter results of advanced search thru general search filter. Filter works for classes and subtree.
+- Added new versionview and node view viewmode called plain which is used for plain read-only views
+  on objects. It's currently being used in the collaboration approval system.
+- Added plain override templates for most of the admin default classes.
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
