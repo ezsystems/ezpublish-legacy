@@ -2,25 +2,16 @@
 # eZ publish configuration file.
 
 [DatabaseSettings]
-DatabasePluginPath=
-DatabaseImplementation=ezmysql
-Server=localhost
-User=bf
-Password=bf
-Database=bf
-Charset=iso-8859-1
-UseBuiltinEncoding=true
-Socket=disabled
-SQLOutput=enabled##!
-#!SQLOutput=disabled
-UsePersistentConnection=disabled
+Server=localhost##!
+User=bf##!
+Password=bf##!
+Database=bf##!
 
 [DesignSettings]
 SiteDesign=user
 
 [SiteSettings]
 IndexPage=/content/view/news/26
-ErrorHandler=defaultpage
 
 [SiteAccessSettings]
 RequireUserLogin=true
@@ -31,11 +22,7 @@ ModuleAll=true
 Access=disable
 Module=sdk
 
-[SitePrecheckRules]
-Access=disable
-PreCheck=user
-
-[DebugSettings]
+[DebugSettings]##!
 DebugIP=disabled##!
 Debug=inline##!
-DebugRedirection=enabled##!
+DebugRedirection=disabled##!
