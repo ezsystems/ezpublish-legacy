@@ -497,7 +497,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $phpCode .= '\'' . sprintf( "%u", crc32( $matchKey ) ) . '\' => ';
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
-                    $defaultMatchFile = $matchFileArray[$matchKey]['base_dir'] . $matchKey;
+                    $baseDir = isset( $matchFileArray[$matchKey]['base_dir'] ) ? $matchFileArray[$matchKey]['base_dir'] : '';
+                    $defaultMatchFile = $baseDir . $matchKey;
                     // Custom override matching
 //                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
 

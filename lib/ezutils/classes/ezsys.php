@@ -586,7 +586,6 @@ class eZSys
     */
     function &serverVariable( $variableName, $quiet = false )
     {
-        $_SERVER;
         if ( !isset( $_SERVER[$variableName] ) )
         {
             if ( !$quiet )

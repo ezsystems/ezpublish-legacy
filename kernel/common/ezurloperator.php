@@ -196,7 +196,7 @@ class eZURLOperator
 
                     $url = $this->Sys->indexDir() . $url;
                     $url = preg_replace( "#(//)#", "/", $url );
-                    $url = preg_replace( "#(^.*)(/+)$#", "\$1", $url );
+                    $url = preg_replace( "#(^.*)(/+)$#", '$1', $url );
                     $url = htmlspecialchars( $url );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );

@@ -135,7 +135,7 @@
     </div>
 
     <div id="innercontent">
-            {$module_result.content}
+        {$module_result.content}
     </div>
         
         </div>
