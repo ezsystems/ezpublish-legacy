@@ -1,0 +1,15 @@
+Changes from 3.5.0rc2 to 3.5.0
+
+*Kernel:
+- Enabled debug summary report for redirects and added the count for each error
+  type.
+
+*Bugfixes:
+
+*Library:
+
+eZDebug:
+- The number of times a warning, error, debug or notice occurs is now stored
+  in a global variable.
+
+*Design:

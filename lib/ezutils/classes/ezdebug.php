@@ -355,6 +355,9 @@ class eZDebug
         if ( is_object( $string ) || is_array( $string ) )
              $string =& eZDebug::dumpVariable( $string );
         $GLOBALS['eZDebugNotice'] = true;
+        if ( !isset( $GLOBALS['eZDebugNoticeCount'] ) )
+            $GLOBALS['eZDebugNoticeCount'] = 0;
+        ++$GLOBALS['eZDebugNoticeCount'];
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -382,6 +385,9 @@ class eZDebug
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
         $GLOBALS['eZDebugWarning'] = true;
+        if ( !isset( $GLOBALS['eZDebugWarningCount'] ) )
+            $GLOBALS['eZDebugWarningCount'] = 0;
+        ++$GLOBALS['eZDebugWarningCount'];
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -409,6 +415,9 @@ class eZDebug
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
         $GLOBALS['eZDebugError'] = true;
+        if ( !isset( $GLOBALS['eZDebugErrorCount'] ) )
+            $GLOBALS['eZDebugErrorCount'] = 0;
+        ++$GLOBALS['eZDebugErrorCount'];
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
@@ -436,6 +445,9 @@ class eZDebug
         if ( is_object( $string ) || is_array( $string ) )
             $string =& eZDebug::dumpVariable( $string );
         $GLOBALS['eZDebugDebug'] = true;
+        if ( !isset( $GLOBALS['eZDebugDebugCount'] ) )
+            $GLOBALS['eZDebugDebugCount'] = 0;
+        ++$GLOBALS['eZDebugDebugCount'];
 
         $debug =& eZDebug::instance();
         if ( $debug->HandleType == EZ_HANDLE_TO_PHP )

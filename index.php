@@ -799,8 +799,35 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
     else
     {
+        // Make sure any errors or warnings are reported
+        if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
+        {
+            if ( isset( $GLOBALS['eZDebugError'] ) and
+                 $GLOBALS['eZDebugError'] )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'error',
+                                                              'number' => 1,
+                                                              'count' => $GLOBALS['eZDebugErrorCount'] ),
+                                            'identifier' => 'ezdebug-first-error',
+                                            'text' => ezi18n( 'index.php', 'Some errors occured, see debug for more information.' ) ) );
+            }
+
+            if ( isset( $GLOBALS['eZDebugWarning'] ) and
+                 $GLOBALS['eZDebugWarning'] )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'warning',
+                                                              'number' => 1,
+                                                              'count' => $GLOBALS['eZDebugWarningCount'] ),
+                                            'identifier' => 'ezdebug-first-warning',
+                                            'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+            }
+        }
+
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
+        if ( count( $warningList ) == 0 )
+            $warningList = false;
+        $tpl->setVariable( 'warning_list', $warningList );
         $tpl->setVariable( 'redirect_uri', $redirectURI );
         $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
 
@@ -925,11 +952,13 @@ if ( $show_page_layout )
     {
         if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
         {
+            // Make sure any errors or warnings are reported
             if ( isset( $GLOBALS['eZDebugError'] ) and
                  $GLOBALS['eZDebugError'] )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'error',
-                                                              'number' => 1 ),
+                                                              'number' => 1 ,
+                                                              'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
                                             'text' => ezi18n( 'index.php', 'Some errors occured, see debug for more information.' ) ) );
             }
@@ -938,7 +967,8 @@ if ( $show_page_layout )
                  $GLOBALS['eZDebugWarning'] )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'warning',
-                                                              'number' => 1 ),
+                                                              'number' => 1,
+                                                              'count' => $GLOBALS['eZDebugWarningCount'] ),
                                             'identifier' => 'ezdebug-first-warning',
                                             'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }

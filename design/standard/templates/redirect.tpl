@@ -10,6 +10,7 @@
 </head>
 <body onload="document.forms.Redirect.RedirectButton.focus()">
   <form action="{$redirect_uri}" method="post" name="Redirect">
+  {include uri="design:page_warning.tpl"}
   {"Redirecting to %url"|i18n('design/standard/layout',,hash('%url',concat("<b>",$redirect_uri,"</b>")))} <br/>
   <input class="standardbutton" type="submit" Name="RedirectButton" value="{'Redirect'|i18n('design/standard/layout')}"/>
   </form>
