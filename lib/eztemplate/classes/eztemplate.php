@@ -321,7 +321,7 @@ class eZTemplate
     */
     function load( $uri, $extraParameters = false )
     {
-        $res =& $this->loadURI( $uri, $extraParameters );
+        $res =& $this->loadURI( $uri, true, $extraParameters );
         $this->Text = "";
         if ( $res )
         {
@@ -1341,7 +1341,7 @@ class eZTemplate
             while( ( $key = key( $attrs ) ) !== null )
             {
                 $attr =& $attrs[$key];
-                $attr_value = $this->attributeValue( $attr, "" );
+                $attr_value = $this->attributeValue( $attr, $def_nspace );
                 if ( !is_null( $attr_value ) )
                 {
                     if ( !is_numeric( $attr_value ) and

@@ -244,6 +244,8 @@ class eZTemplateLogicOperator
                     else if ( is_object( $operand ) )
                         $operand_logic = ( method_exists( $operand, "attributes" ) and
                                            method_exists( $operand, "attribute" ) );
+                    else if ( is_bool( $operand ) )
+                        $operand_logic = $operand;
                     if ( $operand_logic )
                     {
                         $value = $operand;
@@ -268,6 +270,8 @@ class eZTemplateLogicOperator
                     else if ( is_object( $operand ) )
                         $operand_logic = ( method_exists( $operand, "attributes" ) and
                                            method_exists( $operand, "attribute" ) );
+                    else if ( is_bool( $operand ) )
+                        $operand_logic = $operand;
                     if ( !$operand_logic )
                     {
                         $value = false;

@@ -82,24 +82,18 @@ if ( $LanguageCode != "" )
     $object->setCurrentLanguage( $LanguageCode );
 }
 
-$Limit = 15;
+$viewParameters = array( 'offset' => $Offset );
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
                       array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
                       array( "section", $object->attribute( 'section_id' ) ), // Section ID
-                      array( "node", $node->attribute( 'node_id' ) ) // Node ID
+                      array( "node", $node->attribute( 'node_id' ) ), // Node ID
+                      array( 'viewmode', $ViewMode ),
                       ) );
 
 $tpl->setVariable( "node", $node );
-$tpl->setVariable( 'view_parameters', array( 'offset' => $Offset ) );
-
-/*
-$tpl->setVariable( "previous", $Offset - $Limit );
-$tpl->setVariable( "next", $Offset + $Limit );
-*/
-
-$tpl->setVariable( "module", $Module );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 // create path
 $parents =& $node->attribute( 'path' );
@@ -116,5 +110,6 @@ $path[] = array( "text" => $object->attribute( "name" ),
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
+$Result['view_parameters'] =& $viewParameters;
 $Result['path'] =& $path;
 ?>

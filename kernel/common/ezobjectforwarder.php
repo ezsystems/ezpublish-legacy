@@ -86,6 +86,7 @@ class eZObjectForwarder
         $attribute_access =& $rule["attribute_access"];
         $view_mode = "";
         $view_dir = "";
+        $view_var = null;
         if ( $rule["use_views"] )
         {
             $view_var =& $rule["use_views"];

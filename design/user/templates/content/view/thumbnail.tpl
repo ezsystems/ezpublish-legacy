@@ -6,7 +6,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$node.object.name|texttoimage('archtura')}
+	{$node.object.name|texttoimage('gallery')}
 	</td>
 </tr>
 </table>
@@ -21,7 +21,7 @@
                 <td colspan="3" valign="top" bgcolor="#ffffff">
 {*	<a href="{$module.functions.view.uri}/full/{$Child:item.node_id}">*}
         <a href="{concat('/content/view/slideshow/',$node.node_id,'/offset/',sum($view_parameters.offset,$Child:index))}">
-	{content_view_gui view=image_small content_node=$Child:item}
+	{content_view_gui view=medium content_node=$Child:item}
         </a>
 {*	</a>*}
                 </td>

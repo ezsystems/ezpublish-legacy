@@ -35,7 +35,7 @@
 <img src={"images/whiteboxlogo.png"|ezdesign} alt="White box - contemporary art gallery" />
 
 <!-- Top box END -->
-
+{let gallery_list=fetch(content,list,hash(parent_node_id,16))}
 <table class="layout" width="700" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <td bgcolor="#cccccc">
@@ -44,6 +44,12 @@
     &nbsp;&nbsp;:: about<br /> 
     </td>
     <td bgcolor="#e8e8e8">
+{section name=Gallery loop=$gallery_list}
+  {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
+{*  &nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a>*}
+  <strong>&nbsp;&nbsp;{$Gallery:item.name}</strong>
+  {/section}
+{/section}
     </td>
 </tr>
 
@@ -82,10 +88,45 @@
 <td width="20%" valign="top" bgcolor="#cccccc" class="links">
             <div align="right">
               <table width="142" border="0" cellpadding="4" cellspacing="1">
-{section name=Gallery loop=fetch(content,list,hash(parent_node_id,16))}
+{section name=Gallery loop=$gallery_list}
+{section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
+<tr>
+  <td bgcolor="#e2e2e2" class="links"><center>
+    <table cellpadding="4" cellspacing="4">
+    <tr>
+    {let gallery_item_list=fetch(content,list,hash(parent_node_id,$Gallery:item.node_id,limit,8))}
+    {section name=Item loop=$Gallery:gallery_item_list}
+
+      {* Check for current image *}
+      {section show=eq($module_result.view_parameters,$Gallery:Item:index)}
+      <td>
+      {section-else}
+      <td>
+      {/section}
+
+      <a href={concat('content/view/slideshow/',$Gallery:item.node_id,'/offset/',$Gallery:Item:index)|ezurl})>{content_view_gui view=small content_node=$Gallery:Item:item}</a>
+      </td>
+    {delimiter modulo=2}
+    </tr>
+    <tr>
+    {/delimiter}
+    {/section}
+
+    {section loop=mod($Gallery:gallery_item_list,2)}
+    <td>&nbsp;</td>
+    {/section}
+
+    {/let}
+    </tr>
+    </table></center>
+  </td>
+</tr>
+{section-else}
                 <tr>
                   <td bgcolor="#e2e2e2" class="links">&nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a></td>
                 </tr>
+{/section}
+
 {/section}
               </table>
             </div>
@@ -109,7 +150,7 @@
     </td>
 </tr>
 </table>
-
+{/let}
 
 </body>
 </html>

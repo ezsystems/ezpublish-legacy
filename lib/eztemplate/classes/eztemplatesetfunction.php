@@ -37,7 +37,7 @@
 /*!
   \class eZTemplateSetFunction eztemplatesetfunction.php
   \ingroup eZTemplateFunctions
-  \brief Sets template variables code using function "set"
+  \brief Sets template variables code using function 'set'
 
   Allows for setting template variables from templates using
   a template function. This is mainly used for optimizations.
@@ -49,12 +49,12 @@
 
 \code
 // Example template code
-{let object=$item1 some_text="abc" integer=1}
-  {set object=$item2 some_text="def"}
+{let object=$item1 some_text='abc' integer=1}
+  {set object=$item2 some_text='def'}
 
 {/let}
 
-{set name=NewNamespace place="/etc/test.tpl"}
+{set name=NewNamespace place='/etc/test.tpl'}
 
 \endcode
 */
@@ -64,10 +64,11 @@ class eZTemplateSetFunction
     /*!
      Initializes the function with the function names $setName and $letName.
     */
-    function eZTemplateSetFunction( $setName = "set", $letName = "let" )
+    function eZTemplateSetFunction( $setName = 'set', $letName = 'let', $defaultName = 'default' )
     {
         $this->SetName = $setName;
         $this->LetName = $letName;
+        $this->DefaultName = $defaultName;
     }
 
     /*!
@@ -75,24 +76,25 @@ class eZTemplateSetFunction
     */
     function &functionList()
     {
-        return array( $this->SetName, $this->LetName );
+        return array( $this->SetName, $this->LetName, $this->DefaultName );
     }
 
     /*!
-     Loads the file specified in the parameter "uri" with namespace "name".
+     Loads the file specified in the parameter 'uri' with namespace 'name'.
     */
     function &process( &$tpl, &$functionName, &$functionObject, $nspace, $current_nspace )
     {
         if ( $functionName != $this->SetName and
-             $functionName != $this->LetName )
+             $functionName != $this->LetName and
+             $functionName != $this->DefaultName )
             return null;
         $parameters =& $functionObject->parameters();
-        $name = "";
-        if ( isset( $parameters["name"] ) )
-            $name = $tpl->elementValue( $parameters["name"], $nspace );
-        if ( $current_nspace != "" )
+        $name = '';
+        if ( isset( $parameters['name'] ) )
+            $name = $tpl->elementValue( $parameters['name'], $nspace );
+        if ( $current_nspace != '' )
         {
-            if ( $name != "" )
+            if ( $name != '' )
                 $name = "$current_nspace:$name";
             else
                 $name = $current_nspace;
@@ -103,7 +105,7 @@ class eZTemplateSetFunction
             $item =& $parameters[$key];
             switch ( $key )
             {
-                case "name":
+                case 'name':
                     break;
 
                 default:
@@ -119,9 +121,19 @@ class eZTemplateSetFunction
                         else
                         {
                             $varname = $key;
-                            if ( $name != "" )
+                            if ( $name != '' )
                                 $varname = "$name:$varname";
                             $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
+                        }
+                    }
+                    else if ( $functionName == $this->DefaultName )
+                    {
+                        if ( !$tpl->hasVariable( $key, $name ) )
+                        {
+                            $itemValue =& $tpl->elementValue( $item, $nspace );
+                            eZDebug::writeError( "setting key '$key' to '$itemValue' in namespace '$name'" );
+                            $tpl->setVariableRef( $key, $itemValue, $name );
+                            $definedVariables[] = $key;
                         }
                     }
                     else
@@ -135,7 +147,7 @@ class eZTemplateSetFunction
                         else
                         {
                             $varname = $key;
-                            if ( $name != "" )
+                            if ( $name != '' )
                                 $varname = "$name:$varname";
                             $tpl->warning( $functionName, "Variable '$varname' already exists, cannot define" );
                         }
@@ -143,9 +155,10 @@ class eZTemplateSetFunction
                 } break;
             }
         }
-        if ( $functionName == $this->LetName )
+        if ( $functionName == $this->LetName or
+             $functionName == $this->DefaultName )
         {
-            $text = "";
+            $text = '';
             $children =& $functionObject->children();
             foreach ( array_keys( $children ) as $childKey )
             {
@@ -167,12 +180,14 @@ class eZTemplateSetFunction
     function hasChildren()
     {
         return array( $this->SetName => false,
-                      $this->LetName => true );
+                      $this->LetName => true,
+                      $this->DefaultName => true );
     }
 
     /// The name of the set function
     var $SetName;
     var $LetName;
+    var $DefaultName;
 }
 
 ?>

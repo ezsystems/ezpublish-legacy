@@ -10,7 +10,7 @@
 {*<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$node.object.name|texttoimage('archtura')}
+	{$node.object.name|texttoimage('gallery')}
 	</td>
 </tr>
 </table>*}
@@ -19,7 +19,7 @@
 {section name=Child loop=$item_list}
               <tr bordercolor="#000000" bgcolor="#000000"> 
                 <td colspan="3" valign="top" bgcolor="#ffffff">
-                  {content_view_gui view=full content_node=$Child:item}
+                  {content_view_gui view=large content_node=$Child:item}
                 </td>
               </tr>
 {/section}

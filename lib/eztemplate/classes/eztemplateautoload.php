@@ -97,7 +97,7 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'function_names' => array( 'sequence' ) );
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesetfunction.php',
                                     'class' => 'eZTemplateSetFunction',
-                                    'function_names' => array( 'set', 'let' ) );
+                                    'function_names' => array( 'set', 'let', 'default' ) );
 
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage

@@ -133,7 +133,9 @@ class eZTemplateArithmeticOperator
     function numericalValue( $mixedValue )
     {
         if ( is_array( $mixedValue ) )
+        {
             return count( $mixedValue );
+        }
         else if ( is_object( $mixedValue ) )
         {
             if ( method_exists( $mixedValue, 'attributes' ) )

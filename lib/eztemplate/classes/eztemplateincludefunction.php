@@ -134,7 +134,8 @@ class eZTemplateIncludeFunction
 //         $root = null;
         if ( $root === null )
         {
-            $res =& $tpl->loadURI( $uri );
+            $extraParameters = false;
+            $res =& $tpl->loadURI( $uri, true, $extraParameters );
             if ( $res )
             {
                 $root = new eZTemplateRoot();

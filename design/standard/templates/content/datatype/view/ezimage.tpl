@@ -1,8 +1,7 @@
-<img src="/var/storage/variations/{$attribute.content.mime_type_category}/{$attribute.content.large.additional_path}{$attribute.content.large.filename}" width={$attribute.content.large.width} height={$attribute.content.large.height} border="0" />
-
-
-{*
-<img src="/var/storage/variations/{$attribute.content.mime_type_category}/{$attribute.content.small.additional_path}{$attribute.content.small.filename}" width={$attribute.content.small.width} height={$attribute.content.small.height} border="0" />
-<img src="/var/storage/variations/{$attribute.content.mime_type_category}/{$attribute.content.large.additional_path}{$attribute.content.large.filename}" width={$attribute.content.large.width} height={$attribute.content.large.height} border="0" />
-
-*}
+{default image_class=large
+         border_size=0}
+{let content=$attribute.content
+     image=$content[$image_class]}
+<img src="/var/storage/variations/{$content.mime_type_category}/{$image.additional_path}{$image.filename}" width={$image.width} height={$image.height} border="{$border_size}" />
+{/let}
+{/default}
