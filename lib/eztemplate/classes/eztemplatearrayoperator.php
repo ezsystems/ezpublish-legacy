@@ -93,7 +93,7 @@ class eZTemplateArrayOperator
             {
                 $hashName = $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace );
                 if ( is_string( $hashName ) or
-                     is_numerical( $hashName ) )
+                     is_numeric( $hashName ) )
                     $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1], $rootNamespace, $currentNamespace );
                 else
                     $tpl->error( $operatorName,
