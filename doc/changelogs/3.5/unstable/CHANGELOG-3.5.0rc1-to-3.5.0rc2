@@ -5,6 +5,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   URI to use for a given module.
 - Improved storage of the LastAccessesURI session variable to only happen when
   a view UI context is used.
+- Fixed fetching collaboration list with offset.
+  Merged from stable/3.3 rev. 10112, stable/3.4 rev. 10113.
 
 *Bugfixes:
 - Fixed bug with non-static parameters to the i18n operator with use of the
