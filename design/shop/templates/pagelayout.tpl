@@ -34,13 +34,7 @@
     <div id="subheader">
         <div class="design">
         
-            <div id="searchbox">
-                <form action={"/content/search/"|ezurl} method="get">
-                    <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-                    <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
-                </form>
-            </div>
-        
+       
         <div id="mainmenu">
             <div class="design">
 
@@ -66,23 +60,32 @@
         
             <h3 class="invisible">Sub menu</h3>
             <ul>
-                {let mainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
+                {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 10 )}
                     {section name=Menu loop=$mainMenu}
-            	    {section show=$:item.is_selected}
-            
+                        {section show=$:item.is_selected}
+                            <li class="level_{$:item.level}">
+                               <div class="selected">
+                               <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
+                               </div>  
+                             </li>
+                        {section-else}
+                            <li class="level_{$:item.level}">
+                             <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
+                            </li>
                         {/section}
-            
-                        <li class="level_{$:item.level}">
-                           <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
-                        </li>
-            
-            	    {section show=$:item.is_selected}
-            
-                        {/section}
-                    {/section}
+                   {/section}
                 {/let}
             </ul>
         
+        </div>
+    </div>
+
+    <div id="searchbox">
+        <div class="design">
+            <form action={"/content/search/"|ezurl} method="get">
+                 <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+                 <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
+            </form>
         </div>
     </div>
 

@@ -146,6 +146,13 @@ div#submenu a:hover
     text-decoration: underline;
 }
 
+div#searchbox
+{
+    float: left;
+    clear: left;
+    width: 8em;
+}
+
 div#infobox
 {
     margin-top: 0;
@@ -303,3 +310,68 @@ div.editbutton input
    background-color: #304b82;
    color: #ffffff;
 }
+
+
+/* Listmenu items */
+
+#submenu .level_0
+{
+  padding: 0px;
+  margin: 2px;
+}
+
+#submenu .level_1
+{
+  padding: 0px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 0px;
+  margin-left: 5px;
+}
+
+#submenu .level_2
+{
+  padding: 0px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
+#submenu .level_3
+{
+  padding: 0px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 0px;
+  margin-left: 15px;
+}
+
+#submenu .level_4
+{
+  padding: 0px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 0px;
+  margin-left: 20px;
+}
+
+#submenu .level_5
+{
+  padding: 0px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 0px;
+  margin-left: 25px;
+}
+
+#submenu div.selected
+{
+  background-color: #000000;
+}
+
+#submenu div.selected a
+{
+  color: #ffffff;
+}
+
