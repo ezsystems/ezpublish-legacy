@@ -124,7 +124,6 @@
 {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 {/section}
-{/switch}
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 
 {switch match=$node.object.can_edit}
@@ -139,3 +138,4 @@
 </div>
 
 </form>
+{/let}
