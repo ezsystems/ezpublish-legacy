@@ -1095,12 +1095,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &editTemplate()
     {
-        return $this->DataTypeString;
-        // No need to do dynamic lookup since the datatype string is directly used
-/*
         $dataType =& $this->dataType();
         return $dataType->editTemplate( $this );
-*/
+
     }
 
     /*!
