@@ -80,8 +80,10 @@
         </tr>
         {/section}
         </table>
+
     </div>
 
+    </div>
 </div>
 {include name=navigator
          uri='design:navigator/google.tpl'

@@ -175,11 +175,16 @@ div#topmenu
     padding: 0;
     margin: 0;
     border-bottom: 1px solid #336699; /* This line needs to be set to avoid bug in IE */
+    background-color: #336699;
+}
+
+div.topmenu-line
+{
+    border-bottom: 1px solid #7b92bc; /* This line needs to be set to avoid bug in IE */
 }
 
 div#topmenu-design
 {
-    background-color: #336699;
     padding: 0;
     margin: 0;
     text-align: left;
@@ -251,7 +256,7 @@ div#topmenu li a:hover
 div#submenu
 {
     padding: 0;
-    margin: 0;
+    margin: -1px;
 }
 
 div#submenu-design

@@ -25,7 +25,7 @@
 {literal}
 <!--[if lt IE 6.0]>
 <style>
-div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug in IE 5.5 */
+div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 {/literal}
