@@ -18,7 +18,7 @@ Changes from 3.0-? to 3.1
 - Fixed proper HTTP 404 header error on unrecogniced url's
 - Added support for viewmodes on attribute_view_gui, the viewmodes are placed in directories under the normal datatype templates.
   The viewmode is optional for backwards compatability.
-- Added template-block to clearcache script.
+- Added template-block and template override to clearcache script.
 - Added support for disabling specific views in modules as well as whole modules.
   The views are specified with a / in the Rules array in group SiteAccessRules.
 - New error code kernel/22 which is used for disabled modules and views.
@@ -28,6 +28,8 @@ Changes from 3.0-? to 3.1
 - Added google navigator in versions management.
 - Added new notification system.
 - Added new browse page.
+- New functionality for automatically creating template operators using a wizard. Part of the new RAD functionality
+  and available at setup/templateoperator.
 
 Binary file:
 - Added support for resuming downloads.
@@ -80,6 +82,8 @@ eZ template:
 - Compiled templates are now created in var/cache/compiled instead of var/cache/process.
 - Added node transformation support for let, default and section functions.
 - Added support for internal template nodes which can be generated in the node transformation process.
+- New template operator for indenting text, it will indent each line in a text according the specified options.
+  The operator is called indent.
 
 *Settings :
 site.ini:

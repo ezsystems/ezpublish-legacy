@@ -58,7 +58,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'operator_names' => array( 'nl2br' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetextoperator.php',
                                     'class' => 'eZTemplateTextOperator',
-                                    'operator_names' => array( 'concat' ) );
+                                    'operator_names' => array( 'concat', 'indent' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateunitoperator.php',
                                     'class' => 'eZTemplateUnitOperator',
                                     'operator_names' => array( 'si' ) );

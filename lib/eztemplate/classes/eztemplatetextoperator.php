@@ -50,10 +50,12 @@ class eZTemplateTextOperator
     /*!
      Constructor
     */
-    function eZTemplateTextOperator( $concatName = "concat" )
+    function eZTemplateTextOperator( $concatName = 'concat',
+                                     $indentName = 'indent' )
     {
-        $this->Operators = array( $concatName );
+        $this->Operators = array( $concatName, $indentName );
         $this->ConcatName = $concatName;
+        $this->IndentName = $indentName;
     }
 
     /*!
@@ -65,9 +67,30 @@ class eZTemplateTextOperator
     }
 
     /*!
-     Examines the input value and outputs a boolean value. See class documentation for more information.
+     \return true to tell the template engine that the parameter list exists per operator type.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+
+    /*!
+     See eZTemplateOperator::namedParameterList
+    */
+    function namedParameterList()
+    {
+        return array( $this->IndentName => array( 'indent_count' => array( 'type' => 'integer',
+                                                                           'required' => true,
+                                                                           'default' => false ),
+                                                  'indent_type' => array( 'type' => 'identifier',
+                                                                          'required' => false,
+                                                                          'default' => 'space' ) ) );
+    }
+
+    /*!
+     Handles concat and indent operators.
+    */
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {
@@ -80,7 +103,32 @@ class eZTemplateTextOperator
                     if ( !is_object( $operand ) )
                         $operands[] = $operand;
                 }
-                $value = eZTextTool::concat( $operands );
+                $operatorValue = eZTextTool::concat( $operands );
+            } break;
+            case $this->IndentName:
+            {
+                $indentCount = $namedParameters['indent_count'];
+                $indentType = $namedParameters['indent_type'];
+                switch ( $indentType )
+                {
+                    case 'space':
+                    default:
+                    {
+                        $filler = ' ';
+                    } break;
+                    case 'tab':
+                    {
+                        $filler = "\t";
+                    } break;
+                }
+                $text = '';
+                $lines = explode( "\n", $operatorValue );
+                $indentedLines = array();
+                foreach ( $lines as $line )
+                {
+                    $indentedLines[] = str_repeat( $filler, $indentCount ) . $line;
+                }
+                $operatorValue = implode( "\n", $indentedLines );
             } break;
         }
     }
