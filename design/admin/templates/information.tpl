@@ -16,7 +16,7 @@
     <td>{$node.object.published|l10n(shortdatetime)}</td>
     <td>{$node.object.versions|count()}</td>
     <td>{$node.contentobject_version_object.language_list|count}</td>
-    <td><a href={concat( '/section/view/', $node.object.section_id )|ezurl}>{fetch( section, object, hash( section_id, $node.object.section_id ) ).name|wash} ({$node.object.section_id})</a></td>
+    <td><a href={concat( '/section/view/', $node.object.section_id )|ezurl}>{fetch( section, object, hash( section_id, $node.object.section_id ) ).name|wash}</a></td>
     <td>{$node.node_id}</td>
     <td>{$node.object.id}</td>
 </tr>
