@@ -40,7 +40,7 @@
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
-include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
+include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 
 
@@ -72,13 +72,13 @@ if ( $enable == true )
     append_to_log( "Requested URI is: " . $_SERVER['REQUEST_URI'] );
 
     // Initialize/set the index file.
-    eZSys::init( 'index_webdav.php' );
+    eZSys::init( 'webdav.php' );
 
     // The top/root folder is publicly available (without auth):
     if ( $_SERVER['REQUEST_URI'] == ''  ||
          $_SERVER['REQUEST_URI'] == '/' ||
-         $_SERVER['REQUEST_URI'] == '/index_webdav.php/' ||
-         $_SERVER['REQUEST_URI'] == '/index_webdav.php' )
+         $_SERVER['REQUEST_URI'] == '/webdav.php/' ||
+         $_SERVER['REQUEST_URI'] == '/webdav.php' )
     {
         $testServer = new eZWebDAVContentServer ();
         $testServer->processClientRequest ();

@@ -61,3 +61,5 @@ eZ utils:
 *WebDAV:
 - Misc. webdav fixes: NVH compatibility; support for foreign languages (content) + some other stuff
 - Misc. webdav fixes: support for rename of files, better stability and security
+- Renamed index_webdav.php to webdav.php.
+- Moved content webdav server from library and into kernel/classes/webdav
