@@ -33,6 +33,12 @@ eZINI:
   http://ez.no/community/bug_reports/cachedviewmodes_setting_isn_t_taken_into_account_when_storing_view_cache
 - Fixed bug of missing validation of eztext when required is checked.
   http://ez.no/community/bug_reports/is_required_validation_for_eztext_is_missing_ic
+- Fixed bug related to useless eZSOAPServer::registerFunction() method.
+  It now does whata user expect it to do.
+  http://ez.no/community/bug_reports/ezsoap_registerfunction_is_useless_invalid_code
+- Fixed bug of not changing Object's Section assignment when object is moved to another section
+  http://ez.no/community/bug_reports/change_object_s_section_assignment
+
 *Library:
 
 eZ Locale:

@@ -1835,7 +1835,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      Will assign a section to the current node and all child objects.
      Only main node assignments will be updated.
     */
-    function assignSectionToSubTree( $nodeID, $sectionID )
+    function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
     {
         $db =& eZDB::instance();
 
@@ -1864,8 +1864,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $inSQL .= " " . $objectID['id'];
             $i++;
         }
-        $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
-        $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE contentobject_id IN ( $inSQL )" );
+
+        $filterPart = '';
+        if ( $oldSectionID !== false )
+        {
+            $filterPart = " section_id = '$oldSectionID' and ";
+        }
+
+        $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart id IN ( $inSQL )" );
+        $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart contentobject_id IN ( $inSQL )" );
     }
 
     function &fetchByCRC( $pathStr )
