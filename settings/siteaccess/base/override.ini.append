@@ -1,88 +1,16 @@
-# FULL TEMPLATES START
+# Folder templates
+
 [full_folder]
 Source=node/view/full.tpl
 MatchFile=full/folder.tpl
 Subdir=templates
 Match[class]=1
 
-[full_article]
-Source=node/view/full.tpl
-MatchFile=full/article.tpl
-Subdir=templates
-Match[class]=2
-
-[full_comment]
-Source=node/view/full.tpl
-MatchFile=full/comment.tpl
-Subdir=templates
-Match[class]=13
-
-[full_file]
-Source=node/view/full.tpl
-MatchFile=full/file.tpl
-Subdir=templates
-Match[class]=12
-
-[full_link]
-Source=node/view/full.tpl
-MatchFile=full/link.tpl
-Subdir=templates
-Match[class]=11
-
-
-# EDIT TEMPLATES
-
-[edit_comment]
-Source=content/edit.tpl
-MatchFile=edit/comment.tpl
-Subdir=templates
-Match[class]=13
-
-[edit_file]
-Source=content/edit.tpl
-MatchFile=edit/file.tpl
-Subdir=templates
-Match[class]=12
-
-
-# LINE TEMPLATES
 [line_folder]
 Source=node/view/line.tpl
 MatchFile=line/folder.tpl
 Subdir=templates
 Match[class]=1
-
-[line_article]
-Source=node/view/line.tpl
-MatchFile=line/article.tpl
-Subdir=templates
-Match[class]=2
-
-[line_comment]
-Source=node/view/line.tpl
-MatchFile=line/comment.tpl
-Subdir=templates
-Match[class]=13
-
-[line_link]
-Source=node/view/line.tpl
-MatchFile=line/link.tpl
-Subdir=templates
-Match[class]=11
-
-
-# EMBED TEMPLATES
-[embed_image]
-Source=content/view/embed.tpl
-MatchFile=embed/image.tpl
-Subdir=templates
-Match[class]=5
-
-[embed_file]
-Source=content/view/embed.tpl
-MatchFile=embed/file.tpl
-Subdir=templates
-Match[class]=12
 
 [embed_folder_contentlist]
 Source=content/view/embed.tpl
@@ -97,6 +25,96 @@ MatchFile=embed/folder_subtree.tpl
 Subdir=templates
 Match[class]=1
 Match[classification]=subtree
+
+# Article templates
+
+[full_article]
+Source=node/view/full.tpl
+MatchFile=full/article.tpl
+Subdir=templates
+Match[class]=2
+
+[line_article]
+Source=node/view/line.tpl
+MatchFile=line/article.tpl
+Subdir=templates
+Match[class]=2
+
+# Comment templates
+
+[full_comment]
+Source=node/view/full.tpl
+MatchFile=full/comment.tpl
+Subdir=templates
+Match[class]=13
+
+
+[line_comment]
+Source=node/view/line.tpl
+MatchFile=line/comment.tpl
+Subdir=templates
+Match[class]=13
+
+[edit_comment]
+Source=content/edit.tpl
+MatchFile=edit/comment.tpl
+Subdir=templates
+Match[class]=13
+
+# File templates
+
+[full_file]
+Source=node/view/full.tpl
+MatchFile=full/file.tpl
+Subdir=templates
+Match[class]=12
+
+[edit_file]
+Source=content/edit.tpl
+MatchFile=edit/file.tpl
+Subdir=templates
+Match[class]=12
+
+[embed_file]
+Source=content/view/embed.tpl
+MatchFile=embed/file.tpl
+Subdir=templates
+Match[class]=12
+
+# Link templates
+
+[full_link]
+Source=node/view/full.tpl
+MatchFile=full/link.tpl
+Subdir=templates
+Match[class]=11
+
+[line_link]
+Source=node/view/line.tpl
+MatchFile=line/link.tpl
+Subdir=templates
+Match[class]=11
+
+# Image templates
+
+[image_full]
+Source=node/view/full.tpl
+MatchFile=full/image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
+[image_line]
+Source=node/view/line.tpl
+MatchFile=line/image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed/image.tpl
+Subdir=templates
+Match[class]=5
+
 
 # Forum templates
 
@@ -171,4 +189,23 @@ MatchFile=line/product.tpl
 Subdir=templates
 Match[class_identifier]=product
 
+# Gallery templates
+
+[gallery_full]
+Source=node/view/full.tpl
+MatchFile=full/gallery.tpl
+Subdir=templates
+Match[class_identifier]=gallery
+
+[gallery_slideshow]
+Source=node/view/slideshow.tpl
+MatchFile=slideshow/gallery.tpl
+Subdir=templates
+Match[class_identifier]=gallery
+
+[gallery_line]
+Source=node/view/line.tpl
+MatchFile=line/gallery.tpl
+Subdir=templates
+Match[class_identifier]=gallery
 
