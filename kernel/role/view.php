@@ -69,9 +69,9 @@ if ( $http->hasPostVariable( "AssignRoleButton" ) )
 
     return;
 }
-else if ( $http->hasPostVariable( "AssignRoleSubTreeButton" ) )
+else if ( $http->hasPostVariable( 'AssignRoleLimitedButton' ) )
 {
-    $Module->redirectTo( '/role/assign/' . $roleID . '/subtree' );
+    $Module->redirectTo( '/role/assign/' . $roleID . '/' . $http->postVariable( 'AssignRoleType' ) );
     return;
 }
 

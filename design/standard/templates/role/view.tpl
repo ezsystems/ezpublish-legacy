@@ -75,7 +75,11 @@
 <tr>
     <td>
         <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" />
-        <input class="button" type="submit" name="AssignRoleSubTreeButton" value="{'Assign limited'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" />
+        <input class="button" type="submit" name="AssignRoleLimitedButton" value="{'Assign limited'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" />on
+	<select name="AssignRoleType">
+	    <option value="subtree">{"Subtree"|i18n( 'design/standard/role' )}</option>
+	    <option value="section">{"Section"|i18n( 'design/standard/role' )}</option>
+	</select>
     </td>
     <td>
       &nbsp;
