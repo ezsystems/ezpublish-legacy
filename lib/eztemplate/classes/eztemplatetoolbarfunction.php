@@ -120,15 +120,37 @@ class eZTemplateToolbarFunction
 
                 if ( $placement == 1 )
                 {
-                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item first'>" );
+                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<ul><li class='toolbar-item first'>" );
+                    }
+                    else
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item first'>" );
+                    }
                 }
                 else if ( $placement == count( $toolArray ) )
                 {
-                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item last'>" );
+                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class='toolbar-item last'>" );
+                    }
+                    else
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item last'>" );
+                    }
+
                 }
                 else
                 {
-                    $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item'>" );
+                    if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<li class='toolbar-item'>" );
+                    }
+                    else
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createTextNode( "<div class='toolbar-item'>" );
+                    }
                 }
 
                 $resourceName = "";
@@ -176,7 +198,18 @@ class eZTemplateToolbarFunction
                     $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
                 }
 
-                $newNodes[] = eZTemplateNodeTool::createTextNode( "</div>" );
+                 if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                 {
+                     $newNodes[] = eZTemplateNodeTool::createTextNode( "</li>" );
+                     if ( $placement == count( $toolArray ) )
+                     {
+                         $newNodes[] = eZTemplateNodeTool::createTextNode( "</ul>" );
+                     }
+                 }
+                 else
+                 {
+                     $newNodes[] = eZTemplateNodeTool::createTextNode( "</div>" );
+                 }
             }
         }
         return $newNodes;
@@ -236,7 +269,7 @@ class eZTemplateToolbarFunction
                         }
                         if ( $toolbarIni->hasGroup( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement ) )
                         {
-                            $actionParameters = $toolbarIni->group( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement );
+                            $actionParameters = array_merge( $actionParameters, $toolbarIni->group( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement ) );
                         }
                         foreach ( array_keys( $actionParameters ) as $key )
                         {
@@ -247,18 +280,50 @@ class eZTemplateToolbarFunction
                         $uri = "design:toolbar/$viewMode/$tool.tpl";
                         if ( $placement == 1 )
                         {
-                            $textElements[] = "<div class='toolbar-item first'>";
+                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                            {
+                                $textElements[] = "<ul><li class='toolbar-item first'>";
+                            }
+                            else
+                            {
+                                $textElements[] = "<div class='toolbar-item first'>";
+                            }
                         }
                         else if ( $placement == count( $toolArray ) )
                         {
-                            $textElements[] = "<div class='toolbar-item last'>";
+                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                            {
+                                $textElements[] = "<li class='toolbar-item last'>";
+                            }
+                            else
+                            {
+                                $textElements[] = "<div class='toolbar-item first'>";
+                            }
                         }
                         else
                         {
-                            $textElements[] = "<div class='toolbar-item'>";
+                            if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                            {
+                                $textElements[] = "<li class='toolbar-item'>";
+                            }
+                            else
+                            {
+                                $textElements[] = "<div class='toolbar-item'>";
+                            }
                         }
                         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
-                        $textElements[] = "</div>";
+                        if ( $toolbarPosition == 'top' or $toolbarPosition == 'bottom' )
+                        {
+                            $textElements[] = "</li>";
+                            if ( $placement == count( $toolArray ) )
+                            {
+                                $textElements[] = "</ul>";
+                            }
+                        }
+                        else
+                        {
+                            $textElements[] = "</div>";
+                        }
                         foreach ( $definedVariables as $variable )
                         {
                             $tpl->unsetVariable( $variable, $currentNamespace );
