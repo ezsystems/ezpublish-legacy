@@ -110,8 +110,8 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                                'required' => true ),
                                          "data_int" => array( 'name' => "DataInt",
                                                               'datatype' => 'integer',
-                                                              'default' => 0,
-                                                              'required' => true ),
+                                                              'default' => null,
+                                                              'required' => false ),
                                          "data_float" => array( 'name' => "DataFloat",
                                                                 'datatype' => 'float',
                                                                 'default' => 0,
@@ -221,7 +221,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             "language_code" => eZContentObject::defaultLanguage(),
             "contentclassattribute_id" => $contentclassAttributeID,
             'data_text' => '',
-            'data_int' => 0,
+            'data_int' => null,
             'data_float' => 0.0 );
         return new eZContentObjectAttribute( $row );
     }
