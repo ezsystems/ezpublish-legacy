@@ -118,7 +118,7 @@ class eZContentClassClassGroup extends eZPersistentObject
     function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
         $versionCond = '';
-        if ( $contentclass_version != null )
+        if ( $contentclass_version !== null )
         {
             $versionCond = "AND class_group.contentclass_version='$contentclass_version'
                             AND contentclass.version='$contentclass_version'\n";
