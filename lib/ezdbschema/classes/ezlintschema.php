@@ -547,6 +547,24 @@ class eZLintSchema extends eZDBSchemaInterface
         return $this->OtherSchema->generateDataValueTextSQL( $fieldDef, $value );
     }
 
+    /*!
+     \reimp
+     Forwards request to schemaType() on the otherSchema() object.
+    */
+    function schemaType()
+    {
+        return $this->OtherSchema->schemaType();
+    }
+
+    /*!
+     \reimp
+     Forwards request to schemaName() on the otherSchema() object.
+    */
+    function schemaName()
+    {
+        return $this->OtherSchema->schemaName();
+    }
+
     /// \privatesection
     /// eZDBSchemaInterface object which should be lint checked
     var $OtherSchema;
