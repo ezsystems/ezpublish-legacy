@@ -82,33 +82,33 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     <li><div>
     {* Users menu *}
     {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Users'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {/section}
     </div></li>
     <li><div>
     {* Shop menu *}
     {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Webshop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}
     {/section}
     </div></li>
     <li><div>
     {* Set up menu *}
     {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Set up'|i18n('design/admin/layout') menu_url="/setup/menu/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {/section}
     </div></li>
     <li><div>
     {* Personal *}
     {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-    {include uri="design:page_menuheadselected.tpl" menu_text='Personal'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {include uri="design:page_menuheadselected.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {section-else}
-    {include uri="design:page_menuheadgray.tpl" menu_text='Personal'|i18n('design/admin/layout') menu_url="/content/draft/"}
+    {include uri="design:page_menuheadgray.tpl" menu_text='My account'|i18n('design/admin/layout') menu_url="/content/draft/"}
     {/section}
     </div></li>
 </ul>
