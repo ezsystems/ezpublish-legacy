@@ -159,7 +159,7 @@ class eZRSSExport extends eZPersistentObject
 
      \param export item array
     */
-    function store( $export_items )
+    function store( $export_items = null )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );

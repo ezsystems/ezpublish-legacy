@@ -289,9 +289,12 @@ if ( $mainAssignment )
         if ( $parentObject )
         {
             $parentClass =& $parentObject->attribute( 'content_class' );
-            $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
-                                  array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
-                                  ) );
+            if ( $parentClass )
+            {
+                $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
+                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
+                                      ) );
+            }
         }
     }
 }

@@ -482,6 +482,11 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentClass()
     {
+        if ( !is_numeric( $this->ClassID ) )
+        {
+            return null;
+        }
+
         return eZContentClass::fetch( $this->ClassID );
     }
 

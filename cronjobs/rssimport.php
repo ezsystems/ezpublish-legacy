@@ -101,6 +101,15 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 
     $root =& $domDocument->root();
 
+    if ( $root == null )
+    {
+        if ( !$isQuiet )
+        {
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS document.' );
+        }
+        continue;
+    }
+
     switch( $root->attributeValue( 'version' ) )
     {
         default:
