@@ -401,6 +401,12 @@ foreach ( $extensionRepositories as $extensionRepository )
     {
         $globalExtensionRepositories[] = $modulePath;
     }
+    else
+    {
+        eZDebug::writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
+                               "Looked for directory '" . $modulePath . "'\n" .
+                               "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
+    }
 }
 $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
