@@ -13,7 +13,7 @@
 
     <div class="attribute-matrix">
     <h3>{"Contact information"|i18n("design/base")}</h3>
-        {attribute_view_gui attribute=$node.object.data_map.person_numbers}
+        {attribute_view_gui attribute=$node.object.data_map.contact_information}
     </div>
     </div>
 

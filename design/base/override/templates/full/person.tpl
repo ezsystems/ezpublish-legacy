@@ -21,7 +21,7 @@
 
     <div class="attribute-matrix">
     <h2>{"Contact information"|i18n("design/base")}</h2>
-        {attribute_view_gui attribute=$node.object.data_map.person_numbers}
+        {attribute_view_gui attribute=$node.object.data_map.contact_information}
     </div>
 
     {section show=$node.object.data_map.comment.content.is_empty|not}
