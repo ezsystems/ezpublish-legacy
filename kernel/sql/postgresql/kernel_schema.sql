@@ -2763,6 +2763,14 @@ CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 
+CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree (path_identification_string);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezapprove_items
     ADD CONSTRAINT ezapprove_items12_key PRIMARY KEY (id);
 
