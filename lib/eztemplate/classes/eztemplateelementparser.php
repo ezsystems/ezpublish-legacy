@@ -191,7 +191,7 @@ class eZTemplateElementParser
                 {
                     if ( $text[$pos] == "," )
                     {
-                        $param = $this->emptyVariable();
+                        $param = $tpl->emptyVariable();
                         ++$pos;
                     }
                     else
