@@ -185,6 +185,7 @@ class eZSys
     function storageDirectory()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         $ini =& eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
