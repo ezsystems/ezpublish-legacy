@@ -1613,6 +1613,7 @@ class Cpdf
 	    $content .= "/ID[<".$this->fileIdentifier."><".$this->fileIdentifier.">]\n";
 	}
 	$content .= "  >>\nstartxref\n".($pos+1)."\n%%EOF\n";
+
 	return $content;
     }
 
@@ -2439,10 +2440,10 @@ class Cpdf
  *
  * @access private
  */
-    function PRVTcheckTextDirective(&$text,$i,&$f){
+    function PRVTcheckTextDirective(&$text,$i,&$f, $final = 0){
 	$x=0;
 	$y=0;
-	return $this->PRVTcheckTextDirective1($text,$i,$f,0,$x,$y);
+	return $this->PRVTcheckTextDirective1($text,$i,$f,$final,$x,$y);
     }
 
 /**
@@ -2456,27 +2457,27 @@ class Cpdf
  */
     function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$wordSpaceAdjust=0)
     {
+        $newTextState = $this->currentTextState;
         $noClose = 0;
         $directive = 0;
         $j=$i;
         if ($text[$j]=='<'){
             $j++;
-            switch($text[$j]){
+            switch($text[$j])
+            {
                 case '/':
                     $j++;
                 if (strlen($text) <= $j){
                     return $directive;
                 }
-                switch($text[$j]){
+                switch($text[$j])
+                {
                     case 'b':
                     case 'i':
-                        $j++;
+                        ++$j;
                     if ($text[$j]=='>'){
-                        $p = strrpos($this->currentTextState,$text[$j-1]);
-                        if ($p !== false){
-                            // then there is one to remove
+                        if ( $final )
                             $this->currentTextState = substr($this->currentTextState,0,$p).substr($this->currentTextState,$p+1);
-                        }
                         $directive=$j-$i+1;
                     }
                     break;
@@ -2536,9 +2537,11 @@ class Cpdf
                 break;
                 case 'b':
                 case 'i':
-                    $j++;
+                    ++$j;
+
                 if ($text[$j]=='>'){
-                    $this->currentTextState.=$text[$j-1];
+                    if (  $final )
+                        $this->currentTextState .= $text[$j-1];
                     $directive=$j-$i+1;
                 }
                 break;
@@ -2553,7 +2556,6 @@ class Cpdf
                     $directive = $k-$i+1;
                     $f=0;
                     // split the remainder on colons to get the function name and the paramater
-//          $bits = explode(':',substr($text,$j+1,$k-$j-1));
                     $tmp = substr($text,$j+1,$k-$j-1);
                     $b1 = strpos($tmp,':');
                     if ($b1!==false){
@@ -2609,102 +2611,103 @@ class Cpdf
  *
  * \return array( 'height' => <used height if more than normal text, -1 if not> )
  */
-    function addText($x,$y,$size,$text,$angle=0,$wordSpaceAdjust=0){
+    function addText($x,$y,$size,$text,$angle=0,$wordSpaceAdjust=0)
+    {
         $returnArray = array( 'height' => -1 );
 
-	if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
+        if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 
-	// if there are any open callbacks, then they should be called, to show the start of the line
-	if ($this->nCallback>0){
-	    for ($i=$this->nCallback;$i>0;$i--){
-		// call each function
-		$info = array('x'=>$x,'y'=>$y,'angle'=>$angle,'status'=>'sol','p'=>$this->callback[$i]['p'],'nCallback'=>$this->callback[$i]['nCallback'],'height'=>$this->callback[$i]['height'],'decender'=>$this->callback[$i]['decender']);
-		$func = $this->callback[$i]['f'];
-		$this->$func($info);
-	    }
-	}
-	if ($angle==0){
-	    $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Td';
-	} else {
-	    $a = deg2rad((float)$angle);
-	    $tmp = "\n".'BT ';
-	    $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-	    $tmp .= sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Tm';
-	    $this->objects[$this->currentContents]['c'] .= $tmp;
-	}
-	if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
-	    $this->wordSpaceAdjust=$wordSpaceAdjust;
-	    $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
-	}
-	$len=strlen($text);
-	$start=0;
-	for ($i=0;$i<$len;$i++){
-	    $f=1;
-        $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
-	    $directive = $directiveArray['directive'];
-	    if ($directive){
-            // then we should write what we need to
-            if ($i>$start){
-                $part = substr($text,$start,$i-$start);
-                $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
-                $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
+        // if there are any open callbacks, then they should be called, to show the start of the line
+        if ($this->nCallback>0){
+            for ($i=$this->nCallback;$i>0;$i--){
+                // call each function
+                $info = array('x'=>$x,'y'=>$y,'angle'=>$angle,'status'=>'sol','p'=>$this->callback[$i]['p'],'nCallback'=>$this->callback[$i]['nCallback'],'height'=>$this->callback[$i]['height'],'decender'=>$this->callback[$i]['decender']);
+                $func = $this->callback[$i]['f'];
+                $this->$func($info);
             }
-            if ($f){
-                // then there was nothing drastic done here, restore the contents
-                $this->setCurrentFont();
-            } else {
-                $this->objects[$this->currentContents]['c'] .= ' ET';
-                $f=1;
-                $xp=$x;
-                $yp=$y;
-                $directiveArray = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
-                if ( $directiveArray['y'] != 0 )
-                {
-                    $returnArray['height'] = $y - $directiveArray['y'];
+        }
+        if ($angle==0){
+            $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Td';
+        } else {
+            $a = deg2rad((float)$angle);
+            $tmp = "\n".'BT ';
+            $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
+            $tmp .= sprintf('%.3f',$x).' '.sprintf('%.3f',$y).' Tm';
+            $this->objects[$this->currentContents]['c'] .= $tmp;
+        }
+        if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
+            $this->wordSpaceAdjust=$wordSpaceAdjust;
+            $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
+        }
+        $len=strlen($text);
+        $start=0;
+        for ($i=0;$i<$len;$i++){
+            $f=1;
+            $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f, 1);
+            $directive = $directiveArray['directive'];
+            if ($directive){
+                // then we should write what we need to
+                if ($i>$start){
+                    $part = substr($text,$start,$i-$start);
+                    $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
+                    $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
                 }
-
-                $directive = $directiveArray['directive'];
-
-                // restart the text object
-                if ($angle==0){
-                    $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Td';
+                if ($f){
+                    // then there was nothing drastic done here, restore the contents
+                    $this->setCurrentFont();
                 } else {
-                    $a = deg2rad((float)$angle);
-                    $tmp = "\n".'BT ';
-                    $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
-                    $tmp .= sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Tm';
-                    $this->objects[$this->currentContents]['c'] .= $tmp;
+                    $this->objects[$this->currentContents]['c'] .= ' ET';
+                    $f=1;
+                    $xp=$x;
+                    $yp=$y;
+                    $directiveArray = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
+                    if ( $directiveArray['y'] != 0 )
+                    {
+                        $returnArray['height'] = $y - $directiveArray['y'];
+                    }
+
+                    $directive = $directiveArray['directive'];
+
+                    // restart the text object
+                    if ($angle==0){
+                        $this->objects[$this->currentContents]['c'].="\n".'BT '.sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Td';
+                    } else {
+                        $a = deg2rad((float)$angle);
+                        $tmp = "\n".'BT ';
+                        $tmp .= sprintf('%.3f',cos($a)).' '.sprintf('%.3f',(-1.0*sin($a))).' '.sprintf('%.3f',sin($a)).' '.sprintf('%.3f',cos($a)).' ';
+                        $tmp .= sprintf('%.3f',$xp).' '.sprintf('%.3f',$yp).' Tm';
+                        $this->objects[$this->currentContents]['c'] .= $tmp;
+                    }
+                    if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
+                        $this->wordSpaceAdjust=$wordSpaceAdjust;
+                        $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
+                    }
                 }
-                if ($wordSpaceAdjust!=0 || $wordSpaceAdjust != $this->wordSpaceAdjust){
-                    $this->wordSpaceAdjust=$wordSpaceAdjust;
-                    $this->objects[$this->currentContents]['c'].=' '.sprintf('%.3f',$wordSpaceAdjust).' Tw';
-                }
+                // and move the writing point to the next piece of text
+                $i=$i+$directive-1;
+                $start=$i+1;
             }
-            // and move the writing point to the next piece of text
-            $i=$i+$directive-1;
-            $start=$i+1;
-	    }
 
-	}
-	if ($start<$len){
-	    $part = substr($text,$start);
-	    $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
-	    $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
-	}
-	$this->objects[$this->currentContents]['c'].=' ET';
+        }
+        if ($start<$len){
+            $part = substr($text,$start);
+            $this->objects[$this->currentContents]['c'].=' /F'.$this->currentFontNum.' '.sprintf('%.1f',$size).' Tf ';
+            $this->objects[$this->currentContents]['c'].=' ('.$this->filterText($part).') Tj';
+        }
+        $this->objects[$this->currentContents]['c'].=' ET';
 
-	// if there are any open callbacks, then they should be called, to show the end of the line
-	if ($this->nCallback>0){
-	    for ($i=$this->nCallback;$i>0;$i--){
-		// call each function
-		$tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,$text);
-		$info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'eol','p'=>$this->callback[$i]['p'],'nCallback'=>$this->callback[$i]['nCallback'],'height'=>$this->callback[$i]['height'],'decender'=>$this->callback[$i]['decender']);
-		$func = $this->callback[$i]['f'];
-		$this->$func($info);
-	    }
-	}
+        // if there are any open callbacks, then they should be called, to show the end of the line
+        if ($this->nCallback>0){
+            for ($i=$this->nCallback;$i>0;$i--){
+                // call each function
+                $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,$text);
+                $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'eol','p'=>$this->callback[$i]['p'],'nCallback'=>$this->callback[$i]['nCallback'],'height'=>$this->callback[$i]['height'],'decender'=>$this->callback[$i]['decender']);
+                $func = $this->callback[$i]['f'];
+                $this->$func($info);
+            }
+        }
 
-    return $returnArray;
+        return $returnArray;
     }
 
 /**
@@ -2715,7 +2718,7 @@ class Cpdf
 	// this function should not change any of the settings, though it will need to
 	// track any directives which change during calculation, so copy them at the start
 	// and put them back at the end.
-	$store_currentTextState = $this->currentTextState;
+	$this->pushTextState( $this->currentTextState );
 
 	if (!$this->numFonts){
 	    $this->selectFont('./fonts/Helvetica');
@@ -2752,7 +2755,7 @@ class Cpdf
 	    }
 	}
 
-	$this->currentTextState = $store_currentTextState;
+	$this->popTextState();
 	$this->setCurrentFont();
 
 	return $w*$size/1000;
@@ -2853,14 +2856,14 @@ class Cpdf
 		} else {
 		    $cOrd2 = $cOrd;
 		}
-		
+
 		if (isset($this->fonts[$cf]['C'][$cOrd2]['WX'])){
 		    $w+=$this->fonts[$cf]['C'][$cOrd2]['WX'];
 		}
 		else{
 		  $w += 250;
 		}
-	      
+
 		if ($w>$tw){
 		    // then we need to truncate this line
 		    if ($break>0){
@@ -3601,6 +3604,28 @@ class Cpdf
                  $cmykArray1['k'] == $cmykArray2['k'] );
     }
 
+    /*!
+     Push current text state, and set specified to current
+
+     \param new text state
+    */
+    function pushTextState( $newState )
+    {
+        $this->textStateStack[] = $this->currentTextState;
+        $this->currentTextState = $newState;
+        $this->setCurrentFont();
+    }
+
+    /*!
+     Pop text stack, and set to previous state.
+    */
+    function popTextState( )
+    {
+        $this->currentTextState = array_pop( $this->textStateStack );
+        $this->setCurrentFont();
+    }
+
+    var $textStateStack = array( '' );
 } // end of class
 
 ?>

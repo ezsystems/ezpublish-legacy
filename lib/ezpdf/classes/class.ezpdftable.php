@@ -189,7 +189,7 @@ class eZPDFTable extends Cezpdf
             return;
         }
 
-	$tableStartY = $this->y;
+        $tableStartY = $this->y;
 
         // Get total column count and column indexes
         if (!is_array($cols)){
@@ -715,10 +715,10 @@ class eZPDFTable extends Cezpdf
 
                                         $this->y = $storeY;
                                         $line=$textInfo['text'];
-					if ( $line == '' )
-					  {
-					    $this->y -= $textInfo['height'];
-					  }
+                                        if ( $line == '' )
+                                        {
+                                            $this->y -= $textInfo['height'];
+                                        }
                                     }
                                 }
                             }
@@ -894,7 +894,7 @@ class eZPDFTable extends Cezpdf
             {
                 $tableHeight = $startY - $y;
                 $this->y = $options['yBottom'] + $tableHeight;
-		$yBottom = $options['yBottom'];
+                $yBottom = $options['yBottom'];
                 unset( $options['yBottom'] );
                 $options['test'] = 0;
                 $this->transaction('rewind');
@@ -923,13 +923,13 @@ class eZPDFTable extends Cezpdf
         }
 
         if ( $options['overwrite'] > 0 )
-	  {
+        {
             $this->y=$tableStartY;
-	  }
+        }
         else
-	  {
+        {
             $this->y=$y;
-	  }
+        }
 
         return $this->y;
     }
@@ -1439,7 +1439,6 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->outputDocSpecification();
-
     }
 
     /*!
@@ -1578,11 +1577,11 @@ class eZPDFTable extends Cezpdf
         if ( isset( $options['top'] ) )
         {
             $this->ez['topMargin'] = (float)$options['top'];
-	    if ( $this->yOffset() < $this->ez['topMargin'] )
-	      {
-		$this->ez['yOffset'] = (float)$options['y'];
-		$this->y = (float)$options['y'];
-	      } 
+            if ( $this->yOffset() < $this->ez['topMargin'] )
+            {
+                $this->ez['yOffset'] = (float)$options['y'];
+                $this->y = (float)$options['y'];
+            }
         }
 
         if ( isset( $options['x'] ) )
@@ -1794,78 +1793,78 @@ class eZPDFTable extends Cezpdf
         }
 
         $text = str_replace( array( ' ', "\t", "\r\n", "\n" ),
-			     '',
-			     urldecode( $text ) );
+                             '',
+                             urldecode( $text ) );
 
         foreach ( $this->ezPages as $pageNum => $pageID )
-	  {
-	    $this->pushStack();
+        {
+            $this->pushStack();
 
-	    foreach( $frameCoords as $key => $value )
-	      {
-		$this->ez[$key] = $value;
-	      }
+            foreach( $frameCoords as $key => $value )
+            {
+                $this->ez[$key] = $value;
+            }
 
 
-	    foreach( $frameCoords as $key => $value )
-	      {
-		$this->ez[$key] = $value;
-	      }
-	  
-	    $this->setXOffset( 0 );
-	    $this->setYOffset( $this->ez['pageHeight'] - $this->ez['topMargin'] );
+            foreach( $frameCoords as $key => $value )
+            {
+                $this->ez[$key] = $value;
+            }
 
-	    $frameText = $text; //Create copy of text
-	    if( $textParameters['page'] == 'even' &&
-		$pageNum % 2 == 1 )
-	      continue;
-	    else if ( $textParameters['page'] == 'odd' &&
-		      $pageNum % 2 == 0 )
-	      continue;
+            $this->setXOffset( 0 );
+            $this->setYOffset( $this->ez['pageHeight'] - $this->ez['topMargin'] );
 
-	    if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
-	      {
-		foreach ( array_keys( $this->PageCounter ) as $identifier )
-		  {
-		    if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
-			 $this->PageCounter[$identifier]['stop'] >= $pageNum )
-		      {
-			$frameText = str_replace( EZ_PDF_LIB_PAGENUM,
-						  $this->ezWhatPageNumber( $pageNum, $identifier ),
-						  $frameText );
+            $frameText = $text; //Create copy of text
+            if( $textParameters['page'] == 'even' &&
+                $pageNum % 2 == 1 )
+                continue;
+            else if ( $textParameters['page'] == 'odd' &&
+                      $pageNum % 2 == 0 )
+                continue;
 
-			if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
-			  {
-			    $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
-						      $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
-						      $frameText );
-			  }
-		      }
-		  }
-	      }
+            if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
+            {
+                foreach ( array_keys( $this->PageCounter ) as $identifier )
+                {
+                    if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
+                         $this->PageCounter[$identifier]['stop'] >= $pageNum )
+                    {
+                        $frameText = str_replace( EZ_PDF_LIB_PAGENUM,
+                                                  $this->ezWhatPageNumber( $pageNum, $identifier ),
+                                                  $frameText );
 
-	    for( $levelCount = 0; $levelCount < 9; $levelCount++ )
-	      {
-		if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
-		  {
-		    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
-					      $this->headerLabel( $pageNum, $levelCount ),
-					      $frameText );
-		  }
+                        if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+                        {
+                            $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+                                                      $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
+                                                      $frameText );
+                        }
+                    }
+                }
+            }
 
-		if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
-		  {
-		    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
-					      $this->headerIndex( $pageNum, $levelCount ),
-					      $frameText );
-		  }
-	      }
+            for( $levelCount = 0; $levelCount < 9; $levelCount++ )
+            {
+                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                {
+                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                                              $this->headerLabel( $pageNum, $levelCount ),
+                                              $frameText );
+                }
 
-	    $this->reopenObject($pageID);
-	    $this->ezText( $frameText );
-	    $this->closeObject();
-	    $this->popStack();
-	  }
+                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                {
+                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                                              $this->headerIndex( $pageNum, $levelCount ),
+                                              $frameText );
+                }
+            }
+
+            $this->reopenObject($pageID);
+            $this->ezText( $frameText );
+            $this->closeObject();
+            $this->popStack();
+        }
     }
 
     /*!
@@ -2509,7 +2508,7 @@ class eZPDFTable extends Cezpdf
      * Add and build Stack for function calls and document specification Stack
 
       \param countinues text, set to false to insert independent frames. DEfault true
-     */
+    */
     function pushStack( $continous = true)
     {
         include_once( 'lib/ezutils/classes/ezmath.php' );
