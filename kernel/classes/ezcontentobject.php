@@ -1774,7 +1774,7 @@ class eZContentObject extends eZPersistentObject
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult =  $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult = $user->hasAccessTo( 'content' , $functionName, $accessList );
         $accessWord = $accessResult['accessWord'];
         if ( $classID === false )
         {
@@ -2004,6 +2004,47 @@ class eZContentObject extends eZPersistentObject
         if ( isset( $policy['Assigned'] ) )
         {
             if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['Node'] ) )
+        {
+            $allowed = false;
+            foreach( $policy['Node'] as $nodeID )
+            {
+                $mainNodeID = $this->attribute( 'main_node_id' );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                {
+                    $allowed = true;
+                    break;
+                }
+            }
+            if ( !$allowed )
+            {
+                return array();
+            }
+        }
+
+        if( isset( $policy['Subtree'] ) )
+        {
+            $allowed = false;
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
+            foreach ( $assignedNodes as  $assignedNode )
+            {
+                $path = $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['Subtree'] as $subtreeString )
+                {
+                    if (  strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
             {
                 return array();
             }
