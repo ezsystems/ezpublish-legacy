@@ -108,7 +108,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'sort_array' => 'sortArray',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
-                                                      "parent" => "fetchParent"
+                                                      "parent" => "fetchParent",
+                                                      'url_alias' => 'urlAlias'
                                                       ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
@@ -179,6 +180,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'creator' )
         {
             return $this->creator();
+        }
+        elseif ( $attr == 'url_alias' )
+        {
+            return $this->urlAlias();
         }else
             return eZPersistentObject::attribute( $attr );
     }
@@ -1331,6 +1336,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &contentObjectVersionObject( $asObject = true )
     {
         return eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
+    }
+
+    function &urlAlias()
+    {
+        return $this->PathIdentificationString;
     }
 }
 
