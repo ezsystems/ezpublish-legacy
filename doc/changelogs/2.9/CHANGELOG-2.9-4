@@ -20,9 +20,15 @@ Changes from 2.9-3 to 2.9-4
 - Fixed single selection in browse object/node.
 - Fixed bug in list stylesheet.
 - Changed node assignment interface when editing objects.
+- Added function to move node from one place to another place.
 - Changed role editing interface. Policy creation wizard is added.
 - Added new template operator /ezroot/ which prepends the wwwDir to urls,
   useful for stored images, files etc.
+- Added warning page for removing group, fixed bug of unable to delete group classes.
+- Added warning page for removing published object. When an object is assigned to different nodes, remove an
+  object in one place will not remove the object, only the specified placement will be removed.
+- Fixed bug for uncorrected attribute order when editing an object whose attribute order may have been changed.
+- Fixed bug for class discard function.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
