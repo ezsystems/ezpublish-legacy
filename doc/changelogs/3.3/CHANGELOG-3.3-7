@@ -9,6 +9,8 @@ Changes from 3.3-6 to 3.3-7
   http://ez.no/community/bug_reports/broken_datatype.
 - Fixed bug with non-mandatory user datatype, entered mail but not username
   http://ez.no/community/bug_reports/ezuser_strange_behavior
+- Fixed bug with triing load of empty string translation file multiple times.
+  http://ez.no/community/bug_reports/nno_no_translation_is_empty
 
 *Library:
 
