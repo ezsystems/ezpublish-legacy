@@ -67,6 +67,7 @@ links to clickable links.
 - Fixed problem with missing variables in content cache files.
 - Content cache now restores template design keys.
 - Full and sitemap now only shows edit/copy/remove columns when you actually can do it.
+- Fixed problem with ezsys returning values with quotes ".
 
 *SDK :
 
