@@ -61,7 +61,7 @@ if ( count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-include_once( 'class_templates/ezclasstemplate.php' );
+include_once( 'kernel/classes/ezclasstemplate.php' );
 
 $hasErrors = false;
 $hasModified = false;
