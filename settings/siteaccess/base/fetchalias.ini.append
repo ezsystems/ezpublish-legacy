@@ -23,3 +23,13 @@ Parameter[limit]=limit
 Module=content
 FunctionName=list_count
 Parameter[parent_node_id]=parent_node_id
+
+
+# Fetch subtree
+[subtree]
+Module=content
+FunctionName=tree
+Constant[sort_by]=priority;0
+Parameter[parent_node_id]=parent_node_id
+Parameter[offset]=offset
+Parameter[limit]=limit

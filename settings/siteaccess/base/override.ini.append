@@ -17,6 +17,12 @@ MatchFile=full/comment.tpl
 Subdir=templates
 Match[class]=13
 
+[full_file]
+Source=node/view/full.tpl
+MatchFile=full/file.tpl
+Subdir=templates
+Match[class]=12
+
 [full_link]
 Source=node/view/full.tpl
 MatchFile=full/link.tpl
@@ -32,13 +38,19 @@ MatchFile=edit/comment.tpl
 Subdir=templates
 Match[class]=13
 
+[edit_file]
+Source=content/edit.tpl
+MatchFile=edit/file.tpl
+Subdir=templates
+Match[class]=12
+
 
 # LINE TEMPLATES
 [line_folder]
 Source=node/view/line.tpl
 MatchFile=line/folder.tpl
 Subdir=templates
-Match[class]=13
+Match[class]=1
 
 [line_article]
 Source=node/view/line.tpl
@@ -64,6 +76,26 @@ Match[class]=11
 Source=content/view/embed.tpl
 MatchFile=embed/image.tpl
 Subdir=templates
-Match[class]=13
+Match[class]=5
+
+[embed_file]
+Source=content/view/embed.tpl
+MatchFile=embed/file.tpl
+Subdir=templates
+Match[class]=12
+
+[embed_folder_contentlist]
+Source=content/view/embed.tpl
+MatchFile=embed/folder_contentlist.tpl
+Subdir=templates
+Match[class]=1
+Match[classification]=contentlist
+
+[embed_folder_subtree]
+Source=content/view/embed.tpl
+MatchFile=embed/folder_subtree.tpl
+Subdir=templates
+Match[class]=1
+Match[classification]=subtree
 
 # OTHER TEMPLATES
