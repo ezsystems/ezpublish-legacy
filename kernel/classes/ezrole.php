@@ -749,7 +749,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Fetches the role identified by the role ID \a $roleID and returns it.
-     \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
+     \param $version Which version to fetch, 0 is the published one. Temporary versions get
+      the id of the role.
     */
     function fetch( $roleID, $version = 0 )
     {

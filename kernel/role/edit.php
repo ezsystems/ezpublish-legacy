@@ -55,7 +55,7 @@ $roleID =& $Params['RoleID'];
 $modules = eZModuleManager::availableModules();
 sort( $modules );
 
-$role = eZRole::fetch( $roleID, 1 );
+$role = eZRole::fetch( 0, $roleID );
 if ( is_null( $role ) )
 {
     $role = eZRole::fetch( $roleID );
