@@ -65,7 +65,7 @@
         {* {include uri="design:class/datatypes.tpl" name=DataTypes id_name="ContentAttribute_data_type_string[]" datatypes=$datatypes current=$Attributes:item.data_type.information.string} *}
         Searchable<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked{/section} />&nbsp;&nbsp;&nbsp;
 	Required<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked{/section} /></td>
-        <td></td>{$Attributes:item.is_searchable}www
+        <td></td>
     </tr>
     <tr>
         <td colspan="4">{class_attribute_edit_gui class_attribute=$Attributes:item}</td>
