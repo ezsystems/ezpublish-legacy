@@ -37,6 +37,11 @@
 
 */
 
+define( "EZ_SDK_VERSION_MAJOR", 3 );
+define( "EZ_SDK_VERSION_MINOR", 0 );
+define( "EZ_SDK_VERSION_RELEASE", 1 );
+define( "EZ_SDK_VERSION_ALIAS", '3.0' );
+
 class eZPublishSDK
 {
     /*!
@@ -60,7 +65,7 @@ class eZPublishSDK
     */
     function majorVersion()
     {
-        return 2;
+        return EZ_SDK_VERSION_MAJOR;
     }
 
     /*!
@@ -68,7 +73,7 @@ class eZPublishSDK
     */
     function minorVersion()
     {
-        return 9;
+        return EZ_SDK_VERSION_MINOR;
     }
 
     /*!
@@ -76,7 +81,7 @@ class eZPublishSDK
     */
     function release()
     {
-        return 7;
+        return EZ_SDK_VERSION_RELEASE;
     }
 
     /*!
@@ -84,7 +89,7 @@ class eZPublishSDK
     */
     function alias()
     {
-        return '3.0-rc2';
+        return EZ_SDK_VERSION_ALIAS;
     }
 }
 
