@@ -2065,6 +2065,16 @@ class eZSearchEngine
                 //
     }
 
+    /*!
+     Will remove all search words and object/word relations.
+    */
+    function cleanup()
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezsearch_word" );
+        $db->query( "DELETE FROM ezsearch_object_word_link" );
+    }
+
 
     var $UseOldCall = false;
     var $TempTablesCount = 0;
