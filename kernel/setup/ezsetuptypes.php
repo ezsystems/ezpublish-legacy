@@ -116,10 +116,9 @@ function eZSetupSiteINISettings( $siteType )
     $settings = array();
     if ( $siteType == 'intranet' )
     {
-        $settings = array_merge( $settings,
-                                 array( 'SiteAccessSettings' => array( 'RequireUserLogin' => 'true' ) ) );
+        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'true' ) );
     }
-    return array( 'name' => 'menu.ini',
+    return array( 'name' => 'site.ini',
                   'settings' => $settings );
 }
 
@@ -172,6 +171,7 @@ function eZSetupToolbarINISettings( $siteType )
     if ( $siteType == 'blog' )
     {
         $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'search', 'users' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
@@ -184,6 +184,7 @@ function eZSetupToolbarINISettings( $siteType )
     else if ( $siteType == 'shop' )
     {
         $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
@@ -194,6 +195,7 @@ function eZSetupToolbarINISettings( $siteType )
     else
     {
         $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login', 'searchbox' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
@@ -208,6 +210,7 @@ function eZSetupAdminToolbarINISettings( $siteType )
 {
     $toolbar = array (
         'name' => 'toolbar.ini',
+        'reset_arrays' => true,
         'settings' =>
         array (
             'Toolbar' =>

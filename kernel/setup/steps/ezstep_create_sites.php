@@ -381,12 +381,15 @@ class eZStepCreateSites extends eZStepInstaller
             $siteINIStored = false;
             $siteINIAdminStored = false;
 
-            $extraSettings = eZSetupINISettings( $siteType );
-            $extraAdminSettings = eZSetupAdminINISettings( $siteType );
+            $extraSettings = eZSetupINISettings( $siteType['identifier'] );
+            $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'] );
             foreach ( $extraSettings as $extraSetting )
             {
                 $iniName = $extraSetting['name'];
                 $settings = $extraSetting['settings'];
+                $resetArray = false;
+                if ( isset( $extraSetting['reset_arrays'] ) )
+                    $resetArray = $extraSetting['reset_arrays'];
                 $tmpINI =& eZINI::create( $iniName );
                 $tmpINI->setVariables( $settings );
                 if ( $iniName == 'site.ini' )
@@ -396,12 +399,15 @@ class eZStepCreateSites extends eZStepInstaller
                     $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                     $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
                 }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
             }
             foreach ( $extraAdminSettings as $extraSetting )
             {
                 $iniName = $extraSetting['name'];
                 $settings = $extraSetting['settings'];
+                $resetArray = false;
+                if ( isset( $extraSetting['reset_arrays'] ) )
+                    $resetArray = $extraSetting['reset_arrays'];
                 $tmpINI =& eZINI::create( $iniName );
                 $tmpINI->setVariables( $settings );
                 if ( $iniName == 'site.ini' )
@@ -412,20 +418,22 @@ class eZStepCreateSites extends eZStepInstaller
                     $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
                     $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
                 }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
             }
 
-            $siteINI =& eZINI::create( 'site.ini' );
             if ( !$siteINIAdminStored )
             {
+                $siteINI =& eZINI::create( 'site.ini' );
                 $siteINI->setVariables( $siteINIChanges );
-                $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
-                $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+                $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
+                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+                $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
                 $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
             }
             if ( !$siteINIStored )
             {
+                $siteINI =& eZINI::create( 'site.ini' );
+                $siteINI->setVariables( $siteINIChanges );
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                 $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
                 $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
