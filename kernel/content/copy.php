@@ -69,9 +69,9 @@ if ( $versionHandling == 'user-defined' )
         $tpl->setVariable( 'object', $object );
         $Result['content'] = $tpl->fetch( 'design:content/copy.tpl' );
         $Result['path'] = array( array( 'url' => false,
-                                        'text' => 'Content' ),
+                                        'text' => ezi18n( 'kernel/content', 'Content' ) ),
                                  array( 'url' => false,
-                                        'text' => 'Copy' ) );
+                                        'text' => ezi18n( 'kernel/content', 'Copy' ) ) );
     }
 }
 else if ( $versionHandling == 'last-published' )

@@ -51,6 +51,6 @@ if ( $Module->isCurrentAction( 'Custom' ) )
 $Result = array();
 $Result['content'] = false;
 $Result['path'] = array( array( 'url' => false,
-                                'Collaboration custom action' ) );
+                                ezi18n( 'kernel/collaboration', 'Collaboration custom action' ) ) );
 
 ?>

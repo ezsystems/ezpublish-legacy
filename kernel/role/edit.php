@@ -204,7 +204,8 @@ if ( $http->hasPostVariable( "CustomFunction" ) )
     $Result = array();
 
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => 'Create policy - step 2 - Specify function' ) );
+                                    'text' => ezi18n( 'kernel/role',
+                                                      'Create policy - step 2 - Specify function' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
@@ -268,7 +269,8 @@ if ( $http->hasPostVariable( "Limitation" ) )
 
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => 'Create policy - step 3 - Specify limitations' ) );
+                                    'text' => ezi18n( 'kernel/role',
+                                                      'Create policy - step 3 - Specify limitations' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
     return;
@@ -290,7 +292,8 @@ if ( $http->hasPostVariable( "DiscardLimitation" )  || $http->hasPostVariable( "
 
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => 'Create policy - step 2 - Specify function' ) );
+                                    'text' => ezi18n( 'kernel/role',
+                                                      'Create policy - step 2 - Specify function' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
@@ -306,7 +309,8 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( "Step1"
 
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => 'Create policy - step 1 - Specify module' ) );
+                                    'text' => ezi18n( 'kernel/role',
+                                                      'Create policy - step 1 - Specify module' ) ) );
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
     return;
@@ -333,7 +337,7 @@ $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
 $Result = array();
 $Result['path'] = array( array( 'url' => '/role/edit/' . $roleID . '/' ,
-                                'text' => 'Role edit' ) );
+                                'text' => ezi18n( 'kernel/role', 'Role edit' ) ) );
 
 $Result['content'] =& $tpl->fetch( 'design:role/edit.tpl' );
 

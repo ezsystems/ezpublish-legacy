@@ -450,6 +450,6 @@ $tpl->setVariable( "datatype", $cur_datatype );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/edit.tpl" );
 $Result['path'] = array( array( 'url' => '/class/edit/',
-                                'text' => 'Class edit' ) );
+                                'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
 
 ?>

@@ -262,7 +262,7 @@ $tpl->setVariable( 'remove_language_list', $removeLanguageArray );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/translate.tpl' );
-$Result['path'] = array( array( 'text' => 'Translate',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translate' ),
                                 'url' => false ),
                          array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );

@@ -88,7 +88,7 @@ $tpl->setVariable( 'module', $Module );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:task/messageview.tpl" );
-$Result['path'] = array( array( 'text' => 'Task message',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/task', 'Task message' ),
                                 'url' => false ) );
 
 ?>

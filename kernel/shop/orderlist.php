@@ -53,7 +53,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/content', 'Order list' ),
+$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
                  'url' => false );
 
 $Result = array();

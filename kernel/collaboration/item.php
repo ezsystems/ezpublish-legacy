@@ -69,7 +69,7 @@ $Result['content'] = $tpl->fetch( $template );
 $collabHandler->readItem( $collabItem );
 
 $Result['path'] = array( array( 'url' => 'collaboration/view/summary',
-                                'text' => 'Collaboration' ),
+                                'text' => ezi18n( 'kernel/collaboration', 'Collaboration' ) ),
                          array( 'url' => false,
                                 'text' => $collabTitle ) );
 

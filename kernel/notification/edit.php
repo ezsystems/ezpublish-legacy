@@ -194,6 +194,6 @@ $tpl->setVariable( "ClassAttributeID", $ClassAttributeID );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:notification/edit.tpl" );
 $Result['path'] = array( array( 'url' => '/notification/edit/',
-                                'text' => 'Notification edit' ) );
+                                'text' => ezi18n( 'kernel/notification', 'Notification edit' ) ) );
 
 ?>

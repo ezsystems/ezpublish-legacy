@@ -93,7 +93,7 @@ $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );
-$Result['path'] = array( array( 'text' => 'Search',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ),
                          array( 'text' => 'Normal',
                                 'url' => false ) );

@@ -84,7 +84,7 @@ switch( $operationResult['status'] )
             $Result = array();
             $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => 'Confirm order' ) );
+                                            'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:
@@ -113,6 +113,6 @@ switch( $operationResult['status'] )
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Confirm order' ) );
+                                'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
 */
 ?>

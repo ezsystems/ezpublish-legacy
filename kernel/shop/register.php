@@ -115,6 +115,6 @@ if ( $module->isCurrentAction( 'Store' ) )
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/register.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Enter account information' ) );
+                                'text' => ezi18n( 'kernel/shop', 'Enter account information' ) ) );
 
 ?>

@@ -102,6 +102,5 @@ $tpl->setVariable( "Module", $Module );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removeeditversion.tpl" );
 $Result['path'] = array( array( 'url' => '/content/removeeditversion/',
-                                'text' => 'Remove editing version' ) );
+                                'text' => ezi18n( 'kernel/content', 'Remove editing version' ) ) );
 ?>
-

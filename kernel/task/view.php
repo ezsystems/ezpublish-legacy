@@ -142,6 +142,6 @@ $tpl->setVariable( 'view_type', $ini->variable( 'TaskSettings', 'MessageViewMode
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:task/view.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Task list' ) );
+                                'text' => ezi18n( 'kernel/task', 'Task list' ) ) );
 
 ?>

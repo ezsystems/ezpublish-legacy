@@ -108,9 +108,9 @@ $tpl->setVariable( 'warning', array( 'bad_login' => $loginWarning ), 'User' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
-$Result['path'] = array( array( 'text' => 'User',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => 'Login',
+                         array( 'text' => ezi18n( 'kernel/user', 'Login' ),
                                 'url' => false ) );
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
     $Result['pagelayout'] = 'loginpagelayout.tpl';

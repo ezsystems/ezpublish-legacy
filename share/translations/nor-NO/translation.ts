@@ -21,6 +21,70 @@
         <source>My drafts</source>
         <translation>Mine utkast</translation>
     </message>
+    <message>
+        <source>Frontpage</source>
+        <translation>Forside</translation>
+    </message>
+    <message>
+        <source>Sitemap</source>
+        <translation>Nettstedskart</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation>Papirkurv</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation>Bytt passord</translation>
+    </message>
+    <message>
+        <source>Order list</source>
+        <translation>Ordreliste</translation>
+    </message>
+    <message>
+        <source>VAT types</source>
+        <translation>MVA-typer</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Tilbud</translation>
+    </message>
+    <message>
+        <source>Roles</source>
+        <translation>Roller</translation>
+    </message>
+    <message>
+        <source>My Notifications</source>
+        <translation>Mine meldinger</translation>
+    </message>
+    <message>
+        <source>Collaboration</source>
+        <translation>Samarbeid</translation>
+    </message>
+    <message>
+        <source>Classes</source>
+        <translation>Klasser</translation>
+    </message>
+    <message>
+        <source>Sections</source>
+        <translation>Seksjoner</translation>
+    </message>
+    <message>
+        <source>Workflows</source>
+        <translation>Arbeidsflyt</translation>
+    </message>
+    <message>
+        <source>Triggers</source>
+        <translation>Utløsere</translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation>Oversettelser</translation>
+    </message>
+    <message>
+        <source>Search stats</source>
+        <translation>Søkestatistikk</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/datatype</name>
@@ -1085,6 +1149,14 @@
         <source>No results were found for searching:</source>
         <translation>Ingen treff ved søk etter:</translation>
     </message>
+    <message>
+        <source>Object name</source>
+        <translation>Objektnavn</translation>
+    </message>
+    <message>
+        <source>Class name</source>
+        <translation>Klassenavn</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/translate</name>
@@ -1376,50 +1448,6 @@
         <translation>Mine utkast</translation>
     </message>
     <message>
-        <source>Search stats</source>
-        <translation>Søkestatistikk</translation>
-    </message>
-    <message>
-        <source>Classes</source>
-        <translation>Klasser</translation>
-    </message>
-    <message>
-        <source>Sections</source>
-        <translation>Seksjoner</translation>
-    </message>
-    <message>
-        <source>Workflows</source>
-        <translation>Arbeidsflyt</translation>
-    </message>
-    <message>
-        <source>Triggers</source>
-        <translation>Utløsere</translation>
-    </message>
-    <message>
-        <source>Order list</source>
-        <translation>Ordreliste</translation>
-    </message>
-    <message>
-        <source>VAT types</source>
-        <translation>MVA-typer</translation>
-    </message>
-    <message>
-        <source>Discount</source>
-        <translation>Tilbud</translation>
-    </message>
-    <message>
-        <source>Users</source>
-        <translation>Brukere</translation>
-    </message>
-    <message>
-        <source>Roles</source>
-        <translation>Roller</translation>
-    </message>
-    <message>
-        <source>My Notifications</source>
-        <translation>Mine meldinger</translation>
-    </message>
-    <message>
         <source>Restart</source>
         <translation>Restart</translation>
     </message>
@@ -1508,10 +1536,6 @@
         <translation>Installer med hjelp av installasjonsguiden</translation>
     </message>
     <message>
-        <source>Collaboration</source>
-        <translation>Samarbeid</translation>
-    </message>
-    <message>
         <source>%1 front page</source>
         <translation>%1 forside</translation>
     </message>
@@ -1534,14 +1558,6 @@
     <message>
         <source>Trash</source>
         <translation>Papirkurv</translation>
-    </message>
-    <message>
-        <source>Translations</source>
-        <translation>Oversettelser</translation>
-    </message>
-    <message>
-        <source>Change password</source>
-        <translation>Bytt passord</translation>
     </message>
 </context>
 <context>
@@ -2080,7 +2096,7 @@
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URL</translation>
     </message>
     <message>
         <source>PHP info:</source>
@@ -3474,6 +3490,10 @@
         <source>Input did not validate, fill in all fields</source>
         <translation>Den innlagte informasjonen ble ikke godkjent, du må fylle inn alle feltene</translation>
     </message>
+    <message>
+        <source>Order:</source>
+        <translation>Ordre:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/task</name>
@@ -4234,6 +4254,14 @@
         <source>Classes</source>
         <translation>Klasser</translation>
     </message>
+    <message>
+        <source>Class edit</source>
+        <translation>Klasseredigering</translation>
+    </message>
+    <message>
+        <source>Remove class</source>
+        <translation>Fjern klasse</translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes</name>
@@ -4480,6 +4508,17 @@
     </message>
 </context>
 <context>
+    <name>kernel/collaboration</name>
+    <message>
+        <source>Collaboration custom action</source>
+        <translation>Spesialhandling</translation>
+    </message>
+    <message>
+        <source>Collaboration</source>
+        <translation>Samarbeid</translation>
+    </message>
+</context>
+<context>
     <name>kernel/content</name>
     <message>
         <source>Remove</source>
@@ -4488,10 +4527,6 @@
     <message>
         <source>Remove object</source>
         <translation>Fjern objekt</translation>
-    </message>
-    <message>
-        <source>Collaboration</source>
-        <translation>Samarbeid</translation>
     </message>
     <message>
         <source>My drafts</source>
@@ -4510,32 +4545,36 @@
         <translation>Papirkurv</translation>
     </message>
     <message>
-        <source>Notification rule list</source>
-        <translation>Meldingsregler</translation>
+        <source>Search</source>
+        <translation>Søk</translation>
     </message>
     <message>
-        <source>Role list</source>
-        <translation>Rolleliste</translation>
+        <source>Advanced</source>
+        <translation>Avansert</translation>
     </message>
     <message>
-        <source>Discount group</source>
-        <translation>Tilbudsgruppe</translation>
+        <source>Content</source>
+        <translation>Innhold</translation>
     </message>
     <message>
-        <source>Order list</source>
-        <translation>Ordreliste</translation>
+        <source>Edit</source>
+        <translation>Rediger</translation>
     </message>
     <message>
-        <source>VAT types</source>
-        <translation>MVA-typer</translation>
+        <source>Copy</source>
+        <translation>Kopier</translation>
     </message>
     <message>
-        <source>User</source>
-        <translation>Bruker</translation>
+        <source>Remove editing version</source>
+        <translation>Fjern redigeringsversjon</translation>
     </message>
     <message>
-        <source>Change password</source>
-        <translation>Bytt passord</translation>
+        <source>Translate</source>
+        <translation>Oversett</translation>
+    </message>
+    <message>
+        <source>Versions</source>
+        <translation>Versjoner</translation>
     </message>
 </context>
 <context>
@@ -4569,6 +4608,13 @@
     </message>
 </context>
 <context>
+    <name>kernel/error</name>
+    <message>
+        <source>Error</source>
+        <translation>Feil</translation>
+    </message>
+</context>
+<context>
     <name>kernel/ezinfo</name>
     <message>
         <source>Info</source>
@@ -4581,6 +4627,40 @@
     <message>
         <source>Copyright</source>
         <translation>Copyright</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/notification</name>
+    <message>
+        <source>Notification edit</source>
+        <translation>Meldingsredigering</translation>
+    </message>
+    <message>
+        <source>Notification rule list</source>
+        <translation>Meldingsregler</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/role</name>
+    <message>
+        <source>Create policy - step 2 - Specify function</source>
+        <translation>Lag rolleregel - steg 2 - Spesifiser funksjon</translation>
+    </message>
+    <message>
+        <source>Create policy - step 3 - Specify limitations</source>
+        <translation>Lag rolleregel - steg 3 - Spesifiser begrensninger</translation>
+    </message>
+    <message>
+        <source>Create policy - step 1 - Specify module</source>
+        <translation>Lag rolleregel - steg 1 - Spesifiser modul</translation>
+    </message>
+    <message>
+        <source>Role edit</source>
+        <translation>Rolleredigering</translation>
+    </message>
+    <message>
+        <source>Role list</source>
+        <translation>Rolleliste</translation>
     </message>
 </context>
 <context>
@@ -4602,6 +4682,56 @@
     </message>
 </context>
 <context>
+    <name>kernel/shop</name>
+    <message>
+        <source>Basket</source>
+        <translation>Handlekurv</translation>
+    </message>
+    <message>
+        <source>Confirm order</source>
+        <translation>Bekreft ordre</translation>
+    </message>
+    <message>
+        <source>Discount group</source>
+        <translation>Tilbudsgruppe</translation>
+    </message>
+    <message>
+        <source>Group view of discount rule</source>
+        <translation>Gruppevisning av tilbudsregel</translation>
+    </message>
+    <message>
+        <source>Editing rule</source>
+        <translation>Redigerer regel</translation>
+    </message>
+    <message>
+        <source>Order list</source>
+        <translation>Ordreliste</translation>
+    </message>
+    <message>
+        <source>Order view</source>
+        <translation>Ordrevisning</translation>
+    </message>
+    <message>
+        <source>Enter account information</source>
+        <translation>Oppgi kontoinformasjon</translation>
+    </message>
+    <message>
+        <source>VAT types</source>
+        <translation>MVA-typer</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/task</name>
+    <message>
+        <source>Task message</source>
+        <translation>Oppgavemelding</translation>
+    </message>
+    <message>
+        <source>Task list</source>
+        <translation>Oppgaveliste</translation>
+    </message>
+</context>
+<context>
     <name>kernel/trigger</name>
     <message>
         <source>Trigger</source>
@@ -4613,6 +4743,21 @@
     </message>
 </context>
 <context>
+    <name>kernel/url</name>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>List</source>
+        <translation>Liste</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>Visning</translation>
+    </message>
+</context>
+<context>
     <name>kernel/user</name>
     <message>
         <source>User</source>
@@ -4621,6 +4766,14 @@
     <message>
         <source>Register</source>
         <translation>Registrer</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Logg inn</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation>Bytt passord</translation>
     </message>
 </context>
 <context>
@@ -4660,6 +4813,10 @@
     <message>
         <source>List</source>
         <translation>Liste</translation>
+    </message>
+    <message>
+        <source>Workflow list</source>
+        <translation>Arbeidsflytliste</translation>
     </message>
 </context>
 </TS>

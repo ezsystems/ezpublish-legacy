@@ -139,9 +139,9 @@ $tpl->setVariable( "search_content_class_attribute_array", $searchContentClassAt
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/advancedsearch.tpl" );
-$Result['path'] = array( array( 'text' => 'Search',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ),
-                         array( 'text' => 'Advanced',
+                         array( 'text' => ezi18n( 'kernel/content', 'Advanced' ),
                                 'url' => false ) );
 
 eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );

@@ -68,8 +68,8 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:url/view/$ViewMode.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'URL' ),
+                                'text' => ezi18n( 'kernel/url', 'URL' ) ),
                          array( 'url' => false,
-                                'text' => 'List' ) );
+                                'text' => ezi18n( 'kernel/url', 'List' ) ) );
 
 ?>

@@ -175,5 +175,5 @@ $tpl->setVariable( "rule_list", $ruleArray );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountgroupmembershipview.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discoutgroupview/',
-                                'text' => 'Group view of discount rule' ) );
+                                'text' => ezi18n( 'kernel/shop', 'Group view of discount rule' ) ) );
 ?>

@@ -225,5 +225,5 @@ else
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountruleedit.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'Editing rule' ) );
+                                'text' => ezi18n( 'kernel/shop', 'Editing rule' ) ) );
 ?>

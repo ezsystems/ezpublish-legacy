@@ -130,7 +130,7 @@ $tpl->setVariable( 'edit_warning', $editWarning );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
-$Result['path'] = array( array( 'text' => 'Versions',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Versions' ),
                                 'url' => false ) );
 
 ?>

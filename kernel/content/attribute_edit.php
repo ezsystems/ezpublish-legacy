@@ -292,9 +292,9 @@ if ( isset( $Params['TemplateName'] ) )
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
-$Result['path'] = array( array( 'text' => 'Content',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
                                 'url' => false ),
-                         array( 'text' => 'Edit',
+                         array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
                                 'url' => false ),
                          array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );

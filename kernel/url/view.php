@@ -52,8 +52,8 @@ $tpl->setVariable( 'url_object', $url );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:url/view.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => 'URL' ),
+                                'text' => ezi18n( 'kernel/url', 'URL' ) ),
                          array( 'url' => false,
-                                'text' => 'View' ) );
+                                'text' => ezi18n( 'kernel/url', 'View' ) ) );
 
 ?>

@@ -86,7 +86,7 @@ $tpl->setVariable( 'redirect_uri', $userRedirectURI );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
-$Result['path'] = array( array( 'text' => 'Error',
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$Type ($Number)",
                                 'url' => false ) );
