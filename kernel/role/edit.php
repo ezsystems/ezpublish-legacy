@@ -291,7 +291,7 @@ if ( $http->hasPostVariable( 'Limitation' ) or
      $http->hasPostVariable( 'BrowseLimitationSubtreeButton' ) or
      $http->hasPostVariable( 'DeleteSubtreeButton' ) )
 {
-    if ( $http->hasPostVariable( 'DeleteNodeButton' ) )
+    if ( $http->hasPostVariable( 'DeleteNodeButton' )  and $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         if ( $http->hasPostVariable( 'DeleteNodeIDArray' ) )
         {
@@ -299,12 +299,12 @@ if ( $http->hasPostVariable( 'Limitation' ) or
 
             foreach ( $deletedIDList as $deletedID )
             {
-                eZPolicyLimitationValue::removeByValue( $deletedID );
+                eZPolicyLimitationValue::removeByValue( $deletedID, $http->sessionVariable( 'BrowsePolicyID' ) );
             }
         }
     }
 
-    if ( $http->hasPostVariable( 'DeleteSubtreeButton' ) )
+    if ( $http->hasPostVariable( 'DeleteSubtreeButton' ) and $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         if ( $http->hasPostVariable( 'DeleteSubtreeIDArray' ) )
         {
@@ -314,7 +314,7 @@ if ( $http->hasPostVariable( 'Limitation' ) or
             {
                 $subtree =& eZContentObjectTreeNode::fetch( $deletedID );
                 $path = $subtree->attribute( 'path_string' );
-                eZPolicyLimitationValue::removeByValue( $path );
+                eZPolicyLimitationValue::removeByValue( $path, $http->sessionVariable( 'BrowsePolicyID' ) );
             }
         }
     }
