@@ -91,15 +91,16 @@
 
      </tr>
      </table>
-     </div>
+      </div>
 
      <div class="buttonblock">
-        <input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" />
+         <input class="defaultbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
+
      </div>
 
      <div class="buttonblock">
          <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop')}" />
-         <input class="defaultbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
+         <input class="button" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/standard/shop')}" />
      </div>
 
     {/section}
