@@ -1205,6 +1205,109 @@
         <source>Search for &quot;%1&quot; returned %2 matches</source>
         <translation>Søk etter &quot;%1&quot; ga %2 treff</translation>
     </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="obsolete"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/tipafriend</name>
+    <message>
+        <source>The message was sent</source>
+        <translation type="obsolete">Meldingen ble sendt</translation>
+    </message>
+    <message>
+        <source>The message was not sent.</source>
+        <translation>Meldingen ble ikke sendt.</translation>
+    </message>
+    <message>
+        <source>The message was not sent due to an unknown error. Please notify the site administrator about this error.</source>
+        <translation>Meldingen ble ikke sendt på grunn av en ukjent feil. Vennligst meld fra til administratoren av nettstedet om denne feilen.</translation>
+    </message>
+    <message>
+        <source>Please correct the following errors:</source>
+        <translation>Vennligst rett opp følgende feil:</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation>Ditt navn</translation>
+    </message>
+    <message>
+        <source>Your email address</source>
+        <translation>Din e-postadresse</translation>
+    </message>
+    <message>
+        <source>Receivers name</source>
+        <translation>Mottakerens navn</translation>
+    </message>
+    <message>
+        <source>Receivers email address</source>
+        <translation>Mottakerens e-postadresse</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="obsolete">Melding</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation>Tips en venn</translation>
+    </message>
+    <message>
+        <source>The message was sent.</source>
+        <translation>Meldingen ble sendt.</translation>
+    </message>
+    <message>
+        <source>This message was sent to you because someone thought you might find the page &quot;%1&quot; at %2 interesting.</source>
+        <translation type="obsolete">Du har fått denne meldingen fordi noen tror siden &quot;%1&quot; på %2 vil være interessant for deg.</translation>
+    </message>
+    <message>
+        <source>This is the link to the page:</source>
+        <translation>Dette er linken til siden:</translation>
+    </message>
+    <message>
+        <source>Sender: &quot;%4 &lt;%5&gt;&quot;</source>
+        <translation type="obsolete">Avsender: &quot;%4 &lt;%5&gt;&quot;</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation type="obsolete">Melding:</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Kommentar</translation>
+    </message>
+    <message>
+        <source>Sender: %4 &lt;%5&gt;</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation type="obsolete">Kommentar:</translation>
+    </message>
+    <message>
+        <source>Sender: &quot;%1 &lt;%2&gt;&quot;</source>
+        <translation type="obsolete">Avsender: &quot;%1 &lt;%2&gt;&quot;</translation>
+    </message>
+    <message>
+        <source>This message was sent to you because &quot;%1 &lt;%2&gt;&quot; thought you might find the page &quot;%3&quot; at %4 interesting.</source>
+        <translation>Du har fått denne meldingen fordi &quot;%1 &lt;%2&gt;&quot; tror siden &quot;%3&quot; på %4 vil være interessant for deg.</translation>
+    </message>
+    <message>
+        <source>Comment by &quot;%1 &lt;%2&gt;&quot;:</source>
+        <translation>Kommentar fra &quot;%1 &lt;%2&gt;&quot;:</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/translate</name>
@@ -4359,6 +4462,46 @@
     <message>
         <source>No main node selected, please select one.</source>
         <translation>Ingen hovednode er valgt, vennligst velg en hovednode.</translation>
+    </message>
+    <message>
+        <source>Tip from %1: %2</source>
+        <translation>Tips fra %1: %2</translation>
+    </message>
+    <message>
+        <source>The email address of the sender is not valid</source>
+        <translation>Avsenderadressen er ikke gyldig</translation>
+    </message>
+    <message>
+        <source>The email address of the receiver is not valid</source>
+        <translation>Mottakeradressen er ikke gyldig</translation>
+    </message>
+    <message>
+        <source>This message is sent to you because someone though you might find the page &quot;%1&quot; at %2 interesting.</source>
+        <translation type="obsolete">Du har fått denne meldingen fordi noen </translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation>Tips en venn</translation>
+    </message>
+    <message>
+        <source>This is the link:</source>
+        <translation type="obsolete">Dette er linken til siden:</translation>
+    </message>
+    <message>
+        <source>Sender: &quot;%4 &lt;%5&gt;&quot;</source>
+        <translation type="obsolete">Avsender: &quot;%4 &lt;%5&gt;&quot;</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation type="obsolete">Melding:</translation>
+    </message>
+    <message>
+        <source>This message is sent to you because someone thought you might find the page &quot;%1&quot; at %2 interesting.</source>
+        <translation type="obsolete">Du har fått denne meldingen fordi noen tror siden &quot;%1&quot; på %2 vil være interessant for deg.</translation>
+    </message>
+    <message>
+        <source>This is the link to the page:</source>
+        <translation type="obsolete">Dette er linken til siden:</translation>
     </message>
 </context>
 <context>
