@@ -58,6 +58,14 @@ Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
 
+<<<<<<< .mine
+[feedbackform]
+Source=node/view/full.tpl
+MatchFile=feedbackform.tpl
+Subdir=templates
+Match[class]=24
+
+=======
 [notification_settings]
 Source=notification/handler/ezsubtree/settings/edit.tpl
 MatchFile=notification_subtree_edit.tpl
@@ -69,4 +77,5 @@ MatchFile=edit_user.tpl
 Subdir=templates
 Match[class]=4
 
+>>>>>>> .r3994
 */ ?>
