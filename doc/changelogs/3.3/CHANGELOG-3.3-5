@@ -45,6 +45,8 @@ eZINI:
 - Fixed bug missing escape of value for attribute filter
   http://ez.no/community/bug_reports/attributefilter_and_slashes
 - Fixed bug in datatype ezxmltext where using syntax <link id="a_valid_id">link text</link> will get empty href value.
+- Fixed bug of form parameter in content/edit.tpl
+  http://ez.no/community/bug_reports/edit_tpl_wrong_language_param_in_form
 
 *Library:
 
