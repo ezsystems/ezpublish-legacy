@@ -1,26 +1,23 @@
 {literal}
 <script language="JavaScript1.2" type="text/javascript">
 <!--
-function selectAll()
+function toggleCheckboxes( formname, checkboxname )
 {
-    with (document.roleList)
+    with( formname )
 	{
-        for (var i=0; i < elements.length; i++)
+        for( var i=0; i<elements.length; i++ )
         {
-            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
-            elements[i].checked = true;
-	    }
-    }
-}
-
-function deSelectAll()
-{
-    with (document.roleList)
-	{
-        for (var i=0; i < elements.length; i++)
-	    {
-            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
-            elements[i].checked = false;
+            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            {
+                if( elements[i].checked == true )
+                {
+                    elements[i].checked = false;
+                }
+                else
+                {
+                    elements[i].checked = true;
+                }
+            }
 	    }
     }
 }
@@ -30,54 +27,50 @@ function deSelectAll()
 
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
-<h1>{"Roles"|i18n( 'design/admin/role/list' )}</h1>
+<div class="context-block">
+<h2 class="context-title">{'Roles'|i18n( 'design/admin/role/list' )}</h2>
 
-{* Items per page and view mode selector. *}
-<div class="viewbar">
+{* Items per page selector. *}
+<div class="context-toolbar">
+<div class="block">
 <div class="left">
-Items:
-    {switch match=$number_of_items}
-    {case match=25}
-        <a href={'/user/preferences/set/admin_role_list_limit/1'|ezurl}>10</a>
-        25
-        <a href={'/user/preferences/set/admin_role_list_limit/3'|ezurl}>50</a>
-        {/case}
+<p>
+{switch match=$number_of_items}
+{case match=25}
+<a href={'/user/preferences/set/admin_role_list_limit/1'|ezurl}>10</a>
+<span class="current">25</span>
+<a href={'/user/preferences/set/admin_role_list_limit/3'|ezurl}>50</a>
+{/case}
 
-        {case match=50}
-        <a href={'/user/preferences/set/admin_role_list_limit/1'|ezurl}>10</a>
-        <a href={'/user/preferences/set/admin_role_list_limit/2'|ezurl}>25</a>
-        50
-        {/case}
+{case match=50}
+<a href={'/user/preferences/set/admin_role_list_limit/1'|ezurl}>10</a>
+<a href={'/user/preferences/set/admin_role_list_limit/2'|ezurl}>25</a>
+<span class="current">50</span>
+{/case}
 
-        {case}
-        10
-        <a href={'/user/preferences/set/admin_role_list_limit/2'|ezurl}>25</a>
-        <a href={'/user/preferences/set/admin_role_list_limit/3'|ezurl}>50</a>
-        {/case}
+{case}
+<span class="current">10</span>
+<a href={'/user/preferences/set/admin_role_list_limit/2'|ezurl}>25</a>
+<a href={'/user/preferences/set/admin_role_list_limit/3'|ezurl}>50</a>
+{/case}
 
-        {/switch}
+{/switch}
+</p>
 </div>
 <div class="break"></div>
-{include name=navigator
-         uri='design:navigator/google.tpl'
-         page_uri='/role/list'
-         item_count=$role_count
-         view_parameters=$view_parameters
-         item_limit=$limit}
 </div>
-{/let}
+</div>
 
-<form name="roleList" action={concat( $module.functions.list.uri, "/" )|ezurl} method="post" >
+<form name="roles" action={concat( $module.functions.list.uri, '/' )|ezurl} method="post" >
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"> &nbsp; </th>
-    <th>{'Name:'|i18n( 'design/admin/role/list' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="toggleCheckboxes( document.roles, 'DeleteIDArray[]' ); return false;"/></th>
+    <th>{'Name'|i18n( 'design/admin/role/list' )}</th>
     <th class="tight"> &nbsp; </th>
     <th class="tight"> &nbsp; </th>
 </tr>
 
-{section show=$role_count|gt(0)}
 {section var=Roles loop=$roles sequence=array( bglight, bgdark )}
     {let quoted_role=concat( '"', $Roles.item.name, '"' )|wash}
     <tr class="{$Roles.sequence}">
@@ -91,24 +84,32 @@ Items:
     <a href={concat( '/role/assign/', $Roles.item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n( 'design/admin/role/list ')}" title="{'Assign a user or a user group to the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role ) )}" /></a>
     </td>
     <td>
-	<a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a>
+    <a href={concat( '/role/edit/', $Roles.item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/admin/role/list')}" title="{'Edit the %quoted_role role.'|i18n( 'design/admin/role/list',, hash( '%quoted_role', $quoted_role  ) )}" /></a>
     </td>
-</tr>
+    </tr>
 {/let}
 {/section}
 </table>
 
-<a href="" onclick="selectAll(); return false;" title="{'Select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/role/list' )|wash}">[ {'Select all'|i18n( 'design/admin/role/list' )} ]</a>
-<a href="" onclick="deSelectAll(); return false;" title="{'Deselect the items that are selected in the list above.'|i18n( 'design/admin/role/list' )}">[ {'Deselect all'|i18n( 'design/admin/role/list' )} ]</a>
-{section-else}
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri='/role/list'
+         item_count=$role_count
+         view_parameters=$view_parameters
+         item_limit=$limit}
+{/let}
+</div>
 
-{* __FIX_ME__ Hmmm - is this supposed to happen? If so: maybe we should have a warning here or something. *}
-
-{/section}
-
+<div class="context-toolbar">
 <div class="controlbar">
+<div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/role/list' )}" title="{'Remove selected roles.'|i18n( 'design/admin/role/list' )}" />
-    <input class="button" type="submit" name="NewButton" value="{'Create new role'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'Create new'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
+</div>
+</div>
 </div>
 
 </form>
+
+</div>
