@@ -173,18 +173,32 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
 <ul>
+{section show=ne($ui_context,'edit')}
     <li><a href={concat("/content/edit/",$current_user.contentobject_id,"/")|ezurl}>Change user info</a></li>
     <li><a href={"/user/logout"|ezurl}>Logout</a></li>
+{section-else}
+    <li><span class="disabled">Change user info</span></li>
+    <li><span class="disabled">Logout</span></li>
+{/section}
 </ul>
 
 {* --- Bookmarks --- *}
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
- <h4><a href={"/content/bookmark/"|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/layout' )}">{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+    {section show=ne($ui_context,'edit')}
+     <h4><a href={"/content/bookmark/"|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/layout' )}">{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+    {section-else}
+     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+    {/section}
+
 <ul>
 {let bookmark_list=fetch(content,bookmarks)}
 {section name=BookMark loop=$bookmark_list}
-<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+    {section show=ne($ui_context,'edit')}
+    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+    {section-else}
+    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<span class="disabled">{$:item.node.name|wash}</span></li>
+    {/section}
 {/section}
 {/let}
 </ul>
@@ -208,7 +222,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <ul>
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
-<li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+    {section show=ne($ui_context,'edit')}
+    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
+    {section-else}
+    <li>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;<span class="disabled">{$:item.node.name|wash}</span></li>
+    {/section}
 {/section}
 {/let}
 </ul>
@@ -218,7 +236,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </div>
 
 {* --- Notifications --- *}
-<h4><a href={"/notification/settings"|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/layout' )}">{"Notifications"|i18n("design/admin/layout")}</a></h4> 
+    {section show=ne($ui_context,'edit')}
+    <h4><a href={"/notification/settings"|ezurl} title="{'Click here to manage your personal notification settings.'|i18n( '/design/admin/layout' )}">{"Notifications"|i18n("design/admin/layout")}</a></h4> 
+    {section-else}
+    <h4><span class="disabled">{"Notifications"|i18n("design/admin/layout")}</span></h4> 
+    {/section}
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
