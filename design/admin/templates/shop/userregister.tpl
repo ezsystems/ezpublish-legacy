@@ -240,7 +240,7 @@
 <option  value="Niue">Niue</option>
 <option  value="Norfolk Island">Norfolk Island</option>
 <option  value="Northern Mariana Islands">Northern Mariana Islands</option>
-<option selected value="Norway">Norway</option>
+<option  value="Norway" selected="selected">Norway</option>
 <option  value="Oman">Oman</option>
 <option  value="Pakistan">Pakistan</option>
 <option  value="Palau">Palau</option>
