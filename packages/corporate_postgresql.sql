@@ -2289,7 +2289,7 @@ CREATE TABLE ezview_counter (
 
 
 CREATE TABLE ezsubtree_notification_rule (
-    id integer DEFAULT nextval('tmp_notification_rule_s'::text) NOT NULL,
+    id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
     use_digest integer DEFAULT 0,
     node_id integer NOT NULL,
     user_id integer NOT NULL
