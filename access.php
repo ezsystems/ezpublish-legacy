@@ -119,6 +119,7 @@ function accessType( &$uri, $host, $port, $file )
                     $elements = $uri->elements( false );
                     $elements = array_slice( $elements, 0, $matcher );
                     $uri->increase( $matcher );
+                    $uri->dropBase();
                     $match = implode( '_', $elements );
                     $access['name'] = $match;
                 }
