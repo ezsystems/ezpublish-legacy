@@ -96,7 +96,9 @@ if ( $http->hasPostVariable( "EditGroupButton" ) && $http->hasPostVariable( "Edi
 if ( $http->hasPostVariable( "NewGroupButton" ) )
 {
     $params = array();
-    $Module->run( "groupedit", $params );
+//    $Module->run( "groupedit", $params );
+
+    $Module->redirectTo( $Module->functionURI( "groupedit" ) );
     return;
 }
 

@@ -60,10 +60,10 @@ else
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup =& eZWorkflowGroup::create( $user_id );
     $workflowGroup->setAttribute( "name", "New WorkflowGroup" );
-    $workflowGroup->store();
+//    $workflowGroup->store();
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
-    $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID );
-    return;
+//    $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID );
+//    return;
 }
 
 //$assignedWorkflows =& $workflowGroup->fetchWorkflowList();
@@ -87,7 +87,6 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 // Validate input
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $requireFixup = false;
-
 // Apply HTTP POST variables
 eZHttpPersistence::fetch( "WorkflowGroup", eZWorkflowGroup::definition(),
                           $workflowGroup, $http, false );

@@ -119,7 +119,8 @@ Payment:
 - Fixed bug: Need template for toolbar/line/node_list.tpl
   (Merged from stable/3.4 rev. 8725)
   http://ez.no/community/bug_reports/need_template_for_toolbar_line_node_list_tpl
-
+- Fixed bug for Workflow, After clicking on "New Wrokflow Group" and then cancel it do not create new wrok flow group now.
+  http://ez.no/community/bug_reports/cancel_in_create_new_workflow_group_does_not_work
 
 *Library:
 
