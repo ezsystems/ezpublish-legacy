@@ -273,6 +273,7 @@ class eZContentObject extends eZPersistentObject
         $ini =& eZINI::instance();
 //        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
         $needTranslations =& eZContentTranslation::fetchLocaleList();
+        $default = false;
         if ( $translation == $this->defaultLanguage() )
         {
             $default = true;
@@ -356,7 +357,16 @@ class eZContentObject extends eZPersistentObject
         if ( $version == false )
             $version = $this->attribute( 'current_version' );
         if ( $language == false )
-            $language = $this->defaultLanguage();
+        {
+            if ( $this->CurrentLanguage != false )
+            {
+                $language = $this->CurrentLanguage;
+            }
+            else
+            {
+                $language = $this->defaultLanguage();
+            }
+        }
 
         if ( !isset( $eZContentObjectDataMapCache[$this->ID][$version][$language] ) )
         {
@@ -1464,7 +1474,7 @@ class eZContentObject extends eZPersistentObject
         // needs to be optimized
         $db = eZDb::instance();
         $classString = implode( ',', $classIDArray );
-        $classList = $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
+        $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
 //        eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create some classes' );
         return $classList;
     }

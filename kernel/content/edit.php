@@ -223,7 +223,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
                 else
                 {
-                    $module->redirectToView( 'view', array( 'sitemap', 2 ) );
+                    $module->redirectToView( 'view', array( 'full', $version->attribute( 'main_parent_node_id' ) ) );
                 }
             }
             $ini =& eZINI::instance();

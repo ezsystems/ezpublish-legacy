@@ -756,7 +756,14 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         if ( $language === false )
         {
-            $language = eZContentObject::defaultLanguage();
+            if ( $this->CurrentLanguage != false )
+            {
+                $language = $this->CurrentLanguage;
+            }
+            else
+            {
+                $language = eZContentObject::defaultLanguage();
+            }
         }
 
         return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $asObject );
@@ -890,6 +897,9 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         return $nonTranslationList;
     }
+
+    var $CurrentLanguage = false;
+
 }
 
 ?>

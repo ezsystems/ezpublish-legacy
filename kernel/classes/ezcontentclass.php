@@ -458,6 +458,7 @@ class eZContentClass extends eZPersistentObject
             {
                 $attribute =& $attributes[$i];
                 $attribute->remove();
+                $contentObject->purge();
             }
         }
         else
@@ -642,10 +643,10 @@ class eZContentClass extends eZPersistentObject
      Will generate a name for the content object based on the class
      settings for content object.
     */
-    function contentObjectName( &$contentObject )
+    function contentObjectName( &$contentObject, $version = false, $translation = false )
     {
         $contentObjectName = $this->ContentObjectName;
-        $dataMap =& $contentObject->dataMap();
+        $dataMap =& $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
 

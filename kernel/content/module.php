@@ -191,6 +191,7 @@ $ViewList["translate"] = array(
     "params" => array( "ObjectID", "EditVersion" ) );
 
 $ViewList["draft"] = array(
+    "functions" => array( 'create' ),
     "script" => "draft.php",
     "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( ),
