@@ -45,6 +45,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/clear_all_caches_does_not_clear_override_ini_cache
 - Fixed RSS export url bug.
   http://ez.no/developer/ez_publish_3/bug_reports/rss_export
+- Fixed detecting DB type in eZSearchEngine::indexWords().
+  http://ez.no/developer/ez_publish_3/bug_reports/undefinde_variable_dbname_in_ezsearchengine_php
 
 *Library:
 
