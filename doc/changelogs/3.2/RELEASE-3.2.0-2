@@ -4,7 +4,8 @@ This release is a beta release and should not be used for a production site.
 - All text strings in eZ publish has been freezed and can now be translated before the final release.
 - The admin email address can now be controlled by one ini setting making it easier to maintain.
 - The new script functionality has been integrated with all scripts in eZ publish making them
-  easier to use as well as making it easier to maintain them.
+  easier to use as well as making it easier to maintain them. Try -h or --help on all scripts
+  to see new possible options.
 - The old API reference view has been brought in a similar way as it was in the old SDK.
   To access it you must enter the url reference/view/ez
 - The setup has been given an overhaul with new help texts, better user interface and some bugfixes.
