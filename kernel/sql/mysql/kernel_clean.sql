@@ -791,8 +791,8 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
-INSERT INTO ezsession VALUES ('beea3def7581c9fac9a3959546d91691',1034181050,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
-INSERT INTO ezsession VALUES ('c427b1ec51dfaf03fb7675aea7769c85',1034181692,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
+#INSERT INTO ezsession VALUES ('beea3def7581c9fac9a3959546d91691',1034181050,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
+#INSERT INTO ezsession VALUES ('c427b1ec51dfaf03fb7675aea7769c85',1034181692,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 
 #
 # Table structure for table 'eztask'
