@@ -61,16 +61,16 @@
             <h3 class="invisible">Sub menu</h3>
             <ul>
                 {let mainMenu=treemenu($module_result.path,$module_result.node_id,array('folder','info_page'), 1, 10 )}
-                    {section name=Menu loop=$mainMenu}
-                        {section show=$:item.is_selected}
-                            <li class="level_{$:item.level}">
-                               <div class="selected">
-                               <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
+                    {section var=menu loop=$mainMenu}
+                        {section show=$menu.item.is_selected}
+                            <li class="level_{$menu.item.level}">
+                               <div class="selected"> 
+                               <a href={$$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
                                </div>  
                              </li>
                         {section-else}
-                            <li class="level_{$:item.level}">
-                             <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
+                            <li class="level_{$menu.item.level}">
+                             <a href={$menu.item.url_alias|ezurl}>{$menu.item.text}</a>
                             </li>
                         {/section}
                    {/section}
