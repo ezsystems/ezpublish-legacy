@@ -19,6 +19,7 @@ Changes from 3.2-1 to 3.3.0-1
 - Fixed correct handling of & characters in XML fields, it's now convterted into xhtml codes.
 - Fixed correct HTTP content language to zh-CH for chinese.
 - Fixed typos in eztemplatenl2broperator.php and openfts.php making eZ publish crash with Turk MMCache.
+- Extended treemenu operator to support offset and unlimited number of levels. It will also give information about the current selected items.
 
 *DataType:
 - Added new datatype eZIniSetting for editing ini settings.

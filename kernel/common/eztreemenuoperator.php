@@ -62,9 +62,9 @@ class eZTreeMenuOperator
                       'node_id' => array( 'type' => 'int',
                                           'required' => true,
                                           'default' => false ),
-                      'section_id' => array( 'type' => 'int',
-                                             'required' => true,
-                                             'default' => false ) );
+                      'offset' => array( 'type' => 'int',
+                                             'required' => false,
+                                             'default' => 1 ) );
     }
 
     /*!
@@ -77,10 +77,10 @@ class eZTreeMenuOperator
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $namedParameters['path'];
-
+		
         $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
-
-        $offset = 1;
+		
+        $offset = $namedParameters['offset'];;
 
         while ( !$done )
         {
@@ -88,16 +88,20 @@ class eZTreeMenuOperator
             $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
             $nodeID = $elements[4];
 
+            $nextElements = explode( "/", $tmpModulePath[$i+$offset+1]['url'] );
+            $nextNodeID = $nextElements[4];	
+			
+
             $excludeNode = false;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
 
-            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < 2)
+            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false )
             {
                 $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                           'Offset' => 0,
                                                                           'SortBy' => array( array('priority') ),
                                                                           'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray' => array( 1, 8 )
+                                                                          'ClassFilterArray' => array( 1,8 )
                                                                           ),
                                                                    $nodeID );
 
@@ -110,20 +114,30 @@ class eZTreeMenuOperator
                     $name = $child->attribute( 'name' );
                     $tmpNodeID = $child->attribute( 'node_id' );
 
+                     /*
                     $strLimit = 17;
                     if ( strlen( $name ) > $strLimit )
                     {
                         $name = substr( $name, 0, $strLimit ) . "...";
                     }
+					*/
 
                     $url = "/content/view/full/$tmpNodeID/";
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
 
+					$isSelected = false;
+					if ( $nextNodeID === $tmpNodeID )
+					{
+						$isSelected = true;
+  					}
+						
+					
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
                                              'url_alias' => $urlAlias,
                                              'url' => $url,
-                                             'text' => $name );
+                                             'text' => $name,
+											 'is_selected' => $isSelected );
                 }
 
                 // find insert pos
@@ -160,12 +174,13 @@ class eZTreeMenuOperator
                     {
                         $name = $child->attribute( 'name' );
                         $tmpNodeID = $child->attribute( 'node_id' );
-
+						/*
                         $strLimit = 17;
                         if ( strlen( $name ) > $strLimit )
                         {
                             $name = substr( $name, 0, $strLimit ) . "...";
                         }
+						*/
 
                         $url = "/content/view/full/$tmpNodeID/";
                         $urlAlias = "/" . $child->attribute( 'url_alias' );
