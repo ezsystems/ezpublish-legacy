@@ -440,7 +440,7 @@ class eZTemplateNodeTool
     */
     function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
                                  $parameters = array(), $variableAssignmentName = false, $onlyExisting = false,
-                                 $overWrite = true, $assignFromVariable = false )
+                                 $overWrite = true, $assignFromVariable = false, $skipObjectElement = false )
     {
         $node = array();
         if ( $originalNode )
@@ -453,6 +453,14 @@ class eZTemplateNodeTool
                 $node[2] = $variableData;
             else if ( $assignFromVariable )
                 $node[2] = array( array( EZ_TEMPLATE_TYPE_PHP_VARIABLE,
+                                         $variableData,
+                                         false ) );
+            else if ( is_bool( $variableData ) )
+                $node[2] = array( array( EZ_TEMPLATE_TYPE_BOOLEAN,
+                                         $variableData,
+                                         false ) );
+            else if ( is_string( $variableData ) )
+                $node[2] = array( array( EZ_TEMPLATE_TYPE_STRING,
                                          $variableData,
                                          false ) );
             else if ( is_numeric( $variableData ) )
@@ -468,6 +476,7 @@ class eZTemplateNodeTool
         $node[4] = $parameters;
         $node[5] = $onlyExisting;
         $node[6] = $overWrite;
+        $node[7] = $skipObjectElement;
         return $node;
     }
 
@@ -627,7 +636,7 @@ class eZTemplateNodeTool
         {
             if ( $match )
             {
-                $isMatch = false;
+                $isMatch = true;
                 foreach ( $match['matches'] as $matchItem )
                 {
                     $operand1 = $matchItem['match-with'];
@@ -641,14 +650,27 @@ class eZTemplateNodeTool
                     {
                         $function = $matchItem['match-function'];
                         $functionResult = $function( $operand1, $operand2 );
-                        $isMatch = $functionResult == 0;
+                        $wasMatch = $functionResult == 0;
                     }
                     else
                     {
-                        $isMatch = ( $operand1 == $operand2 );
+                        if ( is_array( $operand1 ) )
+                            $wasMatch = in_array( $operand2, $operand1 );
+                        else
+                            $wasMatch = ( $operand1 == $operand2 );
+                    }
+                    if ( !$wasMatch )
+                    {
+                        $isMatch = false;
+                        break;
                     }
                 }
-                if ( $match['type'] == 'before' )
+                if ( $match['type'] == 'equal' )
+                {
+                    if ( !$isMatch )
+                        continue;
+                }
+                else if ( $match['type'] == 'before' )
                 {
                     if ( $isMatch )
                         break;
@@ -665,6 +687,45 @@ class eZTemplateNodeTool
             }
             if ( $skipNode )
                 continue;
+            if ( $match and isset( $match['filter'] ) )
+            {
+                $isMatch = true;
+                foreach ( $match['filter'] as $matchFilterItem )
+                {
+                    foreach ( $matchFilterItem as $matchItem )
+                    {
+                        $operand1 = $matchItem['match-with'];
+                        $matchKeys = $matchItem['match-keys'];
+                        $operand2 = $node;
+                        foreach ( $matchKeys as $matchKey )
+                        {
+                            $operand2 = $operand2[$matchKey];
+                        }
+                        if ( isset( $matchItem['match-function'] ) )
+                        {
+                            $function = $matchItem['match-function'];
+                            $functionResult = $function( $operand1, $operand2 );
+                            $wasMatch = $functionResult == 0;
+                        }
+                        else
+                        {
+                            if ( is_array( $operand1 ) )
+                                $wasMatch = in_array( $operand2, $operand1 );
+                            else
+                                $wasMatch = ( $operand1 == $operand2 );
+                        }
+                        if ( !$wasMatch )
+                        {
+                            $isMatch = false;
+                            break;
+                        }
+                    }
+                    if ( $isMatch )
+                        break;
+                }
+                if ( $isMatch )
+                    continue;
+            }
             $newNodes[] = $node;
         }
         return $newNodes;
@@ -713,6 +774,15 @@ class eZTemplateNodeTool
     function extractVariableNodeData( &$node )
     {
         return $node[1];
+    }
+
+    /*!
+     \static
+     \return the name of the function for the function node \a $node.
+    */
+    function extractFunctionNodeName( &$node )
+    {
+        return $node[2];
     }
 
     /*!

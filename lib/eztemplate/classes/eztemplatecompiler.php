@@ -1292,6 +1292,23 @@ class eZTemplateCompiler
     }
 
     /*!
+     Iterates over the element list \a $elements and transforms them.
+     \sa processElementTransformationChild
+    */
+    function processElementTransformationList( &$tpl, &$node, &$elements, &$privateData )
+    {
+        $useComments = $privateData['use-comments'];
+        $php =& $privateData['php-creator'];
+        $resourceData =& $privateData['resource-data'];
+        $elementTree = $elements;
+        $newElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
+                                                                              $elementTree, $elements, $resourceData );
+        if ( $newElements )
+            return $newElements;
+        return $elements;
+    }
+
+    /*!
      Iterates over the children of the function node \a $node and transforms the tree.
      If the node is not a function it will return \c false.
      \sa processNodeTransformationRoot, processNodeTransformationChild
@@ -1942,7 +1959,7 @@ $rbracket
                     $placementText = 'false';
                     if ( isset( $node[4] ) )
                         $placementText = $php->variableText( $node[4], 0, 0, false );
-                    $php->addCodePiece( "\$tpl->warning( " . $warningLabelText . ", " . $warningText . ", " . $placementText . " );\n", array( 'spacing' => $spacing ) );
+                    $php->addCodePiece( "\$tpl->warning( " . $warningLabelText . ", " . $warningText . ", " . $placementText . " );", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_ERROR )
                 {
@@ -1957,7 +1974,7 @@ $rbracket
                     $placementText = 'false';
                     if ( isset( $node[4] ) )
                         $placementText = $php->variableText( $node[4], 0, 0, false );
-                    $php->addCodePiece( "\$tpl->error( " . $errorLabelText . ", " . $errorText . ", " . $placementText . " );\n", array( 'spacing' => $spacing ) );
+                    $php->addCodePiece( "\$tpl->error( " . $errorLabelText . ", " . $errorText . ", " . $placementText . " );", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ )
                 {
@@ -2004,11 +2021,13 @@ $rbracket
                 {
                     $spacing = $node[1];
                     $currentParameters['spacing'] += $spacing;
+                    continue;
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE )
                 {
                     $spacing = $node[1];
                     $currentParameters['spacing'] -= $spacing;
+                    continue;
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET )
                 {
@@ -2211,7 +2230,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $namespaceData = $parameters['namespace-data'];
                         $namespaceVariable = $namespaceData['variable'];
                         $namespaceVariable .= $namespaceData['counter'];
-                        $php->addCodePiece( "\$currentNamespace = \$$namespaceVariable;\n", array( 'spacing' => $spacing ) );
+                        $php->addCodePiece( "\$currentNamespace = \$$namespaceVariable;", array( 'spacing' => $spacing ) );
                         $parameters['namespace-data']['counter']--;
                     }
                     else
@@ -2231,6 +2250,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $newCurrentParameters['spacing'] += 4;
                     eZTemplateCompiler::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters, $newCurrentParameters );
                 }
+                continue;
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
             {
@@ -2249,6 +2269,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                                        $text, EZ_PHPCREATOR_VARIABLE_APPEND_TEXT,
                                        array( 'spacing' => $currentParameters['spacing'] ) );
                 }
+                continue;
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
             {
@@ -2262,6 +2283,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $variableParameters = $node[4];
                 $variableOnlyExisting = isset( $node[5] ) ? $node[5] : false;
                 $variableOverWrite = isset( $node[6] ) ? $node[6] : false;
+                $skipObjectElement = isset( $node[7] ) ? $node[7] : false;
 
                 $spacing = $currentParameters['spacing'];
                 if ( isset( $variableParameters['spacing'] ) )
@@ -2322,6 +2344,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $variableText = "\$$generatedVariableName";
                     eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $knownTypes, $dataInspection,
                                                               array( 'spacing' => $spacing,
+                                                                     'skip-object-element' => $skipObjectElement,
                                                                      'variable' => $generatedVariableName,
                                                                      'counter' => 0 ) );
                 }
@@ -2331,14 +2354,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     if ( count( $knownTypes ) == 0 or in_array( 'object', $knownTypes ) )
                     {
-                        $php->addCodePiece( "while ( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
-                                            "{\n" .
-                                            "    \$$generatedVariableName =& \$$generatedVariableName" . "->templateValue();\n" .
-                                            "}\n" .
-                                            "if ( is_object( \$$generatedVariableName ) )\n" .
-                                            "    \$$textName .= compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName );\n" .
-                                            "else\n" .
-                                            "    \$$textName .= \$$generatedVariableName;\n" .
+                        $php->addCodePiece( "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName ) : \$$generatedVariableName );\n" .
                                             "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
                     }
                     else
@@ -2378,6 +2394,10 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( "if ( !isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
+                }
+                else if ( $variableAssignmentName !== false and $isStaticElement )
+                {
+                    $php->addCodePiece( "\$$generatedVariableName = $variableText;", array( 'spacing' => $spacing ) );
                 }
                 unset( $dataInspection );
             }
@@ -2653,6 +2673,7 @@ else
                                 EZ_TEMPLATE_TYPE_IDENTIFIER => 'string',
                                 EZ_TEMPLATE_TYPE_ARRAY => 'array',
                                 EZ_TEMPLATE_TYPE_BOOLEAN => 'boolean' );
+        $skipObjectElement = isset( $parameters['skip-object-element'] ) ? $parameters['skip-object-element'] : false;
 
         $variableAssignmentName = $parameters['variable'];
         $variableAssignmentCounter = $parameters['counter'];
@@ -2691,10 +2712,14 @@ else
                 if ( !is_string( $namespaceText ) )
                     $namespaceText = "\$namespace";
                 $variableNameText = $php->variableText( $variableName, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n",
+                $code = "\$$variableAssignmentName = ( array_key_exists( $namespaceText, \$vars ) and array_key_exists( $variableNameText, \$vars[$namespaceText] ) ) ? \$vars[$namespaceText][$variableNameText] : null;\n";
+                if ( !$skipObjectElement )
+                {
+                    $code .= ( "while ( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
+                               "    \$$variableAssignmentName = \$$variableAssignmentName" . "->templateValue();\n" );
+                }
+                $php->addCodePiece( $code,
                                     array( 'spacing' => $spacing ) );
-//                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchVariable( \$vars, $namespaceText, $variableNameText );\n",
-//                                    array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {

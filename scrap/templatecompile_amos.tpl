@@ -21,21 +21,28 @@ Match: {$:match}
 {/case}
 {/switch}*}
 
-{let b=10}
+{let arr=array( 1, 2, 'b', 4, 5, 6, 7, 8 ) show=true len=6 mod=2}
 
-{cache-block expiry=10 keys=$data}
-The magic number is: 
-{let a=20}
-{sum(1,$a,3)}
-{/let}
-{/cache-block}
-
+{section show=$show}
+Yes
+{section-else}
+Nope
+{/section}
 
 
+{section var=i loop=$arr offset=2 max=$len reverse last-value}
+{section-exclude match=true()}
+{section-include match=eq($i,2)}
+{section-include match=ge($i,7)}
+Value: {$i}
+{section show=eq($i,2)}
+ [Blah({$i})]
+{/section}
 
+last({$i.last.key})
 
-{cache-block}
-{sum(1,$b,3)}
-{/cache-block}
+{delimiter modulo=$mod} / {/delimiter}
+
+{/section}
 
 {/let}
