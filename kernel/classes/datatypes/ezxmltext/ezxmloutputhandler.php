@@ -53,9 +53,11 @@ class eZXMLOutputHandler
     /*!
      Constructor
     */
-    function eZXMLOutputHandler( &$xmlData )
+    function eZXMLOutputHandler( &$xmlData, $aliasedType )
     {
         $this->XMLData =& $xmlData;
+        $this->AliasedType = $aliasedType;
+        $this->AliasedHandler = null;
     }
 
     /*!
@@ -63,7 +65,10 @@ class eZXMLOutputHandler
     */
     function attributes()
     {
-        return array( 'output_text' );
+        return array( 'output_text',
+                      'aliased_type',
+                      'aliased_handler',
+                      'view_template_name' );
     }
 
     /*!
@@ -71,7 +76,10 @@ class eZXMLOutputHandler
     */
     function hasAttribute( $name )
     {
-        if ( $name == 'output_text' )
+        if ( $name == 'output_text' or
+             $name == 'aliased_type' or
+             $name == 'aliased_handler' or
+             $name == 'view_template_name' )
             return true;
         return false;
     }
@@ -87,10 +95,52 @@ class eZXMLOutputHandler
             {
                 return $this->outputText();
             } break;
+            case 'aliased_type':
+            {
+                return $this->AliasedType;
+            }
+            case 'view_template_name':
+            {
+                return $this->viewTemplateName();
+            }
+            case 'aliased_handler':
+            {
+                if ( $this->AliasedType !== false and
+                     $this->AliasHandler === null )
+                {
+                    $this->AliasedHandler =& eZXMLText::inputHandler( $this->XMLData,
+                                                                      $this->AliasedType,
+                                                                      false );
+                }
+                return $this->AliasedHandler;
+            }
         }
         eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
         return null;
     }
+
+    /*!
+     \return the template name for this input handler, includes the edit suffix if any.
+    */
+    function viewTemplateName()
+    {
+        $name = 'ezxmltext';
+        $suffix = $this->viewTemplateSuffix();
+        if ( $suffix !== false )
+            $name .= '_' . $suffix;
+        return $name;
+    }
+
+    /*!
+     \virtual
+     \return true if the output handler is considered valid, if not the handler will not be used.
+     \note Default returns true
+    */
+    function isValid()
+    {
+        return true;
+    }
+
     /*!
      \pure
      \return the suffix for the attribute template, if false it is ignored.
@@ -121,6 +171,8 @@ class eZXMLOutputHandler
     /// \privatesection
     /// Contains the XML data as text
     var $XMLData;
+    var $AliasedType;
+    var $AliasedHandler;
 }
 
 ?>

@@ -74,7 +74,7 @@ class eZXMLText
             {
                 if ( $this->XMLInputHandler === null )
                 {
-                    $this->XMLInputHandler =& $this->inputHandler();
+                    $this->XMLInputHandler =& $this->inputHandler( $this->XMLData );
                 }
                 return $this->XMLInputHandler;
             }break;
@@ -83,7 +83,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    $this->XMLOutputHandler =& $this->outputHandler();
+                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData );
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -95,66 +95,121 @@ class eZXMLText
         }
     }
 
-    function &inputHandler()
+    function &inputHandler( &$xmlData, $type = false, $useAlias = true )
     {
-        $inputHandler = null;
-        if ( eZExtension::findExtensionType( array( 'ini-name' => 'ezxml.ini',
-                                                    'repository-group' => 'HandlerSettings',
-                                                    'repository-variable' => 'Repositories',
-                                                    'extension-group' => 'HandlerSettings',
-                                                    'extension-variable' => 'ExtensionRepositories',
-                                                    'type-group' => 'InputSettings',
-                                                    'type-variable' => 'Handler',
-                                                    'alias-group' => 'InputSettings',
-                                                    'alias-variable' => 'Alias',
-                                                    'subdir' => 'input',
-                                                    'type-directory' => false,
-                                                    'extension-subdir' => 'ezxmltext/handlers/input',
-                                                    'suffix-name' => 'xmlinput.php' ),
-                                             $out ) )
+        $inputDefinition = array( 'ini-name' => 'ezxml.ini',
+                                  'repository-group' => 'HandlerSettings',
+                                  'repository-variable' => 'Repositories',
+                                  'extension-group' => 'HandlerSettings',
+                                  'extension-variable' => 'ExtensionRepositories',
+                                  'type-group' => 'InputSettings',
+                                  'type-variable' => 'Handler',
+                                  'subdir' => 'input',
+                                  'type-directory' => false,
+                                  'extension-subdir' => 'ezxmltext/handlers/input',
+                                  'suffix-name' => 'xmlinput.php' );
+        if ( $type !== false )
+            $inputDefinition['type'] = $type;
+        if ( $useAlias )
         {
-            $filePath = $out['found-file-path'];
-            include_once( $filePath );
-            $class = $out['type'] . 'XMLInput';
-            $inputHandler = new $class( $this->XMLData );
+            $inputDefinition['alias-group'] = 'InputSettings';
+            $inputDefinition['alias-variable'] = 'Alias';
         }
-        else
+        $inputHandler =& eZXMLText::fetchHandler( $inputDefinition,
+                                                  'XMLInput',
+                                                  $xmlData );
+        if ( $inputHandler === null )
         {
-            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimpifiedxmlinput.php' );
-            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData );
+            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php' );
+            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData, false );
         }
         return $inputHandler;
     }
 
-    function &outputHandler()
+    function &outputHandler( &$xmlData, $type = false, $useAlias = true )
     {
-        $outputHandler = null;
-        if ( eZExtension::findExtensionType( array( 'ini-name' => 'ezxml.ini',
-                                                    'repository-group' => 'HandlerSettings',
-                                                    'repository-variable' => 'Repositories',
-                                                    'extension-group' => 'HandlerSettings',
-                                                    'extension-variable' => 'ExtensionRepositories',
-                                                    'type-group' => 'OutputSettings',
-                                                    'type-variable' => 'Handler',
-                                                    'alias-group' => 'OutputSettings',
-                                                    'alias-variable' => 'Alias',
-                                                    'subdir' => 'output',
-                                                    'type-directory' => false,
-                                                    'extension-subdir' => 'ezxmltext/handlers/output',
-                                                    'suffix-name' => 'xmloutput.php' ),
+        $outputDefinition = array( 'ini-name' => 'ezxml.ini',
+                                   'repository-group' => 'HandlerSettings',
+                                   'repository-variable' => 'Repositories',
+                                   'extension-group' => 'HandlerSettings',
+                                   'extension-variable' => 'ExtensionRepositories',
+                                   'type-group' => 'OutputSettings',
+                                   'type-variable' => 'Handler',
+                                   'subdir' => 'output',
+                                   'type-directory' => false,
+                                   'extension-subdir' => 'ezxmltext/handlers/output',
+                                   'suffix-name' => 'xmloutput.php' );
+        if ( $type !== false )
+            $outputDefinition['type'] = $type;
+        if ( $useAlias )
+        {
+            $outputDefinition['alias-group'] = 'OutputSettings';
+            $outputDefinition['alias-variable'] = 'Alias';
+        }
+        $outputHandler = eZXMLText::fetchHandler( $outputDefinition,
+                                                  'XMLOutput',
+                                                  $xmlData );
+        if ( $outputHandler === null )
+        {
+            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
+            $outputHandler = new eZXHTMLXMLOutput( $this->XMLData, false );
+        }
+        return $outputHandler;
+    }
+
+    function &fetchHandler( $definition, $classSuffix, &$xmlData )
+    {
+        $handler = null;
+        if ( eZExtension::findExtensionType( $definition,
                                              $out ) )
         {
             $filePath = $out['found-file-path'];
             include_once( $filePath );
-            $class = $out['type'] . 'XMLOutput';
-            $outputHandler = new $class( $this->XMLData );
+            $class = $out['type'] . $classSuffix;
+            $handlerValid = false;
+            $aliasedType = false;
+            if ( $out['original-type'] != $out['type'] )
+                $aliasedType = $out['original-type'];
+            if( class_exists( $class ) )
+            {
+                $handler = new $class( $xmlData, $aliasedType );
+                if ( $handler->isValid() )
+                    $handlerValid = true;
+            }
+            else
+                eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                     'eZXMLText::fetchHandler' );
+            if ( !$handlerValid and
+                 $out['type'] != $out['original-type'] and
+                 isset( $definition['alias-group'] ) and
+                 isset( $definition['alias-variable'] ) )
+            {
+                unset( $definition['alias-group'] );
+                unset( $definition['alias-variable'] );
+                if ( eZExtension::findExtensionType( $definition,
+                                                     $out ) )
+                {
+                    $filePath = $out['found-file-path'];
+                    include_once( $filePath );
+                    $class = $out['type'] . $classSuffix;
+                    $handlerValid = false;
+                    if( class_exists( $class ) )
+                    {
+                        $handler = new $class( $xmlData, false );
+                        if ( $handler->isValid() )
+                            $handlerValid = true;
+                    }
+                    else
+                        eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                             'eZXMLText::fetchHandler' );
+                    if ( !$handlerValid )
+                    {
+                        $handler = null;
+                    }
+                }
+            }
         }
-        else
-        {
-            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
-            $outputHandler = new eZXHTMLXMLOutput( $this->XMLData );
-        }
-        return $outputHandler;
+        return $handler;
     }
 
     /// Contains the XML data

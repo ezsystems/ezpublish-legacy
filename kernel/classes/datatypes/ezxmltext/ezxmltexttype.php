@@ -310,23 +310,9 @@ class eZXMLTextType extends eZDataType
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
-        switch ( $action )
-        {
-            case "enable_editor" :
-            {
-                $http =& eZHTTPTool::instance();
-                $http->removeSessionVariable( 'DisableEditorExtension' );
-            }break;
-            case "disable_editor" :
-            {
-                $http =& eZHTTPTool::instance();
-                $http->setSessionVariable( 'DisableEditorExtension', true );
-            }break;
-            default :
-            {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZOptionType" );
-            }break;
-        }
+        $content =& $this->objectAttributeContent( $contentObjectAttribute );
+        $inputHandler =& $content->attribute( 'input' );
+        $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
 }
 

@@ -43,9 +43,9 @@ include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
-    function eZSimplifiedXMLInput( &$xmlData )
+    function eZSimplifiedXMLInput( &$xmlData, $aliasedType )
     {
-        $this->eZXMLInputHandler( $xmlData );
+        $this->eZXMLInputHandler( $xmlData, $aliasedType );
     }
 
     /*!
