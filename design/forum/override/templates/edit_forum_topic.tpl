@@ -12,14 +12,35 @@
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" /> 
     <br/>
 
-    {include uri="design:content/edit_attribute.tpl"}
-    <br/>
+    
+    <h2>Subject</h2>
+    {attribute_edit_gui attribute=$object.data_map.subject}
+    <h2>Message</h2>
+    {attribute_edit_gui attribute=$object.data_map.message}
+
+    <h2>Notify me about updates</h2>
+    {attribute_edit_gui attribute=$object.data_map.notify_me_about_updates}
    
-    {section name=UserGroup loop=$object.current.creator.parent_nodes}
-    {let StickyGroup=ezini('StickyGroup','GroupID','forum.ini')}
-{$StickyGroup|contains($:item)}{$:item}
-    {/let}
-    {/section}
+
+{let user_group_array=$object.current.creator.parent_nodes
+     show_sticky_group_array=ezini('StickyGroup','GroupID','forum.ini')
+     show_sticky=false()}
+
+{section loop=$user_group_array}
+  {section show=$show_sticky_group_array|contains($:item)}
+     {set show_sticky=true()}
+  {/section}
+{/section}
+
+{section show=$show_sticky}
+    <h2>Sticky</h2>
+    {attribute_edit_gui attribute=$object.data_map.sticky}
+{section-else}
+
+{/section}
+
+{/let}
+
     <div class="buttonblock">
     <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
