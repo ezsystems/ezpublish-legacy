@@ -28,7 +28,7 @@
 <tr class="{$RSSExports.sequence}">
 
     {* Remove. *}
-    <td><input type="checkbox" name="DeleteIDArray[]" value="{$RSSExports.item.id}" title="{'Select RSS export for removal.'|i18n( 'design/admin/rss/list' )}"></td>
+    <td><input type="checkbox" name="DeleteIDArray[]" value="{$RSSExports.item.id}" title="{'Select RSS export for removal.'|i18n( 'design/admin/rss/list' )}" /></td>
 
     {* Name. *}
     <td>{section show=$RSSExports.item.active|eq( 1 )} <a href={concat( 'rss/feed/', $RSSExports.item.access_url )|ezurl}>{$RSSExports.item.title|wash}</a>{section-else}{$RSSExports.item.title|wash}{/section}</td>
@@ -104,7 +104,7 @@
 <tr class="{$RSSImports.sequence}">
 
     {* Remove. *}
-    <td><input type="checkbox" name="DeleteIDArrayImport[]" value="{$RSSImports.item.id}" title="{'Select RSS import for removal.'|i18n( 'design/admin/rss/list' )}"></td>
+    <td><input type="checkbox" name="DeleteIDArrayImport[]" value="{$RSSImports.item.id}" title="{'Select RSS import for removal.'|i18n( 'design/admin/rss/list' )}" /></td>
 
     {* Name. *}
     <td>{$RSSImports.item.name|wash}</td>
