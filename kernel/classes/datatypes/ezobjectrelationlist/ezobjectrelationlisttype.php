@@ -289,6 +289,19 @@ class eZObjectRelationListType extends eZDataType
                     $object->setName( $objectName, $version->attribute( 'version' ) );
                     $object->store();
                 }
+                if ( $relationItem['node_id'] > 0 )
+                {
+                    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                        'contentobject_version' => $object->attribute( 'current_version' ),
+                                                                        'parent_node' => $relationItem['node_id'],
+                                                                        'sort_field' => 2,
+                                                                        'sort_order' => 0,
+                                                                        'is_main' => 1 ) );
+                    $nodeAssignment->store();
+                    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                                 'version' => $object->attribute( 'current_version' ) ) );
+                }
+
                 $content['relation_list'][$i]['is_modified'] = false;
             }
         }
@@ -332,6 +345,12 @@ class eZObjectRelationListType extends eZDataType
                     $constrainedClassList[] = $constraint;
             }
             $content['class_constraint_list'] = $constrainedClassList;
+        }
+        $typeVariable = 'ContentClass_ezobjectrelationlist_type_' . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $typeVariable ) )
+        {
+            $type = $http->postVariable( $typeVariable );
+            $content['attribute_type'] = $type;
         }
         $classAttribute->setContent( $content );
         return true;
@@ -434,6 +453,8 @@ class eZObjectRelationListType extends eZDataType
             $constraints->appendChild( $constraintElement );
         }
         $root->appendChild( $constraints );
+        $constraintType =& $doc->createElementNode( 'type', array( 'value' => $content['attribute_type'] ) );
+        $root->appendChild( $constraintType );
         $placementAttributes = array();
         if ( $content['default_placement'] )
             $placementAttributes['node-id'] = $content['default_placement']['node_id'];
@@ -485,6 +506,8 @@ class eZObjectRelationListType extends eZDataType
             $class =& eZContentClass::fetch( $classID );
             if ( $class )
             {
+                $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $class_content = $classAttribute->content();
                 $content = $contentObjectAttribute->content();
                 $priority = 0;
                 for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -495,6 +518,11 @@ class eZObjectRelationListType extends eZDataType
                 $relationItem = eZObjectRelationListType::createInstance( $class,
                                                                           $priority + 1,
                                                                           $contentObjectAttribute );
+                if ( $class_content['default_placement'] )
+                {
+                    $relationItem['node_id'] = $class_content['default_placement']['node_id'];
+                }
+
                 $content['relation_list'][] = $relationItem;
                 $object =& $relationItem['object'];
                 $attributes =& $object->contentObjectAttributes();
@@ -540,10 +568,13 @@ class eZObjectRelationListType extends eZDataType
                     if ( !$relationItem['is_modified'] and
                          in_array( $relationItem['contentobject_id'], $selections ) )
                     {
-                        $relationItem['is_modified'] = true;
                         $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
-                        $version =& $object->createNewVersion( $relationItem['contentobject_version'] );
-                        $relationItem['contentobject_version'] = $version->attribute( 'version' );
+                        if ( $object->attribute( 'can_edit' ) )
+                        {
+                            $relationItem['is_modified'] = true;
+                            $version =& $object->createNewVersion( $relationItem['contentobject_version'] );
+                            $relationItem['contentobject_version'] = $version->attribute( 'version' );
+                        }
                     }
                 }
                 $contentObjectAttribute->setContent( $content );
@@ -573,6 +604,47 @@ class eZObjectRelationListType extends eZDataType
                 $contentObjectAttribute->store();
             }
         }
+        else if ( $action == 'browse_objects' )
+        {
+            $module =& $parameters['module'];
+            $redirectionURI = $parameters['current-redirection-uri'];
+
+            $ini = eZINI::instance( 'content.ini' );
+            $browseType = 'AddRelatedObjectToDataType';
+            $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
+            foreach ( $browseTypeINIVariable as $value )
+            {
+                list( $classAttributeID, $type ) = explode( ';',$value );
+                if ( $classAttributeID == $contentObjectAttribute->attribute( 'contentclassattribute_id' ) && strlen( $type ) > 0 )
+                {
+                    $browseType = $type;
+                    eZDebug::writeDebug( $browseType, "browseType" );
+                    break;
+                }
+            }
+            eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
+                                            'type' =>  $browseType,
+                                            'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation_list]',
+                                                                             'value' => $contentObjectAttribute->attribute( 'id' ) ),
+                                            'persistent_data' => array( 'HasObjectInput' => 0 ),
+                                            'from_page' => $redirectionURI ),
+                                     $module );
+        }
+        else if ( $action == 'set_object_relation_list' )
+        {
+            $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+            $objectID = $selectedObjectIDArray[0];
+            $content = $contentObjectAttribute->content();
+            $priority = 0;
+            for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
+            {
+                if ( $content['relation_list'][$i]['priority'] > $priority )
+                    $priority = $content['relation_list'][$i]['priority'];
+            }
+            $content['relation_list'][] =& $this->appendObject( $objectID, $priority + 1, $contentObjectAttribute );
+            $contentObjectAttribute->setContent( $content );
+            $contentObjectAttribute->store();
+        }
         else
         {
             eZDebug::writeError( "Unknown custom HTTP action: " . $action,
@@ -595,6 +667,24 @@ class eZObjectRelationListType extends eZDataType
                                'contentclass_id' => $class->attribute( 'id' ),
                                'contentclass_identifier' => $class->attribute( 'identifier' ),
                                'is_modified' => true );
+        $relationItem['object'] =& $object;
+        return $relationItem;
+    }
+
+    function appendObject( $objectID, $priority, &$contentObjectAttribute )
+    {
+        $object =& eZContentObject::fetch( $objectID );
+        $class =& $object->attribute( 'content_class' );
+        $sectionID = $object->attribute( 'section_id' );
+        $relationItem = array( 'identifier' => false,
+                               'priority' => $priority,
+                               'contentobject_id' => $object->attribute( 'id' ),
+                               'contentobject_version' => $object->attribute( 'current_version' ),
+                               'node_id' => $object->attribute( 'main_node_id' ),
+                               'parent_node_id' => $object->attribute( 'main_parent_node_id' ),
+                               'contentclass_id' => $class->attribute( 'id' ),
+                               'contentclass_identifier' => $class->attribute( 'identifier' ),
+                               'is_modified' => false );
         $relationItem['object'] =& $object;
         return $relationItem;
     }
@@ -623,7 +713,7 @@ class eZObjectRelationListType extends eZDataType
         if ( trim( $xmlText ) == '' )
             return eZObjectRelationListType::defaultClassAttributeContent();
         $doc =& eZObjectRelationListType::parseXML( $xmlText );
-        $content = eZObjectRelationListType::createClassContentStructure( $doc );
+        $content =& eZObjectRelationListType::createClassContentStructure( $doc );
         return $content;
     }
 
@@ -634,10 +724,12 @@ class eZObjectRelationListType extends eZDataType
         return $dom;
     }
 
-    function defaultClassAttributeContent()
+    function &defaultClassAttributeContent()
     {
-        return array( 'class_constraint_list' => array(),
-                      'default_placement' => false );
+        $default = array( 'type' => 0,
+                          'class_constraint_list' => array(),
+                          'default_placement' => false );
+        return $default;
     }
 
     function defaultObjectAttributeContent()
@@ -645,14 +737,17 @@ class eZObjectRelationListType extends eZDataType
         return array( 'relation_list' => array() );
     }
 
-    function createClassContentStructure( &$doc )
+    function &createClassContentStructure( &$doc )
     {
-        $content = eZObjectRelationListType::defaultClassAttributeContent();
+        $content =& eZObjectRelationListType::defaultClassAttributeContent();
         $root =& $doc->root();
         $objectPlacement =& $root->elementByName( 'contentobject-placement' );
-        if ( $objectPlacement and
-             $objectPlacement->hasAttributes() )
-            $content['default_placement'] = array( 'node_id' => $objectPlacement->attributeValue( 'node-id' ) );
+
+        if ( $objectPlacement and $objectPlacement->hasAttributes() )
+        {
+            $nodeID =& $objectPlacement->attributeValue( 'node-id' );
+            $content['default_placement'] = array( 'node_id' => &$nodeID );
+        }
         $constraints =& $root->elementByName( 'constraints' );
         if ( $constraints )
         {
@@ -660,8 +755,13 @@ class eZObjectRelationListType extends eZDataType
             for ( $i = 0; $i < count( $allowedClassList ); ++$i )
             {
                 $allowedClass =& $allowedClassList[$i];
-                $content['class_constraint_list'][] = $allowedClass->attributeValue( 'contentclass-identifier' );
+                $content['class_constraint_list'][] =& $allowedClass->attributeValue( 'contentclass-identifier' );
             }
+        }
+        $type =& $root->elementByName( 'type' );
+        if ( $type )
+        {
+            $content['type'] = $type->attributeValue( 'value' );
         }
         return $content;
     }

@@ -1,3 +1,4 @@
+{default attribute_base=ContentObjectAttribute}
 {section show=count($attribute.content.modified)}
 
   <div class="warning">
@@ -46,3 +47,4 @@
 {/case}
 
 {/switch}
+{/default}

@@ -1,5 +1,7 @@
-{let class_content=$attribute.class_content
+ {let class_content=$attribute.class_content
      class_list=fetch(class,list,hash(class_filter,$class_content.class_constraint_list))}
+{section show=array(0,1)|contains($class_content.type)}
+
 <table width="100%" cellpadding="0" cellspacing="2" border="0">
 <tr>
     {section name=Class loop=$class_list}
@@ -9,21 +11,9 @@
 </div>
 <div class="object">
 <table width="100%" cellpadding="0" cellspacing="2" border="0">
-{*            {section name=Attribute loop=fetch(class,attribute_list,hash(class_id,$:item.id))}
-<tr>
-    <td width="1">
-        <label>{$:item.name|wash}</label>
-    </td>
-    <td>
-        {attribute_edit_gui attribute_base=concat($attribute_base,'_ezorl_init_class_',$Class:item.id,'_attr_',$:item.id)
-                            html_class='half'
-                            attribute=$:item.temporary_object_attribute}
-    </td>
-</tr>
-            {/section}*}
 <tr>
     <td colspan="2" align="left">
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}]" value="{'Add %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}" />
+        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}][]" value="{'Add %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}" />
     </td>
 </tr>
 </table>
@@ -32,7 +22,7 @@
     {/section}
 </tr>
 </table>
-
+{/section}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
@@ -58,8 +48,6 @@
                  version=fetch(content,version,hash(object_id,$:item.contentobject_id,
                                                     version_id,$:item.contentobject_version))}
                 <table cellspacing="0" cellpadding="0" border="0">
-{*                {section name=Attribute loop=$:object.contentobject_attributes} 
-*}
                 {section name=Attribute loop=$:version.contentobject_attributes} 
 <tr>
 <td>
@@ -86,6 +74,9 @@
 <div class="buttonblock">
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit objects'|i18n('design/standard/content/datatype')}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
+{section show=array(0,2)|contains($class_content.type)}
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Browse objects'|i18n('design/standard/content/datatype')}" />
+{/section}
 </div>
 
 {/let}
