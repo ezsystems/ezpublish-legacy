@@ -59,6 +59,7 @@ class eZImageType extends eZDataType
 
     function repairContentObjectAttribute( &$contentObjectAttribute )
     {
+        include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
         $image =& eZImage::fetch( $contentObjectAttribute->attribute( 'id' ),
                                   $contentObjectAttribute->attribute( 'version' ) );
         if ( !is_object( $image ) )
