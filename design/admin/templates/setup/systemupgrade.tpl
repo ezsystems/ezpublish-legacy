@@ -54,7 +54,7 @@
 <h3>{'Database consistency'|i18n('design/admin/setup')}</h3>
 {'The database consistency tool checks if your database is synchronized with the database schema delivered with your current ez publish installation. If inconsistencies are found, the tool suggests SQL statements that brings your database up to date. Please run these SQL statements on your database prior to upgrading.'|i18n('design/admin/setup')}
 <div class="block">
-<p><strong>{'Warning: '|i18n('design/admin/setup')}</strong>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
+<p><strong>{'Warning'|i18n('design/admin/setup')}: </strong>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
 
 </div>
 
