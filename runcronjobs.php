@@ -40,7 +40,9 @@ include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+error_reporting ( E_ALL );
+
+eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
 $endl = "<br/>";
 $webOutput = true;
@@ -53,6 +55,13 @@ if ( isset( $argv ) )
 $cronPart = false;
 $siteaccess = false;
 $debugOutput = false;
+$useColors = false;
+
+$colors = array( 'warning' => "\033[1;35m",
+                 'error' => "\033[1;31m",
+                 'success' => "\033[1;32m",
+                 'emphasize' => "\033[1;38m",
+                 'normal' => "\033[0;39m" );
 
 $optionsWithData = array( 's' );
 
@@ -66,6 +75,14 @@ for ( $i = 1; $i < count( $argv ); ++$i )
              $arg[1] == '-' )
         {
             $flag = substr( $arg, 2 );
+            if ( $flag == 'colors' )
+            {
+                $useColors = true;
+            }
+            else if ( $flag == 'no-colors' )
+            {
+                $useColors = false;
+            }
         }
         else
         {
@@ -87,10 +104,16 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
                        "Executes eZ publish cronjobs.\n\n" .
-                       "  -h    display this help and exit \n" .
-                       "  -s    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                       "  -d    display debug output at end of execution\n" );
+                       "  -h             display this help and exit \n" .
+                       "  -s             selected siteaccess for operations, if not specified default siteaccess is used\n" .
+                       "  -d             display debug output at end of execution\n" .
+                       "  -c,--colors    display output using ANSI colors\n" .
+                       "  --no-colors    do not use ANSI coloring (default)\n" );
                 exit();
+            }
+            else if ( $flag == 'c' )
+            {
+                $useColors = true;
             }
             else if ( $flag == 'd' )
             {
@@ -116,6 +139,26 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
 }
 
+if ( $webOutput )
+    $useColors = false;
+
+if ( $useColors )
+{
+    $emphasizeText = $colors['emphasize'];
+    $normalText = $colors['normal'];
+    $errorText = $colors['error'];
+    $warningText = $colors['warning'];
+    $successText = $colors['success'];
+}
+else
+{
+    $emphasizeText = '';
+    $normalText = '';
+    $errorText = '';
+    $warningText = '';
+    $successText = '';
+}
+
 if ( $cronPart )
     print( "Running cronjob part '$cronPart'$endl" );
 
@@ -130,8 +173,7 @@ function eZUpdateDebugSettings()
     $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
     $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
     $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    if ( $debugOutput )
-        $debugSettings['debug-enabled'] = $debugOutput;
+    $debugSettings['debug-enabled'] = $debugOutput;
     eZDebug::updateSettings( $debugSettings );
 }
 
@@ -172,17 +214,20 @@ function eZFatalError()
 {
     global $webOutput;
     global $endl;
+    global $errorText;
+    global $normalText;
     $bold = '<b>';
     $unbold = '</b>';
     $par = '<p>';
     $unpar = '</p>';
     if ( !$webOutput )
     {
-        $bold = '';
-        $unbold = '';
+        $bold = $errorText;
+        $unbold = $normalText;
         $par = '';
         $unpar = $endl;
     }
+
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
     print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
@@ -191,6 +236,8 @@ function eZFatalError()
 
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
+
+eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 // Check for extension
 include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -251,7 +298,7 @@ foreach ( $scripts as $script )
     }
     if ( file_exists( $scriptFile ) )
     {
-        print( "Running $scriptFile$endl" );
+        print( "Running $emphasizeText$scriptFile$normalText$endl" );
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
         include( $scriptFile );
         eZDebug::addTimingPoint( "Script $scriptFile done" );
