@@ -136,6 +136,7 @@ CREATE TABLE "ezcontentclass_attribute" (
 	"data_text2" character varying(50),
 	"data_text3" character varying(50),
 	"data_text4" character varying(50),
+    "is_information_collector" integer NOT NULL default '0',
 	Constraint "ezcontentclass_attribute_pkey" Primary Key ("id", "version")
 );
 
@@ -557,6 +558,7 @@ CREATE TABLE "eznode_assignment" (
 	"main" integer,
     "sort_field" integer DEFAULT 1,
     "sort_order" smallint DEFAULT 1,
+    "from_node_id" integer default '0',
 	Constraint "eznode_assignment_pkey" Primary Key ("id")
 );
 
@@ -720,7 +722,6 @@ CREATE TABLE "ezproductcollection_item" (
 	"productcollection_id" integer NOT NULL,
 	"contentobject_id" integer NOT NULL,
 	"item_count" integer NOT NULL,
-	"price_is_inc_vat" integer NOT NULL,
 	"price" integer NOT NULL,
 	Constraint "ezproductcollection_item_pkey" Primary Key ("id")
 );
@@ -780,6 +781,8 @@ CREATE TABLE "ezsearch_object_word_link" (
 	"next_word_id" integer NOT NULL,
 	"contentclass_id" integer NOT NULL,
 	"contentclass_attribute_id" integer NOT NULL,
+    "published" integer NOT NULL default '0',
+    "section_id" integer NOT NULL default '0',
 	Constraint "ezsearch_object_word_link_pkey" Primary Key ("id")
 );
 
@@ -1173,11 +1176,13 @@ INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modifi
 -- Name: ezworkflow_group_link Type: TABLE Owner: sp
 --
 
+
 CREATE TABLE "ezworkflow_group_link" (
-	"workflow_id" integer NOT NULL,
-	"group_id" integer NOT NULL,
-	"workflow_version" integer,
-	"group_name" character varying
+	"workflow_id" integer NOT NULL default '0' ,
+	"group_id" integer NOT NULL default '0',
+	"workflow_version" integer NOT NULL default '0',
+	"group_name" character varying,
+    PRIMARY KEY  (workflow_id,group_id,workflow_version)
 );
 
 INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) VALUES (1,1,0,'Standard');
@@ -1226,13 +1231,97 @@ CREATE TABLE "ezworkflow_process" (
 CREATE SEQUENCE "ezoperation_memento_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
 
 CREATE TABLE ezoperation_memento (
-id integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
-main int NOT NULL default 0,
-memento_key char(32) NOT NULL,
-main_key char(32) NOT NULL,
-memento_data text NOT NULL,
-PRIMARY KEY(id, memento_key) );
+    id integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
+    main int NOT NULL default 0,
+    memento_key char(32) NOT NULL,
+    main_key char(32) NOT NULL,
+    memento_data text NOT NULL,
+    PRIMARY KEY(id, memento_key)
+);
 
+
+CREATE SEQUENCE "ezdiscountsubrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+CREATE TABLE ezdiscountsubrule (
+  id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
+  name varchar(255) NOT NULL default '',
+  discountrule_id integer NOT NULL default '0',
+  discount_percent float default NULL,
+  limitation char(1) default NULL,
+  PRIMARY KEY  (id)
+);
+
+
+CREATE TABLE ezdiscountsubrule_value (
+  discountsubrule_id integer NOT NULL default '0',
+  value integer NOT NULL default '0',
+  issection int NOT NULL default '0',
+  PRIMARY KEY  (discountsubrule_id,value,issection)
+);
+
+CREATE SEQUENCE "ezinformationcollection_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+CREATE TABLE ezinformationcollection (
+  id integer DEFAULT nextval('ezinformationcollection_s'::text) NOT NULL ,
+  contentobject_id integer NOT NULL default '0',
+  created integer NOT NULL default '0',
+  PRIMARY KEY  (id)
+);
+
+CREATE SEQUENCE "ezinformationcollection_attribute_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+create table ezinformationcollection_attribute (
+  id integer DEFAULT nextval('ezinformationcollection_attribute_s'::text) NOT NULL,
+  informationcollection_id integer not null default 0,
+  data_text text,
+  data_int integer default NULL,
+  data_float float default NULL,
+  PRIMARY KEY  (id)
+);
+
+
+CREATE SEQUENCE "ezuser_discountrule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+CREATE TABLE ezuser_discountrule (
+  id integer DEFAULT nextval('ezuser_discountrule_s'::text) NOT NULL,
+  discountrule_id integer default NULL,
+  contentobject_id integer default NULL,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
+);
+
+CREATE SEQUENCE "ezvattype_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+CREATE TABLE ezvattype (
+  id integer DEFAULT nextval('ezvattype_s'::text) NOT NULL,
+  name varchar(255) NOT NULL default '',
+  percentage float default NULL,
+  PRIMARY KEY  (id)
+);
+
+
+
+CREATE SEQUENCE "eznotification_rule_s" start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+CREATE TABLE eznotification_rule (
+  id integer DEFAULT nextval('eznotification_rule_s'::text) NOT NULL,
+  type varchar(250) NOT NULL default '',
+  contentclass_name varchar(250) NOT NULL default '',
+  path varchar(250) default NULL,
+  keyword varchar(250) default NULL,
+  has_constraint smallint NOT NULL default '0',
+  PRIMARY KEY  (id)
+);
+
+
+CREATE TABLE eznotification_user_link (
+  rule_id integer NOT NULL default '0',
+  user_id integer NOT NULL default '0',
+  send_method varchar(50) NOT NULL default '',
+  send_weekday varchar(50) NOT NULL default '',
+  send_time varchar(50) NOT NULL default '',
+  destination_address varchar(50) NOT NULL default '',
+  PRIMARY KEY  (rule_id,user_id)
+);
 
 
 
@@ -1347,4 +1436,13 @@ CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btr
 -- Name: ezworkflow_group_s Type: SEQUENCE SET Owner: sp
 --
 
+
+create index ezcontentobject_tree_crc32_path on ezcontentobject_tree(crc32_path);
+create unique index ezuser_contentobject_id on ezuser(contentobject_id);
+create index ezuser_role_contentobject_id on ezuser_role(contentobject_id);
+create index ezcontentobject_attribute_contentobject_id on ezcontentobject_attribute(contentobject_id);
+create index ezcontentobject_attribute_language_code on  ezcontentobject_attribute(language_code);
+create index ezcontentclass_version on ezcontentclass(version);
+create index ezenumvalue_co_cl_attr_id_co_class_att_ver on ezenumvalue(contentclass_attribute_id,contentclass_attribute_version);
+create index ezenumobjectvalue_co_attr_id_co_attr_ver on ezenumobjectvalue(contentobject_attribute_id,contentobject_attribute_version);
 
