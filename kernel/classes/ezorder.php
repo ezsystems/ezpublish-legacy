@@ -498,7 +498,7 @@ class eZOrder extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->lock( 'ezorder' );
-        $this->setAttribute( 'is_temporary', false );
+        $this->setAttribute( 'is_temporary', 0 );
         $nextIDArray = $db->arrayQuery(  "SELECT ( max( order_nr ) + 1 ) AS next_nr FROM ezorder" );
         $nextID = $nextIDArray[0]['next_nr'];
         $this->setAttribute( 'order_nr', $nextID );
