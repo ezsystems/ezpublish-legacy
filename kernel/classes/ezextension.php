@@ -136,8 +136,9 @@ function ext_activate( $extension, $name )
 */
 function ext_class( $extension, $name )
 {
+    $name = strtolower( $name );
     $base = eZExtension::baseDirectory();
-    $include = "$base/$extension/classes/$name";
+    $include = "$base/$extension/classes/$name.php";
     return include_once( $include );
 }
 
