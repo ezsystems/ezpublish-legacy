@@ -1,6 +1,7 @@
 Changes from 3.4.0 to 3.5.0alpha1
 
 *Kernel:
+- Fixed problem with template compiler ignoring the current pagelayout which is set
 - Made content class group override keys optional based on .ini setting, disabled by default because of overhead.
 - Added attributes to fetch cache values of class_identifier and class_name in eZContentObjectTreeNode objects and eZContentObject objects
 - Added cache for contentclass attribute name, identifier and can translate value to minimize the number of SQL  queries.
@@ -419,6 +420,11 @@ Workflow:
 - Fixed logical problem in eZLocale attributes:
   'weekday_list' changed to 'weekday_name_list'
   'weekday_name_list' changed to 'weekday_number_list'
+
+eZ WEBDav:
+- Added removal of temporary files after upload
+- Added support of removal of objects
+- Made sure the server always reads the whole request body to prevent Apache 400 Bad Request responses
 
 eZ DB:
 - Added support to MySQL driver for setting the character set on the connection

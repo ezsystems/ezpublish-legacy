@@ -339,7 +339,11 @@ class eZTemplateCompiler
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http =& eZHTTPTool::instance();
         $useFullUrlText = $http->UseFullUrl ? 'full' : 'relative';
-        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText;
+
+        $pageLayoutVariable = "";
+        if ( isset( $GLOBALS['eZCustomPageLayout'] ) )
+            $pageLayoutVariable = $GLOBALS['eZCustomPageLayout'];
+        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable;
         $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }
@@ -438,6 +442,7 @@ class eZTemplateCompiler
     {
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
+
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
         $resourceData['uniqid'] = md5( $resourceData['template-filename']. uniqid( "ezp". getmypid(), true ) );
 
