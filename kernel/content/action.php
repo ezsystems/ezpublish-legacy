@@ -196,7 +196,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $priorityIDArray =& $http->postVariable( 'PriorityID' );
         for ( $i=0; $i<count( $priorityArray );$i++ )
         {
-            $priority = $priorityArray[$i];
+            $priority = (int) $priorityArray[$i];
             $nodeID = $priorityIDArray[$i];
             $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
         }
