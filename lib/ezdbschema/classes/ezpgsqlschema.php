@@ -871,6 +871,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     }
 
     /*!
+     \reimp
+    */
+    function schemaName()
+    {
+        return 'PostgreSQL';
+    }
+
+    /*!
      \return An array with keywords that are reserved by PostgreSQL.
     */
     function reservedKeywordList()

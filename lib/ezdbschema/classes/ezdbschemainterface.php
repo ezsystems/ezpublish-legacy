@@ -666,13 +666,24 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \protected
      \pure
 
-     Returns schema type string.
+     \return Identifier for schema type as string.
      Examples: 'mysql', 'postgresql', 'oracle'
+     \sa schemaName()
     */
     function schemaType()
+    {
+    }
+
+    /*!
+     \pure
+
+     \return Displayable name for schema type as string.
+     Examples: 'MySQL', 'PostgreSQL', 'Oracle'
+     \sa schemaType()
+    */
+    function schemaName()
     {
     }
 

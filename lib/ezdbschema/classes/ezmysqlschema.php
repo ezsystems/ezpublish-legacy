@@ -645,5 +645,13 @@ class eZMysqlSchema extends eZDBSchemaInterface
         return 'mysql';
     }
 
+    /*!
+     \reimp
+    */
+    function schemaName()
+    {
+        return 'MySQL';
+    }
+
 }
 ?>
