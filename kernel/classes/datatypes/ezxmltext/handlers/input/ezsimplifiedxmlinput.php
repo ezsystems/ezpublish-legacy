@@ -2097,7 +2097,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $SectionArray = array( 'paragraph', 'section', 'header', 'object' );
 
-    var $BlockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
+    var $BlockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom' );
 
     var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line', 'object' );
 

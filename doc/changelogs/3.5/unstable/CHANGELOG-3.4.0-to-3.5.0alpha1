@@ -397,6 +397,9 @@ Workflow:
   http://ez.no/community/bug_reports/roles_policies_subtree_limit_bug ( Merged from stable 3.4 r7493 )
 - Fixed problem with the URL management: URLs from drafts and archived versions were shown.
   Now it will only show URLs from published versions.
+- Fixed bug where object tag was always handled as a block tag
+  http://ez.no/community/bug_reports/un_wanted_line_breaks_added_in_xml_text_field ( Merged from stable 3.4 r7588 )
+
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
