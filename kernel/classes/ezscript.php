@@ -165,10 +165,10 @@ class eZScript
         eZDebugSetting::setDebugINI( $debugINI );
 
         // Initialize text codec settings
-        eZUpdateTextCodecSettings();
+        $this->updateTextCodecSettings();
 
         // Initialize debug settings
-        eZUpdateDebugSettings( $this->UseDebugOutput );
+        $this->updateDebugSettings( $this->UseDebugOutput );
 
         // Set the different permissions/settings.
         include_once( 'lib/ezi18n/classes/ezcodepage.php' );
@@ -892,6 +892,49 @@ class eZScript
         return $implementation;
     }
 
+    /*!
+     \static
+     Reads settings from site.ini and passes them to eZDebug.
+    */
+    function updateDebugSettings( $useDebug = null )
+    {
+        global $debugOutput;
+        global $useLogFiles;
+        $ini =& eZINI::instance();
+        $cli =& eZCLI::instance();
+        $debugSettings = array();
+        $debugSettings['debug-enabled'] = ( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' and
+                                            $ini->variable( 'DebugSettings', 'ScriptDebugOutput' ) == 'enabled' );
+        if ( $useDebug !== null )
+            $debugSettings['debug-enabled'] = $useDebug;
+        $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+        $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
+        if ( isset( $debugOutput ) )
+            $debugSettings['debug-enabled'] = $debugOutput;
+        $debugSettings['debug-log-files-enabled'] = $useLogFiles;
+        if ( $cli->useStyles() and
+             !$cli->isWebOutput() )
+        {
+            $debugSettings['debug-styles'] = $cli->terminalStyles();
+        }
+        eZDebug::updateSettings( $debugSettings );
+    }
+
+    /*!
+     \static
+     Reads settings from i18n.ini and passes them to eZTextCodec.
+    */
+    function updateTextCodecSettings()
+    {
+        $ini =& eZINI::instance( 'i18n.ini' );
+        $i18nSettings = array();
+        $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
+        $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
+        $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
+        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        eZTextCodec::updateSettings( $i18nSettings );
+    }
+
     /// \privatesection
     var $DebugMessage;
     var $UseDebugOutput;
@@ -930,14 +973,6 @@ function eZFatalError()
     $useDebugAccumulators = true;
     $useDebugTimingpoints = true;
 
-//     $script =& $GLOBALS['eZScriptInstance'];
-//     if ( isset( $script ) )
-//     {
-//         $allowedDebugLevels = $script->AllowedDebugLevels;
-//         $useDebugAccumulators = $script->UseDebugAccumulators;
-//         $useDebugTimingpoints = $script->UseDebugTimingPoints;
-//     }
-
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( !$webOutput )
         print( $endl );
@@ -947,44 +982,17 @@ function eZFatalError()
 }
 
 /*!
-     Reads settings from site.ini and passes them to eZDebug.
+  Dummy function, required by some scripts in eZ publish.
 */
 function eZUpdateDebugSettings( $useDebug = null )
 {
-    global $debugOutput;
-    global $useLogFiles;
-    $ini =& eZINI::instance();
-    $cli =& eZCLI::instance();
-    $debugSettings = array();
-    $debugSettings['debug-enabled'] = ( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' and
-                                        $ini->variable( 'DebugSettings', 'ScriptDebugOutput' ) == 'enabled' );
-    if ( $useDebug !== null )
-        $debugSettings['debug-enabled'] = $useDebug;
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
-    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    if ( isset( $debugOutput ) )
-        $debugSettings['debug-enabled'] = $debugOutput;
-    $debugSettings['debug-log-files-enabled'] = $useLogFiles;
-    if ( $cli->useStyles() and
-         !$cli->isWebOutput() )
-    {
-        $debugSettings['debug-styles'] = $cli->terminalStyles();
-    }
-    eZDebug::updateSettings( $debugSettings );
 }
 
 /*!
-     Reads settings from i18n.ini and passes them to eZTextCodec.
+  Dummy function, required by some scripts in eZ publish.
 */
 function eZUpdateTextCodecSettings()
 {
-    $ini =& eZINI::instance( 'i18n.ini' );
-    $i18nSettings = array();
-    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
-    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-    eZTextCodec::updateSettings( $i18nSettings );
 }
 
 ?>
