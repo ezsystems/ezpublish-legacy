@@ -364,6 +364,7 @@ class eZDateTime
     */
     function setHMS( $hour, $min = 0, $sec = 0 )
     {
+        $arr =& getdate( $this->DateTime );
         $this->DateTime =& mktime( $hour, $min, $sec,
                                        $arr['mon'], $arr['mday'], $arr['year'] );
     }

@@ -150,3 +150,6 @@ eZDebug:
 - Added "Remove bookmark" menu item in popup menu when clicking on the icon of
   bookmark in the "Bookmarks" list in admin interface.
 - Added "Result page" after adding notification.
+
+eZDateTime:
+-  Fixed bug with missing array in function setHMS().
