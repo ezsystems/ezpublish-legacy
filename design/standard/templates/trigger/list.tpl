@@ -1,8 +1,6 @@
 <h1>{"Triggers list"|i18n("design/standard/trigger")}</h1>
 
-<form action="{$module.functions.list.uri}/" method="post" >
-
-
+<form action={$module.functions.list.uri|ezurl} method="post" >
 
 
 <h4>{"Triggers editing"|i18n("design/standard/trigger")}</h4>
