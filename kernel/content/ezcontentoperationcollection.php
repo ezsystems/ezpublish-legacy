@@ -449,7 +449,7 @@ class eZContentOperationCollection
             include_once( "lib/ezdb/classes/ezdb.php" );
 
             $db =& eZDB::instance();
-            $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( "index_object", '. (int)$objectID. ' )' );
+            $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
         }
         else
         {

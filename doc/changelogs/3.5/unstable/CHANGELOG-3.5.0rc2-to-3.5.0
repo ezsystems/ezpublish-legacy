@@ -15,6 +15,8 @@ Changes from 3.5.0rc2 to 3.5.0
   (Merged from stable/3.4/ rev. 10363)
 - Fixed bug: Call to undefined function: ezi18n in eztopmenuoperator.php.
   http://ez.no/community/bug_reports/fatal_error_call_to_undefined_function_ezi18n_in_eztopmenuoperator_php
+- Fixed bug with wrongly quotes query for Delayed Indexing
+  http://ez.no/community/bug_reports/delayed_indexing
 
 *Library:
 
