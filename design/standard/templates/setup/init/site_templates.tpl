@@ -49,6 +49,22 @@
         <tr>
       {/section}
 
+      {section show=and( le(count($site_templates), 3 ), eq( count($site_templates),sum($:index,1)) ) }
+       </tr>
+	  <td colspan="4">
+	    &nbsp;
+	  </td>
+       <tr>
+       </tr>
+       <tr>
+       {section name=SiteTemplateInner loop=$site_templates offset=sub($SiteTemplate:index,3) max=4}
+	  <td align="bottom" class="normal">
+	    <input type="checkbox" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][checked]" value="{$:item.identifier}">{$:item.name}</input>
+            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][identifier]" value="{$:item.identifier}" />
+            <input type="hidden" name="eZSetup_site_templates[{sum(sub($SiteTemplate:index, 3), $:index)}][name]" value="{$:item.name}" />
+	  </td>
+       {/section}
+      {/section}
     {/section}
     </tr>
 

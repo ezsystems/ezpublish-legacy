@@ -37,6 +37,7 @@ eZImage
 - Redone the image datatype to use the new image system.
 
 *Setup:
+- Fixed bug of unable to show checkboxes if available packages less than 4.
 
 *Package system:
 
