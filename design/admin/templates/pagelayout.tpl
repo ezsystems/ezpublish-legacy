@@ -243,8 +243,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div id="rightmenu-design">
 
 <h3 class="hide">Right</h3>
-{let quoted_node=concat( '"', $node.name, '"' )|wash()}
-
 {* --- Current user ---*}
 <h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
@@ -293,7 +291,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" title="{'Click here to add %quoted_node to your personal bookmarks.'|i18n( '/design/admin/layout',, hash( '%quoted_node', $quoted_node ) )}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark item'|i18n('design/standard/node/view')}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/layout' )}" />
 </form>
 {/section}
 
@@ -337,7 +335,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Click here to add %quoted_node to your personal notification list.'|i18n( 'design/admin/layout',, hash( '%quoted_node', $quoted_node ) )}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Add the current item to your personal notification list.'|i18n( 'design/admin/layout' )}" />
 </form>
 {/section}
 
@@ -359,7 +357,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 </div>
 </div>
-{/let}
+
 
 <hr class="hide" />
 
