@@ -125,21 +125,21 @@ int main( int argc, char **argv )
         else if ( qstrcmp( argv[i], "--dirs" ) == 0 ||
                   qstrcmp( argv[i], "-d" ) == 0 )
         {
+            ++i;
             while ( i < argc )
             {
-                i++;
                 QString arg( argv[i] );
+                if ( arg.startsWith( "-" ) )
+                {
+                    break;
+                }
                 QDir dir( arg );
-                if ( !arg.startsWith( "-" ) && dir.exists() )
+                if ( dir.exists() )
                 {
                     qWarning( "Added scan directory: " + arg );
                     dirs.append( arg );
                 }
-                else
-                {
-                    i--;
-                    break;
-                }
+                i++;
             }
             continue;
         }
