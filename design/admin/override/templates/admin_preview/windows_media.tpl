@@ -10,7 +10,8 @@
     </div>
 
     <div class="content-media">
-    {let attribute=$node.object.data_map.file}
+    {let attribute=$node.data_map.file}
+    {section show=$attribute.has_content}
         <object ID="MediaPlayer"  CLASSID="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" STANDBY="Loading Windows Media Player components..." type="application/x-oleobject"
                 {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.width|gt( 0 )}height="{$attribute.content.height}"{/section}>
         <param name="filename" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
@@ -22,6 +23,9 @@
                showcontrols="{$attribute.content.has_controller}" >
         </embed>
         </object>
+    {section-else}
+        {'No media file is available.'|i18n( 'design/standard/content/datatype' )}
+    {/section}
     {/let}
     </div>
 

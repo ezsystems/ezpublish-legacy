@@ -10,7 +10,8 @@
     </div>
 
     <div class="content-media">
-    {let attribute=$node.object.data_map.file}
+    {let attribute=$node.data_map.file}
+    {section show=$attribute.has_content}
         <object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA"
                 {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section}>
         <param name="src" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
@@ -24,6 +25,9 @@
                controls="{$attribute.content.controls}" >
         </embed>
         </object>
+    {section-else}
+        {'No media file is available.'|i18n( 'design/standard/content/datatype' )}
+    {/section}
     {/let}
     </div>
 
