@@ -172,6 +172,8 @@ class eZPostgreSQLDB extends eZDBInterface
             {
                 eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage ( $this->DBConnection ), "eZPostgreSQLDB" );
                 $this->setError();
+
+                $this->reportError();
             }
         }
         return $result;

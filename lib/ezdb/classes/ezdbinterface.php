@@ -115,6 +115,7 @@ class eZDBInterface
         $this->DBConnection = false;
         $this->DBWriteConnection = false;
         $this->TransactionCounter = 0;
+        $this->TransactionIsValid = false;
 
         $this->OutputTextCodec = null;
         $this->InputTextCodec = null;
@@ -335,7 +336,7 @@ class eZDBInterface
         $rowText = '';
         if ( $numRows !== false ) $rowText = "$numRows rows, ";
 
-        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction" : "");
+        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : "");
         eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
     }
 
@@ -573,10 +574,15 @@ class eZDBInterface
                 ++$this->TransactionCounter;
                 return false;
             }
+            $this->TransactionIsValid = true;
 
             if ( $this->isConnected() )
             {
+                $oldRecordError = $this->RecordError;
+                // Turn off error handling while we begin
+                $this->RecordError = false;
                 $this->beginQuery();
+                $this->RecordError = $oldRecordError;
 
                 // We update the transaction counter after the query, otherwise we 
                 // mess up the debug background highlighting.
@@ -597,7 +603,14 @@ class eZDBInterface
     }
 
     /*!
-      Commits the transaction.
+      Commits the current transaction. If this is not the outermost it will not commit
+      to the database immediately but instead decrease the transaction counter.
+
+      If the current transaction had any errors in it the transaction will be rollbacked
+      instead of commited. This ensures that the database is in a valid state.
+      Also the PHP execution will be stopped.
+
+      \return \c true if the transaction was successful, \c false otherwise.
     */
     function commit()
     {
@@ -615,7 +628,25 @@ class eZDBInterface
             {
                 if ( $this->isConnected() )
                 {
-                    $this->commitQuery();
+                    // Check if we have encountered any problems, if so we have to rollback
+                    if ( !$this->TransactionIsValid )
+                    {
+                        $oldRecordError = $this->RecordError;
+                        // Turn off error handling while we rollback
+                        $this->RecordError = false;
+                        $this->rollbackQuery();
+                        $this->RecordError = $oldRecordError;
+
+                        return false;
+                    }
+                    else
+                    {
+                        $oldRecordError = $this->RecordError;
+                        // Turn off error handling while we commit
+                        $this->RecordError = false;
+                        $this->commitQuery();
+                        $this->RecordError = $oldRecordError;
+                    }
                 }
             }
         }
@@ -645,10 +676,15 @@ class eZDBInterface
                 eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
                 return false;
             }
-            --$this->TransactionCounter;
+            // Reset the transaction counter
+            $this->TransactionCounter = 0;
             if ( $this->isConnected() )
             {
+                $oldRecordError = $this->RecordError;
+                // Turn off error handling while we rollback
+                $this->RecordError = false;
                 $this->rollbackQuery();
+                $this->RecordError = $oldRecordError;
             }
         }
         return true;
@@ -662,6 +698,104 @@ class eZDBInterface
     function rollbackQuery()
     {
         return false;
+    }
+
+    /*!
+      Invalidates the current transaction, see commit() for more details on this.
+      \return \c true if it was invalidated or \c false if there is no transaction to invalidate.
+
+      \sa isTransactionValid()
+    */
+    function invalidateTransaction()
+    {
+        if ( $this->TransactionCounter <= 0 )
+            return false;
+        $this->TransactionIsValid = false;
+        return true;
+    }
+
+    /*!
+     \protected
+     This is called whenever an error occurs in one of the database handlers.
+     If a transaction is active it will be invalidated as well.
+    */
+    function reportError()
+    {
+        // If we have a running transaction we must mark as invalid
+        // in which case a call to commit() will perform a rollback
+        if ( $this->TransactionCounter > 0 )
+        {
+            $this->invalidateTransaction();
+
+            // This is the unique ID for this incidence which will also be placed in the error logs.
+            $transID = 'TRANSID-' . md5( mktime() . mt_rand() );
+
+            eZDebug::writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
+
+            $oldRecordError = $this->RecordError;
+            // Turn off error handling while we rollback
+            $this->RecordError = false;
+            $this->rollbackQuery();
+            $this->RecordError = $oldRecordError;
+
+            // Stop execution immediately while allowing other systems (session etc.) to cleanup
+            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            eZExecution::cleanup();
+            eZExecution::setCleanExit();
+
+            // Give some feedback, and also possibly show the debug output
+            eZDebug::setHandleType( EZ_HANDLE_NONE );
+
+            $ini =& eZINI::instance();
+            $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+            $site = eZSys::serverVariable( 'HTTP_HOST' );
+            $uri = eZSys::serverVariable( 'REQUEST_URI' );
+
+            print( "<div class=\"fatal-error\" style=\"" );
+            print( 'margin: 0.5em 0 1em 0; ' .
+                   'padding: 0.25em 1em 0.75em 1em;' .
+                   'border: 4px solid #000000;' .
+                   'background-color: #f8f8f4;' .
+                   'border-color: #f95038;" >' );
+            print( "<b>Fatal error</b>: A database transaction in eZ publish failed.<br/>" );
+            print( "<p>" );
+            print( "The current execution was stopped to prevent further problems.<br/>\n" .
+                   "You should contact the <a href=\"mailto:$adminEmail?subject=Transaction failed on $site and URI $uri with ID $transID\">System Administrator</a> of this site with the information on this page.<br/>\n" .
+                   "The current transaction ID is <b>$transID</b> and has been logged.<br/>\n" .
+                   "Please include the transaction ID and the current URL when contacting the system administrator.<br/>\n" );
+            print( "</p>" );
+            print( "</div>" );
+            $templateResult = null;
+            if ( function_exists( 'eZDisplayResult' ) )
+            {
+                eZDisplayResult( $templateResult );
+            }
+
+            // PHP execution stops here
+            exit;
+        }
+    }
+
+    /*!
+      \return \c true if the current or last running transaction was valid,
+              \c false otherwise.
+      \sa invalidateTransaction()
+    */
+    function isTransactionValid()
+    {
+        return $this->TransactionIsValid;
+    }
+
+    /*!
+     \return The current transaction counter.
+
+     0 means no transactions, 1 or higher means 1 or more transactions
+     are running and a negative value means something is wrong.
+    */
+    function transactionCounter()
+    {
+        return $this->TransactionCounter;
     }
 
     /*!
@@ -899,6 +1033,11 @@ class eZDBInterface
     var $SlaveUser;
     /// The slave database user password
     var $SlavePassword;
+    /// The transaction counter, 0 means no transaction
+    var $TransactionCounter;
+    /// Flag which tells if a transaction is considered valid or not
+    /// A transaction will be made invalid if SQL errors occur
+    var $TransactionIsValid;
 }
 
 ?>

@@ -389,6 +389,8 @@ class eZMySQLDB extends eZDBInterface
                 $this->unlock();
                 $this->RecordError = $oldRecordError;
 
+                $this->reportError();
+
                 return false;
             }
         }
