@@ -71,6 +71,15 @@ class eZTestTemplateOperator extends eZTestCase
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
         $tpl->reset();
+        eZTemplateCompiler::setSettings( array( 'compile' => true,
+                                                'comments' => false,
+                                                'accumulators' => false,
+                                                'timingpoints' => false,
+                                                'fallbackresource' => false,
+                                                'nodeplacement' => false,
+                                                'execution' => true,
+                                                'generate' => true,
+                                                'compilation-directory' => 'tests/eztemplate/compilation' ) );
 
         $actual = $tpl->fetch( $templateFile );
 

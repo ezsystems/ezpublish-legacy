@@ -65,6 +65,15 @@ class eZTestTemplateOutput extends eZTestCase
 
         $tpl->setIsCachingAllowed( true );
         $tpl->reset();
+        eZTemplateCompiler::setSettings( array( 'compile' => true,
+                                                'comments' => false,
+                                                'accumulators' => false,
+                                                'timingpoints' => false,
+                                                'fallbackresource' => false,
+                                                'nodeplacement' => false,
+                                                'execution' => true,
+                                                'generate' => true,
+                                                'compilation-directory' => 'tests/eztemplate/compilation' ) );
         $actual = $tpl->fetch( 'tests/eztemplate/output.tpl' );
 
         $tr->assert( $actual == $expected );

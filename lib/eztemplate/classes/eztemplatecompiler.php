@@ -89,6 +89,33 @@ class eZTemplateCompiler
 
     /*!
      \static
+     Sets/unsets various compiler settings. To set a setting add a key in the \a $settingsMap
+     with the wanted value, to unset it use \c null as the value.
+
+     The following values can be set.
+     - compile - boolean, whether to compile templates or not
+     - comments - boolean, whether to include comments in templates
+     - accumulators - boolean, whether to include debug accumulators in templates
+     - timingpoints - boolean, whether to include debug timingpoints in templates
+     - fallbackresource - boolean, whether to include the fallback resource code
+     - nodeplacement - boolean, whether to include information on placement of all nodes
+     - execution - boolean, whether to execute the compiled templates or not
+     - generate - boolean, whether to always generate the compiled files, or only when template is changed
+     - compilation-directory - string, where to place compiled files, the path will be relative from the
+                               eZ publish directory and not the var/cache directory.
+    */
+    function setSettings( $settingsMap )
+    {
+        $existingMap = array();
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings'] ) )
+        {
+            $existingMap = $GLOBALS['eZTemplateCompilerSettings'];
+        }
+        $GLOBALS['eZTemplateCompilerSettings'] = array_merge( $existingMap, $settingsMap );
+    }
+
+    /*!
+     \static
      \return true if template compiling is enabled.
      \note To change this setting edit settings/site.ini and locate the group TemplateSettings and the entry TemplateCompile.
     */
@@ -103,6 +130,12 @@ class eZTemplateCompiler
             }
         }
 
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['compile'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['compile'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['compile'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $compilationEnabled = $ini->variable( 'TemplateSettings', 'TemplateCompile' ) == 'enabled';
@@ -115,6 +148,12 @@ class eZTemplateCompiler
     */
     function isCommentsEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['comments'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['comments'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['comments'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $commentsEnabled = $ini->variable( 'TemplateSettings', 'CompileComments' ) == 'enabled';
@@ -127,6 +166,12 @@ class eZTemplateCompiler
     */
     function isAccumulatorsEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['accumulators'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['accumulators'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['accumulators'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileAccumulators' ) == 'enabled';
@@ -139,6 +184,12 @@ class eZTemplateCompiler
     */
     function isTimingPointsEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['timingpoints'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['timingpoints'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['timingpoints'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileTimingPoints' ) == 'enabled';
@@ -151,6 +202,12 @@ class eZTemplateCompiler
     */
     function isFallbackResourceCodeEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['fallbackresource'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['fallbackresource'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['fallbackresource'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileResourceFallback' ) == 'enabled';
@@ -163,6 +220,12 @@ class eZTemplateCompiler
     */
     function isNodePlacementEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['nodeplacement'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['nodeplacement'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['nodeplacement'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $nodePlacementEnabled = $ini->variable( 'TemplateSettings', 'CompileNodePlacements' ) == 'enabled';
@@ -175,6 +238,12 @@ class eZTemplateCompiler
     */
     function isExecutionEnabled()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['execution'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['execution'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['execution'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $execution = $ini->variable( 'TemplateSettings', 'CompileExecution' ) == 'enabled';
@@ -187,6 +256,12 @@ class eZTemplateCompiler
     */
     function alwaysGenerate()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['generate'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['generate'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['generate'];
+        }
+
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
         $alwaysGenerate = $ini->variable( 'TemplateSettings', 'CompileAlwaysGenerate' ) == 'enabled';
@@ -211,6 +286,12 @@ class eZTemplateCompiler
     */
     function compilationDirectory()
     {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['compilation-directory'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['compilation-directory'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['compilation-directory'];
+        }
+
         $compilationDirectory =& $GLOBALS['eZTemplateCompilerDirectory'];
         if ( !isset( $compilationDirectory ) )
         {

@@ -53,9 +53,13 @@ function help()
 {
     $argv = $_SERVER['argv'];
     $cli =& eZCLI::instance();
-    $cli->output( "Usage: " . $argv[0] . " [OPTION]... SUITE [SUITE]\n" .
+    $cli->output( "Usage: " . $argv[0] . " [OPTION]... TESTNAME [TESTNAME]\n" .
                   "Runs selected unit tests.\n" .
                   "e.g. " . $argv[0] . " eztemplate\n" .
+                  "\n" .
+                  "The syntax of TESTNAME can be one of:\n" .
+                  "SUITENAME - Run all tests in suite SUITENAME\n" .
+                  "SUITENAME:TESTNAME - Run only test TESTNAME in suite SUITENAME\n" .
                   "\n" .
                   "General options:\n" .
                   "  -h,--help          display this help and exit \n" .
@@ -97,6 +101,7 @@ $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
 $suiteList = array();
+$suiteTestMap = array();
 
 $optionsWithData = array( 's' );
 $longOptionsWithData = array( 'siteaccess' );
@@ -238,7 +243,20 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
     else
     {
-        $suiteList[] = $arg;
+        $suiteName = $arg;
+        $suiteTestName = false;
+        if ( preg_match( "/^([a-zA-Z0-9]+):([a-zA-Z0-9]+)/", $suiteName, $matches ) )
+        {
+            $suiteName = $matches[1];
+            $suiteTestName = $matches[2];
+        }
+        $suiteList[] = $suiteName;
+        if ( $suiteTestName )
+        {
+            if ( !isset( $suiteTestMap[$suiteName] ) )
+                $suiteTestMap[$suiteName] = array();
+            $suiteTestMap[$suiteName][$suiteTestName] = true;
+        }
     }
 }
 
@@ -283,13 +301,18 @@ foreach ( $suiteList as $suiteName )
             $suite = new eZTestSuite( $SuiteDefinition['name'] );
             foreach ( $SuiteDefinition['tests'] as $testDefinition )
             {
+                $testUnitName = $testDefinition['name'];
+                if ( isset( $suiteTestMap[$suiteName] ) )
+                {
+                    if ( !isset( $suiteTestMap[$suiteName][$testUnitName] ) )
+                        continue;
+                }
                 $testUnitFile = $testDefinition['file'];
                 $testUnitPath = $suitePath . '/' . $testUnitFile;
                 if ( file_exists( $testUnitPath ) )
                 {
                     include_once( $testUnitPath );
                     $testUnitClass = $testDefinition['class'];
-                    $testUnitName = $testDefinition['name'];
                     if ( class_exists( $testUnitClass ) )
                     {
                         $testUnit = new $testUnitClass( $testUnitName );
@@ -331,7 +354,7 @@ $exitStatus = 0;
 if ( !$success )
 {
     $cli->output();
-    $cli->output( "Some tests failed" );
+    $cli->output( $cli->stylize( 'failure', "Some tests failed" ) );
     $exitStatus = 1;
 }
 

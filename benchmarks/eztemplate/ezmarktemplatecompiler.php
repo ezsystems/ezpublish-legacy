@@ -60,7 +60,25 @@ class eZMarkTemplateCompiler extends eZBenchmarkCase
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
         $tpl->setIsCachingAllowed( true );
+        eZTemplateCompiler::setSettings( array( 'compile' => true,
+                                                'comments' => false,
+                                                'accumulators' => false,
+                                                'timingpoints' => false,
+                                                'fallbackresource' => false,
+                                                'nodeplacement' => false,
+                                                'execution' => true,
+                                                'generate' => true,
+                                                'compilation-directory' => 'benchmarks/eztemplate/compilation' ) );
         $expected = $tpl->fetch( 'benchmarks/eztemplate/mark.tpl' );
+        eZTemplateCompiler::setSettings( array( 'compile' => true,
+                                                'comments' => false,
+                                                'accumulators' => false,
+                                                'timingpoints' => false,
+                                                'fallbackresource' => false,
+                                                'nodeplacement' => false,
+                                                'execution' => true,
+                                                'generate' => false,
+                                                'compilation-directory' => 'benchmarks/eztemplate/compilation' ) );
         $tpl->reset();
         $this->TPL = $tpl;
     }
