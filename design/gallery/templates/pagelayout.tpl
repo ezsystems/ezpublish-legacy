@@ -87,7 +87,8 @@
             <ul>
                    {section name=Images loop=$image_list}
                        <li>
-                       <a href={concat('content/view/full/',$Images:item.node_id)|ezurl}>{$Images:item.name|wash}</a>  
+                       <a href={concat('content/view/full/',$Images:item.node_id)|ezurl}><img src={$Images:item.data_map.image.content["small"].full_path|ezroot} alt="{$Images:item.data_map.image.content.alternative_text|wash(xhtml)}" /></a>
+		       {attribute_view_gui attribute=$Images:item.data_map.caption}
                        </li>
                     {/section}
             </ul>
