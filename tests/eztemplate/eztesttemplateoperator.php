@@ -70,6 +70,7 @@ class eZTestTemplateOperator extends eZTestCase
     {
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
+        $tpl->reset();
 
         $actual = $tpl->fetch( $templateFile );
 

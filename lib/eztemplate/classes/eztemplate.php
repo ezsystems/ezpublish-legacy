@@ -2061,6 +2061,7 @@ class eZTemplate
     {
         $this->resetVariables();
         $this->resetElements();
+        $this->IsCachingAllowed = true;
     }
 
     /*!
