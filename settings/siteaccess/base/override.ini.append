@@ -39,7 +39,6 @@ Source=node/view/line.tpl
 MatchFile=line/article.tpl
 Subdir=templates
 Match[class_identifier]=article
-# Match[class_identifier]=2
 
 [class_image]
 Source=content/datatype/view/ezobjectrelation.tpl
@@ -72,23 +71,35 @@ Match[class]=13
 
 # File templates
 
-[full_file]
+[file_full]
 Source=node/view/full.tpl
 MatchFile=full/file.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
+
+[file_line]
+Source=node/view/line.tpl
+MatchFile=line/file.tpl
+Subdir=templates
+Match[class_identifier]=file
 
 [edit_file]
 Source=content/edit.tpl
 MatchFile=edit/file.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
 
 [embed_file]
 Source=content/view/embed.tpl
 MatchFile=embed/file.tpl
 Subdir=templates
-Match[class]=12
+Match[class_identifier]=file
+
+[file_binaryfile]
+Source=content/datatype/view/ezbinaryfile.tpl
+MatchFile=datatype/ezbinaryfile.tpl
+Subdir=templates
+Match[class_identifier]=file
 
 # Link templates
 
@@ -247,3 +258,16 @@ MatchFile=embed/gallery.tpl
 Subdir=templates
 Match[class_identifier]=gallery
 
+# Poll templates
+
+[poll_full]
+Source=node/view/full.tpl
+MatchFile=full/poll.tpl
+Subdir=templates
+Match[class_identifier]=poll
+
+[poll_line]
+Source=node/view/line.tpl
+MatchFile=line/poll.tpl
+Subdir=templates
+Match[class_identifier]=poll
