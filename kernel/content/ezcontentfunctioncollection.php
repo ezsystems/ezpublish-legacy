@@ -467,6 +467,7 @@ class eZContentFunctionCollection
 
     function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value )
     {
+        include_once( 'kernel/classes/ezinformationcollection.php' );
         if ( $objectAttributeID )
             $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
         else if ( $objectID )
@@ -478,12 +479,14 @@ class eZContentFunctionCollection
 
     function fetchCollectedInfoCountList( $objectAttributeID )
     {
+        include_once( 'kernel/classes/ezinformationcollection.php' );
         $count = eZInformationCollection::fetchCountList( $objectAttributeID );
         return array( 'result' => $count );
     }
 
     function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
     {
+        include_once( 'kernel/classes/ezinformationcollection.php' );
         $collection = false;
         if ( $collectionID )
             $collection =& eZInformationCollection::fetch( $collectionID );
