@@ -15,7 +15,6 @@
 {section show=$:item.is_valid|not}
   {set item_class="status_inactive"}
 {/section}
-  <td class="{$:sequence}" width="1"><input type="checkbox" name="URLSelection[]" value="{$:item.id}" /></td>
   <td class="{$:sequence}" width="1">
     <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/url')}" /></a></nobr>
   </td>
@@ -49,14 +48,4 @@
          item_count=$url_count
          view_parameters=$view_parameters
          item_limit=$url_limit}
-{*
-<div class="buttonblock">
-{section show=$show_make_valid}
-<input class="button" type="submit" name="SetValid" value="{'Make valid'}" />
-{/section}
-{section show=$show_make_invalid}
-<input class="button" type="submit" name="SetInvalid" value="{'Make invalid'}" />
-{/section}
-</div>
-*}
 {/default}
