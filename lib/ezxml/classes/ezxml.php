@@ -440,6 +440,12 @@ class eZXML
                         eZDebug::writeError( "Namespace: $attributePrefix not found", "eZ xml" );
                     }
                 }
+                else if ( $attributePrefix == "xmlns" )
+                {
+                    $attrNode->LocalName = $attributeName;
+                    $attrNode->NamespaceURI = $attributeNamespaceURI;
+                    $attrNode->Prefix = $attributePrefix;
+                }
                 else
                 {
                     // check for default namespace definition

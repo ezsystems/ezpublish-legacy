@@ -5,3 +5,8 @@ Changes from 3.0-2 to 3.0-3
 - Fixed bug of unable to deselect all enum elements in datatype enum.
 - Fixed bug with next and previous in sitemap and full view.
 - Fixed proper escaping of PHP session id keys, fixes possible security problem
+
+*Library :
+
+eZ XML:
+- Fixed bug of unable to save prefix "xmlns" for attributes.
