@@ -107,6 +107,12 @@ else if ( $Module->isCurrentAction( 'Export' ) )
         $tpl->setVariable( 'tree_traverse',
                            $pdfExport->attribute( 'export_structure' ) == 'tree' ? 1 : 0 );
         $tpl->setVariable( 'class_array', explode( ':', $pdfExport->attribute( 'export_classes' ) ) );
+        $tpl->setVariable( 'show_frontpage', $pdfExport->attribute( 'show_frontpage' ) );
+        if ( $pdfExport->attribute( 'show_frontpage' ) == 1 )
+        {
+            $tpl->setVariable( 'intro_text', $pdfExport->attribute( 'intro_text' ) );
+            $tpl->setVariable( 'sub_intro_text', $pdfExport->attribute( 'sub_text' ) );
+        }
 
         if ( $Module->actionParameter( 'DestinationType' ) == 'download' )
         {

@@ -70,6 +70,7 @@ class eZPDFTable extends Cezpdf
         $this->PreStack = array();
         $this->initPreStack();
         $this->DocSpecification = array();
+        $this->FrontpageID = null;
     }
 
     /*!
@@ -1053,6 +1054,7 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->setFontSize( $fontSize );
+        $this->ezInsertMode(0);
     }
 
     function dots($info){
@@ -1353,6 +1355,50 @@ class eZPDFTable extends Cezpdf
         }
 
         $this->setCurrentFont( $previousFont );
+    }
+
+    /*!
+     * Function for inserting frontpage into document. Called by ezGroup specification
+     *
+     * \param parameters
+     * \param text in ezGroup
+     */
+    function callFrontpage( $params, $text )
+    {
+        $this->addDocSpecFunction( 'insertFrontpage', array( $params, $text ) );
+    }
+
+    /*!
+     * Insert front page
+     */
+    function insertFrontpage( $params, $text )
+    {
+            $this->saveState();
+        $closeObject = false;
+        if ( $this->FrontpageID == null )
+        {
+            $this->ezInsertMode(1,1,'before');
+            $this->ezNewPage();
+            $this->FrontpageID = $this->currentPage;
+        }
+        else if( $this->currentPage != $this->FrontpageID )
+        {
+            $this->reopenObject( $this->FrontpageID );
+            $closeObject = true;
+        }
+
+        $fontSize = $this->fontSize();
+
+        Cezpdf::ezText( $text, $params['size'], array( 'justification' => $params['justification'],
+                                                       'top_margin' => $params['top_margin'] ) );
+
+        $this->setFontSize( $fontSize );
+
+        if ( $closeObject )
+        {
+            $this->closeObject();
+        }
+        $this->restoreState();
     }
 
     /*!
@@ -1805,6 +1851,8 @@ class eZPDFTable extends Cezpdf
     var $TOC; // Table of content array
     var $KeywordArray; // keyword array
     var $PageCounter;
+
+    var $FrontpageID; // Variable used to store reference to frontpage
 
     var $ezFrame; // array containing frame definitions
 

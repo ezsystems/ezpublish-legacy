@@ -29,11 +29,26 @@
 
 {/let}
 
+{pdf(createIndex)}
+{pdf(pageNumber, hash( identifier, "main",
+                       stop, 1 ) )}
+{include uri="design:content/pdf/footer.tpl"}
+
+
+{* Insert frontpage *}
+{section show=$show_frontpage|eq(1)}
+  {pdf(frontpage, hash( text, $intro_text|wash(pdf),
+                        align, center,
+		 	size, 20,
+			top_margin, 200 ) )}
+  {pdf(frontpage, hash( text, $sub_intro_text|wash(pdf),
+	                align, center,
+		 	size, 14,
+			top_margin, 400 ) )}
+{/section}
+
 {* generate_toc variable is only set in namespace of first instance of pdf.tpl called *}
 {section show=$generate_toc|eq(1)}
-  {pdf(createIndex)}
-  {pdf(pageNumber, hash( identifier, "main",
-                         stop, 1 ) )}
-  {include uri="design:content/pdf/footer.tpl"}
   {include uri="design:content/pdf/toc.tpl"}
 {/section}
+

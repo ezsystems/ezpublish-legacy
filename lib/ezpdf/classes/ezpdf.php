@@ -426,6 +426,30 @@ class eZPDF
 
             } break;
 
+            case 'frontpage':
+            {
+                $pageDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $align = isset( $pageDesc['align'] ) ? $pageDesc['align'] : 'center';
+                $text = isset( $pageDesc['align'] ) ? $pageDesc['text'] : '';
+                $top_margin = isset( $pageDesc['top_margin'] ) ? $pageDesc['top_margin'] : 100;
+
+                $operatorValue = '<ezGroup:callFrontpage:justification:'. $align .':top_margin:'. $top_margin;
+
+                if ( isset( $pageDesc['size'] ) )
+                {
+                    $operatorValue .= ':size:'. $pageDesc['size'];
+                }
+
+                $text = str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                                     '',
+                                     $text );
+
+                $operatorValue .= '>'. $text .'</ezGroup:callFrontpage>';
+
+                eZDebug::writeNotice( 'Added content to frontpage: '. $operatorValue );
+            } break;
+
             /* add keyword to pdf document */
             case 'keyword':
             {

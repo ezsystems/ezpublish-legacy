@@ -719,6 +719,7 @@ class Cezpdf extends Cpdf
         // 'aleft'=> number, absolute left position (overrides 'left')
         // 'aright'=> number, absolute right position (overrides 'right')
         // 'justification' => 'left','right','center','centre','full'
+        // 'top_margin' => set top margin manualy
 
         // only set one of the next two items (leading overrides spacing)
         // 'leading' => number, defines the total height taken by the line, independent of the font height.
@@ -746,6 +747,11 @@ class Cezpdf extends Cpdf
             $size = $this->ez['fontSize'];
         } else {
             $this->ez['fontSize']=$size;
+        }
+
+        if ( is_array( $options ) && isset( $options['top_margin'] ) )
+        {
+            $this->y = $this->ez['pageHeight']-$options['top_margin'];
         }
 
         if (is_array($options) && isset($options['justification'])){
