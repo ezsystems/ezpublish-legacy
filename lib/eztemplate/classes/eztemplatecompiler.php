@@ -2174,17 +2174,20 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
             {
                 $text = $node[2];
-                $variablePlacement = $node[3];
-                $originalText = eZTemplateCompiler::fetchTemplatePiece( $variablePlacement );
-                if ( $useComments )
+                if ( $text != '' )
                 {
-                    $php->addComment( "Text start:", true, true, array( 'spacing' => $currentParameters['spacing'] ) );
-                    $php->addComment( $originalText, true, true, array( 'spacing' => $currentParameters['spacing'] ) );
-                    $php->addComment( "Text end:", true, true, array( 'spacing' => $currentParameters['spacing'] ) );
+                    $variablePlacement = $node[3];
+                    $originalText = eZTemplateCompiler::fetchTemplatePiece( $variablePlacement );
+                    if ( $useComments )
+                    {
+                        $php->addComment( "Text start:", true, true, array( 'spacing' => $currentParameters['spacing'] ) );
+                        $php->addComment( $originalText, true, true, array( 'spacing' => $currentParameters['spacing'] ) );
+                        $php->addComment( "Text end:", true, true, array( 'spacing' => $currentParameters['spacing'] ) );
+                    }
+                    $php->addVariable( eZTemplateCompiler::currentTextName( $parameters ),
+                                       $text, EZ_PHPCREATOR_VARIABLE_APPEND_TEXT,
+                                       array( 'spacing' => $currentParameters['spacing'] ) );
                 }
-                $php->addVariable( eZTemplateCompiler::currentTextName( $parameters ),
-                                   $text, EZ_PHPCREATOR_VARIABLE_APPEND_TEXT,
-                                   array( 'spacing' => $currentParameters['spacing'] ) );
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
             {
@@ -2238,10 +2241,22 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     }
                 }
 
-                eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
-                                                          array( 'spacing' => $spacing,
-                                                                 'variable' => $generatedVariableName,
-                                                                 'counter' => 0 ) );
+                $isStaticElement = false;
+                $nodeElements = $node[2];
+                if ( eZTemplateNodeTool::isStaticElement( $nodeElements ) and
+                     !$variableParameters['text-result'] )
+                {
+                    $variableText = $php->variableText( eZTemplateNodeTool::elementStaticValue( $nodeElements ) );
+                    $isStaticElement = true;
+                }
+                else
+                {
+                    $variableText = "\$$generatedVariableName";
+                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
+                                                              array( 'spacing' => $spacing,
+                                                                     'variable' => $generatedVariableName,
+                                                                     'counter' => 0 ) );
+                }
 
                 if ( $variableParameters['text-result'] )
                 {
@@ -2263,19 +2278,26 @@ unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
                     $variableName = $variableAssignmentName[2];
                     eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
                     $variableNameText = $php->variableText( $variableName, 0 );
+                    $unsetVariableText = false;
                     if ( $variableOnlyExisting )
                     {
-                        $php->addCodePiece( "if( isset( \$vars[\$namespace][$variableNameText] ) )\n{\n\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );\n}",
+                        if ( !$isStaticElement )
+                            $unsetVariableText = "\n    unset( $variableText );";
+                        $php->addCodePiece( "if ( isset( \$vars[\$namespace][$variableNameText] ) )\n{\n    \$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
                     else if( $variableOverWrite )
                     {
-                        $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );",
+                        if ( !$isStaticElement )
+                            $unsetVariableText = "\nunset( $variableText );";
+                        $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText",
                                             array( 'spacing' => $spacing ) );
                     }
                     else
                     {
-                        $php->addCodePiece( "if( !isset( \$vars[\$namespace][$variableNameText] ) )\n{\n  \$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );\n}",
+                        if ( !$isStaticElement )
+                            $unsetVariableText = "\n    unset( $variableText );";
+                        $php->addCodePiece( "if ( !isset( \$vars[\$namespace][$variableNameText] ) )\n{\n    \$vars[\$namespace][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
                 }
@@ -2662,22 +2684,37 @@ else
                         $newVariableAssignmentCounter = $newParameters['counter'];
                         if ( $newVariableAssignmentCounter > 0 )
                             $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                        $matchMap[] = '%' . $counter . '%';
-                        $replaceMap[] = '$' . $newVariableAssignmentName;
-                        $unsetList[] = $newVariableAssignmentName;
-                        if ( preg_match( "/%code$counter%/", $code ) )
+                        if ( eZTemplateNodeTool::isStaticElement( $value ) )
                         {
-                            $tmpPHP = new eZPHPCreator();
-                            eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $dataInspection,
-                                                                          $persistence, $newParameters );
-                            $newCode = $tmpPHP->fetch( false );
-                            $matchMap[] = '%code' . $counter . '%';
-                            $replaceMap[] = $newCode;
+                            $staticValue = eZTemplateNodeTool::elementStaticValue( $value );
+                            $staticValueText = $php->variableText( $staticValue, 0, 0, false );
+                            if ( preg_match( "/%code$counter%/", $code ) )
+                            {
+                                $matchMap[] = '%code' . $counter . '%';
+                                $replaceMap[] = '';
+                            }
+                            $matchMap[] = '%' . $counter . '%';
+                            $replaceMap[] = $staticValueText;
                         }
                         else
                         {
-                            eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
-                                                                          $persistence, $newParameters );
+                            $matchMap[] = '%' . $counter . '%';
+                            $replaceMap[] = '$' . $newVariableAssignmentName;
+                            $unsetList[] = $newVariableAssignmentName;
+                            if ( preg_match( "/%code$counter%/", $code ) )
+                            {
+                                $tmpPHP = new eZPHPCreator();
+                                eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $dataInspection,
+                                                                              $persistence, $newParameters );
+                                $newCode = $tmpPHP->fetch( false );
+                                $matchMap[] = '%code' . $counter . '%';
+                                $replaceMap[] = $newCode;
+                            }
+                            else
+                            {
+                                eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                                                                              $persistence, $newParameters );
+                            }
                         }
                         ++$counter;
                     }
