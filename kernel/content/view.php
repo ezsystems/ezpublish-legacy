@@ -120,7 +120,7 @@ if ( $LanguageCode != '' )
 
 if ( $ViewMode == 'full' )
 {
-     $sessionKey = eZHttpTool::getSessionKey();
+     $sessionKey = eZHTTPTool::getSessionKey();
      $user =& eZUser::currentUser();
 
      $status = eZTrigger::runTrigger( 'pre_view',
@@ -149,6 +149,7 @@ if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE || $status['Status'] == EZ_TR
     $res =& eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                           array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                          array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
                           array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                           array( 'view_offset', $Offset ),
                           array( 'viewmode', $ViewMode ),

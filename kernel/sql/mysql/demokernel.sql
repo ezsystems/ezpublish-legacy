@@ -1567,13 +1567,6 @@ CREATE TABLE ezimagevariation (
 # Dumping data for table 'ezimagevariation'
 #
 
-INSERT INTO ezimagevariation VALUES (297,2,'bqOnp1_150x150_297.jpg','b/q/O/',150,150,150,122);
-INSERT INTO ezimagevariation VALUES (283,3,'8JCcrj_60x60_283.jpg','8/J/C/',60,60,60,45);
-INSERT INTO ezimagevariation VALUES (297,2,'bqOnp1_600x600_297.jpg','b/q/O/',600,600,368,300);
-INSERT INTO ezimagevariation VALUES (262,2,'uSWNNw_60x60_262.jpg','u/S/W/',60,60,60,45);
-INSERT INTO ezimagevariation VALUES (273,2,'UGwCqD_60x60_273.jpg','U/G/w/',60,60,60,37);
-INSERT INTO ezimagevariation VALUES (276,2,'JFFPeo_60x60_276.jpg','J/F/F/',60,60,60,45);
-INSERT INTO ezimagevariation VALUES (336,2,'1qjt5N_150x150_336.jpg','1/q/j/',150,150,150,94);
 
 #
 # Table structure for table 'ezmedia'
@@ -8843,6 +8836,7 @@ INSERT INTO ezsession VALUES ('2f2a94a0b96c90918d86f6d4f46380eb',1036314128,'!eZ
 INSERT INTO ezsession VALUES ('a18b3bcbfe80be83a86074e578157664',1036316227,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}');
 INSERT INTO ezsession VALUES ('9f5e40eeecf57c5953313d65f1ba03fc',1037438062,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"6\";}eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";BrowseFromPage|s:18:\"/section/assign/6/\";BrowseActionName|s:13:\"AssignSection\";BrowseReturnType|s:6:\"NodeID\";CustomActionButton|N;BrowseSelectionType|N;');
 INSERT INTO ezsession VALUES ('60e8ef8cfb3c4ec805bc0f0e53833b06',1037434097,'!eZExecutionStack|');
+INSERT INTO ezsession VALUES ('16467d34b89b7eaf9d34d828550c176c',1037450497,'eZGlobalSection|a:1:{s:2:\"id\";s:1:\"3\";}eZExecutionStack|a:0:{}eZUserLoggedInID|N;');
 
 #
 # Table structure for table 'eztask'
