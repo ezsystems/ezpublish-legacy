@@ -169,24 +169,22 @@ class eZTemplateCacheFunction
             $filedirText = "\$cacheDir";
             $filepathText = "\$cachePath";
 
-            $subtreeExpiryCode = "
-            if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )
-            {
-                include_once( 'lib/ezdb/classes/ezdb.php' );
-                \$db =& eZDB::instance();
-
-                if ( substr( \$subtreeExpiry, -1 ) != '/'  )
-                {
-                    \$subtreeExpiry .= '/';
-                }
-                \$subtree =& \$db->escapeString( \$subtreeExpiry );
-                \$cacheKey =& \$db->escapeString( \$cachePath );
-
-                \$insertQuery = \"INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                            VALUES ( '\$subtree', '\$cacheKey' )\";
-                \$db->query( \$insertQuery );
-            }
-            ";
+            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )\n" .
+                                   "{\n" .
+                                   "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
+                                   "    \$db =& eZDB::instance();\n" .
+                                   "\n" .
+                                   "    if ( substr( \$subtreeExpiry, -1 ) != '/'  )\n" .
+                                   "    {\n" .
+                                   "        \$subtreeExpiry .= '/';\n" .
+                                   "    }\n" .
+                                   "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
+                                   "    \$cacheKey =& \$db->escapeString( \$cachePath );\n" .
+                                   "\n" .
+                                   "    \$insertQuery = \"INSERT INTO ezsubtree_expiry ( subtree, cache_file )\n" .
+                                   "                VALUES ( '\$subtree', '\$cacheKey' )\";\n" .
+                                   "    \$db->query( \$insertQuery );\n" .
+                                   "}" );
         }
         else
         {
@@ -211,12 +209,11 @@ class eZTemplateCacheFunction
                 $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
                             VALUES ( '$subtree', '$cacheKey' )";
 
-                $subtreeExpiryCode = "
-    include_once( 'lib/ezdb/classes/ezdb.php' );
-    \$db =& eZDB::instance();
-
-    \$db->query( \"$insertQuery\" );
-                ";
+                $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
+                                       "\$db =& eZDB::instance();\n" .
+                                       "\n" .
+                                       "\$db->query( \"$insertQuery\" );\n" .
+                                       "            " );
             }
         }
 
@@ -238,7 +235,14 @@ class eZTemplateCacheFunction
                                                                "{" );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$cacheStack ) )\n" .
+                                                               "    \$cacheStack = array();\n" .
+                                                               "\$cacheEntry = array( \$cacheDir, \$cachePath, \$keyString, false );\n" .
+                                                               "if ( isset( \$subtreeExpiry ) )\n" .
+                                                               "    \$cacheEntry[3] = \$subtreeExpiry;\n" .
+                                                               "\$cacheStack[] = \$cacheEntry;" );
         $newNodes = array_merge( $newNodes, $children );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "list( \$cacheDir, \$cachePath, \$keyString, \$subtreeExpiry ) = array_pop( \$cacheStack );" );
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
         $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
         $ini =& eZINI::instance();
@@ -253,7 +257,7 @@ class eZTemplateCacheFunction
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
         if ( $subtreeExpiryCode )
         {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $subtreeExpiryCode );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $subtreeExpiryCode, array( 'spacing' => 4 ) );
         }
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$cachedText );\n}" );
         return $newNodes;
