@@ -94,8 +94,10 @@ class eZPackage
         $timestamp = mktime();
         if ( isset( $_SERVER['HOSTNAME'] ) )
             $host = $_SERVER['HOSTNAME'];
-        else
+        else if ( isset( $_SERVER['HTTP_HOST'] ) )
             $host = $_SERVER['HTTP_HOST'];
+        else
+            $host = 'localhost';
         $packaging = array( 'timestamp' => $timestamp,
                             'host' => $host,
                             'packager' => false );
@@ -123,6 +125,7 @@ class eZPackage
                            'groups' => array(),
                            'changelog' => array(),
                            'file-list' => array(),
+                           'simple-file-list' => array(),
                            'version-number' => false,
                            'release-number' => false,
                            'release-timestamp' => false,

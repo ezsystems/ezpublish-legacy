@@ -1278,6 +1278,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $asObject       = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
         $groupBy        = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
         $mainNodeOnly   = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
+        if ( !isset( $params['SortBy'] ) )
+            $params['SortBy'] = false;
+        if ( !isset( $params['ClassFilterType'] ) )
+            $params['ClassFilterType'] = false;
 
         $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
         $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
