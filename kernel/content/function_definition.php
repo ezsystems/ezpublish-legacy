@@ -584,4 +584,14 @@ $FunctionList['collected_info_collection'] = array( 'name' => 'collected_info_co
                                                                                   'type' => 'integer',
                                                                                   'required' => false,
                                                                                   'default' => false ) ) );
+$FunctionList['object_by_attribute'] = array( 'name' => 'object_by_attribute',
+                                              'operation_types' => array( 'read' ),
+                                              'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                      'class' => 'eZContentFunctionCollection',
+                                                                      'method' => 'fetchObjectByAttribute' ),
+                                              'parameter_type' => 'standard',
+                                              'parameters' => array( array( 'name' => 'identifier',
+                                                                            'type' => 'string',
+                                                                            'required' => true,
+                                                                            'default' => false ) ) );
 ?>

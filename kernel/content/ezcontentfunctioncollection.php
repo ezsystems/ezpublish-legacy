@@ -162,7 +162,7 @@ class eZContentFunctionCollection
 
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $attribute_filter, $extended_attribute_filter,$class_filter_type, $class_filter_array )
     {
-        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" );
+//        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" ); //commented by kk, saw no use for it
 //         print( "fetch list $parentNodeID $hash<br>" );
 
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -482,6 +482,16 @@ class eZContentFunctionCollection
             $collection =& eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
         }
         return array( 'result' => &$collection );
+    }
+
+    function &fetchObjectByAttribute( $identifier )
+    {
+        include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+        $contentObjectAttribute =& eZContentObjectAttribute::fetchByIdentifier( $identifier );
+        if ( $contentObjectAttribute === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $contentObjectAttribute->attribute( 'object' ) );
     }
 }
 

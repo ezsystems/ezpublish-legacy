@@ -295,6 +295,21 @@ class eZContentObjectAttribute extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
+    /**
+     * Fetch a node by identifier (unique data_text )
+
+     \param identifier
+
+     \return object attribute
+    */
+    function &fetchByIdentifier( $identifier, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                null,
+                                                array( 'data_text' => $identifier ),
+                                                $asObject );
+    }
+
     function &language( $languageCode = false, $asObject=true )
     {
         $languageCode = eZContentObject::defaultLanguage();
