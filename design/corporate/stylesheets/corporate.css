@@ -35,13 +35,27 @@ body
     width: 700px;
 }
 
+#header
+{ 
+    width: 700px;
+    height: 68px;
+    background: url("../images/mycompanylogo.jpg") no-repeat;
+}
+
+#logo
+{ 
+    margin-top: 16px;
+    float: left;
+    margin-left: 10px;
+}
+
 #navigation_bar
 {  
     position: absolute;
     top: 0;
     font-size: small;
     width: 690px;
-    height: 10px;
+    height: 12px;
     padding: 5px;
     vertical-align: bottom;
     background-color: #000000;
@@ -157,8 +171,8 @@ body
 #search_box
 {  
     position: absolute;
-    top: 0px;
-    left: 500px;
+    top: 1px;
+    left: 480px;
     font-size: small;
 }
 

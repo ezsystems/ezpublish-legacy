@@ -1,25 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,corporate_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
-
-<link rel="stylesheet" type="text/css" href={"stylesheets/corporate_red.css"|ezdesign} />
 
 {*
 <link rel="stylesheet" type="text/css" href={"stylesheets/corporate.css"|ezdesign} />
 *}
 
+{*<link rel="stylesheet" type="text/css" href={"stylesheets/corporate.css"|ezdesign} />*}
+<link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />
+
 </head>
 
 <body>
-
 {* Top box START *}
 
 <div id="mainlayout">
-
    <div id="header">
-        <a href={"/"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
+   {let content=$pagedesign.data_map.image.content}
+       <div id="logo">
+           <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a>
+       </div>
+   {/let}
    </div>
 
    <div id="navigation_bar">
@@ -107,5 +111,6 @@
 </div>
 
 </body>
+{/let}
 </html>
 

@@ -38,7 +38,7 @@
     </div>
 
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$content_attributes[4].id}" />
-    <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$content_attributes[4].id}" value="intranet888"  />
+    <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$content_attributes[4].id}" value="corporate_package"  />
     
     <br/>
     
