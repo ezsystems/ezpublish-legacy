@@ -50,6 +50,7 @@ define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
 define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
 define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
 define( 'EZ_PHPCREATOR_INCLUDE', 7 );
+define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
 
 define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
 define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
@@ -171,6 +172,10 @@ class eZPHPCreator
                 if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
                 {
                     $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
+                }
+                else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET )
+                {
+                    $this->writeVariableUnset( $element[1], $element[2] );
                 }
                 else if ( $element[0] == EZ_PHPCREATOR_SPACE )
                 {
@@ -322,6 +327,13 @@ class eZPHPCreator
         if ( $i > 0 )
             $text .= ' ';
         $text .= ");\n";
+        $this->write( $text );
+    }
+
+    function writeVariableUnset( $variableName,
+                                 $variableParameters = array() )
+    {
+        $text = "unset( \$$variableName );\n";
         $this->write( $text );
     }
 
@@ -508,6 +520,15 @@ class eZPHPCreator
                           $name,
                           $value,
                           $assignmentType,
+                          $parameters );
+        $this->Elements[] = $element;
+    }
+
+    function addVariableUnset( $name,
+                               $parameters = array() )
+    {
+        $element = array( EZ_PHPCREATOR_VARIABLE_UNSET,
+                          $name,
                           $parameters );
         $this->Elements[] = $element;
     }

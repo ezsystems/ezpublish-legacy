@@ -116,8 +116,7 @@ class eZTemplateSetFunction
                                                                                          'class-name' => 'eZTemplateSetFunction',
                                                                                          'php-file' => 'lib/eztemplate/classes/eztemplatesetfunction.php',
                                                                                          'add-function-parameters' => false,
-                                                                                         'add-namespace' => false,
-                                                                                         'add-calculated-namespace' => true,
+                                                                                         'add-calculated-namespace' => false,
                                                                                          'add-input' => true ),
                                                                     'parameters' => array( 'names' => $parameterNames ) ) );
         return $newNodes;
@@ -128,8 +127,9 @@ class eZTemplateSetFunction
     {
     }
 
-    function defineVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, $currentNamespace )
+    function defineVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
     {
+        $oldCurrentNamespace = $currentNamespace;
         $definedVariables = array();
         foreach ( array_keys( $functionParameters ) as $key )
         {
@@ -157,11 +157,14 @@ class eZTemplateSetFunction
                 } break;
             }
         }
-        return $definedVariables;
+        $currentNamespace = $name;
+        return array( $definedVariables,
+                      $oldCurrentNamespace );
     }
 
-    function createDefaultVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, $currentNamespace )
+    function createDefaultVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
     {
+        $oldCurrentNamespace = $currentNamespace;
         $definedVariables = array();
         foreach ( array_keys( $functionParameters ) as $key )
         {
@@ -182,15 +185,19 @@ class eZTemplateSetFunction
                 } break;
             }
         }
-        return $definedVariables;
+        $currentNamespace = $name;
+        return array( $definedVariables,
+                      $oldCurrentNamespace );
     }
 
-    function cleanupVariables( &$tpl, $name, $definedVariables )
+    function cleanupVariables( &$tpl, $rootNamespace, &$currentNamespace, &$setData )
     {
+        $definedVariables =& $setData[0];
         foreach ( $definedVariables as $variable )
         {
-            $tpl->unsetVariable( $variable, $name );
+            $tpl->unsetVariable( $variable, $currentNamespace );
         }
+        $currentNamespace = $setData[1];
     }
 
     /*!
@@ -257,7 +264,7 @@ class eZTemplateSetFunction
                 $child =& $functionChildren[$childKey];
                 $tpl->processNode( $child, $textElements, $rootNamespace, $name );
             }
-            eZTemplateSetFunction::cleanupVariables( $tpl, $name, $definedVariables );
+            eZTemplateSetFunction::cleanupVariables( $tpl, $rootNamespace, $currentNamespace, $definedVariables );
         }
     }
 

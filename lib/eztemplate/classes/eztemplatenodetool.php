@@ -88,11 +88,143 @@ class eZTemplateNodeTool
     }
 
     /*!
+     Creates a new variable node and returns it.
+    */
+    function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
+                                 $parameters = array() )
+    {
+        $node = array();
+        if ( $originalNode )
+            $node = $originalNode;
+        else
+        {
+            $node[0] = EZ_TEMPLATE_NODE_VARIABLE;
+            $node[1] = false;
+            if ( is_array( $variableData ) )
+                $node[2] = $variableData;
+            else if ( is_numeric( $variableData ) )
+                $node[2] = array( array( EZ_TEMPLATE_TYPE_NUMERIC,
+                                         $variableData,
+                                         false ) );
+            else
+                $node[2] = array( array( EZ_TEMPLATE_TYPE_STRING,
+                                         $variableData,
+                                         false ) );
+            $node[3] = $variablePlacement;
+        }
+        $node[4] = $parameters;
+        return $node;
+    }
+
+    function createCodePieceNode( $codePiece, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE,
+                       $codePiece,
+                       $parameters );
+        return $node;
+    }
+
+    function createVariableUnsetNode( $variableName, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET,
+                       $variableName,
+                       $parameters );
+        return $node;
+    }
+
+    function createNamespaceChangeNode( $variableData, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE,
+                       $variableData,
+                       $parameters );
+        return $node;
+    }
+
+    function createNamespaceRestoreNode( $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE,
+                       $parameters );
+        return $node;
+    }
+
+    function extractNodes( $nodeList, $parameters = array() )
+    {
+        $match = false;
+        if ( isset( $parameters['match'] ) )
+            $match = $parameters['match'];
+        $newNodes = array();
+        $skipNode = false;
+        if ( $match['type'] == 'after' )
+            $skipNode = true;
+        foreach ( $nodeList as $node )
+        {
+            if ( $match )
+            {
+                $isMatch = false;
+                foreach ( $match['matches'] as $matchItem )
+                {
+                    $operand1 = $matchItem['match-with'];
+                    $matchKeys = $matchItem['match-keys'];
+                    $operand2 = $node;
+                    foreach ( $matchKeys as $matchKey )
+                    {
+                        $operand2 = $operand2[$matchKey];
+                    }
+                    if ( isset( $matchItem['match-function'] ) )
+                    {
+                        $function = $matchItem['match-function'];
+                        $functionResult = $function( $operand1, $operand2 );
+                        $isMatch = $functionResult == 0;
+                    }
+                    else
+                    {
+                        $isMatch = ( $operand1 == $operand2 );
+                    }
+                }
+                if ( $match['type'] == 'before' )
+                {
+                    if ( $isMatch )
+                        break;
+                }
+                else if ( $match['type'] = 'after' )
+                {
+                    if ( $isMatch )
+                    {
+                        $skipNode = false;
+                        $match = false;
+                        continue;
+                    }
+                }
+            }
+            if ( $skipNode )
+                continue;
+            $newNodes[] = $node;
+        }
+        return $newNodes;
+    }
+
+    /*!
+     \return the placement info from the function node \a $node.
+    */
+    function extractFunctionNodePlacement( &$node )
+    {
+        return $node[4];
+    }
+
+    /*!
      \return the children of the function node \a $node.
     */
     function extractFunctionNodeChildren( &$node )
     {
         return $node[1];
+    }
+
+    /*!
+     \return the parameters of the function node \a $node.
+    */
+    function extractFunctionNodeParameters( &$node )
+    {
+        return $node[3];
     }
 
     /*!

@@ -111,6 +111,67 @@ class eZTemplateSectionFunction
     {
         return array( $this->Name );
     }
+
+    function functionTemplateHints()
+    {
+        return array( $this->Name => array( 'parameters' => true,
+                                            'static' => false,
+                                            'transform-children' => true,
+                                            'tree-transformation' => true ) );
+    }
+
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData )
+    {
+        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
+        if ( isset( $parameters['loop'] ) )
+            return false;
+        $newNodes = array();
+        if ( isset( $parameters['show'] ) )
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['show'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                  array( 'variable-name' => 'show',
+                                                                         'text-result' => false ) );
+        else
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, true, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                  array( 'variable-name' => 'show',
+                                                                         'text-result' => false ) );
+        $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$show )\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+        if ( isset( $parameters['name'] ) )
+            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        $mainNodes = eZTemplateNodeTool::extractNodes( $children,
+                                                       array( 'match' => array( 'type' => 'before',
+                                                                                'matches' => array( array( 'type' => 'before',
+                                                                                                           'match-keys' => array( 0 ),
+                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                    array( 'match-keys' => array( 2 ),
+                                                                                                           'match-with' => 'section-else' ) )
+                                                                                ) ) );
+        $newNodes = array_merge( $newNodes, $mainNodes );
+        if ( isset( $parameters['name'] ) )
+            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        $elseNodes = eZTemplateNodeTool::extractNodes( $children,
+                                                       array( 'match' => array( 'type' => 'after',
+                                                                                'matches' => array( array( 'match-keys' => array( 0 ),
+                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                    array( 'match-keys' => array( 2 ),
+                                                                                                           'match-with' => 'section-else' ) )
+                                                                                ) ) );
+        if ( count( $elseNodes ) > 0 )
+        {
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+            if ( isset( $parameters['name'] ) )
+                $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+            $newNodes = array_merge( $newNodes, $elseNodes );
+            if ( isset( $parameters['name'] ) )
+                $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        }
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        return $newNodes;
+    }
+
     /*!
      Processes the function with all it's children.
     */

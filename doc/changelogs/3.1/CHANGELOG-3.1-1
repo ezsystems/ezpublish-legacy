@@ -53,6 +53,7 @@ eZ PHP Creator:
 - Added support for reference assignment when creating variables.
 - Made sure $ was escaped in strings.
 - Added support for creating include statements.
+- Added support for adding variable unset statements.
 
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
@@ -63,9 +64,11 @@ eZ template:
 - New class eZTemplateNodeTool which has static tool functions for working on template nodes.
 - Renamed the process cache system to template compiling which is a better name. Updated classes, functions and files.
 - Compiled templates are now created in var/cache/compiled instead of var/cache/process.
+- Added node transformation support for let, default and section functions.
+- Added support for internal template nodes which can be generated in the node transformation process.
 
 *Settings :
 site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
 - Added more comments to the various elements.
-- Changed names of process cache settings and added new development settings.
+- Changed names of process cache settings and added new development settings for template compilation.

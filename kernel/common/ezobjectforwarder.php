@@ -263,7 +263,7 @@ class eZObjectForwarder
             $templateCompilationUsed = false;
             if ( $resourceData['compiled-template'] )
             {
-                if ( $tpl->executeCompiledTemplate( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters ) )
+                if ( $tpl->executeCompiledTemplate( $resourceData, $textElements, $outCurrentNamespace, $outCurrentNamespace, $extraParameters ) )
                     $templateCompilationUsed = true;
             }
             if ( !$templateCompilationUsed and

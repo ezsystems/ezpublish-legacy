@@ -249,7 +249,12 @@ define( "EZ_TEMPLATE_NODE_TEXT", 2 );
 define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
 define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
 define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
-define( "EZ_TEMPLATE_NODE_CUSTOM", 1000 );
+define( "EZ_TEMPLATE_NODE_INTERNAL", 100 );
+define( "EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE", 101 );
+define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET", 102 );
+define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE", 103 );
+define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE", 104 );
+define( "EZ_TEMPLATE_NODE_USER_CUSTOM", 1000 );
 
 define( "EZ_TEMPLATE_TYPE_VOID", 0 );
 define( "EZ_TEMPLATE_TYPE_STRING", 1 );
@@ -980,6 +985,7 @@ class eZTemplate
         foreach ( $operatorParameterDefinition as $parameterName => $parameterType )
         {
             if ( !isset( $operatorParameters[$i] ) or
+                 !isset( $operatorParameters[$i][0] ) or
                  $operatorParameters[$i][0] == EZ_TEMPLATE_TYPE_VOID )
             {
                 if ( $parameterType["required"] )
