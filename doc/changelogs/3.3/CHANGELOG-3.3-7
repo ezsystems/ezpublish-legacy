@@ -58,6 +58,9 @@ Changes from 3.3-6 to 3.3-7
   (Merged from stable/3.5, rev. 10355)
 - Fixed security problem in tip a friend module, it is not possible to send more then 
   X emails in Y hours.
+- Fixed bug #4299: No Translations update when changing an Object Relation Attribute with Disabled Translation.
+  http://ez.no/community/bugs/no_translations_update_when_changing_an_object_relation_attribute_with_disabled_translation
+
 *Library:
 
 eZDebug:

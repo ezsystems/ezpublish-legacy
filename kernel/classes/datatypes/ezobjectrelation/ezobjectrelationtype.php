@@ -59,6 +59,19 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
+     Initializes the class attribute with some data.
+     \reimp
+     */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_int" );
+            $contentObjectAttribute->setAttribute( "data_int", $dataText );
+        }
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
