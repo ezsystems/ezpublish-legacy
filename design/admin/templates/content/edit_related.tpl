@@ -14,7 +14,6 @@
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
-<div class="context-attributes">
 
     {* Related images *}
     {section show=$grouped_related_contentobjects.images|count|gt( 0 )}
@@ -101,7 +100,7 @@
             </table>
         </div>
     {/section}
-</div>
+
 {section-else}
 
 <p>{'There are no objects related to the one that is currently being edited.'|i18n( 'design/admin/content/edit' )}</p>

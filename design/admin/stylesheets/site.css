@@ -217,7 +217,7 @@ div#topmenu div.break
 
 span.disabled, label.disabled
 {
-    color: #d0c0c0;
+    color: #bfbeb6;
 }
 
 div#path
@@ -271,7 +271,7 @@ div#leftmenu-design
 
 div#leftmenu div.box-header, div#rightmenu div.box-header
 {
-    background-image: url(../images/menuheader-background.gif);
+    background-image: url(../images/menuheader-background-2.gif);
     background-repeat: repeat-y;
     background-color: #7c91a9;
     border-bottom: 1px solid #bfbfb7;
@@ -279,7 +279,7 @@ div#leftmenu div.box-header, div#rightmenu div.box-header
 
 div#maincontent div.box-header
 {
-    background-image: url(../images/mainheader-background.gif);
+    background-image: url(../images/mainheader-background-2.gif);
     background-repeat: repeat-y;
     background-color: #8a9fb6;
 }
@@ -376,9 +376,12 @@ div.box-content
 
 div.box-content div.block
 {
-    margin-top: 0;
-    margin-bottom: 0;
     padding: 0.5em;
+}
+
+div#maincontent div.box-content div.block
+{
+    padding: 0;
 }
 
 div.box-content div.block div.block
@@ -954,7 +957,7 @@ div.controlbar input.button
     border: 2px solid #ffffff;
     border-bottom: 2px solid #2f475f;
     border-right: 2px solid #2f475f;
-    background-color: #8a9fb6;
+    background-color: #8198b0;
     margin: 0;
     padding: 0;
 }
@@ -1043,6 +1046,14 @@ input#searchbutton, input.menubutton
     margin-right: 0;
 }
 
+
+div.content-edit div.box-content h3
+{
+    margin: 0;
+    padding: 0.5em;
+    color: #A09F98;
+}
+
 div.content-navigation-childlist table.list th
 {
     width: 1%;
@@ -1097,6 +1108,24 @@ table.list-thumbnails div.controls
 table.list-thumbnails div.controls input, table.list-thumbnails div.controls img
 {
     vertical-align: middle;
+}
+
+input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f8f8f8;
+}
+
+tr.bglight input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f8f8f4;
+}
+
+tr.bgdark input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f4f4ec;
 }
 
 /* -- Frederiks popupmenu horrorshow */
