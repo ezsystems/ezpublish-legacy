@@ -570,7 +570,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
-$tpl->setVariable( 'bacis_class_attributes_initialized', $bacisClassAttributesInitialized );
+$tpl->setVariable( 'basic_class_attributes_initialized', $bacisClassAttributesInitialized );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );
