@@ -36,50 +36,39 @@
 
 <h1>Translation and i18n</h1>
 
-<p>
-eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems will provide binaries for Windows and Mac OS X. The linguist is unmodified from the Qt original, so you can also get it from other sources, such as RPMs. ezlupdate is modified to make it understand eZ publish files.
-</p>
+<ul>
+<li><a href="#whatyouneed">What you need</a></li>
+<li><a href="#making">Making translations</a></li>
+<li><a href="#installing">Installing translations</a></li>
+<li><a href="#templates">Making i18n-friendly templates</a></li>
+<li><a href="#phpcode">Making i18n-friendly PHP code</a></li>
+</ul>
 
-
-
-<h2>Building the program</h2>
-
-<p>
-The linguist is not provided with eZ publish 3, as this is distributed in the <b>Qt</b> library available from <a href="http://www.trolltech.com">Trolltech</a>.
-</p>
-
-<p>
-The following assumes that you are building under unix. If you have a commercial licence of Qt for Windows and/or Mac OS X, you can build it in a similar way. If you don't have such a licence, you can get binaries from eZ systems.
-</p>
+<br/>
+<h2 id="whatyouneed">What you need</h2>
 
 <p>
-First, make sure that you have the Qt library installed. If you use a package system such as RPM, make sure that you also have the qt-devel package.
+eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems will provide binaries for Windows and Mac OS X.
 </p>
 
 <p>
-If you build ezlupdate against the Qt/X11 library, it will require X11 to run, even though it is a console program. If you have installed eZ publish on a server without X11 it is recommended that you build ezlupdate against Qt/embedded.
+The linguist is unmodified from the Qt original, so you can also get it from other sources, such as RPMs. If you run Linux or a similar system, you will find the linguist as part of qt-3.*, qt-devel-3.* or a similarly named package.
 </p>
 
 <p>
-Now you are ready to build the program:
-</p>
-
-<pre class="example">
-cd support/lupdate-ezpublish3
-qmake ezlupdate.pro
-make
-</pre>
-
-<p>
-If everything went ok, the binary will be found in <b>bin/linux</b> under the main eZ publish directory.
+The ezlupdate program is modified to make it understand eZ publish files. You will find the source code and build instructions in <b>support/lupdate-ezpublish3</b> in the eZ publish distribution.
 </p>
 
 
-
-<h2>Making translations</h2>
+<br/>
+<h2 id="making">Making translations</h2>
 
 <p>
-First of all, you must decide the locale code of your language. eZ publish 3 uses locale codes on the form <b>aaa-AA</b>, where the 3 first lowercase letters describe the language, while the last two uppercase letter describe the country in which the language is spoken. For instance, English as it is spoken in Great Britain would be eng-GB, while US English is eng-US.
+<strong>Note:</strong> The database content of eZ publish is not translated, meaning that for instance class attributes are shown in English wherever this information is visible. This is normally only in the admin interface. The classes provided with eZ publish are merely examples provided to get you up and running quickly. You are encouraged to extend and/or replace these classes with your own classes. If you need a non-English administrative interface, you can translate your classes in the "Setup" section. (The translation system covers  content in templates and PHP code.)
+</p>
+
+<p>
+You must decide the locale code of your language. eZ publish 3 uses locale codes on the form <b>aaa-AA</b>, where the 3 first lowercase letters describe the language, while the last two uppercase letter describe the country in which the language is spoken. For instance, English as it is spoken in Great Britain would be eng-GB, while US English is eng-US.
 </p>
 
 <p>
@@ -93,7 +82,7 @@ Language is specified by the ISO 639 Language Code:
 </p>
 
 <p>
-You can also create a variation of a locale, you will for instance find two variations of nor-NO, nor-NO@intl and nor-NO@spraakraad, that are slight modofications of the original.
+You can also create a variation of a locale, you will for instance find two variations of nor-NO, nor-NO@intl and nor-NO@spraakraad, that are slight modifications of the original.
 </p>
 
 <p>
@@ -154,10 +143,12 @@ You could for instance do it like this:
 </p>
 
 <pre class="example">
-tar -zcvf nor-NO.tar.gz share/locale/nor-NO.ini share/translations/nor-NO/translation.ts
+tar -zcvf nor-NO.tar.gz \
+ share/locale/nor-NO.ini share/translations/nor-NO/translation.ts
 </pre>
 
-<h2>Installing translations</h2>
+<br/>
+<h2 id="installing">Installing translations</h2>
 
 <p>
 To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini. These are the keys you need to change to enable the translation:
@@ -172,7 +163,8 @@ TranslationCache=enabled
 
 
 
-<h2>Making i18n-friendly templates</h2>
+<br/>
+<h2 id="templates">Making i18n-friendly templates</h2>
 
 <p>
 All user-visible strings in templates should be embedded in the <b>i18n operator</b>. All such strings can be translated in the linguist. The i18n operator is used like this:
@@ -180,8 +172,10 @@ All user-visible strings in templates should be embedded in the <b>i18n operator
 
 <pre class="example">
 &lt;b&gt;{"This text can be translated"|i18n("design/mydesign/path")}&lt;/b&gt;
-&lt;input type="submit" name="MyButton" value="{'My Cool Button'|i18n('design/mydesign/path')}" /&gt;
-{include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Click to remove"|i18n("design/mydesign/path")}
+&lt;input type="submit" name="MyButton"
+ value="{'My Cool Button'|i18n('design/mydesign/path')}" /&gt;
+{include uri="design:gui/button.tpl" name=remove id_name=RemoveButton
+ value="Click to remove"|i18n("design/mydesign/path")}
 </pre>
 
 <p>
@@ -197,8 +191,10 @@ If you need to add <b>variables</b>, use the third argument to the i18n operator
 </p>
 
 <pre class="example">
-&lt;b&gt;{"The node %1 is a child of %2."|i18n("design/mydesign/path",,array($node.name,$parent_node.name))}&lt;/b&gt;
-&lt;b&gt;{"The node %node is a child of %parent_node."|i18n("design/mydesign/path",,hash("%node",$node.name,"%parent_node",$parent_node.name))}&lt;/b&gt;
+&lt;b&gt;{"The node %1 is a child of %2."|i18n("design/mydesign/path",,
+ array($node.name,$parent_node.name))}&lt;/b&gt;
+&lt;b&gt;{"The node %node is a child of %parent_node."|i18n("design/mydesign/path",,
+ hash("%node",$node.name,"%parent_node",$parent_node.name))}&lt;/b&gt;
 </pre>
 
 <p>
@@ -214,12 +210,14 @@ In <b>extensions</b> you should use the <b>x18n</b> operator instead of i18n. Th
 </p>
 
 <pre class="example">
-&lt;b&gt;{"The node %1 is a child of %2."|x18n("myextension","design/mydesign/path",,array($node.name,$parent_node.name))}&lt;/b&gt;
+&lt;b&gt;{"The node %1 is a child of %2."|x18n("myextension","design/mydesign/path",,
+ array($node.name,$parent_node.name))}&lt;/b&gt;
 </pre>
 
 
 
-<h2>Making i18n-friendly PHP code</h2>
+<br/>
+<h2 id="phpcode">Making i18n-friendly PHP code</h2>
 
 <p>
 All user-visible strings in PHP-code should be embedded in the <b>ezi18n()</b> function. It is similar to the template operator, except that it takes the source as the second argument. For extensions, use <b>ezx18n()</b>. As with the template operator, you can also use arguments. Use either a plain array and the keys %1 to %9, or an associative array where you specify the keys yourself.

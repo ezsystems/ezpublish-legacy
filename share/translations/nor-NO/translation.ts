@@ -780,7 +780,7 @@
     </message>
     <message>
         <source>New option</source>
-        <translation>Ny opsjon</translation>
+        <translation>Nytt valg</translation>
     </message>
     <message>
         <source>Price:</source>
@@ -896,7 +896,7 @@
     </message>
     <message>
         <source>Options</source>
-        <translation>Opsjoner</translation>
+        <translation>Valg</translation>
     </message>
     <message>
         <source>Start value</source>
@@ -4228,7 +4228,7 @@
     <message>
         <source>At least one author is requied.</source>
         <comment>eZAuthorType</comment>
-        <translation>Oppgi minst en forfatter.</translation>
+        <translation type="obsolete">Oppgi minst en forfatter.</translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
@@ -4323,12 +4323,12 @@
     <message>
         <source>At least one option is requied.</source>
         <comment>eZOptionType</comment>
-        <translation>Oppgi minst en opsjon.</translation>
+        <translation type="obsolete">Oppgi minst et valg.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
         <comment>eZOptionType</comment>
-        <translation>Oppgi opsjonsverdi.</translation>
+        <translation>Oppgi verdi for valget.</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
@@ -4348,7 +4348,7 @@
     <message>
         <source>Additional price for option value is invalid.</source>
         <comment>eZOptionType</comment>
-        <translation>Ekstra pris for opsjonsverdi er ugyldig.</translation>
+        <translation>Ekstra pris for valgverdien er ugyldig.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
@@ -4394,6 +4394,16 @@
     <message>
         <source>Link </source>
         <translation>Lenke</translation>
+    </message>
+    <message>
+        <source>At least one author is required.</source>
+        <comment>eZAuthorType</comment>
+        <translation>Oppgi minst en forfatter.</translation>
+    </message>
+    <message>
+        <source>At least one option is required.</source>
+        <comment>eZOptionType</comment>
+        <translation>Oppgi minst et valg.</translation>
     </message>
 </context>
 <context>

@@ -73,7 +73,7 @@ class eZAuthorType extends eZDataType
                 if ( trim( $nameList[0] ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one author is requied.',
+                                                                         'At least one author is required.',
                                                                          'eZAuthorType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }

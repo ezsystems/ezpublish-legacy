@@ -74,7 +74,7 @@ class eZOptionType extends eZDataType
                 if ( trim( $valueList[0] ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one option is requied.',
+                                                                         'At least one option is required.',
                                                                          'eZOptionType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
