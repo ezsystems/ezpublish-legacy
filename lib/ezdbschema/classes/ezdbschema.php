@@ -95,7 +95,7 @@ class eZDbSchema
         {
             $buf = fread( $fd, 100 );
             fclose( $fd );
-            if ( preg_match( '#^<\?' . "php\n.*\$schema", $buf ) )
+            if ( preg_match( '#^<\?' . "php#", $buf ) )
             {
                 include( $filename );
                 return $schema;
