@@ -62,6 +62,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 PDF:
 - Added support for GIF images.
 
+eZDebug:
+- Added background highlighting for the queries in a transaction section.
+
 *SOAP:
 - Added authentication support.
 - Added ability to cleanup in the end of execution.

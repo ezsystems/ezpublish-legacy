@@ -333,9 +333,10 @@ class eZDBInterface
     function reportQuery( $class, $sql, $numRows, $timeTaken )
     {
         $rowText = '';
-        if ( $numRows !== false )
-            $rowText = "$numRows rows, ";
-        eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++ );
+        if ( $numRows !== false ) $rowText = "$numRows rows, ";
+
+        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction" : "");
+        eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
     }
 
     /*!
@@ -567,12 +568,19 @@ class eZDBInterface
         $ini =& eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
-            ++$this->TransactionCounter;
-            if ( $this->TransactionCounter > 1 ) return false;
+            if ( $this->TransactionCounter > 0 ) 
+            {
+                ++$this->TransactionCounter;
+                return false;
+            }
 
             if ( $this->isConnected() )
             {
                 $this->beginQuery();
+
+                // We update the transaction counter after the query, otherwise we 
+                // mess up the debug background highlighting.
+                ++$this->TransactionCounter; 
             }
         }
         return true;

@@ -349,7 +349,7 @@ class eZDebug
 
       The global variable \c 'eZDebugNotice' will be set to \c true if the notice is added.
     */
-    function writeNotice( $string, $label="" )
+    function writeNotice( $string, $label="", $backgroundClass="")
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -370,7 +370,7 @@ class eZDebug
             trigger_error( $string, E_USER_NOTICE );
         }
         else
-            $debug->write( $string, EZ_LEVEL_NOTICE, $label );
+            $debug->write( $string, EZ_LEVEL_NOTICE, $label, $backgroundClass );
     }
 
     /*!
@@ -557,7 +557,7 @@ class eZDebug
     /*!
       Writes a debug log message.
     */
-    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="" )
+    function write( $string, $verbosityLevel = EZ_LEVEL_NOTICE, $label="", $backgroundClass="")
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -590,7 +590,8 @@ class eZDebug
                                                "IP" => eZSys::serverVariable( 'REMOTE_ADDR', true ),
                                                "Time" => time(),
                                                "Label" => $label,
-                                               "String" => $string );
+                                               "String" => $string,
+                                               "BackgroundClass" => $backgroundClass );
             }
 
             if ( $fileName !== false )
@@ -1194,6 +1195,11 @@ td.debugheader
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 \}
 
+pre.debugtransaction
+\{
+	background-color : #f8f6d8;
+\}
+
 td.timingpoint1
 \{
     background-color : #ffffff;
@@ -1240,12 +1246,14 @@ td.timingpoint2
                 $color = $outputData["color"];
                 $name = $outputData["name"];
                 $label = $debug["Label"];
+                $bgclass = $debug["BackgroundClass"]; 
+                $pre = ($bgclass != '' ? " class='$bgclass'" : '');
                 if ( $as_html )
                 {
                     $label = htmlspecialchars( $label );
                     echo "<tr><td class='debugheader' valign='top'$identifierText><b><font color=\"$color\">$name:</font> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
-                                    <tr><td colspan='2'><pre>" .  htmlspecialchars( $debug["String"] )  . "</pre></td></tr>";
+                                    <tr><td colspan='2'><pre$pre>" .  htmlspecialchars( $debug["String"] )  . "</pre></td></tr>";
                 }
                 else
                 {
