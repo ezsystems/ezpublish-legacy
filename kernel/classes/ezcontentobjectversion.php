@@ -614,10 +614,12 @@ class eZContentObjectVersion extends eZPersistentObject
             $nodeRow['sort_field'] = $sortField;
         if ( $sortOrder !== null )
             $nodeRow['sort_order'] = ( $sortOrder ? 1 : 0 );
-        $nodeAssignment =&  eZNodeAssignment::create( $nodeRow );
+
+        $nodeAssignment =& eZNodeAssignment::create( $nodeRow );
         $nodeAssignment->store();
         return $nodeAssignment;
     }
+
     function removeAssignment( $nodeID )
     {
         $nodeAssignmentList =& $this->attribute( 'node_assignments' );
