@@ -333,54 +333,48 @@ if ( $cleanupSearch )
     print( "}$endl" );
 }
 
-$topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE depth = 1 ORDER BY node_id' );
-foreach ( array_keys( $topLevelNodesArray ) as $key )
+// Get top node
+$topNodeArray =& eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                      null,
+                                                      array( 'parent_node_id' => 1,
+                                                             'depth' => 1 ) );
+$subTreeCount = 0;
+foreach ( array_keys ( $topNodeArray ) as $key  )
 {
-    $topLevelNodeID = $topLevelNodesArray[$key]['node_id'];
-    $rootNode =& eZContentObjectTreeNode::fetch( $topLevelNodeID );
+    $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => false ) );
+}
 
-//     $rootNode =& eZContentObjectTreeNode::fetch( 2 );
+print( "Number of objects to index: $subTreeCount $endl" );
 
-    $subTreeCount =& $rootNode->subTreeCount( array( 'Limitation' => array() ) );
-    print( "Number of objects to index for " . $rootNode->attribute( 'name' ) . ": $subTreeCount $endl" );
+$i = 0;
+$dotMax = 70;
+$dotCount = 0;
+$limit = 50;
 
-
-    $updateCount = $subTreeCount / 100;
-    if ( $updateCount < 1 )
-        $updateCount = 1;
-
-    $i = 0;
-    $updateCounter = 0;
-    $dotMax = 70;
-    $dotCount = 0;
-
-
+foreach ( array_keys ( $topNodeArray ) as $key  )
+{
+    $node =& $topNodeArray[$key];
     $offset = 0;
-    $limit = 50;
-    $i = 0;
-    $subTree =& $rootNode->subTree( array( 'Offset' => $offset,
-                                           'Limit' => $limit,
-                                           'Limitation' => array() ) );
+    $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
+                                       'Limitation' => array() ) );
     while ( $subTree != null )
     {
-        foreach ( $subTree as $node )
+        foreach ( $subTree as $innerNode )
         {
-            $object = $node->attribute( 'object' );
+            $object =& $innerNode->attribute( 'object' );
             eZSearch::removeObject( $object );
             eZSearch::addObject( $object );
             ++$i;
-            ++$updateCounter;
+            ++$dotCount;
             print( "." );
             if ( $dotCount >= $dotMax or $i >= $subTreeCount )
             {
-                $dotcount = 0;
-                $updateCounter = 0;
-                $percent = ($i*100.0) / $subTreeCount;
+                $dotCount = 0;
+                $percent = (float)( ($i*100.0) / $subTreeCount );
                 print( " " . $percent . "%" . $endl );
             }
         }
         $offset += $limit;
-        $node =& eZContentObjectTreeNode::fetch( 2 );
         $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
                                            'Limitation' => array() ) );
     }

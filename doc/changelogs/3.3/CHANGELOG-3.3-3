@@ -94,6 +94,8 @@ eZTime:
   http://ez.no/community/bug_reports/imagealias_error_and_image_tpl_error
 - Fixed removing subtree notification when deleting user.
   http://ez.no/community/bug_reports/if_a_user_is_deleted_notification_rules_stays_in_db
+- Merged update search script fix to update user data, from stable/3.2 rev. 5905.
+  http://ez.no/community/bug_reports/updatesearchindex_php_don_t_support_emails
 
 *Library:
 
