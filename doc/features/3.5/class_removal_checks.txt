@@ -20,3 +20,21 @@ Reasons for a class to be system critical:
     - There are no more classes with this datatype, if no classes
       has this it will not be possible to login or access the site anymore.
       The only way then is to add some fields manually to the database.
+
+In eZContentClass two new methods has been added to perform these checks,
+- isRemovable() returns true if the class can be removed,
+  the existing method remove() will use this to now allow
+  removal of critical classes.
+  Uses removableInformation() to figure it if it is possible. 
+- removableInformation() returns a list of reasons why the
+  class cannot be removed (if any)
+
+In eZDataType two new methods has been added to allow certain datatypes
+to perform these checks.
+- isClassAttributeRemovable() returns true if the class attribute can be
+  removed, the default implementation will use classAttributeRemovableInformation
+  to figure this out so it is not required to reimplement.
+- classAttributeRemovableInformation() returns a list of reasons why the
+  class asttribute cannot be removed (if any)
+  It returns false by default and must be reimplemented by datatypes
+  which should do these checks.

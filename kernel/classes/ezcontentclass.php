@@ -558,28 +558,8 @@ class eZContentClass extends eZPersistentObject
     */
     function isRemovable()
     {
-        $db =& eZDB::instance();
-
-        // We can only remove classes which are not used for a top-level node
-        $rows =& $db->arrayQuery( "SELECT ezcot.node_id
-FROM ezcontentobject_tree ezcot, ezcontentobject ezco
-WHERE ezcot.depth = 1 AND
-      ezco.contentclass_id = $this->ID AND
-      ezco.id=ezcot.contentobject_id" );
-        if ( count( $rows ) > 0 )
-            return false;
-
-        // We can only remove classes which are not used for a top-level node
-        // We can only remove classes when all attributes are allowed to be removed
-        $attributes =& $this->fetchAttributes();
-        foreach ( $attributes as $key => $attribute )
-        {
-            $dataType = $attribute->dataType();
-            if ( !$dataType->isClassAttributeRemovable( $attribute ) )
-                return false;
-        }
-
-        return true;
+        $info = $this->removableInformation( false );
+        return count( $info['list'] ) == 0;
     }
 
     /*!
@@ -591,11 +571,16 @@ WHERE ezcot.depth = 1 AND
              - list - An array with reasons why this failed, each entry contains:
                       - text - Plain text description of the reason.
                       - list - A sublist of reason (e.g from an attribute), is optional.
+     \param $includeAll Controls whether the returned information will contain all
+                        sources for not being to remove or just the first that it finds.
     */
-    function removableInformation()
+    function removableInformation( $includeAll = true )
     {
-        $reasons = array();
-        $db =& eZDB::instance();
+        $result  = array( 'text' => ezi18n( 'kernel/contentclass', "Cannot remove class '%class_name':",
+                                         null, array( '%class_name' => $this->Name ) ),
+                       'list' => array() );
+        $reasons =& $result['list'];
+        $db      =& eZDB::instance();
 
         // Check top-level nodes
         $rows =& $db->arrayQuery( "SELECT ezcot.node_id
@@ -607,6 +592,8 @@ WHERE ezcot.depth = 1 AND
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
 You will need to change the class of the node by using the swap functionality.' ) );
+            if ( !$includeAll )
+                return $result;
         }
 
         // Check class attributes
@@ -616,14 +603,14 @@ You will need to change the class of the node by using the swap functionality.' 
             $dataType = $attribute->dataType();
             if ( !$dataType->isClassAttributeRemovable( $attribute ) )
             {
-                $info = $dataType->classAttributeRemovableInformation( $attribute );
+                $info = $dataType->classAttributeRemovableInformation( $attribute, $includeAll );
                 $reasons[] = $info;
+                if ( !$includeAll )
+                    return $result;
             }
         }
 
-        return array( 'text' => ezi18n( 'kernel/contentclass', "Cannot remove class '%class_name':",
-                                        null, array( '%class_name' => $this->Name ) ),
-                      'list' => $reasons );
+        return $result;
     }
 
     function removeAttributes( $attributes = false, $id = false, $version = false )

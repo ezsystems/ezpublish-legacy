@@ -771,10 +771,14 @@ class eZDataType
 
      \return \c true if the class attribute can be removed or \c false.
      \sa classAttributeRemovableInformation()
+     \note The default code will call classAttributeRemovableInformation with
+          $includeAll set to \c false, if it returns false or an empty \c 'list'
+          it will return \c true.
     */
     function isClassAttributeRemovable( &$classAttribute )
     {
-        return true;
+        $info = $this->classAttributeRemovableInformation( $classAttribute, false );
+        return ( $info === false or count( $info['list'] ) == 0 );
     }
 
     /*!
@@ -786,8 +790,10 @@ class eZDataType
              - list - A list of reasons with details on why it can be removed
                       - identifier - The identifier of the reason (optional)
                       - text - Plain text explaning the reason
+     \param $includeAll Controls whether the returned information will contain all
+                        sources for not being to remove or just the first that it finds.
     */
-    function classAttributeRemovableInformation( &$classAttribute )
+    function classAttributeRemovableInformation( &$classAttribute, $includeAll = true )
     {
         return false;
     }

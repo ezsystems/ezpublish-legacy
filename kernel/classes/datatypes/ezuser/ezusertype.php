@@ -275,58 +275,26 @@ class eZUserType extends eZDataType
      - The current user, anonymous user and administrator use is not using this class
      - There are more classes with the ezuser datatype
     */
-    function isClassAttributeRemovable( &$contentClassAttribute )
+    function classAttributeRemovableInformation( &$contentClassAttribute, $includeAll = true )
     {
+        $result  = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                            "Cannot remove the account information, the reasons being:" ),
+                          'list' => array() );
+        $reasons =& $result['list'];
+
         $currentUser =& eZUser::currentUser();
-        $userObject =&  $currentUser->attribute( 'contentobject' );
-        $ini =& eZINI::instance();
-        $anonID = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
-        $classID = (int)$contentClassAttribute->attribute( 'contentclass_id' );
-        $db =& eZDB::instance();
-
-        if ( $classID == $userObject->attribute( 'contentclass_id' ) )
-            return false;
-
-        $sql = "SELECT id FROM ezcontentobject WHERE id = $anonID AND contentclass_id = $classID";
-        $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
-            return false;
-
-        $sql = "SELECT ezco.id FROM ezcontentobject ezco, ezuser
-WHERE ezco.contentclass_id = $classID AND
-      ezuser.login = 'admin' AND
-      ezco.id = ezuser.contentobject_id ";
-        $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
-            return false;
-
-        $sql = "SELECT count( ezcc.id ) AS count FROM ezcontentclass ezcc, ezcontentclass_attribute ezcca
-WHERE ezcc.id != $classID AND
-      ezcca.data_type_string = 'ezuser' AND
-      ezcc.id = ezcca.contentclass_id ";
-        $rows = $db->arrayQuery( $sql );
-        if ( $rows[0]['count'] == 0 )
-            return false;
-
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function classAttributeRemovableInformation( &$contentClassAttribute )
-    {
-        $currentUser =& eZUser::currentUser();
-        $userObject =&  $currentUser->attribute( 'contentobject' );
-        $ini =& eZINI::instance();
-        $anonID = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
-        $classID = (int)$contentClassAttribute->attribute( 'contentclass_id' );
-        $db =& eZDB::instance();
+        $userObject  =& $currentUser->attribute( 'contentobject' );
+        $ini         =& eZINI::instance();
+        $anonID      = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
+        $classID     = (int)$contentClassAttribute->attribute( 'contentclass_id' );
+        $db          =& eZDB::instance();
 
         if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                                   "It is being used by the currently logged in user." ) );
+            if ( !$includeAll )
+                return $result;
         }
 
         $sql = "SELECT id FROM ezcontentobject WHERE id = $anonID AND contentclass_id = $classID";
@@ -335,6 +303,8 @@ WHERE ezcc.id != $classID AND
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                                   "It is being used by the anonymous user." ) );
+            if ( !$includeAll )
+                return $result;
         }
 
         $sql = "SELECT ezco.id FROM ezcontentobject ezco, ezuser
@@ -346,6 +316,8 @@ WHERE ezcc.id != $classID AND
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                                   "It is being used by the administrator user." ) );
+            if ( !$includeAll )
+                return $result;
         }
 
         $sql = "SELECT count( ezcc.id ) AS count FROM ezcontentclass ezcc, ezcontentclass_attribute ezcca
@@ -357,12 +329,11 @@ WHERE ezcc.id != $classID AND
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                                   "There are no more classes with account information." ) );
+            if ( !$includeAll )
+                return $result;
         }
 
-        $text = ezi18n( 'kernel/classes/datatypes',
-                        "Cannot remove the account information, the reasons being:" );
-        return array( 'text' => $text,
-                      'list' => $reasons );
+        return $result;
     }
 
     /*!
