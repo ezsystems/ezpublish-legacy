@@ -35,3 +35,5 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   (Merged from stable/3.4 (3.4.3) rev. 9237)
 - Fixed bug: added validation while creating/editing the RSS Exports, If RSS Export is Active then a valid Access URL is required.
   (merged from 3.4 rev. 9236)
+- Added missing operator i18n for RSS Exports.
+
