@@ -83,7 +83,9 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     {
         $this->eZCollaborationItemHandler( 'ezapprove',
                                            ezi18n( 'kernel/classes', 'Approval' ),
-                                           array( 'use-messages' => true ) );
+                                           array( 'use-messages' => true,
+                                                  'notification-types' => true,
+                                                  'notification-collection-handling' => EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
     }
 
     /*!
@@ -94,11 +96,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         return ezi18n( 'kernel/classes', 'Approval' );
     }
 
-    function notificationTypes()
-    {
-        return true;
-    }
-
     /*!
      \reimp
     */
@@ -107,6 +104,20 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
                       "content_object_version" => $collaborationItem->attribute( "data_int2" ),
                       "approval_status" => $collaborationItem->attribute( "data_int3" ) );
+    }
+
+    function notificationParticipantTemplate( $participantRole )
+    {
+        if ( $participantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+        {
+            return 'approve.tpl';
+        }
+        else if ( $participantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR )
+        {
+            return 'author.tpl';
+        }
+        else
+            return false;
     }
 
     /*!

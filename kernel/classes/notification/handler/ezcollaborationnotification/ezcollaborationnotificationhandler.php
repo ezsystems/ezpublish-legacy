@@ -132,23 +132,25 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 
     function sendMessage( &$event )
     {
-        $collection =& eZNotificationCollection::fetchForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
-                                                                  $event->attribute( 'id' ),
-                                                                  EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
-        if ( !$collection )
-            return;
-        $items =& $collection->attribute( 'items_to_send' );
-        $addressList = array();
-        foreach ( array_keys( $items ) as $key )
+        $collections =& eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
+                                                                       $event->attribute( 'id' ),
+                                                                       EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+        foreach ( array_keys( $collections ) as $collectionKey )
         {
-            $addressList[] = $items[$key]->attribute( 'address' );
-            $items[$key]->remove();
-        }
-        $transport =& eZNotificationTransport::instance( 'ezmail' );
-        $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ) );
-        if ( $collection->attribute( 'item_count' ) == 0 )
-        {
-            $collection->remove();
+            $collection =& $collections[$collectionKey];
+            $items =& $collection->attribute( 'items_to_send' );
+            $addressList = array();
+            foreach ( array_keys( $items ) as $key )
+            {
+                $addressList[] = $items[$key]->attribute( 'address' );
+                $items[$key]->remove();
+            }
+            $transport =& eZNotificationTransport::instance( 'ezmail' );
+            $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ) );
+            if ( $collection->attribute( 'item_count' ) == 0 )
+            {
+                $collection->remove();
+            }
         }
     }
 

@@ -167,6 +167,14 @@ class eZNotificationCollection extends eZPersistentObject
                                                        'transport' => $transport ) );
     }
 
+    function &fetchListForHandler( $handler, $eventID, $transport )
+    {
+        return eZPersistentObject::fetchObjectList( eZNotificationCollection::definition(), null,
+                                                    array( 'event_id' => $eventID,
+                                                           'handler'=> $handler,
+                                                           'transport' => $transport ) );
+    }
+
     function removeEmpty()
     {
         $query = "SELECT eznotificationcollection.id from eznotificationcollection
