@@ -1,32 +1,69 @@
 <form action={'/search/stats/'|ezurl} method="post">
+{let item_type=ezpreference( 'admin_search_stats_limit' )
+     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
 <h2 class="context-title">{'Search statistics'|i18n( 'design/admin/search/stats' )}</h2>
 
+{* Items per page and view mode selector. *}
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+    <p>
+    {switch match=$number_of_items}
+    {case match=25}
+        <a href={'/user/preferences/set/admin_search_stats_limit/1'|ezurl}>10</a>
+        <span class="current">25</span>
+        <a href={'/user/preferences/set/admin_search_stats_limit/3'|ezurl}>50</a>
+
+        {/case}
+
+        {case match=50}
+        <a href={'/user/preferences/set/admin_search_stats_limit/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_search_stats_limit/2'|ezurl}>25</a>
+        <span class="current">50</span>
+        {/case}
+
+        {case}
+        <span class="current">10</span>
+        <a href={'/user/preferences/set/admin_search_stats_limit/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_search_stats_limit/3'|ezurl}>50</a>
+        {/case}
+
+        {/switch}
+    </p>
+</div>
+<div class="right">
+<p>
+</div>
+<div class="break"></div>
+</div>
+</div>
+
 <table class="list" cellspacing="0">
 {section show=$most_frequent_phrase_array|count}
 <tr>
-	<th>
-	{'Phrase'|i18n( 'design/admin/search/stats' )}
-	</th>
-	<th>
-	{'Number of phrases'|i18n( 'design/admin/search/stats' )}
-	</th>
-	<th>
-	{'Average result returned'|i18n( 'design/admin/search/stats' )}
-	</th>
+    <th>
+    {'Phrase'|i18n( 'design/admin/search/stats' )}
+    </th>
+    <th>
+    {'Number of phrases'|i18n( 'design/admin/search/stats' )}
+    </th>
+    <th>
+    {'Average result returned'|i18n( 'design/admin/search/stats' )}
+    </th>
 </tr>
 {section var=Phrases loop=$most_frequent_phrase_array sequence=array( bglight, bgdark )}
 <tr class="{$Phrases.sequence}">
-	<td>
-	{$Phrases.item.phrase|wash}
-	</td>
-	<td>
-	{$Phrases.item.phrase_count}
-	</td>
-	<td>
-	{$Phrases.item.result_count|l10n( number )}
-	</td>
+    <td>
+    {$Phrases.item.phrase|wash}
+    </td>
+    <td>
+    {$Phrases.item.phrase_count}
+    </td>
+    <td>
+    {$Phrases.item.result_count|l10n( number )}
+    </td>
 </tr>
 {/section}
 {section-else}
@@ -35,6 +72,15 @@
 
 
 </table>
+
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/search/stats') 
+         item_count=$search_list_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
 
 <div class="controlbar">
 <div class="block">
@@ -50,4 +96,5 @@
 
 </div>
 
+</let>
 </form>

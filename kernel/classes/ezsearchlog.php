@@ -88,7 +88,7 @@ class eZSearchLog
     /*!
      Returns the most frequent search phrases, which did not get hits.
     */
-    function &mostFrequentPhraseArray( )
+    function &mostFrequentPhraseArray( $parameters = array( ) )
     {
         $db =& eZDB::instance();
 
@@ -99,9 +99,9 @@ class eZSearchLog
                     ezsearch_search_phrase.id = ezsearch_return_count.phrase_id
                   GROUP BY
                     ezsearch_search_phrase.id, ezsearch_search_phrase.phrase
-                  ORDER BY phrase_count DESC LIMIT 50';
+                  ORDER BY phrase_count DESC';
 
-        $phraseArray =& $db->arrayQuery( $query );
+        $phraseArray =& $db->arrayQuery( $query, $parameters );
 
         return $phraseArray;
     }
