@@ -12,6 +12,12 @@
                                                                  '%time',$class.modified|l10n(shortdatetime)))}</p>
 </div>
 
+{section show=$bacis_class_attibutes_initialized|not()}
+<div class="warning">
+<h2>{"The class should have at least one attribute and nonempty 'Name' attribute"|i18n("design/standard/class/edit")}</h2>
+</div>
+{/section}
+
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td valign="top">
