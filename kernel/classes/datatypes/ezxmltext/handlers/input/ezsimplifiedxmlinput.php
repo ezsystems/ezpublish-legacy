@@ -868,31 +868,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 {
                                     case "1" :
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
                                     }break;
                                     case "2":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 2, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 2, $TagStack, $currentNode );
                                     }break;
                                     case "3":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 3, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 3, $TagStack, $currentNode );
                                     }break;
                                     case "4":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 4, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 4, $TagStack, $currentNode );
                                     }break;
                                     case "5":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 5, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 5, $TagStack, $currentNode );
                                     }break;
                                     case "6":
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 6, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 6, $TagStack, $currentNode );
                                     }break;
                                     default:
                                     {
-                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, &$TagStack, &$currentNode );
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, $TagStack, $currentNode );
                                     }break;
                                 }
                             }
@@ -1472,4 +1472,3 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 }
 
 ?>
-
