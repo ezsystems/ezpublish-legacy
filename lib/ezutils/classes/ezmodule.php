@@ -225,7 +225,7 @@ class eZModule
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function handleError( $errorCode, $errorType )
+    function &handleError( $errorCode, $errorType )
     {
 //         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
 //         $this->setErrorCode( $errorCode );

@@ -51,7 +51,14 @@
 
     <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label>
     <p class="topline"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/password/{$current_user.contentobject_id}">Change Password</a></p>
-    <p class="topline"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/logout/">Log out</a></p>    
+    <p class="topline">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
+    {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+    <a class="topline" href="/user/login/">Login</a>
+    {section-else}
+    <a class="topline" href="/user/logout/">Logout</a>
+    {/section}
+    </p>
    </td>
 </tr>
 </table>

@@ -39,6 +39,7 @@ $tpl =& templateInit();
 $Type = $Params['Type'];
 $Number = $Params['Number'];
 
-$Result =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
 
 ?>

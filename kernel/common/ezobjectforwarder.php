@@ -163,6 +163,18 @@ class eZObjectForwarder
                 $tpl->setVariableRef( $paramName, $paramValue, $current_nspace );
                 $setVariableArray[] = $paramName;
             }
+            if ( isset( $rule['constant_template_variables'] ) )
+            {
+                foreach ( $rule['constant_template_variables'] as $constantTemplateVariableKey => $constantTemplateVariableValue )
+                {
+                    if ( $constantTemplateVariableKey == $input_name or
+                         $constantTemplateVariableKey == $view_var or
+                         $tpl->hasVariable( $constantTemplateVariableKey, $current_nspace ) )
+                        continue;
+                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $current_nspace );
+                    $setVariableArray[] = $constantTemplateVariableKey;
+                }
+            }
 
             $root->process( $tpl, $sub_text, $current_nspace, $current_nspace );
             $tpl->setIncludeOutput( $uri, $sub_text );

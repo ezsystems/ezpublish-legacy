@@ -60,9 +60,8 @@ class eZProcess
     /*!
      Helper function, executes the file.
      */
-    function runFile( &$Params, $file, $params_as_var )
+    function &runFile( &$Params, $file, $params_as_var )
     {
-        $Result = null;
         if ( $params_as_var )
         {
             reset( $Params );
@@ -79,7 +78,9 @@ class eZProcess
 
         if ( file_exists( $file ) )
         {
-            include( $file );
+            $includeResult = include( $file );
+            if ( !isset( $Result ) and $includeResult != 1 )
+                $Result = $includeResult;
         }
         else
             eZDebug::writeWarning( "PHP script $file does not exist, cannot run.",

@@ -6,8 +6,8 @@
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	{$node.object.name|texttoimage('archtura')}
-{* 	<h1>{$node.object.name}</h1> *}
+	{$node.name|texttoimage('archtura')}
+{* 	<h1>{$node.name}</h1> *}
 	</td>
 	<td align="right">
 	{switch match=$node.object.can_edit}
@@ -45,7 +45,7 @@
     {section name=Object loop=$node.object.related_contentobject_array show=$node.object.related_contentobject_array sequence=array(bglight,bgdark)}
     <tr>
 	<td class="{$Object:sequence}">
-	{content_view_gui view=line content_object=$Object:item}
+	{content_view_gui view=line content_node=$Object:item.main_node}
 	</td>
     </tr>
     {section-else}
@@ -74,11 +74,11 @@
 <tr>
 	<td class="{$Child:sequence}">
 
-	<a href="{$module.functions.view.uri}/full/{$Child:item.node_id}">
-	{content_view_gui view=line content_object=$Child:item.object}
+	<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
+	{content_view_gui view=line content_node=$Child:item}
 	</a>
 
-	<a href="{$module.functions.edit.uri}/{$Child:item.object.id}">[ edit ]</a>
+	<a href={concat('content/view/full/',$Child:item.object.id)|ezurl}>[ edit ]</a>
         - {$Child:item.object.class_name}
 	</td>
 	<td class="{$Child:sequence}" align="right">
@@ -97,8 +97,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat($module.functions.view.uri,'/full/',$node.node_id)
-         module=$module
+         page_uri=concat('/content/view','/full/',$node.node_id)
          item_count=$list_count
          view_parameters=$view_parameters
          item_limit=$page_limit}

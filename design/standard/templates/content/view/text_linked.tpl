@@ -1,1 +1,1 @@
-<a href="/content/view/full/{$object.main_node_id}/">{$object.name}</a>
+<a href={concat('content/view/full/',$node.node_id)|ezurl}>{$node.name}</a>

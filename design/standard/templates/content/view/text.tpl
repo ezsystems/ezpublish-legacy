@@ -1,1 +1,1 @@
-{$object.name}
+{$node.name}

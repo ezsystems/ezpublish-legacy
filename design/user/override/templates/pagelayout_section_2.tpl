@@ -47,6 +47,7 @@
     </td>
 </tr>
 
+{*
 <tr>
     <td class="pathline" colspan="3">
 
@@ -67,6 +68,7 @@
 
     </td>
 </tr>
+*}
 <tr>
     <td class="mainarea" width="99%" valign="top">
 
@@ -77,16 +79,27 @@
 <!-- Main area END -->
 
     </td>
+<td width="20%" valign="top" bgcolor="#cccccc" class="links">
+            <div align="right">
+              <table width="142" border="0" cellpadding="4" cellspacing="1">
+{section name=Gallery loop=fetch(content,list,hash(parent_node_id,16))}
+                <tr>
+                  <td bgcolor="#e2e2e2" class="links">&nbsp;<a href="/content/view/thumbnail/{$Gallery:item.node_id}">{$Gallery:item.name}</a></td>
+                </tr>
+{/section}
+              </table>
+            </div>
+            <p align="right">&nbsp;</p>
+            </td>
+{*
     <td bgcolor="#cccccc" valign="top" width="150">
-    Gallery #1
-
     <form action="/content/search/" method="get">
     <label class="topline" for="Search">Search:</label><a class="topline" href="/content/advancedsearch/"><span class="small">Advanced search</span></a><div class="labelbreak"></div>
     <input type="text" size="10" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </form>
-
     </td>
+*}
 </tr>
 <tr>
     <td bgcolor="#e2e2e2" colspan="2">

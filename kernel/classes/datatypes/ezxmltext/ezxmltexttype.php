@@ -60,7 +60,7 @@ This is a <emphasize>block</emphasize> of text.
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/common/template.php" );
-include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
+include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
 

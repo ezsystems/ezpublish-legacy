@@ -1,2 +1,2 @@
-<a href="/content/view/full/{$object.main_node_id}/"> <img src={"class_2.png"|ezimage} border="0" />
-{$object.name}</a>
+<a href={concat('content/view/full/',$node.node_id)|ezurl}> <img src={"class_2.png"|ezimage} border="0" />
+{$node.name}</a>

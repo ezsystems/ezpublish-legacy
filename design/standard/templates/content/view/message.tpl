@@ -1,15 +1,15 @@
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-{*	{$object.name|texttoimage("hatten",45,0,,,-1,-3)}*}
- 	<h2>{$object.name}</h2>
+{*	{$node.object.name|texttoimage("hatten",45,0,,,-1,-3)}*}
+ 	<h2>{$node.name}</h2>
 	</td>
 </tr>
 
 <tr>
     <td width="80%" valign="top">
     <table width="100%">
-    {section name=ContentObjectAttribute loop=$object.contentobject_attributes}
+    {section name=ContentObjectAttribute loop=$node.object.contentobject_attributes}
     <tr>
 	<td>
 	<i>{$ContentObjectAttribute:item.contentclass_attribute.name}</i>
@@ -20,7 +20,7 @@
     </table>
     </td>
     <td width="20%" valign="top">
-    {let related=$object.related_contentobject_array}
+    {let related=$node.object.related_contentobject_array}
       {section show=$related}
         <h3>Related objects</h3>
         <table width="100%" cellspacing="0">
