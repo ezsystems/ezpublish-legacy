@@ -648,7 +648,7 @@ CREATE TABLE ezpolicy_limitation (
 CREATE TABLE ezpolicy_limitation_value (
   id int(11) NOT NULL auto_increment,
   limitation_id int(11) default NULL,
-  value int(11) default NULL,
+  value varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
