@@ -71,6 +71,7 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
     $role =& eZRole::createNew( );
+    return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 
 $tpl =& templateInit();
