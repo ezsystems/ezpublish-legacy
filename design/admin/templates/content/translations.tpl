@@ -1,12 +1,12 @@
-<form action={$module.functions.translations.uri|ezurl} method="post" >
+<form name="languageform" action={$module.functions.translations.uri|ezurl} method="post" >
 
 <div class="context-block">
-<h2 class="context-title">{'Available content translations [%translations_count]'|i18n( 'design/admin/content/translations',, hash( '%translations_count', $existing_translations|count ) )}</h2>
+<h2 class="context-title">{'Available translation languages [%translations_count]'|i18n( 'design/admin/content/translations',, hash( '%translations_count', $existing_translations|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
-	<th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.languageform, 'DeleteIDArray[]' ); return false;"/></th>
+    <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
@@ -38,7 +38,7 @@
 <div class="controlbar">
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/content/translations')}" />
-<input class="button" type="submit" name="NewButton"    value="{'New translation'|i18n('design/admin/content/translations')}" />
+<input class="button" type="submit" name="NewButton"    value="{'Add language'|i18n('design/admin/content/translations')}" />
 </div>
 </div>
 
