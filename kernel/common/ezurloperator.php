@@ -188,8 +188,14 @@ class eZURLOperator
                      break;
                 if ( strlen( $operatorValue ) == 0 )
                     $operatorValue = '/';
+                else if ( $operatorValue[0] == '#' )
+                {
+                    return htmlspecialchars( $operatorValue[0] );
+                }
                 else if ( $operatorValue[0] != '/' )
+                {
                     $operatorValue = '/' . $operatorValue;
+                }
                 $operatorValue = $this->Sys->indexDir() . $operatorValue;
                 $operatorValue = preg_replace( "#^(//)#", "/", $operatorValue );
                 $operatorValue = preg_replace( "#(^.*)(/+)$#", "\$1", $operatorValue );
