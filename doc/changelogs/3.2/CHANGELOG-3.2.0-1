@@ -91,6 +91,7 @@ Changes from 3.1-1 to 3.2.0-1
   and another to the author.
 - Added version and relase numbers to database, that way it's possible to now
   the state of a database for future upgrades.
+- Added custom attribute support for object and custom tag.
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.
@@ -107,6 +108,7 @@ eZ XML:
 - Added functions to return one or multiple elements by name from the children.
 - Added convenience function which allows fetching attribute names and values into PHP arrays.
 - Added convenience function to append multiple attribute values which are defined in a PHP array.
+- Added function to get all attributes in defined namespace.
 
 eZ i18n:
 - Added support for Unicode encoding which is an array with Unicode values. Conversion from
