@@ -97,6 +97,28 @@ class eZSection extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &fetchByOffset( $offset, $limit, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZSection::definition(),
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
+    }
+
+     /*!
+     \return the number of active orders
+    */
+    function &sectionCount()
+    {
+        $db =& eZDB::instance();
+
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezsection" );
+        return $countArray[0]['count'];
+    }
+
+
     function attribute( $attr )
     {
         return eZPersistentObject::attribute( $attr );

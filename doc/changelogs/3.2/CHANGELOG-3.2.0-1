@@ -126,6 +126,7 @@ Changes from 3.1-1 to 3.2.0-1
   The error codes can also be mapped to HTTP error codes.
 - Updated templates for error codes to make it easier to understand what is wrong.
 - Made eZRangeOption datatype on by default.
+- Added previous/next function for section list.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.

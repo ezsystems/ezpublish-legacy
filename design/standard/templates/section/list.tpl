@@ -42,4 +42,11 @@
 <tr>
 </table>
 
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('/section/list/')
+         item_count=$section_count
+         view_parameters=$view_parameters
+         item_limit=$limit}
+
 </form>

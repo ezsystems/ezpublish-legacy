@@ -40,6 +40,9 @@ $Module =& $Params["Module"];
 $tpl =& templateInit();
 $tpl->setVariable( 'module', $Module );
 
+$offset = $Params['Offset'];
+$limit = 10;
+
 if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 {
     $section = new eZSection( array( 'name' => 'New section' ) );
@@ -77,9 +80,14 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     }
 }
 
-$sectionArray =& eZSection::fetchList();
+$viewParameters = array( 'offset' => $offset );
+$sectionArray =& eZSection::fetchByOffset( $offset, $limit );
+$sectionCount = eZSection::sectionCount();
 
+$tpl->setVariable( "limit", $limit );
 $tpl->setVariable( 'section_array', $sectionArray );
+$tpl->setVariable( 'section_count', $sectionCount );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:section/list.tpl" );
