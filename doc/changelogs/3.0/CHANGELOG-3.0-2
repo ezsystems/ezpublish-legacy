@@ -13,6 +13,8 @@ Changes from 3.0-1 to 3.0-2
   stored and user was not able to login with new password.
 - Renamed forgot password view from forgetpassword to forgotpassword ( old name kept for compatibility )
 - Added missing path to forgotpassword module
+- Fixed bug in approval which would stop the workflow if the publisher was an editor, excluded
+  or object was in wrong section.
 
 User:
 - Fixed bug in password change, the wrong user ID was used which caused the operation to crash.

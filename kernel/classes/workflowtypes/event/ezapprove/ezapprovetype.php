@@ -209,7 +209,7 @@ class eZApproveType extends eZWorkflowEventType
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, "we are not going to create approval" );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups,  "we are not going to create approval" );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user->id(), "we are not going to create approval $editor "  );
-            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+            return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
     }
 
