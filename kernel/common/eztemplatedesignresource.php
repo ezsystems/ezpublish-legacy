@@ -224,23 +224,25 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $element !== false )
             $elementText = $element . '/';
 
+        $designStartPath = eZTemplateDesignResource::designStartPath();
+
         // Override
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$elementText$path",
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$siteBase/override/$elementText$path",
                                     'type' => 'override' );
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/override/$elementText$path",
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$standardBase/override/$elementText$path",
                                 'type' => 'override' );
         }
 
         if ( !$onlyStandard )
         {
-            $matches[] = array( 'file' => "design/$siteBase/override/$elementText$path",
+            $matches[] = array( 'file' => "$designStartPath/$siteBase/override/$elementText$path",
                                 'type' => 'override' );
             foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $matches[] = array( 'file' => "design/$additionalSiteDesign/override/$elementText$path",
+                $matches[] = array( 'file' => "$designStartPath/$additionalSiteDesign/override/$elementText$path",
                                     'type' => 'override' );
             }
         }
@@ -248,28 +250,28 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         foreach ( $extensions as $extension )
         {
             if ( !$onlyStandard )
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$elementText$path",
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$siteBase/$elementText$path",
                                     'type' => 'normal' );
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$elementText$path",
+            $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$standardBase/$elementText$path",
                                 'type' => 'normal' );
         }
 
         // Normal
         if ( !$onlyStandard )
         {
-            $matches[] = array( 'file' => "design/$siteBase/$elementText$path",
+            $matches[] = array( 'file' => "$designStartPath/$siteBase/$elementText$path",
                                 'type' => 'normal' );
             foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $matches[] = array( "file" => "design/$additionalSiteDesign/$elementText$path",
+                $matches[] = array( "file" => "$designStartPath/$additionalSiteDesign/$elementText$path",
                                     'type' => 'normal' );
             }
         }
 
-        $matches[] = array( 'file' => "design/$standardBase/override/$elementText$path",
+        $matches[] = array( 'file' => "$designStartPath/$standardBase/override/$elementText$path",
                             'type' => 'override' );
 
-        $matches[] = array( 'file' => "design/$standardBase/$elementText$path",
+        $matches[] = array( 'file' => "$designStartPath/$standardBase/$elementText$path",
                             'type' => 'normal' );
 
         eZDebug::accumulatorStop( 'matching_rules' );
@@ -621,6 +623,34 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /*!
      \static
+     \return The start path of the design directory, by default it will return \c 'design'
+             To change the directory use setDesignStartPath().
+    */
+    function designStartPath()
+    {
+        $designStartPath = false;
+        if ( isset( $GLOBALS['eZTemplateDesignResourceStartPath'] ) )
+        {
+            $designStartPath = $GLOBALS['eZTemplateDesignResourceStartPath'];
+        }
+        if ( !$designStartPath )
+            $designStartPath = 'design';
+        return $designStartPath;
+    }
+
+    /*!
+     \static
+     Changes the design start path which is used to find design files.
+     \param $path Must be a string defining the path or \c false to use default start path.
+     \sa designStartPath();
+    */
+    function setDesignStartPath( $path )
+    {
+        $GLOBALS['eZTemplateDesignResourceStartPath'] = $path;
+    }
+
+    /*!
+     \static
      \return an array of all the current templates and overrides for them.
              The current siteaccess is used if none is specified.
     */
@@ -654,6 +684,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
         }
 
+        $designStartPath = eZTemplateDesignResource::designStartPath();
+
         $additionalSiteDesignList =& $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
 
         // Generate match cache for all templates
@@ -673,17 +705,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         // For each override dir overwrite current default file
         // TODO: fetch all resource repositories
-        $resourceArray[] = "design/$standardBase/templates";
+        $resourceArray[] = "$designStartPath/$standardBase/templates";
 
         // Add the additional sitedesigns
         foreach ( $additionalSiteDesignList as $additionalSiteDesign )
         {
-            $resourceArray[] = "design/$additionalSiteDesign/override/templates";
-            $resourceArray[] = "design/$additionalSiteDesign/templates";
+            $resourceArray[] = "$designStartPath/$additionalSiteDesign/override/templates";
+            $resourceArray[] = "$designStartPath/$additionalSiteDesign/templates";
         }
 
-        $resourceArray[] = "design/$siteBase/override/templates";
-        $resourceArray[] = "design/$siteBase/templates";
+        $resourceArray[] = "$designStartPath/$siteBase/override/templates";
+        $resourceArray[] = "$designStartPath/$siteBase/templates";
 
         // Add extension paths
         include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -695,19 +727,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         foreach ( $extensions as $extension )
         {
             // Look for standard design in extension
-            $resourceArray[] = "$extensionDirectory/$extension/design/$standardBase/templates";
-            $resourceArray[] = "$extensionDirectory/$extension/design/$standardBase/override/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$standardBase/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$standardBase/override/templates";
 
             // Look for aditional sitedesigns in extension
             foreach ( $additionalSiteDesignList as $additionalSiteDesign )
             {
-                $resourceArray[] = "$extensionDirectory/$extension/design/$additionalSiteDesign/override/templates";
-                $resourceArray[] = "$extensionDirectory/$extension/design/$additionalSiteDesign/templates";
+                $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/override/templates";
+                $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/templates";
             }
 
             // Look for site base in extention
-            $resourceArray[] = "$extensionDirectory/$extension/design/$siteBase/override/templates";
-            $resourceArray[] = "$extensionDirectory/$extension/design/$siteBase/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$siteBase/override/templates";
+            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$siteBase/templates";
         }
 
         foreach ( $resourceArray as $resource )
