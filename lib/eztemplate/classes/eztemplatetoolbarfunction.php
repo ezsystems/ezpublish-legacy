@@ -260,10 +260,10 @@ class eZTemplateToolbarFunction
                     $definedVariables = array();
                     $toolbarName = "Toolbar_" . $toolbarPosition;
                     $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
-		    $actionParameters = array();
+                    $actionParameters = array();
                     foreach ( array_keys( $toolArray ) as $toolKey )
                     {
-			$definedVariables = array();
+                        $definedVariables = array();
                         $tool = $toolArray[$toolKey];
                         $placement = $toolKey + 1;
                         if ( $toolbarIni->hasGroup( "Tool_" . $tool ) )
