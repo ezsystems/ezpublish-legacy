@@ -13,8 +13,8 @@ your site.ini.append for each of your sites.
 </p>
 
 <p>
-In this example we will seperate storage files and cache for myfirst.ezpsite.com, admin.myfirst.ezpsite.com, mysecond.ezpsite.com
-and admin.mysecond.ezpsite.com. After setting up site access (which you can read more about <a href="siteaccess">here</a>)
+In this example we will seperate storage files and cache for 'myfirst.ezpsite.com', 'admin.myfirst.ezpsite.com', 'mysecond.ezpsite.com'
+and 'admin.mysecond.ezpsite.com'. After setting up site access (which you can read more about <a href="siteaccess">here</a>)
 we need to set some additional settings in the site.ini.append files.
 </p>
 
