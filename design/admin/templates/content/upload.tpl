@@ -107,7 +107,7 @@
 {section show=$errors|count|gt( 0 )}
     <div class="message-error">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The file could not be uploaded'|i18n( 'design/admin/content/upload' )}</h2>
-        <p>{'The following errors occured'|i18n( 'design/admin/content/upload' )}:</p>
+        <p>{'The following errors occurred'|i18n( 'design/admin/content/upload' )}:</p>
         <ul>
             {section var=error loop=$errors}
                 <li>{$error.description}</li>

@@ -52,7 +52,7 @@
 <h3>{'File consistency'|i18n('design/admin/setup')}</h3>
 {'The file consistency tool checks if you have altered any of the files that came with your current installation. Upgrading your installation may cause these files to be overwritten. Also, if a file is replaced this usually means that there are feature improvements or bugfixes. Make sure that you incorporate these changes into your version of the file.'|i18n('design/admin/setup')}
 <h3>{'Database consistency'|i18n('design/admin/setup')}</h3>
-{'The database consistency tool checks if your database is synchronized with the database schema delivered with your current ez publish installation. If inconsistencies are found, the tool suggests SQL statements that brings your database up to date. Please run these SQL statements on your database prior to upgrading.'|i18n('design/admin/setup')}
+{'The database consistency tool checks if your database is synchronized with the database schema delivered with your current eZ publish installation. If inconsistencies are found, the tool suggests SQL statements that brings your database up to date. Please run these SQL statements on your database prior to upgrading.'|i18n('design/admin/setup')}
 <div class="block">
 <p><strong>{'Warning'|i18n('design/admin/setup')}: </strong>{'These tools need a lot of resources and may take a while. Always remember to take a backup of your site before upgrading.'|i18n('design/admin/setup')}</p>
 

@@ -57,7 +57,7 @@
 {section show=$object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version avaliable (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )} />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" {'You can not manage the versions of this object because there is only one version available (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )} />
 {/section}
 {section-else}
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage the versions of this object.'i18n( 'design/admin/content/view/versionview' )}" />

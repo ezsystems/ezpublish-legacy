@@ -23,7 +23,7 @@
 
     <div class="block">
         <label>{'Changes'|i18n('design/admin/package')}</label>
-        <p>{'Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line. The change will continue to the next change marker.'|i18n( 'design/admin/package',, hash( '%emstart', '<em>', '%emend', '</em>' ) )|break}</p>
+        <p>{'Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterisk) ) at the beginning of the line. The change will continue to the next change marker.'|i18n( 'design/admin/package',, hash( '%emstart', '<em>', '%emend', '</em>' ) )|break}</p>
         <textarea class="box" rows="10" name="PackageChangelogText">{$persistent_data.changelog_text|wash}</textarea>
     </div>
 

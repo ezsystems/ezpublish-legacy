@@ -18,7 +18,7 @@
 <ul>
 <li>{'When the file is uploaded, an object will be created according to the type of the file.'|i18n( 'design/admin/content/upload_related' )}</li>
 <li>{'The newly created object will be placed within the chosen location.'|i18n( 'design/admin/content/upload_related' )}</li>
-<li>{'The newly created object will be automatically realted to the draft being edited (<%version_name>).'|i18n( 'design/admin/content/upload_related',, hash( '%version_name', $version.version_name ) )|wash}</li>
+<li>{'The newly created object will be automatically related to the draft being edited (<%version_name>).'|i18n( 'design/admin/content/upload_related',, hash( '%version_name', $version.version_name ) )|wash}</li>
 </ul>
 <p>{'Select the file you wish to upload and click the "Upload" button.'|i18n( 'design/admin/content/upload_related' )}</p>
 

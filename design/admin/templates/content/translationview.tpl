@@ -319,7 +319,7 @@
 {section show=$translation.locale_object.is_monday_first}
     {'Monday'|i18n( 'design/admin/content/translationview' )}
 {section-else}
-    {'Not monday'|i18n( 'design/admin/content/translationview' )}
+    {'Not Monday'|i18n( 'design/admin/content/translationview' )}
 {/section}
 </div>
 

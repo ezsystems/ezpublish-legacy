@@ -1,6 +1,6 @@
 {section show=$filter_proccessed}
 <div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The notification filter proccessed all available notification events.'|i18n( 'design/admin/notification/runfilter' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The notification filter processed all available notification events.'|i18n( 'design/admin/notification/runfilter' )}</h2>
 </div>
 {/section}
 

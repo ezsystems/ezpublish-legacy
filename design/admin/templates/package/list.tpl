@@ -65,7 +65,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {section-else}
 {section show=$module_action|eq( 'CancelRemovePackage' )}
 <div class="message-feedback">
-    <p>{'Package removal was cancelled.'|i18n('design/admin/package/list')}</p>
+    <p>{'Package removal was canceled.'|i18n('design/admin/package/list')}</p>
 </div>
 {/section}
 

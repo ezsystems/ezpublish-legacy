@@ -64,7 +64,7 @@
     {* Object name pattern. *}
     <div class="block">
     <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}</label>
-    <input class="halfbox" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use the object name pattern field to control how the name of the object (used for nice urls and listings in the administration part) is created. To use the value inserted in any of an attributes insert the identifier of that attribute enclosed in angle brackets. Any other text inserted in this field will be included literally.'|i18n( 'design/admin/class/edit' )}"/>
+    <input class="halfbox" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use the object name pattern field to control how the name of the object (used for nice URLs and listings in the administration part) is created. To use the value inserted in any of an attributes insert the identifier of that attribute enclosed in angle brackets. Any other text inserted in this field will be included literally.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
     {* Container. *}

@@ -23,7 +23,7 @@
 <p>
 {'Instructions'|i18n( 'design/admin/role/createpolicystep1' )}:
 <ol>
-<li>{'Use the dropdown menu to select the module that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
+<li>{'Use the drop-down menu to select the module that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
 <li>{'Click one of the "Grant.." buttons (explained below) in order to go to the next step.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
 </ol>
 {'The "Grant access to all functions" button will create a policy that grants unlimited access to all functions of the selected module. If you wish to limit the access method to a specific function, use the "Grant access to a function" button. Please note that function limitation is only supported by some modules (the next step will reveal if it works or not).'|i18n( 'design/admin/role/createpolicystep1' )}

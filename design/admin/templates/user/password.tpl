@@ -47,7 +47,7 @@
 
 {* Username. *}
 <div class="block">
-<label>{'Username'|i18n( 'design/admin/user/password' )}</label>
+<label>{'User name'|i18n( 'design/admin/user/password' )}</label>
 {$userAccount.login}
 </div>
 

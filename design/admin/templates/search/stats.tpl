@@ -76,7 +76,7 @@
 </table>
 {section-else}
 <div class="block">
-<p>{'The statistics list is emtpy.'|i18n( 'design/admin/search/stats' )}</p>
+<p>{'The statistics list is empty.'|i18n( 'design/admin/search/stats' )}</p>
 </div>
 {/section}
 

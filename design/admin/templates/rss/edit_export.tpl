@@ -15,7 +15,7 @@
 
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <input class="halfbox" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the rss export. This name is used in the administration interface only, to distinguish the different exports from eachother.'|i18n('design/admin/rss/edit_export')}" />
+    <input class="halfbox" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the administration interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
     </div>
 
     <div class="block">
@@ -38,7 +38,7 @@
 
     <div class="block">
     <label>{'RSS version'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <select name="RSSVersion" title="{'Use this dropdown menu to select the RSS version to use for the export. You must select RSS 2.0 in order to export the image selected above.'|i18n('design/admin/rss/edit_export')}">
+    <select name="RSSVersion" title="{'Use this drop-down menu to select the RSS version to use for the export. You must select RSS 2.0 in order to export the image selected above.'|i18n('design/admin/rss/edit_export')}">
     {section name=Version loop=$rss_version_array}
     <option
     {section name=DefaultSet show=eq( $rss_export.rss_version, 0 )}
@@ -98,14 +98,14 @@
        {/section} value="{$:item.id}">{$:item.name|wash}</option>
        {/section}
        </select>
-       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Use this button to load the correct values into the dropdown fields below. Use the dropdown menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_export')}" />
+       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Use this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_export')}" />
        </div>
 
        {section name=Attribute show=count( $rss_export.item_list[$Source:index] )|gt( 0 )}
 
          <div class="block">
          <label>{'Title'|i18n( 'design/admin/rss/edit_export' )}:</label>
-         <select name="Item_Class_Attribute_Title_{$Source:index}" title="{'Use this dropdown to select which attribute that should be exported as the title of the RSS export entry.'|i18n('design/admin/rss/edit_export')}">
+         <select name="Item_Class_Attribute_Title_{$Source:index}" title="{'Use this drop-down to select which attribute that should be exported as the title of the RSS export entry.'|i18n('design/admin/rss/edit_export')}">
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier}"
              {section name=ShowSelected show=eq( $Source:item.title, $:item.identifier )}
@@ -117,7 +117,7 @@
 
        <div class="block">
          <label>{'Description'|i18n( 'design/admin/rss/edit_export' )}:</label>
-         <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this dropdown to select which attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" >
+         <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this drop-down to select which attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" >
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq( $Source:item.description, $:item.identifier )}

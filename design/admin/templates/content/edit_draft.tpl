@@ -78,7 +78,7 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Possible edit conflict'|i18n( 'design/admin/content/edit_draft' )}</h2>
 
 {section show=and( $has_own_drafts, $has_other_drafts )}
-    <p>{'This object is already being edited by someone else. In addition, it is alredy being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
+    <p>{'This object is already being edited by someone else. In addition, it is already being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
     <p>{"You should contact the other user(s) to make sure that you are not stepping on anyone's toes."|i18n( 'design/admin/content/edit_draft' )}
     <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )}</p>
 {section-else}

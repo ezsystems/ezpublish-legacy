@@ -32,7 +32,7 @@
 </table>
 {section-else}
 <div class="block">
-<p>{'There are no availalbe extensions.'|i18n( 'design/admin/setup/extensions' )}</p>
+<p>{'There are no available extensions.'|i18n( 'design/admin/setup/extensions' )}</p>
 </div>
 {/section}
 

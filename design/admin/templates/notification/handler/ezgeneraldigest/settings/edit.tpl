@@ -7,7 +7,7 @@
 
 
 <div class="block">
-<label>{'Recieve digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
+<label>{'Receive digests'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
 <table cellspacing="4" cellspacing="4">
 <tr>
 <td>
