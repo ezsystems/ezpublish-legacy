@@ -65,15 +65,18 @@ class eZTemplateLocaleOperator
                                        $dateTimeName = 'datetime',
                                        $currentDateName = 'currentdate',
                                        $makeTimeName = 'maketime',
-                                       $makeDateName = 'makedate' )
+                                       $makeDateName = 'makedate',
+                                       $getTimeName = 'gettime' )
     {
         $this->Operators = array( $localeName, $dateTimeName,
-                                  $currentDateName, $makeTimeName, $makeDateName );
+                                  $currentDateName,
+                                  $makeTimeName, $makeDateName, $getTimeName );
         $this->LocaleName = $localeName;
         $this->DateTimeName = $dateTimeName;
         $this->CurrentDateName = $currentDateName;
         $this->MakeTimeName = $makeTimeName;
         $this->MakeDateName = $makeDateName;
+        $this->GetTimeName = $getTimeName;
     }
 
     /*!
@@ -106,6 +109,9 @@ class eZTemplateLocaleOperator
                                            'data' => array( 'type' => 'mixed',
                                                             'required' => false,
                                                             'default' => false ) ),
+                      'gettime' => array( 'timestamp' => array( 'type' => 'integer',
+                                                                'required' => false,
+                                                                'default' => false ) ),
                       'maketime' => array( 'hour' => array( 'type' => 'integer',
                                                             'required' => false,
                                                             'default' => false ),
@@ -144,7 +150,26 @@ class eZTemplateLocaleOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $locale =& eZLocale::instance();
-        if ( $operatorName == $this->MakeTimeName )
+        if ( $operatorName == $this->GetTimeName )
+        {
+            $timestamp = $operatorValue;
+            if ( $timestamp === null )
+                $timestamp = $namedParameters['timestamp'];
+            $info = getdate( $timestamp );
+            $week = date( 'W', $timestamp );
+            if ( $info['wday'] == 0 )
+                ++$week;
+            $operatorValue = array( 'seconds' => $info['seconds'],
+                                    'minutes' => $info['minutes'],
+                                    'hours' => $info['hours'],
+                                    'day' => $info['mday'],
+                                    'month' => $info['mon'],
+                                    'year' => $info['year'],
+                                    'weekday' => $week,
+                                    'yearday' => $info['yday'],
+                                    'epoch' => $info[0] );
+        }
+        else if ( $operatorName == $this->MakeTimeName )
         {
             $parameters = array();
             if ( $namedParameters['hour'] !== false )

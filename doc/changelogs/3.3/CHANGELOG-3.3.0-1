@@ -47,6 +47,9 @@ Changes from 3.2-3 to 3.3.0-1
 - New template operator 'month_overview' which can take a list of items and create a month structure
   which be sent to the monthview.tpl template.
 
+*Templates:
+- navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.
+
 *DataType:
 
 eZINISetting
@@ -92,6 +95,7 @@ eZ template:
 - Added line/column information to the error messages from the template parser.
 - New template operator 'maketime' for creating timestamp from hour, minutes, seconds, month, day and year.
 - New template operator 'makedate' for creating timestamp from month, day and year.
+- New template operator 'gettime' for returning time information on a timestamp.
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.

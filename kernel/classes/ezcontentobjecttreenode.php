@@ -1218,6 +1218,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classCount = count( $params['ClassFilterArray'] );
             foreach ( $params['ClassFilterArray'] as $classID )
             {
+                if ( is_string( $classID ) && !is_numeric( $classID ) )
+                {
+                    $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                }
                 if ( $params['ClassFilterType'] == 'include' )
                     $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
                 else

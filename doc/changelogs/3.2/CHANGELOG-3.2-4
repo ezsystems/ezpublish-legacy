@@ -4,6 +4,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed wrong include line in ezwordtoimageoperator.php
 - Added content_info structure to module result when the view is not cached, previously this was only available
   when the view was cached and restored.
+- Fixed subTreeCount() function in eZContentObjectTreeNode to allow the use of class identifiers in the
+  ClassFilterArray just as the subTree() function does.
 
 *Bugfixes:
 

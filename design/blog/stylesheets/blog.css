@@ -580,11 +580,16 @@ dl dt em
     padding-left: 0;
 }
 
-#archive .header em, #category .header em
+#archive .header p, #category .header p
 {
-    display: block;
     padding-top: 5px;
     font: italic 120%/1.6em Georgia,Serif;
+    text-style: italic;
+}
+
+#archive .header p
+{
+    display: block;
 }
 
 #archive h2
