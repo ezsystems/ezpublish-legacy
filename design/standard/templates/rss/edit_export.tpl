@@ -9,9 +9,9 @@
 
     {section show=$validaton}
         <div class="warning">
-            <h2>{"Invalid Input"}</h2>
+            <h2>{"Invalid Input"|i18n("design/standard/rss/edit")}</h2>
             <ul>
-                <li>{"If RSS Export is Active then a valid Access URL is required."}</li>
+                <li>{"If RSS Export is Active then a valid Access URL is required."|i18n("design/standard/rss/edit")}</li>
             </ul>
         </div>
     {/section}
