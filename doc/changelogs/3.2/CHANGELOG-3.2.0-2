@@ -58,5 +58,7 @@ eZ i18n:
 - Changed the 0 character into a chr( 0 ) to avoid problems with unpackers messing up the line.
 
 eZ webdav:
+- Removed need for register_globals by changing authentication variables.
+- Added debug function to index_webdav.php - from index.php.
 - Fixed file up/download bug in windows + some other small/annoying bugs.
 - Fixed file/image up-load bug by including ezi18n + some other issues.

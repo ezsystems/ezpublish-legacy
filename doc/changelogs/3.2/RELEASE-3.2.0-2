@@ -1,4 +1,5 @@
 Release notes for 3.2.0-2
+This release is a beta release and should not be used for a production site.
 
 - All text strings in eZ publish has been freezed and can now be translated before the final release.
 - The admin email address can now be controlled by one ini setting making it easier to maintain.

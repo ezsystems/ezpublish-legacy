@@ -2597,6 +2597,81 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/reference/ez</name>
+    <message>
+        <source>No generated documentation found</source>
+        <translation>Fant ingen dokumentasjon</translation>
+    </message>
+    <message>
+        <source>To create the reference documentation you must do the following step</source>
+        <translation>For å lage referanse dokumentasjonen må du gjøre følgende steg</translation>
+    </message>
+    <message>
+        <source>Download and install doxygen</source>
+        <translation>Last ned og installer doxygen</translation>
+    </message>
+    <message>
+        <source>Generate the documentation by running the following command</source>
+        <translation>Lag dokumentasjonen med følgende kommando</translation>
+    </message>
+    <message>
+        <source>Download doxygen from %doxygenurl.</source>
+        <translation>Last ned doxygen fra %doxygenurl.</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Oversikt</translation>
+    </message>
+    <message>
+        <source>Modules</source>
+        <translation>Moduler</translation>
+    </message>
+    <message>
+        <source>Class hierarchy</source>
+        <translation>Klasse hierarki</translation>
+    </message>
+    <message>
+        <source>Compound list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File list</source>
+        <translation>Fil liste</translation>
+    </message>
+    <message>
+        <source>Compound members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File members</source>
+        <translation>Filmedlemmer</translation>
+    </message>
+    <message>
+        <source>Related pages</source>
+        <translation>Relaterte sider</translation>
+    </message>
+    <message>
+        <source>Introduction</source>
+        <translation>Introduksjon</translation>
+    </message>
+    <message>
+        <source>The Reference Documentation for eZ publish consists of multiple sections which
+each have a different view on the documentation. The sections can be accessed at
+menu on the top.</source>
+        <translation>Referanse dokumentasjonen for eZ publish består av forskjellige seksjoner som
+hver har sitt syn på dokumentasjonen. Seksjonene kan aksesseres fra
+menyen på toppen.</translation>
+    </message>
+    <message>
+        <source>The documentation will give an overview of the API of eZ publish.</source>
+        <translation>Denne dokumentasjonen vil gi en oversikt over API&apos;et til eZ publish.</translation>
+    </message>
+    <message>
+        <source>All reference documentation has been made with %doxygenurl</source>
+        <translation>All referanse dokumentasjonen har blitt laget ved hjelp av %doxygenurl</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/role</name>
     <message>
         <source>Create policy for</source>
@@ -2832,6 +2907,10 @@ Du kan se det ved å klikke på URL-en nedenfor.</translation>
     <message>
         <source>Average result returned</source>
         <translation>Gjennomsnittlig resultat</translation>
+    </message>
+    <message>
+        <source>Reset statistics</source>
+        <translation>Nullstill statistikk</translation>
     </message>
 </context>
 <context>
@@ -3469,10 +3548,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Fill out the details for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;percent% completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3509,7 +3584,7 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished">Nettsted:</translation>
     </message>
     <message>
-        <source>Manual install</source>
+        <source>Image processing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3543,7 +3618,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Introduction</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Introduksjon</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
@@ -3793,10 +3868,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You can choose from either</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3806,10 +3877,6 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>SMTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3890,7 +3957,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seleksjon</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your&apos;re done click the</source>
@@ -4030,10 +4097,6 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Finetune System</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The system check found some issues that needs to be resolve before the setup can continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4577,48 +4640,78 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Welcome to the installation of eZ publish content management system and development framework. The setup wizard will now guide you through the installation of eZ publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server you can connect to. You need to have a database which you can use for eZ publish. MySQL and PostgreSQL are supported.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click &gt;&gt; to continue the installation of eZ publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your system cannot install eZ publish as it is. You need to do some modifications. Click &gt;&gt; to see what you have to do.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help on each installation step will be presented here.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The summary area below will contain information of selected settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No data will be stored in the database until the final step of the installation.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Information on how to install eZ publish manually is available %1.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>here</source>
-        <comment>installation manual link</comment>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>For more information on how to configure site access, see the %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Information on how to install eZ publish manually is available here.</source>
+        <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <comment>back button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <comment>Refresh button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fill out the details for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update database list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The system check found some issues that need to be resolved before the setup can continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Requirements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>recommended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This section will contain information/help about each step in the setup wizard.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The summary section below will contain information about configured settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information about how to set up eZ publish manually is available %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <comment>manual installation link</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5772,7 +5865,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
     <message>
         <source>Click the following URL to confirm your account</source>
-        <translation type="unfinished">Klikk denne URL&apos;en for å </translation>
+        <translation>Klikk denne URL&apos;en for å bekrefte din konto</translation>
     </message>
     <message>
         <source>New user registered at %siteurl</source>
@@ -6813,7 +6906,7 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Selection</source>
         <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Seleksjon</translation>
     </message>
     <message>
         <source>Text line</source>
@@ -6984,6 +7077,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     </message>
 </context>
 <context>
+    <name>kernel/contentclass</name>
+    <message>
+        <source>New %1</source>
+        <translation>Ny %1</translation>
+    </message>
+</context>
+<context>
     <name>kernel/error</name>
     <message>
         <source>Error</source>
@@ -7028,6 +7128,13 @@ e-post adressen. Du må da følge instruksjonene i e-posten for
     <message>
         <source>Upload</source>
         <translation>Last opp</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/reference</name>
+    <message>
+        <source>Reference documentation</source>
+        <translation>Referanse dokumentasjon</translation>
     </message>
 </context>
 <context>
