@@ -63,6 +63,8 @@
 - Fixed http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_templates ( merged from stable 4387 )
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/flaws_in_the_file_docinstall
   Refered to online installation guide and PDF version.
+- Fixed the autolink operator to better handle detection and management of urls. ( merged from stable 4395 )
+  http://ez.no/developer/ez_publish_3/bug_reports/autolink_operator_messes_with_linked_urls_
 
 
 *Kernel:
