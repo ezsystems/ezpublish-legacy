@@ -103,4 +103,5 @@ eZTemplate:
   is enabled.
 - Improved error handling for function and operators, the file placement will now
   be included on more of the errors and warnings. (Only for processed mode)
+- Added template operator 'flag_icon' to get the correct path of flag icon.
 

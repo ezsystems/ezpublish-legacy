@@ -59,7 +59,7 @@
           <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {/section}
 {section show=$Translation:item.locale.is_valid}
-<img src={concat( '/share/icons/flags/', $Translation:item.language_code, '.gif' )|ezroot} alt="($Translation:item.language_code)" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten(16)}
+<img src={$Translation:item.language_code|flag_icon} alt="($Translation:item.language_code)" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten(16)}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
 {/section}

@@ -50,7 +50,7 @@ class eZWordToImageOperator
     */
     function eZWordToImageOperator()
     {
-        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon", "icon" );
+        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon", "icon", "flag_icon" );
     }
 
     /*!
@@ -85,10 +85,23 @@ class eZWordToImageOperator
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
             }break;
 
+            case 'flag_icon' :
+            {
+                $ini =& eZINI::instance( 'icon.ini' );
+                $repository = $ini->variable( 'FlagIcons', 'Repository' );
+                $iconFormat = $ini->variable( 'FlagIcons', 'IconFormat' );
+                $icon = $operatorValue . "." . $iconFormat;
+                $iconPath = '/' . $repository . '/' . $icon;
+                $wwwDirPrefix = "";
+                if ( strlen( eZSys::wwwDir() ) > 0 )
+                    $wwwDirPrefix = eZSys::wwwDir() . "/";
+                $operatorValue = $wwwDirPrefix . $iconPath;
+            }break;
+
             case 'mimetype_icon':
             case 'class_icon':
             case 'classgroup_icon':
-	    case 'icon':
+            case 'icon':
             {
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
@@ -180,7 +193,7 @@ class eZWordToImageOperator
                     {
                         $icon = $ini->variable( 'ClassGroupIcons', 'Default' );
                     }
-	         }	
+                }
                 else if ( $operatorName == 'icon' )
                 {
                     $requestedIcon = strtolower( $operatorValue );
@@ -194,7 +207,7 @@ class eZWordToImageOperator
                     {
                         $icon = $ini->variable( 'Icons', 'Default' );
                     }
-                 }
+                }
 
                 $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $icon;
 
