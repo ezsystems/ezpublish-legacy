@@ -250,6 +250,12 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {section show=ne( $ui_context, 'edit' )}
     <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>Change information</a></li>
     <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>Change password</a></li>
+
+{let basket=fetch( shop, basket )}
+{section show=$basket.is_empty|not}
+<li><a href={'shop/basket'|ezurl}>Webshop basket ({$basket.items|count})</a></li>
+{/let}
+{/section}
     <li><a href={'/user/logout'|ezurl}>Logout</a></li>
 {section-else}
     <li><span class="disabled">Change user info</span></li>

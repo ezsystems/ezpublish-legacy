@@ -46,7 +46,7 @@ $ViewList["orderview"] = array(
 $ViewList["basket"] = array(
     "functions" => array( 'buy' ),
     "script" => "basket.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
+    "default_navigation_part" => 'ezcontentnavigationpart',
     "params" => array(  ) );
 
 $ViewList["register"] = array(
