@@ -372,51 +372,26 @@ function eZSetupTestFilePermissions( $type, &$arguments )
         if ( is_dir( $file ) )
         {
             $filePerm = $dirPermission;
-
             $dir = $file;
 
-            $createdFile = false;
-            $hash = md5( microtime() );
-	    	$tmpfname = $dir . "/ezsetup_" . $hash . ".tmp";
-            $tempCreated = false;
-    		$fp = @fopen( $tmpfname, "w" );
-    		if ( $fp )
+            if ( !eZSetupPrvtAreDirAndFilesWritable( $dir ) )
             {
-                $tempCreated = true;
-	    		$test = fwrite( $fp, "This file can safely be deleted.\nIt gets created by the eZ setup module of eZ publish." );
-        		if ( $test )
-                {
-    	    		$test = fclose( $fp );
-                    if ( $test )
-                    {
-                        $test = unlink( $tmpfname );
-                        if ( $test )
-                            $createdFile = true;
-                    }
-                }
-            }
-            if ( $tempCreated and
-                 file_exists( $tmpfname ) )
-                unlink( $tmpfname );
-
-            if ( !$createdFile )
-            {
-	    		$result = false;
+                $result     = false;
                 $fileResult = false;
             }
         }
     	else if ( is_file( $file ) )
     	{
             $filePerm = $filePermission;
-	    	if ( !is_writable( $file ) )
+
+            if ( !eZFile::isWriteable( $file ) )
             {
-	    		$result = false;
+                $result = false;
                 $fileResult = false;
             }
     	}
     }
     $safeMode = ini_get( 'safe_mode' );
-
     return array( 'result' => $result,
                   'safe_mode' => $safeMode,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ),
@@ -783,4 +758,26 @@ function eZSetupPrvtExtractExtraPaths( &$givenPersistentList )
             $GLOBALS['eZSetupCheckExecutable_'.$key.'_ExtraPath'] = $val['extra_path'];
     }
 }
+
+/*! Check if a given directory and all files within that directory
+ * are writable
+ */
+function eZSetupPrvtAreDirAndFilesWritable( $dir )
+{
+    if ( !eZDir::isWriteable( $dir ) )
+        return FALSE;
+
+   // Check if all files within a given directory are writeable
+   $files =& eZDir::findSubitems( $dir, 'f' ); // find only files, skip dirs and symlinks
+   $fileSeparator = eZSys::fileSeparator();
+
+   foreach ( $files as $file )
+   {
+       if ( !eZFile::isWriteable( $dir . $fileSeparator . $file ) )
+           return FALSE;
+   }
+
+   return TRUE;
+}
+
 ?>

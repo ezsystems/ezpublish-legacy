@@ -164,6 +164,9 @@ eZINI:
   http://ez.no/community/bug_reports/extract_doesn_t_work_properly
 - Fixed bug with not using an entered MySQL socket during setup
   http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
+- Fixed bug in setup wizard: when checking directory permissions we now
+  check permissions of files within that directory as well.
+
 *Library:
 
 eZ Locale:
