@@ -204,6 +204,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
         }
 
+        eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
+
         // Create the override cache
         $overrideCacheFile = $this->createOverrideCache();
 
@@ -273,29 +275,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $match['file'] = $matchFile['base_dir'] . $matchFile['template'];
             }
         }
-
-        /// OLD system
-
-        /*
-
-        // Only check if not cached
-        $matches = $this->fileMatchingRules( 'templates', $path, $this->OnlyStandard );
-
-        $matchKeys = $this->Keys;
-        $matchedKeys = array();
-
-        if ( is_array( $extraParameters ) and
-             isset( $extraParameters['ezdesign:keys'] ) )
-        {
-            $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
-        }
-
-        print( "source: $uri<br>" );
-        include_once( 'kernel/common/ezoverride.php' );
-        $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
-
-
-        */
+        eZDebug::accumulatorStop( 'override_cache' );
         if ( $match === null )
             return false;
 
@@ -351,17 +331,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
             $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
+            $phpCode .= "switch ( \$matchFile )\n{\n    ";
             $i = 0;
             foreach ( array_keys( $matchFileArray ) as $matchKey )
             {
-                if ( $i > 0 )
-                    $phpCode .= "    else ";
-
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
                     $defaultMatchFile = $matchFileArray[$matchKey]['base_dir'] . $matchKey;
                     // Custom override matching
-                    $phpCode .= "if ( \$matchFile == \"$matchKey\" )\n    {\n";
+                    $phpCode .= "    case  \"$matchKey\":\n    {\n";
 
                     foreach ( $matchFileArray[$matchKey]['custom_match'] as $customMatch )
                     {
@@ -396,17 +374,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         }
                     }
 
-                    $phpCode .= "        return '" . $defaultMatchFile . "';\n    }\n";
+                    $phpCode .= "        return '" . $defaultMatchFile . "';\n    }break;\n";
                 }
                 else
                 {
                     // Plain matching without custom override
-                    $phpCode .= "if ( \$matchFile == \"$matchKey\" )\n        return '" .
-                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';\n";
+                    $phpCode .= "case  \"$matchKey\":\n    {\n
+                           return '" .
+                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
                 }
 
                 $i++;
             }
+            $phpCode .= "default:\n {\n}break;\n}";
+
             $phpCode .= "}\n";
 
             $phpCache->addCodePiece( $phpCode );
