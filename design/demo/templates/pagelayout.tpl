@@ -15,8 +15,6 @@
 
 {include uri="design:top_menu.tpl"}
 
-PAGELAYOUT
-
 {$module_result.content}
 
 </body>
