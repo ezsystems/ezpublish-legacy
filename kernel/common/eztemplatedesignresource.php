@@ -113,6 +113,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function fileMatchingRules( $element, $path, $onlyStandard = false )
     {
+        eZDebug::accumulatorStart( 'matching_rules', 'override', 'Matching rules' );
+
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
         if ( !$onlyStandard )
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
@@ -158,6 +160,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$elementText$path",
                                 'type' => 'normal' );
         }
+        eZDebug::accumulatorStop( 'matching_rules' );
 
         return $matches;
     }
@@ -177,6 +180,24 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $path =& $resourceData['template-name'];
         $keyData =& $resourceData['key-data'];
 
+        $matchKeys = $this->Keys;
+        if ( is_array( $extraParameters ) and
+             isset( $extraParameters['ezdesign:keys'] ) )
+        {
+            $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
+        }
+
+        // Create the override cache
+        $overrideCacheFile = $this->createOverrideCache();
+
+        include_once( $overrideCacheFile );
+        $match['file'] = overrideFile( "/" . $path, $matchKeys );
+
+        /// OLD system
+
+        /*
+
+        // Only check if not cached
         $matches = $this->fileMatchingRules( 'templates', $path, $this->OnlyStandard );
 
         $matchKeys = $this->Keys;
@@ -188,13 +209,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
         }
 
+        print( "source: $uri<br>" );
         include_once( 'kernel/common/ezoverride.php' );
         $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
+
+
+        */
         if ( $match === null )
             return false;
 
         $file = $match["file"];
 
+        $matchedKeys = array();
+        // TODO add used keys
         $usedKeys = array();
         foreach ( $matchKeys as $matchKeyName => $matchKeyValue )
         {
@@ -209,28 +236,191 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         return $result;
     }
 
-//     function cacheKey( $uri, $res, $templatePath, &$extraParameters )
-//     {
-//         $matches = $this->fileMatchingRules( 'templates', $templatePath );
+    /*!
+     Generates the cache for the template override matching.
+    */
+    function createOverrideCache()
+    {
+        $overrideCacheFile = false;
 
-//         $matchKeys = $this->Keys;
-//         $matchedKeys = array();
+        $onlyStandard = $this->OnlyStandard;
 
-//         if ( is_array( $extraParameters ) and
-//              isset( $extraParameters['ezdesign:keys'] ) )
-//         {
-//             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
-//         }
+        $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
+        if ( !$onlyStandard )
+            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
-//         include_once( 'kernel/common/ezoverride.php' );
-//         $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
-//         if ( $match === null )
-//             return false;
+        $overrideKey = md5( $siteBase . $standardBase );
+        $overrideCacheFile = "var/cache/override/override_$overrideKey.php";
+        // Build matching cache only of it does not already exists,
+        // or override file has been updated
+        if ( !file_exists( $overrideCacheFile ) )
+        {
+            $matchFileArray =& eZTemplateDesignResource::overrideArray();
 
-//         $file = $match["file"];
-//         $key = md5( $file );
-//         return $key;
-//     }
+            // Generate PHP compiled cache file.
+            include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+            $phpCache = new eZPHPCreator( "var/cache/override/", "override_$overrideKey.php" );
+
+            $phpCode = "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
+            $i = 0;
+            foreach ( array_keys( $matchFileArray ) as $matchKey )
+            {
+                if ( $i > 0 )
+                    $phpCode .= "    else ";
+
+                if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
+                {
+                    // Custom override matching
+                    $phpCode .= "if ( \$matchFile == \"$matchKey\" )\n    {\n";
+
+                    foreach ( $matchFileArray[$matchKey]['custom_match'] as $customMatch )
+                    {
+                        $matchCondition = "";
+                        $condCount = 0;
+                        foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
+                        {
+                            if ( $condCount > 0 )
+                                $matchCondition .= " and ";
+                            $matchCondition .= "\$matchKeys['$conditionKey'] == '" . $customMatch['conditions'][$conditionKey] . "'";
+
+                            $condCount++;
+                        }
+
+                        // Only create custom match if conditions are defined
+                        if ( $matchCondition != "" )
+                        {
+                            $phpCode .= "        if ( $matchCondition )\n        {\n";
+                            $phpCode .= "            return '" .
+                                 $customMatch['match_file'] . "';\n        }\n";
+                        }
+                    }
+
+
+                    $phpCode .= "        return '" .
+                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';\n    }\n";
+                }
+                else
+                {
+                    // Plain matching without custom override
+                    $phpCode .= "if ( \$matchFile == \"$matchKey\" )\n        return '" .
+                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';\n";
+                }
+
+                $i++;
+            }
+            $phpCode .= "}\n";
+
+            $phpCache->addCodePiece( $phpCode );
+            $phpCache->store();
+        }
+
+        return $overrideCacheFile;
+    }
+
+    /*!
+     \static
+     \return an array of all the current templates and overrides for them.
+             The current siteaccess is used if none is specified.
+    */
+    function &overrideArray( $siteAccess = false )
+    {
+        $onlyStandard = $this->OnlyStandard;
+
+        // fetch the override array from a specific siteacces
+        if ( $siteAccess )
+        {
+            // Get the design resources
+            $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
+            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            $ini->loadCache();
+
+            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+            $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            $overrideINI->loadCache();
+        }
+        else
+        {
+            $ini =& eZINI::instance();
+            $overrideINI =& eZINI::instance( 'override.ini' );
+        }
+
+
+        $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
+        if ( !$onlyStandard )
+            $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
+
+        // Generate match cache for all templates
+        include_once( "lib/ezutils/classes/ezdir.php" );
+
+        // Build arrays of available files, start with base design and end with most prefered design
+        $matchFilesArray = array();
+
+        // For each override dir overwrite current default file
+        // TODO: fetch all resource repositories
+        $resourceArray[] = "design/$standardBase/templates";
+        $resourceArray[] = "design/$siteBase/override/templates";
+        $resourceArray[] = "design/$siteBase/templates";
+
+        foreach ( $resourceArray as $resource )
+        {
+            $sourceFileArray =& eZDir::recursiveFindRelative( $resource, "",  "tpl" );
+            foreach ( array_keys( $sourceFileArray ) as $sourceKey )
+            {
+                $matchFileArray[$sourceFileArray[$sourceKey]]['base_dir'] = $resource;
+                $matchFileArray[$sourceFileArray[$sourceKey]]['template'] = $sourceFileArray[$sourceKey];
+            }
+        }
+
+        // Load complex/custom override templates
+        $overrideSettingGroupArray =& $overrideINI->groups();
+
+        foreach ( array_keys( $overrideSettingGroupArray ) as $overrideSettingKey )
+        {
+            $overrideSource = "/" . $overrideSettingGroupArray[$overrideSettingKey]['Source'];
+
+            $overrideMatchConditionArray =& $overrideSettingGroupArray[$overrideSettingKey]['Match'];
+            $overrideMatchFile =& $overrideSettingGroupArray[$overrideSettingKey]['MatchFile'];
+
+            $overrideMatchFilePath = false;
+            // Find the matching file in the available resources
+            foreach ( $resourceArray as $resource )
+            {
+                if ( file_exists( $resource . "/" . $overrideMatchFile ) )
+                {
+                    $overrideMatchFilePath = $resource . "/" . $overrideMatchFile;
+                }
+            }
+
+            // Only create override if match file exists
+            if ( $overrideMatchFilePath )
+            {
+                $customMatchArray = array();
+                $customMatchArray['conditions'] = $overrideMatchConditionArray;
+                $customMatchArray['match_file'] = $overrideMatchFilePath;
+                $matchFileArray[$overrideSource]['custom_match'][] = $customMatchArray;
+
+            }
+            else
+            {
+                eZDebug::writeError( "Custom match file: $overrideMatchFilePath not found in any resource. Check template settings in settings/override.ini", "Template override settings" );
+            }
+
+        }
+
+/*            foreach ( array_keys( $matchFileArray ) as $matchKey )
+            {
+                print( "$matchKey  => " . $matchFileArray[$matchKey]['base_dir'] . "<br>" );
+                if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
+                {
+                    foreach ( $matchFileArray[$matchKey]['custom_match'] as $customMatch )
+                    {
+                        print_r( $customMatch );
+                    }
+                }
+            }
+*/
+        return $matchFileArray;
+    }
 
     /*!
      Sets the override keys to \a $keys, if some of the keys already exists they are overriden
