@@ -633,6 +633,9 @@ Workflow:
 - Fixed bug: fatal error occurs when null $nodeID is passed to subTreeCount().
   (Merged from stable/3.4 rev. 8403)
   http://ez.no/community/bug_reports/fatal_error_ezcontentobjecttreenode_subtreecount
+- Fixed bug: fatal error when using versionview.
+  (Merged from stable/3.4 rev. 8407)
+  http://ez.no/community/bug_reports/crash_when_using_versionview
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

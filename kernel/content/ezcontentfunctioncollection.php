@@ -202,8 +202,14 @@ class eZContentFunctionCollection
             $treeParameters['Depth'] = $depth;
             $treeParameters['DepthOperator'] = $depthOperator;
         }
-        $children =& eZContentObjectTreeNode::subTree( $treeParameters,
-                                                       $parentNodeID );
+
+        $children = null;
+        if ( is_numeric( $parentNodeID ) )
+        {
+            $children =& eZContentObjectTreeNode::subTree( $treeParameters,
+                                                           $parentNodeID );
+        }
+
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -223,14 +229,21 @@ class eZContentFunctionCollection
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         } */
-        $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => null,
-                                                                        'ClassFilterType' => $class_filter_type,
-                                                                        'ClassFilterArray' => $class_filter_array,
-                                                                        'AttributeFilter' => $attributeFilter,
-                                                                        'DepthOperator' => $depthOperator,
-                                                                        'Depth' => $depth,
-                                                                        'MainNodeOnly' => $mainNodeOnly ),
-                                                                 $parentNodeID );
+
+        $childrenCount = null;
+
+        if ( is_numeric( $parentNodeID ) )
+        {
+            $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => null,
+                                                                            'ClassFilterType' => $class_filter_type,
+                                                                            'ClassFilterArray' => $class_filter_array,
+                                                                            'AttributeFilter' => $attributeFilter,
+                                                                            'DepthOperator' => $depthOperator,
+                                                                            'Depth' => $depth,
+                                                                            'MainNodeOnly' => $mainNodeOnly ),
+                                                                     $parentNodeID );
+        }
+
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
