@@ -19,7 +19,7 @@
      <select name="Contentclasses[]" size="5" multiple >
      <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >Any</option>
      {section name=Classes loop=$product_class_list}
-     <option value="{$Classes:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case}{/case}{/switch}>{$Classes:item.name}</option>
+     <option value="{$Classes:item.id}" {switch match=$Classes:item.id}{case in=$class_limitation_list} selected="selected"{/case}{case}{/case}{/switch}>{$Classes:item.name}</option>
      {/section}
      </select>
 </div>

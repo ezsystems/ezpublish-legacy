@@ -197,12 +197,12 @@ $tpl->setVariable( "stored_section_id", $storedSectionID );
 $tpl->setVariable( "stored_class_id", $storedClassID );
 
 $sectionLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRule->attribute( 'id' ), 1, false );
-$sectionList = array();
+$sectionIDList = array();
 foreach ( $sectionLimitationList as $limitation )
 {
-    $sectionList[] = $limitation['value'];
+    $sectionIDList[] = $limitation['value'];
 }
-$tpl->setVariable( "section_limitation_list", $sectionList );
+$tpl->setVariable( "section_limitation_list", $sectionIDList );
 if ( count( $sectionList ) > 0 )
     $tpl->setVariable( "section_any_selected", false );
 else
@@ -210,13 +210,18 @@ else
 
 
 $classLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRule->attribute( 'id' ), 0, false );
-$classList = array();
+$classIDList = array();
 foreach ( $classLimitationList as $limitation )
 {
-    $classList[] = $limitation['value'];
+    $classIDList[] = $limitation['value'];
 }
-$tpl->setVariable( "class_limitation_list", $classLimitationList );
-if ( count( $classList ) > 0 )
+$tpl->setVariable( "class_limitation_list", $classIDList );
+/*if ( count( $classList ) > 0 )
+    $tpl->setVariable( "class_any_selected", false );
+else
+    $tpl->setVariable( "class_any_selected", true );*/
+
+if ( count( $productClassList ) > 0 )
     $tpl->setVariable( "class_any_selected", false );
 else
     $tpl->setVariable( "class_any_selected", true );
