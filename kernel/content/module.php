@@ -283,6 +283,13 @@ $ViewList['tipafriend'] = array(
     'script' => 'tipafriend.php',
     'params' => array( 'NodeID' ) );
 
+$ViewList["keyword"] = array(
+    "functions" => array( 'read' ),
+    "default_navigation_part" => 'ezcontentnavigationpart',
+    "script" => "keyword.php",
+    "params" => array( "alphabet"=>"Alphabet" ),
+    "unordered_params" => array( "offset" => "Offset", "classid" => "ClassID" ) );
+
 $ViewList['collectedinfo'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',

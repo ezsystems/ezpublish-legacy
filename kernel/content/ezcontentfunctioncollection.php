@@ -509,6 +509,260 @@ class eZContentFunctionCollection
         $objectCount = eZContentObject::fetchObjectCountByUserID( $classID, $userID );
         return array( 'result' => $objectCount );
     }
+
+    function fetchKeywordCount( $alphabet, $classid )
+    {
+        $limitationList = array();
+        $sqlPermissionCheckingString = "";
+        $currentUser =& eZUser::currentUser();
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
+        if ( $accessResult['accessWord'] == 'limited' )
+        {
+            foreach ( array_keys( $accessResult['policies'] ) as $key )
+            {
+                $policy =& $accessResult['policies'][$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+            }
+        }
+
+        if ( count( $limitationList ) > 0 )
+        {
+            $sqlParts = array();
+            foreach( $limitationList as $limitationArray )
+            {
+                $sqlPartPart = array();
+                $hasNodeLimitation = false;
+                foreach ( $limitationArray as $limitation )
+                {
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
+                    {
+                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        $hasNodeLimitation = true;
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                    {
+                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        $sqlPartPartPart = array();
+                        foreach ( $pathArray as $limitationPathString )
+                        {
+                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                        }
+                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                    }
+                }
+                if ( $hasNodeLimitation )
+                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
+                else
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+            }
+            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+        }
+
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        if ( $classid != null )
+        {
+            $keyWords =& $db->arrayQuery( "SELECT count(*) AS count
+                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
+                                           $sqlPermissionCheckingString
+                                           AND ezkeyword.class_id='$classid'
+                                           AND ezcontentclass.version=0
+                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
+                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id" );
+        }
+        else
+        {
+            $keyWords =& $db->arrayQuery( "SELECT count(*) AS count
+                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
+                                           $sqlPermissionCheckingString
+                                           AND ezcontentclass.version=0
+                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
+                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id" );
+        }
+        return array( 'result' => $keyWords[0]['count'] );
+    }
+
+    function fetchKeyword( $alphabet, $classid, $offset, $limit )
+    {
+        $limitationList = array();
+        $sqlPermissionCheckingString = "";
+        $currentUser =& eZUser::currentUser();
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
+        if ( $accessResult['accessWord'] == 'limited' )
+        {
+            foreach ( array_keys( $accessResult['policies'] ) as $key )
+            {
+                $policy =& $accessResult['policies'][$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+            }
+        }
+
+        if ( count( $limitationList ) > 0 )
+        {
+            $sqlParts = array();
+            foreach( $limitationList as $limitationArray )
+            {
+                $sqlPartPart = array();
+                $hasNodeLimitation = false;
+                foreach ( $limitationArray as $limitation )
+                {
+                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
+                    {
+                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
+                    {
+                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
+                        $hasNodeLimitation = true;
+                    }
+                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                    {
+                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
+                        $sqlPartPartPart = array();
+                        foreach ( $pathArray as $limitationPathString )
+                        {
+                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                        }
+                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                    }
+                }
+                if ( $hasNodeLimitation )
+                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
+                else
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+            }
+            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+        }
+
+        $db_params = array();
+        $db_params["offset"] = $offset;
+        $db_params["limit"] = $limit;
+
+        $keywordNodeArray = array();
+        $lastKeyword = "";
+
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        if ( $classid != null )
+        {
+            $keyWords =& $db->arrayQuery( "SELECT DISTINCT ezkeyword.keyword,ezcontentobject_tree.node_id
+                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
+                                           $sqlPermissionCheckingString
+                                           AND ezkeyword.class_id='$classid'
+                                           AND ezcontentclass.version=0
+                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
+                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC",
+                                           $db_params );
+        }
+        else
+        {
+            $keyWords =& $db->arrayQuery( "SELECT DISTINCT ezkeyword.keyword,ezcontentobject_tree.node_id
+                                           FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                                           WHERE ezkeyword.keyword LIKE '$alphabet%'
+                                           $sqlPermissionCheckingString
+                                           AND ezcontentclass.version=0
+                                           AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                                           AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                                           AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                           AND ezcontentclass.id = ezcontentobject.contentclass_id
+                                           AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                                           AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY ezkeyword.keyword ASC",
+                                           $db_params );
+        }
+
+        foreach ( array_keys( $keyWords ) as $key )
+        {
+            $keywordArray =& $keyWords[$key];
+            $keyword = $keywordArray['keyword'];
+            $nodeID = $keywordArray['node_id'];
+
+            $nodeObject =& eZContentObjectTreeNode::fetch( $nodeID );
+
+            if ( $nodeObject != null )
+            {
+                if ( strtolower($lastKeyword) == strtolower($keyword) )
+                    $keywordNodeArray[] = array( 'keyword' => "", 'link_object' => $nodeObject );
+                else
+                    $keywordNodeArray[] = array( 'keyword' => $keyword, 'link_object' => $nodeObject );
+
+            }
+            $lastKeyword = $keyword;
+        }
+        return array( 'result' => $keywordNodeArray );
+    }
+
+    function fetchSameClassAttributeNodeList( $contentclassattributeID, $value, $datatype )
+    {
+        if ( $datatype == "int" )
+             $type = "data_int";
+        else if ( $datatype == "float" )
+             $type = "data_float";
+        else if ( $datatype == "text" )
+             $type = "data_text";
+        else
+        {
+            eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
+            return false;
+        }
+        include_once( 'lib/ezdb/ezdb.php' );
+        $db =& eZDB::instance();
+        $resultNodeArray = array();
+        $nodeList =& $db->arrayQuery( "SELECT ezcontentobject_tree.node_id, ezcontentobject.name, ezcontentobject_tree.parent_node_id
+                                            FROM ezcontentobject_tree, ezcontentobject, ezcontentobject_attribute
+                                           WHERE ezcontentobject_attribute.$type='$value'
+                                             AND ezcontentobject_attribute.contentclassattribute_id='$contentclassattributeID'
+                                             AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                                             AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                                             AND ezcontentobject_tree.contentobject_version=ezcontentobject.current_version
+                                             AND ezcontentobject_tree.contentobject_id=ezcontentobject.id
+                                        ORDER BY ezcontentobject.name");
+
+        foreach ( array_keys( $nodeList ) as $key )
+        {
+            $nodeObject =& $nodeList[$key];
+            $nodeID = $nodeObject['node_id'];
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            $resultNodeArray[] = $node;
+        }
+        return array( 'result' => $resultNodeArray );
+    }
 }
 
 ?>
