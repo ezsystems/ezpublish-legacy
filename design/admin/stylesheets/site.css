@@ -310,6 +310,7 @@ div.viewbar input.menubutton
 
 div.controlbar
 {
+    margin-top: 1em;    
 }
 
 div.controlbar div.createblock
@@ -332,6 +333,11 @@ div.pagenavigator span.next
 {
     display: block;
     float: right;
+}
+
+div.pagenavigator span.disabled
+{
+    color: #c0c0c0;
 }
 
 div#footer

@@ -17,7 +17,15 @@
             {section-else}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permissions to mark this item for removal.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
         {/section}
-        <a href={$Nodes.url_alias|ezurl}>{$Nodes.name|wash}</a>
+
+        {* Edit button *}
+        {section show=$Nodes.item.object.can_edit}
+            <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout')}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/layout',, hash( '%quoted_child', $quoted_child ) )}" /></a>
+        {section-else}
+            <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout' )}" title="{'You do not have permissions to edit %quoted_child.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
+        {/section}
+
+        <p><a href={$Nodes.url_alias|ezurl}>{$Nodes.name|wash}</a></p>
         {* Priority *}
 {*        {section show=eq( $node.sort_array[0][0], 'priority' )}
 
@@ -30,12 +38,6 @@
 
         {/section}
 *}
-        {* Edit button *}
-        {section show=$Nodes.item.object.can_edit}
-            <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout')}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/layout',, hash( '%quoted_child', $quoted_child ) )}" /></a>
-        {section-else}
-            <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout' )}" title="{'You do not have permissions to edit %quoted_child.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
-        {/section}
         </div>
 {/let}
 </td>

@@ -38,7 +38,7 @@
       <span class="previous"><a href={concat($page_uri,$:item_previous|gt(0)|choose('',concat($:offset_text,$:item_previous)),$:view_parameter_text,$page_uri_suffix)|ezurl}><span class="text">&laquo;&nbsp;{"Previous"|i18n("design/standard/navigator")}</span></a></span>
        {/case}
        {case}
-      <span class="previous"><span class="text">&laquo;&nbsp;{"Previous"|i18n("design/standard/navigator")}</span></span>
+      <span class="previous"><span class="text disabled">&laquo;&nbsp;{"Previous"|i18n("design/standard/navigator")}</span></span>
        {/case}
      {/switch}
 
@@ -47,7 +47,7 @@
         <span class="next"><a href={concat($page_uri,$:offset_text,$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}><span class="text">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></a></span>
       {/case}
       {case}
-        <span class="next"><span class="text">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></span>
+        <span class="next"><span class="text disabled">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></span>
       {/case}
     {/switch}
 
