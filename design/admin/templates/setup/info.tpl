@@ -11,7 +11,7 @@
 
 <div class="context-attributes">
 
-    <h2>eZ publish</h2>
+    <h2>{'eZ publish'|i18n( 'design/admin/setup/info' )}</h2>
 
     <div class="block">
         <label>{'Site'|i18n( 'design/admin/setup/info' )}</label>
@@ -34,7 +34,7 @@
     </div>
 
 
-    <h2>PHP</h2>
+    <h2>{'PHP'|i18n( 'design/admin/setup/info' )}</h2>
     <div class="block">
         <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP version' )}</label>
         {$php_version}
@@ -72,49 +72,8 @@
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
 
-    <h2>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</h2>
 
-    {section show=$webserver_info}
-
-    <div class="block">
-        <label>{'Name'|i18n( 'design/admin/setup/info', 'Webserver name')}</label>
-        {$webserver_info.name}
-    </div>
-
-    <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'Webserver version')}</label>
-        {$webserver_info.version}
-    </div>
-
-    <div class="block">
-    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Webserver modules')}</label>
-    {section show=$webserver_info.modules}
-        {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
-    {section-else}
-        {'Webserver modules could not be detected'|i18n( 'design/admin/setup/info', 'Webserver modules')}
-    {/section}
-    </div>
-
-    {section-else}
-        {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
-    {/section}
-
-
-
-    <h2>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</h2>
-
-    <div class="block">
-        <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
-        {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
-    </div>
-
-    <div class="block">
-        <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
-        {$system_info.memory_size|si( byte )}
-    </div>
-
-
-<h2>PHP Accelerator</h2>
+<h2>{'PHP Accelerator'|i18n( 'design/admin/setup/info' )}</h2>
 
 {section show=$php_accelerator}
 
@@ -142,8 +101,48 @@
 </div>
 
 {section-else}
-    {'There is no known PHP accelerator active.'|i18n( 'design/admin/setup/info' )}
+    {'A known and active PHP accelerator could not be found.'|i18n( 'design/admin/setup/info' )}
 {/section}
+
+
+    <h2>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</h2>
+
+    {section show=$webserver_info}
+
+    <div class="block">
+        <label>{'Name'|i18n( 'design/admin/setup/info', 'Webserver name')}</label>
+        {$webserver_info.name}
+    </div>
+
+    <div class="block">
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'Webserver version')}</label>
+        {$webserver_info.version}
+    </div>
+
+    <div class="block">
+    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Webserver modules')}</label>
+    {section show=$webserver_info.modules}
+        {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
+    {section-else}
+        {'The modules of the webserver could not be detected.'|i18n( 'design/admin/setup/info', 'Webserver modules')}
+    {/section}
+    </div>
+
+    {section-else}
+        {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
+    {/section}
+
+    <h2>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</h2>
+
+    <div class="block">
+        <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
+        {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
+    </div>
+
+    <div class="block">
+        <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
+        {$system_info.memory_size|si( byte )}
+    </div>
 
 
 <h2>{'Database'|i18n( 'design/admin/setup/info' )}</h2>
