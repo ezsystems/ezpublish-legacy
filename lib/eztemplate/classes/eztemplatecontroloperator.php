@@ -167,6 +167,7 @@ class eZTemplateControlOperator
                 $code = '';
                 $spacing = 0;
                 $spacingCode = '';
+                $nestCount = 0;
                 for( $i = 0; $i < count( $parameters ); ++$i )
                 {
                     if ( $i != 0 )
@@ -181,6 +182,7 @@ class eZTemplateControlOperator
                         $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
+                    ++$nestCount;
 
                     $values[] = $parameters[$i];
                     $code .= ( $spacingCode . "%code" . count( $values ) . "%\n" .
@@ -188,10 +190,9 @@ class eZTemplateControlOperator
                                $spacingCode . "{\n" .
                                $spacingCode . "    %output% = %" . count( $values ) . '%;' . "\n" );
                 }
-                $count = count( $parameters );
-                for ( $i = 1; $i < $count; ++$i )
+                for ( $i = 0; $i < $nestCount; ++$i )
                 {
-                    $spacing = $count - $i - 1;
+                    $spacing = $nestCount - $i - 1;
                     $spacingCode = str_repeat( ' ', $spacing*4 );
                     $code .= $spacingCode . "}\n";
                 }

@@ -3,5 +3,6 @@ first_set( $arr[2], false() )='{first_set( $arr[2], false() )}'
 first_set( $arr[10], false() )='{first_set( $arr[10], false() )}'
 first_set( $hash2[2], $hash1[2], false() )='{first_set( $hash2[2], $hash1[2], false() )}'
 first_set( $hash2[3], $hash1[3], false() )='{first_set( $hash2[3], $hash1[3], false() )}'
+first_set( $hash2[3], $hash1[3] )='{first_set( $hash2[3], $hash1[3] )}'
 first_set( $arr[6], $hash1[6], $hash2[6], false() )='{first_set( $arr[6], $hash1[6], $hash2[6], false() )}'
 {/let}
