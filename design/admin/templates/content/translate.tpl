@@ -61,30 +61,30 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-<form enctype="multipart/form-data" name="translationsform" method="post" action={concat( '/content/translate/', $object.id, '/', $edit_version )|ezurl}>
-
-{* Validation feedback *}
-{section show=$validation.processed}
-{section show=$validation.attributes}
-<div class="message-warning">
-<h2>{'The translation of <%object_name> could not be stored because of invalid or missing input:'|i18n( 'design/admin/content/translate',, hash( '%object_name', $object.name ) )|wash}</h2>
-<ul>
-{section var=UnvalidatedAttributes loop=$validation.attributes}
-<li>{$UnvalidatedAttributes.item.name|wash}: {$UnvalidatedAttributes.item.description}</li>
-{/section}
-</ul>
-</div>
-{section-else}
-<div class="message-feedback">
-<h2>{'The translated version of <%object_name> was successfully stored.'|i18n( 'design/admin/content/translate',, hash( '%object_name', $object.name ) )|wash}</h2>
-</div>
-{/section}
-{/section}
-
+<form name="translationsform" method="post" action={concat( '/content/translate/', $object.id, '/', $edit_version )|ezurl} enctype="multipart/form-data">
 
 {* Removal confirmation *}
 {section show=$is_remove_active}
-<p>{'Are you sure that you want to remove the following translations for <%object_name>?'|i18n( 'design/admin/content/translate',, hash( '%object_name', $object.name ) )|wash}</p>
+
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Remove translation'|i18n( 'design/admin/content/translate' )|wash}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="message-confirmation">
+
+<h2>{'Are you sure that you want to remove the translation(s)?'|i18n( 'design/admin/content/translate' )}</h2>
+
+<p>{'The following translations (along with translated content) will be removed from the draft:'|i18n( 'design/admin/content/translate' )}</p>
+
 <ul>
 {section var=Languages loop=$remove_language_list}
 <li>
@@ -98,9 +98,22 @@
 {/section}
 </ul>
 
+</div>
+
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+<div class="block">
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
-<input class="button" type="submit" name="RemoveLanguageConfirmationButton" value="{'OK'|i18n( 'design/admin/content/translate' )}" />
-<input class="button" type="submit" name="RemoveLanguageCancelButton" value="{'Cancel'|i18n( 'design/admin/content/translate' )}" />
+<input class="button" type="submit" name="RemoveLanguageConfirmationButton" value="{'Yes'|i18n( 'design/admin/content/translate' )}" />
+<input class="button" type="submit" name="RemoveLanguageCancelButton" value="{'No'|i18n( 'design/admin/content/translate' )}" />
+</div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
+
+</div>
+
 
 {section-else}
 
@@ -134,8 +147,6 @@
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.translationsform, 'RemoveLanguageArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/translate' )}" /></th>
     <th>{'Language'|i18n( 'design/admin/content/translate' )}</th>
     <th>{'Locale'|i18n( 'design/admin/content/translate' )}</th>
-    <th class="tight">&nbsp;</th>
-    <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Translations loop=$translation_list sequence=array( bglight, bgdark )}
@@ -152,17 +163,6 @@
     {/section}
     </td>
     <td>{$Translations.item.language_code}</td>
-
-    <td>
-    {section show=ne( $Translations.item.language_code, $object.default_language )}
-        <input class="button" type="submit" name="TranslateArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="{'Translate'|i18n( 'design/admin/content/translate' )}" />
-    {section-else}
-        <input class="button-disabled" type="submit" name="" value="{'Translate'|i18n( 'design/admin/content/translate' )}" disabled="disabled" />
-    {/section}
-    </td>
-
-    <td><input class="button" type="submit" name="EditArray[{$content_version.contentobject.id}][{$content_version.version}][{$Translations.item.language_code}]" value="{'Edit'|i18n( 'design/admin/content/translate' )}" /></td>
-
 </tr>
 {/section}
 </table>
@@ -203,80 +203,8 @@
 
 {/let}
 
-
-
-
-{* ---------------------- Side-by-side translation ------------------------ *}
-
-{section show=$translation_language}
-
-<div class="content-translation">
-<div class="context-block">
-
-<input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Translating %source_language content into %destination_language'|i18n( 'design/admin/content/translate',, hash( '%source_language', $original_locale.intl_language_name, '%destination_language', $translation_locale.intl_language_name ) )|wash}</h2>
-
-{* DESIGN: Subline *}<div class="header-subline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
-<div class="context-attributes">
-
-{section name=ContentAttribute loop=$content_attributes}
-{section-exclude match=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id].contentclass_attribute.data_type.properties.translation_allowed|not}
-
-<div class="block">
-
-<label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label>
-
-<div class="original">
-{attribute_view_gui attribute=$ContentAttribute:item}
-</div>
-
-<div class="translation">
-{let translation=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id]}
-    {section show=$ContentAttribute:translation}
-        {section show=and(eq($ContentAttribute:translation.contentclass_attribute.can_translate,0),
-                          ne($object.default_language,$ContentAttribute:translation.language_code) ) }
-           {attribute_view_gui attribute=$ContentAttribute:translation}
-        {section-else}
-           {attribute_edit_gui attribute=$ContentAttribute:translation}
-        {/section}
-    {/section}
-{/let}
-</div>
-
-</div>
-
 {/section}
 
-</div>
-
-{* DESIGN: Content END *}</div></div></div>
-
-<div class="controlbar">
-
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-
-<div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/admin/content/translate' )}" />
-<input class="button" type="submit" name="EditArray[{$object.id}][{$edit_version}][{$translation_locale.locale_code}]" value="{'Go to edit mode'|i18n( 'design/admin/content/translate' )}" />
-</div>
-
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
-
-</div>
-{/section}
-
-{/section}
-
-
-</div>
-</div>
 </form>
 
 <!-- Maincontent END -->
