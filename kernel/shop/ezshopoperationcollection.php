@@ -69,6 +69,61 @@ class eZShopOperationCollection
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 
+    function sendOrderEmails( $orderID )
+    {
+        eZDebug::writeDebug( $orderID,  'ddddd email' );
+        include_once( "kernel/classes/ezbasket.php" );
+        include_once( 'kernel/classes/ezorder.php' );
+        $order =& eZOrder::fetch( $orderID );
+
+        // Fetch the shop account handler
+        include_once( 'kernel/classes/ezshopaccounthandler.php' );
+        $accountHandler =& eZShopAccountHandler::instance();
+        $email = $accountHandler->email( $order );
+        eZDebug::writeDebug( $email,  'email' );
+
+        include_once( "kernel/common/template.php" );
+        $tpl =& templateInit();
+        $tpl->setVariable( 'order', $order );
+//        $tpl->setVariable( 'object', $object );
+        $templateResult =& $tpl->fetch( 'design:shop/orderemail.tpl' );
+
+        $subject = "Order number " . $order->attribute( 'id' );
+        $receiver = $email;
+
+        include_once( 'lib/ezutils/classes/ezmail.php' );
+        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+        $ini =& eZINI::instance();
+        $mail = new eZMail();
+
+        if ( !$mail->validate( $receiver ) )
+        {
+        }
+
+        $mail->setReceiver( $email );
+        $mail->setSubject( 'order' );
+        $mail->setBody( $templateResult );
+        $mailResult = eZMailTransport::send( $mail );
+
+
+        $email = $ini->variable( 'MailSettings', 'AdminEmail' );
+        eZDebug::writeDebug( $email,  'email' );
+
+        $mail = new eZMail();
+
+        if ( !$mail->validate( $receiver ) )
+        {
+        }
+
+        $mail->setReceiver( $email );
+        $mail->setSubject( 'order' );
+        $mail->setBody( $templateResult );
+        $mailResult = eZMailTransport::send( $mail );
+
+        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+    }
+
+
 }
 
 ?>

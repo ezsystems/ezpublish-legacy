@@ -3,7 +3,7 @@
 </div>
 
 <b>{"Customer:"|i18n("design/standard/shop")}</b> 
-{shop_account_view_gui order=$order}
+{shop_account_view_gui view=html order=$order}
 
 <br />
 

@@ -3,7 +3,7 @@
 <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
 
 <b>{"Customer:"|i18n("design/standard/shop")}</b> 
-{shop_account_view_gui order=$order}
+{shop_account_view_gui view=html order=$order}
 
 <b>{"Product items"|i18n("design/standard/shop")}</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">

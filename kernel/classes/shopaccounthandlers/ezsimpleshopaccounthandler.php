@@ -65,6 +65,16 @@ class eZSimpleShopAccountHandler
     /*!
      \return the account information for the given order
     */
+    function email( $order )
+    {
+        $xml = new eZXML();
+        $xmlDoc =& $order->attribute( 'data_text_1' );
+        $dom =& $xml->domTree( $xmlDoc );
+        $email =& $dom->elementsByName( "email" );
+
+        return $email[0]->textContent();
+    }
+
     function accountInformation( $order )
     {
         $xml = new eZXML();

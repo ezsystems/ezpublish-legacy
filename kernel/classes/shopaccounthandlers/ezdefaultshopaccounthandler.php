@@ -65,7 +65,12 @@ class eZDefaultShopAccountHandler
     /*!
      Redirectes to the user registration page.
     */
-    function fetchAccountInformation( $module )
+    function email( $order = false )
+    {
+        $user =& eZUser::currentUser();
+        return $user->attribute( 'email' );
+    }
+    function fetchAccountInformation( &$module )
     {
         eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
         eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
