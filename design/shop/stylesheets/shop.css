@@ -295,10 +295,13 @@ div#maincontent
 {
     background-color: #ffffff;
     margin: 0 9em 0 153px;
+    height: 1%;
 }
 
 div#maincontent div.design
 {
+    display: table;
+    height: 1%;
     margin: 0;
     padding: 0 1.5em 1em 1.5em;
     border-right: 2px dotted #cdcdcd;
