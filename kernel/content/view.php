@@ -51,6 +51,11 @@ $Module =& $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 
+if ( trim( $LanguageCode ) != '' )
+{
+    eZContentObject::setDefaultLanguage( $LanguageCode );
+}
+
 if ( $NodeID < 2 )
     $NodeID = 2;
 

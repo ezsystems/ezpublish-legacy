@@ -8,6 +8,8 @@ Changes from 3.2-4 to 3.2-5
 - Fixed keyword bug when discarding drafts. http://ez.no/developer/ez_publish_3/bug_reports/keywords_cannot_be_edited__1
 - Fixed mysql server and client version information. http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class
 - Fixed showing class in tabletes when using xml and table, th and td elements. http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
+- Fixed fetching objects using attribute_filter when fetching objects with multiple translations. 
+  http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
 
 *Setup:
 

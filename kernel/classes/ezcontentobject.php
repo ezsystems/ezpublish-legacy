@@ -61,7 +61,6 @@ define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
 define( "EZ_CONTENT_OBJECT_STATUS_PUBLISHED", 1 );
 define( "EZ_CONTENT_OBJECT_STATUS_ARCHIVED", 2 );
 
-
 class eZContentObject extends eZPersistentObject
 {
     function eZContentObject( $row )
@@ -509,12 +508,6 @@ class eZContentObject extends eZPersistentObject
                 $versionNameTables = ', ezcontentobject_name ';
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-                $ini =& eZINI::instance();
-                if ( $language == false )
-                {
-                    $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-                }
-
                 $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject.current_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$language' ";
@@ -576,12 +569,6 @@ class eZContentObject extends eZPersistentObject
         {
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $ini =& eZINI::instance();
-            if ( $language == false )
-            {
-                $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-            }
 
             $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject.current_version = ezcontentobject_name.content_version and
@@ -1586,12 +1573,6 @@ class eZContentObject extends eZPersistentObject
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $ini =& eZINI::instance();
-            if ( $language == false )
-            {
-                $language = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-            }
-
             $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject.current_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$language' ";
@@ -2224,9 +2205,28 @@ class eZContentObject extends eZPersistentObject
 
     function defaultLanguage()
     {
-        $ini =& eZINI::instance();
-        return $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-//         return eZLocale::currentLocaleCode();
+        if ( ! isset( $GLOBALS['eZContentObjectDefaultLanguage'] ) )
+        {
+            $ini =& eZINI::instance();
+            $GLOBALS['eZContentObjectDefaultLanguage'] = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+        }
+
+        return $GLOBALS['eZContentObjectDefaultLanguage'];
+    }
+
+    /*!
+     \static
+     Set default language. Checks if default language is valid.
+
+     \param default language.
+    */
+    function setDefaultLanguage( $lang )
+    {
+        include_once( 'kernel/classes/ezcontenttranslation.php' );
+        if ( in_array( $lang, eZContentTranslation::fetchLocaleList() ) )
+        {
+            $GLOBALS['eZContentObjectDefaultLanguage'] = $lang;
+        }
     }
 
     /*!
