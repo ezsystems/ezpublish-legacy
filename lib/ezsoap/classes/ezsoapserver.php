@@ -117,7 +117,7 @@ class eZSOAPServer
     {
         if ( file_exists( $includeFile ) )
             include_once( $includeFile );
-        
+
         if ( class_exists( $objectName ) )
         {
             $methods = get_class_methods( $objectName );
@@ -173,17 +173,16 @@ class eZSOAPServer
             {
                 $params[] =& eZSOAPResponse::decodeDataTypes( $parameterNode );
             }
-            
+
             list( $objectName, $objectFunctionName ) = preg_split('/::/', $functionName, 2, PREG_SPLIT_NO_EMPTY);
-        
             if ( !$objectFunctionName and in_array( $functionName, $this->FunctionList ) &&
                  function_exists( $functionName ) )
             {
                 $this->showResponse( $functionName, $namespaceURI,
                                      call_user_func_array( $functionName, $params ) );
             }
-            elseif ( $objectName and $objectFunctionName )
-            {    
+            else if ( $objectName and $objectFunctionName )
+            {
                 if ( !class_exists( $objectName ) )
                 {
                     $this->showResponse( $functionName, $namespaceURI,
