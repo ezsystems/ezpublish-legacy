@@ -228,7 +228,7 @@ else
 	pg_dump --no-owner --inserts $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
     fi
     if [ -n $SETVALFILE ]; then
-	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
+	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
     fi
     perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
