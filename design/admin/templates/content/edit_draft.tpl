@@ -43,28 +43,30 @@
     {/section}
 {/section}
 
-<h2>{'Current drafts'|i18n('design/standard/content/edit')}</h2>
+<div class="context-block">
+
+<h2 class="context-title">{'Current drafts'|i18n('design/standard/content/edit')}</h2>
 
 <table class="list" cellspacing="0">
 <tr>
     {section show=$has_own_drafts}
-        <th>
+        <th class="tight">
             &nbsp;
         </th>
     {/section}
-    <th>
+    <th class="tight">
         {'Version'|i18n('design/standard/content/edit')}
     </th>
-    <th>
+    <th class="wide">
         {'Name'|i18n('design/standard/content/edit')}
     </th>
-    <th>
+    <th class="tight">
         {'Owner'|i18n('design/standard/content/edit')}
     </th>
-    <th>
+    <th class="tight">
         {'Created'|i18n('design/standard/content/edit')}
     </th>
-    <th>
+    <th class="tight">
         {'Last modified'|i18n('design/standard/content/edit')}
     </th>
 </tr>
@@ -100,6 +102,8 @@
 {/section}
 </table>
 
+<div class="controlbar">
+<div class="block">
 {section show=and($has_own_drafts,$has_other_drafts)}
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
@@ -112,6 +116,8 @@
         <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
     {/section}
 {/section}
+</div>
+</div>
 
 </form>
 {/let}
