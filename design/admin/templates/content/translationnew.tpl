@@ -26,11 +26,14 @@ function toggleInputs( selection )
 <form name="languageform" action={concat( 'content/translations' )|ezurl} method="post" >
 
 <div class="context-block">
-{section show=$is_edit}
-<h2 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'Change translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>
-{section-else}
-<h2 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'New translation for content'|i18n( 'design/admin/content/translationnew' )}</h2>
-{/section}
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'Add translation for content'|i18n( 'design/admin/content/translationnew' )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -61,8 +64,12 @@ function toggleInputs( selection )
 
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
+
 {* Buttons. *}
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$is_edit}
     <input class="button" type="submit" name="ChangeButton" value={'OK'|i18n( 'design/admin/content/translationnew')} />
@@ -72,8 +79,10 @@ function toggleInputs( selection )
 
 <input class="button" type="submit" name="CancelButton" value={'Cancel'|i18n('design/admin/content/translationnew')} />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
 
 </form>
+
