@@ -389,3 +389,5 @@ drop table eztask;
 drop table eztask_message;
 
 alter table ezimage add alternative_text varchar(255) not null default "";
+# Default field for import syncronization
+alter table ezcontentobject add remote_id varchar(100);
