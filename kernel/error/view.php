@@ -42,6 +42,37 @@ $ExtraParameters = $Params['ExtraParameters'];
 
 $tpl->setVariable( 'parameters', $ExtraParameters );
 
+$siteBasics = $GLOBALS['eZSiteBasics'];
+$userObjectRequired = $siteBasics['user-object-required'];
+
+if ( $userObjectRequired )
+{
+    // include user class
+    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+
+    $currentUser =& eZUser::currentUser();
+    $ini =& eZINI::instance();
+    $tpl->setVariable( "current_user", $currentUser );
+    $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+}
+else
+{
+    $tpl->setVariable( "current_user", false );
+    $tpl->setVariable( "anonymous_user_id", false );
+}
+
+$userRedirectURI = '';
+$requestedURI =& $GLOBALS['eZRequestedURI'];
+if ( get_class( $requestedURI ) == 'ezuri' )
+{
+//     $requestedModule = $requestedURI->element( 0, false );
+//     $requestedView = $requestedURI->element( 1, false );
+//     if ( $requestedModule != 'user' or
+//          $requestedView != 'login' )
+    $userRedirectURI = $requestedURI->uriString( true );
+}
+$tpl->setVariable( 'redirect_uri', $userRedirectURI );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
 $Result['path'] = array( array( 'text' => 'Error',

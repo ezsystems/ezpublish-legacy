@@ -58,15 +58,19 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $userPassword = $Module->actionParameter( 'UserPassword' );
     $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
 
-    $user = eZUser::loginUser( $userLogin, $userPassword );
-    if ( get_class( $user ) != 'ezuser' )
-        $loginWarning = true;
+    $user = false;
+    if ( $userLogin != '' )
+    {
+        $user = eZUser::loginUser( $userLogin, $userPassword );
+        if ( get_class( $user ) != 'ezuser' )
+            $loginWarning = true;
+    }
 
     $redirectionURI = $userRedirectURI;
     if ( $redirectionURI == '' )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
-    eZDebug::writeNotice( $user, 'user');
+//     eZDebug::writeNotice( $user, 'user');
     $userID = 0;
     if ( get_class( $user ) == 'ezuser' )
         $userID = $user->id();
