@@ -117,73 +117,93 @@ class eZCodePage
             }
             else if ( ( ord( $multi_char[$offs + 0] ) & 0xe0 ) == 0xc0 ) // 11 bit, 2 chars
             {
-                $offs += 2;
                 if ( ( ord( $multi_char[$offs + 1] ) & 0xc0 ) != 0x80 )
+                {
+                    $offs += 2;
                     continue;
+                }
                 $char_code = ( (( ord( $multi_char[$offs + 0] ) & 0x1f ) << 6) +
                                (( ord( $multi_char[$offs + 1] ) & 0x3f )) );
+                $offs += 2;
                 if ( $char_code < 128 ) // Illegal multibyte, should use less than 2 chars
                     continue;
             }
             else if ( ( ord( $multi_char[$offs + 0] ) & 0xf0 ) == 0xe0 ) // 16 bit, 3 chars
             {
-                $offs += 3;
                 if ( ( ord( $multi_char[$offs + 1] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 2] ) & 0xc0 ) != 0x80 )
+                {
+                    $offs += 3;
                     continue;
+                }
                 $char_code = ( (( ord( $multi_char[$offs + 0] ) & 0x0f ) << 12) +
                                (( ord( $multi_char[$offs + 1] ) & 0x3f ) << 6) +
                                (( ord( $multi_char[$offs + 2] ) & 0x3f )) );
+                $offs += 3;
                 if ( $char_code < 2048 ) // Illegal multibyte, should use less than 3 chars
                     continue;
             }
             else if ( ( ord( $multi_char[$offs + 0] ) & 0xf8 ) == 0xf0 ) // 21 bit, 4 chars
             {
-                $offs += 4;
                 if ( ( ord( $multi_char[$offs + 1] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 2] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 3] ) & 0xc0 ) != 0x80 )
+                {
+                    $offs += 4;
                     continue;
+                }
                 $char_code = ( (( ord( $multi_char[$offs + 0] ) & 0x07 ) << 18) +
                                (( ord( $multi_char[$offs + 1] ) & 0x3f ) << 12) +
                                (( ord( $multi_char[$offs + 2] ) & 0x3f ) << 6) +
                                (( ord( $multi_char[$offs + 3] ) & 0x3f )) );
+                $offs += 4;
                 if ( $char_code < 65536 ) // Illegal multibyte, should use less than 4 chars
                     continue;
             }
             else if ( ( ord( $multi_char[$offs + 0] ) & 0xfc ) == 0xf8 ) // 26 bit, 5 chars
             {
-                $offs += 5;
                 if ( ( ord( $multi_char[$offs + 1] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 2] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 3] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 4] ) & 0xc0 ) != 0x80 )
+                {
+                    $offs += 5;
                     continue;
+                }
                 $char_code = ( (( ord( $multi_char[$offs + 0] ) & 0x03 ) << 24) +
                                (( ord( $multi_char[$offs + 1] ) & 0x3f ) << 18) +
                                (( ord( $multi_char[$offs + 2] ) & 0x3f ) << 12) +
                                (( ord( $multi_char[$offs + 3] ) & 0x3f ) << 6) +
                                (( ord( $multi_char[$offs + 4] ) & 0x3f )) );
+                $offs += 5;
                 if ( $char_code < 2097152 ) // Illegal multibyte, should use less than 5 chars
                     continue;
             }
             else if ( ( ord( $multi_char[$offs + 0] ) & 0xfe ) == 0xfc ) // 31 bit, 6 chars
             {
-                $offs += 6;
                 if ( ( ord( $multi_char[$offs + 1] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 2] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 3] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 4] ) & 0xc0 ) != 0x80 or
                      ( ord( $multi_char[$offs + 5] ) & 0xc0 ) != 0x80 )
+                {
+                    $offs += 6;
                     continue;
+                }
                 $char_code = ( (( ord( $multi_char[$offs + 0] ) & 0x01 ) << 30) +
                                (( ord( $multi_char[$offs + 1] ) & 0x3f ) << 24) +
                                (( ord( $multi_char[$offs + 2] ) & 0x3f ) << 18) +
                                (( ord( $multi_char[$offs + 3] ) & 0x3f ) << 12) +
                                (( ord( $multi_char[$offs + 4] ) & 0x3f ) << 6) +
                                (( ord( $multi_char[$offs + 5] ) & 0x3f )) );
+                $offs += 6;
                 if ( $char_code < 67108864 ) // Illegal multibyte, should use less than 6 chars
                     continue;
+            }
+            else // Unknown state, just increase one to make sure we don't get stuck
+            {
+                $offs += 1;
+                continue;
             }
 
 //          The following code has been copied from the member function unicodeToChar

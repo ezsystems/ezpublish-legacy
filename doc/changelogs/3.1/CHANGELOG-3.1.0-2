@@ -30,6 +30,9 @@ eZ soap:
 - Added support for SOAP faults as return data from the server
 - Fixed compatibility problems with SOAP responses using the 1999 SOAP schema instance definition
 
+eZ i18n:
+- Fixed the new and optimized convertStringFromUTF8 function, it should now create convert correctly.
+
 * Update:
 - Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.
 - Made sure text codec settings were initialized correctly in updatexmltext.php.
