@@ -5,6 +5,7 @@ Changes from 3.2.0-2 to 3.2-1
 - Added alphabetic sorting of role list.
 
 *Bugfixes:
+- Fixed showing correct title for object relation datatype
 - Fixed setup safe mode test, http://ez.no/developer/ez_publish_3/bug_reports/ez_setup_tests
 - Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
 - Fixed using datatype enum as object pattern name in classes

@@ -201,12 +201,10 @@ class eZObjectRelationType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        $objectID = $this->objectAttributeContent( $contentObjectAttribute );
-        if ( $objectID !== false )
+        $object = $this->objectAttributeContent( $contentObjectAttribute );
+        if ( $object )
         {
-            $object =& eZContentObject::fetch( $objectID );
-            if ( $object )
-                return $object->attribute( 'name' );
+            return $object->attribute( 'name' );
         }
         return false;
     }
