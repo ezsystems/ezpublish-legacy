@@ -75,6 +75,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->TagAttributeArray['object'] = array( 'class' => array( 'required' => false ),
                                                     'id' => array( 'required' => true ),
                                                     'size' => array( 'required' => false ),
+                                                    'view' => array( 'required' => false ),
                                                     'align' => array( 'required' => false ),
                                                     'ezurl_href' => array( 'required' => false ),
                                                     'ezurl_id' => array( 'required' => false ),
@@ -1610,6 +1611,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $objectAttr .= " href=\"$href\"";
                     if ( $target != null )
                         $objectAttr .= " target=\"$target\"";
+                }
+                if ( $view != "embed" )
+                {
+                   $objectAttr .= " view=\"$view\"";
                 }
                 $output .= "<object $objectAttr />";
             }break;
