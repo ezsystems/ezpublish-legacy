@@ -121,7 +121,7 @@ class eZContentClass extends eZPersistentObject
                                                       'object_count' => 'objectCount',
                                                       'version_count' => 'versionCount',
                                                       'version_status' => 'versionStatus',
-                                                      'remote_id' => 'remoteID',
+                                                      'remote_id' => 'remoteID', // Note: This overrides remote_id field
                                                       'ingroup_list' => 'fetchGroupList',
                                                       'ingroup_id_list' => 'fetchGroupIDList',
                                                       'match_ingroup_id_list' => 'fetchMatchGroupIDList',
@@ -365,23 +365,6 @@ class eZContentClass extends eZPersistentObject
             $http->setSessionVariable( 'CanInstantiateClassList', $classList );
         }
         return $classList;
-    }
-
-    function attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'remote_id':
-            {
-                return $this->remoteID();
-            } break;
-
-            default:
-            {
-                return eZPersistentObject::attribute( $attr );
-            } break;
-        }
-        return null;
     }
 
     /*!
