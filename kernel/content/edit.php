@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
         return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
-else if ( $http->hasPostVariable( 'NewButton' ) )
+else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $version =& $obj->createNewVersion();
     return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
