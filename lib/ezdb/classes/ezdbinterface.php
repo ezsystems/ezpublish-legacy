@@ -80,6 +80,8 @@ class eZDBInterface
         $this->Charset = $charset;
         $this->UseBuiltinEncoding = $builtinEncoding;
         $this->ConnectRetries = $connectRetries;
+        $this->DBConnection = false;
+        $this->DBWriteConnection = false;
 
         if ( $this->UseBuiltinEncoding )
         {
@@ -437,6 +439,10 @@ class eZDBInterface
     var $SocketPath;
     /// The current database name
     var $DB;
+    /// The current connection, \c false if not connection has been made
+    var $DBConnection;
+    /// Contains the write database connection if used
+    var $DBWriteConnection;
     /// Stores the database connection user
     var $User;
     /// Stores the database connection password

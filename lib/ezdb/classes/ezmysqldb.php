@@ -46,8 +46,6 @@ class eZMySQLDB extends eZDBInterface
     function eZMySQLDB( $parameters )
     {
         $this->eZDBInterface( $parameters );
-        $this->DBWriteConnection = false;
-        $this->IsConnected = false;
 
         $socketPath = $this->socketPath();
 
@@ -530,11 +528,6 @@ class eZMySQLDB extends eZDBInterface
 
 
     /// \privatesection
-    /// Contains the current database connection
-    var $DBConnection;
-
-    /// Contains the write database connection if used
-    var $DBWriteConnection;
 }
 
 ?>

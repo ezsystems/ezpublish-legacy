@@ -462,8 +462,6 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /// \privatesection
-    /// database connection
-    var $DBConnection;
 
 }
 
