@@ -149,7 +149,7 @@ class eZLocale
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
-                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't', 'l', 'a' );
+                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->TimeArray = preg_replace( '/.+/', '%$0', $this->TimePHPArray );
         $this->DateArray = preg_replace( '/.+/', '%$0', $this->DatePHPArray );
         $this->DateTimeArray = preg_replace( '/.+/', '%$0', $this->DateTimePHPArray );
@@ -263,6 +263,35 @@ class eZLocale
 
         $this->AM = 'am';
         $this->PM = 'pm';
+    }
+
+    /*!
+     \private
+     Call back function to use with preg_replace_callback to format date/time types.
+    */
+    function __formatCallback($matches)
+    {
+        switch ($this->__formatAction)
+        {
+            case 'datetime': {
+                $formatArray = $this->DateTimePHPArray;
+            } break;
+            case 'date': {
+                $formatArray = $this->DatePHPArray;
+            } break;
+            case 'time': {
+                $formatArray = $this->TimePHPArray;
+            } break;
+        }
+
+        if ( in_array( $matches[0][1], $formatArray ) )
+        {
+            return date( $matches[0][1], $this->__formatDate );
+        }
+        else
+        {
+            return $matches[0];
+        }
     }
 
     /*!
@@ -921,20 +950,20 @@ class eZLocale
     function &formatTimeType( $fmt, $time = false )
     {
         if ( $time == false )
-            $time =& mktime();
+            $time =& time();
 
-        $timeArray = $this->TimeArray;
-        $timePHPArray = $this->TimePHPArray;
         $timeSlashInputArray = $this->TimeSlashInputArray;
         $timeSlashOutputArray = $this->TimeSlashOutputArray;
-        $fmt =& preg_replace( $timeSlashInputArray, $timeSlashOutputArray, $fmt );
-        $fmt =& str_replace( $timeArray, $timePHPArray, $fmt );
-        $fmt =& str_replace( '%', "%\\", $fmt );
-        $text =& date( $fmt, $time );
-        $text =& str_replace( array( '%a', '%A' ),
-                              array( $this->meridiemName( $time, false ),
-                                     $this->meridiemName( $time, true ) ),
-                              $text );
+
+        $fmt = preg_replace( $timeSlashInputArray, $timeSlashOutputArray, $fmt );
+        $this->__formatAction = 'time';
+        $this->__formatDate = $time;
+        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
+
+        $text = str_replace( array( '%a', '%A' ),
+                             array( $this->meridiemName( $time, false ),
+                                    $this->meridiemName( $time, true ) ),
+                             $text );
         return $text;
     }
 
@@ -950,10 +979,10 @@ class eZLocale
     {
         if ( $time == false )
             $time =& mktime();
-        $hour =& date( 'G', $time );
+        $hour = date( 'G', $time );
         $name = $hour < 12 ? $this->AM : $this->PM;
         if ( $upcase )
-            $name =& strtoupper( $name );
+            $name = strtoupper( $name );
         return $name;
     }
 
@@ -1001,23 +1030,22 @@ class eZLocale
     function &formatDateType( $fmt, $date = false )
     {
         if ( $date === false )
-            $date =& mktime();
+            $date = time();
 
-        $dateArray = $this->DateArray;
-        $datePHPArray = $this->DatePHPArray;
         $dateSlashInputArray = $this->DateSlashInputArray;
         $dateSlashOutputArray = $this->DateSlashOutputArray;
-        $fmt =& preg_replace( $dateSlashInputArray, $dateSlashOutputArray, $fmt );
-        $fmt =& str_replace( $dateArray, $datePHPArray, $fmt );
-        $fmt =& str_replace( '%', "%\\", $fmt );
-        $text =& date( $fmt, $date );
-        $longDay = $this->longDayName( date( 'w', $date ) );
-        $text =& str_replace( array( '%D', '%l', '%M', '%F' ),
-                              array( $this->shortDayName( date( 'w', $date ) ),
-                                     $this->longDayName( date( 'w', $date ) ),
-                                     $this->shortMonthName( date( 'n', $date ) ),
-                                     $this->longMonthName( date( 'n', $date ) ) ),
-                              $text );
+
+        $fmt = preg_replace( $dateSlashInputArray, $dateSlashOutputArray, $fmt );
+        $this->__formatAction = 'date';
+        $this->__formatDate = $date;
+        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
+
+        $text = str_replace( array( '%D', '%l', '%M', '%F' ),
+                             array( $this->shortDayName( date( 'w', $date ) ),
+                                    $this->longDayName( date( 'w', $date ) ),
+                                    $this->shortMonthName( date( 'n', $date ) ),
+                                    $this->longMonthName( date( 'n', $date ) ) ),
+                             $text );
         return $text;
     }
 
@@ -1029,26 +1057,25 @@ class eZLocale
     function &formatDateTimeType( $fmt, $datetime = false )
     {
         if ( $datetime === false )
-            $datetime =& mktime();
+            $datetime = time();
 
-
-        $dateTimeArray = $this->DateTimeArray;
-        $dateTimePHPArray = $this->DateTimePHPArray;
         $dateTimeSlashInputArray = $this->DateTimeSlashInputArray;
         $dateTimeSlashOutputArray = $this->DateTimeSlashOutputArray;
-        $fmt =& preg_replace( $dateTimeSlashInputArray, $dateTimeSlashOutputArray, $fmt );
-        $fmt =& str_replace( $dateTimeArray, $dateTimePHPArray, $fmt );
-        $fmt =& str_replace( '%', "%\\", $fmt );
-        $text =& date( $fmt, $datetime );
-        $text =& str_replace( array( '%D', '%l', '%M', '%F',
-                                     '%a', '%A' ),
-                              array( $this->shortDayName( date( 'w', $datetime ) ),
-                                     $this->longDayName( date( 'w', $datetime ) ),
-                                     $this->shortMonthName( date( 'n', $datetime ) ),
-                                     $this->longMonthName( date( 'n', $datetime ) ),
-                                     $this->meridiemName( $datetime, false ),
-                                     $this->meridiemName( $datetime, true ) ),
-                              $text );
+
+        $fmt = preg_replace( $dateTimeSlashInputArray, $dateTimeSlashOutputArray, $fmt );
+        $this->__formatAction = 'datetime';
+        $this->__formatDate = $datetime;
+        $text = preg_replace_callback( "@%[A-Za-z]@", array( &$this, '__formatCallback' ), $fmt );
+
+        $text = str_replace( array( '%D', '%l', '%M', '%F',
+                                    '%a', '%A' ),
+                             array( $this->shortDayName( date( 'w', $datetime ) ),
+                                    $this->longDayName( date( 'w', $datetime ) ),
+                                    $this->shortMonthName( date( 'n', $datetime ) ),
+                                    $this->longMonthName( date( 'n', $datetime ) ),
+                                    $this->meridiemName( $datetime, false ),
+                                    $this->meridiemName( $datetime, true ) ),
+                             $text );
         return $text;
     }
 
@@ -1528,7 +1555,12 @@ class eZLocale
     var $DateArray;
     var $TimePHPArray;
     var $DatePHPArray;
+    //@}
 
+    //@{
+    /// Variables used to pass information to the callback function
+    var $__formatAction;
+    var $__formatDate;
     //@}
 
     //@{
