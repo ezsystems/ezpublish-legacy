@@ -1,0 +1,22 @@
+Name: New article
+
+Edit gui:
+Title:
+eZString
+
+Message:
+eZText
+
+Author:
+eZString
+
+
+View gui:
+*Title*
+Viewing eZString(abc): Title
+-------------------------------
+*Message*
+Viewing eZText
+-------------------------------
+*Author*
+Viewing eZString(abc): Author
