@@ -172,23 +172,40 @@ class eZMultiplexerType extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $processParameters = $process->attribute( 'parameter_list' );
-        $objectID = $processParameters['object_id'];
-        $object =& eZContentObject::fetch( $objectID );
-        $class =& $object->attribute( 'content_class' );
+        $classID = false;
+        $objectID = false;
+        $sectionID = false;
+
+        if ( isset( $processParameters['object_id'] ) )
+        {
+            $objectID = $processParameters['object_id'];
+            $object =& eZContentObject::fetch( $objectID );
+            if ( $object )
+            {
+                $sectionID = $object->attribute( 'section_id' );
+                $class =& $object->attribute( 'content_class' );
+                if ( $class )
+                {
+                    $classID = $class->attribute( 'id' );
+                }
+            }
+        }
+
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
         $classArray = explode( ',', $event->attribute( 'data_text3' ) );
 
         $user =& eZUser::currentUser();
+        $userID = $user->id();
         $userGroups = $user->attribute( 'groups' );
         $inExcludeGroups = count( array_intersect( $userGroups, $userArray ) ) != 0;
 
         if ( ( !$inExcludeGroups ) &&
              ( in_array( -1, $classArray ) ||
-               in_array( $class->attribute( 'id' ), $classArray ) ) )
+               in_array( $classID, $classArray ) ) )
         {
             $sectionArray = explode( ',', $event->attribute( 'data_text1' ) );
 
-            if ( in_array( $object->attribute( 'section_id' ), $sectionArray ) ||
+            if ( in_array( $sectionID, $sectionArray ) ||
                  in_array( -1, $sectionArray ) )
             {
                 $sessionKey = $processParameters['session_key'];
@@ -196,22 +213,17 @@ class eZMultiplexerType extends eZWorkflowEventType
 
                 if ( isSet( $processParameters['node_id'] ) )
                 {
-                    $childParameters = array( 'workflow_id' => $workflowToRun,
-                                              'user_id' => $userID,
-                                              'contentobject_id' => $objectID,
-                                              'node_id' => $processParameters['node_id'],
-                                              'session_key' => $sessionKey
-                                              );
+                    $childParameters = array_merge( $processParameters,
+                                                    array( 'workflow_id' => $workflowToRun,
+                                                           'user_id' => $userID
+                                                           ) );
                 }
                 else
                 {
-                    $childParameters = array( 'workflow_id' => $workflowToRun,
-                                              'user_id' => $userID,
-                                              'contentobject_id' => $objectID,
-                                              'node_id' => $processParameters['node_id'],
-                                              'object_id' => $processParameters['object_id'],
-                                              'session_key' => $sessionKey
-                                              );
+                    $childParameters = array_merge( $processParameters,
+                                                    array( 'workflow_id' => $workflowToRun,
+                                                           'user_id' => $userID
+                                                           ) );
                 }
 
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
@@ -233,8 +245,8 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $childStatus = $childProcess->run( $workflow, $workflowEvent, $eventLog );
                 $childProcess->store();
 
-                eZDebug::writeNotice( $childProcess, "childProcess" );
-                eZDebug::writeNotice( $childStatus, "childStatus" );
+//                 eZDebug::writeNotice( $childProcess, "childProcess" );
+//                 eZDebug::writeNotice( $childStatus, "childStatus" );
 
                 if ( $childStatus ==  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE )
                 {
