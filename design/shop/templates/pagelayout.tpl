@@ -51,8 +51,11 @@
 
         <div id="shoppingmenu">
              <ul>
-                 <li><a href={concat('/content/view/full/',$current_user.contentobject.main_node_id)|ezurl}>My Acccount</a></li>
-		 <li><a href={"/shop/basket/"|ezurl}>View Card</a></li>
+                 {section show=$current_user.is_logged_in}
+		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
+                 <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
+                 {/section}
+		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
 		 <li><a href={"/shop/basket/"|ezurl}>Checkout</a></li>
              </ul>
         </div>
