@@ -827,7 +827,7 @@ class eZModule
                                defined parameters.
      \return null if function could not be run or no return value was found.
     */
-    function &run( $functionName, $parameters, $overrideParameters = false )
+    function &run( $functionName, $parameters, $overrideParameters = false, $userParameters = false )
     {
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
@@ -893,6 +893,32 @@ class eZModule
                 }
             }
         }
+
+        // Loop through user defines parameters
+        if ( $userParameters !== false )
+        {
+            if ( !is_array( $params['UserParameters'] ) )
+            {
+                $params['UserParameters'] = array();
+            }
+
+            foreach ( array_keys( $userParameters ) as $paramKey )
+            {
+
+                if( isset( $function['unordered_params'] ) &&
+                    $unorderedParams != null )
+                {
+                    if ( array_key_exists( $paramKey, $unorderedParams ) )
+                    {
+                        $params[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
+                        $unorderedParametersList[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
+                    }
+                }
+
+                $params['UserParameters'][$paramKey] = $userParameters[$paramKey];
+            }
+        }
+
         $this->OriginalUnorderedParameters = $unorderedParametersList;
 
         if ( is_array( $overrideParameters ) )

@@ -71,6 +71,26 @@ class eZURI
         $this->URI = $uri;
         $this->URIArray = explode( '/', $uri );
         $this->Index = 0;
+
+        $this->UserArray = array();
+
+        foreach( array_keys( $this->URIArray ) as $key )
+        {
+            if ( preg_match( "([\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
+            {
+                $this->UserArray[substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 )] = $this->URIArray[$key+1];
+                unset( $this->URIArray[$key] );
+                unset( $this->URIArray[$key+1] );
+            }
+        }
+
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'template.ini' );
+        if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
+        {
+            $this->UserArray = array();
+        }
+
     }
 
     /*!
@@ -119,6 +139,14 @@ class eZURI
             return implode( '/', $elements );
         else
             return $elements;
+    }
+
+    /*
+     \return all user defined variables
+    */
+    function userParameters()
+    {
+        return $this->UserArray;
     }
 
     /*!
@@ -263,6 +291,8 @@ class eZURI
     var $URIArray;
     /// The current index
     var $Index;
+    /// User defined template variables
+    var $UserParams;
 };
 
 ?>

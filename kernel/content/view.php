@@ -53,6 +53,7 @@ $Offset = $Params['Offset'];
 $Year = $Params['Year'];
 $Month = $Params['Month'];
 $Day = $Params['Day'];
+$UserParameters = $Params['UserParameters'];
 
 if ( $Offset )
     $Offset = (int) $Offset;
@@ -110,6 +111,8 @@ $viewParameters = array( 'offset' => $Offset,
                          'year' => $Year,
                          'month' => $Month,
                          'day' => $Day );
+
+$viewParameters = array_merge( $viewParameters, $UserParameters );
 
 /*$templateResult =& $tpl->fetch( 'design:content/view/full.tpl' );*/
 

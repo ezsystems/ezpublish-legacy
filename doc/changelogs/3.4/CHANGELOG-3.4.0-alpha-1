@@ -1,0 +1,4 @@
+Changes from 3.3 to 3.4.0-alpha-1
+
+*Kernel:
+- Added user specified template values.

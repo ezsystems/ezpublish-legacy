@@ -402,6 +402,7 @@ while ( $moduleRunRequired )
          !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
+        $userParameters = $uri->userParameters();
         $translateResult =& eZURLAlias::translate( $uri );
 
         if ( !$translateResult )
@@ -587,7 +588,7 @@ while ( $moduleRunRequired )
             }
             else
             {
-                $moduleResult =& $module->run( $function_name, $params );
+                $moduleResult =& $module->run( $function_name, $params, false, $userParameters );
 
                 if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
                      $moduleResult == null )
