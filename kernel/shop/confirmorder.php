@@ -46,18 +46,17 @@ $orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );
 
 $order = eZOrder::fetch( $orderID );
 
+include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+
 if ( get_class( $order ) == 'ezorder' )
 {
 
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
-        $order->activate();
 
-        $basket =& eZBasket::currentBasket();
-        $basket->remove();
-
-        $module->redirectTo( '/shop/orderview/' . $orderID );
+        $module->redirectTo( '/shop/checkout/' );
         return;
+
     }
 
     if ( $http->hasPostVariable( "CancelButton" ) )
@@ -71,7 +70,6 @@ if ( get_class( $order ) == 'ezorder' )
 
 
 
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );
 
 switch( $operationResult['status'] )

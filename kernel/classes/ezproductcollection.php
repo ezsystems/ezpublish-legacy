@@ -42,7 +42,7 @@
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );
-
+include_once( "lib/ezlocale/classes/ezdatetime.php" );
 class eZProductCollection extends eZPersistentObject
 {
     function eZProductCollection( $row )
@@ -52,7 +52,8 @@ class eZProductCollection extends eZPersistentObject
 
     function &definition()
     {
-        return array( "fields" => array( "id" => "ID"
+        return array( "fields" => array( "id" => "ID",
+                                         "created" => "Created"
                                          ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
@@ -62,8 +63,7 @@ class eZProductCollection extends eZPersistentObject
 
     function &create( )
     {
-        $row = array(
-            );
+        $row = array( "created" => eZDateTime::currentTimeStamp() );
         return new eZProductCollection( $row );
     }
 

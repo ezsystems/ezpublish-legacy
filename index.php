@@ -555,15 +555,24 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     $redirectURI = eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
-    if ( $automatic_redir )
+
+    $moduleRedirectUri = $module->redirectURI();
+
+    if ( preg_match( '#^(\w+:)|//#', $moduleRedirectUri ) )
+    {
+        $redirectURI = $module->redirectURI();
+    }
+    else
     {
         $redirectURI .= $module->redirectURI();
+    }
+    if ( $automatic_redir )
+    {
 
         header( "Location: " . $redirectURI );
     }
     else
     {
-        $redirectURI .= $module->redirectURI();
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
         $tpl->setVariable( 'redirect_uri', $redirectURI );

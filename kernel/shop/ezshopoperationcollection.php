@@ -58,6 +58,17 @@ class eZShopOperationCollection
 
     }
 
+    function activateOrder( $orderID )
+    {
+        include_once( "kernel/classes/ezbasket.php" );
+        include_once( 'kernel/classes/ezorder.php' );
+        $order =& eZOrder::fetch( $orderID );
+        $order->activate();
+        $basket =& eZBasket::currentBasket();
+        $basket->remove();
+        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+    }
+
 }
 
 ?>
