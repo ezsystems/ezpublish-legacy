@@ -122,7 +122,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/incorrect_display_of_memory_limit
 - Fixed a bug in the installer to check correctly for a memory limit setting of
   -1 and no available memory limit at all.
-
+- Fixed bug in workflow triggering system: object approval didn't work.
 
 *Library:
 
