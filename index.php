@@ -251,9 +251,10 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
     else
     {
-        print( "<form action=\"" . $module->redirectURI() . "\" method=\"post\" name=\"Redirect\">" );
-        print( "<input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>" );
-        print( "</form>" );
+        print( "<form action=\"" . $module->redirectURI() . "\" method=\"post\" name=\"Redirect\">\n" );
+        print( "Redirecting to: <b>" . $module->redirectURI() . "</b><br/>\n");
+        print( "<input class=\"stdbutton\" type=\"submit\" Name=\"RedirectButton\" value=\"Redirect\"/>\n" );
+        print( "</form>\n" );
         eZDebug::addTimingPoint( "End" );
 
         eZDisplayDebug();
