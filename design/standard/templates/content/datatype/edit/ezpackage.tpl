@@ -9,10 +9,10 @@
  <div class="package_element" align="bottom">
       <img src={$:item|ezpackage(filepath,"thumbnail")|ezroot} />
       <br />
-      <input type="radio" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name}" 
+      <input type="radio" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name}"
       {section show=eq($:item.name,$attribute.data_text)} checked{/section} /><label>{$:item.name}</label>
  </div>
- {delimiter modulo=2}
+ {delimiter modulo=4}
     </div>
     <div class="block">
  {/delimiter}
@@ -24,7 +24,7 @@
       <option value="0">[none]</option>
       {section name=Package loop=$:package_list}
           <option value="{$:item.name}" {section show=eq($:item.name,$attribute.data_text)}selected{/section}>{$:item.name}</option>
-      {/section} 
+      {/section}
 </select>
 {/case}
 {/switch}
