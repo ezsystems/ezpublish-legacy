@@ -146,6 +146,8 @@ eZ Xmltext:
   (Merged from stable/3.5 (3.5.1) rev. 10873)
 - Fixed bug in lib/ezfile/classes/ezdir.php file, corrected misspelled variable.
   (Merged from stable/3.5 rev. 10912)
+- Changed code for site.ini file change CookieTimeout=300 to 360.
+  (Merged from stable/3.5 rev. 10904)
   
 *Library:
 PDF:
