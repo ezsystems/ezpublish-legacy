@@ -230,7 +230,7 @@ Workflow engine should interupt executing workflow and redirect user to the spec
 EZ_WORKFLOW_TYPE_STATUS_NONE
 </td>
 <td>
-Undefined status. For now the same as EZ_WORKFLOW_TYPE_STATUS_REJECTED
+Undefined status. The same as EZ_WORKFLOW_TYPE_STATUS_REJECTED temporally.
 </td>
 </tr>
 </table>
@@ -294,7 +294,7 @@ Specify the workflow name first, and then you can add "Event/Hello User" event t
 <br/>
 <br/>
 
-Simply click on apply and store buttons after you have added the event.
+Simply click on store button after you have added the event.
 
 </p>
 <p>
@@ -303,7 +303,7 @@ Connecting to the database from command line and insert next record to the eztri
 <pre class="example">
 insert into eztrigger( module_name,function_name,name,workflow_id ) values ( 'content', 'read', 'pre_read', <i>new_workflow_id</i> );
 </pre>
-Where workflow_id is the internal id of newly created workflow. You can get it from editing workflow url.
+Where workflow_id is the internal id of newly created workflow. You can get it from the url when editing the workflow.
 </p>
 <br/>
 
