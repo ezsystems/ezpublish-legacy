@@ -18,7 +18,10 @@ Changes from 3.2-2 to 3.2-3
 - Added stylesheets to the redirect template to make the buttons appear in Opera.
 - Made sure session variable RedirectAfterUserRegister is removed after user is registered.
 - In tipafriend the email address is checked to be empty before the POST variable YourEmail is fetched.
+- http://ez.no/developer/ez_publish_3/bug_reports/link_in_media_template_of_folder_is_broken
+  Added link to folder_tumbnail template.
 - Fixed correct handling of & characters in XML fields, it is now converted into XHTML codes.
+
 
 *Setup:
 
