@@ -43,7 +43,7 @@ input.box, textarea.box { width: 98%; }
 td input.box, td textarea.box { width: 97%; }
 div#search p.select { margin-top: 0; }
 div#search p.advanced { margin-top: 0.3em; }
-div.content-navigation div.mainobject-window div.fixedsize { float: none; }
+div.content-navigation div.mainobject-window div.fixedsize { float: none; overflow: scroll; }
 div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
 a.openclose img, span.openclose img { margin-right: 4px; }
 </style>
