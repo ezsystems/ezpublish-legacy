@@ -36,8 +36,8 @@ $Module =& $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
 $curNode          =& eZContentObjectTreeNode::fetch( $NodeID );
-$curNodeInvisible =& $curNode->attribute( 'invisible' );
-$curNodeHidden    =& $curNode->attribute( 'hidden' );
+$curNodeInvisible =& $curNode->attribute( 'is_invisible' );
+$curNodeHidden    =& $curNode->attribute( 'is_hidden' );
 
 if( $curNodeHidden )
     eZContentObjectTreeNode::unhideSubTree( $curNode );

@@ -64,11 +64,11 @@ CREATE TABLE ezuservisit
 );
 
 -- New columns for the hiding functionality
-ALTER TABLE ezcontentobject_tree ADD   hidden INTEGER;
-UPDATE      ezcontentobject_tree SET   hidden = 0;
-ALTER TABLE ezcontentobject_tree ALTER hidden SET NOT NULL;
-ALTER TABLE ezcontentobject_tree ALTER hidden SET DEFAULT 0;
-ALTER TABLE ezcontentobject_tree ADD   invisible INTEGER;
-UPDATE      ezcontentobject_tree SET   invisible = 0;
-ALTER TABLE ezcontentobject_tree ALTER invisible SET NOT NULL;
-ALTER TABLE ezcontentobject_tree ALTER invisible SET DEFAULT 0;
+ALTER TABLE ezcontentobject_tree ADD   is_hidden INTEGER;
+UPDATE      ezcontentobject_tree SET   is_hidden = 0;
+ALTER TABLE ezcontentobject_tree ALTER is_hidden SET NOT NULL;
+ALTER TABLE ezcontentobject_tree ALTER is_hidden SET DEFAULT 0;
+ALTER TABLE ezcontentobject_tree ADD   is_invisible INTEGER;
+UPDATE      ezcontentobject_tree SET   is_invisible = 0;
+ALTER TABLE ezcontentobject_tree ALTER is_invisible SET NOT NULL;
+ALTER TABLE ezcontentobject_tree ALTER is_invisible SET DEFAULT 0;

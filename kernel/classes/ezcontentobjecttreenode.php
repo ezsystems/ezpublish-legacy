@@ -142,14 +142,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                                'datatype' => 'string',
                                                                'default' => '',
                                                                'required' => true ),
-                                         "hidden" => array( 'name' => "Hidden",       // manually hidden
-                                                            'datatype' => 'integer',
-                                                            'default' => 0,
-                                                            'required' => true ),
-                                         "invisible" => array( 'name' => "Invisible", // made invisible by parent(s)
+                                         "is_hidden" => array( 'name' => "IsHidden",       // manually hidden
                                                                'datatype' => 'integer',
                                                                'default' => 0,
-                                                               'required' => true ) ),
+                                                               'required' => true ),
+                                         "is_invisible" => array( 'name' => "IsInvisible", // made invisible by parent(s)
+                                                                  'datatype' => 'integer',
+                                                                  'default' => 0,
+                                                                  'required' => true ) ),
 
 
                       "keys" => array( "node_id" ),
@@ -1306,7 +1306,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if( $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) &&
             $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'false' )
         {
-            $showInvisibleNodesCond = 'AND ezcontentobject_tree.invisible = 0';
+            $showInvisibleNodesCond = 'AND ezcontentobject_tree.is_invisible = 0';
         }
         else
             $showInvisibleNodesCond = '';
@@ -3478,12 +3478,12 @@ WHERE
     }
 
     /*!
-    \return combined string representation of both "hidden" and "invisible" attributes
+    \return combined string representation of both "is_hidden" and "is_invisible" attributes
     */
 
     function &hiddenInvisibleString()
     {
-        return ( $this->Hidden ? 'H' : '-' ) . '/' . ( $this->Invisible ? 'X' : '-' );
+        return ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
     }
 
     /*!
@@ -3506,19 +3506,19 @@ WHERE
         $nodeID =& $node->attribute( 'node_id' );
         $db     =& eZDB::instance();
 
-        if ( !$node->attribute( 'invisible' ) ) // if current node is visible
+        if ( !$node->attribute( 'is_invisible' ) ) // if current node is visible
         {
             // 1) Mark current node as hidden and invisible.
-            $db->query( "UPDATE ezcontentobject_tree SET hidden=1, invisible=1 WHERE node_id=$nodeID" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
             $nodePath =& $node->attribute( 'path_string' );
-            $db->query( "UPDATE ezcontentobject_tree SET invisible=1 WHERE invisible=0 AND path_string LIKE '$nodePath%'" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1 WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
         }
         else
         {
             // Mark current node as hidden
-            $db->query( "UPDATE ezcontentobject_tree SET hidden=1 WHERE node_id=$nodeID" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
         }
     }
 
@@ -3541,32 +3541,32 @@ WHERE
     {
         $nodeID        =& $node->attribute( 'node_id' );
         $nodePath      =& $node->attribute( 'path_string' );
-        $nodeInvisible =& $node->attribute( 'invisible' );
+        $nodeInvisible =& $node->attribute( 'is_invisible' );
         $parentNode    =& $node->attribute( 'parent' );
         $db            =& eZDB::instance();
 
 
-        if ( ! $parentNode->attribute( 'invisible' ) ) // if parent node is visible
+        if ( ! $parentNode->attribute( 'is_invisible' ) ) // if parent node is visible
         {
             // 1) Mark current node as not hidden and visible.
-            $db->query( "UPDATE ezcontentobject_tree SET invisible=0, hidden=0 WHERE node_id=$nodeID" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
 
             // 2.1) $hiddenChildren = Fetch all hidden children for the current node
             $hiddenChildren =& $db->arrayQuery( "SELECT path_string FROM ezcontentobject_tree " .
-                                                "WHERE node_id <> $nodeID AND hidden=1 AND path_string LIKE '$nodePath%'" );
+                                                "WHERE node_id <> $nodeID AND is_hidden=1 AND path_string LIKE '$nodePath%'" );
             $skipSubtreesString = '';
             foreach ( $hiddenChildren as $i )
                 $skipSubtreesString .= " AND path_string NOT LIKE '" . $i['path_string'] . "%'";
 
             // 2.2) Mark those children as visible which are not under nodes in $hiddenChildren
-            $db->query( "UPDATE ezcontentobject_tree SET invisible=0 WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0 WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
         }
         else
         {
             // Mark current node as not hidden.
-            $db->query( "UPDATE ezcontentobject_tree SET hidden=0 WHERE node_id=$nodeID" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
         }
     }
 

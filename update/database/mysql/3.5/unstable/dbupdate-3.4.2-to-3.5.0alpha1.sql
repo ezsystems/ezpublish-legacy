@@ -39,5 +39,5 @@ last_visit_timestamp int not null
 );
 
 -- New columns for the hiding functionality
-ALTER TABLE ezcontentobject_tree ADD hidden    INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE ezcontentobject_tree ADD invisible INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE ezcontentobject_tree ADD is_hidden    INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE ezcontentobject_tree ADD is_invisible INTEGER NOT NULL DEFAULT 0;
