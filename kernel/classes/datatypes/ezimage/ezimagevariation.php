@@ -279,7 +279,6 @@ class eZImageVariation extends eZPersistentObject
 
     function &fullPath()
     {
-        print( "fullpath<br>" );
         $sys =& eZSys::instance();
         $ini =& eZINI::instance();
         $contentobjectAttributeID = $this->attribute( "contentobject_attribute_id" );

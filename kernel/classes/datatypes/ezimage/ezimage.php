@@ -50,7 +50,6 @@ class eZImage extends eZPersistentObject
 {
     function eZImage( $row )
     {
-        print( "new imagE<br>" );
         $this->eZPersistentObject( $row );
     }
 

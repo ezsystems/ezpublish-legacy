@@ -7,7 +7,7 @@
   {let image_content=$attribute.content
        image=$image_content[$image_class]}
 
-{section show=image_content.is_valid}
+{section show=$image_content.is_valid}
 
   {section show=$link_to_image}
   {let image_original=$image_content['original']}
