@@ -9,6 +9,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$order_list}
 <div class="context-toolbar">
 <div class="block">
 <div class="left">
@@ -39,7 +40,6 @@
 </div>
 </div>
 
-{section show=$order_list}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" onclick="ezjs_toggleCheckboxes( document.orderlist, 'DeleteIDArray[]' ); return false;" /></th>
