@@ -1178,7 +1178,6 @@ class eZSearchEngine
             $phraseSearchSQLArray[] = $phraseSearchSQL;
         }
 
-        eZDebug::writeDebug( $phraseSearchSQLArray, "888");
         return $phraseSearchSQLArray;
     }
 
@@ -1999,7 +1998,7 @@ class eZSearchEngine
     {
         if ( !method_exists( $this, $methodName ) )
         {
-            eZDebug::writeErrror( $methodName, "Method does not exist in ez search engine" );
+            eZDebug::writeError( $methodName, "Method does not exist in ez search engine" );
             return false;
         }
 
