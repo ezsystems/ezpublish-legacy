@@ -55,5 +55,5 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 {/case}
 {/switch}
 {section-else}
-No media file is available.
+{"No media file is available."|i18n("design/standard/content/datatype")}
 {/section}
