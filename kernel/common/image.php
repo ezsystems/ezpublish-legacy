@@ -61,11 +61,11 @@ function &imageInit()
 
     if ( $scale )
     {
-        $geometry = '-geometry \'%wx%h\'';
+        $geometry = '-geometry "%wx%h"';
     }
     else
     {
-        $geometry = '-geometry \'%wx%h>\'';
+        $geometry = '-geometry "%wx%h>"';
     }
 
     $imgINI =& eZINI::instance( 'image.ini' );
