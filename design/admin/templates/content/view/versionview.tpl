@@ -39,12 +39,14 @@
 {$version.creator.name}
 </p>
 
+<div class="block">
 {* Manage versions *}
 {section show=$allow_versions_button}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n('design/standard/content/view')}" />
 {section-else}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n('design/standard/content/view')}" disabled="disabled" title="{'You do not have permissions to manage versions.'i18n( 'design/' )}" />
 {/section}
+</div>
 
 </div></div></div></div>
 
@@ -54,7 +56,7 @@
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
 <h4>{'Preview control'|i18n( 'design/admin/content/edit' )}</h4>
 </div></div></div></div>
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Translation *}
 <label>{'Translation'|i18n( 'design/admin/content/edit' )}:</label>
@@ -98,11 +100,12 @@
 <input type="hidden" name="ContentObjectLanguageCode" value="{$object_languagecode}" />
 <input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
+<div class="block">
 <input class="button" type="submit" name="ChangeSettingsButton" value="{'Show selected'|i18n('design/standard/content/view')}" />
-
+</div>
 
 </div>
-</div></div></div></div>
+</div></div></div></div></div></div>
 </div>
 
 
