@@ -321,8 +321,13 @@ class eZTemplateCompiler
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale =& eZLocale::instance();
         $language =& $locale->translationCode();
-        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . $accessText;
-        $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
+
+        $pageLayoutVariable = "";
+        if ( isset( $GLOBALS['eZCustomPageLayout'] ) )
+            $pageLayoutVariable = $GLOBALS['eZCustomPageLayout'];
+        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable;
+        $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';        
+
         return $cacheFileName;
     }
 

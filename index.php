@@ -664,7 +664,10 @@ while ( $moduleRunRequired )
     if ( is_array( $moduleResult ) )
     {
         if ( isset( $moduleResult["pagelayout"] ) )
+        {
             $show_page_layout =& $moduleResult["pagelayout"];
+            $GLOBALS['eZCustomPageLayout'] = $moduleResult["pagelayout"];
+        }
         if ( isset( $moduleResult["external_css"] ) )
             $use_external_css =& $moduleResult["external_css"];
     }
