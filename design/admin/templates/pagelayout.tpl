@@ -189,7 +189,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/let}
 </ul>
 {section-else}
- <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4> 
+ <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4>
 {/section}
 </div>
 
@@ -282,6 +282,9 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 $navigation_part.identifier: {$navigation_part.identifier}<br />
 $ui_context:   {$ui_context}<br />
 $ui_component: {$ui_component}<br />
+
+{* The popup menu include must be outside all divs. It is hidden by default. *}
+{include uri="design:popupmenu/popup_menu.tpl}
 
 <!--DEBUG_REPORT-->
 

@@ -45,7 +45,8 @@
         ezjslib_setHTMLNodeClassStyle,
         ezjslib_getHTMLNodeById,
         ezjslib_getHTMLChildNodeByTag,
-        ezjslib_getHTMLChildNodeByProperty.
+        ezjslib_getHTMLChildNodeByProperty,
+	ezjslib_getStyleObject.
 */        
 
 /*! 
@@ -163,3 +164,25 @@ function ezjslib_setHTMLNodeClassStyle( node, styleClassName )
     }
 }
 
+/*!
+  Get the style object for the element with id objID
+ */
+function ezjslib_getStyleObject( objID )
+{
+    if( document.getElementById && document.getElementById( objID ) ) // DOM
+    {
+        return document.getElementById( objID ).style;
+    }
+    else if ( document.all && document.all( objID ) ) // IE
+    {
+        return document.all( objID ).style;
+    }
+    else if ( document.layers && document.layers[objID] )
+    {
+        return false; // Netscape 4.x Not currently supported.
+    }
+    else
+    {
+        return false;
+    }
+}

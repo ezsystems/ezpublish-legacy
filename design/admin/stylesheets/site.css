@@ -408,3 +408,78 @@ table.list-thumbnails div.controls input, table.list-thumbnails div.controls img
     vertical-align: middle;
 }
 
+/* -- Frederiks popupmenu horrorshow */
+div.popupmenu
+{
+  width: 14em;
+  font-size: 0.85em;
+  margin: 0px;
+  padding: 4px;
+  cursor: default;
+  background-color: #e8e8e8;
+  border: 2px solid #ffffff;
+  border-bottom-color: #808080;
+  border-right-color: #808080;
+  z-index: +1; 
+
+  /* These two are essential */
+  position: absolute;
+  visibility: hidden;
+}
+
+div.popupmenu div.popupmenuheader
+{
+    margin: -2px -2px 0.5em -2px;
+    background-color: #c0c0c0;
+    border: 1px solid #ffffff;
+    border-bottom-color: #808080;
+    border-right-color: #808080;
+}
+
+div.popupmenu h3
+{
+    margin: 0;
+    padding: 0.2em 0.3em 0.2em 0.3em;
+    float: left;
+}
+
+div.popupmenu div.window-close
+{
+    float: right;
+    padding: 1px;
+}
+
+div.popupmenu div.window-close p
+{
+    font-weight: bold;
+    color: #000000;
+    background-color: #e0e0e0;
+    margin: 0;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    border: 1px solid #f8f8f8;
+    border-bottom-color: #202020;
+    border-right-color: #606060;
+}
+
+div.popupmenu a
+{
+    color: #000000;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    text-decoration: none;
+    cursor: default;
+    display: block;
+}
+
+div.popupmenu a:hover
+{
+    color: #ffffff;
+    background-color: #08246b;
+    text-decoration: none;
+    cursor: default;
+}
+
+div.popupmenu hr
+{
+    border: none;
+    border-top: 1px solid #c0c0c0;
+}
