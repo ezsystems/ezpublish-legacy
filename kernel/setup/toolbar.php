@@ -353,12 +353,13 @@ if ( $removeCache )
     removeRelatedCache( $currentSiteAccess );
 }
 
-$ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
-$ini->loadCache();
+$toolbarIni =& eZINI::instance( "toolbar.ini", 'settings', null, false, true, false );
+$toolbarIni->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+$toolbarIni->parse();
 
-if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
+if ( $toolbarIni->hasVariable( "Tool", "AvailableToolArray" ) )
 {
-    $availableToolArray =  $ini->variable( "Tool", "AvailableToolArray" );
+    $availableToolArray = $toolbarIni->variable( "Tool", "AvailableToolArray" );
 }
 
 $tpl =& templateInit();
