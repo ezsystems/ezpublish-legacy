@@ -53,3 +53,7 @@
 {/section}
 
 {/let}
+
+<hr class="hide" />
+
+

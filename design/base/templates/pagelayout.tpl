@@ -69,7 +69,6 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
     <hr class="hide" />
     {/cache-block}
 
-
     <div id="path">
         <div id="path-design">
             {include uri="design:parts/path.tpl"}

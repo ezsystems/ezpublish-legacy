@@ -14,6 +14,8 @@
     {set search_data=$search}
 {/section}
 
+<div class="content-search">
+
 <form action={"/content/search/"|ezurl} method="get">
 
 <h1>{"Search"|i18n("design/standard/content/search")}</h1>
@@ -68,4 +70,7 @@
          item_limit=$page_limit}
 
 </form>
+
+</div>
+
 {/let}
