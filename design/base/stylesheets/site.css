@@ -29,6 +29,12 @@ div#header h1
     padding: 0.6em;
 }
 
+div#header h1 a
+{
+    text-decoration: none;
+    color: #000000;
+}
+
 
 /* TOOLBARS */
 
@@ -557,11 +563,13 @@ input.defaultbutton
 {
     font-weight: bold;
     border: 1px solid;
+    margin: 0.5em 0.5em 0 0;
 }
 
 input.button
 {
     border: 1px solid;
+    margin: 0.5em 0.5em 0 0;
 }
 
 input.searchbutton
