@@ -64,7 +64,7 @@ class eZTemplateOptimizer
         $data = $var[2];
         /* Check if the variable node has the correct format */
         if ( ( $var[1] == 'attributeAccess' ) and
-             ( count( $data ) == 5 ) and 
+             ( count( $data ) == 5 ) and
              ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
              ( $data[0][1][2] == 'node' ) and
              ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
@@ -110,14 +110,16 @@ class eZTemplateOptimizer
     */
     function optimizeFunction( $useComments, &$php, &$tpl, &$node, &$resourceData )
     {
+        $ret = 0;
         /* Just run the optimizer over all parameters */
         if ( isset( $node[3] ) and is_array( $node[3] ) )
         {
             foreach ( $node[3] as $key => $parameter )
             {
-                eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $node[3][$key], $resourceData );
+                $ret = eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $node[3][$key], $resourceData );
             }
         }
+        return $ret;
     }
 
     /*!
@@ -125,8 +127,9 @@ class eZTemplateOptimizer
     */
     function optimizeVariable( $useComments, &$php, &$tpl, &$data, &$resourceData )
     {
+        $ret = 0;
         /* node.object.data_map optimization */
-        if ( ( count( $data ) >= 3 ) and 
+        if ( ( count( $data ) >= 3 ) and
              ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
              ( $data[0][1][2] == 'node' ) and
              ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
@@ -138,7 +141,7 @@ class eZTemplateOptimizer
             unset($data[1], $data[2]);
             /* Create a new node representing the optimization */
             $data[0] = array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 );
-            
+
             /* Modify the next two nodes in the array too as we know for sure
              * what type it is. This fixes the dependency on
              * compiledFetchAttribute */
@@ -156,13 +159,17 @@ class eZTemplateOptimizer
                     $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP;
                 }
             }
+            $ret = 1;
         }
 
         /* node.object.data_map optimization through function */
         if ( $data[0][0] == 101 )
         {
-            eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
+            $functionRet = eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
+            // Merge settings
+            $ret = $ret | $functionRet;
         }
+        return $ret;
     }
 
     /*!
@@ -173,6 +180,8 @@ class eZTemplateOptimizer
         /* If for some reason we don't have elements, simply return */
         if (! is_array( $tree[1] ) )
             return;
+
+        $addNodeInit = false;
 
         /* Loop through the children of the root */
         foreach ( $tree[1] as $key => $kiddie )
@@ -203,10 +212,17 @@ class eZTemplateOptimizer
                     }
                     else
                     {
-                        eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $tree[1][$key][2], $resourceData );
+                        $ret = eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $tree[1][$key][2], $resourceData );
+                        if ( $ret & 1 )
+                            $addNodeInit = true;
                     }
                     break;
             }
+        }
+        if ( $addNodeInit )
+        {
+            $initializer = array( EZ_TEMPLATE_NODE_OPTIMIZED_INIT, null, false );
+            array_unshift( $tree[1], $initializer );
         }
     }
 

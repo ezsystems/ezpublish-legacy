@@ -2400,6 +2400,19 @@ $rbracket
                         $spacing += $node[1]['spacing'];
                     $php->addCodePiece( "\$currentNamespace = array_pop( \$namespaceStack );\n", array( 'spacing' => $spacing ) );
                 }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_OPTIMIZED_INIT )
+                {
+                    $code = <<<END
+\$node = ( array_key_exists( \$rootNamespace, \$vars ) and array_key_exists( "node", \$vars[\$rootNamespace] ) ) ? \$vars[\$rootNamespace]["node"] : null;
+\$object = \$node->attribute( 'object' );
+\$nod_{$resourceData['uniqid']} = \$object->attribute( 'data_map' );
+unset( \$node, \$object );
+
+END;
+                    $php->addCodePiece($code);
+                    // Tell the rest of the system that we have create the nod_* variable
+                    $resourceData['node-object-cached'] = true;
+                }
                 else
                     eZDebug::writeWarning( "Unknown internal template node type $nodeType, ignoring node for code generation",
                                            'eZTemplateCompiler:generatePHPCodeChildren' );
@@ -2891,23 +2904,9 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_NODE )
             {
-                if ( isset( $resourceData['node-object-cached'] ) )
-                {
-                    $php->addCodePiece("\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};\n");
-                }
-                else
-                {
-                    $code = <<<END
-\$node = ( array_key_exists( \$rootNamespace, \$vars ) and array_key_exists( "node", \$vars[\$rootNamespace] ) ) ? \$vars[\$rootNamespace]["node"] :
-null;
-\$object = \$node->attribute( 'object' );
-\$$variableAssignmentName = \$object->attribute( 'data_map' );
-\$nod_{$resourceData['uniqid']} = \$$variableAssignmentName;
-
-END;
-                    $php->addCodePiece($code);
-                    $resourceData['node-object-cached'] = true;
-                }
+                if ( !isset( $resourceData['node-object-cached'] ) )
+                    $tpl->error( "Attribute node-object-cached of variable \$resourceData was not found but variable node EZ_TEMPLATE_TYPE_OPTIMIZED_NODE is still present. This should not happen" );
+                $php->addCodePiece("\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};\n");
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
             {

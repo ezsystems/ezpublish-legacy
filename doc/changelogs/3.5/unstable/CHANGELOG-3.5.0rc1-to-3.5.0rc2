@@ -123,6 +123,8 @@ eZTemplate:
 - Fixed bug in template compiler when assigning the results of an expression to
   a PHP variable and the expression resulted in an object proxy (e..g section
   iterator)
+- Fixed problem with template optimizer which would create initialization code
+  placed inside conditional code that may never be run.
 
 eZDB:
 - Added method which can check if a given character set matches the one used in
