@@ -220,6 +220,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 {
                     $node = eZContentObjectTreeNode::fetch( $object->attribute( 'main_node_id' ) );
                     $parentNode = $node->attribute( 'parent_node_id' );
+                    if ( $parentNode == 1 )
+                        $parentNode = 2;
                     $module->redirectToView( 'view', array( 'full', $parentNode ) );
                 }
             }
