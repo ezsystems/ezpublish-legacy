@@ -77,7 +77,7 @@ class eZOption
     /*!
      Returns the name of the option set.
     */
-    function name()
+    function &name()
     {
         return $this->Name;
     }
@@ -116,7 +116,7 @@ class eZOption
                 return false;
     }
 
-    function attribute( $name )
+    function &attribute( $name )
     {
         switch ( $name )
         {
