@@ -11,6 +11,9 @@ Changes from 3.3-3 to 3.3-4
 
 *DataTypes:
 - Fixed datatype inisetting which can't save parameter value like "x=y";
+- Added checkbox 'make empty array' when editing datatype inisetting if ini
+  variable is array.
+- Added remove empty ini block function for datatype inisetting.
 
 *Bugs:
 - Fixed broken datatype range option.
