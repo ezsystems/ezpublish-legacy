@@ -524,7 +524,7 @@ while ( $moduleRunRequired )
             $runningFunctions = false;
             if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
-            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+            $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login', $accessList );
 
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
