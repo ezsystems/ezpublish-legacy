@@ -168,18 +168,20 @@ class eZContentCache
                                          ) );
 
         // Check if ttl is expired
-        $ttlTime = $values['cache_ttl'];
-
-        // Check if cache has expired
-        if ( $ttlTime > 0 )
+        if ( isset( $values['cache_ttl'] ) )
         {
-            $expiryTime = $timestamp + $ttlTime;
-            if ( mktime() > $expiryTime )
+            $ttlTime = $values['cache_ttl'];
+
+            // Check if cache has expired
+            if ( $ttlTime > 0 )
             {
-                return false;
+                $expiryTime = $timestamp + $ttlTime;
+                if ( mktime() > $expiryTime )
+                {
+                    return false;
+                }
             }
         }
-
 
         // Check for template language timestamp
         $cacheCodeDate = $values['cache_code_date'];
