@@ -1,4 +1,4 @@
-/* eZ publish 3 core CSS - th[eZ] 20021129                              */
+/* eZ publish 3 core CSS - th[eZ] 20021211                              */
 
 /* Do not remove or delete this stylesheet, because some basic          */
 /* formatting methods in the system depends on it for proper display.   */
@@ -52,12 +52,18 @@ p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th,
     font-size: 65%;
 }
 
-td.bglight .small, td.bgdark .small
+td.bglight .small, td.bgdark .small, ul ul, ol ol
 /* This is a trick to make the smaller size appear correct when using preformatted % sizes in the table lists. */
 {
     font-size: 80%;
 }
 
+ul ul, ol ol
+/* This is to get nested lists to keep the correct size. */
+{
+    font-size: 100%;
+}
+ 
 /* HEADINGS */
 
 h1, h2, h3
@@ -194,6 +200,11 @@ ul, ol
     padding: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+ul, ul ul
+{
+    list-style-type: disc;
 }
 
 ul
