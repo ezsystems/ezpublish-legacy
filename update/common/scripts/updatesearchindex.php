@@ -272,7 +272,7 @@ $node =& eZContentObjectTreeNode::fetch( 2 );
 
 $subTreeCount =& $node->subTreeCount();
 print( "Number of objects to index: $subTreeCount $endl" );
-$subTree =& $node->subTree();
+
 
 $updateCount = $subTreeCount / 100;
 if ( $updateCount < 1 )
@@ -282,21 +282,33 @@ $i = 0;
 $updateCounter = 0;
 $dotMax = 70;
 $dotCount = 0;
-foreach ( $subTree as $node )
+
+
+$offset = 0;
+$limit = 50;
+$i = 0;
+$subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit ) );
+while ( $subTree != null )
 {
-    $object = $node->attribute( 'object' );
-    eZSearch::removeObject( $object );
-    eZSearch::addObject( $object );
-    ++$i;
-    ++$updateCounter;
-    print( "." );
-    if ( $dotCount >= $dotMax or $i >= $subTreeCount )
+    foreach ( $subTree as $node )
     {
-        $dotcount = 0;
-        $updateCounter = 0;
-        $percent = ($i*100.0) / $subTreeCount;
-        print( " " . $percent . "%" . $endl );
+        $object = $node->attribute( 'object' );
+        eZSearch::removeObject( $object );
+        eZSearch::addObject( $object );
+        ++$i;
+        ++$updateCounter;
+        print( "." );
+        if ( $dotCount >= $dotMax or $i >= $subTreeCount )
+        {
+            $dotcount = 0;
+            $updateCounter = 0;
+            $percent = ($i*100.0) / $subTreeCount;
+            print( " " . $percent . "%" . $endl );
+        }
     }
+    $offset += $limit;
+    $node =& eZContentObjectTreeNode::fetch( 2 );
+    $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit ) );
 }
 
 print( $endl . "done" . $endl );

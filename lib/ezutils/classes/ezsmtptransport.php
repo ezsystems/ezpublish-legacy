@@ -76,6 +76,7 @@ class eZSMTPTransport extends eZMailTransport
         $sendData = array();
         $sendData['from'] = $mail->senderText();
         $sendData["recipients"] = $mail->receiverTextList();
+        $sendData['CcRecipients'] = $mail->ccReceiverTextList();
         $sendData['headers'] = $mail->headerTextList();
         $sendData['body'] = $mail->body();
 

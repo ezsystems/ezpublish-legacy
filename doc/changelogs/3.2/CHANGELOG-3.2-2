@@ -33,6 +33,7 @@ Changes from 3.2-1 to 3.2-2
 *DataType:
 
 *Optimizations:
+- Fixed update search script to use less memory. Changed so it only fetches 50 objects a time.
 
 *Bugfixes:
 
@@ -53,6 +54,9 @@ Changes from 3.2-1 to 3.2-2
 *Package system:
 
 *Library :
+
+eZ utils:
+- Fixed sending mail to addresses in Cc field using the SMTP protocol.
 
 eZ template:
 - Fixed the 'shorten' operator to only shorten the text if the text length is longer
