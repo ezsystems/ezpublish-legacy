@@ -89,12 +89,30 @@
       <input type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
       </div>
 
+<div class="buttonblock">
+
+{switch match=$content_object.can_create}
+{case match=1}
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <select name="ClassID">
+	      {section name=Classes loop=$content_object.can_create_class_list}
+	      <option value="{$:item.id}">{$:item.name|wash}</option>
+	      {/section}
+         </select>
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+{/case}
+{case match=0}
+{/case}
+{/switch}
+</div>
+
     </td>
 </tr>
 </table>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
+
 
 {section show=$with_children}
 
@@ -120,24 +138,8 @@
 
 {set can_copy=$content_object.can_create}
 
-<div class="buttonblock">
-
-{switch match=$content_object.can_create}
-{case match=1}
-         <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <select name="ClassID">
-	      {section name=Classes loop=$content_object.can_create_class_list}
-	      <option value="{$:item.id}">{$:item.name|wash}</option>
-	      {/section}
-         </select>
-         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-{/case}
-{case match=0}
-{/case}
-{/switch}
 
 
-</div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
