@@ -58,6 +58,10 @@ Changes from 3.4.0 to 3.5.0alpha1
   what the policy is. This simplies removal checking of nodes and makes it
   a lot safer.
 
+eZDatatype:
+- Added new interface for querying datatypes for option information. This replaces
+  the old code in basket and wishlist which were hardcoded against ezoption.
+
 eZNodeAssignment:
 - Added attribute 'node' to fetch the node the assignment relates to.
 - Added static function removeByID which removes one or more assignments by IDs.
