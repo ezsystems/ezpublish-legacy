@@ -116,23 +116,29 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
+    function &fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
     {
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         $classIDList =& eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
+        $orderByClause = '';
+
         if ( $contentclass_version !== null )
         {
             $versionCond = "AND class_group.contentclass_version='$contentclass_version'
                             AND contentclass.version='$contentclass_version'\n";
         }
 
+        if ( $orderByArray )
+            $orderByClause = 'ORDER BY ' . implode( ', ', $orderByArray );
+
         $db =& eZDB::instance();
         $sql = "SELECT contentclass.*
                 FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group
                 WHERE contentclass.id=class_group.contentclass_id
                 $versionCond
-                AND class_group.group_id='$group_id'";
+                AND class_group.group_id='$group_id'
+                $orderByClause";
         $rows =& $db->arrayQuery( $sql );
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );
     }

@@ -87,33 +87,14 @@ $user =& eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
-    $data = $tpldata["data"];
-    $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
-    $sort = isset( $data["sort"] ) ? $data["sort"] : null;
-    $fields = isset( $data["fields"] ) ? $data["fields"] : null;
-    $base = $tpldata["http_base"];
-    $classids = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true);
-    $classes_list = & eZContentClass::fetchList( 0,
-                                                 $asObject = true,
-                                                 false,
-                                                 $sort,
-                                                 $fields );
-    $list = array();
-    for ( $i = 0; $i < count( $classes_list ); $i++ )
-    {
-        for ( $j = 0; $j < count( $classids ); $j++ )
-        {
-            $id = $classes_list[$i]->attribute( "id" );
-            $contentclass_id = $classids[$j]->attribute( "id" );
-            if ( $id === $contentclass_id )
-            {
-                $list[] =& $classes_list[$i];
-            }
-        }
-    }
-    $classCount = count( $list );
+    //$data = $tpldata["data"];
+    //$asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
+    //$sort = isset( $data["sort"] ) ? $data["sort"] : null;
+    //$fields = isset( $data["fields"] ) ? $data["fields"] : null;
+    //$base = $tpldata["http_base"];
+    $list = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
     $tpl->setVariable( $tplname, $list );
-    $tpl->setVariable( "class_count", $classCount );
+    $tpl->setVariable( "class_count", count( $list ) );
     $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $GroupName = '';
