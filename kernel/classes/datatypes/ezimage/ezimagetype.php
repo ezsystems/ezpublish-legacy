@@ -502,7 +502,7 @@ class eZImageType extends eZDataType
 
         $package->appendSimpleFile( $imageKey, $original['url'] );
         $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternativ-text', $original['alternative_text'] ) );
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
 
         return $node;
     }
@@ -515,7 +515,10 @@ class eZImageType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $alternativText = $attributeNode->attributeValue( 'alternativ-text' );
+        $alternativeText = $attributeNode->attributeValue( 'alternative-text' );
+        // Backwards compatability with older node name
+        if ( $alternativeText === false )
+            $alternativeText = $attributeNode->attributeValue( 'alternativ-text' );
         $content =& $objectAttribute->attribute( 'content' );
         $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativText );
         $content->store();

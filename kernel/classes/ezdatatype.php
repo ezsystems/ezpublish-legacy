@@ -1079,9 +1079,9 @@ class eZDataType
             {
                 if ( $objectAttribute->hasAttribute( $attributeName ) )
                 {
-                    $value = $attributeNode->elementTextContentByName( $xmlName );
-                    if ( $value !== false )
+                    if ( $attributeNode->elementByName( $xmlName ) !== false )
                     {
+                        $value = $attributeNode->elementTextContentByName( $xmlName );
                         $objectAttribute->setAttribute( $attributeName, $value );
                     }
                     else
