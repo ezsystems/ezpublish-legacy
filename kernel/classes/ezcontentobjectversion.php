@@ -718,6 +718,11 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
             }
         }
+        $contentobject = $this->attribute( 'contentobject' );
+        if ( !$contentobject->hasRemainingVersions() )
+        {
+            $contentobject->purge();
+        }
     }
 
     function removeTranslation( $languageCode )

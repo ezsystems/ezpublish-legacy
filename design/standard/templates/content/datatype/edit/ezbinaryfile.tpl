@@ -1,4 +1,4 @@
-{default attribute_base='ContentObjectAttribute'}
+{default attribute_base=ContentObjectAttribute}
 <div class="block">
 {*<label>{"Filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>*}
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000"/>

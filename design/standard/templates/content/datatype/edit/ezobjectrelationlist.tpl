@@ -1,28 +1,12 @@
- {let class_content=$attribute.class_content
-     class_list=fetch(class,list,hash(class_filter,$class_content.class_constraint_list))}
-{section show=array(0,1)|contains($class_content.type)}
+{let class_content=$attribute.class_content
+     class_list=fetch( class, list, cond( $class_content.class_constraint_list|gt(0),hash( class_filter,$class_content.class_constraint_list ),
+                                          hash() ) )
+     can_create=true()
+     new_object_initial_node_placement=false()
+     browse_object_start_node=false()}
 
-<table width="100%" cellpadding="0" cellspacing="2" border="0">
-<tr>
-    {section name=Class loop=$class_list}
-        <td>
-<div class="objectheader">
-            <h2>{'Create new %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}</h2><div class="linebreak"/>
-</div>
-<div class="object">
-<table width="100%" cellpadding="0" cellspacing="2" border="0">
-<tr>
-    <td colspan="2" align="left">
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}][]" value="{'Add %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}" />
-    </td>
-</tr>
-</table>
-</div>
-        </td>
-    {/section}
-</tr>
-</table>
-{/section}
+{include uri="design:content/datatype/edit/ezobjectrelationlist_controls.tpl"}
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>
@@ -71,11 +55,33 @@
 {/section}
 </table>
 
+{section show=and( $can_create, array( 0, 1 )|contains( $class_content.type ) )}
+
+    <div class="objectheader">
+        <h2>{'Add new object to list'|i18n( 'design/standard/content/datatype' )}</h2>
+    </div>
+    <div class="object">
+        <select class="combobox" name="{$attribute_base}_new_class[{$attribute.id}]">
+        {section name=Class loop=$class_list}
+            <option value="{$:item.id}">{$:item.name|wash}</option>
+        {/section}
+        </select>
+    {section show=$new_object_initial_node_placement}
+        <input type="hidden" name="{$attribute_base}_object_initial_node_placement[{$attribute.id}]" value="{$new_object_initial_node_placement|wash}" />
+    {/section}
+        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Add'|i18n( 'design/standard/content/datatype' )}" />
+    </div>
+
+{/section}
+
 <div class="buttonblock">
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit objects'|i18n('design/standard/content/datatype')}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Open objects for edit'|i18n('design/standard/content/datatype')}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
-{section show=array(0,2)|contains($class_content.type)}
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Browse objects'|i18n('design/standard/content/datatype')}" />
+{section show=array( 0, 2 )|contains( $class_content.type )}
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Browse for objects'|i18n('design/standard/content/datatype')}" />
+    {section show=$browse_object_start_node}
+        <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$browse_object_start_node|wash}" />
+    {/section}
 {/section}
 </div>
 
