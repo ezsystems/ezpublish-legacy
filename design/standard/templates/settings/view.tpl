@@ -98,8 +98,10 @@
             <td width="50%">
                 {switch match=$Settings.item.type}
                 {case match='array'}
+                    {section show=ne($Settings.item.placement,'undefined')}
 	                {section var=Placements loop=$Settings.item.content}
                         <div class="array">[{$Placements.key}] {$Placements.item.content|wash}</div>
+                    {/section}
                     {/section}
                 {/case}
 
