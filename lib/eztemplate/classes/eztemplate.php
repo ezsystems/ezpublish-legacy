@@ -267,6 +267,8 @@ class eZTemplate
 
         $this->Resources = array();
         $this->Text = null;
+
+        $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
 //         $IncludeText ;
 //     var $IncludeOutput;
 //     var $TimeStamp;
@@ -276,8 +278,8 @@ class eZTemplate
 //     var $Tree;
         $this->Variables = array();
 //     var $Operators;
-//     var $Functions;
-//     var $FunctionAttributes;
+        $this->Functions = array();
+        $this->FunctionAttributes = array();
 //     var $Literals;
 //     var $ShowDetails = false;
     }
@@ -826,9 +828,19 @@ class eZTemplate
                         $currentRoot->appendChild( &$node );
                         $has_children = true;
                         if ( isset( $this->FunctionAttributes[$tag] ) )
+                        {
+//                             eZDebug::writeNotice( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #1" );
+                            if ( is_array( $this->FunctionAttributes[$tag] ) )
+                                $this->loadAndRegisterFunctions( $this->FunctionAttributes[$tag] );
                             $has_children = $this->FunctionAttributes[$tag];
+                        }
                         else if ( isset( $this->Functions[$tag] ) )
+                        {
+//                             eZDebug::writeNotice( $this->Functions[$tag], "\$this->Functions[$tag] #1" );
+                            if ( is_array( $this->Functions[$tag] ) )
+                                $this->loadAndRegisterFunctions( $this->Functions[$tag] );
                             $has_children = $this->hasChildren( $this->Functions[$tag], $tag );
+                        }
                         if ( $has_children )
                         {
                             $tagStack[] = array( "Root" => &$currentRoot,
@@ -841,9 +853,19 @@ class eZTemplate
                     {
                         $has_children = true;
                         if ( isset( $this->FunctionAttributes[$tag] ) )
+                        {
+//                             eZDebug::writeNotice( $this->FunctionAttributes[$tag], "\$this->FunctionAttributes[$tag] #2" );
+                            if ( is_array( $this->FunctionAttributes[$tag] ) )
+                                $this->loadAndRegisterFunctions( $this->FunctionAttributes[$tag] );
                             $has_children = $this->FunctionAttributes[$tag];
+                        }
                         else if ( isset( $this->Functions[$tag] ) )
+                        {
+//                             eZDebug::writeNotice( $this->Functions[$tag], "\$this->Functions[$tag] #2" );
+                            if ( is_array( $this->Functions[$tag] ) )
+                                $this->loadAndRegisterFunctions( $this->Functions[$tag] );
                             $has_children = $this->hasChildren( $this->Functions[$tag], $tag );
+                        }
                         if ( !$has_children )
                         {
                             $this->warning( "", "End tag \"$tag\" for function which does not accept children, ignoring tag" );
@@ -1424,6 +1446,11 @@ class eZTemplate
     function operatorParameterList( $name )
     {
         $param_list = array();
+        if ( is_array( $this->Operators[$name] ) )
+        {
+//             eZDebug::writeNotice( $this->Operators[$name], "\$this->Operators[$name]" );
+            $this->loadAndRegisterOperators( $this->Operators[$name] );
+        }
         $op =& $this->Operators[$name];
         if ( isset( $op ) and
              method_exists( $op, "namedparameterlist" ) )
@@ -1441,18 +1468,23 @@ class eZTemplate
     }
 
     /*!
-     Tries to run the operator $op_name with parameters $op_params
+     Tries to run the operator $operatorName with parameters $operatorParameters
      on the value $value.
     */
-    function doOperator( &$element, &$namespace, &$current_nspace, &$value, &$op_name, &$op_params, &$named_params )
+    function doOperator( &$element, &$namespace, &$current_nspace, &$value, &$operatorName, &$operatorParameters, &$named_params )
     {
-        $op =& $this->Operators[$op_name];
+        if ( is_array( $this->Operators[$operatorName] ) )
+        {
+//             eZDebug::writeNotice( $this->Operators[$operatorName], "\$this->Operators[$operatorName]" );
+            $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
+        }
+        $op =& $this->Operators[$operatorName];
         if ( isset( $op ) )
         {
-            $op->modify( $element, $this, $op_name, $op_params, $namespace, $current_nspace, $value, $named_params );
+            $op->modify( $element, $this, $operatorName, $operatorParameters, $namespace, $current_nspace, $value, $named_params );
         }
         else
-            $this->warning( "", "Operator \"$op_name\" is not registered" );
+            $this->warning( "", "Operator \"$operatorName\" is not registered" );
     }
 
     /*!
@@ -1726,7 +1758,7 @@ class eZTemplate
     }
 
     /*!
-     Registers the functions supplied by the object $func_obj.
+     Registers the functions supplied by the object $functionObject.
      The object must have a function called functionList()
      which returns an array of functions this object handles.
      If the object has a function called attributeList()
@@ -1735,20 +1767,100 @@ class eZTemplate
      the name of the function and the value being a boolean.
      If the boolean is true the function will have children.
     */
-    function registerFunctions( &$func_obj )
+    function registerFunctions( &$functionObject )
     {
-        foreach ( $func_obj->functionList() as $func_name )
+        $this->registerFunctionsInternal( $functionObject );
+    }
+
+    /*!
+    */
+    function registerAutoloadFunctions( $functionDefinition )
+    {
+        if ( ( ( isset( $functionDefinition['function'] ) or
+                 ( isset( $functionDefinition['script'] ) and
+                   isset( $functionDefinition['class'] ) ) ) and
+               isset( $functionDefinition['function_names'] ) ) )
         {
-            $this->Functions[$func_name] =& $func_obj;
-        }
-        if ( method_exists( $func_obj, "attributeList" ) )
-        {
-            $attrs = $func_obj->attributeList();
-            while ( list( $attr_name, $has_children ) = each( $attrs ) )
+            foreach ( $functionDefinition['function_names'] as $functionName )
             {
-                $this->FunctionAttributes[$attr_name] = $has_children;
+//                 eZDebug::writeNotice( "Autoload for function $functionName", 'eztemplate:registerAutoloadFunctions' );
+                $this->Functions[$functionName] =& $functionDefinition;
+            }
+            if ( isset( $functionDefinition['function_attributes'] ) )
+            {
+                foreach ( $functionDefinition['function_attributes'] as $functionAttributeName )
+                {
+//                     eZDebug::writeNotice( "Autoload for function attribute $functionAttributeName", 'eztemplate:registerAutoloadFunctions' );
+                    unset( $this->FunctionAttributes[$functionAttributeName] );
+                    $this->FunctionAttributes[$functionAttributeName] =& $functionDefinition;
+                }
             }
         }
+        else
+            $this->error( 'registerFunctions', 'Cannot register function definition, missing data' );
+    }
+
+    function loadAndRegisterFunctions( $functionDefinition )
+    {
+//         if ( is_object( $this->Functions[$functionName] ) )
+//             return true;
+//         $functionDefinition =& $this->Functions[$functionName];
+        $functionObject = null;
+        if ( isset( $functionDefinition['function'] ) )
+        {
+            $function = $functionDefinition['function'];
+//             eZDebug::writeNotice( "registering with function=$function", 'eztemplate:loadAndRegisterFunctions' );
+            if ( function_exists( $function ) )
+                $functionObject =& $function();
+        }
+        else if ( isset( $functionDefinition['script'] ) )
+        {
+            $script = $functionDefinition['script'];
+            $class = $functionDefinition['class'];
+//             eZDebug::writeNotice( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterFunctions' );
+            include_once( $script );
+            if ( class_exists( $class ) )
+                $functionObject = new $class();
+        }
+        if ( is_object( $functionObject ) )
+        {
+            $this->registerFunctionsInternal( $functionObject, true );
+//             eZDebug::writeNotice( "registering was succesful", 'eztemplate:loadAndRegisterFunctions' );
+            return true;
+        }
+//         eZDebug::writeNotice( "registering failed", 'eztemplate:loadAndRegisterFunctions' );
+        return false;
+    }
+
+    /*!
+     \private
+    */
+    function registerFunctionsInternal( &$functionObject, $debug = false )
+    {
+        if ( !is_object( $functionObject ) or
+             !method_exists( $functionObject, 'functionList' ) )
+            return false;
+        foreach ( $functionObject->functionList() as $functionName )
+        {
+//             if ( $debug )
+//                 eZDebug::writeNotice( "Registering function $functionName", 'eztemplate:registerFunctionsInternal' );
+            $this->Functions[$functionName] =& $functionObject;
+        }
+        if ( method_exists( $functionObject, "attributeList" ) )
+        {
+            $functionAttributes = $functionObject->attributeList();
+            foreach ( $functionAttributes as $attributeName => $hasChildren )
+            {
+                unset( $this->FunctionAttributes[$attributeName] );
+                $this->FunctionAttributes[$attributeName] = $hasChildren;
+//                 if ( $debug )
+//                 {
+//                     eZDebug::writeNotice( "Registering function attribute $attributeName, hasChildren=$hasChildren", 'eztemplate:registerFunctionsInternal' );
+//                     eZDebug::writeNotice( $this->FunctionAttributes[$attributeName], "\$this->FunctionAttributes[$attributeName] #3" );
+//                 }
+            }
+        }
+        return true;
     }
 
     /*!
@@ -1790,14 +1902,79 @@ class eZTemplate
     }
 
     /*!
-     Registers the operators supplied by the object $op_obj.
+    */
+    function registerAutoloadOperators( $operatorDefinition )
+    {
+        if ( ( ( isset( $operatorDefinition['function'] ) or
+                 ( isset( $operatorDefinition['script'] ) and
+                   isset( $operatorDefinition['class'] ) ) ) and
+               isset( $operatorDefinition['operator_names'] ) ) )
+        {
+            foreach ( $operatorDefinition['operator_names'] as $operatorName )
+            {
+//                 eZDebug::writeNotice( "Autoload for operator $operatorName", 'eztemplate:registerAutoloadOperators' );
+                $this->Operators[$operatorName] =& $operatorDefinition;
+            }
+        }
+        else
+            $this->error( 'registerOperators', 'Cannot register operator definition, missing data' );
+    }
+
+    function loadAndRegisterOperators( $operatorDefinition )
+    {
+        $operatorObject = null;
+        if ( isset( $operatorDefinition['function'] ) )
+        {
+            $function = $operatorDefinition['function'];
+//             eZDebug::writeNotice( "registering with function=$function", 'eztemplate:loadAndRegisterOperators' );
+            if ( function_exists( $function ) )
+                $operatorObject =& $function();
+        }
+        else if ( isset( $operatorDefinition['script'] ) )
+        {
+            $script = $operatorDefinition['script'];
+            $class = $operatorDefinition['class'];
+//             eZDebug::writeNotice( "registering with script=$script and class=$class", 'eztemplate:loadAndRegisterOperators' );
+            include_once( $script );
+            if ( class_exists( $class ) )
+            {
+                if ( isset( $operatorDefinition['class_parameter'] ) )
+                    $operatorObject = new $class( $operatorDefinition['class_parameter'] );
+                else
+                    $operatorObject = new $class();
+            }
+        }
+        if ( is_object( $operatorObject ) )
+        {
+            $this->registerOperatorsInternal( $operatorObject, true );
+//             eZDebug::writeNotice( "registering was succesful", 'eztemplate:loadAndRegisterOperators' );
+            return true;
+        }
+//         eZDebug::writeNotice( "registering failed", 'eztemplate:loadAndRegisterOperators' );
+        return false;
+    }
+
+    /*!
+     Registers the operators supplied by the object $operatorObject.
      The function operatorList() must return an array of operator names.
     */
-    function registerOperators( &$op_obj )
+    function registerOperators( &$operatorObject )
     {
-        foreach( $op_obj->operatorList() as $op_name )
+        $this->registerOperatorsInternal( $operatorObject );
+    }
+
+    /*!
+    */
+    function registerOperatorsInternal( &$operatorObject, $debug = false )
+    {
+        if ( !is_object( $operatorObject ) or
+             !method_exists( $operatorObject, 'operatorList' ) )
+            return false;
+        foreach( $operatorObject->operatorList() as $operatorName )
         {
-            $this->Operators[$op_name] =& $op_obj;
+//             if ( $debug )
+//                 eZDebug::writeNotice( "Registering operator $operatorName", 'eztemplate:registerOperatorsInternal' );
+            $this->Operators[$operatorName] =& $operatorObject;
         }
     }
 
@@ -1945,6 +2122,57 @@ class eZTemplate
     }
 
     /*!
+     \return the path list which is used for autoloading functions and operators.
+    */
+    function autoloadPathList()
+    {
+        return $this->AutoloadPathList;
+    }
+
+    /*!
+     Sets the path list for autoloading.
+    */
+    function setAutoloadPathList( $pathList )
+    {
+        $this->AutoloadPathList = $pathList;
+    }
+
+    /*!
+     Looks trough the pathes specified in autoloadPathList() and fetches autoload
+     definition files used for autoloading functions and operators.
+    */
+    function autoload()
+    {
+        $pathList =& $this->autoloadPathList();
+        foreach ( $pathList as $path )
+        {
+            $autoloadFile = $path . '/eztemplateautoload.php';
+            if ( file_exists( $autoloadFile ) )
+            {
+                unset( $eZTemplateOperatorArray );
+                unset( $eZTemplateFunctionArray );
+                include( $autoloadFile );
+                if ( isset( $eZTemplateOperatorArray ) and
+                     is_array( $eZTemplateOperatorArray ) )
+                {
+                    foreach ( $eZTemplateOperatorArray as $operatorDefinition )
+                    {
+                        $this->registerAutoloadOperators( $operatorDefinition );
+                    }
+                }
+                if ( isset( $eZTemplateFunctionArray ) and
+                     is_array( $eZTemplateFunctionArray ) )
+                {
+                    foreach ( $eZTemplateFunctionArray as $functionDefinition )
+                    {
+                        $this->registerAutoloadFunctions( $functionDefinition );
+                    }
+                }
+            }
+        }
+    }
+
+    /*!
      Returns the globale template instance, creating it if it does not exist.
     */
     function &instance()
@@ -1998,6 +2226,8 @@ class eZTemplate
     var $Literals;
     /// True if output details is to be shown
     var $ShowDetails = false;
+
+    var $AutoloadPathList;
 
     var $CurrentRelatedResource;
     var $CurrentRelatedTemplateName;

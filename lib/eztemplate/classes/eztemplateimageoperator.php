@@ -51,6 +51,7 @@
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
 include_once( "lib/eztemplate/classes/eztemplateimagelayer.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZTemplateImageOperator
 {
@@ -62,9 +63,13 @@ class eZTemplateImageOperator
                                       $imagefileName = "imagefile" )
     {
         $this->Operators = array( $texttoimageName, $imageName, $imagefileName );
-        $this->FontDir = "";
-        $this->CacheDir = "";
-        $this->HTMLDir = "";
+
+        include_once( "lib/ezutils/classes/ezsys.php" );
+        $ini =& eZINI::instance( 'texttoimage.ini' );
+        $this->FontDir = realpath( "." ) . "/" . $ini->variable( "PathSettings", "FontDir" );
+        $this->CacheDir = realpath( "." ) . "/" . $ini->variable( "PathSettings", "CacheDir" );
+        $this->HTMLDir = eZSys::wwwDir() . $ini->variable( "PathSettings", "HtmlDir" );
+
         $this->DefaultClass = 'default';
         $this->Family = "arial";
         $this->Colors = array( "bgcolor" => array( 255, 255, 255 ),

@@ -48,7 +48,7 @@
     </tr>
     {section-else}
     <tr>
-	<td class="{$Object:sequence}">
+	<td class="bglight">
 	None
 	</td>
     </tr>
