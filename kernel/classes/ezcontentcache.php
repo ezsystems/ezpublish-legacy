@@ -130,26 +130,6 @@ class eZContentCache
                 return false;
             }
 
-            /*
-            $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, true );
-            $ttlCacheDir = $ttlCachePathInfo['dir'];
-            $ttlCacheFile = $ttlCachePathInfo['file'];
-            $ttlCachePath = $cachePathInfo['path'];
-
-            if ( file_exists( $ttlCachePath ) )
-            {
-                $ttlCachePhp = new eZPHPCreator( $ttlCacheDir, $ttlCacheFile );
-
-                $ttlValueArray =& $ttlCachePhp->restore( array ( 'cache_ttl' => 'cache_ttl' ) );
-
-                $ttlValue = $ttlValueArray['cache_ttl'];
-
-                $currentTime = mktime();
-                $expireTime = $timestamp + $ttlValue;
-                if ( $currentTime > $expireTime )
-                    return false;
-            }
-            */
         }
         eZDebug::writeDebug( 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
@@ -281,17 +261,6 @@ class eZContentCache
         $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
                             "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
 
-        /*
-        if ( $cacheTTL != 0 and $cacheTTL != -1 )
-        {
-            $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL );
-            $ttlCacheDir = $ttlCachePathInfo['dir'];
-            $ttlCacheFile = $ttlCachePathInfo['file'];
-            $ttlCachePhp  = new eZPHPCreator( $ttlCacheDir, $ttlCacheFile );
-            $ttlCachePhp->addVariable( 'cache_ttl', $cacheTTL );
-            $ttlCachePhp->store();
-        }
-        */
         return $php->store();
     }
 
