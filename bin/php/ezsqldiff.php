@@ -143,14 +143,40 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
 
         if ( !is_object( $dbInstance ) )
         {
-            $cli->error( 'Failed to open database ' . $type . ', ' . $host . ', ' . $user );
-            $cli->error( $dbInstance->errorMessage() );
+            $cli->error( 'Could not initialize database:' );
+            $cli->error( '* No database handler was found for $type' );
             return false;
         }
         if ( !$dbInstance->isConnected() )
         {
-            $cli->error( 'Failed to connect to database ' . $type . ', ' . $host . ', ' . $user );
-            $cli->error( $dbInstance->errorMessage() );
+            $cli->error( "Could not initialize database:" );
+            $msg = "* Tried database '$db'";
+            if ( strlen( $host ) > 0 )
+            {
+                $msg .= " at host '$host'";
+            }
+            else
+            {
+                $msg .= " locally";
+            }
+            if ( strlen( $user ) > 0 )
+            {
+                $msg .= " with user '$user'";
+            }
+            if ( strlen( $password ) > 0 )
+                $msg .= " and with a password";
+            $cli->error( $msg );
+
+            // Fetch the database error message if there is one
+            // It will give more feedback to the user what is wrong
+            $msg = $dbInstance->errorMessage();
+            if ( $msg )
+            {
+                $number = $dbInstance->errorNumber();
+                if ( $number > 0 )
+                    $msg .= '(' . $number . ')';
+                $cli->error( '* ' . $msg );
+            }
             return false;
         }
 
@@ -168,7 +194,6 @@ $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $
 if ( !$sourceSchema )
 {
     $cli->error( "Failed to load schema from source database" );
-    $cli->output( "host=$sourceDBHost, user=$sourceDBUser, database=$sourceDB" );
     $script->shutdown( 1 );
 }
 
@@ -185,7 +210,6 @@ else
     if ( !$matchSchema )
     {
         $cli->error( "Failed to load schema from match database" );
-        $cli->output( "host=$matchDBHost, user=$matchDBUser, database=$matchDB" );
         $script->shutdown( 1 );
     }
 }

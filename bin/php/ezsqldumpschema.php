@@ -192,9 +192,42 @@ else
                                   'password' => $password,
                                   'database' => $database ) );
 
+    if ( !is_object( $db ) )
+    {
+        $cli->error( 'Could not initialize database:' );
+        $cli->error( '* No database handler was found for $type' );
+        $script->shutdown( 1 );
+    }
     if ( !$db or !$db->isConnected() )
     {
-        $cli->error( 'Could not initialize database' );
+        $cli->error( "Could not initialize database:" );
+        $msg = "* Tried database '$database'";
+        if ( strlen( $host ) > 0 )
+        {
+            $msg .= " at host '$host'";
+        }
+        else
+        {
+            $msg .= " locally";
+        }
+        if ( strlen( $user ) > 0 )
+        {
+            $msg .= " with user '$user'";
+        }
+        if ( strlen( $password ) > 0 )
+            $msg .= " and with a password";
+        $cli->error( $msg );
+
+        // Fetch the database error message if there is one
+        // It will give more feedback to the user what is wrong
+        $msg = $db->errorMessage();
+        if ( $msg )
+        {
+            $number = $db->errorNumber();
+            if ( $number > 0 )
+                $msg .= '(' . $number . ')';
+            $cli->error( '* ' . $msg );
+        }
         $script->shutdown( 1 );
     }
 
