@@ -3,7 +3,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Media library'|i18n( 'design/admin/parts/media/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}>[-]</a></h4>
+<h4>{'Media library'|i18n( 'design/admin/parts/media/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}><span class="bracket">[</span>-<span class="bracket">]</span></a></h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -17,7 +17,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Media library'|i18n( 'design/admin/parts/media/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl}>[+]</a></h4>
+<h4>{'Media library'|i18n( 'design/admin/parts/media/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl}><span class="bracket">[</span>+<span class="bracket">]</span></a></h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 

@@ -293,15 +293,15 @@ div#leftmenu-design
 
 div#leftmenu div.box-header, div#rightmenu div.box-header
 {
-    background-image: url(../images/menuheader-background-2.gif);
+    background-image: url(../images/menuheader-background.gif);
     background-repeat: repeat-y;
-    background-color: #7c91a9;
+    background-color: #8a9fb6;
     border-bottom: 1px solid #bfbfb7;
 }
 
 div#maincontent div.box-header
 {
-    background-image: url(../images/mainheader-background-2.gif);
+    background-image: url(../images/mainheader-background.gif);
     background-repeat: repeat-y;
     background-color: #8a9fb6;
 }
@@ -466,6 +466,11 @@ div#leftmenu div.box-content div.element p
 div#rightmenu div.box-content
 {
     padding: 0.3em 0.3em 0.5em 0.3em;  
+}
+
+div#rightmenu div.box-content div.block
+{
+    padding: 0.25em 0.5em 0.25em 0.3em;  
 }
 
 div.controlbar div.box-br
@@ -708,11 +713,27 @@ div#history img, div#bookmarks img
     vertical-align: middle;
 }
 
-a.showhide
+a.showhide, div#rightmenu span.openclose
 {
     font-family: "Courier New", Courier, monospace;
     text-decoration: none;
-    color: #000000;
+    color: #2d537a;
+    background-color: #8a9fb6;
+    padding: 0 0.3em 0 0.3em;
+    border: 1px solid #f0f0f0;
+    border-right-color: #202020;
+    border-bottom-color: #202020;
+}
+
+a.showhide span.bracket, div#rightmenu span.openclose span.bracket
+{
+    display: none;
+}
+
+a.showhide:hover
+{
+    color: #2d537a;
+    text-decoration: none;
 }
 
 div#maincontent
@@ -1318,7 +1339,10 @@ div.popupmenu
 div.popupmenu div.popupmenuheader
 {
     margin: -2px -2px 0.5em -2px;
-    background-color: #d5d5cb;
+/*    background-color: #d5d5cb; */
+    background-image: url(../images/popup-menuheader-background.gif);
+    background-repeat: repeat-y;
+    background-position: top left;
     border: 1px solid #ffffff;
     border-bottom-color: #bfbeb6;
     border-right-color: #bfbeb6;
@@ -1327,7 +1351,7 @@ div.popupmenu div.popupmenuheader
 div.popupmenu h3
 {
     margin: 0;
-    padding: 0.2em 0.3em 0.2em 0.3em;
+    padding: 0.2em 0.5em 0.2em 0.5em;
     float: left;
 }
 
