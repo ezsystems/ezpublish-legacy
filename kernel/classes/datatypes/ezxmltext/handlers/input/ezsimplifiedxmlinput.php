@@ -804,9 +804,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Convert headers
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
 
-        // Make sure & is turned into &amp;, this ensures that if you write
-        // text like & &#200; the text is kept when its output again
-        $text =& preg_replace( "/&/", "&amp;", $text );
+        // This code is currently commented out, it should not be run on the whole
+        // text but only on parts of it
+//         // Make sure & is turned into &amp;, this ensures that if you write
+//         // text like & &#200; the text is kept when its output again
+//         $text =& preg_replace( "/&/", "&amp;", $text );
         // Convert the < character followed by anything but a character that tags start with (letter, :, _, /) into &lt;
         $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&lt;$1", $text );
 

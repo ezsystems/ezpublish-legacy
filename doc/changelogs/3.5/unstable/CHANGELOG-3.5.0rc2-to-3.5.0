@@ -20,6 +20,8 @@ Changes from 3.5.0rc2 to 3.5.0
   * Version status was set only for current version when importing.
   * Lots of fatal errors were shown when importing because of missing object name in all the exported translations.
 - Fixed inproper work of item_count function with active collaboration items.
+- Fixed problem with & being escaped inside attributes
+  http://ez.no/community/bug_reports/xml_and_broken_link_with
 
 *Library:
 
