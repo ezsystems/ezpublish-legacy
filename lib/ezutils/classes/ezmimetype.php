@@ -112,6 +112,17 @@ class eZMimeType
         {
             $mime = eZMimeType::defaultMimeType();
             $mime['url'] = $url;
+            $suffixPos = strpos( $url, '.' );
+            if ( $suffixPos !== false )
+            {
+                $mime['basename'] = substr( $url, 0, $suffixPos );
+                $mime['suffix'] = substr( $url, $suffixPos + 1 );
+            }
+            else
+            {
+                $mime['basename'] = $url;
+                $mime['suffix'] = false;
+            }
             $mime['is_valid'] = false;
             return $mime;
         }

@@ -296,7 +296,7 @@ class eZContentUpload
             $parentNodes = false;
             $parentMainNode = false;
 
-            print( "location: $location<br/>" );
+//             print( "location: $location<br/>" );
             if ( $this->attribute( 'parent_nodes' ) )
             {
                 $parentNodes = $this->attribute( 'parent_nodes' );
@@ -373,6 +373,7 @@ class eZContentUpload
                                                             array( '%class_identifier' => $classIdentifier ) ) );
                 return false;
             }
+//             print( "group: '" . $iniGroup . "'<br/>" );
             $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
             $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
             $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
@@ -485,6 +486,7 @@ class eZContentUpload
                         $nameString .= $variables[$tag['name']];
                 }
             }
+//             print( "Pattern: '" . htmlspecialchars( $namePattern ) . "'<br/>\n" );
 //             print( "Name: '" . $nameString . "'<br/>\n" );
 
             $object =& $class->instantiate();
