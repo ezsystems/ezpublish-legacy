@@ -1223,6 +1223,7 @@ WHERE user_id = '" . $userID . "' AND
             if ( $http->hasSessionVariable( 'AccessArray' ) )
             {
                 $expiredTimeStamp = 0;
+                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
                 $handler =& eZExpiryHandler::instance();
                 if ( $handler->hasTimestamp( 'user-access-cache' ) )
                 {
