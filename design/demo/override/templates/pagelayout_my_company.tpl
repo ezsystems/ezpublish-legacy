@@ -35,7 +35,6 @@ function OpenWindow ( URL, WinName, Features ) {
 
 {include uri="design:top_menu.tpl"}
 
-{* FIX ME PARENT NODE ID IN FETCH *}
 {let folder_list=fetch( content, list, hash(
                                        parent_node_id, 20,
                                        sort_by, array( array( priority ) ) ) )
@@ -48,8 +47,8 @@ news_list=fetch( content, list, hash(
 
 <table class="mainlayout" width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
-    <td colspan="2">
-        <a href={"content/view/full/159/FIX ME PAGELAYOUT_SECTION_6"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /></a>
+    <td colspan="2" width="100%">
+        <a href={"content/view/full/33"|ezurl}><img src={"mycompanylogo.jpg"|ezimage} width="700" height="68" alt="My company - business" border="0" /><img src={"speed.jpg"|ezimage} height="68"  alt="" /></a>
     </td>
 </tr>
 <tr>
@@ -124,7 +123,7 @@ news_list=fetch( content, list, hash(
 
     </td>
     <td width="204" valign="top">
-        <img src={"speed.jpg"|ezimage} width="204" height="116" alt="" /><br />
+
         <table class="menu" width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <th class="menuhead">

@@ -12,7 +12,6 @@
 
 {include uri="design:top_menu.tpl"}
 
-{* FIX ME NODE ID IN FETCH *}
 {let folder_list=fetch( content, list, hash(
                                        parent_node_id, 17,
                                        sort_by, array( array( priority ))

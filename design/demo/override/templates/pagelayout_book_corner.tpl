@@ -26,7 +26,7 @@
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td valign="top" bgcolor="#333333">
-        <a href={concat( "content/view/full/FIXME_PAGELAYOUT_SECTION_5", 62 )|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a>
+        <a href={concat( "content/view/full/", 23 )|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a>
     </td>
 </tr>
 <tr>
