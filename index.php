@@ -701,7 +701,6 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
                 (php_sapi_name() == 'cli')
             );
         }
-        $automatic_redir = !$debugEnabled;
     }
 
 
