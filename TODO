@@ -69,13 +69,15 @@ possible to create third level plugings and let them be signed by eZ thus
 ensuring users that this is the real deal( no viruses, trojan horses etc.)
 
 
-Translation
+Translation & Unicode
 -----------
 Translation system must be 100% finished.
 - Added caching of XML files into PHP files.
 - Create utilities which scan templates/code for translation elements and
   create the necessary translation files.
-
+- Add support for character decomposition, that is decompose characters which are
+  not part of the US-ASCII charset into multiple characters. For instance
+  å becomes aa, æ becomes ae, ø becomes oe and ß becomes ss.
 
 --------------
 Implementation
@@ -223,6 +225,13 @@ Content action ( needs a meeting for discussion )
 Datatypes:
   - Add media datatypes like flash, mpeg, mp3, avi, asf, mov...
 
+Files
+------------------------------------------------
+- Figure out how to handle file downloading with permissions enabled.
+  This must work with everything ranging from images to binary files.
+- Create the filemanager system which will handle uploading files externally
+  and creating content objects out of them. At least the basic framework should
+  be done and do all the fancy stuff for 3.1.
 
 Some crazy ideas we could think about:
 --------------------------------------
