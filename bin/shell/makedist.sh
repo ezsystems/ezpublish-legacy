@@ -224,6 +224,10 @@ if [ -d $DEST/bin -a -d $DEST/bin/modfix.bin ]; then
 	chmod a+x modfix.sh)
 fi
 
+echo "Creating tar.gz file"
+(cd $DEST_ROOT
+    tar cfz $BASE.tar.gz $BASE)
+
 echo "Creating tar.bz2 file"
 (cd $DEST_ROOT
     tar cf $BASE.tar $BASE
@@ -232,4 +236,6 @@ echo "Creating tar.bz2 file"
     fi
     bzip2 $BASE.tar)
 
-echo "Archive path is $DEST_ROOT/$BASE.tar.bz2"
+echo "Created archives:"
+echo "$DEST_ROOT/$BASE.tar.gz"
+echo "$DEST_ROOT/$BASE.tar.bz2"
