@@ -57,6 +57,14 @@ $ViewList["password"] = array(
     "script" => "password.php",
     "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( "UserID" ) );
+
+$ViewList["forgetpassword"] = array(
+    "script" => "forgetpassword.php",
+    "params" => array( ),
+    'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
+    'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
+                                                            'Email' => 'UserEmail' ) ) );
+
 $ViewList["edit"] = array(
     "script" => "edit.php",
     "params" => array( "UserID" ) );
