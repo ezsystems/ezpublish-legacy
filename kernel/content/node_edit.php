@@ -326,7 +326,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                          'section' => $object->attribute( 'section_id' ) ),
                                         'content' => array( 'object_id' => $objectID,
                                                             'object_version' => $editVersion,
-                                                            'object_langauge' => $editLanguage ),
+                                                            'object_language' => $editLanguage ),
                                         'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
                                  $module );
 
