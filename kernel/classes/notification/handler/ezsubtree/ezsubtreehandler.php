@@ -125,6 +125,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
+        $tpl->resetVariables();
 
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
