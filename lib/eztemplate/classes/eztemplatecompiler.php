@@ -523,8 +523,20 @@ class eZTemplateCompiler
         $transformedTree = array();
         eZTemplateCompiler::processNodeTransformation( $useComments, $php, $tpl, $rootNode, $resourceData, $transformedTree );
 
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'TemplateSettings', 'TemplateOptimization' ) == 'enabled' )
+        {
+            require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
+            $optimizedTree = array();
+            eZTemplateOptimizer::optimize( $useComments, $php, $tpl, $transformedTree, $resourceData, $optimizedTree );
+        }
+        else 
+        {
+            $optimizedTree = $transformedTree;
+        }
+
         $staticTree = array();
-        eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $transformedTree, $resourceData, $staticTree );
+        eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $optimizedTree, $resourceData, $staticTree );
 
         $combinedTree = array();
         eZTemplateCompiler::processNodeCombining( $useComments, $php, $tpl, $staticTree, $resourceData, $combinedTree );
@@ -539,6 +551,8 @@ class eZTemplateCompiler
             $php->addVariable( 'finalTree', $finalTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'combined' ) )
             $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
+        if ( eZTemplateCompiler::isTreeEnabled( 'optimized' ) )
+            $php->addVariable( 'optimizedTree', $optimizedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'static' ) )
             $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'transformed' ) )
