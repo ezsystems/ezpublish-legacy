@@ -2,7 +2,7 @@
 //
 // Created on: <02-Dec-2002 13:15:49 bf>
 //
-// Copyright (C) 1999-2004 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -483,7 +483,8 @@ class eZInformationCollection extends eZPersistentObject
         $arrayRes = $db->arrayQuery( "SELECT ica.id, ica.informationcollection_id, ica.contentclass_attribute_id, ica.contentobject_attribute_id, ica.contentobject_id, ica.data_text, ica.data_int,
                                           ica.data_float
                                       FROM   ezinfocollection_attribute ica, ezcontentclass_attribute
-                                      WHERE  ezcontentclass_attribute.id=ica.contentclass_attribute_id AND informationcollection_id='" . $this->ID . "'
+                                      WHERE  ezcontentclass_attribute.id=ica.contentclass_attribute_id AND informationcollection_id='" . $this->ID . "' AND
+                                             ezcontentclass_attribute.version = 0
                                       ORDER BY ezcontentclass_attribute.placement" );
 
         if ( $asObject )
