@@ -174,7 +174,7 @@
         {section show=and( $Versions.item.status|eq( 0 ), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
-        <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+        <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
 

@@ -193,9 +193,12 @@
 <input type="hidden" name="DoNotEditAfterNewDraft" value="1" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
+</div>
 </div>
 
 </form>
+
 {/let}
 
 

@@ -143,7 +143,7 @@
 <label>
 <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {section show=$Translation:item.locale.is_valid}
-<img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}<span class="defaulttranslation">{/section}{$Translation:item.locale.intl_language_name|shorten( 15 )}{section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}</span>{/section}
+<img src="{$Translation:item.language_code|flag_icon}" alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}<span class="defaulttranslation">{/section}{$Translation:item.locale.intl_language_name|shorten( 15 )}{section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}</span>{/section}
 {section-else}
 {'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
 {/section}
@@ -154,7 +154,7 @@
 <p>
 <label>
 <input type="radio" name="" value="" checked="checked" disabled="disabled" />
-<img src={$content_version.translation.language_code|flag_icon} alt="{$content_version.translation.language_code}" style="vertical-align: middle;" /> {$content_version.translation.locale.intl_language_name|shorten( 16 )}
+<img src="{$content_version.translation.language_code|flag_icon}" alt="{$content_version.translation.language_code}" style="vertical-align: middle;" /> {$content_version.translation.locale.intl_language_name|shorten( 16 )}
 </label>
 </p>
 {/section}
