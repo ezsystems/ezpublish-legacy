@@ -160,6 +160,7 @@ class eZObjectForwarder
         if ( is_string( $templateRoot ) )
         {
             $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
+                                                                       $outputName, $namespaceValue,
                                                                        $templateRoot, $viewDir, $viewValue,
                                                                        $matchFileArray, 0 );
             $newNodes = array_merge( $newNodes, $resourceNodes );
@@ -194,6 +195,7 @@ class eZObjectForwarder
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
 
                     $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
+                                                                               $outputName, $namespaceValue,
                                                                                $templateRoot, $viewDir, $viewValue,
                                                                                $matchFileArray, 4 );
                     $newNodes = array_merge( $newNodes, $resourceNodes );
@@ -213,6 +215,7 @@ class eZObjectForwarder
     }
 
     function resourceAcquisitionTransformation( $functionName, &$node, $rule, $inputData,
+                                                $outputName, $namespaceValue,
                                                 $templateRoot, $viewDir, $viewValue,
                                                 $matchFileArray, $acquisitionSpacing )
     {
@@ -235,7 +238,36 @@ class eZObjectForwarder
                 $viewFileMatch = $matchFile;
         }
         $designKeysName = 'dKeys';
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceHandler( 'design' );\n    \$$designKeysName =& \$resH->Keys;\n}", array( 'spacing' => $acquisitionSpacing ) );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n" .
+                                                               "{\n" .
+                                                               "    \$resH =& \$tpl->resourceHandler( 'design' );\n" .
+                                                               "    \$$designKeysName =& \$resH->keys();\n" .
+                                                               "}", array( 'spacing' => $acquisitionSpacing ) );
+        $attributeKeys =& $rule["attribute_keys"];
+        if ( isset( $attributeKeys ) )
+        {
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$" . $designKeysName . "Stack ) )\n" .
+                                                                   "{\n" .
+                                                                   "    \$" . $designKeysName . "Stack = array();\n" .
+                                                                   "}\n" .
+                                                                   "\$" . $designKeysName . "Stack[] = \$$designKeysName;",
+                                                                   array( 'spacing' => $acquisitionSpacing ) );
+            foreach ( $attributeKeys as $designKey => $attributeKeyArray )
+            {
+                $attributeAccessData = array();
+                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE );
+                foreach ( $attributeKeyArray as $attributeKey )
+                {
+                    $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $attributeKey );
+                }
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $attributeAccessData, false,
+                                                                      array( 'spacing' => 0 ), 'dKey' );
+                $designKeyText = eZPHPCreator::variableText( $designKey, 0, 0, false );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$" . $designKeysName . "[$designKeyText] = \$dKey;",
+                                                                       array( 'spacing' => $acquisitionSpacing ) );
+                $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'dKey' );
+            }
+        }
 
         $attributeAccess =& $rule["attribute_access"];
 
@@ -451,6 +483,11 @@ class eZObjectForwarder
 
             if ( $hasAttributeAccess )
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n", array( 'spacing' => $acquisitionSpacing ) );
+        }
+        if ( isset( $attributeKeys ) )
+        {
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$designKeysName = array_pop( \$" . $designKeysName . "Stack );",
+                                                                   array( 'spacing' => $acquisitionSpacing ) );
         }
         return $newNodes;
     }

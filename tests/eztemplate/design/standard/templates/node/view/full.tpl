@@ -32,7 +32,9 @@ View gui:
 Children:
 
 {section var=child loop=$node.children}
-{delimiter}================================{/delimiter}
+{delimiter}================================
+
+{/delimiter}
 {node_view_gui view=line content_node=$child}
 
 {/section}

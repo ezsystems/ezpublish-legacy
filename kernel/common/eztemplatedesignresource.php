@@ -88,7 +88,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $designKeysName = 'rKeys';
 
         $newNodes = array();
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceHandler( $resourceNameText );\n    \$$designKeysName =& \$resH->Keys;\n}\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n" .
+                                                               "{\n" .
+                                                               "    \$resH =& \$tpl->resourceHandler( $resourceNameText );\n" .
+                                                               "    \$$designKeysName =& \$resH->keys();" .
+                                                               "\n" .
+                                                               "}\n" );
         foreach ( $matchList as $match )
         {
             $basedir = $match['base_dir'];
@@ -710,6 +715,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // For each override dir overwrite current default file
         // TODO: fetch all resource repositories
         $resourceArray[] = "$designStartPath/$standardBase/templates";
+        $resourceArray[] = "$designStartPath/$standardBase/override/templates";
 
         // Add the additional sitedesigns
         foreach ( $additionalSiteDesignList as $additionalSiteDesign )
@@ -759,6 +765,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         // Load complex/custom override templates
         $overrideSettingGroupArray =& $overrideINI->groups();
+        if ( isset( $GLOBALS['eZDesignOverrides'] ) )
+        {
+            $overrideSettingGroupArray = array_merge( $overrideSettingGroupArray, $GLOBALS['eZDesignOverrides'] );
+        }
 
         foreach ( array_keys( $overrideSettingGroupArray ) as $overrideSettingKey )
         {
@@ -863,15 +873,28 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      \return the match keys.
      \sa setKeys
     */
-    function keys()
+    function &keys()
     {
-        $keys = $this->Keys;
+        $keys =& $this->Keys;
         if ( isset( $GLOBALS['eZDesignKeys'] ) )
         {
             $keys = array_merge( $keys, $GLOBALS['eZDesignKeys'] );
-            $this->Keys = $keys;
+//            $this->Keys = $keys;
         }
         return $keys;
+    }
+
+    /*!
+     \static
+    */
+    function addGlobalOverride( $name, $source, $match, $subdir, $matches )
+    {
+        if ( !isset( $GLOBALS['eZDesignOverrides'] ) )
+            $GLOBALS['eZDesignOverrides'] = array();
+        $GLOBALS['eZDesignOverrides'][$name] = array( 'Source' => $source,
+                                                      'MatchFile' => $match,
+                                                      'Subdir' => $subdir,
+                                                      'Match' => $matches );
     }
 
     /*!

@@ -25,6 +25,8 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Made sure it is not possible to move, remove or add locations for top level objects. (Merged from stable/3.3 rev. 5577)
 - Added class_identification override key for embeded objects in XML text.
 - Made the default object.tpl add div for object alignment
+- Fixed support for attribute_keys for object forwarding.
+- Added support for setting global overrides in eZTemplateDesignResource.
 
 eZPersistentObject:
 - Redone the attributes, hasAttribute, attribute and setAttribute functions to
