@@ -327,7 +327,7 @@
             {/section}
             {section show=$:can_copy}
             <td>
-                <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
+                <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
             </td>
             {/section}
         </tr>
