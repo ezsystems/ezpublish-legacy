@@ -162,10 +162,10 @@ class eZPublishSDK
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
         $rows =& $db->arrayQuery( "SELECT value as release FROM ezsite_date WHERE name='ezpublish-release'" );
-        $relase = false;
+        $release = false;
         if ( count( $rows ) > 0 )
         {
-            $relase = $rows[0]['release'];
+            $release = $rows[0]['release'];
         }
         return $release;
     }
