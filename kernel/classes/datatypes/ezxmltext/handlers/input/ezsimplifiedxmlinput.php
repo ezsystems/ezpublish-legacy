@@ -2085,13 +2085,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         return $output;
     }
 
-    var $SectionArray = array( 'paragraph', 'section', 'header' );
+    var $SectionArray = array( 'paragraph', 'section', 'header', 'object' );
 
     var $BlockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
 
-    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
+    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line', 'object' );
 
-    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li' );
+    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li', 'object' );
 
     var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ), 'paragraph' => array( 'p' ) );
 
