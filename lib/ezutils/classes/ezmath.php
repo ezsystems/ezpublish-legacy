@@ -119,3 +119,4 @@ class eZMath
                                          'b' => $b ) );
 	}
 }
+?>
