@@ -25,6 +25,11 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added detection of APC in the system information page.
   (Merged from stable/3.4 rev. 7180)
 
+Class:
+- Simplified creation of classes by having a 'New class' button on the group
+  listing. Radio buttons were added to select the group to place the class
+  in (default is the first, usually Content).
+
 *Scripts:
 eztc.php:
 - Added support for compiling files by filepath.

@@ -7,6 +7,7 @@
 </div>
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
+    <th>&nbsp;</th>
     <th>{"Name"|i18n("design/standard/class/list")}</th>
     <th>{"Modifier"|i18n("design/standard/class/list")}</th>
     <th>{"Modified"|i18n("design/standard/class/list")}</th>
@@ -16,6 +17,7 @@
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
 <tr class="{$Group:sequence}">
+    <td width="1" align="right"><input type="radio" name="SelectedGroupID" value="{$Group:item.id}"{section show=$Group:index|eq( 0 )}checked="checked"{/section}></td>
     <td><a href={concat($module.functions.classlist.uri,"/",$Group:item.id)|ezurl}>{$Group:item.name|classgroup_icon( small, $Group:item.name )}&nbsp;{$Group:item.name|wash}</a></td>
     <td>{content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>
@@ -24,7 +26,8 @@
 </tr>
 {/section}
 <tr>
-  <td colspan="4">
+  <td colspan="5">
+    {include uri="design:gui/button.tpl" name=newgroup id_name=NewClassButton value="New class"|i18n("design/standard/class/list")}
     {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New group"|i18n("design/standard/class/list")}
   </td>
   <td align="right">

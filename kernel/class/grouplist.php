@@ -55,11 +55,25 @@ if ( $http->hasPostVariable( "RemoveGroupButton" ) )
         }
     }
 }
+
 if ( $http->hasPostVariable( "NewGroupButton" ) )
 {
     $params = array();
     $Module->run( "groupedit", $params );
     return;
+}
+
+if ( $http->hasPostVariable( "NewClassButton" ) )
+{
+    if ( $http->hasPostVariable( "SelectedGroupID" ) )
+    {
+        $groupID = $http->postVariable( "SelectedGroupID" );
+        $group =& eZContentClassGroup::fetch( $groupID );
+        $groupName = $group->attribute( 'name' );
+
+        $params = array( null, $groupID, $groupName );
+        return $Module->run( "edit", $params );
+    }
 }
 
 if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
