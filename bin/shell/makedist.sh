@@ -60,7 +60,7 @@ function scan_dir_normal
 		fi
 	    else
 	        # Do not include temporary files
-		if ! echo $file | grep '~$' &>/dev/null; then
+		if ! echo $file | grep '[~#]$' &>/dev/null; then
 		    copy_file $file
 		fi
 	    fi
@@ -156,6 +156,9 @@ for arg in $*; do
 		REPOS_RELEASE="trunk"
 	    fi
 	    ;;
+	--skip-php-check)
+	    SKIPCHECKPHP="1"
+	    ;;
 	*)
 	    echo "$arg: unkown option specified"
             $0 -h
@@ -194,13 +197,15 @@ fi
 
 echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
-echo "Checking syntax of PHP files"
-./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests
-if [ $? -ne 0 ]; then
-    echo "Some PHP files have syntax errors"
-    echo "Run the following command to find the files"
-    echo "./bin/shell/phpcheck.sh --errors-only cronjobs kernel lib support update tests"
-    exit 1
+if [ -z $SKIPCHECKPHP ]; then
+    echo "Checking syntax of PHP files"
+    ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests
+    if [ $? -ne 0 ]; then
+	echo "Some PHP files have syntax errors"
+	echo "Run the following command to find the files"
+	echo "./bin/shell/phpcheck.sh --errors-only cronjobs kernel lib support update tests"
+	exit 1
+    fi
 fi
 
 echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
@@ -232,7 +237,7 @@ for file in $EXTRA_DIRS; do
 done
 
 if [ -d "$PACKAGE_DIR" ]; then
-    echo $PACKAGE_DIR
+    echo "Fetching packages from `$SETCOLOR_EMPHASIZE`$PACKAGE_DIR`$SETCOLOR_NORMAL`"
     echo -n "Export packages:"
     mkdir -p $DEST/kernel/setup/packages
     for package in $PACKAGE_DIR/*; do
@@ -345,7 +350,17 @@ echo "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
 
 echo "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
 (cd $DEST
-    find . -name '*[~#]' -print)
+    TEMPFILES=`find . -name '*[~#]' -print`
+    echo $TEMPFILES | grep -e '[~#]' -q
+    if [ $? -eq 0 ]; then
+	echo "Cannot create distribution, the following temporary files were found:"
+	for tempfile in $TEMPFILES; do
+	    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
+	done
+	echo "The files must be removed before the distribution can be made"
+	exit 1
+    fi
+) || exit 1
 
 if [ -f $DEST/bin/modfix.sh ]; then
     echo "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
