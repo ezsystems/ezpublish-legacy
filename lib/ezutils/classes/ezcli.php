@@ -37,6 +37,25 @@
 /*! \file cli.php
 */
 
+/*!
+  \class eZCLI ezcli.php
+  \brief CLI handling
+
+  Provides functionality to work with the CLI (Command Line Interface).
+  The CLI can be run from either a terminal (shell) or a web interface.
+
+  A typical usage:
+\code
+$cli =& eZCLI::instance();
+
+$cli->setUseStyles( true ); // enable colors
+
+$cli->output( "This is a text string" );
+
+\endcode
+
+*/
+
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
@@ -45,6 +64,9 @@ define( 'EZ_CLI_TERMINAL_ENDOFLINE_STRING', "\n" );
 
 class eZCLI
 {
+    /*!
+     Initializes object and detects if the CLI is used.
+    */
     function eZCLI()
     {
         $endl = "<br/>";
@@ -70,36 +92,48 @@ class eZCLI
                                        'success-end' => "\033[0;39m",
                                        'emphasize' => "\033[1;38m",
                                        'emphasize-end' => "\033[0;39m",
+                                       'strong' => "\033[1;38m",
+                                       'strong-end' => "\033[0;39m",
                                        'mark' => "\033[1;30m",
                                        'mark-end' => "\033[0;39m",
                                        'bold' => "\033[1;38m",
                                        'bold-end' => "\033[0;39m",
+                                       'italic' => "\033[0;39m",
+                                       'italic-end' => "\033[0;39m",
+                                       'underline' => "\033[0;39m",
+                                       'underline-end' => "\033[0;39m",
                                        'paragraph' => "\033[0;39m",
                                        'paragraph-end' => "\033[0;39m",
                                        'normal' => "\033[0;39m",
                                        'normal-end' => "\033[0;39m" );
-        $this->WebStyles = array( 'warning' => "\033[1;35m",
-                                  'warning-end' => "\033[0;39m",
-                                  'error' => "\033[1;31m",
-                                  'error-end' => "\033[0;39m",
-                                  'notice' => "\033[1;38m",
-                                  'notice-end' => "\033[0;39m",
-                                  'debug' => "\033[1;30m",
-                                  'debug-end' => "\033[0;39m",
-                                  'timing' => "\033[1;34m",
-                                  'timing-end' => "\033[0;39m",
-                                  'success' => "\033[1;32m",
-                                  'success-end' => "\033[0;39m",
-                                  'emphasize' => "\033[1;38m",
-                                  'emphasize-end' => "\033[0;39m",
-                                  'mark' => "\033[1;30m",
-                                  'mark-end' => "\033[0;39m",
-                                  'bold' => "\033[1;38m",
-                                  'bold-end' => "\033[0;39m",
-                                  'paragraph' => "\033[0;39m",
-                                  'paragraph-end' => "\033[0;39m",
-                                  'normal' => "\033[0;39m",
-                                  'normal-end' => "\033[0;39m" );
+        $this->WebStyles = array( 'warning' => "<font color=\"orange\">",
+                                  'warning-end' => "</font>",
+                                  'error' => "<font color=\"red\">",
+                                  'error-end' => "</font>",
+                                  'notice' => "<font color=\"green\">",
+                                  'notice-end' => "</font>",
+                                  'debug' => "<font color=\"brown\">",
+                                  'debug-end' => "</font>",
+                                  'timing' => "<font color=\"blue\">",
+                                  'timing-end' => "</font>",
+                                  'success' => "<font color=\"green\">",
+                                  'success-end' => "</font>",
+                                  'emphasize' => "<i>",
+                                  'emphasize-end' => "</i>",
+                                  'strong' => "<b>",
+                                  'strong-end' => "</b>",
+                                  'mark' => "",
+                                  'mark-end' => "",
+                                  'bold' => "<b>",
+                                  'bold-end' => "</b>",
+                                  'italic' => "<i>",
+                                  'italic-end' => "</i>",
+                                  'underline' => "<u>",
+                                  'underline-end' => "</u>",
+                                  'paragraph' => "<p>",
+                                  'paragraph-end' => "</p>",
+                                  'normal' => "",
+                                  'normal-end' => "" );
         $this->EmptyStyles = array();
         foreach ( $this->TerminalStyles as $styleName => $styleValue )
         {
@@ -109,66 +143,65 @@ class eZCLI
     }
 
     /*!
-     \static
+     \return the string used to end lines. This is either the \n if CLI is used
+             or <br/> if the script is run in a webinterface.
     */
-    function startup()
-    {
-        error_reporting ( E_ALL );
-
-        eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
-    }
-
-    function initialize()
-    {
-        // Initialize text codec settings
-        eZUpdateTextCodecSettings();
-
-        // Initialize debug settings
-        eZUpdateDebugSettings();
-
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
-
-        eZExecution::addCleanupHandler( 'eZDBCleanup' );
-        eZExecution::addFatalErrorHandler( 'eZFatalError' );
-
-        eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-    }
-
     function endlineString()
     {
         return $this->EndlineString;
     }
 
+    /*!
+     \return \c true if the current script is run in a webinterface.
+    */
     function isWebOutput()
     {
         return $this->WebOutput;
     }
 
+    /*!
+     \return the style for the name \a $name. The style is specific for terminals.
+    */
     function terminalStyle( $name )
     {
         return $this->TerminalStyles[$name];
     }
 
+    /*!
+     \return the style for the name \a $name. The style is specific for web.
+    */
     function webStyle( $name )
     {
         return $this->WebStyles[$name];
     }
 
+    /*!
+     \return a hash with all terminal styles.
+    */
     function terminalStyles()
     {
         return $this->TerminalStyles;
     }
 
+    /*!
+     \return a hash with all web styles.
+    */
     function webStyles()
     {
         return $this->WebStyles;
     }
 
+    /*!
+     \return a hash with empty styles.
+    */
     function emptyStyles()
     {
         return $this->EmptyStyles;
     }
 
+    /*!
+     \return the style for the name \a $name. The style is taken from the current interface type.
+    */
     function style( $name )
     {
         if ( $this->UseStyles )
@@ -181,16 +214,28 @@ class eZCLI
         return false;
     }
 
+    /*!
+     Controls whether styles are to be used or not. If disabled
+     empty strings are returned when asking for styles.
+     \note This only controls the style() function.
+    */
     function setUseStyles( $useStyles )
     {
         $this->UseStyles = $useStyles;
     }
 
+    /*!
+     \return \c true if styles are enabled.
+    */
     function useStyles()
     {
         return $this->UseStyles;
     }
 
+    /*!
+     Outputs the string \a $string to the current interface.
+     If \a $addEOL is true then the end-of-line string is added.
+    */
     function output( $string, $addEOL = true )
     {
         print( $string );
@@ -198,6 +243,10 @@ class eZCLI
             print( $this->endlineString() );
     }
 
+    /*!
+     Outputs the string \a $string to the current interface as a notice.
+     If \a $addEOL is true then the end-of-line string is added.
+    */
     function notice( $string, $addEOL = true )
     {
         print( $string );
@@ -205,6 +254,10 @@ class eZCLI
             print( $this->endlineString() );
     }
 
+    /*!
+     Outputs the string \a $string to the current interface as an warning.
+     If \a $addEOL is true then the end-of-line string is added.
+    */
     function warning( $string, $addEOL = true )
     {
         print( $string );
@@ -212,6 +265,10 @@ class eZCLI
             print( $this->endlineString() );
     }
 
+    /*!
+     Outputs the string \a $string to the current interface as an error.
+     If \a $addEOL is true then the end-of-line string is added.
+    */
     function error( $string, $addEOL = true )
     {
         print( $string );
@@ -219,6 +276,9 @@ class eZCLI
             print( $this->endlineString() );
     }
 
+    /*!
+     \return the unique instance for the cli class.
+    */
     function &instance()
     {
         $implementation =& $GLOBALS['eZCLIInstance'];
@@ -229,68 +289,6 @@ class eZCLI
         }
         return $implementation;
     }
-}
-
-function eZDBCleanup()
-{
-    if ( class_exists( 'ezdb' )
-         and eZDB::hasInstance() )
-    {
-        $db =& eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
-    }
-//     session_write_close();
-}
-
-function eZFatalError()
-{
-    $cli =& eZCLI::instance();
-    $bold = $cli->style( 'bold' );
-    $unbold = $cli->style( 'bold-end' );
-    $par = $cli->style( 'paragraph' );
-    $unpar = $cli->style( 'paragraph-end' );
-
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
-    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
-    print( eZDebug::printReport( false, $webOutput, true ) );
-}
-
-/*!
-     Reads settings from site.ini and passes them to eZDebug.
-*/
-function eZUpdateDebugSettings()
-{
-    global $debugOutput;
-    global $useLogFiles;
-    $ini =& eZINI::instance();
-    $cli =& eZCLI::instance();
-    $debugSettings = array();
-    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
-    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
-    $debugSettings['debug-enabled'] = $debugOutput;
-    $debugSettings['debug-log-files-enabled'] = $useLogFiles;
-    if ( $cli->useStyles() and
-         !$cli->isWebOutput() )
-    {
-        $debugSettings['debug-styles'] = $cli->terminalStyles();
-    }
-    eZDebug::updateSettings( $debugSettings );
-}
-
-/*!
-     Reads settings from i18n.ini and passes them to eZTextCodec.
-*/
-function eZUpdateTextCodecSettings()
-{
-    $ini =& eZINI::instance( 'i18n.ini' );
-    $i18nSettings = array();
-    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
-    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
-    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-    eZTextCodec::updateSettings( $i18nSettings );
 }
 
 ?>

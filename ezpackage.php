@@ -37,10 +37,15 @@
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
+$script =& eZScript::instance( array( 'debug-message' => '',
+                                      'use-session' => true,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
 
-$cli->startup();
+$script->startup();
 
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
@@ -49,13 +54,15 @@ $siteaccess = false;
 $debugOutput = false;
 $useColors = false;
 $isQuiet = false;
-$useLogFiles = true;
+$useLogFiles = false;
 $userLogin = false;
 $userPassword = false;
 $command = false;
 
 $packageName = false;
 $packageSummary = false;
+$packageLicence = false;
+$packageVersion = false;
 $packageFile = false;
 $outputFile = false;
 $exportType = false;
@@ -81,14 +88,17 @@ function help()
            "  -c,--colors        display output using ANSI colors\n" .
            "  -l,--login USER    login with USER and use it for all operations\n" .
            "  -p,--password PWD  use PWD as password for USER\n" .
-           "  --no-logfiles      do not create log files\n" .
+           "  --logfiles         create log files\n" .
+           "  --no-logfiles      do not create log files (default)\n" .
            "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
 function helpCreate()
 {
     print( "create: Create a new package.\n" .
-           "usage: create NAME [SUMMARY]\n"
+           "usage: create NAME [SUMMARY [LICENCE [VERSION]]] [PARAMETERS]\n" .
+           "\n" .
+           "Parameters:\n"
            );
 }
 
@@ -98,7 +108,7 @@ function helpExport()
            "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
            "\n" .
            "Options:\n" .
-           "  -o,--output FILE   export to file "
+           "  -o,--output FILE   export to file\n"
            );
 }
 
@@ -239,6 +249,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 $useLogFiles = false;
             }
+            else if ( $flag == 'logfiles' )
+            {
+                $useLogFiles = true;
+            }
             else if ( $flag == 'login' )
             {
                 $userLogin = $optionData;
@@ -357,6 +371,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     $packageName = $arg;
                 else if ( $packageSummary === false )
                     $packageSummary = $arg;
+                else if ( $packageLicence === false )
+                    $packageLicence = $arg;
+                else if ( $packageVersion === false )
+                    $packageVersion = $arg;
             }
             else if ( $command == 'import' )
             {
@@ -376,6 +394,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         }
     }
 }
+$script->setUseDebugOutput( $debugOutput );
 
 if ( $command == 'import' )
 {
@@ -406,83 +425,27 @@ else if ( $command == 'help' )
     helpHelp();
     exit();
 }
+else
+{
+    help();
+    exit();
+}
 
 if ( $webOutput )
     $useColors = false;
 
 $cli->setUseStyles( $useColors );
 
-$cli->initialize();
+$script->setUseSiteAccess( $siteaccess );
+$script->setUser( $userLogin, $userPassword );
 
-// Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
-eZExtension::activateExtensions();
-// Extension check end
+$script->initialize();
 
-include_once( "access.php" );
-
-if ( $siteaccess )
-{
-    $access = array( 'name' => $siteaccess,
-                     'type' => EZ_ACCESS_TYPE_STATIC );
-}
-else
-{
-    $ini =& eZINI::instance();
-    $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-    $access = array( 'name' => $siteaccess,
-                     'type' => EZ_ACCESS_TYPE_DEFAULT );
-}
-
-$access = changeAccess( $access );
-$GLOBALS['eZCurrentAccess'] =& $access;
-
-// include ezsession override implementation
-include_once( "lib/ezutils/classes/ezsession.php" );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-$db =& eZDB::instance();
-if ( $db->isConnected() )
-{
-    eZSessionStart();
-}
-
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
-if ( $userLogin and $userPassword )
-{
-    $userID = eZUser::loginUser( $userLogin, $userPassword );
-    if ( !$userID )
-    {
-        $cli->warning( 'Failed to login with user ' . $userLogin );
-        eZExecution::cleanup();
-        eZExecution::setCleanExit();
-    }
-}
-
-// Initialize module loading
-$moduleRepositories = array();
-$moduleINI =& eZINI::instance( 'module.ini' );
-$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-$extensionDirectory = eZExtension::baseDirectory();
-$globalExtensionRepositories = array();
-foreach ( $extensionRepositories as $extensionRepository )
-{
-    $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
-    if ( file_exists( $modulePath ) )
-    {
-        $globalExtensionRepositories[] = $modulePath;
-    }
-}
-$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
-eZModule::setGlobalPathList( $moduleRepositories );
-
-include_once( 'kernel/classes/ezpackagehandler.php' );
+include_once( 'kernel/classes/ezpackage.php' );
 
 if ( $command == 'list' )
 {
-    $packages = eZPackageHandler::fetchPackages();
+    $packages = eZPackage::fetchPackages();
     if ( count( $packages ) > 0 )
     {
         $cli->output( "The following packages are installed:" );
@@ -496,7 +459,7 @@ if ( $command == 'list' )
 }
 else if ( $command == 'import' )
 {
-    $package =& eZPackageHandler::fetchFromFile( $packageFile );
+    $package =& eZPackage::fetchFromFile( $packageFile );
     if ( $package )
     {
         $package->install();
@@ -512,8 +475,8 @@ else if ( $command == 'export' )
     $packageSummary = 'hm';
     $packageExtension = 'myext';
 
-    $package =& eZPackageHandler::create( $packageName, array( 'summary' => $packageSummary,
-                                                               'extension' => $packageExtension ) );
+    $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary,
+                                                        'extension' => $packageExtension ) );
 
     $user =& eZUser::currentUser();
     $userObject = $user->attribute( 'contentobject' );
@@ -554,17 +517,47 @@ else if ( $command == 'export' )
         print( $package->toString() . "\n" );
     }
 }
-
-if ( $db->isConnected() )
+else if ( $command == 'create' )
 {
-    eZSessionRemove();
+    $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary ) );
+
+    $user =& eZUser::currentUser();
+    $userObject = $user->attribute( 'contentobject' );
+
+    if ( !$packageLicence )
+        $packageLicence = 'GPL';
+    if ( !$packageVersion )
+        $packageVersion = '1.0';
+
+    $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
+    $package->appendDocument( 'README', false, false, false, true,
+                              "$packageName README" .
+                              "\n" .
+                              "\n" .
+                              "What is $packageName?\n" .
+                              "--------" . str_repeat( '-', strlen( $packageName ) ) . "-\n" .
+                              "$packageName is a ...\n" .
+                              "\n" .
+                              "Licence\n" .
+                              "-------\n" .
+                              "Insert licence here...\n" );
+    $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
+    $package->setRelease( $packageVersion, '1', false, $packageLicence, 'alpha' );
+
+// $package->appendFileList( array( array( 'role' => 'override',
+//                                         'md5sum' => false,
+//                                         'name' => 'forum.tpl' ) ),
+//                           'template', false,
+//                           array( 'design' => 'standard' ) );
+
+// $package->appendInstall( 'part', 'Classes', false, true,
+//                          array( 'content' => 'yup' ) );
+
+    $package->store();
 }
 
-if ( $debugOutput or
-     eZDebug::isDebugEnabled() )
-    print( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" . eZDebug::printReport( false, $webOutput, true ) );
+$script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 
-eZExecution::cleanup();
-eZExecution::setCleanExit();
+$script->shutdown();
 
 ?>

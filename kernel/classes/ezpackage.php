@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZPackageHandler class
+// Definition of eZPackage class
 //
 // Created on: <23-Jul-2003 12:34:55 amos>
 //
@@ -38,31 +38,33 @@
 */
 
 /*!
-  \class eZPackageHandler ezpackagehandler.php
+  \class eZPackage ezpackagehandler.php
   \brief Maintains eZ publish packages
 
 */
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
-
+include_once( 'lib/ezutils/classes/ezfile.php' );
+include_once( 'lib/ezutils/classes/ezdir.php' );
 
 define( 'EZ_PACKAGE_VERSION', '3.2-1' );
 define( 'EZ_PACKAGE_DEVELOPMENT', true );
 
-class eZPackageHandler
+class eZPackage
 {
     /*!
      Constructor
     */
-    function eZPackageHandler( $parameters = array() )
+    function eZPackage( $parameters = array(), $modifiedParameters = array() )
     {
-        $this->setParameters( $parameters );
+        $this->setParameters( $parameters, $modifiedParameters );
     }
 
     /*!
      \private
     */
-    function setParameters( $parameters = array() )
+    function setParameters( $parameters = array(),
+                            $modifiedParameters = array() )
     {
         $timestamp = mktime();
         $packaging = array( 'timestamp' => $timestamp,
@@ -86,6 +88,7 @@ class eZPackageHandler
                            'priority' => false,
                            'type' => false,
                            'extension' => false,
+
                            'maintainers' => array(),
                            'packaging' => $packaging,
                            'source' => false,
@@ -96,6 +99,12 @@ class eZPackageHandler
                            'install' => $install,
                            'uninstall' => $uninstall );
         $this->Parameters = array_merge( $defaults, $parameters );
+        $this->ModifiedParameters = array();
+        foreach ( $modifiedParameters as $name => $modifiedParameter )
+        {
+            if ( $modifiedParameter !== false )
+                $this->ModifiedParameters[$name] = mktime();
+        }
     }
 
     /*!
@@ -234,8 +243,13 @@ class eZPackageHandler
     function &create( $name, $parameters = array() )
     {
         $parameters['name'] = $name;
-        $handler =& new eZPackageHandler( $parameters );
+        $handler =& new eZPackage( $parameters, $parameters );
         return $handler;
+    }
+
+    function resetModification()
+    {
+        $this->ModifiedParameters = array();
     }
 
     function attribute( $attributeName, $attributeList = false )
@@ -256,26 +270,53 @@ class eZPackageHandler
         return $attributeValue;
     }
 
-    function appendMaintainer( $name, $email, $role = false )
+    function isModified( $attributeName, $attributeList = false )
     {
-        $this->Parameters['maintainers'][] = array( 'name' => $name,
-                                                    'email' => $email,
-                                                    'role' => $role );
+        $attributeValue = null;
+        if ( array_key_exists( $attributeName, $this->ModifiedParameters ) )
+            $attributeValue = $this->ModifiedParameters[$attributeName];
+        if ( is_array( $attributeList ) )
+        {
+            foreach ( $attributeList as $attributeKey )
+            {
+                if ( !is_array( $attributeValue ) or
+                     !array_key_exists( $attributeKey, $attributeValue ) )
+                    break;
+                $attributeValue = $attributeValue[$attributeKey];
+            }
+        }
+        return $attributeValue;
     }
 
-    function appendDocument( $name, $mimeType = false, $os = false, $audience = false )
+    function appendMaintainer( $name, $email, $role = false )
+    {
+        $index = count( $this->Parameters['maintainers'] );
+        $this->Parameters['maintainers'][$index] = array( 'name' => $name,
+                                                          'email' => $email,
+                                                          'role' => $role );
+        $this->ModifiedParameters['maintainers'][$index] = mktime();
+    }
+
+    function appendDocument( $name, $mimeType = false, $os = false, $audience = false,
+                             $create = false, $data = false )
     {
         if ( !$mimeType )
             $mimeType = 'text/plain';
-        $this->Parameters['documents'][] = array( 'name' => $name,
-                                                  'mime-type' => $mimeType,
-                                                  'os' => $os,
-                                                  'audience' => $audience );
+        $index = count( $this->Parameters['documents'] );
+        $this->Parameters['documents'][$index] = array( 'name' => $name,
+                                                        'mime-type' => $mimeType,
+                                                        'os' => $os,
+                                                        'create-document' => $create,
+                                                        'data' => $data,
+                                                        'audience' => $audience );
+        $this->ModifiedParameters['documents'][$index] = mktime();
     }
 
     function appendGroup( $name )
     {
-        $this->Parameters['groups'][] = array( 'name' => $name );
+        $index = count( $this->Parameters['groups'] );
+        $this->Parameters['groups'][$index] = array( 'name' => $name );
+        $this->ModifiedParameters['groups'][$index] = mktime();
     }
 
     function appendChange( $person, $email, $changes )
@@ -283,10 +324,12 @@ class eZPackageHandler
         $timestamp = mktime();
         if ( !is_array( $changes ) )
             $changes = array( $changes );
-        $this->Parameters['changelog'][] = array( 'timestamp' => $timestamp,
-                                                  'person' => $person,
-                                                  'email' => $email,
-                                                  'changes' => $changes );
+        $index = count( $this->Parameters['changelog'] );
+        $this->Parameters['changelog'][$index] = array( 'timestamp' => $timestamp,
+                                                        'person' => $person,
+                                                        'email' => $email,
+                                                        'changes' => $changes );
+        $this->ModifiedParameters['changelog'][$index] = mktime();
     }
 
     function appendFileList( $files, $role = false, $subDirectory = false,
@@ -338,6 +381,9 @@ class eZPackageHandler
         }
     }
 
+    /*!
+     Sets the packager of this release.
+    */
     function setPackager( $timestamp = false, $host = false, $packager = false )
     {
         if ( $timestamp )
@@ -348,23 +394,47 @@ class eZPackageHandler
             $this->Parameters['packaging']['packager'] = $packager;
     }
 
+    /*!
+     Sets various release information. If the value is set to \c false it is not updated.
+     \param $version The version number, eg. 1.0, 2.3.5
+     \param $release The release number, usually starts at 1 and increments for updates on the same version
+     \param $timestamp The timestamp of the release
+     \param $licence The licence of the package, eg. GPL, LGPL etc.
+     \param $state The sate of the release, e.g alpha, beta, stable etc.
+    */
     function setRelease( $version = false, $release = false, $timestamp = false,
                          $licence = false, $state = false )
     {
         if ( $version )
+        {
             $this->Parameters['release']['version']['number'] = $version;
+            $this->ModifiedParameters['release']['version']['number'] = mktime();
+        }
         if ( $release )
+        {
             $this->Parameters['release']['version']['release'] = $release;
+            $this->ModifiedParameters['release']['version']['release'] = mktime();
+        }
         if ( $timestamp )
+        {
             $this->Parameters['release']['timestamp'] = $timestamp;
+            $this->ModifiedParameters['release']['timestamp'] = mktime();
+        }
         if ( $licence )
+        {
             $this->Parameters['release']['licence'] = $licence;
+            $this->ModifiedParameters['release']['licence'] = mktime();
+        }
         if ( $state )
+        {
             $this->Parameters['release']['state'] = $state;
+            $this->ModifiedParameters['release']['state'] = mktime();
+        }
     }
 
     function &domStructure()
     {
+        print_r( $this->ModifiedParameters );
         $dom = new eZDOMDocument();
         $root = $dom->createElementNode( 'package', array( 'version' => EZ_PACKAGE_VERSION,
                                                            'development' => ( EZ_PACKAGE_DEVELOPMENT ? 'true' : 'false' ) ) );
@@ -372,12 +442,34 @@ class eZPackageHandler
         $dom->setRoot( $root );
 
         $name = $this->attribute( 'name' );
+        $nameAttributes = array();
+        if ( $this->isModified( 'name' ) )
+            $nameAttributes['modified'] = $this->isModified( 'name' );
         $summary = $this->attribute( 'summary' );
+        $summaryAttributes = array();
+        if ( $this->isModified( 'summary' ) )
+            $summaryAttributes['modified'] = $this->isModified( 'summary' );
         $description = $this->attribute( 'description' );
+        $descriptionAttributes = array();
+        if ( $this->isModified( 'description' ) )
+            $descriptionAttributes['modified'] = $this->isModified( 'description' );
         $vendor = $this->attribute( 'vendor' );
+        $vendorAttributes = array();
+        if ( $this->isModified( 'vendor' ) )
+            $vendorAttributes['modified'] = $this->isModified( 'vendor' );
         $priority = $this->attribute( 'priority' );
+        $priorityAttributes = array( 'value' => $priority );
+        if ( $this->isModified( 'priority' ) )
+            $priorityAttributes['modified'] = $this->isModified( 'priority' );
         $type = $this->attribute( 'type' );
+        $typeAttributes = array( 'value' => $type );
+        if ( $this->isModified( 'type' ) )
+            $typeAttributes['modified'] = $this->isModified( 'type' );
         $extension = $this->attribute( 'extension' );
+        $extensionAttributes = array( 'name' => $extension );
+        if ( $this->isModified( 'extension' ) )
+            $extensionAttributes['modified'] = $this->isModified( 'extension' );
+
         $maintainers = $this->attribute( 'maintainers' );
         $packaging = $this->attribute( 'packaging' );
         $source = $this->attribute( 'source' );
@@ -386,20 +478,25 @@ class eZPackageHandler
         $release = $this->attribute( 'release' );
         $install = $this->attribute( 'install' );
         $uninstall = $this->attribute( 'uninstall' );
+        $changelogs = $this->attribute( 'changelog' );
 
-        $root->appendChild( $dom->createElementTextNode( 'name', $name ) );
+        $root->appendChild( $dom->createElementTextNode( 'name', $name,
+                                                         $nameAttributes ) );
         if ( $summary )
-            $root->appendChild( $dom->createElementTextNode( 'summary', $summary ) );
+            $root->appendChild( $dom->createElementTextNode( 'summary', $summary,
+                                                             $summaryAttributes ) );
         if ( $description )
-            $root->appendChild( $dom->createElementTextNode( 'description', $description ) );
+            $root->appendChild( $dom->createElementTextNode( 'description', $description,
+                                                             $descriptionAttributes ) );
         if ( $vendor )
-            $root->appendChild( $dom->createElementTextNode( 'vendor', $vendor ) );
+            $root->appendChild( $dom->createElementTextNode( 'vendor', $vendor,
+                                                             $vendorAttributes ) );
         if ( $priority )
-            $root->appendChild( $dom->createElementNode( 'priority', array( 'value' => $priority ) ) );
+            $root->appendChild( $dom->createElementNode( 'priority', $priorityAttributes ) );
         if ( $type )
-            $root->appendChild( $dom->createElementNode( 'type', array( 'value' => $type ) ) );
+            $root->appendChild( $dom->createElementNode( 'type', $typeAttributes ) );
         if ( $extension )
-            $root->appendChild( $dom->createElementNode( 'extension', array( 'name' => $extension ) ) );
+            $root->appendChild( $dom->createElementNode( 'extension', $extensionAttributes ) );
 
         $ezpublishNode =& $dom->createElementNode( 'ezpublish' );
         $ezpublishNode->appendAttribute( $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' ) );
@@ -412,6 +509,7 @@ class eZPackageHandler
         {
             $maintainersNode =& $dom->createElementNode( 'maintainers' );
             $maintainersNode->appendAttribute( $dom->createAttributeNode( 'ezmaintainer', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $index = 0;
             foreach ( $maintainers as $maintainer )
             {
                 $maintainerNode =& $dom->createElementNode( 'maintainer' );
@@ -420,6 +518,9 @@ class eZPackageHandler
                 if ( $maintainer['role'] )
                     $maintainerNode->appendChild( $dom->createElementTextNode( 'role', $maintainer['role'] ) );
                 $maintainersNode->appendChild( $maintainerNode );
+                if ( $this->isModified( 'maintainers', array( $index ) ) )
+                    $maintainerNode->appendAttribute( $dom->createAttributeNode( 'modified', $this->isModified( 'maintainers', array( $index ) ) ) );
+                ++$index;
             }
             $root->appendChild( $maintainersNode );
         }
@@ -437,15 +538,25 @@ class eZPackageHandler
         if ( count( $documents ) > 0 )
         {
             $documentsNode =& $dom->createElementNode( 'documents' );
+            $index = 0;
             foreach ( $documents as $document )
             {
-                $documentNode =& $dom->createElementTextNode( 'document', $document['name'],
-                                                              array( 'mime-type' => $document['mime-type'] ) );
+                $documentNode =& $dom->createElementNode( 'document',
+                                                          array( 'mime-type' => $document['mime-type'],
+                                                                 'name' => $document['name'] ) );
+                if ( $this->isModified( 'documents', array( $index ) ) )
+                    $documentNode->appendAttribute( $dom->createAttributeNode( 'modified', $this->isModified( 'documents', array( $index ) ) ) );
                 if ( $document['os'] )
                     $documentNode->appendAttribute( $dom->createAttributeNode( 'os', $document['os'] ) );
                 if ( $document['audience'] )
                     $documentNode->appendAttribute( $dom->createAttributeNode( 'audience', $document['audience'] ) );
                 $documentsNode->appendChild( $documentNode );
+                if ( $document['create-document'] )
+                {
+                    eZFile::create( $document['name'], $this->path() . '/' . eZPackage::documentDirectory(),
+                                    $document['data'] );
+                }
+                ++$index;
             }
             $root->appendChild( $documentsNode );
         }
@@ -465,6 +576,7 @@ class eZPackageHandler
         {
             $changelogsNode =& $dom->createElementNode( 'changelogs' );
             $changelogsNode->appendAttribute( $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $index = 0;
             foreach ( $changelogs as $changelog )
             {
                 $changelogNode =& $dom->createElementNode( 'entry' );
@@ -473,9 +585,12 @@ class eZPackageHandler
                 $changelogNode->appendAttribute( $dom->createAttributeNode( 'email', $changelog['email'] ) );
                 foreach ( $changelog['changes'] as $change )
                 {
-                    $changelogNode->appendAttribute( $dom->createAttributeTextNode( 'change', $change ) );
+                    $changelogNode->appendChild( $dom->createElementTextNode( 'change', $change ) );
                 }
+                if ( $this->isModified( 'changelog', array( $index ) ) )
+                    $changelogNode->appendAttribute( $dom->createAttributeNode( 'modified', $this->isModified( 'changelog', array( $index ) ) ) );
                 $changelogsNode->appendChild( $changelogNode );
+                ++$index;
             }
             $root->appendChild( $changelogsNode );
         }
@@ -483,41 +598,66 @@ class eZPackageHandler
         $releaseNode =& $dom->createElementNode( 'release' );
         $versionNode =& $dom->createElementNode( 'version' );
         $versionNode->appendAttribute( $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' ) );
-        $versionNode->appendChild( $dom->createElementTextNode( 'number', $release['version']['number'] ) );
-        $versionNode->appendChild( $dom->createElementTextNode( 'release', $release['version']['release'] ) );
+        $numberAttributes = array();
+        if ( $this->isModified( 'release', array( 'version', 'number' ) ) )
+            $numberAttributes['modified'] = $this->isModified( 'release', array( 'version', 'number' ) );
+        $versionNode->appendChild( $dom->createElementTextNode( 'number', $release['version']['number'],
+                                                                $numberAttributes ) );
+        $releaseAttributes = array();
+        if ( $this->isModified( 'release', array( 'version', 'release' ) ) )
+            $releaseAttributes['modified'] = $this->isModified( 'release', array( 'version', 'release' ) );
+        $versionNode->appendChild( $dom->createElementTextNode( 'release', $release['version']['release'],
+                                                                $releaseAttributes ) );
         $releaseNode->appendChild( $versionNode );
-        if ( !$release['timestamp'] )
-            $release['timestamp'] = mktime();
-        $releaseNode->appendChild( $dom->createElementTextNode( 'timestamp', $release['timestamp'] ) );
+        if ( $release['timestamp'] )
+        {
+//             $release['timestamp'] = mktime();
+            $timestampAttributes = array();
+            if ( $this->isModified( 'release', array( 'timestamp' ) ) )
+                $timestampAttributes['modified'] = $this->isModified( 'release', array( 'timestamp' ) );
+            $releaseNode->appendChild( $dom->createElementTextNode( 'timestamp', $release['timestamp'],
+                                                                    $timestampAttributes ) );
+        }
+        $licenceAttributes = array();
+        if ( $this->isModified( 'release', array( 'licence' ) ) )
+            $licenceAttributes['modified'] = $this->isModified( 'release', array( 'licence' ) );
         if ( $release['licence'] )
-            $releaseNode->appendChild( $dom->createElementTextNode( 'licence', $release['licence'] ) );
+            $releaseNode->appendChild( $dom->createElementTextNode( 'licence', $release['licence'],
+                                                                    $licenceAttributes ) );
+        $stateAttributes = array();
+        if ( $this->isModified( 'release', array( 'state' ) ) )
+            $stateAttributes['modified'] = $this->isModified( 'release', array( 'state' ) );
         if ( $release['state'] )
-            $releaseNode->appendChild( $dom->createElementTextNode( 'state', $release['state'] ) );
+            $releaseNode->appendChild( $dom->createElementTextNode( 'state', $release['state'],
+                                                                    $stateAttributes ) );
 
         $providesNode =& $dom->createElementNode( 'provides' );
         $providesNode->appendAttribute( $dom->createAttributeNode( 'ezprovision', 'http://ez.no/ezpackage', 'xmlns' ) );
-        foreach ( $release['provides']['file-lists'] as $fileList )
+        if ( isset( $release['provides']['file-lists'] ) )
         {
-            $fileListNode =& $dom->createElementNode( 'file-list' );
-            if ( $fileList['role'] )
-                $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
-            if ( $fileList['sub-directory'] )
-                $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
-            foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
+            foreach ( $release['provides']['file-lists'] as $fileList )
             {
-                $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
-            }
-            $providesNode->appendChild( $fileListNode );
-            foreach ( $fileList['files'] as $file )
-            {
-                $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
-                if ( $file['role'] )
-                    $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
-                if ( $file['sub-directory'] )
-                    $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
-                if ( $file['md5sum'] )
-                    $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
-                $fileListNode->appendChild( $fileNode );
+                $fileListNode =& $dom->createElementNode( 'file-list' );
+                if ( $fileList['role'] )
+                    $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
+                if ( $fileList['sub-directory'] )
+                    $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
+                foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
+                {
+                    $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
+                }
+                $providesNode->appendChild( $fileListNode );
+                foreach ( $fileList['files'] as $file )
+                {
+                    $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
+                    if ( $file['role'] )
+                        $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
+                    if ( $file['sub-directory'] )
+                        $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
+                    if ( $file['md5sum'] )
+                        $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
+                    $fileListNode->appendChild( $fileNode );
+                }
             }
         }
         $releaseNode->appendChild( $providesNode );
@@ -589,6 +729,10 @@ class eZPackageHandler
         }
     }
 
+    /*!
+     \private
+     \return the package as a string, the string is in xml format.
+    */
     function toString()
     {
         $dom =& $this->domStructure();
@@ -596,10 +740,15 @@ class eZPackageHandler
         return $string;
     }
 
+    /*!
+     \private
+     Stores a cached version of the package in the cache directory
+     under the repository for the package.
+    */
     function storeCache( $directory )
     {
         if ( !file_exists( $directory ) )
-            eZDir::mkdir( $directory, true );
+            eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php =& new eZPHPCreator( $directory, 'package.php' );
         $php->addComment( "Automatically created cache file for the package format\n" .
@@ -607,21 +756,52 @@ class eZPackageHandler
         $php->addSpace();
         $php->addVariable( 'Parameters', $this->Parameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                            array( 'full-tree' => true ) );
+        $php->addVariable( 'ModifiedParameters', $this->ModifiedParameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                           array( 'full-tree' => true ) );
         $php->store();
     }
 
+    /*!
+     Stores the current package in the repository.
+    */
+    function store()
+    {
+        $path = eZPackage::repositoryPath() . '/' . $this->attribute( 'name' );
+        if ( !file_exists( $path ) )
+        {
+            eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+        }
+        $filePath = $path . '/package.xml';
+        $result = $this->storeString( $filePath, $this->toString() );
+        $this->storeCache( $path . '/' . $this->cacheDirectory() );
+        return $result;
+    }
+
+    /*!
+     Stores the current package to the file \a $filename.
+    */
     function storeToFile( $filename )
     {
         print( "Storing package $filename\n" );
         return $this->storeString( $filename, $this->toString() );
     }
 
+    /*!
+     Stores the DOM tree \a $dom to the file \a $filename.
+     The DOM tree will be turned into a string before being stored.
+    */
     function storeDOM( $filename, $dom )
     {
         $data = $dom->toString();
         $this->storeString( $filename, $data );
     }
 
+    /*!
+     \private
+     \static
+     Stores the string data \a $data into the file \a $filename.
+     \return \c true if successful.
+    */
     function storeString( $filename, $data )
     {
         $file = fopen( $filename, 'w' );
@@ -635,6 +815,11 @@ class eZPackageHandler
     }
 
 
+    /*!
+     \private
+     Loads the contents of the file \a $filename and parses it into a DOM tree.
+     The DOM tree is returned.
+    */
     function &fetchDOMFromFile( $filename )
     {
         if ( file_exists( $filename ) )
@@ -653,6 +838,11 @@ class eZPackageHandler
         return false;
     }
 
+    /*!
+     Tries to load the package definition from file \a $filename
+     and create a package object from it.
+     \return \c false if it could be fetched.
+    */
     function &fetchFromFile( $filename )
     {
         if ( !file_exists( $filename ) )
@@ -670,7 +860,7 @@ class eZPackageHandler
             $xml = new eZXML();
             $dom =& $xml->domTree( $xmlText );
 
-            $package =& new eZPackageHandler();
+            $package =& new eZPackage();
             $parameters = $package->parseDOMTree( $dom );
 
             return $package;
@@ -704,22 +894,61 @@ class eZPackageHandler
         }
     }
 
+    /*!
+     \return the full path to this package.
+    */
+    function path()
+    {
+        $path = eZPackage::repositoryPath();
+        $path .= '/' . $this->attribute( 'name' );
+        return $path;
+    }
+
+    /*!
+     \static
+     \return the directory name for packages, used in conjunction with eZSys::storageDirectory().
+    */
     function repositoryDirectory()
     {
         $ini =& eZINI::instance( 'package.ini' );
         return $ini->variable( 'RepositorySettings', 'RepositoryDirectory' );
     }
 
+    /*!
+     \static
+     \return the path to the package repository.
+    */
     function repositoryPath()
     {
         $path = eZDir::path( array( eZSys::storageDirectory(),
-                                    eZPackageHandler::repositoryDirectory() ) );
+                                    eZPackage::repositoryDirectory() ) );
         return $path;
     }
 
+    /*!
+     \static
+     \return the name of the cache directory for cached package data.
+    */
+    function cacheDirectory()
+    {
+        return '.cache';
+    }
+
+    /*!
+     \static
+     \return the name of the documents directory for cached package data.
+    */
+    function documentDirectory()
+    {
+        return 'documents';
+    }
+
+    /*!
+     Locates all packages in the repository and returns an array with eZPackage objects.
+    */
     function fetchPackages()
     {
-        $path = eZPackageHandler::repositoryPath();
+        $path = eZPackage::repositoryPath();
         $packages = array();
         if ( file_exists( $path ) )
         {
@@ -733,19 +962,19 @@ class eZPackageHandler
                 if ( file_exists( $filePath ) )
                 {
                     $name = $file;
-                    $packageCachePath = $dirPath . '/cache/package.php';
+                    $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
                     if ( file_exists( $packageCachePath ) )
                     {
                         include( $packageCachePath );
                         if ( isset( $Parameters ) )
                         {
-                            $package = new eZPackageHandler( $Parameters );
+                            $package = new eZPackage( $Parameters );
                         }
                     }
                     if ( !$package )
                     {
-                        $package =& eZPackageHandler::fetchFromFile( $filePath );
-                        $package->storeCache( $dirPath . '/cache' );
+                        $package =& eZPackage::fetchFromFile( $filePath );
+                        $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
                     }
                     $packages[] =& $package;
                 }
@@ -756,7 +985,10 @@ class eZPackageHandler
     }
 
     /// \privatesection
+    /// All interal data
     var $Parameters;
+    /// Controls which data has been modified
+    var $ModifiedParameters;
 }
 
 ?>

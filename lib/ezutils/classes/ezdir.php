@@ -122,6 +122,16 @@ class eZDir
         }
     }
 
+    /*!
+     \return the default permissions to use for directories.
+     \note The permission is converted from octal text to decimal value.
+    */
+     function directoryPermission()
+    {
+        $ini =& eZINI::instance();
+        return octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+    }
+
 /*
     function mkdirRecursive( $dir, $perm )
     {

@@ -1051,6 +1051,8 @@ ezdebug.reload();
                          'notice-end' => false,
                          'timing' => false,
                          'timing-end' => false,
+                         'mark' => false,
+                         'mark-end' => false,
                          'emphasize' => false,
                          'emphasize-end' => false,
                          'bold' => false,

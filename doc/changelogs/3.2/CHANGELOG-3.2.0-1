@@ -136,6 +136,8 @@ Changes from 3.1-1 to 3.2.0-1
   This was done to get rid of the warnings.
 - Removed some old debug messages from datatypes.
 - Fixed variable name typo in ezextension class.
+- Created new class eZScript which takes care of starting, initializing and shutting down
+  common things in scripts.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.
@@ -193,3 +195,10 @@ eZ extension:
 
 eZ cli:
 - New class to handle terminal and CLI specific functionality.
+
+eZ file:
+- Added create() function which creates a file somewhere with some optional data.
+
+eZ dir:
+- Added function directoryPermission() which returns the permission mask
+  which should be used to create directories.

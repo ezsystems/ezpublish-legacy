@@ -45,6 +45,7 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 class eZFile
 {
@@ -73,6 +74,36 @@ class eZFile
         $lines =& preg_split( "#\r\n|\r|\n#", $contents );
         unset( $contents );
         return $lines;
+    }
+
+    /*!
+     Creates a file called \a $filename.
+     If \a $directory is specified the file is placed there, the directory will also be created if missing.
+     if \a $data is specified the file will created with the content of this variable.
+    */
+    function create( $filename, $directory = false, $data = false )
+    {
+        $filepath = $filename;
+        if ( $directory )
+        {
+            if ( !file_exists( $directory ) )
+            {
+                eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
+                eZDebugSetting::writeNotice( 'ezfile-create', "Created directory $directory", 'eZFile::create' );
+            }
+            $filepath = $directory . '/' . $filename;
+        }
+        $file = fopen( $filepath, 'w' );
+        if ( $file )
+        {
+            eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
+            if ( $data )
+                fwrite( $file, $data );
+            fclose( $file );
+            return true;
+        }
+        eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
+        return false;
     }
 
 }
