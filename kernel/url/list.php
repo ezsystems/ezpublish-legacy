@@ -43,12 +43,12 @@ $ViewMode = $Params['ViewMode'];
 $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
-    
+
 if ( $ViewMode == '' )
     $ViewMode = 'all';
 
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-    
+
 if ( $Module->isCurrentAction( 'SetValid' ) )
 {
     $urlSelection = $Module->actionParameter( 'URLSelection' );
