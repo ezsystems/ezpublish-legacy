@@ -158,19 +158,19 @@ class eZImageType extends eZDataType
         if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'A valid file is required.' ) );
+                'A valid image file is required.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
+                'The size of the uploaded image exceeds limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds %1 bytes.' ), $maxSize );
+                'The size of the uploaded file exceeds the limit set for this site: %1 bytes.' ), $maxSize );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -272,7 +272,7 @@ class eZImageType extends eZDataType
         if ( !$handler )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler.' ) );
+                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 
@@ -297,7 +297,7 @@ class eZImageType extends eZDataType
         if ( !$handler )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler.' ) );
+                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 

@@ -275,7 +275,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             {
                                 $GLOBALS[$isInputValid] = false;
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                     'Link %1 does not exist.',
+                                                                                     'The link %1 does not exist.',
                                                                                      false, array( $urlID ) ) );
                                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
                             }
@@ -410,7 +410,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( count( $paragraphs ) == 0  && count( $headers ) == 0  )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Content required' ) );
+                                                                             'Input required' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                     else

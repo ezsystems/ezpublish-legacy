@@ -91,7 +91,7 @@ class eZIniSettingType extends eZDataType
             if ( $config == null )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'Could not locate ini file' ) );
+                                                                     'Could not locate the ini file.' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
 

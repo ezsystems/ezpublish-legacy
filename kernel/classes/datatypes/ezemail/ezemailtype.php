@@ -72,7 +72,7 @@ class eZEmailType extends eZDataType
                 if ( trim( $email ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is empty.' ) );
+                                                                         'The email address is empty.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -85,7 +85,7 @@ class eZEmailType extends eZDataType
                 if ( !$isValidated )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is not valid.' ) );
+                                                                         'The email address is not valid.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -122,7 +122,7 @@ class eZEmailType extends eZDataType
                 if ( strlen( trim( $email ) ) == 0 )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is empty.' ) );
+                                                                         'The email address is empty.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
@@ -133,7 +133,7 @@ class eZEmailType extends eZDataType
                 if ( !eZMail::validate( trim( $email ) ) )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is not valid.' ) );
+                                                                         'The email address is not valid.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }

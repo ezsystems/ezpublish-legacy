@@ -81,14 +81,14 @@ class eZISBNType extends eZDataType
             }else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'The ISBN number is not correct. Please recheck the input' ) );
+                                                                     'The ISBN number is not correct. Please check the input for mistakes.' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }
         else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'The ISBN format is not valid.' ) );
+                                                                 'The ISBN number is not correct. Please check the input for mistakes.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;

@@ -77,7 +77,7 @@ class eZTimeType extends eZDataType
              ( $hour == '' or $minute == '' ) )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'Missing time input.' ) );
+                                                                 'Time input required.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
 

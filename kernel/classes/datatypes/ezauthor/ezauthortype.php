@@ -86,7 +86,7 @@ class eZAuthorType extends eZDataType
                     if ( trim( $name )== "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Author name should be provided.' ) );
+                                                                             'The author name must be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
@@ -94,7 +94,7 @@ class eZAuthorType extends eZDataType
                     if ( ! $isValidate )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Email address is not valid.' ) );
+                                                                             'The email address is not valid.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }

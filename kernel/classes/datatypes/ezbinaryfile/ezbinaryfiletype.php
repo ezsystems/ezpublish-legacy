@@ -208,7 +208,7 @@ class eZBinaryFileType extends eZDataType
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
                                                               'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
                                             'text' => ezi18n( 'kernel/classes/datatypes',
-                                                              'File uploading is not enabled, no file handling can be performed.' ) ) );
+                                                              'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
                 $isFileWarningAdded = true;
             }
         }
@@ -247,13 +247,13 @@ class eZBinaryFileType extends eZDataType
         if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                'Size of uploaded file exceeds limit set by upload_max_filesize directive in php.ini.' ) );
+                'The size of the uploaded file exceeds the limit set by the upload_max_filesize directive in php.ini.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'Size of uploaded file exceeds %1 bytes.' ), $maxSize );
+                                                                 'The size of the uploaded file exceeds the maximum upload size: %1 bytes.' ), $maxSize );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -376,7 +376,7 @@ class eZBinaryFileType extends eZDataType
         if ( !$httpFile->store( "original", false, false ) )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
-                                                        'Failed to store HTTP file %filename.', null,
+                                                        'Failed to store file %filename. Please contact the site administrator.', null,
                                                         array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;
         }

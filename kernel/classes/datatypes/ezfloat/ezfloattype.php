@@ -144,7 +144,7 @@ class eZFloatType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input is not float.' ) );
+                                                                             'The given input is not a floating point number.' ) );
                 } break;
                 case EZ_FLOAT_HAS_MIN_VALUE:
                 {
@@ -154,7 +154,7 @@ class eZFloatType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input must be greater than %1' ),
+                                                                             'The input must be greater than %1' ),
                                                                      $min );
                 } break;
                 case EZ_FLOAT_HAS_MAX_VALUE:
@@ -165,7 +165,7 @@ class eZFloatType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input must be less than %1' ),
+                                                                             'The input must be less than %1' ),
                                                                      $max );
                 } break;
                 case EZ_FLOAT_HAS_MIN_MAX_VALUE:
@@ -176,7 +176,7 @@ class eZFloatType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input is not in defined range %1 - %2' ),
+                                                                             'The input is not in defined range %1 - %2' ),
                                                                      $min, $max );
                 } break;
             }

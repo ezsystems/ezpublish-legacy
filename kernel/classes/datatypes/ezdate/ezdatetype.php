@@ -78,7 +78,7 @@ class eZDateType extends eZDataType
              ( $year == '' or $month == '' or $day == '') )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'Missing date input.' ) );
+                                                                 'The date input is missing.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         $datetime = mktime( 0, 0, 0, $month, $day, $year );

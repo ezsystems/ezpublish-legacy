@@ -117,7 +117,7 @@ class eZTextType extends eZDataType
                     if ( $data == "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Text line is empty, content required.' ) );
+                                                                             'Input required.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }

@@ -99,14 +99,14 @@ class eZMultiOptionType extends eZDataType
                     if ( trim( $value ) == "" )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Option value should be provided.' ) );
+                                                                             'The option value must be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
 
                     if ( strlen( $multioptionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $multioptionAdditionalPriceList[$i] ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Additional price for multioption value is invalid.' ) );
+                                                                             'The additional price for the multioption value is not valid.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }

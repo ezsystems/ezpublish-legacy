@@ -97,7 +97,7 @@ class eZIntegerType extends eZDataType
                     $state = $this->IntegerValidator->validate( $data );
                     if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID )
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input is not integer.' ) );
+                                                                             'The input is not a valid integer.' ) );
                     else
                         return $state;
                 } break;
@@ -109,7 +109,7 @@ class eZIntegerType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input must be greater than %1' ),
+                                                                             'The number must be greater than %1' ),
                                                                      $min );
                 } break;
                 case EZ_INTEGER_HAS_MAX_VALUE:
@@ -120,7 +120,7 @@ class eZIntegerType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input must be less than %1' ),
+                                                                             'The number must be less than %1' ),
                                                                      $max );
                 } break;
                 case EZ_INTEGER_HAS_MIN_MAX_VALUE:
@@ -131,7 +131,7 @@ class eZIntegerType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input is not in defined range %1 - %2' ),
+                                                                             'The number is not within the required range %1 - %2' ),
                                                                      $min, $max );
                 } break;
             }
