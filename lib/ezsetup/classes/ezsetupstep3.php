@@ -153,7 +153,7 @@ function stepThree( &$tpl, &$http )
 			{
 				if ( trim( $singleQuery ) != "" )
 				{
-				print "Query: $singleQuery<br />";
+//				print "Query: $singleQuery<br />";
 					$dbObject->query( $singleQuery );
 					if ( $dbObject->errorNumber() != 0 )
 						break;
