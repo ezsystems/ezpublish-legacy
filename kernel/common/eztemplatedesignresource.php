@@ -207,7 +207,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
 
         // Create the override cache
-        $overrideCacheFile = $this->createOverrideCache();
+        $overrideCacheFile =& $this->createOverrideCache();
 
         if ( $overrideCacheFile )
         {
@@ -300,7 +300,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
      Generates the cache for the template override matching.
     */
-    function createOverrideCache()
+    function &createOverrideCache()
     {
         global $eZTemplateOverrideCacheNoPermission;
         if ( $eZTemplateOverrideCacheNoPermission == "nocache" )
@@ -318,7 +318,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $overrideKey = md5( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) ;
         $cacheDir = eZSys::cacheDirectory();
+
         $overrideCacheFile = "$cacheDir/override/override_$overrideKey.php";
+
 
         // Build matching cache only of it does not already exists,
         // or override file has been updated
