@@ -59,13 +59,7 @@ class eZContentObjectTranslation
     */
     function attributes( $as_object = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                    null, array( "version" => $this->Version,
-                                                                 "contentobject_id" => $this->ContentObjectID,
-                                                                 "language_code" => $this->LanguageCode
-                                                                 ),
-                                                    null, null,
-                                                    $as_object );
+        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $as_object );
     }
 
     /// The content object identifier

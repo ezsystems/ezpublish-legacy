@@ -94,6 +94,12 @@ eZ module :
 - Added support for turning post variables into actions, no more need for post variable checking. They
   can even have post variable parameters.
 - Added support for easier redirection using module, view and parameters.
+- Changed the handleError function, it now takes a second parameter called /type/ which determines
+  the type of the error, for instance: kernel or contentobject
+- Changed the setErrorModule to take a second parameter which defines the error view, default is /view/.
+- addHook() now takes an extra parameter called /priority/ which defines the order of execution for a hook,
+  lower priorities (negative included) gets executed first. The default priority is 1.
+  If an entry with the same priority is found it will be increased or decreased according to the /append/ parameter.
 
 eZ file :
 - New class for handling file operations

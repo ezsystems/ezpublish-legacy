@@ -95,6 +95,21 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
+     Clones the version with new version \a $newVersionNumber and creator \a $userID
+     \note The cloned version is not stored.
+    */
+    function clone( $newVersionNumber, $userID )
+    {
+        $clonedVersion = $this;
+        $clonedVersion->setAttribute( 'id', null );
+        $clonedVersion->setAttribute( 'version', $newVersionNumber );
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
+        $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
+        $clonedVersion->setAttribute( 'creator_id', $userID );
+    }
+
+    /*!
      Returns an array with all the translations for the current version.
     */
     function translations()
@@ -151,8 +166,8 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     Returns the attributes for the current content object version. The wanted language
-     must be specified.
+     Returns the attributes for the current content object version.
+     If \a $language is not specified it will use eZContentObject::defaultLanguage.
     */
     function attributes( $language = false, $as_object = true )
     {
@@ -160,6 +175,17 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $language = eZContentObject::defaultLanguage();
         }
+        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $as_object );
+    }
+
+    /*!
+     Returns the attributes for the content object version \a $version and content object \a $contentObjectID.
+     \a $language defines the language to fetch.
+     \static
+     \sa attributes
+    */
+    function fetchAttributes( $version, $contentObjectID, $language, $as_object = true )
+    {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null, array( "version" => $this->Version,
                                                                  "contentobject_id" => $this->ContentObjectID,

@@ -284,25 +284,21 @@ class eZContentObject extends eZPersistentObject
         }
 
         $currentVersionNumber = $version->attribute( "version" );
-        $contentObjectAttributes =& $version->attributes( eZContentObject::defaultLanguage() );
+        $contentObjectTranslations =& $version->translations();
 
-        $version->setAttribute( 'id', null );
-        $version->setAttribute( 'version', $nextVersionNumber );
-        $version->setAttribute( 'created', mktime() );
-        $version->setAttribute( 'modified', mktime() );
-        $version->setAttribute( 'creator_id', $userID );
-        $version->store();
+        $clonedVersion = $version->clone( $nextVersionNumber, $userID );
+        $clonedVersion->store();
 
-        // fetch the current version object
-        foreach ( $contentObjectAttributes as $attribute )
+        foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
         {
-            // Attribute should have clone function
-            $content = $attribute->content();
-            //$attribute->setAttribute( "id", null );
-            $attribute->setAttribute( "version", $nextVersionNumber );
-            //$attribute->setContent( $content );
-            $attribute->initialize( $currentVersionNumber );
-            $attribute->store();
+            $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
+            $contentObjectAttributes =& $contentObjectTranslation->attributes();
+            foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+            {
+                $attribute =& $attributes[$attributeKey];
+                $clonedAttribute =& $attribute->clone( $nextVersionNumber, $currentVersionNumber );
+                $clonedAttribute->store();
+            }
         }
         return $version;
     }
