@@ -740,6 +740,33 @@ div#trash li img
     vertical-align: middle;
 }
 
+div.widthcontrol p
+{
+    text-align: center;
+    font-size: 0.85em;
+}
+
+div.widthcontrol a, div.settings a
+{
+    color: #8a8a85;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    text-decoration: none;
+}
+
+div.widthcontrol a:hover, div.settings a:hover
+{
+    color: #ffffff;
+    background-color: #2D537A;
+}
+
+div.widthcontrol span.current, div.settings span.current
+{
+    color: #254b71;
+    background-color: #C8CFD7;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
 div#rightmenu 
 {
     float: right;
@@ -802,9 +829,9 @@ a.showhide, div#rightmenu span.openclose
     color: #2d537a;
     background-color: #8a9fb6;
     padding: 0 0.3em 0 0.3em;
-    border: 1px solid #f0f0f0;
-    border-right-color: #202020;
-    border-bottom-color: #202020;
+    border: 1px solid #a7bbd1;
+    border-right-color: #2d537a;
+    border-bottom-color: #2d537a;
     display: block;
     float: right;
 }

@@ -24,11 +24,13 @@
 </div>
 
 {* Left menu width control. *}
+<div class="widthcontrol">
 <p>
-<a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/content/menu' )}">{'Small'|i18n( 'design/admin/parts/content/menu' )}</a>
+<span class="current">{'Small'|i18n( 'design/admin/parts/content/menu' )}</span>
 <a href={'/user/preferences/set/admin_left_menu_width/19'|ezurl} title="{'Change the left menu width to medium size.'|i18n( 'design/admin/parts/content/menu' )}">{'Medium'|i18n( 'design/admin/parts/content/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl} title="{'Change the left menu width to large size.'|i18n( 'design/admin/parts/content/menu' )}">{'Large'|i18n( 'design/admin/parts/content/menu' )}</a>
 </p>
+</div>
 
 {/section}
 
@@ -45,11 +47,13 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Left menu width control. *}
+<div class="widthcontrol">
 <p>
 <a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl} title="{'Change the left menu width to small size.'|i18n( 'design/admin/parts/content/menu' )}">{'Small'|i18n( 'design/admin/parts/content/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/19'|ezurl} title="{'Change the left menu width to medium size.'|i18n( 'design/admin/parts/content/menu' )}">{'Medium'|i18n( 'design/admin/parts/content/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl} title="{'Change the left menu width to large size.'|i18n( 'design/admin/parts/content/menu' )}">{'Large'|i18n( 'design/admin/parts/content/menu' )}</a>
 </p>
+</div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

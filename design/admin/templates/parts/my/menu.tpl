@@ -27,14 +27,16 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+<div class="settings">
 <ul>
     <li class="nobullet">{'Locations'}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
-        <b>{'on'|i18n( 'design/admin/parts/my/menu' )}</b>&nbsp;<a href={concat( '/user/preferences/set/admin_edit_show_locations/0/', $uri_string )|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
+        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={concat( '/user/preferences/set/admin_edit_show_locations/0/', $uri_string )|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
     {section-else}
-        <a href={concat( '/user/preferences/set/admin_edit_show_locations/1/', $uri_string )|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<b>{'off'|i18n( 'design/admin/parts/my/menu' )}</b>
+        <a href={concat( '/user/preferences/set/admin_edit_show_locations/1/', $uri_string )|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
     {/section}
     </li>
 </ul>
+</div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
