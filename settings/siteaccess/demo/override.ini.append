@@ -6,12 +6,6 @@ MatchFile=node_forum.tpl
 Subdir=templates
 Match[node]=49
 
-[pagelayout_standard]
-Source=pagelayout.tpl
-MatchFile=pagelayout_standard.tpl
-Subdir=templates
-Match[section]=1
-
 [pagelayout_whitebox]
 Source=pagelayout.tpl
 MatchFile=pagelayout_whitebox.tpl
@@ -136,5 +130,10 @@ Match[class]=13
 Source=node/view/full.tpl
 MatchFile=file.tpl
 Subdir=templates
-Match[class]=12
+
+[comment_edit]
+Source=content/edit.tpl
+MatchFile=comment_edit.tpl
+Subdir=templates
+Match[class]=13
 */ ?>
