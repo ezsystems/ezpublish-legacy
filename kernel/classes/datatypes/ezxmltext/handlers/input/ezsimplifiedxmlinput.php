@@ -2256,7 +2256,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 if ( $view != null )
                     $objectAttr .= " view='$view'";
                 if ( $htmlID != '' )
-                    $attributes[] = "id='$htmlID'";
+                    $objectAttr .= " id='$htmlID'";
 
                 $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
                 foreach ( $customAttributes as $attribute )
