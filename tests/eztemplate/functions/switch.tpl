@@ -73,3 +73,29 @@ No Match for {$:match}
 
 {/switch}
 {/let}
+
+=========================================================
+
+{let used1=hash( section, 2 ) used2=hash( section, false() )}
+First({$used1.section}):
+
+{switch name=sw match=$used1.section}
+{case in=array(2,4,5,6,7,8,9,15)}
+In array
+{/case}
+{case}
+Not in array
+{/case}
+{/switch}
+
+Second({$used2.section}):
+
+{switch name=sw match=$used2.section}
+{case in=array(2,4,5,6,7,8,9,15)}
+In array
+{/case}
+{case}
+Not in array
+{/case}
+{/switch}
+{/let}
