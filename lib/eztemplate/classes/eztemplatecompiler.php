@@ -427,6 +427,8 @@ class eZTemplateCompiler
         if ( !$rootNode )
             return false;
 
+        $GLOBALS['eZTemplateCompilerResourceCache'][$resourceData['template-filename']] =& $resourceData;
+
         $useComments = eZTemplateCompiler::isCommentsEnabled();
 
         eZTemplateCompiler::createCommonCompileTemplate();
@@ -2070,6 +2072,7 @@ $rbracket
                     $uri = $node[2];
                     if ( $resource )
                         $uri = $resource . ':' . $uri;
+                    unset( $tmpResourceData );
                     $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $node[2] );
                     $uriText = $php->variableText( $uri, 0 );
 
@@ -2096,26 +2099,40 @@ $rbracket
                     $tmpResourceData['time-stamp'] = null;
                     $tmpResourceData['key-data'] = null;
                     $subSpacing = 0;
-                    if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                    $hasResourceData = false;
+                    if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
                     {
-                        if ( !$tmpResourceData['compiled-template'] and
-                             $tmpResourceData['root-node'] === null )
+                        $tmpFileName = $tmpResourceData['template-filename'];
+                        unset( $tmpResourceData );
+                        $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
+                        $tmpResourceData['compiled-template'] = true;
+                        $hasResourceData = true;
+                    }
+                    else
+                    {
+                        if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
                         {
-                            $root =& $tmpResourceData['root-node'];
-                            $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-                            $templateText =& $tmpResourceData["text"];
-                            $keyData = $tmpResourceData['key-data'];
-                            $rootNamespace = '';
-                            $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
+                            if ( !$tmpResourceData['compiled-template'] and
+                                 $tmpResourceData['root-node'] === null )
+                            {
+                                $root =& $tmpResourceData['root-node'];
+                                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+                                $templateText =& $tmpResourceData["text"];
+                                $keyData = $tmpResourceData['key-data'];
+                                $rootNamespace = '';
+                                $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
+                                $hasResourceData = false;
+                            }
+                            if ( !$tmpResourceData['compiled-template'] and
+                                 $resourceCanCache and
+                                 $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
+                            {
+                                $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
+                                if ( $generateStatus )
+                                    $tmpResourceData['compiled-template'] = true;
+                            }
                         }
-                        if ( !$tmpResourceData['compiled-template'] and
-                             $resourceCanCache and
-                             $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) )
-                        {
-                            $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
-                            if ( $generateStatus )
-                                $tmpResourceData['compiled-template'] = true;
-                        }
+                        $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
                     }
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     $useFallbackCode = true;
@@ -2658,6 +2675,12 @@ else
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {
                 $knownTypes = array();
+                $newParameters = $parameters;
+                $newParameters['counter'] += 1;
+                $tmpVariableAssignmentName = $newParameters['variable'];
+                $tmpVariableAssignmentCounter = $newParameters['counter'];
+                if ( $tmpVariableAssignmentCounter > 0 )
+                    $tmpVariableAssignmentName .= $tmpVariableAssignmentCounter;
                 if ( eZTemplateNodeTool::isStaticElement( $variableDataItem[1] ) )
                 {
                     $attributeStaticValue = eZTemplateNodeTool::elementStaticValue( $variableDataItem[1] );
@@ -2665,7 +2688,6 @@ else
                 }
                 else
                 {
-                    $newParameters = $parameters;
                     $newParameters['counter'] += 1;
                     $tmpKnownTypes = array();
                     eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $tmpKnownTypes, $dataInspection,
@@ -2676,7 +2698,11 @@ else
                         $newVariableAssignmentName .= $newVariableAssignmentCounter;
                     $attributeText = "\$$newVariableAssignmentName";
                 }
-                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n",
+//                 $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n",
+//                                     array( 'spacing' => $spacing ) );
+                $php->addCodePiece( "\$$tmpVariableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n" .
+                                    "unset( \$$variableAssignmentName );\n" .
+                                    "\$$variableAssignmentName = \$$tmpVariableAssignmentName;\n",
                                     array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )

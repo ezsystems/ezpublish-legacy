@@ -386,6 +386,11 @@ class eZTemplateSectionFunction
                        "    \$loopKeys = false;\n" .
                        $stringCode .
                        "    \$loopCount = strlen( \$loopItem );\n" .
+                       "}\n" );
+            // Fallback for no item
+            $code .= ( "else\n{\n" .
+                       "    \$loopKeys = false;\n" .
+                       "    \$loopCount = 0;\n" .
                        "}" );
             // Initialization end
 
