@@ -38,17 +38,10 @@
 <ol>
 	<li>Go to ez.no/download</li>
 	<li>Find the Windows installer</li>
-	<li>Download the installer to your hard disc</li>
-	<li>Click the Setup.exe file and follow the instructions ? click ?next?</li>
-	<li>Save eZ publish 3 on your computer</li>
-	<li>Default will be C:\ eZ systems</li>
-	<li>Keep the default or change to where you want to save it</li>
-	<li>Click ?next?</li>
-	<li>Now the installation will start. This can take a few minutes*</li>
-	<li>When the installation is done eZ publish will start in a new window in your
-	standard browser. eZ publish will open at the Usersite. To start the Adminsite
-	simply write /admin after the rest in the address. Log in with ?admin? and
-	?publish?.</li>
+	<li>Download the installer to your hard drive</li>
+	<li>Click the Setup.exe file and follow the instructions*</li>
+	<li>Now the installation will start. This can take a few minutes</li>
+	<li>When the installation is done you need to start eZ publish by clicking on the eZ publish icon on the desktop. This will open eZ publish in your default browser. eZ publish will open at the User site. To start the Admin site simply write /admin after the rest in the address. Log in with ?admin? and ?publish?.</li>
 	<li>You are ready to start using eZ publish.</li>
 </ol>
 
