@@ -93,7 +93,7 @@ class eZOperationMemento extends eZPersistentObject
     {
         if( !isset( $this->MainMemento ) )
         {
-            $this->MainMemento =& eZOperationMemento::fetch( $this->attribute( 'main_key' ) );
+            $this->MainMemento =& eZOperationMemento::fetchMain( $this->attribute( 'main_key' ) );
         }
         return $this->MainMemento;
     }
@@ -120,7 +120,7 @@ class eZOperationMemento extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
                                                 null,
                                                 array( 'memento_key' => $mementoKey,
-                                                       'main_key' => 1 ),
+                                                       'main' => 1 ),
                                                 $asObject );
     }
 
@@ -134,7 +134,7 @@ class eZOperationMemento extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZOperationMemento::definition(),
                                                     null,
                                                     array( 'memento_key' => $mementoKey,
-                                                           'main_key' => 0 ),
+                                                           'main' => 0 ),
                                                     null,
                                                     null,
                                                     $asObject );

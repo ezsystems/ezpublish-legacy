@@ -54,12 +54,47 @@ class eZContentOperationCollection
 
     function readNode( $nodeID )
     {
-        print( "\$nodeID=$nodeID<br/>" );
+        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
+    }
+
+    function readObject( $nodeID, $languageCode )
+    {
+        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
+
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+
+        if ( $node === null )
+//            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return false;
+
+
+        $object = $node->attribute( 'object' );
+
+        if ( $object === null )
+//            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        {
+            return false;
+        }
+
+        if ( !$object->attribute( 'can_read' ) )
+        {
+//            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return false;
+        }
+
+        if ( $languageCode != '' )
+        {
+            $object->setCurrentLanguage( $languageCode );
+        }
+
+
+        eZDebug::writeDebug( "\$nodeID=$nodeID<br/>" );
+        return array( 'status' => true, 'object' => $object, 'node' => $node );
     }
 
     function loopNodes( $nodeID )
     {
-        print( "loopNodes:\$nodeID=$nodeID<br/>" );
+        eZDebug::writeDebug( "loopNodes:\$nodeID=$nodeID<br/>" );
         return array( 'parameters' => array( array( 'parent_node_id' => 3 ),
                                              array( 'parent_node_id' => 5 ),
                                              array( 'parent_node_id' => 12 ) ) );
@@ -76,13 +111,13 @@ class eZContentOperationCollection
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
 //            $nodeAssignment =& $nodeAssignmentList[$key];
-            print( "loopNodeAssignment:\$parentNode=" . $nodeAssignmentList[$key]->attribute( 'parent_node' ) . "<br/>" );
-            
+            eZDebug::writeDebug( "loopNodeAssignment:\$parentNode=" . $nodeAssignmentList[$key]->attribute( 'parent_node' ) . "<br/>" );
+
             $parameters[] = array( 'parent_node_id' => $nodeAssignmentList[$key]->attribute( 'parent_node' ) );
         }
 
-        print( "loopNodeAssignment:\$objectID=$objectID<br/>" );
-        print( "loopNodeAssignment:\$version=$versionNum<br/>" );
+        eZDebug::writeDebug( "loopNodeAssignment:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "loopNodeAssignment:\$version=$versionNum<br/>" );
 
         
         return array( 'parameters' => $parameters );
@@ -118,9 +153,9 @@ class eZContentOperationCollection
                 $statusName = 'none';
         }
         $version->store();
-        print( "setVersionStatus:\$objectID=$objectID<br/>" );
-        print( "setVersionStatus:\$version=$versionNum<br/>" );
-        print( "setVersionStatus:\$status=$status($statusName)<br/>" );
+        eZDebug::writeDebug( "setVersionStatus:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "setVersionStatus:\$version=$versionNum<br/>" );
+        eZDebug::writeDebug( "setVersionStatus:\$status=$status($statusName)<br/>" );
     }
 
     function publishNode( $parentNodeID, $objectID, $versionNum )
@@ -174,9 +209,9 @@ class eZContentOperationCollection
         $object->store();
         $existingNode->store();
 
-        print( "publishNode:\$parentNodeID=$parentNodeID<br/>" );
-        print( "publishNode:\$objectID=$objectID<br/>" );
-        print( "publishNode:\$version=$version<br/>" );
+        eZDebug::writeDebug( "publishNode:\$parentNodeID=$parentNodeID<br/>" );
+        eZDebug::writeDebug( "publishNode:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "publishNode:\$version=$version<br/>" );
     }
 
 
@@ -204,7 +239,7 @@ class eZContentOperationCollection
                 $node->remove();
             }
         }
-        print( "removeOldNodes:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "removeOldNodes:\$objectID=$objectID<br/>" );
 
     }
 
@@ -215,7 +250,7 @@ class eZContentOperationCollection
         // Register the object in the search engine.
         eZSearch::removeObject( $object );
         eZSearch::addObject( $object );
-        print( "registerSearchObject:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "registerSearchObject:\$objectID=$objectID<br/>" );
 
     }
 
@@ -251,7 +286,7 @@ class eZContentOperationCollection
                 }
             }
         }
-        print( "checkNotifications:\$objectID=$objectID<br/>" );
+        eZDebug::writeDebug( "checkNotifications:\$objectID=$objectID<br/>" );
 
     }
 

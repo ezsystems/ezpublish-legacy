@@ -153,6 +153,9 @@ class eZWorkflowProcess extends eZPersistentObject
             case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON:
             case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT:
             case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE:
+            case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT:
+            case EZ_WORKFLOW_TYPE_STATUS_REDIRECT:
+            case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
             {
                 $activationDate = $this->attribute( "activation_date" );
                 eZDebug::writeNotice( "Checking activation date" );
@@ -172,7 +175,9 @@ class eZWorkflowProcess extends eZPersistentObject
                 {
                     eZDebug::writeNotice( "Date ok, running events" );
                     eZDebug::writeNotice( $lastEventStatus, 'WORKFLOW_TYPE_STATUS' );
-                    if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON || $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE )
+                    if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
+                         $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
+                         $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
                     {
                         $runCurrentEvent = false;
                     }
@@ -254,9 +259,15 @@ class eZWorkflowProcess extends eZPersistentObject
                             $done = true;
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE:
+                        case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT:
                         {
-//                            print( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE<br>ggggggggggg" );
                             $workflowStatus = EZ_WORKFLOW_STATUS_FETCH_TEMPLATE;
+                            $done = true;
+                        } break;
+                        case EZ_WORKFLOW_TYPE_STATUS_REDIRECT:
+                        case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
+                        {
+                            $workflowStatus = EZ_WORKFLOW_STATUS_REDIRECT;
                             $done = true;
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT:

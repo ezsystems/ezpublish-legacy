@@ -51,7 +51,10 @@ define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT", 4 );
 define( "EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT", 5 );
 define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED", 6 );
 define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE", 7 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 8 );
+define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT", 8 );
+define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT", 10 );
+define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT", 11 );
+define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
 
 // include defined datatypes
 
@@ -116,11 +119,6 @@ class eZWorkflowType
     function &createType( $typeString )
     {
         $types =& $GLOBALS["eZWorkflowTypes"];
-//        print( '<br>' );
-//        var_dump( $types );
-//        print( '<br>' );
-//        var_dump( $typeString );
-        
         $def = null;
         if ( !isset( $types[$typeString] ) )
         {

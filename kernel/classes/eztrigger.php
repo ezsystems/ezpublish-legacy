@@ -50,6 +50,7 @@ define( "EZ_TRIGGER_WORKFLOW_DONE", 1 );
 define( "EZ_TRIGGER_WORKFLOW_CANCELED", 2 );
 define( "EZ_TRIGGER_NO_CONNECTED_WORKFLOWS", 3 );
 define( "EZ_TRIGGER_FETCH_TEMPLATE", 4 );
+define( "EZ_TRIGGER_REDIRECT", 5 );
 
 
 class eZTrigger extends eZPersistentObject
@@ -157,6 +158,7 @@ class eZTrigger extends eZPersistentObject
                                       'Result' => null );
                     } break;
                     case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
+                    case EZ_WORKFLOW_STATUS_REDIRECT:
                     {
                         return eZTrigger::runWorkflow( $existingWorkflowProcess );
 //                        return EZ_TRIGGER_FETCH_TEMPLATE;
@@ -172,6 +174,7 @@ class eZTrigger extends eZPersistentObject
 */                  } break;
                     case EZ_WORKFLOW_STATUS_DONE:
                     {
+                        $existingWorkflowProcess->remove();
                         return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                                       'Result' => null );
                     }
@@ -233,6 +236,14 @@ class eZTrigger extends eZPersistentObject
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $result['content'] );
             } break;
+            case EZ_WORKFLOW_STATUS_REDIRECT:
+            {
+                var_dump( $workflowProcess->RedirectUrl  );
+                return array( 'Status' => EZ_TRIGGER_REDIRECT,
+                              'WorkflowProcess' => &$workflowProcess,
+                              'Result' => $workflowProcess->RedirectUrl );
+
+            } break;
             case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
             {
                 return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
@@ -247,6 +258,7 @@ class eZTrigger extends eZPersistentObject
             } break;
             case EZ_WORKFLOW_STATUS_DONE:
             {
+                $workflowProcess->remove();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                               'Result' => null );
             }

@@ -1046,7 +1046,7 @@ CREATE TABLE ezworkflow_group_link (
   group_id int(11) NOT NULL default '0',
   workflow_version int(11) default NULL,
   group_name varchar(255) default NULL,
-  PRIMARY KEY  (workflow_id,group_id)
+  PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
 
 #

@@ -42,10 +42,33 @@ $OperationList['read'] = array( 'name' => 'read',
                                 'parameter_type' => 'standard',
                                 'parameters' => array( array( 'name' => 'node_id',
                                                               'type' => 'integer',
-                                                              'required' => true ) ),
+                                                              'required' => true ),
+                                                       array( 'name' => 'user_id',
+                                                              'type' => 'integer',
+                                                              'required' => true ),
+                                                       array( 'name' => 'language_code',
+                                                              'type' => 'string',
+                                                              'default' => '',
+                                                              'required' => false ) ),
                                 'keys' => array( 'node_id' ),
 
-                                'body' => array( array( 'type' => 'loop',
+                                'body' => array( array( 'type' => 'trigger',
+                                                        'name' => 'pre_read',
+                                                        'keys' => array( 'node_id',
+                                                                         'user_id'
+                                                                         ) ),
+
+
+
+                                                 array( 'type' => 'method',
+                                                        'name' => 'fetch-object',
+                                                        'frequency' => 'once',
+                                                        'method' => 'readObject',
+                                                        ) ) );
+/*
+
+
+                                    array( 'type' => 'loop',
                                                         'name' => 'loop-nodes',
                                                         'method' => 'loopNodes',
                                                         'child_parameters' => array( array( 'name' => 'parent_node_id',
@@ -60,7 +83,7 @@ $OperationList['read'] = array( 'name' => 'read',
                                                                                     'method' => 'readNode' ),
                                                                              array( 'type' => 'trigger',
                                                                                     'name' => 'post_read',
-                                                                                    'keys' => array( 'node_id', 'parent_node_id' ) ) ) ) ) );
+                                                                                    'keys' => array( 'node_id', 'parent_node_id' ) ) ) ) ) );*/
 $OperationList['publish'] = array( 'name' => 'publish',
                                    'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
                                                                    'class' => 'eZContentOperationCollection' ),

@@ -85,9 +85,73 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 // if ( !eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $NodeID,
 //                                                                'version' => 1 ) ) )
 //     return;
+$user =& eZUser::currentUser();
+
 eZDebug::addTimingPoint( 'Operation start' );
-//$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
+$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
+                                                                          'user_id' => $user->id(),
+                                                                          'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
+
+eZDebug::writeDebug( $operationResult );
+if ( $operationResult != null && !isset( $operationResult['result'] ) && ! isset( $operationResult['redirect_url'] ) )
+{
+    $viewParameters = array( 'offset' => $Offset );
+    $object = $operationResult[ 'object' ];
+    $node = $operationResult[ 'node' ];
+
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                          array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                          array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Node ID
+                          array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                          array( 'view_offset', $Offset ),
+                          array( 'viewmode', $ViewMode ),
+                          ) );
+
+    include_once( 'kernel/classes/ezsection.php' );
+    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+
+    $tpl->setVariable( 'node', $node );
+    $tpl->setVariable( 'view_parameters', $viewParameters );
+
+// create path
+    $parents =& $node->attribute( 'path' );
+
+    $path = array();
+    foreach ( $parents as $parent )
+    {
+        $path[] = array( 'text' => $parent->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
+                         );
+    }
+    $path[] = array( 'text' => $object->attribute( 'name' ),
+                     'url' => false );
+
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
+    $Result['view_parameters'] =& $viewParameters;
+    $Result['path'] =& $path;
+    $Result['section_id'] =& $object->attribute( 'section_id' );
+}
+else if (  isset( $operationResult['redirect_url'] ) )
+{
+    $Module->redirectTo( $operationResult['redirect_url'] );
+    return;
+}
+else if ( isset( $operationResult['result'] ) )
+{
+    $Result['content'] =& $operationResult['result'];
+    eZDebug::writeDebug( 'operation seted result<br/>' );
+}else
+{
+    eZDebug::writeDebug( 'operation null result<br/>' );
+    $Result = array();
+}
+
+
+
+/*
 
 //if ( !$operationResult['status'] )
 //{
@@ -115,7 +179,6 @@ if ( $LanguageCode != '' )
 {
     $object->setCurrentLanguage( $LanguageCode );
 }
-
 
 
 if ( $ViewMode == 'full' )
@@ -184,5 +247,5 @@ elseif ( $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE )
 {
     $Result['content'] = $status['Result'];
 }
-
+*/
 ?>

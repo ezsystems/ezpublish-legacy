@@ -59,8 +59,11 @@ class eZMultiplexerType extends eZWorkflowEventType
 //        var_dump( $process );
         $processParameters = $process->attribute( 'parameter_list' );
 //        var_dump( $processParameters );
-        $objectID = $processParameters[ 'contentobject_id'];
-        $object =& eZContentObject::fetch( $objectID );
+        $nodeID = $processParameters['node_id'];
+        $node = & eZContentObjectTreeNode::fetch( $nodeID );
+        
+        $objectID = $node->attribute( 'contentobject_id' );
+        $object =& $node->attribute( 'object'); 
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
 ///        $user =& eZUser::currentUser();
         $userID = $processParameters['user_id'];
@@ -108,7 +111,16 @@ class eZMultiplexerType extends eZWorkflowEventType
 
 //                    $this->setAttribute( 'status', EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE );
                     $process->Template =& $childProcess->Template;
-                    return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE;
+                    return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
+                }
+                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_REDIRECT )
+                {
+                    $process->RedirectUrl =& $childProcess->RedirectUrl;
+                    return EZ_WORKFLOW_TYPE_STATUS_REDIRECT;
+                }
+                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_DONE  )
+                {
+                    $childProcess->remove();
                 }
                 return $childProcess->attribute( 'last_event_status' );
 

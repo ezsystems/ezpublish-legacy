@@ -42,6 +42,7 @@
   \brief The class eZCheckoutType does
 
 */
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 define( "EZ_WORKFLOW_TYPE_CHECKOUT_ID", "ezcheckout" );
 
 class eZCheckoutType extends eZWorkflowEventType
@@ -56,7 +57,8 @@ class eZCheckoutType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        var_dump( $process );
+
+//        var_dump( $process );
         eZDebug::writeNotice( $process, "process" );
         $processParameters =& $process->attribute( 'parameter_list' );
         
@@ -64,13 +66,24 @@ class eZCheckoutType extends eZWorkflowEventType
         {
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
+        $http =& eZHTTPTool::instance();
+
+        if ( $http->hasPostVariable( "Next" ) && $http->hasPostVariable( "WorkflowEvent_event_ezcheckout_input_data" ) )
+        {
+            $number = $http->postVariable( "WorkflowEvent_event_ezcheckout_input_data" );
+            if ( $number == "42" )
+            {
+                return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+            }
+        }
+
         $node =& eZContentObjectTreeNode::fetch(  $processParameters['node_id'] );
         $process->Template = array( 'templateName' => 'design:workflow/eventtype/result/' . 'event_ezcheckout' . '.tpl',
                                      'templateVars' => array( 'node' => $node,
                                                               'viewmode' => 'full' )
                                      );
 //        $event->setAttribute( 'status', EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE );
-        return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE;
+        return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
     }
 
 
