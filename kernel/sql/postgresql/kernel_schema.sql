@@ -1752,7 +1752,8 @@ CREATE TABLE ezpdf_export (
     source_node_id integer,
     status integer,
     sub_text text,
-    title character varying(255)
+    title character varying(255),
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3256,7 +3257,7 @@ ALTER TABLE ONLY ezpaymentobject
 
 
 ALTER TABLE ONLY ezpdf_export
-    ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id, "version");
 
 
 

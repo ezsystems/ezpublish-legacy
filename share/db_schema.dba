@@ -3518,6 +3518,13 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
+      'version' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -3527,6 +3534,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+          1 => 'version',
         ),
       ),
     ),

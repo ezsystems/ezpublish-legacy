@@ -794,7 +794,8 @@ CREATE TABLE ezpdf_export (
   status int(11) default NULL,
   sub_text longtext,
   title varchar(255) default NULL,
-  PRIMARY KEY  (id)
+  version int(11) NOT NULL default '0',
+  PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
 
 
