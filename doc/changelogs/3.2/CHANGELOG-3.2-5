@@ -1,7 +1,7 @@
 Changes from 3.2-4 to 3.2-5
 
 *Kernel:
-- Security fix: Added check when editing tempaltes if the file is actually a template.
+- Security fix: Added check when editing templates if the file is actually a template.
 - Specifying language in url ( laguage/eng-GB ) will det default language to specified language for all objects fetched.
 - New function in eZDataType called repairContentObjectAttribute() which is
   called from the updatetranslations.php script. It allows datatypes
@@ -94,6 +94,9 @@ Changes from 3.2-4 to 3.2-5
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
+- Added back the finetuning page, it will display hints for extending eZ publish.
+- Added finetuning check for the ImageTTFText and ImageTTFBBox functions which are
+  need for texttoimage to work properly.
 
 *Library :
 

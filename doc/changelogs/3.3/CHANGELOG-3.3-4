@@ -15,6 +15,9 @@ Changes from 3.3-3 to 3.3-4
 
 *Setup:
 - Fixed checking of existing MySQL databases to use mysql_list_dbs().
+- Added back the finetuning page, it will display hints for extending eZ publish.
+- Added finetuning check for the ImageTTFText and ImageTTFBBox functions which are
+  need for texttoimage to work properly.
 
 *DataTypes:
 - Fixed datatype inisetting which can't save parameter value like "x=y";
