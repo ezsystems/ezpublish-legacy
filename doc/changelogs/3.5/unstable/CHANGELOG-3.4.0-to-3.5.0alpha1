@@ -70,6 +70,7 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Added new post variable 'RedirectOnCancel' for /user/password that can be
   used to configure the page where is redirected to. Before this was hardcoded to
   /content/view/sitemap/2.
+  http://ez.no/community/bug_reports/hard_coded_redirect_path_unpossible_to_change_from_a_template
   
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
