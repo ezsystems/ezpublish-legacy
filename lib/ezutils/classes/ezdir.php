@@ -102,8 +102,9 @@ class eZDir
             if ( count( $dirElements ) == 0 )
                 return true;
             $currentDir = $dirElements[0];
+            print( $currentDir );
             $result = true;
-            if ( !file_exists( $currentDir ) )
+            if ( !file_exists( $currentDir ) and $currentDir != "" )
                 $result = eZDir::doMkdir( $currentDir, $perm );
             if ( !$result )
                 return false;
@@ -153,6 +154,7 @@ class eZDir
     */
     function doMkdir( $dir, $perm )
     {
+        eZDebug::writeDebug("make dir" );
 //        print( "About to doMkdir( '$dir' )<br/>" );
 //        exit;
         $oldumask = umask( 0 );

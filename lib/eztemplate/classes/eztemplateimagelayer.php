@@ -230,7 +230,7 @@ class eZTemplateImageObject
                 {
                     $ini =& eZINI::instance();
                     $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-                    eZDir::mkdir( $filePath, true, octdec( $perm ) );
+                    eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
                 ImagePNG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
                 $this->StoredPath = $filePath;
@@ -584,8 +584,8 @@ class eZTemplateImageLayer
                 if ( !file_exists( $filePath ) )
                 {
                     $ini =& eZINI::instance();
-                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-                    eZDir::mkdir( $filePath, true, octdec( $perm ) );
+                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );;
+                    eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
                 ImagePNG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
                 $this->StoredPath = $filePath;
