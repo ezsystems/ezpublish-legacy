@@ -62,6 +62,7 @@ class eZMedia extends eZPersistentObject
                                          "width" => "Width",
                                          "height" => "Height",
                                          "has_controller" => "HasController",
+                                         "controls" => "Controls",
                                          "is_autoplay" => "IsAutoplay",
                                          "pluginspage" => "Pluginspage",
                                          "quality" => "Quality",
@@ -118,7 +119,8 @@ class eZMedia extends eZPersistentObject
                       "autoplay" => true,
                       "pluginspage" => "",
                       "is_loop" => false,
-                      "quality" => ""
+                      "quality" => "",
+                      "controls" => ""
                       );
         return new eZMedia( $row );
     }
@@ -165,8 +167,10 @@ class eZMedia extends eZPersistentObject
     var $MimeType;
     var $Width;
     var $Height;
-    var $Controllerh;
-    var $Autoplay;
+    var $HasController;
+    var $Controls;
+    var $IsLoop;
+    var $IsAutoplay;
     var $Pluginspage;
     var $Quality;
 }

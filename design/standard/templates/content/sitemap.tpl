@@ -64,7 +64,6 @@
         {/case}
         {/switch} 
         </td>
-
 </tr>
 {/section}
 </table>
@@ -74,7 +73,7 @@
 	<td>
 	{switch match=$previous|lt(0) }
 	  {case match=0}
-          <a href="{$module.functions.view.uri}/full/{$nodeID}/offset/{$previous}"> << Previous </a>
+          <a href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$previous}"> << Previous </a>
 	  {/case}
           {case match=1}
 	  Previous
@@ -85,7 +84,7 @@
 	<td align="right">
 	{switch match=$next|lt($tree_count) }
 	  {case match=1}
-          <a href="{$module.functions.view.uri}/full/{$nodeID}/offset/{$next}"> Next >> </a>
+          <a href="{$module.functions.sitemap.uri}/{$top_object_id}/offset/{$next}"> Next >> </a>
           {/case}
 	  {case}
 	  Next

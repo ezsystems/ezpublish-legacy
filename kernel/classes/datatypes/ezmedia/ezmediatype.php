@@ -156,15 +156,36 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-     Fetches the http post var integer input and stores it in the data instance.
+     Fetches input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $player = $classAttribute->attribute( "data_text1" );
+        switch( $player )
+        {
+            case 'flash':
+                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
+            break;
+            case 'quick_time':
+                $plugin = "http://quicktime.apple.com";
+            break;
+            case 'real_player' :
+                $plugin = "http://www.real.com/";
+            break;
+            case 'windows_media_player' :
+                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
+            break;
+            default:
+                $plugin = "";
+            break;
+        }
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
         $width = $http->postVariable( $base . "_data_media_width_" . $contentObjectAttribute->attribute( "id" ) );
         $height = $http->postVariable( $base . "_data_media_height_" . $contentObjectAttribute->attribute( "id" ) );
         $quality = $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) );
+        $controls = $http->postVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) );
 
         $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
 
@@ -192,7 +213,6 @@ class eZMediaType extends eZDataType
 
             $orig_dir = $mediaFile->storageDir( "original" );
             eZDebug::writeNotice( "dir=$orig_dir" );
-
             $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
             $media->setAttribute( "version", $version );
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
@@ -201,6 +221,8 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "width", $width );
             $media->setAttribute( "height", $height );
             $media->setAttribute( "quality", $quality );
+            $media->setAttribute( "controls", $controls );
+            $media->setAttribute( "pluginspage", $plugin );
             if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
                 $media->setAttribute( "is_autoplay", true );
             else
@@ -228,6 +250,8 @@ class eZMediaType extends eZDataType
                 $media->setAttribute( "width", $width );
                 $media->setAttribute( "height", $height );
                 $media->setAttribute( "quality", $quality );
+                $media->setAttribute( "controls", $controls );
+                $media->setAttribute( "pluginspage", $plugin );
                 if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
                     $media->setAttribute( "is_autoplay", true );
                 else

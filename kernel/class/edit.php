@@ -218,6 +218,7 @@ if ( $requireFixup )
 }
 
 $cur_datatype = 0;
+
 // Apply HTTP POST variables
 eZHttpPersistence::fetch( "ContentAttribute", eZContentClassAttribute::definition(),
                           $attributes, $http, true );

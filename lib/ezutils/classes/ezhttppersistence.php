@@ -155,13 +155,15 @@ class eZHTTPPersistence
             if ( !in_array( $field_name, $keys ) )
             {
                 $post_var = $base_name . "_" . $field_name . "_checked";
-                if ( $http->hasPostVariable( $post_var ) )
+                if ( $http->hasPostVariable( $post_var ) or $field_name == "is_searchable" or $field_name == "is_required"   )
                 {
                     $value = false;
                     $post_value = $http->postVariable( $post_var );
                     if ( is_array( $post_value ) and
                          in_array( $id, $post_value ) )
                         $value = true;
+                    else
+                         $value = false;
                     $object->setAttribute( $field_name, $value );
                 }
             }
