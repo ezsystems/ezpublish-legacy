@@ -55,6 +55,7 @@ $exportPath = $package->archive( $exportPath );
 $fileName = $exportPath;
 if ( $fileName != "" and file_exists( $fileName ) )
 {
+    clearstatcache();
     $fileSize = filesize( $fileName );
     $mimeType =  'application/octet-stream';
     $originalFileName = $exportName;
@@ -82,7 +83,7 @@ if ( $fileName != "" and file_exists( $fileName ) )
     header( "Content-Transfer-Encoding: binary" );
     header( "Accept-Ranges: bytes" );
 
-    $fh = fopen( "$fileName", "rb" );
+    $fh = fopen( $fileName, "rb" );
     if ( $fileOffset )
     {
         eZDebug::writeDebug( $fileOffset, "seeking to fileoffset" );
