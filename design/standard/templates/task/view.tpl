@@ -6,9 +6,9 @@
 
 <div class="maincontentheader">
 {section show=$task_id|gt(0)}
-<h1>Task view</h1>
+<h1>{"Task view"|i18n("design/standard/task")}</h1>
 {section-else}
-<h1>Task list</h1>
+<h1>{"Task list"|i18n("design/standard/task")}</h1>
 {/section}
 </div>
 
@@ -28,11 +28,11 @@
 
 <div class="block">
 <div class="element">
-<label>From:</label><div class="labelbreak"></div>
+<label>{"From:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$task.creator.contentobject}
 </div>
 <div class="element">
-<label>To:</label><div class="labelbreak"></div>
+<label>{"To:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$task.receiver.contentobject}
 </div>
 <div class="break"></div>
@@ -40,17 +40,17 @@
 
 <div class="block">
 <div class="element">
-<label>Status:</label><div class="labelbreak"></div>
+<label>{"Status:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {$task.status|choose('None','Temporary','Open','Closed','Cancelled')}
 </div>
 <div class="element">
-<label>Date:</label><div class="labelbreak"></div>
+<label>{"Date:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {$task.created|l10n('shortdatetime')}
 </div>
 <div class="break"></div>
 </div>
 
-<h2>Message</h2>
+<h2>{"Message"|i18n("design/standard/task")}</h2>
 
   {section name=Message loop=$task.messages max=1}
     {section show=$Message:item.contentobject_id|gt(0)}
@@ -64,12 +64,12 @@
   {/section}
 
 {section name=Message loop=$task.messages|gt(1)}
-<h2>Messages</h2>
+<h2>{"Messages"|i18n("design/standard/task")}</h2>
   {section name=Message loop=$task.messages offset=1}
     {section show=$Message:item.contentobject_id|gt(0)}
       {let object=$Message:item.contentobject}
         <div class="block">
-        <label>From:</label><div class="labelbreak"></div>
+        <label>{"From:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
         {$Message:item.creator.login}
         </div>
         <div class="block">
@@ -84,17 +84,17 @@
 {/section}
 
 {section show=$task_id|eq(0)}
-<h2>Incoming</h2>
+<h2>{"Incoming"|i18n("design/standard/task")}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th width="1%">ID:</th>
-    <th>Title:</th>
-    <th>Type:</th>
-    <th>Status:</th>
-    <th>Creator:</th>
-    <th>Created:</th>
-    <th colspan="2">Modified:</th>
+    <th>{"Title:"|i18n("design/standard/task")}</th>
+    <th>{"Type:"|i18n("design/standard/task")}</th>
+    <th>{"Status:"|i18n("design/standard/task")}</th>
+    <th>{"Creator:"|i18n("design/standard/task")}</th>
+    <th>{"Created:"|i18n("design/standard/task")}</th>
+    <th colspan="2">{"Modified:"|i18n("design/standard/task")}</th>
 </tr>
 {section name=Incoming loop=$incoming_task_list sequence=array('bglight','bgdark')}
 <tr>
@@ -128,22 +128,22 @@
 
 
 {section show=$task_id|eq(0)}
-<h2>Outgoing</h2>
+<h2>{"Outgoing"|i18n("design/standard/task")}</h2>
 {section-else}
   {section show=$outgoing_task_list|gt(0)}
-<h2>Sub tasks</h2>
+<h2>{"Sub tasks"|i18n("design/standard/task")}</h2>
   {/section}
 {/section}
   {section show=$outgoing_task_list|gt(0)}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th width="1%">ID:</th>
-    <th>Title:</th>
-    <th>Type:</th>
-    <th>Status:</th>
-    <th>Receiver:</th>
-    <th>Created:</th>
-    <th>Modified:</th>
+    <th>{"Title:"|i18n("design/standard/task")}</th>
+    <th>{"Type:"|i18n("design/standard/task")}</th>
+    <th>{"Status:"|i18n("design/standard/task")}</th>
+    <th>{"Receiver:"|i18n("design/standard/task")}</th>
+    <th>{"Created:"|i18n("design/standard/task")}</th>
+    <th>{"Modified:"|i18n("design/standard/task")}</th>
 </tr>
   {/section}
 {section name=Outgoing loop=$outgoing_task_list sequence=array('bglight','bgdark')}
@@ -175,16 +175,16 @@
 
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=NewTask id_name=NewTaskButton value="New Task"|i18n('task')}
-{include uri="design:gui/button.tpl" name=NewAssignment id_name=NewAssignmentButton value="New Assignment"|i18n('task')}
-{include uri="design:gui/button.tpl" name=NewMessage id_name=NewMessageButton value="New Message"|i18n('task')}
+{include uri="design:gui/button.tpl" name=NewTask id_name=NewTaskButton value="New Task"|i18n("design/standard/task")}
+{include uri="design:gui/button.tpl" name=NewAssignment id_name=NewAssignmentButton value="New Assignment"|i18n("design/standard/task")}
+{include uri="design:gui/button.tpl" name=NewMessage id_name=NewMessageButton value="New Message"|i18n("design/standard/task")}
 <select name="ClassID">
 {section name=Classes loop=$class_list}
 <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 {/section}
 </select>
-{include uri="design:gui/button.tpl" name=CloseTask id_name=CloseTaskButton value="Close Task"|i18n('task')}
-{include uri="design:gui/button.tpl" name=CancelTask id_name=CancelTaskButton value="Cancel Task"|i18n('task')}
+{include uri="design:gui/button.tpl" name=CloseTask id_name=CloseTaskButton value="Close Task"|i18n("design/standard/task")}
+{include uri="design:gui/button.tpl" name=CancelTask id_name=CancelTaskButton value="Cancel Task"|i18n("design/standard/task")}
 </div>
 
 </form>

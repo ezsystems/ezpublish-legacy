@@ -1,21 +1,21 @@
 <form enctype="multipart/form-data" method="post" action={concat("/task/message/",$task.id,"/",$message.id)|ezurl}>
 
 <div class="maincontentheader">
-<h1>Edit task message '{$object.name}'</h1>
+<h1>{"Edit task message"|i18n("design/standard/task")} '{$object.name}'</h1>
 </div>
 
 {section show=$validation.processed}
 
 {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
 <div class="warning">
-<h2>Input did not validate</h2>
+<h2>{"Input did not validate"|i18n("design/standard/task")}</h2>
 <ul>
     <li><i>{$UnvalidatedAttributes:item.identifier}:</i> {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
 </ul>
 </div>
 {section-else}
 <div class="feedback">
-<h2>Input was stored successfully</h2>
+<h2>{"Input was stored successfully"|i18n("design/standard/task")}</h2>
 </div>
 {/section}
 
@@ -23,11 +23,11 @@
 
 <div class="block">
 <div class="element">
-<label>From:</label><div class="labelbreak"></div>
+<label>{"From:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$message.task.creator.contentobject}
 </div>
 <div class="element">
-<label>To:</label><div class="labelbreak"></div>
+<label>{"To:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}
 </div>
 <div class="break"></div>
@@ -42,10 +42,10 @@
 {/section}
 
 <div class="buttonblock">
-<input type="submit" name="PreviewButton" value="{'Preview'|i18n('task/message')}" />
-<input type="submit" name="ApplyButton" value="{'Apply'|i18n('task/message')}" />
-<input type="submit" name="PublishButton" value="{'Send'|i18n('task/message')}" />
-<input type="submit" name="CancelButton" value="{'Discard'|i18n('task/message')}" />
+<input type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/task')}" />
+<input type="submit" name="ApplyButton" value="{'Apply'|i18n('design/standard/task')}" />
+<input type="submit" name="PublishButton" value="{'Send'|i18n('design/standard/task')}" />
+<input type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/task')}" />
 </div>
 
 {*
@@ -63,7 +63,7 @@
 
 	<br />
 
-	<input type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
+	<input type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('design/standard/task')}" />
 
 *}
 

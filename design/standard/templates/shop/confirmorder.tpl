@@ -106,7 +106,7 @@
 </tr>
 </table>
 
-<input class="button" type="submit" name="ConfirmOrderButton" value="{'Confirm'|i18n('design/standard/shop)}'" /> &nbsp;
-<input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/shop)}'" /> &nbsp;
+<input class="button" type="submit" name="ConfirmOrderButton" value="{'Confirm'|i18n('design/standard/shop')}" /> &nbsp;
+<input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/shop')}" /> &nbsp;
 
 </form>

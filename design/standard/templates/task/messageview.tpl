@@ -1,16 +1,16 @@
 <form enctype="multipart/form-data" method="post" action={concat("task/messageview/",$message.id)|ezurl}>
 
 <div class="maincontentheader">
-<h1>Task message '{$message.contentobject.name}'</h1>
+<h1>{"Task message"|i18n("design/standard/task")} '{$message.contentobject.name}'</h1>
 </div>
 
 <div class="block">
 <div class="element">
-<label>From:</label><div class="labelbreak"></div>
+<label>{"From:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$message.task.creator.contentobject}
 </div>
 <div class="element">
-<label>To:</label><div class="labelbreak"></div>
+<label>{"To:"|i18n("design/standard/task")}</label><div class="labelbreak"></div>
 {content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}
 </div>
 <div class="break"></div>
@@ -25,9 +25,9 @@
 {/section}
 
 <div class="buttonblock">
-<input type="submit" name="EditButton" value="{'Edit'|i18n('task/message')}" />
-<input type="submit" name="PublishButton" value="{'Send'|i18n('task/message')}" />
-<input type="submit" name="CancelButton" value="{'Discard'|i18n('task/message')}" />
+<input type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/task')}" />
+<input type="submit" name="PublishButton" value="{'Send'|i18n('design/standard/task')}" />
+<input type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/task')}" />
 </div>
 
 </form>
