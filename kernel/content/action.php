@@ -692,9 +692,11 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                     $newNode->setName( $objectName );
                     $newNode->updateSubTreePath();
                     $newNode->store();
+                    eZContentObjectTreeNode::updateNodeVisibility( $newNode, $parentNode, false );
                 }
             }
         }
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
     else if ( $module->isCurrentAction( 'SelectAssignmentLocation' ) )
     {

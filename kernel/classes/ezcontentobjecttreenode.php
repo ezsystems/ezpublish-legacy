@@ -3644,18 +3644,33 @@ WHERE
      Depending on the new parent node visibility, recompute "is_invisible" attribute for the given node and its children.
      (used after content/move or content/copy)
     */
-    function updateNodeVisibility( &$node, &$newParentNode )
+    function updateNodeVisibility( &$node, &$parentNode, $recursive = true )
     {
-        if ( $node->attribute( 'is_hidden' ) == 0 &&
-             $newParentNode->attribute( 'is_invisible' ) != $node->attribute( 'is_invisible' ) )
+        if ( !$node )
         {
-            $newParentNodeIsVisible =& $newParentNode->attribute( 'is_invisible' );
+            eZDebug::writeWarning( 'No such node to update visibility for.' );
+            return;
+        }
+
+        if ( !$parentNode )
+        {
+            eZDebug::writeWarning( 'No parent node found when updating node visibility' );
+            return;
+        }
+
+        if ( $node->attribute( 'is_hidden' ) == 0 &&
+             $parentNode->attribute( 'is_invisible' ) != $node->attribute( 'is_invisible' ) )
+        {
+            $parentNodeIsVisible =& $parentNode->attribute( 'is_invisible' );
             $nodeID                 =& $node->attribute( 'node_id' );
             $db                     =& eZDB::instance();
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=$newParentNodeIsVisible WHERE node_id=$nodeID" );
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=$parentNodeIsVisible WHERE node_id=$nodeID" );
+
+            if ( !$recursive )
+                return;
 
             // update visibility for children of the node
-            if( $newParentNodeIsVisible )
+            if( $parentNodeIsVisible )
                 eZContentObjectTreeNode::hideSubTree( $node, $modifyRootNode = false );
             else
                 eZContentObjectTreeNode::unhideSubTree( $node, $modifyRootNode = false );

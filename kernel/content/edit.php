@@ -349,6 +349,12 @@ if ( !function_exists( 'checkContentActions' ) )
             $http =& eZHTTPTool::instance();
 
             $node = $object->mainNode();
+
+            // set 'is_invisible' flag for the newly created node (depending on visibility of its parent)
+            $parentNode =& eZContentObjectTreeNode::fetch( $node->attribute( 'parent_node_id' ) );
+            eZContentObjectTreeNode::updateNodeVisibility( $node, $parentNode, /* $recursive = */ false );
+            unset( $parentNode );
+
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
             {
