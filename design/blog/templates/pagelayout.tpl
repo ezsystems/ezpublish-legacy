@@ -59,9 +59,9 @@
                 {/section}
                 {/let}
 		{section show=$current_user.is_logged_in}
-		  <li><a href={"user/logout"|ezurl}>{"Logout"|i18n("design/standard/templates/")}</a></li>
+		  <li><a href={"/user/logout"|ezurl}>{"Logout"|i18n("design/standard/templates/")}</a></li>
 		{section-else}
-		  <li><a href={"user/login"|ezurl}>{"Login"|i18n("design/standard/templates/")}</a></li>
+		  <li><a href={"/user/login"|ezurl}>{"Login"|i18n("design/standard/templates/")}</a></li>
 		{/section}
                 </ul>
             
