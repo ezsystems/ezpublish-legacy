@@ -3996,11 +3996,11 @@ WHERE
             if( $node['node_id'] == 1 )
             {
                 if( !array_key_exists( 'name', $node ) || !$node['name'] )
-                    $node['name'] = 'Top Level Nodes';
+                    $node['name'] = ezi18n( 'kernel/content', 'Top Level Nodes' );
             }
 
             $object =& new eZContentObjectTreeNode( $node );
-            $object->setName($node['name']);
+            $object->setName( $node['name'] );
 
             if ( isset( $node['class_name'] ) )
                 $object->ClassName = $node['class_name'];
@@ -4022,6 +4022,8 @@ WHERE
                 else
                 {
                     $contentObject =& new eZContentObject( array());
+                    if ( isset( $node['name'] ) )
+                         $contentObject->setCachedName( $node['name'] );
                 }
                 if ( isset( $node['real_translation'] ) && $node['real_translation'] != '' )
                 {
@@ -4270,6 +4272,8 @@ WHERE
         }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
+        die();
+        eZDebug::writeDebug( $obj, ' object in node->object()' );
         $this->ContentObject =& $obj;
         return $obj;
     }

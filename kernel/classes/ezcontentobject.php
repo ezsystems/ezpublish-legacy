@@ -250,6 +250,11 @@ class eZContentObject extends eZPersistentObject
         {
             $lang = eZContentObject::defaultLanguage();
         }
+        if ( !$contentObjectID > 0 || !$version > 0 )
+        {
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
+            return '';
+        }
         $db =& eZDb::instance();
         $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
         $result =& $db->arrayQuery( $query );
