@@ -46,3 +46,8 @@ eZ debug:
 - No string conversion is run if it is not required, this means sql queries are much faster.
 - Missing directories will be created.
 - If log file could not be opened for writing it will disable file logging and issue an error.
+
+eZ template:
+- Moved template parser code into separate classes, that way it should be fairly easy to change the
+  parser engine.
+- Made some changes to bring back the element tree caching.
