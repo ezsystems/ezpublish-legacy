@@ -84,18 +84,35 @@ class eZTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, false );
+    }
+
+    /*!
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, true );
+    }
+
+    /*!
+    */
+    function validateAttributeHTTPInput( &$http, $base, &$contentObjectAttribute, $isInformationCollector )
+    {
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( $classAttribute->attribute( "is_required" ) and
-                !$classAttribute->attribute( 'is_information_collector' ) )
+            
+            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
             {
-                if( $data == "" )
+                if ( $classAttribute->attribute( "is_required" ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Text field is empty, content required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    if ( $data == "" )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Text line is empty, content required.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                 }
             }
         }
