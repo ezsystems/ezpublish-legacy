@@ -731,8 +731,8 @@ WHERE
              $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
         {
             $prefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-            // Only prepend the path prefix if it's not already in the url.
-            if ( !preg_match( "#^$prefix(/.*){0,1}$#", $uriString )  )
+            // Only prepend the path prefix if it's not already the first element of the url.
+            if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
             {
                 $internalURIString = eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString;
             }
