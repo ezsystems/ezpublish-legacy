@@ -17,7 +17,7 @@
 
     {section name=SiteTemplate loop=$site_templates}
     
-      <td class="setup_site_templates" valign="top">
+      <td class="setup_site_templates">
             {section show=$:item.image_file_name}
               <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
               <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="{$:item.image_file_name}" />
@@ -44,6 +44,9 @@
 
       {section show=eq( mod( $:index, 4 ), 3 )}
         </tr>
+	  <td colspan="4">
+	    &nbsp;
+	  </td>
         <tr>
       {/section}
 
