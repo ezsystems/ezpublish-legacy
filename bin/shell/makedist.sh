@@ -339,6 +339,8 @@ if [ -f $DEST/bin/modfix.sh ]; then
 	chmod a+x modfix.sh)
 fi
 
+(cd $DEST && mkdir extension)
+
 if [ -d $DEST/kernel/sql/oracle ]; then
     rm -rf $DEST/kernel/sql/oracle
 fi
