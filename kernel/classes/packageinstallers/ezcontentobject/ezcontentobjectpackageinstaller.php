@@ -182,9 +182,12 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
             else if ( $http->hasPostVariable( 'ReturnBrowse_' . $topNodeArrayKey ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
                 $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-                $persistentData['top_nodes_map'][$topNodeArrayKey]['new_node_id'] = $nodeIDArray[0];
-                $contentNode = eZContentObjectTreeNode::fetch( $nodeIDArray[0] );
-                $persistentData['top_nodes_map'][$topNodeArrayKey]['new_parent_name'] = $contentNode->attribute( 'name' );
+                if ( $nodeIDArray != null )
+                {
+                    $persistentData['top_nodes_map'][$topNodeArrayKey]['new_node_id'] = $nodeIDArray[0];
+                    $contentNode = eZContentObjectTreeNode::fetch( $nodeIDArray[0] );
+                    $persistentData['top_nodes_map'][$topNodeArrayKey]['new_parent_name'] = $contentNode->attribute( 'name' );
+                }
             }
         }
 
