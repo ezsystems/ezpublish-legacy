@@ -105,7 +105,7 @@ class eZNodeviewfunctions
         $Result['path'] =& $path;
         $Result['title_path'] =& $titlePath;
         $Result['section_id'] =& $object->attribute( 'section_id' );
-        $Result['node_id'] =& $nodeID;
+        $Result['node_id'] =& $node->attribute( 'node_id' );
         $Result['navigation_part'] = $navigationPartIdentifier;
         $Result['content_info'] = array( 'object_id' => $object->attribute( 'id' ),
                                          'node_id' => $node->attribute( 'node_id' ),
