@@ -43,6 +43,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezmath.php' );
+require_once( 'lib/compat.php' );
 
 class Cpdf
 {
