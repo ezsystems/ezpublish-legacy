@@ -116,6 +116,8 @@ eZ utils:
   used for cache handlers.
 - Made sure the result from getPathFromFilename() in eZDir does not contain extra slash at the end.
 - eZExtension was moved from kernel to this library.
+- Added missing string escaping of session data
+
 
 eZ PHP creator:
 - Added support for end-of-line comments.
@@ -144,7 +146,7 @@ eZ template:
   The representation is configurable in template.ini.
 - The count operator now works on strings.
 - Added cache-block function, to cache part of the template. It takes keys and expiry as arguments.
-
+- Added nl2br text operator.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image
