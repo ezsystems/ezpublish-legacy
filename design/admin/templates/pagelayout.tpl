@@ -61,7 +61,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {* --- Search ---*}
 <div id="search">
-<form action={'/content/search/'|ezurl} method="get" disabled="disabled" >
+<form action={'/content/search/'|ezurl} method="get">
     <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set($search_text)}{$search_text|wash}{/section}"{section show=eq($ui_context,'edit')} disabled="disabled"{/section} />
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}"{section show=eq($ui_context,'edit')} disabled="disabled"{/section} />
     <p>
