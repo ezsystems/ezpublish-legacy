@@ -587,7 +587,7 @@ class eZUser extends eZPersistentObject
             $table[] = "$i";
         }
         $ini =& eZINI::instance();
-        if ( $ini->variable( 'UserSettings', 'UseSpecialCharacters' ) == true )
+        if ( $ini->variable( 'UserSettings', 'UseSpecialCharacters' ) == 'true' )
         {
             $specialCharacters = '!#%&{[]}+?;:*';
             for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )

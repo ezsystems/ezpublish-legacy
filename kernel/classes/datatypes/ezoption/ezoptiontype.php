@@ -177,12 +177,18 @@ class eZOptionType extends eZDataType
                     if ( $beforeID >= 0 )
                     {
                         $option->insertOption( array(), $beforeID );
+                        eZDebug::writeDebug( $option, "option added before $beforeID" );
+                        $contentObjectAttribute->setContent( $option );
+                        $contentObjectAttribute->store();
+                        $option = new eZOption( "" );
+                        $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
                         $contentObjectAttribute->setContent( $option );
                         return;
                     }
                 }
                 $option->addOption( "" );
                 $contentObjectAttribute->setContent( $option );
+                $contentObjectAttribute->store();
             }break;
             case "remove_selected" :
             {
@@ -190,6 +196,10 @@ class eZOptionType extends eZDataType
                 $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
                 $array_remove = $http->postVariable( $postvarname );
                 $option->removeOptions( $array_remove );
+                $contentObjectAttribute->setContent( $option );
+                $contentObjectAttribute->store();
+                $option = new eZOption( "" );
+                $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
                 $contentObjectAttribute->setContent( $option );
             }break;
             default :

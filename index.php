@@ -262,6 +262,7 @@ $ini =& eZINI::instance();
 
 eZSys::initIni( $ini );
 
+
 // Initialize with locale settings
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 
@@ -404,9 +405,7 @@ while ( $moduleRunRequired )
             $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
         if ( $currentURI != $lastAccessedURI )
         {
-            if ( !stristr( $currentURI, "/user/login" ) and
-                 !stristr( $currentURI, "/user/logout" )
-                 )
+            if ( preg_match( "/\/content\/view\/.*/", $currentURI  ) )
             {
                 $http->setSessionVariable( "LastAccessesURI", $currentURI );
             }

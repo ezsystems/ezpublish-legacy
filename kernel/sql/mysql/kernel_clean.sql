@@ -111,14 +111,17 @@ CREATE TABLE ezcollab_item (
 -- Table structure for table 'ezcollab_item_group_link'
 --
 
-CREATE TABLE ezcollab_item_group_link (
-  collaboration_id int(11) NOT NULL default '0',
-  group_id int(11) NOT NULL default '0',
-  user_id int(11) NOT NULL default '0',
-  created int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (collaboration_id,group_id,user_id)
-) TYPE=MyISAM;
+create table ezcollab_item_group_link(
+    collaboration_id int NOT NULL DEFAULT '0',
+    group_id  int NOT NULL default '0',
+    user_id int NOT NULL default '0',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    last_read int NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, group_id, user_id)
+    );
 
 --
 -- Dumping data for table 'ezcollab_item_group_link'
@@ -149,16 +152,19 @@ CREATE TABLE ezcollab_item_message_link (
 -- Table structure for table 'ezcollab_item_participant_link'
 --
 
-CREATE TABLE ezcollab_item_participant_link (
-  collaboration_id int(11) NOT NULL default '0',
-  participant_id int(11) NOT NULL default '0',
-  participant_type int(11) NOT NULL default '1',
-  is_read int(11) NOT NULL default '0',
-  is_active int(11) NOT NULL default '1',
-  created int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (collaboration_id,participant_id)
-) TYPE=MyISAM;
+
+create table ezcollab_item_participant_link(
+    collaboration_id int NOT NULL DEFAULT '0',
+    participant_id  int NOT NULL default '0',
+    participant_type  int NOT NULL default '1',
+    participant_role  int NOT NULL default '1',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    last_read int NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, participant_id)
+    );
 
 --
 -- Dumping data for table 'ezcollab_item_participant_link'

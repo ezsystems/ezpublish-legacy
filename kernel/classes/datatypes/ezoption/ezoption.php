@@ -158,7 +158,7 @@ class eZOption
             $this->setName( $nameArray[0]->textContent() );
 
             $optionArray =& $dom->elementsByName( "option" );
-
+            $this->OptionCount = 0;
             foreach ( $optionArray as $option )
             {
                 eZDebug::writeDebug( $option->attributeValue( 'additional_price' ), "attributeValue" );

@@ -101,7 +101,12 @@ if ( !function_exists( 'checkContentActions' ) )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
-            $module->redirectTo( '/content/view/full/2/' );
+            $http =& eZHTTPTool::instance();
+            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+            {
+                $module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
+            }
+//            $module->redirectTo( '/content/view/full/2/' );
 
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();

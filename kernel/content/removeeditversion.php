@@ -89,7 +89,11 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         if ( $nodeID != null )
             $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
         else
-            $Module->redirectTo( '/content/view/full/2/' );
+            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+            {
+                $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
+            }
+//        $Module->redirectTo( '/content/view/full/2/' );
     }
 }
 
