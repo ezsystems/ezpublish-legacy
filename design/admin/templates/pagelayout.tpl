@@ -257,6 +257,10 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div id="columns">
 
+{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 
+'content' ) )}
+
+{section-else}
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -298,6 +302,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </div>
 
 <hr class="hide" />
+
+{/section}
 
 <div id="rightmenu">
 <div id="rightmenu-design">
@@ -425,6 +431,17 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <hr class="hide" />
 
+{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 
+'content' ) )}
+
+{* Main area START *}
+
+{include uri='design:page_mainarea.tpl'}
+
+{* Main area END *}
+
+{section-else}
+
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 <!-- Maincontent START -->
@@ -438,6 +455,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </div>
 <div class="break"></div>
 </div></div>
+
+{/section}
 
 <div class="break"></div>
 </div>

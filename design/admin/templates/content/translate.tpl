@@ -1,3 +1,46 @@
+<div id="leftmenu">
+<div id="leftmenu-design">
+
+<div class="objectinfo">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>Object info</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<p>
+<label>{"Created"|i18n("design/standard/content/edit")}:</label>
+{section show=$object.published}
+{$object.published|l10n(date)}<br />
+{$object.current.creator.name}
+{section-else}
+{"Not yet published"|i18n("design/standard/content/edit")}
+{/section}
+</p>
+<p>
+<label>{"Last Modified"|i18n("design/standard/content/edit")}:</label>
+{section show=$object.modified}
+{$object.modified|l10n(date)}<br />
+{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{section-else}
+{"Not yet published"|i18n("design/standard/content/edit")}
+{/section}
+</p>
+
+</div></div></div></div></div></div>
+
+</div>
+
+</div>
+</div>
+
+<div id="maincontent"><div id="fix">
+<div id="maincontent-design">
+<!-- Maincontent START -->
+
 <form enctype="multipart/form-data" name="translationsform" method="post" action={concat( '/content/translate/', $object.id, '/', $edit_version )|ezurl}>
 
 {* Validation feedback *}
@@ -136,59 +179,64 @@
 
 {section show=$translation_language}
 
+<div class="content-translation">
 <div class="context-block">
 
 <input type="hidden" name="TranslationLanguageEdit" value="{$translation_language}" />
 
-<table class="layout" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td width="50%"><h3>{$original_locale.intl_language_name} ({$original_locale.locale_code})</h3></td>
-    <td width="50%"><h3>{$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h3></td>
-</tr>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h2 class="context-title">{$original_locale.intl_language_name} ({$original_locale.locale_code}) --&gt; {$translation_locale.intl_language_name} ({$translation_locale.locale_code})</h2>
+
+{* DESIGN: Subline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="context-attributes">
 
 {section name=ContentAttribute loop=$content_attributes}
 {section-exclude match=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id].contentclass_attribute.data_type.properties.translation_allowed|not}
 
-<tr>
-    <td>
-    <label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
-    <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentAttribute:item.id}" />
-    </td>
-    <td>
-    <label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
-    </td>
-</tr>
-<tr>
-    </td>
+<div class="block">
 
-  <td valign="top">
-    {attribute_view_gui attribute=$ContentAttribute:item}<br />
-  </td>
+<label>{$ContentAttribute:item.contentclass_attribute.name|wash}:</label>
 
-    <td>
-    {let translation=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id]}
-        {section show=$ContentAttribute:translation}
-            {section show=and(eq($ContentAttribute:translation.contentclass_attribute.can_translate,0),
-                              ne($object.default_language,$ContentAttribute:translation.language_code) ) }
-               {attribute_view_gui attribute=$ContentAttribute:translation}
-            {section-else}
-               {attribute_edit_gui attribute=$ContentAttribute:translation}
-            {/section}
+<div class="original">
+{attribute_view_gui attribute=$ContentAttribute:item}<br />
+</div>
+
+<div class="translation">
+{let translation=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id]}
+    {section show=$ContentAttribute:translation}
+        {section show=and(eq($ContentAttribute:translation.contentclass_attribute.can_translate,0),
+                          ne($object.default_language,$ContentAttribute:translation.language_code) ) }
+           {attribute_view_gui attribute=$ContentAttribute:translation}
+        {section-else}
+           {attribute_edit_gui attribute=$ContentAttribute:translation}
         {/section}
-    {/let}
+    {/section}
+{/let}
+</div>
 
-  </td>
-
-</tr>
+</div>
 
 {/section}
 
-</table>
+</div>
+
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
+
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/standard/content/translate' )}" />
 </div>
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
 </div>
 {/section}
 
@@ -196,7 +244,11 @@
 
 
 </div>
-
+</div>
 </form>
 
+<!-- Maincontent END -->
+</div>
+<div class="break"></div>
+</div></div>
 

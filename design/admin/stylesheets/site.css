@@ -292,6 +292,14 @@ div#leftmenu div.box-header h4, div#rightmenu  div.box-header h4
     white-space: nowrap;
 }
 
+div#leftmenu h5, div#rightmenu h5
+{
+    color: #000000;
+    background-color: #BABAAD;
+    padding: 0.2em;
+    white-space: nowrap;
+}
+
 div#leftmenu div.box-tc, div#rightmenu div.box-tc, div#maincontent div.box-tc
 {
     background-image: url(../images/box-edge.gif);
@@ -409,12 +417,23 @@ div.box-content div p
 
 div#leftmenu div.box-content
 {
-    padding: 0.1em 0.5em 0.5em 0.5em;  
+    padding: 0.25em 0.5em 0.5em 0.5em;  
+}
+
+div#leftmenu div.box-content p
+{
+    margin: 0;
+    padding: 0.25em 0 0.25em 0;
 }
 
 div#leftmenu div.box-content div.block
 {
-    padding: 0;  
+    padding: 0.25em 0 0.25em 0;  
+}
+
+div#leftmenu div.box-content div.element p
+{
+    margin: 0;
 }
 
 div#rightmenu div.box-content
@@ -496,11 +515,6 @@ div#contentstructure li.currentnode li a.nodetext
     color: #315578;
     background-color: transparent;
     padding: 0;
-}
-
-div#leftmenu div.translations
-{
-    margin-top: 0.5em;
 }
 
 div#leftmenu div.translations label
@@ -1284,4 +1298,18 @@ a.nodeicon
 { 
   text-decoration: none;
 }
+
+div.content-translation div.original
+{
+/*    background-color: #ecece4; */
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.3em;
+    border: 1px dashed #000000;
+}
+
+div.content-translation div.translation
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
 /* th[eZ] */

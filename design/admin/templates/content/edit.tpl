@@ -1,3 +1,17 @@
+<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ), '' ) )|ezurl}>
+
+<div id="leftmenu">
+<div id="leftmenu-design">
+
+{include uri='design:edit_menu.tpl'}
+
+</div>
+</div>
+
+<div id="maincontent"><div id="fix">
+<div id="maincontent-design">
+<!-- Maincontent START -->
+
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -17,8 +31,6 @@
 
 <div class="content-edit">
 
-<form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ), '' ) )|ezurl}>
-
     <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -30,6 +42,26 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="context-information">
+<p class="translation">
+ {let language_index=0
+     default_translation=$content_version.translation
+     other_translation_list=$content_version.translation_list
+     translation_list=$other_translation_list|array_prepend($default_translation)}
+
+{section loop=$translation_list}
+  {section show=eq( $edit_language, $item.language_code)}
+    {set language_index=$:index}
+  {/section}
+{/section}
+
+{$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src={concat( '/share/icons/flags/', $translation_list[$language_index].language_code )|ezroot} />
+
+{/let}
+</p>
+<div class="break"></div>
+</div>
 
     {* The location edit field is only used when the INI setting is set to enabled *}
     {section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
@@ -50,8 +82,10 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
     <div class="block">
+    <label><input type="checkbox" /> Hidden</label>
+    </div>
+    <div class="block">
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n('design/standard/content/edit')}" onclick="return confirmDiscard( '{'Are you sure that you want to discard the changes?'|i18n( '/design/admin/layout' )}' );" />
     <input type="hidden" name="DiscardConfirm" value="1" />
     </div>
@@ -64,6 +98,12 @@
 
     {include uri="design:content/edit_related.tpl"}
 
+</div>
+
+<!-- Maincontent END -->
+</div>
+<div class="break"></div>
+</div></div>
+
 </form>
 
-</div>

@@ -1,14 +1,12 @@
-<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
+<div class="objectinfo">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h4>Object info</h4>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-<div class="objectinfo">
+<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <p>
 <label>{"Created"|i18n("design/standard/content/edit")}:</label>
@@ -28,11 +26,67 @@
 {"Not yet published"|i18n("design/standard/content/edit")}
 {/section}
 </p>
+
+</div></div></div>
+
 </div>
 
+<!-- Translation box start-->
+<div class="translations">
+{let name=Translation
+     language_index=0
+     default_translation=$content_version.translation
+     other_translation_list=$content_version.translation_list
+     translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
+
+{section show=$Translation:translation_list}
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
+<h4>{"Translations"|i18n("design/standard/content/edit")}</h4>
+</div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+
+{section loop=$Translation:translation_list}
+  {section show=eq($edit_language,$Translation:item.language_code)}
+    {set language_index=$Translation:index}
+  {/section}
+{/section}
+
+{section loop=$Translation:translation_list}
+<p>
+<label>
+{section show=$Translation:other_translation_list|gt(0)}
+          <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+{/section}
+{section show=$Translation:item.locale.is_valid}
+<img src={concat( '/share/icons/flags/', $Translation:item.language_code, '.gif' )|ezroot} alt="($Translation:item.language_code)" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name}
+{section-else}
+{"%1 (No locale information available)"|i18n("design/standard/content/edit",,array($Translation:item.language_code))}
+{/section}
+</label>
+</p>
+{/section}
+<div class="block">
+	  <input class="button" type="submit" name="TranslateButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
+{section show=$Translation:other_translation_list|gt(0)}
+          <input class="button" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
+{/section}
+</div>
+{/section}
+
+{/let}
+</div></div></div></div>
+</div>
+
+<!-- Translation box end-->
 
 <div class="versions">
-<h4>{"Versions"|i18n("design/standard/content/edit")}:</h4>
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
+<h4>{"Versions"|i18n("design/standard/content/edit")}</h4>
+</div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+
 <div class="block">
 <div class="element">
 <p>
@@ -46,59 +100,46 @@
 {$object.current_version}
 </p>
 </div>
-<div class="break"></div>
 </div>
+<div class="block">
 <input class="button" type="submit" name="VersionsButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
-<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
+</div>
+</div></div></div></div>
 </div>
 
-<!-- Translation box start-->
-<div class="translations">
-{let name=Translation
-     language_index=0
-     default_translation=$content_version.translation
-     other_translation_list=$content_version.translation_list
-     translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
+<div class="drafts">
 
-{section show=$Translation:translation_list}
-<h4>{"Translations"|i18n("design/standard/content/edit")}:</h4>
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
+<h4>{"Drafts"|i18n("design/standard/content/edit")}</h4>
+</div></div></div></div>
 
-{section loop=$Translation:translation_list}
-  {section show=eq($edit_language,$Translation:item.language_code)}
-    {set language_index=$Translation:index}
-  {/section}
-{/section}
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <p>
-{section loop=$Translation:translation_list sequence=array("bgdark","bglight")}
-<label>
-{section show=$Translation:other_translation_list|gt(0)}
-          <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
-{/section}
-{section show=$Translation:item.locale.is_valid}
-<img src={concat( '/share/icons/flags/', $Translation:item.language_code, '.gif' )|ezroot} alt="($Translation:item.language_code)" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name}
+<label>{"Last draft"|i18n("design/standard/content/edit")}:</label>
+{section show=$object.modified}
+{$object.modified|l10n(date)}<br />
+{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{"%1 (No locale information available)"|i18n("design/standard/content/edit",,array($Translation:item.language_code))}
-{/section}
-</label>
-{/section}
-	  <input class="button" type="submit" name="TranslateButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
-{section show=$Translation:other_translation_list|gt(0)}
-          <input class="button" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
-{/section}
+{"Not yet published"|i18n("design/standard/content/edit")}
 {/section}
 </p>
 
-{/let}
+<div class="block">
+<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
+</div>
+
+<div class="block">
+<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />
+<input class="button" type="submit" name="Exit" value="{'#%@* it!'|i18n('design/standard/content/edit')}" />
+</div>
+
+</div></div></div></div></div></div>
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
-
-<!-- Translation box end-->
-
-<!-- Dummy link tool START -->
 {*
+<!-- Dummy link tool START -->
 <div class="linktool">
 <h4>Internal link tool</h4>
 <p>
@@ -106,7 +147,5 @@
 <input class="linkbox" type="text" readonly="readonly" value="&lt;link id=123 /&gt;" />
 </p>
 </div>
-*}
 <!-- Dummy link tool END -->
-
-</form>
+*}
