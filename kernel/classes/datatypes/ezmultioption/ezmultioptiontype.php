@@ -2,7 +2,7 @@
 //
 // Definition of eZOptionType class
 //
-//Created on: <28-Jun-2002 11:12:51 sp>
+// Created on: <29-Jul-2004 15:52:24 gv>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -34,11 +34,24 @@
 // you.
 
 /*!
-\class eZMultiOption ezmultioption.php
-\ingroup eZKernel
-\brief eZMultiOption handles option set datatypes
+  \class eZMultiOptionType ezmultioptiontype.php
+  \ingroup eZKernel
+  \brief A datatype which works with multiple options.
 
- eZMultiOptionType class contains functions to perform specific tasks like validate objectattribute, fetch data from data structure, store variable to data structure  and also to perform specific tasks like to add or remove option or multioption to datastructure. while fetching attributeobject then it perform sorting data structure, this is special functionality that it sorts the data structure in ascending order of priority values.
+  This allows the user to add several option choices almost as if he
+  was adding attributes with option datatypes.
+
+  This class implements the interface for a datatype but passes
+  most of the work over to the eZMultiOption class which handles
+  parsing, storing and manipulation of multioptions and options.
+
+  This datatype supports:
+  - fetch and validation of HTTP data
+  - search indexing
+  - product option information
+  - class title
+  - class serialization
+
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
@@ -100,12 +113,10 @@ class eZMultiOptionType extends eZDataType
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        // coment line below
-        eZDebug::writeNotice( "Validating multioption $data" );
     }
 
     /*!
-     This function calles xmlString function to create xml striln and then it Store the content.
+     This function calles xmlString function to create xml string and then store the content.
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
@@ -114,7 +125,7 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Returns the content.
+     \return An eZMultiOption object which contains all the option data
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
@@ -124,7 +135,15 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Returns the meta data used for storing search indeces.
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \return The internal XML text.
     */
     function metaData( $contentObjectAttribute )
     {
@@ -151,7 +170,7 @@ class eZMultiOptionType extends eZDataType
                 $optionCountArray =& $http->postVariable( $base . "_data_option_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
                 $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
                 $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-		$multioption->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i] );
+        $multioption->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i] );
                 $i++;
             }
         }
@@ -173,26 +192,31 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-   This function performs specific action like add/remove option or multi option as in this function explode function is used to seperate $action in to several parts with delimeter '_', after explode function the varialble \c $actionlist[0] will contains the name of specific operation to perform like new-option,remove-selected-option etc and \c $actionlist[1] will contain the key value or id of the array for which the operation is to be performed. 
-   The various operation's that is performed by this function are as follow.
-   \a new-option This Option will add new option to a ezmultioption datatype.
-   \a remove-selected-option This option will remove option from ezmultioption datatype.
-   \a new_multioption This option will add new multioption to ezmultioption datatype.
-   \a remove_selected_multioption This option will remove all selected multioption
+     This function performs specific actions.
+
+     It has some special actions with parameters which is done by exploding
+     $action into several parts with delimeter '_'.
+     The first element is the name of specific action to perform.
+     The second element will contain the key value or id.
+
+     The various operation's that is performed by this function are as follow.
+     - new-option - A new option is added to a multioption.
+     - remove-selected-option - Removes a selected option.
+     - new_multioption - Adds a new multioption.
+     - remove_selected_multioption - Removes all multioptions given by a selection list
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
         $actionlist = explode( "_", $action );
-        if( $actionlist[0] == "new-option" )
+        if ( $actionlist[0] == "new-option" )
         {
-            //To add New option
             $multioption =& $contentObjectAttribute->content();
 
             $multioption->addOption( ( $actionlist[1] - 1 ), "", "", "");
             $contentObjectAttribute->setContent( $multioption );
             $contentObjectAttribute->store();
         }
-        elseif( $actionlist[0] == "remove-selected-option" )
+        else if ( $actionlist[0] == "remove-selected-option" )
         {
             $multioption =& $contentObjectAttribute->content();
             $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" ) . "_" . $actionlist[1];
@@ -207,30 +231,28 @@ class eZMultiOptionType extends eZDataType
             {
                 case "new_multioption" :
                 {
-                    //To add new MultiOption
                     $multioption =& $contentObjectAttribute->content();
                     $newID = $multioption->addMultiOption( "" ,0,false );
                     $multioption->addOption( $newID, "", "", "" );
                     $multioption->addOption( $newID, "" ,"", "" );
                     $contentObjectAttribute->setContent( $multioption );
                     $contentObjectAttribute->store();
-                }break;
+                } break;
 
-                case  "remove_selected_multioption" :
+                case "remove_selected_multioption":
                 {
-                    //To remove MultiOption
                     $multioption =& $contentObjectAttribute->content();
                     $postvarname = "ContentObjectAttribute" . "_data_multioption_remove_" . $contentObjectAttribute->attribute( "id" );
                     $array_remove = $http->postVariable( $postvarname );
                     $multioption->removeMultiOptions( $array_remove );
                     $contentObjectAttribute->setContent( $multioption );
                     $contentObjectAttribute->store();
-                }break;
+                } break;
 
-                default :
+                default:
                 {
                     eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZMultiOptionType" );
-                }break;
+                } break;
             }
         }
     }
@@ -261,7 +283,7 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Returns the integer value.
+     \reimp
     */
     function title( &$contentObjectAttribute, $name = "name" )
     {
@@ -271,7 +293,9 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     */
+      \reimp
+      \return \c true if there are more than one multioption in the list.
+    */
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         $multioption =& $contentObjectAttribute->content();
@@ -280,7 +304,7 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Sets the default value.
+     Sets default multioption values.
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
