@@ -190,7 +190,7 @@ class eZSys
     {
 	return eZSys::serverVariable( 'HTTP_HOST' );
     }
-    
+
     /*!
       \static
       \return the port of the server.
@@ -259,12 +259,13 @@ class eZSys
      \return the variable named \a $variableName in the global \c $_SERVER variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    function &serverVariable( $variableName )
+    function &serverVariable( $variableName, $quiet = false )
     {
         global $_SERVER;
         if ( !isset( $_SERVER[$variableName] ) )
         {
-            eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+            if ( !$quiet )
+                eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
             return null;
         }
         return $_SERVER[$variableName];
@@ -284,12 +285,13 @@ class eZSys
      \return the variable named \a $variableName in the global \c $_ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    function &environmentVariable( $variableName )
+    function &environmentVariable( $variableName, $quiet = false )
     {
         global $_ENV;
         if ( !isset( $_ENV[$variableName] ) )
         {
-            eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+            if ( !$quiet )
+                eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
             return null;
         }
         return $_ENV[$variableName];

@@ -504,7 +504,7 @@ class eZDebug
         if ( $this->MessageOutput & EZ_OUTPUT_MESSAGE_STORE )
         {
             $this->DebugStrings[] = array( "Level" => $verbosityLevel,
-                                           "IP" => eZSys::serverVariable( 'REMOTE_ADDR' ),
+                                           "IP" => eZSys::serverVariable( 'REMOTE_ADDR', true ),
                                            "Time" => time(),
                                            "Label" => $label,
                                            "String" => $string );
@@ -559,7 +559,7 @@ class eZDebug
         if ( $logFile )
         {
             $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR' ) . "] " . $string . "\n";
+            $notice = "[ " . $time . " ] [" . eZSys::serverVariable( 'REMOTE_ADDR', true ) . "] " . $string . "\n";
             fwrite( $logFile, $notice );
             fclose( $logFile );
             if ( !$fileExisted )
@@ -641,7 +641,7 @@ class eZDebug
 
         if ( !in_array( "enabled", $debugIPArray ) )
         {
-            if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR' ), $debugIPArray ) )
+            if ( in_array( eZSys::serverVariable( 'REMOTE_ADDR', true ), $debugIPArray ) )
             {
             }
             else if ( in_array( "disabled", $debugIPArray ) )
