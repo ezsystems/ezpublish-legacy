@@ -165,6 +165,28 @@ if ( strlen( trim( $type ) ) == 0)
     $script->shutdown( 1 );
 }
 
+// Creates a displayable string for the end-user explaining
+// which database, host, user and password which were tried
+function eZTriedDatabaseString( $database, $host, $user, $password )
+{
+    $msg = "'$database'";
+    if ( strlen( $host ) > 0 )
+    {
+        $msg .= " at host '$host'";
+    }
+    else
+    {
+        $msg .= " locally";
+    }
+    if ( strlen( $user ) > 0 )
+    {
+        $msg .= " with user '$user'";
+    }
+    if ( strlen( $password ) > 0 )
+        $msg .= " and with a password";
+    return $msg;
+}
+
 if ( file_exists( $database ) and is_file( $database ) )
 {
     include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
@@ -228,22 +250,7 @@ else
     if ( !$db or !$db->isConnected() )
     {
         $cli->error( "Could not initialize database:" );
-        $msg = "* Tried database '$database'";
-        if ( strlen( $host ) > 0 )
-        {
-            $msg .= " at host '$host'";
-        }
-        else
-        {
-            $msg .= " locally";
-        }
-        if ( strlen( $user ) > 0 )
-        {
-            $msg .= " with user '$user'";
-        }
-        if ( strlen( $password ) > 0 )
-            $msg .= " and with a password";
-        $cli->error( $msg );
+        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
 
         // Fetch the database error message if there is one
         // It will give more feedback to the user what is wrong

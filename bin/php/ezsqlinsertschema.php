@@ -49,7 +49,7 @@ $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;]" .
                                 "[table-type:][table-charset:]" .
-                                "[insert-types:][allow-multi-insert][schema-file:]",
+                                "[insert-types:][allow-multi-insert][schema-file:][clean-existing]",
                                 "[filename][database]",
                                 array( 'type' => ( "Which database type to use, can be one of:\n" .
                                                    "mysql, postgresql or any other supported by extensions" ),
@@ -156,6 +156,28 @@ if ( strlen( trim( $user ) ) == 0)
     $script->shutdown( 1 );
 }
 
+// Creates a displayable string for the end-user explaining
+// which database, host, user and password which were tried
+function eZTriedDatabaseString( $database, $host, $user, $password )
+{
+    $msg = "'$database'";
+    if ( strlen( $host ) > 0 )
+    {
+        $msg .= " at host '$host'";
+    }
+    else
+    {
+        $msg .= " locally";
+    }
+    if ( strlen( $user ) > 0 )
+    {
+        $msg .= " with user '$user'";
+    }
+    if ( strlen( $password ) > 0 )
+        $msg .= " and with a password";
+    return $msg;
+}
+
 // Connect to database
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
@@ -174,22 +196,7 @@ if ( !is_object( $db ) )
 if ( !$db or !$db->isConnected() )
 {
     $cli->error( "Could not initialize database:" );
-    $msg = "* Tried database '$database'";
-    if ( strlen( $host ) > 0 )
-    {
-        $msg .= " at host '$host'";
-    }
-    else
-    {
-        $msg .= " locally";
-    }
-    if ( strlen( $user ) > 0 )
-    {
-        $msg .= " with user '$user'";
-    }
-    if ( strlen( $password ) > 0 )
-        $msg .= " and with a password";
-    $cli->error( $msg );
+    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
 
     // Fetch the database error message if there is one
     // It will give more feedback to the user what is wrong
@@ -242,6 +249,21 @@ if ( $schemaArray === false )
 }
 $schemaArray['type'] = $type;
 
+// Clean elements if specified
+
+if ( $options['clean-existing'] )
+{
+    include_once( 'lib/ezdb/classes/ezdbtool.php' );
+    $status = eZDBTool::cleanup( $db );
+    if ( !$status )
+    {
+        $cli->error( "Failed cleaning up existing database elements" );
+        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+        $cli->error( "Error(" . $db->errorNumber() . "): " . $db->errorMessage() );
+        $script->shutdown( 1 );
+    }
+}
+
 // Prepare schema handler
 
 $schemaArray['instance'] =& $db;
@@ -255,7 +277,13 @@ if ( $dbSchema === false )
 }
 
 // Insert schema/data by running SQL statements to database
-$dbSchema->insertSchema( $dbschemaParameters );
+$status = $dbSchema->insertSchema( $dbschemaParameters );
+if ( !$status )
+{
+    $cli->error( "Failed insert schema/data to database" );
+    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+    $script->shutdown( 1 );
+}
 
 $script->shutdown();
 
