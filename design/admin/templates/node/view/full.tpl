@@ -1,4 +1,5 @@
 {include uri="design:window_controls.tpl"}
+
 <div class="content-navigation">
 
 {* Content window. *}
@@ -16,9 +17,7 @@
 
 <div class="context-information">
 <p class="modified">{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name}</a></p>
-<p class="translation">
-{$language_code|locale().intl_language_name}  <img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" />
-</p>
+<p class="translation">{$language_code|locale().intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
 <div class="break"></div>
 </div>
 
@@ -36,7 +35,7 @@
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
-<form method="post" action={"content/action"|ezurl}>
+<form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
@@ -94,7 +93,6 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
-
 
 </div>
 
