@@ -14,9 +14,9 @@
     {* Information *}
     <li>
     {section show=ezpreference( 'admin_navigation_information' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl}>{'Information'|i18n( '/design/admin/navigation' )}</a>
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl}>{'Additional information'|i18n( '/design/admin/navigation' )}</a>
     {section-else}
-        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl}>{'Information'|i18n( '/design/admin/navigation' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl}>{'Additional information'|i18n( '/design/admin/navigation' )}</a>
     {/section}
     </li>
 
