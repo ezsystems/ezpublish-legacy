@@ -7,7 +7,7 @@
 <table class="list" cellspacing="0">
 <tr>
 	<th>{'Product'|i18n( 'design/admin/shop/orderstatistics' )}</th>
-	<th>{'Amount'|i18n( 'design/admin/shop/orderstatistics' )}</th>
+	<th>{'Quantity'|i18n( 'design/admin/shop/orderstatistics' )}</th>
 	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
 	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
 </tr>
