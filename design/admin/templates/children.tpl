@@ -76,8 +76,8 @@
 
         {case}
         <span class="current">{'List'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Disaply sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Disaply sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
         {/switch}
         </p>

@@ -129,6 +129,9 @@ Datatype:
   http://ez.no/community/bug_reports/3_5alpha1_url_list_doesn_t_work_with_many_urls
 - Fixed cache bug for content structure menu
   http://ez.no/community/bug_reports/3_5alpha1_missing_array_keys_for_cache_block_within_content_structure_menu_tpl
+- Fixed bug some template typo errors.
+  http://ez.no/community/bug_reports/template_typo_errors
+  (Manually merged from stable/3.4 (3.4.5) rev. 9722)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 

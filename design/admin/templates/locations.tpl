@@ -116,7 +116,7 @@
     {section show=$assignment_count|gt( 1 )}
     <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There are no removalbe locations.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There is no removable location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
 
     {section show=and( ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
