@@ -6,8 +6,19 @@
         <h2>{$node.name|wash()}</h2>
 
         <div class="attribute-byline">
-           <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
-           <p class="date">{$node.object.published|l10n(date)}</p>
+            <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
+            <p class="date">{$node.object.published|l10n(date)}</p>
+            {let assigned_nodes=$node.object.assigned_nodes}
+            {section show=$assigned_nodes|count|gt( 1 )}
+                <p class="placement">in
+            {section var=assigned loop=$assigned_nodes}
+                <a href={$assigned.parent.url_alias|ezurl}>{$assigned.parent.name|wash}</a>
+            {delimiter}, {/delimiter}
+            {/section}
+                </p>
+            {/section}
+            {/let}
+
            <div class="break"></div>
         </div>
 
@@ -17,8 +28,10 @@
 
         {section show=$node.object.data_map.enable_comments.content}
         <div class="attribute-link">
-            <p><a href={$node.url_alias|ezurl}>Comment </a><p>
+            <p><a href={$node.url_alias|ezurl}>{'Comments'|i18n( 'design/base/weblog' )}</a><p>
         </div>
+        {section-else}
+            <p>{'Comments off'|i18n( 'design/base/weblog' )}</p>
         {/section}
    </div>
 </div>

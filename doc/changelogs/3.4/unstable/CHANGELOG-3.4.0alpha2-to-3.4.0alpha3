@@ -1,6 +1,9 @@
 Changes from 3.4.0alpha2 to 3.4.0alpha3
 
 *Kernel:
+- Some changes to the month_overview template operator, the classes set for
+  week days are changed and day, month and year parameter are passed using
+  the new url parameter system.
 
 eZPersistentObject:
 - Fixed a bug which caused some classes to only produce insert statements.

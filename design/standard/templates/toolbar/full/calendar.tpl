@@ -16,6 +16,7 @@
     <h2>Calendar</h2>
 
     {let log_node_id=$module_result.content_info.node_id
+         log_node=fetch( content, node, hash( node_id, $log_node_id ) )
          show_week=false()
          month_list=fetch( content, tree, hash( parent_node_id, $module_result.content_info.node_id,
                                                 class_filter_type, include,
@@ -29,7 +30,7 @@
          month=$month_list|month_overview( 'published', maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year ),
                                            hash( current, maketime( 0, 0, 0, $today_info.month, $today_info.day, $today_info.year ),
                                                  current_class, 'selected',
-                                                 link, concat( "content/view/full/", $log_node_id ),
+                                                 link, $log_node.url_alias,
                                                  month_link, true(), year_link, true(), day_link, true(),
                                                  next, hash( link, concat( "content/view/full/", $log_node_id ) ),
                                                  previous, hash( link, concat( "content/view/full/", $log_node_id ) )  ) )}

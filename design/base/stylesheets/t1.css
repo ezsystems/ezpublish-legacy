@@ -446,8 +446,8 @@ div.toolbox
 
 div.toolbox-design
 { 
-    padding-top: 0px;
     padding-left: 10px;
+    padding-top: 0px;
     padding-bottom: 10px;
     background-color: #d9e5f2;
 }
@@ -752,15 +752,26 @@ div#maincontent-design div.content-view-full div.attribute-link p, div#mainconte
 /* Author and date for all full objects */
 div.content-view-full div.attribute-byline p.author
 { 
+    margin-right: 0.2em;
     display: inline;
     color: #666;
 }
 
 div.content-view-full div.attribute-byline p.date
 { 
+    margin-left: 0.2em;
+    margin-right: 0.2em;
     display: inline;
     color: #666;
 }
+
+div.content-view-full div.attribute-byline p.placement
+{ 
+    margin-left: 0.2em;
+    display: inline;
+    color: #666;
+}
+
 
 /* Author and date for all children objects */
 div.content-view-full div.content-view-line div.attribute-byline p.author
@@ -1022,6 +1033,119 @@ div.class-article div.attribute-image div.imagecaption p
     padding: 0px;
     margin: 0px;
     color: #666;
+}
+
+/*! Calendar style */
+
+div.calendar
+{
+    /* Hack to get 10 pixels in toolbox, should be fixed in toolbox general styles */
+    padding-right: 10px;
+}
+
+div.calendar table
+{
+    margin-top: .5em;
+}
+
+div.calendar table
+{
+    width: 100%;
+}
+
+div.calendar a
+{
+    border: 0;
+}
+
+div.calendar tr.calendar-navigator table.calendar-navigator div
+{
+    display: inline;
+}
+
+
+/* div.calendar tr.calendar-navigator div */
+/* { */
+/*     display: inline; */
+/* } */
+
+div.calendar tr.calendar-navigator div.calendar-previous
+{
+    float: left;
+}
+
+div.calendar tr.calendar-navigator div.calendar-next
+{
+    float: right;
+}
+
+div.calendar tr.calendar-navigator div.calendar-month th
+{
+    text-transform: lowercase;
+    text-align: left;
+/*     font: bold 130% Georgia,Serif; */
+    color: #69c;
+}
+
+div.calendar tr.calendar-navigator div.calendar-previous a, div.calendar tr.calendar-navigator div.calendar-next a
+{
+    text-decoration: none;
+    border-bottom-width: 0;
+}
+
+div.calendar th
+{
+/*     font: 90% Georgia,Sans-serif; */
+    color: #666;
+    text-transform: lowercase;
+    text-align: center;
+}
+
+div.calendar tr.calendar-day-names th.calendar-day-sun, div.calendar tr.calendar-day-names th.calendar-day-sat
+{
+    color: #aa3300;
+}
+
+div.calendar td
+{
+    padding:0 2px;
+    text-align:center;
+    color:#aaa;
+    font-size: 65%;
+}
+
+div.calendar td.calendar-week
+{
+    padding:0 2px;
+    border: 0px;
+    text-align: center;
+    color: #999;
+}
+
+div.calendar div.selected
+{
+    border-color: #960;
+    font-weight: bold;
+    color: #000000;
+}
+
+div.calendar div.calendar-day-today
+{
+    background: #333;
+    color: #ccc;
+}
+
+div.calendar strong.calendar-day-highlight
+{
+    font-weight: bold;
+    color: #000;
+}
+
+div.calendar td a, div.calendar td a:visited, div.calendar td a:hover
+{
+    font-weight: bold;
+    text-decoration: underline;
+    border-bottom-width: 0;
 }
 
 /* Submit buttons */

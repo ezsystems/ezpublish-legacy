@@ -100,15 +100,15 @@ class eZDateOperatorCollection
                 $weekDays = $locale->weekDays();
                 $weekDaysMap = array();
                 $i = 0;
+                $dayNames = array( 0 => 'sun', 1 => 'mon', 2 => 'tue',
+                                   3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat' );
                 foreach ( $weekDays as $weekDay )
                 {
                     $weekDaysMap[$weekDay] = $i;
                     $weekDayName = $locale->shortDayName( $weekDay );
-                    $weekDayClass = 'weekday';
-                    if ( $weekDay == 6 or $weekDay == 0 )
-                        $weekDayClass = 'holiday';
+                    $weekDayIdentifier = $dayNames[$weekDay];
                     $month['weekdays'][] = array( 'day' => $weekDayName,
-                                                  'class' => $weekDayClass );
+                                                  'class' => $weekDayIdentifier );
                     ++$i;
                 }
                 $days = array();
@@ -201,11 +201,11 @@ class eZDateOperatorCollection
                         if ( $dayLink )
                         {
                             if ( $yearLinkParameter )
-                                $dayLink .= '/year/' . $info['year'];
+                                $dayLink .= '/(year)/' . $info['year'];
                             if ( $monthLinkParameter )
-                                $dayLink .= '/month/' . $info['mon'];
+                                $dayLink .= '/(month)/' . $info['mon'];
                             if ( $dayLinkParameter )
-                                $dayLink .= '/day/' . $info['mday'];
+                                $dayLink .= '/(day)/' . $info['mday'];
                         }
                         $dayData['link'] = $dayLink;
                     }
@@ -222,11 +222,11 @@ class eZDateOperatorCollection
                                             'year' => $nextInfo['year'] );
                     $nextLink = $next['link'];
                     if ( $yearLinkParameter )
-                        $nextLink .= '/year/' . $nextInfo['year'];
+                        $nextLink .= '/(year)/' . $nextInfo['year'];
                     if ( $monthLinkParameter )
-                        $nextLink .= '/month/' . $nextInfo['mon'];
+                        $nextLink .= '/(month)/' . $nextInfo['mon'];
                     if ( $dayLinkParameter )
-                        $nextLink .= '/day/' . $nextInfo['mday'];
+                        $nextLink .= '/(day)/' . $nextInfo['mday'];
                     $month['next']['link'] = $nextLink;
                 }
                 else
@@ -242,11 +242,11 @@ class eZDateOperatorCollection
                                                 'year' => $previousInfo['year'] );
                     $previousLink = $previous['link'];
                     if ( $yearLinkParameter )
-                        $previousLink .= '/year/' . $previousInfo['year'];
+                        $previousLink .= '/(year)/' . $previousInfo['year'];
                     if ( $monthLinkParameter )
-                        $previousLink .= '/month/' . $previousInfo['mon'];
+                        $previousLink .= '/(month)/' . $previousInfo['mon'];
                     if ( $dayLinkParameter )
-                        $previousLink .= '/day/' . $previousInfo['mday'];
+                        $previousLink .= '/(day)/' . $previousInfo['mday'];
                     $month['previous']['link'] = $previousLink;
                 }
                 else
