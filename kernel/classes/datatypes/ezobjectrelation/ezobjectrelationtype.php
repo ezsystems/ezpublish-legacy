@@ -97,10 +97,13 @@ class eZObjectRelationType extends eZDataType
         $fuzzyMatchVariableName = $base . "_data_object_relation_fuzzy_match_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $fuzzyMatchVariableName ) )
         {
+            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            $trans =& eZCharTransform::instance();
+
             $fuzzyMatchText = trim( $http->postVariable( $fuzzyMatchVariableName ) );
             if ( $fuzzyMatchText != '' )
             {
-                $fuzzyMatchText = strtolower( $fuzzyMatchText );
+                $fuzzyMatchText = $trans->transformByGroup( $fuzzyMatchText, 'lowercase' );
                 $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 if ( $classAttribute )
                 {
@@ -113,8 +116,7 @@ class eZObjectRelationType extends eZDataType
                         $matchObjectID = false;
                         foreach ( $nodeList as $node )
                         {
-                            // This should be replaced with i18n enabled char transformation.
-                            $name = strtolower( trim( $node->attribute( 'name' ) ) );
+                            $name = $trans->transformByGroup( trim( $node->attribute( 'name' ) ), 'lowercase' );
                             $diff = $this->fuzzyTextMatch( $name, $fuzzyMatchText );
                             if ( $diff === false )
                                 continue;

@@ -322,7 +322,9 @@ class eZStringType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans =& eZCharTransform::instance();
+        return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
     /*!

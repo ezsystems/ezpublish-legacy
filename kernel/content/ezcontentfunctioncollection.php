@@ -788,6 +788,9 @@ class eZContentFunctionCollection
 
         $keyWords =& $db->arrayQuery( $query, $db_params );
 
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans =& eZCharTransform::instance();
+
         foreach ( array_keys( $keyWords ) as $key )
         {
             $keywordArray =& $keyWords[$key];
@@ -798,13 +801,18 @@ class eZContentFunctionCollection
 
             if ( $nodeObject != null )
             {
-                if ( strtolower($lastKeyword) == strtolower($keyword) )
+                $keywordLC = $trans->transformByGroup( $keyword, 'lowercase' );
+                if ( $lastKeyword == $keywordLC )
                     $keywordNodeArray[] = array( 'keyword' => "", 'link_object' => $nodeObject );
                 else
                     $keywordNodeArray[] = array( 'keyword' => $keyword, 'link_object' => $nodeObject );
 
+                $lastKeyword = $keywordLC;
             }
-            $lastKeyword = $keyword;
+            else
+            {
+                $lastKeyword = $trans->transformByGroup( $keyword, 'lowercase' );
+            }
         }
         return array( 'result' => $keywordNodeArray );
     }
