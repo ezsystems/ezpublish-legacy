@@ -556,7 +556,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     if ( $sortCount > 0 )
                     {
-                        $sortingInfo['sortingFields'] .= ', ';
+                        $sortingFields .= ', ';
                     }
 
                     $sortField = $sortBy[0];
