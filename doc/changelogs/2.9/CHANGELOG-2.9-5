@@ -66,6 +66,9 @@ eZ db:
 - New function /setIsSQLOutputEnabled/ which can enable or disable sql output at runtime,
   sql output is always disabled at the end of the script to avoid crashes with session.
 
+eZ mysqldb:
+- If a connect fails the error will be present in the error output.
+
 eZ template:
 - Moved template parser code into separate classes, that way it should be fairly easy to change the
   parser engine.
