@@ -3,7 +3,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'User accounts'|i18n( 'design/admin/parts/user/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}>[-]</a></h4>
+<h4>{'User accounts'|i18( 'design/admin/parts/user/menu' )} <a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl}>[-]</a></h4>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -15,7 +15,7 @@
 
 {section show=ne( $ui_context, 'browse')}
 <ul>
-    <li><a href={'role/list/'|ezurl}>{'Roles'|i18n( 'design/admin/parts/user/menu' )}</a></li>
+    <li><a href={'role/list/'|ezurl}>{'Roles and policies'|i18n( 'design/admin/parts/user/menu' )}</a></li>
 </ul>
 {/section}
 

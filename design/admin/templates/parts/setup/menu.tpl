@@ -15,6 +15,7 @@
     <li><a href={'/pdf/list/'|ezurl}>{'PDF export'|i18n( 'design/admin/parts/setup/menu' ,'PDF export')}</a></li>
     <li><a href={'/package/list/'|ezurl}>{'Packages'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/setup/rad/'|ezurl}>{'RAD'|i18n( 'design/admin/parts/setup/menu' ,'Rapid Application Development')}</a></li>
+    <li><a href={'/role/list/'|ezurl}>{'Roles and policies'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/rss/list'|ezurl}>{'RSS'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/search/stats/'|ezurl}>{'Search statistics'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/section/list/'|ezurl}>{'Sections'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
