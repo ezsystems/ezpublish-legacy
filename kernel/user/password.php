@@ -49,6 +49,8 @@ else
     $UserID = $currentUserID;
 
 $user =& eZUser::fetch( $UserID );
+if ( !$user )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 $currentUser =& eZUser::currentUser();
 if ( $currentUser->attribute( 'contentobject_id' ) != $user->attribute( 'contentobject_id' ) or
      !$currentUser->isLoggedIn() )
