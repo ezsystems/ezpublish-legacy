@@ -110,21 +110,11 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     {let owner_id=$Child:item.object.owner.id}
         {section name=Author loop=$Child:item.object.author_array}
             {section  show=eq($Child:owner_id,$Child:Author:item.contentobject_id)|not()}
-                Moderated by: {$Author:item.contentobject.name} 
+                Moderated by: {$Child:Author:item.contentobject.name}
              {/section}
          {/section}
     {/let}
     </p>
-
-    {let owner_id=$Child:item.object.owner.id}
-
-    {section name=Author loop=$Child:item.object.author_array}
-        {section show=eq($Child:owner_id,$:item.contentobject_id)|not()}
-            Moderated by: {$:item.contentobject.name}
-        {/section}
-    {/section}
-
-    {/let}
 
    {switch match=$Child:item.object.can_edit}
    {case match=1}
