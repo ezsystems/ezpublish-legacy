@@ -279,6 +279,12 @@ Subdir=templates
 Match[class_identifier]=poll
 
 
+[poll_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/poll.tpl
+Subdir=templates
+Match[class_identifier]=poll
+
 # General templates
 
 [factbox]
