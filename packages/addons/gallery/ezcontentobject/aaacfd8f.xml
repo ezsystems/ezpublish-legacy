@@ -170,7 +170,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="9b47d8aef4c090776bb0feb175850388"
+                                image-file-key="a3f27b072364c4ea73e73095eca014c3"
                                 alternativ-text="Foggy trees." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -224,7 +224,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="1a2934efe0db948bbcdf6bb799ac9b4c"
+                                image-file-key="1e422f880c0b04c22904f9416f6a6da1"
                                 alternativ-text="Ormevika skyline" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -278,7 +278,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="b78cffd09dd580c376ab7023ae6ad29b"
+                                image-file-key="7d77c5bdfc7527a40b106587131594d5"
                                 alternativ-text="Bjørkedalen." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -332,7 +332,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="821cdadd9b099e8f21364e64cd49b541"
+                                image-file-key="a2a2b93d2705450b953238e4cdd652f3"
                                 alternativ-text="" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -450,7 +450,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="a8a1d9c7cd769e183100f5ab213dc2f8"
+                                image-file-key="0a177a69f58aabf4af7e4ed774189460"
                                 alternativ-text="Blue flower." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -504,7 +504,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="d9e71dfaa98a22ae89ff9f1aa65bee6f"
+                                image-file-key="62351ed25d73458c6d08cc22840266d0"
                                 alternativ-text="Purple haze" />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -558,7 +558,7 @@
                                 ezremote:identifier="image"
                                 name="Image"
                                 type="ezimage"
-                                image-file-key="5897bf31cf079233bf067f2eadfb1fb6"
+                                image-file-key="cbe604d6a449a6694f4e673d4b7bf3a9"
                                 alternativ-text="Yellow flower." />
           </ezobject:object-translation>
           <ezobject:node-assignment-list>

@@ -21,9 +21,10 @@
 
         {let page_limit=10
              children=fetch_alias( children, hash( parent_node_id, $node.node_id,
-                                                  offset, $view_parameters.offset,
-			        		  limit, $page_limit ) )
-             list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id, sort_by, $node.sort_array ) )}
+                                                   offset, $view_parameters.offset,
+                                                   limit, $page_limit,
+                                                   sort_by, $node.sort_array ) )
+             list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
 
         {section show=$children}
             <div class="attribute-link">
