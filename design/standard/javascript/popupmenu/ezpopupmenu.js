@@ -146,8 +146,8 @@ function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID
     }
 
     // reposition menu
-    document.getElementById( menuID ).style.left = MouseX + EZPOPMENU_OFFSET;
-    document.getElementById( menuID ).style.top = MouseY + EZPOPMENU_OFFSET;
+    document.getElementById( menuID ).style.left = ( MouseX + EZPOPMENU_OFFSET ) + "px";
+    document.getElementById( menuID ).style.top = ( MouseY + EZPOPMENU_OFFSET ) + "px";
 
     // Do URL replace for all items in that menu
     for ( var i in menuArray[menuID]['elements'] )
