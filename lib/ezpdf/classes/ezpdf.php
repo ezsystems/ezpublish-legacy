@@ -269,6 +269,11 @@ class eZPDF
 
                 $operatorValue = '<C:callImage:src:'. rawurlencode( $image['src'] ) .':width:'. $width .':height:'. $height;
 
+                if ( isset( $image['static'] ) )
+                {
+                    $operatorValue .= ':static:' . $image['static'];
+                }
+
                 if ( isset ( $image['x'] ) )
                 {
                     $operatorValue .= ':x:' . $image['x'];
@@ -389,6 +394,38 @@ class eZPDF
                 }
             } break;
 
+            /* usage {pdf( line, hash( x1, <x>, y1, <y>, x2, <x2>, y2, <y2>, pages, <all|current>, thickness, <1..100>,  ) )} */
+            case 'line':
+            {
+                $lineDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                if ( isset( $lineDesc['pages']) and
+                     $lineDesc['pages'] == 'all' )
+                {
+                    $operatorValue = '<ezGroup:callLine';
+                }
+                else
+                {
+                    $operatorValue = '<C:callDrawLine';
+                }
+
+                $operatorValue .= ':x1:' . $lineDesc['x1'];
+                $operatorValue .= ':x2:' . $lineDesc['x2'];
+                $operatorValue .= ':y1:' . $lineDesc['y1'];
+                $operatorValue .= ':y2:' . $lineDesc['y2'];
+
+                $operatorValue .= ':thinkness:' . ( isset( $lineDesc['thickness'] ) ? $lineDesc['thickness'] : '1' );
+
+                $operatorValue .= '>';
+
+                if ( $lineDesc == 'all' )
+                {
+                    $operatorValue .= '___</ezGroup:callLine>';
+                }
+
+                return $operatorValue;
+            } break;
+
             case 'footer':
             case 'frame_header':
             {
@@ -419,6 +456,8 @@ class eZPDF
                 {
                     $operatorValue .= ':page:all';
                 }
+
+                $operatorValue .= ':newline:' . ( isset( $frameDesc['newline'] ) ? $frameDesc['newline'] : 0 );
 
                 $operatorValue .= ':pageOffset:';
                 if ( isset( $frameDesc['pageOffset'] ) )
@@ -453,7 +492,7 @@ class eZPDF
                 {
                     $operatorValue .= '<C:callFrameMargins';
 
-                    $operatorValue .= 'identifier:'. $namedParameters['operation'];
+                    $operatorValue .= ':identifier:'. $namedParameters['operation'];
 
                     $operatorValue .= ':topMargin:';
                     if ( isset( $frameDesc['margin']['top'] ) )
@@ -682,6 +721,10 @@ class eZPDF
                 {
                     $params['radius'] = 2;
                 }
+                if ( !isset ( $params['pre_indent'] ) )
+                {
+                    $params['pre_indent'] = 0;
+                }
                 if ( !isset ( $params['indent'] ) )
                 {
                     $params['indent'] = 2;
@@ -697,6 +740,7 @@ class eZPDF
                      ':yOffset:' . $params['yOffset'] .
                      ':y:-1' .
                      ':indent:' . $params['indent'] .
+                     ':pre_indent:' . $params['pre_indent'] .
                      ':radius:' . $params['radius'] .
                      ':cmyk:' . implode( ',', $params['cmyk'] ) .
                      '>';
@@ -748,9 +792,7 @@ class eZPDF
                 eZDebug::writeNotice( 'PDF Added circle: ' . $operatorValue );
 
                 return $operatorValue;
-
-
-            }
+            } break;
 
             case 'rectangle':
             {
@@ -932,6 +974,22 @@ class eZPDF
                     $operatorValue .= '</ezCall:callText>';
                 }
 
+            } break;
+
+            case 'text_box':
+            {
+                $parameters = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $operatorValue = '<C:callTextBox';
+
+                foreach( array_keys( $parameters ) as $key )
+                {
+                    $operatorValue .= ':' . $key . ':' . $parameters[$key];
+                }
+
+                $operatorValue .= '>';
+
+                return $operatorValue;
             } break;
 
             case 'text_frame':

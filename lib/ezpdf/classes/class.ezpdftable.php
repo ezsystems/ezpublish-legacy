@@ -982,6 +982,11 @@ class eZPDFTable extends Cezpdf
 
         $this->transaction( 'start' );
 
+        if ( !isset( $params['static'] ) )
+        {
+            $params['static'] = false;
+        }
+
         if ( $this->yOffset()-$params['height'] < $this->ez['bottomMargin'] )
         {
             $this->ezNewPage();
@@ -1049,18 +1054,19 @@ class eZPDFTable extends Cezpdf
             $yOffset = $params['y'];
         }
 
+        if ( $leftMargin !== false )
+        {
+            $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 2, $leftMargin + 7 );
+        }
+        if ( $rightMargin !== false )
+        {
+            $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 2, $rightMargin + 7 );
+        }
+
         switch( $mimetype['name'] )
         {
             case 'image/jpeg':
             {
-                if ( $leftMargin !== false )
-                {
-                    $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 2, $leftMargin + 7 );
-                }
-                if ( $rightMargin !== false )
-                {
-                    $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 2, $rightMargin + 7 );
-                }
                 $this->addJpegFromFile( $filename,
                                         $xOffset,
                                         $yOffset,
@@ -1091,7 +1097,7 @@ class eZPDFTable extends Cezpdf
 
         $this->transaction( 'commit' );
 
-        if ( !$leftMargin && !$rightMargin )
+        if ( !$leftMargin && !$rightMargin  && !$params['static'] )
         {
             $this->y -= $params['height'];
         }
@@ -1565,18 +1571,22 @@ class eZPDFTable extends Cezpdf
             }
         }
 
+        $params['x'] += $params['pre_indent'];
+
         $this->filledEllipse( $params['x'], $params['y'], $params['radius'] );
-        if ( isset( $params['indent'] ) )
-        {
-            $this->setXOffset( $params['x'] + $params['radius'] * 2 + $params['indent'] );
-        }
-        else
-        {
-            $this->setXOffset( $params['x'] + $params['radius'] * 2 );
-        }
 
         $this->setStrokeColor( $strokeStackColor );
         $this->setColor( $stackColor );
+
+        if ( isset( $params['indent'] ) )
+        {
+            return array( 'x' => $params['x'] + $params['radius'] * 2 + $params['indent'] );
+        }
+        else
+        {
+            return array( 'x' => $params['x'] + $params['radius'] * 2 );
+        }
+
     }
 
     /*!
@@ -1620,6 +1630,26 @@ class eZPDFTable extends Cezpdf
     }
 
     /*!
+      Add line to all pages
+    */
+    function callLine( $params, $text )
+    {
+        $this->addDocSpecFunction( 'ezInsertLine', array( $params ) );
+    }
+
+    /*!
+     Draw line on current page in PDF document
+    */
+    function callDrawLine( $info )
+    {
+        $params = array();
+        $this->extractParameters( $info['p'], 0, $params, true );
+
+        $this->setLineStyle( $params['thickness'] );
+        $this->line( $params['x1'], $params['y1'], $params['x2'], $params['y2'] );
+    }
+
+    /*!
       Function for setting frame margins. Frames are used to define for example footer and header areas
 
       \param info, standard ezpdf callback function
@@ -1638,6 +1668,23 @@ class eZPDFTable extends Cezpdf
         {
             $this->ezFrame[$params['identifier']] = $params;
         }
+    }
+
+    /*!
+      Insert line onto every page
+
+      \param line parameters
+    */
+    function ezInsertLine( $params )
+    {
+        reset( $this->ezPages );
+        foreach ( $this->ezPages as $pageNum => $pageID )
+        {
+            $this->reopenObject($pageID);
+            $this->line( $params['x1'], $params['y1'], $params['x2'], $params['y2'] );
+            $this->closeObject();
+        }
+        reset( $this->ezPages );
     }
 
     /*!
@@ -1737,6 +1784,10 @@ class eZPDFTable extends Cezpdf
             }
 
             $yOffset = $frameCoords['y0'] - $frameCoords['topMargin'];
+            if ( $textParameters['newline'] )
+            {
+                $yOffset -= $this->getFontHeight( $size );
+            }
 
             $yOffset -= $this->getFontHeight( $size );
             $xOffset = $frameCoords['leftMargin'];
@@ -2081,6 +2132,30 @@ class eZPDFTable extends Cezpdf
     }
 
     /*!
+     Insert text at specified position
+    */
+    function callTextBox( $info )
+    {
+        $params = array();
+        $this->extractParameters( $info['p'], 0, $params, true );
+
+        $text = $params['text'];
+        $y = $params['y'];
+        $x = $params['x'];
+        $width = $params['width'];
+
+        $align = isset( $params['align'] ) ? $params['align'] : 'left';
+        $size = isset( $params['size'] ) ? $params['size'] : $this->fontSize();
+
+        while( strlen( $text ) != 0 )
+        {
+            $retArray = $this->addTextWrap( $x, $y, $width, $size, $text, $align );
+            $text = $retArray['text'];
+            $y -= $this->getFontHeight( $size );
+        }
+    }
+
+    /*!
      Callback function for adding text frame.
      */
     function callTextFrame( $params, $text )
@@ -2354,18 +2429,19 @@ class eZPDFTable extends Cezpdf
             $yOffset = $this->ez['pageHeight'] - $parameters['margin'];
         }
 
-        $rightMargin = $this->rightMargin();
+        $rightMargin = $this->rightMargin( $yOffset );
         if ( isset( $parameters['rightMargin'] ) )
         {
             $rightMargin = $parameters['rightMargin'];
         }
 
-        $leftMargin = $this->leftMargin();
+        $leftMargin = $this->leftMargin( $yOffset );
         if ( isset( $parameters['leftMargin'] ) )
         {
             $leftMargin = $parameters['leftMargin'];
         }
 
+        reset( $this->ezPages );
         foreach ( $this->ezPages as $pageNum => $pageID )
         {
             if( $pageNum < $parameters['pageOffset'] )

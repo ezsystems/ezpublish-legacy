@@ -75,6 +75,8 @@ MatchFile=datatype/ezobjectrelation/image.tpl
 Subdir=templates
 Match[class_identifier]=article
 
+# Article PDF version templates
+
 [pdf_article_main]
 Source=node/view/pdf.tpl
 MatchFile=pdf/article/main.tpl
