@@ -94,7 +94,16 @@ $result = null;
 $previousStepClass = null;
 $step = null;
 
-if ( $http->hasPostVariable( 'eZSetup_next_button' ) ) // next step selected
+
+if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
+{
+    $step = &$stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
+}
+else if ( $http->hasPostVariable( 'eZSetup_refresh_button' ) ) // refresh selected step
+{
+    $step = &$stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
+}
+else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVariable( 'eZSetup_current_step' ) ) // next step selected, 
 {
     // first, input from step must be processed/checked (processPostData())
     $currentStep = &$stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
@@ -126,16 +135,10 @@ if ( $http->hasPostVariable( 'eZSetup_next_button' ) ) // next step selected
     }
 
 }
-else if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
-{
-    $step = &$stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
-}
 else //First step, no params set.
 {
     $step = $stepData->step(0); //step contains file and class
 }
-
-print_r( $step );
 
 $done = false;
 $result = null;

@@ -24,6 +24,10 @@ Changes from 3.2.0-1 to 3.2.0-2
 *Setup:
 - Made sure the password is used when connecting to database.
 - Made sure some steps are not counted in the total number of steps when calculating percent.
+- Fixed layout when choosing site templates
+- Added back, next, refresh buttons in setup depending on setup steps
+- Added image processor to summary during install
+- Moves Language selection to after database selection.
 
 *Package system:
 

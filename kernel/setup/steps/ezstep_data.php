@@ -103,7 +103,6 @@ class eZStepData
     */
     function &previousStep( &$step )
     {
-        print_r( $step );
         if ( is_string( $step ) ){
             foreach ( $this->StepTable as $key => $tableStep )
             {
@@ -162,14 +161,14 @@ class eZStepData
                                    'class' => 'Welcome' ),
                             array( 'file' => 'system_check',
                                    'class' => 'SystemCheck' ),
-                            array( 'file' => 'language_options',
-                                   'class' => 'LanguageOptions' ),
                             array( 'file' => 'email_settings',
                                    'class' => 'EmailSettings' ),
                             array( 'file' => 'database_choice',
                                    'class' => 'DatabaseChoice' ),
                             array( 'file' => 'database_init',
                                    'class' => 'DatabaseInit' ),
+                            array( 'file' => 'language_options',
+                                   'class' => 'LanguageOptions' ),
                             array( 'file' => 'site_templates',
                                    'class' => 'SiteTemplates'),
                             array( 'file' => 'site_access',
