@@ -102,6 +102,7 @@ eZ template:
 - Washing operator now supports email washing as well, @ and . will be converted to
   straight textual representations which are harder for spam engines to pick up.
   The representation is configurable in template.ini.
+- The count operator now works on strings.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

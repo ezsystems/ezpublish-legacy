@@ -175,6 +175,8 @@ class eZTemplateArithmeticOperator
                 else if ( is_object( $mixedValue ) and
                           method_exists( $mixedValue, 'attributes' ) )
                     $operatorValue = count( $mixedValue->attributes() );
+                else if ( is_string( $mixedValue ) )
+                    $operatorValue = strlen( $mixedValue );
                 else
                     $operatorValue = 0;
             } break;
