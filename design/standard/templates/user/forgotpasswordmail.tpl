@@ -14,6 +14,6 @@
 {"New password"|i18n('design/standard/user/forgotpassword')}: {$password}
 {/section}
 
-{section}
+{/section}
 
 {/let}

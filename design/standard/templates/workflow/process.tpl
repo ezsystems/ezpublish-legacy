@@ -20,7 +20,7 @@
 <h2>{"Content object"|i18n("design/standard/workflow")}</h2>
 <p>
 {"Workflow was created for content"|i18n("design/standard/workflow")} <b><a href={concat("/content/view/",$process.content_id)|ezurl}>{$process.content.name}</a></b>
-{"using version"|i18n("design/standard/workflow")} <b><a href={concat("/content/view/{$process.content_id}/",$process.content_version)|ezurl}>{$process.content_version}</a></b>
+{"using version"|i18n("design/standard/workflow")} <b><a href={concat("/content/view/",$process.content_id,"/",$process.content_version)|ezurl}>{$process.content_version}</a></b>
 {"in parent"|i18n("design/standard/workflow")} <b><a href={concat("/content/view/",$process.node_id)|ezurl}>{$process.node.name}</a></b>
 </p>
 

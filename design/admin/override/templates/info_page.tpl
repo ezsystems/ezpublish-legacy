@@ -1,5 +1,5 @@
 {* Info page admin view template *}
-    
+
 {default with_children=true()
          is_editable=true()
          is_standalone=true()
@@ -55,7 +55,5 @@
     </form>
 {/section}
 
-{/default}
-{/let}
 {/default}
 
