@@ -19,7 +19,6 @@
         <li><a href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/setup/session"|ezurl}>{"Sessions"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/setup/systemupgrade"|ezurl}>{"System upgrade"|i18n("design/admin/layout")}</a></li>
-        <li><a href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></li>

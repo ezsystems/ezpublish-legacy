@@ -75,7 +75,7 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
         $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $http->postVariable( 'CurrentSiteAccess' ) );
     }
 
-    $module->redirectTo( '/setup/templatecreate'. $template );
+    $module->redirectTo( '/design/templatecreate'. $template );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
@@ -177,9 +177,9 @@ $tpl->setVariable( 'template_settings', $templateSettings );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/templateview.tpl" );
-$Result['path'] = array( array( 'url' => "/setup/templatelist/",
-                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ),
+$Result['content'] =& $tpl->fetch( "design:design/templateview.tpl" );
+$Result['path'] = array( array( 'url' => "/design/templatelist/",
+                                'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Template view' ) ) );
+                                'text' => ezi18n( 'kernel/design', 'Template view' ) ) );
 ?>

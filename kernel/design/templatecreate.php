@@ -186,13 +186,13 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
     if ( $error == false )
     {
-        $module->redirectTo( '/setup/templateview'. $template );
+        $module->redirectTo( '/design/templateview'. $template );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 else if( $module->isCurrentAction( 'CancelOverride' ) )
 {
-   $module->redirectTo( '/setup/templateview'. $template );
+   $module->redirectTo( '/design/templateview'. $template );
 }
 
 
@@ -458,11 +458,11 @@ $tpl->setVariable( 'site_base', $siteBase );
 $tpl->setVariable( 'site_design', $siteDesign );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/templatecreate.tpl" );
-$Result['path'] = array( array( 'url' => "/setup/templatelist/",
-                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ),
-                         array( 'url' => "/setup/templateview". $template,
-                                'text' => ezi18n( 'kernel/setup', 'Template view' ) ),
+$Result['content'] =& $tpl->fetch( "design:design/templatecreate.tpl" );
+$Result['path'] = array( array( 'url' => "/design/templatelist/",
+                                'text' => ezi18n( 'kernel/design', 'Template list' ) ),
+                         array( 'url' => "/design/templateview". $template,
+                                'text' => ezi18n( 'kernel/design', 'Template view' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Create new template' ) ) );
+                                'text' => ezi18n( 'kernel/design', 'Create new template' ) ) );
 ?>

@@ -101,37 +101,6 @@ $ViewList["templateoperator"] = array(
                                     ),
     "params" => array( ) );
 
-$ViewList["templatelist"] = array(
-    "script" => "templatelist.php",
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( ),
-    "unordered_params" => array( "offset" => "Offset" ) );
-
-$ViewList["templateview"] = array(
-    "script" => "templateview.php",
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
-                                    'RemoveOverrideButton' => 'RemoveOverride',
-                                    'UpdateOverrideButton' => 'UpdateOverride',
-                                    'NewOverrideButton' => 'NewOverride' ),
-    "params" => array( ) );
-
-$ViewList["templateedit"] = array(
-    "script" => "templateedit.php",
-    'ui_context' => 'edit',
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'SaveButton' => 'Save',
-                                    'DiscardButton' => 'Discard' ),
-    "params" => array( ) );
-
-$ViewList["templatecreate"] = array(
-    "script" => "templatecreate.php",
-    'ui_context' => 'edit',
-    "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride',
-                                    'CancelOverrideButton' => 'CancelOverride' ),
-    "params" => array( ) );
-
 $ViewList["extensions"] = array(
     "script" => "extensions.php",
     'ui_context' => 'administration',

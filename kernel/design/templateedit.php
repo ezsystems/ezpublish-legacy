@@ -116,14 +116,14 @@ if ( $module->isCurrentAction( 'Save' ) )
             eZContentObject::expireAllCache();
         }
 
-        $module->redirectTo( '/setup/templateview'. $originalTemplate );
+        $module->redirectTo( '/design/templateview'. $originalTemplate );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 
 if ( $module->isCurrentAction( 'Discard' ) )
 {
-    $module->redirectTo( '/setup/templateview'. $originalTemplate );
+    $module->redirectTo( '/design/templateview'. $originalTemplate );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
@@ -146,7 +146,7 @@ $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_content', $templateContent );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/templateedit.tpl" );
+$Result['content'] =& $tpl->fetch( "design:design/templateedit.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Template edit' ) ) );
+                                'text' => ezi18n( 'kernel/design', 'Template edit' ) ) );
 ?>

@@ -72,8 +72,8 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'template_count', count( $overrideArray ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/templatelist.tpl" );
+$Result['content'] =& $tpl->fetch( "design:design/templatelist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ) );
+                                'text' => ezi18n( 'kernel/design', 'Template list' ) ) );
 
 ?>
