@@ -74,6 +74,15 @@ if ( extension_loaded( "apc" ) )
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
 }
+if ( extension_loaded( "Zend Optimizer" ) )
+{
+    $phpAcceleratorInfo = array();
+    $phpAcceleratorInfo['name'] = "Zend Optimizer";
+    $phpAcceleratorInfo['url'] = "http://www.zend.com/store/products/zend-optimizer.php";
+    $phpAcceleratorInfo['enabled'] = true;
+    $phpAcceleratorInfo['version_integer'] = false;
+    $phpAcceleratorInfo['version_string'] = false;
+}
 
 $webserverInfo = false;
 if ( function_exists( 'apache_get_version' ) )

@@ -69,6 +69,7 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Renamed eZSearchEngine::suportedSearchTypes to eZSearchEngine::supportedSearchTypes (spell fix)
   This will affect all searchengines (apart from the ones not using this function).
 - Added new module function "list" for module section.
+- Zend Optimizer added to list of known accelerators.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
