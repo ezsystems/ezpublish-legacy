@@ -1,0 +1,8 @@
+Release notes for 3.2-3
+
+- The image system has been improved to create missing directories
+  and to have better handling of some image formats.
+- Improved notification email which supports threading in email clients.
+- Fixed several bugs in the site access matcher.
+- Updated translations for Portuguese.
+- And several bugfixes to the kernel and libraries.
