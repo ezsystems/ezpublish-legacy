@@ -3,6 +3,11 @@
     {include uri='design:information.tpl'}
 {/section}
 
+{* Languages window. *}
+{section show=ezpreference( 'admin_navigation_languages'  )}
+    {include uri='design:languages.tpl'}
+{/section}
+
 {* Locations window. *}
 {section show=ezpreference( 'admin_navigation_locations'  )}
     {include uri='design:locations.tpl'}

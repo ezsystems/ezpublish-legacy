@@ -4,18 +4,27 @@
     {* Content preview. *}
     <li>
     {section show=ezpreference( 'admin_navigation_content' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
     {section-else}
-        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Content preview'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
     {/section}
     </li>
 
     {* Additional information. *}
     <li>
     {section show=ezpreference( 'admin_navigation_information' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl} title="{'Hide additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl} title="{'Hide additional information.'|i18n( 'design/admin/node/view/full' )}">{'Information'|i18n( 'design/admin/node/view/full' )}</a>
     {section-else}
-        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl} title="{'Show additional information.'|i18n( 'design/admin/node/view/full' )}">{'Additional information'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl} title="{'Show additional information.'|i18n( 'design/admin/node/view/full' )}">{'Information'|i18n( 'design/admin/node/view/full' )}</a>
+    {/section}
+    </li>
+
+    {* Languages. *}
+    <li>
+    {section show=ezpreference( 'admin_navigation_languages' )}
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_languages/0'|ezurl} title="{'Hide available translations.'|i18n( 'design/admin/node/view/full' )}">{'Languages'|i18n( 'design/admin/node/view/full' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_navigation_languages/1'|ezurl} title="{'Show available translations.'|i18n( 'design/admin/node/view/full' )}">{'Languages'|i18n( 'design/admin/node/view/full' )}</a>
     {/section}
     </li>
 
