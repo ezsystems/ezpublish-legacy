@@ -199,16 +199,13 @@ eZSection::initGlobalID();
 
 while ( $moduleRunRequired )
 {
-    $nodePathString = $uri->elements();
-    $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
-    include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-    $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
-
-    if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+    if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
-        $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
-        $uri = & eZURI::instance( $newURI );
+        include_once( 'kernel/classes/ezurltranslator.php' );
+        $urlInstance =& eZURLTranslator::instance();
+        $newURI =& $urlInstance->translate( $uri );
+        if ( $newURI )
+            $uri = $newURI;
     }
 
     if ( !accessAllowed( $uri ) )
