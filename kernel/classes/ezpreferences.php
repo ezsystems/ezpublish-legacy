@@ -70,7 +70,7 @@ class eZPreferences
         {
             // Only store in DB is user is logged in
             $userID = $user->attribute( 'contentobject_id' );
-            $existingRes = $db->arrayQuery( "SELECT * FROM ezpreferences WHERE user_id = $userID" );
+            $existingRes = $db->arrayQuery( "SELECT * FROM ezpreferences WHERE user_id = $userID AND name='$name'" );
 
             if ( count( $existingRes ) > 0 )
             {
