@@ -12,15 +12,7 @@
 {$object.id}
 </p>
 
-<p>
-<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
-{section show=$object.published}
-{$object.current_version}
-{section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/section}
-</p>
-
+{* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
 {section show=$object.published}
@@ -30,8 +22,10 @@
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
 {/section}
 </p>
+
+{* Modified *}
 <p>
-<label>{'Last Modified'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
@@ -40,6 +34,17 @@
 {/section}
 </p>
 
+{* Published version *}
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+{section show=$object.published}
+{$object.current_version}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{/section}
+</p>
+
+{* Manage versions *}
 <div class="block">
 {section show=$object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
@@ -47,8 +52,6 @@
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
 {/section}
 </div>
-
-
 
 </div></div></div></div></div></div>
 
@@ -70,22 +73,25 @@
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 {/section}
 
-<p>
-<label>{'Version'|i18n( 'design/admin/content/edit' )}:</label>
-{$edit_version}
-</p>
-
+{* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
 {$content_version.created|l10n( shortdatetime )}<br />
 {$content_version.creator.name}
 </p>
+
+{* Modified *}
 <p>
-<label>{'Last modified'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
 {$content_version.modified|l10n( shortdatetime )}<br />
 {$content_version.creator.name}
 </p>
 
+{* Version *}
+<p>
+<label>{'Version'|i18n( 'design/admin/content/edit' )}:</label>
+{$edit_version}
+</p>
 
 
 

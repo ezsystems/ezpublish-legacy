@@ -11,10 +11,13 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{* Object ID *}
 <p>
 <label>{'ID'|i18n( 'design/admin/content/versions' )}:</label>
 {$object.id}
 </p>
+
+{* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.published}
@@ -24,8 +27,10 @@
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
 {/section}
 </p>
+
+{* Modified *}
 <p>
-<label>{'Last modified'|i18n( 'design/admin/content/versions' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
@@ -33,6 +38,8 @@
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
 {/section}
 </p>
+
+{* Published version*}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.published}
