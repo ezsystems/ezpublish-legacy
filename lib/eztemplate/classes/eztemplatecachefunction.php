@@ -115,11 +115,12 @@ class eZTemplateCacheFunction
 
                 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
                 $handler =& eZExpiryHandler::instance();
-                if ( !$handler->hasTimestamp( 'content-cache' ) )
-                    return false;
-                $globalExpiryTime = $handler->timestamp( 'content-cache' );
-
-                $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+                $expiryTime = $localExpiryTime;
+                if ( $handler->hasTimestamp( 'content-cache' ) )
+                {
+                    $globalExpiryTime = $handler->timestamp( 'content-cache' );
+                    $expiryTime = max( $localExpiryTime, $globalExpiryTime );
+                }
 
                 // Check if we can restore
                 if ( $phpCache->canRestore( $expiryTime ) )
