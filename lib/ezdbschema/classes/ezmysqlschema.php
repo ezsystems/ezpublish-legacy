@@ -72,9 +72,13 @@ class eZMysqlSchema {
 			{
 				$field['not_null'] = '1';
 			}
-			if ( !empty( $row['Default'] ) )
+			if ( ( !empty( $row['Default'] ) ) || ( $field['type'] == 'varchar' ) )
 			{
 				$field['default'] = $row['Default'];
+			}
+			if ( ( empty( $row['Default'] ) ) && ( $field['type'] == 'float' ) )
+			{
+				$field['default'] = '0';
 			}
 
 			if (substr ( $row['Extra'], 'auto_increment' ) !== false )
@@ -190,6 +194,10 @@ class eZMysqlSchema {
 			}
 			if ( isset ( $def['default'] ) ) {
 				$sql_def .= "DEFAULT '{$def['default']}' ";
+			}
+			else if ( $def['type'] == 'varchar' )
+			{
+				$sql_def .= "DEFAULT '' ";
 			}
 			$skip_primary = false;
 		}

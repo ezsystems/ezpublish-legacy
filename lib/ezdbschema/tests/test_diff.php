@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <30-Jan-2004 10:37:22 dr>
+// Created on: <28-Jan-2004 16:22:02 dr>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -33,15 +33,17 @@
 //
 
 include ('../classes/ezdbschema.php');
-include ('../classes/ezmysqlschema.php');
 include ('../classes/ezdbschemachecker.php');
 
-$c = mysql_connect('localhost', 'root');
-mysql_select_db('dr');
+$dbschema1 = new eZDbSchema();
+$schema1 = $dbschema1->read( 'pgschema.php' );
 
-$dbschema1 = new eZMysqlSchema();
-$schema1 = $dbschema1->read( $c );
+$dbschema2 = new eZDbSchema();
+$schema2 = $dbschema2->read( 'myschema.php' );
 
-eZDbSchema::writeSchemaFile( $schema1, 'myschema.php' );
-eZMysqlSchema::writeSchemaFile( $schema1, 'myschema.sql' );
+$differences = eZDbSchemaChecker::diff( $schema1, $schema2 ); /* empty 2nd param force new script */
+
+var_dump($differences);
+ezDbSchema::writeUpgradeFile( $differences, 'diff-my-pg.php' );
+
 ?>

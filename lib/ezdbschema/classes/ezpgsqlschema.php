@@ -143,11 +143,16 @@ class eZPgsqlSchema {
 			{
 				$field['default'] = $this->parseDefault ( $row['default'], $autoinc );
 			}
+			if ( ( empty( $field['default'] ) ) && ( $field['type'] == 'float' ) )
+			{
+				$field['default'] = '0';
+			}
 
 			if ( $autoinc )
 			{
 				unset ($field['length']);
 				unset ($field['not_null']);
+				unset ($field['default']);
 				$field['type'] = 'auto_increment';
 			}
 			$fields[$row['attname']] = $field;
@@ -243,7 +248,7 @@ class eZPgsqlSchema {
 		case 'text':
 			return 'text';
 			break;
-		case 'double':
+		case 'float':
 			return 'double precision';
 			break;
 		default:
@@ -256,7 +261,10 @@ class eZPgsqlSchema {
 		switch ( $type )
 		{
 		case 'bigint':
+			return 'int';
+			break;
 		case 'integer':
+			$length = 11;
 			return 'int';
 			break;
 		case 'character varying':
@@ -266,7 +274,7 @@ class eZPgsqlSchema {
 			return 'longtext';
 			break;
 		case 'double precision':
-			return 'double';
+			return 'float';
 			break;
 		case 'character':
 			$lenght = 1;

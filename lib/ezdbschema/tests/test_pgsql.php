@@ -33,15 +33,15 @@
 //
 
 include ('../classes/ezdbschema.php');
-include ('../classes/ezmysqlschema.php');
+include ('../classes/ezpgsqlschema.php');
 include ('../classes/ezdbschemachecker.php');
 
-$c = mysql_connect('localhost', 'root');
-mysql_select_db('dr');
+$c = pg_connect('host=localhost dbname=eztest user=eztest password=eztest');
 
-$dbschema1 = new eZMysqlSchema();
+$dbschema1 = new eZPgsqlSchema();
 $schema1 = $dbschema1->read( $c );
 
-eZDbSchema::writeSchemaFile( $schema1, 'myschema.php' );
-eZMysqlSchema::writeSchemaFile( $schema1, 'myschema.sql' );
+eZDbSchema::writeSchemaFile( $schema1, 'pgschema.php' );
+eZPgsqlSchema::writeSchemaFile( $schema1, 'pgschema.sql' );
+
 ?>
