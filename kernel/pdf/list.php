@@ -52,6 +52,8 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     foreach ( $deleteArray as $deleteID )
     {
         $pdfExport =& eZPDFExport::fetch( $deleteID );
+        if ( $pdfExport === null )
+            continue;
         $pdfExport->remove();
     }
 }
