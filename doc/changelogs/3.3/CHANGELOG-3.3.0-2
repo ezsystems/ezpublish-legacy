@@ -64,3 +64,7 @@ eZ INI:
 
 eZ PDF:
 - Added possibility to generate PDF files on the fly
+
+eZ db:
+- The MySQL and PostgreSQL handler will now provide proper SQL limits even if the limit is not specified
+  but the offset has.

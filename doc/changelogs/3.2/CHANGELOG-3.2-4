@@ -62,4 +62,8 @@ eZ ObjectRelationList:
   file is called ezcontentobjectrelationlist_controls.tpl and is included form the ezcontentobjectrelationlist.tpl
   template file. This allows for overriding this template per class. (Also in 3.3 Rev: 4315)
 
+eZ db:
+- The MySQL and PostgreSQL handler will now provide proper SQL limits even if the limit is not specified
+  but the offset has.
+
 *Translations:
