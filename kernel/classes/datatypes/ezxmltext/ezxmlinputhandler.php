@@ -335,9 +335,18 @@ class eZXMLInputHandler
 
             // normal content tags
             case 'emphasize' :
+            case 'em' :
+            case 'i' :
+            {
+                $output .= "<emphasize>" . $childTagText . "</emphasize>";
+            }break;
+
+            // normal content tags
+            case 'b' :
+            case 'bold' :
             case 'strong' :
             {
-                $output .= "<$tagName>" . $childTagText . "</$tagName>";
+                $output .= "<strong>" . $childTagText . "</strong>";
             }break;
 
             // Custom tags
