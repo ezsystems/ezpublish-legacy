@@ -359,7 +359,7 @@ class eZObjectRelationListType extends eZDataType
         if ( $http->hasPostVariable( $typeVariable ) )
         {
             $type = $http->postVariable( $typeVariable );
-            $content['attribute_type'] = $type;
+            $content['type'] = $type;
         }
         $classAttribute->setContent( $content );
         $classAttribute->store();
@@ -462,7 +462,7 @@ class eZObjectRelationListType extends eZDataType
             $constraints->appendChild( $constraintElement );
         }
         $root->appendChild( $constraints );
-        $constraintType =& $doc->createElementNode( 'type', array( 'value' => $content['attribute_type'] ) );
+        $constraintType =& $doc->createElementNode( 'type', array( 'value' => $content['type'] ) );
         $root->appendChild( $constraintType );
         $placementAttributes = array();
         if ( $content['default_placement'] )
