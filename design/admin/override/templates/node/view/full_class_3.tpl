@@ -54,7 +54,8 @@
    {switch match=$content_object.can_edit}
    {case match=1}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+{*   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />*}
    {/case}
    {case match=0}
    {/case}
@@ -211,6 +212,7 @@
      user_class_list_allowed=fetch('content','can_instantiate_classes')
      user_class_list=fetch('content','can_instantiate_class_list',hash(group_id,$user_class_group_id))}
 {section show=$user_class_list_allowed}
+<div class="buttonblock">
     <form method="post" action={"content/action"|ezurl}>
          <select name="ClassID" class="classcreate">
 	      {section name=Classes loop=$user_class_list}
@@ -220,8 +222,9 @@
 	 <br />
 
          <input type="hidden" name="BrowseNodeID" value="5" />
-         <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+         <input class="classbutton" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
     </form>
+</div>
 {/section}
 {/let}
 

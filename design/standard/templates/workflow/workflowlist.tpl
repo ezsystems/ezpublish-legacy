@@ -31,13 +31,17 @@
 <tr>
   <td colspan="4">
 
-    {include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New"|i18n("design/standard/workflow")}
+    {include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New workflow"|i18n("design/standard/workflow")}
   </td>
   <td align="right">
     <input type="image" name="DeleteButton" value="{'Remove'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>
+{section-else}
+<div class="buttonblock">
+  {include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New workflow"|i18n("design/standard/workflow")}
+</div>
 {/section}
 <input type="hidden" name="CurrentGroupID" value="{$group_id}" />
 <input type="hidden" name="CurrentGroupName" value="{$group_name}" />

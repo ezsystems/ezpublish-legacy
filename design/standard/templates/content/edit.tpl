@@ -20,7 +20,7 @@
 
     <div class="buttonblock">
     <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('design/standard/content/edit')}" />
+    <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     </div>
     <!-- Left part end -->

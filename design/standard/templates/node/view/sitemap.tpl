@@ -131,7 +131,7 @@
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
 {/section}
 
 {/section}

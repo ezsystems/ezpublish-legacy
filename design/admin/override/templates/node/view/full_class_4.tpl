@@ -56,7 +56,8 @@
 
 {section show=and($is_editable,$content_object.can_edit)}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+{*   <input type="image" src={"edit.png"|ezimage} name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />*}
 {/section}
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />

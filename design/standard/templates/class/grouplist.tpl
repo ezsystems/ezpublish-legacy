@@ -26,7 +26,7 @@
 {/section}
 <tr>
   <td colspan="4">
-    {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New"|i18n("design/standard/class/list")}
+    {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New group"|i18n("design/standard/class/list")}
   </td>
   <td align="right">
     <input type="image" name="RemoveGroupButton" value="{'Remove'|i18n('design/standard/class/view')}" src={"trash.png"|ezimage} />

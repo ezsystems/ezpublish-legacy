@@ -45,7 +45,7 @@
 <tr>
   <td>
     <div class="buttonblock">
-    {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n("design/standard/class/view")}
+    {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New class"|i18n("design/standard/class/view")}
     </div>
   </td>
   <td colspan="7" align="right">

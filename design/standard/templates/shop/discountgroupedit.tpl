@@ -1,7 +1,7 @@
 <form action={concat($module.functions.discountgroupedit.uri,"/",$discount_group.id)|ezurl} method="post" name="DiscountGroupEdit">
 
 <div class="maincontentheader">
-<h1>{"Editing discount group"|i18n("design/standard/shop")} - {$discount_group.name}</h1>
+<h1>{"Edit discount group - %1"|i18n("design/standard/shop",,array($discount_group.name))}</h1>
 </div>
 
 <div class="block">
@@ -10,7 +10,7 @@
 </div>
 
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value="Apply"|i18n("design/standard/shop")}
+{include uri="design:gui/defaultbutton.tpl" name=Apply id_name=ApplyButton value="Store"|i18n("design/standard/shop")}
 {include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard"|i18n("design/standard/shop")}
 </div>
 </form>
