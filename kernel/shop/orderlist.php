@@ -33,48 +33,40 @@
 // you.
 //
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
+include_once( 'kernel/classes/ezorder.php' );
+include_once( 'kernel/classes/ezpreferences.php' );
 
-include_once( "kernel/classes/ezorder.php" );
-
-$module =& $Params["Module"];
+$module =& $Params['Module'];
 
 $tpl =& templateInit();
 
 $offset = $Params['Offset'];
 $limit = 15;
 
+if( eZPreferences::value( 'admin_orderlist_sortfield' ) )
+{
+    $sortField = eZPreferences::value( 'admin_orderlist_sortfield' );
+}
+
+if ( ( $sortField != 'created' ) && ( $sortField!= 'user_name' ) )
+{
+    $sortField = 'created';
+}
+
+if( eZPreferences::value( 'admin_orderlist_sortorder' ) )
+{
+    $sortOrder = eZPreferences::value( 'admin_orderlist_sortfield' );
+}
+
+if ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' ) )
+{
+    $sortOrder = 'asc';
+}
+
 $http =& eZHttpTool::instance();
 
-
-// Todo, use viewparameters instead of session variable
-if ( $http->hasSessionVariable( "OrderSortField" ) )
-{
-    $sortField = $http->sessionVariable( "OrderSortField" );
-}
-else
-{
-    $sortField = "created";
-}
-
-if ( $http->hasSessionVariable( "OrderSortOrder" ) )
-{
-    $sortOrder = $http->sessionVariable( "OrderSortOrder" );
-}
-else
-{
-    $sortOrder = "asc";
-}
-
-if ( $http->hasPostVariable( "SortButton" ) )
-{
-    $sortField = $http->postVariable( "SortField" );
-    $sortOrder = $http->postVariable( "SortOrder" );
-    $http->setSessionVariable( "OrderSortField", $sortField );
-    $http->setSessionVariable( "OrderSortOrder", $sortOrder );
-}
-
-if ( $http->hasPostVariable( "RemoveButton" ) )
+if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
@@ -91,14 +83,14 @@ if ( $http->hasPostVariable( "RemoveButton" ) )
 $orderArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
 $orderCount = eZOrder::activeCount( true, $offset );
 
-$tpl->setVariable( "order_list", $orderArray );
-$tpl->setVariable( "order_list_count", $orderCount );
-$tpl->setVariable( "limit", $limit );
+$tpl->setVariable( 'order_list', $orderArray );
+$tpl->setVariable( 'order_list_count', $orderCount );
+$tpl->setVariable( 'limit', $limit );
 
 $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( "sort_field", $sortField );
-$tpl->setVariable( "sort_order", $sortOrder );
+$tpl->setVariable( 'sort_field', $sortField );
+$tpl->setVariable( 'sort_order', $sortOrder );
 
 $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
@@ -107,5 +99,5 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
 $Result = array();
 $Result['path'] =& $path;
 
-$Result['content'] =& $tpl->fetch( "design:shop/orderlist.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:shop/orderlist.tpl' );
 ?>
