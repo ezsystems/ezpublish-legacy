@@ -216,6 +216,10 @@ class eZURI
     function &instance( $uri = false )
     {
         $uri_obj =& $GLOBALS["eZURIInstance"];
+        if ( $uri )
+        {
+            $uri_obj = new eZURI( $uri );
+        }
         if ( get_class( $uri_obj ) != "ezuri" )
         {
             $uri_obj = new eZURI( $uri );
