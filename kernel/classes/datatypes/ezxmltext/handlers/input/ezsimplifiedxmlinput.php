@@ -369,9 +369,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                      * per query. */
                     $db =& eZDB::instance();
                     $dbImpl = $db->databaseName();
+
+                    // replace column names with their short aliases
+                    include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+                    $def       =& eZURLObjectLink::definition();
+                    $fieldDefs =& $def['fields'];
+                    $insertFields = array( 'url_id', 'contentobject_attribute_id', 'contentobject_attribute_version' );
+                    eZPersistentObject::replaceFieldsWithShortNames( $db, $fieldDefs, $insertFields );
+                    $insertFieldsString = implode( ', ', $insertFields );
+                    unset( $insertFields, $fieldDefs, $def );
+
                     if ( $dbImpl == 'mysql' )
                     {
-                        $baseQuery = 'INSERT INTO ezurl_object_link(url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES';
+                        $baseQuery = 'INSERT INTO ezurl_object_link( ' . $insertFieldsString . ' ) VALUES';
                         $valueArray = array();
                         foreach ( $linkIDArray as $url => $linkID)
                         {
@@ -384,7 +394,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     else
                     {
-                        $baseQuery = 'INSERT INTO ezurl_object_link(url_id, contentobject_attribute_id, contentobject_attribute_version) VALUES';
+                        $baseQuery = 'INSERT INTO ezurl_object_link( ' . $insertFieldsString . ' ) VALUES';
                         foreach ( $linkIDArray as $url => $linkID)
                         {
                             $value = "($linkID, $contentObjectAttributeID, $contentObjectAttributeVersion)";
