@@ -270,8 +270,9 @@ class eZXMLInputHandler
 
             case 'object' :
             {
+                $size = "";
                 $view = $tag->attributeValue( 'view' );
-                $src = $tag->attributeValue( 'src' );
+                $size = $tag->attributeValue( 'size' );
                 $alignment = $tag->attributeValue( 'align' );
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
@@ -279,8 +280,10 @@ class eZXMLInputHandler
                     $alignment = "center";
 
                 $objectID = $tag->attributeValue( 'id' );
-                // $output .= "<$tagName id='$objectID' view='$view'/>" . $tag->textContent();
-                $output .= "<object id=\"$objectID\" src=\"$src\" align=\"$alignment\" />";
+                if ( $size != "" )
+                    $output .= "<object id=\"$objectID\" size=\"$size\" align=\"$alignment\" />";
+                else
+                    $output .= "<object id=\"$objectID\" align=\"$alignment\" />";
             }break;
 
             case 'ul' :
