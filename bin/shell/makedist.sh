@@ -499,8 +499,8 @@ fi
 echo -n "Processing:"
 cd $DEST/share/translations
 for translation in *; do
-    echo -n " `$POSITION_STORE`$translation"
-    
+    echo -n " `$POSITION_STORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+
     if [ -z $SKIPTRANSLATION ]; then
 	if [ "$translation" == "untranslated" ]; then
 	    (cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
@@ -518,12 +518,12 @@ for translation in *; do
 	    fi
 	fi
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`$translation`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_COMMENT`$translation`$SETCOLOR_NORMAL`"
 done
 cd $dir
 echo
 
-diff -U3 -r --exclude=".svn" $DEST/share/translations.org $DEST/share/translations &>/dev/null
+diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
 if [ $? -ne 0 ]; then
     echo "The translations are not up to date"
     echo "You must update the translations in the repository using the ezlupdate program"
