@@ -350,7 +350,7 @@ class eZTemplateStringOperator
             }
             case 'javascript':
             {
-                $operatorValue = str_replace( array( "\\", "\"", "\'"),
+                $operatorValue = str_replace( array( "\\", "\"", "'"),
                                               array( "\\\\", "\\042", "\\047" ) , $operatorValue );
             }
         }
