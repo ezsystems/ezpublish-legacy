@@ -37,16 +37,19 @@ $Module = array( "name" => "eZShop",
 
 $ViewList = array();
 $ViewList["orderview"] = array(
+    "functions" => array( 'buy' ),
     "script" => "orderview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "OrderID" ) );
 
 $ViewList["basket"] = array(
+    "functions" => array( 'buy' ),
     "script" => "basket.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["register"] = array(
+    "functions" => array( 'buy' ),
     "script" => "register.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
@@ -55,45 +58,61 @@ $ViewList["register"] = array(
     "params" => array(  ) );
 
 $ViewList["wishlist"] = array(
+    "functions" => array( 'buy' ),
     "script" => "wishlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["orderlist"] = array(
+    "functions" => array( 'adminstrate' ),
     "script" => "orderlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["confirmorder"] = array(
+    "functions" => array( 'buy' ),
     "script" => "confirmorder.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["checkout"] = array(
+    "functions" => array( 'buy' ),
     "script" => "checkout.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["vattype"] = array(
+    "functions" => array( 'setup' ),
     "script" => "vattype.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
 $ViewList["discountgroup"] = array(
+    "functions" => array( 'setup' ),
     "script" => "discountgroup.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
+
 $ViewList["discountgroupedit"] = array(
+    "functions" => array( 'setup' ),
     "script" => "discountgroupedit.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID' ) );
+
 $ViewList["discountruleedit"] = array(
+    "functions" => array( 'setup' ),
     "script" => "discountruleedit.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
+
 $ViewList["discountgroupview"] = array(
     "script" => "discountgroupmembershipview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID' ) );
+
+$FunctionList['setup'] = array( );
+$FunctionList['adminstrate'] = array( );
+$FunctionList['buy'] = array( );
+
 ?>

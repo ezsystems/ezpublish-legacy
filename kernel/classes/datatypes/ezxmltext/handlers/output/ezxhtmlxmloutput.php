@@ -305,6 +305,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         else
                             $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                         $textElements = array();
+                        $tpl->setVariable( 'border', $border, 'xmltagns' );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
                     }
