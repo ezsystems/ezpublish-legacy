@@ -379,11 +379,24 @@ class eZTemplateSectionFunction
         }
         if ( $delimiterStructure !== null and !$isFirstRun )
         {
-            $delimiterChildren =& $delimiterStructure->children();
-            foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
+            $delimiterParameters =& $delimiterStructure->parameters();
+            $delimiterMatch = true;
+            if ( isset( $delimiterParameters["modulo"] ) )
             {
-                $delimiterChild =& $delimiterChildren[$delimiterChildKey];
-                $delimiterChild->process( $tpl, $text, $nspace, $name );
+                $modulo = $tpl->elementValue( $delimiterParameters["modulo"], $nspace );
+                if ( is_numeric( $modulo ) )
+                    $delimiterMatch = ( $index % $modulo ) == 0;
+            }
+            if ( isset( $delimiterParameters["match"] ) )
+                $delimiterMatch = $tpl->elementValue( $delimiterParameters["match"], $nspace );
+            if ( $delimiterMatch )
+            {
+                $delimiterChildren =& $delimiterStructure->children();
+                foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
+                {
+                    $delimiterChild =& $delimiterChildren[$delimiterChildKey];
+                    $delimiterChild->process( $tpl, $text, $nspace, $name );
+                }
             }
         }
         $isFirstRun = false;
