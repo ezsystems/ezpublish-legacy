@@ -1,6 +1,6 @@
-{* Information window. *}
-{section show=ezpreference( 'admin_navigation_information'  )}
-    {include uri='design:information.tpl'}
+{* Details window. *}
+{section show=ezpreference( 'admin_navigation_details'  )}
+    {include uri='design:details.tpl'}
 {/section}
 
 {* Languages window. *}

@@ -17,17 +17,17 @@
     </li>
     {/section}
 
-    {* Additional information. *}
-    {section show=ezpreference( 'admin_navigation_information' )}
+    {* Details. *}
+    {section show=ezpreference( 'admin_navigation_details' )}
     <li class="enabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_information/0'|ezurl} title="{'Hide additional information.'|i18n( 'design/admin/node/view/full' )}">{'Information'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_details/0'|ezurl} title="{'Hide details.'|i18n( 'design/admin/node/view/full' )}">{'Details'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {section-else}
     <li class="disabled">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_information/1'|ezurl} title="{'Show additional information.'|i18n( 'design/admin/node/view/full' )}">{'Information'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_details/1'|ezurl} title="{'Show details.'|i18n( 'design/admin/node/view/full' )}">{'Details'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {/section}
