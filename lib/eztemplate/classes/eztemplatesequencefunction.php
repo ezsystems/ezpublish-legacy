@@ -92,15 +92,11 @@ class eZTemplateSequenceFunction
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['loop'],
                                                               eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                              array( 'variable-name' => '_array',
-                                                                     'text-result' => false ) );
-
-        $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+                                                              array( 'text-result' => false ), '_array' );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$GLOBALS['eZTemplateSequence-$nameValue'] = array( 'iteration' => 0, 'index' => 0, 'loop' => \$_array );\n" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$GLOBALS['eZTemplateSequence-$nameValue']['loop'][0], \$currentNamespace );\n" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', 0, \$currentNamespace );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$GLOBALS['eZTemplateSequence-$nameValue']['loop'][0], '$nameValue' );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', 0, '$nameValue' );\n" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( '_array' );
-        $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
 
         return $newNodes;
     }
@@ -109,13 +105,11 @@ class eZTemplateSequenceFunction
     {
         $newNodes = array();
 
-        $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$_seq_var = &\$GLOBALS['eZTemplateSequence-$nameValue'];\n" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "++\$_seq_var['index'];\n++\$_seq_var['iteration'];" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$_seq_var['index'] >= count( \$_seq_var['loop'] ) )\n\t\$_seq_var['index'] = 0;\n" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$_seq_var['loop'][\$_seq_var['index']], \$currentNamespace );\n" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', \$_seq_var['iteration'], \$currentNamespace );\n" );
-        $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'item', \$_seq_var['loop'][\$_seq_var['index']], '$nameValue' );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$tpl->setVariable( 'iteration', \$_seq_var['iteration'], '$nameValue' );\n" );
 
         return $newNodes;
     }
