@@ -506,7 +506,8 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
-     \return an array with characters which are allowed in password;
+     \static
+     \return an array with characters which are allowed in password.
     */
     function passwordCharacterTable()
     {
@@ -524,10 +525,18 @@ class eZUser extends eZPersistentObject
         {
             $table[] = "$i";
         }
+        $specialCharacters = '!#%&{[]}+?;:*';
+        for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )
+        {
+            $table[] = $specialCharacters[$i];
+        }
+        // Remove some characters that are too similar visually
+        $table = array_diff( $table, array( 'I', 'l', 'o', 'O', '0' ) );
         return $table;
     }
 
     /*!
+     \static
      Creates a password with number of characters equal to \a $passwordLength and returns it.
      If you want pass a value in \a $seed it will be used as basis for the password, if not
      it will use the current time value as seed.
