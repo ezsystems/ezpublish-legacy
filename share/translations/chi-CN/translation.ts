@@ -39,7 +39,7 @@
     </message>
     <message>
         <source>Order list</source>
-        <translation>订货单</translation>
+        <translation>订货清单</translation>
     </message>
     <message>
         <source>VAT types</source>
@@ -51,7 +51,7 @@
     </message>
     <message>
         <source>Roles</source>
-        <translation>角色</translation>
+        <translation>任务</translation>
     </message>
     <message>
         <source>Collaboration</source>
@@ -63,7 +63,7 @@
     </message>
     <message>
         <source>Sections</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Workflows</source>
@@ -71,7 +71,7 @@
     </message>
     <message>
         <source>Triggers</source>
-        <translation>触发事件</translation>
+        <translation>触发器</translation>
     </message>
     <message>
         <source>Translations</source>
@@ -83,7 +83,7 @@
     </message>
     <message>
         <source>Personal</source>
-        <translation>个人的</translation>
+        <translation>私人信息</translation>
     </message>
     <message>
         <source>Media</source>
@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation>收藏夹</translation>
+        <translation>书签</translation>
     </message>
     <message>
         <source>History</source>
@@ -103,19 +103,19 @@
     </message>
     <message>
         <source>My notification settings</source>
-        <translation>我的自动通知系统设置</translation>
+        <translation>我的布告设置</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>我的收藏夹</translation>
+        <translation>我的书签</translation>
     </message>
     <message>
         <source>Templates</source>
-        <translation>样板</translation>
+        <translation>模板</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation>UPL 翻译</translation>
+        <translation>URL 翻译</translation>
     </message>
     <message>
         <source>URL management</source>
@@ -124,11 +124,11 @@
     <message>
         <source>RAD</source>
         <comment>Rapid Application Development</comment>
-        <translation>快速应有开发</translation>
+        <translation>快速应用程序开发</translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation>扩展设置</translation>
+        <translation>扩充设置</translation>
     </message>
     <message>
         <source>Cache</source>
@@ -140,7 +140,7 @@
     </message>
     <message>
         <source>Notification</source>
-        <translation>自动通知系统</translation>
+        <translation>布告</translation>
     </message>
     <message>
         <source>System information</source>
@@ -159,7 +159,7 @@
     </message>
     <message>
         <source>Comment</source>
-        <translation>评语</translation>
+        <translation>注释</translation>
     </message>
     <message>
         <source>File</source>
@@ -175,7 +175,7 @@
     </message>
     <message>
         <source>Forum message</source>
-        <translation>论坛涵件</translation>
+        <translation>论坛消息</translation>
     </message>
     <message>
         <source>Image</source>
@@ -273,7 +273,7 @@
     </message>
     <message>
         <source>Current date</source>
-        <translation>当前时期</translation>
+        <translation>当前日期</translation>
     </message>
     <message>
         <source>Current datetime</source>
@@ -321,7 +321,7 @@
     </message>
     <message>
         <source>VAT type</source>
-        <translation>税的类型</translation>
+        <translation>增价税的类型</translation>
     </message>
     <message>
         <source>Max string length</source>
@@ -528,7 +528,7 @@
     </message>
     <message>
         <source>Disable translation</source>
-        <translation>不许翻译</translation>
+        <translation>不能翻译</translation>
     </message>
     <message>
         <source>Editing class group - %1</source>
@@ -555,7 +555,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改时间</translation>
+        <translation>修改</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -606,7 +606,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改时间</translation>
+        <translation>修改</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -1249,11 +1249,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改时间</translation>
+        <translation>修改</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Depth</source>
@@ -1373,7 +1373,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Created</source>
-        <translation>创建时间</translation>
+        <translation>创建</translation>
     </message>
     <message>
         <source>Editing</source>
@@ -1404,7 +1404,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     <name>design/standard/content/search</name>
     <message>
         <source>Advanced search</source>
-        <translation>高级搜索</translation>
+        <translation>进一步的搜索</translation>
     </message>
     <message>
         <source>Any class</source>
@@ -1416,7 +1416,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Any section</source>
-        <translation>全部分区</translation>
+        <translation>全部节</translation>
     </message>
     <message>
         <source>Any time</source>
@@ -1460,7 +1460,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Class</source>
-        <translation>选类</translation>
+        <translation>类</translation>
     </message>
     <message>
         <source>Class attribute</source>
@@ -1468,11 +1468,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>In</source>
-        <translation>选分区</translation>
+        <translation>属于</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>发表时间</translation>
+        <translation>发表</translation>
     </message>
     <message>
         <source>No results were found when searching for &quot;%1&quot;</source>
@@ -1712,7 +1712,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Section</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Current version</source>
@@ -1874,7 +1874,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Section</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Version</source>
@@ -1922,25 +1922,25 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>我的收藏夹</translation>
+        <translation>我的书签</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>这些是你放在收藏夹的对象。点击对象来浏览它。如果你有足够权限，点击编辑键来编辑它。
+        <translation>这些是你放在书签的对象。点击对象来浏览它。如果你有足够权限，点击编辑键来编辑它。
 如果你想添加更多对象， 点击%addbutton 键。
 
 删除对象只会把对象从这个清单中删除。</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
-        <translation>添加收藏夹</translation>
+        <translation>添加书签</translation>
     </message>
     <message>
         <source>You have no bookmarks</source>
-        <translation>你的收藏夹是空的</translation>
+        <translation>你的书签是空的</translation>
     </message>
     <message>
         <source>Up one level</source>
@@ -1956,11 +1956,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation>收藏夹</translation>
+        <translation>书签</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation>收藏夹是用在 %personalname 部份的 %bookmarkname 管理的。</translation>
+        <translation>书签是用在 %personalname 部份的 %bookmarkname 管理的。</translation>
     </message>
     <message>
         <source>Recent items</source>
@@ -1973,7 +1973,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation>选择到收藏夹</translation>
+        <translation>选择到书签</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -1981,7 +1981,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation>请选择你想添加到收藏夹的项目。
+        <translation>请选择你想添加到书签的项目。
 
 选择位置， 然后点击按钮 %buttonname.
 可用最新添加的书签来迅速选择。
@@ -2223,7 +2223,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Your information was successfully received.</source>
-        <translation>您的信息已被受到.</translation>
+        <translation>已成功地收到您的信息.</translation>
     </message>
 </context>
 <context>
@@ -2285,7 +2285,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Frontpage</source>
-        <translation>Frontpage</translation>
+        <translation>前一页</translation>
     </message>
     <message>
         <source>%1 front page</source>
@@ -2297,15 +2297,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Printable version</source>
-        <translation>打印版本</translation>
+        <translation>可打印版本</translation>
     </message>
     <message>
         <source>Trash</source>
-        <translation>垃圾</translation>
+        <translation>垃圾箱</translation>
     </message>
     <message>
         <source>Personal</source>
-        <translation>私人</translation>
+        <translation>私人资料</translation>
     </message>
     <message>
         <source>Site:</source>
@@ -2454,7 +2454,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Section</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Create here</source>
@@ -2466,7 +2466,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Bookmark</source>
-        <translation>收藏夹</translation>
+        <translation>书签</translation>
     </message>
     <message>
         <source>Keep me updated</source>
@@ -2486,7 +2486,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Add to Bookmarks</source>
-        <translation>添加到收藏夹</translation>
+        <translation>添加到书签</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
@@ -2503,7 +2503,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation>%sitename自动通知系统</translation>
+        <translation>%sitename布告</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
@@ -2537,7 +2537,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Digest settings</source>
-        <translation>小时设置</translation>
+        <translation>分类设置</translation>
     </message>
     <message>
         <source>Day of the week</source>
@@ -2553,7 +2553,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Remove</source>
-        <translation>删除删除</translation>
+        <translation>删除</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
@@ -2567,11 +2567,11 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Notification admin</source>
-        <translation>自动通知系统管理</translation>
+        <translation>布告管理</translation>
     </message>
     <message>
         <source>Notification filter proccessed all available notification events</source>
-        <translation>自动通知系统过滤系统已处理所有自动通知事件</translation>
+        <translation>布告过滤系统已处理所有的布告事件</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
@@ -2579,7 +2579,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Run notification filter</source>
-        <translation>运行自动通知系统过滤装置</translation>
+        <translation>运行布告过滤装置</translation>
     </message>
     <message>
         <source>Run</source>
@@ -2595,7 +2595,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation>自动通知系统设置</translation>
+        <translation>布告设置</translation>
     </message>
     <message>
         <source>Store</source>
@@ -2610,7 +2610,7 @@ The item can viewed by using the URL below.</source>
     <name>design/standard/notification/collaboration</name>
     <message>
         <source>Collaboration notification</source>
-        <translation>协作自动通知</translation>
+        <translation>协作告示</translation>
     </message>
     <message>
         <source>Choose which collaboration items you wish to get notifications for.</source>
@@ -2941,7 +2941,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Role</source>
-        <translation>角色</translation>
+        <translation>任务</translation>
     </message>
     <message>
         <source>Edit current role</source>
@@ -3293,7 +3293,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Template cache</source>
-        <translation>样板 cache</translation>
+        <translation>模板 cache</translation>
     </message>
     <message>
         <source>Datatype wizard</source>
@@ -3326,7 +3326,7 @@ menu on the top.</source>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation>在类级处理输入</translation>
+        <translation>处理类中的输入</translation>
     </message>
     <message>
         <source>Next</source>
@@ -3340,7 +3340,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Optional information</source>
-        <translation>额外信息</translation>
+        <translation>可选择的信息</translation>
     </message>
     <message>
         <source>Name of class</source>
@@ -3360,7 +3360,7 @@ menu on the top.</source>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation>数据类型概述</translation>
+        <translation>数据类型的描述</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
@@ -3386,15 +3386,15 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation>扩展设置</translation>
+        <translation>扩充设置</translation>
     </message>
     <message>
         <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
-        <translation>在这儿你可以激活/不激活你的扩展。 只有系统级别扩展可以激活。 通过修改配置文件来激活site access 扩展.</translation>
+        <translation>在这儿你可以激活/不激活你的扩充。 只有系统级别扩充可以激活。 通过修改配置文件来激活site access 扩充.</translation>
     </message>
     <message>
         <source>Available extensions</source>
-        <translation>存在的扩展</translation>
+        <translation>有效的扩充</translation>
     </message>
     <message>
         <source>System information</source>
@@ -3417,25 +3417,25 @@ By using %datatypename you can ...</source>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation>扩展</translation>
+        <translation>扩充</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation>版本</translation>
+        <translation>PHP版本</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation>扩展</translation>
+        <translation>扩充</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
-        <translation>Safe mode 被打开。</translation>
+        <translation>安全模式打开。</translation>
     </message>
     <message>
         <source>Safe mode is off.</source>
-        <translation>Safe mode 被关上。</translation>
+        <translation>安全模式关闭。</translation>
     </message>
     <message>
         <source>Basedir restriction is on and set to %1.</source>
@@ -3447,19 +3447,19 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Global variable registration is on.</source>
-        <translation>Global 参数注册是打开的。</translation>
+        <translation>全局变量注册打开。</translation>
     </message>
     <message>
         <source>Global variable registration is off.</source>
-        <translation>Global 参数注册是关上的。</translation>
+        <translation>全局变量注册关闭。</translation>
     </message>
     <message>
         <source>File uploading is enabled.</source>
-        <translation>文件上载可行。</translation>
+        <translation>文件能上传。</translation>
     </message>
     <message>
         <source>File uploading is disabled.</source>
-        <translation>文件上载不允许。</translation>
+        <translation>文件不能上传。</translation>
     </message>
     <message>
         <source>Maximum size of post data (text and files) is %1.</source>
@@ -3583,7 +3583,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Section</source>
-        <translation>分区</translation>
+        <translation>节</translation>
     </message>
     <message>
         <source>Node</source>
@@ -3623,7 +3623,7 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Template</source>
-        <translation>样板</translation>
+        <translation>模板</translation>
     </message>
     <message>
         <source>Design Resource</source>
@@ -3671,7 +3671,7 @@ By using %datatypename you can ...</source>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation></translation>
+        <translation>下一个</translation>
     </message>
     <message>
         <source>Restart</source>
@@ -4530,188 +4530,188 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Database choice</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库选择</translation>
     </message>
     <message>
         <source>The database would not accept the connection, please review your settings and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库不接受此关系，请检查你的设置并且再试。</translation>
     </message>
     <message>
         <source>Password entries did not match.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">密码不匹配。</translation>
     </message>
     <message>
         <source>The selected database was not empty, please choose from the alternatives below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择的数据库不空，请从下面的选择中选择。</translation>
     </message>
     <message>
         <source>The selected selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">被选的用户没有进入任何数据库。改换用户或为用户生成一数据库。</translation>
     </message>
     <message>
         <source>Database initalization</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库初始化</translation>
     </message>
     <message>
         <source>Email settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电子邮件设置</translation>
     </message>
     <message>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">完成</translation>
     </message>
     <message>
         <source>Language options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">语言选项</translation>
     </message>
     <message>
         <source>Registration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">注册</translation>
     </message>
     <message>
         <source>Securing site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安全网站</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网站入口</translation>
     </message>
     <message>
         <source>Site details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网站细节</translation>
     </message>
     <message>
         <source>No templates choosen.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">没有模板被选</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网站模板选择</translation>
     </message>
     <message>
         <source>System check</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统检查</translation>
     </message>
     <message>
         <source>Welcome to eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">欢迎到eZ</translation>
     </message>
     <message>
         <source>The database is ready for initialization, click the %1 button when ready.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库已经初始化好了.当准备就绪时，点击按钮%1。</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">继续</translation>
     </message>
     <message>
         <source>Continue but remove the data first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">继续，但首先删除数据。</translation>
     </message>
     <message>
         <source>Keep data and skip database initialization.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存数据并跳过数据库初始化。</translation>
     </message>
     <message>
         <source>It can take some time initializing the database so please be patient and wait until the new page is finished.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">它可能花时间初始化数据库。所以请耐心等待到新的页面完成。</translation>
     </message>
     <message>
         <source>Choose database system</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择数据库系统</translation>
     </message>
     <message>
         <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">我们探测到你的系统支持MySQL和PostgreSQL。您喜欢用户谁呢？</translation>
     </message>
     <message>
         <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ支持MySQL和PostgreSQL。</translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在eZ系统中要求MySQL和PostgreSQL &gt;= 4.1支持统一码。</translation>
     </message>
     <message>
         <source>More information about eZ publish and unicode support can be found %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">关于eZ和对统一码支持的信息能在%1中找到。</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">这里</translation>
     </message>
     <message>
         <source>The database was succesfully initialized. You are now ready for some post configuration of the site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">成功地初始化。你现在能为网站的某些邮箱做配置。</translation>
     </message>
     <message>
         <source>Click the %1 button to start the configuration process.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">点击按钮%1来开始配置处理。</translation>
     </message>
     <message>
         <source>Database initialization</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库初始化</translation>
     </message>
     <message>
         <source>Enter database system user information in the boxes below</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在下列的输入框中输入数据库系统用户信息</translation>
     </message>
     <message>
         <source>Socket (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">插孔（可选择性的）</translation>
     </message>
     <message>
         <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">推荐它来为eZ生成数据库。如果你不能肯定怎么做，请阅读数据库的用户手册。</translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">直到选择了数据库的名称，PostgreSQL用户名和密码不测试。</translation>
     </message>
     <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你正在用MySQL，并且不知道怎么进入，请留它空白</translation>
     </message>
     <message>
         <source>E-mail settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电子信箱设置</translation>
     </message>
     <message>
         <source>Specify email settings for eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为eZ指定电子信箱设置</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">谁将分程递送电子邮件。如果不能肯定用什么，某些网站的主机不支持。</translation>
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为微软操作系统的用户推荐SMTP.</translation>
     </message>
     <message>
         <source>Mail system</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">信件系统</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为发送重要的通知，象用户注册和内容同意书，用电子邮件</translation>
     </message>
     <message>
         <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">大部分 Unix系统支持送信件，但视窗必须选择SMTP。 </translation>
     </message>
     <message>
         <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;SMTP&lt;/b&gt;: 如果you&apos;re 不能肯定输入什么，请看你电子信箱应用程序的设置。</translation>
     </message>
     <message>
         <source>Finished!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">完成！</translation>
     </message>
     <message>
         <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ已安装在下列的网站中</translation>
     </message>
     <message>
         <source>Title</source>
@@ -4723,408 +4723,410 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>User site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用户的地点</translation>
     </message>
     <message>
         <source>Admin site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理员的场所</translation>
     </message>
     <message>
         <source>Admin e-mail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理电子邮件</translation>
     </message>
     <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">技巧：靠点击你网络浏览器的“保存为”菜单来保存此页为html文件你也右以写下你网站的地址。</translation>
     </message>
     <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确实想访问%1和%2网站。</translation>
     </message>
     <message>
         <source>forum</source>
         <comment>forum link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">论坛</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你需要eZ的帮助，你能去%ezlink并且得到论坛的帮助。 </translation>
     </message>
     <message>
         <source>ez.no</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ez.no</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">点击URL来进入你的新%ezlink，或者点击%donebutton按钮。请享受最成功的网站内容管理系统！</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你曾经想过重新启动此设置，编辑文件%filename 和找一行。此行说：</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从%false 到 %true，改变第二行。</translation>
     </message>
     <message>
         <source>The default username for the administrator is %1 and the default password is %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理员的缺省用户名是%1，并且缺省密码是%2.</translation>
     </message>
     <message>
         <source>Language and country selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">语言和国家选择。</translation>
     </message>
     <message>
         <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用无线电按钮来选择原始语言，然后用检查框来选择附加语言。你可以选择多种语言。</translation>
     </message>
     <message>
         <source>No Unicode support</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">不支持统一码</translation>
     </message>
     <message>
         <source>The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
 To fix this problem you must do one of the following:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你连接的服务器不支持统一码。意思是你不能选择全部语言。</translation>
     </message>
     <message>
         <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won&apos;t work.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择用相同字符集的语言。例如：英文和挪威语将一工作当英文和俄语won&apos;t工作。</translation>
     </message>
     <message>
         <source>Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确定构造数据库的服务器来用统一码或有支持统一码的最新软件。</translation>
     </message>
     <message>
         <source>Primary/Additional</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">原先/附加</translation>
     </message>
     <message>
         <source>eZ publish supports multiple languages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ支持多种语言。</translation>
     </message>
     <message>
         <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用选择绵语言来决定字符集、数据格式，数字格式，等等。</translation>
     </message>
     <message>
         <source>These and other additional languages can also be installed later.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">今后也可以安装这些和其它附加语言。</translation>
     </message>
     <message>
         <source>For more information about language customization, see the %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">关于语言用户化的信息，请看%1.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文本文件</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">后一屏</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">刷新</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下一屏</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网站注册</translation>
     </message>
     <message>
         <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你希望能靠发送eZ的某些住处来注册安装。没有机密的数据被传送。eZ系统将不用或卖你的私人信息</translation>
     </message>
     <message>
         <source>The registration email:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">注册电子信箱</translation>
     </message>
     <message>
         <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">送出的电子邮件和产生你的网站可能花一两秒钟。请等待到下一页加载。</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">靠发送注册信息，下列信息将送到eZ系统</translation>
     </message>
     <message>
         <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">此数据将帮助eZ的后续版本</translation>
     </message>
     <message>
         <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
 If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你的网站正以虚拟模式工作。此模式是一不安全的模式。推荐&apos;s 以实模式运行eZ。
+如果你不可能用实模式，你应该按下列说明来安装.htaccess文件，此文件告诉服务器仅给某些文件的入口。</translation>
     </message>
     <message>
         <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你进入网站，你能运行下列的命令来安装文件。</translation>
     </message>
     <message>
         <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你没有进入网站，你将必须用FTP拷贝文件或由服务器为你做它。</translation>
     </message>
     <message>
         <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">这个安全测试确保你的设置其他用户不能进入。</translation>
     </message>
     <message>
         <source>Site access configuration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网站进入配置</translation>
     </message>
     <message>
         <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
  If unsure choose URL.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为你的网站选择你喜欢的进入方法。进入方法决定于用户将如何进入。
+如果不能定选择URL。</translation>
     </message>
     <message>
         <source>URL (recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URL〔推荐〕</translation>
     </message>
     <message>
         <source>Port. Note: Requires web server configuration </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">端口注释：要求服务器配置</translation>
     </message>
     <message>
         <source>Hostname. Note: Requires DNS setup.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主机名注释：要求DNS设置。</translation>
     </message>
     <message>
         <source>The path determines access.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">路径决定进入。</translation>
     </message>
     <message>
         <source>e.g. %adminsite and %usersite</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">例如： %adminsite 和 %usersite</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">端口</translation>
     </message>
     <message>
         <source>The port number determines access.*</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">端口数决定进入 。*</translation>
     </message>
     <message>
         <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">*这要求你的服务器设置处理端口数。</translation>
     </message>
     <message>
         <source>Hostname</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主机名</translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主机名决定进入。*</translation>
     </message>
     <message>
         <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">*这要求你有对主机名的DNS设置</translation>
     </message>
     <message>
         <source>For more detailed information on site access see the %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">对于进入网站的更详细的信息，请看％1</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在线文档</translation>
     </message>
     <message>
         <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">对于每一被选网站you&apos;ve，你需要指定某些信息来安装。</translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">不要用&apos;admin&apos;, &apos;user&apos; 或等于网站的入口值。请改变非法的入口值，指定由*</translation>
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你已经为两个或更多模板选择数据库。请改变被指定的位置，指定由*</translation>
     </message>
     <message>
         <source>One or more of your databases already contain data.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你数据库中一个或多个已经有数据。</translation>
     </message>
     <message>
         <source>Select what to do from the drop down box(es).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从下拉框中选择要做什么。</translation>
     </message>
     <message>
         <source>Site url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网址</translation>
     </message>
     <message>
         <source>URL for access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">进入网站的URL</translation>
     </message>
     <message>
         <source>Port for access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">进入网站的端口</translation>
     </message>
     <message>
         <source>Hostname for access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">进入网站的主机名</translation>
     </message>
     <message>
         <source>URL for admin access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理员进入网站的URL</translation>
     </message>
     <message>
         <source>Port for admin access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理员进入网站的端口</translation>
     </message>
     <message>
         <source>Hostname for admin access</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理员进入网站的主机名</translation>
     </message>
     <message>
         <source>Database not empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">数据库不空</translation>
     </message>
     <message>
         <source>Leave the data and add new</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保留数据并增加新的数据</translation>
     </message>
     <message>
         <source>Remove existing data</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">删除已存在的数据</translation>
     </message>
     <message>
         <source>Leave the data and do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅保留数据</translation>
     </message>
     <message>
         <source>I&apos;ve chosen a new database</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">I&apos;ve 选择新数据</translation>
     </message>
     <message>
         <source>Fill out the details for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为每个网站填写细节。</translation>
     </message>
     <message>
         <source>For more information on how to configure site access, see the %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">关于配置如何进入网站的更多信息，请看％1</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文档</translation>
     </message>
     <message>
         <source>Use the refresh button to update database list.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用“刷新”按钮来升级数据库的清单。</translation>
     </message>
     <message>
         <source>Choose site templates</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择网站的模板</translation>
     </message>
     <message>
         <source>Use Plain if you would like to start from scratch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果你喜欢草稿开始，请用PLAIN格式。</translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择你喜欢的网站来安装你的系统。</translation>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">每一模板将生成一个唯一的网站。</translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template require a unique database.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">由于每一网站是唯一的，每一模板要求唯一的数据库。</translation>
     </message>
     <message>
         <source>Next &amp;gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下一个&amp;gt;</translation>
     </message>
     <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统检查发现某些款项在继续安装前需要解决。</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你解决这些问题后，点击按钮％1秋重新运行系统检查。你也可以靠点击检查框来忽略特定测试。</translation>
     </message>
     <message>
         <source>Ignore this test</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">忽略此测试</translation>
     </message>
     <message>
         <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安装程序已经检测某些系统设置需要改变。</translation>
     </message>
     <message>
         <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果这不正确，eZ将可能安装不正确和工作不适当。</translation>
     </message>
     <message>
         <source>Welcome to eZ publish %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">欢迎到eZ %1</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Press &lt;i&gt;Next &amp;gt;&lt;/i&gt; to continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">欢迎到eZ内容管理系统和开发框架工具. 此专家工具将帮助你安装eZ. 为了继续,请按&lt;i&gt;Next &amp;gt;&lt;/i&gt;.</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">此节将包括安装专家工具的每一步的帮助的信息.</translation>
     </message>
     <message>
         <source>The summary section below will contain information about configured settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下面的概要章节将包括配置设置的信息.</translation>
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">安装到最后一步之前,数据库中无数据</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">关于如何手动安装eZ的资料是有效的%1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">这是</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
     <message>
         <source>Example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">例子</translation>
     </message>
     <message>
         <source>Constructor, does nothing by default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">构造器, 当为缺省值时,什么不做.</translation>
     </message>
     <message>
         <source>\return an array with the template operator name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">\返回一具有模板操作名的数组</translation>
     </message>
     <message>
         <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为了清除和修改\a $operatorValue,执行PHP功能.</translation>
     </message>
     <message>
         <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">例子代码,此代码必须被修改来完成操作者想做的事情. 现在它仅是一文本.</translation>
     </message>
 </context>
 <context>
@@ -5395,35 +5397,35 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  &apos;s 推荐关闭选项. 为了关闭它来编辑你的 %1 配置, 并设置 %2 , %3, 和 %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主题的更信息能在 %1 中被发现.</translation>
     </message>
     <message>
         <source>php.ini example:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">php.ini 例子:</translation>
     </message>
     <message>
         <source>PHP option %1 is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">能做PHP选项%1</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ将和此选项一起工作。 由于全部输入变量将被设定成全局的，它将引起某些较小的性能问题。</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  &apos;s 推荐关闭选项. 为了关闭它来编辑你的 %1 配置, 并设置 %2 , %3, 和 %4.</translation>
     </message>
     <message>
         <source>PHP safe mode is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">能做PHP的安全模式</translation>
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">eZ可能工作在安全模式下，然而可能有几个功能将失效。可能出现的事情中的某些是：</translation>
     </message>
 </context>
 <context>
@@ -6550,7 +6552,7 @@ your account.</source>
     </message>
     <message>
         <source>No</source>
-        <translation></translation>
+        <translation>不</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -7348,7 +7350,7 @@ your account.</source>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>我的收藏夹</translation>
+        <translation>我的书签</translation>
     </message>
     <message>
         <source>My pending list</source>
@@ -7429,7 +7431,7 @@ your account.</source>
     <name>kernel/notification</name>
     <message>
         <source>Notification settings</source>
-        <translation>自动通知系统设置</translation>
+        <translation>布告设置</translation>
     </message>
 </context>
 <context>
@@ -7503,7 +7505,7 @@ your account.</source>
     </message>
     <message>
         <source>Extension configuration</source>
-        <translation>可扩展设置</translation>
+        <translation>可扩充设置</translation>
     </message>
     <message>
         <source>System information</source>
@@ -7531,7 +7533,7 @@ your account.</source>
     </message>
     <message>
         <source>Activate extensions</source>
-        <translation>激活扩展</translation>
+        <translation>激活扩充</translation>
     </message>
 </context>
 <context>
