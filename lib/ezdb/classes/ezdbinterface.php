@@ -236,6 +236,15 @@ class eZDBInterface
 
     /*!
      \pure
+     \return if the short column names should be used insted of default ones
+    */
+    function useShortNames()
+    {
+        return false;
+    }
+
+    /*!
+     \pure
      \return an array of the relation types.
     */
     function supportedRelationTypes()
