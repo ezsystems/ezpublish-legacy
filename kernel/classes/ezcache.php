@@ -131,7 +131,12 @@ class eZCache
                                        'id' => 'template-override',
                                        'tag' => array( 'template' ),
                                        'enabled' => true,
-                                       'path' => 'override' )
+                                       'path' => 'override' ),
+                                array( 'name' => 'RSS cache',
+                                       'id' => 'rss_cache',
+                                       'tag' => array( 'content' ),
+                                       'enabled' => true,
+                                       'path' => 'rss' )
                                 );
         }
         return $cacheList;
