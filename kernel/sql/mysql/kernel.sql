@@ -14,13 +14,15 @@ INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modifi
 DROP TABLE IF EXISTS ezworkflow_group_link;
 CREATE TABLE ezworkflow_group_link (
 workflow_id int NOT NULL,
+workflow_version int NOT NULL,
 group_id int NOT NULL,
-PRIMARY KEY(workflow_id, group_id) );
+group_name varchar( 50 ),
+PRIMARY KEY(workflow_id, workflow_version, group_id) );
 
-INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 1, 1 );
-INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 2, 1 );
-INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 3, 2 );
-INSERT INTO ezworkflow_group_link (workflow_id, group_id) VALUES( 3, 1 );
+INSERT INTO ezworkflow_group_link (workflow_id, workflow_version, group_id, group_name) VALUES( 1, 0, 1, 'Standard'  );
+INSERT INTO ezworkflow_group_link (workflow_id, workflow_version, group_id, group_name) VALUES( 2, 0, 1, 'Standard' );
+INSERT INTO ezworkflow_group_link (workflow_id, workflow_version, group_id, group_name) VALUES( 3, 0, 2, 'Custom' );
+INSERT INTO ezworkflow_group_link (workflow_id, workflow_version, group_id, group_name) VALUES( 3, 0, 1, 'Standard' );
 
 DROP TABLE IF EXISTS ezworkflow;
 CREATE TABLE ezworkflow (
