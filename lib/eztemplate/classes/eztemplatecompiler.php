@@ -76,7 +76,7 @@
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
-define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1074698103 );
+define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1074699607 );
 
 class eZTemplateCompiler
 {
