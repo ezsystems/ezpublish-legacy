@@ -199,7 +199,7 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $nodeAssignmentList = array();
         $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
-        eZDebug::writeNotice($nodeAssignmentList, "nodeAssignmentList");
+        eZDebug::writeDebug( $nodeAssignmentList, "nodeAssignmentList" );
         return $nodeAssignmentList;
     }
 

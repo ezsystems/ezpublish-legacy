@@ -80,6 +80,12 @@ $ViewList["view"] = array(
 $ViewList["versionview"] = array(
     "functions" => array( 'read' ),
     "script" => "versionview.php",
+    'single_post_actions' => array( 'SelectLanguageButton' => 'SelectLanguage',
+                                    'SelectPlacementButton' => 'SelectPlacement',
+                                    'EditButton' => 'Edit',
+                                    'PreviewPublishButton' => 'Publish' ),
+    'post_action_parameters' => array( 'SelectLanguage' => array( 'Language' => 'SelectedLanguage' ),
+                                       'SelectPlacement' => array( 'PlacementID' => 'SelectedPlacement' ) ),
     "params" => array( "ObjectID", "EditVersion", "LanguageCode" ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
@@ -117,13 +123,13 @@ $ViewList["action"] = array(
 $ViewList["versions"] = array(
     "functions" => array( 'read', 'edit' ),
     "script" => "versions.php",
-    'single_post_actions' => array( 'RevertVersionButton' => 'RevertVersion',
-                                    'CopyVersionButton' => 'CopyVersion',
+    'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
                                     'EditButton' => 'Edit' ),
-    'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID' ),
-                                       'RevertVersion' => array( 'VersionID' => 'RevertToVersionID' ),
-                                       'Edit' => array( 'VersionID' => 'RevertToVersionID' ) ),
-    "params" => array( "ObjectID" ) );
+    'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID',
+                                                               'EditLanguage' => 'EditLanguage' ),
+                                       'Edit' => array( 'VersionID' => 'RevertToVersionID',
+                                                        'EditLanguage' => 'EditLanguage' ) ),
+    "params" => array( "ObjectID" ,'EditVersion', 'EditLanguage' ) );
 
 $ViewList["sitemap"] = array(
     "functions" => array( 'read' ),

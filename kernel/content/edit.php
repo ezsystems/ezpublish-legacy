@@ -45,21 +45,56 @@ if ( !$obj )
 
 if ( !function_exists ( 'checkForExistingVersion'  ) )
 {
-    function checkForExistingVersion( &$module, $objectID, $editVersion, $editLanguage )
+    function checkForExistingVersion( &$module, $objectID, &$editVersion, &$editLanguage )
     {
-        if ( !is_numeric( $editVersion ) )
+        $requireNewVersion = false;
+        $object =& eZContentObject::fetch( $objectID );
+        if ( $object === null )
+            return;
+
+        $user =& eZUser::currentUser();
+        $version = null;
+        if ( is_numeric( $editVersion ) )
+        {
+            $version =& $object->version( $editVersion );
+            if ( $version === null )
+            {
+                $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+        }
+        else
+        {
+            $userID = $user->id();
+            $version = eZContentObjectVersion::fetchUserDraft( $objectID, $userID );
+        }
+
+        if ( $version !== null )
+        {
+            if ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT or
+                 $version->attribute( 'creator_id' ) != $user->id() )
+            {
+                $module->redirectToView( 'versions', array( $objectID, $version->attribute( "version" ), $editLanguage ) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+            if ( $version->attribute( 'version' ) != $editVersion )
+            {
+                $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
+        }
+        else
+            $requireNewVersion = true;
+
+        if ( $requireNewVersion )
         {
             // Fetch and create new version
-            $object =& eZContentObject::fetch( $objectID );
-            $user =& eZUser::currentUser();
-
-            $userID = $user->id();
-
-            $version = eZContentObjectVersion::fetchUserDraft( $objectID, $userID ); //$object->latestUserDraft();
-            if ( $version == null )
+            if ( !$object->attribute( 'can_edit' ) )
             {
-                $version =& $object->createNewVersion();
+                $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
+            $version =& $object->createNewVersion();
 
             $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -99,7 +134,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'VersionEdit' ) )
         {
-            $module->redirectToView( 'versions', array( $object->attribute('id') ) );
+            $module->redirectToView( 'versions', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 

@@ -144,6 +144,16 @@ class eZNodeAssignment extends eZPersistentObject
 
     }
 
+    function &fetchByID( $id ,$asObject = true )
+    {
+        $cond = array( 'id' => $id );
+        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                null,
+                                                $cond,
+                                                $asObject );
+
+    }
+
     function &clone( $nextVersionNumber = 1 )
     {
         return eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),

@@ -20,10 +20,6 @@ Documents :
 -6 Move the override/design matcher which is used in the template function ezdesign
    to a general function which can be easily reused for other parts of the system.
 -4 Allow sites to adjust their date/time incase the host date/time is wrong.
--6 Create error system which can be used to display error messages, error messages
-   should be based on unique numbers (like 404). The error page could also have a
-   button which returns you to the previous page before the error using the execution
-   stack.
 -6 Create logrotating for log files, they can grow extremely large at least in development.
    Each file should have a maximum file size, when it reaches that size it's
    moved to a new file with .1 appended if that file exists it is moved to .2 and if
@@ -41,12 +37,6 @@ Personalization
 will get 1 point in SCI-FI. If he looks at a sports article he will get one point in 
 sports. This profile information can then be used for showing related products for that
 user.
-
-Search :
-
--7 Add support for stemming algorithms
--5 Add plugin system for text parsing
--4 Add support for OpenFTS search engine.
 
 General :
 
@@ -84,20 +74,11 @@ eZ template :
   to create multiple parser(to test speed improvements).
 - Create wrapper function which can take existing operators and let them work as functions.
   The operator input text would then be the children of the function.
-- Let the /texttoimage/ use class types (just as CSS) which is a(or several) INI file(s) which define
-  the looks of that class. That way it's not necessary to specify all parameters for different 
-  looks. It should still be possible to override parameters as it's done today.
 - Calculate line and column numbers when parsing and output those when errors are found.
   They could be stored in the structures for variables and the likes.
-- Add support for letting objects have a function called templateData which returns the text representation
-  of the object, this way it's possible to create operators which return objects. For instance
-  the image layers system could be created this way.
 
 eZ image :
 - Image variations should either be a scaled down version or a cropped version.
   Cropped versions would require user handling for each image. Note! Cropped images might be solved
   by having two images for an object, the first being the cropped one and the second the
   original, the rest is just template magic.
-
-index.php :
-- Move redirection HTML code into a template file

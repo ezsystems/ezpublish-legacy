@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|gt(0)|choose(,array($edit_language,"/")))|ezurl}>
+<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
 <script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>
 <link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
 

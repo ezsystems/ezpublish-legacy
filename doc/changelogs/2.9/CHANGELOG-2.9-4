@@ -35,6 +35,13 @@ Changes from 2.9-3 to 2.9-4
 - User registration email sends out correct url.
 - Redone the uri modification, the global uri object will now only contain the module, view and parameter values.
 - Made the change password interface more user-friendly.
+- Improved content version list, it now displays status on versions, translations. Revert operation was removed,
+  and copy operation no longer sets current version. Object edit will return with the selected version
+  and only versions which are yours and are drafts can be edited.
+- Added version status and ownership checking in content edit.
+- Versionview can change between translations and placements. Placements will decide the current section id.
+  Only versions that are drafts can be edited and published.
+  Only versions that you created can be viewed.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
@@ -49,6 +56,7 @@ eZ utils:
 
 eZ template:
 - Added site.ini setting which turn template debug information on/off.
+- New template operator "ne" which returns true if two ore more parameters does not match, ie. not equal.
 
 eZ locale:
 - Added site.ini setting which turn locale debug information on/off.

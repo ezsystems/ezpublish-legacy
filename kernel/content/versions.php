@@ -44,8 +44,11 @@ include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
 $ObjectID = $Params['ObjectID'];
+$EditVersion = $Params['EditVersion'];
+$EditLanguage = $Params['EditLanguage'];
 
 $object =& eZContentObject::fetch( $ObjectID );
+$editWarning = false;
 
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -61,46 +64,31 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     $versionID = false;
     if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
-    return $Module->redirectToView( 'edit', array( $ObjectID, $versionID ) );
-}
-
-if ( $Module->isCurrentAction( 'RevertVersion' )  )
-{
-    if ( !$object->attribute( 'can_edit' ) )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
-    $versionID = $Module->actionParameter( 'VersionID' );
-
-    $assignedNodes =& $object->attribute( 'assigned_nodes' );
-    $versionNodes = array();
-    $object->revertTo( $versionID );
+    if ( $Module->hasActionParameter( 'EditLanguage' ) and
+         $Module->actionParameter( 'EditLanguage' ) )
+        $EditLanguage = $Module->actionParameter( 'EditLanguage' );
     $version =& $object->version( $versionID );
-    $versionParentNodes =& $version->attribute( 'node_assignments' );
-    foreach ( array_keys($versionParentNodes ) as $key )
-    {
-        $nodeAssignment =& $versionParentNodes[$key];
-        $node =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ), $object->attribute( 'id' ), true );
-        if ( $node == null )
-        {
-            $parentNode = eZContentObjectTreeNode::fetch( $nodeAssignment->attribute( 'parent_node' ) );
-            $node =& $parentNode->addChild( $object->attribute( 'id' ), $parentNode->attribute( 'id' ), true );
-        }
-        $node->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
-        $node->store();
-        $versionNodes[] = $node->attribute( 'node_id' );
+    if ( $version === null )
+        $versionID = false;
 
-    }
-    foreach( array_keys( $assignedNodes ) as $key )
-    {
-        $node =& $assignedNodes[$key];
-        if ( !in_array( $node->attribute( 'node_id' ), $versionNodes ) )
-        {
-            $node->remove();
-        }
-    }
+    $user =& eZUser::currentUser();
 
-    $Module->redirectToView( 'edit', array( $ObjectID, $versionID ) );
-    return;
+    if ( $versionID !== false and
+         $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT )
+    {
+        $editWarning = 1;
+        $EditVersion = $versionID;
+    }
+    else if ( $versionID !== false and
+              $version->attribute( 'creator_id' ) != $user->attribute( 'contentobject_id' ) )
+    {
+        $editWarning = 2;
+        $EditVersion = $versionID;
+    }
+    else
+    {
+        return $Module->redirectToView( 'edit', array( $ObjectID, $versionID, $EditLanguage ) );
+    }
 }
 
 $versions =& $object->versions();
@@ -117,7 +105,10 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         if ( $version->attribute( 'version' ) == $versionID )
         {
             $newVersionID = $object->copyRevertTo( $versionID );
-            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID ) );
+            if ( $Module->hasActionParameter( 'EditLanguage' ) and
+                 $Module->actionParameter( 'EditLanguage' ) )
+                $EditLanguage = $Module->actionParameter( 'EditLanguage' );
+            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
         }
     }
 }
@@ -132,7 +123,10 @@ include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'object', $object );
+$tpl->setVariable( 'edit_version', $EditVersion );
+$tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'versions', $versions );
+$tpl->setVariable( 'edit_warning', $editWarning );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );

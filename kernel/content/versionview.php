@@ -43,15 +43,70 @@ include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 $ObjectID = $Params['ObjectID'];
 $Module =& $Params['Module'];
+$OriginalLanguageCode = $Params['LanguageCode'];
 $LanguageCode = $Params['LanguageCode'];
 $EditVersion = $Params['EditVersion'];
+
+$contentObject =& eZContentObject::fetch( $ObjectID );
+if ( $contentObject === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+$versionObject =& $contentObject->version( $EditVersion );
+if ( $versionObject === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+$user =& eZUser::currentUser();
+
+if ( $versionObject->attribute( 'creator_id' ) != $user->id() )
+{
+    return $Module->redirectToView( 'versions', array( $ObjectID, $versionObject->attribute( "version" ), $LanguageCode ) );
+}
+
+if ( $Module->isCurrentAction( 'Edit' ) and
+     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT )
+{
+    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
+}
+
+if ( $Module->isCurrentAction( 'Publish' ) and
+     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT )
+{
+    $Module->setCurrentAction( 'Publish', 'edit' );
+    return $Module->run( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
+//     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
+}
 
 eZDebug::writeDebug( 'HiO specific code on versionview, generalize' );
 $ini =& eZINI::instance();
 $ini->setVariable( 'DesignSettings', 'SiteDesign', 'hio' );
 
-$contentObject =& eZContentObject::fetch( $ObjectID );
-$versionObject =& $contentObject->version( $EditVersion );
+$sectionID = false;
+$placementID = false;
+
+$http =& eZHTTPTool::instance();
+
+if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+    $LanguageCode = $http->postVariable( 'ContentObjectLanguageCode' );
+if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
+    $placementID = $http->postVariable( 'ContentObjectPlacementID' );
+
+if ( $Module->isCurrentAction( 'SelectLanguage' ) )
+{
+    $LanguageCode = $Module->actionParameter( 'Language' );
+}
+
+if ( $Module->isCurrentAction( 'SelectPlacement' ) )
+{
+    $placementID = $Module->actionParameter( 'PlacementID' );
+    $assignment =& eZNodeAssignment::fetchByID( $placementID );
+    if ( $assignment !== null )
+    {
+        $node =& $assignment->getParentNode();
+        $nodeObject =& $node->attribute( "object" );
+        $sectionID = $nodeObject->attribute( "section_id" );
+    }
+}
+
 $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 if ( $versionAttributes === null or
      count( $versionAttributes ) == 0 )
@@ -59,9 +114,6 @@ if ( $versionAttributes === null or
     $versionAttributes = $versionObject->contentObjectAttributes();
     $LanguageCode = eZContentObject::defaultLanguage();
 }
-
-if ( $contentObject === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
 
@@ -75,18 +127,28 @@ $classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id 
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
-                      array( 'class', $class->attribute( 'id' ) ), // Class ID
-                      array( 'viewmode', 'full' ) ) ); // Section ID
+$designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
+                     array( 'class', $class->attribute( 'id' ) ), // Class ID
+                     array( 'viewmode', 'full' ) );  // View mode
+if ( $sectionID !== false )
+{
+    $designKeys[] = array( 'section', $sectionID ); // Section ID
+//     include_once( 'kernel/classes/ezsection.php' );
+//     eZSection::setGlobalID( $sectionID );
+}
+$res->setKeys( $designKeys );
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $contentObject->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'object', $contentObject );
+$tpl->setVariable( 'version', $versionObject );
 $tpl->setVariable( 'version_attributes', $versionAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object_version', $EditVersion );
 $tpl->setVariable( 'object_languagecode', $LanguageCode );
+$tpl->setVariable( 'language', $OriginalLanguageCode );
+$tpl->setVariable( 'placement', $placementID );
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 

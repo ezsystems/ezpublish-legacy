@@ -64,7 +64,7 @@ if ( !is_string( $EditLanguage ) or
 if ( $EditLanguage == eZContentObject::defaultLanguage() )
     $EditLanguage = false;
 
-if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion, $EditLanguage ) ) )
+if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage ) ) )
     return;
 
 $object =& eZContentObject::fetch( $ObjectID );
@@ -236,6 +236,10 @@ if ( isset( $Params['TemplateName'] ) )
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
 
-$Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
+$Result['path'] = array( array( 'text' => 'Content',
+                                'url' => false ),
+                         array( 'text' => 'Edit',
+                                'url' => false ),
+                         array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );
 ?>

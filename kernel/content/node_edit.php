@@ -258,7 +258,9 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 if ( $nodeAssignment->attribute( 'from_node_id' ) != 0 )
                 {
                     $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeAssignment->attribute( 'from_node_id' ) );
-                    $childrenCount =& $publishedNode->childrenCount();
+                    $childrenCount = 0;
+                    if ( $publishedNode !== null )
+                        $childrenCount =& $publishedNode->childrenCount();
                     if ( $childrenCount != 0 )
                     {
                         $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
