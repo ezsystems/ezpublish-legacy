@@ -412,6 +412,10 @@
         <source>New option</source>
         <translation>Nova opció</translation>
     </message>
+    <message>
+        <source>Select which classes user can create</source>
+        <translation>Selecciona quines classes pot crear un usuari</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -657,6 +661,10 @@
         <source>New class</source>
         <translation>Nova classe</translation>
     </message>
+    <message>
+        <source>Click on the &apos;New&apos; button to create a class.</source>
+        <translation>Fes clic al botó &quot;Nou&quot; per crear una classe.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/collaboration</name>
@@ -727,6 +735,10 @@
     <message>
         <source>Summary</source>
         <translation>Sumari</translation>
+    </message>
+    <message>
+        <source>[more]</source>
+        <translation>[més]</translation>
     </message>
 </context>
 <context>
@@ -1224,7 +1236,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Login</source>
-        <translation>Connecta</translation>
+        <translation>Nom d&apos;usuari</translation>
     </message>
     <message>
         <source>Password</source>
@@ -1268,19 +1280,31 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation>Crea un nou %classname</translation>
+        <translation type="obsolete">Crea un nou %classname</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation>Afegeix %classname</translation>
+        <translation type="obsolete">Afegeix %classname</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>Edita els objectes</translation>
+        <translation type="obsolete">Edita els objectes</translation>
     </message>
     <message>
         <source>Remove objects</source>
         <translation>Esborra els objectes</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edita</translation>
+    </message>
+    <message>
+        <source>Open objects for edit</source>
+        <translation>Obre objectes per editar</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Afegeix</translation>
     </message>
 </context>
 <context>
@@ -1456,6 +1480,56 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     <message>
         <source>New draft</source>
         <translation>Nou esborrany</translation>
+    </message>
+    <message>
+        <source>The currently published version is %version and was published at %time.</source>
+        <translation>La versió publicada actualment és la %version i va ser publicada el %time.</translation>
+    </message>
+    <message>
+        <source>The last modification was done at %modified.</source>
+        <translation>La darrera modificació va ser feta el %modified.</translation>
+    </message>
+    <message>
+        <source>The object is owned by %owner.</source>
+        <translation>L&apos;objecte és propietat de %owner.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Aquest objecte ja està sent editat per algú altre, inclòs tu.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft.</source>
+        <translation>Aquest objecte ja està sent editat per tu.
+Pots continuar editant un dels teus esborranys o en pots crear un de nou.</translation>
+    </message>
+    <message>
+        <source>This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing.</source>
+        <translation>Aquest objecte ja està sent editat per algú altre.
+Pots posar-t&apos;hi en contacte per l&apos;esborrany o en pots crear un de nou per editar-lo personalment.</translation>
+    </message>
+    <message>
+        <source>Current drafts</source>
+        <translation>Esborranys actuals</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versió</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Propietari</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Última modificació</translation>
+    </message>
+    <message>
+        <source>Input was partially stored</source>
+        <translation>L&apos;entrada s&apos;ha emmagatzemat parcialment</translation>
     </message>
 </context>
 <context>
@@ -2369,11 +2443,11 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Site:</source>
-        <translation>Lloc:</translation>
+        <translation type="unfinished">Lloc:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versió:</translation>
+        <translation type="unfinished">Versió:</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -2560,6 +2634,10 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
         <source>Click to create a custom template</source>
         <translation>Fes clic per crear una plantilla personalitzada</translation>
     </message>
+    <message>
+        <source>Default object view.</source>
+        <translation>Vista de l&apos;objecte per defecte.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -2654,12 +2732,12 @@ Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] S&apos;ha publicat %classname &quot;%itemname&quot;</translation>
+        <translation type="obsolete">[%sitename] S&apos;ha publicat %classname &quot;%itemname&quot;</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>Aquest correu és per informar-te que s&apos;ha publicat un nou objecte a %sitename.
+        <translation type="obsolete">Aquest correu és per informar-te que s&apos;ha publicat un nou objecte a %sitename.
 Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
@@ -5428,6 +5506,10 @@ Per solucionar aquest problema cal que facis el següent:</translation>
         <comment>manual installation link</comment>
         <translation>aquí</translation>
     </message>
+    <message>
+        <source>Site security</source>
+        <translation>Seguretat del lloc</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -5752,43 +5834,55 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Insufficient execution time allowed to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>El temps d&apos;execució permès és insufient per instal·lar eZpublish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un temps límit d&apos;execució de %1.</translation>
     </message>
     <message>
         <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
+        <translation>És molt recomanable que solucionis això.</translation>
     </message>
     <message>
         <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubica el fitxer de configuració php.ini per a la instal·lació de PHP. En sistemes UNIX, normalment està ubicat a /etc/php.ini. En Windows, comprova la ruta d&apos;instal·lació de PHP.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre el fitxer php.ini i canvia el valor max_execution_time a almenys %1 i prem %2</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Següent</translation>
+        <translation>Següent</translation>
     </message>
     <message>
         <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Si estàs fent anar eZ publish en un entorn de servidor compartit, posa&apos;t en contacte amb el teu ISP per executar els canvis</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>No hi ha prou memòria assignada per instal·lar eZ publish</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish no funcionarà correctament amb un límit de memòria de %1.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre el fitxer php.ini i canvia el valor memory_limit a almenys %1, i prem %2</translation>
+    </message>
+    <message>
+        <source>Unstable PHP version</source>
+        <translation>Versió de PHP inestable</translation>
+    </message>
+    <message>
+        <source>, is known to be unstable</source>
+        <translation>, és coneguda per ser inestable</translation>
+    </message>
+    <message>
+        <source>Another version of PHP can be download at</source>
+        <translation>Pots descarregar una altra versió de PHP a </translation>
     </message>
 </context>
 <context>
@@ -6335,6 +6429,10 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
         <source>No object available</source>
         <translation>No hi ha objectes disponibles</translation>
     </message>
+    <message>
+        <source>version</source>
+        <translation>versió</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
@@ -6676,7 +6774,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Connecta**</translation>
+        <translation>Contrasenya</translation>
     </message>
 </context>
 <context>
@@ -7019,6 +7117,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Load attributes</source>
         <translation>Carrega els atributs</translation>
+    </message>
+    <message>
+        <source>Modify publish date</source>
+        <translation>Modifica la data de publicació</translation>
     </message>
 </context>
 <context>
@@ -7661,7 +7763,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation type="obsolete">Edita</translation>
     </message>
     <message>
         <source>Copy</source>
