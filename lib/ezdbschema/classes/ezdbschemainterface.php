@@ -436,7 +436,7 @@ class eZDBSchemaInterface
         }
         if ( $includeData )
         {
-            $data = $this->data( $schema );
+            $data = $this->data( $schema, false, array( 'format' => 'local' ) );
             foreach ( $schema as $tableName => $table )
             {
                 // Skip the information array, this is not a table
