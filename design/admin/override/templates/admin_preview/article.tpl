@@ -4,7 +4,7 @@
         <h1>{$node.object.data_map.title.content|wash()}</h1>
 
         {* Author. *}
-        {section show=$node.object.data_map.author.content.is_empty|not()}
+        {section show=$node.object.data_map.author.has_content}
             <div class="attribute-byline">
                 <p class="author">{attribute_view_gui attribute=$node.object.data_map.author}</p>
                 <p class="date">{$node.object.published|l10n(date)}</p>
@@ -12,21 +12,21 @@
         {/section}
 
         {* Image. *}
-        {section show=$node.object.data_map.image.content}
+        {section show=$node.object.data_map.image.has_content}
             <div class="attribute-image">
                 {attribute_view_gui attribute=$node.object.data_map.image align=right}
             </div>
         {/section}
 
         {* Intro. *}
-        {section show=$node.object.data_map.intro.content.is_empty|not}
+        {section show=$node.object.data_map.intro.has_content}
             <div class="attribute-short">
                 {attribute_view_gui attribute=$node.object.data_map.intro}
             </div>
         {/section}
 
         {* Body. *}
-        {section show=$node.object.data_map.body.content.is_empty|not}
+        {section show=$node.object.data_map.body.has_content}
             <div class="attribute-long">
                 {attribute_view_gui attribute=$node.object.data_map.body}
             </div>
@@ -34,11 +34,11 @@
 
         {* Comments. *}
         <div class="content-control">
-            <label>Comments allowed:</label>
+            <label>{'Comments allowed:'|i18n( 'design/admin/preview/article' )}</label>
             {section show=$node.object.data_map.enable_comments.content}
-                <p>Yes</p>
+                <p>{'Yes'|i18n( 'design/admin/preview/article' )}</p>
                 {section-else}
-                <p>No</p>
+                <p>{'No'|i18n( 'design/admin/preview/article' )}</p>
             {/section}
         </div>
 
