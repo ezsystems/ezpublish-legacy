@@ -89,18 +89,18 @@
 
     {section show=or( $previous_image|gt( 0 ), $next_image|gt( 0 ) )}
     <div class="album">
-        <h2>In album <em>{$node.parent.name|wash}</em></h2>
+        <h2>More image in album <em>{$node.parent.name|wash}</em></h2>
         <table>
         <tr>
             {section show=$previous_image|gt( 0 )}
             <td>
-                <h3><a href={$previous_image[0].url_alias|ezurl}><strong class="arrow">&laquo;</strong> {$previous_image[0].name|wash}</a></h3>
+                <h3><a href={$previous_image[0].url_alias|ezurl}><strong class="arrow">&laquo; (previous)</strong> {$previous_image[0].name|wash}</a></h3>
                 {node_view_gui view=navigator href=$previous_image[0].url_alias|ezurl content_node=$previous_image[0]}
             </td>
             {/section}
             {section show=$next_image|gt( 0 )}
             <td>
-                <h3><a href={$next_image[0].url_alias|ezurl}>{$next_image[0].name|wash} <strong class="arrow">&raquo;</strong></a></h3>
+                <h3><a href={$next_image[0].url_alias|ezurl}>{$next_image[0].name|wash} <strong class="arrow">(next) &raquo;</strong></a></h3>
                 {node_view_gui view=navigator href=$next_image[0].url_alias|ezurl content_node=$next_image[0]}
             </td>
             {/section}

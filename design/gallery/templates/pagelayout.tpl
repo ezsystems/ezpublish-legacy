@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{cache-block keys=array($uri_string,$current_user.is_logged_in)}
+
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
@@ -13,7 +15,6 @@
 </style>
 
 </head>
-    {cache-block}
 
 <body>
 
@@ -54,7 +55,6 @@
                     <li><a href={$folder.item.url_alias|ezurl} title="{attribute_view_gui attribute=$folder.item.description}">{$folder.item.name|wash}</a></li>
                 {/section}
                 {/let}
-    {/cache-block}
 
                 <li>
                     {section show=$current_user.is_logged_in}
@@ -63,7 +63,6 @@
                         <a href={"user/login"|ezurl}>Login</a>
                     {/section}
                 </li>
-    {cache-block}
 
                 </ul>
             
@@ -75,17 +74,12 @@
         </div>
     </div>
 
-    {/cache-block}
-
-    {cache-block keys=array( $uri_string )}
     {include uri="design:infobox.tpl"}
-    {/cache-block}
 
     <div id="maincontent">
         <div class="design">
 
     {section show=$module_result.content_info.node_id|ne( 2 )}
-    {cache-block keys=array( $uri_string )}
     <div id="path">
         <div class="design">
 
@@ -106,8 +100,10 @@
 
         </div>
     </div>
-    {/cache-block}
     {/section}
+{/let}
+
+{/cache-block}
 
     <div class="content">
             {$module_result.content}
@@ -116,7 +112,6 @@
         </div>
     </div>
 
-    {cache-block}
     <div id="footer">
         <div class="design">
         
@@ -131,9 +126,6 @@
 </div>
 
 </body>
-    {/cache-block}
 
-
-{/let}
 </html>
 
