@@ -310,6 +310,48 @@ class eZSelectionType extends eZDataType
     {
         return true;
     }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $xml                 =& new eZXML();
+
+        $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
+        $xmlString           =& $classAttribute->attribute( 'data_text5' );
+        
+        $dom                 =& $xml->domTree( $xmlString );
+        $domRoot             =& $dom->root();
+        $options             =& $domRoot->elementByName( 'options' );
+        
+        $attributeParametersNode->appendChild( $options );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'is-multiselect', $isMultipleSelection ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $options    =& $attributeParametersNode->elementByName( 'options' );
+
+        $doc        =& new eZDOMDocument( "selection" );
+        $root       =& $doc->createElementNode( "ezselection" );
+        
+        $doc->setRoot( $root );
+        $root->appendChild( $options );
+        
+        eZDebug::writeDebug( $doc, 'lazy. $doc' );
+
+        $xml        =& $doc->toString();
+        $classAttribute->setAttribute( "data_text5", $xml );
+
+        if ( $attributeParametersNode->elementTextContentByName( 'is-multiselect' ) == 0 )
+            $classAttribute->setAttribute( "data_int1", 0 );
+        else
+            $classAttribute->setAttribute( "data_int1", 1 );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_EZ_SELECTION, "ezselectiontype" );
