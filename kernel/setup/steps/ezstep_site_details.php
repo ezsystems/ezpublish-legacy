@@ -135,13 +135,17 @@ class eZStepSiteDetails extends eZStepInstaller
 
             if ( $dbVersion != null )
             {
-                if ( $dbVersion['values'][0] == 7 and $dbVersion['values'][1] >= 3 )
+                $dbStatus['connected'] = $db->isConnected();
+                if ( $db->databaseName() == 'postgresql' )
                 {
-                    $dbStatus['connected'] = $db->isConnected();
-                }
-                else
-                {
-                    $dbStatus['connected'] = false;
+                    if ( $dbVersion['values'][0] < 7 )
+                    {
+                        $dbStatus['connected'] = false;
+                    }
+                    else if ( $dbVersion['values'][1] < 3 )
+                    {
+                        $dbStatus['connected'] = false;
+                    }
                 }
             }
             else
