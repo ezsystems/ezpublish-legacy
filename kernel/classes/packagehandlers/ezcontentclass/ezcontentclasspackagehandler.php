@@ -160,6 +160,33 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( $classRemoteID != "" )
             $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
 
+        // Try to create a unique class identifier
+        if( !isset( $class ) || !$class )
+        {
+            $currentClassIdentifier = $classIdentifier;
+            $unique = false;
+
+            while( !$unique )
+            {
+                $classList =& eZContentClass::fetchByIdentifier( $currentClassIdentifier );
+                if ( $classList )
+                {
+                    // "increment" class identifier
+                    if ( preg_match( '/^(.*)_(\d+)$/', $currentClassIdentifier, $matches ) )
+                        $currentClassIdentifier = $matches[1] . '_' . ( $matches[2] + 1 );
+                    else
+                        $currentClassIdentifier = $currentClassIdentifier . '_1';
+                }
+                else
+                    $unique = true;
+
+                unset( $classList );
+            }
+
+            $classIdentifier = $currentClassIdentifier;
+        }
+
+        // create class
         if ( !isset( $class ) || !$class )
         {
             $class =& eZContentClass::create( $userID,
@@ -182,6 +209,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $installData['classid_list'][] = $class->attribute( 'id' );
         $installData['classid_map'][$classID] = $class->attribute( 'id' );
 
+        // create class attributes
         $classAttributeList =& $classAttributesNode->children();
         foreach ( array_keys( $classAttributeList ) as $classAttributeKey )
         {
@@ -220,6 +248,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             }
         }
 
+        // add class to a class group
         $classGroupsList =& $classGroupsNode->children();
         foreach ( array_keys( $classGroupsList ) as $classGroupNodeKey )
         {

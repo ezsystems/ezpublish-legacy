@@ -99,7 +99,12 @@ else if ( $module->isCurrentAction( 'InstallPackage' ) || $http->hasSessionVaria
     $installer = eZPackageInstallationHandler::instance( $package, $installItem['type'], $installItem );
     if ( !$installer )
     {
-        $package->installItem( $installItem );
+        // weak try to process errors
+        if( !$package->installItem( $installItem ) )
+        {
+            eZDebug::writeError( "Error installing the package" );
+            return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
+        }
         $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount + 1 );
         return $module->redirectToView( 'install', array( $packageName ) );
     }

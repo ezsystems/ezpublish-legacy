@@ -153,7 +153,8 @@ $ClassVersion = $class->attribute( 'version' );
 
 $validation = array( 'processed' => false,
                      'groups' => array(),
-                     'attributes' => array() );
+                     'attributes' => array(),
+                     'class_errors' => array() );
 $unvalidatedAttributes = array();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
@@ -209,8 +210,6 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $customAction = $matchArray[2];
 }
 
-// validate name, identifier, object pattern name
-$basicClassAttributesInitialized = true;
 
 // Validate input
 $storeActions = array( 'MoveUp',
@@ -228,6 +227,7 @@ foreach( $storeActions as $storeAction )
         break;
     }
 }
+
 include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 $canStore = true;
 $requireFixup = false;
@@ -248,7 +248,7 @@ if ( $contentClassHasInput )
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
                 $unvalidatedAttributes[] = array( 'id' => $attribute->attribute( 'id' ),
-                                                  'identifier' => $attribute->attribute( 'identifier' ),
+                                                  'identifier' => $attribute->attribute( 'identifier' ) ? $attribute->attribute( 'identifier' ) : $attribute->attribute( 'name' ),
                                                   'name' => $attributeName );
             }
         }
@@ -283,6 +283,7 @@ if ( $contentClassHasInput )
         }
     }
 }
+
 // Fixup input
 if ( $requireFixup )
 {
@@ -368,6 +369,7 @@ $class->setAttribute( 'modifier_id', $user_id );
 // Remove attributes which are to be deleted
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
+    $validation['processed'] = true;
     if ( eZHttpPersistence::splitSelected( 'ContentAttribute', $attributes,
                                            $http, 'id',
                                            $keepers, $rejects ) )
@@ -385,7 +387,6 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
                 $removeInfo = $dataType->classAttributeRemovableInformation( $reject );
                 if ( $removeInfo !== false )
                 {
-                    $validation['processed'] = true;
                     $validation['attributes'] = array( array( 'id' => $reject->attribute( 'id' ),
                                                               'identifier' => $reject->attribute( 'identifier' ),
                                                               'reason' => $removeInfo ) );
@@ -406,23 +407,59 @@ if ( $contentClassHasInput )
     }
 }
 
+
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
-    $class_name = $class->attribute( 'name' );
+
     $id = $class->attribute( 'id' );
     $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
 
-    if( trim( $class_name ) == '' || count( $newClassAttributes ) == 0 )
+    // validate class name and identifier; check presence of class attributes
+    // FIXME: object pattern name is never validated
+
+    $basicClassPropertiesValid = true;
+    {
+        $className       =& $class->attribute( 'name' );
+        $classIdentifier =& $class->attribute( 'identifier' );
+        $classID         =& $class->attribute( 'id' );
+
+        // validate class name
+        if( trim( $className ) == '' )
+        {
+            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
+            $basicClassPropertiesValid = false;
+        }
+
+        // check presence of attributes
+        $newClassAttributes = $class->fetchAttributes( );
+        if ( count( $newClassAttributes ) == 0 )
+        {
+            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
+            $basicClassPropertiesValid = false;
+        }
+        unset( $newClassAttributes );
+
+        // validate class identifier
+        $db              =& eZDB::instance();
+        $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . EZ_CLASS_VERSION_STATUS_DEFINED . " AND id <> $classID" );
+        if ( $classCount[0]['count'] > 0 )
+        {
+            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
+            $basicClassPropertiesValid = false;
+        }
+        unset( $classList );
+        unset( $db );
+    }
+
+    if ( !$basicClassPropertiesValid )
     {
         $canStore = false;
         $validation['processed'] = false;
-        $basicClassAttributesInitialized = false;
     }
     else
     {
-
         $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
         if ( !$firstStoreAttempt )
         {
@@ -562,7 +599,6 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
-$tpl->setVariable( 'basic_class_attributes_initialized', $basicClassAttributesInitialized );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );

@@ -1,12 +1,15 @@
 {* Warnings *}
+
 {section show=$validation.processed}
-{section var=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
+{* handle attribute validation errors *}
+{section show=$validation.attributes}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
 <p>{'The following information is either missing or invalid'|i18n( 'design/admin/class/edit' )}:</p>
 <ul>
+    {section var=UnvalidatedAttributes loop=$validation.attributes}
     {section show=is_set( $UnvalidatedAttributes.item.reason )}
-        <li>{$UnvalidatedAttributes.item.identifier}: ({$UnvalidatedAttributes.item.id})
+        <li>attribute '{$UnvalidatedAttributes.item.identifier}': ({$UnvalidatedAttributes.item.id})
             {$UnvalidatedAttributes.item.reason.text|wash}
         <ul>
         {section var=subitem loop=$UnvalidatedAttributes.item.reason.list}
@@ -15,22 +18,30 @@
         </ul>
         </li>
     {section-else}
-        <li>{$UnvalidatedAttributes.item.identifier}: {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
+        <li>attribute '{$UnvalidatedAttributes.item.identifier}': {$UnvalidatedAttributes.item.name|wash} ({$UnvalidatedAttributes.item.id})</li>
+    {/section}
     {/section}
 </ul>
 </div>
 {section-else}
+{* no attribute validation errors *}
 <div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
 </div>
 {/section}
 
-{/section}
-
-{section show=$basic_class_attributes_initialized|not()}
-<div class="message-warning">
-<h2>{"The class should have at least one attribute and nonempty 'Name' attribute"|i18n("design/admin/class/edit")}</h2>
-</div>
+{section-else} {* !$validation|processed *}
+{* we're about to store the class, so let's handle basic class properties errors (name, identifier, presence of attributes) *}
+    {section show=or( $validation.class_errors )}
+    <div class="message-warning">
+	<h2>{"The class definition contains the following errors:"|i18n("design/admin/class/edit")}</h2>
+	<ul>
+	{section var=ClassErrors loop=$validation.class_errors}
+	    <li>{$ClassErrors.item.text}</li>
+	{/section}
+	</ul>
+    </div>
+    {/section}
 {/section}
 
 {* Main window *}

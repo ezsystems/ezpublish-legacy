@@ -101,6 +101,9 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/crash_when_using_versionview
 - Fixed bug: unable to view media files.
   http://ez.no/community/bug_reports/media_files_can_t_be_viewed_flash_quicktime_etc
+- Fixed bug: Fatal errors after importing a class with the same identifier as one of the exising classes has.
+  http://ez.no/community/bug_reports/package_import_problem_with_same_class_identifiers
+- Added check to class/edit for it to ensure that two different classes cannot have equal identifiers.
 
 *Library:
 
