@@ -226,7 +226,7 @@ class eZRSSExportItem extends eZPersistentObject
         return eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                         'DepthOperator' => 'eq',
                                                         'Limit' => $num,
-                                                        'SortBy' => array( 'published' => false ),
+                                                        'SortBy' => array( 'published', false ),
                                                         'ClassFilterType' => 'include',
                                                         'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
                                                  $this->attribute( 'source_node_id' ) );
