@@ -299,7 +299,8 @@ class eZTextCodec
     function &ini()
     {
         include_once( "lib/ezutils/classes/ezini.php" );
-        return eZINI::instance( "i18n.ini", "", false );
+        $ini =& eZINI::instance( "i18n.ini", "", false );
+        return $ini;
     }
 
     /*!

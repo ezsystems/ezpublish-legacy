@@ -141,7 +141,7 @@ class eZTemplateIncludeFunction
                 $root = new eZTemplateRoot();
                 $tpl_text =& $res["text"];
                 $tpl->setIncludeText( $uri, $tpl_text );
-                $tpl->parse( $tpl_text, $root, "", $res["resource"], $res["template_name"] );
+                $tpl->parse( $tpl_text, $root, "", $res );
                 if ( $canCache )
                     $tpl->setCachedTemplateTree( $uri, $root );
             }

@@ -181,7 +181,7 @@ class eZObjectForwarder
             $tpl_text =& $res["text"];
             $nspace = $rule["namespace"];
             $tpl->setIncludeText( $uri, $tpl_text );
-            $tpl->parse( $tpl_text, $root, "", $res["resource"], $res["template_name"] );
+            $tpl->parse( $tpl_text, $root, "", $res );
             $designUsedKeys = array();
             $designMatchedKeys = array();
             if ( isset( $extraParameters['ezdesign:used_keys'] ) )
