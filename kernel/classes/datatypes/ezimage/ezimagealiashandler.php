@@ -132,6 +132,8 @@ class eZImageAliasHandler
     {
         $originalImageHandler =& $contentObjectAttribute->attribute( 'content' );
         $originalAttributeData =& $originalImageHandler->originalAttributeData();
+        $domTree =& $originalImageHandler->domTree();
+        $this->setDOMTree( $domTree );
         if ( $originalAttributeData['attribute_id'] )
         {
             $this->setOriginalAttributeData( $originalAttributeData );

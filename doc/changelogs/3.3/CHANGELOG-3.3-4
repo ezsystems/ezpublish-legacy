@@ -23,6 +23,10 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/duplicates_when_fetching_trees_and_lists_with_objects_assigned_to_multiple_locations
 - Fixed checking of input ID to content/download, previously it was
   used unchecked causing a crash on the page.
+- Fixed bug in eZImage datatype, when an attribute of eZImage datatype is set
+  to not have translations the whole content of the original language is copied
+  to the translated language. This ensures that filenames point to the original
+  image.
 
 *Library:
 
