@@ -1162,7 +1162,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 //         // text like & &#200; the text is kept when its output again
 //         $text =& preg_replace( "/&/", "&amp;", $text );
         // Convert the < character followed by anything but a character that tags start with (letter, :, _, /) into &lt;
-        $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&lt;$1", $text );
+        // ( Temporary changed to &foo; to prevent symbol conversion inside <literal> tags. )
+        $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&foo;$1", $text );
 
         $data = $text;
         $domDocument = new eZDOMDocument();
@@ -1746,6 +1747,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Type = EZ_NODE_TYPE_TEXT;
 
                     // convert special chars
+                    $tagContent =& str_replace("&foo;", "<", $tagContent );
                     if ( $justName != 'literal' )
                     {
                         $tagContent =& str_replace("&gt;", ">", $tagContent );
