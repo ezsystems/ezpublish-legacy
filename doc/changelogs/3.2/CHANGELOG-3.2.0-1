@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Added new datatype eZSelection, which is made as a replacement for enum. It's faster and simpler to work with.
 - Fixed fallback to default siteaccess when requested access does not exist
 - Optimized object view when XML field contains multiple related objects.
 - Optimized override cache format, now uses switch instead of nested if statements
