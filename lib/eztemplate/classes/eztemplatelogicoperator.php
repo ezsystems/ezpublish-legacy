@@ -185,7 +185,7 @@ class eZTemplateLogicOperator
                 $val_cnt = $val;
             else
             {
-                $tpl->warning( $op_name, "Unsupported input type: " . gettype( $val ) . ", must be either array, attribute object or numerical" );
+                $tpl->warning( $op_name, "Unsupported input type: " . gettype( $val ) . "( $val ), must be either array, attribute object or numerical" );
                 return;
             }
         }
@@ -313,7 +313,7 @@ class eZTemplateLogicOperator
                     $cnt = $value;
                 else
                 {
-                    $tpl->warning( $op_name, "Unsupported type: " . gettype( $value ) . ", must be either array, attribute object or numerical" );
+                    $tpl->warning( $op_name, "Unsupported type: " . gettype( $value ) . "( $value ), must be either array, attribute object or numerical" );
                     return;
                 }
                 if ( $op_name == $this->LTName )
