@@ -1713,7 +1713,7 @@ class eZTemplate
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
         include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
-        $root[1] = array_merge( eZTemplateNodeTool::createTextNode( $preText ), $root[1] );
+        $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
         $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
     }
 
