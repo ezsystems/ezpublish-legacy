@@ -220,39 +220,42 @@ class eZWorkflowProcess extends eZPersistentObject
             case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
             case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET:
             {
-                $activationDate = $this->attribute( "activation_date" );
-                eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
-                if ( $activationDate == 0  )
+                if ( $workflowEvent !== null )
                 {
-                    $eventType =& $workflowEvent->eventType();
-                    $eventLog[] = array( "status" => $lastEventStatus,
-                                         "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
-                                         "information" => $eventType->attribute( "information" ),
-                                         "description" => $workflowEvent->attribute( "description" ),
-                                         "type_name" => $eventType->attribute( "name" ),
-                                         "type_group" => $eventType->attribute( "group_name" ) );
-                }
-                else if ( time() < $activationDate )
-                {
-                    eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
-                    $eventType =& $workflowEvent->eventType();
-                    $eventLog[] = array( "status" => $lastEventStatus,
-                                         "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
-                                         "information" => $eventType->attribute( "information" ),
-                                         "description" => $workflowEvent->attribute( "description" ),
-                                         "type_name" => $eventType->attribute( "name" ),
-                                         "type_group" => $eventType->attribute( "group_name" ) );
-                    $done = true;
-                }
-                else
-                {
-                    eZDebugSetting::writeDebug( 'workflow-process', "Date ok, running events" );
-                    eZDebugSetting::writeDebug( 'workflow-process', $lastEventStatus, 'WORKFLOW_TYPE_STATUS' );
-                    if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
-                         $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
-                         $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
+                    $activationDate = $this->attribute( "activation_date" );
+                    eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
+                    if ( $activationDate == 0  )
                     {
-                        $runCurrentEvent = false;
+                        $eventType =& $workflowEvent->eventType();
+                        $eventLog[] = array( "status" => $lastEventStatus,
+                                             "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
+                                             "information" => $eventType->attribute( "information" ),
+                                             "description" => $workflowEvent->attribute( "description" ),
+                                             "type_name" => $eventType->attribute( "name" ),
+                                             "type_group" => $eventType->attribute( "group_name" ) );
+                    }
+                    else if ( time() < $activationDate )
+                    {
+                        eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
+                        $eventType =& $workflowEvent->eventType();
+                        $eventLog[] = array( "status" => $lastEventStatus,
+                                             "status_text" => eZWorkflowType::statusName( $lastEventStatus ),
+                                             "information" => $eventType->attribute( "information" ),
+                                             "description" => $workflowEvent->attribute( "description" ),
+                                             "type_name" => $eventType->attribute( "name" ),
+                                             "type_group" => $eventType->attribute( "group_name" ) );
+                        $done = true;
+                    }
+                    else
+                    {
+                        eZDebugSetting::writeDebug( 'workflow-process', "Date ok, running events" );
+                        eZDebugSetting::writeDebug( 'workflow-process', $lastEventStatus, 'WORKFLOW_TYPE_STATUS' );
+                        if ( $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
+                             $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
+                             $lastEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
+                        {
+                            $runCurrentEvent = false;
+                        }
                     }
                 }
             } break;

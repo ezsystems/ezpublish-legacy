@@ -162,6 +162,9 @@ Datatype:
   whole section.
   (Manually merged from stable/3.3 rev. 9785, also in stable/3.4 rev.9786)
   http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
+- Fixed bug of fatal error caused by undeleted workflow processes when associated workflow event is deleted.
+  http://ez.no/community/bug_reports/fatal_error_in_cronjob_after_editing_workflow
+  (Merged from stable/3.4 (3.4.5) rev. 9789)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
