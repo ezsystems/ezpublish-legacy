@@ -7,6 +7,10 @@
 </div></div></div></div></div></div>
 
 <div class="box-ml"><div class="box-mr"><div class="box-content">
+<p>
+<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+{$object.id}
+</p>
 
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
@@ -26,6 +30,19 @@
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
 {/section}
 </p>
+
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+{$object.current_version}
+</p>
+<p>
+<label>{'Editing version'|i18n( 'design/admin/content/edit' )}:</label>
+{$edit_version}
+</p>
+
+<div class="block">
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
+</div>
 
 </div></div></div>
 
@@ -67,7 +84,7 @@
 </p>
 {/section}
 <div class="block">
-<input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" {section show=$Translation:other_translation_list|eq(0)}disabled="disabled"{/section} />
+<input class="button" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" {section show=$Translation:other_translation_list|not}disabled="disabled"{/section} />
 <input class="button" type="submit" name="TranslateButton" value="{'Manage translations'|i18n('design/admin/content/edit' )}" />
 </div>
 {/section}
@@ -78,33 +95,6 @@
 
 <!-- Translation box end-->
 
-<div class="versions">
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
-<h4>{'Versions'|i18n( 'design/admin/content/edit' )}</h4>
-</div></div></div></div>
-
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
-
-<div class="block">
-<div class="element">
-<p>
-<label>{'Published'|i18n( 'design/admin/content/edit' )}:</label>
-{$object.current_version}
-</p>
-</div>
-<div class="element">
-<p>
-<label>{'Editing'|i18n( 'design/admin/content/edit' )}:</label>
-{$edit_version}
-</p>
-</div>
-</div>
-<div class="block">
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
-
-</div>
-</div></div></div></div>
-</div>
 
 <div class="drafts">
 
