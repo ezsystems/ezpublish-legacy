@@ -53,15 +53,19 @@ var MouseY = 0;
  */
 function ezjslib_mouseHandler( e )
 {
+    if ( !e )
+    {
+        e = window.event;
+    }
     if ( document.all ) // IE needs special treatment
     {
-        MouseX = window.event.x + document.body.scrollLeft;
-        MouseY = window.event.y + document.body.scrollTop;
+        MouseX = e.clientX + document.body.scrollLeft;
+        MouseY = e.clientY + document.body.scrollTop;
     }
     else
     {
-        MouseX = e.clientX; //+ document.body.scrollLeft;
-        MouseY = e.clientY; //+ document.body.scrollTop;
+        MouseX = e.pageX;
+        MouseY = e.pageY;
     }
 }
 
