@@ -119,6 +119,12 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
                 $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
             }
         }
+
+        if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+        {
+            $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+        }
+		
         $module->redirectToView( 'edit', $parameters );
         return;
     }

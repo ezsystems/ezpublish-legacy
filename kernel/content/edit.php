@@ -51,6 +51,12 @@ $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
 $http =& eZHTTPTool::instance();
 
+
+if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+{
+    $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+}
+
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
     if ( $http->hasPostVariable( 'SelectedVersion' ) )
