@@ -18,7 +18,7 @@
 {content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td class="{$Group:sequence}"><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Group:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Group:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
-  <td class="{$Group:sequence}" width="1%"><input type="checkbox" name="ContentClass_id_checked[]" value="{$Group:item.id}"></td>
+  <td class="{$Group:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Group:item.id}"></td>
 </tr>
 {/section}
 
@@ -26,7 +26,7 @@
 
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New"|i18n('content/class')}
-{include uri="design:gui/button.tpl" name=deletegroup id_name=DeleteGroupButton value="Remove"|i18n('content/class')}
+{include uri="design:gui/button.tpl" name=removegroup id_name=RemoveGroupButton value="Remove"|i18n('content/class')}
 </div>
 
 </form>

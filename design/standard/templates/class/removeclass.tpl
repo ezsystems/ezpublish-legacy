@@ -1,11 +1,12 @@
-<form action={concat($module.functions.removeclass.uri,"/",$GroupID,"/",$ClassID)|ezurl} method="post" name="ClassRemove">
-
-<div class="maincontentheader">
-<h1>Remove class - {$ClassName}</h1>
+<div class="warning">
+<h2>Are you sure you will remove this(these) class(es)?</h2>
+<ul>
+{section name=Result loop=$DeleteResult}
+	<li>Remove class "{$Result:item.className}" will remove {$Result:item.objectCount}!</li>
+{/section}
+</ul>
 </div>
-
-<p>Are you sure you will remove class {$ClassName}?</p>
-<p>Remove class "{$ClassName}" will remove {$ClassObjectsCount} objects!</p>
+<form action={concat($module.functions.removeclass.uri,"/",$GroupID,"/",$ClassID)|ezurl} method="post" name="ClassRemove">
 
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value=Confirm}

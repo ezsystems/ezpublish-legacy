@@ -37,5 +37,8 @@ $indexes[] = array( "identifier" => "view/content_classes",
                     "name" => "Custom content" );
 $indexes[] = array( "identifier" => "view/workflows",
                     "name" => "Custom workflow" );
+$indexes[] = array( "identifier" => "view/datatypes",
+                    "name" => "Datatypes" );
+
 
 ?>

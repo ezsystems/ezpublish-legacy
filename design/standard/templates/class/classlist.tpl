@@ -1,6 +1,6 @@
 <form action={concat("class/classlist/",$GroupID)|ezurl} method="post" name="ClassList">
 
-{switch name=Sw1 match=$count}
+{switch name=Sw1 match=$class_count}
   {case match=0}
     <div class="warning">
     <h2>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h2>
@@ -8,18 +8,9 @@
     </div>
   {/case}
   {case}
-      {switch name=Sw2 match=$class_count}
-      {case match=0}
-        <div class="warning">
-        <h2>{"No classes have been defined for "|i18n('content/class')}{$group_name}.</h2>
-        </div>
-      {/case}
-      {case}
-        <div class="maincontentheader">
-        <h1>{"Defined class types for "|i18n('content/class')}{$group_name}</h1>
-        </div>
-      {/case}
-      {/switch}
+    <div class="maincontentheader">
+    <h1>{"Defined class types for "|i18n('content/class')}{$group_name}</h1>
+    </div> 
   {/case}
 {/switch}
 {section show=$groupclasses}
@@ -40,7 +31,7 @@
     <td class="{$Classes:sequence}">{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
     <td class="{$Classes:sequence}"><span class="small">{$Classes:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
-    <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="ContentClass_id_checked[]" value="{$Classes:item.id}"></td>
+    <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></td>
 </tr>
 {/section}
 
@@ -49,11 +40,11 @@
 
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n('content/class')}
-{switch name=Sw match=$count}
+{switch name=Sw match=$class_count}
   {case match=0}
   {/case}
   {case}
-  {include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Remove"|i18n('content/class')}
+  {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n('content/class')}
   {/case}
 {/switch}
 </div>

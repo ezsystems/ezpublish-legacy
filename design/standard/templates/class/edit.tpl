@@ -43,7 +43,7 @@
 {/section}
 </select>
 {include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
-{include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}
+{include uri="design:gui/button.tpl" name=RemoveGroup id_name=RemoveGroupButton value="Remove group"}
 </div>
 
 {section show=$validation.processed}
@@ -118,7 +118,7 @@
 <div class="buttonblock">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
 {include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"}
-{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Remove"}
+{include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"}
 </div>
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}

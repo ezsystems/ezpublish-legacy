@@ -67,6 +67,7 @@ class eZPrice
             $this->IsVATIncluded = false;
         $this->VATType =& eZVatType::fetch( $VATID );
         $this->Discount = $this->discount();
+        eZDebug::writeDebug( $this->Discount,"888888");
     }
 
     function hasAttribute( $attr )

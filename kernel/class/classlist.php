@@ -41,34 +41,21 @@ $Module =& $Params["Module"];
 $GroupID = false;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
-function &removeSelectedClasses( &$http, &$classes, $base, &$Module, $GroupID )
+
+$http =& eZHTTPTool::instance();
+$http->setSessionVariable( 'FromGroupID', $GroupID );
+if ( $http->hasPostVariable( "RemoveButton" ) )
 {
-    if ( $http->hasPostVariable( "DeleteButton" ) )
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        if ( eZHttpPersistence::splitSelected( $base,
-                                               $classes, $http, "id",
-                                               $keepers, $rejects ) )
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        if ( $deleteIDArray !== null )
         {
-            $classes = $keepers;
-            for ( $i = 0; $i < count( $rejects ); ++$i )
-            {
-                $reject =& $rejects[$i];
-                $ClassID =  $reject->attribute( "id" );
-                $ClassVersion = $reject->attribute( "version" );
-                if ( $ClassVersion == 0 )
-                {
-                    $Module->redirectTo( "/class/removeclass/" . $GroupID . '/' . $ClassID );
-                }else
-                {
-                    $reject->remove( true, $ClassVersion );
-                    eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
-                }
-            }
+            $http->setSessionVariable( 'DeleteClassIDArray', $deleteIDArray );
+            $Module->redirectTo( $Module->functionURI( 'removeclass' ) . '/'  . $GroupID . '/' );
         }
     }
 }
-
-$http =& eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "NewButton" ) )
 {
@@ -77,7 +64,7 @@ if ( $http->hasPostVariable( "NewButton" ) )
     if ( $http->hasPostVariable( "CurrentGroupName" ) )
         $GroupName = $http->postVariable( "CurrentGroupName" );
 
-    $params = array(null, $GroupID, $GroupName );
+    $params = array( null, $GroupID, $GroupName );
     $Module->run( "edit", $params );
     return;
 }
@@ -105,11 +92,6 @@ foreach( $TemplateData as $tpldata )
     $fields = isset( $data["fields"] ) ? $data["fields"] : null;
     $base = $tpldata["http_base"];
     $classids = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true);
-//     $classes_list = & eZContentClass::fetchList( 0,
-//                                                  $asObject = true,
-//                                                  $user->attribute( "id" ),
-//                                                  $sort,
-//                                                  $fields );
     $classes_list = & eZContentClass::fetchList( 0,
                                                  $asObject = true,
                                                  false,
@@ -128,42 +110,9 @@ foreach( $TemplateData as $tpldata )
             }
         }
     }
-
-    $temp_classids = & eZContentClassClassGroup::fetchClassList( 1, $GroupID, $asObject = true);
-//     $temp_classes_list = & eZContentClass::fetchList( 1,
-//                                                  $asObject = true,
-//                                                  $user->attribute( "id" ),
-//                                                       array("modified" => "modified"),
-//                                                  $fields );
-    $temp_classes_list = & eZContentClass::fetchList( 1,
-                                                 $asObject = true,
-                                                 false,
-                                                      array("modified" => "modified"),
-                                                 $fields );
-    $temp_list = array();
-    $temp_base = "TempContentClass";
-    for ( $i=0;$i<count( $temp_classes_list );$i++ )
-    {
-        for ( $j=0;$j<count( $temp_classids );$j++ )
-        {
-            $id =  $temp_classes_list[$i]->attribute("id");
-            $temp_contentclass_id =  $temp_classids[$j]->attribute("contentclass_id");
-            if ( $id === $temp_contentclass_id )
-            {
-                $temp_list[] =& $temp_classes_list[$i];
-            }
-        }
-    }
-    removeSelectedClasses( $http, $list, $base, $Module, $GroupID );
-    removeSelectedClasses( $http, $temp_list, $temp_base, $Module, $GroupID );
     $classCount = count( $list );
-    $tempClassCount = count( $temp_list );
-    $count = $classCount + $tempClassCount;
     $tpl->setVariable( $tplname, $list );
-    $tpl->setVariable( "temp_groupclasses", $temp_list );
     $tpl->setVariable( "class_count", $classCount );
-    $tpl->setVariable( "temp_class_count", $tempClassCount );
-    $tpl->setVariable( "count", $count );
     $tpl->setVariable( "GroupID", $GroupID );
     $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $GroupName = '';

@@ -94,21 +94,26 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $module->redirectTo( $module->functionURI( "discountruleedit" ) . "/" . $discountRuleID );
     return;
 }
-
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
     eZDiscountSubRuleValue::removeBySubRuleID ( $discountSubRuleID );
     if ( $http->hasPostVariable( "discountsubrule_name" ) )
     {
         $name = $http->postVariable( "discountsubrule_name" );
+        $discountSubRule->setAttribute( "name", $name );
     }
-    $discountSubRule->setAttribute( "name", $name );
     if ( $http->hasPostVariable( "discountsubrule_percent" ) )
     {
         $percent = $http->postVariable( "discountsubrule_percent" );
+        if ( $percent <= 100 )
+        {
+            $discountSubRule->setAttribute( "discount_percent", $percent );
+        }
+        else
+        {
+            //Do not update the percent.
+        }
     }
-    $discountSubRule->setAttribute( "discount_percent", $percent );
-
     if ( $http->hasPostVariable( "Contentclasses" ) )
     {
         $classIDList = $http->postVariable( "Contentclasses" );

@@ -37,27 +37,49 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params["Module"];
-$ClassID = null;
-if ( isset( $Params["ClassID"] ) )
-    $ClassID =& $Params["ClassID"];
-
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
-
-$class =& eZContentClass::fetch( $ClassID );
-$ClassName = $class->attribute( 'name' );
-$classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
-$ClassObjectsCount = count( $classObjects );
-if ( $ClassObjectsCount == 0 )
-    $ClassObjectsCount .= " object";
-else
-    $ClassObjectsCount .= " objects";
 $http =& eZHTTPTool::instance();
+$deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
+$DeleteResult = array();
+foreach ( $deleteIDArray as $deleteID )
+{
+    $ClassObjectsCount = 0;
+    $class =& eZContentClass::fetch( $deleteID );
+    if( $class != null )
+    {
+        $ClassID = $class->attribute( 'id' );
+        $ClassName = $class->attribute( 'name' );
+        $classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
+        $ClassObjectsCount = count( $classObjects );
+        if ( $ClassObjectsCount < 2 )
+            $ClassObjectsCount .= " object";
+        else
+            $ClassObjectsCount .= " objects";
+        $item = array( "className" => $ClassName,
+                       "objectCount" => $ClassObjectsCount );
+        $DeleteResult[] = $item;
+    }
+}
+
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    $class->remove( true );
-    eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
+    foreach ( $deleteIDArray as $deleteID )
+    {
+        eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
+        eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
+
+        // Fetch real version and remove it
+        $deleteClass =& eZContentClass::fetch( $deleteID );
+        if ( $deleteClass != null )
+            $deleteClass->remove( true );
+
+        // Fetch temp version and remove it
+        $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
+        if ( $tempDeleteClass != null )
+            $tempDeleteClass->remove( true, 1 );
+    }
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 if ( $http->hasPostVariable( "CancelButton" ) )
@@ -71,9 +93,7 @@ $tpl =& templateInit();
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "GroupID", $GroupID );
-$tpl->setVariable( "ClassID", $ClassID );
-$tpl->setVariable( "ClassName", $ClassName );
-$tpl->setVariable( "ClassObjectsCount", $ClassObjectsCount );
+$tpl->setVariable( "DeleteResult", $DeleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removeclass/',

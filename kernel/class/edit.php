@@ -111,6 +111,11 @@ else
     return;
 }
 $http =& eZHttpTool::instance();
+// Find out the group where class is created or edited from.
+if ( $http->hasSessionVariable( 'FromGroupID' ) )
+{
+     $fromGroupID = $http->sessionVariable( 'FromGroupID' );
+}
 $ClassID = $class->attribute( "id" );
 $ClassVersion = $class->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
@@ -118,7 +123,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $class->setVersion( 1 );
     $class->remove( true, $ClassVersion );
     eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
-    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
+    $Module->redirectTo( $Module->functionURI( "classlist" ) . '/' . $fromGroupID . '/' );
     return;
 }
 
@@ -133,7 +138,7 @@ if ( $http->hasPostVariable( "AddGroupButton" ) )
     }
 }
 
-if ( $http->hasPostVariable( "DeleteGroupButton" ) )
+if ( $http->hasPostVariable( "RemoveGroupButton" ) )
 {
     if ( $http->hasPostVariable( "group_id_checked") )
     {
@@ -279,8 +284,8 @@ $user =& eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $class->setAttribute( "modifier_id", $user_id );
 
-// Remove events which are to be deleted
-if ( $http->hasPostVariable( "DeleteButton" ) )
+// Remove attributes which are to be deleted
+if ( $http->hasPostVariable( "RemoveButton" ) )
 {
     if ( eZHttpPersistence::splitSelected( "ContentAttribute", $attributes,
                                            $http, "id",
@@ -397,7 +402,8 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 
     // Remove version 1
     eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
-    $Module->redirectTo( $Module->functionURI( 'grouplist' ) );
+
+    $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
     return;
 }
 // Store changes

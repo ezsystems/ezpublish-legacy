@@ -46,9 +46,6 @@ $Module =& $Params["Module"];
 
 $http =& eZHTTPTool::instance();
 
-if ( isset( $Params["NodeID"] ) )
-    $NodeID =& $Params["NodeID"];
-
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 if ( array_key_exists( 'Limitation', $Params ) )
@@ -117,8 +114,8 @@ $Module->setTitle( "Remove " .$NodeName );
 $tpl =& templateInit();
 
 $tpl->setVariable( "module", $Module );
-$tpl->setVariable( "NodeID", $NodeID );
-$tpl->setVariable( "NodeName", $NodeName );
+//$tpl->setVariable( "NodeID", $NodeID );
+//$tpl->setVariable( "NodeName", $NodeName );
 $tpl->setVariable( "ChildObjectsCount", $ChildObjectsCount );
 $tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();

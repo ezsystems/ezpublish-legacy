@@ -37,44 +37,50 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params["Module"];
-
-$GroupID = null;
-if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
-
-$group =& eZContentClassGroup::fetch( $GroupID );
-if( $group != null )
-    $GroupName = $group->attribute( 'name' );
-
-$classList =& eZContentClassClassGroup::fetchClassList( null, $GroupID );
-
-$ClassCount = 0;
+$http =& eZHTTPTool::instance();
+$deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
+$deleteResult = array();
 $deleteClassIDList = array();
-foreach ( $classList as $class )
+foreach ( $deleteIDArray as $deleteID )
 {
-    $classID = $class->attribute( "contentclass_id" );
-    $classGroups =& eZContentClassClassGroup::fetchGroupList( $classID, 0);
-    if ( count( $classGroups ) == 1 )
+    $deletedClassName = "class";
+    $group =& eZContentClassGroup::fetch( $deleteID );
+    if( $group != null )
     {
-        $ClassCount++;
-        $deleteClassIDList[] = $classID;
+        $GroupName = $group->attribute( 'name' );
+        $classList =& eZContentClassClassGroup::fetchClassList( null, $deleteID );
+        foreach ( $classList as $class )
+        {
+            $classID = $class->attribute( "contentclass_id" );
+            $classGroups =& eZContentClassClassGroup::fetchGroupList( $classID, 0);
+            if ( count( $classGroups ) == 1 )
+            {
+                $classObject =& eZContentclass::fetch( $classID );
+                $className = $classObject->attribute( "name" );
+                $deletedClassName .= " '" . $className . "'" ;
+                $deleteClassIDList[] = $classID;
+            }
+        }
+        if ( $deletedClassName == "class" )
+            $deletedClassName = " none class";
+        $item = array( "groupName" => $GroupName,
+                       "deletedClassName" => $deletedClassName );
+        $deleteResult[] = $item;
     }
 }
-if ( $ClassCount <= 1 )
-    $ClassCount .= " class";
-else
-    $ClassCount .= " classes";
-$http =& eZHTTPTool::instance();
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    eZContentClassGroup::removeSelected( $GroupID );
-    eZContentClassClassGroup::removeGroupMembers( $GroupID );
-    foreach ( $deleteClassIDList as $deleteClassID )
+    foreach ( $deleteIDArray as $deleteID )
     {
-        $deleteClass =& eZContentClass::fetch( $deleteClassID );
-        $deleteClass->remove( true );
-        $deleteClass =& eZContentClass::fetch( $deleteClassID, true, 1 );
-        $deleteClass->remove( true );
+        eZContentClassGroup::removeSelected( $deleteID );
+        eZContentClassClassGroup::removeGroupMembers( $deleteID );
+        foreach ( $deleteClassIDList as $deleteClassID )
+        {
+            $deleteClass =& eZContentClass::fetch( $deleteClassID );
+            $deleteClass->remove( true );
+            $deleteClass =& eZContentClass::fetch( $deleteClassID, true, 1 );
+            $deleteClass->remove( true );
+        }
     }
     $Module->redirectTo( '/class/grouplist/' );
 }
@@ -88,9 +94,7 @@ $tpl =& templateInit();
 
 
 $tpl->setVariable( "module", $Module );
-$tpl->setVariable( "GroupID", $GroupID );
-$tpl->setVariable( "GroupName", $GroupName );
-$tpl->setVariable( "ClassCount", $ClassCount );
+$tpl->setVariable( "DeleteResult", $deleteResult );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removegroup/',
