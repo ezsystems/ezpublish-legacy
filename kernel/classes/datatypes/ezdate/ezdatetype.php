@@ -91,7 +91,10 @@ class eZDateType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $date = new eZDate( );
-        $date->setTimeStamp( $contentObjectAttribute->attribute( 'data_int' ) );
+        $stamp = $contentObjectAttribute->attribute( 'data_int' );
+        if ( $stamp <= 0 )
+            $stamp = mktime();
+        $date->setTimeStamp( $stamp );
         return $date;
     }
 

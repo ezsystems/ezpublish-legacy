@@ -90,7 +90,10 @@ class eZTimeType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $time = new eZTime( );
-        $time->setTimeStamp( $contentObjectAttribute->attribute( 'data_int' ) );
+        $stamp = $contentObjectAttribute->attribute( 'data_int' );
+        if ( $stamp <= 0 )
+            $stamp = mktime();
+        $time->setTimeStamp( $stamp );
         return $time;
     }
 

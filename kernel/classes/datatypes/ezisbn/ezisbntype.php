@@ -67,11 +67,44 @@ class eZISBNType extends eZDataType
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#^[0-9]{1}\-[0-9]+\-[0-9]+\-[0-9X]{1}$#", $isbn ) )
+        if ( preg_match( "#^[0-9]{1,2}\-[0-9]+\-[0-9]+\-[0-9X]{1}$#", $isbn ) )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            $digits = str_replace("-", "", $isbn );
+            $valid = $this->validateISBNChecksum ( $digits );
+            if ( $valid )
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }else
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                     'eZISBNType',
+                                                                     'The ISBN number is not correct. Please recheck the input' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }else
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                 'eZISBNType',
+                                                                 'The ISBN format is not valid.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    function validateISBNChecksum ( $isbnNr )
+    {
+        $result=0;
+        for ( $i=10;$i>0;$i-- )
+        {
+            if ( ( $i == 1 ) and ( $isbnNr{9} == 'X' ) )
+                $result += 10 * $i;
+            else
+                $result += $isbnNr{10-$i} * $i;
+        }
+        if (  $result%11 == 0 )
+            return true;
+        else
+            return false;
     }
 
     /*!
