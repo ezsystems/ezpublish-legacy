@@ -118,7 +118,7 @@
 
 {* Top box END *}
 
-<table class="layout" width="750" cellpadding="0" cellspacing="0" border="0">
+<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td width="120" valign="top" style="padding-right: 4px; padding-left: 15px; padding-top: 15px;">
     <table>
