@@ -2,8 +2,11 @@
 {default attribute_base=ContentObjectAttribute}
 {let matrix=$attribute.content}
 
-<table>
+<table class="list" cellspacing="0">
 <tr>
+
+<th class="tight">&nbsp;</th>
+
 <th>
 {section name=ColumnNames loop=$matrix.columns.sequential}
 {$ColumnNames:item.name}
@@ -15,8 +18,14 @@
 {/section}
 </th>
 </tr>
+
 <tr>
 {section name=Rows loop=$matrix.rows.sequential}
+
+<td>
+<input type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows:index}" /><br />
+</td>
+
 <td>
 {section name=Columns loop=$Rows:item.columns}
 <input type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]" value="{$Rows:Columns:item|wash(xhtml)}" />
@@ -26,9 +35,7 @@
 {/delimiter}
 {/section}
 </td>
-<td>
-<input type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]" value="{$Rows:index}" /><br />
-</td>
+
 {delimiter}
 </tr>
 <tr>
@@ -38,12 +45,16 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_row]" value="{'New row'|i18n('design/standard/content/datatype')}" />
+<div class="block">
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected rows from the matrix.'|i18n( 'design/standard/content/datatype' )}" />
+</div>
+
+<div class="block">
 {let row_count=sub(40,count($matrix.rows.sequential)) index_var=0}
 {section show=$row_count|lt(1)}
         {set row_count=0}
 {/section}
-<select class="matrix_cell" name="{$attribute_base}_data_matrix_add_count_{$attribute.id}">
+<select class="matrix_cell" name="{$attribute_base}_data_matrix_add_count_{$attribute.id}" title="{'Number of rows to add.'|i18n( 'design/standard/content/datatype' )}" >
     {section loop=$row_count}
         {set index_var=$index_var|inc}
         {delimiter modulo=5}
@@ -52,7 +63,8 @@
    {/section}
 </select>
 
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_row]" value="{'Add rows'|i18n('design/standard/content/datatype')}" title="{'Add rows to the matrix.'|i18n( 'design/standard/content/datatype' )}" />
+</div>
 
 </div>
 {/let}

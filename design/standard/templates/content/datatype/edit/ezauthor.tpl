@@ -3,7 +3,7 @@
 {default attribute_base=ContentObjectAttribute}
 
 {section show=$attribute.content.author_list}
-<table class="list" width="100%" cellspacing="0">
+<table class="list" cellspacing="0">
 <tr>
 	<th>&nbsp;</th>
 	<th>
