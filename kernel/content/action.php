@@ -340,7 +340,8 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {
-        $result =& $module->run( "collectinformation", array() );
+        $Result =& $module->run( "collectinformation", array() );
+        return $Result;
     }
     else
     {

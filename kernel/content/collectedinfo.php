@@ -35,18 +35,95 @@
 include_once( 'kernel/classes/ezinformationcollection.php' );
 include_once( 'kernel/common/template.php' );
 
-$Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$module =& $Params['Module'];
+
+$nodeID = $Params['NodeID'];
+if ( !$nodeID )
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+$node =& eZContentObjectTreeNode::fetch( $nodeID );
+if ( !$node )
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+$object =& $node->attribute( 'object' );
+if ( !$object )
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+if ( !$object->attribute( 'can_read' ) )
+    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+// $http =& eZHTTPTool::instance();
 
 $tpl =& templateInit();
 
-$icID = eZHTTPTool::sessionVariable( 'InformationCollectionID' );
+$icMap = array();
+if ( eZHTTPTool::hasSessionVariable( 'InformationCollectionMap' ) )
+    $icMap = eZHTTPTool::sessionVariable( 'InformationCollectionMap' );
+$icID = false;
+if ( isset( $icMap[$object->attribute( 'id' )] ) )
+    $icID = $icMap[$object->attribute( 'id' )];
 
-$icObject =& eZInformationCollection::fetch( $icID );
+$informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
+$attributeHideList = eZInformationCollection::attributeHideList();
 
-$tpl->setVariable( 'collection', $icObject );
-$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/poll.tpl' );
+$tpl->setVariable( 'node_id', $nodeID );
+$tpl->setVariable( 'collection_id', $icID );
+$tpl->setVariable( 'node', $node );
+$tpl->setVariable( 'object', $object );
+$tpl->setVariable( 'attribute_hide_list', $attributeHideList );
+$tpl->setVariable( 'error', false );
 
-$Result['path'] = array( array( 'text' => "Collected information",
-                                'url' => false ) );
+$section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+if ( $section )
+    $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+
+$res =& eZTemplateDesignResource::instance();
+$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                      array( 'node', $node->attribute( 'node_id' ) ),
+                      array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
+                      array( 'class', $object->attribute( 'contentclass_id' ) ),
+                      array( 'navigation_part_identifier', $navigationPartIdentifier ),
+                      array( 'depth', $node->attribute( 'depth' ) ),
+                      array( 'url_alias', $node->attribute( 'url_alias' ) )
+                      ) );
+
+
+$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+
+$title = $object->attribute( 'name' );
+if ( $tpl->hasVariable( 'title' ) )
+    $title = $tpl->variable( 'title' );
+
+// create path
+$parents =& $node->attribute( 'path' );
+
+$path = array();
+$titlePath = array();
+foreach ( $parents as $parent )
+{
+    $path[] = array( 'text' => $parent->attribute( 'name' ),
+                     'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                     'url_alias' => $parent->attribute( 'url_alias' ),
+                     'node_id' => $parent->attribute( 'node_id' )
+                     );
+}
+$path[] = array( 'text' => $object->attribute( 'name' ),
+                 'url' => '/content/view/full/' . $node->attribute( 'node_id' ),
+                 'url_alias' => $node->attribute( 'url_alias' ),
+                 'node_id' => $node->attribute( 'node_id' ) );
+
+array_shift( $parents );
+foreach ( $parents as $parent )
+{
+    $titlePath[] = array( 'text' => $parent->attribute( 'name' ),
+                          'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                          'url_alias' => $parent->attribute( 'url_alias' ),
+                          'node_id' => $parent->attribute( 'node_id' )
+                          );
+}
+$titlePath[] = array( 'text' => $title,
+                      'url' => '/content/view/full/' . $node->attribute( 'node_id' ),
+                      'url_alias' => $node->attribute( 'url_alias' ),
+                      'node_id' => $node->attribute( 'node_id' ) );
+
+$Result['path'] =& $path;
+$Result['title_path'] =& $titlePath;
+
 ?>

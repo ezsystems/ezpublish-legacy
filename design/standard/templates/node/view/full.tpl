@@ -61,6 +61,8 @@ function checkAll()
 <h1>{$node_name|wash}</h1>
 <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
+    {include name=Validation uri='design:content/collectedinfo_validation.tpl' validation=$validation collection_attributes=$collection_attributes}
+
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label>

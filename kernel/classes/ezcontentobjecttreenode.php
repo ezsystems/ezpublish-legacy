@@ -145,6 +145,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
                                                       "parent" => "fetchParent",
+                                                      'url' => 'url',
                                                       'url_alias' => 'urlAlias'
                                                       ),
                       "increment_key" => "node_id",
@@ -184,12 +185,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->dataMap();
         }
-        elseif ( $attr == 'object' )
+        else if ( $attr == 'object' )
         {
             $obj = $this->object();
             return $obj;
         }
-        elseif ( $attr == 'subtree' )
+        else if ( $attr == 'subtree' )
         {
             return $this->subTree();
         }
@@ -197,19 +198,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->contentObjectVersionObject();
         }
-        elseif ( $attr == 'children' )
+        else if ( $attr == 'children' )
         {
             return $this->children();
         }
-        elseif ( $attr == 'children_count' )
+        else if ( $attr == 'children_count' )
         {
             return $this->childrenCount();
         }
-        elseif ( $attr == 'sort_array' )
+        else if ( $attr == 'sort_array' )
         {
             return $this->sortArray();
         }
-        elseif ( $attr == 'path' )
+        else if ( $attr == 'path' )
         {
             return $this->fetchPath();
         }
@@ -217,18 +218,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             return $this->pathArray();
         }
-        elseif ( $attr == 'parent' )
+        else if ( $attr == 'parent' )
         {
             return $this->fetchParent();
         }
-        elseif ( $attr == 'creator' )
+        else if ( $attr == 'creator' )
         {
             return $this->creator();
         }
-        elseif ( $attr == 'url_alias' )
+        else if ( $attr == 'url_alias' )
         {
             return $this->urlAlias();
-        }else
+        }
+        else if ( $attr == 'url' )
+        {
+            return $this->url();
+        }
+        else
             return eZPersistentObject::attribute( $attr );
     }
 
@@ -2360,6 +2366,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &urlAlias()
     {
         return $this->PathIdentificationString;
+    }
+
+    function &url()
+    {
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
+            return $this->urlAlias();
+        else
+            return 'content/view/full/' . $this->NodeID;
     }
 
     /// The current language for the node

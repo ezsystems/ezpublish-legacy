@@ -547,7 +547,11 @@ $FunctionList['collected_info_count'] = array( 'name' => 'collected_info_count',
                                                'parameter_type' => 'standard',
                                                'parameters' => array( array( 'name' => 'object_attribute_id',
                                                                              'type' => 'integer',
-                                                                             'required' => true,
+                                                                             'required' => false,
+                                                                             'default' => false ),
+                                                                      array( 'name' => 'object_id',
+                                                                             'type' => 'integer',
+                                                                             'required' => false,
                                                                              'default' => false ),
                                                                       array( 'name' => 'value',
                                                                              'type' => 'integer',
@@ -565,4 +569,19 @@ $FunctionList['collected_info_count_list'] = array( 'name' => 'collected_info_co
                                                                              'required' => true,
                                                                              'default' => false ) ) );
 
+
+$FunctionList['collected_info_collection'] = array( 'name' => 'collected_info_collection',
+                                                    'operation_types' => array( 'read' ),
+                                                    'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                            'class' => 'eZContentFunctionCollection',
+                                                                            'method' => 'fetchCollectedInfoCollection' ),
+                                                    'parameter_type' => 'standard',
+                                                    'parameters' => array( array( 'name' => 'collection_id',
+                                                                                  'type' => 'integer',
+                                                                                  'required' => false,
+                                                                                  'default' => false ),
+                                                                           array( 'name' => 'contentobject_id',
+                                                                                  'type' => 'integer',
+                                                                                  'required' => false,
+                                                                                  'default' => false ) ) );
 ?>

@@ -56,6 +56,17 @@ if ( !is_numeric( $Offset ) )
 
 $ini =& eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+if ( isset( $Params['ViewCache'] ) )
+    $viewCacheEnabled = $Params['ViewCache'];
+
+$collectionAttributes = false;
+if ( isset( $Params['CollectionAttributes'] ) )
+    $collectionAttributes = $Params['CollectionAttributes'];
+
+$validation = array( 'processed' => false,
+                     'attributes' => array() );
+if ( isset( $Params['AttributeValidation'] ) )
+    $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
 $workflowINI =& eZINI::instance( 'workflow.ini' );
@@ -197,16 +208,15 @@ switch( $operationResult['status'] )
             include_once( 'kernel/classes/ezsection.php' );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
-            // Fetch the navigation part from the section information
             $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
             $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                                  array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
-                                  array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                                  array( 'node', $node->attribute( 'node_id' ) ),
+                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
+                                  array( 'class', $object->attribute( 'contentclass_id' ) ),
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
                                   array( 'navigation_part_identifier', $navigationPartIdentifier ),
@@ -217,8 +227,9 @@ switch( $operationResult['status'] )
             $tpl->setVariable( 'node', $node );
             $tpl->setVariable( 'language_code', $LanguageCode );
             $tpl->setVariable( 'view_parameters', $viewParameters );
+            $tpl->setVariable( 'collection_attributes', $collectionAttributes );
+            $tpl->setVariable( 'validation', $validation );
 
-            // create path
             $parents =& $node->attribute( 'path' );
 
             $path = array();

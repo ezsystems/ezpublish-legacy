@@ -454,9 +454,14 @@ class eZContentFunctionCollection
         return array( 'result' => $contentNodeList );
     }
 
-    function fetchCollectedInfoCount( $objectAttributeID, $value )
+    function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value )
     {
-        $count = eZInformationCollection::fetchCount( $objectAttributeID, $value );
+        if ( $objectAttributeID )
+            $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
+        else if ( $objectID )
+            $count = eZInformationCollection::fetchCountForObject( $objectID, $value );
+        else
+            $count = 0;
         return array( 'result' => $count );
     }
 
@@ -464,6 +469,19 @@ class eZContentFunctionCollection
     {
         $count = eZInformationCollection::fetchCountList( $objectAttributeID );
         return array( 'result' => $count );
+    }
+
+    function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
+    {
+        $collection = false;
+        if ( $collectionID )
+            $collection =& eZInformationCollection::fetch( $collectionID );
+        else if ( $contentObjectID )
+        {
+            $userIdentifier = eZInformationCollection::currentUserIdentifier();
+            $collection =& eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
+        }
+        return array( 'result' => &$collection );
     }
 }
 

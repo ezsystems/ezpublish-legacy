@@ -69,7 +69,8 @@ class eZOptionType extends eZDataType
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
             $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
 
-            if ( $classAttribute->attribute( "is_required" ) == true )
+            if ( $classAttribute->attribute( "is_required" ) and
+                 !$classAttribute->attribute( 'is_information_collector' ) )
             {
                 if ( trim( $valueList[0] ) == "" )
                 {
@@ -101,7 +102,7 @@ class eZOptionType extends eZDataType
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        eZDebug::writeNotice( "Validating option $data" );
+//         eZDebug::writeNotice( "Validating option $data" );
     }
 
     /*!
@@ -188,7 +189,7 @@ class eZOptionType extends eZDataType
                     if ( $beforeID >= 0 )
                     {
                         $option->insertOption( array(), $beforeID );
-                        eZDebug::writeDebug( $option, "option added before $beforeID" );
+//                         eZDebug::writeDebug( $option, "option added before $beforeID" );
                         $contentObjectAttribute->setContent( $option );
                         $contentObjectAttribute->store();
                         $option = new eZOption( "" );

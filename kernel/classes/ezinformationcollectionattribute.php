@@ -117,7 +117,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &resultTemplateName()
     {
         $dataType =& $this->dataType();
-        return $dataType->resultTemplate( $this );
+        if ( $dataType )
+            return $dataType->resultTemplate( $this );
+        else
+            return null;
     }
 
     /*!
@@ -150,7 +153,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &dataType()
     {
         $contentClassAttribute =& $this->contentClassAttribute();
-        return $contentClassAttribute->dataType();
+        if ( $contentClassAttribute )
+            return $contentClassAttribute->dataType();
+        else
+            return null;
     }
 
     /*!

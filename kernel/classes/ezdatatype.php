@@ -142,6 +142,8 @@ class eZDataType
            for most datatypes, if you want dynamic templates
            reimplement this function and return a template name.
      \note The returned template name does not include the .tpl extension.
+     \note \a $collectionAttribute can in some cases be a eZContentObjectAttribute, so any
+           datatype that overrides this must be able to handle both types.
     */
     function &resultTemplate( &$collectionAttribute )
     {
@@ -399,6 +401,25 @@ class eZDataType
     }
 
     /*!
+     Validates the input for an object attribute and returns a validation
+     state as defined in eZInputValidator.
+     \note Default implementation does nothing and returns accepted.
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    {
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
+    /*!
+     Tries to do a fixup on the input text so that it's acceptable as
+     object attribute input.
+     \note Default implementation does nothing.
+    */
+    function fixupCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    {
+    }
+
+    /*!
      Fetches the HTTP collected information for the content object attribute.
      \note Default implementation does nothing.
     */
@@ -471,7 +492,13 @@ class eZDataType
     */
     function contentActionList( &$classAttribute )
     {
-        return array();
+        $actionList = array();
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            $actionList[] = array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
+                                   'action' => 'ActionCollectInformation' );
+        }
+        return $actionList;
     }
 
     /*!

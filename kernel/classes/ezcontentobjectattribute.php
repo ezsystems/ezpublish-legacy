@@ -112,6 +112,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "object" => "object",
                                                       'view_template' => 'viewTemplateName',
                                                       'edit_template' => 'editTemplateName',
+                                                      'result_template' => 'resultTemplate',
                                                       "has_validation_error" => "hasValidationError",
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
@@ -283,6 +284,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->viewTemplateName();
         else if ( $attr == 'edit_template' )
             return $this->editTemplateName();
+        else if ( $attr == 'result_template' )
+            return $this->resultTemplate();
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -444,6 +447,22 @@ class eZContentObjectAttribute extends eZPersistentObject
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
         return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
+    }
+
+    /*!
+      Validates the information collection data.
+    */
+    function validateInformation( &$http, $base,
+                                  &$inputParameters, $validationParameters = array() )
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $definition =& $classAttribute->dataType();
+        $this->setInputParameters( $inputParameters );
+        $this->setValidationParameters( $validationParameters );
+        $this->IsValid = $definition->validateCollectionAttributeHTTPInput( $http, $base, $this );
+        $this->unsetValidationParameters();
+        $this->unsetInputParameters();
+        return $this->IsValid;
     }
 
     /*!
@@ -757,6 +776,17 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $dataType =& $this->dataType();
         return $dataType->informationTemplate( $this );
+    }
+
+    /*!
+     \return the template name to use for information collection result view for the attribute.
+     \note The returned template name does not include the .tpl extension.
+     \sa viewTemplate, editTemplate, informationTemplate
+    */
+    function &resultTemplate()
+    {
+        $dataType =& $this->dataType();
+        return $dataType->resultTemplate( $this );
     }
 
     /// Contains the content for this attribute

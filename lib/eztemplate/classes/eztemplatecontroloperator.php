@@ -101,10 +101,10 @@ class eZTemplateControlOperator
                 $conditionSuccess = false;
                 for ( $i = 0; $i < $clauseCount; ++$i )
                 {
-                    $condition =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $condition =& $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace );
                     if ( $condition )
                     {
-                        $body =& $tpl->elementValue( $operatorParameters[$i + 1], $rootNamespace, $currentNamespace );
+                        $body =& $tpl->elementValue( $operatorParameters[$i*2 + 1], $rootNamespace, $currentNamespace );
                         $conditionSuccess = true;
                         $value = $body;
                         break;
