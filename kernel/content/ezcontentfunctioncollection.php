@@ -165,7 +165,7 @@ class eZContentFunctionCollection
 
     function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator,
                                $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
-                               $groupBy, $asObject )
+                               $groupBy, $mainNodeOnly, $asObject )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
@@ -176,7 +176,8 @@ class eZContentFunctionCollection
                                  'AttributeFilter' => $attribute_filter,
                                  'ExtendedAttributeFilter' => $extended_attribute_filter,
                                  'ClassFilterType' => $class_filter_type,
-                                 'ClassFilterArray' => $class_filter_array );
+                                 'ClassFilterArray' => $class_filter_array,
+                                 'MainNodeOnly' => $mainNodeOnly );
         if ( is_array( $groupBy ) )
         {
             $groupByHash = array( 'field' => $groupBy[0],
@@ -204,7 +205,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $attributeFilter, $depth, $depthOperator )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $attributeFilter, $depth, $depthOperator, $mainNodeOnly )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
@@ -213,7 +214,8 @@ class eZContentFunctionCollection
                                                       'ClassFilterArray' => $class_filter_array,
                                                       'AttributeFilter' => $attributeFilter,
                                                       'DepthOperator' => $depthOperator,
-                                                      'Depth' => $depth ) );
+                                                      'Depth' => $depth,
+                                                      'MainNodeOnly' => $mainNodeOnly ) );
         if ( $childrenCount === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

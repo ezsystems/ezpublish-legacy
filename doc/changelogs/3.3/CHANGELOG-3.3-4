@@ -2,6 +2,9 @@ Changes from 3.3-3 to 3.3-4
 
 *Kernel:
 - Changed rendering of literal inside XML text to block to ensure correct XHTML validation
+- Added boolean parameter 'main_node_only' in fetch function list, list_count, 
+  tree and tree_count. The default is set to true. This can avoid obtaining duplicate 
+  objects when fetch trees or lists with objects assigned to multiple locations.
 
 *Setup:
 
@@ -11,6 +14,9 @@ Changes from 3.3-3 to 3.3-4
 *Bugs:
 - Fixed broken datatype range option.
   http://ez.no/community/bug_reports/ezrange_option_dataype_broken
+- Fixed bug of obtaining duplicate objects if fetching trees or lists with 
+  objects assigned to multiple locations.
+  http://ez.no/community/bug_reports/duplicates_when_fetching_trees_and_lists_with_objects_assigned_to_multiple_locations
 
 *Library:
 
