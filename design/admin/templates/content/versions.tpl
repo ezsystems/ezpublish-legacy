@@ -5,33 +5,33 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Object information'|i18n( 'design/admin/content/edit_draft' )}</h4>
+<h4>{'Object information'|i18n( 'design/admin/content/versions' )}</h4>
 
 </div></div></div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <p>
-<label>{'ID'|i18n( 'design/admin/content/edit_draft' )}:</label>
+<label>{'ID'|i18n( 'design/admin/content/versions' )}:</label>
 {$object.id}
 </p>
 
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{'Not yet published'|i18n( 'design/admin/content/versions' )}
 {/section}
 </p>
 <p>
-<label>{'Last modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
+<label>{'Last modified'|i18n( 'design/admin/content/versions' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{'Not yet published'|i18n( 'design/admin/content/versions' )}
 {/section}
 </p>
 
@@ -45,23 +45,6 @@
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 <!-- Maincontent START -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {switch match=$edit_warning}
 {case match=1}
@@ -94,8 +77,6 @@
 {case}
 {/case}
 {/switch}
-
-
 
 
 {let page_limit=30
@@ -149,7 +130,7 @@
 	<td>
 	{section var=Languages loop=$Versions.item.language_list}
         {delimiter}<br />{/delimiter}
-	<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl}>{$Languages.item.locale.intl_language_name}</a>{/section}
+	<img src={concat( '/share/icons/flags/', $Languages.item.language_code, '.gif' )|ezroot} />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl}>{$Languages.item.locale.intl_language_name}</a>{/section}
 	</td>
 
     <td>
@@ -209,19 +190,6 @@
 </form>
 
 {/let}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!-- Maincontent END -->
