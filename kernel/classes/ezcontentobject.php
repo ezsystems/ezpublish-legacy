@@ -1802,6 +1802,7 @@ class eZContentObject extends eZPersistentObject
             $versionNameTables
          WHERE
             ezcontentclass.id=ezcontentobject.contentclass_id AND
+			ezcontentclass.version=0 AND
             ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
             ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
             ezcontentobject_link.from_contentobject_id='$objectID' AND
