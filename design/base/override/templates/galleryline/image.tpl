@@ -1,13 +1,13 @@
 {* Image - Gallery line view *}
 
-<div class="view-galleryline">
+<div class="content-view-galleryline">
     <div class="class-image">
 
-    <div class="content-image">
+    <div class="attribute-image">
         <p>{attribute_view_gui attribute=$node.object.data_map.image image_class=gallerythumbnail href=$node.url_alias|ezurl()}</p>
     </div>
 
-    <div class="content-caption">
+    <div class="attribute-caption">
         <p>{$node.name}</p>
     </div>
 
