@@ -21,7 +21,8 @@ Classes:
 - Class edit automatically generate object name tag
 - Identifier must be unique and automatically generated
 - Fix redirection after edit
-- Add warning on class group delete
+[done] wy - Add warning on class group delete 
+[done] wy - Add warning on class delete 
 
 Creator id's must be converted to real ID's. There should not be used -1 for user id's.
 
@@ -29,15 +30,15 @@ Creator id's must be converted to real ID's. There should not be used -1 for use
 
 - Section: hide locale from edit page
 
-- Content full view: add remove node when clicking on the [x] icon
+[done] bf - Content full view: add remove node when clicking on the [x] icon 
 
 - Add edit button in upper right corner on intranet design
 
-- Find good placement for edit button in full view
+[done] bf - Find good placement for edit button in full view
 
 - Content edit:
-  - New icons for asc/desc
-  - New icons for move
+[done] bf  - New icons for asc/desc
+[done] bf  - New icons for move
   - Show published/modified
   - Fix wrapping of "related buttons"
   - Move 

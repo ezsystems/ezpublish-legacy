@@ -11,11 +11,12 @@
 <input class="box" type="text" name="Name" value="{$section.name}" />
 </div>
 
+{*
 <div class="block">
 <label>Locale:</label><div class="labelbreak"></div>
 <input class="box" type="text" name="Locale" value="{$section.locale}" />
 </div>
-
+*}
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreButton" value="Store" />
 </div>

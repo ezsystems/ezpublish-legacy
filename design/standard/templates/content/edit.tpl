@@ -123,6 +123,19 @@
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
         <th class="menuheaddark" colspan="2">
+        <p class="menuhead">{"Object info"|i18n('content/object')}</p>
+        </th>
+    </tr>
+    <tr>
+        <td class="menu">
+	    <p class="menufieldlabel">{"Created"|i18n('content/object')}:</p>
+        </td>
+        <td class="menu" width="1">
+	    <p class="menufield">{$object.}</p>
+        </td>
+    </tr>
+    <tr>
+        <th class="menuheaddark" colspan="2">
         <p class="menuhead">{"Version info"|i18n('content/object')}</p>
         </th>
     </tr>

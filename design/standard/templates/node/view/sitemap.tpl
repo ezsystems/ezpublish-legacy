@@ -32,7 +32,10 @@
 	<th>Object:</th>
 	<th>Section ID:</th>
 	<th>Class:</th>
-	<th colspan="2">&nbsp;</th>
+	<th>Edit:</th>
+	<th align="right">
+	<input class="button" type="submit" name="RemoveButton" value="Remove" />
+	</th>
 </tr>
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
@@ -63,7 +66,6 @@
 	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
              <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.node_id}" align="top" />
-             <input type="image" src={"editdelete.png"|ezimage} border="0" alt="Delete" name="RemoveObject" value="{$Tree:item.node_id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
 	{/case}
         {case} 
         {/case}
@@ -97,9 +99,6 @@
 </div>
 {/case}
 {/switch}
-
-&nbsp;
-<input class="button" type="submit" name="RemoveButton" value="Remove" />
 
 {/section}
 
