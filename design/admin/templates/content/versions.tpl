@@ -127,9 +127,9 @@
 <tr class="{$Versions.sequence}">
 	<td>
 	    {section show=and( or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ), $can_remove )}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" />
+            <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Mark version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
 	    {section-else}
-            <input type="checkbox" name="" value="" disabled="disabled" />
+            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}"/>
         {/section}
     </td>
 
@@ -157,16 +157,16 @@
 
     <td>
         {section show=$can_edit}
-        <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" />
+        <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
-        <input class="button" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" />
+        <input class="button" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
     </td>
     <td>
         {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ), $can_edit ) }
-        <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" />
+        <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
-        <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" />
+        <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
 </tr>
@@ -194,7 +194,12 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" {section show=$can_remove|not}disabled="disabled"{/section} />
+{section show=$can_remove}
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove selected versions from the object.'|i18n( 'design/admin/content/versions' )}"/>
+{section-else}
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}"/>
+{/section}
+
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
