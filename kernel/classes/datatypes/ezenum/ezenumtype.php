@@ -79,16 +79,19 @@ class eZEnumType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
-        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
-        $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $currentVersion );
-
-        for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
+        if ( $currentVersion !== false )
         {
-            $enumobjectvalue =  $newVersionEnumObject[$i];
-            $enumobjectvalue->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
-            $enumobjectvalue->setAttribute( "contentobject_attribute_version",  $contentObjectAttributeVersion );
-            $enumobjectvalue->store();
+            $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
+            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
+            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $currentVersion );
+
+            for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
+            {
+                $enumobjectvalue =  $newVersionEnumObject[$i];
+                $enumobjectvalue->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
+                $enumobjectvalue->setAttribute( "contentobject_attribute_version",  $contentObjectAttributeVersion );
+                $enumobjectvalue->store();
+            }
         }
     }
 
