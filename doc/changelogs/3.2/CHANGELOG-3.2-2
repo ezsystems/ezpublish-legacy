@@ -19,6 +19,7 @@ Changes from 3.2-1 to 3.2-2
 - Fixed bug in ezurlalias where children of the changed url were not updated.
 - Fixed bug in ezurlalias where the forward id of old url alias where not updated.
   This happened when an object was renamed more than one time.
+- Fixed search result to show url alias links if this is enabled.
 
 *DataType:
 
