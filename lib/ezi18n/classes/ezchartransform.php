@@ -323,7 +323,7 @@ class eZCharTransform
             @fwrite( $fd, "// Cached transformation data\n" );
 
             // The code that does the transformation
-            @fwrite( $fd, '$data = ' . var_export( $transformationData, true ) . ";\n" );
+            @fwrite( $fd, '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
             @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
 
             if ( $extraCode )
@@ -338,6 +338,151 @@ class eZCharTransform
         {
             eZDebug::writeError( "Failed to store transformation table $filepath" );
         }
+    }
+
+    /*!
+     \private
+     Creates a text representation of the value \a $value which can
+     be placed in files and be read back by a PHP parser as it was.
+     The type of the values determines the output, it can be one of the following.
+     - boolean, becomes \c true or \c false
+     - null, becomes \c null
+     - string, adds \ (backslash) to backslashes, double quotes, dollar signs and newlines.
+               Then wraps the whole string in " (double quotes).
+     - numeric, displays the value as-is.
+     - array, expands all value recursively using this function
+     - object, creates a representation of an object creation if the object has \c serializeData implemented.
+
+     \param $column Determines the starting column in which the text will be placed.
+                    This is used for expanding arrays and objects which can span multiple lines.
+     \param $iteration The current iteration, starts at 0 and increases with 1 for each recursive call
+
+    */
+    function varExport( $value )
+    {
+        $ver = phpversion();
+        // If we the version used is a PHP version with broken var_export
+        // we use our own PHP code to export.
+        // PHP versions known to have broken var_export are:
+        // 4.3.4 and lower
+        // 4.3.10
+        if ( version_compare( $ver, '4.3.5' ) < 0 or
+             ( version_compare( $ver, '4.3.10' ) >= 0 and
+               version_compare( $ver, '4.3.11' ) < 0 ) )
+        {
+            return eZCharTransform::varExportInternal( $value );
+        }
+        else
+        {
+            return var_export( $value, true );
+        }
+    }
+
+    /*!
+     \private
+     \static
+    */
+    function varExportInternal( $value, $column = 0, $iteration = 0 )
+    {
+
+        if ( is_bool( $value ) )
+            $text = ( $value ? 'true' : 'false' );
+        else if ( is_null( $value ) )
+            $text = 'null';
+        else if ( is_string( $value ) )
+        {
+            $valueText = str_replace( array( "\\",
+                                             "\"",
+                                             "\$",
+                                             "\n" ),
+                                      array( "\\\\",
+                                             "\\\"",
+                                             "\\$",
+                                             "\\n" ),
+                                      $value );
+            $text = "\"$valueText\"";
+        }
+        else if ( is_numeric( $value ) )
+            $text = $value;
+        else if ( is_object( $value ) )
+        {
+            $text = '';
+            if ( method_exists( $value, 'serializedata' ) )
+            {
+                $serializeData = $value->serializeData();
+                $className = $serializeData['class_name'];
+                $text = "new $className(";
+
+                $column += strlen( $text );
+                $parameters = $serializeData['parameters'];
+                $variables = $serializeData['variables'];
+
+                $i = 0;
+                foreach ( $parameters as $parameter )
+                {
+                    if ( $i > 0 )
+                    {
+                        $text .= ",\n" . str_repeat( ' ', $column );
+                    }
+                    $variableName = $variables[$parameter];
+                    $variableValue = $value->$variableName;
+                    $keyText = " ";
+                    $text .= $keyText . eZCharTransform::varExportInternal( $variableValue, $column + strlen( $keyText  ), $iteration + 1 );
+                    ++$i;
+                }
+                if ( $i > 0 )
+                    $text .= ' ';
+
+                $text .= ')';
+            }
+        }
+        else if ( is_array( $value ) )
+        {
+            $text = 'array(';
+            $column += strlen( $text );
+            $valueKeys = array_keys( $value );
+            $isIndexed = true;
+            for ( $i = 0; $i < count( $valueKeys ); ++$i )
+            {
+                if ( $i !== $valueKeys[$i] )
+                {
+                    $isIndexed = false;
+                    break;
+                }
+            }
+            $i = 0;
+            foreach ( $valueKeys as $key )
+            {
+                if ( $i > 0 )
+                {
+                    $text .= ",\n" . str_repeat( ' ', $column );
+                }
+                $element =& $value[$key];
+                $keyText = ' ';
+                if ( !$isIndexed )
+                {
+                    if ( is_int( $key ) )
+                        $keyText = $key;
+                    else
+                        $keyText = "\"" . str_replace( array( "\\",
+                                                              "\"",
+                                                              "\n" ),
+                                                       array( "\\\\",
+                                                              "\\\"",
+                                                              "\\n" ),
+                                                       $key ) . "\"";
+                    $keyText = " $keyText => ";
+                }
+                $text .= $keyText . eZCharTransform::varExportInternal( $element, $column + strlen( $keyText  ), $iteration + 1 );
+                ++$i;
+            }
+            if ( $i > 0 )
+                $text .= ' ';
+            $text .= ')';
+        }
+        else
+            $text = 'null';
+        return $text;
     }
 
     /*!
