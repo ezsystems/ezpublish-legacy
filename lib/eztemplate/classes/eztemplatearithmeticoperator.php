@@ -247,12 +247,15 @@ class eZTemplateArithmeticOperator
             return false;
         $newElements = array();
 
-        /* Check if parameters are static values. This is for optimization */
-        $staticResult = 0;
-        $allNumeric = true;
+        // Reorder parameters, dynamic elements first then static ones
+        // Also combine multiple static ones into a single element
         $notInitialised = true;
+        $staticResult = 0;
+        $isStaticFirst = false;
+        $allNumeric = true;
         $newParameters = array();
         $endParameters = array();
+        $parameterIndex = 0;
         foreach ( $parameters as $parameter )
         {
             if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
@@ -266,6 +269,8 @@ class eZTemplateArithmeticOperator
                 if ( $notInitialised )
                 {
                     $staticResult = $staticValue;
+                    if ( $parameterIndex == 0 )
+                        $isStaticFirst = true;
                     $notInitialised = false;
                 }
                 else
@@ -276,7 +281,10 @@ class eZTemplateArithmeticOperator
                     }
                     else if ( $function == 'sub' )
                     {
-                        $staticResult -= $staticValue;
+                        if ( $isStaticFirst )
+                            $staticResult -= $staticValue;
+                        else
+                            $staticResult += $staticValue;
                     }
                     else if ( $function == 'mul' )
                     {
@@ -284,10 +292,15 @@ class eZTemplateArithmeticOperator
                     }
                     else
                     {
-                        $staticResult /= $staticValue;
+                        if ( $isStaticFirst )
+                            $staticResult /= $staticValue;
+                        else
+                            $staticResult *= $staticValue;
                     }
                 }
+                $isPreviousStatic = true;
             }
+            ++$parameterIndex;
         }
 
         if ( $allNumeric )
@@ -299,7 +312,10 @@ class eZTemplateArithmeticOperator
         {
             if ( !$notInitialised )
             {
-                $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
+                if ( $isStaticFirst )
+                    $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
+                else
+                    $endParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
             }
             $newParameters = array_merge( $newParameters, $endParameters );
 

@@ -178,7 +178,9 @@ class eZTemplateSetFunction
             {
                 $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
                 $namespaceValue = false;
-                if ( $functionName == $this->LetName && isset( $parameters['name'] ) )
+                if ( ( $functionName == $this->LetName or
+                       $functionName == $this->DefaultName ) and
+                     isset( $parameters['name'] ) )
                 {
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
                     {
@@ -192,7 +194,7 @@ class eZTemplateSetFunction
                 $setVarNodes = array();
                 foreach ( array_keys( $parameters ) as $parameterName )
                 {
-                    if ( ( $functionName == $this->LetName || $functionName == $this->DefaultName ) &&
+                    if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) &&
                          $parameterName == 'name' )
                     {
                         continue;
@@ -203,7 +205,7 @@ class eZTemplateSetFunction
                                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
                                                                              ( $functionName == $this->SetName ), ( $functionName != $this->DefaultName ) );
 
-                    if ( $functionName == $this->LetName || $functionName == $this->DefaultName )
+                    if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                     {
                         $variableList[] = $parameterName;
                     }
@@ -214,7 +216,7 @@ class eZTemplateSetFunction
                     $setVarNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $namespaceValue );
                 }
 
-                if ( $functionName == $this->LetName || $functionName == $this->DefaultName )
+                if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                 {
                     $childNodes = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
                 }
@@ -230,7 +232,7 @@ class eZTemplateSetFunction
                     $unsetVarNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
                 }
 
-                if ( $functionName == $this->LetName || $functionName == $this->DefaultName )
+                if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                 {
                     foreach( $variableList as $parameterName )
                     {
