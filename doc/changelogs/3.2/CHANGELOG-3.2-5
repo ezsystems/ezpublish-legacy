@@ -63,6 +63,10 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/debug_output
 - Fixed checking of input ID to content/download, previously it was
   used unchecked causing a crash on the page.
+- Fixed bug when running eZ publish in VirtualHost mode and applying ".php" in the URL. This could cause wwwDir
+  to be set incorrectly. Since there is no clean way to detect this, a new setting (ForceVirtualHost) has
+  been added to site.ini which enable/dissable this workaround
+  http://ez.no/community/bug_reports/ez_no_error_page_not_using_site_design
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
