@@ -58,7 +58,7 @@
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Percent'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Apply to'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 {section var=Rules loop=$rule_list sequence=array( bglight, bgdark )}
 <tr class="{$Rules.sequence}">
