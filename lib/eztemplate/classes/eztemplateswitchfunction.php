@@ -133,7 +133,7 @@ class eZTemplateSwitchFunction
 
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters )
+                                         &$tpl, $parameters, $privateData )
     {
         $newNodes = array();
         $namespaceValue = false;
@@ -147,15 +147,17 @@ class eZTemplateSwitchFunction
         if ( isset( $parameters['name'] ) )
         {
             $nameData = $parameters['name'];
-            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $nameData, false, $resourceData );
-            $namespaceValue = $nameDataInspection['new-data'][0][1];
+            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+                return false;
+            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
         }
 
         if ( isset( $parameters['var'] ) )
         {
             $varData = $parameters['var'];
-            $varDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $varData, false, $resourceData );
-            $varName = $varDataInspection['new-data'][0][1];
+            if ( !eZTemplateNodeTool::isStaticElement( $varData ) )
+                return false;
+            $varName = eZTemplateNodeTool::elementStaticValue( $nameData );
         }
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),

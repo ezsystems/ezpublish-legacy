@@ -80,6 +80,8 @@ asdfasdf
 */
 
 
+include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
+
 class eZTemplateSectionFunction
 {
     /*!
@@ -116,7 +118,7 @@ class eZTemplateSectionFunction
     {
         return array( $this->Name => array( 'parameters' => true,
                                             'static' => false,
-                                            'transform-children' => true,
+                                            'transform-children' => false,
                                             'tree-transformation' => true,
                                             'transform-parameters' => true ) );
     }
@@ -197,23 +199,44 @@ class eZTemplateSectionFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData )
+                                         &$tpl, $parameters, $privateData )
     {
-        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
-        if ( isset( $parameters['loop'] ) )
+        return false;
+        if ( isset( $parameters['var'] ) and
+             !eZTemplateNodeTool::isStaticElement( $parameters['var'] ) )
             return false;
+
+        $varName = false;
+        if ( isset( $parameters['var'] ) )
+            $varName = eZTemplateNodeTool::elementStaticValue( $parameters['var'] );
+
+        if ( isset( $parameters['reverse'] ) and
+             !eZTemplateNodeTool::isStaticElement( $parameters['reverse'] ) )
+            return false;
+
+        $reverseLoop = false;
+        if ( isset( $parameters['reverse'] ) )
+            $reverseLoop = eZTemplateNodeTool::elementStaticValue( $parameters['reverse'] );
+
+        $useLoop = isset( $parameters['loop'] );
+
         $newNodes = array();
+        $useShow = false;
+        $spacing = 0;
         if ( isset( $parameters['show'] ) )
+        {
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['show'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                  array( 'variable-name' => 'show',
-                                                                         'text-result' => false ) );
-        else
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, true, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                  array( 'variable-name' => 'show',
-                                                                         'text-result' => false ) );
+                                                                  array(), 'show' );
+            $spacing = 4;
+            $useShow = true;
+        }
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$show )\n{\n" );
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+        if ( $useShow )
+        {
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$show )\n{\n" );
+            $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+        }
         if ( isset( $parameters['name'] ) )
             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         $mainNodes = eZTemplateNodeTool::extractNodes( $children,
@@ -224,27 +247,85 @@ class eZTemplateSectionFunction
                                                                                                     array( 'match-keys' => array( 2 ),
                                                                                                            'match-with' => 'section-else' ) )
                                                                                 ) ) );
-        $newNodes = array_merge( $newNodes, $mainNodes );
+        $mainNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $mainNodes, $privateData );
+
+        if ( $useLoop )
+        {
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['loop'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                  array(), 'loopItem' );
+
+            $code = ( "if ( is_array( \$loopItem ) )\n{\n" .
+                      "    \$loopKeys = array_keys( \$loopItem );\n" .
+                      "    \$loopCount = count( \$loopKeys );\n" .
+                      "    \$currentCount = 0;\n" .
+                      "    \$loopIndex = 0;\n" .
+                      "    if ( !isset( \$sectionStack ) )\n" .
+                      "        \$sectionStack = array();\n" .
+                      "    include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
+                      "    \$variableValue = new eZTemplateSectionIterator();" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+            $code = ( "    \$last = false;\n" .
+                      "    \$index = 0;\n" );
+            if ( $reverseLoop )
+                $code .= "        \$loopKeys = array_reverse( \$loopKeys );\n";
+            $code .= ( "    while ( \$loopIndex < \$loopCount )\n" .
+                       "    {\n" .
+                       "        \$loopKey = \$loopKeys[\$loopIndex];\n" .
+                       "        \$item =& \$loopItem[\$loopKey];\n" .
+                       "        \$variableValue->setIteratorValues( \$item, \$loopKey, \$index, \$index + 1, false, \$last );\n" );
+            $code .= "        array_push( \$sectionStack, array( &\$variableValue, &\$loopItem, \$loopKeys, \$loopCount, \$loopIndex, \$index, &\$last ) );\n";
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                  array( 'spacing' => 8 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
+            $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 8 );
+            $newNodes = array_merge( $newNodes, $mainNodes );
+            $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 8 );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "        list( \$variableValue, \$loopItem, \$loopKeys, \$loopCount, \$loopIndex, \$index, \$last ) = array_pop( \$sectionStack );\n" .
+                                                                   "        ++\$index;\n" .
+                                                                   "        ++\$loopIndex;\n" .
+                                                                   "    }\n" .
+                                                                   "    unset( \$loopKeys, \$loopCount, \$index, \$last, \$loopIndex, \$loopItem );\n" );
+
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse if ( is_numeric( \$loopItem ) )\n{\n" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse if ( is_string( \$loopItem ) )\n{\n" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        }
+        else
+        {
+            $newNodes = array_merge( $newNodes, $mainNodes );
+        }
+
         if ( isset( $parameters['name'] ) )
             $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
-        $elseNodes = eZTemplateNodeTool::extractNodes( $children,
-                                                       array( 'match' => array( 'type' => 'after',
-                                                                                'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
-                                                                                                    array( 'match-keys' => array( 2 ),
-                                                                                                           'match-with' => 'section-else' ) )
-                                                                                ) ) );
-        if ( count( $elseNodes ) > 0 )
+
+        if ( $useShow )
         {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
-            if ( isset( $parameters['name'] ) )
-                $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
-            $newNodes = array_merge( $newNodes, $elseNodes );
-            if ( isset( $parameters['name'] ) )
-                $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+            $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
         }
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+
+        if ( $useShow )
+        {
+            $elseNodes = eZTemplateNodeTool::extractNodes( $children,
+                                                           array( 'match' => array( 'type' => 'after',
+                                                                                    'matches' => array( array( 'match-keys' => array( 0 ),
+                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                        array( 'match-keys' => array( 2 ),
+                                                                                                               'match-with' => 'section-else' ) )
+                                                                                    ) ) );
+            if ( count( $elseNodes ) > 0 )
+            {
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
+                $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
+                $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+                if ( isset( $parameters['name'] ) )
+                    $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+                $newNodes = array_merge( $newNodes, $elseNodes );
+                if ( isset( $parameters['name'] ) )
+                    $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+                $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
+            }
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        }
         return $newNodes;
     }
 
@@ -677,132 +758,6 @@ class eZTemplateSectionFunction
     /// \privatesection
     /// Name of the function
     var $Name;
-}
-
-/*!
-  \class eZTemplateSectionIterator eztemplatesectionfunction.php
-  \ingroup eZTemplateFunctions
-  \brief The iterator item in a section loop which works as a proxy.
-
-  The iterator provides transparent access to iterator items. It will
-  redirect all attribute calls to the iterator item with the exception
-  of a few internal values. The internal values are
-  - item - The actual item, provides backwards compatability
-  - key - The current key
-  - index - The current index value (starts at 0 and increases with 1 for each element)
-  - number - The current index value + 1 (starts at 1 and increases with 1 for each element)
-  - sequence - The current sequence value
-  - last - The last iterated element item
-*/
-
-class eZTemplateSectionIterator
-{
-    /*!
-     Initializes the iterator with empty values.
-    */
-    function eZTemplateSectionIterator()
-    {
-        $this->InternalAttributes = array( 'item' => false,
-                                           'key' => false,
-                                           'index' => false,
-                                           'number' => false,
-                                           'sequence' => false,
-                                           'last' => false );
-        $this->InternalAttributeNames = array_keys( $this->InternalAttributes );
-    }
-
-    /*!
-     \return the value of the current item for the template system to use.
-    */
-    function &templateValue()
-    {
-        return $this->InternalAttributes['item'];
-    }
-
-    /*!
-     \return a merged list of attributes from both the internal attributes and the items attributes.
-    */
-    function attributes()
-    {
-        $attributes = array();
-        if ( is_array( $item ) )
-        {
-            $attributes = array_keys( $item );
-        }
-        else if ( is_object( $item ) and
-                  method_exists( $item, 'attributes' ) )
-        {
-            $attributes = $item->attributes();
-        }
-        $attributes = array_merge( $this->InternalAttributes, $attributes );
-        $attributes = array_unique( $attributes );
-        return $attributes;
-    }
-
-    /*!
-     \return \c true if the attribute \a $name exists either in
-             the internal attributes or in the item value.
-    */
-    function hasAttribute( $name )
-    {
-        if ( in_array( $name, $this->InternalAttributeNames ) )
-            return true;
-        $item =& $this->InternalAttributes['item'];
-        if ( is_array( $item ) )
-        {
-            return in_array( $name, array_keys( $item ) );
-        }
-        else if ( is_object( $item ) and
-                  method_exists( $item, 'hasAttribute' ) )
-        {
-            return $item->hasAttribute( $name );
-        }
-        return false;
-    }
-
-    /*!
-     \return the attribute value of either the internal attributes or
-             from the item value if the attribute exists for it.
-    */
-    function &attribute( $name )
-    {
-        if ( in_array( $name, $this->InternalAttributeNames ) )
-        {
-            return $this->InternalAttributes[$name];
-        }
-        $item =& $this->InternalAttributes['item'];
-        if ( is_array( $item ) )
-        {
-            return $item[$name];
-        }
-        else if ( is_object( $item ) and
-                  method_exists( $item, 'attribute' ) )
-        {
-            return $item->attribute( $name );
-        }
-        return null;
-    }
-
-    /*!
-     Updates the iterator with the current iteration values.
-    */
-    function setIteratorValues( &$item, $key, $index, $number, $sequence, &$last )
-    {
-        $this->InternalAttributes['item'] =& $item;
-        $this->InternalAttributes['key'] = $key;
-        $this->InternalAttributes['index'] = $index;
-        $this->InternalAttributes['number'] = $number;
-        $this->InternalAttributes['sequence'] = $sequence;
-        $this->InternalAttributes['last'] =& $last;
-    }
-
-    /*!
-     Updates the current sequence value to \a $sequence.
-    */
-    function setSequence( $sequence )
-    {
-        $this->InternalAttributes['sequence'] = $sequence;
-    }
 }
 
 ?>

@@ -176,6 +176,16 @@ class eZTemplateNodeTool
 
     /*!
      \static
+     Creates an element which represents an array and returns it.
+    */
+    function createPHPVariableElement( $variableName, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_PHP_VARIABLE,
+                      $variableName, $variablePlacement );
+    }
+
+    /*!
+     \static
      Creates an element which represents an variable lookup and returns it.
      \param $namespaceScope Type of variable lookup, can be one of:
                             - \b EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL, Look for variables at the very top of the namespace tree
@@ -218,12 +228,14 @@ class eZTemplateNodeTool
     /*!
      \return The value of the static element or \c null if the element is not static.
      \note Make sure the element is checked with isStaticElement() before running this.
+     \note Can also be used on PHP variable elements, it will then fetch the variable name.
     */
     function elementStaticValue( $elements )
     {
-        if ( !eZTemplateNodeTool::isStaticElement( $elements ) )
-            return null;
-        return $elements[0][1];
+        if ( eZTemplateNodeTool::isStaticElement( $elements ) or
+             eZTemplateNodeTool::isPHPVariableElement( $elements ) )
+            return $elements[0][1];
+        return null;
     }
 
     /*!
@@ -262,8 +274,29 @@ class eZTemplateNodeTool
 
         if ( count( $elements ) == 0 )
             return false;
+        if ( count( $elements ) > 1 )
+            return false;
 
         if ( in_array( $elements[0][0], $staticElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to have a PHP variable element.
+             The following must be true.
+             - The start value is PHP variable
+             - It has no operators
+             - It has no attribute lookup
+    */
+    function isPHPVariableElement( $elements )
+    {
+        if ( count( $elements ) == 0 )
+            return false;
+        if ( count( $elements ) > 1 )
+            return false;
+
+        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
             return true;
         return false;
     }
@@ -407,7 +440,7 @@ class eZTemplateNodeTool
     */
     function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
                                  $parameters = array(), $variableAssignmentName = false, $onlyExisting = false,
-                                 $overWrite = true )
+                                 $overWrite = true, $assignFromVariable = false )
     {
         $node = array();
         if ( $originalNode )
@@ -418,6 +451,10 @@ class eZTemplateNodeTool
             $node[1] = $variableAssignmentName;
             if ( is_array( $variableData ) )
                 $node[2] = $variableData;
+            else if ( $assignFromVariable )
+                $node[2] = array( array( EZ_TEMPLATE_TYPE_PHP_VARIABLE,
+                                         $variableData,
+                                         false ) );
             else if ( is_numeric( $variableData ) )
                 $node[2] = array( array( EZ_TEMPLATE_TYPE_NUMERIC,
                                          $variableData,

@@ -85,7 +85,7 @@ class eZTemplateSequenceFunction
                                                     'tree-transformation' => true ) );
     }
 
-    function templateNodeSequenceCreate( &$node, &$tpl, &$resourceData, $parameters, $nameValue, $loopValue )
+    function templateNodeSequenceCreate( &$node, &$tpl, $parameters, $nameValue, $loopValue )
     {
         $newNodes = array();
 
@@ -104,10 +104,10 @@ class eZTemplateSequenceFunction
         return $newNodes;
     }
 
-    function templateNodeSequenceIterate( &$node, &$tpl, &$resourceData, $parameters, $nameValue )
+    function templateNodeSequenceIterate( &$node, &$tpl, $parameters, $nameValue )
     {
         $newNodes = array();
- 
+
         $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$_seq_var = &\$GLOBALS['eZTemplateSequence-$nameValue'];\n" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "++\$_seq_var['index'];\n++\$_seq_var['iteration'];" );
@@ -120,34 +120,34 @@ class eZTemplateSequenceFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters )
+                                         &$tpl, $parameters, $privateData )
     {
         $newNodes = array();
         $namespaceValue = false;
         $varName = 'match';
 
         if ( !isset( $parameters['name'] ) )
-        {
             return false;
-        }
+        if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
+            return false;
 
         $nameData = $parameters['name'];
-        $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $nameData, false, $resourceData );
-        $nameValue = $nameDataInspection['new-data'][0][1];
+        $nameValue = eZTemplateNodeTool::elementStaticValue( $nameData );
 
         if ( isset( $parameters['loop'] ) )
         {
             $loopData = $parameters['loop'];
-            $loopDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $loopData, false, $resourceData );
-            $loopValue = $loopDataInspection['new-data'][0][1];
+            if ( !eZTemplateNodeTool::isStaticElement( $loopData ) )
+                return false;
+            $loopValue = eZTemplateNodeTool::elementStaticValue( $loopData );
 
-            $newNodes = $this->templateNodeSequenceCreate( $node, $tpl, $resourceData, $parameters, $nameValue, $loopValue );
+            $newNodes = $this->templateNodeSequenceCreate( $node, $tpl, $parameters, $nameValue, $loopValue );
         }
         else
         {
-            $newNodes = $this->templateNodeSequenceIterate( $node, $tpl, $resourceData, $parameters, $nameValue );
+            $newNodes = $this->templateNodeSequenceIterate( $node, $tpl, $parameters, $nameValue );
         }
-       
+
         return $newNodes;
     }
 

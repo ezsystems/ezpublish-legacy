@@ -91,7 +91,7 @@ class eZTemplateDelimitFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters )
+                                         &$tpl, $parameters, $privateData )
     {
         $newNodes = array();
 

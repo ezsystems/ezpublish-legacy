@@ -1097,6 +1097,42 @@ class eZTemplateCompiler
     }
 
     /*!
+     Iterates over the nodes \a $nodes and does transformation on them.
+     \sa processNodeTransformationChildren
+     \note This method can be called from operator and functions as long as they have the \a $privateData parameter.
+    */
+    function processNodeTransformationNodes( &$tpl, &$node, &$nodes, &$privateData )
+    {
+        $useComments = $privateData['use-comments'];
+        $php =& $privateData['php-creator'];
+        $resourceData =& $privateData['resource-data'];
+        return eZTemplateCompiler::processNodeTransformationChildren( $useComments, $php, $tpl, $node, $nodes, $resourceData );
+    }
+
+    /*!
+     Iterates over the children \a $children and does transformation on them.
+     \sa processNodeTransformation, processNodeTransformationChild
+    */
+    function processNodeTransformationChildren( $useComments, &$php, &$tpl, &$node, &$children, &$resourceData )
+    {
+        if ( $children )
+        {
+            $newChildren = array();
+            foreach ( $children as $childNode )
+            {
+                $newChildNode = eZTemplateCompiler::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
+                if ( !$newChildNode )
+                    $newChildren[] = $childNode;
+                else
+                    $newChildren = array_merge( $newChildren, $newChildNode );
+            }
+            if ( count( $newChildren ) > 0 )
+                return $newChildren;
+        }
+        return $children;
+    }
+
+    /*!
      Iterates over the children of the root node \a $node and does transformation on them.
      \sa processNodeTransformation, processNodeTransformationChild
     */
@@ -1213,8 +1249,12 @@ class eZTemplateCompiler
                         }
                     }
 
+                    $privateData = array( 'use-comments' => $useComments,
+                                          'php-creator' => &$php,
+                                          'resource-data' => &$resourceData );
                     $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
-                                                                             $tpl, $resourceData, $functionParameters );
+                                                                             $tpl, $functionParameters, $privateData );
+                    unset( $privateData );
                     if ( !$newNodes )
                     {
                         $node[1] = $functionChildren;
@@ -2271,6 +2311,12 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $variableText = $php->variableText( eZTemplateNodeTool::elementStaticValue( $nodeElements ) );
                     $isStaticElement = true;
                 }
+                else if ( eZTemplateNodeTool::isPHPVariableElement( $nodeElements ) and
+                          !$variableParameters['text-result'] )
+                {
+                    $variableText = '$' . eZTemplateNodeTool::elementStaticValue( $nodeElements );
+                    $isStaticElement = true;
+                }
                 else
                 {
                     $variableText = "\$$generatedVariableName";
@@ -2318,7 +2364,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( "if ( isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
-                    else if( $variableOverWrite )
+                    else if ( $variableOverWrite )
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\nunset( $variableText );";
@@ -2628,6 +2674,12 @@ else
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->variableText( $dataValue, 0 );
                 $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n", array( 'spacing' => $spacing ) );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
+            {
+                $knownTypes = array();
+                $phpVariableName = $variableDataItem[1];
+                $php->addCodePiece( "\$$variableAssignmentName = \$$phpVariableName;\n", array( 'spacing' => $spacing ) );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_VARIABLE )
             {

@@ -70,7 +70,7 @@ class eZTemplateCacheFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters )
+                                         &$tpl, $parameters, $privateData )
     {
         $ini =& eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );

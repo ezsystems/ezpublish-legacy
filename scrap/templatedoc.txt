@@ -401,9 +401,11 @@ Variable Element Types:
 6 - Operator (Variable data is an array)
 7 - Boolean (value in Variable data)
 8 - Array (value in Variable data)
+9 - Dynamic Array
 
 100 - Internal (Not used, only used as starting value)
 101 - Code piece (Custom PHP code)
+102 - PHP variable
 
 Code Piece Element:
 0 - 101
@@ -418,6 +420,15 @@ Code Piece Element:
     in variables. The first entry will be %1%, the second %2% etc.
     Is optional so it might be omitted.
 4 - Numer of temporary variables or false
+
+Dynamic Array Element Type:
+1 - Array keys (array of strings)
+2 - Array values (array with all values, each value is an element list)
+3 - Placement
+
+PHP Variable Element Type:
+1 - Name of PHP variable.
+2 - Placement
 
 String Element Type:
 Example:

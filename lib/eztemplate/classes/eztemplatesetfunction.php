@@ -168,7 +168,7 @@ class eZTemplateSetFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData )
+                                         &$tpl, $parameters, $privateData )
     {
         switch( $functionName )
         {

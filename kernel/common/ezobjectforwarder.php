@@ -70,7 +70,7 @@ class eZObjectForwarder
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData )
+                                         &$tpl, $parameters, $privateData )
     {
         if ( !isset( $this->Rules[$functionName] ) )
             return false;
@@ -94,14 +94,9 @@ class eZObjectForwarder
         if ( isset( $parameters['render-mode'] ) )
         {
             $renderData = $parameters['render-mode'];
-            $renderDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                             $renderData, false,
-                                                                             $resourceData );
-            if ( !$renderDataInspection['is-constant'] or
-                 $renderDataInspection['has-operators'] or
-                 $renderDataInspection['has-attributes'] )
+            if ( !eZTemplateNodeTool::isStaticElement( $renderData ) )
                 return false;
-            $renderMode = $renderDataInspection['new-data'][0][1];
+            $renderMode = eZTemplateNodeTool::elementStaticValue( $renderData );
         }
         if ( $renderMode )
             $view_dir .= "/render-$renderMode";
@@ -115,14 +110,9 @@ class eZObjectForwarder
                 return false;
 
             $viewData = $parameters[$viewName];
-            $viewDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                           $viewData, false,
-                                                                           $resourceData );
-            if ( !$viewDataInspection['is-constant'] or
-                 $viewDataInspection['has-operators'] or
-                 $viewDataInspection['has-attributes'] )
+            if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
                 return false;
-            $viewValue = $viewDataInspection['new-data'][0][1];
+            $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
             $viewDir .= '/' . $viewValue;
         }
 

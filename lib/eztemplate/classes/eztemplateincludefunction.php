@@ -83,7 +83,7 @@ class eZTemplateIncludeFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters )
+                                         &$tpl, $parameters, $privateData )
     {
         if ( $functionName != $this->IncludeName )
             return false;
@@ -92,29 +92,19 @@ class eZTemplateIncludeFunction
             return false;
 
         $uriData = $parameters['uri'];
-        $uriDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                      $uriData, false,
-                                                                      $resourceData );
-        if ( !$uriDataInspection['is-constant'] or
-             $uriDataInspection['has-operators'] or
-             $uriDataInspection['has-attributes'] )
+        if ( !eZTemplateNodeTool::isStaticElement( $uriData ) )
             return false;
 
         $namespaceValue = false;
         if ( isset( $parameters['name'] ) )
         {
             $nameData = $parameters['name'];
-            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                           $nameData, false,
-                                                                           $resourceData );
-            if ( !$uriDataInspection['is-constant'] or
-                 $uriDataInspection['has-operators'] or
-                 $uriDataInspection['has-attributes'] )
+            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
                 return false;
-            $namespaceValue = $nameDataInspection['new-data'][0][1];
+            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
         }
 
-        $uriString = $uriDataInspection['new-data'][0][1];
+        $uriString = eZTemplateNodeTool::elementStaticValue( $uriData );
 
         $resourceName = "";
         $templateName = "";
