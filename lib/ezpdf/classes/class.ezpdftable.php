@@ -1883,6 +1883,8 @@ class eZPDFTable extends Cezpdf
 
         $fontSize = $this->fontSize();
 
+        $text = $this->fixWhitespace( $text );
+
         Cezpdf::ezText( $text, $params['size'], array( 'justification' => $params['justification'],
                                                        'top_margin' => $params['top_margin'] ) );
 
