@@ -236,6 +236,9 @@ eZINI:
   http://ez.no/community/bug_reports/faulty_display_of_versions_if_user_cannot_delete
 - Fixed bug of combination of node with section or class in permission policy caused wrong read access.
   http://www.ez.no/community/bug_reports/node_and_section_policy_limitation_causes_unwanted_read_access
+- Fixed bug: non-eZ database tables were deleted when selecting remove data in the setup wizard.
+  http://ez.no/community/bug_reports/other_database_tables_deleted_when_selecting_remove_data_in_setup_wizard
+
 *Library:
 
 eZ Locale:
