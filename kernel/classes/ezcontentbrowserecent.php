@@ -177,7 +177,7 @@ class eZContentBrowseRecent extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance( 'browse.ini' );
-        $maximum = $ini->variable( 'MaximumRecentItems', 'BrowseSettings' );
+        $maximum = $ini->variable( 'BrowseSettings', 'MaximumRecentItems' );
         return $maximum;
     }
 
