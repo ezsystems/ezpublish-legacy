@@ -445,7 +445,7 @@ class eZXMLTextType extends eZDataType
         {
             /* For all links found in the XML, do the following:
              * - add "href" attribute fetching it from ezurl table.
-             * - replace "id" attribute with "remote_url_id"
+             * - remove "id" attribute.
              */
             {
                 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
@@ -463,7 +463,6 @@ class eZXMLTextType extends eZDataType
                     $url =& $urlObj->attribute( 'url' );
                     $linkRef->set_attribute( 'href', $url );
                     $linkRef->remove_attribute( 'id' );
-                    $linkRef->set_attribute( 'remote_url_id', $linkID );
                     unset( $urlObj );
                 }
             }
@@ -486,10 +485,10 @@ class eZXMLTextType extends eZDataType
         {
 
             /* For all links found in the XML, do the following:
-             * Search for url specified in 'remote_url_id' link attribute (ezurl table).
-             * If the url not found then create a new one using 'href' link attribute,
-             * then associate it with the object attribute by creating new url-object link.
-             * After that, remove "href" and "remote_url_id" attributes, add new "id" attribute.
+             * Search for url specified in 'href' link attribute (in ezurl table).
+             * If the url not found then create a new one.
+             * Then associate the found (or created) URL with the object attribute by creating new url-object link.
+             * After that, remove "href" attribute, add new "id" attribute.
              * This new 'id' will always refer to the existing url object.
              */
             {
@@ -508,27 +507,23 @@ class eZXMLTextType extends eZDataType
                     foreach ( array_keys( $links ) as $index )
                     {
                         $linkRef =& $links[$index];
-                        $remoteUrlID = $linkRef->attributeValue( 'remote_url_id' );
-                        $href        = $linkRef->attributeValue( 'href' );
-                        $linkRef->remove_attribute( 'href' );
-                        $linkRef->remove_attribute( 'remote_url_id' );
+                        $href    =  $linkRef->attributeValue( 'href' );
 
-                        $urlObj =& eZURL::fetch( $remoteUrlID );
+                        $urlObj =& eZURL::urlByURL( $href );
 
-                        if ( $urlObj )
-                        {
-                            $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
-                        }
-                        else
+                        if ( !$urlObj )
                         {
                             $urlObj =& eZURL::create( $href );
                             $urlObj->store();
-                            $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
-                            $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
-                                                                       $objectAttribute->attribute( 'id' ),
-                                                                       $objectAttribute->attribute( 'version' ) );
-                            $urlObjectLink->store();
                         }
+
+                        $linkRef->remove_attribute( 'href' );
+                        $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
+                        $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                                                                   $objectAttribute->attribute( 'id' ),
+                                                                   $objectAttribute->attribute( 'version' ) );
+                        $urlObjectLink->store();
+
                     }
                     $rootNode =& $domDocument->root();
                 }
