@@ -361,19 +361,19 @@ if ( !function_exists( 'checkContentActions' ) )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
         {
-            $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
+            $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
         if ( $module->isCurrentAction( 'Translate' ) )
         {
-            $module->redirectToView( 'translate', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
+            $module->redirectToView( 'translate', array( $object->attribute( 'id' ), $EditVersion, $EditLanguage, $FromLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
         if ( $module->isCurrentAction( 'VersionEdit' ) )
         {
-            $module->redirectToView( 'versions', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
+            $module->redirectToView( 'versions', array( $object->attribute( 'id' ), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 

@@ -144,7 +144,7 @@ $ViewList['versionview'] = array(
     'post_action_parameters' => array( 'ChangeSettings' => array( 'Language' => 'SelectedLanguage',
                                                                   'PlacementID' => 'SelectedPlacement',
                                                                   'Sitedesign' => 'SelectedSitedesign' ) ),
-    'params' => array( 'ObjectID', 'EditVersion', 'LanguageCode' ),
+    'params' => array( 'ObjectID', 'EditVersion', 'LanguageCode', 'FromLanguage' ),
     'unordered_params' => array( 'language' => 'Language',
                                  'offset' => 'Offset' ) );
 
@@ -307,7 +307,7 @@ $ViewList['translate'] = array(
                                        'RemoveLanguageConfirmation' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
                                        'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
     'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
-    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage' ) );
+    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );
 
 $ViewList['draft'] = array(
     'functions' => array( 'create' ),

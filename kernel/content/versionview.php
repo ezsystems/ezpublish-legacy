@@ -50,6 +50,9 @@ $Module =& $Params['Module'];
 $OriginalLanguageCode = $Params['LanguageCode'];
 $LanguageCode = $Params['LanguageCode'];
 $EditVersion = $Params['EditVersion'];
+// Will be sent from the content/edit page and should be kept
+// incase the user decides to continue editing.
+$FromLanguage = $Params['FromLanguage'];
 
 $ini =& eZINI::instance();
 $hasCustomSitedesign = false;
@@ -74,7 +77,7 @@ $isCreator = $versionObject->attribute( 'creator_id' ) == $user->id();
 
 if ( $Module->isCurrentAction( 'Versions' ) )
 {
-    return $Module->redirectToView( 'versions', array( $ObjectID, $EditVersion, $LanguageCode ) );
+    return $Module->redirectToView( 'versions', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
 }
 
 if ( $Module->isCurrentAction( 'Edit' ) and
@@ -82,7 +85,7 @@ if ( $Module->isCurrentAction( 'Edit' ) and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
-    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
+    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) and
@@ -385,6 +388,7 @@ $tpl->setVariable( 'version', $versionObject );
 $tpl->setVariable( 'version_attributes', $versionAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object_version', $EditVersion );
+$tpl->setVariable( 'from_language', $FromLanguage );
 $tpl->setVariable( 'object_languagecode', $LanguageCode );
 $tpl->setVariable( 'language', $OriginalLanguageCode );
 $tpl->setVariable( 'placement', $placementID );

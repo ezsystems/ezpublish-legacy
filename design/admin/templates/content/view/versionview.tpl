@@ -1,4 +1,4 @@
-<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language )|ezurl}>
+<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language, '/', $from_language )|ezurl}>
 
 <div id="leftmenu">
 <div id="leftmenu-design">
@@ -244,7 +244,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language )|ezurl}>
+<form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language, '/', $from_language )|ezurl}>
 {section show=and( eq( $version.status, 0 ), $is_creator, $object.can_edit )}
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}

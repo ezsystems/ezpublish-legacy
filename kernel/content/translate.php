@@ -48,6 +48,9 @@ include_once( 'kernel/common/template.php' );
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
 $EditLanguage = $Params['EditLanguage'];
+// Will be sent from the content/edit page and should be kept
+// incase the user decides to continue editing.
+$FromLanguage = $Params['FromLanguage'];
 
 $http =& eZHTTPTool::instance();
 
@@ -55,7 +58,7 @@ $redirection = false;
 if ( $Module->isCurrentAction( 'EditObject' ) )
 {
     $redirection = array( 'view' => 'edit',
-                          'parameters' => array( $ObjectID, $EditVersion ),
+                          'parameters' => array( $ObjectID, $EditVersion, $EditLanguage, $FromLanguage ),
                           'unordered_parameters' => null );
 }
 
@@ -375,6 +378,8 @@ if ( $redirectionAllowed and
 
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
+$tpl->setVariable( 'edit_language', $EditLanguage );
+$tpl->setVariable( 'from_language', $FromLanguage );
 $tpl->setVariable( 'content_version', $version );
 $tpl->setVariable( 'translation_language', $translateToLanguage );
 $tpl->setVariable( 'translation_locale', $translateLocale );

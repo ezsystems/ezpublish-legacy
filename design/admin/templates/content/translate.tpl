@@ -102,7 +102,7 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-<form name="translationsform" method="post" action={concat( '/content/translate/', $object.id, '/', $edit_version )|ezurl} enctype="multipart/form-data">
+<form name="translationsform" method="post" action={concat( '/content/translate/', $object.id, '/', $edit_version, '/', $edit_language, '/', $from_language )|ezurl} enctype="multipart/form-data">
 
 {* Removal confirmation *}
 {section show=$is_remove_active}
@@ -248,7 +248,7 @@
 {/section}
 </div>
 <div class="button-right">
-<input class="button" type="submit" name="BackToEditButton" value="{'Back to edit mode'|i18n( 'design/admin/content/translate' )}" title="{'Go back to edit mode.'|i18n( 'design/admin/content/translate' )}" />
+<input class="button" type="submit" name="EditObjectButton" value="{'Back to edit mode'|i18n( 'design/admin/content/translate' )}" title="{'Go back to edit mode.'|i18n( 'design/admin/content/translate' )}" />
 </div>
 <div class="break"></div>
 </div>
