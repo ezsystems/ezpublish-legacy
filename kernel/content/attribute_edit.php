@@ -64,8 +64,10 @@ if ( !isset( $EditLanguage ) )
 if ( !is_string( $EditLanguage ) or
      strlen( $EditLanguage ) == 0 )
     $EditLanguage = false;
+
 if ( $EditLanguage == eZContentObject::defaultLanguage() )
     $EditLanguage = false;
+
 
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage ) ) )
     return;
@@ -74,10 +76,12 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+
 $version =& $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 
 $attributeDataBaseName = 'ContentObjectAttribute';
+
 
 $class =& eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );

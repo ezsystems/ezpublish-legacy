@@ -154,8 +154,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                               'use_views' => false ),
 
                 'attribute_view_gui' => array( 'template_root' => array( 'type' => 'multi_match',
-                                                                         'attributes' => array( 'contentclass_attribute',
-                                                                                                'is_information_collector' ),
+                                                                         'attributes' => array( 'is_information_collector' ),
                                                                          'matches' => array( array( false,
                                                                                                     'content/datatype/view' ),
                                                                                              array( true,

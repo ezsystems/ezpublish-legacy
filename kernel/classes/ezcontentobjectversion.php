@@ -848,7 +848,9 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $query = "SELECT ezcontentobject_attribute.* from ezcontentobject_attribute, ezcontentclass_attribute
+        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as classattribute_identifier,
+                        ezcontentclass_attribute.can_translate, ezcontentclass_attribute.name as class_attributename
+                  FROM  ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
@@ -864,6 +866,11 @@ class eZContentObjectVersion extends eZPersistentObject
         foreach ( $attributeArray as $attribute )
         {
             $attr = new eZContentObjectAttribute( $attribute );
+
+            $attr->setContentClassAttributeIdentifier( $attribute['classattribute_identifier'] );
+            $attr->setContentClassAttributeCanTranslate( $attribute['can_translate'] );
+            $attr->setContentClassAttributeName( $attribute['class_attributename'] );
+
             $returnAttributeArray[] = $attr;
         }
         return $returnAttributeArray;

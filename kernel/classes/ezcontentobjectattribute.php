@@ -120,6 +120,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "keys" => array( "id", "contentobject_id", "version", "language_code" ),
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
+                                                      "contentclass_attribute_name" => "contentClassAttributeName",
+                                                      "can_translate" => "contentClassAttributeCanTranslate",
+                                                      "is_information_collector" => "contentClassAttributeIsInformationCollector",
                                                       "content" => "content",
                                                       'has_http_value' => 'hasHTTPValue',
                                                       'value' => 'value',
@@ -319,6 +322,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->contentClassAttribute();
         if ( $attr == "contentclass_attribute_identifier" )
             return $this->contentClassAttributeIdentifier();
+        if ( $attr == "can_translate" )
+            return $this->contentClassAttributeCanTranslate();
         else if ( $attr == "value" )
             return $this->value();
         else if ( $attr == "content" )
@@ -405,19 +410,78 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-    */
-    function &contentClassAttributeName()
-    {
-        $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-        return $classAttribute->attribute( "name" );
-    }
-
-    /*!
      Sets the cached content class attribute identifier
     */
     function setContentClassAttributeIdentifier( $identifier )
     {
         $this->ContentClassAttributeIdentifier = $identifier;
+    }
+
+    /*!
+     Sets the cached content class attribute can_translate
+    */
+    function setContentClassAttributeCanTranslate( $canTranslate )
+    {
+        $this->ContentClassAttributeCanTranslate = $canTranslate;
+    }
+
+    /*!
+     Sets the cached content class attribute name
+    */
+    function setContentClassAttributeName( $name )
+    {
+        $this->ContentClassAttributeName = $name;
+    }
+
+    /*!
+     \returns the cached value of the is_informationcollector value
+    */
+    function contentClassAttributeIsInformationCollector()
+    {
+        if ( $this->ContentClassAttributeIsInformationCollector === null )
+        {
+            eZDebug::accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
+
+            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'is_information_collector' );
+            eZDebug::accumulatorStart( 'class_a_is_ic' );
+        }
+
+        return $this->ContentClassAttributeIsInformationCollector;
+    }
+
+    /*!
+     \returns the cached value of the class attribute name
+    */
+    function contentClassAttributeName()
+    {
+        if ( $this->ContentClassAttributeName === null )
+        {
+            eZDebug::accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
+
+            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'can_translate' );
+            eZDebug::accumulatorStart( 'class_a_name' );
+        }
+
+        return $this->ContentClassAttributeName;
+    }
+
+    /*!
+     \returns the cached value if the attribute can be translated or not
+    */
+    function contentClassAttributeCanTranslate()
+    {
+        if ( $this->ContentClassAttributeCanTranslate === null )
+        {
+            eZDebug::accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
+
+            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'can_translate' );
+            eZDebug::accumulatorStart( 'class_a_can_translate' );
+        }
+
+        return $this->ContentClassAttributeCanTranslate;
     }
 
     /*!
@@ -427,10 +491,13 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
+            eZDebug::accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
+
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
-//             eZDebug::writeDebug( "Identifier not cached '" . $this->ContentClassAttributeIdentifier . "', fetching from db", "eZContentClassAttribute::contentClassAttributeIdentifier()" );
+            eZDebug::accumulatorStop( 'class_a_id' );
         }
+
         return $this->ContentClassAttributeIdentifier;
     }
 
@@ -976,11 +1043,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &viewTemplateName()
     {
+        // Don't need to do lookup since we already know the datatype string, which is the result
+        return $this->DataTypeString;
+
+        /*
         $classAttribute =& $this->contentClassAttribute();
         if ( $classAttribute->attribute( 'is_information_collector' ) )
             return $this->informationTemplate();
         else
             return $this->viewTemplate();
+        */
     }
 
     /*!
@@ -998,9 +1070,19 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &viewTemplate()
     {
+        return $this->DataTypeString;
+        // We really don't need to do a lookup via the datatype since we already have the string
+        /*
+        eZDebug::accumulatorStart( 'view_template', 'Sytem overhead', 'Returning the view template string' );
         $dataType =& $this->dataType();
         if ( $dataType )
-            return $dataType->viewTemplate( $this );
+        {
+            $str = $dataType->viewTemplate( $this );
+            eZDebug::accumulatorStop( 'view_template' );
+            print( "$str <br>" );
+            return $str;
+        }
+        */
     }
 
     /*!
@@ -1010,8 +1092,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &editTemplate()
     {
+        return $this->DataTypeString;
+        // No need to do dynamic lookup since the datatype string is directly used
+/*
         $dataType =& $this->dataType();
         return $dataType->editTemplate( $this );
+*/
     }
 
     /*!
@@ -1021,8 +1107,13 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &informationTemplate()
     {
+        return $this->DataTypeString;
+
+        // No need to do dynamic lookup since the datatype string is directly used
+        /*
         $dataType =& $this->dataType();
         return $dataType->informationTemplate( $this );
+        */
     }
 
     /*!
@@ -1032,8 +1123,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &resultTemplate()
     {
+        return $this->DataTypeString;
+
+        /*
         $dataType =& $this->dataType();
         return $dataType->resultTemplate( $this );
+        */
     }
 
     /// Contains the value(s) submitted in HTTP form
@@ -1055,6 +1150,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     ///
     var $ContentClassAttributeIdentifier;
+    var $ContentClassAttributeCanTranslate;
+    var $ContentClassAttributeName;
+    var $ContentClassAttributeIsInformationCollector;
 }
 
 ?>
