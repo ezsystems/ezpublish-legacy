@@ -1,7 +1,7 @@
-{default content_object=$node.object
-         content_version=$node.contentobject_version_object
-         node_name=$node.name}
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
+<script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>
+<link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
+
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td valign="top">
@@ -16,7 +16,7 @@
         <div class="warning">
         <h2>Input did not validate</h2>
         <ul>
-        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
+        	<li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
         </ul>
         </div>
 
@@ -30,11 +30,8 @@
     {/section}
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <th width="60%">{"Location"|i18n('content/object')}:</th>
-        <th colspan="1">{"Sort by"|i18n('content/object')}:</th>
-        <th colspan="2">{"Ordering"|i18n('content/object')}:</th>
-        <th colspan="1">{"Main"|i18n('content/object')}:</th>
-        <th colspan="1">{"Move"|i18n('content/object')}:</th>
+        <th width="60%">{"Placement"|i18n('content/object')}:</th>
+        <th width="40%" colspan="3">{"Sort by"|i18n('content/object')}:</th>
     </tr>
     {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
    {let existingParentNodes=$object.parent_nodes}
@@ -61,28 +58,30 @@
           {/section}
           </select>
         </td>
-        <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"asc.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} /></nobr>
-	</td>
-        <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"desc.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} /></nobr>
+        <td class="{$Node:sequence}">
+        <img src={"move-down.gif"|ezimage} alt="Ascending" />
+	<input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} />
+        <img src={"move-up.gif"|ezimage} alt="Descending" />
+	<input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} />
         </td>
         <td class="{$Node:sequence}" align="right">
         <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
-        </td>
+       {*<input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />*}
+       </td>
         <td class="{$Node:sequence}" align="right">
-        {switch match=$Node:item.parent_node}
-        {case in=$Node:existingParentNodes}
-         <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-        {/case}
-        {case}
-          {section show=$Node:item.from_node_id|gt(0)}
-            <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-          {section-else}      
-          {/section}   
-         {/case}
-        {/switch}
-        </td>
+       
+      {switch match=$Node:item.parent_node}
+      {case in=$Node:existingParentNodes}
+        <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+      {/case}
+      {case }
+      {/case}
+      {/switch}
+            {section show=$Node:item.from_node_id|gt(0)}
+               <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+            {section-else}      
+            {/section}   
+      </td>
         <td class="{$Node:sequence}" align="right">
      {section show=eq($Node:item.parent_node,$main_node_id)|not}
         <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"remove.png"|ezimage} value="{$Node:item.parent_node}"  />
@@ -94,10 +93,17 @@
     {/let}
     {/let}
  </table>
- <div align="right" class="buttonblock">
-  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add location(s)'|i18n('content/object')}" />
- </div>
-
+    {switch match=$main_node_id}
+	{case match=1}
+	{/case}
+	{case}
+	 <div class="buttonblock">
+	 <input class="button" type="submit" name="BrowseNodeButton" value="{'Add placement(s)'|i18n('content/object')}" />
+	{* <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement'|i18n('content/object')}" />
+	 <input class="button" type="submit" name="MoveNodeButton" value="{'Move placement'|i18n('content/object')}" />*}
+	 </div>
+	{/case}
+    {/switch}
     {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
     <div class="block">
     <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label><div class="labelbreak"></div>
@@ -112,7 +118,7 @@
     <div class="buttonblock">
     <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
-    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('content/object')}" />
+    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
     </div>
     <!-- Left part end -->
     </td>
@@ -121,23 +127,6 @@
 
     <!-- Object info box start-->
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
-    <tr>
-        <th class="menuheaddark" colspan="2">
-        <p class="menuhead">{"Object info"|i18n('content/object')}</p>
-        </th>
-    </tr>
-    <tr>
-        <td class="menu" colspan="2">
-	    <p class="menufieldlabel">{"Created"|i18n('content/object')}:</p>
-	    {section show=$object.published}
-	    <p class="menufield">{$object.published|l10n(date)}</p>
-	    {section-else}
-	    <p class="menufield">
-	    {"Not yet published"|i18n('content/object')}
-	    </p>
-	    {/section}
-        </td>
-    </tr>
     <tr>
         <th class="menuheaddark" colspan="2">
         <p class="menuhead">{"Version info"|i18n('content/object')}</p>
@@ -209,6 +198,7 @@
 {/section}
         </td>
     </tr>
+
 {/section}
 
 {/let}
@@ -231,25 +221,10 @@
     </tr>
     {/section}
     <tr>
-        <td align="left">
+        <td colspan="2" align="right">
           <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('content/object')}" />
-	</td>
-        <td align="right">
           <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('content/object')}" />
         </td>
-    </tr>
-    <tr>
-        <td colspan="1" align="left">
-	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('content/object')}" />
-	</td>
-        <td colspan="1" align="right">
-	<select	name="ClassID">
-	    {section name=Classes loop=$object.can_create_class_list}
-	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
-	    {/section}
-	</select>
-	<input type="hidden" name="NodeID" value="{$surplus_node}" />
-	</td>
     </tr>
     </table>
     
