@@ -5,3 +5,11 @@ Known bugs in eZ publish 3.0
 Versioning
 ----------
 Object relations are lost when reverting to another version of the object.
+
+Search
+------
+Too many database calls when indexing objects. Need to find the unique words
+in PHP so that we will only index unique words.
+
+זרו caracters do not work properly, we must also test russian and chinese. 
+Probably the same error there.
