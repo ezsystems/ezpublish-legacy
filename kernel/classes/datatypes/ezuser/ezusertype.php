@@ -91,13 +91,13 @@ class eZUserType extends eZDataType
             $loginName = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
             $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
             $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
-            $passwodConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
+            $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
             if ( $classAttribute->attribute( "is_required" ) == true )
             {
                 if ( trim( $loginName ) == "" )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'An user account must be filled up',
+                                                                         'The login must be specified',
                                                                          'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
@@ -111,16 +111,16 @@ class eZUserType extends eZDataType
                     if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Login name exist, please choose another one.',
+                                                                             'Login name already exists, please choose another one.',
                                                                              'eZUserType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }
                 $isValidate =  eZMail::validate( $email );
-                if ( ! $isValidate )
+                if ( !$isValidate )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Email address is not valid.',
+                                                                         'The E-Mail address is not valid.',
                                                                          'eZUserType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
@@ -129,17 +129,17 @@ class eZUserType extends eZDataType
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
-                    if ( ( $password != $passwodConfirm ) || ( $password == "" ) )
+                    if ( ( $password != $passwordConfirm ) || ( $password == "" ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Please confirm your password.',
+                                                                             'The confirmation password did not match.',
                                                                              'eZUserType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                     if ( strlen( $password ) < 3 )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The minimum length of password should be 3.',
+                                                                             'The password must be at least 3 characters.',
                                                                              'eZUserType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
@@ -157,9 +157,6 @@ class eZUserType extends eZDataType
         $login = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
         $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
         $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
-
-
-
         $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
 
         $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
@@ -186,8 +183,8 @@ class eZUserType extends eZDataType
             }
         }
 
-        eZDebug::writeNotice( $password, "password" );
-        eZDebug::writeNotice( "setInformation", "ezusertype" );
+        eZDebug::writeDebug( $password, "password" );
+        eZDebug::writeDebug( "setInformation", "ezusertype" );
         if ( $password != "password" )
             $user->setInformation( $contentObjectID, $login, $email, $password );
         $contentObjectAttribute->setContent( $user );
