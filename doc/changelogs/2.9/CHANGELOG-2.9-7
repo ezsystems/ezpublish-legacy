@@ -114,6 +114,7 @@ contentclass:
   for storing urls.
 - xhtml output for ezxmltext will only show valid urls, invalid
   urls will link to url/view.
+- Added new plain design for quicker starting a new site design
 - Added template fetch functions for user, the current user can be fetched with
   current_user.
 
