@@ -21,6 +21,7 @@
 
 {/section}
 
+<div class="context-attributes">
 
 {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
 <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
@@ -29,6 +30,8 @@
     {attribute_edit_gui attribute=$ContentObjectAttribute:item}
 </div>
 {/section}
+
+</div>
 
 <div class="controlbar">
     <div class="block">

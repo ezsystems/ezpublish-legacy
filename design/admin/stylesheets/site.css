@@ -347,25 +347,7 @@ div.context-block
 
 div.context-block
 {
-    margin: 1em 0 2em 0;
-}
-
-
-div.context-content
-{
-    border-top: 1px solid #000000;
-    border-bottom: 1px solid #000000;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0em;
-    margin-right: 0em;
-}
-
-
-div.context-attributes
-{
-    background-color: #f8f8f8;
-    padding: 0.5em;
+    margin: 0 0 2em 0;
 }
 
 h2.context-title
@@ -378,7 +360,6 @@ h2.context-title
     margin: 0;
 }
 
-
 h2.context-content
 {
     font-size: 1em;
@@ -388,8 +369,6 @@ h2.context-content
     padding: 0.2em;
     margin: 0;
 }
-
-
 
 div.context-block h2.context-title img
 {
@@ -434,6 +413,7 @@ div.context-information p
 {
     background-color: #d0d0d0;
 }
+
 div.context-toolbar p, div.context-information p
 {
     font-size: 0.85em;
@@ -461,6 +441,12 @@ div.context-toolbar a:hover
     text-decoration: none;
 }
 
+div.context-attributes
+{
+    background-color: #f8f8f8;
+    padding: 0.5em;
+}
+
 /*
 div.context-controlbar
 {
@@ -483,6 +469,7 @@ div.viewbar, div.controlbar
     margin: 0;
 }
 
+/*
 div.context-block div.block
 {
     margin: 0.5em 0.5em 1em 0.5em;
@@ -497,6 +484,7 @@ div.context-toolbar div.block
 {
     margin: 0;
 }
+*/
 
 div.controlbar div.block
 {
@@ -738,11 +726,6 @@ div.attribute-byline p.author
 div.attribute-byline p.date
 {
     float: right;
-}
-
-div#maincontent label
-{
-    margin-top: 1em;  
 }
 
 /* th[eZ] */

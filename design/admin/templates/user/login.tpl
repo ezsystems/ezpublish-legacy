@@ -1,13 +1,3 @@
-<div class="context-block">
-
-<form method="post" action={"/user/login/"|ezurl}>
-
-<h2 class="context-title">{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
-
-<div class="block">
-<p>{"To log in enter a valid login and password."|i18n("design/standard/layout")}</p>
-</div>
-
 {section show=$User:warning.bad_login}
 <div class="message-warning">
 <h2>{"Could not login"|i18n("design/standard/user")}</h2>
@@ -28,6 +18,18 @@
 
 {/section}
 
+<div class="context-block">
+
+<form method="post" action={"/user/login/"|ezurl}>
+
+<h2 class="context-title">{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
+
+<div class="context-attributes">
+
+<div class="block">
+    <p>{"To log in enter a valid login and password."|i18n("design/standard/layout")}</p>
+</div>
+
 <div class="block">
     <label for="id1">{"Login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
     <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
@@ -36,6 +38,8 @@
 <div class="block">
     <label for="id2">{"Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
     <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" />
+</div>
+
 </div>
 
 <div class="controlbar">

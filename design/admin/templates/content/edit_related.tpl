@@ -110,7 +110,15 @@ function deSelectAll()
         <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n('design/standard/content/edit')}" title="{'Click here to add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
     </div>
 
-    <div class="block">
+        </div>
+</div>
+
+
+<div class="context-block">
+<h2 class="context-title">{'Upload new related object'|i18n( 'design/standard/content/edit' )}</h2>
+
+<div class="controlbar">
+<div class="block">
         <label>{'Location'|i18n( 'design/standard/content/edit' )}:</label>
         <select	name="UploadRelationLocationChoice" class="combobox locationchoice">
             <option value="auto">{'Automatic'|i18n( 'design/standard/content/edit' )}</option>
@@ -132,8 +140,7 @@ function deSelectAll()
         <input name="UploadRelationFile" type="file" />
         &nbsp;
         <input class="button" type="submit" name="UploadFileRelationButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
-    </div>
-
-    </div>
+</div>
 </div>
 
+</div>
