@@ -135,7 +135,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     /*!
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
-    */	
+    */
 	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
 	{
         $classList = $persistentData['classlist'];

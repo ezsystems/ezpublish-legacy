@@ -74,12 +74,12 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                          ezi18n( 'kernel/package', 'Site style' ),
                                          $steps );
     }
-	
+
     function finalize( &$package, &$http, &$persistentData )
     {
         $cleanupFiles = array();
 		$this->createPackage( $package, $http, $persistentData, $cleanupFiles );
-		
+
         $collections = array();
 
 		$cssfile = $persistentData['cssfile'];
@@ -100,7 +100,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         if ( !in_array( $fileItem['collection'], $collections ) )
             $collections[] = $fileItem['collection'];
         $cleanupFiles[] = $fileItem['path'];
-                              
+
         $imageFiles = $persistentData['imagefiles'];
         foreach ( $imageFiles as $imageFile )
         {
@@ -114,7 +114,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                'file-type' => false,
                                'role-value' => false,
                                'variable-name' => 'imagefiles' );
-    
+
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   $fileItem['subdirectory'], null, true, null,
@@ -209,7 +209,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
-        $dir = eZSys::cacheDirectory();
+        $dir = eZSys::storageDirectory() . '/temp';
         eZMimeType::changeDirectoryPath( $mimeData, $dir );
         $file->store( false, false, $mimeData );
         $persistentData['cssfile'] = $mimeData;
@@ -232,7 +232,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         {
             include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
-            $dir = eZSys::cacheDirectory();
+            $dir = eZSys::storageDirectory() .  '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );
             $file->store( false, false, $mimeData );
             $persistentData['imagefiles'][] = $mimeData;
@@ -248,7 +248,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     /*!
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
-    */	
+    */
 	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
 	{
         $cssfile = $persistentData['cssfile'];

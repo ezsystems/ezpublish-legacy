@@ -67,7 +67,7 @@ class eZPackageCreationHandler
 	 - Steps that aren't needed are removed
 
  	 It will also make sure that steps can be looked up by their ID.
-	*/	
+	*/
 	function generateStepMap( &$package, &$persistentData )
 	{
 		$steps = $this->attribute( 'steps' );
@@ -471,7 +471,7 @@ class eZPackageCreationHandler
      \virtual
      \return The initial changelog entry for a package.
      It is possible to get different initial texts by reimplementing this function.
-     
+
      \note This function is called from initializePackageChangelog()
     */
     function initialChangelogEntry( &$package, &$http, $step, &$persistentData, &$tpl )
@@ -524,7 +524,7 @@ class eZPackageCreationHandler
 
         $package->setAttribute( 'description', $persistentData['description'] );
         $package->setAttribute( 'install_type', $this->packageInstallType( $package, $persistentData ) );
-        
+
         $package->setAttribute( 'packaging-host', $persistentData['host'] );
         $package->setAttribute( 'packaging-packager', $persistentData['packager'] );
 
@@ -535,7 +535,7 @@ class eZPackageCreationHandler
         $maintainerPerson = $persistentData['maintainer_person'];
         $maintainerEmail = $persistentData['maintainer_email'];
         $maintainerRole = $persistentData['maintainer_role'];
-		
+
 		if ( $maintainerPerson )
 		{
             $package->appendMaintainer( $maintainerPerson, $maintainerEmail, $maintainerRole );
@@ -582,7 +582,7 @@ class eZPackageCreationHandler
                                'file-type' => false,
                                'role-value' => false,
                                'variable-name' => false );
-    
+
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   null, null, true, null,
@@ -940,7 +940,7 @@ class eZPackageCreationHandler
         {
             include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
-            $dir = eZSys::cacheDirectory();
+            $dir = eZSys::storageDirectory() . '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );
             $file->store( false, false, $mimeData );
             $persistentData['thumbnail'] = $mimeData;
