@@ -382,7 +382,7 @@ class eZPDF
 
                 $operatorValue .= '>';
 
-                if ( $lineDesc == 'all' )
+                if ( $lineDesc['pages'] == 'all' )
                 {
                     $operatorValue .= '___</ezGroup:callLine>';
                 }
