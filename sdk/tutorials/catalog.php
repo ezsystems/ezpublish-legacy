@@ -34,6 +34,6 @@
 
 $indexes = array();
 $indexes[] = array( "identifier" => "view/content_classes",
-                    "name" => "Content classes" );
+                    "name" => "Custom content" );
 
 ?>
