@@ -243,7 +243,8 @@ class eZDB
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
-                                                'use_persistent_connection' => $usePersistentConnection );
+                                                'use_persistent_connection' => $usePersistentConnection,
+                                                'show_errors' => true );
             $b = $databaseParameters;
             $databaseParameters = $defaultDatabaseParameters;
             if ( isset( $b['server'] ) )
@@ -277,6 +278,8 @@ class eZDB
                 $databaseParameters['connect_retries'] = $b['connect_retries'];
             if ( isset( $b['use_persistent_connection'] ) )
                 $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
+            if ( isset( $b['show_errors'] ) )
+                $databaseParameters['show_errors'] = $b['show_errors'];
 
             foreach( $pluginPathArray as $pluginPath )
             {
@@ -293,7 +296,10 @@ class eZDB
             {
                 include_once( 'lib/ezdb/classes/eznulldb.php' );
                 $impl = new eZNullDB( $databaseParameters );
-                eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                if ( $databaseParameters['show_errors'] )
+                {
+                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                }
             }
 
         }

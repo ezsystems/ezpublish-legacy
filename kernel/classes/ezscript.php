@@ -302,14 +302,18 @@ class eZScript
     */
     function shutdown( $exitCode = false, $exitText = false )
     {
-        $db =& eZDB::instance();
-
-        if ( $this->UseSession and
-             $db->isConnected() )
+        if ( class_exists( 'ezdb' )
+             and eZDB::hasInstance() )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            eZUser::logoutCurrent();
-            eZSessionRemove();
+            $db =& eZDB::instance( false, array( 'show_errors' => false ) );
+
+            if ( $this->UseSession and
+                 $db->isConnected() )
+            {
+                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                eZUser::logoutCurrent();
+                eZSessionRemove();
+            }
         }
 
         $cli =& eZCLI::instance();
