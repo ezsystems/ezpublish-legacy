@@ -560,7 +560,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $uri = "design:content/datatype/view/ezxmltags/$name.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-            }
+                $tagText .= implode( '', $textElements );
+                $tagText = trim( $tagText );
+
+                foreach ( $customAttributes as $attribute )
+                {
+                    $tpl->unsetVariable( $attribute->Name, 'xmltagns' );
+                }
+            }break;
+
             case 'link' :
             {
                 $class = $tag->attributeValue( 'class' );
