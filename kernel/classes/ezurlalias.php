@@ -380,7 +380,7 @@ ORDER BY forward_to_id ASC";
         }
 
         $return = false;
-        $urlAliasArray = $db->arrayQuery( $query );
+        $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
         if ( count( $urlAliasArray ) > 0 )
         {
             $uriString = $urlAliasArray[0]['destination_url'];

@@ -6,3 +6,4 @@ CREATE INDEX ezbasket_session_id ON ezbasket(session_id);
 CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento(memento_key,main);
 CREATE INDEX eztrigger_fetch ON eztrigger(name,module_name,function_name);
 CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process(process_key);
+CREATE INDEX ezurlalias_desturl ON ezurlalias( destination_url );
