@@ -99,7 +99,8 @@ eZINI:
   http://ez.no/community/bug_reports/media_folder_doesn_t_show_node_id_and_object_id
 - Fixed bug related to wrong working thumbnail folders without frendly URLs.
   http://ez.no/community/bug_reports/folder_thumnbnail_tpl_doesn_t_work_without_friendly_url_s
-
+- Fixed bug with not using an entered MySQL socket during setup
+  http://ez.no/community/bug_reports/setup_wizard_mysql_socket_field_is_omitted
 *Library:
 
 eZ Locale:
