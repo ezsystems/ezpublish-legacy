@@ -56,8 +56,10 @@
         ezcst_setNodeText,
         ezcst_removeNodeText,
         ezcst_createChildTextNode,
+        ezcst_highlightNode,
         ezcst_getHTMLNodeById,
-        ezcst_getHTMLChildNodeByTag.
+        ezcst_getHTMLChildNodeByTag,
+        ezcst_getHTMLChildNodeByProperty.
         
     Functions which change state of node(folded/unfolded):        
         ezcst_changeState,
@@ -85,7 +87,7 @@ if ( ![].pop )
 {
     Array.prototype.pop=function()
     {
-        var last      = this[this.length];
+        var last      = this[this.length - 1 ];
         this.length   = this.length - 1;
         return last;
     }
@@ -103,7 +105,6 @@ if ( ![].splice )
     }
 }
 /* end of IE 5.0 */
-
 
 /*!
     Sets cookie with \a name, \a value and \a expires date.
@@ -138,7 +139,13 @@ function ezcst_getCookie( name )
 /*!
     Global array of unfolded nodes 
 */
-var gUnfoldedNodesList = new Array(0);
+var gUnfoldedNodesList                          = new Array(0);
+
+/*!
+    CSS class names for text of node's label
+*/
+var  EZCST_LABEL_NODE_CLASS_NAME                = "nodetext";
+var  EZCST_HIGHLIGHTED_LABEL_NODE_CLASS_NAME    = "currentnode";
 
 /*!
     \return size of \a gUnfoldedNodesList.
@@ -334,7 +341,7 @@ function ezcst_getHTMLNodeById( node_id )
 }
 
 /*! 
-    \return a child HTMLElement of \a node by tag \a tag
+    \return a FIRST child HTMLElement of \a node with tag \a tag
 */
 function ezcst_getHTMLChildNodeByTag( node, tag )
 {
@@ -343,6 +350,26 @@ function ezcst_getHTMLChildNodeByTag( node, tag )
         var child = node.childNodes[i];
 
         if ( child["tagName"] && child.tagName.toLowerCase() == tag )
+        {
+            return child;
+        }
+    }
+
+    return null;
+}
+
+/*! 
+    \return a FIRST child HTMLElement of \a node with property name 
+    \a attrName and property value \a attrValue
+*/
+function ezcst_getHTMLChildNodeByProperty( node, propName, propValue )
+{
+    for ( var i = 0; i < node.childNodes.length; ++i )
+    {
+        var child   = node.childNodes[i];
+        var value   = child[propName];
+        
+        if ( value && value == propValue )
         {
             return child;
         }
@@ -422,13 +449,6 @@ function ezcst_resetMenuState( rootNode )
 {   
     if ( rootNode != null )
     {
-        // Fold all 'container' nodes.
-        ezcst_foldUnfoldSubtree( rootNode, false, true );
-
-        // Remove [-]/[+] text of root node.
-        var root_link_node = ezcst_getHTMLChildNodeByTag( rootNode, "a" );
-        ezcst_removeNodeText( root_link_node );                
-    
         // Since all nodes are folded, need to unfold root node.
         ezcst_foldUnfold       ( rootNode, true, false );
     }
@@ -441,13 +461,6 @@ function ezcst_restoreMenuState( rootNode )
 {
     if ( rootNode != null )
     {
-        // Fold all 'container' nodes.
-        ezcst_foldUnfoldSubtree( rootNode, false, true );
-
-        // Remove [-]/[+] text of root node.
-        var root_link_node = ezcst_getHTMLChildNodeByTag( rootNode, "a" );
-        ezcst_removeNodeText( root_link_node );                
-        
         // unfold nodes which are where stored in cookies.
         for ( var i = 0; i < gUnfoldedNodesList.length; ++i )
         {
@@ -461,24 +474,51 @@ function ezcst_restoreMenuState( rootNode )
 }
 
 /*!
+    Highlight text node
+*/
+
+function ezcst_highlightNode( node )
+{
+    if( node )
+    {
+        node['className'] = EZCST_HIGHLIGHTED_LABEL_NODE_CLASS_NAME;
+    }
+}
+
+
+/*!
     Restores menu state from cookie, adds current location from
     \a additionalNodesList.
 */
 function ezcst_initializeMenuState( additionalNodesList, menuNodeID)
 {
-    var menu = ezcst_getHTMLNodeById( menuNodeID );
+    var menu          = ezcst_getHTMLNodeById( menuNodeID );
+    var currentNodeID = additionalNodesList.pop();           // remove current node;
     
     if ( menu != null )
     {
         // restore unfolded nodes ids from cookies
         ezcst_cookie_restoreUnfoldedNodesList();
         
-        // add path to current node to unfolded list
+        // add path to current node to unfolded nodes list
         ezcst_cookie_addNodesList( additionalNodesList );
         
         var rootNode = ezcst_getHTMLChildNodeByTag( menu, "li" );
         if ( rootNode != null )
         {
+            // Fold all 'container' nodes.
+            ezcst_foldUnfoldSubtree( rootNode, false, true );
+
+            // Remove [-]/[+] text of root node.
+            var root_link_node = ezcst_getHTMLChildNodeByTag( rootNode, "a" );
+            ezcst_removeNodeText( root_link_node );         
+
+            // Highlight current node
+            var currentNode = ezcst_getHTMLNodeById( currentNodeID );
+            var labelNode   = ezcst_getHTMLChildNodeByProperty( currentNode, "className", EZCST_LABEL_NODE_CLASS_NAME );
+            ezcst_highlightNode( labelNode );
+            
+    
             if ( ezcst_getUnfoldedNodesListSize() > 0 )
             {
                 // unfolde nodes which are stored in gUnfoldedNodesList

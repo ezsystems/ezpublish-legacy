@@ -6,7 +6,7 @@
 
     <li id="n{$:parentNode.node.node_id}">
                                                       
-        {* Fold/Unfold/Empty *}                                                                          
+        {* Fold/Unfold/Empty: [-]/[+]/[ ] *}                                                                          
             {section show=$:haveChildren}
                <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('menu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
             {section-else}
@@ -14,9 +14,10 @@
             {/section}
             
         {* Icon *}
-            <a href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+            <a href={$:parentNode.node.path_identification_string|ezurl}111>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         
         {* Label *}
+            {* Tooltip *}
             {section show=$:showToolTips|eq('enabled')}
                 {set toolTip = 'Node ID: %node_id Created: %created Children num: %children_num' | 
                                 i18n("menu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
@@ -25,9 +26,10 @@
             {section-else}
                 {set toolTip = ''}
             {/section}
-                
-            <a href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
-        
+            
+            {* Text *}    
+            <a class="nodetext" href={$:parentNode.node.path_identification_string|ezurl} title="{$:toolTip}">{$:parentNode.object.name|wash}</a>
+            
         {* Show children *}    
             {section show=$:haveChildren}
                 <ul>
@@ -38,4 +40,4 @@
             {/section}        
     </li>
 {/let}
-                                                    
+

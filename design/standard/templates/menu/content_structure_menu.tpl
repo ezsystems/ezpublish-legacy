@@ -37,8 +37,6 @@
             nodesList.push( "n{$:path.node_id}" );
         {/section}
         
-        nodesList.pop(); // remove current node;
-        
         ezcst_initializeMenuState( nodesList, "{$:menuID}" );            
     // -->
     </script>
