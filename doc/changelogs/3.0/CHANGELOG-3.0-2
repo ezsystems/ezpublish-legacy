@@ -65,6 +65,9 @@ eZ mail:
 - Added a sendmail commandline parameter when sending mail to ensure ctladdr and Return-Path get set correctly.
   An Authentication-Warning will be sent with the mail if the web server user is not in sendmail trusted users list.
 
+eZ DB:
+- Fixed bug in postresql driver which coused problems with detection of existing data in database during set up.
+
 *Missing files :
 - runcronjobs.php, required for running cronjob scripts, missing in 3.0-1 release.
 - doc/FAQ, answers to common questions, missing in 3.0-1 release.

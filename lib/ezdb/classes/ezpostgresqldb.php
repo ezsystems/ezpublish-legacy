@@ -304,7 +304,7 @@ class eZPostgreSQLDB extends eZDBInterface
         foreach ( $relationKinds as $relationKind )
         {
             if ( $i > 0 )
-                $relkindText .= ' AND ';
+                $relkindText .= ' OR ';
             $relkindText .= "relkind='$relationKind'";
             $i++;
         }
