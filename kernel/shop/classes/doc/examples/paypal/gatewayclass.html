@@ -16,7 +16,7 @@ the paypal site, our class should be inherited from <i>eZRedirectGateway</i>. Ad
 <p>
 <code>
 <pre>
-    include_once( 'kernel/shop/paymentgateways/redirect/ezredirectgateway.php' );
+    include_once( 'kernel/shop/classes/ezredirectgateway.php' );
     
     define( "EZ_PAYMENT_GATEWAY_TYPE_PAYPAL", "ezpaypal" );
     
@@ -175,7 +175,7 @@ Don't forget to include to <i>'ezpaypalgateway.php'</i> necessary file:
 <p>
 <code>
 <pre>
-include_once( 'kernel/shop/paymentgateways/redirect/ezpaymentobject.php' );
+include_once( 'kernel/shop/classes/ezpaymentobject.php' );
 </pre>
 </code>
 

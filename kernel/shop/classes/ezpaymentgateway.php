@@ -42,7 +42,7 @@
   \brief Abstract class for all payment gateways.
 */
 
-include_once( 'kernel/shop/paymentgateways/ezpaymentlogger.php' );
+include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
 
 class eZPaymentGateway
 {

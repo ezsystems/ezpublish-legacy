@@ -51,7 +51,7 @@ define( 'EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID', 'ezpaymentgateway' );
 define( 'EZ_PAYMENT_GATEWAY_GATEWAY_NOT_SELECTED', 0 );
 define( 'EZ_PAYMENT_GATEWAY_GATEWAY_SELECTED', 1 );
 
-include_once( 'kernel/shop/paymentgateways/ezpaymentlogger.php' );
+include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
 
 class eZPaymentGatewayType extends eZWorkflowEventType
 {
@@ -163,22 +163,44 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     }
 
     /*!
+     \static
         Searches 'available' gateways( built-in or as extensions ).
     */
 
     function loadAndRegisterGateways()
     {
-        $this->loadAndRegisterBuiltInGateways();
-        $this->loadAndRegisterExtensionGateways();
+        eZPaymentGatewayType::loadAndRegisterBuiltInGateways();
+        eZPaymentGatewayType::loadAndRegisterExtensionGateways();
     }
 
+    /*!
+      \static
+    */
     function loadAndRegisterBuiltInGateways()
     {
-    
+        $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
+        $gatewaysDir        = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDerictories' );    
+        $gatewaysTypes      = $gatewaysINI->variable( 'GatewaysSettings', 'AvailableGateways' );    
+
+        foreach( $gatewaysDir as $dir )
+        {
+            foreach( $gatewaysTypes as $gateway )
+            {
+                $gatewayPath = "$dir/$gateway/classes/" . $gateway . 'gateway.php';
+                if( file_exists( $gatewayPath ) )
+                {
+                    include_once( $gatewayPath );
+                }
+            }
+        }
     }
   
+    /*!
+      \static
+    */
     function loadAndRegisterExtensionGateways()
     {
+        $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
         $siteINI            =& eZINI::instance( 'site.ini' );
         $extensionDirectory = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         $activeExtensions   = $siteINI->variable( 'ExtensionSettings', 'ActiveExtensions' );
@@ -189,10 +211,6 @@ class eZPaymentGatewayType extends eZWorkflowEventType
             if ( file_exists( $gatewayPath ) )
             {
                 include_once( $gatewayPath );
-            }
-            else
-            {
-                eZDebug::writeDebug( $gatewayPath, "unable to find extension" );
             }
         }
     }

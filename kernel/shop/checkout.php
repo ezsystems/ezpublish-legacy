@@ -37,7 +37,7 @@
 include_once( 'kernel/classes/ezorder.php' );
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-include_once( 'kernel/shop/paymentgateways/redirect/ezpaymentobject.php' );
+include_once( 'kernel/shop/classes/ezpaymentobject.php' );
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];

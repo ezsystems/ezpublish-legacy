@@ -49,7 +49,7 @@
 define( "EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED", 1 );
 define( "EZ_REDIRECT_GATEWAY_OBJECT_CREATED"    , 2 );
 
-include_once( 'kernel/shop/paymentgateways/ezpaymentgateway.php' );
+include_once( 'kernel/shop/classes/ezpaymentgateway.php' );
 
 class eZRedirectGateway extends eZPaymentGateway
 {
