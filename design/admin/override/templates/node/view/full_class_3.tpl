@@ -218,6 +218,7 @@
 	      {/section}
          </select>
 	 <br />
+
          <input type="hidden" name="BrowseNodeID" value="5" />
          <input class="classbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
     </form>
