@@ -1,4 +1,4 @@
-<h1>Uninstalling eZ publish</h1>
+<h1>Uninstall eZ publish 3</h1>
 
 <ul>
 	<li><a href="#Windows">Uninstalling on Windows</a></li>

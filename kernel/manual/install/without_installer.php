@@ -1,4 +1,4 @@
-<h1>eZ publish installation without installers</h1>
+<h1>Install eZ publish 3 without installers</h1>
 
 <ul>
 	<li><a href="#Requirements">Requirements</a></li>
@@ -57,12 +57,12 @@
 
 <ol>
 	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
-	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysqlgt&; create database &lt;name_of_database&gt;</pre></li>
-	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost 
+	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysql&gt; create database &lt;name_of_database&gt;</pre></li>
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
 	identified by '&lt;password&gt;';</pre></li>
-	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; 
+	<li>If you don't want to install demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql</pre>
-	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; 
+	If you do want the demodata <pre class="example"> $ mysql -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/mysql/demokernel.sql </pre></li>
 </ol>
 
@@ -76,7 +76,7 @@
 	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
 	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
 	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
-	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt; 
+	<li>Demodata is not available for PostgreSQL at the moment, so we have to install the kernel_clean.sql file<pre class="example">$ psql -U &lt;ezpublish_user&gt;  &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;/ezpublish-xxx/kernel/sql/postgresql/kernel_clean.sql</pre></li>
 </ol>
 
@@ -154,11 +154,11 @@ Database=&lt;name_of_database&gt;
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
 	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
-	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified 
+	<li>Grant permissions <pre class="example"> mysql&gt; grant all on <name_of_database>.* to &lt;user&gt;@localhost identified
 	by '&lt;password&gt;';</pre>
-	<li>If you don't want demodata <pre class="example">$ mysql.exe -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; 
+	<li>If you don't want demodata <pre class="example">$ mysql.exe -u &lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql\mysql\kernel_clean.sql</pre></li>
-	If you do want demodata <pre class="example"> $ mysql.exe -u&lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt; 
+	If you do want demodata <pre class="example"> $ mysql.exe -u&lt;user&gt; -p&lt;password&gt; &lt;name_of_database&gt;
 	&lt; &lt;httproot&gt;\ezpublish-xxx\kernel\sql/mysql\demokernel.sql</pre></li>
 </ol>
 

@@ -1,4 +1,4 @@
-<h1>Install eZ publish 3</h1>
+<h1>Install eZ publish 3 using installers</h1>
 
 <ul>
 
