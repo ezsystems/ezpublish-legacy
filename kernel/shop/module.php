@@ -57,6 +57,14 @@ $ViewList["register"] = array(
                                     ),
     "params" => array(  ) );
 
+$ViewList["userregister"] = array(
+    "script" => "userregister.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'StoreButton' => 'Store',
+                                    'CancelButton' => 'Cancel'
+                                    )
+    );
+
 $ViewList["wishlist"] = array(
     "functions" => array( 'buy' ),
     "script" => "wishlist.php",
