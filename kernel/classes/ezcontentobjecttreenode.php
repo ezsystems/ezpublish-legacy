@@ -2895,6 +2895,7 @@ WHERE
         $moveToTrashAllowed = true;
         $deleteResult = array();
         $totalChildCount = 0;
+        $totalLoneNodeCount = 0;
         $canRemoveAll = true;
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -2927,12 +2928,12 @@ WHERE
                 $childCount = $node->subTreeCount();
                 $totalChildCount += $childCount;
 
+                $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                $objectNodeCount = count( $allAssignedNodes );
                 // We need to find a new main node ID if we are trying
                 // to remove the current main node.
                 if ( $node->attribute( 'main_node_id' ) == $nodeID )
                 {
-                    $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
-                    $objectNodeCount = count( $allAssignedNodes );
                     if ( count( $allAssignedNodes ) > 1 )
                     {
                         foreach( $allAssignedNodes as $assignedNode )
@@ -2989,6 +2990,9 @@ WHERE
                 continue;
 
             $soleNodeCount = $node->subtreeSoleNodeCount();
+            $totalLoneNodeCount += $soleNodeCount;
+            if ( $objectNodeCount <= 1 )
+                ++$totalLoneNodeCount;
 
             $item = array( "nodeName" => $nodeName, // Backwards compatability
                            "childCount" => $childCount, // Backwards compatability
@@ -3009,6 +3013,9 @@ WHERE
 
         if ( !$infoOnly )
             return true;
+
+        if ( $moveToTrashAllowed and $totalLoneNodeCount == 0 )
+            $moveToTrashAllowed = false;
 
         return array( 'move_to_trash' => $moveToTrashAllowed,
                       'total_child_count' => $totalChildCount,
