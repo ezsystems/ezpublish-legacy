@@ -214,6 +214,8 @@ eztc.php:
   http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
 - Fixed problem with section placements for new related objects. (Merged from stable/3.4, rev. 7139)
   http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
+- Fixed wrong check for INI setting. (Merged from stable/3.4, rev. 7141)
+  http://ez.no/community/bug_reports/usefullurl_in_kernel_layout_set_php
   
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

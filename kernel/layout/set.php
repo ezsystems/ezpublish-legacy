@@ -66,7 +66,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     $useFullUrl = false;
     $http =& eZHTTPTool::instance();
     $http->UseFullUrl = false;
-    if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
+    if ( $layoutINI->hasVariable( $LayoutStyle, 'UseFullUrl' ) )
     {
         if ( $layoutINI->variable( $LayoutStyle, 'UseFullUrl' ) == 'true' )
         {
