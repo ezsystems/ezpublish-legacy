@@ -73,7 +73,7 @@ if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
 
 $Module =& $Params['Module'];
 
-$tpl->setAutoloadPathList( $ini->variableArray( 'TemplateSettings', 'AutoloadPath' ) );
+$tpl->setAutoloadPathList( $ini->variable( 'TemplateSettings', 'AutoloadPathList' ) );
 $tpl->autoload();
 
 $tpl->registerResource( eZTemplateDesignResource::instance() );
