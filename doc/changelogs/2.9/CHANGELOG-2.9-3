@@ -11,10 +11,23 @@ Changes from 2.9-2 to 2.9-3
 - Added support for specifying sort field and sort order for each node assignment.
 - Made sure generated SQL were a bit more viewer friendly.
 - Added new datatype DateTime
+- Added new datatype Time
+- Fixed date formating for datatype Date
 - Added new datatype Email
 - Added new datatype ISBN
-- Added check for existing object in edit
+- Added check for existing object in ed
+- Fixed bug for finding related object
+_ Fixed bug for finding node
+- Fixed bug on node, class and object cleanup
+- Fixed bug for adjusting placement for class attribute
+- Fixed bug on viewing and editing object translation
+- Fixed bug for unable to remember what have been selected in enum datatype
+- Using standard url for all sites
+- Fixed bug of unable to discard object with empty media and binary file input
+- Added column choosing when creating a new datetype text field
+- Fixed bug for "and "searching 
 
 
 *Library :
+- Added function for check and get attribute for ezlocale/classed/ezdate.php, ezlocale/classed/ezdatetime.php and ezlocale/classed/eztime.php
 
