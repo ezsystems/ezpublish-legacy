@@ -596,7 +596,7 @@ class eZDebug
      \static
      Sets the maxium number of logrotate files to keep to \a $files.
     */
-    function setMaxLogSize( $files )
+    function setLogrotateFiles( $files )
     {
         $GLOBALS['eZDebugMaxLogrotateFiles'] = $filse;
     }
