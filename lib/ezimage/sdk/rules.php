@@ -15,7 +15,7 @@ if you want different options.
 $img =&amp; eZImageManager::instance();
 
 // Register a shell converter using "convert", we name it "convert"
-$img->registerType( "convert", new eZImageShell( "convert", array(), array(), array() ) );
+$img->registerType( "convert", new eZImageShell( '', "convert", array(), array(), array() ) );
 // Register a converter which uses the PHP extension ImageGD
 $img->registerType( "gd", new eZImageGD() );
 </pre>
@@ -81,12 +81,12 @@ include_once( "lib/ezimage/classes/ezimagegd.php" );
 
 $img =& eZImageManager::instance();
 
-$img->registerType( "convert", new eZImageShell( "convert", array(), array(),
+$img->registerType( "convert", new eZImageShell( '', "convert", array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>",
                                                                                   "modify/scale" ),
                                                         eZImageShell::createRule( "-colorspace GRAY",
                                                                                   "colorspace/gray" ) ) ) );
-$img->registerType( "svg2gif", new eZImageShell( "svg2gif", array( "-antialias" ), array(),
+$img->registerType( "svg2gif", new eZImageShell( '', "svg2gif", array( "-antialias" ), array(),
                                                  array( eZImageShell::createRule( "",
                                                                                   "modify/scale" ) ) ) );
 $img->registerType( "gd", new eZImageGD() );

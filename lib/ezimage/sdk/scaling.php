@@ -22,12 +22,12 @@ include_once( "lib/ezimage/classes/ezimagegd.php" );
 
 $img =& eZImageManager::instance();
 
-$img->registerType( "convert", new eZImageShell( "convert", array(), array(),
+$img->registerType( "convert", new eZImageShell( '', "convert", array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>",
                                                                                   "modify/scale" ),
                                                         eZImageShell::createRule( "-colorspace GRAY",
                                                                                   "colorspace/gray" ) ) ) );
-$img->registerType( "svg2gif", new eZImageShell( "svg2gif", array( "-antialias" ), array(),
+$img->registerType( "svg2gif", new eZImageShell( '', "svg2gif", array( "-antialias" ), array(),
                                                  array( eZImageShell::createRule( "",
                                                                                   "modify/scale" ) ) ) );
 $img->registerType( "gd", new eZImageGD() );
