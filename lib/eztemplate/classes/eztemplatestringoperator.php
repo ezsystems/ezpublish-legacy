@@ -510,7 +510,7 @@ class eZTemplateStringOperator
             // Shorten string [default or specified length, length=text+"..."] and add '...'
             case $this->ShortenName:
             {
-                if ( strlen( $operatorValue <= $namedParameters['chars_to_keep'] ) )
+                if ( strlen( $operatorValue ) > $namedParameters['chars_to_keep'] )
                 {
                     $chop = $namedParameters['chars_to_keep'] - strlen( $namedParameters['str_to_append'] );
                     $operatorLength = strlen( $operatorValue );

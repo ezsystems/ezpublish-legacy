@@ -82,6 +82,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
 - Fixed bug with missing include in eztextcodec.
   http://ez.no/community/bug_reports/eztextcodec_php_missing_includes
+- Fixed bug in shorten template operator.
+  http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
