@@ -46,11 +46,32 @@ class eZShopAccountHandler
     */
     function &instance()
     {
-//        include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
-//        $accountHandler =& new eZDefaultShopAccountHandler();
-
-        include_once( 'kernel/classes/shopaccounthandlers/ezsimpleshopaccounthandler.php' );
-        $accountHandler =& new eZSimpleShopAccountHandler();
+        $accountHandler = null;
+        if ( eZExtension::findExtensionType( array( 'ini-name' => 'shopaccount.ini',
+                                                    'repository-group' => 'HandlerSettings',
+                                                    'repository-variable' => 'Repositories',
+                                                    'extension-group' => 'HandlerSettings',
+                                                    'extension-variable' => 'ExtensionRepositories',
+                                                    'type-group' => 'AccountSettings',
+                                                    'type-variable' => 'Handler',
+                                                    'alias-group' => 'AccountSettings',
+                                                    'alias-variable' => 'Alias',
+                                                    'subdir' => 'shopaccounthandlers',
+                                                    'type-directory' => false,
+                                                    'extension-subdir' => 'shopaccounthandlers',
+                                                    'suffix-name' => 'shopaccounthandler.php' ),
+                                             $out ) )
+        {
+            $filePath = $out['found-file-path'];
+            include_once( $filePath );
+            $class = $out['type'] . 'ShopAccountHandler';
+            $accountHandler = new $class( );
+        }
+        else
+        {
+            include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
+            $accountHandler =& new eZDefaultShopAccountHandler();
+        }
         return $accountHandler;
     }
 }
