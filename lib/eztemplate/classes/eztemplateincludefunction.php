@@ -73,6 +73,56 @@ class eZTemplateIncludeFunction
         return array( $this->IncludeName );
     }
 
+    function functionTemplateHints()
+    {
+        return array( $this->IncludeName => array( 'parameters' => true,
+                                                   'static' => false,
+                                                   'tree-transformation' => true ) );
+    }
+
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData, $parameters )
+    {
+        if ( $functionName != $this->IncludeName )
+            return false;
+        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
+        if ( !isset( $parameters['uri'] ) )
+            return false;
+
+        $uriData = $parameters['uri'];
+        $uriDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
+                                                                      $uriData, false,
+                                                                      $resourceData );
+        print_r( $uriDataInspection );
+        if ( !$uriDataInspection['is-constant'] or
+             $uriDataInspection['has-operators'] or
+             $uriDataInspection['has-attributes'] )
+            return false;
+
+        $uriString = $uriDataInspection['new-data'][0][1];
+
+        $resourceName = "";
+        $templateName = "";
+        $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
+        $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
+
+        $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters );
+        if ( $includeNodes === false )
+            return false;
+
+        $newNodes = array();
+
+        if ( isset( $parameters['name'] ) )
+            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+
+        $newNodes = array_merge( $newNodes, $includeNodes );
+
+        if ( isset( $parameters['name'] ) )
+            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
+
+        return $newNodes;
+    }
+
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */

@@ -70,6 +70,16 @@ class eZTemplateControlOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->CondName => array( 'input' => false,
+                                                'output' => true,
+                                                'parameters' => true ),
+                      $this->FirstSetName => array( 'input' => false,
+                                                    'output' => true,
+                                                    'parameters' => true ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */

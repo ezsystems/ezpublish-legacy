@@ -50,6 +50,7 @@ class eZTemplateNl2BrOperator
     */
     function eZTemplateNl2BrOperator( $name = "nl2br" )
     {
+        $this->NL2BRName = $name;
         $this->Operators = array( $name );
     }
 
@@ -67,6 +68,13 @@ class eZTemplateNl2BrOperator
     function namedParameterList()
     {
         return array( );
+    }
+
+    function operatorTemplateHints()
+    {
+        return array( $this->NL2BRName => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => false ) );
     }
 
     /*!

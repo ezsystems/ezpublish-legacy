@@ -159,7 +159,40 @@ class eZTemplateLogicOperator
 
     function operatorTemplateHints()
     {
-        return array( $this->TrueName => array( 'input' => false,
+        return array( $this->LTName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => 1 ),
+                      $this->GTName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => 1 ),
+                      $this->LEName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => 1 ),
+                      $this->GEName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => 1 ),
+                      $this->EQName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => true ),
+                      $this->NEName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => true ),
+                      $this->NullName  => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => false ),
+                      $this->OrName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => true ),
+                      $this->AndName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => true ),
+                      $this->NotName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => false ),
+                      $this->ChooseName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => true ),
+                      $this->TrueName => array( 'input' => false,
                                                 'output' => true,
                                                 'parameters' => false,
                                                 'static' => true ),
@@ -168,6 +201,24 @@ class eZTemplateLogicOperator
                                                  'parameters' => false,
                                                  'static' => true ) );
     }
+
+//     function operatorTemplateStatistics( $name, &$variableItem, $variablePlacement, &$tpl, &$resourceData, $namespace, &$stats )
+//     {
+//         if ( $name == $this->EQName )
+//         {
+//             print( $name . "\n" );
+//             $parameters = eZTemplateNodeTool::extractOperatorNodeParameters( $variableItem );
+//             for ( $i = 0; $i < count( $parameters ); ++$i )
+//             {
+//                 $parameter =& $parameters[$i];
+//                 $parameterData = eZTemplateNodeTool::extractVariableNodeData( $parameter );
+//                 $parameterPlacement = eZTemplateNodeTool::extractVariableNodePlacement( $parameter );
+//                 eZTemplateCompiler::calculateVariableNodeStatistics( $tpl, $parameter, $parameterPlacement,
+//                                                                      $resourceData, $namespace, $stats );
+//             }
+//             return true;
+//         }
+//     }
 
     function operatorCompiledStaticData( $operatorName )
     {

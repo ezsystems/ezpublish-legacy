@@ -59,6 +59,96 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
+    */
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData )
+    {
+        if ( $this->Name != 'design' and $this->Name != 'standard' )
+            return false;
+        $file = $resourceData['template-name'];
+        $overrideKeys =& eZTemplateDesignResource::overrideKeys();
+        print( "keys\n" );
+        print_r( $overrideKeys );
+        print( "matches\n" );
+        $matchFileArray =& eZTemplateDesignResource::overrideArray();
+        $matchList = array();
+        foreach ( $matchFileArray as $matchFile )
+        {
+            if ( $matchFile['template'] == ('/' . $file) )
+            {
+                $matchList[] = $matchFile;
+            }
+        }
+        print_r( $matchList );
+//         if ( !file_exists( $file ) )
+//             return false;
+
+        $resourceName = $resourceData['resource'];
+        $resourceNameText = eZPHPCreator::variableText( $resourceName );
+
+        print_r( $node );
+
+        $designKeysName = 'dKeys';
+        if ( $resourceName == 'standard' )
+            $designKeysName = 'rKeys';
+
+        $newNodes = array();
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$designKeysName ) )\n{\n    \$resH =& \$tpl->resourceFor( $resourceNameText );\n    \$$designKeysName =& \$resH->Keys;\n}\n" );
+        foreach ( $matchList as $match )
+        {
+            $basedir = $match['base_dir'];
+            $template = $match['template'];
+            $file = $basedir . $template;
+            $spacing = 0;
+            if ( isset( $match['custom_match'] ) )
+            {
+                $spacing = 4;
+                $customMatchList = $match['custom_match'];
+                $matchCount = 0;
+                foreach ( $customMatchList as $customMatch )
+                {
+                    if ( $matchCount > 0 )
+                    {
+                        $code = "else if ( ";
+                    }
+                    else
+                    {
+                        $code = "if ( ";
+                    }
+                    $ifLength = strlen( $code );
+                    $conditionCount = 0;
+                    foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
+                    {
+                        if ( $conditionCount > 0 )
+                            $code .= " and\n" . str_repeat( ' ', $ifLength );
+                        $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
+                        $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                        ++$conditionCount;
+                    }
+                    $code .= " )\n{";
+                    $matchFile = $customMatch['match_file'];
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+                    $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                                                                                     $matchFile, $matchFile,
+                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                     $node[4], array( 'spacing' => $spacing ) );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
+                    ++$matchCount;
+                }
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{" );
+            }
+            $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
+                                                                             $file, $file,
+                                                                             EZ_RESOURCE_FETCH, false,
+                                                                             $node[4], array( 'spacing' => $spacing ) );
+            if ( isset( $match['custom_match'] ) )
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
+        }
+        return $newNodes;
+    }
+
+    /*!
      \static
      \return the sitedesign for the design type \a $type, currently \c standard and \c site is allowed.
              If no sitedesign is set it will fetch it from site.ini.
@@ -296,7 +386,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $file = $match["file"];
 
         $matchedKeys = array();
-        // TODO add used keys
         $usedKeys = array();
         foreach ( $matchKeys as $matchKeyName => $matchKeyValue )
         {

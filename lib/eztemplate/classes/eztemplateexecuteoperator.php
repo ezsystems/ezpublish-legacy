@@ -65,6 +65,16 @@ class eZTemplateExecuteOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->Fetch => array( 'input' => false,
+                                             'output' => true,
+                                             'parameters' => 3 ),
+                      $this->FetchAlias => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => 2 ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */
@@ -72,7 +82,6 @@ class eZTemplateExecuteOperator
     {
         return true;
     }
-
 
     /*!
      See eZTemplateOperator::namedParameterList()

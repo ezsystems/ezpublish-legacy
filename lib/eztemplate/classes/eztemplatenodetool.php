@@ -39,6 +39,7 @@
 
 /*!
   \class eZTemplateNodeTool eztemplatenodetool.php
+  \ingroup eZTemplate
   \brief Various tool functions for working with template nodes
 
 */
@@ -53,6 +54,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      Removes the children from the function node \a $node.
     */
     function removeFunctionNodeChildren( &$node )
@@ -61,6 +63,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      Removes the parameters from the function node \a $node.
     */
     function removeFunctionNodeParameters( &$node )
@@ -69,6 +72,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      Removes the placement info from the function node \a $node.
     */
     function removeFunctionNodePlacement( &$node )
@@ -77,6 +81,87 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
+     Creates an element which represents nothing (void).
+    */
+    function createVoidElement()
+    {
+        return array( EZ_TEMPLATE_TYPE_VOID );
+    }
+
+    /*!
+     \static
+     Creates an element which represents a string and returns it.
+    */
+    function createStringElement( $string, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_STRING,
+                      $string, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents a number (float or integer) and returns it.
+    */
+    function createNumericElement( $number, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_NUMERIC,
+                      $number, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents an identifier and returns it.
+    */
+    function createIdentifierElement( $identifier, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_IDENTIFIER,
+                      $identifier, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents an variable lookup and returns it.
+     \param $namespaceScope Type of variable lookup, can be one of:
+                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL, Look for variables at the very top of the namespace tree
+                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, Look for variables at the top of the current file being processed
+                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, Look for variables from the current namespace
+    */
+    function createVariableElement( $variableName, $namespaceName, $namespaceScope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_VARIABLE,
+                      array( $namespaceName, $namespaceScope, $variableName ), $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which does lookup on an attribute and returns it.
+     \param $attributeValues Must be an array with elements that result in scalar value or string.
+    */
+    function createAttributeLookupElement( $attributeValues = array(), $variablePlacement = false )
+    {
+        if ( is_numeric( $attributeValues ) )
+            $attributeValues = array( eZTemplateNodeTool::createNumericElement( $attributeValues, $variablePlacement ) );
+        else if ( !is_array( $attributeValues ) )
+            $attributeValues = array( eZTemplateNodeTool::createStringElement( $attributeValues, $variablePlacement ) );
+        return array( EZ_TEMPLATE_TYPE_ATTRIBUTE,
+                      $attributeValues, $variablePlacement );
+    }
+
+    /*!
+     \static
+     Creates an element which represents an operator and returns it.
+     \param $name The name of the operator to run.
+     \param $parameters An array with parameters, each parameter is an array of variable elements.
+    */
+    function createOperatorElement( $name, $parameters = array(), $variablePlacement = false )
+    {
+        return array( EZ_TEMPLATE_TYPE_ATTRIBUTE,
+                      array_merge( array( $name ), $parameters ), $variablePlacement );
+    }
+
+    /*!
+     \static
      Creates a new function node hook with name \a $hookName and optional parameters \a $hookParameters
      and function data \a $hookFunction and returns it.
     */
@@ -88,10 +173,11 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      Creates a new variable node and returns it.
     */
     function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
-                                 $parameters = array() )
+                                 $parameters = array(), $variableAssignmentName = false )
     {
         $node = array();
         if ( $originalNode )
@@ -99,7 +185,7 @@ class eZTemplateNodeTool
         else
         {
             $node[0] = EZ_TEMPLATE_NODE_VARIABLE;
-            $node[1] = false;
+            $node[1] = $variableAssignmentName;
             if ( is_array( $variableData ) )
                 $node[2] = $variableData;
             else if ( is_numeric( $variableData ) )
@@ -144,6 +230,18 @@ class eZTemplateNodeTool
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE,
                        $parameters );
+        return $node;
+    }
+
+    function createResourceAcquisitionNode( $resourceName, $templateName, $fileName,
+                                            $method, $extraParameters, $placement = false,
+                                            $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION,
+                       $resourceName, $templateName, $fileName,
+                       $method, $extraParameters, $placement );
+        if ( count( $parameters ) > 0 )
+            $node[] = $parameters;
         return $node;
     }
 
@@ -204,6 +302,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      \return the placement info from the function node \a $node.
     */
     function extractFunctionNodePlacement( &$node )
@@ -212,6 +311,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      \return the children of the function node \a $node.
     */
     function extractFunctionNodeChildren( &$node )
@@ -220,6 +320,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      \return the parameters of the function node \a $node.
     */
     function extractFunctionNodeParameters( &$node )
@@ -228,6 +329,7 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
      \return the parameters of the function node \a $node.
     */
     function extractFunctionNodeParameterNames( &$node )
@@ -236,6 +338,34 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \static
+     \return the variable data from the variable node \a $node.
+    */
+    function extractVariableNodeData( &$node )
+    {
+        return $node[1];
+    }
+
+    /*!
+     \static
+     \return the variable placement from the variable node \a $node.
+    */
+    function extractVariableNodePlacement( &$node )
+    {
+        return $node[2];
+    }
+
+    /*!
+     \static
+     \return the parameters for the operator node \a $node.
+    */
+    function extractOperatorNodeParameters( &$node )
+    {
+        return array_slice( $node[1], 1 );
+    }
+
+    /*!
+     \static
      Creates a pre and post hook for the function node \a $node
      with the children in between the nodes. This means that a nested
      function node will be deflated to a pre/children/post list.

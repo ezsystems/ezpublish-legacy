@@ -66,6 +66,19 @@ class eZTemplateDigestOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->Crc32Name => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => false ),
+                      $this->Md5Name => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => false ),
+                      $this->Rot13Name => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => false ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */

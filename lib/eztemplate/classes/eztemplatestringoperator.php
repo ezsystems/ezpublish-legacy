@@ -105,6 +105,55 @@ class eZTemplateStringOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->UpcaseName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => false ),
+                      $this->DowncaseName => array( 'input' => true,
+                                                    'output' => true,
+                                                    'parameters' => false ),
+                      $this->CountwordsName => array( 'input' => true,
+                                                      'output' => true,
+                                                      'parameters' => false ),
+                      $this->CountcharsName => array( 'input' => true,
+                                                      'output' => true,
+                                                      'parameters' => false ),
+                      $this->TrimName => array( 'input' => true,
+                                                'output' => true,
+                                                'parameters' => 1 ),
+                      $this->BreakName => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => false ),
+                      $this->WrapName => array( 'input' => true,
+                                                'output' => true,
+                                                'parameters' => false ),
+                      $this->UpfirstName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => false ),
+                      $this->UpwordName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => false ),
+                      $this->SimplifyName => array( 'input' => true,
+                                                    'output' => true,
+                                                    'parameters' => false ),
+                      $this->WashName => array( 'input' => true,
+                                                'output' => true,
+                                                'parameters' => false ),
+                      $this->ChrName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => false ),
+                      $this->OrdName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => false ),
+                      $this->ShortenName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => 2 ),
+                      $this->PadName => array( 'input' => true,
+                                               'output' => true,
+                                               'parameters' => false ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */
@@ -112,6 +161,7 @@ class eZTemplateStringOperator
     {
         return true;
     }
+
     /*!
      See eZTemplateOperator::namedParameterList()
     */

@@ -120,6 +120,81 @@ class eZTemplateSectionFunction
                                             'tree-transformation' => true ) );
     }
 
+    function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )
+    {
+        if ( $functionName != $this->Name )
+            return false;
+        $newNamespace = $namespace;
+        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
+        if ( isset( $parameters['name'] ) )
+        {
+            $nameData = $parameters['name'];
+            $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
+                                                                           $nameData, false,
+                                                                           $resourceData );
+            if ( $nameDataInspection['is-constant'] and
+                 !$nameDataInspection['has-operators'] and
+                 !$nameDataInspection['has-attributes'] )
+            {
+                $parameterNamespace = $nameDataInspection['new-data'][0][1];
+                $newNamespace = $tpl->mergeNamespace( $namespace, $parameterNamespace );
+            }
+        }
+        $parameterNames = array( 'loop', 'show', 'var', 'last-value', 'reverse', 'sequence', 'max', 'offset' );
+        foreach ( $parameterNames as $parameterName )
+        {
+            if ( isset( $parameters[$parameterName] ) )
+            {
+                eZTemplateCompiler::calculateVariableNodeStatistics( $tpl, $parameters[$parameterName], false, $resourceData, $namespace, $stats );
+            }
+        }
+
+        if ( !isset( $parameters['var'] ) )
+        {
+            if ( isset( $parameters['loop'] ) )
+            {
+                $newVariables = array( 'key', 'item', 'index', 'number' );
+                foreach ( $newVariables as $newVariableName )
+                {
+                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
+                                                                                                               'is_removed' => true ) );
+                }
+            }
+            if ( isset( $parameters['sequence'] ) )
+            {
+                $newVariables = array( 'sequence' );
+                foreach ( $newVariables as $newVariableName )
+                {
+                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $newVariableName, array( 'is_created' => true,
+                                                                                                               'is_removed' => true ) );
+                }
+            }
+        }
+        else
+        {
+            if ( isset( $parameters['loop'] ) )
+            {
+                $varDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
+                                                                              $parameters['var'], false,
+                                                                              $resourceData );
+                if ( $varDataInspection['is-constant'] and
+                     !$varDataInspection['has-operators'] and
+                     !$varDataInspection['has-attributes'] )
+                {
+                    $varName = $varDataInspection['new-data'][0][1];
+                    eZTemplateCompiler::setVariableStatistics( $stats, $newNamespace, $varName, array( 'is_created' => true,
+                                                                                                       'is_removed' => true ) );
+                }
+            }
+        }
+
+        $functionChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+        if ( is_array( $functionChildren ) )
+        {
+            eZTemplateCompiler::calculateVariableStatisticsChildren( $tpl, $functionChildren, $resourceData, $newNamespace, $stats );
+        }
+    }
+
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, &$resourceData )
     {
@@ -191,6 +266,7 @@ class eZTemplateSectionFunction
             if ( $currentNamespace != "" )
                 $name = "$currentNamespace:$name";
         }
+
         $loopItem = null;
         $hasLoopItemParameter = false;
         if ( isset( $parameters["loop"] ) )
@@ -198,17 +274,20 @@ class eZTemplateSectionFunction
             $hasLoopItemParameter = true;
             $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
+
         $variableIterator = null;
         if ( isset( $parameters['var'] ) )
         {
             $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
+
         $noLastValue = true;
         if ( isset( $parameters['last-value'] ) )
         {
             $lastValue =& $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
             $noLastValue = !$lastValue;
         }
+
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )
         {
@@ -216,12 +295,15 @@ class eZTemplateSectionFunction
         }
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
+
         $showItem = null;
         if ( isset( $parameters["show"] ) )
             $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
+
         $sequenceStructure = null;
         if ( isset( $parameters["sequence"] ) )
             $sequenceStructure = $tpl->elementValue( $parameters["sequence"], $rootNamespace, $currentNamespace, $functionPlacement );
+
         $iterationMaxCount = false;
         if ( isset( $parameters["max"] ) )
         {
@@ -236,6 +318,7 @@ class eZTemplateSectionFunction
             }
             $iterationMaxCount = (int)$iterationMaxCount;
         }
+
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
         {

@@ -78,6 +78,24 @@ class eZTemplateFileResource
     }
 
     /*!
+    */
+    function templateNodeTransformation( $functionName, &$node,
+                                         &$tpl, &$resourceData )
+    {
+        if ( $this->Name != 'file' )
+            return false;
+        $file = $resourceData['template-name'];
+        if ( !file_exists( $file ) )
+            return false;
+        $newNodes = array();
+        $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( $resourceData['resource'],
+                                                                         $file, $file,
+                                                                         EZ_RESOURCE_FETCH, false,
+                                                                         $node[4] );
+        return $newNodes;
+    }
+
+    /*!
      Generates a unique key string from the input data and returns it.
      The key will be used for storing cached data and retrieving cache files.
      When implementing file resource handlers this key must be reimplemented if

@@ -121,6 +121,49 @@ class eZTemplateTypeOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->IsArrayName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => false ),
+                      $this->IsBooleanName => array( 'input' => true,
+                                                     'output' => true,
+                                                     'parameters' => false ),
+                      $this->IsIntegerName => array( 'input' => true,
+                                                     'output' => true,
+                                                     'parameters' => false ),
+                      $this->IsFloatName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => false ),
+                      $this->IsNumericName => array( 'input' => true,
+                                                     'output' => true,
+                                                     'parameters' => false ),
+                      $this->IsStringName => array( 'input' => true,
+                                                    'output' => true,
+                                                    'parameters' => false ),
+                      $this->IsObjectName => array( 'input' => true,
+                                                    'output' => true,
+                                                    'parameters' => false ),
+                      $this->IsClassName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => 2 ),
+                      $this->IsNullName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => false ),
+                      $this->IsSetName => array( 'input' => true,
+                                                 'output' => true,
+                                                 'parameters' => 1 ),
+                      $this->IsUnsetName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => 1 ),
+                      $this->GetTypeName => array( 'input' => true,
+                                                   'output' => true,
+                                                   'parameters' => 1 ),
+                      $this->GetClassName => array( 'input' => true,
+                                                   'output' => true,
+                                                    'parameters' => 1 ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */

@@ -77,6 +77,18 @@ class eZTemplatePHPOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        $hints = array();
+        foreach ( array_keys( $this->PHPNames ) as $name )
+        {
+            $hints[$name] = array( 'input' => true,
+                                   'output' => true,
+                                   'parameters' => false );
+        }
+        return $hints;
+    }
+
     /*!
      Executes the PHP function for the operator $op_name.
     */

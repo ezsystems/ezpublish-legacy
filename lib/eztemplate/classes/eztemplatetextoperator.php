@@ -66,6 +66,16 @@ class eZTemplateTextOperator
         return $this->Operators;
     }
 
+    function operatorTemplateHints()
+    {
+        return array( $this->ConcatName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => true ),
+                      $this->IndentName => array( 'input' => true,
+                                                  'output' => true,
+                                                  'parameters' => 3 ) );
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */

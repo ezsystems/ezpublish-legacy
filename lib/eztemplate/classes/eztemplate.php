@@ -249,12 +249,24 @@ define( "EZ_TEMPLATE_NODE_TEXT", 2 );
 define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
 define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
 define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
+
+
 define( "EZ_TEMPLATE_NODE_INTERNAL", 100 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE", 101 );
+
+define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET", 105 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET", 102 );
+
 define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE", 103 );
 define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE", 104 );
+
+define( "EZ_TEMPLATE_NODE_INTERNAL_WARNING", 120 );
+define( "EZ_TEMPLATE_NODE_INTERNAL_ERROR", 121 );
+
+define( "EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION", 140 );
+
 define( "EZ_TEMPLATE_NODE_USER_CUSTOM", 1000 );
+
 
 define( "EZ_TEMPLATE_TYPE_VOID", 0 );
 define( "EZ_TEMPLATE_TYPE_STRING", 1 );
@@ -572,24 +584,46 @@ class eZTemplate
 //         $resourceData = false;
 //         $templateRoot = null;
 //         $keyData = null;
-        $resourceData = array();
+        $resourceData = $this->resourceData( $resourceObject, $uri, $resourceName, $template );
+
+//         $resourceData = array();
+//         $resourceData['uri'] = $uri;
+//         $resourceData['resource'] = $resourceName;
+//         $resourceData['template-name'] = $template;
+//         $resourceData['template-filename'] = $template;
+//         $resourceData['handler'] =& $resourceObject;
+
         $resourceData['text'] = null;
         $resourceData['root-node'] = null;
         $resourceData['compiled-template'] = false;
         $resourceData['time-stamp'] = null;
         $resourceData['key-data'] = null;
-        $resourceData['uri'] = $uri;
-        $resourceData['resource'] = $resourceName;
-        $resourceData['template-name'] = $template;
-        $resourceData['template-filename'] = $template;
-        $resourceData['handler'] =& $resourceObject;
-        // $templateRoot, $text, $tstamp, $uri, $resourceName, $template, $keyData
+
         if ( !$resourceObject->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters ) )
         {
             $resourceData = null;
             if ( $displayErrors )
                 $this->warning( "", "No template could be loaded for \"$template\" using resource \"$resourceName\"" );
         }
+        return $resourceData;
+    }
+
+    /*!
+     \static
+     Creates a resource data structure of the parameters and returns it.
+     This structure is passed to various parts of the template system.
+
+     \note If you only have the URI you should call resourceFor() first to
+           figure out the resource handler.
+    */
+    function resourceData( &$resourceObject, $uri, $resourceName, $templateName )
+    {
+        $resourceData = array();
+        $resourceData['uri'] = $uri;
+        $resourceData['resource'] = $resourceName;
+        $resourceData['template-name'] = $templateName;
+        $resourceData['template-filename'] = $templateName;
+        $resourceData['handler'] =& $resourceObject;
         return $resourceData;
     }
 
@@ -736,6 +770,21 @@ class eZTemplate
             $resobj =& $this->Resources[$res];
         }
         return $resobj;
+    }
+
+    /*!
+     \return The resource handler object for resource name \a $resourceName.
+     \sa resourceFor
+    */
+    function &resourceHandler( $resourceName )
+    {
+        $resource =& $this->DefaultResource;
+        if ( isset( $this->Resources[$resourceName] ) and
+             is_object( $this->Resources[$resourceName] ) )
+        {
+            $resource =& $this->Resources[$resourceName];
+        }
+        return $resource;
     }
 
     function hasChildren( &$function, $functionName )

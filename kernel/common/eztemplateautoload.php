@@ -87,7 +87,9 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator
 
 $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
-                                    'function_names' => array( 'attribute_edit_gui',
+                                    'function_names' => array( 'my_gui',
+                                                               'my_gui_view',
+                                                               'attribute_edit_gui',
                                                                'attribute_view_gui',
                                                                'attribute_result_gui',
                                                                'attribute_pdf_gui',
@@ -131,6 +133,20 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
         {
             include_once( 'kernel/common/ezobjectforwarder.php' );
             $forward_rules = array(
+                'my_gui' => array( 'template_root' => 'mygui',
+                                   'input_name' => 'attribute',
+                                   'output_name' => 'attribute',
+                                   'namespace' => 'ContentAttribute',
+                                   'attribute_access' => array( array( 'edit_template' ),
+                                                                array( 'view_template' ) ),
+                                   'use_views' => false ),
+                'my_gui_view' => array( 'template_root' => 'mygui',
+                                        'input_name' => 'attribute',
+                                        'output_name' => 'attribute',
+                                        'namespace' => 'ContentAttribute',
+                                        'attribute_access' => array(),
+                                        'use_views' => 'view' ),
+
                 'attribute_edit_gui' => array( 'template_root' => 'content/datatype/edit',
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',

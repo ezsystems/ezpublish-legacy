@@ -68,6 +68,7 @@ class eZTemplateAttributeOperator
     */
     function eZTemplateAttributeOperator( $name = "attribute" )
     {
+        $this->AttributeName = $name;
         $this->Operators = array( $name );
     }
 
@@ -77,6 +78,13 @@ class eZTemplateAttributeOperator
     function &operatorList()
     {
         return $this->Operators;
+    }
+
+    function operatorTemplateHints()
+    {
+        return array( $this->AttributeName => array( 'input' => true,
+                                                     'output' => true,
+                                                     'parameters' => 3 ) );
     }
 
     /*!

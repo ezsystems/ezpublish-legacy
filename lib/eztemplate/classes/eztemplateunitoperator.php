@@ -70,6 +70,7 @@ class eZTemplateUnitOperator
     */
     function eZTemplateUnitOperator( $name = "si" )
     {
+        $this->SIName = $name;
         $this->Operators = array( $name );
     }
 
@@ -79,6 +80,13 @@ class eZTemplateUnitOperator
     function &operatorList()
     {
         return $this->Operators;
+    }
+
+    function operatorTemplateHints()
+    {
+        return array( $this->SIName => array( 'input' => true,
+                                              'output' => true,
+                                              'parameters' => 2 ) );
     }
 
     /*!
