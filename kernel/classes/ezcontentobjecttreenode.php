@@ -897,9 +897,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $fromNode = $nodeID ;
 
+            $nodePath = null;
+            $nodeDepth = 0;
             if ( count( $node ) != 0 )
             {
-                $nodePath =  $node->attribute( 'path_string' );
+                $nodePath = $node->attribute( 'path_string' );
                 $nodeDepth = $node->attribute( 'depth' );
             }
 
