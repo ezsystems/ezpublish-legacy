@@ -33,7 +33,7 @@
 
 <ol>
 	<li><pre class="example"> $ mysql -u root -p &lt;password&gt;</pre></li>
-	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysqlgt&; create database &lt;name_of_database&gt;</pre></li>
+	<li>You should now have a "mysql&gt;" prompt, create a new database <pre class="example"> mysql&gt; create database &lt;name_of_database&gt;</pre></li>
 	<li>Grant permissions <pre class="example"> mysql&gt; grant all on &lt;name_of_database&gt;.* to &lt;user&gt;@localhost
 	identified by '&lt;password&gt;';</pre></li>
 </ol>
