@@ -111,6 +111,7 @@ class eZApproveType extends eZWorkflowEventType
                     $user =& $users[$key];
                     $user['Name'] = $user['name'];
                     $user['value'] = $user['id'];
+                    $userList[] = $user;
                 }
                 return $userList;
             }break;
