@@ -277,3 +277,14 @@ Source=node/view/line.tpl
 MatchFile=line/poll.tpl
 Subdir=templates
 Match[class_identifier]=poll
+
+
+# General templates
+
+[factbox]
+Source=content/datatype/view/ezxmltags/factbox.tpl
+MatchFile=datatype/ezxmltext/factbox.tpl
+Subdir=templates
+# TODO: remove override when tpl compiling is fixed -> before 3.4 final
+Match[class_identifier]=folder
+
