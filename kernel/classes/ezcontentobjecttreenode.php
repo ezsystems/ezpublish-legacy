@@ -2513,6 +2513,7 @@ WHERE
         include_once( 'kernel/classes/ezcontentcache.php' );
         eZContentCache::subtreeCleanup( array ( $urlAlias ) );
 
+        $ini =& eZINI::instance();
         // Clean up template cache bocks
         $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
         if ( $templateBlockCacheEnabled )
