@@ -177,7 +177,7 @@ class eZXMLTextType extends eZDataType
                 $contentObjectAttribute->setAttribute( "data_text", "test" );
             }
 
-            eZDebug::writeNotice( $data, "XML text" );
+            eZDebug::writeDebug( $data, "eZXMLTextType::XML text" );
         }
 
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -317,7 +317,7 @@ class eZXMLTextType extends eZDataType
         if ( $dom )
             $node = $dom->elementsByName( "section" );
 
-        eZDebug::writeNotice( $contentObjectAttribute->attribute( "data_text" ), "xxxx" );
+        eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
         if ( count( $node ) > 0 )
         {
             $output = "";
