@@ -38,7 +38,9 @@ eZ XML:
 - Added convenience function to append multiple attribute values which are defined in a PHP array.
 
 eZ i18n:
-- New convertStringToUnicode function available which converts any string into an array with Unicode values.
+- Added support for Unicode encoding which is an array with Unicode values. Conversion from
+  and to this encoding is supported seamlessly.
+- Cleaned up the code which decides how the conversion should be done from input charset to output charset.
 
 eZ ini:
 - Added support for more characters in accociative arrays defined in .ini files
