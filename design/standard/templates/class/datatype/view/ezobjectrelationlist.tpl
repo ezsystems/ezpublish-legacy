@@ -38,7 +38,7 @@
     <th>{'Section'|i18n( 'design/standard/class/datatype' )}</th>
 </tr>
 <tr>
-    <td>{$default_location.class_identifier|class_icon( small, $default_location.class_name )}&nbsp;{$default_location.name|wash}</td>
+    <td>{$default_location.class_identifier|class_icon( small, $default_location.class_name )}&nbsp;<a href={$default_location.url_alias|ezurl}>{$default_location.name|wash}</a></td>
     <td>{$default_location.class_name|wash}</td>
     <td>{fetch( section, object, hash( section_id, $default_location.object.section_id ) ).name|wash}</td>
 </tr>

@@ -19,7 +19,7 @@
         <th>{'Section'|i18n( 'design/standard/class/datatype' )}</th>
     </tr>
     <tr>
-        <td>{$selection_node.class_identifier|class_icon( small, $selection_node.class_name )}&nbsp;{$selection_node.name|wash}</td>
+        <td>{$selection_node.class_identifier|class_icon( small, $selection_node.class_name )}&nbsp;<a href={$selection_node.url_alias|ezurl}>{$selection_node.name|wash}</a></td>
         <td>{$selection_node.class_name|wash}</td>
         <td>{fetch( section, object, hash( section_id, $selection_node.object.section_id ) ).name|wash}</td>
     </tr>
