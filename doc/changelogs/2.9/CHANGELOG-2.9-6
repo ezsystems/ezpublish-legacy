@@ -183,3 +183,6 @@ eZ SendmailTransporter:
 
 eZ SMTPTransport:
 - Sends mail with SMTP.
+
+eZ texttool:
+- Changed arrayFlatten to be non-recursive (ie. iterative).
