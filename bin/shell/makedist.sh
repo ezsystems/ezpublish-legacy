@@ -791,7 +791,7 @@ echo "Creating MD5 check sums"
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cfz $BASE.tar.gz $BASE
-    echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
+    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`")
 
 echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
@@ -800,21 +800,16 @@ echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 	rm -f $BASE.tar.bz2
     fi
     bzip2 $BASE.tar
-    echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
+    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`")
 
 if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
     (cd $DEST_ROOT
 	zip -9 -r -q $BASE.zip $BASE
-	echo ", `$SETCOLOR_SUCCESS`done`$SETCOLOR_NORMAL`")
+	echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
-
-echo "Created archives:"
-echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`"
-echo "`$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`"
 
 echo
 echo "Now remember to create releases with:"
