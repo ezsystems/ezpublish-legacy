@@ -99,10 +99,15 @@ class eZStepSitePackages extends eZStepInstaller
         $siteType = $siteTypes[0]['identifier'];
 
         $typeFunctionality = eZSetupFunctionality( $siteType );
-        $requiredPackages = $typeFunctionality['required'];
+        $requiredPackageList = $typeFunctionality['required'];
+        $requiredPackages = array();
+        foreach ( $requiredPackageList as $requiredPackage )
+        {
+            $requiredPackages[] = strtolower( $requiredPackage );
+        }
 
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageArray = eZPackage::fetchPackages( array( 'path' => 'packages' ) );
+        $packageArray = eZPackage::fetchPackages( array( 'path' => 'packages/addons' ) );
 
         $requiredPackageInfoArray = array();
         $packageInfoArray = array();
@@ -110,12 +115,14 @@ class eZStepSitePackages extends eZStepInstaller
         {
             if ( in_array( strtolower( $package->attribute( 'name' ) ), $requiredPackages ) )
             {
-                $requiredPackageInfoArray[] = array( 'name' => $package->attribute( 'name' ),
+                $requiredPackageInfoArray[] = array( 'identifier' => $package->attribute( 'name' ),
+                                                     'name' => $package->attribute( 'summary' ),
                                                      'description' => $package->attribute( 'description' ) );
             }
             else
             {
-                $packageInfoArray[] = array( 'name' => $package->attribute( 'name' ),
+                $packageInfoArray[] = array( 'identifier' => $package->attribute( 'name' ),
+                                             'name' => $package->attribute( 'summary' ),
                                              'description' => $package->attribute( 'description' ) );
             }
         }

@@ -379,8 +379,10 @@ class eZStepCreateSites extends eZStepInstaller
 //             exit;
 
             $siteINIStored = false;
+            $siteINIAdminStored = false;
 
             $extraSettings = eZSetupINISettings( $siteType );
+            $extraAdminSettings = eZSetupAdminINISettings( $siteType );
             foreach ( $extraSettings as $extraSetting )
             {
                 $iniName = $extraSetting['name'];
@@ -396,10 +398,32 @@ class eZStepCreateSites extends eZStepInstaller
                 }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
             }
+            foreach ( $extraAdminSettings as $extraSetting )
+            {
+                $iniName = $extraSetting['name'];
+                $settings = $extraSetting['settings'];
+                $tmpINI =& eZINI::create( $iniName );
+                $tmpINI->setVariables( $settings );
+                if ( $iniName == 'site.ini' )
+                {
+                    $siteINIAdminStored = true;
+                    $tmpINI->setVariables( $siteINIChanges );
+                    $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
+                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+                    $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+                }
+                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+            }
 
             $siteINI =& eZINI::create( 'site.ini' );
-            $siteINI->setVariables( $siteINIChanges );
-            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+            if ( !$siteINIAdminStored )
+            {
+                $siteINI->setVariables( $siteINIChanges );
+                $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
+                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+                $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName" );
+            }
             if ( !$siteINIStored )
             {
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
@@ -416,21 +440,32 @@ class eZStepCreateSites extends eZStepInstaller
 
 //             $package->install( $installParameters );
 
+            $publishAdmin = false;
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $userAccount =& eZUser::fetch( 14 );
             $userObject =& $userAccount->attribute( 'contentobject' );
-            $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
-            $dataMap =& $userObject->attribute( 'data_map' );
-            $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
-            $dataMap['first_name']->store();
-            $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
-            $dataMap['last_name']->store();
-            $userObject->store();
+            if ( trim( $admin['email'] ) )
+            {
+                $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+            }
+            if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
+            {
+                $dataMap =& $userObject->attribute( 'data_map' );
+                $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
+                $dataMap['first_name']->store();
+                $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
+                $dataMap['last_name']->store();
+                $userObject->store();
+                $publishAdmin = true;
+            }
             $userAccount->store();
 
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
-                                                                                         'version' => $userObject->attribute( 'version' ) ) );
+            if ( $publishAdmin )
+            {
+                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
+                                                                                             'version' => $userObject->attribute( 'version' ) ) );
+            }
         }
 //         else
 //             eZDebug::writeError( "Failed fetching package " . $siteType['identifier'] );
@@ -489,11 +524,16 @@ WHERE
         $extraFunctionality = array_unique( $extraFunctionality );
         foreach ( $extraFunctionality as $packageName )
         {
-            $package = eZPackage::fetch( $packageName, 'packages' );
+            $package = eZPackage::fetch( $packageName, 'packages/addons' );
             if ( is_object( $package ) )
             {
                 $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                          'top_nodes_map' => array( '*' => 2 ) ) );
+                                          'top_nodes_map' => array( '*' => 2 ),
+                                          'user_id' => $user->attribute( 'contentobject_id' ) ) );
+            }
+            else
+            {
+                eZDebug::writeError( "Failed to fetch package $packageName" );
             }
             unset( $package );
         }
