@@ -109,3 +109,7 @@ eZ DB:
 
 Setup :
 - Added example to magic quotes template on how to disable magic quotes with a .htaccess file.
+
+*Settings:
+site.ini:
+- Fixed wrong spelling of NodeTranslation in site.ini.
