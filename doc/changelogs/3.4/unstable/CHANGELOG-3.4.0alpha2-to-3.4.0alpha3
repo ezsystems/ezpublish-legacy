@@ -86,5 +86,7 @@ eZXML:
   part of: http://ez.no/community/bug_reports/obj_purge_warning_at_ezmysqldb_escapestring
 - Fixed undefined variables in ezenumtype (Merged from 3.3, rev. 5887)
   http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
+- Fixed misuse of in_array() function (Merged from 3.3, rev. 5894)
+  http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 
 *Update
