@@ -59,11 +59,14 @@ if ( isset( $argv[1] ) )
     $overrideTxt = "";
     foreach ( $nodeOverrideFileArray as $overrideFile )
     {
-        if ( preg_match( "#^(.*)\/(([0-9a-z_]+)_([0-9a-z]+)_([0-9a-z_]++))\.tpl$#", $overrideFile, $matchParts ) )
+        if ( preg_match( "#^/(.*)\/(([0-9a-z_]+)_([0-9a-z]+)_([0-9a-z_]++))\.tpl$#", $overrideFile, $matchParts ) )
         {
+            $matchFile = $overrideFile;
+            if ( preg_match( "#^/(.*)$#", $matchFile, $matches ) )
+                $matchFile = $matches[1];
             $overrideTxt .= "[" . $matchParts[2] . "]\n";
             $overrideTxt .= "Source=" . $matchParts[1] . "/" . $matchParts[3] . ".tpl\n";
-            $overrideTxt .= "MatchFile=" . $overrideFile . ".tpl\n";
+            $overrideTxt .= "MatchFile=" . $matchFile . "\n";
             $overrideTxt .= "Subdir=templates\n";
             $overrideTxt .= "Match[" .$matchParts[4] . "]=" . $matchParts[5] . "\n";
             $overrideTxt .= "\n";
