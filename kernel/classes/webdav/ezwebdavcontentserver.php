@@ -781,10 +781,10 @@ function createFolder( $node, $target )
 
     // Grab settings from the ini file:
     $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-    $iniSettings = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
+    $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
 
     // Fetch the folder class.
-    $class =& eZContentClass::fetch( 1 );
+    $class =& eZContentClass::fetch( $folderClassID );
 
     // Create object by user id in section 1.
     $contentObject =& $class->instantiate( $userID, 1 );
@@ -1182,8 +1182,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
                     // Grab settings from the ini file:
                     $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-                    $iniSettings = $webdavINI->variable( 'GetSettings', 'MIME' );
-                    $iniDefaultSetting = $webdavINI->variable( 'GetSettings', 'DefaultClass' );
+                    $iniSettings = $webdavINI->variable( 'PutSettings', 'MIME' );
+                    $iniDefaultSetting = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
                     // Attempt to determine the attribute that should be used for display:
                     $attributeID = $iniSettings[$mime];
