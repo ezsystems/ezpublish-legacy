@@ -17,6 +17,8 @@ menuArray['Advanced']['depth'] = 1; // this is a first level submenu of ContextM
 menuArray['Advanced']['elements'] = new Array();
 menuArray['Advanced']['elements']['menu-hide'] = new Array();
 menuArray['Advanced']['elements']['menu-hide']['url'] = {"/content/hide/%nodeID%"|ezurl};
+menuArray['Advanced']['elements']['menu-map'] = new Array();
+menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
 
 
 menuArray['SubitemsContextMenu'] = new Array();
@@ -108,6 +110,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     </div> *}
     <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap with another node'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="menu-hide" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Hide / unhide'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-list" href="#"  onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Content map'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
