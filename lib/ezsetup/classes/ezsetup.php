@@ -130,7 +130,18 @@ switch( $step )
 function configuration()
 {
 	$config = eZINI::instance( "setup.ini" );
-	return $config->getNamedArray();
+	$namedArray = $config->getNamedArray();
+
+	// Convert the pseudo array (like "item1;item2;item3") to real arrays
+	foreach( array_keys( $namedArray ) as $mainKey )
+	{
+		foreach( array_keys( $namedArray[$mainKey] ) as $key )
+		{
+			if ( preg_match( "/;/", $namedArray[$mainKey][$key] ) )
+				$namedArray[$mainKey][$key] = preg_split( "/;/", $namedArray[$mainKey][$key] );
+		}
+	}
+	return $namedArray;
 }
 
 // Print debug information and exit.

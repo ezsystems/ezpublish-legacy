@@ -61,6 +61,10 @@ function stepThree( &$tpl, &$http )
     $dbParams["create_user"]      = trim( $http->postVariable( "dbCreateUser" ) );
     $dbParams["create_pass"]      = $http->postVariable( "dbCreatePass" );
     $dbParams["create_pass2"]     = $http->postVariable( "dbCreatePass2" );
+	if ( $http->hasVariable( "dbDeleteTables" ) )
+		$dbParams["delete_tables"]= $http->postVariable( "dbDeleteTables" );
+	else
+		$dbParams["delete_tables"]= false;
     
 
 	// Go back to step 2, if create_pass != create_pass2
@@ -105,11 +109,12 @@ function stepThree( &$tpl, &$http )
     $tpl->setVariable( "dbMainPass", $dbParams["main_pass"] );
     $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );
     $tpl->setVariable( "dbCreatePass", $dbParams["create_pass"] );
-
+    $tpl->setVariable( "dbDeleteTables", $dbParams["delete_tables"] );
 	
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
     $tpl->setVariable( "createUser", false );
+    $tpl->setVariable( "deleteTables", false );
 
     // Only continue, if we are successful
     $continue = false;
@@ -165,6 +170,48 @@ function stepThree( &$tpl, &$http )
 			$error = errorHandling( $testItems, $dbParams, $dbObject );
 		}
     }
+	else if ( $continue && $dbObject->isConnected() == true && $dbParams["delete_tables"] == "yes" )
+	{
+		$tpl->setVariable( "deleteTables", true );
+		$continue = false;
+
+
+		// Get all tables (TODO: Is this just mysql or for all dbs?)
+		$sqlQuery = "SHOW TABLES LIKE 'ez%'";
+		$sqlResult = $dbObject->arrayQuery( $sqlQuery );
+
+		// Continue, if we were successful
+		$dbError = false;
+		if ( $dbObject->errorNumber() == 0 )
+		{
+			$i = 0;
+			while( $i < count( $sqlResult ) )
+			{
+				$sqlQuery = "DROP TABLE " . $sqlResult[$i][0];
+				$dbObject->query( $sqlQuery );
+				if ( $dbObject->errorNumber() != 0 )
+				{
+					$dbError = true;
+					break;
+				}
+				$i++;
+			}
+		}
+		else
+			$dbError = true;
+
+		// See if there was an error
+		if ( ! $dbError )
+		{
+			$tpl->setVariable( "deleteTablesOK", "successful." );
+			$continue = true;
+		}
+		else
+		{
+			$tpl->setVariable( "deleteTablesOK", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
+		}
+	}
 
 	
 	//
@@ -180,7 +227,7 @@ function stepThree( &$tpl, &$http )
 		
 		// Try to create user
 		$sqlQuery = "grant all on ". $dbParams["database"] . ".* to " . $dbParams["user"] . "@localhost identified by \"" . $dbParams["password"] . "\"";
-		$dbObject->query( $sqlQuery, true );
+		$dbObject->query( $sqlQuery );
 
 		// Reconnect to database with new user
 		if ( $dbObject->errorNumber() == 0 )
@@ -219,8 +266,7 @@ function stepThree( &$tpl, &$http )
 			{
 				if ( trim( $singleQuery ) != "" )
 				{
-					$dbObject->query( $singleQuery, true );
-					eZDebug::writeDebug( "Error: " . $dbObject->errorNumber() );
+					$dbObject->query( $singleQuery );
 					if ( $dbObject->errorNumber() != 0 )
 						break;
 				} 
