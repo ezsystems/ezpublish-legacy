@@ -240,7 +240,8 @@ class eZModule
             return false;
         $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters ) );
         // The error module may want to redirect to another URL, see error.ini
-        if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT )
+        if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT and
+             $this->exitStatus() != EZ_MODULE_STATUS_RERUN )
         {
             $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
             $this->setErrorCode( $errorCode );

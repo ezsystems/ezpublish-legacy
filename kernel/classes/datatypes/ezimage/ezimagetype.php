@@ -55,7 +55,8 @@ class eZImageType extends eZDataType
 {
     function eZImageType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_IMAGE, "Image" );
+        $this->eZDataType( EZ_DATATYPESTRING_IMAGE, "Image",
+                           array( 'serialize_supported' => true ) );
     }
 
     function hasAttribute( $name )
@@ -339,6 +340,15 @@ class eZImageType extends eZDataType
         return "";
     }
 
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
+                                                                                     array( 'unit-size' => 'mega' ) ) );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_IMAGE, "ezimagetype" );

@@ -57,7 +57,8 @@ class eZRangeOptionType extends eZDataType
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, "Range option" );
+        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, "Range option",
+                           array( 'serialize_supported' => true ) );
     }
 
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -166,6 +167,14 @@ class eZRangeOptionType extends eZDataType
         return false;
     }
 
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultName = $classAttribute->attribute( 'data_text1' );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );

@@ -52,7 +52,8 @@ class eZDateTimeType extends eZDataType
 {
     function eZDateTimeType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, "Datetime field" );
+        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, "Datetime field",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -202,12 +203,14 @@ class eZDateTimeType extends eZDataType
         {
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
             {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', 'empty' ) );
-            };
+                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
+                                                                                         array( 'type' => 'empty' ) ) );
+            } break;
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
             {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', 'current-date' ) );
-            };
+                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
+                                                                                         array( 'type' => 'current-date' ) ) );
+            } break;
         }
     }
 }

@@ -61,7 +61,8 @@ class eZMatrixType extends eZDataType
     */
     function eZMatrixType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, "Matrix" );
+        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, "Matrix",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -399,7 +400,30 @@ class eZMatrixType extends eZDataType
         return true;
     }
 
-
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $content =& $classAttribute->content();
+        if ( $content )
+        {
+            $defaultName = $classAttribute->attribute( 'data_text1' );
+            $defaultRowCount = $classAttribute->attribute( 'data_int1' );
+            $columns = $content->attribute( 'columns' );
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-row-count', $defaultRowCount ) );
+            $columnsNode =& eZDOMDocument::createElementNode( 'columns' );
+            $attributeParametersNode->appendChild( $columnsNode );
+            foreach ( $columns as $column )
+            {
+                $columnsNode->appendChild( eZDOMDocument::createElementNode( 'column',
+                                                                             array( 'name' => $column['name'],
+                                                                                    'identifier' => $column['identifier'],
+                                                                                    'index' => $column['index'] ) ) );
+            }
+        }
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_MATRIX, "ezmatrixtype" );

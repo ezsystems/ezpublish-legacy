@@ -340,8 +340,12 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
-$package =& eZPackageHandler::create( 'mytest', array( 'summary' => 'hm',
-                                                       'extension' => 'myext' ) );
+$packageName = 'mytest';
+$packageSummary = 'hm';
+$packageExtension = 'myext';
+
+$package =& eZPackageHandler::create( $packageName, array( 'summary' => $packageSummary,
+                                                           'extension' => $packageExtension ) );
 
 $package->appendMaintainer( 'Jan Borsodi', 'jb@ez.no', 'lead' );
 

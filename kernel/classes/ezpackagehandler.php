@@ -158,11 +158,14 @@ class eZPackageHandler
     }
 
     function appendInstall( $type, $name, $os = false, $pre = true,
+                            $filename = false, $subdirectory = false,
                             $parameters = false )
     {
         $installEntry = array( 'type' => $type,
                                'name' => $name,
                                'os' => $os,
+                               'filename' => $filename,
+                               'subdirectory' => $subdirectory,
                                'parameters' => $parameters );
         $prePost = 'pre';
         if ( !$pre )
@@ -397,7 +400,30 @@ class eZPackageHandler
                         {
                             $partContentNode =& $content;
                         }
-                        $partNode->appendChild( $partContentNode );
+                        if ( $item['filename'] )
+                        {
+                            $partNode->appendAttribute( $dom->createAttributeNode( 'filename', $item['filename'] ) );
+                            $subdirectory = false;
+                            if ( $item['subdirectory'] )
+                            {
+                                $subdirectory = $item['subdirectory'];
+                                $partNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $subdirectory ) );
+                            }
+                            $filePath = $item['filename'] . '.xml';
+                            if ( $subdirectory )
+                            {
+                                if ( !file_exists( $subdirectory ) )
+                                    eZDir::mkdir( $subdirectory, 0777, true );
+                                $filePath = $subdirectory . '/' . $filePath;
+                            }
+                            $partDOM = new eZDOMDocument();
+                            $partDOM->setRoot( $partContentNode );
+                            $this->storeDOM( $filePath, $partDOM );
+                        }
+                        else
+                        {
+                            $partNode->appendChild( $partContentNode );
+                        }
                         $installNode->appendChild( $partNode );
                     }
                 } break;
@@ -417,10 +443,20 @@ class eZPackageHandler
 
     function store( $filename )
     {
+        return $this->storeString( $filename, $this->toString() );
+    }
+
+    function storeDOM( $filename, $dom )
+    {
+        $data = $dom->toString();
+        $this->storeString( $filename, $data );
+    }
+
+    function storeString( $filename, $data )
+    {
         $file = fopen( $filename, 'w' );
         if ( $file )
         {
-            $data = $this->toString();
             fwrite( $file, $data );
             fclose( $file );
             return true;

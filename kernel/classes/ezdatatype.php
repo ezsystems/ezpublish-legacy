@@ -81,8 +81,11 @@ class eZDataType
         $this->Name = $name;
 
         $translationAllowed = true;
+        $serializeSupported = false;
         if ( isset( $properties['translation_allowed'] ) )
             $translationAllowed = $properties['translation_allowed'];
+        if ( isset( $properties['serialize_supported'] ) )
+            $serializeSupported = $properties['serialize_supported'];
 
         $this->Attributes = array();
         $this->Attributes["is_indexable"] = $this->isIndexable();
@@ -90,7 +93,8 @@ class eZDataType
 
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
-        $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed );
+        $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed,
+                                                 'serialize_supported' => $serializeSupported );
     }
 
     /*!
@@ -493,7 +497,8 @@ class eZDataType
     */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $attributeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+        if ( !$this->Attributes['properties']['serialize_supported'] )
+            $attributeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
     }
 
     /*!

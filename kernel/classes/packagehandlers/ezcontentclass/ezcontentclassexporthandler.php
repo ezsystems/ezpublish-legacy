@@ -143,6 +143,7 @@ class eZContentClassExportHandler
                 }
 
                 $package->appendInstall( 'part', false, false, true,
+                                         'class-' . $classID, 'contentclass',
                                          array( 'content' => $classNode ) );
             }
         }

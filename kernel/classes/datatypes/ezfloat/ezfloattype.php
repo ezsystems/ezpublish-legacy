@@ -60,7 +60,8 @@ class eZFloatType extends eZDataType
 {
     function eZFloatType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_FLOAT, "Float" );
+        $this->eZDataType( EZ_DATATYPESTRING_FLOAT, "Float",
+                           array( 'serialize_supported' => true ) );
         $this->FloatValidator = new eZFloatValidator();
     }
 
@@ -325,6 +326,22 @@ class eZFloatType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_float" );
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD );
+        $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
+        $maxValue = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
+        $minMaxState = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
+        if ( $minMaxState == EZ_FLOAT_HAS_MIN_VALUE or $minMaxState == EZ_FLOAT_HAS_MIN_MAX_VALUE )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'min-value', $minValue ) );
+        if ( $minMaxState == EZ_FLOAT_HAS_MAX_VALUE or $minMaxState == EZ_FLOAT_HAS_MIN_MAX_VALUE )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-value', $maxValue ) );
     }
 
     /// \privatesection

@@ -55,7 +55,8 @@ class eZSelectionType extends eZDataType
     */
     function eZSelectionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, "Selection" );
+        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, "Selection",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!

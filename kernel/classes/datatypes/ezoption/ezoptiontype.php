@@ -52,7 +52,8 @@ class eZOptionType extends eZDataType
 {
     function eZOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OPTION, "Option" );
+        $this->eZDataType( EZ_DATATYPESTRING_OPTION, "Option",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -270,6 +271,14 @@ class eZOptionType extends eZDataType
         return false;
     }
 
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $classAttribute->attribute( 'data_text1' );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
+    }
 
 }
 

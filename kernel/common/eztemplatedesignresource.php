@@ -462,6 +462,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /*!
      \static
+    */
+    function serializeOverrides( $siteAccess = false,
+                                 $matchKeys = array() )
+    {
+    }
+
+    /*!
+     \static
      \return an array of all the current templates and overrides for them.
              The current siteaccess is used if none is specified.
     */

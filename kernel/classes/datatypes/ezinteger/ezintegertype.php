@@ -65,7 +65,8 @@ class eZIntegerType extends eZDataType
 {
     function eZIntegerType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_INTEGER, "Integer" );
+        $this->eZDataType( EZ_DATATYPESTRING_INTEGER, "Integer",
+                           array( 'serialize_supported' => true ) );
         $this->IntegerValidator = new eZIntegerValidator();
     }
 
@@ -389,6 +390,22 @@ class eZIntegerType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $objectAttribute->attribute( "data_int" ) ) );
 
         return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD );
+        $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
+        $maxValue = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
+        $minMaxState = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
+        if ( $minMaxState == EZ_INTEGER_HAS_MIN_VALUE or $minMaxState == EZ_INTEGER_HAS_MIN_MAX_VALUE )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'min-value', $minValue ) );
+        if ( $minMaxState == EZ_INTEGER_HAS_MAX_VALUE or $minMaxState == EZ_INTEGER_HAS_MIN_MAX_VALUE )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-value', $maxValue ) );
     }
 
     /// \privatesection

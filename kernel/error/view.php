@@ -36,12 +36,12 @@ include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
 
-$Module =& $Params['Module'];
-$Type = $Params['Type'];
-$Number = $Params['Number'];
-$ExtraParameters = $Params['ExtraParameters'];
+$module =& $Params['Module'];
+$errorType = $Params['Type'];
+$errorNumber = $Params['Number'];
+$extraErrorParameters = $Params['ExtraParameters'];
 
-$tpl->setVariable( 'parameters', $ExtraParameters );
+$tpl->setVariable( 'parameters', $extraErrorParameters );
 
 $siteBasics = $GLOBALS['eZSiteBasics'];
 $userObjectRequired = $siteBasics['user-object-required'];
@@ -62,24 +62,80 @@ else
     $tpl->setVariable( "anonymous_user_id", false );
 }
 
-if ( $Type == 'kernel' )
+$embedContent = false;
+
+// if ( $errorType == 'kernel' )
 {
-    $error_ini =& eZINI::instance( 'error.ini' );
+    $errorINI =& eZINI::instance( 'error.ini' );
 
     // Redirect if error.ini tells us to
-    $errorhandlers =& $error_ini->variable( 'ErrorSettings', 'ErrorHandler' );
-    $redirecturls =& $error_ini->variable( 'ErrorSettings', 'RedirectURL' );
-    if ( $errorhandlers[$Number] == 'redirect' &&
-         isSet( $redirecturls[$Number] ) )
-    {
-        return $Module->redirectTo( $redirecturls[$Number] );
-    }
+    $errorHandlerList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'ErrorHandler' );
+    $redirectURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'RedirectURL' );
+    $rerunURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'RerunURL' );
+    $embedURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'EmbedURL' );
 
-    // Set apache error headers if error.ini tells us to
-    if ( in_array( $Number, $error_ini->variableArray( 'ErrorSettings', 'NotFoundErrors' ) ) )
+    $errorHandlerType = $errorINI->variable( 'ErrorSettings', 'DefaultErrorHandler' );
+    if ( isset( $errorHandlerList[$errorNumber] ) )
+        $errorHandlerType = $errorHandlerList[$errorNumber];
+
+    if ( $errorHandlerType != 'redirect' )
     {
-        header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " 404 Not Found" );
-        header( "Status: 404 Not Found" );
+        // Set apache error headers if error.ini tells us to
+        if ( $errorINI->hasVariable( 'ErrorSettings-' . $errorType, 'HTTPError' ) )
+        {
+            $errorMap = $errorINI->variable( 'ErrorSettings-' . $errorType, 'HTTPError' );
+            if ( isset( $errorMap[$errorNumber] ) )
+            {
+                $httpErrorCode = $errorMap[$errorNumber];
+                if ( $errorINI->hasVariable( 'HTTPError-' . $httpErrorCode, 'HTTPName' ) )
+                {
+                    $httpErrorName = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
+                    $httpErrorString = "$httpErrorCode $httpErrorName";
+                    header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
+                    header( "Status: $httpErrorString" );
+                }
+            }
+        }
+    }
+    if ( $errorHandlerType == 'redirect' )
+    {
+        $errorRedirectURL = $errorINI->variable( 'ErrorSettings', 'DefaultRedirectURL' );
+        if ( isset( $redirectURLList[$errorNumber] ) )
+            $errorRedirectURL = $redirectURLList[$errorNumber];
+        return $module->redirectTo( $errorRedirectURL );
+    }
+    else if ( $errorHandlerType == 'rerun' )
+    {
+        $errorRerunURL = $errorINI->variable( 'ErrorSettings', 'DefaultRerunURL' );
+        if ( isset( $rerunURLList[$errorNumber] ) )
+            $errorRerunURL = $rerunURLList[$errorNumber];
+        $Result = array();
+        $Result['content'] = false;
+        $Result['rerun_uri'] = $errorRerunURL;
+        $module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+        return $Result;
+    }
+    else if ( $errorHandlerType == 'embed' )
+    {
+        $errorEmbedURL = $errorINI->variable( 'ErrorSettings', 'DefaultEmbedURL' );
+        if ( isset( $embedURLList[$errorNumber] ) )
+            $errorEmbedURL = $embedURLList[$errorNumber];
+        $uri = new eZURI( $errorEmbedURL );
+        $moduleName = $uri->element();
+        $embedModule = eZModule::exists( $moduleName );
+        if ( get_class( $module ) == "ezmodule" )
+        {
+            $uri->increase();
+            $viewName = false;
+            if ( !$embedModule->singleFunction() )
+            {
+                $viewName = $uri->element();
+                $uri->increase();
+            }
+            $embedParameters = $uri->elements( false );
+            $embedResult =& $embedModule->run( $viewName, $embedParameters );
+            $embedContent = $embedResult['content'];
+        }
     }
 }
 
@@ -87,19 +143,16 @@ $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
 if ( get_class( $requestedURI ) == 'ezuri' )
 {
-//     $requestedModule = $requestedURI->element( 0, false );
-//     $requestedView = $requestedURI->element( 1, false );
-//     if ( $requestedModule != 'user' or
-//          $requestedView != 'login' )
     $userRedirectURI = $requestedURI->uriString( true );
 }
 $tpl->setVariable( 'redirect_uri', $userRedirectURI );
+$tpl->setVariable( 'embed_content', $embedContent );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );
+$Result['content'] =& $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/error', 'Error' ),
                                 'url' => false ),
-                         array( 'text' => "$Type ($Number)",
+                         array( 'text' => "$errorType ($errorNumber)",
                                 'url' => false ) );
 
 ?>

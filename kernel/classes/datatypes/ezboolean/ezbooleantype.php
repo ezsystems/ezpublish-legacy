@@ -48,7 +48,8 @@ class eZBooleanType extends eZDataType
 {
     function eZBooleanType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, "Checkbox" );
+        $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, "Checkbox",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -152,6 +153,16 @@ class eZBooleanType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $classAttribute->attribute( 'data_int' );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
+                                                                                 array( 'is-set' => $defaultValue ? 'true' : 'false' ) ) );
     }
 }
 

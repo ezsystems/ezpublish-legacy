@@ -57,7 +57,8 @@ class eZBinaryFileType extends eZDataType
 {
     function eZBinaryFileType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, "BinaryFile" );
+        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, "BinaryFile",
+                           array( 'serialize_supported' => true ) );
     }
 
     function hasAttribute( $name )
@@ -370,6 +371,16 @@ class eZBinaryFileType extends eZDataType
             $metaData = $binaryFile->metaData();
         }
         return $metaData;
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
+                                                                                     array( 'unit-size' => 'mega' ) ) );
     }
 }
 

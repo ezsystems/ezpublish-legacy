@@ -11,3 +11,8 @@
 </ul>
 {/section}
 </div>
+
+{section show=$embed_content}
+
+{$embed_content}
+{/section}

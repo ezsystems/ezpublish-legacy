@@ -55,7 +55,8 @@ class eZPriceType extends eZDataType
 {
     function eZPriceType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRICE, "Price" );
+        $this->eZDataType( EZ_DATATYPESTRING_PRICE, "Price",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -158,6 +159,37 @@ class eZPriceType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_float" );
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $price =& $classAttribute->content();
+        if ( $price )
+        {
+            $vatIncluded = $price->attribute( 'is_vat_included' );
+            $vatTypes = $price->attribute( 'vat_type' );
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'vat-included',
+                                                                                     array( 'is-set' => $vatIncluded ? 'true' : 'false' ) ) );
+            $vatTypeNode =& eZDOMDocument::createElementNode( 'vat-type' );
+            $chosenVatType = $classAttribute->attribute( 'data_float1' );
+            $gotVat = false;
+            foreach ( $vatTypes as $vatType )
+            {
+                $id = $vatType->attribute( 'id' );
+                if ( $id == $chosenVatType )
+                {
+                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $vatType->attribute( 'name' ) ) );
+                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'percentage', $vatType->attribute( 'percentage' ) ) );
+                    $gotVat = true;
+                    break;
+                }
+            }
+            if ( $gotVat )
+                $attributeParametersNode->appendChild( $vatTypeNode );
+        }
     }
 }
 

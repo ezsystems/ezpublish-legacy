@@ -51,7 +51,8 @@ class eZAuthorType extends eZDataType
 {
     function eZAuthorType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, "Author" );
+        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, "Author",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -207,13 +208,6 @@ class eZAuthorType extends eZDataType
         $value = $author->attribute( $name );
 
         return $value;
-    }
-
-    /*!
-     \reimp
-    */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
-    {
     }
 }
 

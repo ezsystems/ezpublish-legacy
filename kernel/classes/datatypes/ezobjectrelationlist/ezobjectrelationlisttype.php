@@ -68,7 +68,8 @@ class eZObjectRelationListType extends eZDataType
     */
     function eZObjectRelationListType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION_LIST, "Object relation list" );
+        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION_LIST, "Object relation list",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -760,6 +761,25 @@ class eZObjectRelationListType extends eZDataType
 //                 return $object->attribute( 'name' );
 //         }
         return false;
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $content =& $classAttribute->content();
+        if ( $content['default_placement'] )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-placement',
+                                                                                     array( 'node-id' => $content['default_placement']['node_id'] ) ) );
+        $classConstraintsNode =& eZDOMDocument::createElementNode( 'class-constraints' );
+        $attributeParametersNode->appendChild( $classConstraintsNode );
+        foreach ( $content['class_constraint_list'] as $classConstraint )
+        {
+            $classConstraintIdentifier = $classConstraint;
+            $classConstraintsNode->appendChild( eZDOMDocument::createElementNode( 'class-constraint',
+                                                                                  array( 'class-identifier' => $classConstraintIdentifier ) ) );
+        }
     }
 
     /// \privatesection

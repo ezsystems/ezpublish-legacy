@@ -60,7 +60,8 @@ class eZEnumType extends eZDataType
     */
     function eZEnumType()
     {
-         $this->eZDataType( EZ_DATATYPESTRING_ENUM, "Enum" );
+         $this->eZDataType( EZ_DATATYPESTRING_ENUM, "Enum",
+                            array( 'serialize_supported' => true ) );
     }
 
     function hasAttribute( $name )
@@ -432,6 +433,30 @@ class eZEnumType extends eZDataType
 
 
         return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $isOption = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
+        $isMultiple = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD );
+        $content =& $classAttribute->attribute( 'content' );
+        $enumList =& $content->attribute( 'enum_list' );
+        $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-option', $isOption ? 'true' : 'false' ) );
+        $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-multiple', $isMultiple ? 'true' : 'false' ) );
+        $elementListNode =& eZDOMDocument::createElementNode( 'elements' );
+        $attributeParametersNode->appendChild( $elementListNode );
+        for ( $i = 0; $i < count( $enumList ); ++$i )
+        {
+            $enumElement =& $enumList[$i];
+            $elementNode =& eZDOMDocument::createElementNode( 'element',
+                                                              array( 'id' => $enumElement->attribute( 'id' ),
+                                                                     'name' => $enumElement->attribute( 'enumelement' ),
+                                                                     'value' => $enumElement->attribute( 'enumvalue' ) ) );
+            $elementListNode->appendChild( $elementNode );
+        }
     }
 }
 eZDataType::register( EZ_DATATYPESTRING_ENUM, "ezenumtype" );

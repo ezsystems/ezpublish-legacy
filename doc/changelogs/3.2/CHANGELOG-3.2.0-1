@@ -119,11 +119,16 @@ Changes from 3.1-1 to 3.2.0-1
 - Removed unused parameter 'headers' from eZMail::extraHeaders() and updated description
 - Added ContentType setting in MailSettings in site.ini. If set, this will set the content type
   of all mail sent from eZ publish. Default is text/plain.
-- Added error.ini, which allows redirection and 404 on given error numbers.
-  Default is display error as usual.
+- Added error.ini, which controls the behaviour of eZ publish errors.
+  Each error code can be set to display an error page, redirect to a url,
+  rerun a module or embed a module in the error page.
+  The error codes can also be mapped to HTTP error codes.
+- Updated templates for error codes to make it easier to understand what is wrong.
+- Made eZRangeOption datatype on by default.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.
+- Added support for class export in all kernel datatypes.
 
 *Templates:
 - Made default size ofe textarea fields like text line fields.
@@ -158,6 +163,7 @@ eZ ini:
 
 eZ module:
 - Added function to return the current redirection URI which is built from module, view and parameters.
+- Made sure it's possible to do redirections and reruns from the error module.
 
 eZ extension:
 - Added the helper function expandedPathList to turn a list of extension with an optional

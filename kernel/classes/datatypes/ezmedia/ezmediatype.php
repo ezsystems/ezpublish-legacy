@@ -58,7 +58,8 @@ class eZMediaType extends eZDataType
 {
     function eZMediaType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MEDIA, "Media" );
+        $this->eZDataType( EZ_DATATYPESTRING_MEDIA, "Media",
+                           array( 'serialize_supported' => true ) );
     }
 
     function hasAttribute( $name )
@@ -366,6 +367,18 @@ class eZMediaType extends eZDataType
     function metaData()
     {
         return "";
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
+        $type = $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
+                                                                                     array( 'unit-size' => 'mega' ) ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
     }
 }
 

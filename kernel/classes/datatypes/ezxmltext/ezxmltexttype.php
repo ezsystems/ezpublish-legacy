@@ -125,7 +125,8 @@ class eZXMLTextType extends eZDataType
 {
     function eZXMLTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, "XML Text field" );
+        $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, "XML Text field",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -376,7 +377,7 @@ class eZXMLTextType extends eZDataType
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-columns', $textColumns ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-column-count', $textColumns ) );
     }
 
     /*!

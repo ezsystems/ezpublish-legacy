@@ -56,7 +56,8 @@ class eZURLType extends eZDataType
     */
     function eZURLType()
     {
-        $this->eZDataType( EZ_DATATYPEURL_URL, 'URL' );
+        $this->eZDataType( EZ_DATATYPEURL_URL, 'URL',
+                           array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
 
@@ -198,6 +199,13 @@ class eZURLType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return  $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
     }
 
     /// \privatesection

@@ -50,7 +50,8 @@ class eZTextType extends eZDataType
 {
     function eZTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_TEXT, "Text field" );
+        $this->eZDataType( EZ_DATATYPESTRING_TEXT, "Text field",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -194,7 +195,7 @@ class eZTextType extends eZDataType
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-columns', $textColumns ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-column-count', $textColumns ) );
     }
 
     /*!

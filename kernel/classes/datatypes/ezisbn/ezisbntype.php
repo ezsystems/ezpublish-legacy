@@ -48,7 +48,8 @@ class eZISBNType extends eZDataType
 {
     function eZISBNType( )
     {
-        $this->eZDataType( EZ_DATATYPESTRING_ISBN, "ISBN" );
+        $this->eZDataType( EZ_DATATYPESTRING_ISBN, "ISBN",
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
