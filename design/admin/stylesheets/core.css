@@ -171,7 +171,7 @@ div.context-attributes table.list th, div.context-attributes table.special th, d
     background-color: #bfbfb7;
 }
 
-div.context-attributes table table.list th, div.context-attributes table table.special th
+div.context-attributes table table.list th, div.context-attributes table table.special th, div.onlineeditor th
 {
     color: #404040;
     background-color: #ddddd5;
