@@ -569,42 +569,123 @@ div.menu-block li
     background-color: #ffffff;
 }
 
+div.menu-block li.enabled
+{
+    background-image: url(../images/button-enabled-tc.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
+div.menu-block li.disabled
+{
+    background-image: url(../images/button-disabled-tc.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
 div.menu-block a
 {
+    font-size: 0.85em;
     display: block;
-    color: #000000;
-    padding: 0 0.5em 0 0.5em;
+    padding: 0 0.5em 0.1em 0.5em;
     text-decoration: none;
 }
 
-div.menu-block a.enabled
+div.menu-block li.enabled a
 {
+    color: #75756c;
+    background-image: url(../images/button-enabled-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+div.menu-block li.disabled a
+{
+    color: #999990;
+    background-image: url(../images/button-disabled-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
 }
 
 div.menu-block a:hover
 {
-    color: #ffffff;
-    background-color: #000000;
+    color: #000000;
     text-decoration: none;
 }
 
-div.menu-block li.selected div.button-bl
+div.menu-block li.enabled div.button-tc
 {
-    background-image: url(../images/button-bl.gif);
+/*    background-image: url(../images/button-enabled-tc.gif);
+    background-repeat: repeat-x;
+    background-position: top left; */
+}
+
+div.menu-block li.enabled div.button-bl
+{
+    background-image: url(../images/button-enabled-bl.gif);
     background-repeat: no-repeat;
     background-position: bottom left;
 }
 
-div.menu-block li.selected div.button-br
+div.menu-block li.disabled div.button-bl
 {
-    background-image: url(../images/button-br.gif);
+    background-image: url(../images/button-disabled-bl.gif);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+div.menu-block li.enabled div.button-tl
+{
+    background-image: url(../images/button-enabled-tl.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+div.menu-block li.disabled div.button-tl
+{
+    background-image: url(../images/button-disabled-tl.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+div.menu-block li.enabled div.button-tr
+{
+    background-image: url(../images/button-enabled-tr.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div.menu-block li.disabled div.button-tr
+{
+    background-image: url(../images/button-disabled-tr.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div.menu-block li.enabled div.button-br
+{
+    background-image: url(../images/button-enabled-br.gif);
     background-repeat: no-repeat;
     background-position: bottom right;
 }
 
-div.menu-block li.selected div.button-bc
+div.menu-block li.disabled div.button-br
 {
-    background-image: url(../images/button-bc.gif);
+    background-image: url(../images/button-disabled-br.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+div.menu-block li.enabled div.button-bc
+{
+    background-image: url(../images/button-enabled-bc.gif);
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+
+div.menu-block li.disabled div.button-bc
+{
+    background-image: url(../images/button-disabled-bc.gif);
     background-repeat: repeat-x;
     background-position: bottom left;
 }
@@ -809,7 +890,7 @@ div.controlbar input.button
     font-size: 0.9em;
     font-weight: bold;
     color: #ffffff;
-    background-color: #a0a0a0;
+    background-color: #2d537a;
     margin: 0;
     padding: 0;
 }

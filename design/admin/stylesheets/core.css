@@ -249,9 +249,10 @@ optgroup
 
 input.button
 {
+    color: #ffffff;
+    background-color: #2d537a;
     font-weight: normal;
     margin: 0 0.5em 0 0;
-    background-color: #e0e0e0;
 }
 
 input.button-default
