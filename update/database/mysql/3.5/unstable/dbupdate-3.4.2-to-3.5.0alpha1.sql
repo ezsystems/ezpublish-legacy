@@ -42,5 +42,3 @@ last_visit_timestamp int not null
 ALTER TABLE ezcontentobject_tree ADD is_hidden    INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE ezcontentobject_tree ADD is_invisible INTEGER NOT NULL DEFAULT 0;
 
--- fix for section based conditional assignment also in 3.4.3
-update  ezuser_role set limit_identifier='Section' where limit_identifier='section';

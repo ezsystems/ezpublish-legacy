@@ -73,5 +73,3 @@ UPDATE      ezcontentobject_tree SET   is_invisible = 0;
 ALTER TABLE ezcontentobject_tree ALTER is_invisible SET NOT NULL;
 ALTER TABLE ezcontentobject_tree ALTER is_invisible SET DEFAULT 0;
 
--- fix for section based conditional assignment also in 3.4.3
-update  ezuser_role set limit_identifier='Section' where limit_identifier='section';

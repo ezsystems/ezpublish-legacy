@@ -1,1 +1,12 @@
 Changes from 3.5.0alpha1 to 3.5.0alpha2
+
+
+
+*Kernel:
+
+- Fixed bug: Roles, limit on section.
+  (Merged from stable 3.4 rev 8423)
+  http://ez.no/community/bug_reports/roles_limit_on_section
+
+Payment:
+- removed paypal from kernel, from now it is available only in extension.
