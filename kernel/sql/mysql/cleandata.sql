@@ -77,6 +77,18 @@
 
 
 --
+-- Dumping data for table 'ezcontentbrowsebookmark'
+--
+
+
+
+--
+-- Dumping data for table 'ezcontentbrowserecent'
+--
+
+
+
+--
 -- Dumping data for table 'ezcontentclass'
 --
 
@@ -303,6 +315,12 @@ INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_v
 
 
 --
+-- Dumping data for table 'ezgeneral_digest_user_settings'
+--
+
+
+
+--
 -- Dumping data for table 'ezimage'
 --
 
@@ -322,6 +340,18 @@ INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_v
 
 --
 -- Dumping data for table 'ezinfocollection_attribute'
+--
+
+
+
+--
+-- Dumping data for table 'ezkeyword'
+--
+
+
+
+--
+-- Dumping data for table 'ezkeyword_attribute_link'
 --
 
 
@@ -362,6 +392,24 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (152,13,1,5,1,1,1,0,0);
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (153,14,1,13,1,1,1,0,0);
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (181,40,1,12,9,1,1,0,0);
+
+--
+-- Dumping data for table 'eznotificationcollection'
+--
+
+
+
+--
+-- Dumping data for table 'eznotificationcollection_item'
+--
+
+
+
+--
+-- Dumping data for table 'eznotificationevent'
+--
+
+
 
 --
 -- Dumping data for table 'ezoperation_memento'
@@ -406,27 +454,27 @@ INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_na
 --
 
 
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (414,248,1);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (415,248,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (416,248,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (417,248,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (418,248,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (419,248,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (420,248,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (421,248,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (422,248,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (423,248,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (424,248,13);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (425,248,2);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (426,248,5);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (427,248,6);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (428,248,7);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (429,248,8);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (430,248,9);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (431,248,10);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (432,248,11);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (433,248,12);
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (434,248,13);
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (414,248,'1');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (415,248,'2');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (416,248,'5');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (417,248,'6');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (418,248,'7');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (419,248,'8');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (420,248,'9');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (421,248,'10');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (422,248,'11');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (423,248,'12');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (424,248,'13');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (425,248,'2');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (426,248,'5');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (427,248,'6');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (428,248,'7');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (429,248,'8');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (430,248,'9');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (431,248,'10');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (432,248,'11');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (433,248,'12');
+INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (434,248,'13');
 
 --
 -- Dumping data for table 'ezproductcollection'
@@ -623,6 +671,12 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'
 
 --
 -- Dumping data for table 'ezsession'
+--
+
+
+
+--
+-- Dumping data for table 'ezsubtree_notification_rule'
 --
 
 
