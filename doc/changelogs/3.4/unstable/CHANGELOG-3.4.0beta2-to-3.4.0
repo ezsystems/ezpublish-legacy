@@ -92,6 +92,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/moving_article_from_one_folder_to_its_parent
 - Fixed bug with duplicate options in menu setup.
   http://ez.no/community/bug_reports/the_different_choices_in_the_menu_toolbar_is_shown_twice
+- Fixed bug of typo in company address for company object editing.
+  http://ez.no/community/bug_reports/typo_in_add_company_in_contacts
 
 *Library:
 
