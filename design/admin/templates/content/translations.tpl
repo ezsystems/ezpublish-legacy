@@ -1,7 +1,7 @@
 <form name="languageform" action={$module.functions.translations.uri|ezurl} method="post" >
 
 <div class="context-block">
-<h2 class="context-title">{'Available translation languages [%translations_count]'|i18n( 'design/admin/content/translations',, hash( '%translations_count', $existing_translations|count ) )}</h2>
+<h2 class="context-title">{'Available languages for content translations [%translations_count]'|i18n( 'design/admin/content/translations',, hash( '%translations_count', $existing_translations|count ) )}</h2>
 
 <table class="list" cellspacing="0">
 <tr>
