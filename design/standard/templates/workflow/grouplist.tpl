@@ -1,4 +1,4 @@
-<a href={"/manual/user/workflows"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+<a href={"/manual/user/workflows"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/workflow')}" title="{'Help on workflows'|i18n('design/standard/workflow')}" /> </a>
 
 <form action={concat($module.functions.grouplist.uri)|ezurl} method="post" name="GroupList">
 
@@ -19,7 +19,7 @@
       <a href={concat($module.functions.workflowlist.uri,"/",$Groups:item.id)|ezurl}>{$Groups:item.name}</a>
     </td>
     <td class="{$Groups:sequence}">
-      <div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Groups:item.id)|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" /></a></div>
+      <div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Groups:item.id)|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/workflow')}" title="{'Edit workflow'|i18n('design/standard/workflow')}" /></a></div>
     </td>
     <td class="{$Groups:sequence}" width="1" align="right">
       <input type="checkbox" name="ContentClass_id_checked[]" value="{$Groups:item.id}">
@@ -31,7 +31,7 @@
     {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New group"|i18n("design/standard/workflow")}
   </td>
   <td align="right">
-    <input type="image" name="DeleteGroupButton" value="{'Remove'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
+    <input type="image" name="DeleteGroupButton" value="{'Remove'|i18n('design/standard/workflow')}"  title="{'Remove selected workflows'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>

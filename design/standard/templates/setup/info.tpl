@@ -6,7 +6,7 @@
 <div class="object">
     <table width="500">
     <tr>
-        <td><p><b>{'Site:'|i18n('design/standard/setup)}</b></p></td><td><p>{ezini('SiteSettings','SiteURL')}</p></td>
+        <td><p><b>{'Site:'|i18n('design/standard/setup')}</b></p></td><td><p>{ezini('SiteSettings','SiteURL')}</p></td>
     </tr>
     <tr>
         <td><p><b>{'Version'|i18n('design/standard/setup','eZ publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>

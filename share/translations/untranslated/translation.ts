@@ -122,6 +122,34 @@
         <source>System information</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My pending list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL translator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -163,7 +191,7 @@
     </message>
     <message>
         <source>Default object view</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Product</source>
@@ -187,6 +215,10 @@
     </message>
     <message>
         <source>Users</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Link</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -194,7 +226,7 @@
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -349,7 +381,7 @@
     </message>
     <message>
         <source>Default naumber of rows</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Matrix Column</source>
@@ -407,6 +439,14 @@
         <source>Preferred number of rows</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Default number of rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New option</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
@@ -420,11 +460,11 @@
     </message>
     <message>
         <source>on</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Last modified by</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name:</source>
@@ -520,7 +560,7 @@
     </message>
     <message>
         <source>Modified by</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Discard</source>
@@ -584,6 +624,18 @@
     </message>
     <message>
         <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last modified by %username on %time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified by %username on %time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -799,6 +851,10 @@
         <source>No new items to be handled.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/collaboration/approval</name>
@@ -908,7 +964,7 @@
     </message>
     <message>
         <source>Pushback</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
@@ -1034,6 +1090,18 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL translator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1335,7 +1403,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>MIME Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Filesize</source>
@@ -1475,6 +1543,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MIME-Type</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1852,6 +1924,26 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Search tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check spelling of keywords.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Try changing some keywords eg. car instead of cars.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Try more general keywords.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fewer keywords gives more results, try reducing keywords until you get a result.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/tipafriend</name>
@@ -2073,6 +2165,14 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deselect all</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/version</name>
@@ -2150,11 +2250,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version history limit has been excessed and no archived version can be removed by the system.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You can change your setting about version history in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Edit</source>
@@ -2162,6 +2262,14 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Copy and edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2416,6 +2524,22 @@ If you wish to send comments to the approver or view the status use the URL belo
         <source>Site Design</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deselect all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My pending list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your pending list is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -2429,7 +2553,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Login to get proper permissions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click the Login button to login.</source>
@@ -2445,7 +2569,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>The requested module &apos;%1&apos; could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>View not found</source>
@@ -2453,15 +2577,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>The requested view &apos;%1&apos; could not be found in module: &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The object is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>View is disabled</source>
@@ -2469,7 +2593,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>The view %2/%1 is disabled and cannot be accessed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Module is disabled</source>
@@ -2477,6 +2601,109 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>The module %1 is disabled and cannot be accessed.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Possible reasons for this is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current user does not have the proper privileges to access this page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You misspelled some parts of your url, try changing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The resource you requested was not found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The the id or name of the resource was misspelled, try changing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The resource longer exists on the site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The requested module %module could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The module name was misspelled, try changing the url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The module does not exist on this site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This site uses siteaccess matching in the url and you didn&apos;t supply one, try inserting a siteaccess name before the module in the url .</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The requested view %view could not be found in module %module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The view name was misspelled, try changing the url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The view does not exist for the module %module.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The view %module/%view is disabled and cannot be accessed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The module %module is disabled and cannot be accessed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The object you requested is not currently available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The id or name of the object was misspelled, try changing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The object is no longer available on the site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object moved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The object is no longer available at this URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You should automatically be redirected to the new location. If not click %url.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/form</name>
+    <message>
+        <source>Thank you for your feedback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your information was successfully received.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2519,11 +2746,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>%1 front page</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Search %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Printable version</source>
@@ -2563,7 +2790,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Module load failed</source>
@@ -2575,10 +2802,26 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Revision:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Redirecting to %1</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>%sitetitle front page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search %sitetitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish redirection - %url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Redirecting to %url</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2601,11 +2844,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1!</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Removing node assignment of</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -2637,6 +2880,18 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Removing this assignment will also remove it&apos;s %1 children.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing node assignment of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2748,6 +3003,22 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Notify me about updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deselect all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to create a custom template</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2940,6 +3211,38 @@ The item can viewed by using the URL below.</source>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Notification admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification filter proccessed all available notification events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time event was spawned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run notification filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spawn time event</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spawn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification/collaboration</name>
@@ -2969,6 +3272,45 @@ The item can viewed by using the URL below.</source>
     <message>
         <source>Keyword:</source>
         <translation type="obsolete"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/package</name>
+    <message>
+        <source>Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following packages are available on this system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the file containing your package and click the upload button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install package</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3213,6 +3555,42 @@ The item can viewed by using the URL below.</source>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected policies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help on roles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Assign role to user or group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected roles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit current role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected assignments</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/search</name>
@@ -3253,7 +3631,7 @@ The item can viewed by using the URL below.</source>
     <name>design/standard/section</name>
     <message>
         <source>Assign section</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Assign section to node</source>
@@ -3345,7 +3723,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Choose section assignment</source>
@@ -3387,152 +3765,172 @@ The item can viewed by using the URL below.</source>
         <source>Assign</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Assign section - %section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help on sections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected sections</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup</name>
     <message>
         <source>site registration</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>PHP info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>OS info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Database info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unicode</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Supported</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unsupported</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Demo data:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Demo data was installed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Demo data was not installed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Transport</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>sendmail</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>SMTP</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Image conversion:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>ImageMagick was found and used.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Executable</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>ImageGD extension was found and used.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Regional info:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Monolingual</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Multilingual</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Primary</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Additional</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Critical tests:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Other tests:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Comments:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>setup</source>
@@ -3990,6 +4388,67 @@ The default code was made from the basic parameters you chose.</source>
         <source>Create new</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Site:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <comment>PHP Accelerator version</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PHP Accelerator is enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PHP Accelerator is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no known PHP accelerator active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fill out the details for each site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;percent% completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sitedesign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
@@ -4189,7 +4648,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Language Options</source>
@@ -4197,15 +4656,15 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>to continue the setup.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Your system has support for one database only, it is</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>, click</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Type:</source>
@@ -4241,23 +4700,23 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>No database connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Could not connect to database.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The database would not accept the connection , please review your settings and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>We&apos;re now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Connect To Database</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>button.</source>
@@ -4265,27 +4724,27 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>If you have an already existing eZ publish database enter the information and the setup will use that as database.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Empty password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>You must supply a password for the database.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Password does not match</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The password and confirmation password must match.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Servername:</source>
@@ -4417,11 +4876,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Configuration of sendmail is done on the server, consult your webhost.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a username and password as well.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Server name</source>
@@ -4437,7 +4896,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Site Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email sending failed</source>
@@ -4557,11 +5016,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The following data will be sent to eZ systems:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Details of your system, like OS type etc.</source>
@@ -4617,7 +5076,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Register Site</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>What kind of language support should this site have. The type of support determines the language selection and charset.</source>
@@ -4729,23 +5188,23 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click the button below to proceed to the next step which will start the system check.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>However if you wish to setup the site manually press the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Disable Setup</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>System Check</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The database is ready for initialization, click the %1 button when ready.</source>
@@ -4789,11 +5248,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Socket</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Databasename</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Username</source>
@@ -4801,7 +5260,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>which must be available on the server or</source>
@@ -4835,44 +5294,534 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Your site is running in virtualhost mode and is considered secure. You may safely continue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
 If you do not have the possiblity to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.
        The administrator email is used as sender email from all emails sent from eZ publish, it&apos;s adviced to set this correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Title of your site</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>URL to your site</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Administrator E-Mail</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Securing Site</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the checkboxes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Welcome to the setup program for eZ publish %1.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Database choice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database would not accept the connection, please review your settings and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password entries did not match.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected database was not empty, please choose from the alternatives below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected selected user has not got access to any databases. Change user or create a database for the user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database initalization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Securing site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No templates choosen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site template selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose database system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <comment>next button in installation</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish support both MySQL and PostgreSQL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More information about eZ publish and unicode support can be found %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>here</source>
+        <comment>link to unicode info</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database initialization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter database system user information in the boxes below</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket (optional)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PostgreSQL user name and password is not tested until database names are selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify email settings for eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMTP is recommended for MS Windows users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finished!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish has been installed with the following site(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin e-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to visit the %1 and the %2 web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forum</source>
+        <comment>forum link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish</source>
+        <comment>eZ publish 3 link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language and country selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Unicode support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
+To fix this problem you must do one of the following:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won&apos;t work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary/Additional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ publish supports multiple languages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These and other additional languages can also be installed later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information about language customization, see the %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>documentation</source>
+        <comment>language information link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The registration email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By sending registration the following data will be sent to eZ systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This data will help to improve eZ publish for future releases.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
+If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site access configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
+ If unsure choose URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL (recommended)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port. Note: Requires web server configuration </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname. Note: Requires DNS setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The path determines access.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>e.g. %adminsite and %usersite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The port number determines access.*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* This requires that your web server is setup to handle the port numbers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The hostname determines access.*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>* This requires that you have a DNS setup for your hostname.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access see the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>online documentation</source>
+        <comment>site access documentation link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>One or more of your databases already contain data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select what to do from the drop down box(es).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL for access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port for access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname for access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL for admin access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port for admin access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hostname for admin access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database not empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Leave the data and add new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove existing data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Leave the data and do nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I&apos;ve chosen a new database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on how to configure site access, see the %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>documentation</source>
+        <comment>site access documentation link</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose site templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose one or more site templates for your site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select which sites you would like to install on your system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each site template will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each site template require a unique database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore this test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The setup has detected some system settings which must be changed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to eZ publish %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to the installation of eZ publish content management system and development framework. The setup wizard will now guide you through the installation of eZ publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will need to have information about a database server you can connect to. You need to have a database which you can use for eZ publish. MySQL and PostgreSQL are supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click &gt;&gt; to continue the installation of eZ publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your system cannot install eZ publish as it is. You need to do some modifications. Click &gt;&gt; to see what you have to do.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help on each installation step will be presented here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The summary area below will contain information of selected settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data will be stored in the database until the final step of the installation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information on how to install eZ publish manually is available here.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5270,7 +6219,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Customer:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Product items</source>
@@ -5278,15 +6227,15 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -5390,7 +6339,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Order:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Order</source>
@@ -5565,6 +6514,78 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <source>Percentage</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>First name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment was cancelled for an unknown reason. Please try to buy again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order summary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort Result by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your account is now activated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
@@ -5605,15 +6626,15 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Module Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Function Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Connect Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Workflow ID</source>
@@ -5633,6 +6654,22 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Workflow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Function name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect type</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5680,6 +6717,70 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Objects which use this link:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last checked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Popup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information on URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Objects which use this link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No object available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5730,11 +6831,11 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Change Setting</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -5843,7 +6944,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Password</source>
@@ -5868,14 +6969,44 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Old Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Retype Password</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Edit profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retype password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your account was successfully created. An e-mail will be sent to the specified
+e-mail address. You need to follow the instructions in that mail to activate
+your account.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5891,7 +7022,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Password was successfully generated and sent to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Have you forgotten your password?</source>
@@ -5903,7 +7034,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>E-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Generate new password</source>
@@ -5911,7 +7042,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>%1 new password</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Your account information</source>
@@ -5919,14 +7050,38 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click here to get new password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New password:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Password was successfully generated and sent to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The key is invalid or has been used. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%siteurl new password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click here to get new password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New password</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5934,14 +7089,71 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <name>design/standard/user/register</name>
     <message>
         <source>Confirm user registration at %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>New user registered at %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>%1 registration info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm user registration at %siteurl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your user account at %siteurl has been created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Account information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the following URL to confirm your account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New user registered at %siteurl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new user has registered.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Account information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <comment>Login name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Link to user information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thank you for registering at %siteurl.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your account information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6001,7 +7213,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Editing workflow group</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Created by</source>
@@ -6184,6 +7396,69 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <source>New workflow</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing workflow group - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified by %username on %time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help on workflows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit workflow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected workflows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Workflow process was created at %creation and modified at %modification.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/workflow/event</name>
+    <message>
+        <source>Checkout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want wrapping in Christmas paper?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/edit</name>
@@ -6241,15 +7516,15 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>New Entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Remove Selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Load Attributes</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Class:</source>
@@ -6307,24 +7582,36 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <source>Class</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load attributes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/result</name>
     <message>
         <source>Checkout</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -6469,7 +7756,7 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <name>kernel/classes/datatype/ezbinaryfiletype</name>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -6482,17 +7769,17 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <message>
         <source>Author name should be provided.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZBinaryFileType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Missing date input.</source>
@@ -6505,77 +7792,77 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <message>
         <source>A valid email account is required.</source>
         <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
         <comment>eZEnumType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input is not float.</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>A valid image is required.</source>
         <comment>eZImageType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input is not integer.</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
         <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
         <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZMediaType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>At least one option is requied.</source>
@@ -6585,27 +7872,27 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <message>
         <source>Option value should be provided.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Additional price for option value is invalid.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Missing time input.</source>
@@ -6614,17 +7901,17 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <message>
         <source>The login must be specified</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The E-Mail address is not valid.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The confirmation password did not match.</source>
@@ -6634,29 +7921,288 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     <message>
         <source>The password must be at least 3 characters.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Object </source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Link </source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>At least one author is required.</source>
         <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>At least one option is required.</source>
         <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
         <comment>eZUserType</comment>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one author is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author name should be provided.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email address is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BinaryFile</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File uploading is not enabled, no file handling can be performed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid file is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checkbox</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date field</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Datetime field</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid email account is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enum</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one field should be chosen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Float</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not float.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be greater than %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be less than %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not in defined range %1 - %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid image is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Integer</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not integer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISBN</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ISBN number is not correct. Please recheck the input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ISBN format is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keyword</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object relation</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object relation list</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Option</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one option is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Option value should be provided.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Additional price for option value is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to wish list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Range option</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text line</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text line is empty, content required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text line too long, maximum allowed is %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subtree subscription</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text field</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text field is empty, content required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time field</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User account</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The login must be specified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login name already exists, please choose another one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The E-Mail address is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A user with this email already exists.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The password must be at least 3 characters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XML Text field</source>
+        <comment>Datatype name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Link %1 does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6753,6 +8299,14 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <source>Tip a friend</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>My pending list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL translator</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -6807,6 +8361,13 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
 </context>
 <context>
+    <name>kernel/form</name>
+    <message>
+        <source>Form processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>kernel/notification</name>
     <message>
         <source>Notification edit</source>
@@ -6818,6 +8379,17 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Notification settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/package</name>
+    <message>
+        <source>Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7056,6 +8628,68 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/workflow/event</name>
+    <message>
+        <source>Event</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Approve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checkout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiplexer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publish on time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple shipping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unpublish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wait until date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello User</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/workflow/group</name>
+    <message>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,5 +1,5 @@
 <form action={concat("url/view/",$url_object.id)|ezurl} method="post" name="UrlView">
-<h1>Information on URL</h1>
+<h1>{'Information on URL'|i18n('design/standard/url')}</h1>
 {section show=$url_object.is_valid|not}
 <div class="warning">
 <p>{"The URL is not considered valid anymore."|i18n('design/standard/url')}</p>
@@ -8,14 +8,14 @@
 {/section}
 <p>{"The URL points to %1."|i18n('design/standard/url',,array(concat('<a href="',$full_url,'">',$full_url,"</a>")))}</p>
 
-<p>{"Objects which use this link:"|i18n('design/standard/url')}
+<p>{"Objects which use this link"|i18n('design/standard/url')}:
 <select name="ObjectList">
 {section show=$object_list}
     {section name=ObjectArray loop=$object_list}
     <option value="{$ObjectArray:item.id}">{$ObjectArray:item.name}-version {$ObjectArray:item.version}</option>
     {/section}
 {section-else}
-<option value="-1">No object available</option>
+<option value="-1">{'No object available'|i18n('design/standard/url')}</option>
 {/section}
 </select>
    <input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />  

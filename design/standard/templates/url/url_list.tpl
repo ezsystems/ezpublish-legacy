@@ -4,10 +4,10 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
   <th>&nbsp;</th>
-  <th width="1">{"Edit"}</th>
-  <th colspan="2">{"URL"}</th>
-  <th>{"Last checked"}</th>
-  <th>{"Modified"}</th>
+  <th width="1">{"Edit"|i18n('design/standard/url')}</th>
+  <th colspan="2">{"URL"|i18n('design/standard/url')}</th>
+  <th>{"Last checked"|i18n('design/standard/url')}</th>
+  <th>{"Modified"|i18n('design/standard/url')}</th>
 </tr>
 {section name=URL loop=$url_list sequence=array(bglight,bgdark)}
 <tr>
@@ -17,25 +17,25 @@
 {/section}
   <td class="{$:sequence}" width="1"><input type="checkbox" name="URLSelection[]" value="{$:item.id}" /></td>
   <td class="{$:sequence}" width="1">
-    <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.png"|ezimage}/></a></nobr>
+    <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/url')}" /></a></nobr>
   </td>
   <td class="{$:sequence}" width="1">
     <nobr><a class="{$:item_class}" href={concat("url/view/",$:item.id)|ezurl}>{$:item.url}</a></nobr>
   </td>
   <td class="{$:sequence}">
-    <nobr><a target="_other" href={$:item.url|ezurl}>{"Popup"}</a></nobr>
+    <nobr><a target="_other" href={$:item.url|ezurl}>{"Popup"|i18n('design/standard/url')}</a></nobr>
   </td>
   <td class="{$:sequence}">
     {section show=$:item.last_checked|gt(0)}
       {$:item.last_checked|l10n(shortdatetime)}
     {section-else}
-      {"Never"}
+      {"Never"|i18n('design/standard/url')}
     {/section}</td>
   <td class="{$:sequence}">
     {section show=$:item.modified|gt(0)}
       {$:item.modified|l10n(shortdatetime)}
     {section-else}
-      {"Unknown"}
+      {"Unknown"|i18n('design/standard/url')}
     {/section}</td>
   </td>
 {/let}

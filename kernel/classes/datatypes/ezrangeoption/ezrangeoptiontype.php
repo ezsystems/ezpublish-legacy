@@ -57,7 +57,7 @@ class eZRangeOptionType extends eZDataType
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option" ),
+        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

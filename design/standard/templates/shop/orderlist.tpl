@@ -1,17 +1,17 @@
 <form action={concat("/shop/orderlist")|ezurl} method="post" name="Orderlist">
-<a href={"/manual/user/e-commerce#Order"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" /> </a>
+<a href={"/manual/user/e-commerce#Order"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/shop')}" /> </a>
 
 <div class="maincontentheader">
-<h1>{"Order list"|i18n("design/standard/shop")}</h1>
+  <h1>{"Order list"|i18n("design/standard/shop")}</h1>
 </div>
 
-Sort Result by: <select name="SortField">
-     <option value="created" {switch match=$sort_field}{case match="created"} selected="selected"{/case}{case}{/case}{/switch}>Order Time</option>
-     <option value="user_name" {switch match=$sort_field}{case match="user_name"} selected="selected"{/case}{case}{/case}{/switch}>User Name</option>
-     <option value="order_nr" {switch match=$sort_field}{case match="order_nr"} selected="selected"{/case}{case}{/case}{/switch}>Order ID</option>
+{'Sort Result by'|i18n('design/standard/shop')}: <select name="SortField">
+     <option value="created" {switch match=$sort_field}{case match="created"} selected="selected"{/case}{case}{/case}{/switch}>{'Order Time'|i18n('design/standard/shop')}</option>
+     <option value="user_name" {switch match=$sort_field}{case match="user_name"} selected="selected"{/case}{case}{/case}{/switch}>{'User Name'|i18n('design/standard/shop')}</option>
+     <option value="order_nr" {switch match=$sort_field}{case match="order_nr"} selected="selected"{/case}{case}{/case}{/switch}>{'Order ID'|i18n('design/standard/shop')}</option>
 </select>
-<img src={"asc-transp.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrder" value="asc" {section show=eq($sort_order,"asc")}checked="checked"{/section} />
-<img src={"desc-transp.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrder" value="desc" {section show=eq($sort_order,"desc")}checked="checked"{/section} />
+<img src={"asc-transp.gif"|ezimage} alt="{'Ascending'|i18n('design/standard/shop')}" title="{'Sort ascending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="asc" {section show=eq($sort_order,"asc")}checked="checked"{/section} />
+<img src={"desc-transp.gif"|ezimage} alt="{'Descending'|i18n('design/standard/shop')}" title="{'Sort descending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="desc" {section show=eq($sort_order,"desc")}checked="checked"{/section} />
 {include uri="design:gui/button.tpl" name=Sort id_name=SortButton value="Sort"|i18n("design/standard/shop")}       
 
 {section show=$order_list}
@@ -59,7 +59,7 @@ Sort Result by: <select name="SortField">
 {section-else}
 
 <div class="feedback">
-<h2>{"The order list is empty"|i18n("design/standard/shop")}</h2>
+  <h2>{"The order list is empty"|i18n("design/standard/shop")}</h2>
 </div>
 
 {/section}

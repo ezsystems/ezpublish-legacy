@@ -10,7 +10,7 @@
 <div class="object">
     <label>{"Name"|i18n("design/standard/role")}</label><div class="labelbreak"/>
     <p class="box">{$role.name|wash}</p>
-    <input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n('design/standard/role')}" />
+    <input class="button" type="submit" name="EditRoleButton" value="{'Edit'|i18n('design/standard/role')}" title="{'Edit current role'|i18n('design/standard/role')}" />
 </div>
 
 <h2>{"Role policies"|i18n("design/standard/role")}</h2>
@@ -64,10 +64,10 @@
 {/section}
 <tr>
     <td>
-        <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n('design/standard/role')}" />
+        <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" />
     </td>
     <td align="right" width="1">
-        <input type="image" name="RemoveRoleAssignmentButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+        <input type="image" name="RemoveRoleAssignmentButton" value="{'Remove'|i18n('design/standard/role')}" title="{'Remove selected assignments'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
     </td>
 </tr>
 </table>

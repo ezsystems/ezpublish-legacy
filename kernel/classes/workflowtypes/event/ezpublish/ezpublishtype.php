@@ -48,7 +48,7 @@ class eZPublishType extends eZWorkflowEventType
 {
     function eZPublishType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PUBLISH_ID, "Publish" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PUBLISH_ID, ezi18n( 'kernel/workflow/event', "Publish" ) );
     }
 
     function &eventDescription()

@@ -2,7 +2,7 @@
 {let url_limit=10
      url_count=fetch('url','list_count',hash(is_valid,false()))
      url_list=fetch('url','list',hash(is_valid,false(),offset,$view_parameters.offset,limit,$url_limit))}
-<h1>Invalid URLs</h1>
+<h1>{'Invalid URLs'|i18n('design/standard/url')}</h1>
 {include uri="design:url/header.tpl" current_view_id='invalid'}
 
 {include uri="design:url/url_list.tpl"

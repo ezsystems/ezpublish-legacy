@@ -2,7 +2,7 @@
 <h2>{"Are you sure you want to remove these sections?"|i18n("design/standard/section")}</h2>
 <ul>
 {section name=Result loop=$delete_result}
-    <li> {$Result:item.name} - {$Result:item.id}</li>
+    <li>{$Result:item.name} ({$Result:item.id})</li>
 {/section}
 </ul>
 {"Removing these sections can corrupt permissions, sitedesigns, and other things in the system. Do not do this unless you know exactly what are you doing."|i18n("design/standard/section")}

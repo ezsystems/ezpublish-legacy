@@ -68,7 +68,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function eZObjectRelationListType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION_LIST, ezi18n( 'kernel/classes/datatypes', "Object relation list" ),
+        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION_LIST, ezi18n( 'kernel/classes/datatypes', "Object relation list", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

@@ -51,7 +51,7 @@ class helloUserType extends eZWorkflowEventType
     */
     function helloUserType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_HELLO_USER_ID, "Hello User" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_HELLO_USER_ID, ezi18n( 'kernel/workflow/event', "Hello User" ) );
     }
 
     function execute( &$process, &$event )

@@ -1,4 +1,4 @@
-<a href={"/manual/user/everyday#Sections"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+<a href={"/manual/user/everyday#Sections"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/section')}" title="{'Help on sections'|i18n('design/standard/section')}" > </a>
 <form method="post" action={"/section/list/"|ezurl}>
 
 <div class="maincontentheader">
@@ -22,10 +22,10 @@
         {$Section:item.name}
     </td>
     <td>
-        <a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.png"|ezimage}/></a>
+        <a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/section')}" /></a>
     </td>
     <td>
-        <a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}><img src={"attach.png"|ezimage}/></a>
+        <a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/section')}" /></a>
     </td>
     <td width="1" align="right">
         <input type="checkbox" name="SectionIDArray[]" value="{$Section:item.id}" />
@@ -37,7 +37,7 @@
         <input class="defaultbutton" type="submit" name="CreateSectionButton" value="{'New'|i18n('design/standard/section')}" />
     </td>
     <td width="1" align="right">
-        <input type="image" name="RemoveSectionButton" value="{'Remove'|i18n('design/standard/section')}" src={"trash.png"|ezimage} />
+        <input type="image" name="RemoveSectionButton" value="{'Remove'|i18n('design/standard/section')}" title="{'Remove selected sections'|i18n('design/standard/section')}" src={"trash.png"|ezimage} />
     </td>
 <tr>
 </table>

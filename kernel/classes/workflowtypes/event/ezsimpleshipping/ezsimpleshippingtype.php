@@ -54,7 +54,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
     */
     function eZSimpleShippingType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "Simple shipping" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, ezi18n( 'kernel/workflow/event', "Simple shipping" ) );
     }
 
     function execute( &$process, &$event )

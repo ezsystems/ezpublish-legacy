@@ -39,7 +39,7 @@
         {/section}  
     </td> 
     <td align="right" width="1">
-        <a href={concat("role/policyedit/",$Policy:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a>
+        <a href={concat("role/policyedit/",$Policy:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit policy'|i18n('design/standard/role')}" /></a>
     </td>
     <td align="right" width="1">
         <input type="checkbox" name="DeleteIDArray[]" value="{$Policy:item.id}" />
@@ -51,7 +51,7 @@
         <input class="button" type="submit" name="CreatePolicy" value="{'New'|i18n('design/standard/role')}" />
     </td>
     <td align="right" width="1">
-        <input type="image" name="RemovePolicies" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+        <input type="image" name="RemovePolicies" value="{'Remove'|i18n('design/standard/role')}" title="{'Remove selected policies'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
     </td>
 </tr>
 </table>

@@ -53,7 +53,7 @@ class eZWrappingType extends eZWorkflowEventType
     */
     function eZWrappingType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WRAPPING_ID, "Wrapping" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WRAPPING_ID, ezi18n( 'kernel/workflow/event', "Wrapping" ) );
     }
     function execute( &$process, &$event )
     {

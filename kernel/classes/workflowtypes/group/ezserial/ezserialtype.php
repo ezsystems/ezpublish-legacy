@@ -48,7 +48,7 @@ class eZSerialType extends eZWorkflowGroupType
 {
     function eZSerialType()
     {
-        $this->eZWorkflowGroupType( EZ_WORKFLOW_TYPE_SERIAL_ID, "Serial" );
+        $this->eZWorkflowGroupType( EZ_WORKFLOW_TYPE_SERIAL_ID, ezi18n( 'kernel/workflow/group', "Serial" ) );
     }
 
 }

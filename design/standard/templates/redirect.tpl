@@ -2,7 +2,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 <head>
-    <title>{'eZ publish redirection - %url|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
+    <title>{'eZ publish redirection - %url'|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
 </head>
 <body>
   <form action="{$redirect_uri}" method="post" name="Redirect">

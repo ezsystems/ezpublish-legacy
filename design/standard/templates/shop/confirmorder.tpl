@@ -2,7 +2,7 @@
 
 <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
 
-<b>{"Customer:"|i18n("design/standard/shop")}</b> <br />
+<b>{"Customer"|i18n("design/standard/shop")}:</b> <br />
 {shop_account_view_gui view=html order=$order}
 
 <br />
@@ -94,11 +94,11 @@ Selected options
 
 
 
-<b>{"Order summary:"|i18n("design/standard/shop")}</b><br />
+<b>{"Order summary"|i18n("design/standard/shop")}:</b><br />
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="bgdark">
-    {"Subtotal of items:"|i18n("design/standard/shop")}
+    {"Subtotal of items"|i18n("design/standard/shop")}:
     </td>
     <td class="bgdark">
     {$order.product_total_ex_vat|l10n(currency)}
@@ -123,7 +123,7 @@ Selected options
 {/section}
 <tr>
     <td class="bgdark">
-    <b>{"Order total:"|i18n("design/standard/shop")}</b>
+    <b>{"Order total"|i18n("design/standard/shop")}:</b>
     </td>
     <td class="bgdark">
     <b>{$order.total_ex_vat|l10n(currency)}</b>

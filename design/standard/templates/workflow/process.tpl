@@ -3,7 +3,7 @@
 <h1>{"Workflow process"|i18n("design/standard/workflow")} {$process.id}</h1>
 
 <p>
-{"Workflow process was created at"|i18n("design/standard/workflow")} <b>{$process.created|l10n(shortdatetime)}</b> {"and modified at"|i18n("design/standard/workflow")} <b>{$process.modified|l10n(shortdatetime)}</b>.
+{"Workflow process was created at %creation and modified at %modification."|i18n("design/standard/workflow",,hash('%creation',$process.created|l10n(shortdatetime),'%modification',$process.modified|l10n(shortdatetime)))}
 </p>
 
 <h2>{"Workflow"|i18n("design/standard/workflow")}</h2>

@@ -3,7 +3,7 @@
 <form action={"shop/discountgroup"|ezurl} method="post" name="DiscountGroup">
 
 <div class="maincontentheader">
-<h1>{"Discount groups"|i18n("design/standard/shop")}</h1>
+  <h1>{"Discount groups"|i18n("design/standard/shop")}</h1>
 </div>
 
 {section show=$discountgroup_array}

@@ -52,7 +52,7 @@ class eZTimingType extends eZWorkflowEventType
 {
     function eZTimingType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_TIMING_ID, "Timing" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_TIMING_ID, ezi18n( 'kernel/workflow/event', "Timing" ) );
         $this->Validator = null;
     }
 

@@ -52,7 +52,7 @@ class eZCheckoutType extends eZWorkflowEventType
     */
     function eZCheckoutType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_CHECKOUT_ID, "Checkout" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_CHECKOUT_ID, ezi18n( 'kernel/workflow/event', "Checkout" ) );
     }
 
     function execute( &$process, &$event )

@@ -5,9 +5,9 @@
 
 <div class="feedback">
 <p>
-Your account was successfully created. An e-mail will be sent to the specified
+{'Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
-your account.
+your account.'|i18n('design/standard/user')}
 </p>
 </div>
 {section-else}
