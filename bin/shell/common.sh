@@ -60,3 +60,48 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 # Position handling
 POSITION_STORE="echo -en \\033[s"
 POSITION_RESTORE="echo -en \\033[u"
+
+# Prints Success or Failure at a given column and prints the message
+# Syntax:
+# ez_result_output <status> <failure-text>
+# status - 0 for OK, otherwise failure
+# Usage:
+# ez_result_output $? "Some failure text"
+function ez_result_output
+{
+    if [ $1 -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "$2"
+	return 1
+    fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+    return 0
+}
+
+# Prints Success or Failure at a given column and prints the contents of the file
+# Syntax:
+# ez_result_file <status> <failure-file>
+# status - 0 for OK, otherwise failure
+# Usage:
+# ez_result_file $? error.log
+function ez_result_file
+{
+    if [ $1 -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	cat "$2"
+	return 1
+    fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+    return 0
+}
+
+
+# Colorizes the input string as a file
+# Syntax:
+# ez_color_file <string.
+# Usage:
+# ez_color_file myfile.txt
+function ez_color_file
+{
+    echo -n "`$SETCOLOR_FILE`$1`$SETCOLOR_NORMAL`"
+}

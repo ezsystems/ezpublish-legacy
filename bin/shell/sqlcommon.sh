@@ -31,3 +31,15 @@ POSTGRESQL_DATA_UPDATES="postgresql_data.sql"
 DATA_UPDATES="data.sql"
 
 DRIVERS="mysql postgresql"
+
+
+# Returns 1 if it finds an error in PostgreSQL error log
+# Syntax:
+# pg_error_code <logfile>
+function pg_error_code
+{
+    if cat "$1" | grep 'ERROR:' &>/dev/null; then
+	return 1
+    fi
+    return 0
+}

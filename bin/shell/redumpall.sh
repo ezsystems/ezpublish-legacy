@@ -15,6 +15,8 @@ function help
     echo
     echo "Options: -h"
     echo "         --help                     This message"
+    echo "         --db-user                  Which database user to connect with"
+    echo "         --db-host                  Which database host to connect to"
     echo "         --mysql                    Redump MySQL schema files"
     echo "         --postgresql               Redump PostgreSQL schema files"
     echo "         --data                     Redump data files"
@@ -31,6 +33,10 @@ DUMP_DATA=""
 PAUSE=""
 
 POST_USER="postgres"
+DB_USER=""
+
+# DataBaseArray file
+GENERIC_SCHEMA="share/db_schema.dba"
 
 # Check parameters
 for arg in $*; do
@@ -51,6 +57,16 @@ for arg in $*; do
 	--postgresql-user=*)
 	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
 		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
+	    fi
+	    ;;
+	--db-user=*)
+	    if echo $arg | grep -e "--db-user=" >/dev/null; then
+		DB_USER=`echo $arg | sed 's/--db-user=//'`
+	    fi
+	    ;;
+	--db-host=*)
+	    if echo $arg | grep -e "--db-host=" >/dev/null; then
+		DB_HOST=`echo $arg | sed 's/--db-host=//'`
 	    fi
 	    ;;
 	--pause)
@@ -116,57 +132,63 @@ if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" -a "$DUMP_DATA" == "" ]; then
     exit 1
 fi
 
+DUMP_TYPE=""
 
 if [ "$USE_MYSQL" != "" ]; then
+    [ -z "$DB_USER" ] && DB_USER="root"
+	
 
     if [ ! -f $MYSQL_SCHEMA_UPDATES ]; then
-	echo "Missing $MYSQL_SCHEMA_UPDATES"
+	echo "Missing `ez_color_file $MYSQL_SCHEMA_UPDATES`"
 	helpUpdateMySQL
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
+    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+    ./bin/shell/sqlredump.sh --mysql $DB_USER_OPT $PAUSE --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
+	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user=root $DBNAME share/db_mysql_schema.dat
+    if [ -z "$DUMP_TYPE" ]; then
+	DUMP_TYPE="ezmysql"
+    fi
 fi
 if [ "$USE_POSTGRESQL" != "" ]; then
+    [ -z "$DB_USER" ] && DB_USER="$POST_USER"
 
     if [ ! -e $POSTGRESQL_SCHEMA_UPDATES ]; then
-	echo "Missing $POSTGRESQL_SCHEMA_UPDATES"
+	echo "Missing `ez_color_file $POSTGRESQL_SCHEMA_UPDATES`"
 	helpUpdatePostgreSQL
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+    ./bin/shell/sqlredump.sh --postgresql $PAUSE $DB_USER_OPT --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
+	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=$POST_USER $DBNAME share/db_postgresql_schema.dat
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
     if [ ! -f $DATA_UPDATES ]; then
-	echo "Missing $DATA_UPDATES"
+	echo "Missing `ez_color_file $DATA_UPDATES`"
 	helpUpdateData
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $DB_USER_OPT --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
+	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_SQL_DATA_FILE`"
 	exit 1
     fi
+fi
 
-#    for sql in $PACKAGE_DATA_FILES; do
-#	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
-#	if [ $? -ne 0 ]; then
-#	    "Failed re-dumping SQL file $sql"
-#	    exit 1
-#	fi
-#    done
-
+if [ -n "$DUMP_TYPE" ]; then
+    [ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
+    echo -n "Dumping generic schema to `ez_color_file $GENERIC_SCHEMA`"
+    ./bin/php/ezsqldumpschema.php --type="$DUMP_TYPE" $DB_USER_OPT --output-array $DBNAME $GENERIC_SCHEMA 2>.dump.log
+    ez_result_file $? .dump.log || exit 1
 fi
