@@ -500,7 +500,13 @@ class eZTemplateArrayOperator
                 // Calculate the sum of values in array:
                 case $this->SumName:
                 {
-                    $operatorValue = array_sum( $operatorValue );
+                    for ( $i=0; $i < count( $operatorParameters ); ++$i )
+                    {
+                        $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i],
+                                                           $rootNamespace,
+                                                           $currentNamespace );
+                    }
+                    $operatorValue = array_sum ( $tmpArray );
                 }break;
 
                 // Default case:

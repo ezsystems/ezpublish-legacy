@@ -227,7 +227,6 @@ class eZTextFileUser extends eZUser
                 $pass = $userArray[$passwordColumnNr-1];
                 $firstName = $userArray[ $firstNameColumnNr-1];
                 $lastName = $userArray[$lastNameColumnNr-1];
-                print( $email ."888");
                 if ( $login == $uid )
                 {
                     if ( trim( $pass ) == $password )

@@ -190,6 +190,7 @@ if ( $http->hasPostVariable( "DiscardChange" ) )
 if ( $http->hasPostVariable( "UpdatePolicy" ) )
 {
     $hasNodeLimitation = false;
+    $hasLimitation = false;
     foreach ( array_keys( $limitationList ) as $key )
     {
         $limitation =& $limitationList[$key];
@@ -228,6 +229,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
 
                 if ( !in_array('-1', $limitationValues ) )
                 {
+                    $hasLimitation = true;
                     $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), $functionLimitation['name'], $currentModule, $currentFunction );
                     foreach ( array_keys( $limitationValues ) as $key )
                     {
@@ -238,6 +240,18 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
             }
         }
     }
+
+    if ( !$hasNodeLimitation and !$hasLimitation )
+    {
+        $policy->setAttribute( 'limitation', "*" );
+        $policy->store();
+    }
+    else
+    {
+        $policy->setAttribute( 'limitation', "" );
+        $policy->store();
+    }
+
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
 }
 if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
