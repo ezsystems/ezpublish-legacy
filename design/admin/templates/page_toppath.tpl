@@ -1,7 +1,3 @@
-{*?template charset=latin1?*}
-<table class="path" width="700" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td width="100%" class="pathline">
     <p class="path">
     {section name=Path loop=$module_result.path}
         {section show=$Path:item.url}
@@ -15,6 +11,3 @@
         {/delimiter}
     {/section}
     &nbsp;</p>
-    </td>
-</tr>
-</table>

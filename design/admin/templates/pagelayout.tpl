@@ -104,7 +104,7 @@
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="5" /></td>
 </tr>
 <tr>
-    <td class="headlogo" width="250">
+    <td class="headlogo" width="120">
     {* Admin logo area *}
     &nbsp;
      </td>
@@ -214,6 +214,7 @@
 {include uri="design:parts/setup/menu.tpl"}
 {/section}
 
+
 {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
 {include uri="design:parts/my/menu.tpl"}
 {/section}
@@ -221,9 +222,8 @@
 
 {* Left menu END *}
     <br />
-    <img src={"1x1.gif"|ezimage} alt="" width="120" height="1" /></td>
-    </td>
-    <td class="mainarea" colspan="12"  valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
+</td>
+    <td class="mainarea" colspan="12"  valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat; background-position: left top;">
 
 {/cache-block}
 
