@@ -36,7 +36,7 @@
             {section show=$:haveChildren}
                 <ul>
                     {section var=child loop=$:children}
-                        {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child}
+                        {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child}
                     {/section}
                 </ul>
             {/section}
