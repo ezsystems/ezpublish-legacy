@@ -21,7 +21,7 @@ Match: {$:match}
 {/case}
 {/switch}*}
 
-{cache-block}
+{cache-block expiry=10 keys=$data}
 {sum(1,2,3)}
 {/cache-block}
 

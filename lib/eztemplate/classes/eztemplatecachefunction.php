@@ -70,7 +70,6 @@ class eZTemplateCacheFunction
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, &$resourceData, $parameters )
     {
-        return false;
         $ini =& eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'disabled' )
@@ -92,7 +91,7 @@ class eZTemplateCacheFunction
         {
             if ( eZTemplateNodeTool::isStaticElement( $parameters['expiry'] ) )
             {
-                $epiryText = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] ) , 0, 0, false );
+                $expiryText = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] ) , 0, 0, false );
             }
             else
             {
@@ -105,10 +104,11 @@ class eZTemplateCacheFunction
         {
             $expiryText = eZPHPCreator::variableText( $expiry , 0, 0, false );
         }
-        $localExpiryText = "( mktime() - \$expiryText )";
+        $localExpiryText = "( mktime() - $expiryText )";
 
         $keysData = false;
         $keyValue = false;
+        $keyValueText = false;
         $useDynamicKeys = false;
         if ( isset( $parameters['keys'] ) )
         {
@@ -119,42 +119,67 @@ class eZTemplateCacheFunction
             if ( !$keysDataInspection['is-constant'] or
                  $keysDataInspection['has-operators'] or
                  $keysDataInspection['has-attributes'] )
+            {
                 $useDynamicKeys = true;
+            }
             else
+            {
                 $keyValue = $keysDataInspection['new-data'][0][1];
+                $keyValueText = $keyValue . '_';
+            }
         }
         if ( $useDynamicKeys )
         {
-            $extraKeyString = $placementKeyString . $GLOBALS['eZCurrentAccess']['name'];
+            $accessName = false;
+            if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
+                $accessName = $GLOBALS['eZCurrentAccess']['name'];
+            $extraKeyString = $placementKeyString . $accessName;
             $extraKeyText = eZPHPCreator::variableText( $extraKeyString, 0, 0, false );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(),
                                                                   'cacheKeys' );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';" );
+            $cacheDir = eZSys::cacheDirectory();
             $cachePathText = eZPHPCreator::variableText( "$cacheDir/template-block/", 0, 0, false );
-            $code = "\$keyString = md5( \$cacheKeys . $extraKeyText )\n$cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2] . '/' . $keyString . '.php';";
+            $code = "\$keyString = md5( \$cacheKeys . $extraKeyText );\n\$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n\$cachePath = \$cacheDir . '/' . \$keyString . '.php';";
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-            $keyText = "\$cachePathText";
-//                 $keyString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2] . '/' $keyString . '.php';
+            $filedirText = "\$cacheDir";
+            $filepathText = "\$cachePath";
         }
         else
         {
-            $keyString = md5( $keyValue . $placementKeyString . $GLOBALS['eZCurrentAccess']['name'] );
+            $accessName = false;
+            if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
+                $accessName = $GLOBALS['eZCurrentAccess']['name'];
+            $keyString = md5( $keyValueText . $placementKeyString . $accessName );
             $cacheDir = eZSys::cacheDirectory();
+            $dirString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
             $keyString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2] . '/' . $keyString . '.php';
-            $keyText = eZPHPCreator::variableText( $keyString, 0, 0, false );
+            $filedirText = eZPHPCreator::variableText( $dirString, 0, 0, false );
+            $filepathText = eZPHPCreator::variableText( $keyString, 0, 0, false );
         }
-        $code = "if ( file_exist( $keyText ) and\n     filemtime( $keyText ) >= $localExpiryText )\n{";
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "include( $keyText );", array( 'spacing' => 4 ) );
+        $code = "if ( file_exists( $filepathText ) and\n     filemtime( $filepathText ) >= $localExpiryText )\n{";
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "include( $filepathText );", array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'contentData', array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$contentData );\n}\nelse\n{" );
-        $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode();
+        $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode( array( 'spacing' => 4 ) );
+        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
         $newNodes = array_merge( $newNodes, $children );
+        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
         $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        $code = "\$fd = fopen( $keyText );\nfwrite( \$fd, '<?' );\nfwrite( \$fd, \"php\n\$contentData = \" );\nfwrite( \$fd, \$cachedText );";
+        $code = "include_once( 'lib/ezutils/classes/ezdir.php' );
+\$ini =& eZINI::instance();
+\$perm = octdec( \$ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+eZDir::mkdir( $filedirText, \$perm, true );\n";
+        $code .= "\$fd = fopen( $filepathText, 'w' );\nfwrite( \$fd, '<?' );\nfwrite( \$fd, \"php\\n\\\$contentData = \\\"\" );\n";
+        $code .= '$cachedText = str_replace( array( "\\\\", "\\"", "\\$", "\\n" ),' . "\n" .
+             '                           array( "\\\\\\\\", "\\\\\\"", "\\\\$", "\\\\n" ),' . "\n" .
+             '                                  $cachedText );' . "\n" .
+             "fwrite( \$fd, \$cachedText );\nfwrite( \$fd, \"\\\";\\n?>\\n\" );";
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode();
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
+        $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$cachedText );\n}" );
         return $newNodes;
     }
 

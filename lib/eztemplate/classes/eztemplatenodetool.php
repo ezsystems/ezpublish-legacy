@@ -423,15 +423,31 @@ class eZTemplateNodeTool
         return $node;
     }
 
-    function createOutputVariableIncreaseNode()
+    function createOutputVariableIncreaseNode( $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE );
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE,
+                       $parameters );
         return $node;
     }
 
-    function createOutputVariableDecreaseNode()
+    function createOutputVariableDecreaseNode( $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE );
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE,
+                       $parameters );
+        return $node;
+    }
+
+    function createSpacingIncreaseNode( $spacing = 4, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE,
+                       $spacing, $parameters );
+        return $node;
+    }
+
+    function createSpacingDecreaseNode( $spacing = 4, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE,
+                       $spacing, $parameters );
         return $node;
     }
 

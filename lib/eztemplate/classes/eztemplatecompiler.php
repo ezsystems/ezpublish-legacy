@@ -1888,11 +1888,29 @@ $rbracket
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE )
                 {
+                    $spacing = $currentParameters['spacing'];
+                    if ( isset( $node[1]['spacing'] ) )
+                        $spacing += $node[1]['spacing'];
                     eZTemplateCompiler::increaseCurrentTextName( $parameters );
+                    $textName = eZTemplateCompiler::currentTextName( $parameters );
+                    $php->addCodePiece( "\$$textName = '';", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE )
                 {
+                    $spacing = $currentParameters['spacing'];
+                    if ( isset( $node[1]['spacing'] ) )
+                        $spacing += $node[1]['spacing'];
                     eZTemplateCompiler::decreaseCurrentTextName( $parameters );
+                }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE )
+                {
+                    $spacing = $node[1];
+                    $currentParameters['spacing'] += $spacing;
+                }
+                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE )
+                {
+                    $spacing = $node[1];
+                    $currentParameters['spacing'] -= $spacing;
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET )
                 {
