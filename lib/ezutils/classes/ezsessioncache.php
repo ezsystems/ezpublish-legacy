@@ -89,7 +89,7 @@ class eZSessionCache
         }
         else
         {
-            return true;
+            return false;
         }
     }
 
