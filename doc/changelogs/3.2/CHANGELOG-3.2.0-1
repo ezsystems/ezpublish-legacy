@@ -3,6 +3,7 @@ Changes from 3.1-1 to 3.2.0-1
 *Kernel:
 - Added support for binary file indexing. The contents of binary files are extracted and indexed in the search engine. 
   This allows searching inside different files. The parsing is plugin based so you can create plugins for any format quickly.
+- Added PDF and word binaryfile indexing plugin
 - Added support for subtree template override with the url_alias key in override.ini
 - Fixed correct indexing of chinese/japanese multibyte characters in search engine
 - By adding a specific postvariable it is now possible to avoid having the class edit try load in data
