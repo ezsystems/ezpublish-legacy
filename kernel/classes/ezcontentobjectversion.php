@@ -56,6 +56,7 @@ define( "EZ_VERSION_STATUS_PUBLISHED", 1 );
 define( "EZ_VERSION_STATUS_PENDING", 2 );
 define( "EZ_VERSION_STATUS_ARCHIVED", 3 );
 define( "EZ_VERSION_STATUS_REJECTED", 4 );
+//define( "EZ_VERSION_STATUS_SHOWN", 5 );
 
 
 class eZContentObjectVersion extends eZPersistentObject
@@ -381,7 +382,7 @@ class eZContentObjectVersion extends eZPersistentObject
          $nodeAssignment =&  eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                                               'contentobject_version' => $this->attribute( 'version' ),
                                                               'parent_node' => $nodeID,
-                                                              'main' => $main,
+                                                              'is_main' => $main,
                                                               'from_node_id' => $fromNodeID
                                                               )
                                                        );

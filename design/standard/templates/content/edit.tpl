@@ -75,12 +75,12 @@
         <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
       {/case}
       {case }
-      {/case}
-      {/switch}
             {section show=$Node:item.from_node_id|gt(0)}
                <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
             {section-else}      
             {/section}   
+      {/case}
+      {/switch}
       </td>
         <td class="{$Node:sequence}" align="right">
      {section show=eq($Node:item.parent_node,$main_node_id)|not}

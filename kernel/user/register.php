@@ -262,7 +262,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
                     }
                 }
             }
-            $object->setAttribute( 'name', $objectName );
+            $object->setName( $objectName );
             $object->store();
 
             $userIDHash = md5( "$login\n$userID" );

@@ -89,7 +89,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
     flush();
 }
 
-eZDebug::printReport();
+eZDebug::printReport(false,false);
 
 
 

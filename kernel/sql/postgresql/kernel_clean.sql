@@ -228,18 +228,18 @@ CREATE SEQUENCE "ezcontentobject_s" start 15 increment 1 maxvalue 92233720368547
 --
 -- Name: ezcontentobject Type: TABLE Owner: sp
 --
+-- 	"main_node_id" integer NOT NULL,
+-- 	"permission_id" integer,
 
 CREATE TABLE "ezcontentobject" (
 	"id" integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
 	"parent_id" integer NOT NULL,
 	"owner_id" integer DEFAULT '0' NOT NULL,
 	"section_id" integer DEFAULT '0' NOT NULL,
-	"main_node_id" integer NOT NULL,
 	"contentclass_id" integer NOT NULL,
 	"name" character varying(255),
 	"current_version" integer,
 	"is_published" integer,
-	"permission_id" integer,
 	"published" integer,
 	"modified" integer,
 	Constraint "ezcontentobject_pkey" Primary Key ("id")
@@ -345,9 +345,6 @@ CREATE TABLE "ezcontentobject_tree" (
 	"crc32_path" integer,
 	"depth" integer NOT NULL,
 	"path_string" character varying(255) NOT NULL,
-	"md5_path" character varying(15),
-	"left_margin" integer NOT NULL,
-	"right_margin" integer NOT NULL,
 	"path_identification_string" text,
     "sort_field" integer default 1,
     sort_order smallint default 1,

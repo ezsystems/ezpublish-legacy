@@ -1,6 +1,6 @@
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language|not|choose(array($language,"/"),""))|ezurl}>
 
-{*    <table width="100%">
+    <table width="100%">
     {section name=ContentObjectAttribute loop=$version_attributes}
     <tr>
       <td>
@@ -27,7 +27,7 @@
     </tr>
     {/section}
     </table>
-*}
+
 
 {section show=$assignment}
   {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node}

@@ -113,7 +113,7 @@ if ( $http->hasVariable( "SubscribeNodeID" ) )  // use this as a test of wether 
                                                              'contentobject_id' => $contentObjectID,
                                                              'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                              'parent_node' => $node->attribute( 'node_id' ),
-                                                             'main' => 1
+                                                             'is_main' => 1
                                                              )
                                                          );
             $nodeAssignment->store();

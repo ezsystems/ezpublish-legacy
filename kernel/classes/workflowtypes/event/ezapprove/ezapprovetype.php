@@ -55,6 +55,90 @@ class eZApproveType extends eZWorkflowEventType
         $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_APPROVE_ID, "Approve" );
     }
 
+    function &attributeDecoder( &$event, $attr )
+    {
+        switch ( $attr )
+        {
+            case 'selected_sections':
+            {
+                $sections = explode( ',', $event->attribute( 'data_text1' ) );
+                var_dump( $sections );
+                return $sections;
+            }break;
+            case 'selected_users':
+            {
+                $users =  array( $event->attribute( 'data_int1' ) );
+                return $users;
+            }break;
+            case 'selected_usergroups':
+            {
+                $groups = explode( ',', $event->attribute( 'data_text2' ) );
+                return $groups;
+            }
+        }
+        return null;
+    }
+
+    function typeFunctionalAttributes( )
+    {
+        return array( 'selected_sections',
+                      'selected_users',
+                      'selected_usergroups' );
+
+    }
+
+    
+    function &attribute( $attr )
+    {
+        switch( $attr )
+        {
+            case 'sections':
+            {
+                include_once( 'kernel/classes/ezsection.php' );
+                $sections =& eZSection::fetchList( false );
+                foreach ( array_keys( $sections ) as $key )
+                {
+                    $section =& $sections[$key];
+                    $section['Name'] = $section['name'];
+                    $section['value'] = $section['id'];
+                }
+                return $sections;
+            }break;
+            case 'users':
+            {
+                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                $users =& eZPersistentObject::fetchObjectList( eZUser::definition(), array( 'contentobject_id', 'login' ), null,null,null,false );
+                eZDebug::writeDebug( $users, "attr" );
+                foreach ( array_keys( $users ) as $key )
+                {
+                    $user =& $users[$key];
+                    $user['Name'] = $user['login'];
+                    $user['value'] = $user['contentobject_id'];
+                }
+                return $users;
+                
+            }break;
+            case 'usergroups':
+            {
+                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ), array( 'contentclass_id' => 3 ),null,null,false );
+                foreach ( array_keys( $groups ) as $key )
+                {
+                    $group =& $groups[$key];
+                    $group['Name'] = $group['name'];
+                    $group['value'] = $group['id'];
+                }
+                return $groups;
+            }
+        }
+        return eZWorkflowEventType::attribute( $attr );
+    }
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, array( 'sections',
+                                       'users',
+                                       'usergroups' ) ) || eZWorkflowEventType::hasAttribute( $attr );
+    }
+
     function execute( &$process, &$event )
     {
         $parameters = $process->attribute( 'parameter_list' );
@@ -67,14 +151,10 @@ class eZApproveType extends eZWorkflowEventType
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editor = $event->attribute( 'data_int1' );
 
-        
         if ( $user->id() != $editor &&
              count( array_intersect( $userGroups, $workflowGroups ) ) == 0  &&
              in_array( $object->attribute( 'section_id'), $workflowSections ) )
         {
-        
-
-//        eZDebug::writeNotice( $process, 'process');
 
             if( $process->attribute( 'event_state') == EZ_APPROVE_TYPE_TASK_NOT_CREATED )
             {
@@ -109,26 +189,37 @@ class eZApproveType extends eZWorkflowEventType
 
     function fetchHTTPInput( &$http, $base, &$event )
     {
-        $editorVar = $base . "_event_ezapprove_editor_id_" . $event->attribute( "id" );
+        $editorVar = $base . "_event_ezapprove_editor_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $editorVar ) )
         {
             $editorID = $http->postVariable( $editorVar );
+            $editorID = $editorID[0];
             $event->setAttribute( "data_int1", $editorID );
         }
-        $userGroupsVar = $base . "_event_ezapprove_not_approve_id_" . $event->attribute( "id" );
+        $userGroupsVar = $base . "_event_ezapprove_groups_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $userGroupsVar ) )
         {
-            $userGroupsString = $http->postVariable( $userGroupsVar );
-//            $userGroupList = explode( ',', $userGroupsString );
-            
+            $userGroupsArray = $http->postVariable( $userGroupsVar );
+            if ( in_array( '-1', $userGroupsArray ) )
+            {
+                $userGroupsArray = array( -1 );
+            }
 
+
+            $userGroupsString = implode( ',', $userGroupsArray );
             $event->setAttribute( "data_text2", $userGroupsString );
         }
 
-        $sectionsVar = $base . "_event_ezapprove_section_id_" . $event->attribute( "id" );
+        $sectionsVar = $base . "_event_ezapprove_section_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )
         {
-            $sectionsString = $http->postVariable( $sectionsVar );
+            $sectionsArray = $http->postVariable( $sectionsVar );
+            if ( in_array( '-1', $sectionsArray ) )
+            {
+                $sectionsArray = array( -1 );
+            }
+            
+            $sectionsString = implode( ',', $sectionsArray );
 //            $userGroupList = explode( ',', $userGroupsString );
             $event->setAttribute( "data_text1", $sectionsString );
         }

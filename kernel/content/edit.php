@@ -200,7 +200,7 @@ if ( !function_exists( 'checkContentActions' ) )
                                                                                          'version' => $version->attribute( 'version' ) ) );
 
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
-            if ( $object->attribute( 'main_node_id' ) > 0 )
+            if ( $object->attribute( 'main_node_id' ) != null )
             {
                 if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
                 {

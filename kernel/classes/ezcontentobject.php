@@ -66,7 +66,7 @@ class eZContentObject extends eZPersistentObject
     {
         return array( "fields" => array( "id" => "ID",
                                          "parent_id" => "ParentID",
-                                         "main_node_id" => "MainNodeID",
+//                                         "main_node_id" => "MainNodeID",
                                          "section_id" => "SectionID",
                                          "owner_id" => "OwnerID",
                                          "contentclass_id" => "ClassID",
@@ -74,8 +74,9 @@ class eZContentObject extends eZPersistentObject
                                          "is_published" => "IsPublished",
                                          "published" => "Published",
                                          "modified" => "Modified",
-                                         "current_version" => "CurrentVersion",
-                                         "permission_id" => "PermissionID" ),
+                                         "current_version" => "CurrentVersion"
+//                                         "permission_id" => "PermissionID"
+                                         ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
                                                       "class_name" => "className",
@@ -92,8 +93,10 @@ class eZContentObject extends eZPersistentObject
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
                                                       "parent_nodes" => "parentNodes",
+                                                      "main_node_id" => "MainNodeID",
                                                       "main_node" => "mainNode",
-                                                      "content_action_list" => "contentActionList" ),
+                                                      "content_action_list" => "contentActionList",
+                                                      "name" => "Name" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -158,14 +161,72 @@ class eZContentObject extends eZPersistentObject
         {
             return $this->parentNodes( true, false );
         }
+        elseif ( $attr == 'main_node_id' )
+        {
+            return $this->mainNodeID();
+        }
         elseif ( $attr == 'main_node' )
         {
             return $this->mainNode();
+        }
+        elseif ( $attr == 'name' )
+        {
+            return $this->name();
         }
         else
             return eZPersistentObject::attribute( $attr );
     }
 
+    function &name( $version = false , $lang = false )
+    {
+        if ( isset( $this->Name ) && !$version && !$lang )
+        {
+            return $this->Name;
+        }
+        $db =& eZDb::instance();
+        if ( !$lang )
+        {
+            $lang = $this->defaultLanguage();
+        }
+        if ( !$version )
+        {
+            $version = $this->attribute( 'current_version' );
+        }
+        $objectID = $this->attribute( 'id' );
+        $query= "select name,real_translation from ezcontentobject_name where contentobject_id = $objectID and content_version= $version  and content_translation ='$lang'";
+        $result =& $db->arrayQuery( $query );
+        if ( count( $result ) < 1 )
+        {
+            eZDebug::writeError( $this, "unable to fetch object name from db");
+            $name = "default";
+            return $name;
+        }
+        return $result[0]['name'];
+    }
+
+    function setName( $objectName, $versionNum = false, $translation = false )
+    {
+        if ( !$versionNum )
+        {
+            $versionNum = $this->attribute( 'current_version' );
+        }
+        if ( !$translation )
+        {
+            $translation = $this->defaultLanguage();
+        }
+        $objectID =$this->attribute( 'id' );
+        $db =& eZDb::instance();
+        $query = "delete from ezcontentobject_name where contentobject_id = $objectID and content_version = $versionNum and content_translation ='$translation' ";
+        $db->query( $query );
+        $query = "insert into ezcontentobject_name( contentobject_id,name,content_version,content_translation,real_translation )
+                              values( $objectID,
+                                      '$objectName',
+                                      $versionNum,
+                                      '$translation',
+                                      '$translation' )";
+        $db->query( $query );
+        
+    }
 
     /*!
 	 \return the content object attribute
@@ -660,6 +721,7 @@ class eZContentObject extends eZPersistentObject
             }
             return $retNodes;
         }
+        /*
         $nodes = $this->attribute( 'assigned_nodes' );
         //  $retNodes = array();
         if ( $asObject )
@@ -681,12 +743,13 @@ class eZContentObject extends eZPersistentObject
         }
 //        var_dump($retNodes);
         return $retNodes;
+        */
     }
 
     /*!
      Returns the node assignments for the current object.
     */
-    function assignedNodes( $asobject = true)
+    function &assignedNodes( $asobject = true)
     {
         $contentobjectID = $this->attribute( 'id' );
         $query = "SELECT ezcontentobject.*,
@@ -701,14 +764,18 @@ class eZContentObject extends eZPersistentObject
 			 ezcontentclass.id = ezcontentobject.contentclass_id
 		  ORDER BY path_string";
         $db =& eZDB::instance();
-        $nodesListArray = $db->arrayQuery( $query );
-        $nodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        $nodesListArray =& $db->arrayQuery( $query );
+        $nodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
         return $nodes;
     }
 
+    function mainNodeID()
+    {
+        return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ) );
+    }
     function mainNode()
     {
-        return eZContentObjectTreeNode::fetch( $this->attribute( 'id' ) );
+        return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );
     }
 
     /*!

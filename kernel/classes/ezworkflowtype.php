@@ -292,6 +292,14 @@ class eZWorkflowType
     function cleanup( &$process, &$event )
     {
     }
+    function attributeDecoder( &$event, $attr )
+    {
+    }
+    function typeFunctionalAttributes( )
+    {
+        return array();
+    }
+
     /// \privatesection
     var $Group;
     var $Type;

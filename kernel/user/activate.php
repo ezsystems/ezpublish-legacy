@@ -89,7 +89,7 @@ if ( $http->hasPostVariable( "ActivateButton" ) )
                                                                  'contentobject_id' => $userID,
                                                                  'contentobject_version' => $userObject->attribute( 'current_version' ),
                                                                  'parent_node' => 12,
-                                                                 'main' => 1
+                                                                 'is_main' => 1
                                                                  )
                                                              );
                 $nodeAssignment->store();

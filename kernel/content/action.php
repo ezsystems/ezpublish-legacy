@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
                                                              'contentobject_id' => $contentObject->attribute( 'id' ),
                                                              'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                              'parent_node' => $node->attribute( 'node_id' ),
-                                                             'main' => 1
+                                                             'is_main' => 1
                                                              )
                                                          );
             $nodeAssignment->store();

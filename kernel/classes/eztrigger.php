@@ -73,6 +73,8 @@ class eZTrigger extends eZPersistentObject
                                          'name' => 'Name'
                                           ),
                       "class_name" => "eZTrigger",
+                      "keys" => array( 'id' ),
+                      "increment_key" => "id",
                       "name" => "eztrigger" );
     }
 
@@ -89,7 +91,7 @@ class eZTrigger extends eZPersistentObject
                                                 array( 'id' => $triggerID ),
                                                 true);
     }
-    function & fetchList( $parameters = array() )
+    function & fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
         if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )
@@ -110,7 +112,7 @@ class eZTrigger extends eZPersistentObject
         }
         $triggers =& eZPersistentObject::fetchObjectList( eZTrigger::definition(),
                                                           null, $filterArray, array( 'module_name' , 'function_name', 'connect_type'), null,
-                                                          true );
+                                                          $asObject );
         return $triggers;
     }
 
@@ -168,7 +170,7 @@ class eZTrigger extends eZPersistentObject
                     {
                         return eZTrigger::runWorkflow( $existingWorkflowProcess );
 /*                        return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
-                                      
+
                                       'Result' => array( 'content' => 'Operation halted during execution.<br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
                                                          'path' => array( array( 'text' => 'Operation halt',
                                                                             'url' => false ) ) ) );
@@ -273,11 +275,27 @@ class eZTrigger extends eZPersistentObject
 
     }
 
-    function &createNew( $parameters=array() )
+    function &createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
     {
-        $trigger =& new eZTrigger( );
-        $trigger->setAttribute( 'module_name' , $moduleName );
-        $trigger->setAttribute( 'functionName',  $functionName );
+        if ( !$name )
+        {
+            eZDebug::writeDebug($connectType , "connect type" );
+            if ( $connectType == 'b' )
+            {
+                $name = 'pre_';
+            }
+            else if ( $connectType == 'a' )
+            {
+                $name = 'post_';
+            }
+            $name .= $functionName;
+        }
+        $trigger =& new eZTrigger( array( 'module_name' => $moduleName,
+                                          'function_name' => $functionName,
+                                          'connect_type' => $connectType,
+                                          'workflow_id' => $workflowID,
+                                          'name' => $name
+                                          ) );
         $trigger->store();
         return $trigger;
     }

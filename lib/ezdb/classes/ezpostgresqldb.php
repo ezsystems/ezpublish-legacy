@@ -93,13 +93,17 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             if ( $this->OutputSQL )
+            {
                 $this->startTimer();
+                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
 
+            }
             $result = @pg_exec( $this->DBConnection, $sql );
 
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
+                eZDebug::accumulatorStop( 'postgresql_query' );
                 $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
             }
 

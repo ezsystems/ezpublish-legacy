@@ -64,7 +64,7 @@ class eZNodeAssignment extends eZPersistentObject
                                          'parent_node' => 'ParentNode',
                                          'sort_field' => 'SortField',
                                          'sort_order' => 'SortOrder',
-                                         'main' => 'Main',
+                                         'is_main' => 'Main',
                                          'from_node_id' => 'FromNodeID'
                                          ),
                       'keys' => array( 'id' ),
@@ -114,9 +114,9 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['parent_node'] = 2;
         }
-        if ( !isset( $parameters['main'] ) )
+        if ( !isset( $parameters['is_main'] ) )
         {
-            $parameters['main'] = 0;
+            $parameters['is_main'] = 0;
         }
         if ( !isset( $parameters['sort_field'] ) )
         {
@@ -139,7 +139,7 @@ class eZNodeAssignment extends eZPersistentObject
                        'contentobject_version' => $version );
         if( $main > 0 )
         {
-            $cond['main'] = 1;
+            $cond['is_main'] = 1;
         }
         return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
                                                     null,
@@ -177,7 +177,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                 'parent_node' => $this->attribute( 'parent_node' ),
                                                 'sort_field' => $this->attribute( 'sort_field' ),
                                                 'sort_order' => $this->attribute( 'sort_order' ),
-                                                'main' => $this->attribute( 'main' )
+                                                'is_main' => $this->attribute( 'is_main' )
                                                 )
                                          );
     }

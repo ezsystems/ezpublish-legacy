@@ -169,7 +169,9 @@ class eZContentOperationCollection
 
         $class =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
         $objectName = $class->contentObjectName( $object );
-        $object->setAttribute( 'name', $objectName );
+
+        $object->setName( $objectName, $versionNum );
+//        $object->setAttribute( 'name', $objectName );
         $object->store();
 
         $fromNodeID = $nodeAssignment->attribute( 'from_node_id' );
@@ -193,14 +195,29 @@ class eZContentOperationCollection
             }
         }
 
+
         $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
         $existingNode->setAttribute( 'contentobject_is_published', 1 );
+
+        if ( $nodeAssignment->attribute( 'is_main' ) )
+        {
+            $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+            $existingNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $objectID, true );
+            foreach( array_keys( $existingNodes ) as $key )
+            {
+                $node =& $existingNodes[$key];
+                $node->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+                $node->store();
+            }
+        }
+/*
         if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
         {
             $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
         }
+*/
         $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
         $version->store();
 

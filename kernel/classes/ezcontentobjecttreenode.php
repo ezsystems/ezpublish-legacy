@@ -42,21 +42,6 @@
   \brief The class eZContentObjectTreeNode does
 
 \verbatim
-  ___________0__________
- |  _____1______        |
- | |  _2_  _3_  | _4_   |
- | | |   ||   | ||   |  |
- |1|2|3 4||5 6|7||8 9|10|
-
---------------------------------------------------------------------------------------------
-| node_id | parent_node_id | content_object_id | depth | path_string | left_margin | right_margin |
---------------------------------------------------------------------------------------------
-|0        |0               |0                  | 0     |'/'   | 1           | 10           |
-|1        |0               |1                  | 1     |'/0'  | 2           | 7            |
-|2        |1               |2                  | 0     |'/0/1'| 3           | 4            |
-|3        |1               |1                  | 0     |'/0/1'| 5           | 6            |
-|4        |0               |4                  | 0     |'/0'  | 8           | 9            |
---------------------------------------------------------------------------------------------
 
 Some algorithms
 ----------
@@ -101,6 +86,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         return array( "fields" => array( "node_id" => "NodeID",
                                          "parent_node_id" => "ParentNodeID",
+                                         "main_node_id" => "MainNodeID",
                                          "contentobject_id" => "ContentObjectID",
                                          'contentobject_version' => 'ContentObjectVersion',
                                          'contentobject_is_published' => 'ContentObjectIsPublished',
@@ -110,10 +96,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          'priority' => 'Priority',
                                          "path_string" => "PathString",
                                          "crc32_path" => "CRC32Path",
-                                         "path_identification_string" => "PathIdentificationString",
-                                         "md5_path" => "Md5Path",
-                                         "left_margin" => "LeftMargin",
-                                         "right_margin" => "RightMargin"
+                                         "path_identification_string" => "PathIdentificationString"
                                          ),
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
@@ -127,8 +110,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "parent" => "fetchParent"
                                                       ),
                       "increment_key" => "node_id",
-
-                      "sort" => array( "left_margin" => "asc" ),
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
     }
@@ -137,6 +118,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                      $sortField = 0, $sortOrder = true )
     {
         $row = array( 'node_id' => null,
+                      'main_node_id' => null,
                       'parent_node_id' => $parentNodeID,
                       'contentobject_id' => $contentObjectID,
                       'contentobject_version' => $contentObjectVersion,
@@ -194,41 +176,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $this->fetchParent();
         }else
             return eZPersistentObject::attribute( $attr );
-    }
-
-    function makePermissionTable( $db )
-    {
-        $user =& eZUser::currentUser();
-        $groups =& $user->groups( false );
-        $groupString = "";
-        $groupString = implode( ',', $groups );
-        if ( $db->databaseName() == 'oracle' )
-        {
-            $db->query( 'delete from permission' );
-        }
-        else
-        {
-            $db->query( 'drop table permission' );
-
-            $createTempTableQuery="CREATE TEMPORARY TABLE permission(
-                                       permission_id int primary key,
-                                       can_read int,
-                                       can_create int,
-                                       can_edit int,
-                                       can_remove int )";
-            $db->query( $createTempTableQuery );
-        }
-
-        $fillPermissionsQuery = "INSERT INTO permission
-                                 SELECT permission_id,
-                                        max( ezcontentobject_permission.read_permission ) as can_read,
-                                        max( ezcontentobject_permission.create_permission ) as can_create,
-                                        max( ezcontentobject_permission.edit_permission ) as can_edit,
-                                        max( ezcontentobject_permission.remove_permission ) as can_remove
-                                 FROM ezcontentobject_permission
-                                 WHERE user_group_id in ( $groupString )
-                                 GROUP BY permission_id";
-        $db->query( $fillPermissionsQuery );
     }
 
     function &subTree( $params = array( 'Depth' => false,
@@ -380,14 +327,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeDepth = $node->attribute( 'depth' );
         }
 
-//        $childrensPath = $nodePath . $fromNode . '/';
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
-//        $pathString = " substring( path_string from 1 for $pathLength ) = '$childrensPath' and ";
 
         $db =& eZDB::instance();
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
-//        $pathString = " $subStringString = '$childrensPath' and ";
           $pathString = " path_string like '$childrensPath%' and ";
         $depthCond = '';
         if ( $depth )
@@ -400,7 +344,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
-//        eZDebug::writeWarning( $limitationList, 'limitationList' );
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
         if( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -429,9 +385,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
+                           $versionNameTargets
                     FROM
                           ezcontentobject_tree,
                           ezcontentobject,ezcontentclass
+                           $versionNameTables
                     WHERE $pathString
                           $depthCond
                           ezcontentclass.version=0 AND
@@ -440,6 +398,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.id = ezcontentobject.contentclass_id AND
                           $classCondition
                           ezcontentobject_tree.contentobject_is_published = 1
+                          $versionNameJoins
                           $sqlPermissionCheckingString
                     ORDER BY $sortingFields";
 
@@ -449,9 +408,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.name as class_name
+                            $versionNameTargets
                       FROM
                             ezcontentobject_tree,
                             ezcontentobject,ezcontentclass
+                            $versionNameTables
                       WHERE $pathString
                             $depthCond
                             ezcontentclass.version=0 AND
@@ -460,6 +421,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
                             $classCondition
                             ezcontentobject_tree.contentobject_is_published = 1
+                            $versionNameJoins
                       ORDER BY $sortingFields";
         }
         if ( !$offset && !$limit )
@@ -723,7 +685,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                             WHERE
                                                   $subStringString = '$nodePath' AND
                                                   ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                                                  ezcontentobject.main_node_id=ezcontentobject_tree.node_id" );
+                                                  ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
         $inSQL = "";
         $i = 0;
         foreach ( $objectIDArray as $objectID )
@@ -780,25 +742,75 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                      null,
                                                      $asObject );
     }
+    function &findMainNode( $objectID, $asObject = false )
+    {
+        $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE ezcontentobject_tree.contentobject_id=$objectID AND
+                          ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+        $db =& eZDB::instance();
+        $nodeListArray =& $db->arrayQuery( $query );
+        if ( count( $nodeListArray ) > 1 )
+        {
+            eZDebug::writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
+        }else
+        {
+            if ( $asObject )
+            {
+                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                $returnValue =& $retNodeArray[0];
+                return $returnValue;
+            }else
+            {
+                $retNodeArray =& $nodeListArray;
+                return $retNodeArray[0]['node_id'];
+            }
 
+        }
+        return null;
+    }
     function &fetch( $nodeID )
     {
         $returnValue = null;
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
+
         if ( $nodeID != 1 )
         {
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
+                           $versionNameTargets
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
+                         $versionNameTables
                     WHERE node_id = $nodeID AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+                          ezcontentclass.id = ezcontentobject.contentclass_id
+                          $versionNameJoins";
         }
         else
         {
@@ -811,7 +823,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( count( $nodeListArray ) == 1 )
         {
             $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-            $returnValue = $retNodeArray[0];
+            $returnValue =& $retNodeArray[0];
         }
         return $returnValue;
     }
@@ -891,9 +903,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
 //        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
-        $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID );
-        $object->setAttribute( "main_node_id", $nodeID );
+        $node =& eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID, true );
+//        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
+        $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
         $object->store();
+        $node->store();
 
         return $object;
     }
@@ -913,11 +927,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentMainNodeID = $node->attribute( 'node_id' ); //$parent->attribute( 'main_node_id' );
         $parentPath = $node->attribute( 'path_string' );
         $parentDepth = $node->attribute( 'depth' );
-        $parentRightMargin = $node->attribute( 'right_margin' );
 
         $nodeDepth = $parentDepth + 1 ;
-        $rightMargin = $parentRightMargin + 1;
-        $leftMargin =  $parentRightMargin;
 
 
         $insertedNode =& new eZContentObjectTreeNode();
@@ -926,30 +937,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
         $insertedNode->store();
-/*        $values = $parentMainNodeID  . "," .  $contentobjectID . "," . $nodeDepth . ",
-                  '" .  "/TEMPPATH' ," . $leftMargin . "," . $rightMargin ;
-
-        $newNodeQuery = "INSERT INTO ezcontentobject_tree(
-                                                          parent_node_id,
-                                                          contentobject_id,
-                                                          depth,path_string,
-                                                          left_margin,
-                                                          right_margin )
-                                     VALUES (" . $values . ")";
-
-        $db->query( $newNodeQuery );
-        $insertedID = $db->lastSerialID( 'ezcontentobject_tree', 'node_id' );
-*/
         $insertedID = $insertedNode->attribute( 'node_id' );
         $newNodePath = $parentPath . $insertedID . '/';
         $insertedNode->setAttribute( 'path_string', $newNodePath );
-/*        $updatePathQuery= "UPDATE ezcontentobject_tree
-                           SET
-                               path_string= '$newNodePath'
-                           WHERE
-                               node_id=$insertedID";
-      $db->query( $updatePathQuery );
-*/
 //        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
 
         $insertedNode->setAttribute( 'path_identification_string', $insertedNode->pathWithNames() );
@@ -1111,21 +1101,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     $contentObject =& new eZContentObject( $node );
 
-/*                    if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
-                    {
-                        $permissions['can_read'] = $node['can_read'];
-                        $permissions['can_create'] = $node['can_create'];
-                        $permissions['can_edit'] = $node['can_edit'];
-                        $permissions['can_remove'] = $node['can_remove'];
-                    }
-                    else
-                    {
-                        $permissions['can_read'] = 1;
-                        $permissions['can_create'] = 1;
-                        $permissions['can_edit'] = 1;
-                        $permissions['can_remove'] = 1;
-                    }
-*/                  $permissions = array();
+                    $permissions = array();
                     $contentObject->setPermissions( $permissions );
                     $contentObject->setClassName( $node['class_name'] );
                 }

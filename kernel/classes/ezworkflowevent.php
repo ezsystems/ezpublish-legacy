@@ -139,25 +139,35 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function attributes()
     {
-        return array_merge( eZPersistentObject::attributes(), array( "workflow_type" ) );
+        $eventType =& $this->eventType();
+        return array_merge( eZPersistentObject::attributes(), array( "workflow_type" ), $eventType->typeFunctionalAttributes() );
     }
 
     function hasAttribute( $attr )
     {
-        return $attr == "workflow_type" or eZPersistentObject::hasAttribute( $attr );
+        $eventType =& $this->eventType();
+        return $attr == "workflow_type" or eZPersistentObject::hasAttribute( $attr ) || in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
+        $eventType =& $this->eventType();
         if ( $attr == "workflow_type" )
             return $this->eventType();
-        else
+        else if ( in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
+        {
+            return $eventType->attributeDecoder( $this, $attr );
+        }else
             return eZPersistentObject::attribute( $attr );
     }
 
     function &eventType()
     {
-        return eZWorkflowType::createType( $this->TypeString );
+        if ( ! isset (  $this->EventType ) )
+        {
+            $this->EventType =& eZWorkflowType::createType( $this->TypeString );
+        }
+        return $this->EventType;
     }
 
     /// \privatesection

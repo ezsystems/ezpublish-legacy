@@ -114,7 +114,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                                                                               ),
                                                                        true );
 //                    var_dump( $oldAssignment );
-                    if ( $oldAssignment->attribute( 'main' ) == '1' )
+                    if ( $oldAssignment->attribute( 'is_main' ) == '1' )
                     {
                         $version->assignToNode( $nodeID, 1, $fromNodeID );
                     }
@@ -156,13 +156,13 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         if ( $sortOrderMap[$nodeAssignment->attribute( 'id' )] == 1 )
             $sortOrder = 1;
         $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
-        if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
+        if ( $nodeAssignment->attribute( 'is_main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
         {
-            $nodeAssignment->setAttribute( 'main', 0 );
+            $nodeAssignment->setAttribute( 'is_main', 0 );
         }
-        elseif ( $nodeAssignment->attribute( 'main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
+        elseif ( $nodeAssignment->attribute( 'is_main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
         {
-            $nodeAssignment->setAttribute( 'main', 1 );
+            $nodeAssignment->setAttribute( 'is_main', 1 );
         }
         $nodeAssignment->store();
     }

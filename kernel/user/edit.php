@@ -96,7 +96,7 @@ if ( $http->hasPostVariable( "UpdateProfileButton" ) )
 
     $userObject =& eZContentObject::fetch( $UserID );
     $objectName = $userClass->contentObjectName( $userObject );
-    $userObject->setAttribute( 'name', $objectName );
+    $userObject->setName( $objectName );
     $userObject->store();
     $Module->redirectTo( '/content/view/sitemap/5/' );
     return;

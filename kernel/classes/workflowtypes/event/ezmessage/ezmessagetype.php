@@ -86,7 +86,7 @@ class eZMessageType extends eZWorkflowEventType
         $message->store();
         eZDebug::writeNotice( $message,  'message object in message event' );
         $approvedObjectID = $process->attribute( 'content_id' );
-        $contentObject->setAttribute( 'name', "object $approvedObjectID  approved" );
+        $contentObject->setName( "object $approvedObjectID  approved" );
         $contentObject->store();
 
 
