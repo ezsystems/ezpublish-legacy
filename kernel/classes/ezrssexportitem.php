@@ -58,7 +58,7 @@ class eZRSSExportItem extends eZPersistentObject
                                 'number_of_objects' => 5,
                                 'main_node_only'    => true
                                 );
-    
+
     /*!
      Initializes a new RSSExportItem.
     */
@@ -148,10 +148,10 @@ class eZRSSExportItem extends eZPersistentObject
         return ( $attr == 'class_attributes' or $attr == 'source_node' or $attr == 'source_path' or $attr == 'object_list' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
-    
+
     /*!
       Criteria for listing of objects.
-      
+
       \param array
       \see eZRSSExport::fetchRSS1_0()
       \see eZRSSExport::fetchRSS2_0()
@@ -160,7 +160,7 @@ class eZRSSExportItem extends eZPersistentObject
     {
         $this->ObjectListFilter = $filter;
     }
-    
+
     /*!
      \reimp
     */
@@ -186,6 +186,8 @@ class eZRSSExportItem extends eZPersistentObject
             } break;
             case 'source_path':
             {
+                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 $objectNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
                 if ( !isset( $objectNode ) )
@@ -203,6 +205,8 @@ class eZRSSExportItem extends eZPersistentObject
             } break;
             case 'source_node':
             {
+                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
             } break;
@@ -269,17 +273,24 @@ class eZRSSExportItem extends eZPersistentObject
         {
             $depth = 0;
         }
-        
+
         include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-        
-        return eZContentObjectTreeNode::subTree( array( 'Depth' => $depth,
-                                                        'DepthOperator' => 'eq',
-                                                        'Limit' => $this->ObjectListFilter['number_of_objects'],
-                                                        'SortBy' => array( 'published', false ),
-                                                        'MainNodeOnly' => $this->ObjectListFilter['main_node_only'],
-                                                        'ClassFilterType' => 'include',
-                                                        'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
-                                                 $this->attribute( 'source_node_id' ) );
+        if (  $this->attribute( 'source_node_id' ) > 0 )
+        {
+            return eZContentObjectTreeNode::subTree( array( 'Depth' => $depth,
+                                                            'DepthOperator' => 'eq',
+                                                            'Limit' => $this->ObjectListFilter['number_of_objects'],
+                                                            'SortBy' => array( 'published', false ),
+                                                            'MainNodeOnly' => $this->ObjectListFilter['main_node_only'],
+                                                            'ClassFilterType' => 'include',
+                                                            'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
+                                                     $this->attribute( 'source_node_id' ) );
+        }
+        else
+        {
+            $list = array();
+            return $list;
+        }
     }
 
 }
