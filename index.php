@@ -117,14 +117,16 @@ $iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
 $iniVarDirectory = eZSys::varDirectory() ;
 
 
-// Initialize debug settings
+// Initialize debug settings.
 eZUpdateDebugSettings();
 
-//
+
+// Set the different permissions/settings.
 eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
                                          'dir_permission'  => octdec( $iniDirPermission ),
                                          'var_directory'   => $iniVarDirectory ) );
 
+//
 $warningList = array();
 
 /*!

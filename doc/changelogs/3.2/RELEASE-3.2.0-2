@@ -29,4 +29,4 @@ This release is a beta release and should not be used for a production site.
   http://ez.no/developer/ez_publish_3/bug_reports/open_basedir_warning_workaround_really_simple
   http://ez.no/developer/ez_publish_3/bug_reports/template_function_is_set_returns_wrong_values + is_unset also
   Too strict permissions for codepage cache dir and files in var dir. Fixed better permissions.
-
+  
