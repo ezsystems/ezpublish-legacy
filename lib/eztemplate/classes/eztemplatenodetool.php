@@ -338,7 +338,8 @@ class eZTemplateNodeTool
      Creates a new variable node and returns it.
     */
     function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
-                                 $parameters = array(), $variableAssignmentName = false )
+                                 $parameters = array(), $variableAssignmentName = false, $onlyExisting = false,
+                                 $overWrite = true )
     {
         $node = array();
         if ( $originalNode )
@@ -360,6 +361,8 @@ class eZTemplateNodeTool
             $node[3] = $variablePlacement;
         }
         $node[4] = $parameters;
+        $node[5] = $onlyExisting;
+        $node[6] = $overWrite;
         return $node;
     }
 

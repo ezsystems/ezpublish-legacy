@@ -1159,6 +1159,9 @@ class eZTemplateCompiler
                     if ( isset( $hints[$functionName] ) and
                          isset( $hints[$functionName]['transform-children'] ) )
                         $transformChildren = $hints[$functionName]['transform-children'];
+                    if ( isset( $hints[$functionName] ) and
+                         isset( $hints[$functionName]['transform-parameters'] ) )
+                        $transformParameters = $hints[$functionName]['transform-parameters'];
                 }
                 if ( $hasTransformationSupport and
                      method_exists( $functionObject, 'templateNodeTransformation' ) )
@@ -1179,6 +1182,25 @@ class eZTemplateCompiler
                         }
                         if ( count( $newChildren ) > 0 )
                             $node[1] = $newChildren;
+                    }
+
+                    if ( $transformParameters and
+                         $functionParameters )
+                    {
+                        $newParameters = array();
+                        foreach ( $functionParameters as $parameterName => $parameterElementList )
+                        {
+                            $elementTree = $parameterElementList;
+                            $elementList = $elementTree;
+                            $newParamNode = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
+                                                                                                   $elementTree, $elementList, $resourceData );
+                            if ( !$newParamNode || !is_array( $newParamNode ) )
+                                $newParameters[$parameterName] = $parameterElementList;
+                            else
+                                $newParameters[$parameterName] = $newParamNode;
+                        }
+                        if ( count( $newParameters ) > 0 )
+                            $node[3] = $newParameters;
                     }
 
                     $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
@@ -2099,13 +2121,14 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                     $namespaceVariable = $namespaceData['variable'];
                     $namespaceVariable .= $namespaceData['counter'];
                     $php->addCodePiece( "\$$namespaceVariable = \$currentNamespace;\n", array( 'spacing' => $spacing ) );
-                    $tmpNodes = array( array( EZ_TEMPLATE_NODE_VARIABLE,
+                    $php->addCodePiece( '$currentNamespace .= ( $currentNamespace ? ":" : "" ) . \''. $variableData[0][1] . '\';' . "\n", array( 'spacing' => $spacing ) );
+/*                    $tmpNodes = array( array( EZ_TEMPLATE_NODE_VARIABLE,
                                               false,
                                               $variableData,
                                               false,
                                               array( 'variable-name' => 'currentNamespace',
                                                      'text-result' => false ) ) );
-                    eZTemplateCompiler::generatePHPCodeChildren( $useComments, $php, $tpl, $tmpNodes, $resourceData, $parameters, $currentParameters );
+                    eZTemplateCompiler::generatePHPCodeChildren( $useComments, $php, $tpl, $tmpNodes, $resourceData, $parameters, $currentParameters );*/
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE )
                 {
@@ -2158,6 +2181,8 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                 $variableAssignmentName = $node[1];
                 $variableData = $node[2];
                 $variablePlacement = $node[3];
+                $variableOnlyExisting = $node[5];
+                $variableOverWrite = $node[6];
                 $variableParameters = array();
                 if ( isset( $node[4] ) and
                      $node[4] )
@@ -2200,6 +2225,7 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $variableParameters['text-result'] = false;
                     }
                 }
+
                 eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
                                                           array( 'spacing' => $spacing,
                                                                  'variable' => $generatedVariableName,
@@ -2225,8 +2251,21 @@ unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
                     $variableName = $variableAssignmentName[2];
                     eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, array( 'spacing' => $spacing ) );
                     $variableNameText = $php->variableText( $variableName, 0 );
-                    $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );",
-                                        array( 'spacing' => $spacing ) );
+                    if ( $variableOnlyExisting )
+                    {
+                        $php->addCodePiece( "if( isset( \$vars[\$namespace][$variableNameText] ) )\n{\n\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );\n}",
+                                            array( 'spacing' => $spacing ) );
+                    }
+                    else if( $variableOverWrite )
+                    {
+                        $php->addCodePiece( "\$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );",
+                                            array( 'spacing' => $spacing ) );
+                    }
+                    else
+                    {
+                        $php->addCodePiece( "if( !isset( \$vars[\$namespace][$variableNameText] ) )\n{\n  \$vars[\$namespace][$variableNameText] = \$$generatedVariableName;\nunset( \$$generatedVariableName );\n}",
+                                            array( 'spacing' => $spacing ) );
+                    }
                 }
                 unset( $dataInspection );
             }
