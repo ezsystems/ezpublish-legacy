@@ -9,6 +9,7 @@ Changes from 3.3-2 to 3.3-3
 - Replaced several " with ' in ezenumtype.php
 - Added storeData() function for eZContentObjectAttribute, this function is safe for datatypes to call (unlike store() ).
 - Fixed eZCache to use eZDir::mkdir when creating folders.
+- Fixed showing correct class list in admin->setup->classes.
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
@@ -50,6 +51,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/undefinde_variable_dbname_in_ezsearchengine_php
 - Fixed wash operator for several templates.
   http://ez.no/developer/ez_publish_3/bug_reports/no_output_wash_in_collectedinfo_templates
+- Fixed several bugs in libraries.
+  http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_lib
 
 *Library:
 

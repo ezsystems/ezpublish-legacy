@@ -786,7 +786,15 @@ class eZINI
         }
 
         $siteConfig =& eZINI::instance( 'site.ini' );
-        $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
+        if( $siteConfig->hasVariable( 'FileSettings', 'StorageFilePermissions' ) )
+        {
+            $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions' );
+        }
+        else
+        {
+            $filePermissions = '777';
+        }
+
         @chmod( $filePath, octdec( $filePermissions ) );
 
         if ( file_exists( $backupFilePath ) )
