@@ -572,7 +572,8 @@ Workflow:
 - Fixed bug: While deleting the class, all objects of that class in trash will also be deleted.
   http://ez.no/community/bug_reports/removing_class_does_not_remove_objects_in_trash
   (merged from stable 3.4 rev. 8127)
-
+- Changed the code to make it database independant (changed for trunk rev. 8129).
+  http://ez.no/community/bug_reports/removing_class_does_not_remove_objects_in_trash
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 - Added eZFile::download() method.
