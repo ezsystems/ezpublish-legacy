@@ -171,12 +171,17 @@ if ( file_exists( $database ) and is_file( $database ) )
     $schemaArray =& eZDBSchema::read( $database, true );
     if ( $includeData and !$options['schema-file'] )
     {
-        $cli->error( "Cannot dump data with a schema file, please specify with --schema-file" );
+        $cli->error( "Cannot dump data without a schema file, please specify with --schema-file" );
         $script->shutdown( 1 );
     }
 
     if ( $options['schema-file'] )
     {
+        if ( !file_exists( $options['schema-file'] ) or !is_file( $options['schema-file'] ) )
+        {
+            $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
+            $script->shutdown( 1 );
+        }
         $schema =& eZDBSchema::read( $options['schema-file'], false );
         $schemaArray['schema'] = $schema;
     }
