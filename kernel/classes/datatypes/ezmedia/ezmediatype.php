@@ -94,7 +94,7 @@ class eZMediaType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $mediaFiles =& eZMedia::fetch( $contentObjectAttributeID );
-        $sys =& eZsys::instance();
+        $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if( $version == null )
         {
