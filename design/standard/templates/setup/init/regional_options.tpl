@@ -63,11 +63,11 @@
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
 {* {section show=ne($regional_info.language_type,1)} *}
+    <input class="defaultbutton" type="submit" name="StepButton_7" value="Summary" />
 {section show=$has_variations}
     <input type="hidden" name="eZSetupChooseVariations" value="" />
     <input class="button" type="submit" name="StepButton_6" value="Language Details" />
 {/section}
-    <input class="button" type="submit" name="StepButton_7" value="Summary" />
 {* {/section} *}
   </div>
   {include uri='design:setup/persistence.tpl'}

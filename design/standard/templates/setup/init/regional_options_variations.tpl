@@ -59,7 +59,7 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="button" type="submit" name="StepButton_7" value="Summary" />
+    <input class="defaultbutton" type="submit" name="StepButton_7" value="Summary" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

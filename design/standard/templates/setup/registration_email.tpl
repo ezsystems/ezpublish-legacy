@@ -3,7 +3,7 @@ eZ publish {$version.text} site registration - {$site_info.title}
 {/set-block}
 Site info:
 Title - {$site_info.title}
-URL   - http://{$site_info.url}
+URL   - {$site_info.url}
 
 PHP info:
 Version - {$phpversion.found}

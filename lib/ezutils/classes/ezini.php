@@ -109,6 +109,14 @@ class eZINI
     }
 
     /*!
+     \return the filename.
+    */
+    function filename()
+    {
+        return $this->FileName;
+    }
+
+    /*!
      \static
      \return true if INI cache is enabled globally, the default value is true.
      Change this setting with setIsCacheEnabled.

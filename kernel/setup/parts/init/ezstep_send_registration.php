@@ -56,6 +56,13 @@ function eZSetupStep_send_registration( &$tpl, &$http, &$ini, &$persistenceList 
     $demoData = $persistenceList['demo_data'];
     $emailInfo = $persistenceList['email_info'];
     $siteInfo = $persistenceList['site_info'];
+    $url = $siteInfo['url'];
+    if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
+    {
+        $url = 'http://' . $url;
+        $siteInfo['url'] = $url;
+    }
+
     $testsRun = $persistenceList['tests_run'];
     $imageMagickProgram = $persistenceList['imagemagick_program'];
     $imageGDExtension = $persistenceList['imagegd_extension'];
@@ -72,8 +79,8 @@ function eZSetupStep_send_registration( &$tpl, &$http, &$ini, &$persistenceList 
     $persistenceData = $runResult['persistence_list'];
 
     $mail = new eZMail();
-//     $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
-    $mail->setReceiver( 'jb@ez.no', 'eZ Site Registration' );
+    $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
+//     $mail->setReceiver( 'jb@ez.no', 'eZ Site Registration' );
 //     $mail->addReceiver( 'bf@ez.no', 'eZ Site Registration' );
     $mail->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
 

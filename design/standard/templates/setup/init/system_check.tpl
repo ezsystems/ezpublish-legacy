@@ -14,8 +14,8 @@
 {*                <input type="hidden" name="currentStep" value="{$nextStep}" />*}
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
+      <input class="defaultbutton" type="submit" name="StepButton_4" value="Next" />
       <input class="button" type="submit" name="StepButton_3" value="Finetune System" />
-      <input class="button" type="submit" name="StepButton_4" value="Next" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>
@@ -46,7 +46,7 @@
 
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="button" type="submit" name="StepButton_2" value="Check Again" />
+      <input class="defaultbutton" type="submit" name="StepButton_2" value="Check Again" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>

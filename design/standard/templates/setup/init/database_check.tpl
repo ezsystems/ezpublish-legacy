@@ -19,6 +19,11 @@
 <p>
 </div>
 {section-else}
+<blockquote class="note">
+<p>
+ {$database_info.info.name} does not support installing demo data at this point.
+</p>
+</blockquote>
  <input type="hidden" name="eZSetupDemoData" value="0" />
 {/section}
 
@@ -107,7 +112,7 @@
   <div class="buttonblock">
     <input type="hidden" name="eZSetupDatabaseReady" value="" />
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="button" type="submit" name="StepButton_8" value="Create Database" />
+    <input class="defaultbutton" type="submit" name="StepButton_8" value="Create Database" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

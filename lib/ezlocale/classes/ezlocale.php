@@ -138,6 +138,8 @@ class eZLocale
         $this->CountryVariation =& $locale['country-variation'];
         $this->LanguageCode =& $locale['language'];
         $this->LocaleCode =& $locale['locale'];
+        $this->Charset = $locale['charset'];
+        $this->OverrideCharset = $locale['charset'];
 
         $this->LocaleINI = array( 'default' => null, 'variation' => null );
         $this->CountryINI = array( 'default' => null, 'variation' => null );
@@ -327,6 +329,16 @@ class eZLocale
         $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
 
         $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
+        if ( $this->OverrideCharset == '' )
+        {
+            $charset = false;
+            if ( $languageINI->hasVariable( 'Charset', 'Preferred' ) )
+            {
+                $charset = $languageINI->variable( 'Charset', 'Preferred' );
+                if ( $charset != '' )
+                    $this->Charset = $charset;
+            }
+        }
 
         if ( !is_array( $this->ShortDayNames ) )
             $this->ShortDayNames = array();
@@ -455,7 +467,8 @@ class eZLocale
 
     function attributeFunctionMap()
     {
-        return array( 'country_name' => 'countryName',
+        return array( 'charset' => 'charset',
+                      'country_name' => 'countryName',
                       'country_comment' => 'countryComment',
                       'country_code' => 'countryCode',
                       'country_variation' => 'countryVariation',
@@ -475,6 +488,15 @@ class eZLocale
                       'month_list' => 'months',
                       'is_valid' => 'isValid'
                       );
+    }
+
+    /*!
+     Returns the charset for this locale.
+     \note It returns an empty string if no charset was set from the locale file.
+    */
+    function charset()
+    {
+        return $this->Charset;
     }
 
     /*!

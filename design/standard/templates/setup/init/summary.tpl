@@ -95,8 +95,8 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
+    <input class="defaultbutton" type="submit" name="StepButton_8" value="Setup Database" />
     <input class="button" type="submit" name="StepButton_4" value="Start Over" />
-    <input class="button" type="submit" name="StepButton_8" value="Setup Database" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

@@ -10,7 +10,7 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="button" type="submit" name="StepButton_9" value="Configure" />
+    <input class="defaultbutton" type="submit" name="StepButton_9" value="Configure" />
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

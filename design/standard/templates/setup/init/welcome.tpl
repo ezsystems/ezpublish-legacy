@@ -13,7 +13,7 @@
 <form method="post" action="{$script}">
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-    <input class="button" type="submit" name="StepButton_2" value="System Check" />
+    <input class="defaultbutton" type="submit" name="StepButton_2" value="System Check" />
     <input type="hidden" name="DisableSetup" value="" />
     <input class="button" type="submit" name="StepButton_1" value="Disable Setup" />
   </div>

@@ -130,7 +130,8 @@ eZ session:
 
 eZ locale:
 - New function localeFullCode which returns the locale code with the variation.
-- localeList will now be able to return a list of languages as locale objects.
+- localeList() will now be able to return a list of languages as locale objects.
+- Preferred charset is now read from locale file if no charset was set in locale string.
 
 eZ ini:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.
@@ -139,6 +140,7 @@ eZ ini:
   empty array, like Item[]
 - Some changes to the way override dir is handled, it now supports multiple override
   dirs each being parsed in order.
+- Added filename() function.
 
 eZ codepage:
 - No cache is created or used if the /no-cache-adviced/ in site basics is true.

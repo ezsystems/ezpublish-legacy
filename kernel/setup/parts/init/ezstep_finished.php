@@ -65,12 +65,18 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     }
     $saveResult = $imageINI->save( false, '.php', false );
 
+    $charset = false;
     if ( $saveResult )
     {
         eZSetupChangeEmailSetting( $persistenceList['email_info'] );
 
         $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
-        $ini->setVariable( "SiteSettings", "SiteURL", $siteInfo['url'] );
+        $url = $siteInfo['url'];
+        if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
+        {
+            $url = $matches[1];
+        }
+        $ini->setVariable( "SiteSettings", "SiteURL", $url );
 
         $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
         $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
@@ -112,6 +118,15 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         else
             $ini->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
 
+        $charset = $primaryLanguage->charset();
+        if ( $charset == '' )
+            $charset = 'iso-8859-1';
+
+        if ( $persistenceList['regional_info']['language_type'] == 3 )
+            $charset = 'utf-8';
+
+        $ini->setVariable( 'DatabaseSettings', 'Charset', $charset );
+
         $languages = array( $primaryLanguage->localeFullCode() );
         foreach ( $extraLanguages as $extraLanguage )
         {
@@ -122,6 +137,14 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
 
         $saveResult = $ini->save( false, '.php', false );
+    }
+
+    if ( $saveResult and
+         $charset !== false )
+    {
+        $i18nINI =& eZINI::instance( 'i18n.ini' );
+        $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
+        $saveResult = $i18nINI->save( false, '.php', false );
     }
 
     $tpl->setVariable( 'site_info', $siteInfo );

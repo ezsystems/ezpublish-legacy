@@ -284,6 +284,12 @@ div.labelbreak
 
 input.button
 {
+    font-weight: normal;
+    margin-right: 8px;
+}
+
+input.defaultbutton
+{
     font-weight: bold;
     margin-right: 8px;
 }

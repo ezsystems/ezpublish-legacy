@@ -35,7 +35,7 @@
 
     <div class="buttonblock">
       <input type="hidden" name="ChangeStepAction" value="" />
-      <input class="button" type="submit" name="StepButton_5" value="Language Options" />
+      <input class="defaultbutton" type="submit" name="StepButton_5" value="Language Options" />
     </div>
     {include uri='design:setup/persistence.tpl'}
   </form>
