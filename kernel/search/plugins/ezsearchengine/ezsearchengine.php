@@ -1929,6 +1929,7 @@ class eZSearchEngine
             $wordIDArray = array();
             foreach ( $wordArray as $word )
             {
+                if ( !isset( $wordIDHash[$word] ) ) return array();
                 $wordIDArray[] = $wordIDHash[$word]['id'];
             }
             $phraseIDArrayArray[] = $wordIDArray;
