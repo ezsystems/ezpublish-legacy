@@ -1,3 +1,4 @@
+<a href="/manual/user/e-commerce#Discount" target="_ezpublishmanual"><img src="/design/standard/images/help.gif" align="right"> </a>
 <form action={"shop/discountgroup"|ezurl} method="post" name="DiscountGroup">
 
 <div class="maincontentheader">
