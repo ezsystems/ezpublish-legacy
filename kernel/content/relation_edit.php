@@ -48,7 +48,9 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
 {
     $http =& eZHTTPTool::instance();
     // Add object relations
-    if ( $module->isCurrentAction( 'AddRelatedObject' ) )
+//     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
+    if ( $http->hasPostVariable( 'BrowseActionName' ) and
+         $http->postVariable( 'BrowseActionName' ) == 'AddRelatedObject' )
     {
         $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
 
@@ -61,7 +63,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         }
         foreach ( $selectedObjectIDArray as $objectID )
         {
-            if ( !in_array(  $objectID, $relatedObjectIDArray ) )
+            if ( !in_array( $objectID, $relatedObjectIDArray ) )
             {
                 $object->addContentObjectRelation( $objectID, $editVersion );
             }
@@ -86,11 +88,11 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject' );
         $http->setSessionVariable( 'BrowseReturnType', 'ObjectID' );
 
-        if ( $http->hasPostVariable( 'CustomActionButton' ) )
-        {
-            $http->setSessionVariable( 'CustomActionButton',  key( $http->postVariable( 'CustomActionButton' ) ) );
-            $http->setSessionVariable( 'BrowseActionName', 'CustomAction' );
-        }
+//         if ( $http->hasPostVariable( 'CustomActionButton' ) )
+//         {
+//             $http->setSessionVariable( 'CustomActionButton',  key( $http->postVariable( 'CustomActionButton' ) ) );
+//             $http->setSessionVariable( 'BrowseActionName', 'CustomAction' );
+//         }
 
         $nodeID = 2;
         $module->redirectToView( 'browse', array( $nodeID ) );

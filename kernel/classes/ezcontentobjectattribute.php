@@ -308,11 +308,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$http, $action )
+    function customHTTPAction( &$http, $action, $parameters = array() )
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $dataType->customObjectAttributeHTTPAction( $http, $action, $this );
+        $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
     }
 
     /*!

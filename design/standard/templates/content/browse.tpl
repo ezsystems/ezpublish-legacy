@@ -95,5 +95,8 @@
 
 
 <input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
+{section show=$custom_action_data}
+<input type="hidden" name="{$custom_action_data.name}" value="{$custom_action_data.value}" />
+{/section}
 
 </form>

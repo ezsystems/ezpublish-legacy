@@ -55,7 +55,6 @@ class eZObjectRelationType extends eZDataType
     function eZObjectRelationType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION, "Object relation" );
-        $this->MaxLenValidator = new eZIntegerValidator();
     }
 
     /*!
@@ -64,7 +63,7 @@ class eZObjectRelationType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_VALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
@@ -72,10 +71,11 @@ class eZObjectRelationType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" ) ) )
+        $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $postVariableName ) )
         {
-            $data =& $http->postVariable( $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" ) );
-            $contentObjectAttribute->setAttribute( 'data_int', $data );
+            $relatedObjectID =& $http->postVariable( $postVariableName );
+            $contentObjectAttribute->setAttribute( 'data_int', $relatedObjectID );
         }
     }
 
@@ -114,26 +114,44 @@ class eZObjectRelationType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
             case "set_object_relation" :
             {
-                if ( $http->hasPostVariable( "SelectedObjectIDArray" ) )
+                if ( $http->hasPostVariable( 'BrowseObjectButton_' . $contentObjectAttribute->attribute( 'id' ) ) )
                 {
+                    $module =& $parameters['module'];
+                    $redirectionURI = $parameters['current-redirection-uri'];
+                    $http->setSessionVariable( 'BrowseFromPage', $redirectionURI );
+                    $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
 
+                    $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) );
+                    $http->setSessionVariable( 'BrowseReturnType', 'ObjectID' );
+                    $http->setSessionVariable( 'BrowseCustomAction', array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
+                                                                            'value' => $contentObjectAttribute->attribute( 'id' ) ) );
+
+                    $nodeID = 2;
+                    $module->redirectToView( 'browse', array( $nodeID ) );
+                }
+                else if ( $http->hasPostVariable( 'BrowseActionName' ) and
+                          $http->postVariable( 'BrowseActionName' ) == ( 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) ) and
+                          $http->hasPostVariable( "SelectedObjectIDArray" ) )
+                {
                     $selectedObjectArray = $http->hasPostVariable( "SelectedObjectIDArray" );
-
                     $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
 
-                    $contentObjectAttribute->setContent( $selectedObjectIDArray[0] );
+                    $objectID = $selectedObjectIDArray[0];
+//                     $contentObjectAttribute->setContent( $objectID );
+                    $contentObjectAttribute->setAttribute( 'data_int', $objectID );
+                    $contentObjectAttribute->store();
                 }
-            }break;
+            } break;
             default :
             {
                 eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZObjectRelationType" );
-            }break;
+            } break;
         }
     }
 
@@ -154,7 +172,7 @@ class eZObjectRelationType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_int" );
+        return false;
     }
 
     /*!
@@ -162,12 +180,17 @@ class eZObjectRelationType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return  $contentObjectAttribute->attribute( "data_int" );
+        $objectID = $this->objectAttributeContent( $contentObjectAttribute );
+        if ( $objectID !== false )
+        {
+            $object =& eZContentObject::fetch( $objectID );
+            if ( $object )
+                return $object->attribute( 'name' );
+        }
+        return false;
     }
 
     /// \privatesection
-    /// The max len validator
-    var $MaxLenValidator;
 }
 
 eZDataType::register( EZ_DATATYPESTRING_OBJECT_RELATION, "ezobjectrelationtype" );

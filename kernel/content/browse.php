@@ -32,17 +32,17 @@
 // you.
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 
-$NodeID = $Params["NodeID"];
+$NodeID = $Params['NodeID'];
 $Offset = $Params['Offset'];
 
 if ( !is_numeric( $Offset ) )
@@ -57,11 +57,15 @@ if ( array_key_exists( 'Limitation', $Params ) )
     }
 }
 
-$returnURL = $http->sessionVariable( "BrowseFromPage" );
-$browseActionName = $http->sessionVariable( "BrowseActionName" );
-$customActionButton = $http->sessionVariable( "CustomActionButton" );
-$returnType = $http->sessionVariable( "BrowseReturnType" );
-$browseSelectionType = $http->sessionVariable( "BrowseSelectionType" );
+$returnURL = $http->sessionVariable( 'BrowseFromPage' );
+$browseActionName = $http->sessionVariable( 'BrowseActionName' );
+$customActionButton = $http->sessionVariable( 'CustomActionButton' );
+$returnType = $http->sessionVariable( 'BrowseReturnType' );
+$browseSelectionType = $http->sessionVariable( 'BrowseSelectionType' );
+
+$browseCustomAction = false;
+if ( $http->hasSessionVariable( 'BrowseCustomAction' ) )
+    $browseCustomAction = $http->sessionVariable( 'BrowseCustomAction' );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
@@ -69,17 +73,16 @@ $contentObject =& $node->attribute( 'object' );
 
 if ( ! $contentObject->attribute( 'can_read' ) )
 {
-        $Module->redirectTo( '/error/403' );
-        return;
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-$objectArray =& $node->subTree( array( "Depth" => 1,
-                                       "Offset" => $Offset,
-                                       "Limit" => 10,
+$objectArray =& $node->subTree( array( 'Depth' => 1,
+                                       'Offset' => $Offset,
+                                       'Limit' => 10,
                                        'Limitation' => $limitationList
                                        ) );
 
-$objectCount =& $node->subTreeCount( array( "Depth" => 1,
+$objectCount =& $node->subTreeCount( array( 'Depth' => 1,
                                             'Limitation' => $limitationList
                                             ) );
 
@@ -96,20 +99,21 @@ foreach ( $parents as $parent )
 $path[] = array( 'text' => $contentObject->attribute( 'name' ),
                  'url' => false );
 
-$tpl->setVariable( "main_node", $node );
+$tpl->setVariable( 'main_node', $node );
 
-$tpl->setVariable( "return_url", $returnURL );
-$tpl->setVariable( "browse_action_name", $browseActionName );
-$tpl->setVariable( "custom_action_button", $customActionButton );
-$tpl->setVariable( "selection_type", $browseSelectionType );
+$tpl->setVariable( 'return_url', $returnURL );
+$tpl->setVariable( 'browse_action_name', $browseActionName );
+$tpl->setVariable( 'custom_action_button', $customActionButton );
+$tpl->setVariable( 'custom_action_data', $browseCustomAction );
+$tpl->setVariable( 'selection_type', $browseSelectionType );
 
-$tpl->setVariable( "return_type", $returnType );
+$tpl->setVariable( 'return_type', $returnType );
 
-$tpl->setVariable( "node_id", $NodeID );
+$tpl->setVariable( 'node_id', $NodeID );
 
-$tpl->setVariable( "object_array", $objectArray );
-$tpl->setVariable( "parents", $parents );
-$tpl->setVariable( "browse_list_count", $objectCount );
+$tpl->setVariable( 'object_array', $objectArray );
+$tpl->setVariable( 'parents', $parents );
+$tpl->setVariable( 'browse_list_count', $objectCount );
 
 $viewParameters = array( 'offset' => $Offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -118,7 +122,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:content/browse.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
 
 // Fetch the navigation part from the section information
 include_once( 'kernel/classes/ezsection.php' );

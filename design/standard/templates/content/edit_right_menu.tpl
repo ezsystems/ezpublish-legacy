@@ -100,22 +100,26 @@
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
-        <td class="{$Object:sequence}" align="left" colspan="2">
-          {content_view_gui view=text_linked content_object=$Object:item}
-          <input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
+        <td class="{$Object:sequence}" align="left" colspan="1">
+          <p class="box">{content_view_gui view=text_linked content_object=$Object:item}</p>
 	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
+	</td>
+        <td class="{$Object:sequence}" align="right" colspan="1" width="1">
+          <input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" />
 	</td>
     </tr>
     {/section}
     <tr>
-        <td align="left">
-          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
-	</td>
+        <td align="right" colspan="2">
+          <div class="buttonblock">
+{*          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />*}
+            <input class="menubutton" type="image" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" src={"find.png"|ezimage} />
     {section show=$related_contentobjects}
-        <td align="right">
-          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
-        </td>
+{*          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />*}
+            <input class="menubutton" type="image" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" src={"trash.png"|ezimage} />
     {/section}
+          <div>
+        </td>
     </tr>
     <tr>
         <td colspan="2" align="right">

@@ -184,6 +184,9 @@ if ( $storingAllowed )
         }
     }
     $requireStoreAction= false;
+    // If no redirection uri we assume it's content/edit
+    if ( !isset( $currentRedirectionURI ) )
+        $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
@@ -194,14 +197,13 @@ if ( $storingAllowed )
 /********** Custom Action Code Start ***************/
         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
         {
-            $contentObjectAttribute->customHTTPAction( $http, $customAction );
+            $contentObjectAttribute->customHTTPAction( $http, $customAction, array( 'module' => &$Module,
+                                                                                    'current-redirection-uri' => $currentRedirectionURI ) );
         }
 /********** Custom Action Code End ***************/
 
     }
 
-    eZDebug::writeDebug( $inputValidated, 'inputValidated' );
-    eZDebug::writeDebug( $requireStoreAction, 'requireStoreAction' );
     if ( $inputValidated and $requireStoreAction )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )

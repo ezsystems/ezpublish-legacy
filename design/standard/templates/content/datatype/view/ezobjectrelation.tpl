@@ -1,10 +1,5 @@
-<p class="box">
-{switch name=sw match=$attribute.content}
-   {case match=0}
-   {"No relation"|i18n("design/standard/content/datatype")}
-   {/case}
-   {case}
-   <a href={concat("content/view/",$attribute.content.main_node_id,"/")|ezurl}>{$attribute.content.name|wash(xhtml)}</a>
-   {/case}
-{/switch}
-</p>
+{section show=$attribute.content}
+   <p class="box">{content_view_gui view=text_linked content_object=$attribute.content}</p>
+{section-else}
+   <p class="box">{"No relation"|i18n("design/standard/content/datatype")}</p>
+{/section}

@@ -42,6 +42,8 @@ links to clickable links.
   input was valid or not.
 - Added alternative text to image datatype
 - Added output washing for datatypes.
+- Added support for custom actions in content/browse.
+- Fixed problem with relation datatype not storing the selected object.
 
 *SDK :
 
