@@ -1916,7 +1916,7 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $parentNodes = $this->attribute( 'parent_nodes' );
-                                if ( count( $parent_nodes ) == 0 )
+                                if ( count( $parentNodes ) == 0 )
                                 {
                                     if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                                     {
