@@ -1670,7 +1670,7 @@ INSERT INTO "ezcontentobject" ("id","owner_id","section_id","contentclass_id","n
 
 
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (1,'eng-GB',1,1,4,'Frontpage',0,0);
-INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (2,'eng-GB',1,1,119,'This folder contains some information about...',0,0);
+INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (2,'eng-GB',1,1,119,'<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>',0,0);
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (7,'eng-GB',1,4,5,'Main group',NULL,NULL);
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (8,'eng-GB',1,4,6,'Users',NULL,NULL);
 INSERT INTO "ezcontentobject_attribute" ("id","language_code","version","contentobject_id","contentclassattribute_id","data_text","data_int","data_float") VALUES (21,'eng-GB',1,10,12,'',0,0);
