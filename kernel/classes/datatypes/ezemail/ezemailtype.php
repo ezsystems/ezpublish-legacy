@@ -59,22 +59,24 @@ class eZEmailType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $email =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
+
+            // we require user to enter an address only if the attribute is not an informationcollector
+            if ( $classAttribute->attribute( "is_required" ) && !$classAttribute->attribute( 'is_information_collector' ) )
             {
-                if ( $classAttribute->attribute( "is_required" ) )
+                if ( trim( $email ) == "" )
                 {
-                    if ( trim( $email ) == "" )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Email address is empty.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Email address is empty.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
+
+            // if the entered address is not empty, we should validate it
             if ( trim( $email ) != "" )
             {
                 include_once( "lib/ezutils/classes/ezmail.php" );
@@ -87,6 +89,7 @@ class eZEmailType extends eZDataType
                 }
             }
         }
+
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
