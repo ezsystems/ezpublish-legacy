@@ -432,24 +432,30 @@ class eZDOMNode
 
     /*!
       Appends a child node to the current node.
+      \return the node that was just inserted or \c false if it failed to insert a node.
     */
-    function appendChild( &$node )
+    function &appendChild( &$node )
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
             $this->Children[] =& $node;
+            return $node;
         }
+        return false;
     }
 
     /*!
       Appends an attribute node.
+      \return the attribute that was just inserted or \c false if it failed to insert an attribute.
     */
-    function appendAttribute( &$node )
+    function &appendAttribute( &$node )
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
             $this->Attributes[] =& $node;
+            return $node;
         }
+        return false;
     }
 
     /*!
