@@ -463,9 +463,15 @@ Workflow:
   engine.
   (Merged from stable/3.3 rev. 7903)
   http://ez.no/community/bug_reports/index_of_ezdate_ezdatetime
+- Fixed bug of incorrectly display version infomation if user can not delete version.
+  (Merged from stable/3.3 rev. 7910 and stable/3.4 rev. 7911)
+  http://ez.no/community/bug_reports/faulty_display_of_versions_if_user_cannot_delete
 - Fixed bug with incorrectly built SQL query in xml output handler with links.
   (Merged from stable/3.4 rev. 7914)
   http://ez.no/community/bug_reports/incorrectly_built_sql_query
+- Fixed bug of template variable cache_ttl not working in 3.4
+  (Merged from stable/3.4 rev. 7924)
+  http://www.ez.no/community/bug_reports/there_seems_to_be_a_bug_with_the_cache_ttl_template_var
 - Fixed call to non-object when viewing an URL not used by any objects.
   (Merged from stable/3.4 rev. 7926)
   http://www.ez.no/community/bug_reports/link_and_objectversion
@@ -486,7 +492,10 @@ Workflow:
   http://www.ez.no/community/bug_reports/if_datatype_email_is_information_collector_and_not_required_it_can_t_be_empty
 - Fixed bug in eZMatrix datatype when adding/removing/changing columns.
   http://ez.no/community/bug_reports/new_matrix_columns_dont_show_in_existing_objects
-  (Merged from stable/3.4 rev.7946)
+  (Merged from stable/3.4 rev. 7946)
+- Fixed bug of adding related objects not able to get correct section ID.
+  (Merged from stable/3.4 rev. 7948)
+  http://www.ez.no/community/bug_reports/adding_items_via_related_object_new_button_fails_to_set_section
 - Fixed bug with {set} in template compiler. (Merged from stable/3.4, rev. 7950)
   http://ez.no/community/bug_reports/set_statement_does_not_work_in_some_cases
   http://www.ez.no/community/bug_reports/template_compiling_problem
@@ -497,8 +506,14 @@ Workflow:
   parent_node_id's as argument.
   (Merged from stable/3.4 rev.7960)
   http://ez.no/community/bug_reports/parent_node_id_array_use_inconsistent
+- Fixed bug of combination of node with section or class in permission policy caused wrong read access.
+  (Merged from stable/3.3, rev. 7962 and stable/3.4, rev. 7963)
+  http://www.ez.no/community/bug_reports/node_and_section_policy_limitation_causes_unwanted_read_access
 - Fixed bug with recursively linked objects. (Merged from stable/3.4, rev. 7965)
   http://www.ez.no/community/bug_reports/object_relation_list_causes_document_contains_no_data_error
+- Fixed bug of override template by class_identifer does not work in some cases.
+  (Merged from stable/3.4, rev. 7974)
+  http://www.ez.no/community/bug_reports/class_identifier_and_override_problems
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
