@@ -47,6 +47,8 @@ Changes from 3.3-6 to 3.3-7
   content_version_view_gui template function.
 - Fixed bug in archive handler in doWrite() method, the length parameter was
   not checked for false and would in some cases not write any data at all.
+- Removed setting path in content/versionview.
+  http://ez.no/community/bug_reports/crash_when_using_versionview
 
 *Library:
 
