@@ -41,7 +41,6 @@
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$ProductItem:sequence}">
-	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
 	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
@@ -110,5 +109,3 @@
     </td>
 </tr>
 </table>
-
-</form>
