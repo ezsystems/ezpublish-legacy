@@ -1169,20 +1169,49 @@ class eZContentObject extends eZPersistentObject
      Returns an array of the content actions which can be performed on
      the current object.
     */
-    function &contentActionList( )
+    function &contentActionList()
     {
         if ( $this->ContentObjectAttributeArray == false )
         {
             $this->ContentObjectAttributeArray =& $this->contentObjectAttributes();
         }
 
-        $contentActionList = array();
-        foreach ( $this->ContentObjectAttributeArray as $attribute )
+        // Fetch content actions if not already fetched
+        if ( $this->ContentActionList === false )
         {
-            $contentActionList = array_merge( $attribute->contentActionList(), $contentActionList );
+            $contentActionList = array();
+            foreach ( $this->ContentObjectAttributeArray as $attribute )
+            {
+                $contentActions =& $attribute->contentActionList();
+                if ( count( $contentActions ) > 0 )
+                {
+                    $contentActionList =& $attribute->contentActionList();
+
+                    foreach ( $contentActionList as $action )
+                    {
+                        if ( !$this->hasContentAction( $action['action'] ) )
+                        {
+                            $this->ContentActionList[] =& $action;
+                        }
+                    }
+                }
+            }
         }
-        $contentActionList = array_unique( $contentActionList );
-        return $contentActionList;
+        return $this->ContentActionList;
+    }
+
+    /*!
+     \return true if the content action is in the content action list
+    */
+    function hasContentAction( $name )
+    {
+        $return = false;
+        foreach ( $contentActionList as $action )
+        {
+            if ( $action['action'] == $name )
+                $return = true;
+        }
+        return $return;
     }
 
     function defaultLanguage()
@@ -1292,6 +1321,9 @@ class eZContentObject extends eZPersistentObject
 
     /// Contains the datamap for content object attributes
     var $DataMap = false;
+
+    /// Contains an array of the content object actions for the current object
+    var $ContentActionList = false;
 
 }
 
