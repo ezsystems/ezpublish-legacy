@@ -343,6 +343,12 @@ class eZHTTPTool
     {
         $uri = eZHTTPTool::createRedirectUrl( $path, $parameters );
         eZHTTPTool::headerVariable( 'Location', $uri );
+
+        /* Fix for redirecting using workflows and apache 2 */
+        echo '<HTML><HEAD>';
+        echo '<META HTTP-EQUIV="Refresh" Content="0;URL='. htmlspecialchars( $uri ) .'">';
+        echo '<META HTTP-EQUIV="Location" Content="'. htmlspecialchars( $uri ) .'">';
+        echo '</HEAD><BODY></BODY></HTML>';
     }
 
     /*!
