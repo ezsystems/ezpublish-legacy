@@ -63,14 +63,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperato
                                     'class' => 'eZTreeMenuOperator',
                                     'operator_names' => array( 'treemenu' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiomenuoperator.php',
-                                    'class' => 'eZHiOMenuOperator',
-                                    'operator_names' => array( 'hiomenu' ) );
-
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiosortoperator.php',
-                                    'class' => 'eZHiOSortOperator',
-                                    'operator_names' => array( 'hiosort' ) );
-
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
                                     'class' => 'eZWordToImageOperator',
                                     'operator_names' => array( 'wordtoimage' ) );
