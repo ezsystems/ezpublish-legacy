@@ -104,6 +104,9 @@ class eZTestProcessedTemplateOperator extends eZTestCase
 
         $actual = $tpl->fetch( $templateFile );
 
+        $tr->assert( !$tpl->hasErrors(), 'Template errors, details will be in debug output' );
+        $tr->assert( !$tpl->hasWarnings(), 'Template warnings, details will be in debug output' );
+
         $actualFileName = str_replace( '.tpl', '.pout', $templateFile );
         $fp = fopen( $actualFileName, 'w' );
         fwrite( $fp, $actual );
