@@ -69,6 +69,8 @@ Changes from 3.2-2 to 3.2-3
 - Made sure redirects only use reverse url translation if the translation system is enabled.
 - http://ez.no/developer/ez_publish_3/bug_reports/orderviwtpl_closed_form_without_open_tag
   Removed invalid form tag.
+- http://ez.no/developer/ez_publish_3/bug_reports/eztemplatenl2broperatorphp_missing_comma_line_77_and_class_named_wrongly_line_46
+  Fixed wrong class name.
 
 *Setup:
 
