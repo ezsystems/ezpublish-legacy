@@ -19,6 +19,11 @@ PACKAGE_DIR="packages"
 
 . ./bin/shell/common.sh
 
+if ! which php &>/dev/null; then
+    echo "No PHP executable found, please add it to the path"
+    exit 1
+fi
+
 function make_dir
 {
     local DIR
@@ -188,6 +193,15 @@ else
 fi
 
 echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
+
+echo "Checking syntax of PHP files"
+./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests
+if [ $? -ne 0 ]; then
+    echo "Some PHP files have syntax errors"
+    echo "Run the following command to find the files"
+    echo "./bin/shell/phpcheck.sh --errors-only cronjobs kernel lib support update tests"
+    exit 1
+fi
 
 echo "Making distribution in `$SETCOLOR_DIR`$DEST`$SETCOLOR_NORMAL`"
 
