@@ -14,7 +14,7 @@
     <tr class="{$Roles.sequence}">
 
         {* Role name. *}
-        <td><a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name|wash}</a></td>
+        <td>{'role'|icon( 'small', 'Role'|i18n( '/design/admin/node/view/full' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name|wash}</a></td>
 
         {* Limitation. *}
         <td>
