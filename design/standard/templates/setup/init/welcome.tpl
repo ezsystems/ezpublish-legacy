@@ -16,9 +16,9 @@
   {include uri='design:setup/persistence.tpl'}
 <p>
   {section show=$system_test_result|eq(1)}
-    {"Click >> to continue the installation of eZ publish"|i18n("design/standard/setup/init")}
+    {'Click "Next" to continue the installation of eZ publish'|i18n("design/standard/setup/init")}
   {section-else}
-    {"Your system cannot install eZ publish as it is. You need to do some modifications. Click >> to see what you have to do."|i18n("design/standard/setup/init")}
+    {'Your system cannot install eZ publish as it is. You need to do some modifications. Click "Next" to see what you have to do.'|i18n("design/standard/setup/init")}
   {/section}
 </p>
 

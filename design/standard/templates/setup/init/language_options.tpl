@@ -33,7 +33,7 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
   {section name=Language loop=$language_list}
     <tr>    
       <td class="normal">
-	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=eq($:number,1)}checked="checked" {/section}/>
+	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq('eng-GB')}checked="checked" {/section}/>
         <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" />
 	{$:item.language_name}
       </td>
