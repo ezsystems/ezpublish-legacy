@@ -3,9 +3,9 @@
 
 [DatabaseSettings]
 Server=localhost##!
-User=bf##!
-Password=bf##!
-Database=bf##!
+User=nextgen##!
+Password=nextgen##!
+Database=nextgen##!
 
 [DesignSettings]
 SiteDesign=user

@@ -34,9 +34,11 @@ Changes from 2.9-3 to 2.9-4
 - Added new template operator ezsys which can return attributes from the ezsys global object.
 - User registration email sends out correct url.
 - Redone the uri modification, the global uri object will now only contain the module, view and parameter values.
+- Made the change password interface more user-friendly.
 
 Datatypes:
 - Datatypes can now report if they are non-translateable.
+- Added table border support for xmltext.
 
 *Library :
 
