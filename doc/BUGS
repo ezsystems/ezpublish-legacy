@@ -11,6 +11,9 @@ Versioning
 Object relations are lost when reverting to another version of the object.
 New versions are created as copies of the 1. version, should be the last(usable?) version.
 
+Edit
+--------------
+It is possible to add object to same node twice or more times
 Search
 ------
 Too many database calls when indexing objects. Need to find the unique words
@@ -24,7 +27,6 @@ Note: non-ASCII character support must be done with the i18n system.
 Translate
 ---------
 Complex data types, e.g. image, does not work when translating.
-
 Translated objects are not indexed in search.
 
 
@@ -52,3 +54,13 @@ Forms
 When pressing enter ui forms is does not work. Because the name
 of the button is checked. Workaround would be to create a hidden variable..
 Is there a way to set default action/button when enter is pushed to submit a form?
+
+
+Tasks
+------------------------------------------
+Error: error executing query: SELECT contentclass_id, contentclass_version, group_id, group_name
+FROM   ezcontentclass_classgroup
+WHERE  group_id IN ( '7' )  AND contentclass_version='0'
+GROUP BY contentclass_id
+ORDER BY contentclass_id ASC ERROR:  Attribute ezcontentclass_classgroup.contentclass_version must be GROUPed or used in an aggregate function
+    on postgressql 
