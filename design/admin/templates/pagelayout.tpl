@@ -2,7 +2,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
-{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
+{cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id)}
 {* Cache header for each navigation part *}
 
 <head>
@@ -190,7 +190,7 @@
 {* Top box END *}
 {cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 <tr>
-    <td rowspan="3" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
+    <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
 {* Left menu START *}
 
@@ -242,8 +242,10 @@
     </td>
 </tr>
 <tr>
-    <td bgcolor="#ffffff" colspan="12">
-    {include uri="design:page_copyright.tpl"}
+    <td bgcolor="#ffffff" colspan="12" valign="bottom">
+    <div align="center" style="padding-top: 0.5em;">
+    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+    </div>
     </td>
 </tr>
 </table>

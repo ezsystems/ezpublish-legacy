@@ -13,7 +13,6 @@
     <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-
 <div class="objectheader">
     <h2>{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}]</h2>
 </div>

@@ -3,7 +3,7 @@
 {default with_children=true()
          is_editable=true()
          is_standalone=true()}
-{let page_limit=15
+{let page_limit=16
      list_count=and( $with_children, fetch( content, list_count, hash( parent_node_id, $node.node_id ) ) )}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
@@ -92,7 +92,7 @@
 
 
 
-        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <table cellspacing="8" cellpadding="0" border="0">
         <tr>
         {section loop=$:children sequence=array( bglight, bgdark )}
 
