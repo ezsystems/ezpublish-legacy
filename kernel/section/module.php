@@ -44,6 +44,7 @@ $ViewList['list'] = array(
 
 $ViewList['edit'] = array(
     'script' => 'edit.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'params' => array( 'SectionID' ) );
 

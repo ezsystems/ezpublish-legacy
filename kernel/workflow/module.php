@@ -38,10 +38,12 @@ $Module = array( "name" => "eZWorkflow" );
 $ViewList = array();
 $ViewList["edit"] = array(
     "script" => "edit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "WorkflowID", "GroupID", "GroupName" ) );
 $ViewList["groupedit"] = array(
     "script" => "groupedit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "WorkflowGroupID" ) );
 $ViewList["down"] = array(

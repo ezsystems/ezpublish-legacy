@@ -39,9 +39,11 @@ $Module = array( 'name' => 'User management',
 $ViewList = array();
 $ViewList['logout'] = array(
     'script' => 'logout.php',
+    'ui_context' => 'authentication',
     'params' => array( ) );
 $ViewList['login'] = array(
     'script' => 'login.php',
+    'ui_context' => 'authentication',
     'default_action' => array( array( 'name' => 'Login',
                                       'type' => 'post',
                                       'parameters' => array( 'Login',
@@ -53,6 +55,7 @@ $ViewList['login'] = array(
     'params' => array( ) );
 $ViewList['setting'] = array(
     'functions' => array( 'preferences' ),
+    'ui_context' => 'edit',
     'script' => 'setting.php',
     'params' => array( 'UserID' ) );
 
@@ -64,6 +67,7 @@ $ViewList['preferences'] = array(
 $ViewList['password'] = array(
     'functions' => array( 'password' ),
     'script' => 'password.php',
+    'ui_context' => 'administration',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'UserID' ) );
 
@@ -73,6 +77,8 @@ $ViewList['forgetpassword'] = array(
     'script' => 'forgotpassword.php',
     'deprecated' => true,
     'params' => array( ),
+    'ui_context' => 'administration',
+    'ui_component' => 'forgotpassword',
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
                                                             'Email' => 'UserEmail' ) ),
@@ -83,6 +89,7 @@ $ViewList['forgotpassword'] = array(
     'functions' => array( 'password' ),
     'script' => 'forgotpassword.php',
     'params' => array( ),
+    'ui_context' => 'administration',
     'single_post_actions' => array( 'GenerateButton' => 'Generate' ),
     'post_action_parameters' => array( 'Generate' => array( 'Login' => 'UserLogin',
                                                             'Email' => 'UserEmail' ) ),
@@ -91,6 +98,7 @@ $ViewList['forgotpassword'] = array(
 $ViewList['edit'] = array(
     'function' => array( 'login' ),
     'script' => 'edit.php',
+    'ui_context' => 'edit',
     'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
                                     'ChangeSettingButton' => 'ChangeSetting',
                                     'CancelButton' => 'Cancel',
@@ -100,6 +108,7 @@ $ViewList['edit'] = array(
 $ViewList['register'] = array(
     'script' => 'register.php',
     'params' => array( ),
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezmynavigationpart',
     'single_post_actions' => array( 'PublishButton' => 'Publish',
                                     'CancelButton' => 'Cancel',

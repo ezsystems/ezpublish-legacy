@@ -52,6 +52,7 @@ $ViewList['view'] = array(
     'params' => array( 'ID' ) );
 $ViewList['edit'] = array(
     'script' => 'edit.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'Cancel' => 'Cancel',
                                     'Store' => 'Store' ),

@@ -46,6 +46,7 @@ $ViewList['list'] = array(
 $ViewList['edit_export'] = array(
     'script' => 'edit_export.php',
     'functions' => array( 'edit' ),
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'Update_Item_Class' => 'UpdateItem',
@@ -57,6 +58,7 @@ $ViewList['edit_export'] = array(
 $ViewList['edit_import'] = array(
     'script' => 'edit_import.php',
     'functions' => array( 'edit' ),
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'RemoveButton' => 'Remove',

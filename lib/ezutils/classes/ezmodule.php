@@ -81,6 +81,15 @@ class eZModule
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
+            $this->UIContext = 'navigation';
+            $this->UIComponent = $moduleName;
+
+            $uiComponentMatch = 'module';
+            if ( isset( $this->Module['ui_component_match'] ) )
+            {
+                $uiComponentMatch = $this->Module['ui_component_match'];
+            }
+            $this->UIComponentMatch = $uiComponentMatch;
 
             foreach( $this->Functions as $key => $dummy)
             {
@@ -96,6 +105,9 @@ class eZModule
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
+            $this->UIContext = 'navigation';
+            $this->UIComponent = $moduleName;
+            $this->UIComponentMatch = 'module';
         }
         $this->HookList = array();
         $this->ExitStatus = EZ_MODULE_STATUS_IDLE;
@@ -152,6 +164,42 @@ class eZModule
     function singleFunction()
     {
         return count( $this->Functions ) == 0;
+    }
+
+    /*!
+     \return A string describing the current UI context, the default is \c 'navigation'
+
+     Change the context with setUIContextName().
+    */
+    function uiContextName()
+    {
+        return $this->UIContext;
+    }
+
+    /*!
+     \return A string describing the current UI component.
+
+     The default value is the name of the currently running module, can be changed with setUIComponentName().
+    */
+    function uiComponentName()
+    {
+        return $this->UIComponent;
+    }
+
+    /*!
+     Sets the current context string to \a $context.
+    */
+    function setUIOContextName( $context )
+    {
+        $this->UIContext = $context;
+    }
+
+    /*!
+     Sets the current component string to \a $component.
+    */
+    function setUIComponentName( $component )
+    {
+        $this->UIComponent = $component;
     }
 
     /*!
@@ -867,10 +915,25 @@ class eZModule
                 ++$i;
             }
         }
+
         $this->ViewParameters =& $parameters;
         $this->OriginalParameters = $parameters;
         $this->OriginalViewParameters = $parameterValues;
         $this->NamedParameters = $params;
+
+        if ( isset( $function['ui_context'] ) )
+        {
+            $this->UIContext = $function['ui_context'];
+        }
+        if ( isset( $function['ui_component'] ) )
+        {
+            $this->UIComponent = $function['ui_component'];
+        }
+        else if ( $this->UIComponentMatch == 'view' )
+        {
+            $this->UIComponent = $functionName;
+        }
+
         if ( array_key_exists( 'Limitation', $parameters  ) )
         {
             $params['Limitation'] =& $parameters[ 'Limitation' ];
@@ -1103,6 +1166,7 @@ class eZModule
     {
         return $this->NamedParameters;
     }
+
     /// \privatesection
     var $Functions;
     var $Module;
@@ -1120,6 +1184,13 @@ class eZModule
     var $OriginalViewParameters;
     var $NamedParameters;
     var $OriginalUnorderedParameters;
+
+    /// The current UI context, by default 'navigation' but can be changed depending on module or PHP code
+    var $UIContext;
+    /// The current UI context, by default the current module but can be changed depending on module or PHP code
+    var $UIComponent;
+    /// Controls at which level UI component matching is done, either 'module' which uses module name or 'view' which uses view name
+    var $UIComponentMatch;
 }
 
 ?>

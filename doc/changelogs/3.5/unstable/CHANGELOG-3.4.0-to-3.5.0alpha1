@@ -359,6 +359,11 @@ eZ DB:
   if the server is running MySQL 4.1.1 or higher.
 - Support for binding variables in the DB interface.
 
+eZ Module:
+- Added UI context and UI component variables to module system, this variables
+  are determined from the running module and will be available globally in
+  the templates. This is currently used to perform logic in the admin pagelayout.
+
 eZ Template:
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
   enables compression of compiled template files.

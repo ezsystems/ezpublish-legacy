@@ -52,6 +52,7 @@ $ViewList["basket"] = array(
 $ViewList["register"] = array(
     "functions" => array( 'buy' ),
     "script" => "register.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'CancelButton' => 'Cancel'
@@ -61,6 +62,7 @@ $ViewList["register"] = array(
 $ViewList["userregister"] = array(
     "functions" => array( 'buy' ),
     "script" => "userregister.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'CancelButton' => 'Cancel'
@@ -83,6 +85,7 @@ $ViewList["orderlist"] = array(
 $ViewList["removeorder"] = array(
     "functions" => array( 'adminstrate' ),
     "script" => "removeorder.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
 
@@ -132,12 +135,14 @@ $ViewList["discountgroup"] = array(
 $ViewList["discountgroupedit"] = array(
     "functions" => array( 'setup' ),
     "script" => "discountgroupedit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'DiscountGroupID' ) );
 
 $ViewList["discountruleedit"] = array(
     "functions" => array( 'setup' ),
     "script" => "discountruleedit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );

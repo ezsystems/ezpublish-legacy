@@ -38,6 +38,7 @@ $Module = array( "name" => "eZContentClass" );
 $ViewList = array();
 $ViewList["edit"] = array(
     "script" => "edit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "ClassID", "GroupID", "GroupName" ) );
 $ViewList["view"] = array(
@@ -46,6 +47,7 @@ $ViewList["view"] = array(
     "params" => array( "ClassID" ) );
 $ViewList["copy"] = array(
     "script" => "copy.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "ClassID" ) );
 $ViewList["down"] = array(
@@ -78,6 +80,7 @@ $ViewList["grouplist"] = array(
     "params" => array() );
 $ViewList["groupedit"] = array(
     "script" => "groupedit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "GroupID" ) );
 ?>

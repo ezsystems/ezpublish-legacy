@@ -55,6 +55,7 @@ $ViewList['list'] = array(
 $ViewList['upload'] = array(
     'functions' => array( 'import' ),
     'script' => 'upload.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage' ),
     'params' => array() );
@@ -62,6 +63,7 @@ $ViewList['upload'] = array(
 $ViewList['create'] = array(
     'functions' => array( 'create' ),
     'script' => 'create.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreatePackageButton' => 'CreatePackage',
                                     'PackageStep' => 'PackageStep' ),
@@ -75,6 +77,7 @@ $ViewList['create'] = array(
 $ViewList['export'] = array(
     'functions' => array( 'export' ),
     'script' => 'export.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'params' => array( 'PackageName' ) );
 
@@ -90,6 +93,7 @@ $ViewList['view'] = array(
 $ViewList['install'] = array(
     'functions' => array( 'install' ),
     'script' => 'install.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
                                     'PackageStep' => 'PackageStep',
@@ -105,6 +109,7 @@ $ViewList['install'] = array(
 $ViewList['uninstall'] = array(
     'functions' => array( 'install' ),
     'script' => 'uninstall.php',
+    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'UninstallPackageButton' => 'UninstallPackage',
                                     'SkipPackageButton' => 'SkipPackage' ),

@@ -43,6 +43,7 @@ $ViewList["view"] = array(
     "params" => array( 'SiteAccess' , 'INIFile' ) );
 $ViewList["edit"] = array(
     "script" => "edit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => "ezsetupnavigationpart",
     "params" => array( 'SiteAccess', 'INIFile', 'Block', 'Setting', 'Placement' ) );
 

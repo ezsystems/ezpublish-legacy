@@ -46,12 +46,14 @@ $ViewList = array();
 $ViewList["settings"] = array(
     "functions" => array( 'use' ),
     "script" => "settings.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( ) );
 
 $ViewList["runfilter"] = array(
     "functions" => array( 'administrate' ),
     "script" => "runfilter.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 

@@ -35,6 +35,7 @@
 
 $Module = array( "name" => "eZSetup",
                  "variable_params" => true,
+                 'ui_component_match' => 'view',
                  "function" => array(
                      "script" => "setup.php",
                      "params" => array( ) ) );
@@ -48,6 +49,7 @@ $ViewList["init"] = array(
 
 $ViewList["cache"] = array(
     "script" => "cache.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ClearCacheButton' => 'ClearCache',
                                     'ClearAllCacheButton' => 'ClearAllCache',
@@ -59,6 +61,7 @@ $ViewList["cache"] = array(
 
 $ViewList['session'] = array(
     'script'                  => 'session.php',
+    'ui_context'              => 'administration',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions'     => array( 'RemoveAllSessionsButton' => 'RemoveAllSessions',
                                         'ShowAllUsersButton' => 'ShowAllUsers',
@@ -78,11 +81,13 @@ $ViewList["info"] = array(
 
 $ViewList["rad"] = array(
     "script" => "rad.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
 $ViewList["datatype"] = array(
     "script" => "datatype.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
                                     ),
@@ -90,6 +95,7 @@ $ViewList["datatype"] = array(
 
 $ViewList["templateoperator"] = array(
     "script" => "templateoperator.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
                                     ),
@@ -112,6 +118,7 @@ $ViewList["templateview"] = array(
 
 $ViewList["templateedit"] = array(
     "script" => "templateedit.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SaveButton' => 'Save',
                                     'DiscardButton' => 'Discard' ),
@@ -119,6 +126,7 @@ $ViewList["templateedit"] = array(
 
 $ViewList["templatecreate"] = array(
     "script" => "templatecreate.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
                                     ),
@@ -126,6 +134,7 @@ $ViewList["templatecreate"] = array(
 
 $ViewList["extensions"] = array(
     "script" => "extensions.php",
+    'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions' ),
     "params" => array( ) );
@@ -137,6 +146,7 @@ $ViewList['menu'] = array(
 
 $ViewList['systemupgrade'] = array(
     'script' => 'systemupgrade.php',
+    'ui_context' => 'administration',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check',
                                     'DBCheckButton' => 'DBCheck' ),
@@ -149,6 +159,7 @@ $ViewList["toolbarlist"] = array(
 
 $ViewList["toolbar"] = array(
     "script" => "toolbar.php",
+    'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'SiteAccess', 'Position' ) );

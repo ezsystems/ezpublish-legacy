@@ -770,6 +770,9 @@ if ( !is_array( $moduleResult ) )
     $moduleResult['content'] = false;
 }
 
+$moduleResult['ui_context'] = $module->uiContextName();
+$moduleResult['ui_component'] = $module->uiComponentName();
+
 $templateResult = null;
 
 eZDebug::setUseExternalCSS( $use_external_css );
@@ -883,6 +886,11 @@ if ( $show_page_layout )
         $tpl->setVariable( 'navigation_part', $navigationPart );
         $tpl->setVariable( 'uri_string', $uri->uriString() );
         $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
+
+        // Set UI context and component
+        $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
+        $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
+
         $templateResult =& $tpl->fetch( $resource . $show_page_layout );
     }
 }
