@@ -121,7 +121,12 @@
         {section show=$Node:item.node}
         {$Node:item.node.hidden_status_string}
         {section-else}
-        N/A
+	 {* If the location is new ($Node:item.node is not set) then we determine current node visibility by parent node *}
+	 {section show=$Node:item.parent_node_obj.is_invisible}
+	Hidden by parent
+	 {section-else}
+	Visible
+	 {/section}
         {/section}
         </td>
 
