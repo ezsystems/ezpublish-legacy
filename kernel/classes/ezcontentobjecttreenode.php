@@ -72,9 +72,6 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezurlalias.php" );
-include_once( "kernel/classes/ezrole.php" );
-include_once( "kernel/classes/ezpolicy.php" );
-include_once( "kernel/classes/ezpolicylimitation.php" );
 
 class eZContentObjectTreeNode extends eZPersistentObject
 {
@@ -1252,19 +1249,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $limitationList =& $params['Limitation'];
         }
-        /* else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
-        {
-            $policyList =& $GLOBALS['ezpolicylimitation_list'];
-            $limitationList = array();
-            foreach ( array_keys( $policyList ) as $key )
-            {
-                $policy =& $policyList[$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-
-            }
-            eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
-
-        }*/
         else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
         {
 
@@ -2415,6 +2399,9 @@ WHERE
     */
     function remove( $nodeID = 0 )
     {
+        include_once( "kernel/classes/ezrole.php" );
+        include_once( "kernel/classes/ezpolicy.php" );
+        include_once( "kernel/classes/ezpolicylimitation.php" );
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-cache', time() );
@@ -2504,6 +2491,7 @@ WHERE
     */
     function move( $newParentNodeID, $nodeID = 0 )
     {
+        include_once( "kernel/classes/ezpolicylimitation.php" );
         if ( $nodeID == 0 )
         {
             $node = $this;
@@ -2558,6 +2546,7 @@ WHERE
             $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
             if ( count( $limitationsToFix )  > 0 )
             {
+                include_once( "kernel/classes/ezrole.php" );
                 $limitationIDString = implode( ',', $limitationsToFix );
                 $limitationIDString = " limitation_id in ( $limitationIDString ) ";
                 $subStringString = $db->subString( 'value', 1, $oldPathLength );
