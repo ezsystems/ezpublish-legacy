@@ -51,3 +51,9 @@ Source=node/view/full.tpl
 MatchFile=album.tpl
 Subdir=templates
 Match[class]=28
+
+[gallery_view]
+Source=node/view/full.tpl
+MatchFile=gallery.tpl
+Subdir=templates
+Match[class]=27
