@@ -286,6 +286,7 @@ $dotCount = 0;
 
 $offset = 0;
 $limit = 50;
+$i = 0;
 $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit ) );
 while ( $subTree != null )
 {
@@ -306,6 +307,7 @@ while ( $subTree != null )
         }
     }
     $offset += $limit;
+    $node =& eZContentObjectTreeNode::fetch( 2 );
     $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit ) );
 }
 
