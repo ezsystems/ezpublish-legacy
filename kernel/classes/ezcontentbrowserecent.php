@@ -224,7 +224,7 @@ class eZContentBrowseRecent extends eZPersistentObject
                                                                     null,
                                                                     array( 'user_id' => $userID ),
                                                                     array( 'created' => 'desc' ),
-                                                                    array( 'limit' => 1, 'offset' => 0 ),
+                                                                    array( 'length' => 1, 'offset' => 0 ),
                                                                     true );
             $eldest = $recentCountList[0];
             $eldest->remove();

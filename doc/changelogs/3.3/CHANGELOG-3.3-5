@@ -13,6 +13,9 @@ Changes from 3.3-4 to 3.3-5
 - Added default setting for UserSettings: UseSpecialCharacters to site.ini
   (Merged from stable/3.2 rev. 5938)
   http://ez.no/community/bug_reports/site_ini_missing_entry
+- Fixed a bug with eZPersistentObject and limit/offset parameters (Merged from
+  stable/3.2 rev. 5859)
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
   
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
