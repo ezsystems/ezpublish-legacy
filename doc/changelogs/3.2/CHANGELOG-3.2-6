@@ -40,6 +40,8 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
 - Fixed undefined variables in ezenumtype
   http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
+- Fixed misuse of in_array() function
+  http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
 
 *Setup:
 
