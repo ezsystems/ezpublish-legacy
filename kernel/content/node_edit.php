@@ -370,6 +370,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             $http->setSessionVariable( 'OldAssignmentParentID', $oldAssignmentParentID );
             $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
             $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
+
             $mainParentID = $version->attribute( 'main_parent_node_id' );
             $node = eZContentObjectTreeNode::fetch( $mainParentID );
             $nodePath =  $node->attribute( 'path' );

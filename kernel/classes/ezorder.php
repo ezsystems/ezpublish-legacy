@@ -95,6 +95,16 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &activeByUserID( $userID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                    null,
+                                                    array( "user_id" => $userID,
+                                                           'is_temporary' => 0 ),
+                                                    array( "created" => "desc" ), null,
+                                                    $asObject );
+    }
+
     /*!
      \return the active orders
     */
