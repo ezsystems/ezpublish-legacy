@@ -314,7 +314,6 @@ foreach ( $extensionRepositories as $extensionRepository )
 $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
 
-
 // Start the module loop
 while ( $moduleRunRequired )
 {

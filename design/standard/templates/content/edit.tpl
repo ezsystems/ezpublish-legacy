@@ -41,7 +41,7 @@
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}:</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}:</th>
     </tr>
-    {let name=Node sort_fields=hash(1,"Path"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
+    {let name=Node sort_fields=hash(1,"Path"|i18n("design/standard/content/edit"),9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
    {let existingParentNodes=$object.parent_nodes}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {let parent_node=$Node:item.parent_node_obj}

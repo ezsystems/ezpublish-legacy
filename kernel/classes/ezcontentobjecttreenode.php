@@ -306,6 +306,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject_tree.priority';
                         } break;
+                        case 'name':
+                        {
+                            $sortingFields .= 'ezcontentobject_name.name';
+                        } break;
                         default:
                         {
                             eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
@@ -705,6 +709,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'class_name';
             case 8:
                 return 'priority';
+            case 8:
+                return 'name';
         }
     }
 
