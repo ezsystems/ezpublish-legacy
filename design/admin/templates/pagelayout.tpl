@@ -8,23 +8,23 @@
 {* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
 {* Cache header for each navigation part *}
 
-    <link rel="stylesheet" type="text/css" href={'stylesheets/core.css'|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={'stylesheets/site.css'|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={'stylesheets/debug.css'|ezdesign} />
-
-    {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
-    <link rel="stylesheet" type="text/css" href={concat( 'stylesheets/',$css_file )|ezdesign} />
-    {/section}
-
-    <script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
-
+<script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-    <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
+
+<style type="text/css">
+    @import url({'stylesheets/core.css'|ezdesign});
+    @import url({'stylesheets/site.css'|ezdesign});
+    @import url({'stylesheets/debug.css'|ezdesign});
+{section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
+    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
+{/section}
+</style>
 
 {literal}
 <!--[if IE]>
-<style>
+<style type="text/css">
 div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
 div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
 div.menu-block li { width: 19%; } /* Avoid width bug in IE */
@@ -34,16 +34,17 @@ input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visibl
 input.box, textarea.box { width: 99%; }
 div#search p.select { margin-top: 0; }
 div#search p.advanced { margin-top: 0.3em; }
+div.content-navigation div.mainobject-window div.fixedsize { float: none; width: auto; }
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
-<style>
+<style type="text/css">
 div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
 div#maincontent div#maincontent-design { width: 98%; } /* Avoid width bug in IE 5.5 */
 </style>
 <![endif]-->
 <!--[if IE 6.0]>
-<style>
+<style type="text/css">
 div#maincontent div.box-bc { border-bottom: 1px solid #bfbfb7; /* Strange IE bug fix */ }
 div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 </style>

@@ -765,12 +765,14 @@ div.mainobject-window
 {
     background-color: #f8f8f4;
     margin: 0 1px 0 1px;    
-    padding: 0 0.5em 0 0.5em;
+    padding: 0 0 0 0.5em;
     border: 6px solid #ecece4;
 }
 
-div.content-navigation div.mainobject-window
+div.content-navigation div.mainobject-window div.fixedsize
 {
+    float: left;
+    width: 100%;
     height: 200px;
     overflow: auto;
 }
