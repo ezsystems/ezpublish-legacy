@@ -764,7 +764,7 @@ class eZUser extends eZPersistentObject
         return array( 'accessWord' => $access, 'policies' => $limitationPolicyList );
     }
 
-    function &allAccesses()
+    function &policies()
     {
         $roles =& $this->attribute( 'roles' );
         $limitationPolicyList = array();
@@ -776,29 +776,6 @@ class eZUser extends eZPersistentObject
             foreach ( array_keys( $policies ) as $policy_key )
             {
                 $policy =& $policies[$policy_key];
-//                 if ( $policy->attribute( 'module_name' ) == '*' )
-//                 {
-//                     return array( 'accessWord' => 'yes' );
-//                 }
-//                 elseif ( $policy->attribute( 'module_name' ) == $module )
-//                 {
-//                     if ( $policy->attribute( 'function_name' ) == '*' )
-//                     {
-//                         return array( 'accessWord' => 'yes' );
-//                     }
-//                     elseif ( $policy->attribute( 'function_name' ) == $function )
-//                     {
-//                         if ( $policy->attribute( 'limitation' ) == '*' )
-//                         {
-//                             return array( 'accessWord' => 'yes' );
-//                         }
-//                         else
-//                         {
-//                             $access = 'limited';
-//                             $limitationPolicyList[] =& $policy;
-//                         }
-//                     }
-//                 }
                 $limitationPolicyList[] =& $policy;
             }
         }
