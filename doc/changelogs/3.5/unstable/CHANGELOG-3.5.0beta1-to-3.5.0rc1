@@ -120,6 +120,9 @@ Datatype:
   (Merged from stable/3.4, rev. 9674)
 - Fixed bug with non-mandatory user datatype, entered mail but not username
   http://ez.no/community/bug_reports/ezuser_strange_behavior
+- Fixed wrong function call 'attributes' vs 'attribute' in contentclass
+  package handler.
+  (Merged from stable/3.4 (3.4.5) rev. 9693)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
