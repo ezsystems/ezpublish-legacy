@@ -442,9 +442,12 @@ class eZCodePage
         }
         $file_m = filemtime( $file );
         $this->Valid = false;
-        $siteBasics = $GLOBALS['eZSiteBasics'];
-        if ( $siteBasics['no-cache-adviced'] )
-            $use_cache = false;
+        if ( isset( $GLOBALS['eZSiteBasics'] ) )
+        {
+            $siteBasics = $GLOBALS['eZSiteBasics'];
+            if ( $siteBasics['no-cache-adviced'] )
+                $use_cache = false;
+        }
         if ( file_exists( $cache ) and $use_cache )
         {
             $cache_m = filemtime( $cache );

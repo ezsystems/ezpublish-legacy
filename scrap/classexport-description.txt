@@ -1,58 +1,91 @@
 <?xml version="1.0"?>
 <package version="3.2-1" development="true" xmlns:ezpackage="http://ez.no/ezpackage">
+
+// version of the package format
+// development is set to true when exported using development implementation
+//  of the package system. development packages cannot be imported to stable versions
+
   <name>forum</name>
+// name of package, must be the same for all releases
   <summary>Simple forum</summary>
+// short summary
   <description>Creates a simple forum:
 * Straight lists</description>
+// more elobaret description, text only
   <vendor>eZ systems</vendor>
-  <priority value='9' /> // 1 - 10, 5 is normal, 10 is highest
-  <type value='' /> // hotfix, feature, bugfix
-  <extension name='forum' /> // optional
+// Who owns the package, either company name, organization or person
+  <priority type='9' /> // 1 - 10, 5 is normal
+// how important the package is, bugfixes etc should have high (6 and up) priority.
+// OPTIONAL (default is 5)
+  <type></type> // hotfix, feature, bugfix
+// Type of package, can be used to filter out features from bugfixes etc.
+// OPTIONAL (default is feature)
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.2-2</version>
     <named-version>3.2 release 2</named-version>
   </ezpublish>
+// Describes the ezpublish which exported it
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
       <name>Jan Borsodi</name>
       <email>jb@ez.no</email>
       <role>lead</role>
+// can be lead, developer, tester or writer
     </maintainer>
   </maintainers>
-  <packaging  xmlns:ezpackaging="http://ez.no/ezpackage">
+// People involved in package
+  <packaging>
     <timestamp>32523452345</timestamp>
+// timestamp when the package was made
     <host>jb.ez.no</host>
+// which host it was made on
     <packager>eZ systems. &lt;http://ez.no&gt;</packager>
+// Who packaged it
   </packaging>
+// information on the packaging
   <signature type="dsa/sha1">86cd29baf</signature>
+// signature of the package. can be used to 'validate' the package as something real
+// OPTIONAL
+// UNFINISHED
   <source>http://ez.no/developer</source>
+// Where can the package be retrieved, either direct location or a webpage
   <documents>
-    <document type="text/plain">README</document>
-    <document audience="end-user" type="text/plain">README-enduser</document>
-    <document type="text/plain">INSTALL</document>
-    <document type="text/plain" os='win32'>INSTALL-Windows.txt</document>
-    <document type="text/html">readme.html</document>
+    <document mime-type="text/plain">README</document>
+// mime-type, the mime-type of the document
+// audience, who is the document for, can be end-user, developer, installer, site-admin, customizer (OPTIONAL)
+// os, which operating system it works for. can be win32, unix, freebsd or linux
+    <document audience="end-user" mime-type="text/plain">README-enduser</document>
+    <document mime-type="text/plain">INSTALL</document>
+    <document mime-type="text/plain" os='win32'>INSTALL-Windows.txt</document>
+    <document mime-type="text/html">readme.html</document>
   </documents>
+// Various documents for installing and readmes.
   <groups>
    <group name="design" />
    <group name="community/forum" />
   </groups>
-  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry>
-      <timestamp>293459235</timestamp>
-      <person>Jan Borsodi</person>
-      <email>jb@ez.no</email>
-      <change>Next/previous on forum lists</change>
-    </entry>
-  </changelog>
+// which groups the package belongs in, used for categorization
   <release>
     <version xmlns:ezversion="http://ez.no/ezpackage">
       <number>1.5.0</number>
       <release>1</release>
     </version>
+// the version of this release
     <timestamp>21342345435</timestamp>
+// timestamp of the release date
     <license>GPL</license>
+// which licence it uses
     <state>stable</state>
+// the state of the release, can be stable, prealpha, alpha, beta
+    <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+      <entry>
+        <timestamp>293459235</timestamp>
+        <person>Jan Borsodi</person>
+        <email>jb@ez.no</email>
+        <change>Next/previous on forum lists</change>
+      </entry>
+    </changelog>
+// the changelog for the package
     <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
       <provides>
         <function name="array_reverse" />
