@@ -10,28 +10,24 @@ Number of children: {$node.children_count}<br />
 Number of releated objects: {$node.object.related_contentobject_count}<br />
 Number objects using this one: {$node.object.reverse_related_contentobject_count}<br />
 *}
-<table width="100%">
+<table>
 <tr>
-<th>Creator</th>
 <th>Created</th>
-<th>Last modifier</th>
 <th>Last modified</th>
 <th>Versions</th>
-<th>Sub items</th>
 <th>Related items</th>
 <th>Used by</th>
+{* <th>Sub items</th> *}
 <th>Node ID</th>
 <th>Object ID</th>
 </tr>
 <tr>
-<td>{$node.object.owner.name}</td>
-<td>{$node.object.published|l10n(shortdatetime)}</td>
-<td>{$node.object.current.creator.name}</td>
-<td>{$node.object.modified|l10n(shortdatetime)}</td>
+<td>{$node.object.owner.name} <br />({$node.object.published|l10n(shortdatetime)})</td>
+<td>{$node.object.current.creator.name}<br /> ({$node.object.modified|l10n(shortdatetime)})</td>
 <td>{$node.object.versions|count()}</td>
-<td>{$node.children_count}</td>
 <td>{$node.object.related_contentobject_count}</td>
 <td>{$node.object.reverse_related_contentobject_count}</td>
+{* <td>{$node.children_count}</td> *}
 <td>{$node.node_id}</td>
 <td>{$node.object.id}</td>
 </tr>
