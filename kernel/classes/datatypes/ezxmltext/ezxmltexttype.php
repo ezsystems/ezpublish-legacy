@@ -556,16 +556,112 @@ class eZXMLTextType extends eZDataType
         return $output;
     }
 
-    /*!
+            /*!
+     \private
+     \return the XHTML rendered version of the section
+    */
+    function &renderXHTMLTdTag( &$tpl, &$td, $currentSectionLevel )
+    {
+        $output = "";
+        foreach ( $td->children() as $tdNode )
+        {
+            $sectionLevel = $currentSectionLevel;
+            $tagName = $tdNode->name();
+            switch ( $tagName )
+            {
+                // tags with parameters
+                case 'header' :
+                {
+                    $level = $sectionLevel;
+                    $tpl->setVariable( 'content', $tdNode->textContent(), 'xmltagns' );
+                    $tpl->setVariable( 'level', $level, 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/header.tpl";
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $output .= implode( '', $textElements );
+                }break;
+
+                case 'paragraph' :
+                {
+                    $output .= $this->renderXHTMLTdParagraph( $tpl, $tdNode, $sectionLevel  );
+                }break;
+
+                case 'section' :
+                {
+                    $output .= $this->renderXHTMLTdTag( $tpl, $tdNode, $sectionLevel );
+                }break;
+
+                default :
+                {
+                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::renderXHTMLTdTag()" );
+                }break;
+            }
+        }
+        return $output;
+    }
+
+     /*!
      \private
      \return XHTML rendered version of the paragrph
     */
-    function &renderXHTMLParagraph( &$tpl, $paragraph )
+    function &renderXHTMLTdParagraph( &$tpl, $paragraph, $currentSectionLevel )
     {
         $output = "";
         foreach ( $paragraph->children() as $paragraphNode )
         {
-            $output .= $this->renderXHTMLTag( $tpl, $paragraphNode );
+
+            $sectionLevel = $currentSectionLevel;
+            $tagName = $paragraphNode->name();
+            switch ( $tagName )
+            {
+                // tags with parameters
+                case 'header' :
+                {
+                    $level = $sectionLevel;
+                    $tpl->setVariable( 'content', $paragraphNode->textContent(), 'xmltagns' );
+                    $tpl->setVariable( 'level', $level, 'xmltagns' );
+                    $uri = "design:content/datatype/view/ezxmltags/header.tpl";
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $output .= implode( '', $textElements );
+                }break;
+
+                case 'paragraph' :
+                {
+                    $output .= $this->renderXHTMLTdParagraph( $tpl, $paragraphNode, $sectionLevel  );
+                }break;
+
+                case 'section' :
+                {
+                    $output .= $this->renderXHTMLTdTag( $tpl, $paragraphNode, $sectionLevel );
+                }break;
+
+                default :
+                {
+                    $output .= $this->renderXHTMLTag( $tpl, $paragraphNode, $currentSectionLevel  );
+                }break;
+            }
+        }
+
+        $tpl->setVariable( 'content', $output, 'xmltagns' );
+        $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
+        $textElements = array();
+        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+        $output = implode( '', $textElements );
+        return $output;
+    }
+
+    /*!
+     \private
+     \return XHTML rendered version of the paragrph
+    */
+    function &renderXHTMLParagraph( &$tpl, $paragraph, $currentSectionLevel )
+    {
+        $output = "";
+        $sectionLevel = $currentSectionLevel;
+        foreach ( $paragraph->children() as $paragraphNode )
+        {
+            $output .= $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel );
         }
 
         $tpl->setVariable( 'content', $output, 'xmltagns' );
@@ -580,16 +676,17 @@ class eZXMLTextType extends eZDataType
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel )
     {
         $tagText = "";
         $childTagText = "";
         $tagName = $tag->name();
         // render children tags
         $tagChildren = $tag->children();
+        $sectionLevel = $currentSectionLevel + 1;
         foreach ( $tagChildren as $childTag )
         {
-            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag );
+            $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel );
         }
 
         switch ( $tagName )
@@ -639,12 +736,13 @@ class eZXMLTextType extends eZDataType
                         $cellContent = "";
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            // $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildNode );
-                            $cellContent .= $this->renderXHTMLParagraph( $tpl, $tableCellChildNode );
+                            $cellContent .= $this->renderXHTMLTdParagraph( $tpl, $tableCellChildNode, $sectionLevel );
                         }
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
-                        eZDebug::writeDebug($cellContent,"8888");
-                        $uri = "design:content/datatype/view/ezxmltags/td.tpl";
+                        if ( $tableCell->Name == "th" )
+                            $uri = "design:content/datatype/view/ezxmltags/th.tpl";
+                        else
+                            $uri = "design:content/datatype/view/ezxmltags/td.tpl";
                         $textElements = array();
                         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                         $tableData .= implode( '', $textElements );
