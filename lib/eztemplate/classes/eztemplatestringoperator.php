@@ -165,13 +165,15 @@ function modify( &$tpl,
         // Convert all alphabetical chars of operatorvalue to uppercase.
         case $this->UpcaseName:
         {
-            $operatorValue = strtoupper( $operatorValue );
+            $funcName = function_exists( 'mb_strtoupper' ) ? 'mb_strtoupper' : 'strtoupper';
+            $operatorValue = $funcName( $operatorValue );
         } break;
 
         // Convert all alphabetical chars of operatorvalue to lowercase.
         case $this->DowncaseName:
         {
-            $operatorValue = strtolower( $operatorValue );
+            $funcName = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+            $operatorValue = $funcName( $operatorValue );
         } break;
 
         // Count and return the number of words in operatorvalue.
@@ -183,7 +185,8 @@ function modify( &$tpl,
         // Count and return the number of chars in operatorvalue.
         case $this->CountcharsName:
         {
-            $operatorValue = strlen( $operatorValue );
+            $funcName = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
+            $operatorValue = $funcName( $operatorValue );
         }break;
 
         // Insert HTML line breaks before newlines.
@@ -236,11 +239,13 @@ function modify( &$tpl,
         // Shorten string [default or specified length, length=text+"..."] and add '...'
         case $this->ShortenName:
         {
+            $strlenFunc = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
+            $substrFunc = function_exists( 'mb_substr' ) ? 'mb_substr' : 'substr';
             if ( strlen( $operatorValue ) > $namedParameters['chars_to_keep'] )
             {
-                $chop = $namedParameters['chars_to_keep'] - strlen( $namedParameters['str_to_append'] );
-                $operatorLength = strlen( $operatorValue );
-                $operatorValue = substr( $operatorValue, 0, $chop );
+                $chop = $namedParameters['chars_to_keep'] - $strlenFunc( $namedParameters['str_to_append'] );
+                $operatorLength = $strlenFunc( $operatorValue );
+                $operatorValue = $substrFunc( $operatorValue, 0, $chop );
                 $operatorValue = trim( $operatorValue );
                 if ( $operatorLength > $chop )
                     $operatorValue = $operatorValue.$namedParameters['str_to_append'];
