@@ -32,21 +32,21 @@
  <a href={"/user/preferences/set/advanced_menu/off"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
 </div>
 <ul class="leftmenu">
-<li>&#187; <a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/settings/view"|ezurl}>{"Ini settings"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/pdf/list/"|ezurl}>{"PDF export"|i18n("design/admin/layout",'PDF export')}</a></li>
-<li>&#187; <a href={"/package/list/"|ezurl}>{"Packages"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a></li>
-<li>&#187; <a href={"/rss/list"|ezurl}>{"RSS"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/setup/session"|ezurl}>{"Session"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/setup/systemupgrade"|ezurl}>{"System upgrade"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/admin/layout")}</a></li>
-<li>&#187; <a href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></p></li>
+<li><p>&#187; <a href={"/setup/extensions/"|ezurl}>{"Extension setup"|i18n("design/admin/layout")}</a></p></li>
+<li><p>&#187; <a href={"/settings/view"|ezurl}>{"Ini settings"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/notification/runfilter/"|ezurl}>{"Notification"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/pdf/list/"|ezurl}>{"PDF export"|i18n("design/admin/layout",'PDF export')}</a></li>
+<li><p>&#187; <a href={"/package/list/"|ezurl}>{"Packages"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/setup/rad/"|ezurl}>{"RAD"|i18n("design/admin/layout",'Rapid Application Development')}</a></li>
+<li><p>&#187; <a href={"/rss/list"|ezurl}>{"RSS"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/section/list/"|ezurl}>{"Sections"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/setup/session"|ezurl}>{"Session"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/setup/systemupgrade"|ezurl}>{"System upgrade"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/setup/templatelist/"|ezurl}>{"Templates"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/content/translations/"|ezurl}>{"Translations"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/trigger/list/"|ezurl}>{"Triggers"|i18n("design/admin/layout")}</a></li>
+<li><p>&#187; <a href={"/workflow/grouplist/"|ezurl}>{"Workflows"|i18n("design/admin/layout")}</a></li>
 </ul>
 {section-else}
  <a class="leftmenuitem" href={"/user/preferences/set/advanced_menu/on"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
