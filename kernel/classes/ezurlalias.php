@@ -643,18 +643,55 @@ WHERE
      in the range a-z, numbers and _.
      All other characters are converted to _.
      \return the converted element
-    */
-    function convertToAlias( $urlElement )
-    {
 
+     \example
+     'My car' => 'my_car'
+     'What is this?' => 'what_is_this'
+     'This & that' => 'this_that'
+     'myfile.tpl' => 'myfile_tpl',
+     'רזו' => '_1'
+     \endexample
+    */
+    function convertToAlias( $urlElement, $defaultValue = false )
+    {
         $urlElement = strtolower( $urlElement );
-        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#" ,
+        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
                                            "/ /",
-                                           "/__+/" ),
-                                    array( "",
+                                           "/__+/",
+                                           "/^_|_$/" ),
+                                    array( " ",
                                            "_",
-                                           "_" ),
+                                           "_",
+                                           "" ),
                                       $urlElement );
+        $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
+                                           "/ /",
+                                           "/__+/",
+                                           "/^_|_$/" ),
+                                    array( " ",
+                                           "_",
+                                           "_",
+                                           "" ),
+                                      $urlElement );
+        if ( strlen( $urlElement ) == 0 )
+        {
+            if ( $defaultValue === false )
+                $urlElement = '_1';
+            else
+            {
+                $urlElement = $defaultValue;
+                $urlElement = strtolower( $urlElement );
+                $urlElement = preg_replace( array( "#[^a-z0-9_ ]#",
+                                                   "/ /",
+                                                   "/__+/",
+                                                   "/^_|_$/" ),
+                                            array( "",
+                                                   "_",
+                                                   "_",
+                                                   "" ),
+                                            $urlElement );
+            }
+        }
         return $urlElement;
     }
 

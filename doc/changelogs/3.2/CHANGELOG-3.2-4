@@ -12,6 +12,9 @@ Changes from 3.2-3 to 3.2-4
 - Added support for moved urls without doing redirects in the URL alias system.
 - Fixed PHP warning in ezpm.php.
 - Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
+- Improved the translated URLs (URL alias), it will not contain leading or trailing underscores,
+  special characters are translated into underscore instead of being removed and empty translations
+  will use a default value from the client. (e.g node_45 from content tree nodes)
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
