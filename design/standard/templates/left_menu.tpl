@@ -1,11 +1,13 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Creating"|i18n("design/standard/layout")}</p>
+    <p class="menuhead">{"Content"|i18n("design/standard/layout")}</p>
     </th>
 </tr>
 <tr>
-    <td class="menu">
+    <td class="menu" colspan="2">
+    <p class="menuhead">{"Create"|i18n("design/standard/layout")}</p>
+
 {switch match=fetch('content', 'can_instantiate_classes')}
 {case match=1}
 <form method="post" action={"content/action"|ezurl}>
@@ -25,14 +27,7 @@
 
     </td>
 </tr>
-</table>
 
-<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Content"|i18n("design/standard/layout")}</p>
-    </th>
-</tr>
 <tr>
     <td class="bullet" width="1">
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />

@@ -112,7 +112,7 @@
 <!-- Attribute input End -->
 
 <!-- Attribute flags Start -->
-<td class="{$Attributes:sequence}" rowspan="2" width="20%">
+<td class="{$Attributes:sequence}" rowspan="2" width="20%" valign="top">
 
 {*
 <div class="block">
