@@ -39,41 +39,14 @@
 
 */
 include_once( "kernel/classes/ezdatatype.php" );
+include_once( "lib/ezlocale/classes/eztime.php" );
 
 define( "EZ_DATATYPESTRING_TIME", "eztime" );
-
-
 class eZTimeType extends eZDataType
 {
     function eZTimeType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_TIME, "Time" );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return $attr == "hour" or
-            $attr == "minute" or
-            eZDataType::hasAttribute( $attr ) ;
-    }
-
-    function &attribute( $attr )
-    {
-        $time = $this->attribute( 'data_text' );
-        list ( $hour, $minute ) = split ('[:]', $time);
-        switch( $attr )
-        {
-            case "hour":
-            {
-                return $hour;
-            } break;
-             case "minute":
-            {
-                return $minute;
-            } break;
-            default:
-                return eZDataType::attribute( $attr );
-        }
     }
 
     /*!
@@ -82,17 +55,7 @@ class eZTimeType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
-        $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
-        $time = $hour.':'.$minute;
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $time == ":" ) )
-        {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        }
-        if ( preg_match( "#[0-9]+[:][0-9]+#", $time ) )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
@@ -102,8 +65,22 @@ class eZTimeType extends eZDataType
     {
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
-        $time = $hour.':'.$minute;
-        $contentObjectAttribute->setAttribute( "data_text", $time );
+
+        $time = new eZTime();
+        $time->setHMS( $hour, $minute, 0 );
+
+        $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() );
+    }
+
+    /*!
+     Returns the content.
+    */
+    function &objectAttributeContent( &$attr )
+    {
+        $time = new eZTime( );
+        $time->setTimeStamp( $attr->attribute( 'data_int' ) );
+
+        return $time;
     }
 
     /*!
@@ -119,7 +96,7 @@ class eZTimeType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        return "";
     }
 }
 eZDataType::register( EZ_DATATYPESTRING_TIME, "eztimetype" );

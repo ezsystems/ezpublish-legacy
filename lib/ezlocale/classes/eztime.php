@@ -116,6 +116,25 @@ class eZTime
         $this->Locale =& eZLocale::instance();
     }
 
+    function hasAttribute( $attr )
+    {
+        if ( $attr == "hour" or
+             $attr == "minute"  )
+            return true;
+        else
+            return false;
+    }
+
+    function &attribute( $attr )
+    {
+        if ( $attr == "hour" )
+            return $this->hour();
+        else if ( $attr == "minute"  )
+            return $this->minute();
+        else
+            return false;
+    }
+
     /*!
      Sets the locale to $locale which is used in text output.
     */
@@ -204,6 +223,11 @@ class eZTime
     function &timeStamp()
     {
         return $this->Time;
+    }
+
+    function setTimeStamp( $stamp )
+    {
+        $this->Time = $stamp;
     }
 
     /*!

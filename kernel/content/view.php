@@ -103,18 +103,9 @@ $parents =& $node->attribute( 'path' );
 $path = array();
 foreach ( $parents as $parent )
 {
-    if ( $ViewMode == 'news' )
-    {
-        $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/view/news/' . $parent->attribute( 'node_id' )
-                         );
-    }
-    else
-    {
-        $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
-                         );
-    }
+    $path[] = array( 'text' => $parent->attribute( 'name' ),
+                     'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
+                     );
 }
 $path[] = array( 'text' => $object->attribute( 'name' ),
                  'url' => false );
