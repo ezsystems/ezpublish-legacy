@@ -283,6 +283,11 @@ class eZUser extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $time = mktime();
+        $ini =& eZINI::instance();
+        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+        $time = $time - $sessionTimeout + $activityTimeout;
+
         $parameters = array();
         if ( $offset )
             $parameters['offset'] = $offset;
@@ -379,6 +384,11 @@ $sortText";
             return $GLOBALS['eZUserLoggedInCount'];
         $db =& eZDB::instance();
         $time = mktime();
+        $ini =& eZINI::instance();
+        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+        $time = $time - $sessionTimeout + $activityTimeout;
+
         $sql = "SELECT count( DISTINCT user_id ) as count
 FROM ezsession
 WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
@@ -403,6 +413,11 @@ WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
             return $GLOBALS['eZUserAnonymousCount'];
         $db =& eZDB::instance();
         $time = mktime();
+        $ini =& eZINI::instance();
+        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+        $time = $time - $sessionTimeout + $activityTimeout;
+
         $sql = "SELECT count( session_key ) as count
 FROM ezsession
 WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
@@ -428,6 +443,11 @@ WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
             return $GLOBALS['eZUserLoggedInMap'][$userID];
         $db =& eZDB::instance();
         $time = mktime();
+        $ini =& eZINI::instance();
+        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+        $time = $time - $sessionTimeout + $activityTimeout;
+
         $sql = "SELECT DISTINCT user_id
 FROM ezsession
 WHERE user_id = '" . $userID . "' AND

@@ -31,6 +31,9 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - Added object_count attribute to eZContentClass
 - Added object count in class list and class view
 - Merged the ezuser_session_link table into the ezsession table.
+- New setting for sessions ActivityTimeout which controls how long it
+  takes before a session is considered inactive (or logged out). The  
+  default is 3600 seconds (1 hour)
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
