@@ -183,8 +183,7 @@ class eZTemplateSwitchFunction
             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         }
 
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{" );
-
+        $tmpNodes = array();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         $caseNodes = array();
         $caseCounter = 1;
@@ -193,9 +192,11 @@ class eZTemplateSwitchFunction
             $childType = $child[0];
             if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
-                $this->templateNodeCaseTransformation( $tpl, $newNodes, $caseNodes, $caseCounter, $child, $privateData );
+                $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData );
             }
         }
+        $newNodes = array_merge( $newNodes, $tmpNodes );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{" );
         $newNodes = array_merge( $newNodes, $caseNodes );
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
