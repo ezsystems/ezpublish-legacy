@@ -60,7 +60,6 @@ class eZTemplateOptimizer
     */
     function optimize( $useComments, &$php, &$tpl, $tree, &$resourceData, &$transformedTree )
     {
-        var_dump($tree);
         $transformedTree = $tree;
     }
 }
