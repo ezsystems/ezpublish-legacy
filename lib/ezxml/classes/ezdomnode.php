@@ -41,23 +41,40 @@
 /*!
   \class eZDOMNode ezdomnode.php
   \ingroup eZXML
-  \brief eZDOMNode handles DOM nodes in DOM documents
+  \brief eZDOMNode encapsulates XML DOM nodes
 
-  Type of the DOM node can be: ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
+  The following node types are supported:
+  - Element node, has value \c 1
+  - Attribute node, has value \c 2
+  - Text node, has value \c 3
+  - CDATA node, has value \c 4
+
   \sa eZXML eZDOMDocument
 */
 
+/*!
+ Element node, defines a node which contains attributes and children
+*/
 define( "EZ_XML_NODE_ELEMENT", 1 );
+/*!
+ Attribute node, defines a node which contains an attribute name and it's value
+*/
 define( "EZ_XML_NODE_ATTRIBUTE", 2 );
+/*!
+ Text node, defines a node which contains a text string encoded by escaping some characters.
+*/
 define( "EZ_XML_NODE_TEXT", 3 );
+/*!
+ CDATA node, defines a node which contains a text string encoding in a CDATA structure.
+*/
 define( "EZ_XML_NODE_CDATASECTION", 4 );
 
 class eZDOMNode
 {
     /*!
-      Creates a new DOM node.
+      Initializes the DOM node.
     */
-    function eZDOMNode( )
+    function eZDOMNode()
     {
     }
 
@@ -79,7 +96,10 @@ class eZDOMNode
     }
 
     /*!
-      Returns the node name.
+      \return The name of the node.
+
+      For element and attributes nodes this will the name supplied when creating the node,
+      for text nodes it returns \c #text and CDATA returns \c #cdata-section
     */
     function name()
     {
@@ -87,7 +107,7 @@ class eZDOMNode
     }
 
     /*!
-      Sets the nodes name.
+      Sets the current name to \a $name.
     */
     function setName( $name )
     {
@@ -96,7 +116,7 @@ class eZDOMNode
     }
 
     /*!
-      Returns the nodes namespace URI.
+      \return The namespace URI for the node or \c false if no URI
     */
     function namespaceURI()
     {
@@ -104,7 +124,7 @@ class eZDOMNode
     }
 
     /*!
-      Sets the namespace URI
+      Sets the namespace URI of the node to \a $uri.
     */
     function setNamespaceURI( $uri )
     {
@@ -120,7 +140,7 @@ class eZDOMNode
     }
 
     /*!
-      Returns returns the namespace prefix
+      \return The prefix of the nodes name, this will be the namespace for the node.
     */
     function prefix()
     {
@@ -128,7 +148,7 @@ class eZDOMNode
     }
 
     /*!
-      Sets the namespace prefix for this element.
+      Sets the namespace prefix for this node to \a $value.
     */
     function setPrefix( $value )
     {
@@ -136,8 +156,13 @@ class eZDOMNode
     }
 
     /*!
-      Returns the node type.
-      Type of the DOM node can be: ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
+      \return An integer value which describes the type of node.
+
+      The type is one of:
+      - 1 - Element node, that is a node which contains attributes and children.
+      - 2 - Attribute node, this is a node which contains a name and a value.
+      - 3 - Text node, this is a node which contains a text string
+      - 4 - CDATA node, this is a node which contains a text string
     */
     function type()
     {
@@ -145,8 +170,13 @@ class eZDOMNode
     }
 
     /*!
-      Sets the node type.
-      Type of the DOM node can be: ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
+      Sets the node type to \a $type.
+
+      Use one of the following defines for the type:
+      - EZ_XML_NODE_ELEMENT - Element nodes
+      - EZ_XML_NODE_ATTRIBUTE - Attribute nodes
+      - EZ_XML_NODE_TEXT - Text nodes
+      - EZ_XML_NODE_CDATASECTION - CDATA nodes
     */
     function setType( $type )
     {
@@ -154,7 +184,9 @@ class eZDOMNode
     }
 
     /*!
-      Returns the node content.
+      \return The content of the node or \c false if it does not contain any content.
+
+      \note This will only make sense for text and CDATA nodes.
     */
     function &content()
     {
@@ -162,7 +194,9 @@ class eZDOMNode
     }
 
     /*!
-      Sets the node content.
+      Sets the content of the node to the \a $content.
+
+      \note This will only make sense for text and CDATA nodes.
     */
     function setContent( $content )
     {
@@ -170,7 +204,9 @@ class eZDOMNode
     }
 
     /*!
-      Returns the node attributes.
+      \return An array with attribute nodes.
+
+      \note This will only make sense for element nodes.
     */
     function &attributes()
     {
@@ -178,7 +214,9 @@ class eZDOMNode
     }
 
     /*!
-    Returns attributes for the given namespace.
+      \return An array with attribute nodes matching the namespace URI \a $namespaceURI.
+
+      \note This will only make sense for element nodes.
     */
     function &attributesNS( $namespaceURI )
     {
@@ -199,6 +237,8 @@ class eZDOMNode
 
     /*!
       \return \c true if the node has any attributes.
+
+      \note This will only make sense for element nodes.
     */
     function &hasAttributes()
     {
@@ -206,7 +246,9 @@ class eZDOMNode
     }
 
     /*!
-      \return the number of attributes for the node.
+      \return The number of attributes for the node.
+
+      \note This will only make sense for element nodes.
     */
     function &attributeCount()
     {
@@ -214,7 +256,9 @@ class eZDOMNode
     }
 
     /*!
-      Returns the node children.
+      \return An array with child nodes.
+
+      \note This will only make sense for element nodes.
     */
     function &children()
     {
@@ -223,6 +267,8 @@ class eZDOMNode
 
     /*!
       \return \c true if the node has children.
+
+      \note This will only make sense for element nodes.
     */
     function &hasChildren()
     {
@@ -230,7 +276,9 @@ class eZDOMNode
     }
 
     /*!
-      \return the number of children for the node.
+      \return The number of children for the node.
+
+      \note This will only make sense for element nodes.
     */
     function &childrenCount()
     {
@@ -238,7 +286,9 @@ class eZDOMNode
     }
 
     /*!
-      Returns the first node children or \c null if no children.
+      \return The first child of the node or \c null if there are no children.
+
+      \note This will only make sense for element nodes.
     */
     function &firstChild()
     {
@@ -248,9 +298,12 @@ class eZDOMNode
     }
 
     /*!
-     \returns the children of first element that is named \a $name.
-     \note If multiple elements with that name is found \c false is returned.
-     \sa elementByName, children
+      Finds the first element named \a $name and returns the children of that node.
+      If no element node is found it returns \c false.
+
+      \note This will only make sense for element nodes.
+      \note If multiple elements with that name is found \c false is returned.
+      \sa elementByName, children
     */
     function &elementChildrenByName( $name )
     {
@@ -261,9 +314,12 @@ class eZDOMNode
     }
 
     /*!
-     \returns the first child of first element that is named \a $name.
-     \note If multiple elements with that name is found \c false is returned.
-     \sa elementByName, firstChild
+      Finds the first element named \a $name and returns the first child of that node.
+      If no element node is found or there are not children it returns \c false.
+
+      \note This will only make sense for element nodes.
+      \note If multiple elements with that name is found \c false is returned.
+      \sa elementByName, firstChild
     */
     function &elementFirstChildByName( $name )
     {
@@ -274,9 +330,11 @@ class eZDOMNode
     }
 
     /*!
-     \returns the first element that is named \a $name.
-              If multiple elements with that name is found \c false is returned.
-     \sa elementsByName
+      \returns The first element that is named \a $name.
+               If multiple elements with that name is found \c false is returned.
+
+      \note This will only make sense for element nodes.
+      \sa elementsByName
     */
     function &elementByName( $name )
     {
@@ -295,9 +353,12 @@ class eZDOMNode
     }
 
     /*!
-     \returns the text content of first element that is named \a $name.
-     \note If multiple elements with that name is found \c false is returned.
-     \sa elementByName, textContent
+      Finds the first element named \a $name and returns the text content of that node.
+      If no element node is found or no text content exists it returns \c false.
+
+      \note This will only make sense for element nodes.
+      \note If multiple elements with that name is found \c false is returned.
+      \sa elementByName, textContent
     */
     function &elementTextContentByName( $name )
     {
@@ -308,8 +369,10 @@ class eZDOMNode
     }
 
     /*!
-     \return an array with elements that is named \a $name.
-     \sa elementByName
+      \return An array with elements that matches the name \a $name.
+
+      \note This will only make sense for element nodes.
+      \sa elementByName
     */
     function &elementsByName( $name )
     {
@@ -326,8 +389,10 @@ class eZDOMNode
     }
 
     /*!
-     \return an array with text contents taken from all child elements with the name \a $name.
-     \sa elementsByName, textContent
+      \return An array with text contents taken from all child nodes which matches the name \a $name.
+
+      \note This will only make sense for element nodes.
+      \sa elementsByName, textContent
     */
     function &elementsTextContentByName( $name )
     {
@@ -344,8 +409,10 @@ class eZDOMNode
     }
 
     /*!
-      Returns the attribute value for the given attribute.
-      If no value is found false is returned.
+      \return The value of the attribute named \a $attributeName.
+      If no value is found \c false is returned.
+
+      \note This will only make sense for element nodes.
     */
     function &attributeValue( $attributeName )
     {
@@ -360,11 +427,12 @@ class eZDOMNode
     }
 
     /*!
-     Finds the first element that is named \a $name then extracts the value
-     of the attribute named \a $attributeName on that element.
-     \return the attribute value if found.
-     \note If multiple elements with that name is found \c false is returned.
-     \sa elementByName, attributeValue
+      Finds the first element named \a $name and returns the value of the attribute named \a $attributeName.
+      If no element node is found or no attribute with the given name exists it returns \c false.
+
+      \note This will only make sense for element nodes.
+      \note If multiple elements with that name is found \c false is returned.
+      \sa elementByName, attributeValue
     */
     function &elementAttributeValueByName( $name, $attributeName )
     {
@@ -375,9 +443,39 @@ class eZDOMNode
     }
 
     /*!
-      Returns the attribute value for the given attribute.
-      If no value is found false is returned.
-      \sa elementAttributeValueByName
+      Goes trough all attributes of the node and matches the attribute names
+      with the parameter \a $attributeDefinitions.
+
+      \param $attributeDefinitions An associative array which maps from matching attribute name to lookup name.
+      \param $defaultValue If other value than \c null it will be set as value for all lookup names that didn't match
+
+      The matching attribute name in the will be matched against the attributes of the node.
+      When a match is found the attribute value will be fetched and placed in the returned
+      associative array using lookup name as key.
+
+      A code example will explain this, the variable \a $songNode contains the following xml
+      \code
+      <song name="Shine On You Crazy Diamond" track="1" />
+      \endcode
+
+      The PHP code is.
+      \code
+      $def = array( 'name' => 'song_name',
+                    'track' => 'track_number' );
+      $values = $songNode->attributeValues( $def );
+      \encode
+
+      \a $values will now contain.
+      \code
+      array( 'song_name' => 'Shine On You Crazy Diamond',
+             'track_number => '1' )
+      \endcode
+
+      This method and appendAttributes() work together, the values inserted with appendAttributes()
+      can be extracted with this method.
+
+      \note This will only make sense for element nodes.
+      \sa elementAttributeValueByName, appendAttributes
     */
     function &attributeValues( $attributeDefinitions, $defaultValue = null )
     {
@@ -406,8 +504,10 @@ class eZDOMNode
     }
 
     /*!
-      Returns the attribute value for the given attribute name and namespace.
-      If no value is found false is returned.
+      \return The value of the attribute named \a $attributeName and having namespace \a $namespaceURI.
+      If no value is found \c false is returned.
+
+      \note This will only make sense for element nodes.
     */
     function &attributeValueNS( $attributeName, $namespaceURI )
     {
@@ -431,8 +531,11 @@ class eZDOMNode
     }
 
     /*!
-      Appends a child node to the current node.
-      \return the node that was just inserted or \c false if it failed to insert a node.
+      Appends the node \a $node as a child of the current node.
+
+      \return The node that was just inserted or \c false if it failed to insert a node.
+
+      \note This will only make sense for element nodes.
     */
     function &appendChild( &$node )
     {
@@ -445,8 +548,11 @@ class eZDOMNode
     }
 
     /*!
-      Appends an attribute node.
-      \return the attribute that was just inserted or \c false if it failed to insert an attribute.
+      Appends the attribute node \a $node as an attribute of the current node.
+
+      \return The attribute node that was just inserted or \c false if it failed to insert an attribute.
+
+      \note This will only make sense for element nodes.
     */
     function &appendAttribute( &$node )
     {
@@ -459,7 +565,32 @@ class eZDOMNode
     }
 
     /*!
-      Appends an attribute node.
+      Appends multiple attributes and attribute values.
+
+      \param $attributeValues An associative array containing the attribute values to insert,
+                              it maps from lookup name to attribute value.
+      \param $attributeDefinitions An associative array defining how lookup names maps to attribute names,
+                                   the array key is the attribute name and the array value the lookup name.
+      \param $includeEmptyValues If \c true it will set attribute values even though they don't exist in \a $attributeValues
+
+      \code
+      $definition = array( 'name' => 'song_name',
+                           'track' => 'track_name' );
+      $values = array( 'song_name' => 'Shine On You Crazy Diamond',
+                       'track_number' => '1' );
+      $node->appendAttributes( $values, $definition );
+      \encode
+
+      The node will then look like.
+      \code
+      <song name="Shine On You Crazy Diamond" track="1" />
+      \endcode
+
+      This method and attributeValues() work together, the returned result of attributeValues()
+      can be inserted with this method.
+
+      \note This will only make sense for element nodes.
+      \sa attributeValues
     */
     function appendAttributes( $attributeValues,
                                $attributeDefinitions,
@@ -482,6 +613,9 @@ class eZDOMNode
 
     /*!
       Removes the attribute node named \a $name.
+      \return The removed attribute node or \c false if no such node exists.
+
+      \note This will only make sense for element nodes.
     */
     function removeNamedAttribute( $name )
     {
@@ -502,6 +636,8 @@ class eZDOMNode
 
     /*!
       Removes all attribute from the node.
+
+      \note This will only make sense for element nodes.
     */
     function removeAttributes()
     {
@@ -509,7 +645,10 @@ class eZDOMNode
     }
 
     /*!
-      Removes the child(s) node named \a $name.
+      Removes all child nodes that matches the name \a $name.
+      \return \c true if it removed any nodes, otherwise \c false.
+
+      \note This will only make sense for element nodes.
     */
     function removeNamedChildren( $name )
     {
@@ -529,7 +668,9 @@ class eZDOMNode
     }
 
     /*!
-      Removes all children from the node.
+      Removes all child nodes from the current node.
+
+      \note This will only make sense for element nodes.
     */
     function removeChildren()
     {
@@ -537,7 +678,9 @@ class eZDOMNode
     }
 
     /*!
-      Removes the last appended child node
+      Removes the last child node of the current node.
+
+      \note This will only make sense for element nodes.
     */
     function removeLastChild( )
     {
@@ -547,7 +690,9 @@ class eZDOMNode
     }
 
     /*!
-     \return the last appended child
+     \return The last child node or \c false if there are no children.
+
+      \note This will only make sense for element nodes.
     */
     function &lastChild()
     {
@@ -555,9 +700,10 @@ class eZDOMNode
     }
 
     /*!
-     Returns the contents of the node if it has one child which is a #text node.
-     \c false is returned if unsuccessful.
-     \sa elementTextContentByName
+      \return The content() of the first child node or \c false if there are no children.
+
+      \note This will only make sense for element nodes.
+      \sa elementTextContentByName
     */
     function &textContent( )
     {
@@ -572,7 +718,23 @@ class eZDOMNode
     }
 
     /*!
-      Returns a XML string of the DOM Node and subnodes
+      \return A string that represents the current node.
+      The string will be created according to the node type which are:
+      - Element node, places the name in <>, expands all attributes and calls toString() on all children.
+      - Text node, returns the content() by escaping the characters & < > ' and ".
+      - CDATA node, returns the text wrapped in <![CDATA[ and ]]
+
+      \param $level The current tab level, starts at 0 and is increased by 1 for each recursion
+      \param $charset Which charset the text will be encoded in, currently not used
+
+      Example strings.
+      \code
+      '<song name="Shine On You Crazy Diamond" track="1" />'
+      'This &amp; that &quot;wrapped&quot; in &lt;div&gt; tags'
+      '<![CDATA[This & that "wrapped" in <div> tags'
+      \endcode
+
+      \note This will only make sense for element nodes.
     */
     function &toString( $level, $charset = false )
     {
@@ -684,6 +846,7 @@ class eZDOMNode
     }
 
     /// \privatesection
+
     /// Name of the node
     var $Name = false;
 
