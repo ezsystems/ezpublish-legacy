@@ -96,40 +96,40 @@ http://www.php.net/manual/en/function.date.php
 
 The following characters are not recognized in the format string:
 
-B - Swatch Internet time
-r - RFC 822 formatted date; e.g. "Thu, 21 Dec 2000 16:01:07 +0200" (added in PHP 4.0.4)
-S - English ordinal suffix for the day of the month, 2 characters; i.e. "st", "nd", "rd" or "th"
+- B - Swatch Internet time
+- r - RFC 822 formatted date; e.g. "Thu, 21 Dec 2000 16:01:07 +0200" (added in PHP 4.0.4)
+- S - English ordinal suffix for the day of the month, 2 characters; i.e. "st", "nd", "rd" or "th"
 
 The following characters are recognized in the format string:
 
-a - "am" or "pm"
-A - "AM" or "PM"
-d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
-D - day of the week, textual, 3 letters; e.g. "Fri"
-F - month, textual, long; e.g. "January"
-g - hour, 12-hour format without leading zeros; i.e. "1" to "12"
-G - hour, 24-hour format without leading zeros; i.e. "0" to "23"
-h - hour, 12-hour format; i.e. "01" to "12"
-H - hour, 24-hour format; i.e. "00" to "23"
-i - minutes; i.e. "00" to "59"
-I (capital i) - "1" if Daylight Savings Time, "0" otherwise.
-j - day of the month without leading zeros; i.e. "1" to "31"
-l (lowercase 'L') - day of the week, textual, long; e.g. "Friday"
-L - boolean for whether it is a leap year; i.e. "0" or "1"
-m - month; i.e. "01" to "12"
-M - month, textual, 3 letters; e.g. "Jan"
-n - month without leading zeros; i.e. "1" to "12"
-O - Difference to Greenwich time in hours; e.g. "+0200"
-s - seconds; i.e. "00" to "59"
-t - number of days in the given month; i.e. "28" to "31"
-T - Timezone setting of this machine; e.g. "EST" or "MDT"
-U - seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-w - day of the week, numeric, i.e. "0" (Sunday) to "6" (Saturday)
-W - ISO-8601 week number of year, weeks starting on Monday (added in PHP 4.1.0)
-Y - year, 4 digits; e.g. "1999"
-y - year, 2 digits; e.g. "99"
-z - day of the year; i.e. "0" to "365"
-Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
+- a - "am" or "pm"
+- A - "AM" or "PM"
+- d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
+- D - day of the week, textual, 3 letters; e.g. "Fri"
+- F - month, textual, long; e.g. "January"
+- g - hour, 12-hour format without leading zeros; i.e. "1" to "12"
+- G - hour, 24-hour format without leading zeros; i.e. "0" to "23"
+- h - hour, 12-hour format; i.e. "01" to "12"
+- H - hour, 24-hour format; i.e. "00" to "23"
+- i - minutes; i.e. "00" to "59"
+- I (capital i) - "1" if Daylight Savings Time, "0" otherwise.
+- j - day of the month without leading zeros; i.e. "1" to "31"
+- l (lowercase 'L') - day of the week, textual, long; e.g. "Friday"
+- L - boolean for whether it is a leap year; i.e. "0" or "1"
+- m - month; i.e. "01" to "12"
+- M - month, textual, 3 letters; e.g. "Jan"
+- n - month without leading zeros; i.e. "1" to "12"
+- O - Difference to Greenwich time in hours; e.g. "+0200"
+- s - seconds; i.e. "00" to "59"
+- t - number of days in the given month; i.e. "28" to "31"
+- T - Timezone setting of this machine; e.g. "EST" or "MDT"
+- U - seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+- w - day of the week, numeric, i.e. "0" (Sunday) to "6" (Saturday)
+- W - ISO-8601 week number of year, weeks starting on Monday (added in PHP 4.1.0)
+- Y - year, 4 digits; e.g. "1999"
+- y - year, 2 digits; e.g. "99"
+- z - day of the year; i.e. "0" to "365"
+- Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
 
 \sa eZLanguage
 */
