@@ -109,57 +109,57 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $tpl_dir = $regs[1] . "/" . $regs[2];
                 }
                 $foundOverrideFile = false;
-                if ( file_exists( $tpl_dir ) and
-                     is_dir( $tpl_dir ) ) // Do advanced match with multiple keys
-                {
-                    $hd = opendir( $tpl_dir );
-                    $key_regex = "([0-9]*)";
-                    if ( count( $match_keys ) > 1 )
-                        $key_regex .= str_repeat( ",([0-9]*)", count( $match_keys ) - 1 );
+//                 if ( file_exists( $tpl_dir ) and
+//                      is_dir( $tpl_dir ) ) // Do advanced match with multiple keys
+//                 {
+//                     $hd = opendir( $tpl_dir );
+//                     $key_regex = "([0-9]*)";
+//                     if ( count( $match_keys ) > 1 )
+//                         $key_regex .= str_repeat( ",([0-9]*)", count( $match_keys ) - 1 );
 
-                    while( ( $file = readdir( $hd ) ) !== false )
-                    {
-                        if ( $file == "." or
-                             $file == ".." or
-                             $file[0] == "." )
-                            continue;
-                        if ( !preg_match( "#^$key_regex\.tpl$#", $file, $regs ) )
-                            continue;
-//                     eZDebug::writeNotice( "Matching file $file"  );
-                        $key_index = 0;
-                        $found = true;
-                        for ( $i = 1; $i < count( $regs ) and $key_index < count( $match_keys ); ++$i )
-                        {
-                            $key = $match_keys[$key_index];
-                            $key_val = $key[1];
-//                         eZDebug::writeNotice( "Matching key $key_val" . '=' . $regs[$i] );
-                            if ( is_numeric( $key_val ) and
-                                 is_numeric( $regs[$i] ) )
-                            {
-                                if ( $regs[$i] != $key_val )
-                                {
-                                    $found = false;
-                                    break;
-                                }
-                            }
-                            else if ( $regs[$i] != "" )
-                            {
-                                $found = false;
-                                break;
-                            }
-                            $matchedKeys[$key] = $key_val;
-                            ++$key_index;
-                        }
-                        if ( !$found )
-                            continue;
-                        $match = $tpl_match;
-                        $match["file"] = "$tpl_dir/$file";
-                        $foundOverrideFile = true;
-//                         eZDebug::writeNotice( "Multi match found, using override " . $match["file"]  );
-                        break;
-                    }
-                    closedir( $hd );
-                }
+//                     while( ( $file = readdir( $hd ) ) !== false )
+//                     {
+//                         if ( $file == "." or
+//                              $file == ".." or
+//                              $file[0] == "." )
+//                             continue;
+//                         if ( !preg_match( "#^$key_regex\.tpl$#", $file, $regs ) )
+//                             continue;
+// //                     eZDebug::writeNotice( "Matching file $file"  );
+//                         $key_index = 0;
+//                         $found = true;
+//                         for ( $i = 1; $i < count( $regs ) and $key_index < count( $match_keys ); ++$i )
+//                         {
+//                             $key = $match_keys[$key_index];
+//                             $key_val = $key[1];
+// //                         eZDebug::writeNotice( "Matching key $key_val" . '=' . $regs[$i] );
+//                             if ( is_numeric( $key_val ) and
+//                                  is_numeric( $regs[$i] ) )
+//                             {
+//                                 if ( $regs[$i] != $key_val )
+//                                 {
+//                                     $found = false;
+//                                     break;
+//                                 }
+//                             }
+//                             else if ( $regs[$i] != "" )
+//                             {
+//                                 $found = false;
+//                                 break;
+//                             }
+//                             $matchedKeys[$key] = $key_val;
+//                             ++$key_index;
+//                         }
+//                         if ( !$found )
+//                             continue;
+//                         $match = $tpl_match;
+//                         $match["file"] = "$tpl_dir/$file";
+//                         $foundOverrideFile = true;
+// //                         eZDebug::writeNotice( "Multi match found, using override " . $match["file"]  );
+//                         break;
+//                     }
+//                     closedir( $hd );
+//                 }
                 if ( !$foundOverrideFile ) // Check for dir/filebase_keyname_keyid.tpl, eg. content/view_section_1.tpl
                 {
                     preg_match( "#^(.+)/(.+)(\.tpl)$#", $tpl_path, $regs );
