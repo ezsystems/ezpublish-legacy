@@ -21,6 +21,7 @@ links to clickable links.
   Use update/common/scripts/updateurllink.php to update all XML fields.
 - Added support for line break in xml text, added <line> tag in stored xml format. 
 - Fixed bug of stiping space between link (bold, italic) tag and normal text.
+- Fixed bug of unable to select multiple related objects ( only radio button shows ).
 - Some fixes to session cleanup.
 - Added navigation parts to provide tabbed interface.
 - User logins are now only possible when the object is published.
