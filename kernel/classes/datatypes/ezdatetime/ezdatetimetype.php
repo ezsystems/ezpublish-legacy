@@ -44,6 +44,8 @@ include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 define( "EZ_DATATYPESTRING_DATETIME", "ezdatetime" );
 define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT', 'data_int1' );
+define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY', 0 );
+define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE', 1 );
 
 
 class eZDateTimeType extends eZDataType
@@ -190,6 +192,24 @@ class eZDateTimeType extends eZDataType
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
 
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
+        switch ( $defaultValue )
+        {
+            case EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
+            {
+                $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', 'empty' ) );
+            };
+            case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
+            {
+                $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', 'current-date' ) );
+            };
+        }
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_DATETIME, "ezdatetimetype" );

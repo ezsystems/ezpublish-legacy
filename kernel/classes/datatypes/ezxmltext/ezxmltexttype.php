@@ -371,6 +371,15 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-columns', $textColumns ) );
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )

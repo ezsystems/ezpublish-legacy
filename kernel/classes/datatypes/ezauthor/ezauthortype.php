@@ -208,6 +208,13 @@ class eZAuthorType extends eZDataType
 
         return $value;
     }
+
+    /*!
+     \reimp
+    */
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_AUTHOR, "ezauthortype" );

@@ -78,9 +78,70 @@ class eZContentClassExportHandler
                     $class =& eZContentClass::fetch( $classID );
                 if ( !$class )
                     continue;
-                $classNode =& eZDomDocument::createElementNode( 'content-class' );
-                $classNode->appendChild( eZDomDocument::createElementTextNode( 'name',
+                $classNode =& eZDOMDocument::createElementNode( 'content-class' );
+                $classNode->appendChild( eZDOMDocument::createElementTextNode( 'name',
                                                                                $class->attribute( 'name' ) ) );
+                $classNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier',
+                                                                               $class->attribute( 'identifier' ) ) );
+                $classNode->appendChild( eZDOMDocument::createElementTextNode( 'object-name-pattern',
+                                                                               $class->attribute( 'contentobject_name' ) ) );
+                $metaNode =& eZDOMDocument::createElementNode( 'meta-data' );
+                $classNode->appendChild( $metaNode );
+                $metaNode->appendChild( eZDOMDocument::createElementTextNode( 'created',
+                                                                              $class->attribute( 'created' ) ) );
+                $metaNode->appendChild( eZDOMDocument::createElementTextNode( 'modified',
+                                                                              $class->attribute( 'modified' ) ) );
+
+                $creatorNode =& eZDOMDocument::createElementNode( 'creator' );
+                $metaNode->appendChild( $creatorNode );
+                $creatorNode->appendChild( eZDOMDocument::createElementTextNode( 'user-id',
+                                                                                 $class->attribute( 'creator_id' ) ) );
+                $creator =& $class->attribute( 'creator' );
+                if ( $creator )
+                    $creatorNode->appendChild( eZDOMDocument::createElementTextNode( 'user-login',
+                                                                                     $creator->attribute( 'login' ) ) );
+
+                $modifierNode =& eZDOMDocument::createElementNode( 'modifier' );
+                $metaNode->appendChild( $modifierNode );
+                $modifierNode->appendChild( eZDOMDocument::createElementTextNode( 'user-id',
+                                                                                  $class->attribute( 'modifier_id' ) ) );
+                $modifier =& $class->attribute( 'modifier' );
+                if ( $modifier )
+                    $modifierNode->appendChild( eZDOMDocument::createElementTextNode( 'user-login',
+                                                                                      $modifier->attribute( 'login' ) ) );
+
+                $attributesNode =& eZDOMDocument::createElementNode( 'attributes' );
+                $attributesNode->appendAttribute( eZDOMDocument::createAttributeNode( 'ezcontentclass-attribute',
+                                                                                      'http://ezpublish/contentclassattribute',
+                                                                                      'xmlns' ) );
+                $classNode->appendChild( $attributesNode );
+
+                $attributes =& $class->fetchAttributes();
+                for ( $i = 0; $i < count( $attributes ); ++$i )
+                {
+                    $attribute =& $attributes[$i];
+                    $attributeNode =& eZDOMDocument::createElementNode( 'attribute',
+                                                                        array( 'datatype' => $attribute->attribute( 'data_type_string' ),
+                                                                               'required' => $attribute->attribute( 'is_required' ) ? 'true' : 'false',
+                                                                               'searchable' => $attribute->attribute( 'is_searchable' ) ? 'true' : 'false',
+                                                                               'information-collector' => $attribute->attribute( 'is_information_collector' ) ? 'true' : 'false' ) );
+                    $attributeRemoteNode =& eZDOMDocument::createElementNode( 'remote' );
+                    $attributeNode->appendChild( $attributeRemoteNode );
+                    $attributeRemoteNode->appendChild( eZDOMDocument::createElementTextNode( 'id',
+                                                                                             $attribute->attribute( 'id' ) ) );
+                    $attributeNode->appendChild( eZDOMDocument::createElementTextNode( 'name',
+                                                                                       $attribute->attribute( 'name' ) ) );
+                    $attributeNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier',
+                                                                                       $attribute->attribute( 'identifier' ) ) );
+                    $attributeParametersNode =& eZDOMDocument::createElementNode( 'datatype-parameters' );
+                    $attributeNode->appendChild( $attributeParametersNode );
+
+                    $dataType =& $attribute->dataType();
+                    $dataType->serializeContentClassAttribute( $attribute, $attributeNode, $attributeParametersNode );
+
+                    $attributesNode->appendChild( $attributeNode );
+                }
+
                 $package->appendInstall( 'part', false, false, true,
                                          array( 'content' => $classNode ) );
             }
