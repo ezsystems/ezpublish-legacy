@@ -586,7 +586,7 @@ class eZPackageCreationHandler
                                'collection' => 'default',
                                'file-type' => false,
                                'role-value' => false,
-                               'variable-name' => false );
+                               'variable-name' => 'thumbnail' );
 
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
