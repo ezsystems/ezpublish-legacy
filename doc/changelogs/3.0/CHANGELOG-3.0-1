@@ -121,6 +121,9 @@ links to clickable links.
 - Added next/previous navigation to advanced search template
 - Texttoimage operator can now set absolute size for the resulting image in texttoimage.ini.
 - Fixed bug with getting correct GroupID on workflows creation.
+- Fixed broken user activation by e-mailcode
+- Applied new design to setup
+- Fixed problem with redirection in SSL mode
 
 *SDK :
 

@@ -23,7 +23,11 @@ Information collection
 ---------------------
 Validation on fields
 
-
+CACHING
+-----------
+Design keys and other variables should be more easily available.
+Design keys is now mis-used.
+Consider the template namespace "leaking"
 
 SPEED
 -------
