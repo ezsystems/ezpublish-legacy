@@ -7,9 +7,13 @@ Changes from 3.0-1 to 3.0-2
 - Fixed bug with ezoption datatype with adding new option before checked
 - Fixed bug with checking site.ini variable to allow special characters in generated passwords
 - Implemented cancel button for content object copy. Some minor design fixes.
-- fixed problem with updating prices in basket after user login and if user has discounts
-- Fixed bug with missing include in wrapping workflow event type
-- Fixed bug in forgot password function
+- Fixed bug in forgot password function.
+
+Shop:
+- Change date in list to datetime since it can be quite important for shops.
+- Fixed problem with updating prices in basket after user login and if user has discounts.
+- Fixed bug with missing include in wrapping workflow event type.
+
 Browser:
 - Made sure children are indented one level to it's parent in the list.
 - Added section information to list.
