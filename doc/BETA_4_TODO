@@ -1,0 +1,55 @@
+Major code issues:
+module.php:
+- Better names for ViewList keys, params should parameters etc..
+Actions:
+- Make sure all views is moved away from postvariable checking and instead
+  uses the action system and action parameters.
+Template variables:
+- Read only views should only pass as little as template variables as possible
+  ie. just id's from input paramaters, it should be up to the template to fetch
+  the actual objects and lists using the /fetch/ operator.
+- Better names for template variables, for instance variables named attributes
+  should be changed into attribute_list.
+Path:
+- Make sure all views has at least a simple path element.
+- Figure out a way to allow templates to override path and other variables
+  returned by a view. That way templates has even more control over the
+  design.
+Loops:
+- Change all code that loops using:
+reset( $list );
+while ( ( $key = key( $list ) ) !== null )
+{
+  $item =& $list[$key];
+  next( $list );
+}
+
+into
+
+foreach ( array_keys( $list ) as $key )
+{
+  $item =& $list[$key];
+}
+
+Module:
+- Do some changes the eZModule class, it should be created a eZModuleView class
+  which will replace the $Module object in the views.
+- Cleanup eZModule, there's some old code and variable names left there.
+- Figure out if we need to move the class out of lib, or if we can move some of
+  the specific code out of it.
+Redirects:
+- Change all redirect code to use redirectToView instead of redirectTo which
+  requires the url to be created by the client, directToView takes care of this
+  automatically.
+Errors:
+- Make sure input data is validated before using it, if they are invalid issue
+  an error with handleError.
+Functions:
+- Implement more module functions, currently content is the only module which
+  has defined any.
+DataTypes:
+- Create a system (perhaps in the eZDatatype class) which allows datatypes to
+  fetch post variables without knowing that they are post variables.
+Validators:
+- The validator classes should not use regexs since they will not work properly
+  with some charsets.
