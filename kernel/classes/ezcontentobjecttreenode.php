@@ -463,6 +463,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $attibuteFilterJoinSQL .= "a$filterCount.sort_key = '$filterValue' ";
                     }break;
 
+                    case '>' :
+                    {
+                        if ( $filterCount > 0 )
+                            $attibuteFilterJoinSQL .= " $filterJoinType ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key > '$filterValue' ";
+                    }break;
+
+                    case '<' :
+                    {
+                        if ( $filterCount > 0 )
+                            $attibuteFilterJoinSQL .= " $filterJoinType ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key < '$filterValue' ";
+                    }break;
+
+                    case '<=' :
+                    {
+                        if ( $filterCount > 0 )
+                            $attibuteFilterJoinSQL .= " $filterJoinType ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key <= '$filterValue' ";
+                    }break;
+
+                    case '>=' :
+                    {
+                        if ( $filterCount > 0 )
+                            $attibuteFilterJoinSQL .= " $filterJoinType ";
+                        $attibuteFilterJoinSQL .= "a$filterCount.sort_key >= '$filterValue' ";
+                    }break;
+
                     default :
                     {
                         eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
@@ -472,7 +500,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $filterCount++;
             }
 
-            $attributeFilterWhereSQL .= "( " . $attibuteFilterJoinSQL . " ) AND ";
+            if ( $filterCount > 0 )
+                $attributeFilterWhereSQL .= "( " . $attibuteFilterJoinSQL . " ) AND ";
         }
 
         if ( $nodeID == 0 )

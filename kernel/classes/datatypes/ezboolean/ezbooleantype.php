@@ -131,6 +131,14 @@ class eZBooleanType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )

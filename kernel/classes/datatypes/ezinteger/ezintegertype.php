@@ -367,6 +367,14 @@ class eZIntegerType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )
