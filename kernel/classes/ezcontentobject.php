@@ -1964,17 +1964,27 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $parentNodes = $this->attribute( 'parent_nodes' );
-                                foreach ( $parentNodes as $parentNode )
+                                if ( count( $parent_nodes ) == 0 )
                                 {
-                                    $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
-                                    $path = $parentNode->attribute( 'path_string' );
-
-                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
-                                    foreach ( $subtreeArray as $subtreeString )
+                                    if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                                     {
-                                        if (  strstr( $path, $subtreeString ) )
+                                        $access = 'allowed';
+                                    }
+                                }
+                                else
+                                {
+                                    foreach ( $parentNodes as $parentNode )
+                                    {
+                                        $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                        $path = $parentNode->attribute( 'path_string' );
+
+                                        $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                        foreach ( $subtreeArray as $subtreeString )
                                         {
-                                            $access = 'allowed';
+                                            if (  strstr( $path, $subtreeString ) )
+                                            {
+                                                $access = 'allowed';
+                                            }
                                         }
                                     }
                                 }

@@ -125,7 +125,8 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
                 $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
                                                              'default-variable-name' => 'DefaultAssignment',
-                                                             'specific-variable-name' => 'ClassSpecificAssignment' ) );
+                                                             'specific-variable-name' => 'ClassSpecificAssignment',
+                                                             'fallback-node-id' => $object->attribute( 'main_node_id' ) ) );
 
                 $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
                 $http->setSessionVariable( 'NewObjectID', $relatedContentObject->attribute( 'id' ) );
