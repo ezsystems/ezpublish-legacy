@@ -721,7 +721,7 @@ class eZImageAliasHandler
         {
             $contentObject =& $contentVersion->attribute( 'contentobject' );
             $mainNode =& $contentObject->attribute( 'main_node' );
-            $pathString = $mainNode->attribute( 'path_identification_string' ) . '/';
+            $pathString = $mainNode->attribute( 'path_identification_string' );
             $ini =& eZINI::instance( 'image.ini' );
             $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
             $pathString = $contentImageSubtree . '/' . $pathString;
