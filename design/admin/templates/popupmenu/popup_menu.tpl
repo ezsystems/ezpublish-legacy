@@ -6,17 +6,23 @@ menuArray['ContextMenu']['headerID'] = 'menu-header';
 menuArray['ContextMenu']['elements'] = new Array();
 menuArray['ContextMenu']['elements']['menu-view'] = new Array();
 menuArray['ContextMenu']['elements']['menu-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
-
 menuArray['ContextMenu']['elements']['menu-edit'] = new Array();
 menuArray['ContextMenu']['elements']['menu-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
-
 menuArray['ContextMenu']['elements']['menu-copy'] = new Array();
 menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
+
+menuArray['ClassMenu'] = new Array();
+menuArray['ClassMenu']['depth'] = 0;
+menuArray['ClassMenu']['headerID'] = 'menu-header';
+menuArray['ClassMenu']['elements'] = new Array();
+menuArray['ClassMenu']['elements']['menu-view'] = new Array();
+menuArray['ClassMenu']['elements']['menu-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
 
 </script>
 <script language="JavaScript" src={"javascript/lib/ezjslibmousetracker.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/popupmenu/ezpopupmenu.js"|ezdesign}></script>
 
+<!-- Treemenu icon click popup menu -->
 <div class="popupmenu" id="ContextMenu">
     <div class="popupmenuheader"><h3 id="menu-header">XXX</h3>
         <div class="window-close" onclick="ezpopmnu_hide( 'ContextMenu' )"><p>X</p></div>
@@ -34,6 +40,18 @@ menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%obje
     <a id="menu-notify" href="#" onmouseover="ezpopmnu_mouseOver( 'ContextMenu' )"
        onclick="ezpopmnu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/standard/popupmenu")}</a>
 </div>
+
+
+<!-- Class popup menu -->
+<div class="popupmenu" id="ClassMenu">
+    <div class="popupmenuheader"><h3 id="menu-header">XXX</h3>
+        <div class="window-close" onclick="ezpopmnu_hide( 'ClassMenu' )"><p>X</p></div>
+        <div class="break"></div>
+    </div>
+    <a id="menu-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"View class"|i18n("design/standard/popupmenu")}</a>
+    <a id="menu-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Edit class"|i18n("design/standard/popupmenu")}</a>
+</div>
+
 
 {* Forms used by the various elements *}
 <form id="menu-form-bookmark" method="post" action={"/content/action"|ezurl}>
