@@ -113,7 +113,6 @@ eZ template:
 
 eZ session:
 - Added setting for controlling cookie timeout value.
-- Added support for regenerating the session ID, this helps avoid session theft.
 
 eZ locale:
 - Added new translationCode() method which returns the locale code to be
