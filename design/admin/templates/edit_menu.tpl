@@ -119,7 +119,7 @@
 
 {section show=$Translation:translation_list}
 <div class="box-header"><div class="box-ml"><div class="box-mr">
-<h4>{'Draft translations'|i18n( 'design/admin/content/edit',, hash( '%translations_count', $Translation:translation_list|count ) )}</h4>
+<h4>{'Translations [%translation_count]'|i18n( 'design/admin/content/edit',, hash( '%translation_count', $Translation:translation_list|count ) )}</h4>
 </div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
@@ -130,12 +130,12 @@
   {/section}
 {/section}
 
+
+{section show=$Translation:other_translation_list|count|gt( 1 )}
 {section loop=$Translation:translation_list}
 <p>
 <label>
-{section show=$Translation:other_translation_list|gt(0)}
-    <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
-{/section}
+<input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
 {section show=$Translation:item.locale.is_valid}
 <img src={$Translation:item.language_code|flag_icon} alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {$Translation:item.locale.intl_language_name|shorten( 16 )}
 {section-else}
@@ -144,6 +144,15 @@
 </label>
 </p>
 {/section}
+{section-else}
+<p>
+<label>
+<input type="radio" name="" value="" checked="checked" disabled="disabled" />
+<img src={$content_version.translation.language_code|flag_icon} alt="{$content_version.translation.language_code}" style="vertical-align: middle;" /> {$content_version.translation.locale.intl_language_name|shorten( 16 )}
+</label>
+</p>
+{/section}
+
 <div class="block">
 {section show=$Translation:other_translation_list|not}
 <input class="button-disabled" type="submit" name="EditLanguageButton" value="{'Edit selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
