@@ -27,11 +27,15 @@ Now we need information about the database eZ publish should use.<br />
     </tr>
     <tr valign="top">
         <td>Database server:</td>
-        <td><input type="text" name="dbServer" size="25" value="{$dbServer}" /><br />({$dbServerExpl})</td>
+        <td><input type="text" name="dbServer" size="25" value="{$dbServer}" />{* <br /> ({$dbServerExpl}) *}</td>
     </tr>
     <tr>
         <td>Name of database:</td>
         <td><input type="text" name="dbName" size="25" value="{$dbName}" maxlength="60" /></td>
+    </tr>
+    <tr>
+        <td>Charset of database:</td>
+        <td><input type="text" name="dbCharset" size="25" value="{$dbCharset}" maxlength="60" /></td>
     </tr>
     </table>
     
@@ -62,8 +66,9 @@ Now we need information about the database eZ publish should use.<br />
         <td><input type="password" name="dbCreatePass2" size="25" /></td>
     </tr> *}
     </table>
-    {section name=databases2 loop=$databasesArray2}
-    <input type="hidden" name="{$databases2:item.name}" value="{$databases2:item.pass}" />
+    <input type="hidden" name="dbEncoding" value="{$dbEncoding}" />
+    {section name=handover loop=$handover}
+    <input type="hidden" name="{$handover:item.name}" value="{$handover:item.pass}" />
     {/section}
 
     
