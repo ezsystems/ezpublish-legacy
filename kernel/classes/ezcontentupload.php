@@ -363,6 +363,13 @@ class eZContentUpload
         // If we don't we have to make a new object
         if ( is_object( $existingNode ) )
         {
+            if ( $existingNode->canEdit( ) != '1' )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
+                return false;
+            }
             $version =& $object->createNewVersion( false, true );
             unset( $dataMap );
             $dataMap =& $version->dataMap();
@@ -370,20 +377,21 @@ class eZContentUpload
         }
         else
         {
-
-            $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $location );
-            $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
-
-            if ( $parentMainNodeObj->checkAccess( 'create',
-                                                  $class->attribute( 'id' ),
-                                                  $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
+            foreach ( $parentNodes as $parentNode )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
-                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                            'Permission denied' ) );
-                return false;
-            }
+                $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $parentNode );
+                $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
 
+                if ( $parentMainNodeObj->checkAccess( 'create',
+                                                      $class->attribute( 'id' ),
+                                                      $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
+                {
+                    $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                    $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                                'Permission denied' ) );
+                    return false;
+                }
+            }
             $object =& $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();
@@ -555,6 +563,13 @@ class eZContentUpload
         // If we don't we have to make a new object
         if ( is_object( $existingNode ) )
         {
+            if ( $existingNode->canEdit( ) != '1' )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
+                return false;
+            }
             $version =& $object->createNewVersion( false, true );
             unset( $dataMap );
             $dataMap =& $version->dataMap();
@@ -562,6 +577,21 @@ class eZContentUpload
         }
         else
         {
+            foreach ( $parentNodes as $parentNode )
+            {
+                $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $parentNode );
+                $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
+
+                if ( $parentMainNodeObj->checkAccess( 'create',
+                                                      $class->attribute( 'id' ),
+                                                      $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
+                {
+                    $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                    $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                                'Permission denied' ) );
+                    return false;
+                }
+            }
             $object =& $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();

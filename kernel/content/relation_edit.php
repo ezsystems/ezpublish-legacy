@@ -164,6 +164,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                                              'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                              'section' => $object->attribute( 'section_id' ) ),
                                             'result_action_name' => 'UploadedFileRelation',
+                                            'ui_context' => 'edit',
                                             'result_module' => array( 'content', 'edit',
                                                                       array( $objectID, $editVersion, $editLanguage, $fromLanguage ) ) ),
                                      $module );

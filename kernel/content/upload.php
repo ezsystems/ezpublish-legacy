@@ -77,6 +77,8 @@ if ( $module->isCurrentAction( 'CancelUpload' ) )
     {
         $url = '/';
     }
+    $http =& eZHTTPTool::instance();
+    $http->removeSessionVariable( 'ContentUploadParameters' );
     return $module->redirectTo( $url );
 }
 
@@ -90,7 +92,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
         $mainNode =& $result['contentobject_main_node'];
         if ( $result['redirect_url'] )
         {
-            return $module->redirectTo( $operationResult['redirect_url'] );
+            return $module->redirectTo( $result['redirect_url'] );
         }
         if ( $result['result'] )
         {
@@ -111,9 +113,11 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
         }
 
         // Redirect to request URI if it is set, if not view the new object in main node
+        eZDebug::writeDebug( $upload, " upload object " );
         if ( $upload->attribute( 'result_uri' ) )
         {
             $uri = $upload->attribute( 'result_uri' );
+            eZDebug::writeDebug( $uri, "redirect to result_uri " );
             return $module->redirectTo( $uri );
         }
         else if ( $upload->attribute( 'result_module' ) )
@@ -133,6 +137,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
                     $resultModule->setActionParameter( $actionParameterName, $actionParameter, $view );
                 }
             }
+            eZDebug::writeDebug( $moduleName, "run result module and view  $view" );
             return $resultModule->run( $view, $parameters, false, $userParameters );
         }
         else
@@ -170,7 +175,12 @@ $Result = array();
 $navigationPart = $upload->attribute( 'navigation_part_identifier' );
 if ( $navigationPart )
     $Result['navigation_part'] = $navigationPart;
-
+$uiContext = $upload->attribute( 'ui_context' );
+if ( $uiContext )
+{
+    $module->setUIContextName( $uiContext );
+    $tpl->setVariable( 'ui_context', $uiContext );
+}
 // setting keys for override
 $res =& eZTemplateDesignResource::instance();
 

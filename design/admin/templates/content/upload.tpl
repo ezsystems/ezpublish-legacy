@@ -1,5 +1,8 @@
 <form enctype="multipart/form-data" action={'content/upload'|ezurl} method="post">
 
+{let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
+     content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
+{section show=$ui_context|eq('edit')}
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -13,8 +16,6 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
 
-{let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
-     content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
 <p>
 <label>{'ID'|i18n( 'design/admin/content/upload' )}:</label>
 {$content_object.id}
@@ -97,7 +98,7 @@
 
 </div>
 </div>
-
+{/section}
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 <!-- Maincontent START -->
@@ -138,7 +139,7 @@
 <p>{'Choose a file from your local machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n( 'design/admin/content/upload' )}</p>
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/section}

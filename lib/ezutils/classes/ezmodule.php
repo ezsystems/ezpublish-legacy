@@ -210,7 +210,7 @@ class eZModule
     /*!
      Sets the current context string to \a $context.
     */
-    function setUIOContextName( $context )
+    function setUIContextName( $context )
     {
         $this->UIContext = $context;
     }
