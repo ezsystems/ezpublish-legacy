@@ -88,7 +88,7 @@
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <td>
             {section show=$node.object.can_edit}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the Update priorities button to apply the changes.'|i18n( 'design/admin/layout') }" />
+                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/layout')|wash()}" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
                 {section-else}
                 <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permissions to edit %quoted_node'|i18n( 'admin/design/layout',, hash( '%quoted_node', $quoted_node ) )}" disabled="disabled" />
