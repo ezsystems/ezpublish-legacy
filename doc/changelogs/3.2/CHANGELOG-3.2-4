@@ -40,6 +40,10 @@ Changes from 3.2-3 to 3.2-4
   that the anonymous user could read.
 - Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
 - Fixed workflow editing to redirect back to the workflowlist instead of the grouplist on discard and store.
+- Fixed the namespace check for the eZXMLText datatype when reading the
+  is_block variable, now it can be both in the namespace xmltagns and
+  xmltagns:ContentView. This ensures that it can be set both in the
+  object.tpl and embed.tpl templates.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.
