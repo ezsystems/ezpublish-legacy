@@ -353,6 +353,9 @@ class eZTemplate
 
         $this->IsCachingAllowed = true;
 
+        $this->ErrorCount = 0;
+        $this->WarningCount = 0;
+
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
         $this->Functions = array();
@@ -440,8 +443,11 @@ class eZTemplate
      Tries to fetch the result of the template file and returns it.
      If $template is supplied it will load this template file first.
     */
-    function &fetch( $template = false, $extraParameters = false )
+    function &fetch( $template = false, $extraParameters = false, $returnResourceData = false )
     {
+        $this->ErrorCount = 0;
+        $this->WarningCount = 0;
+
         eZDebug::accumulatorStart( 'template_total' );
         eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
         $root = null;
@@ -493,6 +499,12 @@ class eZTemplate
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             setlocale( LC_CTYPE, $savedLocale );
+        }
+
+        if ( $returnResourceData )
+        {
+            $resourceData['result_text'] = $text;
+            return $resourceData;
         }
         return $text;
     }
@@ -591,8 +603,10 @@ class eZTemplate
 
     /*!
      Loads the template using the URI $uri and parses it.
+     \return The root node of the tree if \a $returnResourceData is false,
+             if \c true the entire resource data structure.
     */
-    function &load( $uri, $extraParameters = false )
+    function &load( $uri, $extraParameters = false, $returnResourceData = false )
     {
         $resourceData =& $this->loadURIRoot( $uri, true, $extraParameters );
         if ( !$resourceData or
@@ -601,11 +615,11 @@ class eZTemplate
         return $resourceData['root-node'];
     }
 
-    function parse( &$sourceText, &$rootElement, $rootNamespace, $relation )
+    function parse( &$sourceText, &$rootElement, $rootNamespace, &$relation )
     {
         include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser =& eZTemplateMultiPassParser::instance();
-        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $relation );
+        $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, &$relation );
     }
 
     function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
@@ -747,8 +761,62 @@ class eZTemplate
         return $canGenerate;
     }
 
-    function compileTemplateFile( $file )
+    /*!
+     Validates the template file \a $file and returns \c true if the file has correct syntax.
+     \param $returnResourceData If \c true then the returned value will be the resourcedata structure
+     \sa compileTemplateFile(), fetch()
+    */
+    function validateTemplateFile( $file, $returnResourceData = false )
     {
+        $this->ErrorCount = 0;
+        $this->WarningCount = 0;
+
+        if ( !file_exists( $file ) )
+            return false;
+        $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
+        if ( !$resourceHandler )
+            return false;
+        $resourceData =& $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
+        $keyData =& $resourceData['key-data'];
+        $keyData = "file:" . $file;
+        $key = md5( $keyData );
+        $extraParameters = array();
+
+        // Disable caching/compiling while fetchin the resource
+        // It will be restored afterwards
+        $isCachingAllowed = $this->IsCachingAllowed;
+        $this->IsCachingAllowed = false;
+
+        $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
+
+        // Restore previous caching flag
+        $this->IsCachingAllowed = $isCachingAllowed;
+
+        $root =& $resourceData['root-node'];
+        $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+        $templateText =& $resourceData["text"];
+        $rootNamespace = '';
+        $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+
+        $result = $this->ErrorCount == 0 and $this->WarningCount == 0;
+        if ( $returnResourceData )
+        {
+            $resourceData['result'] = $result;
+            return $resourceData;
+        }
+        return $result;
+    }
+
+    /*!
+     Compiles the template file \a $file and returns \c true if the compilation was OK.
+     \param $returnResourceData If \c true then the returned value will be the resourcedata structure
+     \sa validateTemplateFile(), fetch()
+    */
+    function compileTemplateFile( $file, $returnResourceData = false )
+    {
+        $this->ErrorCount = 0;
+        $this->WarningCount = 0;
+
         if ( !file_exists( $file ) )
             return false;
         $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
@@ -773,12 +841,19 @@ class eZTemplate
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
 
-            return eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
+            $result = eZTemplateCompiler::compileTemplate( $this, $key, $resourceData );
         }
         else
         {
-            return true;
+            $result = true;
         }
+
+        if ( $returnResourceData )
+        {
+            $resourceData['result'] = $result;
+            return $resourceData;
+        }
+        return $result;
     }
 
     function compileTemplate( &$resourceData, &$extraParameters )
@@ -1948,6 +2023,8 @@ class eZTemplate
     */
     function warning( $name, $txt, $placement = false )
     {
+        $this->WarningCount += 1;
+
         if ( !is_string( $placement ) )
             $placementText = $this->placementText( $placement );
         else
@@ -1964,6 +2041,8 @@ class eZTemplate
     */
     function error( $name, $txt, $placement = false )
     {
+        $this->ErrorCount += 1;
+
         if ( !is_string( $placement ) )
             $placementText = $this->placementText( $placement );
         else
@@ -2099,13 +2178,52 @@ class eZTemplate
     }
 
     /*!
-     Resets all template variables, functions and operators.
+     Resets all template variables, functions, operators and error counts.
     */
     function reset()
     {
         $this->resetVariables();
         $this->resetElements();
         $this->IsCachingAllowed = true;
+
+        $this->ErrorCount = 0;
+        $this->WarningCount = 0;
+    }
+
+    /*!
+      \return The number of errors that occured with the last fetch
+      \sa hasErrors()
+    */
+    function errorCount()
+    {
+        return $this->ErrorCount;
+    }
+
+    /*!
+      \return \ true if errors occured with the last fetch.
+      \sa errorCount()
+    */
+    function hasErrors()
+    {
+        return $this->ErrorCount > 0;
+    }
+
+    /*!
+      \return The number of warnings that occured with the last fetch
+      \sa hasWarnings()
+    */
+    function warningCount()
+    {
+        return $this->WarningCount;
+    }
+
+    /*!
+      \return \ true if warnings occured with the last fetch.
+      \sa warningCount()
+    */
+    function hasWarnings()
+    {
+        return $this->WarningCount > 0;
     }
 
     /*!
@@ -2225,6 +2343,11 @@ class eZTemplate
     var $ShowDetails = false;
     /// \c true if caching is allowed
     var $IsCachingAllowed;
+
+    /// The number of errors that occured for a fetch
+    var $ErrorCount;
+    /// The number of warnings that occured for a fetch
+    var $WarningCount;
 
     var $AutoloadPathList;
 

@@ -269,7 +269,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         else if ( $tagTrim[strlen( $tagTrim ) - 1] == "/" )
                         {
                             $isSingleTag = true;
-                            $tagTrim = substr( $tagTrim, 0, strlen( $tagTrim ) - 1 );
+                            $tagTrim = trim( substr( $tagTrim, 0, strlen( $tagTrim ) - 1 ) );
+                            $tag = $tagTrim;
                         }
 
                         $this->gotoEndPosition( $tag, $currentLine, $currentColumn, $endLine, $endColumn );
@@ -554,7 +555,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         {
                             $attr_name_pos = $equal_sign_pos;
                         }
-                        
+
                         if ( $attr_name_pos >= $text_len or
                              ( $text[$attr_name_pos] != '=' and
                                preg_match( "/[ \t\r\n]/", $text[$attr_name_pos] ) ) )

@@ -367,6 +367,11 @@ eZ Template:
   if the input variable was a template proxy object the template value 
   was not dereferenced.
   (Merged from stable/3.4 rev. 7216)
+- Added the possibility to fetch the number of errors and warnings from
+  the last fetch.
+  (Merged from stable/3.4 rev. 7239)
+- Created function for doing validation on a given template file.
+  (Merged from stable/3.4 rev. 7239)
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
