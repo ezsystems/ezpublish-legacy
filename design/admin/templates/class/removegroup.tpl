@@ -1,4 +1,4 @@
-<div class="warning">
+<div class="message-warning">
 
 {section show=$DeleteResult|count|gt(1)}
     <h2>{'Are you sure you want to remove these class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
@@ -12,9 +12,12 @@
 {/section}
 </ul>
 
-</div>
-
 <form action={concat( $module.functions.removegroup.uri )|ezurl} method="post" name="GroupRemove">
+<div class="block">
 <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removegroup' )}">
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/class/removegroup' )}">
+</div>
 </form>
+
+
+</div>

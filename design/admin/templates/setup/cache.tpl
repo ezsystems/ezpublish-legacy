@@ -1,34 +1,37 @@
 {* Feedbacks...  *}
 {section show=$cache_cleared.content}
-    <div class="feedback">
-        {'Content view cache was cleared.'|i18n( 'design/admin/setup/cache' )}
+    <div class="message-feedback">
+        <h2>{'Content view cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.all}
-    <div class="feedback">
-        {'All caches were cleared.'|i18n( 'design/admin/setup/cache' )}
+    <div class="message-feedback">
+        <h2>{'All caches were cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.ini}
-    <div class="feedback">
-        {'Ini file cache was cleared.'|i18n( 'design/admin/setup/cache' )}
+    <div class="message-feedback">
+        <h2>{'Ini file cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.template}
-    <div class="feedback">
-        {'Template cache was cleared.'|i18n( 'design/admin/setup/cache' )}
+    <div class="message-feedback">
+        <h2>{'Template cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
     </div>
 {/section}
 
 {section show=$cache_cleared.list}
-    <div class="feedback">
+    <div class="message-feedback">
+        <h2>{'Cache was cleared'|i18n( 'design/admin/setup/cache' )} <span class="time">[{currentdate()|l10n( shortdatetime )}]</span></h2>
+        <ul>
         {section name=Cache loop=$cache_cleared.list}
-            {"%name was cleared."|i18n('design/admin/setup/cache', '', hash( '%name', $:item.name ) )}
-            {delimiter}<br/>{/delimiter}
+             <li>{"%name was cleared"|i18n('design/admin/setup/cache', '', hash( '%name', $:item.name ) )}</li>
+            {* {delimiter}<br/>{/delimiter} *}
         {/section}
+        </ul>
     </div>
 {/section}
 

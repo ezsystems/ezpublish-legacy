@@ -483,6 +483,21 @@ div.viewbar, div.controlbar
     margin: 0;
 }
 
+div.context-block div.block
+{
+    margin: 0.5em 0.5em 1em 0.5em;
+}
+
+div.context-block div.block div.block
+{
+    margin: 0.5em 0 1em 0;
+}
+
+div.context-toolbar div.block
+{
+    margin: 0;
+}
+
 div.controlbar div.block
 {
     margin: 0.5em 0 0.5em 0;

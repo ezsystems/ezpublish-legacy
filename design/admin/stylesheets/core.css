@@ -317,7 +317,9 @@ div.button-right
 
 div.message-feedback, div.message-warning, div.message-error
 {
-    padding: 0.1em 0.5em 0.5em 0.5em;
+    margin-bottom: 2em;
+    padding: 0 1em 0.5em 1em;
+    border: 1px solid #000000;
 }
 
 div.message-feedback
@@ -333,6 +335,14 @@ div.message-warning
 div.message-error
 {
     background-color: #fff0f0;
+}
+
+div.message-feedback span.time, div.message-warning span.time, div.message-error span.time
+{
+    font-size: 0.8em;
+    margin-top: 0.15em;
+    display: block;
+    float: right;
 }
 
 /* MISC STYLES */

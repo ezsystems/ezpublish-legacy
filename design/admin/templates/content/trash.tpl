@@ -118,8 +118,8 @@ function toggleCheckboxes( formname, checkboxname )
 
 {section-else}
 
-<div class="feedback">
-<h2>{'There are no items in the trash.'|i18n( 'design/admin/content/trash' )}</h2>
+<div class="message-feedback">
+<h2>{'There are no items in the trash'|i18n( 'design/admin/content/trash' )}</h2>
 </div>
 
 {/section}
