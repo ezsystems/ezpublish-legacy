@@ -98,7 +98,8 @@ eZTime:
   http://ez.no/community/bug_reports/updatesearchindex_php_don_t_support_emails
 - Merged sql query fix for getting search statistics from stable/3.2 rev. 4911
   http://ez.no/community/bug_reports/search_statistics_and_postgresql
-
+- Added clearing RSS cache in script and from web UI.
+  http://ez.no/community/bug_reports/rss_cache
 
 *Library:
 

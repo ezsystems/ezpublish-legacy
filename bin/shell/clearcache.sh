@@ -14,6 +14,7 @@ CLEAR_EXPIRY="0"
 CLEAR_URLALIAS="0"
 CLEAR_SORTKEY="0"
 CLEAR_CLASSIDENTIFIER="0"
+CLEAR_RSS="0"
 
 # Check parameters
 for arg in $*; do
@@ -35,6 +36,7 @@ for arg in $*; do
 	    echo "         --clear-urlalias           Remove url alias cache"
 	    echo "         --clear-sortkey            Remove sort key cache"
             echo "         --clear-classidentifiers   Remove class identifier cache"
+	    echo "         --clear-rss                Remove RSS cache"
             echo "         --clear-all                Remove all above caches"
             echo
             echo "Example:"
@@ -81,6 +83,9 @@ for arg in $*; do
        --clear-classidentifiers)
             CLEAR_CLASSIDENTIFIER="1"
             ;;
+       --clear-rss)
+	    CLEAR_RSS="1"
+	    ;;
 
 	--clear-all)
 	    CLEAR_CONTENT="1"
@@ -94,6 +99,7 @@ for arg in $*; do
 	    CLEAR_URLALIAS="1"
             CLEAR_SORTKEY="1"
             CLEAR_CLASSIDENTIFIER="1"
+	    CLEAR_RSS="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -147,6 +153,7 @@ for DIR in $VAR_DIRS; do
  	SORTKEY_CACHEFILE="$DIR/cache/sortkey_"
         CLASSIDENTIFIER_CACHEFILE="$DIR/cache/classidentifiers_"
         CLASSATTRIBUTEIDENTIFIER_CACHEFILE="$DIR/cache/classattributeidentifiers_"
+	RSS_CACHEDIR="$DIR/cache/rss"
    
 
 	if [ "$CLEAR_CONTENT" -eq 1 ]; then
@@ -216,6 +223,13 @@ for DIR in $VAR_DIRS; do
             echo "Removing sortkey cache files in $SORTKEY_CACHEFILE"
             rm -f "$SORTKEY_CACHEFILE"*.php
         fi
+
+	if [ "$CLEAR_RSS" -eq 1 ]; then
+	    if [ -d "$RSS_CACHEDIR" ]; then
+		echo "Removing RSS cache files in $RSS_CACHEDIR"
+		rm -rf "$RSS_CACHEDIR"
+	    fi
+	fi
 
         if [ "$CLEAR_CLASSIDENTIFIER" -eq 1 ]; then
             echo "Removing class identifier cache files in $CLASSIDENTIFIER_CACHEFILE"
