@@ -352,9 +352,24 @@ class eZBinaryFileType extends eZDataType
         return $binaryFile;
     }
 
-    function metaData()
+    /*!
+     \reimp
+    */
+    function isIndexable()
     {
-        return "";
+        return true;
+    }
+
+    function &metaData( &$contentObjectAttribute )
+    {
+        $binaryFile =& $contentObjectAttribute->content();
+
+        $metaData = "";
+        if ( get_class( $binaryFile ) == "ezbinaryfile" )
+        {
+            $metaData = $binaryFile->metaData();
+        }
+        return $metaData;
     }
 }
 
