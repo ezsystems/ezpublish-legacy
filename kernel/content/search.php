@@ -66,7 +66,10 @@ $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
 
-$Result =& $tpl->fetch( "design:content/search.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:content/search.tpl" );
+$Result['path'] = array( array( 'text' => 'Search',
+                                'url' => false ) );
 
 eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
 ?>
