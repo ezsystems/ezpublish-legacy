@@ -193,7 +193,7 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;*/
 
-            $http =& eZHttpTool::instance();
+            $http =& eZHTTPTool::instance();
             $objectID = $object->attribute( 'id' );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );
             $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );

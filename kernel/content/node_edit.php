@@ -224,8 +224,12 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
             if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) and
                  $sortOrderMap[$nodeAssignment->attribute( 'id' )] == 1 )
                 $sortOrder = $sortOrderMap[$nodeAssignment->attribute( 'id' )];
+            else
+                $sortOrder = 0;
+
             $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
         }
+
 
         if ( $nodeAssignment->attribute( 'is_main' ) == 1 and
              $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )

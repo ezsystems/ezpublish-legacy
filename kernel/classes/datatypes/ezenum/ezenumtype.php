@@ -361,7 +361,24 @@ class eZEnumType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        $contentObjectAttributeID =& $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( "version" );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $id = $contentClassAttribute->attribute( "id" );
+        $version = $contentClassAttribute->attribute( "version" );
+
+        $enum = new eZEnum( $id, $version );
+        $enum->setIsmultipleValue( $ismultiple );
+        $enum->setIsoptionValue( $isoption );
+        $enum->setObjectEnumValue( $contentObjectAttributeID, $contentObjectAttributeVersion );
+
+        $return = "";
+        foreach ( $enum->attribute( 'enumobject_list' ) as $enumElement )
+        {
+            $return .= $enumElement->attribute( 'enumvalue' ) . " ";
+            $return .= $enumElement->attribute( 'enumelement' ) . " ";
+        }
+        return $return;
     }
 
     /*!

@@ -364,7 +364,7 @@ class eZDataType
      Returns the title of the current type, this is to form
      the title of the object.
     */
-    function title(  &$objectAttribute, $name = null )
+    function title( &$objectAttribute, $name = null )
     {
         return "";
     }
