@@ -63,6 +63,8 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/php_error_in_admin_role_edition
 - Fixed ImageGD bug during setup : http://ez.no/developer/ez_publish_3/bug_reports/setup_wizard_fails_to_write_rules_to_imageiniappendphp_when_using_gd
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typo_in_custom_tag_removes_all_content_in_xml_text_field
+- Removed unneeded template user variable instantiation in kernel/notification/runfilter.php
+- Fixed wrong variable name in kernel/classes/notification/ezmailnotificationtransport.php
 
 *Library :
 
