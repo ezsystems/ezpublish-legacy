@@ -79,7 +79,8 @@ class eZContentObject extends eZPersistentObject
                                          "published" => "Published",
                                          "modified" => "Modified",
                                          "current_version" => "CurrentVersion",
-                                         "status" => "Status"
+                                         "status" => "Status",
+                                         "remote_id" => "RemoteID"
                                          ),
                       "keys" => array( "id" ),
                       "function_attributes" => array( "current" => "currentVersion",
@@ -410,7 +411,8 @@ class eZContentObject extends eZPersistentObject
                                                             'is_published',
                                                             'published',
                                                             'modified',
-                                                            'current_version'
+                                                            'current_version',
+                                                            'remote_id'
                                                             ),
                                                      array( 'id' => $id ),
                                                      $asObject );
@@ -434,7 +436,8 @@ class eZContentObject extends eZPersistentObject
                                                            'is_published',
                                                            'published',
                                                            'modified',
-                                                           'current_version'
+                                                           'current_version',
+                                                           'remote_id'
                                                            ),
                                                     null, null, null,
                                                     $asObject );
