@@ -18,32 +18,28 @@ and admin.mysecond.ezpsite.com. After setting up site access (which you can read
 we need to set some additional settings in the site.ini.append files.
 </p>
 
-<pre class="example">
-file: settings/siteaccess/myfirst/site.ini.append
+<pre class="example">file: settings/siteaccess/myfirst/site.ini.append
 [FileSettings]
 StorageDir=myfirst/storage
 CacheDir=myfirst/cache
 </pre>
 <br />
 
-<pre class="example">
-file: settings/siteaccess/admin.myfirst/site.ini.append
+<pre class="example">file: settings/siteaccess/admin.myfirst/site.ini.append
 [FileSettings]
 StorageDir=myfirst/storage
 CacheDir=myfirst/cache
 </pre>
 <br />
 
-<pre class="example">
-file: settings/siteaccess/mysecond/site.ini.append
+<pre class="example">file: settings/siteaccess/mysecond/site.ini.append
 [FileSettings]
 StorageDir=mysecond/storage
 CacheDir=mysecond/cache
 </pre>
 <br />
 
-<pre class="example">
-file: settings/siteaccess/admin.mysecond/site.ini.append
+<pre class="example">file: settings/siteaccess/admin.mysecond/site.ini.append
 [FileSettings]
 StorageDir=mysecond/storage
 CacheDir=mysecond/cache
