@@ -241,20 +241,20 @@ class eZHTTPTool
      \note The redirection does not happen immedietaly and the script execution will continue.
      \todo Add support for username/password in \a $path
     */
-    function redirect( $path, $parameters = array() )
+    function createRedirectUrl( $path, $parameters = array() )
     {
         $parameters = array_merge( array( 'host' => false,
                                           'protocol' => false,
                                           'port' => false,
                                           'username' => false,
-                                          'password' => false ),
+                                          'password' => false,
+                                          'pre_url' => true ),
                                    $parameters );
         $host = $parameters['host'];
         $protocol = $parameters['protocol'];
         $port = $parameters['port'];
         $username = $parameters['username'];
         $password = $parameters['password'];
-        print( $path . "<br/>" );
         if ( preg_match( '#^([a-zA-Z0-9]+):(.+)$#', $path, $matches ) )
         {
             if ( $matches[1] )
@@ -269,15 +269,19 @@ class eZHTTPTool
             if ( $matches[4] )
                 $port = $matches[4];
         }
-        if ( strlen( $path ) > 0 and
-             $path[0] != '/' )
+        if ( $parameters['pre_url'] )
         {
-            $preURL = eZSys::serverVariable( 'SCRIPT_URL' );
-            if ( strlen( $preURL ) > 0 and
-                 $preURL[strlen($preURL) - 1] != '/' )
-                $preURL .= '/';
-            $path = $preURL . $path;
+            if ( strlen( $path ) > 0 and
+                 $path[0] != '/' )
+            {
+                $preURL = eZSys::serverVariable( 'SCRIPT_URL' );
+                if ( strlen( $preURL ) > 0 and
+                     $preURL[strlen($preURL) - 1] != '/' )
+                    $preURL .= '/';
+                $path = $preURL . $path;
+            }
         }
+
         if ( !is_string( $host ) )
             $host = eZSys::hostname();
         if ( !is_string( $protocol ) )
@@ -294,6 +298,12 @@ class eZHTTPTool
         if ( $port )
             $uri .= ':' . $port;
         $uri .= $path;
+        return $uri;
+    }
+
+    function redirect( $path, $parameters = array() )
+    {
+        $uri = eZHTTPTool::createRedirectUrl( $path, $parameters );
         eZHTTPTool::headerVariable( 'Location', $uri );
     }
 

@@ -302,6 +302,14 @@ class eZURLOperator
             $quote = "'";
         else if ( $val == 'no' )
             $quote = false;
+
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http =& eZHTTPTool::instance();
+
+        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
+        {
+            $operatorValue = $http->createRedirectUrl( $operatorValue, array( 'pre_url' => false ) );
+        }
         if ( $quote !== false )
             $operatorValue = $quote . $operatorValue . $quote;
     }

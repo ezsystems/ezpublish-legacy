@@ -1,4 +1,4 @@
-<?php
+\<?php
 //
 // Created on: <09-Oct-2002 15:33:01 amos>
 //
@@ -31,6 +31,7 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $LayoutStyle = $Params['LayoutStyle'];
 $Module =& $Params['Module'];
@@ -51,6 +52,17 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
 
     include_once( 'lib/ezutils/classes/ezsys.php' );
     eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
+
+    $useFullUrl = false;
+    $http =& eZHTTPTool::instance();
+    $http->UseFullUrl = false;
+    if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
+    {
+        if ( $layoutINI->variable( $LayoutStyle, 'UseFullUrl' ) == 'true' )
+        {
+            $http->UseFullUrl = true;
+        }
+    }
 
     $Module->setExitStatus( EZ_MODULE_STATUS_RERUN );
 }
