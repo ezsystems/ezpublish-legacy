@@ -1769,6 +1769,10 @@ function eZSetupForumRoles( &$roles, $siteType, $parameters )
                                                                          'Section' => array( $sectionID ),
                                                                          'Owner' => array( $selfID ),
                                                                          'Status' => array( $statusDraft, $statusPending ) ) ),
+                                           array( 'module'=> 'user',
+                                                  'function' => 'selfedit' ),
+                                           array( 'module'=> 'user',
+                                                  'function' => 'password' ),
                                            array( 'module'=> 'notification',
                                                   'function' => 'use' ) ),
                       'assignments' => array( array( 'user_id' => $guestAccountsID ) ) );
