@@ -26,7 +26,7 @@
         {/section}
 
         <div class="content-view-children">
-            <table>
+            <table class="list" cellspacing="0">
             <tr>
                 <th>
                     {"Author"|i18n("design/forum/layout")}
@@ -115,6 +115,8 @@
 
         </div>
 
+    </div>
+</div>
 
 {include name=navigator
          uri='design:navigator/google.tpl'

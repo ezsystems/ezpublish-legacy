@@ -25,14 +25,14 @@
         </form>
     {section-else}
         <p>
-        You need to be logged in to get access to the forums. You can do so <a href={"/user/login/"|ezurl}>here</a></p>
+        You need to be logged in to get access to the forums. You can do so <a href={"/user/login/"|ezurl}>here</a>
         </p>
     {/section}
 
 
     <div class="content-view-children">
 
-        <table>
+        <table class="list" cellspacing="0">
         <tr>
             <th>
                 {"Post"|i18n("design/forum/layout")}

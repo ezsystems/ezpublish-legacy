@@ -59,6 +59,7 @@ div#toolbar-top li.toolbar-item
     display: inline;
     color: #339999;
     padding: 0 6px 0 6px;
+    white-space: nowrap; /* No effect? */
 }
 
 div#toolbar-top div.search-line
@@ -89,12 +90,12 @@ div#toolbar-top li.toolbar-item a
     color: #339999;
 }
 
-div#toolbar-top li.toolbar-item.first
+div#toolbar-top li.first
 {
     display: inline;
 }
 
-div#toolbar-top li.toolbar-item.last
+div#toolbar-top li.last
 {
     border-right: none;
     display: inline;
@@ -152,12 +153,12 @@ div#toolbar-bottom li.toolbar-item a
     color: #003399;
 }
 
-div#toolbar-top li.toolbar-item.first
+div#toolbar-bottom li.first
 {
     display: inline;
 }
 
-div#toolbar-bottom li.toolbar-item.last
+div#toolbar-bottom li.last
 {
     border-right: none;
     display: inline;
@@ -173,12 +174,11 @@ div#topmenu
 {
     padding: 0;
     margin: 0;
-    /*border-bottom: 1px solid #ffffff;*/
+    border-bottom: 1px solid #336699; /* This line needs to be set to avoid bug in IE */
 }
 
 div#topmenu-design
 {
-    height: 21px;
     background-color: #336699;
     padding: 0;
     margin: 0;
