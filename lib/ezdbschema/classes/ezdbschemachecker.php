@@ -66,6 +66,10 @@ class eZDbSchemaChecker
 
 		foreach ( $schema2 as $name => $def )
         {
+            // Skip the info structure, this is not a table
+            if ( $name == '_info' )
+                continue;
+
 			if ( !isset( $schema1[$name] ) )
             {
 				$diff['new_tables'][$name] = $def;
@@ -83,6 +87,10 @@ class eZDbSchemaChecker
 		/* Check if there are tables removed */
 		foreach ( $schema1 as $name => $def )
         {
+            // Skip the info structure, this is not a table
+            if ( $name == '_info' )
+                continue;
+
 			if ( !isset( $schema2[$name] ) )
             {
 				$diff['removed_tables'][$name] = $def;

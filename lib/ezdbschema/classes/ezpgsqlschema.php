@@ -119,8 +119,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     /*!
      \reimp
     */
-    function schema()
+    function schema( $params = array() )
     {
+        $schema = array_merge( array( 'meta_data' => false,
+                                      'format' => 'generic' ),
+                               $params );
         $schema = array();
 
         if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
@@ -131,12 +134,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 $table_name = $row['Name'];
                 $schema_table['name'] = $table_name;
-                $schema_table['fields'] = $this->fetchTableFields( $table_name );
-                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
+                $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
+                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
 
                 $schema[$table_name] = $schema_table;
             }
             ksort( $schema );
+            $this->transformSchema( $schema, $params['format'] == 'local' );
         }
         else
         {
@@ -149,7 +153,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function fetchTableFields( $table )
+	function fetchTableFields( $table, $params )
 	{
 		$fields = array();
 
@@ -232,8 +236,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes( $table )
+	function fetchTableIndexes( $table, $params )
 	{
+        $metaData = $params['meta_data'];
 		$indexes = array();
 
         $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
@@ -262,6 +267,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 {
                     $kn = 'PRIMARY';
                 }
+
+                // Extra meta data:
+                // Include the name of the index that postgresql will use
+                if ( $metaData )
+                {
+                    $indexes[$kn]['postgresql:name'] = $correctName;
+                }
+
 				$indexes[$kn]['type'] = 'primary';
 			}
 			else
@@ -474,7 +487,26 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             } break;
 		}
 		$sql .= ( $diffFriendly ? " (\n  \"" : '( "' );
-        $sql .= join( ( $diffFriendly ? "\",\n  \"" : '", "' ), $def['fields'] );
+
+        $sql .= ( $diffFriendly ? " (\n    " : " ( " );
+        $i = 0;
+        foreach ( $def['fields'] as $fieldDef )
+        {
+            if ( $i > 0 )
+            {
+                $sql .= $diffFriendly ? ",\n    " : ', ';
+            }
+            if ( is_array( $fieldDef ) )
+            {
+                $sql .= $fieldDef['name'];
+            }
+            else
+            {
+                $sql .= $fieldDef;
+            }
+            ++$i;
+        }
+
         $sql .= ( $diffFriendly ? "\"\n)" : '" )' );
 
 		return $sql . ";\n";

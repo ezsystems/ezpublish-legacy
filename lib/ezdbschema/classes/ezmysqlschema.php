@@ -59,8 +59,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
     /*!
      \reimp
     */
-    function schema()
+    function schema( $params = array() )
     {
+        $params = array_merge( array( 'meta_data' => false,
+                                      'format' => 'generic' ),
+                               $params );
         $schema = array();
 
         if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
@@ -71,12 +74,13 @@ class eZMysqlSchema extends eZDBSchemaInterface
             {
                 $table_name = current( $tableNameArray );
                 $schema_table['name'] = $table_name;
-                $schema_table['fields'] = $this->fetchTableFields( $table_name );
-                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
+                $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
+                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
 
                 $schema[$table_name] = $schema_table;
             }
             ksort( $schema );
+            $this->transformSchema( $schema, $params['format'] == 'local' );
         }
         else
         {
@@ -90,7 +94,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
      \param table name
 	 */
-	function fetchTableFields( $table )
+	function fetchTableFields( $table, $params )
 	{
 		$fields = array();
 
@@ -168,8 +172,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes( $table )
+	function fetchTableIndexes( $table, $params )
 	{
+        $metaData = $params['meta_data'];
 		$indexes = array();
 
         $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );
@@ -186,7 +191,21 @@ class eZMysqlSchema extends eZDBSchemaInterface
 			{
 				$indexes[$kn]['type'] = $row['Non_unique'] ? 'non-unique' : 'unique';
 			}
-			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $row['Column_name'];
+
+            $indexFieldDef = array( 'name' => $row['Column_name'] );
+
+            // Include length if one is defined
+            if ( $row['Sub_part'] )
+            {
+                $indexFieldDef['mysql:length'] = (int)$row['Sub_part'];
+            }
+
+            // Check if we have any entries other than 'name', if not we skip the array definition
+            if ( count( array_diff( array_keys( $indexFieldDef ), array( 'name' ) ) ) == 0 )
+            {
+                $indexFieldDef = $indexFieldDef['name'];
+            }
+			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
 		}
         ksort( $indexes );
 
@@ -237,9 +256,47 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $sql .= "UNIQUE $index_name";
             } break;
 		}
+
         $sql .= ( $diffFriendly ? " (\n    " : " ( " );
-        $sql .= join( ( $diffFriendly ? ",\n    " : ', ' ), $def['fields'] );
+        foreach ( $def['fields'] as $fieldDef )
+        {
+            if ( $i > 0 )
+            {
+                $sql .= $diffFriendly ? ",\n    " : ', ';
+            }
+            if ( is_array( $fieldDef ) )
+            {
+                $sql .= $fieldDef['name'];
+                if ( isset( $fieldDef['mysql:length'] ) )
+                {
+                    if ( $diffFriendly )
+                    {
+                        $sql .= "(\n";
+                        $sql .= "    " . str_repeat( ' ', strlen( $fieldDef['name'] ) );
+                    }
+                    else
+                    {
+                        $sql .= "( ";
+                    }
+                    $sql .= $fieldDef['mysql:length'];
+                    if ( $diffFriendly )
+                    {
+                        $sql .= ")";
+                    }
+                    else
+                    {
+                        $sql .= " )";
+                    }
+                }
+            }
+            else
+            {
+                $sql .= $fieldDef;
+            }
+            ++$i;
+        }
         $sql .= ( $diffFriendly ? "\n)" : " )" );
+        $i = 0;
 
         if ( !$isEmbedded )
         {

@@ -107,7 +107,7 @@ class eZDBSchemaInterface
 
      \return DB schema array
     */
-    function schema()
+    function schema( $params = array() )
     {
     }
 
@@ -124,10 +124,10 @@ class eZDBSchemaInterface
            code will do simple SELECT queries
      \sa fetchTableData()
     */
-    function data( $schema = false, $tableNameList = false )
+    function data( $schema = false, $tableNameList = false, $params = array() )
     {
         if ( $schema === false )
-            $schema = $this->schema();
+            $schema = $this->schema( $params );
         $data = array();
         foreach ( $schema as $tableName => $tableInfo )
         {
@@ -242,7 +242,7 @@ class eZDBSchemaInterface
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-            $schema = $this->schema();
+            $schema = $this->schema( $params );
             $this->transformSchemaToLocal( $schema );
             if ( $includeSchema )
             {
@@ -276,7 +276,7 @@ class eZDBSchemaInterface
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-            $schema = $this->schema();
+            $schema = $this->schema( $params );
             if ( $includeSchema and $includeData )
             {
                 fputs( $fp, serialize( array( 'schema' => $schema,
@@ -314,7 +314,7 @@ class eZDBSchemaInterface
         $fp = @fopen( $filename, 'w' );
 		if ( $fp )
 		{
-            $schema = $this->schema();
+            $schema = $this->schema( $params );
             fputs( $fp, '<?' . 'php' . "\n" );
             if ( $includeSchema )
             {
@@ -375,6 +375,10 @@ class eZDBSchemaInterface
         $i = 0;
 		foreach ( $schema as $table => $tableDef )
 		{
+            // Skip the info structure, this is not a table
+            if ( $table == '_info' )
+                continue;
+
             if ( $i > 0 )
                 $sql .= "\n\n";
             $sql .= $this->generateTableSchema( $table, $tableDef, $params );
@@ -708,6 +712,33 @@ class eZDBSchemaInterface
             }
         }
 
+        $indexTranslations = array();
+        if ( $ini->hasVariable( $schemaType, 'IndexTranslation' ) )
+        {
+            $translations = $ini->variable( $schemaType, 'IndexTranslation' );
+            foreach ( $translations as $combinedName => $translation )
+            {
+                list( $tableName, $indexName ) = explode( '.', $combinedName );
+                $indexTranslations[$tableName][$indexName] = array();
+                $fields = explode( ';', $translation );
+                foreach ( $fields as $field )
+                {
+                    $entries = explode( '.', $field );
+                    $fieldName = $entries[0];
+                    $fieldData = array();
+                    for ( $i = 1; $i < count( $entries ); ++$i )
+                    {
+                        list( $metaName, $metaValue ) = explode( '/', $entries[$i], 2 );
+                        if ( is_numeric( $metaValue ) )
+                            $metaValue = (int)$metaValue;
+                        $fieldData[$metaName] = $metaValue;
+                    }
+                    $indexTranslations[$tableName][$indexName][$fieldName] = $fieldData;
+                }
+            }
+        }
+        $transformationRules['index-field'] = $indexTranslations;
+
         if ( $ini->hasVariable( $schemaType, 'FieldsWithoutDefaultValue' ) )
             $transformationRules['column-empty-default'] =& $ini->variable( $schemaType, 'FieldsWithoutDefaultValue' );
 
@@ -740,18 +771,31 @@ class eZDBSchemaInterface
     */
     function transformSchema( &$schema, /* bool */ $toLocal )
     {
-        /* replaces array key $oldKey with $newKey, preserving keys order in array */
-        function arrayReplaceKey( &$a, $oldKey, $newKey )
+        // Check if it is already in correct format
+        if ( isset( $schema['_info']['format'] ) )
         {
-            $tmpArray = array();
-            foreach ( $a as $key => $val )
+            if ( $schema['_info']['format'] == ( $toLocal ? 'local' : 'generic' ) )
+                return true;
+        }
+
+        // Set the new format it will get
+        $schema['_info']['format'] = $toLocal ? 'local' : 'generic';
+
+        /* replaces array key $oldKey with $newKey, preserving keys order in array */
+        if ( !function_exists( 'arrayreplacekey' ) )
+        {
+            function arrayReplaceKey( &$a, $oldKey, $newKey )
             {
-                if ( $key == $oldKey )
-                    $tmpArray[$newKey] =& $a[$key];
-                else
-                    $tmpArray[$key]    =& $a[$key];
+                $tmpArray = array();
+                foreach ( $a as $key => $val )
+                {
+                    if ( $key == $oldKey )
+                        $tmpArray[$newKey] =& $a[$key];
+                    else
+                        $tmpArray[$key]    =& $a[$key];
+                }
+                $a = $tmpArray;
             }
-            $a = $tmpArray;
         }
 
         // load the schema transformation rules
@@ -869,6 +913,49 @@ class eZDBSchemaInterface
 
             unset( $schema[$tableName]['fields'][$colName]['default'] );
             //eZDebug::writeDebug( "removed default value from $schemaType:$tableName.$colName" );
+        }
+
+        // Find indexes that needs to be fixed
+        foreach ( $schemaTransformationRules['index-field'] as $tableName => $indexes )
+        {
+            foreach ( $indexes as $indexName => $fields )
+            {
+                if ( !isset( $schema[$tableName]['indexes'][$indexName]['fields'] ) )
+                    continue;
+
+                $newFields = array();
+                foreach ( $schema[$tableName]['indexes'][$indexName]['fields'] as $indexField )
+                {
+                    if ( !is_array( $indexField ) )
+                    {
+                        $indexField = array( 'name' => $indexField );
+                    }
+                    $fieldName = $indexField['name'];
+                    if ( isset( $fields[$fieldName] ) )
+                    {
+                        if ( $toLocal )
+                        {
+                            $indexField = array_merge( $indexField,
+                                                       $fields[$fieldName] );
+                        }
+                        else
+                        {
+                            foreach ( $fields[$fieldName] as $removeName => $removeValue )
+                            {
+                                unset( $indexField[$removeName] );
+                            }
+                        }
+                    }
+
+                    // Check if we have any entries other than 'name', if not we skip the array definition
+                    if ( count( array_diff( array_keys( $indexField ), array( 'name' ) ) ) == 0 )
+                    {
+                        $indexField = $indexField['name'];
+                    }
+                    $newFields[] = $indexField;
+                }
+                $schema[$tableName]['indexes'][$indexName]['fields'] = $newFields;
+            }
         }
 
         return true;

@@ -48,7 +48,8 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
-                                "[diff-friendly]" .
+                                "[diff-friendly][meta-data]" .
+                                "[format:]" .
                                 "[output-types:][allow-multi-insert]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
@@ -59,6 +60,10 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
+                                       'format' => ( "The output format (default is generic)\n" .
+                                                     "generic - Format which suits all databases\n" .
+                                                     "local - Format which suits only the database it was dumped from." ),
+                                       'meta-data' => 'Will include extra meta-data information specific to the database.',
                                        'diff-friendly' => 'Will make the output friendlier towards the diff command (applies to SQL output only)',
                                        'allow-multi-insert' => ( 'Will create INSERT statements with multiple data entries (applies to data output only)' . "\n" .
                                                                  'Multi-inserts will only be created for databases that support it' ),
@@ -130,6 +135,8 @@ if ( $options['output-types'] )
 
 $dbschemaParameters = array( 'schema' => $includeSchema,
                              'data' => $includeData,
+                             'format' => $options['format'] ? $options['format'] : 'generic',
+                             'meta_data' => $options['meta-data'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
                              'diff_friendly' => $options['diff-friendly'] );
 

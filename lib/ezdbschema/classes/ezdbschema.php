@@ -90,8 +90,27 @@ class eZDbSchema
     */
 	function read( $filename )
 	{
-        include_once( 'lib/ezfile/classes/ezfile.php' );
-		return unserialize( eZFile::getContents( $filename ) );
+        $fd = @fopen( $filename, 'rb' );
+        if ( $fd )
+        {
+            $buf = fread( $fd, 100 );
+            fclose( $fd );
+            if ( preg_match( '#^<\?' . "php\n.*\$schema", $buf ) )
+            {
+                include( $filename );
+                return $schema;
+            }
+            else if ( preg_match( '#a:[0-9]+:{#', $buf ) )
+            {
+                include_once( 'lib/ezfile/classes/ezfile.php' );
+                return unserialize( eZFile::getContents( $filename ) );
+            }
+            else
+            {
+                eZDebug::writeError( "Unknown format for file $filename" );
+                return false;
+            }
+        }
 	}
 
     /*!

@@ -86,13 +86,18 @@ class eZLintSchema extends eZDBSchemaInterface
      Runs the lint checker on the database schema in otherSchema()
      and returns the new schema that is correct.
     */
-    function schema()
+    function schema( $params = array() )
     {
         if ( $this->IsLintChecked )
         {
             return $this->CorrectSchema;
         }
-        $this->CorrectSchema = $this->OtherSchema->schema();
+
+        $params = array_merge( array( 'meta_data' => false,
+                                      'format' => 'generic' ),
+                               $params );
+
+        $this->CorrectSchema = $this->OtherSchema->schema( $params );
         $this->lintCheckSchema( $this->CorrectSchema );
         $this->IsLintChecked = true;
         return $this->CorrectSchema;
@@ -206,6 +211,10 @@ class eZLintSchema extends eZDBSchemaInterface
         $badTables = array();
         foreach ( $schema as $tableName => $tableDef )
         {
+            // Skip the info structure, this is not a table
+            if ( $tableName == '_info' )
+                continue;
+
             $existingTableName = $tableName;
             $tableComments = array();
 
@@ -314,7 +323,22 @@ class eZLintSchema extends eZDBSchemaInterface
                     if ( isset( $schema[$indexName] ) )
                     {
                         $comment = "Index named '$indexName' has same name as an existing table,\ndatabases like PostgreSQL and Oracle will have problems with this.";
-                        $indexName = $indexName . '_' . implode( '_', $indexDef['fields'] ) . '_i';
+                        $indexFieldText = '';
+                        $i = 0;
+                        foreach ( $indexDef['fields'] as $fieldDef )
+                        {
+                            if ( $i > 0 )
+                                $indexFieldText .= '_';
+                            if ( is_array( $fieldDef ) )
+                            {
+                                $indexFieldText .= $fieldDef['name'];
+                            }
+                            else
+                            {
+                                $indexFieldText .= $fieldDef;
+                            }
+                        }
+                        $indexName = $indexName . '_' . $indexFieldText . '_i';
                         $comment .= "\nNew name is '$indexName'";
                         $comments[] = $comment;
                         $status = false;
@@ -338,6 +362,24 @@ class eZLintSchema extends eZDBSchemaInterface
                         $comment .= "\nNew name is '$indexName'";
                         $comments[] = $comment;
                         $status = false;
+                    }
+
+                    // Check if there are some database specific entries
+                    foreach ( $indexDef['fields'] as $fieldDef )
+                    {
+                        if ( is_array( $fieldDef ) )
+                        {
+                            $fieldName = $fieldDef['name'];
+                            foreach ( $fieldDef as $fdName => $fdValue )
+                            {
+                                if ( preg_match( "#^([a-z0-9]+):#", $fdName, $matches ) )
+                                {
+                                    $dbName = $matches[1];
+                                    $comments[] = "Found database specific entry ($dbName) at index $existingIndexName.$fieldName";
+                                    $status = false;
+                                }
+                            }
+                        }
                     }
 
                     if ( strcmp( $existingIndexName, $indexName ) != 0 )
