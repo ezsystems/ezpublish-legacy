@@ -1,37 +1,10 @@
 {let class_content=$attribute.class_content
-     class_list=fetch(class,list,hash(class_filter,$class_content.class_constraint_list))}
-<table width="100%" cellpadding="0" cellspacing="2" border="0">
-<tr>
-    {section name=Class loop=$class_list}
-        <td>
-<div class="objectheader">
-            <h2>{'Create new %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}</h2><div class="linebreak"/>
-</div>
-<div class="object">
-<table width="100%" cellpadding="0" cellspacing="2" border="0">
-{*            {section name=Attribute loop=fetch(class,attribute_list,hash(class_id,$:item.id))}
-<tr>
-    <td width="1">
-        <label>{$:item.name|wash}</label>
-    </td>
-    <td>
-        {attribute_edit_gui attribute_base=concat($attribute_base,'_ezorl_init_class_',$Class:item.id,'_attr_',$:item.id)
-                            html_class='half'
-                            attribute=$:item.temporary_object_attribute}
-    </td>
-</tr>
-            {/section}*}
-<tr>
-    <td colspan="2" align="left">
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}]" value="{'Add %classname'|i18n('design/standard/content/datatype',,hash('%classname',$:item.name|wash))}" />
-    </td>
-</tr>
-</table>
-</div>
-        </td>
-    {/section}
-</tr>
-</table>
+     class_list=fetch( class, list, cond( $class_content.class_constraint_list|gt(0),hash( class_filter,$class_content.class_constraint_list ),
+                                          hash() ) )
+     can_create=true()
+     new_object_initial_node_placement=false()}
+
+{include uri="design:content/datatype/edit/ezobjectrelationlist_controls.tpl"}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -83,8 +56,27 @@
 {/section}
 </table>
 
+{section show=$can_create}
+
+    <div class="objectheader">
+        <h2>{'Add new object to list'}</h2>
+    </div>
+    <div class="object">
+        <select class="combobox" name="{$attribute_base}_new_class[{$attribute.id}]">
+        {section name=Class loop=$class_list}
+            <option value="{$:item.id}">{$:item.name|wash}</option>
+        {/section}
+        </select>
+    {section show=$new_object_initial_node_placement}
+        <input type="hidden" name="{$attribute_base}_object_initial_node_placement[{$attribute.id}]" value="{$new_object_initial_node_placement|wash}" />
+    {/section}
+        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Add'|i18n( 'design/standard/content/datatype' )}" />
+    </div>
+
+{/section}
+
 <div class="buttonblock">
-    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit objects'|i18n('design/standard/content/datatype')}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Open objects for edit'|i18n('design/standard/content/datatype')}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove objects'|i18n('design/standard/content/datatype')}" />
 </div>
 

@@ -685,6 +685,20 @@ class eZContentObject extends eZPersistentObject
                                                     $asObject );
     }
 
+    /*!
+     \return \c true if the object has any versions remaining.
+    */
+    function hasRemainingVersions()
+    {
+        $remainingVersions = $this->versions( false );
+        if ( !is_array( $remainingVersions ) or
+             count( $remainingVersions ) == 0 )
+        {
+            return false;
+        }
+        return true;
+    }
+
     function &createInitialVersion( $userID )
     {
         return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1 );
@@ -907,7 +921,8 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
 
 //         $contentobjectAttributes =& $contentobject->attribute( 'contentobject_attributes' );
-        $contentobjectAttributes =& $contentobject->contentObjectAttributes( true, null, null, false, true );
+//         $contentobjectAttributes =& $contentobject->contentObjectAttributes( true, null, null, false, true );
+        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
 
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
         {
@@ -1322,6 +1337,31 @@ class eZContentObject extends eZPersistentObject
 
         }
         return $result;
+    }
+
+
+    function handleAllCustomHTTPActions( $attributeDataBaseName,
+                                         $customActionAttributeArray, $customActionParameters,
+                                         $objectVersion = false )
+    {
+        $http =& eZHTTPTool::instance();
+        $contentObjectAttributes =& $this->contentObjectAttributes( true, $objectVersion );
+        $oldAttributeDataBaseName = $customActionParameters['base_name'];
+        $customActionParameters['base_name'] = $attributeDataBaseName;
+        foreach( array_keys( $contentObjectAttributes ) as $key )
+        {
+            $contentObjectAttribute =& $contentObjectAttributes[$key];
+            if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+            {
+                $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
+                $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
+                $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+            }
+
+            $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
+                                                              $customActionAttributeArray, $customActionParameters );
+        }
+        $customActionParameters['base_name'] = $oldAttributeDataBaseName;
     }
 
     function storeInput( &$contentObjectAttributes,

@@ -461,6 +461,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                       $customActionAttributeArray, $customActionParameters )
     {
         $dataType =& $this->dataType();
+        $customActionParameters['contentobject_attribute'] =& $this;
         $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                                   $customActionAttributeArray, $customActionParameters );
     }

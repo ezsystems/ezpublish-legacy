@@ -23,6 +23,19 @@ Changes from 3.2-3 to 3.2-4
 - Fixed cleandata.sql bug, http://ez.no/developer/ez_publish_3/bug_reports/cleandatasql_is_not_clean
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/bookmarks_template_typos
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/admin_view_full_gui_removeaction_renders_empty_redirectpage
+- Fixed cleanup of objects in relation list, now all versions are cleaned up. (Also in 3.3 Rev: 4315)
+  http://ez.no/developer/ez_publish_3/bug_reports/cleanup_of_object_relation_list_objects
+- Fixed cleanup of object data when removing drafts. (Also in 3.3 Rev: 4315)
+  http://ez.no/developer/ez_publish_3/bug_reports/improper_deletion_of_drafts
+- Fix cleanup of the attributes of an object when removing it from trash (purge). (Also in 3.3 Rev: 4315)
+  http://ez.no/developer/ez_publish_3/bug_reports/cleanup_error_in_contentobject_class
+  http://ez.no/developer/ez_publish_3/bug_reports/ezcontentobject_purge_issue_for_objects_with_extra_information_users_binary_files_etc
+- Fixed the edit template for all datatypes in regards to the $attribute_base variable, this makes all
+  datatypes usable in the object relation list datatype. (Also in 3.3 Rev: 4315)
+  http://ez.no/developer/ez_publish_3/bug_reports/eztemplate_object_relation_list_does_not_recognize_ezboolean_values
+- Fixed the forwarding of custom actions to the objects in the object relation list.
+  This makes it possible to perform actions such as removing images, adding entries to
+  all entries of an object relation list, it even allows nesting relation lists. (Also in 3.3 Rev: 4315)
 
 *Library :
 
@@ -31,5 +44,10 @@ eZ template:
 
 eZ file:
 - The recursive directory maker will no longer stop on directories named 0.
+
+eZ ObjectRelationList:
+- Added support for controlling the object relation list using a separate template file, the template
+  file is called ezcontentobjectrelationlist_controls.tpl and is included form the ezcontentobjectrelationlist.tpl
+  template file. This allows for overriding this template per class. (Also in 3.3 Rev: 4315)
 
 *Translations:
