@@ -9,6 +9,8 @@ Changes from 3.3-3 to 3.3-4
 
 
 *Bugs:
+- Fixed broken datatype range option.
+  http://ez.no/community/bug_reports/ezrange_option_dataype_broken
 
 *Library:
 
