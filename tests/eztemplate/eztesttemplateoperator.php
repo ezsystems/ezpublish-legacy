@@ -71,14 +71,13 @@ class eZTestTemplateOperator extends eZTestCase
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
-        $tpl->setIsCachingAllowed( false );
         $actual = $tpl->fetch( $templateFile );
 
         $expectedFileName = str_replace( '.tpl', '.exp', $templateFile );
         $expected = file_get_contents( $expectedFileName );
 
         $actualFileName = str_replace( '.tpl', '.out', $templateFile );
-        $fp = fopen( $actualFileName, 'w');
+        $fp = fopen( $actualFileName, 'w' );
         fwrite( $fp, $actual );
         fclose( $fp );
 
