@@ -7,13 +7,13 @@
 # See basic.tr for formatting options
 
 greek_uppercase:
-U+03AC               - U+0026
+U+03AC = U+0386
 U+03AD - U+03AF      - U+0025
 
 U+03B1 - U+03C1      - U+0020
 U+03C3 - U+03CB      - U+0020
 
-U+03CC               - U+0040
+U+03CC = U+038C
 U+03CD - U+03CE      - U+003F
 
 U+03DB - U+03EF % 02 - U+0001
@@ -25,13 +25,13 @@ U+03D5 = U+03A6
 U+03D6 = U+03A0
 
 greek_lowercase:
-U+0386               + U+0026
+U+0386 = U+03AC
 U+0388 - U+038A      + U+0025
 
 U+0391 - U+03A1      + U+0020
 U+03A3 - U+03AB      + U+0020
 
-U+038C               + U+0040
+U+038C = U+03CC
 U+038E - U+038F      + U+003F
 
 U+03DA - U+03EE % 02 + U+0001
