@@ -59,7 +59,7 @@ class eZCurrentTimeType extends eZNotificationEventType
 
     function initializeEvent( &$event, $params )
     {
-        eZDebug::writeDebug( $params, 'params for type' );
+        eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type' );
         $time = 0;
         if ( array_key_exists( 'time', $params ) )
         {

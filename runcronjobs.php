@@ -43,10 +43,18 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 $endl = "<br/>";
+$webOutput = true;
 if ( isset( $argv ) )
+{
     $endl = "\n";
+    $webOutput = false;
+}
 
 $cronPart = false;
+$siteaccess = false;
+$debugOutput = false;
+
+$optionsWithData = array( 's' );
 
 for ( $i = 1; $i < count( $argv ); ++$i )
 {
@@ -62,10 +70,42 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         else
         {
             $flag = substr( $arg, 1 );
+            $optionData = false;
+            if ( in_array( $flag, $optionsWithData ) )
+            {
+                if ( strlen( $arg ) > 2 )
+                {
+                    $optionData = substr( $arg, 2 );
+                }
+                else
+                {
+                    $optionData = $argv[$i+1];
+                    ++$i;
+                }
+            }
             if ( $flag == 'h' )
             {
-                print( "Usage: " . $argv[0] . " [cronpart]\n" );
+                print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
+                       "Executes eZ publish cronjobs.\n\n" .
+                       "  -h    display this help and exit \n" .
+                       "  -s    selected siteaccess for operations, if not specified default siteaccess is used\n" .
+                       "  -d    display debug output at end of execution\n" );
                 exit();
+            }
+            else if ( $flag == 'd' )
+            {
+                $debugOutput = true;
+            }
+            else if ( $flag == 's' )
+            {
+                if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+                {
+                    $siteaccess = $optionData;
+                }
+                else
+                {
+                    print( "Siteaccess $optionData does not exist, using default siteaccess" );
+                }
             }
         }
     }
@@ -79,22 +119,41 @@ for ( $i = 1; $i < count( $argv ); ++$i )
 if ( $cronPart )
     print( "Running cronjob part '$cronPart'$endl" );
 
-// Initialize module loading
-$moduleINI =& eZINI::instance( 'module.ini' );
-$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-$extensionDirectory = eZExtension::baseDirectory();
-$globalExtensionRepositories = array();
-foreach ( $extensionRepositories as $extensionRepository )
+/*!
+ Reads settings from site.ini and passes them to eZDebug.
+*/
+function eZUpdateDebugSettings()
 {
-    $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
-    if ( file_exists( $modulePath ) )
-    {
-        $globalExtensionRepositories[] = $modulePath;
-    }
+    global $debugOutput;
+    $ini =& eZINI::instance();
+    $debugSettings = array();
+    $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
+    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+    $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
+    if ( $debugOutput )
+        $debugSettings['debug-enabled'] = $debugOutput;
+    eZDebug::updateSettings( $debugSettings );
 }
-$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
-eZModule::setGlobalPathList( $moduleRepositories );
+
+/*!
+ Reads settings from i18n.ini and passes them to eZTextCodec.
+*/
+function eZUpdateTextCodecSettings()
+{
+    $ini =& eZINI::instance( 'i18n.ini' );
+    $i18nSettings = array();
+    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
+    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
+    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
+    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    eZTextCodec::updateSettings( $i18nSettings );
+}
+
+// Initialize text codec settings
+eZUpdateTextCodecSettings();
+
+// Initialize debug settings
+eZUpdateDebugSettings();
 
 include_once( 'lib/ezutils/classes/ezexecution.php' );
 
@@ -111,14 +170,69 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
+    global $webOutput;
+    global $endl;
+    $bold = '<b>';
+    $unbold = '</b>';
+    $par = '<p>';
+    $unpar = '</p>';
+    if ( !$webOutput )
+    {
+        $bold = '';
+        $unbold = '';
+        $par = '';
+        $unpar = $endl;
+    }
     eZDebug::setHandleType( EZ_HANDLE_NONE );
-    print( "<b>Fatal error</b>: eZ publish did not finish it's request<br/>" );
-    print( "<p>The execution of eZ publish was abruptly ended, the debug output is present below.</p>" );
-    print( eZDebug::printReport( false, true, true ) );
+    print( $bold . "Fatal error" . $unbold . ": eZ publish did not finish it's request$endl" );
+    print( $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar );
+    print( eZDebug::printReport( false, $webOutput, true ) );
 }
 
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
+
+// Check for extension
+include_once( 'lib/ezutils/classes/ezextension.php' );
+include_once( 'kernel/common/ezincludefunctions.php' );
+eZExtension::activateExtensions();
+// Extension check end
+
+include_once( "access.php" );
+
+if ( $siteaccess )
+{
+    $access = array( 'name' => $siteaccess,
+                     'type' => EZ_ACCESS_TYPE_STATIC );
+}
+else
+{
+    $ini =& eZINI::instance();
+    $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+    $access = array( 'name' => $siteaccess,
+                     'type' => EZ_ACCESS_TYPE_DEFAULT );
+}
+
+$access = changeAccess( $access );
+$GLOBALS['eZCurrentAccess'] =& $access;
+
+// Initialize module loading
+$moduleRepositories = array();
+$moduleINI =& eZINI::instance( 'module.ini' );
+$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
+$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
+$extensionDirectory = eZExtension::baseDirectory();
+$globalExtensionRepositories = array();
+foreach ( $extensionRepositories as $extensionRepository )
+{
+    $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
+    if ( file_exists( $modulePath ) )
+    {
+        $globalExtensionRepositories[] = $modulePath;
+    }
+}
+$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
+eZModule::setGlobalPathList( $moduleRepositories );
 
 $ini =& eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
@@ -138,9 +252,15 @@ foreach ( $scripts as $script )
     if ( file_exists( $scriptFile ) )
     {
         print( "Running $scriptFile$endl" );
+        eZDebug::addTimingPoint( "Script $scriptFile starting" );
         include( $scriptFile );
+        eZDebug::addTimingPoint( "Script $scriptFile done" );
     }
 }
+
+if ( $debugOutput or
+     eZDebug::isDebugEnabled() )
+    print( eZDebug::printReport( false, $webOutput, true ) );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();

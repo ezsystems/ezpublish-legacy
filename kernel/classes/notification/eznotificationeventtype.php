@@ -67,9 +67,9 @@ class eZNotificationEventType
         $types =& $GLOBALS["eZNotificationEventTypes"];
         if( !isset( $types[$notificationEventTypeString] ) )
         {
-            eZDebug::writeDebug( $types, 'notification types' );
+            eZDebugSetting::writeDebug( 'kernel-notification', $types, 'notification types' );
             eZNotificationEventType::loadAndRegisterType( $notificationEventTypeString );
-            eZDebug::writeDebug( $types, 'notification types 2' );
+            eZDebugSetting::writeDebug( 'kernel-notification', $types, 'notification types 2' );
         }
         $def = null;
         if ( isset( $types[$notificationEventTypeString] ) )

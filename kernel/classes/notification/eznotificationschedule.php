@@ -78,13 +78,13 @@ class eZNotificationSchedule
             $hoursDiff = $time - $currentDate['hours'];
             if ( $hoursDiff < 0 )
             {
-//                if ( 
+//                if (
 //                $hoursDiff += 24;
             }
 
             $secondsDiff = 3600 * ( $dayDiff * 24  + $hoursDiff ) - $currentDate['seconds'] - 60 * $currentDate['minutes'];
             $sendDate = $stamp + $secondsDiff;
-            eZDebug::writeDebug( getdate( $sendDate ), "item date"  );
+            eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
             $item->setAttribute( 'send_date', $sendDate );
             return $sendDate;
         }

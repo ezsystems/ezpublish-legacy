@@ -143,7 +143,7 @@ class eZNotificationEvent extends eZPersistentObject
             'data_text3' => '',
             'data_text4' => '' );
         $event = new eZNotificationEvent( $row );
-        eZDebug::writeDebug( $event, "event" );
+        eZDebugSetting::writeDebug( 'kernel-notification', $event, "event" );
         $event->initializeEventType( $params );
         return $event;
     }
@@ -152,7 +152,7 @@ class eZNotificationEvent extends eZPersistentObject
     {
         $eventType =& $this->eventType();
         $eventType->initializeEvent( $this, $params );
-        eZDebug::writeDebug( $this, 'event after initialization' );
+        eZDebugSetting::writeDebug( 'kernel-notification', $this, 'event after initialization' );
     }
 
     function &eventType()

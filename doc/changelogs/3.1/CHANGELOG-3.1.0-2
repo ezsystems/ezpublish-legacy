@@ -15,6 +15,8 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Fixed bug with phrase search, fixed problem with combining phrases with usual words in one search query.
 - Fixed bug where printable version used the same cache file as the normal view
 - Added data_text5 field to eZContentClassAttribute which is a text type.
+- Added support for specifying siteaccess when run cronjobs and also uses default siteaccess value.
+- Made sure notification system executes properly when no messages are to be sent.
 
 *Library :
 eZ xml:

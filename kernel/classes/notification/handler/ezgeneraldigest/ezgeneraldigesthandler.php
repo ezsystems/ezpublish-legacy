@@ -136,7 +136,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function handle( &$event )
     {
-        eZDebug::writeDebug( $event, "trying to handle event" );
+        eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezcurrenttime' )
         {
             $date =& $event->content();
@@ -154,11 +154,11 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 $subject = $tpl->variable( 'subject' );
                 $transport =& eZNotificationTransport::instance( 'ezmail' );
                 $transport->send( $address, $subject, $result);
-                eZDebug::writeDebug( $result, "digest result" );
+                eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
 
             }
             $collectionItemIDList =& $tpl->variable( 'collection_item_id_list' );
-            eZDebug::writeDebug(  $collectionItemIDList, "handled items" );
+            eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
             {

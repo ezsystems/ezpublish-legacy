@@ -38,13 +38,14 @@
 */
 
 $runInBrowser = true;
+if ( isset( $webOutput ) )
+    $runInBrowser = $webOutput;
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
 include_once( "kernel/classes/ezworkflowprocess.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezmodulerun.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezoperationmemento.php" );
@@ -54,22 +55,6 @@ include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-
-// $debugINI =& eZINI::instance( 'debug.ini' );
-// eZDebugSetting::setDebugINI( $debugINI );
-// $GLOBALS['eZDebugEnabled'] = true;
-// // eZDebug::setHandleType( $runInBrowser ? EZ_HANDLE_FROM_PHP : EZ_HANDLE_TO_PHP );
-// eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-// // eZDebug::setMessageOutput( EZ_OUTPUT_MESSAGE_SCREEN );
-
-// function printReport()
-// {
-//     global $runInBrowser;
-//     if ( $runInBrowser )
-//         eZDebug::printReport();
-//     else
-//         eZDebug::printReport( false, false );
-// }
 
 $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
@@ -86,13 +71,11 @@ foreach( array_keys( $workflowProcessList ) as $key )
     $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
 
-//     eZDebug::writeDebug( $process->attribute( 'status' ),  '$process->attribute( \'status\' )' );
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
         $process->store();
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
         {
-//             eZDebug::writeDebug( 'Removing mementos' );
             $bodyMemento =& eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
             $mementoList =& eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
             $bodyMemento->remove();
@@ -105,19 +88,15 @@ foreach( array_keys( $workflowProcessList ) as $key )
     }
     else
     {   //restore memento and run it
-//         eZDebug::writeDebug( $process, '$process' );
         $bodyMemento =& eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
         if ( is_null( $bodyMemento ) )
         {
-//             eZDebug::writeDebug( 'bodyMemento is null' );
             printReport();
         }
         $bodyMementoData = $bodyMemento->data();
-//         eZDebug::writeDebug( $bodyMementoData, '$bodyMementoData' );
         $mainMemento =& $bodyMemento->attribute( 'main_memento' );
         if ( !$mainMemento )
             continue;
-//         eZDebug::writeDebug( $mainMemento->data(), '$mainMementoData' );
 
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
@@ -129,14 +108,11 @@ foreach( array_keys( $workflowProcessList ) as $key )
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
         $operationResult =& eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
-//         eZDebug::writeDebug( $operationResult, '$operationResult' );
         $process->remove();
     }
 
     print( "\n" . $process->attribute( 'status' ) . " workflow process status\n"  );
     flush();
 }
-
-// printReport( );
 
 ?>

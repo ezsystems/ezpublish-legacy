@@ -91,7 +91,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
     function handle( &$event )
     {
-        eZDebug::writeDebug( $event, "trying to handle event" );
+        eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezpublish' )
         {
             $this->handlePublishEvent( $event );
@@ -172,6 +172,8 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $collection =& eZNotificationCollection::fetchForHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
                                                                   $event->attribute( 'id' ),
                                                                   EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT );
+        if ( !$collection )
+            return;
         $items =& $collection->attribute( 'items_to_send' );
         $addressList = array();
         foreach ( array_keys( $items ) as $key )
@@ -185,7 +187,6 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $collection->remove();
         }
-
     }
 
     function &subscribedNodes( $user = false )
