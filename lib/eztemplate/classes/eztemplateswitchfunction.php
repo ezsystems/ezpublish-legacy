@@ -57,6 +57,12 @@ Matched $c
 
 \endcode
 
+TODO: Add support for custom operations when matching
+{case process=$match|gt(5)}
+Matched $c
+{/case}
+
+
 */
 
 class eZTemplateSwitchFunction
