@@ -51,6 +51,9 @@ eZINI:
 - Fixed bug related to errors in postgres when storing 'sort_key_string' 
   attribute, which is longer then 50 characters.
   http://ez.no/community/bug_reports/postgresql_sort_key_string_raises_error_and_blocks_titles_longer_than_50_characters
+- Fixed bug: object disappears when moving it to itself. We now don't allow an object to be moved to itself
+  or to the same parent object.
+  http://ez.no/community/bug_reports/moving_object_in_object_itself
 *Library:
 
 eZ Locale:
