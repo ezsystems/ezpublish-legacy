@@ -43,7 +43,7 @@ $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$object->attribute( 'can_edit' ) )
+if ( !$obj->attribute( 'can_edit' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( !function_exists ( 'checkForExistingVersion'  ) )

@@ -346,10 +346,6 @@ class eZWorkflowProcess extends eZPersistentObject
         return $workflowStatus;
     }
 
-    function remove()
-    {
-        eZPersistentObject::remove();
-    }
 
     function store()
     {
