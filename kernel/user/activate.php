@@ -1,4 +1,4 @@
-<?php
+1<?php
 //
 // Created on: <01-Aug-2002 09:58:09 bf>
 //
@@ -74,7 +74,8 @@ if ( $http->hasPostVariable( "ActivateButton" ) )
                                                 $hash );
             if ( $valide )
             {
-                $userSetting =& eZUserSetting::fetch( $UserID );
+                eZDebug::writeError("fsfsfsf");
+                $userSetting =& eZUserSetting::fetch( $userID );
                 $userSetting->setAttribute( "is_enabled", true );
                 $defaultMaxLogin = 10;
                 $userSetting->setAttribute( "max_login", $defaultMaxLogin );
@@ -82,7 +83,41 @@ if ( $http->hasPostVariable( "ActivateButton" ) )
                 $userObject->setAttribute( 'modified', mktime() );
                 $userObject->setAttribute( 'published', mktime() );
                 $userObject->store();
+
+                // Assign user to guest group which has node_id 12
+                $nodeAssignment =& eZNodeAssignment::create( array(
+                                                                 'contentobject_id' => $userID,
+                                                                 'contentobject_version' => $userObject->attribute( 'current_version' ),
+                                                                 'parent_node' => 12,
+                                                                 'main' => 1
+                                                                 )
+                                                             );
+                $nodeAssignment->store();
+
+                $version =&  $userObject->currentVersion();
+                $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+                foreach ( array_keys( $nodeAssignmentList ) as $key )
+                {
+                    $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $userObject->attribute( 'id' ), true );
+                    $nodeID = $nodeAssignment->attribute( 'parent_node' );
+                    $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                    if ( $existingNode  == null )
+                    {
+                         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                         $existingNode =&  $parentNode->addChild( $userID, 0, true );
+                    }
+                    $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+                    $existingNode->setAttribute( 'contentobject_is_published', 1 );
+                    if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
+                    {
+                        $userObject->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+                    }
+                    $userObject->store();
+                    $existingNode->store();
+                }
+
                 $message = "Your account has been activated!";
+                $Module->redirectTo( '/user/login/' );
             }
             else
             {
@@ -93,6 +128,7 @@ if ( $http->hasPostVariable( "ActivateButton" ) )
     else
     {
         $message = "Your account has been activated or you are not allowed to activate it at all";
+        $Module->redirectTo( '/user/login/' );
     }
 }
 
