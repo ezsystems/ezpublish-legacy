@@ -169,7 +169,7 @@ switch( $operationResult['status'] )
                 $roleList = $cacheInfo['role_list'];
                 $discountList = $cacheInfo['discount_list'];
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                if ( eZContentCache::exists( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout,
                                              array( 'view_parameters' => $viewParameters ) ) )
                 {
                     $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
@@ -279,9 +279,8 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
                           array( 'class', $object->attribute( 'contentclass_id' ) ),
                           array( 'depth', $node->attribute( 'depth' ) ),
                           array( 'url_alias', $node->attribute( 'url_alias' ) ),
-                          array( 'class_group', $object->attribute( 'class_group_id_list' ),
-                          array( 'class_identifier', $object->attribute( 'class_identifier' ) )
-                          ) ) );
+                          array( 'class_group', $object->attribute( 'class_group_id_list' ) ),
+                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
     $tpl =& templateInit();
 

@@ -788,6 +788,19 @@ class Cezpdf extends Cpdf
             }
             $lastOnlyDirective = false;
             while (strlen($line)){
+                $noClose = 1;
+                while ( $noClose )
+                {
+                    $f = 1;
+                    $directiveArray = $this->PRVTcheckTextDirective($line,0,$f);
+                    $noClose = $directiveArray['noClose'];
+                    if ( $noClose )
+                    {
+                        $this->addText($left,$this->y,$size,substr( $line, 0, $directiveArray['directive'] ) ,$angle,$adjust);
+                        $line = substr( $line, $directiveArray['directive'] );
+                    }
+                }
+
                 if ($this->y < $this->ez['bottomMargin']){
                     if ($test){
                         $newPage=true;
@@ -811,6 +824,7 @@ class Cezpdf extends Cpdf
                 } else {
                     $right = $this->ez['pageWidth'] - $this->rightMargin() - ((is_array($options) && isset($options['right']))?$options['right']:0);
                 }
+
                 $textInfo = $this->addTextWrap($left,$this->y,$right-$left,$size,$line,$just,0,$test);
                 if ( isset( $textInfo['only_directive'] ) &&
                      $textInfo['only_directive'] === true )
