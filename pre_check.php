@@ -81,6 +81,10 @@ function eZCheckUser( &$siteBasics )
     $http =& eZHTTPTool::instance();
     if ( !$requireUserLogin )
         return null;
+    $uri =& $GLOBALS['eZRequestedURI'];
+    if ( $uri->element() == 'user' and
+         $uri->element( 1 ) == 'register' )
+        return null;
     $check = array( "module" => "user",
                     "function" => "login" );
     if ( !$http->hasSessionVariable( "eZUserLoggedInID" ) )

@@ -164,7 +164,17 @@ $OmitSectionSetting = true;
 
 $includeResult = include( 'kernel/content/attribute_edit.php' );
 if ( $includeResult != 1 )
+{
     return $includeResult;
+}
+$ini =& eZINI::instance();
+eZDebug::writeDebug( $includeResult );
+if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+    $Result['pagelayout'] = 'loginpagelayout.tpl';
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/user', 'User' ) ),
+                         array( 'url' => false,
+                                'text' => ezi18n( 'kernel/user', 'Register' ) ) );
 
 
 /*
