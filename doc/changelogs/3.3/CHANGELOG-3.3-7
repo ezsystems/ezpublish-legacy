@@ -7,6 +7,8 @@ Changes from 3.3-6 to 3.3-7
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
 - Fixed bug: broken datatype.
   http://ez.no/community/bug_reports/broken_datatype.
+- Fixed bug with non-mandatory user datatype, entered mail but not username
+  http://ez.no/community/bug_reports/ezuser_strange_behavior
 
 *Library:
 
