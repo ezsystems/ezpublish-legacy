@@ -11,6 +11,7 @@ Changes from 3.3-3 to 3.3-4
 - Added check if basket item exists before we remove it ( merged from stable/3.2 r5177 )
 - Added possibility to add multiple objects to a objectrelationlist in the browse view
   http://ez.no/community/bug_reports/ezobjectrelationlist_doesn_t_support_multiple_values
+- Added the possibility to set attributes in eZWorkflowType. (Merged from stable/3.2 rev. 5533)
 
 
 *Setup:
@@ -112,6 +113,12 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
 - Fixed a warning in content/browse.php (Merged from stable/3.2 rev. 5525)
   http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
+- Made sure deferred workflow processes with activation_date set to 0 are continue
+  as normal. This makes sure that a deferred multiplexer works properly. (Merged from stable/3.2 rev. 5533)
+- Made sure the workflow cronjob will only lookup master workflow processes
+  and not child processes. (Merged from stable/3.2 rev. 5533)
+- Made sure the multiplexer workflow handler stores the current user ID and restores
+  it if it was previously deferred. (Merged from stable/3.2 rev. 5533)
 
 *Library:
 
