@@ -1,6 +1,7 @@
 Changes from 3.1.0-2 to 3.1-1
 
 *Kernel:
+- Added automatic creation of template override folder if non existing when creating override templates.
 - Fixed problem with activating orders
 - Fixed broken GD image scaling
 - Fixed correct aspect ratio scaling when using GD
