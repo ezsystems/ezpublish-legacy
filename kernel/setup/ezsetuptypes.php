@@ -1707,6 +1707,20 @@ function eZSetupForumRoles( &$roles, $siteType, $parameters )
                                                                          'Section' => array( $sectionID ) ) ) ) );
 }
 
+function eZSetupShopRoles( &$roles, $siteType, $parameters )
+{
+    if ( !in_array( 'shop', $parameters['extra_functionality'] ) )
+        return false;
+    $guestAccountsID = eZSetupRemoteObjectID( $parameters, '5f7f0bdb3381d6a461d8c29ff53d908f' );
+    $anonAccountsID = eZSetupRemoteObjectID( $parameters, '15b256dbea2ae72418ff5facc999e8f9' );
+
+    $roles[] = array( 'name' => 'Anonymous',
+                      'policies' => array( array( 'module' => 'shop',
+                                                  'function' => 'buy' ) ),
+                      'assignments' => array( array( 'user_id' => $guestAccountsID ),
+                                              array( 'user_id' => $anonAccountsID ) ) );
+}
+
 function eZSetupWeblogRoles( &$roles, $siteType, $parameters )
 {
     if ( !in_array( 'weblog', $parameters['extra_functionality'] ) )
@@ -1775,6 +1789,7 @@ function eZSetupRoles( $siteType, $parameters )
 {
     $roles = array();
     eZSetupForumRoles( $roles, $siteType, $parameters );
+    eZSetupShopRoles( $roles, $siteType, $parameters );
     eZSetupWeblogRoles( $roles, $siteType, $parameters );
     return $roles;
 }
