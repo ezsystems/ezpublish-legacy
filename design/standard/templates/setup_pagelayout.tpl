@@ -5,19 +5,33 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"design/admin/stylesheets/admin.css"|ezroot} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/setup.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
+    <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/admin.css"|root} />
+    <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/debug.css"|ezdesign} />
 
 {include uri="design:page_head.tpl"}
 
 </head>
 
-<body style="background: url(/design/standard/images/grid-background.gif);">
+<body>
 
 {* Top box START *}
-
-{include uri="design:page_topbox.tpl" top_logo="ezpublish-logo.gif"}
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="headlogo" width="360">
+    {* Admin logo area *}
+    <img src={"/design/admin/images/logo.gif"|ezroot} alt="" />&nbsp;</td>
+    <td class="headlogo" width="100%">
+    &nbsp;
+    </td>
+   <td class="headlogo" width="50%">
+   &nbsp;</td>
+</tr>
+<tr>
+    <td colspan="11" class="menuheadtoolbar">
+    &nbsp;
+    </td>
+</tr>
+</table>
 
 {* Top box END *}
 
