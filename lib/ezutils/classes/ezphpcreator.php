@@ -260,6 +260,9 @@ $php->addText( 'Print me!' );
      - \a 0, The name of the variable to assign the value to
      - \a 1 (\em optional), The type of assignment, uses the same value as addVariable().
 
+     \param $parameters Optional parameters, can be any of the following:
+            - \a spacing, The number of spaces to place before each code line, default is \c 0.
+
      Example:
      \code
 $php->addMethodCall( 'node', 'name', array(), array( 'name' ) );
@@ -273,7 +276,6 @@ $php->addMethodCall( 'php', 'addMethodCall',
 $name = $node->name();
 $php->addMethodCall( 'node', 'name' );
      \endcode
-
     */
     function addMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false, $parameters = array() )
     {
