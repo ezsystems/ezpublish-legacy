@@ -86,6 +86,8 @@ Changes from 3.4.0beta2 to 3.4.0
   and thus could the source object never be found.
 - Fixed bug of missing i18n in shop/useregister.tpl
   http://www.ez.no/community/bug_reports/i18n_not_found
+- Changed Webdav's 'PUT' to use the parent node's sectionID as sectionID for
+  the newly PUT object.
 
 *Library:
 
