@@ -68,7 +68,8 @@ class eZXMLInputHandler
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
-            $data =& $this->convertInput( $data );
+            // $data =& $this->convertInput( $data );
+            $data =& eZXMLTextType::convertInput( $data );
             $message = $data[1];
             if ( $message != "" )
             {
@@ -141,7 +142,7 @@ class eZXMLInputHandler
     /*!
      \private
     */
-    function &convertInput( &$text )
+/*    function &convertInput( &$text )
     {
 		$message = null;
         // fix newlines
@@ -407,6 +408,7 @@ class eZXMLInputHandler
         $output = array( $domDocument, $message );
         return $output;
     }
+*/
 
     /*!
      Returns the input XML representation of the datatype.
