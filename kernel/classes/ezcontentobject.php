@@ -261,11 +261,14 @@ class eZContentObject extends eZPersistentObject
     */
     function storeNodeModified()
     {
-        $nodeArray =& $this->assignedNodes();
-
-        foreach ( array_keys( $nodeArray ) as $key )
+        if ( is_numeric( $this->ID ) )
         {
-            $nodeArray[$key]->updateAndStoreModified();
+            $nodeArray =& $this->assignedNodes();
+
+            foreach ( array_keys( $nodeArray ) as $key )
+            {
+                $nodeArray[$key]->updateAndStoreModified();
+            }
         }
     }
 
