@@ -117,7 +117,7 @@
 </table>
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
-<input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="Remove" />
 </div>
 
 <div class="buttonblock">

@@ -78,6 +78,27 @@ class eZContentClassGroup extends eZPersistentObject
         return new eZContentClassGroup( $row );
     }
 
+    function hasAttribute( $attr )
+    {
+        return ( $attr == "modifier" or
+                 eZPersistentObject::hasAttribute( $attr ) );
+    }
+    function attribute( $attr )
+    {
+        switch( $attr )
+        {
+            case "modifier":
+            {
+                $user_id = $this->ModifierID;
+            } break;
+            default:
+                return eZPersistentObject::attribute( $attr );
+        }
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $user =& eZUser::fetch( $user_id );
+        return $user;
+    }
+
     function &removeSelected ( $id )
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),

@@ -11,7 +11,7 @@
 <form method="post" action={"content/action"|ezurl}>
 {/section}
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table  cellspacing="5" cellpadding="0" border="0">
 <tr>
 	<td>
 {*	{$node.name|texttoimage('archtura')}  *}
@@ -20,7 +20,7 @@
     </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
-	<td align="right">
+	<td align="left">
         {section show=$is_editable}
           {switch match=$content_object.can_edit}
 	    {case match=1}
@@ -51,7 +51,6 @@
 
     </td>
     <td width="120" valign="top">
-    <h2>Related objects</h2>
     {let name=Object
          related_objects=$content_version.related_contentobject_array}
       {section loop=$Object:related_objects show=$Object:related_objects sequence=array(bglight,bgdark)}
@@ -61,12 +60,10 @@
         </div>
     
       {section-else}
-        <p>None</p>
       {/section}
     {/let}
 
     {section show=$is_standalone}
-      <h2>Content actions</h2>
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
       <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|i18n}" />
@@ -144,7 +141,9 @@
 {/case}
 {/switch}
 {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-<input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
+
+&nbsp;
+<input class="button" type="submit" name="RemoveButton" value="Remove" />
 {/section}
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 

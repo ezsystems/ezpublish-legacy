@@ -12,16 +12,13 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>ID:</th>
     <th>Module:</th>
     <th>Function:</th>
     <th>Limitation:</th>
-
 </tr>
 
 {section name=Policy loop=$policies sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Policy:sequence}">{$Policy:item.id}</td>
 	<td class="{$Policy:sequence}">
 	{$Policy:item.module_name}
 	</td>
@@ -67,8 +64,8 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="AssignRoleButton" value="Assign role" />
-<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="Remove role assignment" />
+<input class="button" type="submit" name="AssignRoleButton" value="Assign" />
+<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="Remove" />
 </div>
 
 </form>

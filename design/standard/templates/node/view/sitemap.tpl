@@ -16,8 +16,7 @@
 <h1>{"Site map"|i18n('content/object')}</h1>
 </div>
 
-<p>{$node_name|texttoimage('archtura')}</p>
-{* 	<h1>{$node_name}</h1> *}
+<h1>{$node_name}</h1>
 
 {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
 <div class="block">
@@ -30,10 +29,7 @@
 
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
-	<th>ID:</th>
 	<th>Object:</th>
-	<th>OwnerID:</th>
-	<th>Version:</th>
 	<th>Section ID:</th>
 	<th>Class:</th>
 	<th colspan="2">&nbsp;</th>
@@ -41,13 +37,10 @@
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Tree:sequence}"><a href={concat("content/view/sitemap/",$Tree:item.node_id)|ezurl}>{$Tree:item.object.id}</a></td>
 	<td class="{$Tree:sequence}">
        	<img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
-	<td class="{$Tree:sequence}">{$Tree:item.object.owner_id}</td>
-	<td class="{$Tree:sequence}">{$Tree:item.object.current_version}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.class_name}</td>
 	<td class="{$Tree:sequence}">
@@ -105,7 +98,8 @@
 {/case}
 {/switch}
 
-<input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
+&nbsp;
+<input class="button" type="submit" name="RemoveButton" value="Remove" />
 
 {/section}
 

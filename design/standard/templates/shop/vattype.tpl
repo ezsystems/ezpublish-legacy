@@ -24,8 +24,8 @@
 </table>
 {/section}
 <div class="buttonblock">
-{include uri="design:gui/button.tpl" name=newvattype id_name=AddVatTypeButton value="Add VAT Type"|i18n('shop')}
-{include uri="design:gui/button.tpl" name=removevattype id_name=RemoveVatTypeButton value="Remove Selected Types"|i18n('shop')}
+{include uri="design:gui/button.tpl" name=newvattype id_name=AddVatTypeButton value="New"|i18n('shop')}
+{include uri="design:gui/button.tpl" name=removevattype id_name=RemoveVatTypeButton value="Remove"|i18n('shop')}
 </div>
 </br>
 {include uri="design:gui/button.tpl" name=savevattype id_name=SaveVatTypeButton value="Store"|i18n('shop')}

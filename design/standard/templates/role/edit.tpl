@@ -48,8 +48,8 @@
 {/section}  
 </table>
 <div class="buttonblock">
-<input class="button" type="submit" name="CreatePolicy" value="Create policy" />
-<input class="button" type="submit" name="RemovePolicies"  value="Remove policy" />
+<input class="button" type="submit" name="CreatePolicy" value="New" />
+<input class="button" type="submit" name="RemovePolicies"  value="Remove" />
 </div>
 
 <div class="buttonblock">
