@@ -2190,9 +2190,9 @@ $rbracket
                         {
                             $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
                         }
-                        $php->addVariable( "phpScriptArray", $phpScriptArray );
+                        $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
                         $resourceVariableNameText = "\$$resourceVariableName";
-                        $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n" );
+                        $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
                         $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
                         $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";

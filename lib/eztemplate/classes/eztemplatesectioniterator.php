@@ -122,7 +122,7 @@ class eZTemplateSectionIterator
      \return the attribute value of either the internal attributes or
              from the item value if the attribute exists for it.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
         {
@@ -136,7 +136,9 @@ class eZTemplateSectionIterator
         else if ( is_object( $item ) and
                   method_exists( $item, 'attribute' ) )
         {
-            return $item->attribute( $name );
+            unset( $tempValue );
+            $tempValue = $item->attribute( $name );
+            return $tempValue;
         }
         return null;
     }
