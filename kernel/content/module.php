@@ -117,6 +117,7 @@ $ViewList["urltranslator"] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
     "script" => "urltranslator.php",
     'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
+                                    'NewForwardURLAliasButton' => 'NewForwardURLAlias',
                                     'StoreURLAliasButton' => 'StoreURLAlias' ),
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );

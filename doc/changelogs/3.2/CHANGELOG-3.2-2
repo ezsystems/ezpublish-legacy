@@ -22,6 +22,8 @@ Changes from 3.2-1 to 3.2-2
 - Fixed search result to show url alias links if this is enabled.
 - Added search node view template which displays the search item. The search result list
   uses this do display the item. This means that it's possible to override the search item representation.
+- Added the possiblity to add forwarding urls to urltranslator page.
+- Made sure all urls passed to the url alias system does not contain leading and trailing slashes (/).
 
 *DataType:
 

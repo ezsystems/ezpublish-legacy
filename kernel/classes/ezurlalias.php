@@ -94,9 +94,31 @@ class eZURLAlias extends eZPersistentObject
                                                                    'default' => '0',
                                                                    'required' => true ) ),
                       "keys" => array( "id" ),
+                      'function_attributes' => array( 'forward_url' => 'forwardURL' ),
                       "increment_key" => "id",
                       "class_name" => "eZURLAlias",
                       "name" => "ezurlalias" );
+    }
+
+    function &attribute( $attributeName )
+    {
+        if ( $attributeName == "forward_url" )
+            return $this->forwardURL();
+        else
+            return eZPersistentObject::attribute( $attributeName );
+    }
+
+    /*!
+     \return the URL alias object this URL alias points to or \c null if no such URL exists.
+    */
+    function &forwardURL()
+    {
+        $url = null;
+        if ( $this->attribute( 'forward_to_id' ) != 0 )
+        {
+            $url =& eZURLAlias::fetch( $this->attribute( 'forward_to_id' ) );
+        }
+        return $url;
     }
 
     /*!
@@ -109,6 +131,8 @@ class eZURLAlias extends eZPersistentObject
     {
         if ( !$forwardToID )
             $forwardToID = 0;
+        $sourceURL = eZURLAlias::cleanURL( $sourceURL );
+        $destinationURL = eZURLAlias::cleanURL( $destinationURL );
         $row = array( 'source_url' => $sourceURL,
                       'destination_url' => $destinationURL,
                       'is_internal' => $isInternal,
@@ -219,13 +243,35 @@ WHERE
 
     /*!
      \static
-      Fetches the URL alias by ID.
+      Fetches the URL alias by source URL \a $url.
+      \param $isInternal boolean which controls whether internal or external urls are fetched.
+      \return the URL alias object or \c null
     */
-    function &fetchByURL( $url, $asObject = true )
+    function &fetchBySourceURL( $url, $isInternal = true, $asObject = true )
     {
+        $url = eZURLAlias::cleanURL( $url );
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
-                                                array( "source_url" => $url ),
+                                                array( "source_url" => $url,
+                                                       'forward_to_id' => 0,
+                                                       'is_internal' => $isInternal ),
+                                                $asObject );
+    }
+
+    /*!
+     \static
+      Fetches the URL alias by destination URL \a $url.
+      \param $isInternal boolean which controls whether internal or external urls are fetched.
+      \return the URL alias object or \c null
+    */
+    function &fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
+    {
+        $url = eZURLAlias::cleanURL( $url );
+        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
+                                                null,
+                                                array( "destination_url" => $url,
+                                                       'forward_to_id' => 0,
+                                                       'is_internal' => $isInternal ),
                                                 $asObject );
     }
 
@@ -257,19 +303,6 @@ WHERE
 
     /*!
      \static
-     Fetches an URL alias by souce URL, if no URL is found false is returned.
-    */
-    function &fetchBySourceURL( $source )
-    {
-        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
-                                                null, array( 'source_url' => $source ), true );
-    }
-
-
-
-
-    /*!
-     \static
      Converts the path \a $urlElement into a new alias url which only conists of characters
      in the range a-z, numbers and _.
      All other characters are converted to _.
@@ -288,9 +321,6 @@ WHERE
                                       $urlElement );
         return $urlElement;
     }
-
-
-
 
     /*!
      \static
@@ -314,9 +344,6 @@ WHERE
         return implode( '/', $result );
     }
 
-
-
-
     /*!
      \static
      Transforms the URI if there exists an alias for it.
@@ -333,6 +360,7 @@ WHERE
         {
             $uriString = $uri;
         }
+        $uriString = eZURLAlias::cleanURL( $uriString );
 
         $db =& eZDB::instance();
         $query = "SELECT destination_url, forward_to_id
@@ -366,6 +394,22 @@ WHERE
             $uri = $uriString;
         }
         return $return;
+    }
+
+    /*!
+     \static
+     Makes sure the URL \a $url does not contain leading and trailing slashes (/).
+     \return the clean URL
+    */
+    function cleanURL( $url )
+    {
+        if ( strlen( $url ) > 0 and
+             $url[0] == '/' )
+            $url = substr( $url, 1 );
+        if ( strlen( $url ) > 0 and
+             $url[strlen( $url ) - 1] == '/' )
+            $url = substr( $url, 0, strlen( $url ) - 1 );
+        return $url;
     }
 }
 
