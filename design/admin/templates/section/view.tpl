@@ -84,8 +84,9 @@
 </table>
 
 {section-else}
+<div class="block">
 <p>{'This section is not used to limit the policies of any role.'|i18n( 'design/admin/section/view' )}</p>
-
+</div>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
@@ -125,9 +126,9 @@
 {/section}
 </table>
 {section-else}
-
+<div class="block">
 <p>{'This section is not used for limiting roles that are assigned to users or user groups. '|i18n( 'design/admin/section/view' )}</p>
-
+</div>
 {/section}
 
 
@@ -165,9 +166,9 @@
 <tr class="{$Objects.sequence}"><td>{$Objects.item.main_node.class_identifier|class_icon( small, $Objects.item.main_node.class_name )}&nbsp;<a href={$Objects.main_node.url_alias|ezurl}>{$Objects.item.name|wash}</a></td></tr>
 {/section}
 {section-else}
-
+<div class="block">
 <p>{'This section is not assigned to any objects.'|i18n( 'design/admin/section/view' )}</p>
-
+</div>
 {/section}
 
 
