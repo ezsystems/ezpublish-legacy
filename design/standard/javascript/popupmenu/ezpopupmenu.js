@@ -126,20 +126,23 @@ var VisibleMenus = new Array();
 
 /*!
    Shows toplevel menu at the current mouseposition + EZPOPMENU_OFFSET.
+   'event' This parameter is for the mouse event.
    'menuID' is the identification of the menu to use.
    'substituteValues' is an associative array. The string value of each item in the menu will have they keys, substituted by the value in this array.
    'menuHeader' If the menu has a header it is replaced with this value.
    'disableID' If this id is found in the list of known disabled for this menu the item is disabled.
  */
-function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID )
+function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, disableID )
 {
     if( !document.getElementById( menuID ) ) return;
+    ezjslib_mouseHandler( event ); // register new mouse position
 
     if ( substituteValues != -1 ) // new topmenu
     { 
 	ezpopmenu_hideAll();
 	CurrentSubstituteValues = substituteValues;
     }
+
     if( disableID != -1 )
     {
 	CurrentDisableID = disableID;
@@ -218,9 +221,9 @@ function ezpopmenu_moveOnScreen( menuID )
   Show sublevel menu. The current nodeid is remembered from the last call to
   ezpopmenu_showTopLevel()
  */
-function ezpopmenu_showSubLevel( menuName )
+function ezpopmenu_showSubLevel( event, menuName )
 {
-    ezpopmenu_showTopLevel( menuName, -1 );
+    ezpopmenu_showTopLevel( event, menuName, -1 );
 }
 
 /*!

@@ -69,6 +69,8 @@ function ezjslib_mouseHandler( e )
     }
 }
 
-// install the mouse handler
-document.onmousemove = ezjslib_mouseHandler;
-if ( document.captureEvents ) document.captureEvents( Event.MOUSEMOVE ); // NN4
+
+// Uncomment the following lines if you want to use the mouseHandler function
+// for tracing. Note that this can be slow on IE.
+//document.onmousemove = ezjslib_mouseHandler;
+//if ( document.captureEvents ) document.captureEvents( Event.MOUSEMOVE ); // NN4
