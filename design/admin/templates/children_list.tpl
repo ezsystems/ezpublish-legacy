@@ -2,21 +2,21 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove"> &nbsp; </th>
+        <th class="remove">&nbsp;</th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/layout ')}</th>
+        <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
+        <th class="class">{'Type'|i18n( 'design/admin/layout ')}:</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
+            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}:</th>
         {/section}
 
         {* Edit column *}
-        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}</th>
+        <th class="edit">&nbsp;</th>
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}

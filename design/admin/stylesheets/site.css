@@ -102,7 +102,7 @@ div#topmenu li a
 
 span.disabled
 {
-    color: #c0c0c0;
+    color: #d0c0c0;
 }
 
 div#path
@@ -278,7 +278,7 @@ div#header-design, div#topmenu-design, div#path-design, div#leftmenu-design, div
 
 div#maincontent-design
 {
-    background-color: #ffffff;
+/*    background-color: #ffffff; */
     margin: 0.5em 0 0 0;
     padding: 0.5em;
     border: 1px solid #d0d0d0;
@@ -289,17 +289,34 @@ div#maincontent-design
 
 div.mainobject-vindow
 {
+    background-color: #ffffff;
     height: 200px;
+    padding: 0 0.5em 0 0.5em;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
     overflow: scroll;
 }
 
 div.viewbar, div.controlbar
 {
-    background-color: #f0f0f0;
-    padding: 0.25em;
-    border: 1px solid #f8f8f8;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
+    background-color: #606060;
+    border: 1px solid #606060;
+    padding: 0 0.25em 0 0.25em;
+    margin: 0;
+}
+
+div.controlbar div.block
+{
+}
+
+div.controlbar input.button
+{
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #a0a0a0;
+    margin: 0;
+    padding: 0;
 }
 
 div.content-view-children div.viewbar
@@ -328,16 +345,6 @@ div.viewbar input.menubutton
     vertical-align: bottom;
 }
 
-div.controlbar
-{
-    margin-top: 1em;    
-}
-
-div.controlbar div.createblock
-{
-    margin-top: 0.5em;    
-}
-
 div.pagenavigator
 {
     text-align: center;
@@ -357,7 +364,7 @@ div.pagenavigator span.next
 
 div.pagenavigator span.disabled
 {
-    color: #c0c0c0;
+    color: #d0d0d0;
 }
 
 div#footer
@@ -384,7 +391,6 @@ input#searchbutton, input.menubutton
 
 div.content-navigation-childlist
 {
-    margin: 0 0 0.5em 0;
 }
 
 div.content-navigation-childlist table.list th
@@ -415,7 +421,7 @@ table.list th.icon, table.list td.icon, table.list th.class, table.list td.class
 table.list-thumbnails
 {
     width: 100%;
-    margin-top: 0.5em;
+    background-color: #ffffff;
 }
 
 table.list-thumbnails td
@@ -520,26 +526,144 @@ div.popupmenu hr
 }
 
 
-/* IE */
-/*
-div#contentstructure ul#content_tree_menu li
+/* --- */
+
+div.context-block, div.menu-block
 {
-    white-space: normal;
-    position: relative;
-    margin-bottom: -1em;
+    border: 1px solid #000000;
 }
 
-div#contentstructure a.nodeicon
+div.context-block
 {
-    position: absolute;
-    top: 2px;
+    margin: 1em 0 2em 0;
 }
 
-div#contentstructure a.nodetext
+div.menu-block
 {
-    display: block;
-    position: relative;
-    margin-top: -1em;
-    margin-left: 36px;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #ffffff;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
 }
-*/
+
+div.menu-block ul
+{
+    margin: 0;
+    padding: 0;
+}
+
+div.menu-block li
+{
+    display: inline;
+    border: 1px solid #ffffff;
+    border-bottom-color: #d0d0d0;
+    border-right-color: #d0d0d0;
+}
+
+div.menu-block a
+{
+    color: #000000;
+    padding: 0 0.5em 0 0.5em;
+    text-decoration: none;
+}
+
+div.menu-block a.enabled
+{
+    color: #ffffff;
+    background-color: #606060;
+}
+
+div.menu-block a:hover
+{
+    color: #ffffff;
+    background-color: #000000;
+    text-decoration: none;
+}
+
+div.context-block h2.title
+{
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #606060;
+    padding: 0.2em;
+    margin: 0;
+}
+
+div.context-block h2.title img
+{
+    vertical-align: middle;
+}
+
+div.context-block table.list
+{
+    margin: 0;
+    padding: 0;
+}
+
+div.context-toolbar
+{
+    background-color: #ffffff;
+}
+
+div.context-toolbar div.block
+{
+    margin: 0;
+}
+
+div.context-toolbar p
+{
+    font-size: 0.85em;
+    margin: 0;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+div.context-toolbar a, div.context-toolbar span.current
+{
+    color: #000000;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
+div.context-toolbar span.current, div.context-toolbar span.current
+{
+    color: #ffffff;
+    background-color: #808080;
+}
+
+div.context-toolbar a:hover
+{
+    color: #ffffff;
+    background-color: #000000;
+    text-decoration: none;
+}
+
+div.context-controlbar
+{
+    background-color: #606060;
+    border: 1px solid #606060;
+    padding: 0 0.25em 0 0.25em;
+    margin: 0;
+}
+
+div.context-controlbar select
+{
+    font-size: 0.85em;
+}
+
+div.controlbar div.block
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
+div.controlbar input.button
+{
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #a0a0a0;
+    margin: 0;
+    padding: 0;
+}

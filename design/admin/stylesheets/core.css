@@ -115,6 +115,7 @@ table.list th, table.list td
 
 table.list th
 {
+    background-color: #c0c0c0;
     font-weight: bold;
     white-space: nowrap;
 }

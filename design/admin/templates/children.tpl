@@ -28,6 +28,10 @@ function deSelectAll()
 </script>
 {/literal}
 
+<div class="context-block">
+
+<h2 class="title">Children</h2>
+
 {* Generic children list for admin interface. *}
 <form name="childList" method="post" action={"content/action"|ezurl}>
 {let item_type=ezpreference( 'items' )
@@ -46,60 +50,58 @@ function deSelectAll()
 {section show=$children}
 
 {* Items per page and view mode selector. *}
-<div class="viewbar">
+<div class="context-toolbar">
+<div class="block"">
 <div class="left">
-Items:
+    <p>
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
-        25
+        <span class="current">25</span>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
+        
         {/case}
 
         {case match=50}
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
-        50
+        <span class="current">50</span>
         {/case}
 
         {case}
-        10
+        <span class="current">10</span>
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
         {/case}
 
         {/switch}
-
+    </p>
 </div>
 <div class="right">
-        View:
+        <p>
         {switch match=ezpreference( 'viewmode' )}
         {case match='thumbnail'}
         <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
-        Thumbnail
+        <span class="current">Thumbnail</span>
         <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
 
         {case match='detailed'}
         <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
         <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
-        Detailed
+        <span class="current">Detailed</span>
         {/case}
 
         {case}
-        List
+        <span class="current">List</span>
         <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
         <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
         {/switch}
+        </p>
 </div>
 <div class="break"></div>
-{include name=navigator
-         uri='design:navigator/google.tpl'
-         page_uri=$node.url_alias
-         item_count=$children_count
-         view_parameters=$view_parameters
-         item_limit=$number_of_items}
+</div>
 </div>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
@@ -119,9 +121,11 @@ Items:
         {/section}
     {/section}
 
+<!--
 {section show=$node.parent}
 <a href={$node.parent.url_alias|ezurl}>[Up one level]</a>
 {/section}
+-->
 
 {* Display the actual list of nodes. *}
 {switch match=ezpreference( 'viewmode' )}
@@ -138,7 +142,7 @@ Items:
     {include uri='design:children_list.tpl'}
 {/case}
 {/switch}
-
+<!--
 {* Select/deselect all links: *}
 {section show=$can_remove}
 <a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
@@ -147,10 +151,19 @@ Items:
 [ {'Select all'|i18n( 'design/admin/layout' )} ] 
 [ {'Deselect all'|i18n( 'design/admin/layout' )} ]
 {/section}
+-->
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=$node.url_alias
+         item_count=$children_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
 
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
-
+<div class="block">
     {* Remove button *}
     {section show=$can_remove}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/layout' )}" />
@@ -166,8 +179,9 @@ Items:
     {section-else}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
-    </div class>
+    </div>
     {/section}
+</div>
 
 {* Else: there are no children, but we still need to start the controlbar div. *}
 {section-else}
@@ -175,7 +189,7 @@ Items:
 {/section}
 
 {* The "Create new here" thing: *}
-<div class="createblock">
+<div class="block">
 {section show=$node.can_create}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
@@ -197,5 +211,4 @@ Items:
 {/section}
 </form>
 </div>
-
 {/let}

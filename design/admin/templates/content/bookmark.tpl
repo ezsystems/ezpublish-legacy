@@ -30,6 +30,7 @@
 <table class="list" cellspacing="0"">
 <tr>
     <th class="tight">
+    &nbsp;
     </th>
     <th class="wide">
         {"Name"|i18n("design/standard/content/view")}:
@@ -42,7 +43,7 @@
     </th>
     {section show=$can_edit}
         <th class="tight">
-             {'Edit'|i18n('design/standard/content/view')}:
+        &nbsp;
         </th>
     {/section}
 </tr>
@@ -78,8 +79,6 @@
 <tr>
 </table>
 
-        <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" src={"trash.png"|ezimage} alt="{'Remove'|i18n('design/standard/content/view')}" />
-
 {*{include name=navigator
          uri='design:navigator/google.tpl'
          page_uri='/content/draft'
@@ -96,7 +95,8 @@
 {/section}
 
 <div class="controlbar">
-    <input class="defaultbutton" type="submit" name="AddButton" value="{'Add bookmarks'|i18n('design/standard/content/view')}" />
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" />
+    <input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n('design/standard/content/view')}" />
 </div>
 
 

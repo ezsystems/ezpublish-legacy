@@ -1,4 +1,4 @@
-{*<div class="content-navigation-childlist"> *}
+<div class="content-navigation-childlist">
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
@@ -100,5 +100,5 @@
 {/section}
 
 </table>
-{*</div>*}
+</div>
 
