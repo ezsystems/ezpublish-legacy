@@ -365,7 +365,17 @@ class eZContentObject extends eZPersistentObject
     function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                    null, null, null, null,
+                                                    array( 'id',
+                                                           'parent_id',
+                                                           'section_id',
+                                                           'owner_id',
+                                                           'contentclass_id',
+                                                           'is_published',
+                                                           'published',
+                                                           'modified',
+                                                           'current_version'
+                                                           ),
+                                                    null, null, null,
                                                     $asObject );
     }
 
