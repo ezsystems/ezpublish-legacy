@@ -337,7 +337,7 @@ class eZTemplateCompiler
             $templateFilename = $resourceData['template-filename'];
             if ( file_exists( $templateFilename ) )
             {
-                $fd = fopen( $templateFilename, 'r' );
+                $fd = fopen( $templateFilename, 'rb' );
                 if ( $fd )
                 {
                     $templateText = fread( $fd, filesize( $templateFilename ) );
@@ -1434,6 +1434,8 @@ else
                                  'is-variable' => false,
                                  'has-operators' => false,
                                  'has-attributes' => false );
+        if ( !is_array( $variableData ) )
+            return $dataInspection;
         $newVariableData = array();
         // Static optimizations, the following items are done:
         // - Recognize static data
@@ -1621,7 +1623,7 @@ else
         $length = $endPosition - $startPosition;
         if ( file_exists( $file ) )
         {
-            $fd = fopen( $file, 'r' );
+            $fd = fopen( $file, 'rb' );
             fseek( $fd, $startPosition );
             $text = fread( $fd, $length );
             fclose( $fd );

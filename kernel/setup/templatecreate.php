@@ -202,7 +202,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
             $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-            $fp = fopen( $fileName, 'r' );
+            $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
                 $templateCode = fread( $fp, filesize( $fileName ) );
@@ -294,7 +294,7 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
             $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-            $fp = fopen( $fileName, 'r' );
+            $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
                 $templateCode = fread( $fp, filesize( $fileName ) );
@@ -344,7 +344,7 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
             $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-            $fp = fopen( $fileName, 'r' );
+            $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
                 $templateCode = fread( $fp, filesize( $fileName ) );
@@ -390,7 +390,7 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
             $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
             $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-            $fp = fopen( $fileName, 'r' );
+            $fp = fopen( $fileName, 'rb' );
             if ( $fp )
             {
                 $templateCode = fread( $fp, filesize( $fileName ) );

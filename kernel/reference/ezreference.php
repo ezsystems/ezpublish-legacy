@@ -46,7 +46,7 @@ function &referenceReadFile( $file, $htmlRoot, $base )
     $pathPrepend = eZSys::wwwDir();
     $indexPathPrepend = eZSys::indexDir();
 
-    $fd = fopen( $file, "r" );
+    $fd = fopen( $file, "rb" );
     $data = fread( $fd, filesize( $file ) );
     fclose( $fd );
     $pos = strpos( $data, "<hr>" );

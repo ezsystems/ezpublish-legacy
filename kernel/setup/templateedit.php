@@ -108,7 +108,7 @@ if ( $module->isCurrentAction( 'Discard' ) )
 // get the content of the template
 {
     $fileName = $template;
-    $fp = fopen( $fileName, 'r' );
+    $fp = fopen( $fileName, 'rb' );
     if ( $fp )
     {
         $templateContent = fread( $fp, filesize( $fileName ) );

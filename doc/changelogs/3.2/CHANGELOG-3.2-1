@@ -30,7 +30,10 @@ Changes from 3.2.0-2 to 3.2-1
   http://ez.no/developer/ez_publish_3/bug_reports/template_creation_does_not_create_missing_dirs
 - Fixed showing correct title for selection datatype
   http://ez.no/developer/ez_publish_3/bug_reports/value_of_datatype_ezselection_not_usable_as_content_object_name_pattern
+- Made sure all fopen used 'rb' when opening, this avoids problems with MS Windows
+  converting newlines in files.
 - Fixed using whitespace in convert path
+  http://ez.no/developer/ez_publish_3/bug_reports/convert_doesnt_work_when_located_in_a_directory_with_spaces_on_windows
 
 *Setup:
 - Var directory is now separate for each installed package, this avoids the cache and storage conflict.

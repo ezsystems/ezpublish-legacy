@@ -196,7 +196,6 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        eZDebug::writeDebug( $depthOperator, "DepthOperator" );
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
                                                       'ClassFilterArray' => $class_filter_array,
@@ -331,7 +330,6 @@ class eZContentFunctionCollection
 
     function canInstantiateClassList( $groupID, $parentNode )
     {
-        eZDebug::writeDebug( $parentNode, "parent node" );
         if ( is_object( $parentNode ) )
         {
             $contentObject = $parentNode->attribute( 'object' );

@@ -65,7 +65,7 @@ class eZFile
     */
     function &splitLines( $file )
     {
-        $fp = @fopen( $file, "r" );
+        $fp = @fopen( $file, "rb" );
         if ( !$fp )
             return false;
         $size = filesize( $file );
