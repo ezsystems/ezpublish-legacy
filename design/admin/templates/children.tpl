@@ -160,11 +160,13 @@ Items:
 
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
-    {section show=$node.object.can_edit}
-        <input class="button-right" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
+    <div class="button-right">
+        {section show=$node.object.can_edit}
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
-        <input class="button-right" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
+    </div class>
     {/section}
 
 {* Else: there are no children, but we still need to start the controlbar div. *}
