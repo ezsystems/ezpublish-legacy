@@ -49,6 +49,9 @@ function stepThree( &$tpl, &$http )
 {
     $testItems = configuration();
 
+	// Set variables to handover to next step
+	$handoverResult = array();
+
     // Get our variables
 	$dbParams = array();
     $dbParams["type"]             = trim( $http->postVariable( "dbType" ) );
@@ -96,21 +99,29 @@ function stepThree( &$tpl, &$http )
 				}break;
 			}
 		}
+		$handoverResult[] = array( "name" => $key, "value" => $testItems[$key]["pass"] ? "true" : "false" );
 	}
 
 	
     // Set template variables
+    $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
+    $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );    
+    $handoverResult[] = array( "name" => "dbName", "value" => $dbParams["database"] );    
+    $handoverResult[] = array( "name" => "dbMainUser", "value" => $dbParams["main_user"] );
+    $handoverResult[] = array( "name" => "dbMainPass", "value" => $dbParams["main_pass"] );    
+    $handoverResult[] = array( "name" => "dbCreateUser", "value" => $dbParams["create_user"] );    
+    $handoverResult[] = array( "name" => "dbDeleteTables", "value" => $dbParams["delete_tables"] );    
+    $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"] );
+    $handoverResult[] = array( "name" => "dbBuiltinEncoding", "value" => $dbParams["builtin_encoding"] );    
+
+    //
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
     $tpl->setVariable( "dbName", $dbParams["database"] );
     $tpl->setVariable( "dbMainUser", $dbParams["main_user"] );
-    $tpl->setVariable( "charset", $dbParams["charset"] );
-    $tpl->setVariable( "builtin_encoding", $dbParams["builtin_encoding"] );
-    $tpl->setVariable( "dbMainPass", $dbParams["main_pass"] );
-    $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );
-    $tpl->setVariable( "dbCreatePass", $dbParams["create_pass"] );
-    $tpl->setVariable( "dbDeleteTables", $dbParams["delete_tables"] );
-	
+    $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );    
+    
+    // The different sections	
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
     $tpl->setVariable( "createUser", false );
@@ -296,6 +307,8 @@ function stepThree( &$tpl, &$http )
 
     if ( $continue )
     {
+        $handoverResult[] = array( "name" => "dbUser", "value" => $dbParams["user"] );
+        $handoverResult[] = array( "name" => "dbPass", "value" => $dbParams["password"] );
         $tpl->setVariable( "continue", true );
     }
     else
@@ -305,12 +318,7 @@ function stepThree( &$tpl, &$http )
         $tpl->setVariable( "errorSuggestion", $error["suggest"] );
     }
     
-	// Set variables to handover to next step
-	$handoverResult = array();
-	foreach( array_keys( $testItems ) as $key )
-	{
-		$handoverResult[] = array( "name" => $key, "pass" => $testItems[$key]["pass"] ? "true" : "false" );
-	}
+
 	$tpl->setVariable( "handover", $handoverResult );
 
 

@@ -46,84 +46,76 @@ function stepFour( &$tpl, &$http, &$ini )
     $testItems = configuration();
 
     // Get our variables
-    $dbType        = $http->postVariable( "dbType" );
-    $dbServer      = $http->postVariable( "dbServer" );
-    $dbName        = $http->postVariable( "dbName" );
-    $dbMainUser    = $http->postVariable( "dbMainUser" );
-    $dbMainPass    = $http->postVariable( "dbMainPass" );
-    $dbCreateUser    = $http->postVariable( "dbCreateUser" );
-    $dbCreatePass    = $http->postVariable( "dbCreatePass" );
-    
-    if ( isset( $dbCreateUser ) and $dbCreateUser != "" )
-    {
-        $dbUser = $dbCreateUser;
-        $dbPass = $dbCreatePass;
-    }
-    else
-    {
-        $dbUser = $dbMainUser;
-        $dbPass = $dbMainPass;
-    }
-    
-    // Write values to site.ini
-    $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", "ez" . $dbType );
-    $ini->setVariable( "DatabaseSettings", "Server", $dbServer );
-    $ini->setVariable( "DatabaseSettings", "Database", $dbName );
-    $ini->setVariable( "DatabaseSettings", "User", $dbUser );
-    $ini->setVariable( "DatabaseSettings", "Password", $dbPass );
-    
-    // deactivate setup
-    $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
-                        
-    
-    // Make backup of site.ini
-    $filePath = $ini->rootDir() . "/site.ini";
-    $ext = ".bak.php";
-    $i=0;
-    while( file_exists( $filePath . $ext ) )
-    {
-        if ( $i < 10 )
-            $ext = ".b0$i.php";
-        else
-            $ext = ".b$i.php";
-        $i++;
-    }
-    if ( file_exists( $filePath . ".php" ) )
-        $backup = copy( $filePath . ".php", $filePath . $ext ); 
-    else
-        $backup = copy( $filePath, $filePath . $ext ); 
-    if ( $backup )
-    {
-        // write back site.ini
-        $savingStatus = $ini->save( "site.ini.php" );
-        if ( $savingStatus )
-        {
-            @unlink( $filePath );
-            $tpl->setVariable( "configWrite", "successful" );
-            $tpl->setVariable( "continue", true );
-        $tpl->setVariable( "url", eZSys::wwwDir() . eZSys::indexFile() );
-        }
-        else
-        {
-            $tpl->setVariable( "configWrite", "unsuccessful" );
-            $tpl->setVariable( "continue", false );
-        }
-        
-        // TODO: do this better and more secure!
-        if ($dir = @opendir("var/cache/ini"))
-        {
-            while ( ( $file = readdir( $dir ) ) !== false )
-            {
-                if($item=="." or $item=="..") continue;
-                unlink( $file );
-            }  
-              closedir( $dir );
-        }
-    }
-    else
-        $tpl->setVariable( "configWrite", "Couldn't backup old site.ini" );
-    
+    $dbParams["type"]     = $http->postVariable( "dbType" );
+    $dbParams["server"]   = $http->postVariable( "dbServer" );
+    $dbParams["database"] = $http->postVariable( "dbName" );
+    $dbParams["user"]     = $http->postVariable( "dbUser" );
+    $dbParams["password"] = $http->postVariable( "dbPass" );
+    $dbParams["charset"]  = $http->postVariable( "dbCharset" );
+          
+	// Complete testItems with the test results and set the handover array
+	$handoverResult = array();
+	foreach( array_keys( $testItems ) as $key )
+	{
+		if ( $http->hasVariable( $key ) )
+		{
+			switch( $http->postVariable( $key ) )
+			{
+				case "true":
+				{
+					$testItems[$key]["pass"] = true;
+				}break;
+
+				case "false":
+				{
+					$testItems[$key]["pass"] = false;
+				}break;
+			}
+			$handoverResult[] = array( "name" => $key, "value" => $testItems[$key]["pass"] ? "true" : "false" );
+		}
+	}
+
+    // Database values
+    $handoverResult[] = array( "name" => "dbType", "value" => $dbParams["type"] );
+    $handoverResult[] = array( "name" => "dbServer", "value" => $dbParams["server"] );
+    $handoverResult[] = array( "name" => "dbName", "value" => $dbParams["database"] );    
+    $handoverResult[] = array( "name" => "dbUser", "value" => $dbParams["user"] );    
+    $handoverResult[] = array( "name" => "dbPass", "value" => $dbParams["password"] );    
+    $handoverResult[] = array( "name" => "dbCharset", "value" => $dbParams["charset"] );    
+
+	$tpl->setVariable( "handover", $handoverResult );
+	
+    $tpl->setVariable( "siteName", $ini->variable( "SiteSettings", "SiteName" ) );
+    $tpl->setVariable( "siteURL", $ini->variable( "SiteSettings", "SiteURL" ) );    
+
+    $charsetArray = getCharsets();
+    $tpl->setVariable( "charsetArray", $charsetArray );
+
     // Show template
     $tpl->display( "design/standard/templates/setup/step4.tpl" );    
+}
+
+
+
+function getCharsets()
+{
+    $fileArray = array();
+    $codepagesDir = eZSys::siteDir() . "/share/codepages/";
+    if ( $handle = opendir( $codepagesDir ) ) 
+    {
+        // This is the correct way to loop over the directory.
+        while ( false !== ( $file = readdir( $handle ) ) ) 
+        { 
+            if ( is_file( $codepagesDir . $file ) )       
+                $fileArray[] = $file;
+        }
+        closedir($handle);
+        asort( $fileArray );
+        return $fileArray;
+    }
+    else
+    {
+        return false;   
+    }
 }
 ?>

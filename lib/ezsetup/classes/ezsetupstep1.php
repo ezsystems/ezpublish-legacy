@@ -267,14 +267,17 @@ function testPermissions( $argArray )
 	// Make sure, we are working in the right directory.
 	$file = eZSys::siteDir() . $argArray["file"];
 
-	if ( ! file_exists( $file ) )
-		return "noexist";
-
+	if ( ! file_exists( $file ) && file_exists( $file . ".php" ) )
+        $file = $file . ".php";
 	
 	// Directories: Test, if we can create a file
 	// Files: Test, if we can open a file in writing mode
 	$pass = true;
-	if ( is_dir( $file ) )
+	if ( ! file_exists( $file ) )
+	{
+	    $pass = false;	    
+	}
+	else if ( is_dir( $file ) )
 	{
 		// TODO: Better temporary file name!
 		$tmpfname = $file . "/ezsetup.tmp";
@@ -343,5 +346,30 @@ function testProgram( $parameters )
 	}
 
 	return array( "status" => $status, "pass" => $pass );
+}
+
+
+function testPHPIni( $parameters )
+{
+	$setting = $parameters["setting"];
+    $state = $parameters["state"];
+    
+    if ( (bool) ini_get( $setting ) == $state )
+        $pass = true;
+    else
+        $pass = false;
+    
+    $status = $pass;
+	return array( "status" => $status, "pass" => $pass );
+}
+
+
+function testMBString( $parameters )
+{
+    include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
+    $pass = eZMBStringMapper::hasMBStringExtension();
+    $status = $pass;
+
+    return array( "status" => $status, "pass" => $pass );
 }
 ?>
