@@ -10,6 +10,9 @@ Changes from 3.0-2 to 3.0-3
 *Library :
 - The handleChecked function in eZHTTPPersistence is now deprecated.
 
+eZ I18N:
+- The charset conversion from UTF8 to codepage has been optimized by inlining some UTF8 code.
+
 eZ XML:
 - Fixed bug of unable to save prefix "xmlns" for attributes.
 
