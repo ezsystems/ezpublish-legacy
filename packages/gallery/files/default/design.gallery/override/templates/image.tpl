@@ -79,7 +79,7 @@
 
 {section show=$is_preview|not}
 <div class="download">
-    <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>[download-icon-todo]</a>
+    <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>download</a>
 </div>
 {/section}
 

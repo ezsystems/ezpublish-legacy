@@ -4,36 +4,36 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072166612">news_brown</name>
-  <summary modified="1072166612">Brown CSS design for news</summary>
+  <name modified="1072188031">news_brown</name>
+  <summary modified="1072188031">Brown CSS design for news</summary>
   <type value="sitestyle"
-        modified="1072166612" />
+        modified="1072188031" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.3-1</version>
     <named-version>3.3</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072166612">
+    <maintainer modified="1072188031">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072166612</timestamp>
+    <timestamp>1072188031</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072166612" />
+              modified="1072188031" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072166612"
+    <entry timestamp="1072188031"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1072166612">
+           modified="1072188031">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -45,29 +45,29 @@
               sub-directory="design/news/stylesheets"
               path="design/news/stylesheets/news.css"
               md5sum="2d822c808241f343dd50310521537834"
-              modified="1072166612" />
+              modified="1072188031" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.jpg"
               path="design/news/images/news_brown.jpg"
               md5sum="2a2a87c9de00a04e4256e64a078585a0"
-              modified="1072166612" />
+              modified="1072188032" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072166612">1.0</number>
-    <release modified="1072166612">1</release>
+    <number modified="1072188031">1.0</number>
+    <release modified="1072188031">1</release>
   </version>
-  <licence modified="1072166612">GPL</licence>
-  <state modified="1072166612">alpha</state>
+  <licence modified="1072188031">GPL</licence>
+  <state modified="1072188031">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072166612" />
+               modified="1072188031" />
     </provides>
     <requires />
     <obsoletes />
@@ -75,12 +75,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072166612"
+          modified="1072188031"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072166612"
+          modified="1072188031"
           collection="default" />
   </uninstall>
 </package>

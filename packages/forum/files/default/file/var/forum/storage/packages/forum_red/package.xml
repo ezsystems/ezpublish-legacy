@@ -4,36 +4,36 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072166621">forum_red</name>
-  <summary modified="1072166621">Red CSS design for forum</summary>
+  <name modified="1072188041">forum_red</name>
+  <summary modified="1072188041">Red CSS design for forum</summary>
   <type value="sitestyle"
-        modified="1072166621" />
+        modified="1072188041" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.3-1</version>
     <named-version>3.3</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072166621">
+    <maintainer modified="1072188041">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072166621</timestamp>
+    <timestamp>1072188041</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072166621" />
+              modified="1072188041" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072166621"
+    <entry timestamp="1072188041"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1072166621">
+           modified="1072188041">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -45,7 +45,7 @@
               sub-directory="design/forum/stylesheets"
               path="design/forum/stylesheets/forum.css"
               md5sum="4f0ddda9a664c2d563477584738343ef"
-              modified="1072166621" />
+              modified="1072188041" />
       </file-list>
       <file-list type="file"
                  variable-name="image">
@@ -53,29 +53,29 @@
               sub-directory="design/forum/images"
               path="design/forum/images/forum_header-red.gif"
               md5sum="9d37f00f3c3ed53a809a8d3ca0bb0ec4"
-              modified="1072166622" />
+              modified="1072188042" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.jpg"
               path="design/forum/images/forum_red.jpg"
               md5sum="833136502168d88c58d705c955935770"
-              modified="1072166622" />
+              modified="1072188042" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072166621">1.0</number>
-    <release modified="1072166621">1</release>
+    <number modified="1072188041">1.0</number>
+    <release modified="1072188041">1</release>
   </version>
-  <licence modified="1072166621">GPL</licence>
-  <state modified="1072166621">alpha</state>
+  <licence modified="1072188041">GPL</licence>
+  <state modified="1072188041">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072166621" />
+               modified="1072188041" />
     </provides>
     <requires />
     <obsoletes />
@@ -83,12 +83,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072166621"
+          modified="1072188041"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072166621"
+          modified="1072188041"
           collection="default" />
   </uninstall>
 </package>

@@ -58,7 +58,7 @@ div#mainmenu ul
 div#mainmenu li
 {
     margin: 0;
-    background-image: url(../images/blue/tab_corner-top_right.gif);
+/*    background-image: url(../images/blue/tab_corner-top_right.gif); */
     background-position: top right;
     background-repeat: no-repeat;
     background-color: #7dbeff;
@@ -71,7 +71,7 @@ div#mainmenu a
     padding: 0 1em 0 1em;
     color: #000000;
     text-decoration: none;
-    background-image: url(../images/blue/tab_corner-top_left.gif);
+/*    background-image: url(../images/blue/tab_corner-top_left.gif); */
     background-position: top left;
     background-repeat: no-repeat;
 }
@@ -107,10 +107,10 @@ div#shoppingmenu li
 
 div#shoppingmenu a
 {
-    padding-left: 2em;
+    padding-left: 1em;
     padding-right: 1em;
     background-image: url(../images/shopping-menu-icon.gif);
-    background-position: top left;
+    background-position: left;
     background-repeat: no-repeat;
     color: #ffffff;
     text-decoration: none;
