@@ -511,6 +511,10 @@ class eZDBInterface
     /*!
       \pure
       Executes an SQL query and returns the result as an array of accociative arrays.
+
+      /param SQL query
+      /param Offset, limit or column limit.
+             Ex: ->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) )
     */
     function &arrayQuery( $sql, $params = array() )
     {

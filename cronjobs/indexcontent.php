@@ -47,22 +47,46 @@ if ( !$isQuiet )
 
 $contentObjects = array();
 $db =& eZDB::instance();
-$entries = $db->arrayQuery( 'SELECT * FROM ezpending_actions WHERE action = "index_object"' );
 
-if ( is_array( $entries ) )
+$offset = 0;
+$limit = 50;
+
+while( true )
 {
-    foreach ( $entries as $entry )
+    $entries = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = "index_object"',
+                                array( 'limit' => $limit,
+                                       'offset' => $offset ) );
+    $inSQL = '';
+
+    if ( is_array( $entries ) && count( $entries ) != 0 )
     {
-        $objectID = $entry['param'];
-        $cli->output( "\tIndexing object ID #$objectID" );
-        $node = eZContentObject::fetch( $objectID );
-        $contentObjects[] = $node;
+        foreach ( $entries as $entry )
+        {
+            $objectID = $entry['param'];
+
+            if ( $inSQL != '' )
+            {
+                $inSQL .= ', ';
+            }
+            $inSQL .= $objectID;
+
+            $cli->output( "\tIndexing object ID #$objectID" );
+            $object = eZContentObject::fetch( $objectID );
+            if ( $object )
+            {
+                eZSearch::removeObject( $object );
+                eZSearch::addObject( $object );
+            }
+        }
+
+        $db->query( 'DELETE FROM ezpending_actions WHERE action = "index_object" AND param IN ( ' . $inSQL . ')' );
+        $offset += $limit;
+    }
+    else
+    {
+        break; // No valid result from ezpending_actions
     }
 }
-
-$db->query( 'DELETE FROM ezpending_actions WHERE action = "index_object"' );
-
-eZSearch::reindexObjectList( $contentObjects );
 
 if ( !$isQuiet )
 {
