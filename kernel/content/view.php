@@ -207,6 +207,9 @@ else
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+    if ( !$object->attribute( 'can_read' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
     $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled );
 }
 
