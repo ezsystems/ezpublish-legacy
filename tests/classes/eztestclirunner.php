@@ -85,7 +85,7 @@ class eZTestCLIRunner extends eZTestRunner
         include_once( 'lib/ezutils/classes/ezcli.php' );
         $cli =& eZCLI::instance();
         $col = 70;
-        $cli->output( $result['name'] . "\033[" . $col . "G", false );
+        $cli->output( $result['name'] . $cli->gotoColumn( $col ), false );
         if ( $result['status'] )
         {
             $cli->output( $cli->stylize( 'success', "[Success]" ) );
