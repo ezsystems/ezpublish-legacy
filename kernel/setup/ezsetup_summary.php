@@ -69,6 +69,20 @@ class eZSetupSummary
     {
         $databaseMap = eZSetupDatabaseMap();
 
+        $checkPassed = true;
+        foreach ( $this->PersistenceList['tests_run'] as $checkValue )
+        {
+            if ( $checkValue != 1 )
+            {
+                $checkPassed = false;
+                break;
+            }
+        }
+        if ( $checkPassed === true )
+        {
+            $this->Tpl->setVariable( 'system_check', 1 );
+        }
+
         $database = $databaseMap[$this->PersistenceList['database_info']['type']]['name'];
         $this->Tpl->setVariable( 'database', $database );
 

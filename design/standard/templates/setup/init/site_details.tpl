@@ -107,7 +107,7 @@
 		  {/section}
 		  </select>
 		{section-else}
-		  <input type="text" size="20" name="eZSetup_site_templates_{$:index}_database" value="{$database_default}" />
+		  <input type="text" size="20" name="eZSetup_site_templates_{$:index}_database" value="{section show=count($SiteTemplate:item.database)}{$SiteTemplate:item.database}{section-else}{$database_default}{/section}" />
 		{/section}
 	      </td>
 	    </tr>

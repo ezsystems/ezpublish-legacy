@@ -47,7 +47,7 @@
   {include uri="design:setup/persistence.tpl"}
 
   <div class="buttonblock">
-      <input class="defaultbutton" type="submit" name="StepButton" value="&gt;&gt;" />
+      <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
   </div>
 
 

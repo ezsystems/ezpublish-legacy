@@ -24,7 +24,7 @@
 
   <div class="buttonblock">
     {include uri="design:setup/init/steps.tpl"}
-    <input class="defaultbutton" type="submit" name="button" value="&gt;&gt;" />	
+    <input class="defaultbutton" type="submit" name="button" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
   </div>
 </form>
 

@@ -2,10 +2,12 @@
 {include uri='design:setup/setup_header.tpl' setup=$setup}
 
 <div align="center">
-  <h1>{"Language selection"|i18n("design/standard/setup/init")}</h1>
+  <h1>{"Language and country selection"|i18n("design/standard/setup/init")}</h1>
 </div>
 <p>
-
+{"Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
+</p>
+<p>
 {section show=$show_unicode_error}
 <div class="warning">
   <h2>{"No Unicode support"|i18n('design/standard/setup/init')}</h2>
@@ -38,15 +40,12 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 
 </table>
 </p>
-<p>
-{"You can choose more than one language to use with eZ publish."|i18n("design/standard/setup/init")}
-</p>
 
 {include uri="design:setup/init/steps.tpl"}
 {include uri="design:setup/persistence.tpl"}
 
 <div class="buttonblock">
-  <input class="defaultbutton" type="submit" name="StepButton" value="&gt;&gt;" />
+  <input class="defaultbutton" type="submit" name="StepButton" value="{"Next"|i18n("design/standard/setup/init", "next button in installation")} &gt;&gt;" />
 </div>
 
 

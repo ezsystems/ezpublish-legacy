@@ -2,6 +2,14 @@
 
 <table border="0" cellspacing="5" cellpadding="0">
 
+{section show=eq( $system_check, 1)}
+  <tr>
+    <td valign="top">{"System check"|i18n("design/standard/setup")}</td>
+    <td>{"Ok"|i18n("design/standard/setup")}</td>
+  </tr>
+{/section}
+
+
 {section show=count($database)}
   <tr>
     <td valign="top">{"Database"|i18n("design/standard/setup")}</td>
