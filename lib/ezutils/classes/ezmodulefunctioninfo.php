@@ -71,13 +71,17 @@ class eZModuleFunctionInfo
 
     function loadDefinition()
     {
+        $definitionFile = null;
         $pathList = eZModule::globalPathList();
-        foreach ( $pathList as $path )
+        if ( $pathList )
         {
-            $definitionFile = $path . '/' . $this->ModuleName . '/function_definition.php';
-            if ( file_exists( $definitionFile ) )
-                break;
-            $definitionFile = null;
+            foreach ( $pathList as $path )
+            {
+                $definitionFile = $path . '/' . $this->ModuleName . '/function_definition.php';
+                if ( file_exists( $definitionFile ) )
+                    break;
+                $definitionFile = null;
+            }
         }
         if ( $definitionFile === null )
         {
