@@ -1,5 +1,4 @@
 {let root_node=fetch( content, node, hash( node_id, 2 ) )}
-{section show=is_set( $module_result.node_id )}
 <div id="topmenu">
     <div id="topmenu-design">
 
@@ -50,6 +49,5 @@
     </div>
 
 </div>
-{/section}
 
 {/let}
