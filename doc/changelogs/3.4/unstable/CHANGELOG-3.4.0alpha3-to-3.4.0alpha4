@@ -13,6 +13,7 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
 *Shop:
 
 *Libraries:
+- Enabled eZTemplate to fall back to read from class property if attribute and hasattribute do not exist
 
 *Unit tests:
 
