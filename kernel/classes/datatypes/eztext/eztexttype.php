@@ -51,8 +51,7 @@ class eZTextType extends eZDataType
     function eZTextType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text field", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'text' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -163,11 +162,6 @@ class eZTextType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
-    }
-
     /*!
      Returns the text.
     */
@@ -208,6 +202,25 @@ class eZTextType extends eZDataType
     {
         $textColumns = $attributeParametersNode->elementTextContentByName( 'text-column-count' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'eztext' ) );
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+
+        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+
+        return $node;
     }
 
 }

@@ -135,8 +135,9 @@ class eZRSSExport extends eZPersistentObject
     */
     function &create( $user_id )
     {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $config =& eZINI::instance( 'site.ini' );
-        $dateTime = time();
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array( 'id' => null,
                       'title' => 'New RSS Export',
                       'site_access' => '',
@@ -160,8 +161,9 @@ class eZRSSExport extends eZPersistentObject
     */
     function store( $export_items = null )
     {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $dateTime = time();
+        $dateTime = eZDateTime::currentTimeStamp();
         $user =& eZUser::currentUser();
 
         if ( isset( $export_items ) && is_array( $export_items ) )

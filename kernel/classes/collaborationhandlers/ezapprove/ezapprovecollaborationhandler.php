@@ -58,6 +58,7 @@ include_once( 'kernel/classes/ezcollaborationitemgrouplink.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/classes/ezcollaborationprofile.php' );
 include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/common/i18n.php' );
 
@@ -189,7 +190,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 //             eZDebug::writeDebug( $collaborationItem, "reactivating approval $approvalID" );
             $collaborationItem->setAttribute( 'data_int3', EZ_COLLABORATION_APPROVE_STATUS_WAITING );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_ACTIVE );
-            $timestamp = time();
+            $timestamp = eZDateTime::currentTimeStamp();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->store();
             $participantList =& eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $approvalID ) );
@@ -272,7 +273,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                 $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             $collaborationItem->setAttribute( 'data_int3', $status );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );
-            $timestamp = time();
+            $timestamp = eZDateTime::currentTimeStamp();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->setIsActive( false );
             $redirectView = 'view';

@@ -102,21 +102,11 @@ class eZDBInterface
         $this->DBWriteConnection = false;
         $this->TransactionCounter = 0;
 
-        $this->OutputTextCodec = null;
-        $this->InputTextCodec = null;
-/*
-        This is pseudocode, there is no such function as
-        mysql_supports_charset() of course
-        if ( $this->UseBuiltinEncoding and mysql_supports_charset( $charset ) )
-        {
-            mysql_session_set_charset( $charset );
-        }
-        else
-*/
+        if ( $this->UseBuiltinEncoding )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
-            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
+            $this->OutputTextCodec =& eZTextCodec::instance( $charset );
+            $this->InputTextCodec =& eZTextCodec::instance( eZTextCodec::internalCharset(), $charset );
         }
 
         $ini =& eZINI::instance();
@@ -244,7 +234,7 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
@@ -599,7 +589,6 @@ class eZDBInterface
     }
 
     /*!
-      \protected
       Returns true if we're connected to the database backend.
     */
     function isConnected()

@@ -1,7 +1,7 @@
 //
 // Definition of eZDebug class
 //
-// <creation-tag>
+// Created on: <04-Feb-2003 13:25:39 gl>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898025">news_blue</name>
+  <summary modified="1075898025">Blue CSS design for news</summary>
+  <type value="sitestyle"
+        modified="1075898025" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898025">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898025</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898025" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898025"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898025">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="cssfile">
+        <file name="news_blue.css"
+              sub-directory="design/news/stylesheets"
+              path="design/news/stylesheets/news_blue.css"
+              md5sum="2369874a5030ffb0f6cf467e51d7d8d6"
+              modified="1075898025" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.jpg"
+              path="design/news/images/news_blue.jpg"
+              md5sum="d6d6598a1e3e742407bf2931d2af3051"
+              modified="1075898025" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898025">1.0</number>
+    <release modified="1075898025">1</release>
+  </version>
+  <licence modified="1075898025">GPL</licence>
+  <state modified="1075898025">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898025" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898025"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898025"
+          collection="default" />
+  </uninstall>
+</package>

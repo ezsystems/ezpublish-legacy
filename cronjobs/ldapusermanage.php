@@ -77,19 +77,6 @@ if ( $LDAPIni->hasVariable( 'LDAPSettings', 'LDAPUserGroupType' ) and  $LDAPIni-
     $LDAPUserGroup = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroup' );
 }
 
-if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
-{
-    $Utf8EncodingSetting = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
-    if ( $Utf8EncodingSetting == "true" )
-        $isUtf8Encoding = true;
-    else
-        $isUtf8Encoding = false;
-}
-else
-{
-    $isUtf8Encoding = false;
-}
-
 $LDAPEqualSign = trim($LDAPIni->variable( 'LDAPSettings', "LDAPEqualSign" ) );
 $LDAPBaseDN = str_replace( $LDAPEqualSign, "=", $LDAPBaseDN );
 
@@ -199,31 +186,14 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         $version =& $contentObject->attribute( 'current' );
         $contentObjectAttributes =& $version->contentObjectAttributes();
 
-        if ( $isUtf8Encoding )
-        {
-            $firstName = utf8_decode( $info[0][$LDAPFirstNameAttribute][0] );
-            $lastName = utf8_decode( $info[0][$LDAPLastNameAttribute][0] );
-            $ldapEMail = utf8_decode( $info[0][$LDAPEmailAttribute][0] );
-        }
-        else
-        {
-            $firstName = $info[0][$LDAPFirstNameAttribute][0];
-            $lastName = $info[0][$LDAPLastNameAttribute][0];
-            $ldapEMail = $info[0][$LDAPEmailAttribute][0];
-        }
-
-        $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
+        $contentObjectAttributes[0]->setAttribute( 'data_text', $info[0][$LDAPFirstNameAttribute][0] );
         $contentObjectAttributes[0]->store();
 
-        $contentObjectAttributes[1]->setAttribute( 'data_text', $lastName );
+        $contentObjectAttributes[1]->setAttribute( 'data_text',  $info[0][$LDAPLastNameAttribute][0] );
         $contentObjectAttributes[1]->store();
 
-        $contentClass =& $contentObject->attribute( 'content_class' );
-        $name = $contentClass->contentObjectName( $contentObject );
-        $contentObject->setName( $name );
-
         $existUser =& eZUser::fetch(  $userID );
-        $existUser->setAttribute('email', $ldapEMail );
+        $existUser->setAttribute('email', $info[0]["mail"][0] );
         $existUser->setAttribute('password_hash', "" );
         $existUser->setAttribute('password_hash_type', 0 );
         $existUser->store();
@@ -233,14 +203,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         {
             if ( $LDAPUserGroupAttributeType == "name" )
             {
-                if ( $isUtf8Encoding )
-                {
-                     $LDAPGroupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                }
-                else
-                {
-                    $LDAPGroupName = $info[0][$LDAPUserGroupAttribute][0];
-                }
+                $LDAPGroupName = $info[0][$LDAPUserGroupAttribute][0];
                 if ( $LDAPGroupName != null )
                 {
                     $LDAPGroupQuery = "SELECT ezcontentobject_tree.node_id
@@ -283,14 +246,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
             }
             else if ( $LDAPUserGroupAttributeType == "id" )
             {
-                if ( $isUtf8Encoding )
-                {
-                    $LDAPGroupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                }
-                else
-                {
-                    $LDAPGroupID = $info[0][$LDAPUserGroupAttribute][0];
-                }
+                $LDAPGroupID = $info[0][$LDAPUserGroupAttribute][0];
                 if ( $LDAPGroupID != null )
                 {
                     $LDAPGroupName = "LDAP " . $groupID;

@@ -308,25 +308,6 @@ class eZDOMNode
     }
 
     /*!
-     \param attribute name
-     \param attribute value
-
-     \return element by attribute value
-    */
-    function &elementByAttributeValue( $attr, $value )
-    {
-        foreach ( array_keys( $this->Children ) as $key )
-        {
-            $child =& $this->Children[$key];
-            if ( $child->attributeValue( $attr ) == $value )
-            {
-                return $child;
-            }
-        }
-        return false;
-    }
-
-    /*!
      \return an array with elements that is named \a $name.
      \sa elementByName
     */
@@ -637,10 +618,6 @@ class eZDOMNode
                     $attrStr = " xmlns" . $attrPrefix . "=\"" . $this->namespaceURI() . "\"";
                 }
 
-                $prefix = "";
-                if ( $this->Prefix != false )
-                    $prefix = $this->Prefix. ":";
-
                 // generate attributes string
                 if ( count( $this->Attributes ) > 0 )
                 {
@@ -652,7 +629,7 @@ class eZDOMNode
                             $attrPrefix = $attr->prefix(). ":";
 
                         if ( $i > 0 )
-                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $prefix . $this->Name ) + 1 + 1  );
+                            $attrStr .= "\n" . $spacer . str_repeat( " ", strlen( $this->Name ) + 1 + 1  );
                         else
                             $attrStr .= ' ';
 
@@ -672,6 +649,11 @@ class eZDOMNode
                     $oneLinerEnd = " /";
                 else
                     $oneLinerEnd = "";
+
+
+                $prefix = "";
+                if ( $this->Prefix != false )
+                    $prefix = $this->Prefix. ":";
 
                 $ret = '';
                 if ( $level > 0 )

@@ -71,458 +71,6 @@ class eZURLOperator
         $this->Sys =& eZSys::instance();
     }
 
-    function operatorTemplateHints()
-    {
-        return array( $this->URLName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => 'always',
-                                               'element-transformation-func' => 'urlTransformation'),
-                      $this->URLRootName => array( 'input' => true,
-                                                   'output' => true,
-                                                   'parameters' => true,
-                                                   'element-transformation' => true,
-                                                   'transform-parameters' => true,
-                                                   'input-as-parameter' => 'always',
-                                                   'element-transformation-func' => 'urlTransformation'),
-                      $this->SysName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => 'always',
-                                               'element-transformation-func' => 'urlTransformation'),
-                      $this->DesignName => array( 'input' => true,
-                                                  'output' => true,
-                                                  'parameters' => true,
-                                                  'element-transformation' => true,
-                                                  'transform-parameters' => true,
-                                                  'input-as-parameter' => 'always',
-                                                  'element-transformation-func' => 'urlTransformation'),
-                      $this->ImageName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => true,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => 'always',
-                                                 'element-transformation-func' => 'urlTransformation'),
-                      $this->ExtName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => 'always',
-                                               'element-transformation-func' => 'urlTransformation'),
-                      $this->ININame => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => false,
-                                               'element-transformation-func' => 'iniTrans')
-                      );
-    }
-
-    function iniTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                       &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        if ( count ( $parameters ) < 2 )
-            return false;
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) &&
-             eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-        {
-            $iniGroup = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $iniVariable = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-
-            $iniName = false;
-            if ( count( $parameters ) > 2 )
-            {
-                $iniName = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
-            }
-
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            if ( $iniName !== false )
-                $ini =& eZINI::instance( $iniName );
-            else
-                $ini =& eZINI::instance();
-
-            $value = '';
-            if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
-            {
-                $value = $ini->variable( $iniGroup, $iniVariable );
-            }
-            else
-            {
-                if ( $iniName === false )
-                    $iniName = 'site.ini';
-                $tpl->error( $operatorName, "No such variable '$iniVariable' in group '$iniGroup' for $iniName" );
-            }
-            return array( eZTemplateNodeTool::createStringElement( $value ) );
-        }
-        else
-            return false;
-    }
-
-    function urlTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $newElements = array();
-        $values = array();
-        $paramCount = 0;
-        $tmpCount = 0;
-        switch( $operatorName )
-        {
-            case $this->URLName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-                {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-
-                    if ( preg_match( "#^[a-zA-Z0-9]+:#", $url ) or
-                         substr( $url, 0, 2 ) == '//' )
-                    {
-                        /* Do nothing */
-                    }
-                    else
-                    {
-                        if ( strlen( $url ) == 0 )
-                        {
-                            $url = '/';
-                        }
-                        else if ( $url[0] == '#' )
-                        {
-                            $url = htmlspecialchars( $url );
-                        }
-                        else if ( $url[0] != '/' )
-                        {
-                            $url = '/' . $url;
-                        }
-
-                        $url = $this->Sys->indexDir() . $url;
-                        $url = preg_replace( "#(//)#", "/", $url );
-                        $url = preg_replace( "#(^.*)(/+)$#", '$1', $url );
-                        $url = htmlspecialchars( $url );
-                    }
-                    $url = $this->applyQuotes( $url, $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $url ) );
-                }
-                $values[] = $parameters[0];
-                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->indexDir() ) );
-                $code = <<<CODEPIECE
-if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or
-    substr( %1%, 0, 2 ) == '//')
-{
-    /* Do nothing */
-}
-else 
-{
-    if ( strlen( %1% ) == 0 )
-    {
-      %1% = '/';
-    }
-    else if ( %1%[0] == '#' )
-    {
-        %1% = htmlspecialchars( %1% );
-    }
-    else if ( %1%[0] != '/' )
-    {
-        %1% = '/' . %1%;
-    };
-    %1% = %2% . %1%;
-    %1% = preg_replace( "#(//)#", "/", %1% );
-    %1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );
-    %1% = htmlspecialchars( %1% );
-}
-if ( %1% == "" )
-    %1% = "/";
-CODEPIECE;
-
-                ++$paramCount;
-            } break;
-
-            case $this->URLRootName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-                {
-                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-
-                    if ( preg_match( "#^[a-zA-Z0-9]+:#", $url ) or
-                         substr( $url, 0, 2 ) == '//' )
-                        $url = '/';
-                    else if ( strlen( $url ) > 0 and
-                              $url[0] != '/' )
-                        $url = '/' . $url;
-
-                    $url = $this->Sys->wwwDir() . $url;
-                    $url = htmlspecialchars( $url );
-
-                    $url = $this->applyQuotes( $url, $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $url ) );
-                }
-                else
-                {
-                    $code ='if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
-                         'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
-                         '  %1% = \'/\';' . "\n" .
-                         'else if ( strlen( %1% ) > 0 and' . "\n" .
-                         '  %1%[0] != \'/\' )' . "\n" .
-                         '%1% = \'/\' . %1%;' . "\n";
-                    $values[] = $parameters[0];
-                }
-
-                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                $code .= '%1% = %2% . %1%;' . "\n" .
-                     '%1% = htmlspecialchars( %1% );' . "\n";
-                ++$paramCount;
-                ++$tmpCount;
-            } break;
-
-            case $this->SysName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-                {
-                    $sysAttribute = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $this->Sys->attribute( $sysAttribute ) ) );
-                }
-                return false;
-            } break;
-
-            case $this->DesignName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-                {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-
-                    $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
-
-                    $designResource =& eZTemplateDesignResource::instance();
-                    $matchKeys = $designResource->keys();
-                    $matchedKeys = array();
-
-                    include_once( 'kernel/common/ezoverride.php' );
-                    $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
-                    if ( $match === null )
-                    {
-                        return false;
-                    }
-
-                    $path = $match["file"];
-                    $path = $this->Sys->wwwDir() . '/' . $path;
-                    $path = htmlspecialchars( $path );
-
-                    $path = $this->applyQuotes( $path, $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $path ) );
-                }
-
-                $code = '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
-                         'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
-                         '%tmp2% = array();' . "\n" .
-                         '%tmp1% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
-                         'if ( %tmp1% === null )' . "\n" .
-                         '{' . "\n" .
-                         '  %tmp1% = array();' . "\n" .
-                         '}' . "\n" .
-                         '%1% = %tmp1%["file"];' . "\n" .
-                         '%1% = %2% . "/" . %1%;' . "\n" .
-                         '%1% = htmlspecialchars( %1% );' . "\n";
-
-                $values[] = $parameters[0];
-                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                $tmpCount += 2;
-                ++$paramCount;
-            } break;
-
-            case $this->ImageName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-                {
-                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                    $skipSlash = false;
-                    if ( count( $parameters ) > 2 )
-                    {
-                        $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
-                    }
-
-                    $bases = eZTemplateDesignResource::allDesignBases();
-                    $no_slash_prefix = false;
-                    if ( $skipSlash == true && strlen( $this->Sys->wwwDir() ) == 0 )
-                        $no_slash_prefix = true;
-
-                    $imageFound = false;
-                    foreach ( $bases as $base )
-                    {
-                        if ( file_exists( $base . "/images/" . $path ) )
-                        {
-                            if ( $no_slash_prefix == true )
-                                $path = $base . '/images/' . $path;
-                            else
-                                $path = $this->Sys->wwwDir() . '/' . $base . '/images/'. $path;
-                            break;
-                        }
-                    }
-
-                    $path = htmlspecialchars( $path );
-
-                    $path = $this->applyQuotes( $path, $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $path ) );
-                }
-                else
-                {
-                    $values = array();
-                    $values[] = $parameters[0];
-
-                    $no_slash_prefix = false;
-                    if ( count ( $parameters ) > 2 )
-                    {
-                        if ( eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true && strlen( $wwwDir ) )
-                        {
-                            $no_slash_prefix = true;
-                        }
-                    }
-
-                    $ini =& eZINI::instance();
-                    $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                    $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
-                    $code = 'foreach ( %3% as %tmp1% )'."\n{\n";
-                    $code .= '    if ( file_exists( %tmp1% . \'/images/\' . %1% ) )' . "\n" . '    {' . "\n";
-                    if ( $no_slash_prefix == true )
-                    {
-                        $code .= '        %output% = %tmp1% . \'/images/\' . %1%;' . "\n";
-                    }
-                    else
-                    {
-                        $code .= '        %output% = %2% . \'/\' . %tmp1% . \'/images/\' . %1%;' . "\n";
-                    }
-                    $code .= "    }\n}\n" . '%output% = htmlspecialchars( %output% );' . "\n";
-
-                    $quote = $this->applyQuotes( '', $parameters[1], true );
-
-                    if ( $quote )
-                    {
-                        $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-                        $code .= '%output% = %4% . %output% . %4%;' . "\n";
-                    }
-
-                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
-                }
-            } break;
-
-            case $this->ExtName:
-            {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-                {
-                    $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-
-                    include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-                    $url =& eZURL::urlByMD5( md5( $origUrl ) );
-                    if ( $url == false )
-                        eZURL::registerURL( $origUrl );
-                    else
-                        $origUrl = $url;
-
-                    $origUrl = $this->applyQuotes( $origUrl, $parameters[1] );
-
-                    return array( eZTemplateNodeTool::createStringElement( $origUrl ) );
-                }
-
-                $code .= 'include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
-                     '%tmp1% =& eZURL::urlByMD5( md5( %1% ) );' . "\n" .
-                     'if ( %tmp1% == false )' . "\n" .
-                     '  eZURL::registerURL( %1% );' . "\n" .
-                     'else' . "\n" .
-                     '  %1% = %tmp1%;' . "\n";
-                $values[] = $parameters[0];
-                ++$tmpCount;
-                ++$paramCount;
-            } break;
-
-        }
-
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
-
-        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
-        {
-            ++$tmpCount;
-            $code .= 'include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
-                 '%tmp' . $tmpCount . '% =& eZHTTPTool::instance();' . "\n" .
-                 'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl )' . "\n" .
-                 '{' . "\n" .
-                 ' %1% = %tmp' . $tmpCount . '%->createRedirectUrl( %1%, array( \'pre_url\' => false ) );' . "\n" .
-                 '}' . "\n";
-        }
-
-        $quote = '"';
-        if ( count( $parameters ) > $paramCount )
-        {
-            $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
-            ++$paramCount;
-            if ( $val == 'single' )
-                $quote = "'";
-            else if ( $val == 'no' )
-                $quote = false;
-        }
-
-        if ( $quote !== false )
-        {
-            $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-            $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
-        }
-
-        $code .= '%output% = %1%;' . "\n";
-
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpCount );
-
-        return $newElements;
-    }
-
-    /*!
-     Apply quotes to static text
-
-     \param static text
-     \param quote parameter
-     \param if set to true, return only quote value
-
-     \return text with quotes
-    */
-    function applyQuotes( $text, &$parameter, $onlyQuote = false )
-    {
-        $quote = "\"";
-        if ( $parameter != null )
-        {
-            $val = eZTemplateNodeTool::elementStaticValue( $parameter );
-            if ( $val == 'single' )
-                $quote = "'";
-            else if ( $val == 'no' )
-                $quote = false;
-        }
-
-        if ( $onlyQuote )
-        {
-            return $quote;
-        }
-
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
-
-        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
-        {
-            $text = $http->createRedirectUrl( $text, array( 'pre_url' => false ) );
-        }
-        if ( $quote !== false )
-            return $quote . $text . $quote;
-
-        return $text;
-    }
-
     /*!
      Returns the operators in this class.
     */
@@ -642,8 +190,7 @@ CODEPIECE;
                     $operatorValue = '/';
                 else if ( $operatorValue[0] == '#' )
                 {
-                    $operatorValue = htmlspecialchars( $operatorValue );
-                    break;
+                    return htmlspecialchars( $operatorValue[0] );
                 }
                 else if ( $operatorValue[0] != '/' )
                 {
@@ -698,27 +245,47 @@ CODEPIECE;
                     if ( $operatorParameters[1] == true && strlen( $this->Sys->wwwDir() ) == 0 )
                         $no_slash_prefix = true;
                 }
-                
-                $bases = eZTemplateDesignResource::allDesignBases();
 
-                $imageFound = false;
-                foreach ( $bases as $base )
+                if ( file_exists( $site_file ) )
                 {
-                    if ( file_exists( $base . "/images/" . $operatorValue ) )
-                    {
-                        if ( $no_slash_prefix == true )
-                            $operatorValue = $base . '/images/' . $operatorValue;
-                        else
-                            $operatorValue = $this->Sys->wwwDir() . '/' . $base . '/images/'. $operatorValue;
-                        $operatorValue = htmlspecialchars( $operatorValue );
-                        $imageFound = true;
-                        break;
-                    }
+                    if ( $no_slash_prefix == true )
+                        $operatorValue = $site_file;
+                    else
+                        $operatorValue = $this->Sys->wwwDir() . "/$site_file";
+                    $operatorValue = htmlspecialchars( $operatorValue );
                 }
-
-                if ( !$imageFound )
+                else
                 {
-                    $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                    $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+
+                    $imageFound = false;
+                    // Check all additional sitedesigns
+                    foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+                    {
+                        if ( file_exists( "design/$additionalSiteDesign/images/$operatorValue" ) )
+                        {
+                            if ( $no_slash_prefix == true )
+                                $operatorValue = "design/$additionalSiteDesign/images/$operatorValue";
+                            else
+                                $operatorValue = $this->Sys->wwwDir() . "/design/$additionalSiteDesign/images/$operatorValue";
+                            $operatorValue = htmlspecialchars( $operatorValue );
+                            $imageFound = true;
+                        }
+                    }
+
+                    if ( !$imageFound )
+                    {
+                        if ( file_exists( $std_file ) )
+                        {
+                            if ( $no_slash_prefix == true )
+                                $operatorValue = $std_file;
+                            else
+                                $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+                            $operatorValue = htmlspecialchars( $operatorValue );
+                        }
+                        else
+                            $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                    }
                 }
             } break;
 
@@ -754,6 +321,16 @@ CODEPIECE;
                 $operatorValue = $this->Sys->wwwDir() . "/$file";
                 $operatorValue = htmlspecialchars( $operatorValue );
 
+//                 $ini =& eZINI::instance();
+//                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );
+//                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
+//                 $std_file = "design/$std_base/$operatorValue";
+//                 $site_file = "design/$site_base/$operatorValue";
+//                 if ( file_exists( $site_file ) )
+//                     $operatorValue = $this->Sys->wwwDir() . "/$site_file";
+//                 else if ( file_exists( $std_file ) )
+//                     $operatorValue = $this->Sys->wwwDir() . "/$std_file";
+//                 else
             } break;
         }
         $quote = "\"";

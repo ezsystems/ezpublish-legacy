@@ -1,0 +1,18 @@
+
+[SiteSettings]
+LoginPage=custom
+
+[SiteAccessSettings]
+RequireUserLogin=true
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+
+[FileSettings]
+VarDir=var/shop
+
+[ContentSettings]
+# What to do when editing an object that has draft versions newer than the current version.
+# Use 'showversions' to select which version to edit, or 'usecurrent' to always edit the current version.
+EditDirtyObjectAction=usecurrent

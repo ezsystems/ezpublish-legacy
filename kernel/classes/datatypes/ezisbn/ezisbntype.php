@@ -49,8 +49,7 @@ class eZISBNType extends eZDataType
     function eZISBNType( )
     {
         $this->eZDataType( EZ_DATATYPESTRING_ISBN, ezi18n( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'isbn' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -82,8 +81,7 @@ class eZISBNType extends eZDataType
                                                                      'The ISBN number is not correct. Please recheck the input' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
-        }
-        else
+        }else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The ISBN format is not valid.' ) );
@@ -95,14 +93,14 @@ class eZISBNType extends eZDataType
     function validateISBNChecksum ( $isbnNr )
     {
         $result=0;
-        for ( $i = 10; $i > 0; $i-- )
+        for ( $i=10;$i>0;$i-- )
         {
             if ( ( $i == 1 ) and ( $isbnNr{9} == 'X' ) )
                 $result += 10 * $i;
             else
                 $result += $isbnNr{10-$i} * $i;
         }
-        if (  $result % 11 == 0 )
+        if (  $result%11 == 0 )
             return true;
         else
             return false;
@@ -160,11 +158,6 @@ class eZISBNType extends eZDataType
     function title( &$data_instance )
     {
         return $data_instance->attribute( "data_text" );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
     }
 }
 

@@ -127,23 +127,13 @@ class eZFilePackageHandler extends eZPackageHandler
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                                   null, null, true, null,
-                                  $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'],
-                                  $fileItem['package-path'] );
+                                  $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
             if ( !in_array( $fileItem['collection'], $collections ) )
                 $collections[] = $fileItem['collection'];
-            $addString = "Adding " . $cli->stylize( 'mark', $fileItem['type'] );
-            if ( $fileItem['type'] != 'design' )
-                $addString .= " " . $cli->stylize( 'file', $fileItem['file'] );
-            if ( $fileItem['type'] == 'design' )
-                $addString .= " " . $cli->stylize( 'dir', $fileItem['design'] );
-            if ( ( $fileItem['type'] == 'design' or $fileItem['type'] == 'ini' ) and
-                 $fileItem['role'] )
-                $addString .= " using role " . $cli->stylize( 'italic', $fileItem['role'] );
+            $addString = "Adding file " . $cli->stylize( 'file', $fileItem['file'] ) . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ")";
             if ( $fileItem['variable-name'] )
-                $addString .= " bound to variable " . $cli->stylize( 'variable', $fileItem['variable-name'] );
-//            . " (" . $fileItem['design'] . ", " . $fileItem['role'] . ")";
-//            if ( $fileItem['variable-name'] )
-//                $addString .= '[' . $fileItem['variable-name'] . ']';
+                $addString .= '[' . $fileItem['variable-name'] . ']';
+            $addString .= " to package";
             $cli->notice( $addString );
         }
         foreach ( $collections as $collection )
@@ -178,14 +168,9 @@ class eZFilePackageHandler extends eZPackageHandler
         $currentRoleValue = false;
         $currentDesign = false;
         $currentCollection = 'default';
-        $packagePath = false;
         if ( $packageType == 'design' )
         {
             $currentType = 'design';
-        }
-        else if ( $packageType == 'dir' )
-        {
-            $currentType = 'dir';
         }
         else if ( $packageType == 'ini' )
         {
@@ -219,7 +204,6 @@ class eZFilePackageHandler extends eZPackageHandler
                          $flag == 'n' or
                          $flag == 'v' or
                          $flag == 'd' or
-                         $flag == 'p' or
                          $flag == 'c' )
                     {
                         if ( strlen( $argument ) > 2 )
@@ -270,10 +254,6 @@ class eZFilePackageHandler extends eZPackageHandler
                         {
                             $currentVariableName = $data;
                         }
-                        else if ( $flag == 'p' )
-                        {
-                            $packagePath = $data;
-                        }
                         else if ( $flag == 'd' )
                         {
                             if ( $currentType != 'design' )
@@ -306,55 +286,23 @@ class eZFilePackageHandler extends eZPackageHandler
                                                    $triedFiles );
                 if ( !$realFilePath )
                 {
-                    $error = ( "File " . $cli->stylize( 'file', $file ) . " does not exist\n" .
-                               "The following files were searched for:\n" );
-                    $files = array();
-                    foreach ( $triedFiles as $triedFile )
-                    {
-                        $files[] = $cli->stylize( 'file', $triedFile );
-                    }
-                    $cli->output( $error . implode( "\n", $files ) );
+                    $cli->error( "File " . $cli->style( 'file' ) . $file . $cli->style( 'file-end' ) . " does not exist\n" .
+                                 "The following files were searched for:\n" .
+                                 implode( "\n", $triedFiles ) );
                     return false;
                 }
                 $fileFileType = false;
                 if ( is_dir( $realFilePath ) )
                     $fileFileType = 'dir';
-                if ( $currentType == 'ini' and
-                     $fileFileType == 'dir' )
-                {
-                    $iniFiles = eZDir::recursiveFind( $realFilePath, "" );
-                    $fileFileType = 'file';
-                    foreach ( $iniFiles as $iniFile )
-                    {
-                        $iniFile = $this->iniMatch( $iniFile, $role, $roleValue, $file, $triedFiles );
-                        if ( !$iniFile )
-                            continue;
-                        $fileList[] = array( 'file' => $file,
-                                             'package-path' => $packagePath,
-                                             'type' => $type,
-                                             'role' => $role,
-                                             'role-value' => $roleValue,
-                                             'variable-name' => $currentVariableName,
-                                             'file-type' => $fileFileType,
-                                             'design' => $design,
-                                             'collection' => $currentCollection,
-                                             'path' => $iniFile );
-                    }
-                }
-                else
-                {
-                    $fileList[] = array( 'file' => $file,
-                                         'package-path' => $packagePath,
-                                         'type' => $type,
-                                         'role' => $role,
-                                         'role-value' => $roleValue,
-                                         'variable-name' => $currentVariableName,
-                                         'file-type' => $fileFileType,
-                                         'design' => $design,
-                                         'collection' => $currentCollection,
-                                         'path' => $realFilePath );
-                }
-                $realPath = false;
+                $fileList[] = array( 'file' => $file,
+                                     'type' => $type,
+                                     'role' => $role,
+                                     'role-value' => $roleValue,
+                                     'variable-name' => $currentVariableName,
+                                     'file-type' => $fileFileType,
+                                     'design' => $design,
+                                     'collection' => $currentCollection,
+                                     'path' => $realFilePath );
             }
         }
         if ( count( $fileList ) == 0 )
@@ -393,21 +341,57 @@ class eZFilePackageHandler extends eZPackageHandler
                     return $file;
                 $triedFiles[] = $file;
             } break;
-            case 'dir':
-            {
-                if ( file_exists( $file ) and is_dir( $file ) )
-                    return $file;
-                $triedFiles[] = $file;
-            } break;
             case 'ini':
             {
                 $filePath = $file;
                 if ( file_exists( $filePath ) )
                 {
-                    $filePath = $this->iniMatch( $filePath, $role, $roleValue, $file, $triedFiles );
-                    if ( $filePath )
+                    if ( preg_match( "#^settings/siteaccess/([^/]+)/([^/]+)$#", $filePath, $matches ) )
+                    {
+                        $role = 'siteaccess';
+                        $roleValue = $matches[1];
+                        $file = $matches[2];
                         return $filePath;
+                    }
+                    else if ( preg_match( "#^settings/override/([^/]+)$#", $filePath, $matches ) )
+                    {
+                        $role = 'override';
+                        $roleValue = false;
+                        $file = $matches[1];
+                        return $filePath;
+                    }
+                    else if ( preg_match( "#^settings/([^/]+)$#", $filePath, $matches ) )
+                    {
+                        $role = 'standard';
+                        $roleValue = false;
+                        $file = $matches[1];
+                        return $filePath;
+                    }
                 }
+                $triedFiles[] = $filePath;
+                $filePath = 'settings';
+                if ( $role == 'siteaccess' )
+                {
+                    $filePath = 'settings/siteaccess';
+                    if ( $roleValue )
+                        $filePath .= '/' . $roleValue;
+                }
+                else if ( $role == 'override' )
+                    $filePath = 'settings/override';
+                $filePath .= '/' . $file;
+                if ( file_exists( $filePath ) )
+                {
+                    return $filePath;
+                }
+                $triedFiles[] = $filePath;
+                $filePath = $file;
+                if ( file_exists( $filePath ) )
+                {
+                    if ( preg_match( "#^.+/([^/]+)$#", $filePath, $matches ) )
+                        $file = $matches[1];
+                    return $filePath;
+                }
+                $triedFiles[] = $filePath;
             } break;
             case 'thumbnail':
             {
@@ -554,56 +538,6 @@ class eZFilePackageHandler extends eZPackageHandler
                 }
             } break;
         }
-        return false;
-    }
-
-    function iniMatch( $filePath, &$role, &$roleValue, &$file )
-    {
-        if ( preg_match( "#^settings/siteaccess/([^/]+)/([^/]+)$#", $filePath, $matches ) )
-        {
-            $role = 'siteaccess';
-            $roleValue = $matches[1];
-            $file = $matches[2];
-            return $filePath;
-        }
-        else if ( preg_match( "#^settings/override/([^/]+)$#", $filePath, $matches ) )
-        {
-            $role = 'override';
-            $roleValue = false;
-            $file = $matches[1];
-            return $filePath;
-        }
-        else if ( preg_match( "#^settings/([^/]+)$#", $filePath, $matches ) )
-        {
-            $role = 'standard';
-            $roleValue = false;
-            $file = $matches[1];
-            return $filePath;
-        }
-        $triedFiles[] = $filePath;
-        $filePath = 'settings';
-        if ( $role == 'siteaccess' )
-        {
-            $filePath = 'settings/siteaccess';
-            if ( $roleValue )
-                $filePath .= '/' . $roleValue;
-        }
-        else if ( $role == 'override' )
-            $filePath = 'settings/override';
-        $filePath .= '/' . $file;
-        if ( file_exists( $filePath ) )
-        {
-            return $filePath;
-        }
-        $triedFiles[] = $filePath;
-        $filePath = $file;
-        if ( file_exists( $filePath ) )
-        {
-            if ( preg_match( "#^.+/([^/]+)$#", $filePath, $matches ) )
-                $file = $matches[1];
-            return $filePath;
-        }
-        $triedFiles[] = $filePath;
         return false;
     }
 

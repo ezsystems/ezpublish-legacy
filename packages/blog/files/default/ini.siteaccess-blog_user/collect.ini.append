@@ -1,0 +1,21 @@
+[InfoSettings]
+# The default information collection type
+Type=form
+# Matches class id or identifier to information collection type
+TypeList[]
+TypeList[poll]=poll
+TypeAttribute=collection_type
+
+
+[EmailSettings]
+SendEmail=enabled
+# Matches class id or identifier to information collection type
+SendEmailList[poll]=disabled
+# Which attribute to look for in the object to determine
+# if an email should be sent.
+# If found the setting will override all other settings.
+SendEmailAttribute=collection_email
+
+[CollectionSettings]
+CollectAnonymousDataList[]
+CollectAnonymousDataList[poll]=enabled

@@ -44,28 +44,7 @@ $module =& $Params["Module"];
 
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' )  )
 {
-    $hasClassInformation = false;
-    $contentClassID = false;
-    $contentClassIdentifier = false;
-    $class = false;
-    if ( $http->hasPostVariable( 'ClassID' ) )
-    {
-        $contentClassID = $http->postVariable( 'ClassID' );
-        if ( $contentClassID )
-            $hasClassInformation = true;
-    }
-    else if ( $http->hasPostVariable( 'ClassIdentifier' ) )
-    {
-        $contentClassIdentifier = $http->postVariable( 'ClassIdentifier' );
-        $class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
-        if ( is_object( $class ) )
-        {
-            $contentClassID = $class->attribute( 'id' );
-            if ( $contentClassID )
-                $hasClassInformation = true;
-        }
-    }
-    if ( ( $hasClassInformation && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
+    if ( ( $http->hasPostVariable( 'ClassID' ) && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
@@ -73,21 +52,22 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             if ( count( $selectedNodeIDArray ) == 0 )
                 return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node =& eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
+            $contentClassID = $http->postVariable( 'ClassID' );
         }
         else
         {
             $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
+            $contentClassID = $http->postVariable( 'ClassID' );
         }
         $parentContentObject =& $node->attribute( 'object' );
 
-        if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), $accessList ) == '1' )
+        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
             $sectionID = $parentContentObject->attribute( 'section_id' );
 
-            if ( !is_object( $class ) )
-                $class =& eZContentClass::fetch( $contentClassID );
+            $class =& eZContentClass::fetch( $contentClassID );
             $contentObject =& $class->instantiate( $userID, $sectionID );
             $nodeAssignment =& eZNodeAssignment::create( array(
                                                              'contentobject_id' => $contentObject->attribute( 'id' ),
@@ -96,10 +76,6 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                                                              'is_main' => 1
                                                              )
                                                          );
-            if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
-            {
-                $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
-            }
             $nodeAssignment->store();
 
             if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
@@ -116,16 +92,16 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         }
 
     }
-    else if ( $hasClassInformation )
+    else if ( $http->hasPostVariable( 'ClassID' ) )
     {
-        if ( !is_object( $class ) )
-            $class =& eZContentClass::fetch( $contentClassID );
+        $class =& eZContentClass::fetch( $http->postVariable( 'ClassID' ) );
+        print( "classid=" . $http->postVariable( 'ClassID' ) . "<br/>" );
         eZContentBrowse::browse( array( 'action_name' => 'NewObjectAddNodeAssignment',
                                         'description_template' => 'design:content/browse_first_placement.tpl',
                                         'keys' => array( 'class' => $class->attribute( 'id' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ) ),
                                         'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ) ),
-                                        'content' => array( 'class_id' => $class->attribute( 'id' ) ),
+                                        'content' => array( 'class_id' => $http->postVariable( 'ClassID' ) ),
                                         'from_page' => "/content/action" ),
                                  $module );
     }
@@ -258,6 +234,8 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
 
+    eZContentObject::expireAllCache();
+
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
@@ -318,17 +296,36 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user =& eZUser::currentUser();
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+
         $nodeID = $http->postVariable( 'ContentNodeID' );
+
+        if ( $http->hasPostVariable( 'ViewMode' ) )
+            $viewMode = $http->postVariable( 'ViewMode' );
+        else
+            $viewMode = 'full';
+
+        if ( !$user->isLoggedIn() )
+        {
+            eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
+                                 'kernel/content/action.php' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+            return;
+        }
+        $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$contentNode->attribute( 'can_read' ) )
+        {
+            eZDebug::writeError( 'User does not have access to subscribue for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
+                                 'kernel/content/action.php' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+            return;
+        }
+
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         if ( !in_array( $nodeID, $nodeIDList ) )
         {
             $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
             $rule->store();
         }
-        if ( $http->hasPostVariable( 'ViewMode' ) )
-            $viewMode = $http->postVariable( 'ViewMode' );
-        else
-            $viewMode = 'full';
         $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
         return;
     }

@@ -96,49 +96,12 @@ class eZTrigger extends eZPersistentObject
                       "name" => "eztrigger" );
     }
 
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
-    {
-        return ( $attr = 'allowed_workflows' ||
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
 
-    function &attribute( $attr )
+    function & attribute( $attr )
     {
-        switch( $attr )
-        {
-            case 'allowed_workflows':
-            {
-                return $this->fetchAllowedWorkflows();
-            } break;
-        }
+
         return eZPersistentObject::attribute( $attr );
     }
-
-    /*!
-     Get array containing allowed workflows for this trigger.
-
-     \return array containing allowed workflows
-    */
-    function &fetchAllowedWorkflows()
-    {
-        $connectionType = '*';
-        if ( $this->attribute( 'connect_type') == 'b' )
-        {
-            $connectionType = 'before';
-        }
-        else if ( $this->attribute( 'connect_type') == 'a' )
-        {
-            $connectionType = 'after';
-        }
-
-        return eZWorkflow::fetchLimited( $this->attribute( 'module_name' ),
-                                         $this->attribute( 'function_name' ),
-                                         $connectionType );
-    }
-
     function & fetch( $triggerID )
     {
         return eZPersistentObject::fetchObject( eZTrigger::definition(),
@@ -146,7 +109,7 @@ class eZTrigger extends eZPersistentObject
                                                 array( 'id' => $triggerID ),
                                                 true);
     }
-    function &fetchList( $parameters = array(), $asObject = true )
+    function & fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
         if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )

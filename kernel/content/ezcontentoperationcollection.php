@@ -106,6 +106,7 @@ class eZContentOperationCollection
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+//        var_dump( $nodeAssignmentList );
 
         $parameters = array();
         foreach ( array_keys( $nodeAssignmentList ) as $key )
@@ -133,8 +134,7 @@ class eZContentOperationCollection
 
     function setVersionStatus( $objectID, $versionNum, $status )
     {
-        $object =& eZContentObject::fetch( $objectID ); 
-
+        $object =& eZContentObject::fetch( $objectID );
         if ( !$versionNum )
         {
             $versionNum = $object->attribute( 'current_version' );
@@ -202,7 +202,8 @@ class eZContentOperationCollection
         $objectName = $class->contentObjectName( $object );
 
         $object->setName( $objectName, $versionNum );
-//        $object->store();  // removed to reduce sql calls. restore if publish bugs occur, by kk
+//        $object->setAttribute( 'name', $objectName );
+        $object->store();
 
         $existingTranslations =& $version->translations( false );
         foreach( array_keys( $existingTranslations ) as $key )
@@ -218,28 +219,22 @@ class eZContentOperationCollection
         $nodeID = $nodeAssignment->attribute( 'parent_node' );
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
-        $existingNode = null;
-
-        if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
-        {
-            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
-        }
-        if ( !$existingNode );
-        {
-            $existingNode =& eZContentObjectTreeNode::findNode( $nodeID , $object->attribute( 'id' ), true );
-        }
+        $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
         $updateSectionID = false;
         if ( $existingNode  == null )
         {
             if ( $fromNodeID == 0 || $fromNodeID == -1)
             {
                 $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-
+/* Adds parent node to recent used content */
+//code start
                 include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                 $user =& eZUser::currentUser();
                 eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
 
-                $existingNode =& $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+//                eZContentBrowseBookmark::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ), EZ_CONTENTBROWSE_BOOKMARK_TYPE_RECENT );
+//code end
+                $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
 
                 if ( $fromNodeID == -1 )
                 {
@@ -258,10 +253,6 @@ class eZContentOperationCollection
             }
         }
 
-        if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
-        {
-            $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
-        }
         $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
         $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
@@ -281,6 +272,12 @@ class eZContentOperationCollection
             $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
         }
 
+/*
+        if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
+        {
+            $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+        }
+*/
         $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
         $version->store();
 
@@ -335,6 +332,7 @@ class eZContentOperationCollection
         $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
 
         $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
+        //    var_dump( $curentVersionNodeAssignments );
         $versionParentIDList = array();
         foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
         {
@@ -356,33 +354,18 @@ class eZContentOperationCollection
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
-        include_once( "lib/ezutils/classes/ezini.php" );
+        include_once( "kernel/classes/ezsearch.php" );
+        $object =& eZContentObject::fetch( $objectID );
+        // Register the object in the search engine.
+        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+        eZSearch::removeObject( $object );
+        eZDebug::accumulatorStop( 'remove_object' );
+        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
+        eZSearch::addObject( $object );
+        eZDebug::accumulatorStop( 'add_object' );
 
-        $ini =& eZINI::instance( 'site.ini' );
-        $delayedIndexing = ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled' );
 
-        if ( $delayedIndexing )
-        {
-            include_once( "lib/ezdb/classes/ezdb.php" );
-
-            $db =& eZDB::instance();
-            $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( "index_object", '. (int)$objectID. ' )' );
-        }
-        else
-        {
-            include_once( "kernel/classes/ezsearch.php" );
-            $object =& eZContentObject::fetch( $objectID );
-            // Register the object in the search engine.
-            eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-            eZSearch::removeObject( $object );
-            eZDebug::accumulatorStop( 'remove_object' );
-            eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-            eZSearch::addObject( $object );
-            eZDebug::accumulatorStop( 'add_object' );
-        }
     }
-
-
     function createNotificationEvent( $objectID, $versionNum )
     {
         include_once( 'kernel/classes/notification/eznotificationevent.php' );

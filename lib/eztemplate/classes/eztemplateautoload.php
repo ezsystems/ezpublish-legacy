@@ -62,8 +62,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'insert',
                                                                'remove',
                                                                'replace',
-                                                               'unique',
-                                                               'array_sum'
+                                                               'unique'
                                                                ) );
 
 
@@ -108,7 +107,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'div', 'mod', 'mul',
                                                                'max', 'min',
                                                                'abs', 'ceil', 'floor', 'round',
-                                                               'int', 'float',
                                                                'count',
                                                                'roman' ) );
 
@@ -179,14 +177,6 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',
                                     'class' => 'eZTemplateCacheFunction',
                                     'function_names' => array( 'cache-block' ) );
-
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetoolbarfunction.php',
-                                    'class' => 'eZTemplateToolbarFunction',
-                                    'function_names' => array( 'tool_bar' ) );
-
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatemenufunction.php',
-                                    'class' => 'eZTemplateMenuFunction',
-                                    'function_names' => array( 'menu' ) );
 
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage

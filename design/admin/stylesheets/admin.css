@@ -559,47 +559,8 @@ div.object div.buttonblock
 /*! Package maintainer page */
 
 
-/*! Ini settings styles */
 
-div.array
-{
-color: #58A600;
-}
-
-div.numeric
-{
-color: #0000FF;
-}
-
-div.enabled
-{
-font-weight: bold;
-}
-
-div.disabled
-{
-color: #9E9E9E;
-font-style: italic;
-}
-
-
-/*! Setup menu styles */
-div.toolbar-setup
-{  
-}
-
-div.toolbar-setup div.toolbar-item
-{ 
-    float:left;
-    padding-left: 20px;
-}
-
-div.toolbar-setup div.toolbar-item img
-{
-    clear: both;
-}
-
-/* Doxygen related styles */
+/* Doxygen related stylse */
 p.footnote
 {
         font-size: 10px;
@@ -676,24 +637,3 @@ span.dox_preprocessor  { color: #806020 }
 span.dox_stringliteral { color: #002080 }
 span.dox_charliteral   { color: #008080 }
 
-div.pagenavigator
-{
-   text-align: center;    
-}
-
-div.pagenavigator span.previous
-{
-   float: left;
-}
-
-div.pagenavigator span.next
-{
-   float: right;
-}
-
-
-
-div.toolbox div.toolbox-design div.toolbox-content div.setup-icon
-{
-    text-align: center;
-}

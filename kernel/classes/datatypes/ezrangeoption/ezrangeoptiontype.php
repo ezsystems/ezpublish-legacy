@@ -116,9 +116,24 @@ class eZRangeOptionType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
     {
-        return true;
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezrangeoption' ) );
+
+        $option = new eZRangeOption( "" );
+
+        $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
+
+        return $node;
     }
 
     /*!

@@ -177,20 +177,6 @@ class eZLDAPUser extends eZUser
             $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
             $LDAPUserGroupAttributeType = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttributeType' );
             $LDAPUserGroupAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttribute' );
-
-            if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
-            {
-                $Utf8Encoding = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
-                if ( $isUtf8Encoding == "true" )
-                    $isUtf8Encoding = true;
-                else
-                    $isUtf8Encoding = false;
-            }
-            else
-            {
-                $isUtf8Encoding = false;
-            }
-
             if ( $LDAPIni->hasVariable( 'LDAPSettings', 'LDAPSearchFilters' ) )
             {
                 $LDAPFilters = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchFilters' );
@@ -308,14 +294,7 @@ class eZLDAPUser extends eZUser
                 {
                     if ( $LDAPUserGroupAttributeType == "name" )
                     {
-                        if ( $isUtf8Encoding )
-                        {
-                            $groupName = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                        }
-                        else
-                        {
-                            $groupName = $info[0][$LDAPUserGroupAttribute][0];
-                        }
+                        $groupName = $info[0][$LDAPUserGroupAttribute][0];
                         if ( $groupName != null )
                         {
                             $groupQuery = "SELECT ezcontentobject_tree.node_id
@@ -332,15 +311,7 @@ class eZLDAPUser extends eZUser
                     }
                     else if ( $LDAPUserGroupAttributeType == "id" )
                     {
-                        if ( $isUtf8Encoding )
-                        {
-                            $groupID = utf8_decode( $info[0][$LDAPUserGroupAttribute][0] );
-                        }
-                        else
-                        {
-                            $groupID = $info[0][$LDAPUserGroupAttribute][0];
-                        }
-
+                        $groupID = $info[0][$LDAPUserGroupAttribute][0];
                         if ( $groupID != null )
                         {
                             $groupName = "LDAP " . $groupID;
@@ -382,35 +353,22 @@ class eZLDAPUser extends eZUser
                                                                  );
                     $nodeAssignment->store();
                     $version =& $contentObject->version( 1 );
-                    $version->setAttribute( 'modified', time() );
+                    $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
                     $version->store();
 
                     $contentObjectID = $contentObject->attribute( 'id' );
                     $contentObjectAttributes =& $version->contentObjectAttributes();
 
-                    if ( $isUtf8Encoding )
-                    {
-                        $firstName = utf8_decode( $info[0][$LDAPFirstNameAttribute][0] );
-                        $lastName = utf8_decode( $info[0][$LDAPLastNameAttribute][0] );
-                        $ldapEMail = utf8_decode( $info[0][$LDAPEmailAttribute][0] );
-                    }
-                    else
-                    {
-                        $firstName = $info[0][$LDAPFirstNameAttribute][0];
-                        $lastName = $info[0][$LDAPLastNameAttribute][0];
-                        $ldapEMail = $info[0][$LDAPEmailAttribute][0];
-                    }
-
-                    $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
+                    $contentObjectAttributes[0]->setAttribute( 'data_text', $info[0][$LDAPFirstNameAttribute][0] );
                     $contentObjectAttributes[0]->store();
 
-                    $contentObjectAttributes[1]->setAttribute( 'data_text', $lastName );
+                    $contentObjectAttributes[1]->setAttribute( 'data_text',  $info[0][$LDAPLastNameAttribute][0] );
                     $contentObjectAttributes[1]->store();
 
                     $user = $this->create( $userID );
                     $user->setAttribute('login', $login );
-                    $user->setAttribute('email', $ldapEMail );
+                    $user->setAttribute('email', $info[0][$LDAPEmailAttribute][0] );
                     $user->setAttribute('password_hash', "" );
                     $user->setAttribute('password_hash_type', 0 );
                     $user->store();
@@ -435,31 +393,14 @@ class eZLDAPUser extends eZUser
                     $version =& $contentObject->attribute( 'current' );
                     $contentObjectAttributes =& $version->contentObjectAttributes();
 
-                    if ( $isUtf8Encoding )
-                    {
-                        $firstName = utf8_decode( $info[0][$LDAPFirstNameAttribute][0] );
-                        $lastName = utf8_decode( $info[0][$LDAPLastNameAttribute][0] );
-                        $ldapEMail = utf8_decode( $info[0][$LDAPEmailAttribute][0] );
-                    }
-                    else
-                    {
-                        $firstName = $info[0][$LDAPFirstNameAttribute][0];
-                        $lastName = $info[0][$LDAPLastNameAttribute][0];
-                        $ldapEMail = $info[0][$LDAPEmailAttribute][0];
-                    }
-
-                    $contentObjectAttributes[0]->setAttribute( 'data_text',  $firstName );
+                    $contentObjectAttributes[0]->setAttribute( 'data_text', $info[0][$LDAPFirstNameAttribute][0] );
                     $contentObjectAttributes[0]->store();
 
-                    $contentObjectAttributes[1]->setAttribute( 'data_text', $lastName );
+                    $contentObjectAttributes[1]->setAttribute( 'data_text',  $info[0][$LDAPLastNameAttribute][0] );
                     $contentObjectAttributes[1]->store();
 
-                    $contentClass =& $contentObject->attribute( 'content_class' );
-                    $name = $contentClass->contentObjectName( $contentObject );
-                    $contentObject->setName( $name );
-
                     $existUser =& eZUser::fetch(  $userID );
-                    $existUser->setAttribute('email', $ldapEMail );
+                    $existUser->setAttribute('email', $info[0]["mail"][0] );
                     $existUser->setAttribute('password_hash', "" );
                     $existUser->setAttribute('password_hash_type', 0 );
                     $existUser->store();

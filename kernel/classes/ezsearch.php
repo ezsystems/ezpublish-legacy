@@ -96,18 +96,6 @@ class eZSearch
 
     /*!
      \static
-     */
-    function reindexObjectList( $contentObjectList )
-    {
-        foreach ( $contentObjectList as $contentObject)
-        {
-            eZSearch::removeObject( $contentObject );
-            eZSearch::addObject( $contentObject );
-        }
-    }
-
-    /*!
-     \static
      Runs a query to the search engine.
     */
     function &search( $searchText, $params, $searchTypes = array() )

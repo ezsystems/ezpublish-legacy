@@ -30,9 +30,7 @@ function help
 	    echo "         --postgresql               Redump using PostgreSQL"
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
-	    echo "         --setval-file=FILE         File to write setval statements to*"
             echo
-	    echo "* Postgresql only"
             echo "Example:"
             echo "$0 tmp data.sql"
 }
@@ -70,11 +68,6 @@ for arg in $*; do
 	    ;;
 	--pause)
 	    USE_PAUSE="yes"
-	    ;;
-	--setval-file=*)
-	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
-		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
-	    fi
 	    ;;
 	--postgresql)
 	    USE_POSTGRESQL="yes"
@@ -137,16 +130,16 @@ USERARG="-u$USER"
 
 if [ "$USE_MYSQL" != "" ]; then
     mysqladmin "$USERARG" -f drop "$DBNAME"
-    mysqladmin "$USERARG" create "$DBNAME" || exit 1
+    mysqladmin "$USERARG" create "$DBNAME"
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" "$DBNAME" < "$sql"
     done
     echo "Importing SQL file $SQLFILE"
-    mysql "$USERARG" "$DBNAME" < "$SQLFILE" || exit 1
+    mysql "$USERARG" "$DBNAME" < "$SQLFILE"
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	mysql "$USERARG" "$DBNAME" < "$sql" || exit 1
+	mysql "$USERARG" "$DBNAME" < "$sql"
     done
 
     if [ ! -z $USE_PAUSE ]; then
@@ -171,22 +164,17 @@ if [ "$USE_MYSQL" != "" ]; then
     fi
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
-    psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
-	exit 1
-    fi
     dropdb "$DBNAME"
-    createdb "$DBNAME" || exit 1
+    createdb "$DBNAME"
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql "$DBNAME" < "$sql" &>/dev/null
     done
     echo "Importing SQL file $SQLFILE"
-    psql "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
+    psql "$DBNAME" < "$SQLFILE" &>/dev/null
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	psql "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql "$DBNAME" < "$sql" &>/dev/null
     done
 
     if [ ! -z $USE_PAUSE ]; then
@@ -209,9 +197,6 @@ else
     else
 	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
     fi
-    if [ -n $SETVALFILE ]; then
-	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select trim(  trailing '_s' from relname) from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
-    fi
     perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
@@ -219,11 +204,9 @@ fi
 if [ $? -eq 0 ]; then
     mv "$SQLFILE" "$SQLFILE"~
     mv "$SQLFILE".0 "$SQLFILE"
-    [ -z $SETVALFILE ] || mv "$SETVALFILE".0 "$SETVALFILE"
     echo "Redumped $SQLFILE using $DBNAME database"
 else
     rm "$SQLFILE".0
-    [ -z $SETVALFILE ] || rm "$SETVALFILE".0
     echo "Failed dumping database $DBNAME to $SQLFILE"
     exit 1
 fi

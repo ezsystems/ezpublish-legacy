@@ -47,8 +47,8 @@ else
 
 if ( isset( $Params["GroupID"] ) )
 {
-    eZDebug::writeDebug( $GroupID, "GroupID" );
     $GroupID = $Params["GroupID"];
+    eZDebug::writeDebug( $GroupID, "GroupID" );
 }
 else
 {
@@ -171,7 +171,6 @@ reset( $event_list );
 while( ( $key = key( $event_list ) ) !== null )
 {
     $event =& $event_list[$key];
-//    var_dump( $event  );
     $eventType =& $event->eventType();
     $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event );
     if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
@@ -205,7 +204,8 @@ if ( $http->hasPostVariable( "WorkflowTypeString" ) )
 $workflow->setVersion( 1, $event_list );
 
 // Set new modification date
-$date_time = time();
+include_once( "lib/ezlocale/classes/ezdatetime.php" );
+$date_time = eZDateTime::currentTimeStamp();
 $workflow->setAttribute( "modified", $date_time );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();

@@ -70,9 +70,9 @@ class eZTemplateSwitchFunction
     /*!
      Initializes the function with the name $name, default is "switch".
     */
-    function eZTemplateSwitchFunction()
+    function eZTemplateSwitchFunction( $name = "switch" )
     {
-        $this->SwitchName = 'switch';
+        $this->Name = $name;
     }
 
     /*!
@@ -80,16 +80,7 @@ class eZTemplateSwitchFunction
     */
     function &functionList()
     {
-        return array( $this->SwitchName );
-    }
-
-    function functionTemplateHints()
-    {
-        return array( $this->SwitchName => array( 'parameters' => true,
-                                                  'static' => false,
-                                                  'transform-children' => false,
-                                                  'tree-transformation' => true,
-                                                  'transform-parameters' => true ) );
+        return array( $this->Name );
     }
 
     /*!
@@ -100,139 +91,17 @@ class eZTemplateSwitchFunction
         return array( "case" => true );
     }
 
-    function templateNodeCaseTransformation( &$tpl, &$newNodes, &$caseNodes, &$caseCounter, &$node, $privateData )
-    {
-        if ( $node[2] == 'case' )
-        {
-            if ( is_array( $node[3] ) && count( $node[3] ) )
-            {
-                if ( isset( $node[3]['match'] ) )
-                {
-                    $match = $node[3]['match'];
-                    $match = eZTemplateCompiler::processElementTransformationList( $tpl, $node, $match, $privateData );
-
-                    $dynamicCase = false;
-                    if ( eZTemplateNodeTool::isStaticElement( $match ) )
-                    {
-                        $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
-                        $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
-                    }
-                    else
-                    {
-                        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $match, false, array(), 'case' . $caseCounter );
-                        $caseText = "\$case" . $caseCounter;
-                        ++$caseCounter;
-                        $dynamicCase = true;
-                    }
-
-                    $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    case $caseText:\n    {" );
-                    if ( $dynamicCase )
-                        $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "        unset( $caseText );" );
-                }
-                else if ( isset( $node[3]['in'] ) )
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    default:\n    {" );
-            }
-
-            $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-            $children = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $children, $privateData );
-
-            $caseNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 8 );
-            $caseNodes = array_merge( $caseNodes, $children );
-            $caseNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 8 );
-
-            $caseNodes[] = eZTemplateNodeTool::createCodePieceNode( "    } break;" );
-        }
-    }
-
-
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
-    {
-        $newNodes = array();
-        $namespaceValue = false;
-        $varName = 'match';
-
-        if ( !isset( $parameters['match'] ) )
-        {
-            return false;
-        }
-
-        if ( isset( $parameters['name'] ) )
-        {
-            $nameData = $parameters['name'];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
-                return false;
-            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
-        }
-
-        if ( isset( $parameters['var'] ) )
-        {
-            $varData = $parameters['var'];
-            if ( !eZTemplateNodeTool::isStaticElement( $varData ) )
-                return false;
-            $varName = eZTemplateNodeTool::elementStaticValue( $varData );
-        }
-
-        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),
-                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ) );
-        $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'],
-                                                              eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                              array( 'variable-name' => 'match',
-                                                                     'text-result' => false ) );
-        if ( isset( $parameters['name'] ) )
-        {
-            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
-        }
-
-        $tmpNodes = array();
-        $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        $caseNodes = array();
-        $caseCounter = 1;
-        foreach ( $children as $child )
-        {
-            $childType = $child[0];
-            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
-            {
-                if ( $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData ) === false )
-                {
-                    return false;
-                }
-            }
-        }
-        $newNodes = array_merge( $newNodes, $tmpNodes );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{" );
-        $newNodes = array_merge( $newNodes, $caseNodes );
-
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'match' );
-        if ( isset( $parameters['name'] ) )
-        {
-            $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
-        }
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
-
-        return $newNodes;
-    }
-
     /*!
      Processes the function with all it's children.
     */
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+//         $text = "";
         $children = $functionChildren;
         $params = $functionParameters;
         $name = "";
         if ( isset( $params["name"] ) )
             $name = $tpl->elementValue( $params["name"], $rootNamespace, $currentNamespace, $functionPlacement );
-        $varName = false;
-        if ( isset( $params["var"] ) )
-            $varName = $tpl->elementValue( $params["var"], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $currentNamespace != "" )
         {
             if ( $name != "" )
@@ -244,7 +113,7 @@ class eZTemplateSwitchFunction
             $match = $tpl->elementValue( $params["match"], $rootNamespace, $currentNamespace, $functionPlacement );
         else
         {
-            $tpl->missingParameter( $this->SwitchName, "match" );
+            $tpl->missingParameter( $this->Name, "match" );
             return false;
         }
 
@@ -278,9 +147,10 @@ class eZTemplateSwitchFunction
                                 }
                             }
                             else
-                            {
-                                $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping" );
-                            }
+                                $tpl->warning( $this->Name, "Match value $child_match already set, skipping" );
+//                             }
+//                             else
+//                                 $tpl->warning( $this->Name, "Match value $child_match for case is not set" );
                         }
                         else if ( isset( $child_params["in"] ) )
                         {
@@ -306,6 +176,7 @@ class eZTemplateSwitchFunction
                                     reset( $child_in );
                                     while( ( $ckey = key( $child_in ) ) !== null )
                                     {
+//                                         if ( $child_in[$ckey][$key_name] == $match )
                                         if ( !is_array( $key_name ) )
                                             $key_name_array = array( $key_name );
                                         else
@@ -320,6 +191,9 @@ class eZTemplateSwitchFunction
                                     }
                                 }
                             }
+//                             }
+//                             else
+//                                 $tpl->warning( $this->Name, "In value $child_in for case is not set" );
                         }
                         else
                         {
@@ -328,7 +202,7 @@ class eZTemplateSwitchFunction
                     } break;
                     default:
                     {
-                        $tpl->warning( $this->SwitchName, "Only case functions are allowed as children, found \""
+                        $tpl->warning( $this->Name, "Only case functions are allowed as children, found \""
                                        . $child[2] . "\"" );
                     } break;
                 }
@@ -339,23 +213,17 @@ class eZTemplateSwitchFunction
             }
             else
             {
-                $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
+                $tpl->warning( $this->Name, "Only functions are allowed as children, found \""
                                . $childType . "\"" );
             }
             next( $children );
         }
-
         if ( is_null( $case ) )
-        {
             $case =& $def;
-        }
 
         if ( $case !== null )
         {
-            if ( $varName !== false )
-                $tpl->setVariable( $varName, $match, $name );
-            else
-                $tpl->setVariable( "match", $match, $name );
+            $tpl->setVariable( "match", $match, $name );
             $case_children =& $case[1];
             if ( $case_children )
             {
@@ -369,7 +237,7 @@ class eZTemplateSwitchFunction
             }
         }
         else
-            $tpl->warning( $this->SwitchName, "No case match and no default case" );
+            $tpl->warning( $this->Name, "No case match and no default case" );
         return;
     }
 
@@ -382,7 +250,7 @@ class eZTemplateSwitchFunction
     }
 
     /// The name of the switch function
-    var $SwitchName;
+    var $Name;
 }
 
 ?>

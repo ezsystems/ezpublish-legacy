@@ -44,6 +44,7 @@
 
 include_once( 'kernel/classes/ezinformationcollectionattribute.php' );
 include_once( 'lib/ezutils/classes/ezsys.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZInformationCollection extends eZPersistentObject
 {
@@ -529,7 +530,7 @@ class eZInformationCollection extends eZPersistentObject
     */
     function &create( $contentObjectID, $userIdentifier )
     {
-        $timestamp = time();
+        $timestamp = eZDateTime::currentTimeStamp();
         $row = array(
             'contentobject_id' => $contentObjectID,
             'user_identifier' => $userIdentifier,

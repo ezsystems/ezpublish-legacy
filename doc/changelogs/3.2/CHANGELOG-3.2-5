@@ -66,6 +66,15 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/debug_output
 - Fixed checking of input ID to content/download, previously it was
   used unchecked causing a crash on the page.
+- Fixed bug when running eZ publish in VirtualHost mode and applying ".php" in the URL. This could cause wwwDir
+  to be set incorrectly. Since there is no clean way to detect this, a new setting (ForceVirtualHost) has
+  been added to site.ini which enable/dissable this workaround
+  http://ez.no/community/bug_reports/ez_no_error_page_not_using_site_design
+- Fixed bug with the template variable $node.object.can_create_class_list. This variable could include incorrect
+  classIDs if access was restricted by policyrules with Subtree limits
+  http://ez.no/community/bug_reports/can_create_class_list_incorrect
+- Fixed bug. Used depreated content.ini setting AvailableSiteDesigns when cleaning up contentcache
+  http://ez.no/community/bug_reports/ezcontentcache
 - Fixed bug. When sending arrays to the repeat operator the output was
   repeated too many times.
   http://ez.no/community/bug_reports/repeat_operator_for_arrays_repeats_too_much
@@ -99,12 +108,15 @@ Changes from 3.2-4 to 3.2-5
   need for texttoimage to work properly.
 
 *Library :
+- Fixed case bug in the Timeout variable in eZSOAPClient.
 
 eZ Locale:
 - Fixed eZFloat datatype to to handle locale settings correctly.
 - Fixed eZPrice to handle locale settings correctly.
 - Fixed shop->discount to handle locale settings correctly.
   http://ez.no/community/bug_reports/floats_and_decimal_point_separator
+- Removed space between dollar sign and pricevalue in eng-US
+  http://ez.no/community/bug_reports/space_after_dollar_sign_should_be_removed
 
 eZ template:
 - Some changes to the compiled templates. Removed the references when accessing attributes which fixed some of the problems with the image system.

@@ -36,7 +36,7 @@
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 // General status OK return codes:
 define( "EZ_WEBDAV_OK",                   10 ); //
@@ -123,7 +123,7 @@ function eZWebDavAppendToLog( $logString )
     $fileName = $varDir . '/' . $logDir . '/' . $logName;
     if ( !file_exists( $varDir . '/' . $logDir ) )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
     }
 

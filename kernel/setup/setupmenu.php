@@ -45,6 +45,15 @@ $contentIni =& eZINI::instance( 'content.ini' );
 $Module->setTitle( ezi18n( 'kernel/setup', 'Setup menu' ) );
 $tpl =& templateInit();
 
+$setupNodeID = $contentIni->variable( 'NodeSettings', 'SetupRootNode' );
+
+$menuObjects =& eZContentObjectTreeNode::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                          null,
+                                                          array( 'parent_node_id' => $setupNodeID ) );
+
+$tpl->setVariable( 'menu_objects', $menuObjects );
+$tpl->setVariable( 'module', $Module );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:setup/setupmenu.tpl' );
 $Result['path'] = array( array( 'url' => '/setup/menu',

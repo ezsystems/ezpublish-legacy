@@ -48,8 +48,14 @@ include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
 include_once( 'kernel/classes/eztrigger.php' );
 
-include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
+define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS', 5 );
+define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD', 6 );
+define( 'EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED', 7 );
+define( 'EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER', 8 );
 
+define( 'EZ_MODULE_OPERATION_CONTINUE', 1 );
+define( 'EZ_MODULE_OPERATION_CANCELED', 2 );
+define( 'EZ_MODULE_OPERATION_HALTED', 3 );
 
 class eZModuleOperationInfo
 {
@@ -231,7 +237,6 @@ class eZModuleOperationInfo
 //                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
             if ( is_array( $resultArray ) and
-                 isset( $resultArray['status'] ) and 
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
 //                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
@@ -538,7 +543,7 @@ class eZModuleOperationInfo
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
-                            if ( $result != null && ( !isset( $result['status'] ) || !$result['status'] ) )
+                            if ( $result != null && !$result['status'] )
                             {
                                 return $result;
                             }

@@ -204,7 +204,7 @@ class eZImageVariation extends eZPersistentObject
         }
 
         include_once( "lib/ezutils/classes/ezini.php" );
-        include_once( "lib/ezfile/classes/ezdir.php" );
+        include_once( "lib/ezutils/classes/ezdir.php" );
 
         $ini =& eZINI::instance();
         $sys =& eZSys::instance();

@@ -71,7 +71,8 @@ class eZHTTPTool
     */
     function setPostVariable( $var, $value )
     {
-        $_POST[$var] = $value;
+        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
+        $post_vars[$var] =& $value;
     }
 
     /*!
@@ -80,9 +81,10 @@ class eZHTTPTool
     */
     function &postVariable( $var )
     {
+        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
         $ret = null;
-        if ( isset( $_POST[$var] ) )
-            $ret =& $_POST[$var];
+        if ( isset( $post_vars[$var] ) )
+            $ret =& $post_vars[$var];
         else
             eZDebug::writeWarning( "Undefined post variable: $var",
                                    "eZHTTPTool" );
@@ -93,9 +95,10 @@ class eZHTTPTool
      \return true if the HTTP post variable $var exist.
      \sa hasVariable
     */
-    function hasPostVariable( $var )
+    function &hasPostVariable( $var )
     {
-        return isset( $_POST[$var] );
+        $post_vars =& $GLOBALS["HTTP_POST_VARS"];
+        return isset( $post_vars[$var] );
     }
 
     /*!
@@ -104,7 +107,8 @@ class eZHTTPTool
     */
     function setGetVariable( $var, $value )
     {
-        $_GET[$var] = $value;
+        $get_vars =& $GLOBALS["_GET"];
+        $get_vars[$var] =& $value;
     }
 
     /*!
@@ -113,9 +117,10 @@ class eZHTTPTool
     */
     function &getVariable( $var )
     {
+        $get_vars =& $GLOBALS["_GET"];
         $ret = null;
-        if ( isset( $_GET[$var] ) )
-            $ret =& $_GET[$var];
+        if ( isset( $get_vars[$var] ) )
+            $ret =& $get_vars[$var];
         else
             eZDebug::writeWarning( "Undefined get variable: $var",
                                    "eZHTTPTool" );
@@ -126,25 +131,24 @@ class eZHTTPTool
      \return true if the HTTP get variable $var exist.
      \sa hasVariable
     */
-    function hasGetVariable( $var )
+    function &hasGetVariable( $var )
     {
-        return isset( $_GET[$var] );
+        $get_vars =& $GLOBALS["_GET"];
+        return isset( $get_vars[$var] );
     }
 
     /*!
-     \return true if the HTTP post/get variable $var exists.
+     \return true if the HTTP post/get variable $var exist.
      \sa hasPostVariable
     */
     function hasVariable( $var )
     {
 
-        if ( isset( $_POST[$var] ) )
-        {
-            return isset( $_POST[$var] );
-        }
+        if ( isset( $GLOBALS["HTTP_POST_VARS"][$var] ) )
+            return isset( $GLOBALS["HTTP_POST_VARS"][$var] );
         else
         {
-            return isset( $_GET[$var] );
+            return isset( $GLOBALS["_GET"][$var] );
         }
     }
 
@@ -152,22 +156,16 @@ class eZHTTPTool
      \return a reference to the HTTP post/get variable $var, or null if it does not exist.
      \sa postVariable
     */
-    function &variable( $var )
+    function variable( $var )
     {
-        if ( isset( $_POST[$var] ) )
-        {
-            return $_POST[$var];
-        }
+        if ( isset( $GLOBALS["HTTP_POST_VARS"][$var] ) )
+            return $GLOBALS["HTTP_POST_VARS"][$var];
         else
         {
-            if ( isset( $_GET[$var] ) )
-            {
-                return $_GET[$var];
-            }
+            if ( isset( $GLOBALS["_GET"][$var] ) )
+                return $GLOBALS["_GET"][$var];
             else
-            {
                 return false;
-            }
         }
     }
 
@@ -193,9 +191,9 @@ class eZHTTPTool
     function &attribute( $attr )
     {
         if ( $attr == "post" )
-            return $_POST;
+            return $GLOBALS["HTTP_POST_VARS"];
         if ( $attr == "get" )
-            return $_GET;
+            return $GLOBALS["_GET"];
         if ( $attr == "session" )
         {
             eZSessionStart();
@@ -217,153 +215,6 @@ class eZHTTPTool
             $instance->createPostVarsFromImageButtons();
         }
         return $instance;
-    }
-
-    /*!
-     \static
-
-     Sends a http request to the specified host. Using https:// requires PHP 4.3.0, and compiled in OpenSSL support.
-
-     \param http/https address, only path to send request to eZ publish.
-            examples: http://ez.no, https://secure.ez.no, ssl://secure.ez.no, content/view/full/2
-     \param port, default 80
-     \param post parameters array (optional), if no post parameters are present, a get request will be send.
-     \param user agent, default will be eZ publish
-     \param passtrough, will send result directly to client, default false
-
-     \return result if http request, if pipetrough, program will end here.
-    */
-    function &sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ publish', $passtrough = true )
-    {
-        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
-        $protocol = $matches[2];
-        $host = $matches[3];
-        $path = $matches[4];
-        if ( !$path )
-        {
-            $path = '/';
-        }
-
-        $data = '';
-        if ( $postParameters )
-        {
-            $method = 'POST';
-            $dataCount = 0;
-            foreach( array_keys( $postParameters ) as $paramName )
-            {
-                if ( $dataCount > 0 )
-                {
-                    $data .= '&';
-                }
-                ++$dataCount;
-                if ( !is_array( $postParameters[$paramName] ) )
-                {
-                    $data .= urlencode( $paramName ) . '=' . urlencode( $postParameters[$paramName] );
-                }
-                else
-                {
-                    foreach( $postParameters[$paramName] as $value )
-                    {
-                        $data .= urlencode( $paramName ) . '[]=' . urlencode( $value );
-                    }
-                }
-            }
-        }
-        else
-        {
-            $method = 'GET';
-        }
-
-        if ( !$host )
-        {
-            $host = $_SERVER['HTTP_HOST'];
-            $filename = $host;
-            if ( $path[0] != '/' )
-            {
-                $path = $_SERVER['SCRIPT_NAME'] . '/' . $path;
-            }
-            else
-            {
-                $path = $_SERVER['SCRIPT_NAME'] . $path;
-            }
-        }
-        else{
-            if ( !$protocol || $protocol == 'https://' )
-            {
-                $filename = 'ssl://' . $host;
-            }
-            else
-            {
-                $filename = 'tcp://' . $host;
-            }
-        }
-
-        $fp = fsockopen( $filename, $port );
-
-        $request = $method . ' ' . $path . ' ' . 'HTTP/1.1' . "\r\n" .
-             "Host: $host\r\n" .
-             "Accept: */*\r\n" .
-             "Content-type: application/x-www-form-urlencoded\r\n" .
-             "Content-length: " . strlen( $data ) . "\r\n" .
-             "User-Agent: $userAgent\r\n" .
-             "Pragma: no-cache\r\n" .
-             "Connection: close\r\n\r\n";
-
-        fputs( $fp, $request );
-        if ( $method == 'POST' )
-        {
-            fputs( $fp, $data );
-        }
-
-        if ( $passtrough )
-        {
-            ob_end_clean();
-            $header = true;
-
-            $character = '';
-            while( $header )
-            {
-                $buffer = $character;
-                while ( !feof( $fp ) )
-                {
-                    $character = fgetc( $fp );
-                    if ( $character == "\r" )
-                    {
-                        fgetc( $fp );
-                        $character = fgetc( $fp );
-                        if ( $character == "\r" )
-                        {
-                            fgetc( $fp );
-                            $header = false;
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        $buffer .= $character;
-                    }
-                }
-
-                header( $buffer );
-            }
-
-            header( 'Content-Location: ' . $uri );
-
-            fpassthru( $fp );
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
-            eZExecution::cleanExit();
-        }
-        else
-        {
-            $buf = '';
-            while ( !feof( $fp ) )
-            {
-                $buf .= fgets( $fp, 128 );
-            }
-        }
-
-        fclose($fp);
-        return $buf;
     }
 
     /*!
@@ -514,39 +365,39 @@ class eZHTTPTool
 
 	function removeMagicQuotes()
 	{
-        foreach ( array_keys( $_POST ) as $key )
+        foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
         {
-			if ( !is_array( $_POST[$key] ) )
+			if ( !is_array( $GLOBALS["HTTP_POST_VARS"][$key] ) )
 			{
-				$_POST[$key] = str_replace( "\'", "'", $_POST[$key] );
-				$_POST[$key] = str_replace( '\"', '"', $_POST[$key] );
-				$_POST[$key] = str_replace( '\\\\', '\\', $_POST[$key] );
+				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key] );
+				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key] );
+				$GLOBALS["HTTP_POST_VARS"][$key] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key] );
 			}
             else
             {
-                foreach ( array_keys( $_POST[$key] ) as $arrayKey )
+                foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"][$key] ) as $arrayKey )
                 {
-                    $_POST[$key][$arrayKey] = str_replace( "\'", "'", $_POST[$key][$arrayKey] );
-                    $_POST[$key][$arrayKey] = str_replace( '\"', '"', $_POST[$key][$arrayKey] );
-                    $_POST[$key][$arrayKey] = str_replace( '\\\\', '\\', $_POST[$key][$arrayKey] );
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
+                    $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["HTTP_POST_VARS"][$key][$arrayKey] );
                 }
             }
         }
-        foreach ( array_keys( $_GET ) as $key )
+        foreach ( array_keys( $GLOBALS["_GET"] ) as $key )
         {
-			if ( !is_array( $_GET[$key] ) )
+			if ( !is_array( $GLOBALS["_GET"][$key] ) )
 			{
-				$_GET[$key] = str_replace( "\'", "'", $_GET[$key] );
-				$_GET[$key] = str_replace( '\"', '"', $_GET[$key] );
-				$_GET[$key] = str_replace( '\\\\', '\\', $_GET[$key] );
+				$GLOBALS["_GET"][$key] = str_replace( "\'", "'", $GLOBALS["_GET"][$key] );
+				$GLOBALS["_GET"][$key] = str_replace( '\"', '"', $GLOBALS["_GET"][$key] );
+				$GLOBALS["_GET"][$key] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key] );
 			}
             else
             {
-                foreach ( array_keys( $_GET[$key] ) as $arrayKey )
+                foreach ( array_keys( $GLOBALS["_GET"][$key] ) as $arrayKey )
                 {
-                    $_GET[$key][$arrayKey] = str_replace( "\'", "'", $_GET[$key][$arrayKey] );
-                    $_GET[$key][$arrayKey] = str_replace( '\"', '"', $_GET[$key][$arrayKey] );
-                    $_GET[$key][$arrayKey] = str_replace( '\\\\', '\\', $_GET[$key][$arrayKey] );
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["_GET"][$key][$arrayKey] );
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["_GET"][$key][$arrayKey] );
+                    $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\\\\', '\\', $GLOBALS["_GET"][$key][$arrayKey] );
                 }
             }
         }
@@ -554,12 +405,12 @@ class eZHTTPTool
 
     function createPostVarsFromImageButtons()
     {
-        foreach ( array_keys( $_POST ) as $key )
+        foreach ( array_keys( $GLOBALS["HTTP_POST_VARS"] ) as $key )
         {
             if ( substr( $key, -2 ) == '_x' )
             {
                 $yKey = substr( $key, 0, -2 ) . '_y';
-                if ( array_key_exists( $yKey, $_POST ) )
+                if ( array_key_exists( $yKey, $GLOBALS["HTTP_POST_VARS"] ) )
                 {
                     $keyClean = substr( $key, 0, -2 );
                     $matches = array();
@@ -567,13 +418,13 @@ class eZHTTPTool
                     {
                         $value = $matches[1];
                         $keyClean = preg_replace( "/(_\d+)$/","", $keyClean );
-                        $_POST[$keyClean] = $value;
-//                         eZDebug::writeDebug( $_POST[$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
+                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = $value;
+//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value $value:" );
                     }
                     else
                     {
-                        $_POST[$keyClean] = true;
-//                         eZDebug::writeDebug( $_POST[$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
+                        $GLOBALS["HTTP_POST_VARS"][$keyClean] = true;
+//                         eZDebug::writeDebug( $GLOBALS["HTTP_POST_VARS"][$keyClean], "We have create new  Post Var with name $keyClean and value true:" );
                     }
                 }
             }
@@ -599,7 +450,7 @@ class eZHTTPTool
     {
         eZSessionStart();
 //         session_register( $name );
-        $_SESSION[$name] =& $value;
+        $_SESSION[$name] = $value;
     }
 
     /*!

@@ -1,0 +1,11 @@
+
+[SiteAccessSettings]
+RequireUserLogin=true
+
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+
+[FileSettings]
+VarDir=var/blog

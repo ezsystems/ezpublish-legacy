@@ -1,0 +1,28 @@
+<?php /* #?ini charset="utf8"?
+
+[ContentSettings]
+TranslationList=
+
+[SiteAccessSettings]
+RequireUserLogin=true
+
+[SiteSettings]
+SiteName=Plain
+
+[FileSettings]
+VarDir=var/intranet
+
+[InformationCollectionSettings]
+EmailReceiver=
+
+[UserSettings]
+RegistrationEmail=
+
+[MailSettings]
+EmailSender=
+
+[RegionalSettings]
+Locale=eng-GB
+ContentObjectLocale=eng-GB
+TextTranslation=disabled
+*/ ?>

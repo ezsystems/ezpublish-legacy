@@ -379,7 +379,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult =  $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $object =& $this->attribute( 'contentobject' );
         $objectClassID = $object->attribute( 'contentclass_id' );
@@ -721,12 +721,11 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-		$time = time();
         $row = array(
             "contentobject_id" => $contentobjectID,
             "version" => $version,
-            "created" => $time,
-            "modified" => $time,
+            "created" => time(),
+            "modified" => time(),
             'creator_id' => $userID );
         return new eZContentObjectVersion( $row );
     }
@@ -790,14 +789,14 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
-		$time = time();
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
         if ( $contentObjectID !== false )
             $clonedVersion->setAttribute( 'contentobject_id', $contentObjectID );
         $clonedVersion->setAttribute( 'version', $newVersionNumber );
-        $clonedVersion->setAttribute( 'created', $time );
-        $clonedVersion->setAttribute( 'modified', $time );
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
+        $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'creator_id', $userID );
         if ( $status !== false )
             $clonedVersion->setAttribute( 'status', $status );
@@ -911,123 +910,22 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \static
-     Unserialize xml structure. Create object from xml input.
-
-     \param XML DOM Node
-     \param contentobject.
-     \param owner ID
-     \param section ID
-     \param new object, true if first version of new object
-     \param options
-     \param package
-
-     \returns created object, false if could not create object/xml invalid
-    */
-    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
-    {
-        $oldVersion =& $domNode->attributeValue( 'version' );
-        $status =& $domNode->attributeValue( 'status' );
-
-        if ( $firstVersion )
-        {
-            $contentObjectVersion = $contentObject->version( 1 );
-        }
-        else
-        {
-            $contentObjectVersion =& $contentObject->createNewVersion();
-        }
-        if ( !$contentObject )
-        {
-            eZDebug::writeError( 'Could not fetch object version : ' . $oldVersion,
-                                 'eZContentObjectVersion::unserialize()' );
-            return false;
-        }
-
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $created = eZDateUtils::textToDate( $domNode->attributeValue( 'created' ) );
-            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
-            $contentObjectVersion->setAttribute( 'created', $created );
-            $contentObjectVersion->setAttribute( 'modified', $modified );
-        }
-        $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-        $contentObjectVersion->store();
-
-        $languageNodeArray =& $domNode->elementsByName( 'object-translation' );
-        foreach( array_keys( $languageNodeArray ) as $languageKey )
-        {
-            $languageNode =& $languageNodeArray[$languageKey];
-            $language =& $languageNode->attributeValue( 'language' );
-
-            $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
-            $attributeNodeArray =& $languageNode->elementsByName( 'attribute' );
-            foreach( array_keys( $attributeArray ) as $attributeKey )
-            {
-                $attribute =& $attributeArray[$attributeKey];
-
-                $attributeIdentifier =& $attribute->attribute( 'contentclass_attribute_identifier' );
-
-                $attributeDomNode =& $languageNode->elementByAttributeValue( 'identifier', $attributeIdentifier );
-                if ( !$attributeDomNode )
-                {
-                    continue;
-                }
-
-                $attribute->unserialize( $package, $attributeDomNode );
-                $attribute->store();
-            }
-        }
-
-        $nodeAssignmentNodeList = $domNode->elementByName( 'node-assignment-list' );
-        $nodeAssignmentNodeArray = $nodeAssignmentNodeList->elementsByName( 'node-assignment' );
-        foreach( $nodeAssignmentNodeArray as $nodeAssignmentNode )
-        {
-            eZContentObjectTreeNode::unserialize( $nodeAssignmentNode,
-                                                  $contentObject,
-                                                  $contentObjectVersion->attribute( 'version' ),
-                                                  ( $oldVersion == $activeVersion ? 1 : 0 ),
-                                                  $nodeList,
-                                                  $options );
-        }
-        $contentObjectVersion->store();
-
-        return $contentObjectVersion;
-    }
-
-    /*!
      \return a DOM structure of the content object version, it's translations and attributes.
-
-     \param package
-     \param package options ( optianal )
-     \param array of allowed nodes ( optional )
-     \param array of top nodes in current package export (optional )
     */
-    function &serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function &serialize()
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $versionNode = new eZDOMNode();
 
-        include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-
         $versionNode->setName( 'version' );
         $versionNode->setPrefix( 'ezobject' );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'version', $this->Version, 'ezremote' ) );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'status', $this->Status, 'ezremote' ) );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', eZDateUtils::rfc1123Date( $this->attribute( 'created' ) ), 'ezremote' ) );
-        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
+        $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'version', $this->Version ) );
 
         $translationList =& $this->translationList( false, false );
         foreach ( $translationList as $translationItem )
         {
             $language = $translationItem;
-            if ( !in_array( $language, $options['language_array'] ) )
-            {
-                continue;
-            }
-
             $translationNode = new eZDOMNode();
             $translationNode->setName( 'object-translation' );
             $translationNode->setPrefix( 'ezobject' );
@@ -1038,24 +936,9 @@ class eZContentObjectVersion extends eZPersistentObject
             eZDebug::writeDebug( "Attribute fetch end", 'eZContentObjectVersion::serialize' );
             foreach ( $attributes as $attribute )
             {
-                $translationNode->appendChild( $attribute->serialize( $package ) );
+                $translationNode->appendChild( $attribute->serialize() );
             }
             $versionNode->appendChild( $translationNode );
-        }
-
-        $nodeAssignmentListNode = new eZDOMNode();
-        $nodeAssignmentListNode->setName( 'node-assignment-list' );
-        $nodeAssignmentListNode->setPrefix( 'ezobject' );
-        $versionNode->appendChild( $nodeAssignmentListNode );
-
-        $contentNodeArray = eZContentObjectTreeNode::fetchByContentObjectID( $this->ContentObjectID, true, $this->Version );
-        foreach( $contentNodeArray as $contentNode )
-        {
-            $contentNodeDOMNode =& $contentNode->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
-            if ( $contentNodeDOMNode !== false )
-            {
-                $nodeAssignmentListNode->appendChild( $contentNodeDOMNode );
-            }
         }
 
         return $versionNode;
@@ -1125,6 +1008,7 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     var $CurrentLanguage = false;
+
 }
 
 ?>

@@ -72,11 +72,9 @@ class eZIdentifierType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_IDENTIFIER,
                            ezi18n( 'kernel/classes/datatypes', "Identifier", 'Datatype name' ),
-                           array( 'serialize_supported' => false,
-                                  'object_serialize_map' => array( 'data_text' => 'identifier',
-                                                                   'data_int' => 'number' ) ) );
+                           array( 'serialize_supported' => false ) );
 
-        $this->IntegerValidator = new eZIntegerValidator( 1 );
+        $this->IntegerValidator = new eZIntegerValidator();
     }
 
     /*!
@@ -113,18 +111,6 @@ class eZIdentifierType extends eZDataType
         return $content;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $content = $contentObjectAttribute->attribute( "data_text" );
-        return ( trim( $content ) != '' );
-    }
-
-    function initializeClassAttribute( &$classAttribute )
-    {
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, 1 );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD, 1 );
-    }
-
     /*!
       Validates the input and returns true if the input was
       valid for this datatype.
@@ -137,16 +123,25 @@ class eZIdentifierType extends eZDataType
         if ( $http->hasPostVariable( $startValueName ) and
              $http->hasPostVariable( $digitsName ) )
         {
-            $startValueValue = str_replace( " ", "", $http->postVariable( $startValueName ) );
-            $digitsValue = str_replace( " ", "", $http->postVariable( $digitsName ) );
+            $startValueValue = str_replace( " ", "", $http->hasPostVariable( $startValueName ) );
+            $digitsValue = str_replace( " ", "", $http->hasPostVariable( $digitsName ) );
 
-            $startValueValueState = $this->IntegerValidator->validate( $startValueValue );
-            $digitsValueState = $this->IntegerValidator->validate( $digitsValue );
-
-            if ( ( $startValueValueState == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) and
-                 ( $digitsValueState == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) )
+            if ( $startValueValue == "" and $digitsValue == "" )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                $startValueValueState = $this->IntegerValidator->validate( $startValueValue );
+                $digitsValueState = $this->IntegerValidator->validate( $digitsValue );
+
+                if ( ( $startValueValueState == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) and
+                     ( $startValueValue >= 0 ) and
+                     ( $digitsValueState == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) and
+                     ( $digitsValue >= 0 ) )
+                {
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                }
             }
         }
 
@@ -231,7 +226,7 @@ class eZIdentifierType extends eZDataType
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
 
         // fetch the root node
-        $ret = eZIdentifierType::assignValue( $contentClassAttribute, $contentObjectAttribute );
+        $ret = eZIdentifierType::incrementValue( $contentClassAttribute, $contentObjectAttribute );
 
         $contentObjectAttribute->store();
         return $ret;
@@ -239,9 +234,9 @@ class eZIdentifierType extends eZDataType
 
     /*!
       \private
-      Assigns the identifiervalue for the first version of the current attribute.
+      Increment the identifiervalue for the current attribute.
     */
-    function assignValue( &$contentClassAttribute, &$contentObjectAttribute )
+    function incrementValue( &$contentClassAttribute, &$contentObjectAttribute )
     {
 
         $retValue = true;
@@ -285,6 +280,10 @@ class eZIdentifierType extends eZDataType
 
             $db->unlock();
         }
+        else
+        {
+            $ret[] = eZIdentifierType::copyFromVersionOne( $contentObjectAttribute );
+        }
 
         if ( !in_array( false, $ret ) )
             $retValue = true;
@@ -298,6 +297,19 @@ class eZIdentifierType extends eZDataType
     function sortKey( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    /*!
+      \private
+      Copy version one to the current version
+    */
+    function copyFromVersionOne( &$contentObjectAttribute )
+    {
+        $contentObjectAttributeVersionOne = eZContentObjectAttribute::fetch( $contentObjectAttribute->attribute( 'id' ), 1 );
+        $contentObjectAttribute->setAttribute( 'data_text', $contentObjectAttributeVersionOne->attribute( 'data_text' ) );
+        $contentObjectAttribute->setAttribute( 'data_int', $contentObjectAttributeVersionOne->attribute( 'data_int' ) );
+
+        return true;
     }
 
     /*!
@@ -318,7 +330,7 @@ class eZIdentifierType extends eZDataType
         $postText = $contentClassAttribute->attribute( EZ_DATATYPESTRING_POSTTEXT_FIELD );
         $digits = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD );
 
-        if ( $identifierValue !== false )
+        if ( $identifierValue )
             $midText = str_pad( $identifierValue, $digits, '0', STR_PAD_LEFT );
         else
             $midText = str_repeat( 'x', $digits );

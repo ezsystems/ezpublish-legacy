@@ -56,7 +56,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $steps = array();
         $steps[] = $this->packageThumbnailStep();
         $steps[] = array( 'id' => 'cssfile',
-                          'name' => ezi18n( 'kernel/package', 'CSS files' ),
+                          'name' => ezi18n( 'kernel/package', 'CSS file' ),
 						  'methods' => array( 'initialize' => 'initializeCSSFile',
 						                      'validate' => 'validateCSSFile',
 											  'commit' => 'commitCSSFile' ),
@@ -82,38 +82,21 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
         $collections = array();
 
-		$siteCssfile = $persistentData['sitecssfile'];
-        $fileItem = array( 'file' => $siteCssfile['filename'],
+		$cssfile = $persistentData['cssfile'];
+        $fileItem = array( 'file' => $cssfile['filename'],
                            'type' => 'file',
                            'role' => false,
                            'design' => false,
-                           'path' => $siteCssfile['url'],
+                           'path' => $cssfile['url'],
                            'collection' => 'default',
                            'file-type' => false,
                            'role-value' => false,
-                           'variable-name' => 'sitecssfile' );
+                           'variable-name' => 'cssfile' );
 
         $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                               $fileItem['design'], $fileItem['path'], $fileItem['collection'],
                               null, null, true, null,
                               $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
-
-        $classesCssfile = $persistentData['classescssfile'];
-        $fileItem = array( 'file' => $classesCssfile['filename'],
-                           'type' => 'file',
-                           'role' => false,
-                           'design' => false,
-                           'path' => $classesCssfile['url'],
-                           'collection' => 'default',
-                           'file-type' => false,
-                           'role-value' => false,
-                           'variable-name' => 'classescssfile' );
-
-        $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
-                              $fileItem['design'], $fileItem['path'], $fileItem['collection'],
-                              null, null, true, null,
-                              $fileItem['file-type'], $fileItem['role-value'], $fileItem['variable-name'] );
-
         if ( !in_array( $fileItem['collection'], $collections ) )
             $collections[] = $fileItem['collection'];
         $cleanupFiles[] = $fileItem['path'];
@@ -203,20 +186,16 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
 
         $result = true;
-        if ( !$siteFile or !$classesFile )
+        if ( !$file )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must upload both CSS files' ) );
+                                  'description' => ezi18n( 'kernel/package', 'You must upload a CSS file' ) );
             $result = false;
         }
-        else if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
-                  !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
+        else if ( !preg_match( "#\.css$#", strtolower( $file->attribute( 'original_filename' ) ) ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
                                   'description' => ezi18n( 'kernel/package', 'File did not have a .css suffix, this is most likely not a CSS file' ) );
@@ -227,20 +206,13 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
     function commitCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        $siteMimeData = eZMimeType::findByFileContents( $siteFile->attribute( 'original_filename' ) );
+        $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
         $dir = eZSys::storageDirectory() . '/temp';
-        eZMimeType::changeDirectoryPath( $siteMimeData, $dir );
-        $siteFile->store( false, false, $siteMimeData );
-        $persistentData['sitecssfile'] = $siteMimeData;
-
-        $classesMimeData = eZMimeType::findByFileContents( $classesFile->attribute( 'original_filename' ) );
-        eZMimeType::changeDirectoryPath( $classesMimeData, $dir );
-        $classesFile->store( false, false, $classesMimeData );
-        $persistentData['classescssfile'] = $classesMimeData;
+        eZMimeType::changeDirectoryPath( $mimeData, $dir );
+        $file->store( false, false, $mimeData );
+        $persistentData['cssfile'] = $mimeData;
 	}
 
     function initializeImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
@@ -253,7 +225,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateImageFiles( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;

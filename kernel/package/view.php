@@ -38,12 +38,9 @@ include_once( "kernel/classes/ezpackage.php" );
 $module =& $Params['Module'];
 $viewMode = $Params['ViewMode'];
 $packageName = $Params['PackageName'];
-$repositoryID = false;
-if ( isset( $Params['RepositoryID'] ) and $Params['RepositoryID'] )
-    $repositoryID = $Params['RepositoryID'];
 
-$package =& eZPackage::fetch( $packageName, false, $repositoryID );
-if ( !is_object( $package ) )
+$package =& eZPackage::fetch( $packageName );
+if ( !$package )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$package->attribute( 'can_read' ) )
@@ -63,24 +60,15 @@ else if ( $module->isCurrentAction( 'Uninstall' ) )
     return $module->redirectToView( 'uninstall', array( $packageName ) );
 }
 
-$repositoryInformation = $package->currentRepositoryInformation();
-
 $tpl =& templateInit();
 
 $tpl->setVariable( 'package_name', $packageName );
-$tpl->setVariable( 'repository_id', $repositoryID );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:package/view/$viewMode.tpl" );
-$path = array( array( 'url' => 'package/list',
-                      'text' => ezi18n( 'kernel/package', 'Packages' ) ) );
-if ( $repositoryInformation and $repositoryInformation['id'] != 'local' )
-{
-    $path[] = array( 'url' => 'package/list/' . $repositoryInformation['id'],
-                     'text' => $repositoryInformation['name'] );
-}
-$path[] = array( 'url' => false,
-                 'text' => $package->attribute( 'name' ) );
-$Result['path'] = $path;
+$Result['path'] = array( array( 'url' => 'package/list',
+                                'text' => ezi18n( 'kernel/package', 'Packages' ) ),
+                         array( 'url' => false,
+                                'text' => $package->attribute( 'name' ) ) );
 
 ?>

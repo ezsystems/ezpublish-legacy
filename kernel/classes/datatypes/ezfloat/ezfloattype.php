@@ -61,8 +61,7 @@ class eZFloatType extends eZDataType
     function eZFloatType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_FLOAT, ezi18n( 'kernel/classes/datatypes', "Float", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_float' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->FloatValidator = new eZFloatValidator();
     }
 
@@ -352,11 +351,6 @@ class eZFloatType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_float" );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
     }
 
     /*!

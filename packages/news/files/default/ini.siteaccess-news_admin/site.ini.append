@@ -1,0 +1,10 @@
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+
+[FileSettings]
+VarDir=var/news
+
+[SiteAccessSettings]
+RequireUserLogin=true

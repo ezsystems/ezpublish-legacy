@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898221">forum</name>
+  <summary modified="1075898242">Forum</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898221">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898221</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898221" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898221"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898221">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="forum"
+                 modified="1075898221" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="forum_user"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/forum_user/override.ini.append"
+              md5sum="1c4782028fe6193ad802ca88c3cd43e9"
+              modified="1075898222" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/forum_user/site.ini.append"
+              md5sum="b22bec37c455ed4843828b50e1fea791"
+              modified="1075898222" />
+        <file name="forum.ini"
+              path="settings/siteaccess/forum_user/forum.ini"
+              md5sum="2fbdb80cb13db6da269c5bc7cb1a287c"
+              modified="1075898222" />
+        <file name="content.ini.append"
+              path="settings/siteaccess/forum_user/content.ini.append"
+              md5sum="b47d9212e2570b49ee9bfe6dc0f375a5"
+              modified="1075898223" />
+        <file name="image.ini.append"
+              path="settings/siteaccess/forum_user/image.ini.append"
+              md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
+              modified="1075898223" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="forum_admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/forum_admin/override.ini.append"
+              md5sum="aee096a50478b2e22c512bb33da5da4e"
+              modified="1075898223" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/forum_admin/site.ini.append"
+              md5sum="f22fe526d31d69d0657d59c934589c85"
+              modified="1075898224" />
+      </file-list>
+      <file-list type="file">
+        <file name="package.xml"
+              sub-directory="var/forum/storage/packages/forum_red"
+              path="var/forum/storage/packages/forum_red/package.xml"
+              md5sum="27cdbf4f20d68e9758eab982c4956d56"
+              modified="1075898225" />
+        <file name="forum.css"
+              sub-directory="var/forum/storage/packages/forum_red/files/default/file/design/forum/stylesheets"
+              path="var/forum/storage/packages/forum_red/files/default/file/design/forum/stylesheets/forum.css"
+              md5sum="4f0ddda9a664c2d563477584738343ef"
+              modified="1075898226" />
+        <file name="forum_header-red.gif"
+              sub-directory="var/forum/storage/packages/forum_red/files/default/file/design/forum/images"
+              path="var/forum/storage/packages/forum_red/files/default/file/design/forum/images/forum_header-red.gif"
+              md5sum="9d37f00f3c3ed53a809a8d3ca0bb0ec4"
+              modified="1075898226" />
+        <file name="thumbnail.jpg"
+              sub-directory="var/forum/storage/packages/forum_red/files/default/thumbnail"
+              path="var/forum/storage/packages/forum_red/files/default/thumbnail/thumbnail.jpg"
+              md5sum="833136502168d88c58d705c955935770"
+              modified="1075898226" />
+        <file name="README"
+              sub-directory="var/forum/storage/packages/forum_red/documents"
+              path="var/forum/storage/packages/forum_red/documents/README"
+              md5sum="1a1cf1c956867982915379a85647743f"
+              modified="1075898227" />
+        <file name="package.xml"
+              sub-directory="var/forum/storage/packages/forum_blue"
+              path="var/forum/storage/packages/forum_blue/package.xml"
+              md5sum="af92a7ddaa96c92839459fde1c621397"
+              modified="1075898227" />
+        <file name="forum_blue.css"
+              sub-directory="var/forum/storage/packages/forum_blue/files/default/file/design/forum/stylesheets"
+              path="var/forum/storage/packages/forum_blue/files/default/file/design/forum/stylesheets/forum_blue.css"
+              md5sum="0363061556192cdb3d3e8015541db02b"
+              modified="1075898228" />
+        <file name="forum_header-blue.gif"
+              sub-directory="var/forum/storage/packages/forum_blue/files/default/file/design/forum/images"
+              path="var/forum/storage/packages/forum_blue/files/default/file/design/forum/images/forum_header-blue.gif"
+              md5sum="4bf6a63aab59f2d52500f66d8b6edf37"
+              modified="1075898228" />
+        <file name="thumbnail.jpg"
+              sub-directory="var/forum/storage/packages/forum_blue/files/default/thumbnail"
+              path="var/forum/storage/packages/forum_blue/files/default/thumbnail/thumbnail.jpg"
+              md5sum="9e5901c51b6f36d5301ca04740961be4"
+              modified="1075898229" />
+        <file name="README"
+              sub-directory="var/forum/storage/packages/forum_blue/documents"
+              path="var/forum/storage/packages/forum_blue/documents/README"
+              md5sum="07c2528c408b25b62ef514f166ca2951"
+              modified="1075898229" />
+        <file name="classes.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB/classes.png"
+              md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
+              modified="1075898230" />
+        <file name="classes_large.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB/classes_large.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898231" />
+        <file name="classes_reference.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/classes/103-9-eng-GB/classes_reference.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898232" />
+        <file name="cache.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB/cache.png"
+              md5sum="57f62f207f87dcfba03b5e5f15d7277c"
+              modified="1075898232" />
+        <file name="cache_large.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB/cache_large.png"
+              md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
+              modified="1075898233" />
+        <file name="cache_reference.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/cache/324-4-eng-GB/cache_reference.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898233" />
+        <file name="look_and_feel_icon.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_icon.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898234" />
+        <file name="look_and_feel.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel.png"
+              md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
+              modified="1075898235" />
+        <file name="look_and_feel_large.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_large.png"
+              md5sum="4806200d6836ca805dc6369a63fc22bc"
+              modified="1075898235" />
+        <file name="look_and_feel_reference.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_reference.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898236" />
+        <file name="url_translator.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator.png"
+              md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
+              modified="1075898237" />
+        <file name="url_translator_large.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator_large.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898237" />
+        <file name="url_translator_reference.png"
+              sub-directory="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB"
+              path="var/forum/storage/images/setup/setup_links/url_translator/328-3-eng-GB/url_translator_reference.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898238" />
+        <file name="forum.gif"
+              sub-directory="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB"
+              path="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB/forum.gif"
+              md5sum="7ca6d8820667df9e58bda8faae521036"
+              modified="1075898239" />
+        <file name="forum_medium.gif"
+              sub-directory="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB"
+              path="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB/forum_medium.gif"
+              md5sum="f5d3821510278f5c1bb19e3ded5a690a"
+              modified="1075898240" />
+        <file name="forum_logo.gif"
+              sub-directory="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB"
+              path="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB/forum_logo.gif"
+              md5sum="f5d3821510278f5c1bb19e3ded5a690a"
+              modified="1075898240" />
+        <file name="forum_reference.gif"
+              sub-directory="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB"
+              path="var/forum/storage/images/setup/look_and_feel/forum/152-59-eng-GB/forum_reference.gif"
+              md5sum="f5d3821510278f5c1bb19e3ded5a690a"
+              modified="1075898241" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.jpg"
+              path="design/forum/images/forum_red.jpg"
+              md5sum="833136502168d88c58d705c955935770"
+              modified="1075898241" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898221">1.0</number>
+    <release modified="1075898221">1</release>
+  </version>
+  <licence modified="1075898221">GPL</licence>
+  <state modified="1075898221">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898221" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1075898224" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1075898224" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898221"
+          collection="default" />
+    <item type="sql"
+          modified="1075898224"
+          filename="forum.sql"
+          original-path="packages/forum.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1075898224"
+          filename="forum_postgresql.sql"
+          original-path="packages/forum_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898221"
+          collection="default" />
+  </uninstall>
+</package>

@@ -37,7 +37,6 @@
 
 include_once( 'kernel/classes/ezmodulemanager.php' );
 include_once( 'kernel/classes/ezrole.php' );
-include_once( 'kernel/classes/ezpolicy.php' );
 
 include_once( 'kernel/classes/ezsearch.php' );
 
@@ -61,7 +60,7 @@ if ( is_null( $role ) )
     $role = eZRole::fetch( $roleID );
     if ( $role->attribute( 'version' ) == '0' )
     {
-        $temporaryRole = $role->createTemporaryVersion();
+        $temporaryRole = $role->createTmporaryVersion();
         unset( $role );
         $role = $temporaryRole;
         eZDebug::writeNotice( $role, 'new temporary role' );
@@ -114,7 +113,8 @@ if ( $http->hasPostVariable( 'AddModule' )  )
 {
     $currentModule = $http->postVariable( 'Modules' );
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                    'FunctionName' => '*' ) );
+                                                    'FunctionName' => '*',
+                                                    'Limitation' => '*') );
 }
 if ( $http->hasPostVariable( 'AddFunction' ) )
 {
@@ -122,7 +122,8 @@ if ( $http->hasPostVariable( 'AddFunction' ) )
     $currentFunction = $http->postVariable( 'ModuleFunction' );
     eZDebug::writeNotice( $currentModule, 'currentModule');
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                    'FunctionName' => $currentFunction ) );
+                                                    'FunctionName' => $currentFunction,
+                                                    'Limitation' => '*') );
 
 }
 
@@ -616,7 +617,8 @@ if ( $http->hasPostVariable( 'Limitation' ) or
         $currentFunction = $http->postVariable( 'ModuleFunction' );
         eZDebug::writeNotice( $currentModule, 'currentModule');
         $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                        'FunctionName' => $currentFunction ) );
+                                                        'FunctionName' => $currentFunction,
+                                                        'Limitation' => '*') );
     }
     else
     {

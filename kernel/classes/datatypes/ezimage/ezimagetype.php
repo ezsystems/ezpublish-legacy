@@ -42,8 +42,9 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezfile/classes/ezdir.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
+include_once( "lib/ezutils/classes/ezdir.php" );
 
 define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD', 'data_int1' );
 define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE', '_ezimage_max_filesize_' );
@@ -311,7 +312,7 @@ class eZImageType extends eZDataType
     */
     function title( &$contentObjectAttribute, $name = 'original_filename' )
     {
-        $content =& $contentObjectAttribute->content();
+        $content =& $this->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         if ( trim( $value ) == '' )
@@ -323,14 +324,6 @@ class eZImageType extends eZDataType
         }
 
         return $value;
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $handler =& $contentObjectAttribute->content();
-        if ( !$handler )
-            return false;
-        return $handler->attribute( 'is_valid' );
     }
 
     /*!
@@ -374,47 +367,6 @@ class eZImageType extends eZDataType
         $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
-    }
-
-
-    /*!
-     \reimp
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $content = $objectAttribute->content();
-        $original = $content->attribute( 'original' );
-        $imageKey = md5( mt_rand() );
-
-        $package->appendSimpleFile( $imageKey, $original['url'] );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternativ-text', $original['alternative_text'] ) );
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $alternativText = $attributeNode->attributeValue( 'alternativ-text' );
-        $content =& $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativText );
-        $content->store();
     }
 }
 

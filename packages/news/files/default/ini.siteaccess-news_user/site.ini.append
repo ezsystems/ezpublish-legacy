@@ -1,0 +1,12 @@
+[SiteSettings]
+LoginPage=embeded
+
+[SiteAccessSettings]
+RequireUserLogin=false
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=news
+
+[FileSettings]
+VarDir=var/news

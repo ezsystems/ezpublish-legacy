@@ -78,26 +78,6 @@ class eZTemplateFileResource
     }
 
     /*!
-    */
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
-    {
-        if ( $this->Name != 'file' )
-            return false;
-        $file = $resourceData['template-name'];
-        if ( !file_exists( $file ) )
-            return false;
-        $newNodes = array();
-        $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( $resourceData['resource'],
-                                                                         $file, $file,
-                                                                         EZ_RESOURCE_FETCH, false,
-                                                                         $node[4],
-                                                                         array(),
-                                                                         $namespaceValue );
-        return $newNodes;
-    }
-
-    /*!
      Generates a unique key string from the input data and returns it.
      The key will be used for storing cached data and retrieving cache files.
      When implementing file resource handlers this key must be reimplemented if
@@ -210,7 +190,6 @@ class eZTemplateFileResource
         $resourceName =& $resourceData['resource'];
         $path =& $resourceData['template-filename'];
         $keyData =& $resourceData['key-data'];
-        $localeData =& $resourceData['locales'];
 
         if ( !file_exists( $path ) )
             return false;
@@ -219,8 +198,6 @@ class eZTemplateFileResource
         $canCache = true;
         $templateRoot = null;
         if ( !$handler->servesStaticData() )
-            $canCache = false;
-        if ( !$tpl->isCachingAllowed() )
             $canCache = false;
         $keyData = 'file:' . $path;
         if ( $method == EZ_RESOURCE_FETCH )
@@ -243,10 +220,10 @@ class eZTemplateFileResource
             if ( $fd )
             {
                 $text = fread( $fd, filesize( $path ) );
+                // Make sure we have unix newlines
                 $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
                 $tplINI =& $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
-                $locales = array();
                 $pos = strpos( $text, "\n" );
                 if ( $pos !== false )
                 {
@@ -257,62 +234,28 @@ class eZTemplateFileResource
                         foreach ( $args as $arg )
                         {
                             $vars = explode( '=', trim( $arg ) );
-                            switch ( $vars[0] ) {
-                                case 'charset': {
-                                    $val = $vars[1];
-                                    if ( $val[0] == '"' and
-                                         strlen( $val ) > 0 and
-                                         $val[strlen($val)-1] == '"' )
-                                    {
-                                        $val = substr( $val, 1, strlen($val) - 2 );
-                                    }
-                                    $charset = $val;
-                                } break;
-                                case 'locale': {
-                                    $val = $vars[1];
-                                    if ( $val[0] == '"' and
-                                         strlen( $val ) > 0 and
-                                         $val[strlen($val)-1] == '"' )
-                                    {
-                                        $val = substr( $val, 1, strlen($val) - 2 );
-                                    }
-                                    $locales = explode( ',', $val );
-                                } break;
+                            if ( $vars[0] == "charset" )
+                            {
+                                $val = $vars[1];
+                                if ( $val[0] == '"' and
+                                     strlen( $val ) > 0 and
+                                     $val[strlen($val)-1] == '"' )
+                                    $val = substr( $val, 1, strlen($val) - 2 );
+                                $charset = $val;
                             }
                         }
                     }
                 }
-
-                /* Setting locale to allow standard PHP functions to handle
-                 * strtoupper/lower() */
-                $defaultLocale = trim( $tplINI->variable( 'CharsetSettings', 'DefaultTemplateLocale' ) );
-                if ( $defaultLocale != '' )
-                {
-                    $locales = array_merge( $locales, explode( ',', $defaultLocale ) );
-                }
-                $localeData = $locales;
-                if ( $locales && count( $locales ) )
-                {
-                    setlocale( LC_CTYPE, $locales );
-                }
-                
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
-                $codec =& eZTextCodec::instance( $charset, false, false );
-                if ( $codec )
-                {
-                    eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
-                    $text = $codec->convertString( $text );
-                    eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
-                }
+                $codec =& eZTextCodec::instance( $charset );
+                eZDebug::accumulatorStart( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                $text = $codec->convertString( $text );
+                eZDebug::accumulatorStop( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
                 $result = true;
                 if ( eZTemplate::isDebugEnabled() )
                 {
-                    $preText = "\n<!-- START: including template: $path ($uri) -->\n";
-                    if ( eZTemplate::isXHTMLCodeIncluded() )
-                        $preText .= "<p class=\"small\">$path</p><br/>\n";
-                    $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-                    $text = $preText . $text . $postText;
+                    $text = "<!-- including template $path -->\n<p class=\"small\">$path</p><br/>\n" . $text;
                 }
             }
         }

@@ -14,7 +14,6 @@ Changes from 3.3-3 to 3.3-4
 - Added the possibility to set attributes in eZWorkflowType. (Merged from stable/3.2 rev. 5533)
 - Made sure it is not possible to move, remove or add locations for top level objects.
 
-
 *Setup:
 - Fixed checking of existing MySQL databases to use mysql_list_dbs().
 - Added back the finetuning page, it will display hints for extending eZ publish.
@@ -27,6 +26,7 @@ Changes from 3.3-3 to 3.3-4
 - Added checkbox 'make empty array' when editing datatype inisetting if ini
   variable is array.
 - Added remove empty ini block function for datatype inisetting.
+- eZBinaryFile now uses eZMimeType for mime type handling. Merged from trunk (Rev. 5194)
 - eZMedia now uses eZMimeType for mime type handling.
 - Made sure eZOption and eZRangeOption does no initialization when an attribute is copied
   (e.g. on when creating a new version).
@@ -41,6 +41,15 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/duplicates_when_fetching_trees_and_lists_with_objects_assigned_to_multiple_locations
 - Fixed checking of input ID to content/download, previously it was
   used unchecked causing a crash on the page.
+- Fixed bug when running eZ publish in VirtualHost mode and applying ".php" in the URL. This could cause wwwDir
+  to be set incorrectly. Since there is no clean way to detect this, a new setting (ForceVirtualHost) has
+  been added to site.ini which enable/dissable this workaround
+  http://ez.no/community/bug_reports/ez_no_error_page_not_using_site_design
+- Fixed bug with the template variable $node.object.can_create_class_list. This variable could include incorrect
+  classIDs if access was restricted by policyrules with Subtree limits
+  http://ez.no/community/bug_reports/can_create_class_list_incorrect
+- Fixed bug. Used depreated content.ini setting AvailableSiteDesigns when cleaning up contentcache
+  http://ez.no/community/bug_reports/ezcontentcache
 - Fixed bug in eZImage datatype, when an attribute of eZImage datatype is set
   to not have translations the whole content of the original language is copied
   to the translated language. This ensures that filenames point to the original
@@ -75,7 +84,6 @@ Changes from 3.3-3 to 3.3-4
 - Fixed bug missing definition of attribute
   http://ez.no/community/bug_reports/error_undefined_attribute_attribute_original_id_cannot_set
 - Fixed bug, templateoperator append now may append multiple strings
-  http://ez.no/community/forum/developer/bug_in_template_operator_append
 - Fixed bug, 'a' and 'l' in the format string was not handled correctly by the datetime opperator
   http://ez.no/community/bug_reports/bug_in_datetime
 - Fixed typo in nor_NO translation,
@@ -91,6 +99,12 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/error_invalid_argument_supplied_for_foreach_in_ezcontentobject_php
 - Fixed bug, doing a list_count fetch on a nonexisting node caused crash
   http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
+- Fixed bug, mondayfirst does not take effect
+  http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
+- Fixed small bugs in clearing the cache files
+  http://ez.no/community/bug_reports/kernel_classes_ezcache_php_fatal_error_missing_includes_more
+- Fixed missing {section} start in ezrangeoption.tpl. (Merged from 3.2 rev. 5487)
+  http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
 - Removed event_ezpaynet workflow event from the standard workflow.ini file.
   http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
 - Made sure the image system works even if a reference of an alias does not exist,
@@ -109,9 +123,9 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
 - Fixed bug in permissions for versionview. (Merged from 3.2 rev. 5501)
   http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
-- Fixed bug in shorten template operator.
+- Fixed bug in shorten template operator. (Merged from stable/3.2 rev. 5510)
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
-- Fixed bug with pre and post text for the 'text' tag in the simpletags operator.
+- Fixed bug with pre and post text for the 'text' tag in the simpletags operator. (Merged from stable/3.2 rev. 5516)
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
 - Fixed a warning in content/browse.php (Merged from stable/3.2 rev. 5525)
   http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
@@ -121,18 +135,28 @@ Changes from 3.3-3 to 3.3-4
   and not child processes. (Merged from stable/3.2 rev. 5533)
 - Made sure the multiplexer workflow handler stores the current user ID and restores
   it if it was previously deferred. (Merged from stable/3.2 rev. 5533)
+- Fixed wrong override entries for webshop solution.
+  http://ez.no/community/bug_reports/confirm_order_bug_in_the_webshop_solution
 - Link tags in ezxml fields with empty href values are now handled properly, empty links
   will signal a validation error.
   http://ez.no/community/bug_reports/xml_field_one_empty_link_causes_all_other_links_to_disappear
 
 *Library:
+- Fixed case bug in the Timeout variable in eZSOAPClient.
 
 eZ Locale:
+- Removed space between dollar sign and pricevalue in eng-US
+  http://ez.no/community/bug_reports/space_after_dollar_sign_should_be_removed
+
+eZ MIMEType:
+- Added mimetypes for OpenOffice for Writer, Calc and Impress. Merged from trunk (Rev. 5194)
+- Added .htm as suffix match to text/html MIMEType. Merged from trunk (Rev. 5194)
 
 eZ Debug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one. (Merged in from stable/3.2 rev. 5537)
 
 *Translations:
+- Updated nor-NO translation from 3.2
 - Updated dut-NL translation
 - Updated fre-FR translation

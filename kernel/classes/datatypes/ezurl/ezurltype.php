@@ -91,7 +91,7 @@ class eZURLType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return EZ_INPUT_VALIDATOR_STATE_VALID;
     }
 
     /*!
@@ -183,7 +183,7 @@ class eZURLType extends eZDataType
     */
     function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return EZ_INPUT_VALIDATOR_STATE_VALID;
     }
 
     /*!
@@ -192,16 +192,6 @@ class eZURLType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         return eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $url =& eZURL::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
-        if ( is_object( $url ) and
-             trim( $url->attribute( 'url' ) ) != '' and
-             $url->attribute( 'is_valid' ) )
-            return true;
-        return false;
     }
 
     /*!
@@ -218,73 +208,6 @@ class eZURLType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return  $contentObjectAttribute->attribute( 'data_text' );
-    }
-
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $url =& eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
-        if ( is_object( $url ) and
-             trim( $url->attribute( 'url' ) ) != '' )
-        {
-            $urlNode =& eZDOMDocument::createElementNode( 'url' );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-url-md5', $url->attribute( 'original_url_md5' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-valid', $url->attribute( 'is_valid' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'last-checked', $url->attribute( 'last_checked' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', $url->attribute( 'created' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', $url->attribute( 'modified' ) ) );
-            $urlNode->appendChild( eZDOMDocument::createTextNode( $url->attribute( 'url' ) ) );
-            $node->appendChild( $urlNode );
-        }
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $urlNode = $attributeNode->elementByName( 'url' );
-        $urlTextNode = $urlNode->firstChild();
-        if ( is_object( $urlTextNode ) )
-        {
-            unset( $url );
-            $url =& $urlTextNode->content();
-
-            $urlID = eZURL::registerURL( $url );
-            if ( $urlID )
-            {
-                $urlObject =& eZURL::fetch( $urlID );
-
-                $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
-                $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );
-                $urlObject->setAttribute( 'last_checked', $urlNode->attributeValue( 'last-checked' ) );
-                $urlObject->setAttribute( 'created', mktime() );
-                $urlObject->setAttribute( 'modified', mktime() );
-                $urlObject->store();
-
-                $objectAttribute->setAttribute( 'data_int', $urlID );
-                $objectAttribute->store();
-            }
-        }
     }
 }
 

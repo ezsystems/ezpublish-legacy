@@ -110,7 +110,7 @@ class eZAuthor
 
     function hasAttribute( $name )
     {
-        if ( ( $name == "author_list" ) || ( $name == "name" ) || ( $name == "is_empty" ) )
+        if ( ( $name == "author_list" ) || ( $name == "name" ) )
             return true;
         else
             return false;
@@ -123,10 +123,6 @@ class eZAuthor
             case "name" :
             {
                 return $this->Name;
-            }break;
-            case "is_empty" :
-            {
-                return count( $this->Authors ) == 0 ;
             }break;
             case "author_list" :
             {
@@ -145,13 +141,10 @@ class eZAuthor
 
         if ( $dom )
         {
-            $authorArray =& $dom->elementsByName( 'author' );
-            if ( is_array( $authorArray ) )
+            $authorArray =& $dom->elementsByName( "author" );
+            foreach ( $authorArray as $author )
             {
-                foreach ( $authorArray as $author )
-                {
-                    $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
-                }
+                $this->addAuthor( $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
             }
         }
         else
@@ -173,17 +166,14 @@ class eZAuthor
 
         $root->appendChild( $authors );
         $id=0;
-        if ( is_array( $this->Authors ) )
+        foreach ( $this->Authors as $author )
         {
-            foreach ( $this->Authors as $author )
-            {
-                $authorNode =& $doc->createElementNode( "author" );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );
+            $authorNode =& $doc->createElementNode( "author" );
+            $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
+            $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
+            $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );
 
-                $authors->appendChild( $authorNode );
-            }
+            $authors->appendChild( $authorNode );
         }
 
         $xml =& $doc->toString();

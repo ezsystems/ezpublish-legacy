@@ -46,12 +46,12 @@
 */
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( 'lib/ezfile/classes/ezfile.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( 'lib/ezutils/classes/ezfile.php' );
+include_once( 'lib/ezutils/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-define( 'EZ_PACKAGE_VERSION', '3.4.0beta1' );
-define( 'EZ_PACKAGE_DEVELOPMENT', true );
+define( 'EZ_PACKAGE_VERSION', '3.3.0-1' );
+define( 'EZ_PACKAGE_DEVELOPMENT', false );
 define( 'EZ_PACKAGE_USE_CACHE', true );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
 
@@ -69,7 +69,6 @@ class eZPackage
         if ( !$repositoryPath )
             $repositoryPath = eZPackage::repositoryPath();
         $this->RepositoryPath = $repositoryPath;
-        $this->RepositoryInformation = null;
     }
 
     /*!
@@ -219,14 +218,13 @@ class eZPackage
     */
     function attributes()
     {
-        return array_merge( array( 'is_local',
-                                   'development',
+        return array_merge( array( 'development',
                                    'name', 'summary', 'description',
                                    'vendor', 'priority', 'type',
                                    'extension', 'source',
                                    'version-number', 'release-number', 'release-timestamp',
                                    'maintainers', 'documents', 'groups',
-                                   'simple-file-list', 'file-list', 'file-count',
+                                   'file-list', 'file-count',
                                    'can_read', 'can_export', 'can_import', 'can_install',
                                    'changelog', 'dependencies',
                                    'is_installed', 'is_active', 'install_type',
@@ -266,14 +264,13 @@ class eZPackage
     function hasAttribute( $attributeName /*, $attributeList = false*/ )
     {
         return in_array( $attributeName,
-                         array( 'is_local',
-                                'development',
+                         array( 'development',
                                 'name', 'summary', 'description',
                                 'vendor', 'priority', 'type',
                                 'extension', 'source',
                                 'version-number', 'release-number', 'release-timestamp',
                                 'maintainers', 'documents', 'groups',
-                                'simple-file-list', 'file-list', 'file-count',
+                                'file-list', 'file-count',
                                 'can_read', 'can_export', 'can_import', 'can_install',
                                 'changelog', 'dependencies',
                                 'is_installed', 'is_active', 'install_type',
@@ -296,7 +293,7 @@ class eZPackage
                               'extension', 'source',
                               'version-number', 'release-number', 'release-timestamp',
                               'maintainers', 'documents', 'groups',
-                              'simple-file-list', 'file-list',
+                              'file-list',
                               'changelog', 'dependencies',
                               'install', 'uninstall',
                               'is_installed', 'is_active', 'install_type',
@@ -324,11 +321,6 @@ class eZPackage
             return $this->fileCount();
         else if ( $attributeName == 'thumbnail-list' )
             return $this->thumbnailList( 'default' );
-        else if ( $attributeName == 'is_local' )
-        {
-            $repositoryInformation = $this->currentRepositoryInformation();
-            return $repositoryInformation['type'] == 'local';
-        }
 
         eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
         return null;
@@ -412,7 +404,7 @@ class eZPackage
     {
 		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', $functionName, $accessList );
+		$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
 		if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
 		{
 		    return true;
@@ -447,7 +439,7 @@ class eZPackage
         {
 			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', $functionName, $accessList );
+			$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
 		    $limitationList = array();
 		    $canUse = false;
 			if ( $accessResult['accessWord'] == 'yes' )
@@ -496,7 +488,7 @@ class eZPackage
 		{
 			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', 'create', $accessList );
+			$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
 		    $limitationList = array();
 			if ( $accessResult['accessWord'] == 'limited' )
 			{
@@ -694,7 +686,8 @@ class eZPackage
         if ( $type == 'file' )
         {
             $pathArray = array( $path, $fileItem['subdirectory'] );
-            $pathArray[] = $fileItem['name'];
+            if ( $fileItem['file-type'] != 'dir' )
+                $pathArray[] = $fileItem['name'];
             $path = eZDir::path( $pathArray );
         }
         else if ( $type == 'design' )
@@ -762,13 +755,8 @@ class eZPackage
 
     function fileItemPath( $fileItem, $collectionName, $path = false )
     {
-//         if ( !$path )
-//             $path = $this->currentRepositoryPath();
         if ( !$path )
-        {
-            $repositoryInformation = $this->currentRepositoryInformation();
-            $path = $repositoryInformation['path'];
-        }
+            $path = $this->currentRepositoryPath();
         $typeDir = $fileItem['type'];
         if ( $fileItem['type'] == 'design' )
             $typeDir .= '.' . $fileItem['design'];
@@ -821,8 +809,7 @@ class eZPackage
                          $design, $filePath, $collection,
                          $subDirectory = null, $md5 = null,
                          $copyFile = false, $modified = null, $fileType = false,
-                         $roleValue = false, $variableName = false,
-                         $packagePath = false )
+                         $roleValue = false, $variableName = false )
     {
         if ( $modified === null )
             $modified = mktime();
@@ -837,8 +824,6 @@ class eZPackage
                 $file = $matches[2];
             }
         }
-        if ( $packagePath )
-            $subDirectory = $packagePath;
         $fileItem = array( 'name' => $file,
                            'subdirectory' => $subDirectory,
                            'type' => $type,
@@ -1169,7 +1154,6 @@ class eZPackage
             $export = array( 'path' => $path );
         }
         $result = $this->storeString( $filePath, $this->toString( $export ) );
-
         $this->cleanup();
         if ( $storeCache )
             $this->storeCache( $path . '/' . $this->cacheDirectory() );
@@ -1203,11 +1187,9 @@ class eZPackage
         if ( $destinationPath )
             $archivePath = $destinationPath . '/' . $archiveName;
         $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archivePath );
-
         $packageBaseDirectory = $tempPath;
         $fileList = array();
         $fileList[] = $packageBaseDirectory;
-
         $archive->createModify( $fileList, '', $packageBaseDirectory );
 
 //         $this->removePackageFiles( $tempPath );
@@ -1422,52 +1404,33 @@ class eZPackage
      \static
      Tries to load the package named \a $packageName from the repository
      and returns the package object.
-     \param $repositoryID Determines in which repositories the package should be searched for,
-                          if set to \c true it means only look in local packages, \c false means
-                          look in all repositories.
      \return \c false if no package could be found.
     */
-    function &fetch( $packageName, $packagePath = false, $repositoryID = false )
+    function &fetch( $packageName, $packagePath = false )
     {
-        $packageRepositories = eZPackage::packageRepositories( array( 'path' => $packagePath ) );
-
-        if ( $repositoryID === true )
-            $repositoryID = 'local';
-
-        foreach ( $packageRepositories as $packageRepository )
+        $path = eZPackage::repositoryPath();
+        if ( $packagePath )
+            $path = $packagePath;
+        $path .= '/' . $packageName;
+        $filePath = $path . '/' . eZPackage::definitionFilename();
+        if ( file_exists( $filePath ) )
         {
-            if ( $repositoryID !== false and
-                 $packageRepository['id'] != $repositoryID )
-                continue;
-            $path = $packageRepository['path'];
-
-            $path .= '/' . $packageName;
-            $filePath = $path . '/' . eZPackage::definitionFilename();
-            if ( file_exists( $filePath ) )
-            {
-                $fileModification = filemtime( $filePath );
-                $package = false;
-                $cacheExpired = false;
-                if ( eZPackage::useCache() )
-                {
-                    $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
-                }
-                if ( $package )
-                {
-                    $package->setCurrentRepositoryInformation( $packageRepository );
-                    return $package;
-                }
-                $package =& eZPackage::fetchFromFile( $filePath );
-                $package->setCurrentRepositoryInformation( $packageRepository );
-                if ( $packagePath )
-                    $package->RepositoryPath = $packagePath;
-                if ( $cacheExpired and
-                     eZPackage::useCache() )
-                {
-                    $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
-                }
+            $fileModification = filemtime( $filePath );
+            $package = false;
+            $cacheExpired = false;
+            if ( eZPackage::useCache() )
+                $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
+            if ( $package )
                 return $package;
+            $package =& eZPackage::fetchFromFile( $filePath );
+            if ( $packagePath )
+                $package->RepositoryPath = $packagePath;
+            if ( $cacheExpired and
+                 eZPackage::useCache() )
+            {
+                $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
             }
+            return $package;
         }
         return false;
     }
@@ -1558,8 +1521,7 @@ class eZPackage
     function path()
     {
 //         $path = eZPackage::repositoryPath();
-//        $path = $this->RepositoryPath;
-        $path = $this->currentRepositoryPath();
+        $path = $this->RepositoryPath;
         $path .= '/' . $this->attribute( 'name' );
         return $path;
     }
@@ -1569,20 +1531,7 @@ class eZPackage
     */
     function currentRepositoryPath()
     {
-        $repositoryInformation = $this->currentRepositoryInformation();
-        if ( $repositoryInformation )
-            return $repositoryInformation['path'];
         return $this->RepositoryPath;
-    }
-
-    /*!
-     \return the path to the global (read-only) repository.
-    */
-    function globalRepositoryPath( $subtype = false )
-    {
-        if ( !$subtype )
-            return 'packages';
-        return 'packages/' . $subtype;
     }
 
     /*!
@@ -1603,7 +1552,7 @@ class eZPackage
     {
         $path = eZDir::path( array( eZSys::cacheDirectory(),
                                     'packages',
-                                    'export' . eZUser::currentUserID() ) );
+                                    'export' ) );
         return $path;
     }
 
@@ -1628,14 +1577,6 @@ class eZPackage
         $path = eZDir::path( array( eZSys::storageDirectory(),
                                     eZPackage::repositoryDirectory() ) );
         return $path;
-    }
-
-    /*!
-     \return package repository path
-    */
-    function packageRepositoryPath()
-    {
-        return eZDir::path( array( eZPackage::repositoryPath(), $this->attribute( 'name' ) ) );
     }
 
     /*!
@@ -1676,7 +1617,6 @@ class eZPackage
 
     /*!
      Locates all dependent packages in the repository and returns an array with eZPackage objects.
-     \warning This function is not in use and change in the future
     */
     function fetchDependentPackages( $parameters = array() )
     {
@@ -1719,81 +1659,15 @@ class eZPackage
     }
 
     /*!
-     \static
-     \return an array with repositories which can contain packages.
-
-     Each repository entry is an array with the following keys.
-     - path The path to the repository relative from the eZ publish installation
-     - id   Unique identifier for this repository
-     - name Human readable string identifying this repository, the name is translatable
-     - type What kind of repository, currently supports local or global.
+     Locates all packages in the repository and returns an array with eZPackage objects.
     */
-    function packageRepositories( $parameters = array() )
+    function fetchPackages( $parameters = array(), $filterParams = array() )
     {
         $path = eZPackage::repositoryPath();
-
-        if ( isset( $parameters['path'] ) and $parameters['path'] )
+        if ( isset( $parameters['path'] ) )
             $path = $parameters['path'];
-        $packageRepositories = array( array( 'path' => $path,
-                                             'id' => 'local',
-                                             'name' => ezi18n( 'kernel/package', 'Local' ),
-                                             'type' => 'local' ),
-                                      array( 'path' => eZPackage::globalRepositoryPath( 'styles' ),
-                                             'id' => 'styles',
-                                             'name' => ezi18n( 'kernel/package', 'Styles' ),
-                                             'type' => 'global' ),
-                                      array( 'path' => eZPackage::globalRepositoryPath( 'addons' ),
-                                             'id' => 'addons',
-                                             'name' => ezi18n( 'kernel/package', 'Addons' ),
-                                             'type' => 'global' ) );
-        return $packageRepositories;
-    }
-
-    /*!
-     \static
-     \return information on the repository with ID $repositoryID or \c false if does not exist.
-    */
-    function repositoryInformation( $repositoryID )
-    {
-        $packageRepositories = eZPackage::packageRepositories();
-        foreach ( $packageRepositories as $packageRepository )
-        {
-            if ( $packageRepository['id'] == $repositoryID )
-                return $packageRepository;
-        }
-        return false;
-    }
-
-    /*!
-     Sets the current repository information for the package.
-     \sa currentRepositoryInformation, packageRepositories
-    */
-    function setCurrentRepositoryInformation( $information )
-    {
-        $this->RepositoryInformation = $information;
-    }
-
-    /*!
-     \return the current repository information for the package, this
-             will contain information of where the package was found.
-     See packageRepositories too see what the information will contain.
-     \note The return information can be \c null in some cases when the package is not properly initialized.
-    */
-    function currentRepositoryInformation()
-    {
-        return $this->RepositoryInformation;
-    }
-
-    /*!
-     Locates all packages in the repository and returns an array with eZPackage objects.
-
-     \param parameters
-     \param filterArray
-    */
-    function fetchPackages( $parameters = array(), $filterArray = array() )
-    {
-        $packageRepositories = eZPackage::packageRepositories( $parameters );
-
+        /* if ( isset( $parameters['type'] ) )
+            $type = $parameters['type'];*/
         $packages = array();
 
         $requiredType = null;
@@ -1808,95 +1682,82 @@ class eZPackage
             $requiredVendor = $filterArray['vendor'];
         if ( isset( $filterArray['extension'] ) )
             $requiredExtension = $filterArray['extension'];
-        $repositoryID = false;
-        if ( isset( $parameters['repository_id'] ) )
-            $repositoryID = $parameters['repository_id'];
 
-        foreach ( $packageRepositories as $packageRepository )
+        if ( file_exists( $path ) )
         {
-            if ( strlen( $repositoryID ) == 0 or
-                 $repositoryID == $packageRepository['id'] )
+            $fileList = array();
+            $dir = opendir( $path );
+            while( ( $file = readdir( $dir ) ) !== false )
             {
-                $path = $packageRepository['path'];
-                if ( file_exists( $path ) )
+                if ( $file == '.' or
+                     $file == '..' )
+                    continue;
+                $fileList[] = $file;
+            }
+            closedir( $dir );
+            sort( $fileList );
+            foreach ( $fileList as $file )
+            {
+                $dirPath = $path . '/' . $file;
+                if ( !is_dir( $dirPath ) )
+                    continue;
+                $filePath = $dirPath . '/' . eZPackage::definitionFilename();
+                if ( file_exists( $filePath ) )
                 {
-                    $fileList = array();
-                    $dir = opendir( $path );
-                    while( ( $file = readdir( $dir ) ) !== false )
+                    $fileModification = filemtime( $filePath );
+                    $name = $file;
+                    $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
+                    unset( $package );
+                    $package = false;
+                    $cacheExpired = false;
+                    if ( eZPackage::useCache() )
                     {
-                        if ( $file == '.' or
-                             $file == '..' )
-                            continue;
-                        $fileList[] = $file;
+                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                     }
-                    closedir( $dir );
-                    sort( $fileList );
-                    foreach ( $fileList as $file )
+                    if ( !$package )
                     {
-                        $dirPath = $path . '/' . $file;
-                        if ( !is_dir( $dirPath ) )
-                            continue;
-                        $filePath = $dirPath . '/' . eZPackage::definitionFilename();
-                        if ( file_exists( $filePath ) )
+                        $package =& eZPackage::fetchFromFile( $filePath );
+                        if ( $package and
+                             $cacheExpired and
+                             eZPackage::useCache() )
                         {
-                            $fileModification = filemtime( $filePath );
-                            $name = $file;
-                            $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
-                            unset( $package );
-                            $package = false;
-                            $cacheExpired = false;
-                            if ( eZPackage::useCache() )
-                            {
-                                $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
-                            }
-                            if ( !$package )
-                            {
-                                $package =& eZPackage::fetchFromFile( $filePath );
-                                if ( $package and
-                                     $cacheExpired and
-                                     eZPackage::useCache() )
-                                {
-                                    $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
-                                }
-                            }
-                            if ( !$package )
-                                continue;
-                            if ( !$package->attribute( 'is_active' ) )
-                                continue;
-
-                            if ( $requiredType !== null )
-                            {
-                                $type = $package->attribute( 'type' );
-                                if ( $type != $requiredType )
-                                    continue;
-                            }
-
-                            if ( $requiredPriority !== null )
-                            {
-                                $type = $package->attribute( 'priority' );
-                                if ( $priority != $requiredPriority )
-                                    continue;
-                            }
-
-                            if ( $requiredExtension !== null )
-                            {
-                                $type = $package->attribute( 'extension' );
-                                if ( $extension != $requiredExtension )
-                                    continue;
-                            }
-
-                            if ( $requiredVendor !== null )
-                            {
-                                $type = $package->attribute( 'vendor' );
-                                if ( $vendor != $requiredVendor )
-                                    continue;
-                            }
-
-                            $package->setCurrentRepositoryInformation( $packageRepository );
-
-                            $packages[] =& $package;
+                            $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
                         }
                     }
+                    if ( !$package )
+                        continue;
+                    if ( !$package->attribute( 'is_active' ) )
+                        continue;
+
+                    if ( $requiredType !== null )
+                    {
+                        $type = $package->attribute( 'type' );
+                        if ( $type != $requiredType )
+                            return false;
+                    }
+
+                    if ( $requiredPriority !== null )
+                    {
+                        $type = $package->attribute( 'priority' );
+                        if ( $priority != $requiredPriority )
+                            return false;
+                    }
+
+                    if ( $requiredExtension !== null )
+                    {
+                        $type = $package->attribute( 'extension' );
+                        if ( $extension != $requiredExtension )
+                            return false;
+                    }
+
+                    if ( $requiredVendor !== null )
+                    {
+                        $type = $package->attribute( 'vendor' );
+                        if ( $vendor != $requiredVendor )
+                            return false;
+                    }
+
+                    $packages[] =& $package;
                 }
             }
         }
@@ -1919,58 +1780,6 @@ class eZPackage
         }
     }
 
-    /*!
-     Install specified install item in package
-
-     \param Item index
-     \param parameters
-    */
-    function installItem( $install, $installParameters = array() )
-    {
-        $type = $install['type'];
-        $name = $install['name'];
-        $os = $install['os'];
-        $filename = $install['filename'];
-        $subdirectory = $install['sub-directory'];
-        $parameters = $install;
-        $content = false;
-        if ( isset( $parameters['content'] ) )
-            $content = $parameters['content'];
-        $handler =& $this->packageHandler( $type );
-        if ( $handler )
-        {
-            if ( $handler->extractInstallContent() )
-            {
-                if ( !$content and
-                     $filename )
-                {
-                    if ( $subdirectory )
-                        $filepath = $subdirectory . '/' . $filename . '.xml';
-                    else
-                        $filepath = $filename . '.xml';
-
-                    $filepath = $this->path() . '/' . $filepath;
-
-                    $dom =& $this->fetchDOMFromFile( $filepath );
-                    if ( $dom )
-                        $content =& $dom->root();
-                    else
-                        eZDebug::writeError( "Failed fetching dom from file $filepath" );
-                }
-            }
-            $installData =& $this->InstallData[$type];
-            if ( !isset( $installData ) )
-                $installData = array();
-            $installResult = $handler->install( $this, $type, $parameters,
-                                                $name, $os, $filename, $subdirectory,
-                                                $content, $installParameters,
-                                                $installData );
-        }
-    }
-
-    /*!
-     Install all install items in package
-    */
     function install( $installParameters = array() )
     {
         if ( $this->Parameters['install_type'] != 'install' )
@@ -1980,7 +1789,45 @@ class eZPackage
             $installParameters['path'] = false;
         foreach ( $installs as $install )
         {
-            $this->installItem( $install, $installParameters );
+            $type = $install['type'];
+            $name = $install['name'];
+            $os = $install['os'];
+            $filename = $install['filename'];
+            $subdirectory = $install['sub-directory'];
+            $parameters = $install;
+            $content = false;
+            if ( isset( $parameters['content'] ) )
+                $content = $parameters['content'];
+            $handler =& $this->packageHandler( $type );
+            if ( $handler )
+            {
+                if ( $handler->extractInstallContent() )
+                {
+                    if ( !$content and
+                         $filename )
+                    {
+                        if ( $subdirectory )
+                            $filepath = $subdirectory . '/' . $filename . '.xml';
+                        else
+                            $filepath = $filename . '.xml';
+
+                        $filepath = $this->path() . '/' . $filepath;
+
+                        $dom =& $this->fetchDOMFromFile( $filepath );
+                        if ( $dom )
+                            $content =& $dom->root();
+                        else
+                            eZDebug::writeError( "Failed fetching dom from file $filepath" );
+                    }
+                }
+                $installData =& $this->InstallData[$type];
+                if ( !isset( $installData ) )
+                    $installData = array();
+                $installResult = $handler->install( $this, $type, $parameters,
+                                                    $name, $os, $filename, $subdirectory,
+                                                    $content, $installParameters,
+                                                    $installData );
+            }
         }
         $this->Parameters['is_installed'] = true;
         $this->store();
@@ -2141,9 +1988,6 @@ class eZPackage
                                  $changelogRelease, $changelogTimestamp, $changelogModified );
         }
 
-        // Read simple files
-        $this->Parameters['simple-file-list'] = eZDOMDocument::createArrayFromDOMNode( $root->elementByName( 'simple-files' ) );
-
         // Read files
         $filesList =& $root->elementChildrenByName( 'files' );
         if ( $filesList )
@@ -2161,6 +2005,24 @@ class eZPackage
                     $fileRole = $fileListNode->attributeValue( 'role' );
                     $fileVariableName = $fileListNode->attributeValue( 'variable-name' );
                     $fileRoleValue = $fileListNode->attributeValue( 'role-value' );
+//                     $dirs =& $fileListNode->elementsByName( 'dir' );
+//                     {
+//                         if ( count( $dirs ) > 0 )
+//                         {
+//                             foreach ( array_keys( $dirs ) as $dirKey )
+//                             {
+//                                 $dirNode =& $dirs[$dirKey];
+//                                 $dirName = $dirNode->attributeValue( 'name' );
+//                                 $dirSubDirectory = $dirNode->attributeValue( 'sub-directory' );
+//                                 $dirPath = $dirNode->attributeValue( 'path' );
+//                                 $dirModified = $dirNode->attributeValue( 'modified' );
+//                                 $this->appendFile( $dirName, $fileType, $fileRole,
+//                                                    $fileDesign, $dirPath, $fileCollectionName,
+//                                                    $dirSubDirectory, false, false, $dirModified );
+//                             }
+//                         }
+//                     }
+//                     unset( $dirs );
                     $files =& $fileListNode->elementsByName( 'file' );
                     if ( count( $files ) > 0 )
                     {
@@ -2249,8 +2111,7 @@ class eZPackage
             for ( $i = 0; $i < count( $installDataList ); ++$i )
             {
                 $installDataNode =& $installDataList[$i];
-                if ( is_object( $installDataNode ) &&
-                     $installDataNode->attributeValue( 'name' ) == 'data' )
+                if ( $installDataNode->attribute( 'name' ) == 'data' )
                 {
                     $installDataType = $installDataNode->attributeValue( 'type' );
                     $installDataElements = $installDataNode->children();
@@ -2424,7 +2285,6 @@ class eZPackage
         $licence = $this->attribute( 'licence' );
         $state = $this->attribute( 'state' );
 
-        $simpleFileList = $this->attribute( 'simple-file-list' );
         $fileList = $this->attribute( 'file-list' );
         $dependencies = $this->attribute( 'dependencies' );
         $install = $this->attribute( 'install' );
@@ -2573,29 +2433,6 @@ class eZPackage
             $root->appendChild( $changelogNode );
         }
 
-        // Handle simple files
-        foreach( $simpleFileList as $key => $fileInfo )
-        {
-            if ( $export )
-            {
-                $sourcePath = $this->path() . '/' . $fileInfo['package-path'];
-                $destinationPath = $exportPath . '/' . $fileInfo['package-path'];
-                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                eZFileHandler::copy( $sourcePath, $destinationPath );
-            }
-            else if ( $simpleFileList[$key]['package-path'] == '' )
-            {
-                $suffix = eZFile::suffix( $fileInfo['original-path'] );
-                $sourcePath = $fileInfo['original-path'];
-                $fileInfo['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
-                $destinationPath = $this->path() . '/' . $fileInfo['package-path'];
-                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                eZFileHandler::copy( $sourcePath, $destinationPath );
-                $this->Parameters['simple-file-list'][$key] = $fileInfo;
-            }
-        }
-        $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
-
         // Handle files
         $filesNode =& $dom->createElementNode( 'files' );
         $filesNode->appendAttribute( $dom->createAttributeNode( 'ezfile', 'http://ez.no/ezpackage', 'xmlns' ) );
@@ -2681,8 +2518,6 @@ class eZPackage
                         }
                         if ( $fileItem['name'] )
                             $path .= '/' . $fileItem['name'];
-                        if ( $fileItem['path'] )
-                            $path = $fileItem['path'];
                         if ( !file_exists( $destinationPath ) )
                             eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true );
                         if ( is_dir( $path ) )
@@ -2699,32 +2534,20 @@ class eZPackage
                                     $copiedFileName = $matches[2];
                                 }
                                 $copiedFileAttributes = array( 'name' => $copiedFileName );
-                                if ( $copiedSubdirectory and $fileItem['name'] )
-                                    $copiedSubdirectory = $fileItem['name'] . '/' . $copiedSubdirectory;
-                                else if ( $fileItem['name'] )
-                                    $copiedSubdirectory = $fileItem['name'];
-                                if ( is_dir( $destinationPath . '/' . $copiedFile ) )
-                                {
-                                    $copiedFileAttributes = array_merge( $copiedFileAttributes,
-                                                                         array( 'type' => 'dir' ) );
-                                }
-
-                                if ( $fileItem['subdirectory'] and $copiedSubdirectory )
-                                    $copiedSubdirectory = $fileItem['subdirectory'] . '/' . $copiedSubdirectory;
-                                else if ( $fileItem['subdirectory'] )
-                                    $copiedSubdirectory = $fileItem['subdirectory'];
+                                if ( $copiedSubdirectory )
+                                    $copiedFileAttributes['sub-directory'] = $copiedSubdirectory;
                                 $copiedMD5Sum = $this->md5sum( $destinationPath . '/' . $copiedFile );
                                 if ( $copiedMD5Sum )
                                     $copiedFileAttributes['md5sum'] = $copiedMD5Sum;
-                                if ( $copiedSubdirectory )
-                                    $copiedFileAttributes['sub-directory'] = $copiedSubdirectory;
-                                $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
+                                if ( is_dir( $destinationPath . '/' . $copiedFile ) )
+                                    $fileListNode->appendChild( $dom->createElementNode( 'file', array_merge( $copiedFileAttributes,
+                                                                                                              array( 'type' => 'dir' ) ) ) );
+                                else
+                                    $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
                             }
                         }
                         else
-                        {
                             eZFileHandler::copy( $path, $destinationPath . '/' . $fileItem['name'] );
-                        }
                     }
                     else if ( $copyFile )
                     {
@@ -2743,14 +2566,10 @@ class eZPackage
                         if ( !file_exists( $path ) )
                             eZDir::mkdir( $path, eZDir::directoryPermission(), true );
                         if ( is_dir( $fileItem['path'] ) )
-                        {
                             eZDir::copy( $fileItem['path'], $path,
                                          $fileItem['name'] != false, true, false, eZDir::temporaryFileRegexp() );
-                        }
                         else
-                        {
                             eZFileHandler::copy( $fileItem['path'], $path . '/' . $fileItem['name'] );
-                        }
                     }
                 }
                 $filesNode->appendChild( $fileCollectionNode );
@@ -2795,6 +2614,34 @@ class eZPackage
 
         $dependencyNode =& $dom->createElementNode( 'dependencies' );
         $dependencyNode->appendAttribute( $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' ) );
+
+//         if ( isset( $release['provides']['file-lists'] ) )
+//         {
+//             foreach ( $release['provides']['file-lists'] as $fileList )
+//             {
+//                 $fileListNode =& $dom->createElementNode( 'file-list' );
+//                 if ( $fileList['role'] )
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
+//                 if ( $fileList['sub-directory'] )
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
+//                 foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
+//                 {
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
+//                 }
+//                 $providesNode->appendChild( $fileListNode );
+//                 foreach ( $fileList['files'] as $file )
+//                 {
+//                     $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
+//                     if ( $file['role'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
+//                     if ( $file['sub-directory'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
+//                     if ( $file['md5sum'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
+//                     $fileListNode->appendChild( $fileNode );
+//                 }
+//             }
+//         }
 
         $providesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'provides' ) );
         $requiresNode =& $dependencyNode->appendChild( $dom->createElementNode( 'requires' ) );
@@ -2958,6 +2805,10 @@ class eZPackage
                                                     'alias-variable' => 'HandlerAlias' ),
                                              $result ) )
         {
+//         $ini =& eZINI::instance( 'package.ini' );
+//         $repository = $ini->variable( 'PackageSettings', 'PackageHandlerRepository' );
+//         $handlerFile = $repository . '/' . $handlerName . '/' . $handlerName . 'packagehandler.php';
+//         $handler = false;
             $handlerFile = $result['found-file-path'];
             if ( file_exists( $handlerFile ) )
             {
@@ -2976,52 +2827,6 @@ class eZPackage
             }
         }
         return $handler;
-    }
-
-    /*!
-     Append File to package assosiated with key. The file will be available during installation using the same key.
-
-     \param key
-     \param file path
-    */
-    function appendSimpleFile( $key, $filepath )
-    {
-        if ( !isset( $this->Parameters['simple-file-list'] ) )
-        {
-            $this->Parameters['simple-file-list'] = array();
-        }
-        $this->Parameters['simple-file-list'][$key] = array( 'original-path' => $filepath,
-                                                             'package-path' => '' );
-    }
-
-    /*!
-     Get complete path to file by file key
-
-     \param file key
-
-     \return complete file path
-    */
-    function simpleFilePath( $fileKey )
-    {
-        if ( !isset( $this->Parameters['simple-file-list'] ) )
-        {
-            return false;
-        }
-        if ( !isset( $this->Parameters['simple-file-list'][$fileKey] ) )
-        {
-            return false;
-        }
-
-        return $this->path() . '/' . $this->Parameters['simple-file-list'][$fileKey]['package-path'];
-    }
-
-    /*!
-     \private
-     Get local simple file path
-    */
-    function simpleFilesDirectory()
-    {
-        return 'simplefiles';
     }
 
     /// \privatesection

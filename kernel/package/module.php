@@ -39,17 +39,15 @@ $ViewList['list'] = array(
     'functions' => array( 'list' ),
     'script' => 'list.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'ChangeRepositoryButton' => 'ChangeRepository',
-                                    'InstallPackageButton' => 'InstallPackage',
+    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
                                     'RemovePackageButton' => 'RemovePackage',
                                     'ConfirmRemovePackageButton' => 'ConfirmRemovePackage',
                                     'CancelRemovePackageButton' => 'CancelRemovePackage',
                                     'CreatePackageButton' => 'CreatePackage' ),
-    'post_action_parameters' => array( 'ChangeRepository' => array( 'RepositoryID' => 'RepositoryID' ),
-                                       'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ),
+    'post_action_parameters' => array( 'RemovePackage' => array( 'PackageSelection' => 'PackageSelection' ),
                                        'ConfirmRemovePackage' => array( 'PackageSelection' => 'PackageSelection' ) ),
     "unordered_params" => array( "offset" => "Offset" ),
-    'params' => array( 'RepositoryID' ) );
+    'params' => array() );
 
 $ViewList['upload'] = array(
     'functions' => array( 'import' ),
@@ -84,21 +82,14 @@ $ViewList['view'] = array(
     'single_post_actions' => array( 'InstallButton' => 'Install',
                                     'UninstallButton' => 'Uninstall',
                                     'ExportButton' => 'Export' ),
-    'params' => array( 'ViewMode', 'PackageName', 'RepositoryID' ) );
+    'params' => array( 'ViewMode', 'PackageName' ) );
 
 $ViewList['install'] = array(
     'functions' => array( 'install' ),
     'script' => 'install.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
-                                    'PackageStep' => 'PackageStep',
                                     'SkipPackageButton' => 'SkipPackage' ),
-    'post_action_parameters' => array( 'InstallPackage' => array( 'InstallItemID' => 'InstallItemID' ),
-                                       'PackageStep' => array( 'InstallItemID' => 'InstallItemID',
-                                                               'InstallStepID' => 'InstallStepID',
-                                                               'PreviousStep' => 'PreviousStepButton',
-                                                               'NextStep' => 'NextStepButton' ) ),
-
     'params' => array( 'PackageName' ) );
 
 $ViewList['uninstall'] = array(

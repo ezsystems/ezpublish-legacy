@@ -52,7 +52,9 @@ include_once( "kernel/classes/ezcontentobjectversion.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/eznodeassignment.php" );
 include_once( "kernel/classes/ezcontenttranslation.php" );
+include_once( "kernel/classes/ezsearch.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
@@ -110,7 +112,7 @@ class eZContentObject extends eZPersistentObject
                                                             'datatype' => 'integer',
                                                             'default' => 0,
                                                             'required' => true ),
-                                         'remote_id' => array( 'name' => "RemoteID",
+                                         "remote_id" => array( 'name' => "RemoteID",
                                                                'datatype' => 'string',
                                                                'default' => '',
                                                                'required' => true ) ),
@@ -138,7 +140,6 @@ class eZContentObject extends eZPersistentObject
                                                       "main_node" => "mainNode",
                                                       "default_language" => "defaultLanguage",
                                                       "content_action_list" => "contentActionList",
-                                                      "class_identifier" => "contentClassIdentifier",
                                                       "name" => "Name" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
@@ -165,15 +166,11 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_remove" or
              $attr == "data_map" or
              $attr == "default_language" or
-             $attr == "content_action_list" or
-             $attr == "class_identifier" or
-             $attr == 'remote_id'
+             $attr == "content_action_list"
              )
         {
             if ( $attr == "current" )
                 return $this->currentVersion();
-            else if ( $attr == 'remote_id' )
-                return $this->remoteID();
             else if ( $attr == 'versions' )
                 return $this->versions();
             else if ( $attr == 'author_array' )
@@ -185,17 +182,17 @@ class eZContentObject extends eZPersistentObject
             else if ( $attr == "owner" )
                 return $this->owner();
             else if ( $attr == "can_read" )
-                return $this->canRead( $accessList );
+                return $this->canRead();
             else if ( $attr == "can_create" )
-                return $this->canCreate( $accessList );
+                return $this->canCreate();
             else if ( $attr == "can_create_class_list" )
                 return $this->canCreateClassList();
             else if ( $attr == "can_edit" )
-                return $this->canEdit( $accessList );
+                return $this->canEdit();
             else if ( $attr == "can_translate" )
-                return $this->canTranslate( $accessList );
+                return $this->canTranslate();
             else if ( $attr == "can_remove" )
-                return $this->canRemove( $accessList );
+                return $this->canRemove();
             else if ( $attr == "contentobject_attributes" )
                 return $this->contentObjectAttributes();
             else if ( $attr == "related_contentobject_array" )
@@ -206,8 +203,6 @@ class eZContentObject extends eZPersistentObject
                 return $this->contentActionList();
             else if ( $attr == "default_language" )
                 return $this->defaultLanguage();
-            else if ( $attr == "class_identifier" )
-                return $this->contentClassIdentifier();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
@@ -252,25 +247,7 @@ class eZContentObject extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ID] );
 
-        $this->storeNodeModified();
-
         eZPersistentObject::store();
-    }
-
-    /*!
-     Update all nodes to set modified_subnode value
-    */
-    function storeNodeModified()
-    {
-        if ( is_numeric( $this->ID ) )
-        {
-            $nodeArray =& $this->assignedNodes();
-
-            foreach ( array_keys( $nodeArray ) as $key )
-            {
-                $nodeArray[$key]->updateAndStoreModified();
-            }
-        }
     }
 
     function &name( $version = false , $lang = false )
@@ -513,42 +490,11 @@ class eZContentObject extends eZPersistentObject
         return eZContentClass::fetch( $this->ClassID );
     }
 
-    /*!
-     Get remote id of content node
-    */
-    function remoteID()
-    {
-        $remoteID = eZPersistentObject::attribute( 'remote_id' );
-        if ( !$remoteID )
-        {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id' );
-        }
-
-        return $remoteID;
-    }
-
     function &mainParentNodeID()
     {
         $temp = eZContentObjectTreeNode::getParentNodeId( $this->attribute( 'main_node_id' ) );
 
         return $temp;
-    }
-
-    /*!
-     Fetches contentobject by remote ID, returns null if none exist
-    */
-    function fetchByRemoteID( $remoteID, $asObject = true )
-    {
-        $db =& eZDB::instance();
-        $resultArray = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $remoteID . '\'' );
-        if ( count( $resultArray ) != 1 )
-        {
-            return null;
-        }
-
-        return eZContentObject::fetch( $resultArray[0]['id'], $asObject );
     }
 
     /*!
@@ -586,7 +532,7 @@ class eZContentObject extends eZPersistentObject
             $resArray =& $db->arrayQuery( $query );
 
             $objectArray = array();
-            if ( count( $resArray ) == 1 && $resArray !== false )
+            if ( count( $resArray ) == 1 )
             {
                 $objectArray =& $resArray[0];
             }
@@ -878,8 +824,7 @@ class eZContentObject extends eZPersistentObject
             "parent_id" => 0,
             "main_node_id" => 0,
             "owner_id" => $userID,
-            "section_id" => $sectionID,
-            'remote_id' => md5( (string)mt_rand() . (string)mktime() ) );
+            "section_id" => $sectionID );
         return new eZContentObject( $row );
     }
 
@@ -902,17 +847,15 @@ class eZContentObject extends eZPersistentObject
     function &copy( $allVersions = true )
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
-        $user =& eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
-
         $contentObject =& $this->clone();
         $contentObject->setAttribute( 'current_version', 1 );
-        $contentObject->setAttribute( 'owner_id', $userID );
         $contentObject->store();
 
         $contentObject->setName( $this->attribute('name') );
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObject, 'contentObject' );
 
+        $user =& eZUser::currentUser();
+        $userID =& $user->attribute( 'contentobject_id' );
 
         $versionList = array();
         if ( $allVersions )
@@ -990,6 +933,8 @@ class eZContentObject extends eZPersistentObject
     {
         $versionObject =& $this->createNewVersion( $version );
 
+//         $this->CurrentVersion = $versionObject->attribute( 'version' );
+//         $this->store();
         return $versionObject->attribute( 'version' );
     }
 
@@ -999,6 +944,7 @@ class eZContentObject extends eZPersistentObject
     */
     function purge( $id = false )
     {
+        $delID = $this->ID;
         if ( is_numeric( $id ) )
         {
             $delID = $id;
@@ -1006,7 +952,6 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            $delID = $this->ID;
             $contentobject =& $this;
         }
         $db =& eZDB::instance();
@@ -1063,7 +1008,6 @@ class eZContentObject extends eZPersistentObject
 
         $nodes = $contentobject->attribute( 'assigned_nodes' );
 
-        include_once( "kernel/classes/ezsearch.php" );
         if ( $nodeID === null  or count( $nodes ) <= 1 )
         {
             foreach ( $nodes as $node )
@@ -1428,6 +1372,18 @@ class eZContentObject extends eZPersistentObject
                 // Custom Action Code
                 $this->handleCustomHTTPActions( $contentObjectAttribute, $attributeDataBaseName,
                                                 $customActionAttributeArray, $customActionParameters );
+                /*
+                $customActionParameters['base_name'] = $attributeDataBaseName;
+                if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+                {
+                    $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
+                    $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
+                    $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+                }
+
+                $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
+                                                                  $customActionAttributeArray, $customActionParameters );
+                */
             }
 
         }
@@ -1667,7 +1623,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
 					       ezcontentobject_link.from_contentobject_version='$version'
-                           $versionNameJoins" );
+                           $versionNameJoins;;" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
@@ -1747,7 +1703,6 @@ class eZContentObject extends eZPersistentObject
         $retNodes = array();
         if ( $version )
         {
-            include_once( "kernel/classes/eznodeassignment.php" );
             if( is_numeric( $version ) )
             {
                 $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );
@@ -1770,6 +1725,29 @@ class eZContentObject extends eZPersistentObject
             }
             return $retNodes;
         }
+        /*
+        $nodes = $this->attribute( 'assigned_nodes' );
+        //  $retNodes = array();
+        if ( $asObject )
+        {
+            foreach ( $nodes as $node )
+            {
+                if ( $node->attribute( 'parent_node_id' ) != 1 )
+                {
+                    $retNodes[] =& eZContentObjectTreeNode::fetch( $node->attribute( 'parent_node_id' ) );
+                }
+            }
+        }
+        else
+        {
+            foreach ( $nodes as $node )
+            {
+                $retNodes[] = $node->attribute( 'parent_node_id' );
+            }
+        }
+//        var_dump($retNodes);
+        return $retNodes;
+        */
     }
 
     /*!
@@ -1836,14 +1814,14 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, &$accessList )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $accessResult =  $user->hasAccessTo( 'content' , $functionName, $accessList );
+        $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
-        if ( $classID === false )
+        if ( ! $classID )
         {
             $classID = $this->attribute( 'contentclass_id' );
         }
@@ -1851,29 +1829,38 @@ class eZContentObject extends eZPersistentObject
         {
             return 1;
         }
-        else if ( $accessWord == 'no' )
+        elseif ( $accessWord == 'no' )
         {
             return 0;
         }
         else
         {
             $policies  =& $accessResult['policies'];
-            $access = 'denied';
-
-            foreach ( array_keys( $policies ) as $pkey  )
+            foreach ( array_keys( $policies ) as $key  )
             {
-                $limitationArray =& $policies[ $pkey ];
-                if ( $access == 'allowed' )
+                $policy =& $policies[$key];
+                $limitationList[] =& $policy->attribute( 'limitations' );
+            }
+            if ( count( $limitationList ) > 0 )
+            {
+                $access = 'denied';
+                foreach ( array_keys( $limitationList ) as $key  )
                 {
-                    break;
-                }
-
-                $limitationList = array();
-                foreach ( array_keys( $limitationArray ) as $key  )
-                {
-                    switch( $key )
+                    $limitationArray =& $limitationList[ $key ];
+                    if ( $access == 'allowed' )
                     {
-                        case 'Class':
+                        break;
+                    }
+                    foreach ( array_keys( $limitationArray ) as $key  )
+//                    foreach ( $limitationArray as $limitation )
+                    {
+                        $limitation =& $limitationArray[$key];
+//                        if ( $functionName == 'remove' )
+//                        {
+//                            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $limitation, 'limitation in check access' );
+//                        }
+
+                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
                         {
                             if ( $functionName == 'create' and
                                  !$originalClassID )
@@ -1881,55 +1868,46 @@ class eZContentObject extends eZPersistentObject
                                 $access = 'allowed';
                             }
                             else if ( $functionName == 'create' and
-                                 in_array( $classID, $limitationArray[$key] ) )
+                                 in_array( $classID, $limitation->attribute( 'values_as_array' ) ) )
                             {
                                 $access = 'allowed';
                             }
-                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
+                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                break;
                             }
-                        } break;
-
-                        case 'ParentClass':
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
                         {
 
-                            if (  in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key]  ) )
+                            if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                break;
                             }
-                        } break;
-
-                        case 'Section':
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
                         {
-                            if ( in_array( $this->attribute( 'section_id' ), $limitationArray[$key]  ) )
+                            if (  in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                break;
                             }
-                        } break;
-
-                        case 'Owner':
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
                         {
                             if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                             {
@@ -1938,16 +1916,13 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key );
-//                                    'Required' => $limitationArray[$key] );
+                                break;
                             }
-                        } break;
-
-                        case 'Node':
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
                         {
                             $mainNodeID = $this->attribute( 'main_node_id' );
-                            foreach (  $limitationArray[$key] as $nodeID )
+                            foreach (  $limitation->attribute( 'values_as_array' ) as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                                 $limitationNodeID = $node->attribute( 'main_node_id' );
@@ -1965,14 +1940,10 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
                                 break;
                             }
-                        } break;
-
-                        case 'Subtree':
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
                         {
                             $assignedNodes = $this->attribute( 'assigned_nodes' );
                             if ( count(  $assignedNodes ) != 0 )
@@ -1980,7 +1951,7 @@ class eZContentObject extends eZPersistentObject
                                 foreach (  $assignedNodes as  $assignedNode )
                                 {
                                     $path =  $assignedNode->attribute( 'path_string' );
-                                    $subtreeArray = $limitationArray[$key];
+                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
                                         if (  strstr( $path, $subtreeString ) )
@@ -1998,10 +1969,10 @@ class eZContentObject extends eZPersistentObject
                                     $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
                                     $path = $parentNode->attribute( 'path_string' );
 
-                                    $subtreeArray = $limitationArray[$key];
+                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
-                                        if ( strstr( $path, $subtreeString ) )
+                                        if (  strstr( $path, $subtreeString ) )
                                         {
                                             $access = 'allowed';
                                         }
@@ -2015,81 +1986,82 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                $limitationList = array (
-                                    'Limitation' => $key,
-                                    'Required' => $limitationArray[$key] );
+                                break;
                             }
-                        } break;
-                    }
-
-                    if ( $access == 'denied' )
-                    {
-/*                        $limitationList = array (
-                            'Limitation' => 'unknown',
-                            'PolicyID' => '',
-                            'Required' => ''); */
-                        break;
+                        }
                     }
                 }
-
-                $policyList[] = array( 
-                                                   'PolicyID' => $pkey,
-                                                   'LimitationList' => $limitationList
-                                                   );
-
-            }
-            if ( $access == 'denied' )
-            {
-                $accessList = array(
-                    'FunctionRequired' => array ( 'Module' => 'content',
-                            'Function' => $functionName,
-                            'ClassID' => $classID,
-                            'MainNodeID' => $this->attribute( 'main_node_id' ) ),
-                    'PolicyList' => $policyList);
-
-                return 0;
-            }
-            else
-            {
-                return 1;
+                if ( $access == 'denied' )
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
             }
         }
     }
 
-    function classListFromPolicy( $policy )
+    function classListFromLimitation( $limitationList )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
-        if ( isset( $policy['Class'] ) )
+        foreach ( $limitationList as $limitation )
         {
-            $canCreateClassIDListPart =& $policy['Class'];
-            $hasClassIDLimitation = true;
-        }
-
-        if ( isset( $policy['Section'] ) )
-        {
-            if ( !in_array( $this->attribute( 'section_id' ),  $policy['Section']  ) )
+            if ( $limitation->attribute( 'identifier' ) == 'Class' )
             {
-                return array();
+                $canCreateClassIDListPart =& $limitation->attribute( 'values_as_array' );
+                $hasClassIDLimitation = true;
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+            {
+                $limitationMatch = false;
+
+                $mainNodeID = $this->attribute ( 'main_node_id' );
+                if ( $mainNodeID )
+                {
+                    $node =& eZContentObjectTreeNode::fetch( $mainNodeID );
+                    $nodePathString = $node->attribute ('path_string');
+                
+                    foreach ( $limitation->attribute( 'values') as $limitationValues )
+                    {
+                        if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
+                        {
+                            $limitationMatch = true;
+                        }
+                    }
+                } else
+                {
+                    // creating new object, main_node_id not yet set
+                    $limitationMatch = true;
+                }
+                if ( ! $limitationMatch )
+                    return array(); 
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+            {
+                if ( !in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                {
+                    return array();
+                }
+            }
+            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
+            {
+                if ( !in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                {
+                    return array();
+                }
+            }
+
+            elseif ( $limitation->attribute( 'name' ) == 'Assigned' )
+            {
+                if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+                {
+                    return array();
+                }
             }
         }
-
-        if ( isset( $policy['ParentClass'] ) )
-        {
-            if ( !in_array( $this->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
-            {
-                return array();
-            }
-        }
-
-        if ( isset( $policy['Assigned'] ) )
-        {
-            if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
-            {
-                return array();
-            }
-        }
-
         if ( $hasClassIDLimitation )
         {
             return $canCreateClassIDListPart;
@@ -2099,16 +2071,21 @@ class eZContentObject extends eZPersistentObject
 
     function &canCreateClassList()
     {
+
+//        eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create', $accessList );
+        $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
         if ( $accessWord == 'yes' )
         {
-            return eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+            $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everithing' );
+            return $classList;
         }
         elseif ( $accessWord == 'no' )
         {
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         else
@@ -2117,10 +2094,13 @@ class eZContentObject extends eZPersistentObject
             $classIDArray = array();
             foreach ( $policies as $policy )
             {
-                $classIDArrayPart = $this->classListFromPolicy( $policy );
+//                $classIDArrayPart = array();
+                $limitationArray =& $policy->attribute( 'limitations' );
+                $classIDArrayPart = $this->classListFromLimitation( $limitationArray );
                 if ( $classIDArrayPart == '*' )
                 {
                     $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+//                    eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $classList, 'can create everything' );
                     return $classList;
                 }else
                 {
@@ -2131,6 +2111,7 @@ class eZContentObject extends eZPersistentObject
         }
         if( count( $classIDArray ) == 0  )
         {
+//            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', array(), 'can create nothing' );
             return array();
         }
         $classList = array();
@@ -2145,38 +2126,38 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns true if the current
     */
-    function canRead( &$accessList )
+    function canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
-            $this->Permissions["can_read"] = $this->checkAccess( 'read', false, false, $accessList );
+            $this->Permissions["can_read"] = $this->checkAccess( 'read' );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
 
-    function canCreate( &$accessList )
+    function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
-            $this->Permissions["can_create"] = $this->checkAccess( 'create', false, false, $accessList );
+            $this->Permissions["can_create"] = $this->checkAccess( 'create' );
         }
         $p = ( $this->Permissions["can_create"] == 1 );
         return $p;
     }
 
 
-    function canEdit( &$accessList )
+    function canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', false, false, $accessList );
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
+                     $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_edit"] = 1;
@@ -2188,17 +2169,17 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canTranslate( &$accessList )
+    function canTranslate( )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
-            $this->Permissions["can_translate"] = $this->checkAccess( 'translate', false, false, $accessList );
+            $this->Permissions["can_translate"] = $this->checkAccess( 'translate' );
             if ( $this->Permissions["can_translate"] != 1 )
             {
                  $user =& eZUser::currentUser();
                  if ( $user->id() == $this->attribute( 'id' ) )
                  {
-                     $access = $user->hasAccessTo( 'user', 'selfedit', $accessList );
+                     $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
                          $this->Permissions["can_translate"] = 1;
@@ -2210,12 +2191,12 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( &$accessList )
+    function canRemove( )
     {
 
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
-            $this->Permissions["can_remove"] = $this->checkAccess( 'remove', false, false, $accessList );
+            $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;
@@ -2370,160 +2351,19 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \static
-     Unserialize xml structure. Create object from xml input.
-
-     \param package
-     \param XML DOM Node
-     \param parent node object.
-     \param Options
-     \param owner ID, override owner ID, null to use XML owner id (optional)
-
-     \returns created object, false if could not create object/xml invalid
-    */
-    function &unserialize( &$package, &$domNode, $options, $ownerID = false )
-    {
-        if ( $domNode->name() != 'object' )
-        {
-            return false;
-        }
-
-        $sectionID =& $domNode->attributeValue( 'section_id' );
-        if ( $ownerID === false )
-        {
-            $ownerID =& $domNode->attributeValue( 'owner_id' );
-        }
-        $remoteID =& $domNode->attributeValue( 'remote_id' );
-        $name =& $domNode->attributeValue( 'name' );
-        $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
-        $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
-
-        $contentClass =& eZContentClass::fetchByRemoteID( $classRemoteID );
-        if ( !$contentClass )
-        {
-            $contentClass =& eZContentClass::fetchByIdentifier( $classIdentifier );
-        }
-
-        if ( !$contentClass )
-        {
-            eZDebug::writeError( 'Could not fetch class ' . $classIdentifier . ', remote_id: ' . $classRemoteID, 'eZContentObject::unserialize()' );
-            return false;
-        }
-
-        $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
-        if ( !$contentObject )
-        {
-            $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
-        }
-
-        $versionListNode =& $domNode->elementByName( 'version-list' );
-        $contentObject->store();
-        $activeVersion = 1;
-        $firstVersion = true;
-
-        $versionList = array();
-        foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
-        {
-            unset( $nodeList );
-            $nodeList = array();
-            $contentObjectVersion = eZContentObjectVersion::unserialize( $versionDOMNode,
-                                                                         $contentObject,
-                                                                         $ownerID,
-                                                                         $sectionID,
-                                                                         $versionListNode->attributeValue( 'active_version' ),
-                                                                         $firstVersion,
-                                                                         $nodeList,
-                                                                         $options,
-                                                                         $package );
-            $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList );
-
-            $firstVersion = false;
-            if ( $versionDOMNode->attributeValue( 'version' ) == $versionListNode->attributeValue( 'active_version' ) )
-            {
-                $activeVersion = $contentObjectVersion->attribute( 'version' );
-            }
-        }
-
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
-            $contentObject->setAttribute( 'modified', $modified );
-        }
-        $contentObject->setAttribute( 'remote_id', $remoteID );
-        $contentObject->setAttribute( 'current_version', $activeVersion );
-        $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
-        $contentObject->setAttribute( 'name', $name );
-        $contentObject->store();
-
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-        eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
-                                                                  'version' => $activeVersion ) );
-
-        foreach ( $versionList[$activeVersion]['node_list'] as $nodeInfo )
-        {
-            unset( $parentNode );
-            $parentNode =& eZContentObjectTreeNode::fetchNode( $contentObject->attribute( 'id' ),
-                                                               $nodeInfo['parent_node'] );
-            if ( is_object( $parentNode ) )
-            {
-                $parentNode->setAttribute( 'priority', $nodeInfo['priority'] );
-                $parentNode->store( array( 'priority' ) );
-            }
-        }
-
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
-            $contentObject->setAttribute( 'published', $published );
-            $contentObject->store( array( 'published' ) );
-        }
-        return $contentObject;
-    }
-
-    /*!
      \return a DOM structure of the content object and it's attributes.
-
-     \param package
-     \param Content object version, true for current version, false for all, else array containing specific versions.
-     \param package options ( optianal )
-     \param array of allowed nodes ( optional )
-     \param array of top nodes in current package export (optional )
     */
-    function &serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function &serialize( $specificVersion = false )
     {
-        if ( $options['node_assignment'] == 'main' )
-        {
-            if ( !in_array( $this->attribute( 'main_node_id' ), $contentNodeIDArray ) )
-            {
-                return false;
-            }
-        }
-
-        include_once( 'lib/ezlocale/classes/ezdateutils.php' );
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
         $objectNode = new eZDOMNode();
 
         $objectNode->setName( 'object' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'ezremote', 'http://ez.no/ezobject', 'xmlns' ) );
+        $objectNode->setPrefix( 'ez' );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->Name ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ), 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
-        if ( !$this->attribute( 'remote_id' ) )
-        {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)mktime() );
-            $this->store();
-        }
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ) ) );
-        $contentClass =& $this->attribute( 'content_class' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ) ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_identifier', $contentClass->attribute( 'identifier' ), 'ezremote' ) );
 
         $versions = array();
         if ( $specificVersion === false )
@@ -2542,13 +2382,20 @@ class eZContentObject extends eZPersistentObject
         $this->fetchClassAttributes();
 
         $versionsNode = new eZDOMNode();
+        $versionsNode->setPrefix( 'ez' );
         $versionsNode->setName( 'version-list' );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNode( 'active_version', $this->CurrentVersion ) );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNamespaceDefNode( "ezobject", "http://ez.no/object/" ) );
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
-            $versionNode =& $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
+            $versionNode =& $version->serialize();
+//             $attributes =& $this->contentObjectAttributes( true, $version );
+
+//             foreach ( $attributes as $attribute )
+//             {
+//                 $objectNode->appendChild( $attribute->serialize() );
+//             }
             $versionsNode->appendChild( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );
@@ -2586,7 +2433,7 @@ class eZContentObject extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
+        $handler->setTimestamp( 'content-cache', time() );
         $handler->store();
     }
 
@@ -2597,7 +2444,7 @@ class eZContentObject extends eZPersistentObject
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-complex-viewmode-cache', mktime() );
+        $handler->setTimestamp( 'content-complex-viewmode-cache', time() );
         $handler->store();
     }
 

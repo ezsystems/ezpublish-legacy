@@ -106,7 +106,6 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                               array( 'class', $object->attribute( 'contentclass_id' ) ),
-                              array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                               array( 'navigation_part_identifier', $navigationPartIdentifier ),
                               array( 'depth', $node->attribute( 'depth' ) ),
                               array( 'url_alias', $node->attribute( 'url_alias' ) )
@@ -162,7 +161,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $newCollection = true;
     }
     else
-        $collection->setAttribute( 'modified', time() );
+        $collection->setAttribute( 'modified', eZDateTime::currentTimestamp() );
 
 
     // Check every attribute if it's supposed to collect information
@@ -254,7 +253,6 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                   array( 'node', $node->attribute( 'node_id' ) ),
                                   array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                                   array( 'class', $object->attribute( 'contentclass_id' ) ),
-                                  array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                                   array( 'navigation_part_identifier', $navigationPartIdentifier ),
                                   array( 'depth', $node->attribute( 'depth' ) ),
                                   array( 'url_alias', $node->attribute( 'url_alias' ) )

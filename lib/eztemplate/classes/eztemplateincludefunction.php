@@ -73,77 +73,12 @@ class eZTemplateIncludeFunction
         return array( $this->IncludeName );
     }
 
-    function functionTemplateHints()
-    {
-        return array( $this->IncludeName => array( 'parameters' => true,
-                                                   'static' => false,
-                                                   'transform-children' => true,
-                                                   'tree-transformation' => true,
-                                                   'transform-parameters' => true ) );
-    }
-
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
-    {
-        if ( $functionName != $this->IncludeName )
-            return false;
-        $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
-        if ( !isset( $parameters['uri'] ) )
-            return false;
-
-        $uriData = $parameters['uri'];
-        if ( !eZTemplateNodeTool::isStaticElement( $uriData ) )
-            return false;
-
-        $namespaceValue = false;
-        if ( isset( $parameters['name'] ) )
-        {
-            $nameData = $parameters['name'];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
-                return false;
-            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
-        }
-
-        $uriString = eZTemplateNodeTool::elementStaticValue( $uriData );
-
-        $resourceName = "";
-        $templateName = "";
-        $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
-        $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
-
-        $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters, $namespaceValue );
-        if ( $includeNodes === false )
-            return false;
-
-        $newNodes = array();
-
-        $variableList = array();
-        foreach ( array_keys( $parameters ) as $parameterName )
-        {
-            if ( $parameterName == 'uri' or
-                 $parameterName == 'name' )
-                continue;
-            $parameterData =& $parameters[$parameterName];
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
-            $variableList[] = $parameterName;
-        }
-
-        $newNodes = array_merge( $newNodes, $includeNodes );
-
-        foreach ( $variableList as $variableName )
-        {
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
-        }
-
-        return $newNodes;
-    }
-
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */
     function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
+//         $text = "";
         $params = $functionParameters;
         if ( !isset( $params["uri"] ) )
         {
@@ -199,7 +134,6 @@ class eZTemplateIncludeFunction
         return false;
     }
 
-    /// \privatesection
     /// The name of the include function
     var $IncludeName;
 }

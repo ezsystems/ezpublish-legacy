@@ -425,7 +425,9 @@ class eZFileHandler
             @fwrite( $destinationFD, $data );
             $bytesCopied += strlen( $data );
         } while( true );
-
+//         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+//                                      "Copied file $sourceFilename ($bytesCopied) to destination $destinationFilename",
+//                                      'eZFileHandler::copy' );
         @fclose( $sourceFD );
         @fclose( $destinationFD );
         return true;

@@ -79,31 +79,6 @@ $ViewList["orderlist"] = array(
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
-$ViewList["removeorder"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "removeorder.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array() );
-
-$ViewList["customerlist"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "customerlist.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "unordered_params" => array( 'offset' => 'Offset' ),
-    "params" => array(  ) );
-
-$ViewList["customerorderview"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "customerorderview.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array( "CustomerID", "Email" ) );
-
-$ViewList["statistics"] = array(
-    "functions" => array( 'adminstrate' ),
-    "script" => "orderstatistics.php",
-    "default_navigation_part" => 'ezshopnavigationpart',
-    "params" => array( 'Year', 'Month' ) );
-
 $ViewList["confirmorder"] = array(
     "functions" => array( 'buy' ),
     "script" => "confirmorder.php",

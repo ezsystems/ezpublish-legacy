@@ -43,7 +43,7 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
 class eZExpiryHandler
 {
@@ -63,10 +63,11 @@ class eZExpiryHandler
     function restore()
     {
         $cacheDirectory = eZSys::cacheDirectory();
-        if ( file_exists( $cacheDirectory . "/" . 'expiry.php' ) )
+        $creator = new eZPHPCreator( $cacheDirectory, 'expiry.php' );
+        if ( $creator->canRestore() )
         {
-            include( $cacheDirectory . "/" . 'expiry.php' );
-            $this->Timestamps = $Timestamps;
+            $values = $creator->restore( array( 'timestamps' => 'Timestamps' ) );
+            $this->Timestamps = $values['timestamps'];
             $this->IsModified = false;
         }
     }
@@ -77,26 +78,13 @@ class eZExpiryHandler
     function store()
     {
         $cacheDirectory = eZSys::cacheDirectory();
+        $creator = new eZPHPCreator( $cacheDirectory, 'expiry.php' );
 
-        $fp = @fopen( $cacheDirectory . "/" . 'expiry.php', 'w' );
-        if ( $fp )
-        {
-            $storeString = "<?php\n\$Timestamps = array( ";
-            $i = 0;
-            foreach ( $this->Timestamps as $key => $value )
-            {
-                if ( $i > 0 )
-                    $storeString .= ",\n" . str_repeat( ' ', 21 );
-                $storeString .= "'$key' => $value";
-                ++$i;
-            }
-            $storeString .= " );\n?>";
+        $creator->addComment( "Array of expiry timestamps for various system parts\nCan be set to current date to force a total expiry" );
+        $creator->addVariable( 'Timestamps', $this->Timestamps );
 
-            fwrite( $fp, $storeString );
-            fclose( $fp );
-
-            $this->IsModified = false;
-        }
+        $creator->store();
+        $this->IsModified = false;
     }
 
     /*!

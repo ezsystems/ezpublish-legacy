@@ -49,8 +49,7 @@ class eZBooleanType extends eZDataType
     function eZBooleanType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -181,11 +180,6 @@ class eZBooleanType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
     }
 
     /*!

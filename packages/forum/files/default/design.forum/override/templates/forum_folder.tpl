@@ -1,0 +1,42 @@
+<form method="post" action={"content/action"|ezurl}>
+
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+<input type="hidden" name="ViewMode" value="full" />
+
+{section show=$node.object.can_edit}
+<div class="editbutton">
+   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+</div>
+{/section}
+
+<h1>{$node.name|wash}</h1>
+
+<div class="object_content">
+{attribute_view_gui attribute=$node.object.data_map.description}
+</div>
+
+{* Forum overview *}
+
+{include uri="design:forum_list.tpl"}
+
+{default content_object=$node.object
+         content_version=$node.contentobject_version_object
+         node_name=$node.name}
+
+<div class="buttonblock">
+
+{section show=$content_object.can_create}
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <select name="ClassID">
+              {section name=Classes loop=$content_object.can_create_class_list}
+              <option value="{$:item.id}">{$:item.name|wash}</option>
+              {/section}
+         </select>
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+{/section}
+</div>
+
+{/default}
+
+</form>

@@ -41,10 +41,9 @@ include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
-    function eZXHTMLXMLOutput( &$xmlData, $aliasedType, &$contentObjectAttribute )
+    function eZXHTMLXMLOutput( &$xmlData, $aliasedType )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
-        $this->ContentObjectAttribute = $contentObjectAttribute;
     }
 
     /*!
@@ -62,8 +61,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $tpl =& templateInit();
         $xml = new eZXML();
-        $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
@@ -116,7 +113,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 0 );
             }
         }
-        $res->removeKey( 'attribute_identifier' );
         return $output;
     }
 
@@ -300,8 +296,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
-                    $res->setKeys( array( array( 'classification', $class ),
-                                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
+                    $res->setKeys( array( array( 'classification', $class ) ) );
 
                     $hasLink = false;
                     $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
@@ -316,15 +311,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     }
 
                     $objectParameters = array();
-                    $objectParameters['align'] = "right";
                     foreach ( $objectAttributes as $attribute )
                     {
                         if ( $attribute->name() == "ezurl_id" )
                             $objectParameters['href'] = $href;
                         else if ( $attribute->name() == "ezurl_target" )
                             $objectParameters['target'] = $target;
-                        else if ( $attribute->name() == "align" )
-                            $objectParameters['align'] = $alignment;
                         else
                             $objectParameters[$attribute->name()] = $attribute->content();
                     }

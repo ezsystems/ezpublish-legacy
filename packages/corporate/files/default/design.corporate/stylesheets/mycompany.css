@@ -1,0 +1,139 @@
+h1
+{
+    font-size: 120%;
+}
+
+h2
+{
+    font-size: 110%;
+}
+
+h3
+{
+    font-size: 80%;
+}
+
+input.searchtext
+{
+    width: 124px;
+    font-size: 75%;
+}
+
+input.searchbutton
+{
+    padding: 4px;
+}
+
+td.topmenuline
+{
+    background-color: #e4eaf3;
+}
+
+td.topmenu
+{
+    font-size: 70%;
+    padding-left: 8px;
+}
+
+td.topmenu a, p.leftmenuitem a, p.path a, p.readmore a, td.menuitem a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+td.topmenu a:hover, p.leftmenuitem a:hover, p.path a:hover, p.readmore a:hover, td.menuitem a:hover
+{
+    text-decoration: underline;
+}
+
+p.path
+{
+    font-size: 65%;
+    font-weight: normal;
+    padding: 4px;
+    padding-left: 8px;
+    padding-bottom: 8px;
+}
+
+td.leftedge
+{
+    width: 100px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+p.leftmenuitem
+{
+    font-size: 70%;
+    padding-bottom: 8px;
+}
+
+td.maincontent
+{
+    padding-right: 16px;
+    padding-bottom: 16px;
+}
+
+table.menu
+{
+    border: 1px solid #e4eaf3;
+}
+
+th.menuhead
+{
+    font-size: 100%;
+    font-weight: bold;
+    background-color: #e4eaf3;
+    padding: 4px;
+    padding-left: 10px;
+}
+
+td.menuitem
+{
+    font-size: 70%;
+    padding: 10px;
+}
+
+div.credits p
+{
+    padding-top: 8px;
+    font-size: 65%;
+}
+
+h1
+{
+    color: #333355;
+}
+
+div.listitem h2
+{
+    font-size: 100%;
+    font-weight: bold;
+    color: #333355;
+}
+
+div.byline
+{
+}
+
+div.byline p
+{
+    font-size: 65%;
+}
+
+p.readmore
+{
+    font-weight: bold;
+}
+
+div.listitem
+{
+    padding-bottom: 2px;
+}
+
+div.comment
+{
+    border-top: 1px solid #000000;
+    margin-top: 8px;
+    padding-top: 8px;
+}

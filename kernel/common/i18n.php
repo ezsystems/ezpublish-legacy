@@ -46,16 +46,7 @@ function &ezinsertarguments( $text, $arguments )
  will only return the source text.
 */
 $ini =& eZINI::instance();
-$useTextTranslation = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
-{
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
-    $locale =& eZLocale::instance();
-    $language =& $locale->translationCode();
-    if ( $language != "eng-GB" ) // eng-GB does not need translation
-        $useTextTranslation = true;
-}
-if ( $useTextTranslation )
 {
     include_once( 'lib/ezutils/classes/ezextension.php' );
     include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );

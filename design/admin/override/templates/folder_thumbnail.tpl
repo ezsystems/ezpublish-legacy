@@ -2,7 +2,7 @@
 <table width="150" height="150" class="list">
 <tr>
     <td align="center" class="bglight">
-     {$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )}
+    <img src={"folder_blue.gif"|ezimage} width="64" height="64" alt="{$node.name|wash()}" />
     </td>
 </tr>
 </table>

@@ -137,7 +137,8 @@ class eZRSSImport extends eZPersistentObject
     */
     function &create( $user_id )
     {
-        $dateTime = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array( 'id' => null,
                       'name' => 'New RSS Import',
                       'modifier_id' => $user_id,
@@ -162,8 +163,9 @@ class eZRSSImport extends eZPersistentObject
     */
     function store()
     {
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $dateTime = time();
+        $dateTime = eZDateTime::currentTimeStamp();
         $user =& eZUser::currentUser();
 
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
@@ -293,3 +295,4 @@ class eZRSSImport extends eZPersistentObject
 }
 
 ?>
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898043">forum_red</name>
+  <summary modified="1075898043">Red CSS design for forum</summary>
+  <type value="sitestyle"
+        modified="1075898043" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898043">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898043</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898043" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898043"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898043">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="cssfile">
+        <file name="forum.css"
+              sub-directory="design/forum/stylesheets"
+              path="design/forum/stylesheets/forum.css"
+              md5sum="4f0ddda9a664c2d563477584738343ef"
+              modified="1075898044" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="image">
+        <file name="forum_header-red.gif"
+              sub-directory="design/forum/images"
+              path="design/forum/images/forum_header-red.gif"
+              md5sum="9d37f00f3c3ed53a809a8d3ca0bb0ec4"
+              modified="1075898044" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.jpg"
+              path="design/forum/images/forum_red.jpg"
+              md5sum="833136502168d88c58d705c955935770"
+              modified="1075898044" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898043">1.0</number>
+    <release modified="1075898043">1</release>
+  </version>
+  <licence modified="1075898043">GPL</licence>
+  <state modified="1075898043">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898044" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898044"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898044"
+          collection="default" />
+  </uninstall>
+</package>

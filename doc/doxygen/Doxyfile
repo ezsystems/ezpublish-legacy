@@ -23,7 +23,7 @@ PROJECT_NAME           = "eZ publish"
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = 3.4.0beta1
+PROJECT_NUMBER         = 3.3-5
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -323,14 +323,10 @@ INPUT                  = lib/ezdb/classes \
                          lib/ezfile/classes \
                          lib/ezimage/classes \
                          lib/ezlocale/classes \
-                         lib/ezpdf/classes \
                          lib/ezsoap/classes \
                          lib/ezutils/classes \
                          lib/eztemplate/classes \
-                         lib/ezwebdav/classes \
                          lib/ezxml/classes \
-                         tests/classes \
-                         benchmarks/classes \
                          kernel/classes \
                          kernel/common
 

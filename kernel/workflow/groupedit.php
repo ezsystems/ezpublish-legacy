@@ -92,7 +92,8 @@ eZHttpPersistence::fetch( "WorkflowGroup", eZWorkflowGroup::definition(),
                           $workflowGroup, $http, false );
 
 // Set new modification date
-$date_time = time();
+include_once( "lib/ezlocale/classes/ezdatetime.php" );
+$date_time = eZDateTime::currentTimeStamp();
 $workflowGroup->setAttribute( "modified", $date_time );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();
@@ -109,7 +110,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $workflowGroup->setAttribute( "name", $name );
     // Set new modification date
     include_once( "lib/ezlocale/classes/ezdatetime.php" );
-    $date_time = time();
+    $date_time = eZDateTime::currentTimeStamp();
     $workflowGroup->setAttribute( "modified", $date_time );
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898040">corporate_green</name>
+  <summary modified="1075898040">Green design for corporate</summary>
+  <type value="sitestyle"
+        modified="1075898040" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898040">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898040</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898040" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898040"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898040">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="cssfile">
+        <file name="corporate-green.css"
+              sub-directory="design/corporate/stylesheets"
+              path="design/corporate/stylesheets/corporate-green.css"
+              md5sum="87535f6f025d6544b7c7619c2d14e451"
+              modified="1075898040" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="image">
+        <file name="sidebar-background.gif"
+              sub-directory="design/corporate/images"
+              path="design/corporate/images/sidebar-background.gif"
+              md5sum="ee3bc2992eb5f2058baad88259ad3acb"
+              modified="1075898040" />
+        <file name="header_image-green.jpg"
+              sub-directory="design/corporate/images"
+              path="design/corporate/images/header_image-green.jpg"
+              md5sum="b93149b27cd885031e6c3ef9b2d3e549"
+              modified="1075898041" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.png"
+              path="design/corporate/images/corporate-green.png"
+              md5sum="df523c84220c42c50dba770b938ee5d4"
+              modified="1075898041" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898040">1.0</number>
+    <release modified="1075898040">1</release>
+  </version>
+  <licence modified="1075898040">GPL</licence>
+  <state modified="1075898040">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898040" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898040"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898040"
+          collection="default" />
+  </uninstall>
+</package>

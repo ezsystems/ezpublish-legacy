@@ -82,13 +82,10 @@ class eZDataType
 
         $translationAllowed = true;
         $serializeSupported = false;
-        $objectSerializeMap = false;
         if ( isset( $properties['translation_allowed'] ) )
             $translationAllowed = $properties['translation_allowed'];
         if ( isset( $properties['serialize_supported'] ) )
             $serializeSupported = $properties['serialize_supported'];
-        if ( isset( $properties['object_serialize_map'] ) )
-            $objectSerializeMap = $properties['object_serialize_map'];
 
         $this->Attributes = array();
         $this->Attributes["is_indexable"] = $this->isIndexable();
@@ -97,8 +94,7 @@ class eZDataType
         $this->Attributes["information"] = array( "string" => $this->DataTypeString,
                                                   "name" => $this->Name );
         $this->Attributes["properties"] = array( "translation_allowed" => $translationAllowed,
-                                                 'serialize_supported' => $serializeSupported,
-                                                 'object_serialize_map' => $objectSerializeMap );
+                                                 'serialize_supported' => $serializeSupported );
     }
 
     /*!
@@ -163,11 +159,6 @@ class eZDataType
     {
         $types =& $GLOBALS["eZDataTypes"];
         $def = null;
-        if ( !isset( $types[$dataTypeString] ) )
-        {
-            eZDataType::loadAndRegisterType( $dataTypeString );
-        }
-
         if ( isset( $types[$dataTypeString] ) )
         {
             $className = $types[$dataTypeString];
@@ -257,14 +248,6 @@ class eZDataType
     function &objectAttributeContent( &$objectAttribute )
     {
         return "";
-    }
-
-    /*!
-     \return \c true if the datatype finds any content in the attribute \a $contentObjectAttribute.
-    */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return false;
     }
 
     /*!
@@ -623,13 +606,23 @@ class eZDataType
     }
 
     /*!
-     \param package
-     \param content attribute
-
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function &serializeContentObjectAttribute( &$objectAttribute )
     {
+        $node =& $this->contentObjectAttributeDOMNode( $objectAttribute );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+        return $node;
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &contentObjectAttributeDOMNode( &$objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
         $node = new eZDOMNode();
 
         $node->setPrefix( 'ezobject' );
@@ -638,73 +631,7 @@ class eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        if ( $this->Attributes["properties"]['object_serialize_map'] )
-        {
-            $map = $this->Attributes["properties"]['object_serialize_map'];
-            foreach ( $map as $attributeName => $xmlName )
-            {
-                if ( $objectAttribute->hasAttribute( $attributeName ) )
-                {
-                    $value = $objectAttribute->attribute( $attributeName );
-                    $node->appendChild( eZDOMDocument::createElementTextNode( $xmlName, (string)$value ) );
-                }
-                else
-                {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::serializeContentObjectAttribute' );
-                }
-            }
-        }
-        else
-        {
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-text', $objectAttribute->attribute( 'data_text' ) ) );
-        }
         return $node;
-    }
-
-    /*!
-     Unserailize contentobject attribute
-
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        if ( $this->Attributes["properties"]['object_serialize_map'] )
-        {
-            $map = $this->Attributes["properties"]['object_serialize_map'];
-            foreach ( $map as $attributeName => $xmlName )
-            {
-                if ( $objectAttribute->hasAttribute( $attributeName ) )
-                {
-                    $value = $attributeNode->elementTextContentByName( $xmlName );
-                    if ( $value !== false )
-                    {
-                        $objectAttribute->setAttribute( $attributeName, $value );
-                    }
-                    else
-                    {
-                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                             'eZDataType::unserializeContentObjectAttribute' );
-                    }
-                }
-                else
-                {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::unserializeContentObjectAttribute' );
-                }
-            }
-        }
-        else
-        {
-            $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
-            $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
-            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );
-        }
     }
 
     function allowedTypes()
@@ -733,17 +660,15 @@ class eZDataType
         $types =& $GLOBALS["eZDataTypes"];
         if ( isset( $types[$type] ) )
         {
+            eZDebug::writeError( "Datatype already registered: $type", "eZDataType::loadAndRegisterType" );
             return false;
         }
 
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI =& eZINI::instance( 'content.ini' );
-
-        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
-        $extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
-
+        $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
         {
             $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/datatypes';
@@ -751,7 +676,6 @@ class eZDataType
                 $repositoryDirectories[] = $extensionPath;
         }
         $foundEventType = false;
-        $repositoryDirectories = array_unique( $repositoryDirectories );
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$type/" . $type . "type.php";
@@ -776,5 +700,7 @@ class eZDataType
     /// The descriptive name of the datatype, usually used for displaying to the user
     var $Name;
 }
+
+eZDataType::loadAndRegisterAllTypes();
 
 ?>

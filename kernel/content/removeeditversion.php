@@ -88,14 +88,6 @@ if ( $isConfirmed )
     }
 
     $hasRedirected = false;
-    if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
-    {
-        $Module->redirectTo( $http->sessionVariable( 'RedirectIfDiscarded' ) );
-        $http->removeSessionVariable( 'RedirectIfDiscarded' );
-        $http->removeSessionVariable( 'ParentObject' );
-        $http->removeSessionVariable( 'NewObjectID' );
-        $hasRedirected = true;
-    }
     if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $objectID )
     {
         $parentArray = $http->sessionVariable( 'ParentObject' );

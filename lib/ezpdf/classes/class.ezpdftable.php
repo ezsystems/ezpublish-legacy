@@ -47,10 +47,8 @@ define( 'EZ_PDF_LIB_TOTAL_PAGENUM', '#total' );
 define( 'EZ_PDF_LIB_HEADER_LEVEL', '#level' );
 define( 'EZ_PDF_LIB_HEADER_LEVEL_INDEX', '#indexLevel' );
 
-/*!
-  \class eZPDFTable class.ezpdftable.php
-  \ingroup eZPDF
-  \brief eZPDFTable adds extra support for tables
+/**
+ This class extents Cezpdf ( class.ezpdf.php ) and adds extra support to tables.
 */
 
 class eZPDFTable extends Cezpdf
@@ -100,35 +98,9 @@ class eZPDFTable extends Cezpdf
     /**
      Get the current Y offset
     */
-    function yOffset()
+    function offsetY()
     {
         return $this->y;
-    }
-
-    /**
-     Get the current X offset
-    */
-    function xOffset()
-    {
-        $xOffset = $this->ez['xOffset'];
-        if ( $xOffset == 0 ||
-             $this->leftMargin() > $this->ez['xOffset'] )
-        {
-            $xOffset = $this->leftMargin();
-        }
-        return $xOffset;
-    }
-
-    function setXOffset( $xOffset )
-    {
-        if ( $xOffset > $this->ez['pageWidth'] - $this->rightMargin() )
-        {
-            $this->ez['xOffset'] = 0;
-        }
-        else
-        {
-            $this->ez['xOffset'] = $xOffset;
-        }
     }
 
     /** add a table of information to the pdf document
@@ -146,10 +118,10 @@ class eZPDFTable extends Cezpdf
      * 'showLines'=> 0,1,2, default is 1 (show outside and top lines only), 2=> lines on each row
      * 'showHeadings' => 0 or 1
      * 'shaded'=> 0,1,2,3 default is 1 (1->alternate lines are shaded, 0->no shading, 2-> both shaded, second uses shadeCol2)
-     * 'shadeCol' => (CMYK) array, defining the colour of the shading
-     * 'shadeCol2' => (CMYK) array, defining the colour of the shading of the other blocks
+     * 'shadeCol' => (r,g,b) array, defining the colour of the shading, default is (0.8,0.8,0.8)
+     * 'shadeCol2' => (r,g,b) array, defining the colour of the shading of the other blocks, default is (0.7,0.7,0.7)
      * 'fontSize' => 10
-     * 'textCol' => (CMYK) array, text colour
+     * 'textCol' => (r,g,b) array, text colour
      * 'titleFontSize' => 12
      * 'rowGap' => 2 , the space added at the top and bottom of each row, between the text and the lines
      * 'colGap' => 5 , the space on the left and right sides of each cell
@@ -175,8 +147,6 @@ class eZPDFTable extends Cezpdf
      */
     function ezTable(&$data,$cols='',$title='',$options='')
     {
-        include_once( 'lib/ezutils/classes/ezmath.php' );
-
         if (!is_array($data)){
             return;
         }
@@ -211,34 +181,11 @@ class eZPDFTable extends Cezpdf
         }
 
         $defaults = array(
-            'cellPadding' => 0,
-            'shaded' => 0,
-            'showLines' => 1,
-            'shadeCol' => eZMath::rgbToCMYK2( 0.8, 0.8, 0.8 ),
-            'shadeCol2' => eZMath::rgbToCMYK2( 0.7, 0.7, 0.7 ),
-            'fontSize' => 10,
-            'titleFontSize' => 12,
-            'titleGap' => 5,
-            'lineCol' => array( 0, 0, 0 ),
-            'gap' => 5,
-            'xPos' => 'centre',
-            'xOrientation' => 'centre',
-            'showHeadings' => 1,
-            'textCol' => eZMath::rgbToCMYK2( 0, 0, 0 ),
-            'width' => 0,
-            'maxWidth' => 0,
-            'cols' => array(),
-            'minRowSpace' => -100,
-            'rowGap' => 2,
-            'colGap' => 5,
-            'innerLineThickness' => 1,
-            'outerLineThickness' => 1,
-            'splitRows' => 0,
-            'protectRows'=> 1,
-            'firstRowTitle' => false,
-            'titleFontSize' => 10,
-            'test' => 0,
-            'yBottom' => 0 );
+            'shaded'=>0,'showLines'=>1,'shadeCol'=>array(0.8,0.8,0.8),'shadeCol2'=>array(0.7,0.7,0.7),'fontSize'=>10,'titleFontSize'=>12
+            ,'titleGap'=>5,'lineCol'=>array(0,0,0),'gap'=>5,'xPos'=>'centre','xOrientation'=>'centre'
+            ,'showHeadings'=>1,'textCol'=>array(0,0,0),'width'=>0,'maxWidth'=>0,'cols'=>array(),'minRowSpace'=>-100,'rowGap'=>2,'colGap'=>5
+            ,'innerLineThickness'=>1,'outerLineThickness'=>1,'splitRows'=>0,'protectRows'=>1
+            );
 
         foreach($defaults as $key=>$value){
             if (is_array($value)){
@@ -252,11 +199,11 @@ class eZPDFTable extends Cezpdf
             }
         }
         $options['gap']=2*$options['colGap'];
-        $middle = ($this->ez['pageWidth']-$this->rightMargin())/2+($this->leftMargin)/2;
+
+        $middle = ($this->ez['pageWidth']-$this->ez['rightMargin'])/2+($this->ez['leftMargin'])/2;
         // figure out the maximum widths of the text within each column
         $maxWidth = array();
 
-        $maxRowCount = 0;
         // find the maximum cell widths based on the data
         foreach ( $data as $rowCount=>$row)
         {
@@ -271,17 +218,7 @@ class eZPDFTable extends Cezpdf
                 }
 
                 //get and set max width
-                if ( ( $rowCount == 0 && $options['firstRowTitle'] ) ||
-                     ( isset( $options['cellData'][$realColCount.','.$rowCount]['title'] ) && $options['cellData'][$realColCount.','.$rowCount]['title'] ) )
-                {
-                    $w = $this->ezPrvtGetTextWidth( $options['titleFontSize'], (string)$row[$columnCount] ) * 1.01;
-                    $options['cellData'][$realColCount.','.$rowCount]['title'] = true;
-                }
-                else
-                {
-                    $w = $this->ezPrvtGetTextWidth( $options['fontSize'], (string)$row[$columnCount] ) * 1.01;
-                }
-
+                $w = $this->ezPrvtGetTextWidth($options['fontSize'],(string)$row[$columnCount])*1.01; // total actual text width
                 if ( isset( $maxWidth[$colSpan][$realColCount] ) )
                 {
                     if ( $w > $maxWidth[$colSpan][$realColCount] )
@@ -300,13 +237,16 @@ class eZPDFTable extends Cezpdf
 
 //                echo "row: $rowCount, column: $columnCount:$realColCount,<br/>";
                 $realColCount += $colSpan;
-
-                if ( $realColCount > $maxRowCount )
-                {
-                    $maxRowCount = $realColCount;
-                }
             }
         }
+
+        // and the maximum widths to fit in the headings //TODO: calculate max header width
+/*        foreach($cols as $colName=>$colTitle){
+            $w = $this->ezPrvtGetTextWidth($options['fontSize'],(string)$colTitle)*1.01;
+            if ($w > $maxWidth[$colName]){
+                $maxWidth[$colName]=$w;
+            }
+        } */
 
         // calculate the start positions of each of the columns
         // Set pre defined max column width data
@@ -319,7 +259,7 @@ class eZPDFTable extends Cezpdf
                     $colSpan = $options['cellData'][$realColCount.',0']['size'][0];
                 }
 
-                $maxWidth[$colSpan][$columnCount] = $options['cols'][$colName]['width'] - $options['gap'] - 2*$options['cellPadding'];
+                $maxWidth[$colSpan][$columnCount] = $options['cols'][$colName]['width'] - $options['gap'];
             }
         }
 
@@ -366,9 +306,9 @@ class eZPDFTable extends Cezpdf
         {
             $pos[$count]=$t;
             // if the column width has been specified then set that here, also total the
-            $t += $width + $options['gap'] + 2*$options['cellPadding'];
+            $t += $width + $options['gap'];
             $adjustmentWidth += $width;
-            $setWidth += $options['gap'] + 2*$options['cellPadding'];
+            $setWidth += $options['gap'];
         }
         $pos['_end_'] = $t;
 
@@ -390,9 +330,9 @@ class eZPDFTable extends Cezpdf
         }
 
         if ( $options['width'] == 0 &&
-             $totalTableWidth > $this->ez['pageWidth'] - $this->leftMargin() - $this->rightMargin() )
+             $totalTableWidth > $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'] )
         {
-            $options['width'] = $this->ez['pageWidth'] - $this->leftMargin() - $this->rightMargin();
+            $options['width'] = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'];
         }
 
         // calculated width as forced. Shrink or enlarge
@@ -403,7 +343,7 @@ class eZPDFTable extends Cezpdf
             {
                 $pos[$count] = $t;
                 $columnWidths[$count] = round( $newCleanWidth/$adjustmentWidth * $columnWidths[$count] );
-                $t += $columnWidths[$count] + $options['gap'] + 2*$options['cellPadding'];
+                $t += $columnWidths[$count] + $options['gap'];
             }
             $pos['_end_']=$t;
         }
@@ -416,10 +356,6 @@ class eZPDFTable extends Cezpdf
                 $maxWidth[$colspan][$offset] = 0;
                 for ( $columnCount = $offset; $columnCount < $offset + $colspan; $columnCount ++ )
                 {
-                    if ( $maxWidth[$colspan][$offset] != 0 )
-                    {
-                        $maxWidth[$colspan][$offset] += $options['gap'] + 2*$options['cellPadding'];
-                    }
                     $maxWidth[$colspan][$offset] += $columnWidths[$columnCount];
                 }
             }
@@ -428,10 +364,10 @@ class eZPDFTable extends Cezpdf
         // now adjust the table to the correct location across the page
         switch ($options['xPos']){
             case 'left':
-                $xref = $this->leftMargin();
+                $xref = $this->ez['leftMargin'];
             break;
             case 'right':
-                $xref = $this->ez['pageWidth'] - $this->rightMargin();
+                $xref = $this->ez['pageWidth'] - $this->ez['rightMargin'];
             break;
             case 'centre':
             case 'center':
@@ -460,13 +396,14 @@ class eZPDFTable extends Cezpdf
         $x0=$x+$dx;
         $x1=$t+$dx;
 
-        $baseLeftMargin = $this->leftMargin();
+        $baseLeftMargin = $this->ez['leftMargin'];
         $basePos = $pos;
         $baseX0 = $x0;
         $baseX1 = $x1;
 
         // ok, just about ready to make me a table
-        $this->setColor( $options['textCol'] );
+        $this->setColor($options['textCol'][0],$options['textCol'][1],$options['textCol'][2]);
+        $this->setStrokeColor($options['shadeCol'][0],$options['shadeCol'][1],$options['shadeCol'][2]);
 
         $middle = ($x1+$x0)/2;
 
@@ -476,12 +413,6 @@ class eZPDFTable extends Cezpdf
             $movedOnce=0;
         }
         $abortTable = 1;
-
-        if ( $options['yBottom'] > 0 ) // for aligning table to bottom
-        {
-            $options['test'] = 1;
-        }
-
         while ($abortTable){
             $abortTable=0;
 
@@ -493,6 +424,27 @@ class eZPDFTable extends Cezpdf
             $x1=$baseX1+$dm;
             $middle = ($x1+$x0)/2;
 
+
+            // if the title is set, then do that
+            if (strlen($title)){
+                $w = $this->getTextWidth($options['titleFontSize'],$title);
+                $this->y -= $this->getFontHeight($options['titleFontSize']);
+                if ($this->y < $this->ez['bottomMargin']){
+                    $this->ezNewPage();
+                    // margins may have changed on the newpage
+                    $dm = $this->ez['leftMargin']-$baseLeftMargin;
+                    foreach($basePos as $key=>$value){
+                        $pos[$key] += $dm;
+                    }
+                    $x0=$baseX0+$dm;
+                    $x1=$baseX1+$dm;
+                    $middle = ($x1+$x0)/2;
+                    $this->y -= $this->getFontHeight($options['titleFontSize']);
+                }
+                $this->addText($middle-$w/2,$this->y,$options['titleFontSize'],$title);
+                $this->y -= $options['titleGap'];
+            }
+
             // margins may have changed on the newpage
             $dm = $this->ez['leftMargin']-$baseLeftMargin;
             foreach($basePos as $key => $value){
@@ -502,7 +454,6 @@ class eZPDFTable extends Cezpdf
             $x1=$baseX1+$dm;
 
             $y=$this->y; // to simplify the code a bit
-            $startY = $y;
 
             // make the table
             $height = $this->getFontHeight($options['fontSize']);
@@ -516,7 +467,7 @@ class eZPDFTable extends Cezpdf
                 $y0 = $y+$headingHeight;
                 $y1 = $y;
 
-                $dm = $this->leftMargin()-$baseLeftMargin;
+                $dm = $this->ez['leftMargin']-$baseLeftMargin;
                 foreach($basePos as $k=>$v){
                     $pos[$k]=$v+$dm;
                 }
@@ -530,7 +481,7 @@ class eZPDFTable extends Cezpdf
 
 
             // open an object here so that the text can be put in over the shading
-            if (!$options['test'] && $options['shaded']){
+            if ($options['shaded']){
                 $this->saveState();
                 $textObjectId = $this->openObject();
                 $this->closeObject();
@@ -540,7 +491,6 @@ class eZPDFTable extends Cezpdf
 
             $cnt=0;
             $newPage=0;
-
             foreach($data as $rowCount => $row){
                 $cnt++;
                 // the transaction support will be used to prevent rows being split
@@ -549,10 +499,7 @@ class eZPDFTable extends Cezpdf
                     if (isset($this->ez['columns']) && $this->ez['columns']['on']==1){
                         $columnStart = $this->ez['columns']['colNum'];
                     }
-                    if ( !$options['test'] )
-                    {
-                        $this->transaction('start');
-                    }
+                    $this->transaction('start');
                     $row_orig = $row;
                     $y_orig = $y;
                     $y0_orig = $y0;
@@ -566,6 +513,7 @@ class eZPDFTable extends Cezpdf
                     $newRow=1;
                     while(!$abortTable && ($newPage || $newRow)){
 
+                        $y-=$height;
                         if ($newPage || $y<$this->ez['bottomMargin'] || (isset($options['minRowSpace']) && $y<($this->ez['bottomMargin']+$options['minRowSpace'])) ){
                             // check that enough rows are with the heading
                             if ($options['protectRows']>0 && $movedOnce==0 && $cnt<=$options['protectRows']){
@@ -579,6 +527,7 @@ class eZPDFTable extends Cezpdf
                                 if (!$options['showHeadings']){
                                     $y0=$y1;
                                 }
+//                                $this->ezPrvtTableDrawLines($pos,$options['gap'],$x0,$x1,$y0,$y1,$y2,$options['lineCol'],$options['innerLineThickness'],$options['outerLineThickness'],$options['showLines']);
                             }
                             if ($options['shaded']){
                                 $this->closeObject();
@@ -588,22 +537,23 @@ class eZPDFTable extends Cezpdf
                             // and the margins may have changed, this is due to the possibility of the columns being turned on
                             // as the columns are managed by manipulating the margins
 
-                            $dm = $this->leftMargin()-$baseLeftMargin;
+                            $dm = $this->ez['leftMargin']-$baseLeftMargin;
                             foreach($basePos as $k=>$v){
                                 $pos[$k]=$v+$dm;
                             }
-
+//        $x0=$x0+$dm;
+//        $x1=$x1+$dm;
                             $x0=$baseX0+$dm;
                             $x1=$baseX1+$dm;
 
-                            if (!$options['test'] && $options['shaded']){
+                            if ($options['shaded']){
                                 $this->saveState();
                                 $textObjectId = $this->openObject();
                                 $this->closeObject();
                                 $this->addObject($textObjectId);
                                 $this->reopenObject($textObjectId);
                             }
-                            $this->setColor( $options['textCol'], 1 );
+                            $this->setColor($options['textCol'][0],$options['textCol'][1],$options['textCol'][2],1);
                             $y = $this->ez['pageHeight']-$this->ez['topMargin'];
                             $y0=$y+$decender;
                             $mx=0;
@@ -623,7 +573,12 @@ class eZPDFTable extends Cezpdf
                         $newPage=0;
                         $leftOvers=array();
 
+//                        foreach($cols as $colName=>$colTitle)
                         $realColumnCount = 0;
+
+//                        echo '<br/>';
+//                        print_r( $row );
+//                        echo '<br/>';
 
                         for ( $columnCount = 0; $columnCount < count ( $row ); $columnCount++ )
                         {
@@ -640,6 +595,20 @@ class eZPDFTable extends Cezpdf
                             $this->ezSetY($y+$height);
                             $colNewPage=0;
 
+//                            echo "$y, $height";
+//                            echo '<br/>';
+
+                            //TODO: figure out how to handle links
+/*                                if (isset($options['cols'][$colName]) && isset($options['cols'][$colName]['link']) && strlen($options['cols'][$colName]['link'])){
+
+                                    $lines = explode("\n",$row[$colName]);
+                                    if (isset($row[$options['cols'][$colName]['link']]) && strlen($row[$options['cols'][$colName]['link']])){
+                                        foreach($lines as $k=>$v){
+                                            $lines[$k]='<c:alink:'.$row[$options['cols'][$colName]['link']].'>'.$v.'</c:alink>';
+                                        }
+                                    }
+                                } else {*/
+
                             $lines = explode("\n",$row[$columnCount]);
                             $this->y -= $options['rowGap'];
                             foreach ($lines as $line){
@@ -649,11 +618,12 @@ class eZPDFTable extends Cezpdf
                                 while (strlen($line) || $start){
                                     $start=0;
                                     if (!$colNewPage){
-                                        $this->y-=$height;
+                                        $this->y=$this->y-$height;
                                     }
                                     if ($this->y < $this->ez['bottomMargin']){
-                                        $newPage=1;
-                                        $colNewPage=1;
+                                        //            $this->ezNewPage();
+                                        $newPage=1;  // whether a new page is required for any of the columns
+                                        $colNewPage=1; // whether a new page is required for this column
                                     }
                                     if ($colNewPage){
                                         if (isset($leftOvers[$realColumnCount])){
@@ -669,24 +639,7 @@ class eZPDFTable extends Cezpdf
                                             $just='left';
                                         }
                                         $storeY = $this->y;
-                                        if ( isset( $options['cellData'][$realColumnCount.','.$rowCount] ) &&
-                                             $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true )
-                                        {
-                                            $this->setColor( $options['titleTextCMYK'] );
-                                            $textInfo = $this->addTextWrap( $pos[$realColumnCount],
-                                                                            $this->y,
-                                                                            $maxWidth[$colSpan][$realColumnCount],
-                                                                            $options['titleFontSize'],
-                                                                            $line,
-                                                                            $just,
-                                                                            0,
-                                                                            $options['test']);
-                                        }
-                                        else
-                                        {
-                                            $this->setColor( $options['textCol'], 1 );
-                                            $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just,0,$options['test']);
-                                        }
+                                        $textInfo = $this->addTextWrap($pos[$realColumnCount],$this->y,$maxWidth[$colSpan][$realColumnCount],$options['fontSize'],$line,$just);
                                         $this->y = $storeY;
                                         $line=$textInfo['text'];
                                         if ( $textInfo['height'] != -1 )
@@ -697,130 +650,95 @@ class eZPDFTable extends Cezpdf
                                 }
                             }
 
-                            $dy=$y-$this->y+$options['rowGap']+2*$options['cellPadding'];
+                            $dy=$y+$height-$this->y+$options['rowGap'];
                             if ($dy-$height*$newPage>$mx)
                             {
                                 $mx=$dy-$height*$newPage;
                             }
 
+//                            echo $row[$columnCount].": $mx<br>";
+
+                            // Get colSpan
+/*                            if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
+                            {
+                                $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'][0];
+                            }*/
+
                             $realColumnCount += $colSpan;
 
                         } // End for ( ... count( $row ) ... )
 
-                        if ( !$options['test'] )
-                        {
-                            if ( isset( $options['cellData'][$realColumnCount.','.$rowCount] ) &&
-                                 $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true )
-                            {
-                                $shadeCol = $options['titleCellCMYK'];
-                            }
-                            else
-                            {
-                                if( $cnt % 2 == 0 )
-                                {
-                                    $shadeCol = $options['shadeCol'];
-                                }
-                                else
-                                {
-                                    $shadeCol = $options['shadeCol2'];
-                                }
-                            }
+                        // set $row to $leftOvers so that they will be processed onto the new page
+                        $row = $leftOvers;
+                        // now add the shading underneath
+                        if ($options['shaded'] && $cnt%2==0){
+                            $this->closeObject();
+                            $this->setColor($options['shadeCol'][0],$options['shadeCol'][1],$options['shadeCol'][2],1);
+                            $this->filledRectangle($x0-$options['gap']/2,$y+$decender+$height-$mx,$x1-$x0,$mx);
+                            $this->reopenObject($textObjectId);
+                        }
 
-                            $rowHeight = $mx - $height + $decender;
-                            $realColumnCount = 0;
-                            for ( $columnCount = 0; $columnCount < $maxRowCount; $columnCount++ )
+                        if ($options['shaded']==2 && $cnt%2==1){
+                            $this->closeObject();
+                            $this->setColor($options['shadeCol2'][0],$options['shadeCol2'][1],$options['shadeCol2'][2],1);
+                            $this->filledRectangle($x0-$options['gap']/2,$y+$decender+$height-$mx,$x1-$x0,$mx);
+                            $this->reopenObject($textObjectId);
+                        }
+
+                        // Draw lines for each row and above
+                        $this->saveState();
+                        $this->setStrokeColor($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
+                        if ( $options['showLines'] > 0 )
+                        {
+                            if ( $rowCount == 0 )
                             {
-                                if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
-                                {
-                                    $colSpan = $options['cellData'][$realColumnCount.','.$rowCount]['size'][0];
-                                }
-                                else
+                                $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height );
+                            }
+                            $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x0-$options['gap']/2, $y+$decender+$height-$mx );
+                            $this->line( $x1-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height-$mx );
+
+                            if ( $options['showLines'] > 1 )
+                            {
+                                // draw inner lines
+                                $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
+                                for ( $posOffset = 0; $posOffset < count( $pos ) - 2; )
                                 {
                                     $colSpan = 1;
-                                }
-
-                                if ( $options['shaded'] && $cnt % 2 == 0 )
-                                {
-                                    $this->closeObject();
-                                    $this->setColor( $shadeCol );
-                                    $this->filledRectangle($pos[$realColumnCount] - $options['cellPadding'],
-                                                           $y,
-                                                           $maxWidth[$colSpan][$realColumnCount] + 2*$options['cellPadding'],
-                                                           -$rowHeight );
-                                    $this->reopenObject($textObjectId);
-                                }
-
-                                if ($options['shaded']==2 && $cnt%2==1){
-                                    $this->closeObject();
-                                    $this->setColor( $shadeCol );
-                                    $this->filledRectangle($pos[$realColumnCount] - $options['cellPadding'],
-                                                           $y,
-                                                           $maxWidth[$colSpan][$realColumnCount] + 2*$options['cellPadding'],
-                                                           -$rowHeight );
-                                    $this->reopenObject($textObjectId);
-                                }
-
-                                $realColumnCount += $colSpan;
-                            }
-
-                            // set $row to $leftOvers so that they will be processed onto the new page
-                            $row = $leftOvers;
-                            // now add the shading underneath
-                            // Draw lines for each row and above
-                            if ( $options['showLines'] > 0 )
-                            {
-                                $this->saveState();
-                                $this->setStrokeColorRGB($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
-
-                                if ( $rowCount == 0 )
-                                {
-                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height );
-                                }
-                                $this->line( $x0-$options['gap']/2, $y+$decender+$height, $x0-$options['gap']/2, $y+$decender+$height-$mx );
-                                $this->line( $x1-$options['gap']/2, $y+$decender+$height, $x1-$options['gap']/2, $y+$decender+$height-$mx );
-
-                                if ( $options['showLines'] > 1 )
-                                {
-                                    // draw inner lines
-                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
-                                    for ( $posOffset = 0; $posOffset < count( $pos ) - 2; )
+                                    if ( isset( $options['cellData'][$posOffset.','.$rowCount]['size'] ) )
                                     {
-                                        $colSpan = 1;
-                                        if ( isset( $options['cellData'][$posOffset.','.$rowCount]['size'] ) )
-                                        {
-                                            $colSpan = $options['cellData'][$posOffset.','.$rowCount]['size'][0];
-                                        }
-                                        $this->line( $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height,
-                                                     $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height-$mx );
-                                        $posOffset += $colSpan;
+                                        $colSpan = $options['cellData'][$posOffset.','.$rowCount]['size'][0];
                                     }
+                                    $this->line( $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height,
+                                                 $pos[$posOffset+$colSpan]-$options['gap']/2, $y+$decender+$height-$mx );
+                                    $posOffset += $colSpan;
                                 }
-                                else if ( $rowCount == count( $data ) - 1 )
-                                {
-                                    $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
-                                }
-                                $this->restoreState();
                             }
-                            if ($options['showLines']>1){
-                                $this->saveState();
-                                $this->setStrokeColorRGB($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
-
-                                if ($firstLine){
-                                    $this->setLineStyle($options['outerLineThickness']);
-                                    $firstLine=0;
-                                } else {
-                                    $this->setLineStyle($options['innerLineThickness']);
-                                }
-                                $this->line($x0-$options['gap']/2,$y+$decender+$height,$x1-$options['gap']/2,$y+$decender+$height);
-                                $this->restoreState();
+                            else if ( $rowCount == count( $data ) - 1 )
+                            {
+                                $this->line( $x0-$options['gap']/2, $y+$decender+$height-$mx, $x1-$options['gap']/2, $y+$decender+$height-$mx );
                             }
+                        }
+                        if ($options['showLines']>1){
+                            // then draw a line on the top of each block
+//        $this->closeObject();
+                            $this->saveState();
+                            $this->setStrokeColor($options['lineCol'][0],$options['lineCol'][1],$options['lineCol'][2],1);
+//        $this->line($x0-$options['gap']/2,$y+$decender+$height-$mx,$x1-$x0,$mx);
+                            if ($firstLine){
+                                $this->setLineStyle($options['outerLineThickness']);
+                                $firstLine=0;
+                            } else {
+                                $this->setLineStyle($options['innerLineThickness']);
+                            }
+                            $this->line($x0-$options['gap']/2,$y+$decender+$height,$x1-$options['gap']/2,$y+$decender+$height);
+                            $this->restoreState();
+//        $this->reopenObject($textObjectId);
                         }
                     } // end of while
                     $y=$y-$mx+$height;
 
                     // checking row split over pages
-                    if ( $options['splitRows'] == 0 )
-                    {
+                    if ($options['splitRows']==0){
                         if ( ( ($this->ezPageCount != $pageStart) || (isset($this->ez['columns']) && $this->ez['columns']['on']==1 && $columnStart != $this->ez['columns']['colNum'] ))  && $secondTurn==0){
                             // then we need to go back and try that again !
                             $newPage=1;
@@ -832,7 +750,7 @@ class eZPDFTable extends Cezpdf
                             $y1 = $y1_orig;
                             $ok=0;
 
-                            $dm = $this->leftMargin()-$baseLeftMargin;
+                            $dm = $this->ez['leftMargin']-$baseLeftMargin;
                             foreach($basePos as $k=>$v){
                                 $pos[$k]=$v+$dm;
                             }
@@ -843,9 +761,7 @@ class eZPDFTable extends Cezpdf
                             $this->transaction('commit');
                             $ok=1;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $ok=1;  // don't go round the loop if splitting rows is allowed
                     }
 
@@ -861,18 +777,6 @@ class eZPDFTable extends Cezpdf
                 }
 
             } // end of foreach ($data as $row)
-
-            if ( isset ( $options['yBottom'] ) && $options['yBottom'] > 0 )
-            {
-                $tableHeight = $startY - $y;
-                $this->y = $options['yBottom'] + $tableHeight;
-                unset( $options['yBottom'] );
-                $options['test'] = 0;
-                $this->transaction('rewind');
-//                $this->transaction('start');
-                $abortTable = 1;
-                continue;
-            }
 
         } // end of while ($abortTable)
 
@@ -900,7 +804,7 @@ class eZPDFTable extends Cezpdf
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
         $x0=1000;
         $x1=0;
-        $this->setStrokeColorRGB($col[0],$col[1],$col[2]);
+        $this->setStrokeColor($col[0],$col[1],$col[2]);
         $cnt=0;
         $n = count($pos);
         foreach($pos as $x){
@@ -931,7 +835,7 @@ class eZPDFTable extends Cezpdf
     {
         $paramArray = explode( ':', $info['p'] );
 
-        $this->addDestination( $paramArray[0], $paramArray[1], $this->yOffset() + $this->getFontHeight( $this->fontSize ) );
+        $this->addDestination( $paramArray[0], $paramArray[1], $this->offsetY() + $this->getFontHeight( $this->fontSize ) );
     }
 
     /**
@@ -970,8 +874,6 @@ class eZPDFTable extends Cezpdf
     function callImage( $info )
     {
         $params = array();
-        $leftMargin = false;
-        $rightMargin = false;
 
         $this->extractParameters( $info['p'], 0, $params, true );
 
@@ -982,84 +884,24 @@ class eZPDFTable extends Cezpdf
 
         $this->transaction( 'start' );
 
-        if ( $this->yOffset()-$params['height'] < $this->ez['bottomMargin'] )
+        if ( $this->offsetY()-$params['height'] < $this->ez['bottomMargin'] )
         {
             $this->ezNewPage();
         }
 
-        if ( isset( $params['dpi'] ) )
+        $xOffset = $this->ez['leftMargin'];
+        if ( isset( $params['xOffset'] ) )
         {
-            include_once( 'kernel/common/image.php' );
-
-            $newWidth = (int)( $params['width'] * ( (int)$params['dpi'] / 72 ) );
-            $newHeight = (int)( $params['height'] * ( (int)$params['dpi'] / 72 ) );
-            $newFilename =  '/tmp/' . md5( mt_rand() ) . '.jpg';
-            $img =& imageInit();
-            $newImg = $img->convert( $filename,
-                                     $newFilename,
-                                     false,
-                                     array( 'filters' => array( array( 'name' => 'geometry/scaledownonly',
-                                                                       'data' => array( $newWidth, $newHeight ) ) ) ) );
-            $filename = $newFilename['url'];
-        }
-
-        switch( $params['align'] )
-        {
-            case 'right':
-            {
-                $xOffset = $this->ez['pageWidth'] - ( $this->rightMargin() + $params['width'] );
-                $rightMargin = $this->rightMargin() + $params['width'];
-            } break;
-
-            case 'center':
-            {
-                $xOffset = ( $this->ez['pageWidth'] - $this->rightMargin() - $this->leftMargin() ) / 2 + $this->leftMargin() - $params['width'] / 2;
-            } break;
-
-            case 'left':
-            default:
-            {
-                $xOffset = $this->leftMargin();
-                $leftMargin = $this->leftMargin() + $params['width'];
-            } break;
-        }
-
-        if ( isset( $params['x'] ) )
-        {
-            $xOffset = $params['x'];
-            $leftMargin = false;
-            $rightMargin = false;
-        }
-
-        $yOffset = $this->yOffset();
-        $whileCount = 0;
-        while ( $this->leftMargin( $yOffset ) > $xOffset &&
-                ++$whileCount < 100 )
-        {
-            $yOffset -= 10;
-        }
-
-        $yOffset -= $params['height'];
-        if ( isset( $params['y'] ) )
-        {
-            $yOffset = $params['y'];
+            $xOffset = $params['xOffset'];
         }
 
         switch( $mimetype['name'] )
         {
             case 'image/jpeg':
             {
-                if ( $leftMargin !== false )
-                {
-                    $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 2, $leftMargin + 7 );
-                }
-                if ( $rightMargin !== false )
-                {
-                    $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 2, $rightMargin + 7 );
-                }
                 $this->addJpegFromFile( $filename,
                                         $xOffset,
-                                        $yOffset,
+                                        $this->offsetY()-$params['height'],
                                         $params['width'],
                                         $params['height'] );
             } break;
@@ -1068,7 +910,7 @@ class eZPDFTable extends Cezpdf
             {
                 if ( $this->addPngFromFile( $filename,
                                             $xOffset,
-                                            $yOffset,
+                                            $this->offsetY()-$params['height'],
                                             $params['width'],
                                             $params['height'] ) === false )
                 {
@@ -1087,10 +929,7 @@ class eZPDFTable extends Cezpdf
 
         $this->transaction( 'commit' );
 
-        if ( !$leftMargin && !$rightMargin )
-        {
-            $this->y -= $params['height'];
-        }
+        $this->y -= $params['height'];
 
         return array( 'y' => $params['height'] );
     }
@@ -1116,7 +955,7 @@ class eZPDFTable extends Cezpdf
 
             $this->addDestination( 'keyword:'.$label,
                                    'FitH',
-                                   $this->yOffset() );
+                                   $this->offsetY() );
         }
     }
 
@@ -1137,7 +976,7 @@ class eZPDFTable extends Cezpdf
                               'pageNumber' => $this->ezGetCurrentPageNumber() );
         $this->addDestination( 'toc'. $tocCount,
                                'FitH',
-                               $this->yOffset() + $this->getFontHeight( $this->fontSize() ) );
+                               $this->offsetY() + $this->getFontHeight( $this->fontSize() ) );
     }
 
     /**
@@ -1250,7 +1089,7 @@ class eZPDFTable extends Cezpdf
         $size = substr($tmp, 0, 2);
         $thick=1;
         $lbl = substr($tmp,2);
-        $xpos = $this->ez['pageWidth'] - $this->rightMargin() - $this->leftMargin();
+        $xpos = $this->ez['pageWidth'] - $this->ez['rightMargin'] - $this->ez['leftMargin'];
 
         $this->saveState();
         $this->setLineStyle($thick,'round','',array(0,10));
@@ -1262,21 +1101,10 @@ class eZPDFTable extends Cezpdf
 
     /**
      * Callback function to set font
+     * usage <C:font:name,<fontname>:size,<fontsize>>
      */
     function callFont( $params ){
-
         $options = array();
-
-        $keyArray = array ( 'c', 'm', 'y', 'k' );
-        if ( isset( $params['cmyk'] ) )
-        {
-            $params['cmyk'] = explode( ',', $params['cmyk'] );
-            foreach ( array_keys( $params['cmyk'] ) as $key )
-            {
-                $options['cmyk'][$keyArray[$key]] = $params['cmyk'][$key];
-            }
-            $this->setStrokeColor( $params['cmyk'] );
-        }
 
         if ( isset( $params['name'] ) )
         {
@@ -1351,6 +1179,7 @@ class eZPDFTable extends Cezpdf
                     $this->addDocSpecification( $newText );
                     array_pop( $this->PreStack );
                     $offSet = strpos( $text, '>', $offSet );
+//                    $offSet++;
                     $newText = '';
                     continue;
                 }
@@ -1391,214 +1220,6 @@ class eZPDFTable extends Cezpdf
         }
 
         return $this->outputDocSpecification();
-    }
-
-    /*!
-     Function for drawing rectangle in document
-
-     \param parameters
-    */
-    function callRectangle( $info )
-    {
-        $params = array();
-
-        $this->extractParameters( $info['p'], 0, $params, true );
-
-        $keyArray = array ( 'c', 'm', 'y', 'k' );
-        $cmykColor = explode( ',', $params['cmyk'] );
-
-        foreach ( array_keys( $cmykColor ) as $key )
-        {
-            $cmykColor[$keyArray[$key]] = $cmykColor[$key];
-            unset( $cmykColor[$key] );
-        }
-
-        $stackColor = $this->currentStrokeColour;
-        $this->setStrokeColor( $cmykColor );
-
-        if ( isset( $params['x'] ) )
-        {
-            $x1 = $params['x'];
-            $x2 = $x1 + $params['width'];
-        }
-        if ( isset( $params['y'] ) )
-        {
-            $y1 = $params['y'];
-            $y2 = $y1 + $params['height'];
-        }
-
-        if ( isset( $params['topY'] ) )
-        {
-            $y2 = $params['topY'];
-            if ( $params['height'] > 0 )
-            {
-                $y1 = $params['topY'] - $params['height'];
-            }
-            else
-            {
-                $y1 = $this->yOffset() + $params['height'];
-            }
-        }
-
-        $this->setLineStyle( $params['line_width'] );
-
-        if ( $params['corner'] )
-        {
-            $factor = $params['corner'];
-            $degree = 0;
-
-            $this->line( $x1 + $factor, $y1, $x2 - $factor, $y1 );
-            $this->line( $x2, $y1 + $factor, $x2, $y2 - $factor );
-            $this->line( $x2 - $factor, $y2, $x1 + $factor, $y2 );
-            $this->line( $x1, $y2 - $factor, $x1, $y1 + $factor );
-
-            $this->curve( $x2 - $factor, $y1,
-                          $x2, $y1 - $degree * $factor,
-                          $x2 + $degree * $factor, $y1,
-                          $x2, $y1 + $factor );
-            $this->curve( $x2, $y2 - $factor,
-                          $x2 + $degree * $factor, $y2,
-                          $x2, $y2 + $degree * $factor,
-                          $x2 - $factor, $y2 );
-            $this->curve( $x1 + $factor, $y2,
-                          $x1, $y2 + $degree * $factor,
-                          $x1 - $degree * $factor, $y2,
-                          $x1, $y2 - $factor );
-            $this->curve( $x1, $y1 + $factor,
-                          $x1 - $degree * $factor, $y1,
-                          $x1, $y1 - $degree * $factor,
-                          $x1 + $factor, $y1 );
-        }
-        else
-        {
-            $this->rectangle( $x1, $y1, $params['width'], $params['height'] );
-        }
-
-        $this->setColor( $stackColor );
-    }
-
-    /*!
-     Set new margins
-    */
-    function callSetMargin( $info )
-    {
-        $options = array();
-
-        $this->extractParameters( $info['p'], 0, $options, true );
-
-        if ( isset( $options['left'] ) )
-        {
-            $this->ez['leftMargin'] = (float)$options['left'];
-        }
-
-        if ( isset( $options['right'] ) )
-        {
-            $this->ez['rightMargin'] = (float)$options['right'];
-        }
-
-        if ( isset( $options['bottom'] ) )
-        {
-            $this->ez['bottomMargin'] = (float)$options['bottom'];
-        }
-
-        if ( isset( $options['top'] ) )
-        {
-            $this->ez['topMargin'] = (float)$options['top'];
-        }
-
-        if ( isset( $options['x'] ) )
-        {
-            $this->ez['xOffset'] = (float)$options['x'];
-        }
-
-        if ( isset( $options['y'] ) )
-        {
-            $this->ez['yOffset'] = (float)$options['y'];
-            $this->y = (float)$options['y'];
-        }
-    }
-
-    /*!
-     Draw filled circle
-    */
-    function callCircle( $info )
-    {
-        $params = array();
-
-        $this->extractParameters( $info['p'], 0, $params, true );
-
-        $keyArray = array ( 'c', 'm', 'y', 'k' );
-        $cmykColor = explode( ',', $params['cmyk'] );
-
-        foreach ( array_keys( $cmykColor ) as $key )
-        {
-            $cmykColor[$keyArray[$key]] = $cmykColor[$key];
-            unset( $cmykColor[$key] );
-        }
-
-        $strokeStackColor = $this->currentStrokeColour;
-        $this->setStrokeColor( $cmykColor );
-        $stackColor = $this->currentColour;
-        $this->setColor( $cmykColor );
-
-        if ( $params['x'] == -1 )
-        {
-            $params['x'] = $this->xOffset() + $params['radius'];
-        }
-        if ( $params['y'] == -1 )
-        {
-            $params['y'] = $this->yOffset();
-        }
-        if ( isset( $params['yOffset'] ) )
-        {
-            if ( $params['yOffset'] == -1 )
-            {
-                $params['y'] += $this->getFontHeight( $this->fontSize() )/2;
-            }
-            else
-            {
-                $params['y'] += $params['yOffset'];
-            }
-        }
-
-        $this->filledEllipse( $params['x'], $params['y'], $params['radius'] );
-        if ( isset( $params['indent'] ) )
-        {
-            $this->setXOffset( $params['x'] + $params['radius'] + $params['indent'] );
-        }
-        else
-        {
-            $this->setXOffset( $params['x'] + $params['radius'] );
-        }
-
-        $this->setStrokeColor( $strokeStackColor );
-        $this->setColor( $stackColor );
-    }
-
-    /*!
-     Function for drawing filled rectangle in document
-
-     \param params
-    */
-    function callFilledRectangle( $info )
-    {
-        $params = array();
-
-        $this->extractParameters( $info['p'], 0, $params, true );
-
-        $keyArray = array ( 'c', 'm', 'y', 'k' );
-        $cmykTop = explode( ',', $params['cmykTop'] );
-        $cmykBottom = explode( ',', $params['cmykBottom'] );
-
-        foreach ( array_keys( $cmykBottom ) as $key )
-        {
-            $cmykBottom[$keyArray[$key]] = $cmykBottom[$key];
-            unset( $cmykBottom[$key] );
-            $cmykTop[$keyArray[$key]] = $cmykTop[$key];
-            unset( $cmykTop[$key] );
-        }
-
-        $this->ezShadedRectangle( $params['x'], $params['y'], $params['width'], $params['height'], $cmykTop, $cmykBottom );
     }
 
     /*!
@@ -1779,7 +1400,7 @@ class eZPDFTable extends Cezpdf
      */
     function insertFrontpage( $params, $text )
     {
-        $this->saveState();
+            $this->saveState();
         $closeObject = false;
         if ( $this->FrontpageID == null )
         {
@@ -1824,52 +1445,6 @@ class eZPDFTable extends Cezpdf
 
         $columnText = '';
 
-        $keyArray = array ( 'c', 'm', 'y', 'k' );
-        if ( isset( $params['titleCellCMYK'] ) )
-        {
-            $params['titleCellCMYK'] = explode( ',', $params['titleCellCMYK'] );
-            foreach ( array_keys( $params['titleCellCMYK'] ) as $key )
-            {
-                $params['titleCellCMYK'][$keyArray[$key]] = $params['titleCellCMYK'][$key];
-                unset( $params['titleCellCMYK'][$key] );
-            }
-        }
-
-        if ( isset( $params['cellCMYK'] ) )
-        {
-            $params['cellCMYK'] = explode( ',', $params['cellCMYK'] );
-            foreach ( array_keys( $params['cellCMYK'] ) as $key )
-            {
-                $params['cellCMYK'][$keyArray[$key]] = $params['cellCMYK'][$key];
-                unset( $params['cellCMYK'][$key] );
-            }
-            $params['shaded'] = 2;
-            $params['shadeCol'] = $params['cellCMYK'];
-            $params['shadeCol2'] = $params['cellCMYK'];
-        }
-
-        if ( isset( $params['textCMYK'] ) )
-        {
-            $params['textCMYK'] = explode( ',', $params['textCMYK'] );
-            foreach ( array_keys( $params['textCMYK'] ) as $key )
-            {
-                $params['textCMYK'][$keyArray[$key]] = $params['textCMYK'][$key];
-                unset( $params['textCMYK'][$key] );
-            }
-            $params['textCol'] = $params['textCMYK'];
-        }
-
-        if ( isset( $params['titleTextCMYK'] ) )
-        {
-            $params['titleTextCMYK'] = explode( ',', $params['titleTextCMYK'] );
-            foreach ( array_keys( $params['titleTextCMYK'] ) as $key )
-            {
-                $params['titleTextCMYK'][$keyArray[$key]] = $params['titleTextCMYK'][$key];
-                unset( $params['titleTextCMYK'][$key] );
-            }
-            $params['titleTextCMYK'] = $params['titleTextCMYK'];
-        }
-
         if ( isset( $params['showLines'] ) )
         {
             $showLines = $params['showLines'];
@@ -1888,43 +1463,23 @@ class eZPDFTable extends Cezpdf
                 }
                 else if ( strcmp( substr($text, $offSet+1, strlen( 'td' ) ), 'td' ) == 0 )
                 {
-                    $tdParams = array();
+                    $params = array();
                     $offSet++;
                     $offSet += strlen( 'td' );
-                    $offSet = $this->extractParameters( $text, $offSet, $tdParams );
+                    $offSet = $this->extractParameters( $text, $offSet, $params );
 
-                    if ( count( $tdParams ) > 0 )
+                    if ( count( $params ) > 0 )
                     {
                         $cellData[$columnCount. ',' .$rowCount] = array();
-                        if ( isset( $tdParams['colspan'] ) )
+                        if ( isset( $params['colspan'] ) )
                         {
-                            $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$tdParams['colspan'], 1 );
+                            $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$params['colspan'], 1 );
                         }
-                        if ( isset( $tdParams['align'] ) )
+                        if ( isset( $params['align'] ) )
                         {
-                            $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $tdParams['align'], 1 );
+                            $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $params['align'], 1 );
                         }
                     }
-                    continue;
-                }
-                else if ( strcmp( substr($text, $offSet+1, strlen( 'th' ) ), 'th' ) == 0 )
-                {
-                    $thParams = array();
-                    $offSet++;
-                    $offSet += strlen( 'th' );
-                    $offSet = $this->extractParameters( $text, $offSet, $thParams );
-
-                    $cellData[$columnCount. ',' .$rowCount] = array();
-                    $cellData[$columnCount.','.$rowCount]['title'] = true;
-                    if ( isset( $thParams['colspan'] ) )
-                    {
-                        $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$thParams['colspan'], 1 );
-                    }
-                    if ( isset( $thParams['align'] ) )
-                    {
-                        $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $thParams['align'], 1 );
-                    }
-
                     continue;
                 }
                 else if ( strcmp( substr($text, $offSet+1, strlen( '/tr' ) ), '/tr' ) == 0 )
@@ -1948,25 +1503,11 @@ class eZPDFTable extends Cezpdf
                     $offSet += strlen( '/td' );
                     continue;
                 }
-                else if ( strcmp( substr($text, $offSet+1, strlen( '/th' ) ), '/th' ) == 0 )
-                {
-                    if ( $columnCount == 0 )
-                    {
-                        $tableData[$rowCount] = array();
-                    }
-                    $tableData[$rowCount][$columnCount] = $columnText;
-                    $columnText = '';
-                    $columnCount++;
-                    $offSet++;
-                    $offSet += strlen( '/th' );
-                    continue;
-                }
             }
             $columnText .= $text[$offSet];
         }
-        $this->addDocSpecFunction( 'ezTable', array( $tableData, '', '', array_merge( array( 'cellData' => $cellData,
-                                                                                             'showLines' => $showLines ),
-                                                                                      $params ) ) );
+        $this->addDocSpecFunction( 'ezTable', array( $tableData, '', '', array( 'cellData' => $cellData,
+                                                                                'showLines' => $showLines ) ) );
     }
 
     /**
@@ -2045,7 +1586,7 @@ class eZPDFTable extends Cezpdf
 
             if ( isset( $documentSpec['fontName'] ) )
             {
-                $this->selectFont( $documentSpec['fontName'] );
+                $this->selectFont( $documentSpec['fontName'] );;
             }
 
             if ( isset( $documentSpec['fontSize'] ) )
@@ -2055,11 +1596,6 @@ class eZPDFTable extends Cezpdf
             else
             {
                 $size = $this->fontSize();
-            }
-
-            if ( isset( $documentSpec['cmyk'] ) )
-            {
-                $this->setColor( $documentSpec['cmyk'] );
             }
 
             if ( isset( $outputElement['isFunction'] ) && $outputElement['isFunction'] === true )
@@ -2074,132 +1610,6 @@ class eZPDFTable extends Cezpdf
             }
         }
         return $return;
-    }
-
-    /*!
-     Callback function for adding text frame.
-     */
-    function callTextFrame( $params, $text )
-    {
-        $this->addDocSpecFunction( 'insertTextFrame', array( $params, $text ) );
-    }
-
-    /*!
-     Callback function for adding text frame.
-     */
-    function insertTextFrame( $params, $text )
-    {
-        $prevColor = $this->currentColour;
-        $prevFontSize = $this->fontSize();
-        $prevFont = $this->currentFont();
-
-        if ( isset( $params['fontSize'] ) )
-        {
-            $this->setFontSize( $params['fontSize'] );
-        }
-
-        if ( isset( $params['fontName'] ) )
-        {
-            $this->selectFont( $params['fontName'] );
-        }
-
-        $cmykKeys = array( 'c', 'm', 'y', 'k' );
-        if ( isset( $params ['frameCMYK'] ) )
-        {
-            $params['frameCMYK'] = explode( ',', $params['frameCMYK'] );
-            foreach ( $cmykKeys as $oldKey => $newKey )
-            {
-                $params['frameCMYK'][$newKey] = $params['frameCMYK'][$oldKey];
-                unset( $params['frameCMYK'][$oldKey] );
-            }
-        }
-        if ( isset( $params['textCMYK'] ) )
-        {
-            $params['textCMYK'] = explode( ',', $params['textCMYK'] );
-            foreach ( $cmykKeys as $oldKey => $newKey )
-            {
-                $params['textCMYK'][$newKey] = $params['textCMYK'][$oldKey];
-                unset( $params['textCMYK'][$oldKey] );
-            }
-        }
-
-        $padding = 0;
-        if ( isset( $params['padding'] ) )
-        {
-            $padding = $params['padding'];
-        }
-
-        $leftPadding = $padding;
-        $rightPadding = $padding;
-        $topPadding = $padding;
-        $bottomPadding = $padding;
-
-        if ( isset( $params['leftPadding'] ) )
-        {
-            $leftPadding = $params['leftPadding'];
-        }
-        if ( isset( $params['rightPadding'] ) )
-        {
-            $rightPadding = $params['rightPadding'];
-        }
-        if ( isset( $params['topPadding'] ) )
-        {
-            $topPadding = $params['topPadding'];
-        }
-        if ( isset( $params['bottomPadding'] ) )
-        {
-            $bottomPadding = $params['bottomPadding'];
-        }
-
-        $yOffset = $this->yOffset();
-        $xOffset = $this->xOffset();
-
-        $fontHeight = $this->getFontHeight( $this->ez['fontSize'] );
-        $fontDecender = $this->getFontDecender( $this->ez['fontSize'] );
-        $textWidth = $this->getTextWidth( $this->ez['fontSize'], $text );
-
-        $totalHeight = $fontHeight + $topPadding;
-        $totalWidth = $textWidth + $leftPadding + $rightPadding;
-
-        if ( $rightPadding == -1 )
-        {
-            $totalWidth = $leftPadding + $this->ez['pageWidth'] - $xOffset + 10;
-        }
-
-        if ( isset( $params['frameCMYK'] ) )
-        {
-            $this->setColor( $params['frameCMYK'] );
-        }
-        $this->filledRectangle( $xOffset - $leftPadding,
-                                $yOffset - $bottomPadding,
-                                $totalWidth,
-                                $totalHeight );
-
-        if ( isset( $params['roundEnds'] ) )
-        {
-            if ( $rightPadding != -1 )
-            {
-                $this->filledEllipse( $xOffset + $textWidth + $rightPadding, $yOffset - $bottomPadding + ( $totalHeight / 2 ), $totalHeight / 2 );
-            }
-            if ( $leftPadding != -1 )
-            {
-                $this->filledEllipse( $xOffset - $leftPadding, $yOffset - $bottomPadding + ( $totalHeight / 2 ), $totalHeight / 2 );
-            }
-        }
-
-        if ( isset( $params['textCMYK'] ) )
-        {
-            $this->setColor( $params['textCMYK'] );
-        }
-        else
-        {
-            $this->setColor( $prevColor );
-        }
-        $this->addText( $xOffset, $yOffset, $this->fontSize(), $text );
-
-        $this->setColor( $prevColor );
-        $this->setFontSize( $prevFontSize );
-        $this->selectFont( $prevFont );
     }
 
     /**
@@ -2224,17 +1634,6 @@ class eZPDFTable extends Cezpdf
             $options['justification'] = $params['justification'];
         }
 
-        if ( isset( $params['cmyk'] ) )
-        {
-            $keyArray = array ( 'c', 'm', 'y', 'k' );
-            $options['cmyk'] = array();
-            $params['cmyk'] = explode( ',', $params['cmyk'] );
-            foreach ( array_keys( $params['cmyk'] ) as $key )
-            {
-                $options['cmyk'][$keyArray[$key]] = $params['cmyk'][$key];
-            }
-        }
-
         $this->addToPreStack( $options );
 
         return '';
@@ -2245,11 +1644,9 @@ class eZPDFTable extends Cezpdf
      */
     function initPreStack()
     {
-        include_once( 'lib/ezutils/classes/ezmath.php' );
-        $this->PreStack[] = array( 'justification' => $this->justification(),
-                                   'fontSize' => $this->fontSize(),
-                                   'fontName' => 'lib/ezpdf/classes/fonts/Helvetica',
-                                   'cmyk' => eZMath::rgbToCMYK2( 0, 0, 0 ) );
+        array_push( $this->PreStack, array( 'justification' => $this->justification(),
+                                            'fontSize' => $this->fontSize(),
+                                            'fontName' => 'lib/ezpdf/classes/fonts/Helvetica' ) );
     }
 
     /**
@@ -2262,7 +1659,7 @@ class eZPDFTable extends Cezpdf
         $docSpec = array_pop( $this->PreStack );
         $this->DocSpecification[] = array ( 'docSpec' => $docSpec,
                                             'text' => $text );
-        $this->PreStack[] = $docSpec;
+        array_push( $this->PreStack, $docSpec );
     }
 
     /**
@@ -2277,7 +1674,7 @@ class eZPDFTable extends Cezpdf
                                             'isFunction' => true,
                                             'functionName' => $functionName,
                                             'parameters' => $parameters );
-        $this->PreStack[] = $docSpec;
+        array_push( $this->PreStack, $docSpec );
     }
 
 
@@ -2322,17 +1719,8 @@ class eZPDFTable extends Cezpdf
             $currentElement['fontName'] = $prevElement['fontName'];
         }
 
-        if ( isset( $options['cmyk'] ) )
-        {
-            $currentElement['cmyk'] = $options['cmyk'];
-        }
-        else
-        {
-            $currentElement['cmyk'] = $prevElement['cmyk'];
-        }
-
-        $this->PreStack[] = $prevElement;
-        $this->PreStack[] = $currentElement;
+        array_push( $this->PreStack, $prevElement );
+        array_push( $this->PreStack, $currentElement );
     }
 
     /*!
@@ -2350,13 +1738,13 @@ class eZPDFTable extends Cezpdf
             $yOffset = $this->ez['pageHeight'] - $parameters['margin'];
         }
 
-        $rightMargin = $this->rightMargin();
+        $rightMargin = $this->ez['rightMargin'];
         if ( isset( $parameters['rightMargin'] ) )
         {
             $rightMargin = $parameters['rightMargin'];
         }
 
-        $leftMargin = $this->leftMargin();
+        $leftMargin = $this->ez['leftMargin'];
         if ( isset( $parameters['leftMargin'] ) )
         {
             $leftMargin = $parameters['leftMargin'];

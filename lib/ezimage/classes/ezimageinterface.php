@@ -271,24 +271,6 @@ class eZImageInterface
     }
 
     /*!
-     Tries to load the GIF image from the path \a $storedPath and file \a $storedFile into
-     the current image object.
-     \return true if succesful.
-    */
-    function loadGIF( $storedPath, $storedFile )
-    {
-        if ( !function_exists( 'ImageCreateFromGIF' ) )
-            return false;
-        $this->ImageObject = ImageCreateFromGIF( $storedPath . '/' . $storedFile );
-        if ( $this->ImageObject )
-        {
-            $this->ImageObjectRef = eZImageInterface::registerImage( $this->ImageObject );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
      Tries to load the stored image set by setStoredFile().
      If the stored type is not set it will try all formats until one succeeds.
      \return true if succesful.
@@ -310,18 +292,11 @@ class eZImageInterface
                 return $this->loadJPEG( $this->StoredPath, $this->StoredFile );
             } break;
 
-            case 'gif':
-            {
-                return $this->loadGIF( $this->StoredPath, $this->StoredFile );
-            } break;
-
             default:
             {
                 if ( @$this->loadPNG( $this->StoredPath, $this->StoredFile ) )
                     return true;
                 else if ( @$this->loadJPEG( $this->StoredPath, $this->StoredFile ) )
-                    return true;
-                else if ( @$this->loadGIF( $this->StoredPath, $this->StoredFile ) )
                     return true;
                 eZDebug::writeError( 'Image format not supported: ' . $this->StoredType, 'eZImageInterface::load' );
             };
@@ -403,7 +378,7 @@ class eZImageInterface
         if ( $this->StoredFile == '' )
             return true;
         $fileArray = array( $this->StoredPath, $this->StoredFile );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         $filePath = eZDir::path( $fileArray );
         $imageinfo = getimagesize( $filePath );
         if ( $imageinfo )
@@ -438,7 +413,7 @@ class eZImageInterface
         {
             case 'png':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                include_once( 'lib/ezutils/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
                     $ini =& eZINI::instance();
@@ -455,7 +430,7 @@ class eZImageInterface
 
             case 'jpg':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                include_once( 'lib/ezutils/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
                     $ini =& eZINI::instance();

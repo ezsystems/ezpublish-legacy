@@ -18,7 +18,7 @@
 <ul class="leftmenu">
 {let bookmark_list=fetch(content,bookmarks)}
 {section name=BookMark loop=$bookmark_list}
-<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;{$:item.node.name|wash}</a></li>
+<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
 {/section}
 {/let}
 </ul>
@@ -35,7 +35,7 @@
 <ul class="leftmenu">
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
-<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.object.content_class.identifier|class_icon( small, $:item.node.object.content_class.name )}&nbsp;{$:item.node.name|wash}</a></li>
+<li>&#187; <a href={$:item.node.url_alias|ezurl}>{$:item.node.name|wash}</a></li>
 {/section}
 {/let}
 </ul>

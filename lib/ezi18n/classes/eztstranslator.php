@@ -123,7 +123,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     function loadTranslationFile( $locale, $filename, $requestedContext )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
 
         // First try for current charset
         $charset = eZTextCodec::internalCharset();
@@ -314,7 +314,6 @@ class eZTSTranslator extends eZTranslatorHandler
     }
 
     /*!
-     \static
      Validates the DOM tree \a $tree and returns true if it is correct.
      \warning There's no validation done yet, for it returns \c true for all DOM trees.
     */

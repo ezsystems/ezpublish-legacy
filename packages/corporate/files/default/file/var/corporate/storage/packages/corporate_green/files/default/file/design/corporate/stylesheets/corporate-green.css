@@ -1,0 +1,310 @@
+body
+{
+    padding: 0;
+    margin: 0;
+}
+
+div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
+{
+    background-color: #c9bca2;
+    background-image: url(../images/sidebar-background.gif);
+    background-position: top right;
+    background-repeat: repeat-y;
+    height: 1%; /* Needed for IE5.5 to stop background color bug */
+}
+
+div#header
+{
+    background-color: #849352
+}
+
+div#header div.design
+{
+    background-image: url(../images/header_image-green.jpg);
+    background-position: top right;
+    background-repeat: no-repeat;
+    height: 120px;
+}
+
+div#logo
+{
+    float: left;
+    margin-top: 0.3em;
+    margin-right: 0.1em;
+}
+
+div#subheader
+{
+    background-color: #333333;
+    padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
+}
+
+div#mainmenu
+{
+    float: left;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+div#mainmenu ul, div#mainmenu li
+{
+    display: inline; /* This makes the vertical display of this menu */
+}
+
+div#mainmenu ul
+{
+    margin-left: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div#mainmenu li a
+{
+    padding-left: 1em;
+    padding-right: 3em;
+}
+
+div#mainmenu a
+{
+    color: #d8ceba;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#mainmenu a:hover
+{
+    text-decoration: underline;
+}
+
+div#searchbox
+{
+    position: absolute;
+    right: 210px;
+    top: 85px;
+}
+
+div#searchbox input.searchtext
+{
+    font-size: 80%;
+    width: 12em;
+}
+
+div#searchbox input.searchbutton
+{
+    font-size: 80%;
+    margin-right: 1em;
+}
+
+div#path
+{
+    margin-top: 1.7em;
+    margin-bottom: 1em;
+}
+
+div#path p
+{
+    margin: 0;
+    color: #ffffff;
+}
+
+div#path a
+{
+    color: #ffffff;
+}
+
+div#submenu
+{
+    float: right;
+    clear: right;
+    width: 200px;
+}
+
+div#submenu div.design
+{
+    padding: 0.1em;
+}
+
+div#submenu ul
+{
+    list-style-type: circle;
+    padding-left: 1.7em;
+    margin-left: 1em;
+    margin-top: 2em;
+}
+
+div#submenu li
+{
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+div#submenu a
+{
+    color: #202020;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#submenu a:hover
+{
+    text-decoration: underline;
+}
+
+div#infobox
+{
+    margin-top: 0;
+    margin-bottom: 1em;
+    float: right;
+    clear: right;
+    width: 200px;
+}
+
+div#infobox div.design
+{
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#infobox h3
+{
+    margin-top: 0em;
+    padding: 0.2em;
+    padding-left: 1.2em;
+}
+
+div#infobox ul
+{
+    list-style-type: none;
+    margin-bottom: 1.5em;
+    padding-right: 1em;
+}
+
+div#infobox li
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div#infobox a
+{
+    color: #000000;
+}
+
+div#maincontent
+{
+    display: table;
+    height: 1%;
+    margin-bottom: 2em;
+    margin-left: 2em;
+    margin-right: 220px;
+    clear: none;
+}
+
+div#footer
+{
+    clear: both;
+}
+
+div#footer div.design
+{
+    background-color: #849352;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: center;
+}
+
+div#footer a
+{
+    color: #000000;
+}
+
+/* General child "line view" object settings */
+
+#folder div.child h2
+{ 
+    color: #444444;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#folder div.child div.byline
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.object_brief p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.readmore
+{ 
+}
+
+#folder div.child div.readmore a
+{ 
+    color: #304b82;
+}
+
+#folder div.child div.readmore p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
+/* article styles */
+
+#article div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#article div.intro p
+{ 
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Search */
+
+div.advancedsearchbox
+{ 
+   display: none;
+}
+
+/* General */
+
+h1
+{ 
+    margin-bottom: 5px;
+
+}
+
+div.editbutton
+{ 
+   float: right;
+}
+
+div.editbutton input
+{ 
+   font-size: small;
+   background-color: #304b82;
+   color: #ffffff;
+}

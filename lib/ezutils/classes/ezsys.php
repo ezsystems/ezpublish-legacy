@@ -33,8 +33,6 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-// Portions are modifications on patches by Andreas Böckler and Francis Nart
-//
 
 /*!
   \class eZSys ezsys.php
@@ -414,7 +412,7 @@ class eZSys
     function storageDirectory()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         $ini =& eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
@@ -432,7 +430,7 @@ class eZSys
         $ini =& eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );
@@ -441,35 +439,6 @@ class eZSys
         {
             return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
         }
-    }
-
-    /*!
-     The absolute path to the root directory.
-     \static
-    */
-    function rootDir()
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        if ( $this->RootDir )
-        {
-            return $this->RootDir;
-        }
-        $cwd  = getcwd();
-        $self  = $this->serverVariable( 'PHP_SELF' );
-        if ( file_exists( $cwd.$this->FileSeparator.$self ) )
-        {
-            $this->RootDir = $cwd;
-        }
-        else if ( file_exists( $cwd.$this->FileSeparator.$this->IndexFile ) )
-        {
-            $this->Root = $cwd;
-        }
-        else
-        {
-            $this->RootDir=null;
-        }
-        return $this->RootDir;
     }
 
     /*!
@@ -518,17 +487,9 @@ class eZSys
 
         if ( $withAccessList and count( $this->AccessPath ) > 0 )
         {
-            if ( php_sapi_name() == 'cgi' )
-            {
-                if ( $text != "" )
-                    $text .= "/";
-                $text .= implode( '/', $this->AccessPath );
-            }
-            else
-            {
-                $text .= '/' . implode( '/', $this->AccessPath );
-            }
+            $text .= '/' . implode( '/', $this->AccessPath );
         }
+
         return $text;
     }
 
@@ -586,6 +547,7 @@ class eZSys
     */
     function &serverVariable( $variableName, $quiet = false )
     {
+        $_SERVER;
         if ( !isset( $_SERVER[$variableName] ) )
         {
             if ( !$quiet )
@@ -700,17 +662,6 @@ class eZSys
 
     /*!
      \static
-     Empties the access path.
-    */
-    function clearAccessPath()
-    {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $this->AccessPath = array();
-    }
-
-    /*!
-     \static
      \return true if debugging of internals is enabled, this will display
      which server variables are read.
       Set the option with setIsDebugEnabled().
@@ -737,10 +688,8 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( $def_index = "index.php", $force_VirtualHost = false )
+    function init( $def_index = "index.php", $force_VirtualHost = false)
     {
-        $isCGI = ( php_sapi_name() == 'cgi' );
-
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
 
@@ -772,10 +721,6 @@ class eZSys
             $siteDir = "./";
             $index = "/$def_index";
         }
-        if ( $isCGI )
-        {
-            $index .= '?';
-        }
 
         // Setting the right include_path
         $includePath = ini_get( "include_path" );
@@ -794,7 +739,7 @@ class eZSys
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
         // Get the webdir.
 
-        if ( $force_VirtualHost && ! $isCGI )
+        if ( $force_VirtualHost )
         {
             $wwwDir = "";
         } else
@@ -805,53 +750,29 @@ class eZSys
                 $wwwDir = $regs[1];
         }
 
-        if ( ! $isCGI )
-        {
-            $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
-        }
-        else
-        {
-            $requestURI = eZSys::serverVariable( 'QUERY_STRING' );
-
-            /* take out PHPSESSID, if url-encoded */
-            if ( preg_match( "/(.*)&PHPSESSID=[^&]+(.*)/", $requestURI, $matches ) )
-            {
-                $requestURI = $matches[1].$matches[2];
-            }
-        }
+        $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
 
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
             $phpSelf = $requestURI;
 
-        if ( ! $isCGI )
+        $def_index_reg = str_replace( ".", "\\.", $def_index );
+        // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
+        if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
+            $index = "";
+        else
         {
-            $def_index_reg = str_replace( ".", "\\.", $def_index );
-            // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) )
-                $index = "";
-            else
+            if ( eZSys::isDebugEnabled() )
+                eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
+            // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
+            if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
             {
-                if ( eZSys::isDebugEnabled() )
-                    eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
-                // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-                if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
-                {
-                    $requestURI = $req[1];
-                }
+                $requestURI = $req[1];
             }
         }
 
         // Remove url parameters
-        if ( $isCGI )
-        {
-            $pattern = "(\/[^&]+)";
-        }
-        else
-        {
-            $pattern = "([^?]+)";
-        }
-        if ( ereg( $pattern, $requestURI, $regs ) )
+        if ( ereg( "([^?]+)", $requestURI, $regs ) )
         {
             $requestURI = $regs[1];
         }
@@ -918,8 +839,6 @@ class eZSys
     var $FileSeparator;
     /// The list separator used for env variables
     var $EnvSeparator;
-    /// The absolute path to the root directory.
-    var $RootDir;
     /// The path to where all the code resides
     var $SiteDir;
     /// The access path of the current site view

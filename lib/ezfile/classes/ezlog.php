@@ -69,7 +69,7 @@ class eZLog
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            include_once( 'lib/ezutils/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -100,7 +100,7 @@ class eZLog
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );
             if ( !$fileExisted )
-                @chmod( $fileName, 0666 );
+                @chmod( $fileName, 0664 );
             @umask( $oldumask );
         }
     }

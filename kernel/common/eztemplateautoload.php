@@ -65,7 +65,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperato
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
                                     'class' => 'eZWordToImageOperator',
-                                    'operator_names' => array( 'wordtoimage', 'mimetype_icon', 'class_icon', 'classgroup_icon' ) );
+                                    'operator_names' => array( 'wordtoimage' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezkerneloperator.php',
                                     'class' => 'eZKernelOperator',
@@ -135,7 +135,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
-                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
 
@@ -143,7 +142,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                               'input_name' => 'attribute',
                                               'output_name' => 'attribute',
                                               'namespace' => 'ContentAttribute',
-                                              'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                               'attribute_access' => array( array( 'view_template' ) ),
                                               'use_views' => false ),
 
@@ -158,7 +156,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'input_name' => 'attribute',
                                                'output_name' => 'attribute',
                                                'namespace' => 'ContentAttribute',
-                                               'attribute_keys' => array( 'attribute_identifier' => array( 'contentclass_attribute_identifier' ) ),
                                                'attribute_access' => array( array( 'view_template' ) ),
                                                'optional_views' => true,
                                                'use_views' => 'view' ),
@@ -216,8 +213,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                           'attribute_keys' => array( 'node' => array( 'node_id' ),
                                                                      'object' => array( 'contentobject_id' ),
                                                                      'class' => array( 'object', 'contentclass_id' ),
-                                                                     'section' => array( 'object', 'section_id' ),
-                                                                     'class_identifier' => array( 'object', 'class_identifier' ) ),
+                                                                     'section' => array( 'object', 'section_id' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 

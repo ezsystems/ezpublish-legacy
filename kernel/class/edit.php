@@ -87,7 +87,7 @@ if ( is_numeric( $ClassID ) )
         $timeOut =& $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
-             $class->attribute( 'modified' ) + $timeOut > time() )
+             $class->attribute( 'modified' ) + $timeOut > eZDateTime::currentTimeStamp() )
         {
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
@@ -176,7 +176,6 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) )
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
 include_once( 'kernel/classes/ezdatatype.php' );
-eZDataType::loadAndRegisterAllTypes();
 $datatypes =& eZDataType::registeredDataTypes();
 
 $customAction = false;
@@ -341,7 +340,8 @@ if ( $customAction )
 }
 
 // Set new modification date
-$date_time = time();
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+$date_time = eZDateTime::currentTimeStamp();
 $class->setAttribute( 'modified', $date_time );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $user =& eZUser::currentUser();
@@ -500,7 +500,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 //     $user =& eZUser::currentUser();
 //     $user_id = $user->attribute( 'contentobject_id' );
 //     $class->setAttribute( 'modifier_id', $user_id );
-//     $class->setAttribute( 'modified', time() );
+//     $class->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
 //     $class->adjustAttributePlacements( $attributes );
 //     $class->store( $attributes );
 

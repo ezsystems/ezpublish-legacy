@@ -55,12 +55,11 @@ function &eZSessionRead( $key )
 
     $key =& $db->escapeString( $key );
 
-    $sessionRes =& $db->arrayQuery( "SELECT data, user_id FROM ezsession WHERE session_key='$key'" );
+    $sessionRes =& $db->arrayQuery( "SELECT data FROM ezsession WHERE session_key='$key'" );
 
     if ( count( $sessionRes ) == 1 )
     {
         $data =& $sessionRes[0]['data'];
-        $GLOBALS['eZSessionUserID'] = $sessionRes[0]['user_id'];
 
         return $data;
     }
@@ -84,17 +83,12 @@ function eZSessionWrite( $key, $value )
     $key =& $db->escapeString( $key );
     // check if session already exists
 
-    $userID = 0;
-    if ( isset( $GLOBALS['eZSessionUserID'] ) )
-        $userID = $GLOBALS['eZSessionUserID'];
-    $userID = $db->escapeString( $userID );
-
     $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
 
     if ( count( $sessionRes ) == 1 )
     {
         $updateQuery = "UPDATE ezsession
-                    SET expiration_time='$expirationTime', data='$value', user_id='$userID'
+                    SET expiration_time='$expirationTime', data='$value'
                     WHERE session_key='$key'";
 
         $ret = $db->query( $updateQuery );
@@ -102,8 +96,8 @@ function eZSessionWrite( $key, $value )
     else
     {
         $insertQuery = "INSERT INTO ezsession
-                    ( session_key, expiration_time, data, user_id )
-                    VALUES ( '$key', '$expirationTime', '$value', '$userID' )";
+                    ( session_key, expiration_time, data )
+                    VALUES ( '$key', '$expirationTime', '$value' )";
 
         $ret = $db->query( $insertQuery );
     }
@@ -116,12 +110,10 @@ function eZSessionDestroy( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-
     $key =& $db->escapeString( $key );
     $query = "DELETE FROM ezsession WHERE session_key='$key'";
 
     $db->query( $query );
-
 }
 
 /*!
@@ -131,9 +123,7 @@ function eZSessionGarbageCollector()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $time = time();
-
-    $query = "DELETE FROM ezsession WHERE expiration_time < " . $time;
+    $query = "DELETE FROM ezsession WHERE expiration_time < " . time();
 
     $db->query( $query );
 }
@@ -145,11 +135,9 @@ function eZSessionEmpty()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-
-    $query = "TRUNCATE TABLE ezsession";
+    $query = "DELETE FROM ezsession";
 
     $db->query( $query );
-
 }
 
 /*!
@@ -278,29 +266,6 @@ function eZSessionRemove()
     session_destroy();
     $hasStarted = false;
     return true;
-}
-
-/*!
- Sets the current user ID to \a $userID,
- this ID will be written to the session table field user_id
- when the page is done.
- \sa eZSessionUserID
-*/
-function eZSessionSetUserID( $userID )
-{
-    $GLOBALS['eZSessionUserID'] = $userID;
-}
-
-/*!
- Returns the current session ID.
- The session handler will not care about value of the ID,
- it's entirely up to the clients of the session handler to use and update this value.
-*/
-function eZSessionUserID()
-{
-    if ( isset( $GLOBALS['eZSessionUserID'] ) )
-        return $GLOBALS['eZSessionUserID'];
-    return 0;
 }
 
 ?>

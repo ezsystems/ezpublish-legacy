@@ -48,7 +48,7 @@ if ( !$user )
 $userObject =& $user->attribute( 'contentobject' );
 if ( !$userObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-if ( !$userObject->canEdit( $accessList ) )
+if ( !$userObject->canEdit() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 $userSetting =& eZUserSetting::fetch( $UserID );
 
@@ -67,10 +67,6 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
     }
     $userSetting->setAttribute( "is_enabled", $isEnabled );
     $userSetting->store();
-    if ( !$isEnabled )
-    {
-        eZUser::removeSessionData( $UserID );
-    }
     $Module->redirectTo( '/content/view/full/' . $userObject->attribute( 'main_node_id' ) );
     return;
 }

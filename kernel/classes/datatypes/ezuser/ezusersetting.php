@@ -39,8 +39,8 @@
 
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZUserSetting extends eZPersistentObject
 {
@@ -51,55 +51,31 @@ class eZUserSetting extends eZPersistentObject
 
     function &definition()
     {
-        return array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
+        return array( "fields" => array( "user_id" => array( 'name' => "UserID",
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
-                                         'is_enabled' => array( 'name' => 'IsEnabled',
+                                         "is_enabled" => array( 'name' => "IsEnabled",
                                                                 'datatype' => 'integer',
                                                                 'default' => 0,
                                                                 'required' => true ),
-                                         'max_login' => array( 'name' => 'MaxLogin',
+                                         "max_login" => array( 'name' => "MaxLogin",
                                                                'datatype' => 'integer',
                                                                'default' => 0,
                                                                'required' => true ) ),
-                      'keys' => array( 'user_id' ),
+                      "keys" => array( "user_id" ),
                       'relations' => array( 'user_id' => array( 'class' => 'ezuser',
                                                                  'field' => 'contentobject_id' ) ),
-                      'class_name' => 'eZUserSetting',
-                      'name' => 'ezuser_setting' );
+                      "class_name" => "eZUserSetting",
+                      "name" => "ezuser_setting" );
     }
 
     function &create( $userID, $isEnabled )
     {
-        $row = array( 'user_id' => $userID,
-                      'is_enabled' => $isEnabled,
-                      'max_login' => null );
+        $row = array( "user_id" => $userID,
+                      "is_enabled" => $isEnabled,
+                      "max_login" => null );
         return new eZUserSetting( $row );
-    }
-
-
-    /*!
-     \reimp
-    */
-    function setAttribute( $attr, $val )
-    {
-        switch( $attr )
-        {
-            case 'is_enabled':
-            {
-                if ( !$val )
-                {
-                    $user =& eZUser::fetch( $this->UserID );
-                    if ( $user )
-                    {
-                        $user->removeSessionData();
-                    }
-                }
-            } break;
-        }
-
-        eZPersistentObject::setAttribute( $attr, $val );
     }
 
     /*!
@@ -121,7 +97,7 @@ class eZUserSetting extends eZPersistentObject
     function &remove( $userID )
     {
         eZPersistentObject::removeObject( eZUserSetting::definition(),
-                                          array( 'user_id' => $userID ) );
+                                          array( "user_id" => $userID ) );
     }
 
     /*!
@@ -131,7 +107,7 @@ class eZUserSetting extends eZPersistentObject
     {
         return eZPersistentObject::fetchObject( eZUserSetting::definition(),
                                                 null,
-                                                array('user_id' => $userID ),
+                                                array("user_id" => $userID ),
                                                 $asObject );
     }
 

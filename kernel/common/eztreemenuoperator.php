@@ -96,28 +96,28 @@ class eZTreeMenuOperator
         if ( $maxLevel === false )
             $maxLevel = 2;
 
-        while ( !$done && isset( $tmpModulePath[$i+$depthSkip] ) )
+
+        $classFilter = $namedParameters['class_filter'];
+        if ( !$classFilter )
+            $classFilter = array( 1, 8 );
+
+        while ( !$done )
         {
             // get node id
             $elements = explode( "/", $tmpModulePath[$i+$depthSkip]['url'] );
             $nodeID = $elements[4];
+
+            $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );
+            $nextNodeID = $nextElements[4];
 
             $excludeNode = false;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < $maxLevel )
             {
-                if ( isset( $tmpModulePath[$i+$depthSkip+1] ) )
-                {
-                    $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );
-                    $nextNodeID = $nextElements[4];
-                }
-                else
-                    $nextNodeID = false;
-
                 $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                           'Offset' => 0,
-                                                                          'SortBy' => $node->sortArray(),
+                                                                          'SortBy' => array( array('priority') ),
                                                                           'ClassFilterType' => 'include',
                                                                           'ClassFilterArray' => $classFilter
                                                                           ),
@@ -167,10 +167,9 @@ class eZTreeMenuOperator
             {
                 if ( $level == 0 )
                 {
-                    $node = eZContentObjectTreeNode::fetch( 2 );
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
-                                                                              'SortBy' => $node->sortArray(),
+                                                                              'SortBy' => array( array('priority') ),
                                                                               'ClassFilterType' => 'include',
                                                                               'ClassFilterArray' => $classFilter
                                                                               ),

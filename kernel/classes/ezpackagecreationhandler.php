@@ -59,7 +59,6 @@ class eZPackageCreationHandler
         $this->InitializeStepMethodMap = array();
         $this->ValidateStepMethodMap = array();
         $this->CommitStepMethodMap = array();
-        $this->LoadStepMethodMap = array();
     }
 
 	/*!
@@ -94,8 +93,6 @@ class eZPackageCreationHandler
             }
 			if ( isset( $step['methods']['initialize'] ) )
 			    $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
-            if( isset( $step['methods']['load'] ) )
-                $this->LoadStepMethodMap[$step['id']] = $step['methods']['load'];
 			if ( isset( $step['methods']['validate'] ) )
 			    $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
 			if ( isset( $step['methods']['commit'] ) )
@@ -140,11 +137,6 @@ class eZPackageCreationHandler
     function initializeStepMethodMap()
     {
         return $this->InitializeStepMethodMap;
-    }
-
-    function loadStepMethodMap()
-    {
-        return $this->LoadStepMethodMap;
     }
 
     function validateStepMethodMap()
@@ -196,23 +188,6 @@ class eZPackageCreationHandler
             {
                 $method = $methodMap[$step['id']];
                 return $this->$method( $package, $http, $step, $persistentData, $tpl );
-            }
-        }
-    }
-
-    /*!
-     \virtual
-     Called each time a step is loaded, and can be used to fetch and process input data in each step.
-    */
-    function loadStep( &$package, &$http, $currentStepID, &$persistentData, &$tpl, &$module )
-    {
-        $methodMap = $this->loadStepMethodMap();
-        if ( count( $methodMap ) > 0 )
-        {
-            if ( isset( $methodMap[$currentStepID] ) )
-            {
-                $method = $methodMap[$currentStepID];
-                return $this->$method( $package, $http, $currentStepID, $persistentData, $tpl, $module );
             }
         }
     }
@@ -316,15 +291,21 @@ class eZPackageCreationHandler
 
 		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', 'create', $accessList );
+		$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
 	    $limitationList = array();
 	    $canCreate = false;
 		if ( $accessResult['accessWord'] == 'no' )
 		    return array();
 		if ( $accessResult['accessWord'] == 'limited' )
 		{
-		    $limitationList =& $accessResult['policies'];
-            foreach( $limitationList as $limitationArray ) // TODO : fix this
+		    $limitation =& $accessResult['policies'];
+		    $limitationList = array();
+		    foreach ( array_keys( $limitation ) as $key )
+		    {
+		        $policy =& $limitation[$key];
+		        $limitationList[] =& $policy->attribute( 'limitations' );
+		    }
+            foreach( $limitationList as $limitationArray )
             {
                 foreach ( $limitationArray as $limitation )
                 {
@@ -367,9 +348,9 @@ class eZPackageCreationHandler
             $handlers = array();
         $handler = false;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
-                                                    'repository-group' => 'PackageSettings',
+                                                    'repository-group' => 'CreationSettings',
                                                     'repository-variable' => 'RepositoryDirectories',
-                                                    'extension-group' => 'PackageSettings',
+                                                    'extension-group' => 'CreationSettings',
                                                     'extension-variable' => 'ExtensionDirectories',
                                                     'subdir' => 'packagecreators',
                                                     'extension-subdir' => 'packagecreators',
@@ -718,7 +699,7 @@ class eZPackageCreationHandler
         }
         else
         {
-            $existingPackage =& eZPackage::fetch( $packageName, false, true );
+            $existingPackage =& eZPackage::fetch( $packageName );
             if ( $existingPackage )
             {
                 $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
@@ -732,10 +713,10 @@ class eZPackageCreationHandler
                                   'description' => ezi18n( 'kernel/package', 'Summary is missing' ) );
             $result = false;
         }
-        if ( !preg_match( "#^[0-9](\.[0-9]([a-zA-Z]+[0-9]*)?)*$#", $packageVersion ) )
+        if ( !preg_match( "#^[0-9](\.[0-9])*$#", $packageVersion ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Version' ),
-                                  'description' => ezi18n( 'kernel/package', 'The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1' ) );
+                                  'description' => ezi18n( 'kernel/package', 'The version must only contain numbers and must be delimited by dots (.), e.g. 1.0' ) );
             $result = false;
         }
         return $result;
@@ -955,7 +936,6 @@ class eZPackageCreationHandler
     */
     function validatePackageThumbnail( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;

@@ -186,6 +186,31 @@ class eZDir
         return octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
     }
 
+/*
+    function mkdirRecursive( $dir, $perm )
+    {
+        if ( file_exists( $dir ) )
+            return true;
+        else
+        {
+//            $new_dir = preg_replace( "#/+#", "/", $dir );
+//            if ( $dir[0] != "/" )
+//                $new_dir = "$new_dir";
+// Fix to make this work on windows.. To quick ?
+//                $new_dir = realpath( "." ) . "/$new_dir";
+            if ( preg_match( "#^(.+/)([^/]+)/?$#", $new_dir, $regs ) )
+            {
+                $new_dir = $regs[1];
+            }
+            if ( !eZDir::mkdirRecursive( $new_dir, $perm ) )
+                return false;
+        }
+        if ( !eZDir::doMkdir( $dir, $perm ) )
+            return false;
+        return true;
+    }
+*/
+
     /*!
      \static
      \private
@@ -238,7 +263,7 @@ class eZDir
     function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $toType );
-        return str_replace( array( '/', '\\' ), $separator, $path );
+        return preg_replace( "#[/\\\\]#", $separator, $path );
     }
 
     /*!
@@ -253,7 +278,7 @@ class eZDir
     {
         $path = eZDir::convertSeparators( $path, $toType );
         $separator = eZDir::separator( $toType );
-        $path = preg_replace( "#$separator{2,}#", $separator, $path );
+        $path = preg_replace( "#$separator$separator+#", $separator, $path );
         $pathElements = explode( $separator, $path );
         $newPathElements = array();
         foreach ( $pathElements as $pathElement )
@@ -286,15 +311,14 @@ class eZDir
         $separator = eZDir::separator( $type );
         $path = implode( $separator, $names );
         $path = eZDir::cleanPath( $path, $type );
-        $pathLen = strlen( $path );
-        $hasEndSeparator = ( $pathLen > 0 and
-                         $path[$pathLen - 1] == $separator );
+        $hasEndSeparator = ( strlen( $path ) > 0 and
+                         $path[strlen( $path ) - 1] == $separator );
         if ( $includeEndSeparator and
              !$hasEndSeparator )
             $path .= $separator;
         else if ( !$includeEndSeparator and
                   $hasEndSeparator )
-            $path = substr( $path, 0, $pathLen - 1 );
+            $path = substr( $path, 0, strlen( $path ) - 1 );
         return $path;
     }
 
@@ -330,7 +354,7 @@ class eZDir
     /*!
      \static
      Recurses through the directory and returns the files that matches the given suffix
-     \note This function will not traverse . (hidden) folders
+     Note: this function will not traverse . (hidden) folders
     */
     function &recursiveFind( $dir, $suffix )
     {
@@ -364,80 +388,6 @@ class eZDir
 
     /*!
      \static
-      Unlink files match the given pattern in the given directory.
-    */
-    function unlinkWildcard( $dir, $pattern )
-    {
-        $availableFiles = array();
-        if ( $handle = @opendir( $dir ) )
-        {
-            while ( ( $file = readdir( $handle ) ) !== false )
-            {
-                if ( $file != "." && $file != ".." )
-                {
-                    $availableFiles[] = $file;
-                }
-            }
-            @closedir( $handle );
-
-            if( strpos( $pattern, "." ) )
-            {
-                $baseexp = substr( $pattern, 0, strpos( $pattern, "." ) );
-                $typeexp = substr( $pattern, ( strpos( $pattern, "." ) + 1 ), strlen( $pattern ) );
-            }
-            else
-            {
-                $baseexp = $pattern;
-                $typeexp = "";
-            }
-
-            $baseexp=preg_quote( $baseexp );
-            $typeexp=preg_quote( $typeexp );
-
-            $baseexp = str_replace( array( "\*", "\?" ), array( ".*", "." ), $baseexp );
-            $typeexp = str_replace(array( "\*", "\?" ), array( ".*", "." ), $typeexp );
-
-            $i=0;
-            $matchedFileArray = array();
-            foreach( $availableFiles as $file )
-            {
-                $fileName = basename( $file );
-
-                if( strpos( $fileName, "." ) )
-                {
-                    $base = substr( $fileName, 0, strpos( $fileName, "."));
-                    $type = substr( $fileName, ( strpos( $fileName,"." ) + 1 ), strlen( $fileName ) );
-                }
-                else
-                {
-                    $base = $fileName;
-                    $type = "";
-                }
-
-                if( preg_match( "/^".$baseexp."$/i", $base ) && preg_match( "/^".$typeexp."$/i", $type ) )
-                {
-                    $matchedFileArray[$i] = $file;
-                    $i++;
-                }
-            }
-
-            foreach ( array_keys( $matchedFileArray ) as $key )
-            {
-                $matchedFile =& $matchedFileArray[$key];
-                if ( substr( $dir,-1 ) == "/")
-                {
-                    unlink( $dir.$matchedFile );
-                }
-                else
-                {
-                    unlink( $dir."/".$matchedFile );
-                }
-            }
-        }
-    }
-
-    /*!
-     \static
      Recurses through the directory and returns the files that matches the given suffix.
      This function will store the relative path from the given base only.
      Note: this function will not traverse . (hidden) folders
@@ -445,14 +395,10 @@ class eZDir
     function &recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
         $returnFiles = array();
-        $dir = $baseDir;
         if ( $subDir != "" )
-        {
-            if ( $dir != '' )
-                $dir .= "/" . $subDir;
-            else
-                $dir .= $subDir;
-        }
+            $dir = $baseDir . "/" . $subDir;
+        else
+            $dir = $baseDir;
         if ( $handle = @opendir( $dir ) )
         {
             while ( ( $file = readdir( $handle ) ) !== false )
@@ -532,7 +478,7 @@ class eZDir
     /*!
      Copies a directory (and optionally all it's subitems) to another directory.
     */
-    function copy( $sourceDirectory, &$destinationDirectory,
+    function copy( $sourceDirectory, $destinationDirectory,
                    $asChild = true, $recursive = true, $includeHidden = false, $excludeItems = false )
     {
         if ( !is_dir( $sourceDirectory ) )

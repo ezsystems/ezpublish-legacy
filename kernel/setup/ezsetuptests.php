@@ -344,7 +344,7 @@ function eZSetupTestExtension( $type, &$arguments )
 function eZSetupTestFilePermissions( $type, &$arguments )
 {
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    include_once( 'lib/ezutils/classes/ezdir.php' );
 
     $ini =& eZINI::instance();
     $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
@@ -430,7 +430,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
 function eZSetupCheckExecutable( $type, &$arguments )
 {
     include_once( 'lib/ezutils/classes/ezsys.php' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    include_once( 'lib/ezutils/classes/ezdir.php' );
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http =& eZHTTPTool::instance();
 

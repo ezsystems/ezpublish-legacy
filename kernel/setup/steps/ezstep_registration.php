@@ -79,12 +79,10 @@ class eZStepRegistration extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
-        $siteTypes = $this->chosenSiteTypes();
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        $siteCount = $this->PersistenceList['site_templates']['count'];
+        for ( $counter = 0; $counter < $siteCount; $counter++)
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-            $siteTemplates[$counter] = $siteType;
+            $siteTemplates[$counter] = $this->PersistenceList['site_templates_'.$counter];
             $url = $siteTemplates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
@@ -109,7 +107,6 @@ class eZStepRegistration extends eZStepInstaller
             }
             $siteTemplates[$counter]['url'] = $url;
             $siteTemplates[$counter]['admin_url'] = $adminURL;
-            ++$counter;
         }
 
         $testsRun = $this->PersistenceList['tests_run'];
@@ -199,18 +196,10 @@ class eZStepRegistration extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
-        $siteTypes = $this->chosenSiteTypes();
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        $siteCount = $this->PersistenceList['site_templates']['count'];
+        for ( $counter = 0; $counter < $siteCount; $counter++)
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-            $siteTemplates[$counter] = $siteType;
-
-            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
-                                               $typeFunctionality['required'] );
-            $extraFunctionality = array_unique( $extraFunctionality );
-
+            $siteTemplates[$counter] = $this->PersistenceList['site_templates_'.$counter];
             $url = $siteTemplates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
@@ -235,8 +224,6 @@ class eZStepRegistration extends eZStepInstaller
             }
             $siteTemplates[$counter]['url'] = $url;
             $siteTemplates[$counter]['admin_url'] = $adminURL;
-            $siteTemplates[$counter]['extra_functionality'] = $extraFunctionality;
-            ++$counter;
         }
 
         $testsRun = $this->PersistenceList['tests_run'];

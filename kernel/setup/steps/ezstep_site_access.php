@@ -70,56 +70,33 @@ class eZStepSiteAccess extends eZStepInstaller
             return false; // unknown error
         }
 
-//         include_once( 'kernel/setup/ezsetuptypes.php' );
-//         $siteTypes = eZSetupTypes();
-//         $chosenType = $this->PersistenceList['site_type']['identifier'];
-//         $siteType = $siteTypes[$chosenType];
-
-//         $templateCount = $this->PersistenceList['site_templates']['count'];
+        $templateCount = $this->PersistenceList['site_templates']['count'];
 
         $portCounter = 8080;
-//         $siteList = array( $siteType );
-//         for ( $counter = 0; $counter < $templateCount; $counter++ )
-//         for ( $counter = 0; $counter < count( $siteList ); $counter++ )
-        $siteTypes = $this->chosenSiteTypes();
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        for ( $counter = 0; $counter < $templateCount; $counter++ )
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-
-            $siteType['access_type'] = $accessType;
-//             $this->PersistenceList['site_templates_' . $counter]['access_type'] = $accessType;
-//             if ( !isset( $this->PersistenceList['site_templates_' . $counter]['identifier'] ) )
-//                 $this->PersistenceList['site_templates_' . $counter]['identifier'] = $siteList[$counter]['identifier'];
+            $this->PersistenceList['site_templates_'.$counter]['access_type'] = $accessType;
             if ( $accessType == 'url' )
             {
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';
-                $siteType['access_type_value'] = $siteType['identifier'];
-                $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
             }
             else if ( $accessType == 'port' )
             {
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $portCounter++;
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $portCounter++;
-                $siteType['access_type_value'] = $portCounter++;
-                $siteType['admin_access_type_value'] = $portCounter++;
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $portCounter++;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $portCounter++;
             }
             else if ( $accessType == 'hostname' )
             {
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '.' . eZSys::hostName();
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin.' . eZSys::hostName();
-                $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
-                $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin.' . eZSys::hostName();
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '.' . eZSys::hostName();
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin.' . eZSys::hostName();
             }
             else
             {
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $accessType;
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $accessType . '_admin';
-                $siteType['access_type_value'] = $accessType;
-                $siteType['admin_access_type_value'] = $accessType . '_admin';
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $accessType;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $accessType . '_admin';
             }
         }
-        $this->storeSiteTypes( $siteTypes );
         return true;
     }
 
@@ -132,22 +109,14 @@ class eZStepSiteAccess extends eZStepInstaller
         include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
         {
-//             $templateCount = $this->PersistenceList['site_templates']['count'];
-            $siteTypes = $this->chosenSiteTypes();
+            $templateCount = $this->PersistenceList['site_templates']['count'];
 
-//             for ( $counter = 0; $counter < $templateCount; $counter++ )
-            foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+            for ( $counter = 0; $counter < $templateCount; $counter++ )
             {
-                $siteType =& $siteTypes[$siteTypeKey];
-                $siteType['access_type'] = 'url';
-                $siteType['access_type_value'] = $siteType['identifier'];
-                $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
-
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type'] = 'url';
-//                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
-//                 $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';
+                $this->PersistenceList['site_templates_'.$counter]['access_type'] = 'url';
+                $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
             }
-            $this->storeSiteTypes( $siteTypes );
 
             return true;
         }
@@ -159,9 +128,8 @@ class eZStepSiteAccess extends eZStepInstaller
     */
     function &display()
     {
-//         $siteTypes = $this->chosenSiteTypes();
-//         $this->Tpl->setVariable( 'site_types', $siteTypes );
-//         $this->Tpl->setVariable( 'error', $this->Error );
+        $this->Tpl->setVariable( 'site_templates', $this->PersistenceList['site_templates'] );
+        $this->Tpl->setVariable( 'error', $this->Error );
 
         // Return template and data to be shown
         $result = array();

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898195">corporate</name>
+  <summary modified="1075898216">Corporate</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898195">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898195</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898195" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898195"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898195">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="corporate"
+                 modified="1075898195" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="corporate_user"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/corporate_user/override.ini.append"
+              md5sum="f7e8cf68cdc6e86e2216ce12b8bb95eb"
+              modified="1075898196" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/corporate_user/site.ini.append"
+              md5sum="a442cd373d10132900b24806e1abe814"
+              modified="1075898196" />
+        <file name="image.ini.append"
+              path="settings/siteaccess/corporate_user/image.ini.append"
+              md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
+              modified="1075898196" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="corporate_admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/corporate_admin/override.ini.append"
+              md5sum="576ac38f8bf89212ed1f6c900e8fc4b7"
+              modified="1075898197" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/corporate_admin/site.ini.append"
+              md5sum="1138424ac608afd77a3d8dcb71eeb05f"
+              modified="1075898197" />
+      </file-list>
+      <file-list type="file">
+        <file name="package.xml"
+              sub-directory="var/corporate/storage/packages/corporate_blue"
+              path="var/corporate/storage/packages/corporate_blue/package.xml"
+              md5sum="94b2881201bda66c113da74e3458d7bb"
+              modified="1075898198" />
+        <file name="corporate-blue.css"
+              sub-directory="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/stylesheets"
+              path="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/stylesheets/corporate-blue.css"
+              md5sum="6d694d780c13ad89a5bcdf374a2ecf21"
+              modified="1075898199" />
+        <file name="infobox_image.gif"
+              sub-directory="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images"
+              path="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images/infobox_image.gif"
+              md5sum="a9857d5ce12c57e6b1d888806c58cb49"
+              modified="1075898199" />
+        <file name="header_image-repeat.gif"
+              sub-directory="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images"
+              path="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images/header_image-repeat.gif"
+              md5sum="8396d5f3a3ae6b6ed420e968eea955dc"
+              modified="1075898200" />
+        <file name="header_image.gif"
+              sub-directory="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images"
+              path="var/corporate/storage/packages/corporate_blue/files/default/file/design/corporate/images/header_image.gif"
+              md5sum="70937ac530143162903dda503637af54"
+              modified="1075898200" />
+        <file name="thumbnail.png"
+              sub-directory="var/corporate/storage/packages/corporate_blue/files/default/thumbnail"
+              path="var/corporate/storage/packages/corporate_blue/files/default/thumbnail/thumbnail.png"
+              md5sum="f7c59dd8399055542ce224fb87680be0"
+              modified="1075898201" />
+        <file name="README"
+              sub-directory="var/corporate/storage/packages/corporate_blue/documents"
+              path="var/corporate/storage/packages/corporate_blue/documents/README"
+              md5sum="3465f8a47b9bbaadaabe4376c4104820"
+              modified="1075898201" />
+        <file name="package.xml"
+              sub-directory="var/corporate/storage/packages/corporate_green"
+              path="var/corporate/storage/packages/corporate_green/package.xml"
+              md5sum="cfd9a6a1b0fd8084ca5c8ba84acf2890"
+              modified="1075898202" />
+        <file name="corporate-green.css"
+              sub-directory="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/stylesheets"
+              path="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/stylesheets/corporate-green.css"
+              md5sum="87535f6f025d6544b7c7619c2d14e451"
+              modified="1075898202" />
+        <file name="sidebar-background.gif"
+              sub-directory="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/images"
+              path="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/images/sidebar-background.gif"
+              md5sum="ee3bc2992eb5f2058baad88259ad3acb"
+              modified="1075898203" />
+        <file name="header_image-green.jpg"
+              sub-directory="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/images"
+              path="var/corporate/storage/packages/corporate_green/files/default/file/design/corporate/images/header_image-green.jpg"
+              md5sum="b93149b27cd885031e6c3ef9b2d3e549"
+              modified="1075898203" />
+        <file name="thumbnail.png"
+              sub-directory="var/corporate/storage/packages/corporate_green/files/default/thumbnail"
+              path="var/corporate/storage/packages/corporate_green/files/default/thumbnail/thumbnail.png"
+              md5sum="df523c84220c42c50dba770b938ee5d4"
+              modified="1075898204" />
+        <file name="README"
+              sub-directory="var/corporate/storage/packages/corporate_green/documents"
+              path="var/corporate/storage/packages/corporate_green/documents/README"
+              md5sum="cfbcc089587620c3230d94ae82606340"
+              modified="1075898204" />
+        <file name="classes.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB/classes.png"
+              md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
+              modified="1075898205" />
+        <file name="classes_large.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB/classes_large.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898205" />
+        <file name="classes_reference.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/classes/103-8-eng-GB/classes_reference.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898206" />
+        <file name="cache.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB/cache.png"
+              md5sum="57f62f207f87dcfba03b5e5f15d7277c"
+              modified="1075898206" />
+        <file name="cache_large.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB/cache_large.png"
+              md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
+              modified="1075898207" />
+        <file name="cache_reference.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/cache/324-3-eng-GB/cache_reference.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898207" />
+        <file name="look_and_feel_icon.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB/look_and_feel_icon.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898208" />
+        <file name="look_and_feel.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB/look_and_feel.png"
+              md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
+              modified="1075898209" />
+        <file name="look_and_feel_large.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB/look_and_feel_large.png"
+              md5sum="4806200d6836ca805dc6369a63fc22bc"
+              modified="1075898209" />
+        <file name="look_and_feel_reference.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/look_and_feel/109-9-eng-GB/look_and_feel_reference.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898210" />
+        <file name="url_translator.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator.png"
+              md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
+              modified="1075898210" />
+        <file name="url_translator_large.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator_large.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898211" />
+        <file name="url_translator_reference.png"
+              sub-directory="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/corporate/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator_reference.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898212" />
+        <file name="corporate.gif"
+              sub-directory="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB"
+              path="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB/corporate.gif"
+              md5sum="44dc49213cbfe80faf9367edfcd2f657"
+              modified="1075898212" />
+        <file name="corporate_medium.gif"
+              sub-directory="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB"
+              path="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB/corporate_medium.gif"
+              md5sum="5dccf1c9fd7b13ab9acee89dfd42c658"
+              modified="1075898213" />
+        <file name="corporate_logo.gif"
+              sub-directory="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB"
+              path="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB/corporate_logo.gif"
+              md5sum="5dccf1c9fd7b13ab9acee89dfd42c658"
+              modified="1075898214" />
+        <file name="corporate_reference.gif"
+              sub-directory="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB"
+              path="var/corporate/storage/images/setup/look_and_feel/corporate/152-62-eng-GB/corporate_reference.gif"
+              md5sum="5dccf1c9fd7b13ab9acee89dfd42c658"
+              modified="1075898214" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="design/corporate/images/corporate-blue.png"
+              md5sum="f7c59dd8399055542ce224fb87680be0"
+              modified="1075898215" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898195">1.0</number>
+    <release modified="1075898195">1</release>
+  </version>
+  <licence modified="1075898195">GPL</licence>
+  <state modified="1075898195">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898195" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1075898197" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1075898198" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898195"
+          collection="default" />
+    <item type="sql"
+          modified="1075898197"
+          filename="corporate.sql"
+          original-path="packages/corporate.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1075898198"
+          filename="corporate_postgresql.sql"
+          original-path="packages/corporate_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898195"
+          collection="default" />
+  </uninstall>
+</package>

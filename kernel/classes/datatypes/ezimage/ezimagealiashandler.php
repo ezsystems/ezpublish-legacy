@@ -42,6 +42,7 @@
 */
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
 class eZImageAliasHandler
@@ -365,7 +366,6 @@ class eZImageAliasHandler
         {
             eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
         }
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
         $this->resetImageSerialNumber();
@@ -502,7 +502,6 @@ class eZImageAliasHandler
         $filename = $aliasList[$aliasName]['filename'];
         if ( $filename )
         {
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData =& eZMimeType::findByFileContents( $filename );
 
             $imageManager->analyzeImage( $mimeData );
@@ -863,7 +862,6 @@ class eZImageAliasHandler
         $height = false;
         $altText = false;
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( count( $imageRow ) == 1 )
         {
             $fileName = $imageRow[0]['filename'];
@@ -985,7 +983,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
@@ -1003,7 +1001,6 @@ class eZImageAliasHandler
         $contentObjectAttribute =& $this->ContentObjectAttribute;
         $this->increaseImageSerialNumber();
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
         if ( !$mimeData['is_valid'] )
         {
@@ -1048,7 +1045,6 @@ class eZImageAliasHandler
 
         if ( !$originalFilename )
             $originalFilename = $filename;
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $originalFilename );
         $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                  $contentObjectAttribute->attribute( 'contentobject_id' ) );
@@ -1123,7 +1119,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $imageAltText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
-        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', time() ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
@@ -1340,4 +1336,3 @@ class eZImageAliasHandler
     /// Contains a reference to the object attribute
     var $ContentObjectAttribute;
 }
-?>

@@ -157,7 +157,6 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( "kernel/common/template.php" );
             include_once( 'lib/ezutils/classes/ezmail.php' );
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-            $ini =& eZINI::instance();
             $tpl =& templateInit();
             $tpl->setVariable( 'user', $user );
             $tpl->setVariable( 'object', $object );
@@ -166,10 +165,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $tpl->setVariable( 'password', $password );
 
             $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
-            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-            if ( !$emailSender )
-                $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-            $mail->setSender( $emailSender );
+
             $mail->setReceiver( $receiver );
             $subject = ezi18n( 'kernel/user/register', 'Registration info' );
             if ( $tpl->hasVariable( 'subject' ) )
@@ -178,6 +174,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $mail->setBody( $templateResult );
             $mailResult = eZMailTransport::send( $mail );
 
+            $ini =& eZINI::instance();
             $feedbackTypes = $ini->variableArray( 'UserSettings', 'RegistrationFeedback' );
             foreach ( $feedbackTypes as $feedbackType )
             {

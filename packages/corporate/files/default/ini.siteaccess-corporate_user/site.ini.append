@@ -1,0 +1,14 @@
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=corporate
+
+[FileSettings]
+VarDir=var/corporate
+
+[SiteSettings]
+ErrorHandler=displayerror
+LoginPage=embedded
+
+[SiteAccessSettings]
+RequireUserLogin=false

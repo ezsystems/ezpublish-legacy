@@ -38,12 +38,6 @@
 
 include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
-/*!
-  \class Cezpdf class.ezpdf.php
-  \ingroup eZPDF
-  \brief Cezpdf provides
-*/
-
 class Cezpdf extends Cpdf
 {
 
@@ -292,6 +286,7 @@ class Cezpdf extends Cpdf
             $this->ez['leftMargin']=$this->ez['columns']['margins'][0]+($this->ez['columns']['colNum']-1)*($this->ez['columns']['options']['gap']+$width);
             $this->ez['rightMargin']=$this->ez['pageWidth']-$this->ez['leftMargin']-$width;
         }
+//echo 'left='.$this->ez['leftMargin'].'   right='.$this->ez['rightMargin'].'<br>';
 
         if ($pageRequired){
             // make a new page, setting the writing point back to the top
@@ -311,8 +306,6 @@ class Cezpdf extends Cpdf
             $this->y = $this->ez['pageHeight']-$this->ez['topMargin'];
             $this->ez['xOffset'] = 0;
         }
-        $this->RightMarginArray = array();
-        $this->LeftMarginArray = array();
     }
 
 // ------------------------------------------------------------------------------
@@ -323,8 +316,6 @@ class Cezpdf extends Cpdf
         $this->ez['bottomMargin']=$bottom;
         $this->ez['leftMargin']=$left;
         $this->ez['rightMargin']=$right;
-        $this->LeftMarginArray = array();
-        $this->RightMarginArray = array();
         // check to see if this means that the current writing position is outside the
         // writable area
         if ($this->y > $this->ez['pageHeight']-$top){
@@ -575,7 +566,7 @@ class Cezpdf extends Cpdf
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
         $x0=1000;
         $x1=0;
-        $this->setStrokeColorRGB($col[0],$col[1],$col[2]);
+        $this->setStrokeColor($col[0],$col[1],$col[2]);
         $cnt=0;
         $n = count($pos);
         foreach($pos as $x){
@@ -745,10 +736,15 @@ class Cezpdf extends Cpdf
         $newPage=false;
         $store_y = $this->y;
 
+        if (is_array($options) && isset($options['aleft'])){
+            $left=$options['aleft'];
+        } else {
+            $left = $this->ez['leftMargin'] + ((is_array($options) && isset($options['left']))?$options['left']:0);
+        }
         if (is_array($options) && isset($options['aright'])){
             $right=$options['aright'];
         } else {
-            $right = $this->ez['pageWidth'] - $this->rightMargin() - ((is_array($options) && isset($options['right']))?$options['right']:0);
+            $right = $this->ez['pageWidth'] - $this->ez['rightMargin'] - ((is_array($options) && isset($options['right']))?$options['right']:0);
         }
         if ($size<=0){
             $size = $this->ez['fontSize'];
@@ -776,17 +772,14 @@ class Cezpdf extends Cpdf
             $height = $this->getFontHeight($size);
         }
 
-        $lastOnlyDirective = false;
         $lines = explode( "\n", $text );
         foreach ( array_keys( $lines ) as $key ){
             $line = $lines[$key];
-            if ( ( $key > 0 || strlen($line) == 0 ) &&
-                 !$lastOnlyDirective )
+            if ( $key > 0 || strlen($line) == 0 )
             {
                 $this->y=$this->y-$height;
                 $this->ez['xOffset'] = 0;
             }
-            $lastOnlyDirective = false;
             while (strlen($line)){
                 if ($this->y < $this->ez['bottomMargin']){
                     if ($test){
@@ -801,7 +794,7 @@ class Cezpdf extends Cpdf
                     $left = $this->ez['xOffset'];
                 }
                 else {
-                    $left = $this->leftMargin() + ((is_array($options) && isset($options['left']))?$options['left']:0);
+                    $left = $this->ez['leftMargin'] + ((is_array($options) && isset($options['left']))?$options['left']:0);
                 }
                 if (is_array($options) && isset($options['aleft'])){
                     $left=$options['aleft'];
@@ -809,16 +802,9 @@ class Cezpdf extends Cpdf
                 if (is_array($options) && isset($options['aright'])){
                     $right=$options['aright'];
                 } else {
-                    $right = $this->ez['pageWidth'] - $this->rightMargin() - ((is_array($options) && isset($options['right']))?$options['right']:0);
+                    $right = $this->ez['pageWidth'] - $this->ez['rightMargin'] - ((is_array($options) && isset($options['right']))?$options['right']:0);
                 }
                 $textInfo = $this->addTextWrap($left,$this->y,$right-$left,$size,$line,$just,0,$test);
-                if ( isset( $textInfo['only_directive'] ) &&
-                     $textInfo['only_directive'] === true )
-                {
-                    $lastOnlyDirective = true;
-                    $line = '';
-                    continue;
-                }
                 $line=$textInfo['text'];
                 if ( strlen( $line ) || $textInfo['width'] == 0 )
                 {
@@ -929,11 +915,11 @@ class Cezpdf extends Cpdf
 
         //call appropriate function
         if ($type == "jpeg"){
-            $this->addJpegFromFile($image,$this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
+            $this->addJpegFromFile($image,$this->ez['leftMargin'] + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
         }
 
         if ($type == "png"){
-            $this->addPngFromFile($image,$this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
+            $this->addPngFromFile($image,$this->ez['leftMargin'] + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
         }
         //draw border
         if ($border != '')
@@ -949,9 +935,9 @@ class Cezpdf extends Cpdf
             if (!(isset($border['join']))) $border['join'] = 'round';
 
 
-            $this->setStrokeColorRGB($border['color']['red'],$border['color']['green'],$border['color']['blue']);
+            $this->setStrokeColor($border['color']['red'],$border['color']['green'],$border['color']['blue']);
             $this->setLineStyle($border['width'],$border['cap'],$border['join']);
-            $this->rectangle($this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width,$height);
+            $this->rectangle($this->ez['leftMargin'] + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width,$height);
 
         }
         // move y below image
@@ -1031,8 +1017,8 @@ class Cezpdf extends Cpdf
                 $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>rawurldecode($info['p']));
                 if ($internal==0){
                     $this->saveState();
-                    $this->setColorRGB(0,0,1);
-                    $this->setStrokeColorRGB(0,0,1);
+                    $this->setColor(0,0,1);
+                    $this->setStrokeColor(0,0,1);
                     $thick = $info['height']*$lineFactor;
                     $this->setLineStyle($thick);
                 }
@@ -1158,86 +1144,6 @@ class Cezpdf extends Cpdf
         return $height;
     }
 
-    /*!
-     Get right margin, page offset
-
-     \param y offset ( optional )
-     \return right margin
-    */
-    function rightMargin( $yOffset = false )
-    {
-        if ( $yOffset === false )
-        {
-            $yOffset = $this->yOffset();
-        }
-
-        foreach ( $this->RightMarginArray as $rightMargin )
-        {
-            if ( $yOffset > $rightMargin['start'] &&
-                 $yOffset < $rightMargin['stop'] )
-            {
-                return $rightMargin['margin'];
-            }
-        }
-
-        return $this->ez['rightMargin'];
-    }
-
-    /*!
-     Get left margin, page offset
-
-     \param y offset ( optional )
-     \return left margin
-    */
-    function leftMargin( $yOffset = false )
-    {
-        if ( $yOffset === false )
-        {
-            $yOffset = $this->yOffset();
-        }
-
-        foreach ( $this->LeftMarginArray as $leftMargin )
-        {
-            if ( $yOffset > $leftMargin['start'] &&
-                 $yOffset < $leftMargin['stop'] )
-            {
-                return $leftMargin['margin'];
-            }
-        }
-
-        return $this->ez['leftMargin'];
-    }
-
-    /*!
-     Set left margin for limited range
-
-     \param y start
-     \param y stop
-     \param new left margin
-    */
-    function setLimitedLeftMargin( $startY, $stopY, $leftMargin )
-    {
-        $this->LeftMarginArray[] = array( 'start' => $startY,
-                                          'stop' => $stopY,
-                                          'margin' => $leftMargin );
-    }
-
-    /*!
-     Set right margin for limited range
-
-     \param y start
-     \param y stop
-     \param new right margin
-    */
-    function setLimitedRightMargin( $startY, $stopY, $rightMargin )
-    {
-        $this->RightMarginArray[] = array( 'start' => $startY,
-                                           'stop' => $stopY,
-                                           'margin' => $rightMargin );
-    }
-
-    var $LeftMarginArray = array();
-    var $RightMarginArray = array();
 }
 
 // ------------------------------------------------------------------------------

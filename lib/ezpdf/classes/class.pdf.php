@@ -35,14 +35,6 @@
 /*! \file class.pdf.php
 */
 
-/*!
-  \class Cpdf class.pdf.php
-  \ingroup eZPDF
-  \brief Cpdf provides
-*/
-
-include_once( 'lib/ezutils/classes/ezmath.php' );
-
 class Cpdf
 {
 
@@ -105,12 +97,12 @@ class Cpdf
     /**
      * current colour for fill operations, defaults to inactive value, all three components should be between 0 and 1 inclusive when active
      */
-    var $currentColour;
+    var $currentColour=array('r'=>-1,'g'=>-1,'b'=>-1);
 
     /**
      * current colour for stroke operations (lines etc.)
      */
-    var $currentStrokeColour;
+    var $currentStrokeColour=array('r'=>-1,'g'=>-1,'b'=>-1);
 
     /**
      * current style that lines are drawn in
@@ -257,15 +249,8 @@ class Cpdf
      * this will start a new document
      * @var array array of 4 numbers, defining the bottom left and upper right corner of the page. first two are normally zero.
      */
-    function Cpdf ( $pageSize = array( 0, 0, 612, 792 ) )
+    function Cpdf ($pageSize=array(0,0,612,792))
     {
-        $this->currentColour = eZMath::rgbToCMYK( array( 'r' => -1,
-                                                         'g' => -1,
-                                                         'b' => -1 ) );
-        $this->currentStrokeColour = eZMath::rgbToCMYK( array( 'r' => -1,
-                                                               'g' => -1,
-                                                               'b' => -1 ) );
-
         $this->newDocument($pageSize);
 
         // also initialize the font families that are known about already
@@ -737,71 +722,63 @@ class Cpdf
 	    {
 		$this->objects[$id] = array( 't' => 'shading',
 					     'info' => array( 'type' => '2',
-							      'ColorSpace' => '/DeviceCMYK' ) );
+							      'ColorSpace' => '/DeviceRGB' ) );
 
-        if ( !isset( $options['orientation'] ) )
-        {
-            $options['orientation'] = 'vertical';
-        }
-
-        if ( $options['orientation'] == 'horizontal' )
-        {
+		if ( isset( $options['orientation'] ) ) // set shading orientation
+		{
+		    if ( $options['orientation'] == 'horizontal' )
+		    {
 			$angle = 0;
-        }
-        else if ( $options['orientation'] == 'vertical' )
-        {
+		    }
+		    else if ( $options['orientation'] == 'vertical' )
+		    {
 			$angle = deg2rad( 90 );
-        }
-        else // orientation is an angle
-        {
+		    }
+		    else // orientation is an angle
+		    {
 			$angle = $options['orientation'];
-        }
+		    }
 
-        $this->objects[$id]['info']['Coords'] = '[ '.  // compute angle of gradient chading
+		    $this->objects[$id]['info']['Coords'] = '[ '.  // compute angle of gradient chading
 			 sprintf( '%.3f', $options['size']['x1'] ).' '.
 			 sprintf( '%.3f', $options['size']['y1'] + $options['size']['height'] ).' '.
 			 sprintf( '%.3f', $options['size']['x1'] + $options['size']['width']*cos( $angle ) ).' '.
 			 sprintf( '%.3f', $options['size']['y1'] + $options['size']['height']*( 1 - sin( $angle ) ) ).']';
+		}
 
 //                $this->objects[$id]['info']['Coords'] = '[0.0 0.0 50.0 50.0]';
 
 		if ( is_array( $options['color0'] ) ) //Set chading colors
 		{
-            if ( count( $options['color0'] ) == 3 )
-            {
-                $options['color0'] = eZMath::rgbToCMYK( $options['color0'] );
-            }
-            $color0 = array ( 'c' => sprintf( '%.3f', $options['color0']['c'] ),
-                              'm' => sprintf( '%.3f', $options['color0']['m'] ),
-                              'y' => sprintf( '%.3f', $options['color0']['y'] ),
-                              'k' => sprintf( '%.3f', $options['color0']['k'] ) );
+		    $color0 = array ( 'r' => sprintf( '%.3f', $options['color0']['r'] ),
+				      'g' => sprintf( '%.3f', $options['color0']['g'] ),
+				      'b' => sprintf( '%.3f', $options['color0']['b'] ) );
 		}
 		else
 		{
-		    $color0 = eZMath::rgbToCMYK2( 0, 0, 0 );
+		    $color0 = array ( 'r' => '0',
+				      'g' => '0',
+				      'b' => '0' );
 		}
 		if ( is_array( $options['color1'] ) )
 		{
-            if ( count( $options['color1'] ) == 3 )
-            {
-                $options['color1'] = eZMath::rgbToCMYK( $options['color1'] );
-            }
-		    $color1 = array ( 'c' => sprintf( '%.3f', $options['color1']['c'] ),
-                              'm' => sprintf( '%.3f', $options['color1']['m'] ),
-                              'y' => sprintf( '%.3f', $options['color1']['y'] ),
-                              'k' => sprintf( '%.3f', $options['color1']['k'] ) );
+		    $color1 = array ( 'r' => sprintf( '%.3f', $options['color1']['r'] ),
+				      'g' => sprintf( '%.3f', $options['color1']['g'] ),
+				      'b' => sprintf( '%.3f', $options['color1']['b'] ) );
 		}
 		else
 		{
-		    $color1 = eZMath::rgbToCMYK2( 1, 1, 1 );
+		    $color1 = array ( 'r' => '1',
+				      'g' => '1',
+				      'b' => '1' );
 		}
 
 		$this->numObj++;
 		$this->objects[$id]['info']['Function'] = $this->numObj;
 		$this->o_function( $this->numObj, 'new', array ( 'type' => '2',
 								 'Domain' => '[0.0 1.0]',
-								 'C0' => '['.$color0['c'].' '.$color0['m'].' '.$color0['y'].' '.$color0['k'].']',
-								 'C1' => '['.$color1['c'].' '.$color1['m'].' '.$color1['y'].' '.$color1['k'].']',
+								 'C0' => '['.$color0['r'].' '.$color0['r'].' '.$color0['r'].']',
+								 'C1' => '['.$color1['r'].' '.$color1['r'].' '.$color1['r'].']',
 								 'N' => '1.0' ) );
 		$this->objects[$id]['info']['Extend'] = '[true true]';
 		// also tell the pages node about the new shading
@@ -1324,7 +1301,7 @@ class Cpdf
 		$this->objects[$id]['info']['Filter']='/FlateDecode';
 		$this->objects[$id]['info']['DecodeParms']='<< /Predictor 15 /Colors '.$options['ncolor'].' /Columns '.$options['iw'].' /BitsPerComponent '.$options['bitsPerComponent'].'>>';
 		if (strlen($options['pdata'])){
-		    $tmp = ' [ /Indexed /DeviceCMYK '.(strlen($options['pdata'])/3-1).' ';
+		    $tmp = ' [ /Indexed /DeviceRGB '.(strlen($options['pdata'])/3-1).' ';
 		    $this->numObj++;
 		    $this->o_contents($this->numObj,'new');
 		    $this->objects[$this->numObj]['c']=$options['pdata'];
@@ -2024,50 +2001,21 @@ class Cpdf
 /**
  * sets the colour for fill operations
  */
-    function setColorRGB($r,$g,$b,$force=0)
-    {
-        $this->setColor( eZMath::rgbToCMYK2( $r, $g, $b ), $force );
-    }
-
-/*!
-  sets the colour for fill operations
-
-  \param CMYK array
- */
-    function setColor( $cmykArray, $force=0 )
-    {
-        if ( $force || !$this->compareCMYK( $cmykArray, $this->currentColour ) )
-        {
-            $this->objects[$this->currentContents]['c'] .= "\n" .
-                 sprintf( '%.3f', $cmykArray['c'] ) . ' ' . sprintf( '%.3f', $cmykArray['m'] ) . ' ' .
-                 sprintf( '%.3f', $cmykArray['y'] ) . ' ' . sprintf( '%.3f', $cmykArray['k'] ) . ' k';
-            $this->currentColour = $cmykArray;
-        }
+    function setColor($r,$g,$b,$force=0){
+	if ($r>=0 && ($force || $r!=$this->currentColour['r'] || $g!=$this->currentColour['g'] || $b!=$this->currentColour['b'])){
+	    $this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$r).' '.sprintf('%.3f',$g).' '.sprintf('%.3f',$b).' rg';
+	    $this->currentColour=array('r'=>$r,'g'=>$g,'b'=>$b);
+	}
     }
 
 /**
  * sets the colour for stroke operations
  */
-    function setStrokeColorRGB($r,$g,$b,$force=0)
-    {
-        $this->setStrokeColor( eZMath::rgbToCMYK2( $r, $g, $b ), $force );
-    }
-
-    /*!
-      sets the colour for stroke operations
-
-      \param cmyk array
-      \param force color change
-     */
-    function setStrokeColor( $cmykArray, $force = 0 )
-    {
-        if ( $force || !$this->compareCMYK( $cmykArray, $this->currentStrokeColour ) )
-        {
-            $this->objects[$this->currentContents]['c'] .= "\n" .
-                 sprintf( '%.3f', $cmykArray['c'] ) . ' ' . sprintf( '%.3f', $cmykArray['m'] ) . ' ' .
-                 sprintf( '%.3f', $cmykArray['y'] ) . ' ' . sprintf( '%.3f', $cmykArray['k'] ) . ' K';
-            $this->currentStrokeColour = $cmykArray;
-        }
+    function setStrokeColor($r,$g,$b,$force=0){
+	if ($r>=0 && ($force || $r!=$this->currentStrokeColour['r'] || $g!=$this->currentStrokeColour['g'] || $b!=$this->currentStrokeColour['b'])){
+	    $this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$r).' '.sprintf('%.3f',$g).' '.sprintf('%.3f',$b).' RG';
+	    $this->currentStrokeColour=array('r'=>$r,'g'=>$g,'b'=>$b);
+	}
     }
 
 /**
@@ -2232,17 +2180,13 @@ class Cpdf
     /**
      Create shaded rectangle area
 
-     \param x1
-     \param x2
-     \param width
-     \param height
-     \param options
-            array ( 'orientation' => <vertical|horizontal ( optianal )>,
-                    'color0' => <CMYK color array>,
-                    'color1' => <CMYK color array> )
+     \param Color1
+     \param Color2
+     \param direction
     */
     function shadedRectangle( $x1, $y1, $width, $height, $options )
     {
+
 	$this->numObj++;
 	$shadingLabel = $this->o_shading( $this->numObj, 'new', $options );
 
@@ -2255,6 +2199,9 @@ class Cpdf
 	$this->objects[$this->currentContents]['c'].="\n/".$shadingLabel.' sh';
 
 	$this->restoreState();
+
+
+
     }
 
 /**
@@ -2305,11 +2252,11 @@ class Cpdf
 	    }
 	}
 	// and if there has been a stroke or fill colour set, then transfer them
-	if ($this->currentColour['c']>=0){
-	    $this->setColor($this->currentColour,1);
+	if ($this->currentColour['r']>=0){
+	    $this->setColor($this->currentColour['r'],$this->currentColour['g'],$this->currentColour['b'],1);
 	}
-	if ($this->currentStrokeColour['c']>=0){
-	    $this->setStrokeColor($this->currentStrokeColour,1);
+	if ($this->currentStrokeColour['r']>=0){
+	    $this->setStrokeColor($this->currentStrokeColour['r'],$this->currentStrokeColour['g'],$this->currentStrokeColour['b'],1);
 	}
 
 	// if there is a line style set, then put this in too
@@ -2690,7 +2637,6 @@ class Cpdf
 		$this->$func($info);
 	    }
 	}
-
     return $returnArray;
     }
 
@@ -2818,14 +2764,12 @@ class Cpdf
             $y -= $directiveArray['y'];
             $returnArray['height'] = $directiveArray['y'];
         }
-	    if ($directive)
-        {
-            if ($f)
-            {
-                $this->setCurrentFont();
-                $cf = $this->currentFont;
-            }
-            $i=$i+$directive-1;
+	    if ($directive){
+		if ($f){
+		    $this->setCurrentFont();
+		    $cf = $this->currentFont;
+		}
+		$i=$i+$directive-1;
 	    } else {
 		$cOrd = ord($text[$i]);
 		if (isset($this->fonts[$cf]['differences'][$cOrd])){
@@ -2912,11 +2856,6 @@ class Cpdf
 	$this->setCurrentFont();
 	if (!$test){
 	    $addTextArray = $this->addText($x,$y,$size,$text,$angle,$adjust,$angle);
-        if ( isset( $directive ) && $directive == $len )
-        {
-            return array( 'only_directive' => true );
-        }
-
         if ( $addTextArray['height'] != -1 )
         {
             $returnArray['height'] = $addTextArray['height'];
@@ -2938,8 +2877,8 @@ class Cpdf
 	    // end of the previous page, before the stack was closed down
 	    // This is to get around not being able to have open 'q' across pages
 	    $opt = $this->stateStack[$pageEnd]; // ok to use this as stack starts numbering at 1
-	    $this->setColor($opt['col'],1);
-	    $this->setStrokeColor($opt['str'],1);
+	    $this->setColor($opt['col']['r'],$opt['col']['g'],$opt['col']['b'],1);
+	    $this->setStrokeColor($opt['str']['r'],$opt['str']['g'],$opt['str']['b'],1);
 	    $this->objects[$this->currentContents]['c'].="\n".$opt['lin'];
 //    $this->currentLineStyle = $opt['lin'];
 	} else {
@@ -3560,22 +3499,6 @@ class Cpdf
 		break;
 	}
 
-    }
-
-    /*!
-     \static
-
-     \param new cmyk array 1
-     \param new cmyk array 2
-
-     \return true if equal, false if not
-    */
-    function compareCMYK( $cmykArray1, $cmykArray2 )
-    {
-        return ( $cmykArray1['c'] == $cmykArray2['c'] &&
-                 $cmykArray1['m'] == $cmykArray2['m'] &&
-                 $cmykArray1['y'] == $cmykArray2['y'] &&
-                 $cmykArray1['k'] == $cmykArray2['k'] );
     }
 
 } // end of class

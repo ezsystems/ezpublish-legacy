@@ -131,7 +131,8 @@ class eZCollaborationItem extends eZPersistentObject
 
     function &create( $typeIdentifier, $creatorID, $status = EZ_COLLABORATION_STATUS_ACTIVE )
     {
-        $date_time = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $date_time = eZDateTime::currentTimeStamp();
         $row = array(
             'id' => null,
             'type_identifier' => $typeIdentifier,
@@ -370,7 +371,7 @@ class eZCollaborationItem extends eZPersistentObject
         if ( $userID === false )
             $userID = eZUser::currentUserID();
         if ( $timestamp === false )
-            $timestamp = time();
+            $timestamp = eZDateTime::currentTimeStamp();
         $collaborationID = $this->attribute( 'id' );
 
         eZCollaborationItemStatus::setLastRead( $collaborationID, $userID, $timestamp );

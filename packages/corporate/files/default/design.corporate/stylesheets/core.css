@@ -1,0 +1,525 @@
+/* eZ publish 3 core CSS - th[eZ] 20031210                              */
+
+/* Do not remove or delete this stylesheet, because some basic          */
+/* formatting methods in the system depends on it for proper display.   */
+/* Just modify and/or override styles where necessary, and remove all   */
+/* comments when they're not needed anymore (minimizes the file size).  */
+
+/* MAIN WINDOW SETTINGS */
+
+body, textarea
+{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+}
+
+/* GLOBAL SETTING OF FONT SIZES */
+
+/* All font sizes are set in % and most margins and paddings in em's, this is to make them all dynamic. */
+
+h1
+{
+    font-size: 160%;
+}
+
+h2
+{
+    font-size: 120%;
+}
+
+h3, legend
+{
+    font-size: 90%;
+}
+
+h4, h5, h6
+{
+    font-size: 80%;
+}
+
+p, ul, ol, dl, blockquote, address, label, div.block input, div.block select, .normal, table.list, input.button, textarea
+/* This is the setting of the "regular" font size. */
+{
+    font-size: 80%;
+}
+
+.small, div.byline p, p.picturetext, .factbox
+/* Be careful not to make this size unreadable by making it too small, i.e. usually not smaller than 65%. */
+{
+    font-size: 65%;
+}
+
+td.bglight .small, td.bgdark .small
+/* This is a trick to make the smaller size appear correct when using preformatted % sizes in the table lists. */
+{
+    font-size: 80%;
+}
+
+ul ul, ol ol, p label, div.block p input, p input, div.block p select, p select, div.block p textarea, p textarea
+/* This is to get nested lists to keep the correct size. */
+{
+    font-size: 100%;
+}
+ 
+/* HEADINGS */
+
+h1, h2, h3, h4, h5, h6
+{
+    padding: 0em;
+}
+
+h1
+{
+    padding-top: 0.2em;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+h1, h2
+{
+    font-weight: normal;
+}
+
+h2, h3, h4, h5, h6
+{
+    margin-top: 0.75em;
+    margin-bottom: 0.25em;
+}
+
+h3, h4, h5, h6
+{
+    font-weight: bold;
+}
+
+/* REGULAR PARAGRAPHS */
+
+p
+{
+    margin-top: 0.25em;
+    margin-bottom: 0;
+    padding-bottom: 0.25em;
+    line-height: 1.25em; /* This is aprox. default line height in popular browsers. */
+}
+
+pre
+{
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+/* LINKS */
+
+a
+/* This is the standard formatting of all links if no other style is used. */
+{
+    color: #0000a0;
+    text-decoration: underline;
+}
+
+a:hover
+{
+    color: #0000c0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a img
+/* Some browsers may display a border around a linked image without this attribute set to _none_. */
+{
+    border: none;
+}
+
+/* Not currently used, but may be activated if needed.
+a:visited
+{
+    color: #000000;
+    text-decoration: underline;
+}
+*/
+
+/* TABLES */
+
+table.list
+/* Used on all "proper" data lists presented by tables; i.e. not on tables use for general layout. */
+{
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+table.list th, table.list td
+{
+    padding: 0.1em;
+}
+
+th
+{
+    font-weight: bold;
+    text-align: left;
+}
+
+td
+{
+    font-weight: normal;
+}
+
+td.bglight, td.bglightextra
+/* Light background color used on alternating lines in a table list */
+{
+    background-color: #f8f8f8;
+}
+
+td.bgdark, td.bgdarkextra
+/* Dark background color used on alternating lines in a table list */
+{
+    background-color: #f0f0f0;
+}
+
+td.tight
+/* Special style used for forcing a tabel cell to wrap tight around an image in an layout table. */
+{
+    font-size: 0.1em;
+}
+
+/* ORDERED AND UNORDERED LISTS */
+
+ul, ol
+{
+    padding: 0em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+ul, ul ul
+{
+    list-style-type: disc;
+}
+
+ul
+{
+    margin-left: 18px;
+}
+
+li
+{
+    padding: 0em;
+    margin-bottom: 0.3em;
+    line-height: 1.25em; /* The combination of margin-bottom and line-height makes Internet Explorer and Opera set the same visual distance. */
+}
+
+/* DEFINITION LISTS */
+
+dl
+{
+    padding: 0em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+dt, dd
+{
+    font-style: italic;
+    margin-top: 0em;
+    margin-bottom: 0.25em;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+dd
+{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+/* FORMS */
+
+form
+{
+    padding: 0em;
+    margin: 0em;
+}
+
+input.box, textarea.box
+{
+    width: 100%;
+}
+
+input.halfbox, textarea.halfbox
+{
+    width: 48%;
+}
+
+input.quarterbox, textarea.quarterbox
+{
+    width: 20%;
+}
+
+input.shortbox
+{
+    width: 4em;
+}
+
+/*div.element input
+{
+    width: 3em;
+}
+*/
+fieldset
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border: 1px solid #000000;
+}
+
+legend
+{
+    font-weight: bold;
+}
+
+label
+{
+    font-weight: bold;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    display: block;
+}
+
+div.labelbreak
+/* Used on an empty tag set after the label tag, to make it possible to change the label positioning in a instant. */
+/* Standard display is _block_, but if set to _inline_ the labels will appear to the left of the input fields. */
+{
+    display: block;
+}
+
+input.button
+{
+    font-weight: normal;
+    margin-right: 1em;
+}
+
+input.defaultbutton
+{
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+div.right input.button, div right input.defaultbutton
+{
+    margin-right: 0em;
+}
+
+optgroup
+/* Newer browsers usually supports this tag; may come in handy to visually divide a select dropdown into several parts. */
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* PAGE DIVIDERS */
+
+div.left
+/* To be used with the div.right class, to align a left hand element to the left edge. */
+{
+    float: left;
+    display: block;
+    width: 50%;
+    clear: right;
+    white-space: nowrap;
+}
+
+div.right
+/* To be used with the div.left class, to align a right hand element to the right edge. */
+/* Should be followed by the div.break class for proper float/break termination */
+{
+    float: left;
+    text-align: right;
+    display: block;
+    width: 50%;
+    clear: right;
+}
+
+div.block
+{
+    display: block;
+    clear: both;
+    padding: 0em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+div.buttonblock
+{
+    clear: both;
+    margin: 0em;
+    padding-top: 0.25em;
+    padding-bottom: 0.5em;
+}
+
+div.step div.buttonblock
+{
+    margin-bottom: 0em;
+    padding-bottom: 0.75em;
+}
+
+div.element
+/* Used to position several elements next to each other horizontally. NOT on regular buttons. */
+{
+    float: left;
+    display: block;
+    padding-right: 1em;
+    padding-left: 0em;
+    clear: right;
+}
+
+div.break
+/* Used on an empty tag set after one or more div.element has been used, to ensure proper floating and breaking of the elements. */
+{
+    display: block;
+    clear: both;
+}
+
+/* ARTICLE FORMATTING */
+
+div.byline
+{
+    /* No special formatting yet. To be filled in when needed. */
+}
+
+div.bodyblock
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+div.bodyblock p.body
+{
+    display: inline;
+}
+
+div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
+{
+    margin-top: 0.3em;
+    margin-bottom: 0.1em;
+    display: inline;
+    clear: both;
+}
+
+div.imagecenter, div.factboxcenter, div.centerobject
+{
+    width: 100%;
+    margin-top: 0.3em;
+    margin-bottom: 0.1em;
+    display: block;
+}
+
+div.imagecenter
+{
+    text-align: center;
+}
+
+div.factboxcenter
+{
+    text-align: left;
+}
+
+div.imageleft, div.factboxleft, div.leftobject
+{
+    float: left;
+    padding-right: 0.5em;
+}
+
+div.imageright, div.factboxright, div.rightobject
+{
+    float: right;
+    padding-right: 0.5em;
+}
+
+div.faxtboxleft, div.faxtboxright
+{
+    background-color: #f0f0f0;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, div.imagecenter p.picturetext, p.factbox
+{
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.factbox
+{
+    background-color: #f0f0f0;
+}
+
+/* MESSAGES TO THE USER */
+
+div.description
+{
+    background-color: #f8f8f8;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+}
+
+div.error, div.warning, div.feedback, div.highlight
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 1em;
+    border-width: 0.25em;
+    border-style: solid;
+    background-color: #f8f8f8;
+}
+
+div.error
+{
+    border-color: #c00000;
+}
+
+div.warning
+{
+    border-color: #f0f000;
+}
+
+div.feedback
+{
+    border-color: #00a000;
+}
+
+div.highlight
+{
+    border-color: #000000;
+}
+
+div.error h2, div.warning h2, div.feedback h2, div.highlight h2
+{
+    margin-top: 0.25em;
+}
+
+/* OTHER OBJECTS */
+
+hr
+{
+    height: 1px;
+    padding: 0;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #c0c0c0;
+}
+
+.invisible
+/* This style can be used on element that should only be visible in a browser which doesn't support CSS. */
+{
+    display: none;
+}
+
+div#innercontent
+{
+    display: table; /* This style is needed as a fix for an Opera "bug" */
+    width: 100%;
+}
+

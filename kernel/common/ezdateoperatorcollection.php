@@ -100,15 +100,15 @@ class eZDateOperatorCollection
                 $weekDays = $locale->weekDays();
                 $weekDaysMap = array();
                 $i = 0;
-                $dayNames = array( 0 => 'sun', 1 => 'mon', 2 => 'tue',
-                                   3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat' );
                 foreach ( $weekDays as $weekDay )
                 {
                     $weekDaysMap[$weekDay] = $i;
                     $weekDayName = $locale->shortDayName( $weekDay );
-                    $weekDayIdentifier = $dayNames[$weekDay];
+                    $weekDayClass = 'weekday';
+                    if ( $weekDay == 6 or $weekDay == 0 )
+                        $weekDayClass = 'holiday';
                     $month['weekdays'][] = array( 'day' => $weekDayName,
-                                                  'class' => $weekDayIdentifier );
+                                                  'class' => $weekDayClass );
                     ++$i;
                 }
                 $days = array();
@@ -145,16 +145,11 @@ class eZDateOperatorCollection
                     }
                 }
                 $currentDay = false;
-                if ( isset( $optional['current'] ) and $optional['current'] !== false )
+                if ( isset( $optional['current'] ) )
                 {
                     $info = getdate( $optional['current'] );
                     $currentDay = $info['yday'];
                 }
-                $today = mktime();
-                $todayInfo = getdate( $today );
-                $todayClass = false;
-                if ( isset( $optional['today_class'] ) )
-                    $todayClass = $optional['today_class'];
                 $dayClass = false;
                 if ( isset( $optional['day_class'] ) )
                     $dayClass = $optional['day_class'];
@@ -200,32 +195,22 @@ class eZDateOperatorCollection
                             $dayData['class'] = $optional['current_class'];
                         $dayData['highlight'] = true;
                     }
-                    if ( $dateInfo['year'] == $todayInfo['year'] and
-                         $dateInfo['mon'] == $todayInfo['mon'] and
-                         $day == $todayInfo['mday'] )
-                    {
-                        if ( $dayData['class'] )
-                            $dayData['class'] .= '-' . $todayClass;
-                        else
-                            $dayData['class'] = $todayClass;
-                    }
                     if ( $days[$day] )
                     {
                         $dayLink = $link;
                         if ( $dayLink )
                         {
-//                             if ( $yearLinkParameter )
-                                $dayLink .= '/(year)/' . $info['year'];
-//                             if ( $monthLinkParameter )
-                                $dayLink .= '/(month)/' . $info['mon'];
-//                             if ( $dayLinkParameter )
-                                $dayLink .= '/(day)/' . $info['mday'];
+                            if ( $yearLinkParameter )
+                                $dayLink .= '/year/' . $info['year'];
+                            if ( $monthLinkParameter )
+                                $dayLink .= '/month/' . $info['mon'];
+                            if ( $dayLinkParameter )
+                                $dayLink .= '/day/' . $info['mday'];
                         }
                         $dayData['link'] = $dayLink;
                     }
                     $weeks[$week][$weekDay] = $dayData;
                 }
-//                print( "<pre>" ); var_dump( $weeks[15] ); print( "</pre>" );
                 $next = false;
                 if ( isset( $optional['next'] ) )
                     $next = $optional['next'];
@@ -236,24 +221,16 @@ class eZDateOperatorCollection
                     $month['next'] = array( 'month' => $locale->longMonthName( $nextInfo['mon'] ),
                                             'year' => $nextInfo['year'] );
                     $nextLink = $next['link'];
-//                     if ( $yearLinkParameter )
-                        $nextLink .= '/(year)/' . $nextInfo['year'];
-//                     if ( $monthLinkParameter )
-                        $nextLink .= '/(month)/' . $nextInfo['mon'];
-//                     if ( $dayLinkParameter )
-//                         $nextLink .= '/(day)/' . $nextInfo['mday'];
+                    if ( $yearLinkParameter )
+                        $nextLink .= '/year/' . $nextInfo['year'];
+                    if ( $monthLinkParameter )
+                        $nextLink .= '/month/' . $nextInfo['mon'];
+                    if ( $dayLinkParameter )
+                        $nextLink .= '/day/' . $nextInfo['mday'];
                     $month['next']['link'] = $nextLink;
                 }
                 else
                     $month['next'] = false;
-
-                $month['current'] = array( 'month' => $locale->longMonthName( $info['mon'] ),
-                                           'year' => $info['year'] );
-                $currentLink = $next['link'];
-                $currentLink .= '/(year)/' . $info['year'];
-                $currentLink .= '/(month)/' . $info['mon'];
-                $month['current']['link'] = $currentLink;
-
                 $previous = false;
                 if ( isset( $optional['previous'] ) )
                     $previous = $optional['previous'];
@@ -264,12 +241,12 @@ class eZDateOperatorCollection
                     $month['previous'] = array( 'month' => $locale->longMonthName( $previousInfo['mon'] ),
                                                 'year' => $previousInfo['year'] );
                     $previousLink = $previous['link'];
-//                     if ( $yearLinkParameter )
-                        $previousLink .= '/(year)/' . $previousInfo['year'];
-//                     if ( $monthLinkParameter )
-                        $previousLink .= '/(month)/' . $previousInfo['mon'];
-//                     if ( $dayLinkParameter )
-//                         $previousLink .= '/(day)/' . $previousInfo['mday'];
+                    if ( $yearLinkParameter )
+                        $previousLink .= '/year/' . $previousInfo['year'];
+                    if ( $monthLinkParameter )
+                        $previousLink .= '/month/' . $previousInfo['mon'];
+                    if ( $dayLinkParameter )
+                        $previousLink .= '/day/' . $previousInfo['mday'];
                     $month['previous']['link'] = $previousLink;
                 }
                 else

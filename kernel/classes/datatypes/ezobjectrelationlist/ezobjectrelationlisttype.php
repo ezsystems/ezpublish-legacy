@@ -47,11 +47,10 @@ Bugs/missing features:
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
+include_once( "kernel/classes/ezdatatype.php" );
+include_once( "lib/ezutils/classes/ezintegervalidator.php" );
+include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
 
 define( "EZ_DATATYPESTRING_OBJECT_RELATION_LIST", "ezobjectrelationlist" );
 
@@ -223,7 +222,8 @@ class eZObjectRelationListType extends eZDataType
                     $object->storeInput( $attributes,
                                          $attributeInputMap );
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    $version->setAttribute( 'modified', time() );
+                    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+                    $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
                     $version->store();
                     $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
@@ -251,15 +251,15 @@ class eZObjectRelationListType extends eZDataType
                 if ( $object )
                 {
                     $class =& $object->contentClass();
-					$time = time();
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    $version->setAttribute( 'modified', $time );
+                    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+                    $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
                     $version->store();
                     $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
                     if ( !$object->attribute( 'published' ) )
-                        $object->setAttribute( 'published', $time );
-                    $object->setAttribute( 'modified', $time );
+                        $object->setAttribute( 'published', eZDateTime::currentTimeStamp() );
+                    $object->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
                     $object->setAttribute( 'current_version', $version->attribute( 'version' ) );
                     $object->setAttribute( 'is_published', true );
                     $objectName = $class->contentObjectName( $object, $version->attribute( 'version' ) );
@@ -749,11 +749,10 @@ class eZObjectRelationListType extends eZDataType
             $object =& $content['temp'][$subObjectID]['object'];
             if ( !$object )
                 $object =& eZContentObject::fetch( $subObjectID );
-            if ( $object )
-                $object->handleAllCustomHTTPActions( $attributeBase,
-                                                     $customActionAttributeArray,
-                                                     $customActionParameters,
-                                                     $subObjectVersion );
+            $object->handleAllCustomHTTPActions( $attributeBase,
+                                                 $customActionAttributeArray,
+                                                 $customActionParameters,
+                                                 $subObjectVersion );
 
         }
     }
@@ -1044,12 +1043,6 @@ class eZObjectRelationListType extends eZDataType
         }
 
         return $metaDataArray;
-    }
-
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $content =& $contentObjectAttribute->content();
-        return count( $content['relation_list'] ) > 0;
     }
 
     /*!

@@ -84,7 +84,8 @@ class eZContentClassGroup extends eZPersistentObject
 
     function &create( $userID )
     {
-        $dateTime = time();
+        include_once( "lib/ezlocale/classes/ezdatetime.php" );
+        $dateTime = eZDateTime::currentTimeStamp();
         if ( !$userID )
             $userID = eZUser::currentUserID();
         $row = array(

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898168">intranet</name>
+  <summary modified="1075898190">Intranet</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898168">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898168</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898168" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898168"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898168">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="intranet"
+                 modified="1075898169" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="intranet_user"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/intranet_user/override.ini.append"
+              md5sum="03618c49673b44b303b753c3251c2565"
+              modified="1075898170" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/intranet_user/site.ini.append"
+              md5sum="d0fcdd5a199a36bb03a0cca32526e26d"
+              modified="1075898170" />
+        <file name="image.ini.append"
+              path="settings/siteaccess/intranet_user/image.ini.append"
+              md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
+              modified="1075898170" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="intranet_admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/intranet_admin/override.ini.append"
+              md5sum="b3970b03493304128f57b65143a3b8a9"
+              modified="1075898171" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/intranet_admin/site.ini.append"
+              md5sum="0eedfad5625402712bc837b237ee1785"
+              modified="1075898171" />
+      </file-list>
+      <file-list type="file">
+        <file name="package.xml"
+              sub-directory="var/intranet/storage/packages/intranet_gray"
+              path="var/intranet/storage/packages/intranet_gray/package.xml"
+              md5sum="48bb765110bfad6005a5399256a94bb5"
+              modified="1075898172" />
+        <file name="intranet.css"
+              sub-directory="var/intranet/storage/packages/intranet_gray/files/default/file/design/intranet/stylesheets"
+              path="var/intranet/storage/packages/intranet_gray/files/default/file/design/intranet/stylesheets/intranet.css"
+              md5sum="50795262b6a1fc160dc27361957e0d51"
+              modified="1075898173" />
+        <file name="06_intranet_logo.png"
+              sub-directory="var/intranet/storage/packages/intranet_gray/files/default/file/design/intranet/images"
+              path="var/intranet/storage/packages/intranet_gray/files/default/file/design/intranet/images/06_intranet_logo.png"
+              md5sum="57debce23c36761ca56f7552983a7392"
+              modified="1075898173" />
+        <file name="thumbnail.png"
+              sub-directory="var/intranet/storage/packages/intranet_gray/files/default/thumbnail"
+              path="var/intranet/storage/packages/intranet_gray/files/default/thumbnail/thumbnail.png"
+              md5sum="3bb4ff3d331d79c6c2ef010cd9f56deb"
+              modified="1075898173" />
+        <file name="README"
+              sub-directory="var/intranet/storage/packages/intranet_gray/documents"
+              path="var/intranet/storage/packages/intranet_gray/documents/README"
+              md5sum="46b24a66d978af70ca0d914356139502"
+              modified="1075898174" />
+        <file name="package.xml"
+              sub-directory="var/intranet/storage/packages/intranet_red"
+              path="var/intranet/storage/packages/intranet_red/package.xml"
+              md5sum="359cc37a8c449e7b3a5d52428619a8d5"
+              modified="1075898175" />
+        <file name="intranet_red.css"
+              sub-directory="var/intranet/storage/packages/intranet_red/files/default/file/design/intranet/stylesheets"
+              path="var/intranet/storage/packages/intranet_red/files/default/file/design/intranet/stylesheets/intranet_red.css"
+              md5sum="3e8d25b53bc885a9b2b50b9ec4d4a440"
+              modified="1075898175" />
+        <file name="green_logo.png"
+              sub-directory="var/intranet/storage/packages/intranet_red/files/default/file/design/intranet/images"
+              path="var/intranet/storage/packages/intranet_red/files/default/file/design/intranet/images/green_logo.png"
+              md5sum="2d085abce3dec88d01a9b34fc02c4a66"
+              modified="1075898176" />
+        <file name="thumbnail.png"
+              sub-directory="var/intranet/storage/packages/intranet_red/files/default/thumbnail"
+              path="var/intranet/storage/packages/intranet_red/files/default/thumbnail/thumbnail.png"
+              md5sum="d8c83a41a5344752f799569d9c6f62a8"
+              modified="1075898176" />
+        <file name="README"
+              sub-directory="var/intranet/storage/packages/intranet_red/documents"
+              path="var/intranet/storage/packages/intranet_red/documents/README"
+              md5sum="d9c8eddf90afd31d52f9f10d89d5d3cb"
+              modified="1075898177" />
+        <file name="classes.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB/classes.png"
+              md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
+              modified="1075898177" />
+        <file name="classes_large.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB/classes_large.png"
+              md5sum="308956d63568e5ece6c6315fb874ad62"
+              modified="1075898178" />
+        <file name="classes_reference.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/classes/103-8-eng-GB/classes_reference.png"
+              md5sum="308956d63568e5ece6c6315fb874ad62"
+              modified="1075898178" />
+        <file name="cache.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB/cache.png"
+              md5sum="57f62f207f87dcfba03b5e5f15d7277c"
+              modified="1075898179" />
+        <file name="cache_large.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB/cache_large.png"
+              md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
+              modified="1075898179" />
+        <file name="cache_reference.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/cache/324-3-eng-GB/cache_reference.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898180" />
+        <file name="look_and_feel_icon.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_icon.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898180" />
+        <file name="look_and_feel.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel.png"
+              md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
+              modified="1075898181" />
+        <file name="look_and_feel_large.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_large.png"
+              md5sum="4806200d6836ca805dc6369a63fc22bc"
+              modified="1075898182" />
+        <file name="look_and_feel_reference.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/look_and_feel/109-10-eng-GB/look_and_feel_reference.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898183" />
+        <file name="url_translator.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator.png"
+              md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
+              modified="1075898184" />
+        <file name="url_translator_large.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator_large.png"
+              md5sum="dc614228a9c17b4c36f5fe2d236dc92e"
+              modified="1075898185" />
+        <file name="url_translator_reference.png"
+              sub-directory="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB"
+              path="var/intranet/storage/images/setup/setup_links/url_translator/328-2-eng-GB/url_translator_reference.png"
+              md5sum="dc614228a9c17b4c36f5fe2d236dc92e"
+              modified="1075898185" />
+        <file name="intranet.gif"
+              sub-directory="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB"
+              path="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB/intranet.gif"
+              md5sum="bea57f6997ba54d7da2c70f4ebd2fabd"
+              modified="1075898186" />
+        <file name="intranet_logo.gif"
+              sub-directory="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB"
+              path="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB/intranet_logo.gif"
+              md5sum="97df94cdbf87552a1c7883e1aa032a64"
+              modified="1075898186" />
+        <file name="intranet_medium.gif"
+              sub-directory="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB"
+              path="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB/intranet_medium.gif"
+              md5sum="97df94cdbf87552a1c7883e1aa032a64"
+              modified="1075898187" />
+        <file name="intranet_reference.gif"
+              sub-directory="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB"
+              path="var/intranet/storage/images/setup/look_and_feel/intranet/463-16-eng-GB/intranet_reference.gif"
+              md5sum="97df94cdbf87552a1c7883e1aa032a64"
+              modified="1075898188" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="design/intranet/images/intranet_red.png"
+              md5sum="d8c83a41a5344752f799569d9c6f62a8"
+              modified="1075898188" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898168">1.0</number>
+    <release modified="1075898168">1</release>
+  </version>
+  <licence modified="1075898168">GPL</licence>
+  <state modified="1075898168">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898169" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1075898171" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1075898172" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898169"
+          collection="default" />
+    <item type="sql"
+          modified="1075898171"
+          filename="intranet.sql"
+          original-path="packages/intranet.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1075898172"
+          filename="intranet_postgresql.sql"
+          original-path="packages/intranet_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898169"
+          collection="default" />
+  </uninstall>
+</package>

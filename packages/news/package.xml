@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898143">news</name>
+  <summary modified="1075898164">News</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898143">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898143</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898143" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898143"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898143">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="news"
+                 modified="1075898143" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="news_user"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/news_user/override.ini.append"
+              md5sum="317ba88219be4e13e0134a3be872b8c9"
+              modified="1075898144" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/news_user/site.ini.append"
+              md5sum="87f2900df64d3a54f44e1788585c9a91"
+              modified="1075898144" />
+        <file name="collect.ini.append"
+              path="settings/siteaccess/news_user/collect.ini.append"
+              md5sum="fa428bd6000f4d9086ee19ab60744f66"
+              modified="1075898145" />
+        <file name="content.ini.append"
+              path="settings/siteaccess/news_user/content.ini.append"
+              md5sum="ab160431acc7c61b012e959c5f5e2da8"
+              modified="1075898145" />
+        <file name="workflow.ini"
+              path="settings/siteaccess/news_user/workflow.ini"
+              md5sum="724309232fcdf74275093cdfb07075bc"
+              modified="1075898145" />
+        <file name="image.ini.append"
+              path="settings/siteaccess/news_user/image.ini.append"
+              md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
+              modified="1075898146" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="news_admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/news_admin/override.ini.append"
+              md5sum="e59fdc5adeb85a700c73a076f1facc72"
+              modified="1075898146" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/news_admin/site.ini.append"
+              md5sum="9b719432139162e2a394d64abe3de40e"
+              modified="1075898146" />
+      </file-list>
+      <file-list type="file">
+        <file name="package.xml"
+              sub-directory="var/news/storage/packages/news_blue"
+              path="var/news/storage/packages/news_blue/package.xml"
+              md5sum="b9f13a25cccb85c2a43619b8abc4dd5b"
+              modified="1075898148" />
+        <file name="news_blue.css"
+              sub-directory="var/news/storage/packages/news_blue/files/default/file/design/news/stylesheets"
+              path="var/news/storage/packages/news_blue/files/default/file/design/news/stylesheets/news_blue.css"
+              md5sum="2369874a5030ffb0f6cf467e51d7d8d6"
+              modified="1075898148" />
+        <file name="thumbnail.jpg"
+              sub-directory="var/news/storage/packages/news_blue/files/default/thumbnail"
+              path="var/news/storage/packages/news_blue/files/default/thumbnail/thumbnail.jpg"
+              md5sum="d6d6598a1e3e742407bf2931d2af3051"
+              modified="1075898149" />
+        <file name="README"
+              sub-directory="var/news/storage/packages/news_blue/documents"
+              path="var/news/storage/packages/news_blue/documents/README"
+              md5sum="3ec3584c2781f21783a7bf6417e3a1f4"
+              modified="1075898149" />
+        <file name="package.xml"
+              sub-directory="var/news/storage/packages/news_brown"
+              path="var/news/storage/packages/news_brown/package.xml"
+              md5sum="3fa3eaf5a976d7821268c214f0a1ba27"
+              modified="1075898150" />
+        <file name="news.css"
+              sub-directory="var/news/storage/packages/news_brown/files/default/file/design/news/stylesheets"
+              path="var/news/storage/packages/news_brown/files/default/file/design/news/stylesheets/news.css"
+              md5sum="2d822c808241f343dd50310521537834"
+              modified="1075898150" />
+        <file name="thumbnail.jpg"
+              sub-directory="var/news/storage/packages/news_brown/files/default/thumbnail"
+              path="var/news/storage/packages/news_brown/files/default/thumbnail/thumbnail.jpg"
+              md5sum="2a2a87c9de00a04e4256e64a078585a0"
+              modified="1075898151" />
+        <file name="README"
+              sub-directory="var/news/storage/packages/news_brown/documents"
+              path="var/news/storage/packages/news_brown/documents/README"
+              md5sum="81dcba232084d4b4e71d45fe2cfedeac"
+              modified="1075898151" />
+        <file name="classes.png"
+              sub-directory="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB"
+              path="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB/classes.png"
+              md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
+              modified="1075898152" />
+        <file name="classes_large.png"
+              sub-directory="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB"
+              path="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB/classes_large.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898152" />
+        <file name="classes_reference.png"
+              sub-directory="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB"
+              path="var/news/storage/images/setup/setup_links/classes/103-10-eng-GB/classes_reference.png"
+              md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
+              modified="1075898153" />
+        <file name="cache.png"
+              sub-directory="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB/cache.png"
+              md5sum="57f62f207f87dcfba03b5e5f15d7277c"
+              modified="1075898153" />
+        <file name="cache_large.png"
+              sub-directory="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB/cache_large.png"
+              md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
+              modified="1075898154" />
+        <file name="cache_reference.png"
+              sub-directory="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/news/storage/images/setup/setup_links/cache/324-5-eng-GB/cache_reference.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898154" />
+        <file name="look_and_feel.png"
+              sub-directory="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel.png"
+              md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
+              modified="1075898155" />
+        <file name="look_and_feel_large.png"
+              sub-directory="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel_large.png"
+              md5sum="4806200d6836ca805dc6369a63fc22bc"
+              modified="1075898155" />
+        <file name="look_and_feel_reference.png"
+              sub-directory="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/news/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel_reference.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898156" />
+        <file name="url_translator.png"
+              sub-directory="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator.png"
+              md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
+              modified="1075898157" />
+        <file name="url_translator_large.png"
+              sub-directory="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator_large.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898157" />
+        <file name="url_translator_reference.png"
+              sub-directory="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/news/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator_reference.png"
+              md5sum="c94ef5183dae2a53a6efed8649c27a84"
+              modified="1075898158" />
+        <file name="news.gif"
+              sub-directory="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB"
+              path="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB/news.gif"
+              md5sum="b9464cd7522407fee253b1ef4631625d"
+              modified="1075898159" />
+        <file name="news_medium.gif"
+              sub-directory="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB"
+              path="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB/news_medium.gif"
+              md5sum="cdb0fe4adfe72df34d31f6786a527268"
+              modified="1075898159" />
+        <file name="news_logo.gif"
+              sub-directory="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB"
+              path="var/news/storage/images/setup/look_and_feel/news/152-65-eng-GB/news_logo.gif"
+              md5sum="cdb0fe4adfe72df34d31f6786a527268"
+              modified="1075898160" />
+        <file name="new_top_fair.jpg"
+              sub-directory="var/news/storage/images/news/technology/new_top_fair/1143-2-eng-GB"
+              path="var/news/storage/images/news/technology/new_top_fair/1143-2-eng-GB/new_top_fair.jpg"
+              md5sum="420680b9f6906a09a4e08960f5457f43"
+              modified="1075898162" />
+        <file name="expiry.php"
+              sub-directory="var/news/cache"
+              path="var/news/cache/expiry.php"
+              md5sum="433958106356e641b447f8ad9a685b9c"
+              modified="1075898163" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.jpg"
+              path="design/news/images/news_brown.jpg"
+              md5sum="2a2a87c9de00a04e4256e64a078585a0"
+              modified="1075898164" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898143">1.0</number>
+    <release modified="1075898143">1</release>
+  </version>
+  <licence modified="1075898143">GPL</licence>
+  <state modified="1075898143">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898143" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1075898147" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1075898147" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898143"
+          collection="default" />
+    <item type="sql"
+          modified="1075898147"
+          filename="news.sql"
+          original-path="packages/news.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1075898147"
+          filename="news_postgresql.sql"
+          original-path="packages/news_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898143"
+          collection="default" />
+  </uninstall>
+</package>

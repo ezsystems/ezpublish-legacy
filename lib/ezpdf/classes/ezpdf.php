@@ -41,13 +41,8 @@ include_once( 'lib/ezpdf/classes/class.pdf.php' );
 //include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
-  \defgroup eZPDF PDF generator library
-*/
-
-/*!
   \class eZPDF ezpdf.php
-  \ingroup eZPDF
-  \brief eZPDF provides template operators for dealing with pdf generation
+  \brief The class eZPDF does
 */
 
 class eZPDF
@@ -106,32 +101,24 @@ class eZPDF
                 eZDebug::writeNotice( 'PDF: Generating TOC', 'eZPDF::modify' );
             } break;
 
-            case 'set_font':
+            case 'setfont':
             {
-                $params = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                $font = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 $operatorValue = '<ezCall:callFont';
 
-                foreach ( $params as $key => $value )
+                if ( isset( $font['name'] ) )
                 {
-                    if ( $key == 'colorCMYK' )
-                    {
-                        $operatorValue .= ':cmyk:' . implode( ',', $value );
-                    }
-                    else if ( $key == 'colorRGB' )
-                    {
-                        $operatorValue .= ':cmyk:' . implode( ',', eZMath::rgbToCMYK2( $value[0],
-                                                                                       $value[1],
-                                                                                       $value[2] ) );
-                    }
-                    else
-                    {
-                        $operatorValue .= ':' . $key . ':' . $value;
-                    }
+                    $operatorValue .= ':name:'. $font['name'];
                 }
+                if ( isset( $font['size'] ) )
+                {
+                    $operatorValue .= ':size:'. $font['size'];
+                }
+
                 $operatorValue .= '>';
 
-                eZDebug::writeNotice( 'PDF: Changed font.' );
+                eZDebug::writeNotice( 'PDF: Changed font, name: '. $font['name'] .', size: '. $font['size'], 'eZPDF::modify' );
             } break;
 
             case 'table':
@@ -145,58 +132,6 @@ class eZPDF
                     if ( isset( $tableSettings['showLines'] ) )
                     {
                         $operatorValue .= ':showLines:'. $tableSettings['showLines'];
-                    }
-                    if ( isset( $tableSettings['cellSpacing'] ) )
-                    {
-                        $operatorValue .= ':cellSpacing:' . $tableSettings['cellSpacing'];
-                    }
-                    if ( isset( $tableSettings['headerCMYK'] ) )
-                    {
-                        $operatorValue .= ':headerCMYK:' . implode( ',', $tableSettings['headerCMYK'] );
-                    }
-                    if ( isset( $tableSettings['cellCMYK'] ) )
-                    {
-                        $operatorValue .= ':cellCMYK:' . implode( ',', $tableSettings['cellCMYK'] );
-                    }
-                    if ( isset( $tableSettings['textCMYK'] ) )
-                    {
-                        $operatorValue .= ':textCMYK:' . implode( ',', $tableSettings['textCMYK'] );
-                    }
-                    if( isset( $tableSettings['rowGap'] ) )
-                    {
-                        $operatorValue .= ':rowGap:' . $tableSettings['rowGap'];
-                    }
-                    if( isset( $tableSettings['colGap'] ) )
-                    {
-                        $operatorValue .= ':colGap:' . $tableSettings['colGap'];
-                    }
-                    if ( isset( $tableSettings['cellPadding'] ) )
-                    {
-                        $operatorValue .= ':cellPadding:' . $tableSettings['cellPadding'];
-                    }
-                    if( isset( $tableSettings['firstRowTitle'] ) )
-                    {
-                        $operatorValue .= ':firstRowTitle:' . $tableSettings['firstRowTitle'];
-                    }
-                    if( isset( $tableSettings['titleFontSize'] ) )
-                    {
-                        $operatorValue .= ':titleFontSize:' . $tableSettings['titleFontSize'];
-                    }
-                    if( isset( $tableSettings['titleCellCMYK'] ) )
-                    {
-                        $operatorValue .= ':titleCellCMYK:' . implode( ',', $tableSettings['titleCellCMYK'] );
-                    }
-                    if( isset( $tableSettings['titleTextCMYK'] ) )
-                    {
-                        $operatorValue .= ':titleTextCMYK:' . implode( ',', $tableSettings['titleTextCMYK'] );
-                    }
-                    if( isset ( $tableSettings['width'] ) )
-                    {
-                        $operatorValue .= ':width:' . $tableSettings['width'];
-                    }
-                    if ( isset( $tableSettings['yBottom'] ) )
-                    {
-                        $operatorValue .= ':yBottom:' . $tableSettings['yBottom'];
                     }
                 }
 
@@ -269,24 +204,9 @@ class eZPDF
 
                 $operatorValue = '<C:callImage:src:'. rawurlencode( $image['src'] ) .':width:'. $width .':height:'. $height;
 
-                if ( isset ( $image['x'] ) )
+                if ( isset( $image['xOffset'] ) )
                 {
-                    $operatorValue .= ':x:' . $image['x'];
-                }
-
-                if ( isset( $image['y'] ) )
-                {
-                    $operatorValue .= ':y:' . $image['y'];
-                }
-
-                if ( isset( $image['dpi'] ) )
-                {
-                    $operatorValue .= ':dpi:' . $image['dpi'];
-                }
-
-                if ( isset( $image['align'] ) ) // left, right, center, full
-                {
-                    $operatorValue .= ':align:' . $image['align'];
+                    $operatorValue .= ':xOffset:'. $image['xOffset'];
                 }
 
                 $operatorValue .= '>';
@@ -328,7 +248,6 @@ class eZPDF
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
 
                 eZFile::create( $filename, false, $this->PDF->ezOutput() );
-
                 eZDebug::writeNotice( 'PDF file closed and saved to '. $filename, 'eZPDF::modify' );
             } break;
 
@@ -592,50 +511,6 @@ class eZPDF
                 eZDebug::writeNotice( 'Added content to frontpage: '. $operatorValue, 'eZPDF::modify' );
             } break;
 
-            /* usage: pdf(set_margin( hash( left, <left_margin>,
-                                            right, <right_margin>,
-                                            x, <x offset>,
-                                            y, <y offset> )))
-            */
-            case 'set_margin':
-            {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
-                $operatorValue = '<C:callSetMargin';
-                $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-
-                if ( isset( $options['left'] ) )
-                {
-                    $operatorValue .= ':left:' . $options['left'];
-                }
-                if ( isset( $options['right'] ) )
-                {
-                    $operatorValue .= ':right:' . $options['right'];
-                }
-                if ( isset( $options['x'] ) )
-                {
-                    $operatorValue .= ':x:' . $options['x'];
-                }
-                if ( isset( $options['y'] ) )
-                {
-                    $operatorValue .= ':y:' . $options['y'];
-                }
-                if ( isset( $options['bottom'] ) )
-                {
-                    $operatorValue .= ':bottom:' . $options['bottom'];
-                }
-                if ( isset( $options['top'] ) )
-                {
-                    $operatorValue .= ':top:' . $options['top'];
-                }
-
-
-                $operatorValue .= '>';
-
-                eZDebug::writeNotice( 'Added new margin/offset setup: ' . $operatorValue );
-
-                return $operatorValue;
-            } break;
-
             /* add keyword to pdf document */
             case 'keyword':
             {
@@ -652,225 +527,6 @@ class eZPDF
                 $operatorValue = '<C:callIndex>';
 
                 eZDebug::writeNotice( 'Adding Keyword index to PDF', 'eZPDF::modify' );
-            } break;
-
-            case 'ul':
-            {
-                $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-                if ( count( $operatorParameters ) > 2 )
-                {
-                    $params = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
-                }
-                else
-                {
-                    $params = array();
-                }
-
-                if ( isset( $params['rgb'] ) )
-                {
-                    eZMath::normalizeColorArray( $params['rgb'] );
-                    $params['cmyk'] = eZMath::rgbToCMYK2( $params['rgb'][0],
-                                                          $params['rgb'][1],
-                                                          $params['rgb'][2] );
-                }
-
-                if ( !isset( $params['cmyk'] ) )
-                {
-                    $params['cmyk'] = eZMath::rgbToCMYK2( 0, 0, 0 );
-                }
-                if ( !isset( $params['radius'] ) )
-                {
-                    $params['radius'] = 2;
-                }
-                if ( !isset ( $params['indent'] ) )
-                {
-                    $params['indent'] = 0;
-                }
-                if ( !isset ( $params['yOffset'] ) )
-                {
-                    $params['yOffset'] = -1;
-                }
-
-                $operatorValue = '<C:callCircle' .
-                     ':pages:current' .
-                     ':x:-1' .
-                     ':yOffset:' . $params['yOffset'] .
-                     ':y:-1' .
-                     ':indent:' . $params['indent'] .
-                     ':radius:' . $params['radius'] .
-                     ':cmyk:' . implode( ',', $params['cmyk'] ) .
-                     '>';
-                $operatorValue .= $text;
-            } break;
-
-            case 'filled_circle':
-            {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
-                $operatorValue = '';
-                $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-
-                if ( !isset( $options['pages'] ) )
-                {
-                    $options['pages'] = 'current';
-                }
-
-                if ( !isset( $options['x'] ) )
-                {
-                    $options['x'] = -1;
-                }
-
-                if ( !isset( $options['y'] ) )
-                {
-                    $options['y'] = -1;
-                }
-
-                if ( isset( $options['rgb'] ) )
-                {
-                    eZMath::normalizeColorArray( $options['rgb'] );
-                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                           $options['rgb'][1],
-                                                           $options['rgb'][2] );
-                }
-
-                $operatorValue = '<C:callCircle' .
-                     ':pages:' . $options['pages'] .
-                     ':x:' . $options['x'] .
-                     ':y:' . $options['y'] .
-                     ':radius:' . $options['radius'] .
-                     ':cmyk:' . implode( ',', $options['cmyk'] ) .
-                     '>';
-
-                eZDebug::writeNotice( 'PDF Added circle: ' . $operatorValue );
-
-                return $operatorValue;
-
-
-            }
-
-            case 'rectangle':
-            {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
-                $operatorValue = '';
-                $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-
-                if ( !isset( $options['pages'] ) )
-                {
-                    $options['pages'] = 'current';
-                }
-                if ( !isset( $options['line_width'] ) )
-                {
-                    $options['line_width'] = 1;
-                }
-                if ( !isset( $options['round_corner'] ) )
-                {
-                    $options['round_corner'] = false;
-                }
-
-                $operatorValue = '<C:callRectangle';
-                foreach ( $options as $key => $value )
-                {
-                    if ( $key == 'rgb' )
-                    {
-                        eZMath::normalizeColorArray( $options['rgb'] );
-                        $operatorValue .= ':cmyk:' . implode( ',',  eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                                                        $options['rgb'][1],
-                                                                                        $options['rgb'][2] ) );
-                    }
-                    else if ( $key == 'cmyk' )
-                    {
-                        $operatorValue .= ':cmyk:' . implode( ',', $value );
-                    }
-                    else
-                    {
-                        $operatorValue .= ':' . $key . ':' . $value;
-                    }
-                }
-                $operatorValue .= '>';
-
-                eZDebug::writeNotice( 'PDF Added rectangle: ' . $operatorValue );
-
-                return $operatorValue;
-            } break;
-
-            /* usage: pdf( filled_rectangle, hash( 'x', <x offset>, 'y' => <y offset>, 'width' => <width>, 'height' => <height>,
-                                                    'pages', <'all'|'current'|odd|even>, (supported, current)
-                                                    'rgb', array( <r>, <g>, <b> ),
-                                                    'cmyk', array( <c>, <m>, <y>, <k> ),
-                                                    'rgbTop', array( <r>, <b>, <g> ),
-                                                    'rgbBottom', array( <r>, <b>, <g> ),
-                                                    'cmykTop', array( <c>, <m>, <y>, <k> ),
-                                                    'cmykBottom', array( <c>, <m>, <y>, <k> ) ) ) */
-            case 'filled_rectangle':
-            {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
-                $operatorValue = '';
-                $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-
-                if ( !isset( $options['pages'] ) )
-                {
-                    $options['pages'] = 'current';
-                }
-
-                if ( isset( $options['rgb'] ) )
-                {
-                    eZMath::normalizeColorArray( $options['rgb'] );
-                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                           $options['rgb'][1],
-                                                           $options['rgb'][2] );
-                }
-
-                if ( isset( $options['cmyk'] ) )
-                {
-                    $options['cmykTop'] = $options['cmyk'];
-                    $options['cmykBottom'] = $options['cmyk'];
-                }
-
-                if ( !isset( $options['cmykTop'] ) )
-                {
-                    if ( isset( $options['rgbTop'] ) )
-                    {
-                        eZMath::normalizeColorArray( $options['rgbTop'] );
-                        $options['cmykTop'] = eZMath::rgbToCMYK2( $options['rgbTop'][0],
-                                                                  $options['rgbTop'][1],
-                                                                  $options['rgbTop'][2] );
-                    }
-                    else
-                    {
-                        $options['cmykTop'] = eZMath::rgbToCMYK2( 0, 0, 0 );
-                    }
-                }
-
-                if ( !isset( $options['cmykBottom'] ) )
-                {
-                    if ( isset( $options['rgbBottom'] ) )
-                    {
-                        eZMath::normalizeColorArray( $options['rgbBottom'] );
-                        $options['cmykBottom'] = eZMath::rgbToCMYK2( $options['rgbBottom'][0],
-                                                                     $options['rgbBottom'][1],
-                                                                     $options['rgbBottom'][2] );
-                    }
-                    else
-                    {
-                        $options['cmykBottom'] = eZMath::rgbToCMYK2( 0, 0, 0 );
-                    }
-                }
-
-                if ( !isset( $options['pages'] ) )
-                {
-                    $options['pages'] = 'current';
-                }
-
-                $operatorValue = '<C:callFilledRectangle' .
-                     ':pages:' . $options['pages'] .
-                     ':x:' . $options['x'] .
-                     ':y:' . $options['y'] .
-                     ':width:' . $options['width'] .
-                     ':height:' . $options['height'] .
-                     ':cmykTop:' . implode( ',', $options['cmykTop'] ) .
-                     ':cmykBottom:' . implode( ',', $options['cmykBottom'] ) .
-                     '>';
-
-                eZDebug::writeNotice( 'Added rectangle: ' . $operatorValue );
             } break;
 
             /* usage : pdf(text, <text>, array( 'font' => <fontname>, 'size' => <fontsize> )) */
@@ -905,18 +561,6 @@ class eZPDF
                             $operatorValue .= ':justification:'. $textSettings['align'];
                         }
 
-                        if ( isset( $textSettings['rgb'] ) )
-                        {
-                            $textSettings['cmyk'] = eZMath::rgbToCMYK2( $textSettings['rgb'][0],
-                                                                        $textSettings['rgb'][1],
-                                                                        $textSettings['rgb'][2] );
-                        }
-
-                        if ( isset( $textSettings['cmyk'] ) )
-                        {
-                            $operatorValue .= ':cmyk:' . implode( ',', $textSettings['cmyk'] );
-                        }
-
                         $operatorValue .= '>';
                     }
                 }
@@ -927,63 +571,12 @@ class eZPDF
                     $operatorValue .= '</ezCall:callText>';
                 }
 
-            } break;
-
-            case 'text_frame':
-            {
-                $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
-
-                $operatorValue = '';
-                $changeFont = false;
-
-                if ( count( $operatorParameters ) >= 3)
-                {
-                    $textSettings = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
-
-                    if ( isset( $textSettings ) )
-                    {
-                        $operatorValue .= '<ezGroup:callTextFrame';
-                        $changeFont = true;
-
-                        foreach ( array_keys( $textSettings ) as $key ) //settings, padding (left, right, top, bottom), textcmyk, framecmyk
-                        {
-                            if ( $key == 'frameCMYK' )
-                            {
-                                $operatorValue .= ':frameCMYK:' . implode( ',', $textSettings['frameCMYK'] );
-                            }
-                            else if ( $key == 'frameRGB' )
-                            {
-                                $operatorValue .= ':frameCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['frameRGB'][0],
-                                                                                                    $textSettings['frameRGB'][1],
-                                                                                                    $textSettings['frameRGB'][2] ) );
-                            }
-                            else if ( $key == 'textCMYK' )
-                            {
-                                $operatorValue .= ':textCMYK:' . implode( ',', $textSettings['textCMYK'] );
-                            }
-                            else if ( $key == 'textRGB' )
-                            {
-                                $operatorValue .= ':textCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['textRGB'][0],
-                                                                                                   $textSettings['textRGB'][1],
-                                                                                                   $textSettings['textRGB'][2] ) );
-                            }
-                            else
-                            {
-                                $operatorValue .= ':' . $key . ':' . $textSettings[$key];
-                            }
-                        }
-
-                        $operatorValue .= '>' . $text . '</ezGroup::callTextFrame>';
-
-                    }
-                }
-
-                eZDebug::writeNotice( 'Added TextFrame: ' . $operatorValue );
+//                eZDebug::writeNotice( 'Text added to PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
             default:
             {
-                eZDebug::writeError( 'PDF operation "'. $namedParameters['operation'] .'" undefined', 'eZPDF::modify' );
+                eZDebug::writeError( 'PDF operation '. $namedParameters['operation'] .'undefined', 'eZPDF::modify' );
             }
 
         }

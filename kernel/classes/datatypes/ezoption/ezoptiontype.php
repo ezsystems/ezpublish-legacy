@@ -233,11 +233,21 @@ class eZOptionType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
     {
-        $option =& $contentObjectAttribute->content( );
-        $options = $option->attribute( 'option_list' );
-        return count( $options ) > 0;
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
+
+        return $node;
     }
 
     /*!

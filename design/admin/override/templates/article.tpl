@@ -19,14 +19,11 @@
 
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <h3>{'Author'|i18n('design/admin/node/view')}: {attribute_view_gui attribute=$node.object.data_map.author}</h3>
 
-    {section show=$node.object.data_map.image.content}
-        <div class="imageright">
-            {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image}
-        </div>
-    {/section}
-
+    <div class="imageright">
+        {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
+    </div>
+    
     {attribute_view_gui attribute=$node.object.data_map.intro}
     {attribute_view_gui attribute=$node.object.data_map.body}
 
@@ -36,7 +33,7 @@
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-    {*<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />*}
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 

@@ -357,15 +357,6 @@ class eZXMLTextType extends eZDataType
         return eZXMLTextType::rawXMLText( $contentObjectAttribute );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $content =& $this->objectAttributeContent( $contentObjectAttribute );
-        if ( is_object( $content ) and
-             !$content->attribute( 'is_empty' ) )
-            return true;
-        return false;
-    }
-
     /*!
      \reimp
     */
@@ -401,6 +392,35 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
+        include_once( 'lib/ezxml/classes/ezxml.php' );
+        $xml = new eZXML();
+        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $objectAttribute ) );
+
+        $contentNode = new eZDOMNode();
+        $contentNode->setPrefix( 'ezobject' );
+        $contentNode->setName( 'content' );
+        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $contentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezxmltext' ) );
+
+        $contentNode->appendChild( $dom->root() );
+        $node->appendChild( $contentNode );
+
+        return $node;
+    }
+
+    /*!
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
@@ -408,48 +428,6 @@ class eZXMLTextType extends eZDataType
         $inputHandler =& $content->attribute( 'input' );
         $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
-
-    /*!
-     \reimp
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        if ( $domDocument )
-        {
-            $node->appendChild( $domDocument->root() );
-        }
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $rootNode = $attributeNode->firstChild();
-        if ( $rootNode )
-        {
-            $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
-        }
-    }
-
 }
 
 eZDataType::register( EZ_DATATYPESTRING_XML_TEXT, "ezXMLTextType" );

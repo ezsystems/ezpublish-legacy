@@ -126,8 +126,8 @@ class eZPostgreSQLDB extends eZDBInterface
         {
             if ( $this->OutputSQL )
             {
-                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
                 $this->startTimer();
+                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
 
             }
             $result = @pg_exec( $this->DBConnection, $sql );
@@ -592,28 +592,6 @@ class eZPostgreSQLDB extends eZDBInterface
             $versionArray = explode( '.', $versionInfo );
             return array( 'string' => $versionInfo,
                           'values' => $versionArray );
-        }
-        return false;
-    }
-
-    /*!
-     Sets PostgreSQL sequence values to the maximum values used in the corresponding columns.
-    */
-    function correctSequenceValues()
-    {
-        if ( $this->isConnected() )
-        {
-            $rows =& $this->arrayQuery( "SELECT pg_class.relname AS table, pg_attribute.attname AS column
-                FROM pg_class,pg_attribute,pg_attrdef
-                WHERE pg_attrdef.adsrc LIKE 'nextval(%'
-                    AND pg_attrdef.adrelid=pg_attribute.attrelid
-                    AND pg_attrdef.adnum=pg_attribute.attnum
-                    AND pg_attribute.attrelid=pg_class.oid" );
-            foreach ( $rows as $row )
-            {
-                $this->query( "SELECT setval('".$row['table']."_s', max(".$row['column'].")) from ".$row['table'] );
-            }
-            return true;
         }
         return false;
     }

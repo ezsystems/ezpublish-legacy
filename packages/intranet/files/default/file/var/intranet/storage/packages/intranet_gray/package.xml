@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898031">intranet_gray</name>
+  <summary modified="1075898031">Gray CSS design for intranet</summary>
+  <type value="sitestyle"
+        modified="1075898031" />
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898031">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898031</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898031" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898031"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898031">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="file"
+                 variable-name="cssfile">
+        <file name="intranet.css"
+              sub-directory="design/intranet/stylesheets"
+              path="design/intranet/stylesheets/intranet.css"
+              md5sum="50795262b6a1fc160dc27361957e0d51"
+              modified="1075898032" />
+      </file-list>
+      <file-list type="thumbnail"
+                 variable-name="thumbnail">
+        <file name="thumbnail.png"
+              path="design/intranet/images/intranet_gray.png"
+              md5sum="3bb4ff3d331d79c6c2ef010cd9f56deb"
+              modified="1075898032" />
+      </file-list>
+      <file-list type="file"
+                 variable-name="image">
+        <file name="06_intranet_logo.png"
+              sub-directory="design/intranet/images"
+              path="design/intranet/images/06_intranet_logo.png"
+              md5sum="57debce23c36761ca56f7552983a7392"
+              modified="1075898032" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898031">1.0</number>
+    <release modified="1075898031">1</release>
+  </version>
+  <licence modified="1075898031">GPL</licence>
+  <state modified="1075898031">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898032" />
+    </provides>
+    <requires />
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898032"
+          collection="default" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898032"
+          collection="default" />
+  </uninstall>
+</package>

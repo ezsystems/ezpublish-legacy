@@ -87,36 +87,6 @@ class eZPackageType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $data );
-
-            // Save in ini files if the package type is sitestyle.
-            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
-            {
-                $package =& eZPackage::fetch( $data );
-                if ( $package )
-                {
-                    $fileList = $package->fileList( 'default' );
-                    foreach ( array_keys( $fileList ) as $key )
-                    {
-                        $file =& $fileList[$key];
-                        $fileIdentifier = $file["variable-name"];
-                        if ( $fileIdentifier == 'sitecssfile' )
-                        {
-                            $siteCSS = $package->fileItemPath( $file, 'default' );
-                        }
-                        else if ( $fileIdentifier == 'classescssfile' )
-                        {
-                            $classesCSS = $package->fileItemPath( $file, 'default' );
-                        }
-                    }
-
-                    $iniPath = 'settings/override';
-                    $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
-                    $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                    $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                    $designINI->save();
-                }
-            }
         }
         return true;
     }
@@ -127,44 +97,6 @@ class eZPackageType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
-        // Delete compiled template
-        $iniPath = "settings/siteaccess/$siteAccess";
-        $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
-        if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
-        {
-            $cacheDir = $siteINI->variable( 'FileSettings', 'CacheDir' );
-            if ( $cacheDir[0] == "/" )
-            {
-                $cacheDir = eZDir::path( array( $cacheDir ) );
-            }
-            else
-            {
-                if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
-                {
-                    $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
-                    $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
-                }
-            }
-        }
-        else if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
-        {
-            $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
-            $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
-            $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
-        }
-        else
-        {
-            $cacheDir =  eZSys::cacheDirectory();
-        }
-        $compiledTemplateDir = $cacheDir ."/template/compiled";
-        eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
-
-
-        // Expire content/template cache. Actually we only need cache-block expiration.
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
-        $handler->store();
     }
 
     /*!
@@ -216,11 +148,6 @@ class eZPackageType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
-    }
-
     /*!
      \reimp
     */
@@ -261,6 +188,20 @@ class eZPackageType extends eZDataType
     {
         $type = $attributeParametersNode->elementTextContentByName( 'type' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+
+        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+        return $node;
     }
 }
 

@@ -10,13 +10,11 @@ fi
 function help
 {
     echo "Usage: $0 [options] DBNAME"
-    echo "Imports and dumps all databases using database DBNAME"
     echo
     echo "Options: -h"
     echo "         --help                     This message"
-    echo "         --mysql                    Redump MySQL schema files"
-    echo "         --postgresql               Redump PostgreSQL schema files"
-    echo "         --data                     Redump data files"
+    echo "         --mysql                    Redump MySQL files"
+    echo "         --postgresql               Redump PostgreSQL files"
     echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
     echo "         --clean-search             Cleanup search index (implies --clean)"
     echo
@@ -26,8 +24,6 @@ function help
 
 USE_MYSQL=""
 USE_POSTGRESQL=""
-DUMP_DATA=""
-PAUSE=""
 
 POST_USER="root"
 
@@ -44,9 +40,6 @@ for arg in $*; do
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
-	--data)
-	    DUMP_DATA="yes"
-	    ;;
 	--postgresql-user=*)
 	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
 		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
@@ -54,7 +47,6 @@ for arg in $*; do
 	    ;;
 	--pause)
 	    USE_PAUSE="yes"
-            PAUSE="--pause"
 	    ;;
 	--clean)
 	    CLEAN="--clean"
@@ -78,18 +70,9 @@ done
 
 if [ -z $DBNAME ]; then
     echo "Missing database name"
-    echo
     help
     exit 1;
 fi
-
-function helpUpdateData
-{
-    echo "You must create the sql update files before you can use this command"
-    echo "Copy the data sqls (insert, update etc.) to data.sql"
-    echo
-    echo "The data is normally taken from the database update files for the current release"
-}
 
 function helpUpdateMySQL
 {
@@ -109,13 +92,6 @@ function helpUpdatePostgreSQL
     echo "The definitions and data is normally taken from the database update files for the current release"
 }
 
-if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" -a "$DUMP_DATA" == "" ]; then
-    echo "No database type selected"
-    help
-    exit 1
-fi
-
-
 if [ "$USE_MYSQL" != "" ]; then
 
     if [ ! -f $MYSQL_SCHEMA_UPDATES ]; then
@@ -124,14 +100,57 @@ if [ "$USE_MYSQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
-    if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
+    if [ ! -f $MYSQL_DATA_UPDATES ]; then
+	echo "Missing $MYSQL_DATA_UPDATES"
+	helpUpdateMySQL
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user=root $DBNAME share/db_mysql_schema.dat
-fi
-if [ "$USE_POSTGRESQL" != "" ]; then
+
+    ./bin/shell/sqlredump.sh --mysql --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
+    if [ $? -ne 0 ]; then
+	"Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
+	exit 1
+    fi
+
+    if [ ! -z $USE_PAUSE ]; then
+	./bin/shell/sqlredump.sh --mysql --pause --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+    else
+	./bin/shell/sqlredump.sh --mysql --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+    fi
+    if [ $? -ne 0 ]; then
+	"Failed re-dumping SQL file $KERNEL_MYSQL_DATA_FILE"
+	exit 1
+    fi
+
+    for sql in $PACKAGE_MYSQL_FILES; do
+	if [ ! -z $USE_PAUSE ]; then
+	    ./bin/shell/sqlredump.sh --mysql --pause --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	else
+	    ./bin/shell/sqlredump.sh --mysql --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	fi
+	if [ $? -ne 0 ]; then
+	    "Failed re-dumping SQL file $sql"
+	    exit 1
+	fi
+    done
+
+    for package in $PACKAGES; do
+	mysql_source="packages/"$package$PACKAGE_MYSQL_SUFFIX".sql"
+	mysql_destination="packages/"$package"/sql/mysql/"$package$PACKAGE_MYSQL_SUFFIX".sql"
+	if [ ! -f "$mysql_source" ]; then
+	    echo "SQL file $mysql_source does not exist, cannot continue"
+	    exit 1
+	fi
+	if [ ! -f "$mysql_destination" ]; then
+	    echo "SQL file $mysql_destination does not exist, cannot continue"
+	    exit 1
+	fi
+	cp -f $mysql_source $mysql_destination
+    done
+
+    cp -f kernel/sql/mysql/kernel_schema.sql packages/plain/sql/mysql/kernel_schema.sql
+    cp -f kernel/sql/mysql/cleandata.sql packages/plain/sql/mysql/cleandata.sql
+elif [ "$USE_POSTGRESQL" != "" ]; then
 
     if [ ! -e $POSTGRESQL_SCHEMA_UPDATES ]; then
 	echo "Missing $POSTGRESQL_SCHEMA_UPDATES"
@@ -139,33 +158,58 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    if [ ! -e $POSTGRESQL_DATA_UPDATES ]; then
+	echo "Missing $POSTGRESQL_DATA_UPDATES"
+	helpUpdatePostgreSQL
+	exit 1
+    fi
+
+    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-schema-only $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
-	exit 1
-    fi
-    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=root $DBNAME share/db_postgresql_schema.dat
-fi
-
-if [ "$DUMP_DATA" != "" ]; then
-    if [ ! -f $DATA_UPDATES ]; then
-	echo "Missing $DATA_UPDATES"
-	helpUpdateData
+	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    if [ ! -z $USE_PAUSE ]; then
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --pause --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+    else
+	./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-data-only $CLEAN $CLEAN_SEARCH $DBNAME --schema-sql=$KERNEL_POSTGRESQL_SCHEMA_FILE $KERNEL_POSTGRESQL_DATA_FILE $POSTGRESQL_DATA_UPDATES
+    fi
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
+	"Failed re-dumping SQL file $KERNEL_POSTGRESQL_DATA_FILE"
 	exit 1
     fi
 
-#    for sql in $PACKAGE_DATA_FILES; do
-#	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
-#	if [ $? -ne 0 ]; then
-#	    "Failed re-dumping SQL file $sql"
-#	    exit 1
-#	fi
-#    done
+    for sql in $PACKAGE_POSTGRESQL_FILES; do
+	if [ ! -z $USE_PAUSE ]; then
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full --pause $CLEAN $CLEAN_SEARCH $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	else
+	    ./bin/shell/sqlredump.sh --postgresql --postgresql-user=$POST_USER --sql-full $CLEAN $CLEAN_SEARCH $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	fi
+	if [ $? -ne 0 ]; then
+	    "Failed re-dumping SQL file $sql"
+	    exit 1
+	fi
+    done
 
+    for package in $PACKAGES; do
+	postgresql_source="packages/"$package$PACKAGE_POSTGRESQL_SUFFIX".sql"
+	postgresql_destination="packages/"$package"/sql/postgresql/"$package$PACKAGE_POSTGRESQL_SUFFIX".sql"
+	if [ ! -f "$postgresql_source" ]; then
+	    echo "SQL file $postgresql_source does not exist, cannot continue"
+	    exit 1
+	fi
+	if [ ! -f "$postgresql_destination" ]; then
+	    echo "SQL file $postgresql_destination does not exist, cannot continue"
+	    exit 1
+	fi
+	cp -f $postgresql_source $postgresql_destination
+    done
+
+    cp -f kernel/sql/postgresql/kernel_schema.sql packages/plain/sql/postgresql/kernel_schema.sql
+    cp -f kernel/sql/postgresql/cleandata.sql packages/plain/sql/postgresql/cleandata.sql
+else
+    echo "No database type selected"
+    help
+    exit 1
 fi

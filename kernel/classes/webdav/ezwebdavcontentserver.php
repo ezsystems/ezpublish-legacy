@@ -33,7 +33,6 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-
 include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
 include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -43,7 +42,7 @@ include_once( 'lib/ezutils/classes/ezexecution.php' );
 include_once( "kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "kernel/classes/ezurlalias.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( "access.php" );
@@ -1354,4 +1353,3 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
 }
-?>

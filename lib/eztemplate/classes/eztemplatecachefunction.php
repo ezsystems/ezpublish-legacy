@@ -60,233 +60,6 @@ class eZTemplateCacheFunction
         return array( $this->BlockName );
     }
 
-    function functionTemplateHints()
-    {
-        return array( $this->BlockName => array( 'parameters' => true,
-                                                 'static' => false,
-                                                 'transform-children' => true,
-                                                 'tree-transformation' => true,
-                                                 'transform-parameters' => true ) );
-    }
-
-    function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
-    {
-        $ini =& eZINI::instance();
-        $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'disabled' )
-        {
-            return $children;
-        }
-
-        $functionPlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
-        $placementKeyString  = $functionPlacement[0][0] . "_";
-        $placementKeyString .= $functionPlacement[0][1] . "_";
-        $placementKeyString .= $functionPlacement[1][0] . "_";
-        $placementKeyString .= $functionPlacement[1][1] . "_";
-        $placementKeyString .= $functionPlacement[2] . "_";
-
-        $newNodes = array();
-        $ignoreExpiry = false;
-        $ignoreContentExpiry = false;
-
-        $expiry = 60*60*2;
-        if ( isset( $parameters['expiry'] ) )
-        {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['expiry'] ) )
-            {
-                $expiryValue = eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] );
-
-                if ( $expiryValue )
-                {
-                    $expiryText = eZPHPCreator::variableText( $expiryValue , 0, 0, false );
-                }
-                else
-                {
-                    $ignoreExpiry = true;
-                }
-            }
-            else
-            {
-                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['expiry'], false, array(), 'localExpiry' );
-                $expiryText = "\$localExpiry";
-            }
-        }
-        else
-        {
-            $expiryText = eZPHPCreator::variableText( $expiry , 0, 0, false );
-        }
-
-        if ( isset( $parameters['ignore_content_expiry'] ) )
-        {
-            $ignoreContentExpiry = eZTemplateNodeTool::elementStaticValue( $parameters['ignore_content_expiry'] );
-        }
-
-        $keysData = false;
-        $keyValue = false;
-        $keyValueText = false;
-        $useDynamicKeys = false;
-        $subtreeExpiryData = false;
-        $subtreeExpiryCode = false;
-        if ( isset( $parameters['keys'] ) )
-        {
-            $keysData = $parameters['keys'];
-            if ( !eZTemplateNodeTool::isStaticElement( $keysData ) )
-            {
-                $useDynamicKeys = true;
-            }
-            else
-            {
-                $keyValue = eZTemplateNodeTool::elementStaticValue( $keysData );
-                $keyValueText = $keyValue . '_';
-            }
-        }
-        if ( isset( $parameters['subtree_expiry'] ) )
-        {
-            $subtreeExpiryData = $parameters['subtree_expiry'];
-            if ( !eZTemplateNodeTool::isStaticElement( $subtreeExpiryData ) )
-            {
-                $useDynamicKeys = true;
-            }
-            else
-            {
-                $subtreeValue = eZTemplateNodeTool::elementStaticValue( $subtreeExpiryData );
-                if ( substr( $subtreeValue, -1 ) != '/')
-                {
-                    $subtreeValue .= '/';
-                }
-            }
-            $ignoreContentExpiry = true;
-        }
-        if ( $useDynamicKeys )
-        {
-            $accessName = false;
-            if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
-                $accessName = $GLOBALS['eZCurrentAccess']['name'];
-            $extraKeyString = $placementKeyString . $accessName;
-            $extraKeyText = eZPHPCreator::variableText( $extraKeyString, 0, 0, false );
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';\nelse\n    \$cacheKeys .= '_';" );
-            $cacheDir = eZSys::cacheDirectory();
-            $cachePathText = eZPHPCreator::variableText( "$cacheDir/template-block/", 0, 0, false );
-            $code = "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n\$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n\$cachePath = \$cacheDir . '/' . \$keyString . '.cache';";
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-            $filedirText = "\$cacheDir";
-            $filepathText = "\$cachePath";
-
-            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry )\n" .
-                                   "{\n" .
-                                   "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
-                                   "    \$db =& eZDB::instance();\n" .
-                                   "\n" .
-                                   "    if ( substr( \$subtreeExpiry, -1 ) != '/'  )\n" .
-                                   "    {\n" .
-                                   "        \$subtreeExpiry .= '/';\n" .
-                                   "    }\n" .
-                                   "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
-                                   "    \$cacheKey =& \$db->escapeString( \$cachePath );\n" .
-                                   "\n" .
-                                   "    \$insertQuery = \"INSERT INTO ezsubtree_expiry ( subtree, cache_file )\n" .
-                                   "                VALUES ( '\$subtree', '\$cacheKey' )\";\n" .
-                                   "    \$db->query( \$insertQuery );\n" .
-                                   "}" );
-        }
-        else
-        {
-            $accessName = false;
-            if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
-                $accessName = $GLOBALS['eZCurrentAccess']['name'];
-            $keyString = sprintf( '%u', crc32( $keyValueText . $placementKeyString . $accessName ) );
-            $cacheDir = eZSys::cacheDirectory();
-            $dirString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
-            $keyString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2] . '/' . $keyString . '.cache';
-            $filedirText = eZPHPCreator::variableText( $dirString, 0, 0, false );
-            $filepathText = eZPHPCreator::variableText( $keyString, 0, 0, false );
-
-            if ( isset( $parameters['subtree_expiry'] ) && ( $parameters['subtree_expiry'] ) )
-            {
-                include_once( 'lib/ezdb/classes/ezdb.php' );
-                $db =& eZDB::instance();
-
-                $subtree =& $db->escapeString( $subtreeValue );
-                $cacheKey =& $db->escapeString( $keyString );
-
-                $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                            VALUES ( '$subtree', '$cacheKey' )";
-
-                $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
-                                       "\$db =& eZDB::instance();\n" .
-                                       "\n" .
-                                       "\$db->query( \"$insertQuery\" );\n" .
-                                       "            " );
-            }
-        }
-
-        $code = '';
-        
-        if ( !$ignoreContentExpiry )
-        {
-            $code .= <<<ENDADDCODE
-include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-\$handler =& eZExpiryHandler::instance();
-if ( \$handler->hasTimestamp( 'content-cache' ) )
-{
-    \$globalExpiryTime = \$handler->timestamp( 'content-cache' );
-}
-
-ENDADDCODE;
-        }
-
-        $code .= "if ( file_exists( $filepathText )";
-        if ( !$ignoreExpiry ) {
-            $code .= "\n    and filemtime( $filepathText ) >= ( time() - $expiryText )";
-        }
-        if ( !$ignoreContentExpiry ) {
-            $code .= "\n    and ( filemtime( $filepathText ) > \$globalExpiryTime )";
-        }
-        $code .= " )\n" .
-                 "{\n" .
-                 "\$fp = fopen( $filepathText, 'r' );\n
-                  \$contentData = fread( \$fp, filesize( $filepathText ) );\n
-                   fclose( \$fp );\n";
-
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
-        $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'contentData', array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$contentData );\n" .
-                                                               "}\n" .
-                                                               "else\n" .
-                                                               "{" );
-        $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode( array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$cacheStack ) )\n" .
-                                                               "    \$cacheStack = array();\n" .
-                                                               "\$cacheEntry = array( \$cacheDir, \$cachePath, \$keyString, false );\n" .
-                                                               "if ( isset( \$subtreeExpiry ) )\n" .
-                                                               "    \$cacheEntry[3] = \$subtreeExpiry;\n" .
-                                                               "\$cacheStack[] = \$cacheEntry;" );
-        $newNodes = array_merge( $newNodes, $children );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "list( \$cacheDir, \$cachePath, \$keyString, \$subtreeExpiry ) = array_pop( \$cacheStack );" );
-        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
-        $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        $ini =& eZINI::instance();
-        $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-        $code = ( "include_once( 'lib/ezfile/classes/ezdir.php' );\n" .
-                  "eZDir::mkdir( $filedirText, $perm, true );\n" .
-                  "\$fd = fopen( $filepathText, 'w' );\n" .
-                  "fwrite( \$fd, \$cachedText );\n" .
-                  "fclose( \$fd );");
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
-        $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        if ( $subtreeExpiryCode )
-        {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $subtreeExpiryCode, array( 'spacing' => 4 ) );
-        }
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$cachedText );\n}" );
-        return $newNodes;
-    }
-
     /*!
      Processes the function with all it's children.
     */
@@ -340,15 +113,12 @@ ENDADDCODE;
                     $keyString .= $functionPlacement[2] . "_";
 
                     // Fetch the current siteaccess
-                    $accessName = false;
-                    if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
-                        $accessName = $GLOBALS['eZCurrentAccess']['name'];
-                    $keyString .= $accessName;
-                    $hashedKey = sprintf( '%u', crc32( $keyString ) );
+                    $keyString .= $GLOBALS['eZCurrentAccess']['name'];
+                    include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+                    $md5Key = md5( $keyString );
 
                     $cacheDir = eZSys::cacheDirectory();
-                    $phpDir = "$cacheDir/template-block/" . $hashedKey[0] . "/" . $hashedKey[1] . "/" . $hashedKey[2];
-                    $phpPath = $phpDir . '/' . $hashedKey . ".cache";
+                    $phpCache = new eZPHPCreator( "$cacheDir/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
 
                     // Check if a custom expiry time is defined
                     if ( isset( $functionParameters["expiry"] ) )
@@ -361,7 +131,7 @@ ENDADDCODE;
                         $expiry = 60*60*2;
                     }
 
-                    $localExpiryTime = time() - $expiry;
+                    $localExpiryTime = mktime() - $expiry;
 
                     $ignoreContentExpiry = false;
                     if ( isset( $functionParameters["ignore_content_expiry"] ) )
@@ -382,12 +152,11 @@ ENDADDCODE;
                     }
 
                     // Check if we can restore
-                    if ( file_exists( $phpPath ) and
-                         filemtime( $phpPath ) >= $expiryTime )
+                    if ( $phpCache->canRestore( $expiryTime ) )
                     {
-                        $fp = fopen( $phpPath, 'r' );
-                        $textElements[] = fread( $fp, filesize( $phpPath ) );;
-                        fclose( $fp );
+                        $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
+                        $text =& $variables['contentdata'];
+                        $textElements[] = $text;
                     }
                     else
                     {
@@ -403,26 +172,8 @@ ENDADDCODE;
                         $text =& implode( '', $childTextElements );
                         $textElements[] = $text;
 
-                        include_once( 'lib/ezfile/classes/ezdir.php' );
-                        $ini =& eZINI::instance();
-                        $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-                        eZDir::mkdir( $phpDir, $perm, true );
-                        $fd = fopen( $phpPath, 'w' );
-                        fwrite( $fd, $text );
-                        fclose( $fd );
-                        if ( isset( $functionParameters['subtree_expiry'] ) )
-                        {
-                            include_once( 'lib/ezdb/classes/ezdb.php' );
-                            $db =& eZDB::instance();
-
-                            $subtreeExpiry = $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement );
-                            $subtree =& $db->escapeString( $subtreeExpiry );
-                            $cacheKey =& $db->escapeString( $phpPath );
-
-                            $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                                        VALUES ( '$subtree', '$cacheKey' )";
-                            $db->query( $insertQuery );
-                        }
+                        $phpCache->addVariable( 'contentData', $text );
+                        $phpCache->store();
                     }
                 }
             } break;

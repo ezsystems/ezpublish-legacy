@@ -54,7 +54,7 @@ class eZPackageFunctionCollection
     {
     }
 
-    function &fetchList( $filterArray = false, $offset, $limit, $repositoryID )
+    function &fetchList( $filterArray = false, $offset, $limit )
     {
         $filterParams = array();
         $filterList = false;
@@ -111,13 +111,10 @@ class eZPackageFunctionCollection
                 }
             }
         }
-        $params = array( 'offset' => $offset,
-                         'limit' => $limit );
-        if ( $repositoryID )
-            $params['repository_id'] = $repositoryID;
 
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageList =& eZPackage::fetchPackages( $params,
+        $packageList =& eZPackage::fetchPackages( array( 'offset' => $offset,
+                                                         'limit' => $limit ),
                                                   $filterParams );
         if ( $packageList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -125,17 +122,17 @@ class eZPackageFunctionCollection
         return array( 'result' => $packageList );
     }
 
-    function &fetchPackage( $packageName, $repositoryID )
+    function &fetchPackage( $packageName )
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
+        $package =& eZPackage::fetch( $packageName );
         if ( $package === false )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $package );
     }
 
-    function &fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
+    function &fetchDependentPackageList( $packageName, $filterArray = false )
     {
         $filterParams = array();
         $filterList = false;
@@ -199,7 +196,7 @@ class eZPackageFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
+        $package =& eZPackage::fetch( $packageName );
         $packageList =& $package->fetchDependentPackages( $filterParams );
         if ( $packageList === false )
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -211,16 +208,6 @@ class eZPackageFunctionCollection
     {
         include_once( 'kernel/classes/ezpackage.php' );
         $list =& eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
-        if ( $list === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $list );
-    }
-
-    function &fetchRepositoryList()
-    {
-        include_once( 'kernel/classes/ezpackage.php' );
-        $list =& eZPackage::packageRepositories();
         if ( $list === false )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

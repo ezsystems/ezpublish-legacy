@@ -65,8 +65,7 @@ class eZStringType extends eZDataType
     function eZStringType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'text' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
 
@@ -274,11 +273,6 @@ class eZStringType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
-    }
-
     /*!
      \reimp
     */
@@ -334,6 +328,25 @@ class eZStringType extends eZDataType
         $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLength );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+//         $node = new eZDOMNode();
+//         $node->setName( 'attribute' );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+//         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezstring' ) );
+        $node =& eZDataType::contentObjectAttributeDOMNode( $objectAttribute );
+
+        $node->appendChild( eZDOMDocument::createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
+
+        return $node;
     }
 
     /// \privatesection

@@ -70,21 +70,45 @@ class eZTemplateArithmeticOperator
     /*!
      Constructor
     */
-    function eZTemplateArithmeticOperator()
+    function eZTemplateArithmeticOperator( $sumName = 'sum', $subName = 'sub', $incName = 'inc', $decName = 'dec',
+                                           $divName = 'div', $modName = 'mod', $mulName = 'mul',
+                                           $maxName = 'max', $minName = 'min',
+                                           $absName = 'abs', $ceilName = 'ceil', $floorName = 'floor', $roundName = 'round',
+                                           $intName = 'int', $floatName = 'float',
+                                           $countName = 'count',
+                                           $romanName = 'roman' )
     {
-        $this->Operators = array( 'sum', 'sub', 'inc', 'dec',
-                                  'div', 'mod', 'mul',
-                                  'max', 'min',
-                                  'abs', 'ceil', 'floor', 'round',
-                                  'int', 'float',
-                                  'count',
-                                  'roman' );
-        foreach ( $this->Operators as $operator )
-        {
-            $name = $operator . 'Name';
-            $name[0] = $name[0] & "\xdf";
-            $this->$name = $operator;
-        }
+        $this->SumName = $sumName;
+        $this->SubName = $subName;
+        $this->IncName = $incName;
+        $this->DecName = $decName;
+
+        $this->DivName = $divName;
+        $this->ModName = $modName;
+        $this->MulName = $mulName;
+
+        $this->MaxName = $maxName;
+        $this->MinName = $minName;
+
+        $this->AbsName = $absName;
+        $this->CeilName = $ceilName;
+        $this->FloorName = $floorName;
+        $this->RoundName = $roundName;
+
+        $this->IntName = $intName;
+        $this->FloatName = $floatName;
+
+        $this->CountName = $countName;
+
+        $this->RomanName = $romanName;
+
+        $this->Operators = array( $sumName, $subName, $incName, $decName,
+                                  $divName, $modName, $mulName,
+                                  $maxName, $minName,
+                                  $absName, $ceilName, $floorName, $roundName,
+                                  $intName, $floatName,
+                                  $countName,
+                                  $romanName );
     }
 
     /*!
@@ -93,423 +117,6 @@ class eZTemplateArithmeticOperator
     function &operatorList()
     {
         return $this->Operators;
-    }
-
-    function operatorTemplateHints()
-    {
-        return array( $this->SumName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'basicTransformation'),
-                      $this->SubName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'basicTransformation'),
-                      $this->MulName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'basicTransformation'),
-                      $this->DivName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'basicTransformation'),
-
-                      $this->IncName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'decIncTransformation'),
-                      $this->DecName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'decIncTransformation'),
-
-                      $this->ModName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 2,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'modTransformation'),
-
-                      $this->MaxName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'minMaxTransformation'),
-                      $this->MinName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => true,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'minMaxTransformation'),
-
-                      $this->AbsName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'roundTransformation'),
-                      $this->CeilName => array( 'input' => true,
-                                                'output' => true,
-                                                'parameters' => 1,
-                                                'element-transformation' => true,
-                                                'transform-parameters' => true,
-                                                'input-as-parameter' => true,
-                                                'element-transformation-func' => 'roundTransformation'),
-                      $this->FloorName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
-                                                 'element-transformation-func' => 'roundTransformation'),
-                      $this->RoundName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
-                                                 'element-transformation-func' => 'roundTransformation'),
-
-                      $this->IntName => array( 'input' => true,
-                                               'output' => true,
-                                               'parameters' => 1,
-                                               'element-transformation' => true,
-                                               'transform-parameters' => true,
-                                               'input-as-parameter' => true,
-                                               'element-transformation-func' => 'castTransformation'),
-                      $this->FloatName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
-                                                 'element-transformation-func' => 'castTransformation'),
-
-                      $this->RomanName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1,
-                                                 'element-transformation' => true,
-                                                 'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
-                                                 'element-transformation-func' => 'romanTransformation'),
-
-                      $this->CountName => array( 'input' => true,
-                                                 'output' => true,
-                                                 'parameters' => 1 ) );
-    }
-
-    function basicTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-        if ( $function == $this->SumName )
-        {
-            $operator = '+';
-        }
-        else if ( $function == $this->SubName )
-        {
-            $operator = '-';
-        }
-        else if ( $function == $this->MulName )
-        {
-            $operator = '*';
-        }
-        else
-        {
-            $operator = '/';
-        }
-
-        if ( count( $parameters ) == 0 )
-            return false;
-        $newElements = array();
-
-        // Reorder parameters, dynamic elements first then static ones
-        // Also combine multiple static ones into a single element
-        $notInitialised = true;
-        $staticResult = 0;
-        $isStaticFirst = false;
-        $allNumeric = true;
-        $newParameters = array();
-        $endParameters = array();
-        $parameterIndex = 0;
-        foreach ( $parameters as $parameter )
-        {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
-            {
-                $allNumeric = false;
-                $endParameters[] = $parameter;
-            }
-            else
-            {
-                $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
-                if ( $notInitialised )
-                {
-                    $staticResult = $staticValue;
-                    if ( $parameterIndex == 0 )
-                        $isStaticFirst = true;
-                    $notInitialised = false;
-                }
-                else
-                {
-                    if ( $function == 'sum' )
-                    {
-                        $staticResult += $staticValue;
-                    }
-                    else if ( $function == 'sub' )
-                    {
-                        if ( $isStaticFirst )
-                            $staticResult -= $staticValue;
-                        else
-                            $staticResult += $staticValue;
-                    }
-                    else if ( $function == 'mul' )
-                    {
-                        $staticResult *= $staticValue;
-                    }
-                    else
-                    {
-                        if ( $isStaticFirst )
-                            $staticResult /= $staticValue;
-                        else
-                            $staticResult *= $staticValue;
-                    }
-                }
-                $isPreviousStatic = true;
-            }
-            ++$parameterIndex;
-        }
-
-        if ( $allNumeric )
-        {
-            $newElements[] = eZTemplateNodeTool::createNumericElement( $staticResult );
-            return $newElements;
-        }
-        else
-        {
-            if ( !$notInitialised )
-            {
-                if ( $isStaticFirst )
-                    $newParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-                else
-                    $endParameters[] = array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-            }
-            $newParameters = array_merge( $newParameters, $endParameters );
-
-            $code = '%output% =';
-            $counter = 1;
-            $index = 0;
-            foreach ( $newParameters as $parameter )
-            {
-                if ( $index > 0 )
-                {
-                    $code .= " $operator";
-                }
-                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
-                {
-                    $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
-                    if ( !is_numeric( $staticValue ) )
-                        $staticValue = (int)$staticValue;
-                    $code .= " $staticValue";
-                }
-                else
-                {
-                    $code .= " %$counter%";
-                    $values[] = $parameter;
-                    ++$counter;
-                }
-                ++$index;
-            }
-            $code .= ";\n";
-        }
-        $knownType = 'integer';
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, false, $knownType );
-        return $newElements;
-    }
-
-    function minMaxTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-
-        if ( count( $parameters ) == 0 )
-            return false;
-        $newElements = array();
-
-        /* Check if all variables are integers. This is for optimization */
-        $staticResult = array();
-        $allNumeric = true;
-        foreach ( $parameters as $parameter )
-        {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
-            {
-                $allNumeric = false;
-            }
-            else
-            {
-                $staticResult[] = eZTemplateNodeTool::elementStaticValue( $parameter );
-            }
-        }
-
-        if ( $allNumeric )
-        {
-            $staticResult = $function( $staticResult );
-            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-        }
-        else
-        {
-            $code = "%output% = $function(";
-            $counter = 1;
-            foreach ( $parameters as $parameter )
-            {
-                if ( $counter > 1 )
-                {
-                    $code .= ', ';
-                }
-                $code .= " %$counter%";
-                $values[] = $parameter;
-                ++$counter;
-            }
-            $code .= ");\n";
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function modTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        if ( count( $parameters ) != 2 )
-            return false;
-        $newElements = array();
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) && eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
-        {
-            $staticResult = eZTemplateNodeTool::elementStaticValue( $parameters[0] ) % eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-        }
-        else
-        {
-            $code = "%output% = %1% % %2%;\n";
-            $values[] = $parameters[0];
-            $values[] = $parameters[1];
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function roundTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-
-        if ( count( $parameters ) != 1 )
-            return false;
-        $newElements = array();
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            $staticResult = $function( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
-            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-        }
-        else
-        {
-            $code = "%output% = $function( %1% );\n";
-            $values[] = $parameters[0];
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function decIncTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        $function = $operatorName;
-        $direction = $this->DecName == $function ? -1 : 1;
-
-        if ( count( $parameters ) < 1 )
-            return false;
-        $newElements = array();
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            return array( eZTemplateNodeTool::createNumericElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) + $direction ) );
-        }
-        else
-        {
-            $code = "%output% = %1% + $direction;\n";
-            $values[] = $parameters[0];
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function castTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        if ( count( $parameters ) != 1 )
-            return false;
-        $newElements = array();
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            $staticResult = ( $operatorName == $this->IntName ) ? (int) eZTemplateNodeTool::elementStaticValue( $parameters[0] ) : (float) eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-        }
-        else
-        {
-            $code = "%output% = ($operatorName)%1%;\n";
-            $values[] = $parameters[0];
-        }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        return $newElements;
-    }
-
-    function romanTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
-    {
-        $values = array();
-        if ( count( $parameters ) != 1 )
-            return false;
-        $newElements = array();
-
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
-        {
-            $staticResult = $this->buildRoman( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
-            return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
-        }
-        else
-        {
-            return false;
-        }
     }
 
     /*!
@@ -536,10 +143,6 @@ class eZTemplateArithmeticOperator
                                                                    'default' => false ) ) );
     }
 
-    /*!
-     \private
-     \obsolete This function adds too much complexity, don't use it anymore
-    */
     function numericalValue( $mixedValue )
     {
         if ( is_array( $mixedValue ) )
@@ -569,13 +172,13 @@ class eZTemplateArithmeticOperator
             case $this->RomanName:
             {
                 if ( $namedParameters['value'] !== false )
-                    $value = $namedParameters['value'];
+                    $value = $this->numericalValue( $namedParameters['value'] );
                 else
-                    $value = $operatorValue;
+                    $value = $this->numericalValue( $operatorValue );
 
                 $operatorValue = $this->buildRoman( $value );
             } break;
-            case $this->CountName:
+            case $this->CountName;
             {
                 if ( count( $operatorParameters ) == 0 )
                     $mixedValue =& $operatorValue;
@@ -596,11 +199,14 @@ class eZTemplateArithmeticOperator
             case $this->SumName:
             {
                 $value = 0;
-                if ( $operatorValue !== null )
-                    $value = $operatorValue;
+                if ( is_array( $operatorValue ) )
+                {
+                    $array = $operatorValue;
+                    $value = array_sum( $array );
+                }
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     $value += $tmpValue;
                 }
                 $operatorValue = $value;
@@ -608,11 +214,11 @@ class eZTemplateArithmeticOperator
             case $this->SubName:
             {
                 $values = array();
-                if ( $operatorValue !== null )
-                    $values[] = $operatorValue;
+                if ( is_array( $operatorValue ) )
+                    $values = array_values( $operatorValue );
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $values[] = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $values[] = $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                 }
                 $value = 0;
                 if ( count( $values ) > 0 )
@@ -628,10 +234,10 @@ class eZTemplateArithmeticOperator
             case $this->IncName:
             case $this->DecName:
             {
-                if ( $operatorValue !== null )
-                    $value = $operatorValue;
+                if ( $namedParameters['value'] === false )
+                    $value = $this->numericalValue( $operatorValue );
                 else
-                    $value = $namedParameters['value'];
+                    $value = $this->numericalValue( $namedParameters['value'] );
                 if ( $operatorName == $this->DecName )
                     --$value;
                 else
@@ -649,10 +255,10 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 1 )
                     $value = $operatorValue;
                 else
-                    $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace );
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace ) );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     $value /= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -667,12 +273,12 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 1 )
                 {
                     $dividend = $operatorValue;
-                    $divisor = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $divisor = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 }
                 else
                 {
-                    $dividend = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
-                    $divisor = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                    $dividend = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                    $divisor = $this->numericalValue( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) );
                 }
                 $operatorValue = $dividend % $divisor;
             } break;
@@ -683,10 +289,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     $value *= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -698,19 +304,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $i = 0;
-                if ( $operatorValue !== null )
+                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
+                for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $value = $operatorValue;
-                }
-                else
-                {
-                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
-                    ++$i;
-                }
-                for ( ; $i < count( $operatorParameters ); ++$i )
-                {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     if ( $tmpValue > $value )
                         $value = $tmpValue;
                 }
@@ -723,10 +320,10 @@ class eZTemplateArithmeticOperator
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value' );
                     return;
                 }
-                $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $tmpValue =& $this->numericalValue( $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace ) );
                     if ( $tmpValue < $value )
                         $value = $tmpValue;
                 }
@@ -740,7 +337,7 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) < 1 )
                     $value = $operatorValue;
                 else
-                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 switch ( $operatorName )
                 {
                     case $this->AbsName:
@@ -764,7 +361,7 @@ class eZTemplateArithmeticOperator
             case $this->IntName:
             {
                 if ( count( $operatorParameters ) > 0 )
-                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 else
                     $value = $operatorValue;
                 $operatorValue = (int)$value;
@@ -772,7 +369,7 @@ class eZTemplateArithmeticOperator
             case $this->FloatName:
             {
                 if ( count( $operatorParameters ) > 0 )
-                    $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $value = $this->numericalValue( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) );
                 else
                     $value = $operatorValue;
                 $operatorValue = (float)$value;

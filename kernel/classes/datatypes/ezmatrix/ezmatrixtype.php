@@ -109,19 +109,6 @@ class eZMatrixType extends eZDataType
         return $matrix;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
-        $count = 0;
-        foreach ( $columns as $column )
-        {
-            $count += count( $column['rows'] );
-        }
-        return $count > 0;
-    }
-
     /*!
      Returns the meta data used for storing search indeces.
     */
@@ -226,6 +213,24 @@ class eZMatrixType extends eZDataType
         $value = $matrix->attribute( $name );
 
         return $value;
+    }
+
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+/*        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezoption' ) );
+
+        return $node;
+*/
     }
 
     /*!

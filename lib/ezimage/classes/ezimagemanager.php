@@ -108,6 +108,7 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZImageManager
 {
@@ -810,7 +811,6 @@ class eZImageManager
             $aliasKey = $currentAliasInfo['alias_key'];
             if ( file_exists( $aliasFile ) )
             {
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
                 $sourceMimeData = eZMimeType::findByFileContents( $aliasFile );
                 $destinationMimeData = $sourceMimeData;
                 if ( isset( $parameters['basename'] ) )
@@ -835,7 +835,7 @@ class eZImageManager
                                            'alternative_text' => $aliasInfo['alternative_text'],
                                            'name' => $aliasName,
                                            'sub_type' => false,
-                                           'timestamp' => time(),
+                                           'timestamp' => eZDateTime::currentTimeStamp(),
                                            'alias_key' => $aliasKey,
                                            'mime_type' => $destinationMimeData['name'],
                                            'override_mime_type' => false,
@@ -908,7 +908,6 @@ class eZImageManager
     */
     function convert( $sourceMimeData, &$destinationMimeData, $aliasName = false, $parameters = array() )
     {
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( is_string( $sourceMimeData ) )
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
         $this->analyzeImage( $sourceMimeData );

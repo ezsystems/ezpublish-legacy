@@ -1,9 +1,0 @@
-[SiteSettings]
-LoginPage=embeded
-
-[SiteAccessSettings]
-RequireUserLogin=false
-
-[DesignSettings]
-StandardDesign=standard
-SiteDesign=base

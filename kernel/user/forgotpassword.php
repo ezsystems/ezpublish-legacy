@@ -85,10 +85,6 @@ if ( strlen( $hashKey ) == 32 )
 
         eZDebug::writeDebug( $password, "New Password" );
         $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
-        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-        if ( !$emailSender )
-            $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-        $mail->setSender( $emailSender );
         $mail->setReceiver( $receiver );
         $subject = ezi18n( 'kernel/user/register', 'Registration info' );
         if ( $tpl->hasVariable( 'subject' ) )
@@ -169,10 +165,6 @@ if ( $module->isCurrentAction( "Generate" ) )
             $http->UseFullUrl = true;
             $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             $http->UseFullUrl = false;
-            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-            if ( !$emailSender )
-                $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-            $mail->setSender( $emailSender );
             $mail->setReceiver( $receiver );
             $subject = ezi18n( 'kernel/user/register', 'Registration info' );
             if ( $tpl->hasVariable( 'subject' ) )

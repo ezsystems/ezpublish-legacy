@@ -44,7 +44,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "kernel/classes/ezbinaryfilehandler.php" );
-include_once( "lib/ezfile/classes/ezfile.php" );
+include_once( "lib/ezutils/classes/ezfile.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
@@ -368,15 +368,6 @@ class eZBinaryFileType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
-                                            $contentObjectAttribute->attribute( "version" ) );
-        if ( !$binaryFile )
-            return false;
-        return true;
-    }
-
     function &objectAttributeContent( $contentObjectAttribute )
     {
         $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
@@ -426,87 +417,6 @@ class eZBinaryFileType extends eZDataType
         $unitSize = $sizeNode->attributeValue( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $maxSize );
     }
-
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
-    {
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-
-        $binaryFile =& $objectAttribute->attribute( 'content' );
-        $fileKey = md5( mt_rand() );
-        $package->appendSimpleFile( $fileKey, $binaryFile->attribute( 'filepath' ) );
-
-        $fileNode =& eZDOMDocument::createElementNode( 'binary-file' );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $binaryFile->attribute( 'filesize' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $binaryFile->attribute( 'filename' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $binaryFile->attribute( 'original_filename' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime-type', $binaryFile->attribute( 'mime_type' ) ) );
-        $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filekey', $fileKey ) );
-        $node->appendChild( $fileNode );
-
-        return $node;
-    }
-
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param ezdomnode object
-    */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
-    {
-        $fileNode = $attributeNode->elementByName( 'binary-file' );
-        $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
-
-        $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
-
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $ini =& eZINI::instance();
-        $mimeType = $fileNode->attributeValue( 'mime-type' );
-        list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
-        $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
-        if ( !file_exists( $destinationPath ) )
-        {
-            $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
-            {
-                umask( $oldumask );
-                return false;
-            }
-            umask( $oldumask );
-        }
-
-        $basename = basename( $fileNode->attributeValue( 'filename' ) );
-        while ( file_exists( $destinationPath . $basename ) )
-        {
-            $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->attributeValue( 'filename' ) );
-        }
-
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-        eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
-        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
-                              'eZBinaryFileType::unserializeContentObjectAttribute()' );
-
-        $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
-        $binaryFile->setAttribute( 'filename', $basename );
-        $binaryFile->setAttribute( 'original_filename', $fileNode->attributeValue( 'original-filename' ) );
-        $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime-type' ) );
-
-        $binaryFile->store();
-    }
-
 }
 
 eZDataType::register( EZ_DATATYPESTRING_BINARYFILE, "ezbinaryfiletype" );

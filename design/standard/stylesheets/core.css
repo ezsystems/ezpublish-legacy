@@ -299,13 +299,11 @@ input.defaultbutton
     margin-right: 8px;
 }
 
-/* Disabled for now, causes some issues in Opera */
-/*
 input.button:hover
 {
     background-color: #f0f0f0;
     cursor: pointer;
-}*/
+}
 
 p.box
 /* Used on text (i.e. data other than form elements) shown under a label. */
@@ -558,10 +556,4 @@ hr
 /* This style can be used on element that should only be visible in a browser which doesn't support CSS. */
 {
     display: none;
-}
-
-/* anti spam handling */
-span.spamfilter
-{
-     display: none;
 }

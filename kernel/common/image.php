@@ -38,6 +38,8 @@ function &imageInit()
 {
     include_once( 'lib/ezimage/classes/ezimagemanager.php' );
     include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
+//     include_once( 'lib/ezimage/classes/ezimageshell.php' );
+//     include_once( 'lib/ezimage/classes/ezimagegd.php' );
 
     $manager =& $GLOBALS['eZPublishImageManager'];
     if ( get_class( $manager ) == 'ezimagemanager' )
@@ -50,6 +52,117 @@ function &imageInit()
     eZImageAnalyzer::readAnalyzerSettingsFromINI();
 
     return $manager;
+
+//     $ini =& eZINI::instance();
+//     $scale = false;
+//     if ( $ini->hasVariable( 'ImageSettings', 'ScaleLargerThenOriginal' ) )
+//     {
+//         $scale = $ini->variable( 'ImageSettings', 'ScaleLargerThenOriginal' ) == 'true';
+//         eZDebug::writeWarning( 'ImageSettings ScaleLargerThenOriginal is depricated. Use ScaleLargerThanOriginal instead' );
+//     }
+
+//     if ( $ini->hasVariable( 'ImageSettings', 'ScaleLargerThanOriginal' ) )
+//     {
+//         $scale = $ini->variable( 'ImageSettings', 'ScaleLargerThanOriginal' ) == 'true';
+//     }
+
+//     if ( $scale )
+//     {
+//         $geometry = '-geometry "%wx%h"';
+//     }
+//     else
+//     {
+//         $geometry = '-geometry "%wx%h>"';
+//     }
+
+//     $imgINI =& eZINI::instance( 'image.ini' );
+
+//     $useConvert = $imgINI->variable( 'ConverterSettings', 'UseConvert' ) == 'true';
+//     $useGD = $imgINI->variable( 'ConverterSettings', 'UseGD' ) == 'true';
+
+//     if ( $useConvert and
+//          !eZImageShell::isAvailable( 'convert' ) )
+//     {
+//         eZDebug::writeError( "Convert is not available, disabling", 'imageInit' );
+//         $useConvert = false;
+//     }
+//     if ( $useGD and
+//          !eZImageGD::isAvailable() )
+//     {
+//         eZDebug::writeError( "ImageGD is not available, disabling", 'imageInit' );
+//         $useGD = false;
+//     }
+
+//     if ( !$useConvert and
+//          !$useGD )
+//     {
+//         eZDebug::writeError( "No conversion types available", 'imageInit' );
+//     }
+
+//     // Register convertors
+//     if ( $useConvert )
+//     {
+//         $img->registerType( 'convert', new eZImageShell( $imgINI->variable( 'ShellSettings', 'ConvertPath' ), $imgINI->variable( 'ShellSettings', 'ConvertExecutable' ),
+//                                                          array(), array(),
+//                                                          array( eZImageShell::createRule( $geometry,
+//                                                                                           'modify/scale' ),
+//                                                                 eZImageShell::createRule( '-colorspace GRAY',
+//                                                                                           'colorspace/gray' ) ),
+//                                                          EZ_IMAGE_KEEP_SUFFIX,
+//                                                          EZ_IMAGE_PREPEND_AND_REPLACE_SUFFIX_TAG ) );
+//     }
+//     if ( $useGD )
+//     {
+//         $img->registerType( 'gd', new eZImageGD() );
+//     }
+
+//     // Output types
+//     $types = $imgINI->variableArray( 'OutputSettings', 'AvailableMimeTypes' );
+//     if ( count( $types ) == 0 )
+//         $types = array( 'image/jpeg',
+//                         'image/png' );
+
+//     $rules = array();
+//     $defaultRule = null;
+//     $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
+//     foreach ( $ruleList as $items )
+//     {
+//         $sourceMIME = $items[0];
+//         $destMIME = $items[1];
+//         $type = $items[2];
+//         if ( $type == 'convert' or
+//              $type == 'gd' )
+//         {
+//             $rules[] = $img->createRule( $sourceMIME, $destMIME, $type, true, true );
+//         }
+//     }
+//     $defaultRuleItems = $imgINI->variableArray( 'Rules', 'DefaultRule' );
+//     $destMIME = $defaultRuleItems[0];
+//     $type = $defaultRuleItems[1];
+//     if ( $type == 'convert' or
+//          $type == 'gd' )
+//     {
+//         $defaultRule = $img->createRule( '*', $destMIME, $type, true, true );
+//     }
+
+//     $mime_rules = array();
+//     $mimeTypes = $imgINI->variableArray( 'MimeTypes', 'Types' );
+//     foreach ( $mimeTypes as $items )
+//     {
+//         $mimeType = $items[0];
+//         $regexp = $items[1];
+//         $suffix = $items[2];
+//         $mime_rules[] = $img->createMIMEType( $mimeType, $regexp, $suffix );
+//     }
+
+//     $img->setOutputTypes( $types );
+//     if ( $defaultRule === null )
+//         $defaultRule = $img->createRule( '*', 'image/jpeg', 'convert', true, true );
+//     $img->setRules( $rules, $defaultRule );
+// //     $img->setRules( $rules, $img->createRule( '*', 'image/jpeg', 'convert', true, true ) );
+//     $img->setMIMETypes( $mime_rules );
+
+    return $img;
 }
 
 ?>

@@ -1,0 +1,307 @@
+p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+h2
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 105%;
+}
+
+h3
+{
+    font-family: Times New Roman, Arial, Helvetica, sans-serif;
+    font-size: 100%;
+}
+
+body
+{
+    background-color: #ffffff;
+    margin-top: 20px;
+    margin-left: 0px;
+    padding: 0px;
+}
+
+#mainlayout
+{ 
+    width: 700px;
+}
+
+#header
+{ 
+    width: 700px;
+    height: 68px;
+    background: url("../images/mycompanylogo.jpg") no-repeat;
+}
+
+#logo
+{ 
+    float: left;
+    margin-left: 10px;
+    margin-top: 16px;
+}
+
+#navigation_bar
+{  
+    position: absolute;
+    top: 0;
+    font-size: small;
+    width: 690px;
+    height: 10px;
+    padding: 5px;
+    vertical-align: bottom;
+    background-color: #000000;
+}
+
+#navigation_bar a
+{  
+    color: #ffffff;
+}
+
+.navigation_item
+{  
+    margin-left: 20px;
+    margin-right: 20px;
+    display: inline;
+}
+
+#path
+{ 
+    font-size: small;
+    width: 690px;
+    padding: 5px;
+    background-color: #824b30;
+    color: #aaaaaa;
+}
+
+#path a
+{ 
+    color: #ffffff;
+}
+
+#path p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Main menu  */
+#mainmenu
+{  
+    height: 100%;
+    float: left;
+    width: 150px;
+    background-color: #ffeeff;
+}
+
+#mainmenu .selected
+{
+  background-color: #c2977c;
+  border-color: #824b30;
+  border-top: 1px solid;
+}
+
+#mainmenu .item
+{
+  background-color: #824b30;
+  border-color: #4c5792;
+  border-top: 1px solid;
+}
+
+#mainmenu .item:hover
+{
+  background-color: #c2977c;
+  border-color: #aaaaaa;
+}
+
+#mainmenu .level_0
+{
+  padding: 4px; 
+}
+
+#mainmenu .level_1
+{
+  padding: 4px; 
+  margin-left: 15px;
+}
+
+#mainmenu a
+{ 
+   color: #ffffff;
+}
+
+/* Information bar, latest news and search */
+
+#info_bar
+{  
+    float: right;
+    width: 140px;
+    padding: 5px;
+    background-color: #eeeeee;
+}
+
+#info_bar h3 a
+{  
+    color: #824b30;
+}
+
+#info_bar h3
+{  
+    margin-bottom: 0px;
+}
+
+#info_bar p
+{  
+    font-size: small;
+    color: #777777;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* search box */
+
+#search_box
+{  
+    position: absolute;
+    top: 1px;
+    left: 480px;
+    font-size: small;
+}
+
+#search_box input.searchbutton
+{  
+    color: #ffffff;
+    background-color: #824b30;
+}
+
+/* main content area */
+#main_content
+{  
+   padding: 10px;
+   background-color: #ffffff;
+   margin-left: 150px;  
+   margin-right: 150px;  
+}
+
+#footer
+{  
+    font-size: small;
+    text-align: center;
+    float: left;
+    clear: both;
+    width: 100%;
+    background-color: #000000;
+    color: #cccccc;
+    padding: 5px;
+}
+
+#footer a
+{  
+    color: #cccccc;
+}
+
+#footer p
+{  
+    padding: 0px;
+    margin: 0px;
+    color: #cccccc;
+}
+
+
+/* General child "line view" object settings */
+
+#folder div.child h2
+{ 
+    color: #444444;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#folder div.child div.byline
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.object_brief p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.readmore
+{ 
+    font-size: small;
+}
+
+#folder div.child div.readmore a
+{ 
+    color: #824b30;
+}
+
+#folder div.child div.readmore p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
+/* article styles */
+
+#article div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#article div.intro p
+{ 
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Search */
+
+div.advancedsearchbox
+{ 
+   display: none;
+}
+
+/* General */
+
+h1
+{ 
+    margin-bottom: 5px;
+
+}
+
+div.editbutton
+{ 
+   float: right;
+}
+
+div.editbutton input
+{ 
+   font-size: small;
+   background-color: #824b30;
+   color: #ffffff;
+}

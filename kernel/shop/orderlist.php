@@ -36,7 +36,7 @@ include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
-$module =& $Params["Module"];
+$module =& $Params["module"];
 
 $tpl =& templateInit();
 
@@ -73,20 +73,6 @@ if ( $http->hasPostVariable( "SortButton" ) )
     $http->setSessionVariable( "OrderSortOrder", $sortOrder );
 }
 
-if ( $http->hasPostVariable( "RemoveButton" ) )
-{
-    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
-    {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        if ( $deleteIDArray !== null )
-        {
-            $http->setSessionVariable( 'DeleteOrderIDArray', $deleteIDArray );
-            print_r($deleteIDArray );
-            $Module->redirectTo( $Module->functionURI( 'removeorder' ) . '/' );
-        }
-    }
-}
-
 $orderArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
 $orderCount = eZOrder::activeCount( true, $offset );
 
@@ -95,6 +81,7 @@ $tpl->setVariable( "order_list_count", $orderCount );
 $tpl->setVariable( "limit", $limit );
 
 $viewParameters = array( 'offset' => $offset );
+$tpl->setVariable( "module", $module );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( "sort_field", $sortField );
 $tpl->setVariable( "sort_order", $sortOrder );

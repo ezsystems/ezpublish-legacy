@@ -158,55 +158,6 @@ class eZDOMDocument
     }
 
     /*!
-      \static
-      Creates DOMNodeElement recursivly from recursive array
-    */
-    function createElementNodeFromArray( $name, $array )
-    {
-        $node = new eZDOMNode();
-        $node->setName( $name );
-        $node->setType( 1 );
-
-        foreach ( $array as $arrayKey => $value )
-        {
-            if ( is_array( $value ) )
-            {
-                $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $value ) );
-            }
-            else
-            {
-                $node->appendAttribute( eZDomDocument::createAttributeNode( $arrayKey, $value ) );
-            }
-        }
-
-        return $node;
-    }
-
-    /*!
-      \static
-      Creates recursive array from DOMNodeElement
-    */
-    function createArrayFromDOMNode( $domNode )
-    {
-        if ( !$domNode )
-        {
-            return null;
-        }
-
-        $retArray = array();
-        foreach ( $domNode->children() as $childNode )
-        {
-            $retArray[$childNode->name()] = eZDOMDocument::createArrayFromDOMNode( $childNode );
-        }
-        foreach( $domNode->attributes() as $attributeNode )
-        {
-            $retArray[$attributeNode->name()] = $attributeNode->content();
-        }
-
-        return $retArray;
-    }
-
-    /*!
       Creates and returns a element node
     */
     function &createElementNode( $name, $attributes = array() )
@@ -325,11 +276,8 @@ class eZDOMDocument
         if ( $charsetConversion )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( false, $charset, false );
-            if ( $codec )
-            {
-                $text =& $codec->convertString( $text );
-            }
+            $codec =& eZTextCodec::instance( false, $charset );
+            $text =& $codec->convertString( $text );
         }
 
         return $text;

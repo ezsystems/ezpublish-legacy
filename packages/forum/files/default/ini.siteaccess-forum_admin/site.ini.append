@@ -1,0 +1,9 @@
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+
+[FileSettings]
+VarDir=var/forum
+
+[SiteAccessSettings]
+RequireUserLogin=true

@@ -218,11 +218,11 @@ class eZHTTPFile
 
     /*!
      \return true if the HTTP file $http_name can be fetched. If $maxSize is given,
-     the function returns
+     the function returns 
         0 (EZ_UPLOADEDFILE_OK) if the file can be fetched,
        -1 (EZ_UPLOADEDFILE_DOES_NOT_EXIST) if there has been no file uploaded,
        -2 (EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT) if the file was uploaded but size
-          exceeds the upload_max_size limit (set in the PHP configuration),
+          exceeds the upload_max_size limit (set in the PHP configuration), 
        -3 (EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
           exceeds $maxSize or MAX_FILE_SIZE variable in the form.
     */
@@ -287,10 +287,6 @@ class eZHTTPFile
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )
             {
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
-                include_once( 'lib/ezfile/classes/ezfile.php' );
-                $mimeType = eZMimeType::findByURL( $_FILES[$http_name]['name'] );
-                $_FILES[$http_name]['type'] = $mimeType['name'];
                 $file = new eZHTTPFile( $http_name, $_FILES[$http_name] );
             }
             else

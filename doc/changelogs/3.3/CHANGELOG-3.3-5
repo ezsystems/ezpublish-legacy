@@ -20,10 +20,29 @@ eZINI:
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.2 rev. 5647)
 - Fixed bug in datatype ezmedia which will crash when upload a media file.
+- Added default setting for UserSettings: UseSpecialCharacters to site.ini
+  (Merged from stable/3.2 rev. 5938)
+  http://ez.no/community/bug_reports/site_ini_missing_entry
+- Fixed a bug with eZPersistentObject and limit/offset parameters (Merged from
+  stable/3.2 rev. 5859)
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
+- Fixed bug with getting a translation of an objectattribute. (Merged from 3.2 , rev. 5864)
+  http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
+- Fixed undefined variables in ezenumtype (Merged from 3.2, rev. 5886)
+  http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
 - Fixed misuse of in_array() function (Merged from 3.2, rev. 5893)
   http://ez.no/community/bug_reports/class_ezhttpfile_function_hasattribute
+- Fixed bug in checking number of parameters to array_merge() (Merged from 3.2, rev. 5899)
+  http://ez.no/community/bug_reports/merge_array_operator_doesn_t_work_with_only_one_array_as_parameter
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.2 rev. 5901)
+- Fixed bug in the autolink operator. (Merged from 3.2, rev. 5915)
+  http://ez.no/community/bug_reports/autolink_operator__1
+- Fixed bug in copying objects; the old object's publish date was not updated.
+  (Merged from 3.2, rev. 5952)
+  http://ez.no/community/bug_reports/object_copy_also_copies_creation_date
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
+- Fixed typo in include file in rssimport cronjob.
+  http://ez.no/community/bug_reports/typo_in_rssimport_php
 - Fixed bug of undefined field "use_id" in ezcontentobject_version.
   http://ez.no/community/bug_reports/ezcontentobjectversion
 - Fixed bug of datatype checkbox looses default state.
@@ -34,16 +53,30 @@ eZINI:
   http://ez.no/community/bug_reports/objectrelationlist_doesn_t_work_properly
 - Fixed bug of datatype ezenum does not remove unselected value for translated objects
   http://ez.no/community/bug_reports/ezenum_does_not_remove_unselected_value
+- Fixed bug causing the crash of admin interface when setting Wait Until Date event.
+  http://ez.no/community/bug_reports/admin_interface_crash_when_setting_up_date_time_publishing
+- Added the possibility of removing items in selection data type.
+  http://ez.no/community/bug_reports/selection_data_type_items_can_not_be_removed
+- Added file size checking while uploading files of image, media and binaryfile type.
+  http://ez.no/community/bug_reports/upload_file_size_checking_is_not_implemented
+- Fixed bug in ezlocale when converting negative numbers using , (comma) as the decimal
+  separator to the internal form.
+  http://ez.no/community/bug_reports/error_with_negative_numbers_in_float_datatype
 - Fixed removing node assignment when deleting nodes.
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
+- Fixed bug in default account handler for shop
+  http://ez.no/community/bug_reports/ezorder_calls_accountinformation_which_ezdefaultaccounthandler_doesnt_implement
 - Fixed bug with user redirection in basket with default account handler
   http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used
+- Fixed bug, missing check for invalid class identifiers
+  http://ez.no/community/bug_reports/problem_with_fetch_tree_in_php_v_4_3_4_or_msql_depth_query_resolved
 - Fixed bug no feedback when using the wishlist without beeing logged in
   http://ez.no/community/bug_reports/wishlist
 - Fixed bug in generated datatype code
   http://ez.no/community/bug_reports/setup_rad_datatype_assistent_ezdatatype_register
 - Fixed bug missing escape of value for attribute filter
   http://ez.no/community/bug_reports/attributefilter_and_slashes
+- Fixed security bug in notification system.
 - Fixed bug in datatype ezxmltext where using syntax <link id="a_valid_id">link text</link> will get empty href value.
 - Fixed bug of form parameter in content/edit.tpl
   http://ez.no/community/bug_reports/edit_tpl_wrong_language_param_in_form
@@ -53,6 +86,7 @@ eZINI:
   http://ez.no/community/bug_reports/preceding_on_function_name_causes_ezsetuptests_php_to_fail
 
 *Library:
+- Fixed bug where eZSys::varDirectory was not using eZDir::path
 
 eZ Locale:
 
@@ -60,7 +94,12 @@ eZ MIMEType:
 
 eZ Debug:
 
+eZ Template:
+- Fixed a major bug in the si operator, the calculations and prefixes
+  were wrong in many cases. (Merged from stable/3.2 rev. 6350)
+
 *Translations:
+- Updated the ger-DE translation.
 
 *Templates:
 - Added attribute "target" in standard image template which control where to 

@@ -223,10 +223,9 @@ class eZCharsetInfo
      Either returns the found encoding scheme or 'singlebyte' if no scheme was found.
      \sa realCharsetCode
     */
-    function characterEncodingScheme( $charsetCode, $isRealCharset = false )
+    function characterEncodingScheme( $charsetCode )
     {
-        if ( !$isRealCharset )
-            $charsetCode = eZCharsetInfo::realCharsetCode( $charsetCode );
+        $charsetCode = eZCharsetInfo::realCharsetCode( $charsetCode );
         $reverseEncodingTable =& eZCharsetInfo::reverseEncodingTable();
         if ( isset( $reverseEncodingTable[$charsetCode] ) )
             return $reverseEncodingTable[$charsetCode];

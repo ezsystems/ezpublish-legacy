@@ -93,7 +93,8 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
 
     function &create( $collaborationID, $messageID, $messageType, $participantID )
     {
-        $dateTime = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array(
             'collaboration_id' => $collaborationID,
             'message_id' => $messageID,
@@ -121,7 +122,8 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
             $participantID =& $user->attribute( 'contentobject_id' );
         }
         $collaborationID = $collaborationItem->attribute( 'id' );
-        $timestamp = time();
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $timestamp = eZDateTime::currentTimeStamp();
         $collaborationItem->setAttribute( 'modified', $timestamp );
         $collaborationItem->sync();
         $link =& eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );

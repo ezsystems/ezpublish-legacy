@@ -74,18 +74,10 @@ class eZContentFunctionCollection
         return array( 'result' => $contentVersion );
     }
 
-    function &fetchContentNode( $nodeID, $nodePath )
+    function &fetchContentNode( $nodeID )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $contentNode = null;
-        if ( $nodeID )
-        {
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
-        }
-        else if ( $nodePath )
-        {
-            $contentNode =& eZContentObjectTreeNode::fetchByURLPath( $nodePath );
-        }
+        $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         if ( $contentNode === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -141,10 +133,7 @@ class eZContentFunctionCollection
     function &fetchClass( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
-        if ( is_string( $classID ) )
-            $object =& eZContentClass::fetchByIdentifier( $classID );
-        else
-            $object =& eZContentClass::fetch( $classID );
+        $object =& eZContentClass::fetch( $classID );
         if ( $object === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -536,7 +525,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
         if ( $accessResult['accessWord'] == 'limited' )
         {
             foreach ( array_keys( $accessResult['policies'] ) as $key )
@@ -631,7 +620,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read', $accessList );
+        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
         if ( $accessResult['accessWord'] == 'limited' )
         {
             foreach ( array_keys( $accessResult['policies'] ) as $key )
@@ -762,7 +751,7 @@ class eZContentFunctionCollection
             eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
             return false;
         }
-        include_once( 'lib/ezdb/classes/ezdb.php' );
+        include_once( 'lib/ezdb/ezdb.php' );
         $db =& eZDB::instance();
         $resultNodeArray = array();
         $nodeList =& $db->arrayQuery( "SELECT ezcontentobject_tree.node_id, ezcontentobject.name, ezcontentobject_tree.parent_node_id
@@ -783,25 +772,6 @@ class eZContentFunctionCollection
             $resultNodeArray[] = $node;
         }
         return array( 'result' => $resultNodeArray );
-    }
-
-    function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID )
-    {
-        if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
-            $contentObject =& $contentObject->attribute( 'object' );
-        if ( is_string( $contentClassID ) )
-        {
-            $class =& eZContentClass::fetchByIdentifier( $contentClassID );
-            if ( !$class )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentClassID = $class->attribute( 'id' );
-        }
-        if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
-        {
-            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID, $accessList );
-            return array( 'result' => $result );
-        }
     }
 }
 

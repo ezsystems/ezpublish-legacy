@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.3.0-1"
+         development="false"
+         xmlns:ezpackage="http://ez.no/ezpackage"
+         is_active="true"
+         install_type="install">
+  <name modified="1075898057">shop</name>
+  <summary modified="1075898082">Webshop</summary>
+  <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
+    <version>3.3-3</version>
+    <named-version>3.3</named-version>
+  </ezpublish>
+  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
+    <maintainer modified="1075898057">
+      <name>Anonymous User</name>
+      <email>nospam@ez.no</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
+    <timestamp>1075898057</timestamp>
+    <host>jb.ez.no</host>
+  </packaging>
+  <documents>
+    <document mime-type="text/plain"
+              name="README"
+              modified="1075898057" />
+  </documents>
+  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
+    <entry timestamp="1075898057"
+           person="Anonymous User"
+           email="nospam@ez.no"
+           release="1"
+           modified="1075898057">
+      <change>Creation of package</change>
+    </entry>
+  </changelog>
+  <files xmlns:ezfile="http://ez.no/ezpackage">
+    <collection name="default">
+      <file-list type="design"
+                 design="shop"
+                 modified="1075898057" />
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="shop_user"
+                 variable-name="user_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/shop_user/override.ini.append"
+              md5sum="b317c9c3add63e7840f36147256e61b5"
+              modified="1075898058" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/shop_user/site.ini.append"
+              md5sum="3b3d97133d08a3ed33a79c8944159117"
+              modified="1075898058" />
+        <file name="shopaccount.ini.append"
+              path="settings/siteaccess/shop_user/shopaccount.ini.append"
+              md5sum="e726149473d03771647ff4874b01f46a"
+              modified="1075898058" />
+        <file name="content.ini.append"
+              path="settings/siteaccess/shop_user/content.ini.append"
+              md5sum="93cfb02d92dd9584e8ad1e245876fd0d"
+              modified="1075898059" />
+        <file name="image.ini.append"
+              path="settings/siteaccess/shop_user/image.ini.append"
+              md5sum="52ea5e7eb03396bb4fa4cd8071a84642"
+              modified="1075898059" />
+      </file-list>
+      <file-list type="ini"
+                 role="siteaccess"
+                 role-value="shop_admin"
+                 variable-name="admin_siteaccess">
+        <file name="override.ini.append"
+              path="settings/siteaccess/shop_admin/override.ini.append"
+              md5sum="9f47d021c6e296cd72ea625ff82e03a6"
+              modified="1075898059" />
+        <file name="site.ini.append"
+              path="settings/siteaccess/shop_admin/site.ini.append"
+              md5sum="9133d23c055869312da61c52ac5de485"
+              modified="1075898060" />
+      </file-list>
+      <file-list type="file">
+        <file name="package.xml"
+              sub-directory="var/shop/storage/packages/shop_blue"
+              path="var/shop/storage/packages/shop_blue/package.xml"
+              md5sum="37f863a0b4cf8b0231491b3b116a1584"
+              modified="1075898061" />
+        <file name="shop-blue.css"
+              sub-directory="var/shop/storage/packages/shop_blue/files/default/file/design/shop/stylesheets"
+              path="var/shop/storage/packages/shop_blue/files/default/file/design/shop/stylesheets/shop-blue.css"
+              md5sum="1d24feed0bc117bde46dbf3cb276ca8f"
+              modified="1075898061" />
+        <file name="thumbnail.png"
+              sub-directory="var/shop/storage/packages/shop_blue/files/default/thumbnail"
+              path="var/shop/storage/packages/shop_blue/files/default/thumbnail/thumbnail.png"
+              md5sum="7de287ec60c12b297c142b2781043d61"
+              modified="1075898062" />
+        <file name="tab_corner-top_right.gif"
+              sub-directory="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images/blue"
+              path="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images/blue/tab_corner-top_right.gif"
+              md5sum="17206c03c5a25894639c8b7ad970367d"
+              modified="1075898062" />
+        <file name="tab_corner-top_left.gif"
+              sub-directory="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images/blue"
+              path="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images/blue/tab_corner-top_left.gif"
+              md5sum="b85ca53219be195cd5cb82b91bd86549"
+              modified="1075898062" />
+        <file name="shopping-menu-icon.gif"
+              sub-directory="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_blue/files/default/file/design/shop/images/shopping-menu-icon.gif"
+              md5sum="8f7e905fc5c8efcebd029a2c277b112d"
+              modified="1075898063" />
+        <file name="README"
+              sub-directory="var/shop/storage/packages/shop_blue/documents"
+              path="var/shop/storage/packages/shop_blue/documents/README"
+              md5sum="a32ad1bd08639b894c90e6a83199046a"
+              modified="1075898064" />
+        <file name="package.xml"
+              sub-directory="var/shop/storage/packages/shop_red"
+              path="var/shop/storage/packages/shop_red/package.xml"
+              md5sum="912d08baef87a17df9683c328405927e"
+              modified="1075898064" />
+        <file name="shop.css"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/stylesheets"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/stylesheets/shop.css"
+              md5sum="c371d8b8f2565806890260a8a9db7c08"
+              modified="1075898065" />
+        <file name="thumbnail.png"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/thumbnail"
+              path="var/shop/storage/packages/shop_red/files/default/thumbnail/thumbnail.png"
+              md5sum="816c5021d0c4ceea3aff6c360c836e33"
+              modified="1075898065" />
+        <file name="left_sidebar-background.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/left_sidebar-background.gif"
+              md5sum="32be4d8a04bdb9f2ff32cd681f4ece5f"
+              modified="1075898066" />
+        <file name="tab_corner-top_left.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/tab_corner-top_left.gif"
+              md5sum="fe68e87cfb480ac59fb2adc5a0b5cfd4"
+              modified="1075898067" />
+        <file name="tab_corner-top_right.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/tab_corner-top_right.gif"
+              md5sum="ff3e23151e89be2c49d677632ceda6c5"
+              modified="1075898067" />
+        <file name="header-background-top_right.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/header-background-top_right.gif"
+              md5sum="5c86a416f1a70599ca4897a86f1bbc09"
+              modified="1075898068" />
+        <file name="header-background-top_left.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/header-background-top_left.gif"
+              md5sum="3d0e1d2dc808f2b4422f185cc4c72c81"
+              modified="1075898068" />
+        <file name="shopping-menu-icon.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/shopping-menu-icon.gif"
+              md5sum="8f7e905fc5c8efcebd029a2c277b112d"
+              modified="1075898069" />
+        <file name="half_white-transparent.gif"
+              sub-directory="var/shop/storage/packages/shop_red/files/default/file/design/shop/images"
+              path="var/shop/storage/packages/shop_red/files/default/file/design/shop/images/half_white-transparent.gif"
+              md5sum="82ac3a8a5ad62d1d431a6bec8c4cfd96"
+              modified="1075898069" />
+        <file name="README"
+              sub-directory="var/shop/storage/packages/shop_red/documents"
+              path="var/shop/storage/packages/shop_red/documents/README"
+              md5sum="faa7392366e1c579342b90c12777e6c9"
+              modified="1075898070" />
+        <file name="classes.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB/classes.png"
+              md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
+              modified="1075898070" />
+        <file name="classes_large.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB/classes_large.png"
+              md5sum="308956d63568e5ece6c6315fb874ad62"
+              modified="1075898071" />
+        <file name="classes_reference.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/classes/103-11-eng-GB/classes_reference.png"
+              md5sum="308956d63568e5ece6c6315fb874ad62"
+              modified="1075898072" />
+        <file name="cache.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB/cache.png"
+              md5sum="57f62f207f87dcfba03b5e5f15d7277c"
+              modified="1075898072" />
+        <file name="cache_large.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB/cache_large.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898073" />
+        <file name="cache_reference.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/cache/324-5-eng-GB/cache_reference.png"
+              md5sum="b50f25f8204789e505c23462353d21e7"
+              modified="1075898074" />
+        <file name="look_and_feel.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel.png"
+              md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
+              modified="1075898075" />
+        <file name="look_and_feel_large.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel_large.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898075" />
+        <file name="look_and_feel_reference.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/look_and_feel/109-11-eng-GB/look_and_feel_reference.png"
+              md5sum="7db9d692bde53cb63369368ace09982d"
+              modified="1075898076" />
+        <file name="url_translator.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator.png"
+              md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
+              modified="1075898077" />
+        <file name="url_translator_large.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator_large.png"
+              md5sum="dc614228a9c17b4c36f5fe2d236dc92e"
+              modified="1075898077" />
+        <file name="url_translator_reference.png"
+              sub-directory="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB"
+              path="var/shop/storage/images/setup/setup_links/url_translator/328-4-eng-GB/url_translator_reference.png"
+              md5sum="dc614228a9c17b4c36f5fe2d236dc92e"
+              modified="1075898078" />
+        <file name="shop_logo.gif"
+              sub-directory="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB"
+              path="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB/shop_logo.gif"
+              md5sum="541d4acab1e41e3e6288167259346fe1"
+              modified="1075898079" />
+        <file name="shop_medium.gif"
+              sub-directory="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB"
+              path="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB/shop_medium.gif"
+              md5sum="541d4acab1e41e3e6288167259346fe1"
+              modified="1075898079" />
+        <file name="shop.gif"
+              sub-directory="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB"
+              path="var/shop/storage/images/setup/look_and_feel/shop/152-59-eng-GB/shop.gif"
+              md5sum="98c09af6f73c794aeb93a547f6b0f7ea"
+              modified="1075898080" />
+      </file-list>
+      <file-list type="thumbnail">
+        <file name="thumbnail.png"
+              path="design/shop/images/shop-red.png"
+              md5sum="816c5021d0c4ceea3aff6c360c836e33"
+              modified="1075898081" />
+      </file-list>
+    </collection>
+  </files>
+  <version xmlns:ezversion="http://ez.no/ezpackage">
+    <number modified="1075898057">1.0</number>
+    <release modified="1075898057">1</release>
+  </version>
+  <licence modified="1075898057">GPL</licence>
+  <state modified="1075898057">alpha</state>
+  <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
+    <provides>
+      <provide type="ezfile"
+               name="collection"
+               value="default"
+               modified="1075898057" />
+    </provides>
+    <requires>
+      <require type="ezdb"
+               name="mysql"
+               modified="1075898060" />
+      <require type="ezdb"
+               name="postgresql"
+               modified="1075898060" />
+    </requires>
+    <obsoletes />
+    <conflicts />
+  </dependencies>
+  <install xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898057"
+          collection="default" />
+    <item type="sql"
+          modified="1075898060"
+          filename="shop.sql"
+          original-path="packages/shop.sql"
+          database-type="mysql" />
+    <item type="sql"
+          modified="1075898060"
+          filename="shop_postgresql.sql"
+          original-path="packages/shop_postgresql.sql"
+          database-type="postgresql" />
+  </install>
+  <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
+    <item type="ezfile"
+          modified="1075898057"
+          collection="default" />
+  </uninstall>
+</package>

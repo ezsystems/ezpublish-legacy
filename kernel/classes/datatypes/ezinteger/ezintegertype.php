@@ -66,8 +66,7 @@ class eZIntegerType extends eZDataType
     function eZIntegerType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_INTEGER, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_int' => 'value' ) ) );
+                           array( 'serialize_supported' => true ) );
         $this->IntegerValidator = new eZIntegerValidator();
     }
 
@@ -355,11 +354,6 @@ class eZIntegerType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
     /*!
      \return true if the datatype can be indexed
     */
@@ -382,6 +376,23 @@ class eZIntegerType extends eZDataType
     function &sortKeyType()
     {
         return 'int';
+    }
+
+    /*!
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( $objectAttribute )
+    {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        include_once( 'lib/ezxml/classes/ezdomnode.php' );
+
+        $node = new eZDOMNode();
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', 'ezinteger' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $objectAttribute->attribute( "data_int" ) ) );
+
+        return $node;
     }
 
     /*!
