@@ -11,6 +11,7 @@ Changes from 3.2-4 to 3.2-5
 - Fixed showing class in tabletes when using xml and table, th and td elements. http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
 - Fixed fetching objects using attribute_filter when fetching objects with multiple translations. 
   http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
+- Fixed ezxml literal imput bug when using &amp;, &quot;, etc. http://ez.no/developer/ez_publish_3/bug_reports/html_no_break_space_in_literal_block_doesn_t_work
 
 *Setup:
 

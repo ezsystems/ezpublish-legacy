@@ -1369,12 +1369,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Type = EZ_NODE_TYPE_TEXT;
 
                     // convert special chars
-                    $tagContent =& str_replace("&gt;", ">", $tagContent );
-                    $tagContent =& str_replace("&lt;", "<", $tagContent );
-                    $tagContent =& str_replace("&apos;", "'", $tagContent );
-                    $tagContent =& str_replace("&quot;", '"', $tagContent );
-                    $tagContent =& str_replace("&amp;", "&", $tagContent );
-                    $tagContent =& str_replace("&nbsp;", " ", $tagContent );
+                    if ( $justName != 'literal' )
+                    {
+                        $tagContent =& str_replace("&gt;", ">", $tagContent );
+                        $tagContent =& str_replace("&lt;", "<", $tagContent );
+                        $tagContent =& str_replace("&apos;", "'", $tagContent );
+                        $tagContent =& str_replace("&quot;", '"', $tagContent );
+                        $tagContent =& str_replace("&amp;", "&", $tagContent );
+                        $tagContent =& str_replace("&nbsp;", " ", $tagContent );
+                    }
 
                     $subNode->Content = $tagContent;
                     $domDocument->registerElement( $subNode );
