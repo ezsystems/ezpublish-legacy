@@ -678,20 +678,26 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                       &$installData )
     {
         $this->Package =& $package;
-        $this->installContentObjects( $content->elementByName( 'object-list' ),
-                                      $content->elementByName( 'top-node-list' ),
-                                      $installParameters );
+        if ( !$this->installContentObjects( $content->elementByName( 'object-list' ),
+                                            $content->elementByName( 'top-node-list' ),
+                                            $installParameters ) )
+            return false;
 
-        $this->installTemplates( $content->elementByName( 'template-list' ),
-                                 $package,
-                                 $subdirectory,
-                                 $installParameters );
+        if ( !$this->installTemplates( $content->elementByName( 'template-list' ),
+                                       $package,
+                                       $subdirectory,
+                                       $installParameters ) )
+            return false;
 
-        $this->installOverrides( $content->elementByName( 'override-list' ),
-                                 $installParameters );
+        if ( !$this->installOverrides( $content->elementByName( 'override-list' ),
+                                       $installParameters ) )
+            return false;
 
-        $this->installFetchAliases( $content->elementByName( 'fetch-alias-list' ),
-                                    $installParameters );
+        if ( !$this->installFetchAliases( $content->elementByName( 'fetch-alias-list' ),
+                                          $installParameters ) )
+            return false;
+
+        return true;
     }
 
     /*!
@@ -712,6 +718,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
         }
+        return true;
     }
 
     /*!
@@ -728,7 +735,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         if ( !$templateList )
         {
-            return;
+            return true;
         }
         include_once( 'kernel/common/eztemplatedesignresource.php' );
 
@@ -770,11 +777,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $destinationPath = $siteAccessDesignPathArray[$newSiteAccess] . $fileNode->elementTextContentByName('path');
 
             eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-            eZFileHandler::copy( $sourcePath, $destinationPath );
+            if ( !eZFileHandler::copy( $sourcePath, $destinationPath ) )
+                return false;
 
             eZDebug::writeNotice( 'Copied: "' . $sourcePath . '" to: "' . $destinationPath . '"',
                                   'eZContentObjectPackageHandler::installTemplates()' );
         }
+        return true;
     }
 
     /*!
@@ -789,7 +798,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         if ( !$overrideListNode )
         {
-            return;
+            return true;
         }
 
         $overrideINIArray = array();
@@ -865,6 +874,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             $overrideINIArray[$siteAccess]->save();
         }
+
+        return true;
     }
 
     /*!
@@ -879,7 +890,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         if ( !$fetchAliasListNode )
         {
-            return;
+            return true;
         }
 
         $fetchAliasINIArray = array();
@@ -945,6 +956,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             $fetchAliasINIArray[$siteAccess]->save();
         }
+
+        return true;
     }
 
     /*!

@@ -1939,6 +1939,7 @@ class eZPackage
         if ( isset( $parameters['content'] ) )
             $content = $parameters['content'];
         $handler =& $this->packageHandler( $type );
+        $installResult = false;
         if ( $handler )
         {
             if ( $handler->extractInstallContent() )
@@ -1968,6 +1969,7 @@ class eZPackage
                                                 $content, $installParameters,
                                                 $installData );
         }
+        return $installResult;
     }
 
     /*!
@@ -1980,12 +1982,17 @@ class eZPackage
         $installs = $this->Parameters['install'];
         if ( !isset( $installParameters['path'] ) )
             $installParameters['path'] = false;
+        $installResult = true;
         foreach ( $installs as $install )
         {
-            $this->installItem( $install, $installParameters );
+            if ( !$this->installItem( $install, $installParameters ) )
+            {
+                $installResult = false;
+            }
         }
         $this->Parameters['is_installed'] = true;
         $this->store();
+        return $installResult;
     }
 
     function uninstall( $uninstallParameters = array() )
