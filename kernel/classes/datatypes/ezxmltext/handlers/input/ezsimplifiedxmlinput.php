@@ -149,7 +149,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
 
-//             eZDebug::writeDebug($data, "input data");
             // Set original input to a global variable
             $originalInput = "originalInput_" . $contentObjectAttributeID;
             $GLOBALS[$originalInput] = $data;
@@ -397,7 +396,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 $domString =& eZXMLTextType::domString( $dom );
 
-//                 eZDebug::writeDebug( $domString, "unprocessed xml" );
                 $domString = preg_replace( "#<paragraph> </paragraph>#", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
                 $domString = str_replace ( "<line />" , "", $domString );
@@ -408,13 +406,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domString = preg_replace( "#[\n]+#", "", $domString );
                 $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
                 $domString = preg_replace( "#&lt;paragraph&gt;#", "\n\n", $domString );
-//                 eZDebug::writeDebug( $domString, "domstring" );
 
                 $xml = new eZXML();
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
                 $domString = eZXMLTextType::domString( $tmpDom );
 
-//                eZDebug::writeDebug($domString, "stored xml");
                 $contentObjectAttribute->setAttribute( "data_text", $domString );
                 $contentObjectAttribute->setValidationLog( $message );
 
@@ -796,8 +792,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
-        eZDebug::writeDebug( $text );
-
         $message = array();
         // fix newlines
         // Convet windows newlines
@@ -1033,7 +1027,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $currentNode =& $subNode;
                             $lastInsertedNodeTag = "line";
                             $lastInsertedChildTag = $childTag;
-//                             eZDebug::writeDebug( "line tag added");
                         }
 
                         // If end tag header found, add paragraph node.
