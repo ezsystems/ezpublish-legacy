@@ -68,7 +68,7 @@ class eZMediaType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        if ( $currentVersion !== false )
+        if ( $currentVersion != false )
         {
             $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
