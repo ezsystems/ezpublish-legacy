@@ -2202,7 +2202,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     a$filterCount.contentobject_id = ezcontentobject.id AND
                                        a$filterCount.version = ezcontentobject.current_version AND
                                        a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                       a$filterCount.language_code = '".eZContentObject::defaultLanguage()."' AND ";
+                                       a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
                             }
 
                         }
@@ -2353,9 +2353,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             } // end of 'if ( is_array( $filterArray ) )'
         }
 
-        $versionNameTables = '';
-        $versionNameTargets = '';
-        $versionNameJoins = '';
+        $onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
+        $language         = ( isset( $params['Language'] ) ) ? $params['Language']           : false;
+
+        $useVersionName     = true;
+        $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+        $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
 
         // Determine whether we should show invisible nodes.
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
@@ -2425,7 +2429,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentclass.version=0 AND
                             $notEqParentString
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                            ezcontentclass.id = ezcontentobject.contentclass_id
+                            ezcontentclass.id = ezcontentobject.contentclass_id AND
                             $versionNameJoins
                             $showInvisibleNodesCond
                             $sqlPermissionCheckingString ";
@@ -2450,9 +2454,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentclass.version=0 AND
                            $notEqParentString
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
-                           ezcontentclass.id = ezcontentobject.contentclass_id
-                           $showInvisibleNodesCond
-                           $versionNameJoins ";
+                           ezcontentclass.id = ezcontentobject.contentclass_id AND
+                           $versionNameJoins
+                           $showInvisibleNodesCond ";
         }
 
         $nodeListArray = $db->arrayQuery( $query );

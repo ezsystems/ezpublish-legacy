@@ -223,6 +223,8 @@ eZInformationCollection:
 - Fixed problem with the popupmenu not handling cases with dynamic substitutevalue changing.
 - Fixed bug #6221: Media node linked wrongly in upgrade.
   (Merged from stable/3.5 (3.5.2) rev. 11176)
+- Fixed bug #6375: Tree count and non translated tree.
+  (Merged from stable/3.5 (3.5.2) rev. 11184)
 
 *Library:
 PDF:

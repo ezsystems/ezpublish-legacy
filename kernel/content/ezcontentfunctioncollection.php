@@ -267,7 +267,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array,
+    function &fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,
                                     $attributeFilter, $depth, $depthOperator,
                                     $ignoreVisibility, $limitation, $mainNodeOnly )
     {
@@ -290,6 +290,8 @@ class eZContentFunctionCollection
                                                                             'DepthOperator' => $depthOperator,
                                                                             'Depth' => $depth,
                                                                             'IgnoreVisibility' => $ignoreVisibility,
+                                                                            'OnlyTranslated' => $onlyTranslated,
+                                                                            'Language' => $language,
                                                                             'MainNodeOnly' => $mainNodeOnly ),
                                                                      $parentNodeID );
         }
