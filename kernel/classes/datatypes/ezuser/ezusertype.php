@@ -194,6 +194,10 @@ class eZUserType extends eZDataType
             $password = false;
             $passwordConfirm = false;
         }
+        else
+        {
+            $http->setSessionVariable( "GeneratedPassword", $password );
+        }
         eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
         $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
         $contentObjectAttribute->setContent( $user );
