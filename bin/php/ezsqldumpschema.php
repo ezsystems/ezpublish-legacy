@@ -180,6 +180,16 @@ if ( file_exists( $database ) and is_file( $database ) )
         $schema =& eZDBSchema::read( $options['schema-file'], false );
         $schemaArray['schema'] = $schema;
     }
+
+    if ( $includeSchema and
+         ( !isset( $schemaArray['schema'] ) or
+           !$schemaArray['schema'] ) )
+    {
+        $cli->error( "No schema was found in file $database" );
+        $cli->error( "Specify --output-types=data if you are interested in data only" );
+        $script->shutdown( 1 );
+    }
+
     if ( $schemaArray === false )
     {
         eZDebug::writeError( "Error reading schema from file $database" );
