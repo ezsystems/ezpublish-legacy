@@ -367,6 +367,7 @@ Resource Acquisition Node
 5 - Extra Parameters (array or false)
 6 - Placement Array
 7 - Parameters
+8 - New rootnamespace
 
 ******************************************************
 * Variable element definitions

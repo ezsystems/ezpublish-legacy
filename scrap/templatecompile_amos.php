@@ -11,68 +11,134 @@ include_once( 'kernel/common/eztemplatedesignresource.php' );
 $tpl->registerResource( eZTemplateDesignResource::instance() );
 $tpl->registerResource( eZTemplateDesignResource::standardInstance() );
 $designResource =& eZTemplateDesignResource::instance();
-eZTemplateDesignResource::setDesignStartPath( "scrap/design" );
+//eZTemplateDesignResource::setDesignStartPath( "scrap/design" );
 
 error_reporting ( E_ALL );
 
 $tpl->autoload();
 
-class MyObject
+class ContentObject
 {
-    function MyObject()
+    function ContentObject( $id, $name, $attributes )
     {
-        $this->Sub = new MySubObject();
+        $this->ID = $id;
+        $this->Name = $name;
+        $this->Attributes = $attributes;
     }
 
     function hasAttribute( $name )
     {
-        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'sub', 'is_information_collector' ) );
+        return in_array( $name, array( 'id', 'name', 'attributes' ) );
+    }
+
+    function attribute( $name )
+    {
+        if ( $name == 'name' )
+            return $this->Name;
+        else if ( $name == 'attributes' )
+            return $this->Attributes;
+        else if ( $name == 'id' )
+            return $this->ID;
+        return null;
+    }
+}
+
+class ContentObjectAttribute
+{
+    function ContentObjectAttribute( $id, $dataText = false, $dataInt = false )
+    {
+        $this->ID = $id;
+//         $this->DataTypeString = $dataTypeString;
+//         $this->Name = $name;
+        $this->DataText = $dataText;
+        $this->DataInt = $dataInt;
+        $this->ClassAttribute = false;
+    }
+
+    function hasAttribute( $name )
+    {
+        return in_array( $name, array( 'edit_template', 'view_template',
+                                       'name', 'contentclass_attribute',
+                                       'data_type_string',
+                                       'id', 'data_text', 'data_int' ) );
     }
 
     function attribute( $name )
     {
         if ( $name == 'edit_template' )
-            return 'edit';
+            return $this->ClassAttribute->attribute( 'data_type_string' );
         else if ( $name == 'view_template' )
-            return 'view';
+            return $this->ClassAttribute->attribute( 'data_type_string' );
         else if ( $name == 'name' )
-            return 'MyObject';
-        else if ( $name == 'sub' )
-            return $this->Sub;
-        else if ( $name == 'is_information_collector' )
-            return false;
+            return $this->ClassAttribute->attribute( 'name' );
+        else if ( $name == 'contentclass_attribute' )
+            return $this->ClassAttribute;
+        else if ( $name == 'id' )
+            return $this->ID;
+        else if ( $name == 'data_text' )
+            return $this->DataText;
+        else if ( $name == 'data_int' )
+            return $this->DataInt;
         return null;
     }
 }
 
-class MySubObject
+class ContentClassAttribute
 {
+    function ContentClassAttribute( $id, $dataTypeString, $name, $isInformationCollector )
+    {
+        $this->ID = $id;
+        $this->DataTypeString = $dataTypeString;
+        $this->Name = $name;
+        $this->IsInformationCollector = $isInformationCollector;
+//         $this->DataText = $dataText;
+//         $this->DataInt = $dataInt;
+    }
+
     function hasAttribute( $name )
     {
-        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'is_information_collector' ) );
+        return in_array( $name, array( 'edit_template', 'view_template',
+                                       'data_type_string',
+                                       'id', 'name', 'is_information_collector' ) );
     }
 
     function attribute( $name )
     {
         if ( $name == 'edit_template' )
-            return 'edit_sub';
+            return $this->DataTypeString;
         else if ( $name == 'view_template' )
-            return 'view_sub';
+            return $this->DataTypeString;
+        else if ( $name == 'data_type_string' )
+            return $this->DataTypeString;
         else if ( $name == 'name' )
-            return 'MySubObject';
+            return $this->Name;
+        else if ( $name == 'id' )
+            return $this->ID;
         else if ( $name == 'is_information_collector' )
-            return true;
+            return $this->IsInformationCollector;
+//         else if ( $name == 'data_text' )
+//             return $this->DataText;
+//         else if ( $name == 'data_int' )
+//             return $this->DataInt;
         return null;
     }
 }
 
-$myobj = new MyObject();
-$myobj2 = new MySubObject();
+$cattribute1 = new ContentClassAttribute( 2, 'ezstring', 'Title', false );
+$cattribute2 = new ContentClassAttribute( 3, 'eztext', 'Message', true );
 
-$tpl->setVariable( 'obj', $myobj );
-$tpl->setVariable( 'obj2', $myobj2 );
+$attribute1 = new ContentObjectAttribute( 5, 'New article' );
+$attribute1->ClassAttribute = $cattribute1;
+$attribute2 = new ContentObjectAttribute( 6, 'Cool site' );
+$attribute2->ClassAttribute = $cattribute2;
 
-$designResource->setKeys( array( array( 'section', 2 ),
+$attributes1 = array( $attribute1, $attribute2 );
+$object1 = new ContentObject( 2, 'New article', $attributes1 );
+
+$tpl->setVariable( 'object', $object1 );
+
+$designResource->setKeys( array( array( 'object' => $object1->attribute( 'id' ) ),
+                                 array( 'section', 2 ),
                                  array( 'node' , 42 ) ) );
 
 print( $tpl->fetch( 'scrap/templatecompile_amos.tpl' ) . "\n" );
