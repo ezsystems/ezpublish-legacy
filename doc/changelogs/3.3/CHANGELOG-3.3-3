@@ -1,6 +1,7 @@
-Changes from 3.3-1 to 3.3-2
+Changes from 3.3-2 to 3.3-3
 
 *Kernel:
+- Fixed problem with section last-value, it was set to current item
 - Fixed eZImageType::metaData
 - Fixed eZObjectRelationList::metaData
 - Fixed eZSelection::metaData

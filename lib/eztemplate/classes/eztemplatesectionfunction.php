@@ -487,7 +487,7 @@ class eZTemplateSectionFunction
                 $variableValue = new eZTemplateSectionIterator();
             $last = false;
             if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
-                $last =& $tpl->variable( $variableIterator, $name );
+                $last = $tpl->variable( $variableIterator, $name );
             $variableValue->setIteratorValues( $item, $key, $index, $index + 1, false, $last );
 //             $variableValue = array( 'key' => $key,
 //                                     'item' => $item,
