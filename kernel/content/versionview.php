@@ -77,7 +77,7 @@ $class =& eZContentClass::fetch( $classID );
 
 $parents =& $node->attribute( 'path' );
 
-$classes =& eZContentClass::fetchList( $version = 0, $as_object = true, $user_id = false,
+$classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
                                        array("name"=>"name"), $fields = null );
 
 $Module->setTitle( "View " . $class->attribute( "name" ) . " - " . $object->attribute( "name" ) );

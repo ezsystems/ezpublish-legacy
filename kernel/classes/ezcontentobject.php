@@ -214,47 +214,47 @@ class eZContentObject extends eZPersistentObject
     }
 
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObject::definition(),
                                                 null,
                                                 array( "id" => $id ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     /*!
       Returns the current version of this document.
     */
-    function &currentVersion( $as_object = true )
+    function &currentVersion( $asObject = true )
     {
-        return eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $as_object );
+        return eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
     }
 
     /*!
       Returns the given object version. False is returned if the versions does not exist.
     */
-    function version( $version, $as_object = true )
+    function version( $version, $asObject = true )
     {
-        return eZContentObjectVersion::fetchVersion( $version, $this->ID, $as_object );
+        return eZContentObjectVersion::fetchVersion( $version, $this->ID, $asObject );
     }
 
     /*!
       Returns the given object version.
     */
-    function versions( $as_object = true )
+    function versions( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                     null, array( "contentobject_id" => $this->ID
                                                                  ),
                                                     null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function &createInitialVersion( $userID )
@@ -391,20 +391,20 @@ class eZContentObject extends eZPersistentObject
     /*
      Fetch all attributes of all versions belongs to a contentObject.
     */
-    function &allContentObjectAttributes( $contentObjectID, $as_object = true )
+    function &allContentObjectAttributes( $contentObjectID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null,
                                                     array("contentobject_id" => $contentObjectID ),
                                                     null,
                                                     null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function &contentObjectAttributes( $as_object=true )
+    function &contentObjectAttributes( $asObject=true )
     {
         $db =& eZDB::instance();
 

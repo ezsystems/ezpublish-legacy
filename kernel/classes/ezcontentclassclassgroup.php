@@ -93,17 +93,17 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                  "contentclass_version" =>$contentclass_version ) );
     }
 
-    function &fetch( $contentclass_id, $contentclass_version, $group_id, $as_object = true )
+    function &fetch( $contentclass_id, $contentclass_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentClassClassGroup::definition(),
                                                 null,
                                                 array("contentclass_id" => $contentclass_id,
                                                       "contentclass_version" =>$contentclass_version,
                                                       "group_id" => $group_id ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchClassList( $contentclass_version, $group_id, $as_object = true )
+    function &fetchClassList( $contentclass_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                     null,
@@ -111,10 +111,10 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                            "group_id" => $group_id ),
                                                     null,
                                                     null,
-                                                    $as_object);
+                                                    $asObject);
     }
 
-    function &fetchGroupList( $contentclass_id, $contentclass_version, $as_object = true )
+    function &fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                     null,
@@ -122,7 +122,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                            "contentclass_version" =>$contentclass_version ),
                                                     null,
                                                     null,
-                                                    $as_object);
+                                                    $asObject);
     }
 
     /// \privatesection

@@ -86,13 +86,13 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "name" => "ezcontentobject_attribute" );
     }
 
-    function &fetch( $id, $version, $as_object = true, $field_filters = null )
+    function &fetch( $id, $version, $asObject = true, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
                                                 array( "id" => $id,
                                                        "version" => $version ),
-                                                $as_object );
+                                                $asObject );
     }
 
     function create( $contentclassAttributeID, $contentobjectID, $version = 1 )
@@ -144,15 +144,16 @@ class eZContentObjectAttribute extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
-    function &language( $languageCode = "no_NO", $as_object=true )
+    function &language( $languageCode = false, $asObject=true )
     {
+        $languageCode = eZContentObject::defaultLanguage();
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
                                                 array( "contentclassattribute_id" => $this->ContentClassAttributeID ,
                                                        "version" => $this->Version ,
                                                        "language_code" => $languageCode
                                                        ),
-                                                $as_object );
+                                                $asObject );
     }
 
     /*!

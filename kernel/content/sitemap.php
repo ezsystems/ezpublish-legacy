@@ -88,7 +88,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 
 $tpl =& templateInit();
 
-//$classes =& eZContentClass::fetchList( $version = 0, $as_object = true, $user_id = false,
+//$classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
 //            array("name"=>"name"), $fields = null );
 $parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
 $parentContentObject = $parentNode->attribute( 'contentobject' );

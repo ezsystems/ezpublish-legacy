@@ -106,7 +106,7 @@ class eZPersistentObject
 
     /*!
      Creates an SQL query out of the different parameters and returns an object with the result.
-     If \a $as_object is true the returned item is an object otherwise a db row.
+     If \a $asObject is true the returned item is an object otherwise a db row.
      Uses fetchObjectList for the actual SQL handling and just returns the first row item.
     */
     function &fetchObject( /*! The definition structure */
@@ -115,14 +115,14 @@ class eZPersistentObject
                                $field_filters,
                                /*! An array of conditions which determines which rows are fetched*/
                                $conds,
-                               $as_object = true,
+                               $asObject = true,
                                /*! An array of elements to group by */
                                $grouping = null,
                                /*! An array of extra fields to fetch, each field may be a SQL operation */
                                $custom_fields = null )
     {
         $rows =& eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
-                                                      array(), null, $as_object,
+                                                      array(), null, $asObject,
                                                       $grouping, $custom_fields );
         return $rows[0];
     }
@@ -315,7 +315,7 @@ class eZPersistentObject
 
     /*!
      Creates an SQL query out of the different parameters and returns an array with the result.
-     If \a $as_object is true the array contains objects otherwise a db row.
+     If \a $asObject is true the array contains objects otherwise a db row.
     */
     function &fetchObjectList( /*! The definition structure */
                                &$def,
@@ -327,7 +327,7 @@ class eZPersistentObject
                                $sorts = null,
                                /*! Offset and limit */
                                $limit = null,
-                               $as_object = true,
+                               $asObject = true,
                                /*! An array of elements to group by */
                                $grouping = false,
                                /*! An array of extra fields to fetch, each field may be a SQL operation */
@@ -423,12 +423,12 @@ class eZPersistentObject
                                   $db_params );
 
 
-        return eZPersistentObject::handleRows( $rows, $class_name, $as_object );
+        return eZPersistentObject::handleRows( $rows, $class_name, $asObject );
     }
 
-    function &handleRows( &$rows, $class_name, $as_object )
+    function &handleRows( &$rows, $class_name, $asObject )
     {
-        if ( $as_object )
+        if ( $asObject )
         {
             $classes = array();
             foreach ( $rows as $row )

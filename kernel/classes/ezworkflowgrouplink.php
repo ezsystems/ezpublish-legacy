@@ -92,17 +92,17 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                  "workflow_version" =>$workflow_version ) );
     }
 
-    function &fetch( $workflow_id, $workflow_version, $group_id, $as_object = true )
+    function &fetch( $workflow_id, $workflow_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowGroupLink::definition(),
                                                 null,
                                                 array("workflow_id" => $workflow_id,
                                                       "workflow_version" =>$workflow_version,
                                                       "group_id" => $group_id ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchWorkflowList( $workflow_version, $group_id, $as_object = true )
+    function &fetchWorkflowList( $workflow_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,
@@ -110,10 +110,10 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                            "group_id" => $group_id ),
                                                     null,
                                                     null,
-                                                    $as_object);
+                                                    $asObject);
     }
 
-    function &fetchGroupList( $workflow_id, $workflow_version, $as_object = true )
+    function &fetchGroupList( $workflow_id, $workflow_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,
@@ -121,7 +121,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                            "workflow_version" =>$workflow_version ),
                                                     null,
                                                     null,
-                                                    $as_object);
+                                                    $asObject);
     }
 
     /// \privatesection

@@ -84,7 +84,7 @@ class eZContentClassGroup extends eZPersistentObject
                                           array( "id" => $id ) );
     }
 
-    function &fetch( $id, $user_id = false, $as_object = true )
+    function &fetch( $id, $user_id = false, $asObject = true )
     {
         $conds = array( "id" => $id );
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -92,17 +92,17 @@ class eZContentClassGroup extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
                                                 null,
                                                 $conds,
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $user_id = false, $as_object = true )
+    function &fetchList( $user_id = false, $asObject = true )
     {
         $conds = array();
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
         return eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
                                                     null, $conds, null, null,
-                                                    $as_object);
+                                                    $asObject );
     }
 
     var $ID;

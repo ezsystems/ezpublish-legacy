@@ -113,7 +113,7 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
     $data = $tpldata["data"];
-    $as_object = isset( $data["as_object"] ) ? $data["as_object"] : true;
+    $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $sort = isset( $data["sort"] ) ? $data["sort"] : null;
     $fields = isset( $data["fields"] ) ? $data["fields"] : null;
     $base = $tpldata["http_base"];
@@ -127,7 +127,7 @@ foreach( $TemplateData as $tpldata )
             {
                 unset( $list );
                 $list =& eZContentClass::fetchList( $list_versions[$data["command"]],
-                                                    $as_object, $user->attribute( "id" ),
+                                                    $asObject, $user->attribute( "id" ),
                                                     $sort, $fields );
                 removeSelectedClasses( $http, $list, $base );
                 $tpl->setVariable( $tplname, $list );

@@ -88,10 +88,10 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
     $data = $tpldata["data"];
-    $as_object = isset( $data["as_object"] ) ? $data["as_object"] : true;
+    $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $base = $tpldata["http_base"];
     unset( $list );
-    $list =& eZWorkflowGroup::fetchList( $as_object );
+    $list =& eZWorkflowGroup::fetchList( $asObject );
     removeSelectedGroups( $http, $list, $base );
     $tpl->setVariable( $tplname, $list );
 }

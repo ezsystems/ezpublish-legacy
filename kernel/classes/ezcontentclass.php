@@ -169,7 +169,7 @@ class eZContentClass extends eZPersistentObject
             {
                 $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute("id"),
                                                                              $this->attribute("version"),
-                                                                             $as_object = true);
+                                                                             $asObject = true);
                 return $this->InGroups;
             } break;
             case "group_list":
@@ -296,7 +296,7 @@ class eZContentClass extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
-    function &fetch( $id, $as_object = true, $version = 0, $user_id = false ,$parent_id = null )
+    function &fetch( $id, $asObject = true, $version = 0, $user_id = false ,$parent_id = null )
     {
         $conds = array( "id" => $id,
                         "version" => $version );
@@ -320,7 +320,7 @@ class eZContentClass extends eZPersistentObject
     /*!
      \static
     */
-    function &fetchList( $version = 0, $as_object = true, $user_id = false,
+    function &fetchList( $version = 0, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null )
     {
         $conds = array();
@@ -330,10 +330,10 @@ class eZContentClass extends eZPersistentObject
             $conds["creator_id"] = $user_id;
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                     $fields, $conds, $sorts, null,
-                                                    $as_object);
+                                                    $asObject);
     }
 
-    function &fetchAttributes( $id = false, $as_object = true, $version = 0 )
+    function &fetchAttributes( $id = false, $asObject = true, $version = 0 )
     {
         if ( $id === false )
         {

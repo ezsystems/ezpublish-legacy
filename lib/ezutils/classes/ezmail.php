@@ -512,7 +512,7 @@ class eZMail
      /*
       Returns the first folder that this mail is a member of.
      */
-    function folder( $as_object = true )
+    function folder( $asObject = true )
     {
         return false;
     }

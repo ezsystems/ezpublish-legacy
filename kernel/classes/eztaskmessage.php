@@ -89,12 +89,12 @@ class eZTaskMessage extends eZPersistentObject
         return new eZTaskMessage( $row );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTaskMessage::definition(),
                                                 null,
                                                 array( "id" => $id ),
-                                                $as_object );
+                                                $asObject );
     }
 
     function hasAttribute( $attr )

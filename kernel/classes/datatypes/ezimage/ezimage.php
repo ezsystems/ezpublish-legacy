@@ -150,7 +150,7 @@ class eZImage extends eZPersistentObject
         return new eZImage( $row );
     }
 
-    function &fetch( $id, $version = null, $as_object = true )
+    function &fetch( $id, $version = null, $asObject = true )
     {
         if( $version == null )
         {
@@ -159,7 +159,7 @@ class eZImage extends eZPersistentObject
                                                         array( "contentobject_attribute_id" => $id ),
                                                         null,
                                                         null,
-                                                        $as_object );
+                                                        $asObject );
         }
         else
         {
@@ -167,7 +167,7 @@ class eZImage extends eZPersistentObject
                                                     null,
                                                     array( "contentobject_attribute_id" => $id,
                                                            "version" => $version ),
-                                                    $as_object );
+                                                    $asObject );
         }
     }
 

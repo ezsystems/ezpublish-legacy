@@ -112,7 +112,7 @@ class eZBinaryFile extends eZPersistentObject
         return new eZBinaryFile( $row );
     }
 
-    function &fetch( $id, $version, $as_object = true )
+    function &fetch( $id, $version, $asObject = true )
     {
         if( $version == null )
         {
@@ -121,7 +121,7 @@ class eZBinaryFile extends eZPersistentObject
                                                         array( "contentobject_attribute_id" => $id ),
                                                         null,
                                                         null,
-                                                        $as_object );
+                                                        $asObject );
         }
         else
         {
@@ -129,7 +129,7 @@ class eZBinaryFile extends eZPersistentObject
                                                     null,
                                                     array( "contentobject_attribute_id" => $id,
                                                            "version" => $version ),
-                                                    $as_object );
+                                                    $asObject );
         }
     }
 

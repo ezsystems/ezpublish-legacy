@@ -69,20 +69,20 @@ class eZSection extends eZPersistentObject
     /*!
      \return the section object with the given id.
     */
-    function &fetch( $sectionID, $as_object = true )
+    function &fetch( $sectionID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZSection::definition(),
                                                 null,
                                                 array( "id" => $sectionID
                                                       ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function attribute( $attr )

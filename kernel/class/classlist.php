@@ -96,13 +96,13 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
     $data = $tpldata["data"];
-    $as_object = isset( $data["as_object"] ) ? $data["as_object"] : true;
+    $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $sort = isset( $data["sort"] ) ? $data["sort"] : null;
     $fields = isset( $data["fields"] ) ? $data["fields"] : null;
     $base = $tpldata["http_base"];
-    $classids = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $as_object = true);
+    $classids = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true);
     $classes_list = & eZContentClass::fetchList( 0,
-                                                 $as_object = true,
+                                                 $asObject = true,
                                                  $user->attribute( "id" ),
                                                  $sort,
                                                  $fields );
@@ -120,9 +120,9 @@ foreach( $TemplateData as $tpldata )
         }
     }
 
-    $temp_classids = & eZContentClassClassGroup::fetchClassList( 1, $GroupID, $as_object = true);
+    $temp_classids = & eZContentClassClassGroup::fetchClassList( 1, $GroupID, $asObject = true);
     $temp_classes_list = & eZContentClass::fetchList( 1,
-                                                 $as_object = true,
+                                                 $asObject = true,
                                                  $user->attribute( "id" ),
                                                       array("modified" => "modified"),
                                                  $fields );

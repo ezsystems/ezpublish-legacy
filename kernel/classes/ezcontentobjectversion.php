@@ -72,9 +72,9 @@ class eZContentObjectVersion extends eZPersistentObject
                       'name' => 'ezcontentobject_version' );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $as_object );
+        return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(), $id, $asObject );
     }
 
     function create( $contentobjectID, $userID = false, $version = 1 )
@@ -132,14 +132,14 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
 
-    function &fetchVersion( $version, $contentObjectID, $as_object = true )
+    function &fetchVersion( $version, $contentObjectID, $asObject = true )
     {
         $ret =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                    null, array( "version" => $version,
-                                                                 "contentobject_id" => $contentObjectID
+                                                     null, array( "version" => $version,
+                                                                  "contentobject_id" => $contentObjectID
                                                                  ),
-                                                    null, null,
-                                                     $as_object );
+                                                     null, null,
+                                                     $asObject );
 
         return $ret[0];
     }
@@ -169,13 +169,13 @@ class eZContentObjectVersion extends eZPersistentObject
      Returns the attributes for the current content object version.
      If \a $language is not specified it will use eZContentObject::defaultLanguage.
     */
-    function attributes( $language = false, $as_object = true )
+    function attributes( $language = false, $asObject = true )
     {
         if ( $language === false )
         {
             $language = eZContentObject::defaultLanguage();
         }
-        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $as_object );
+        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $asObject );
     }
 
     /*!
@@ -184,7 +184,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \static
      \sa attributes
     */
-    function fetchAttributes( $version, $contentObjectID, $language, $as_object = true )
+    function fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null, array( "version" => $this->Version,
@@ -192,7 +192,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                  "language_code" => $language
                                                                  ),
                                                     null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     /*!

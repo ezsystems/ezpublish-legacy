@@ -78,19 +78,19 @@ class eZWorkflowGroup extends eZPersistentObject
         return new eZWorkflowGroup( $row );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
                                                 null,
                                                 array( "id" => $id ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function &removeSelected ( $id )
@@ -99,12 +99,12 @@ class eZWorkflowGroup extends eZPersistentObject
                                           array( "id" => $id ) );
     }
 
-    /*  function &fetchWorkflowList( $as_object = true, $id = false )
+    /*  function &fetchWorkflowList( $asObject = true, $id = false )
     {
         if ( $id === false )
             $id = $this->attribute( "id" );
         $db =& eZDB::instance();
-        if ( $as_object )
+        if ( $asObject )
         {
             $def =& eZWorkflowGroup::definition();
             $fields =& $def['fields'];
@@ -129,7 +129,7 @@ WHERE ezworkflow_group_link.workflow_id=ezworkflow.id AND
 ORDER BY ezworkflow.name ASC";
         $rows =& $db->arrayQuery( $query );
         $workflows = array();
-        if ( $as_object )
+        if ( $asObject )
         {
             foreach( $rows as $row )
                 $workflows[] = new eZWorkflowGroup( $row );

@@ -103,10 +103,10 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
     $data = $tpldata["data"];
-    $as_object = isset( $data["as_object"] ) ? $data["as_object"] : true;
+    $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $base = $tpldata["http_base"];
     unset( $list );
-    $list =& eZContentClassGroup::fetchList( $user->attribute( "id" ), $as_object );
+    $list =& eZContentClassGroup::fetchList( $user->attribute( "id" ), $asObject );
     removeSelectedGroups( $http, $list, $base );
     $tpl->setVariable( $tplname, $list );
 }

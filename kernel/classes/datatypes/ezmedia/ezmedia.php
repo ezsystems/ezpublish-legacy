@@ -125,7 +125,7 @@ class eZMedia extends eZPersistentObject
         return new eZMedia( $row );
     }
 
-    function &fetch( $id, $version, $as_object = true )
+    function &fetch( $id, $version, $asObject = true )
     {
         if( $version == null )
         {
@@ -134,7 +134,7 @@ class eZMedia extends eZPersistentObject
                                                         array( "contentobject_attribute_id" => $id ),
                                                         null,
                                                         null,
-                                                        $as_object );
+                                                        $asObject );
         }
         else
         {
@@ -142,7 +142,7 @@ class eZMedia extends eZPersistentObject
                                                     null,
                                                     array( "contentobject_attribute_id" => $id,
                                                            "version" => $version ),
-                                                    $as_object );
+                                                    $asObject );
         }
     }
 

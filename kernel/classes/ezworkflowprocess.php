@@ -253,32 +253,32 @@ class eZWorkflowProcess extends eZPersistentObject
         eZPersistentObject::store();
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowProcess::definition(),
                                                 null,
                                                 array( 'id' => $id ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
-    function &fetchUserList( $user_id, $as_object = true )
+    function &fetchUserList( $user_id, $asObject = true )
     {
         $conds = array( 'user_id' => $user_id );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function &fetchForContent( $workflow_id, $user_id,
                                $content_id, $content_version, $node_id,
-                               $as_object = true )
+                               $asObject = true )
     {
         $conds = array( 'workflow_id' => $workflow_id,
                         'user_id' => $user_id,
@@ -287,7 +287,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         'node_id' => $node_id );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
 //     function &fetchListCount( $version = 0 )

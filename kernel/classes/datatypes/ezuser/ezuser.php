@@ -142,13 +142,13 @@ class eZUser extends eZPersistentObject
         }
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZUser::definition(),
                                                 null,
                                                 array( 'contentobject_id' => $id
                                                       ),
-                                                $as_object );
+                                                $asObject );
     }
 
     /*!
@@ -411,11 +411,11 @@ class eZUser extends eZPersistentObject
     /*!
      \return an array of id's with all the groups the user belongs to.
     */
-    function &groups( $as_object = false, $userID = false )
+    function &groups( $asObject = false, $userID = false )
     {
         $db =& eZDB::instance();
 
-        if ( $as_object == true )
+        if ( $asObject == true )
             eZDebug::writeError( 'Returning user groups as objects not implemented', 'ezuser' );
         else
         {

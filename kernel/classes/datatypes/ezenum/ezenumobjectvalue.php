@@ -103,17 +103,17 @@ class eZEnumObjectValue extends eZPersistentObject
                                                  "contentobject_attribute_version" => $contentObjectAttributeVersion ) );
     }
 
-    function &fetch( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid, $as_object = true )
+    function &fetch( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZEnumObjectValue::definition(),
                                                 null,
                                                 array(  "contentobject_attribute_id" => $contentObjectAttributeID,
                                                         "contentobject_attribute_version" => $contentObjectAttributeVersion,
                                                         "enumid" => $enumid ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion, $as_object = true )
+    function &fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZEnumObjectValue::definition(),
                                                     null,
@@ -121,7 +121,7 @@ class eZEnumObjectValue extends eZPersistentObject
                                                            "contentobject_attribute_version" => $contentObjectAttributeVersion ),
                                                     null,
                                                     null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     var $ContentObjectAttributeID;

@@ -79,13 +79,13 @@ class eZProductCollectionItem extends eZPersistentObject
         return new eZProductCollectionItem( $row );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
                                                 null,
                                                 array( "id" => $id
                                                       ),
-                                                $as_object );
+                                                $asObject );
     }
 
     function attribute( $attr )

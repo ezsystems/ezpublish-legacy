@@ -220,7 +220,7 @@ class eZWorkflow extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
-    function &fetch( $id, $as_object = true, $version = 0 )
+    function &fetch( $id, $asObject = true, $version = 0 )
     {
 //         $workflowDBData =& $GLOBALS["eZWorkflowDBData"];
 //         if ( !is_array( $workflowDBData ) )
@@ -232,22 +232,22 @@ class eZWorkflow extends eZPersistentObject
 //                                                      array( "id" => $id,
 //                                                             "version" => $version ),
 //                                                      false );
-//         if ( $as_object )
+//         if ( $asObject )
 //             return new eZWorkflow( $row );
 //         return $row;
         return eZPersistentObject::fetchObject( eZWorkflow::definition(),
                                                 null,
                                                 array( "id" => $id,
                                                        "version" => $version ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $version = 0, $enabled = 1, $as_object = true )
+    function &fetchList( $version = 0, $enabled = 1, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
                                                     null, array( "version" => $version,
                                                                  "is_enabled" => $enabled ), null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function &fetchListCount( $version = 0, $enabled = 1 )
@@ -279,7 +279,7 @@ class eZWorkflow extends eZPersistentObject
         return null;
     }
 
-    function &fetchEvents( $id = false, $as_object = true, $version = 0 )
+    function &fetchEvents( $id = false, $asObject = true, $version = 0 )
     {
         if ( $id === false )
         {
@@ -375,7 +375,7 @@ class eZWorkflow extends eZPersistentObject
             {
                 $this->InGroups =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                                         $this->attribute("version"),
-                                                                        $as_object = true );
+                                                                        $asObject = true );
                 return $this->InGroups;
             } break;
             case "group_list":

@@ -88,13 +88,13 @@ class eZWishList extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function &items( $as_object=true )
+    function &items( $asObject=true )
     {
         $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                        ),
                                                           null, null,
-                                                          $as_object );
+                                                          $asObject );
         return $items;
     }
 
@@ -108,7 +108,7 @@ class eZWishList extends eZPersistentObject
      Will return the wish list for the current user. If a wish list does not exist one will be created.
      \return current eZWishList object
     */
-    function &currentWishList( $as_object=true )
+    function &currentWishList( $asObject=true )
     {
         $http =& eZHTTPTool::instance();
 
@@ -118,7 +118,7 @@ class eZWishList extends eZPersistentObject
                                                           null, array( "user_id" => $userID
                                                                        ),
                                                           null, null,
-                                                          $as_object );
+                                                          $asObject );
 
         $currentWishList = false;
         if ( count( $WishListArray ) == 0 )

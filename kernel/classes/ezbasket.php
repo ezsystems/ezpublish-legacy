@@ -90,13 +90,13 @@ class eZBasket extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function &items( $as_object=true )
+    function &items( $asObject=true )
     {
         $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                        ),
                                                           null, null,
-                                                          $as_object );
+                                                          $asObject );
         return $items;
     }
 
@@ -123,7 +123,7 @@ class eZBasket extends eZPersistentObject
      Will return the basket for the current session. If a basket does not exist one will be created.
      \return current eZBasket object
     */
-    function &currentBasket( $as_object=true )
+    function &currentBasket( $asObject=true )
     {
         $http =& eZHTTPTool::instance();
         $sessionID = $http->sessionID();
@@ -132,7 +132,7 @@ class eZBasket extends eZPersistentObject
                                                           null, array( "session_id" => $sessionID
                                                                        ),
                                                           null, null,
-                                                          $as_object );
+                                                          $asObject );
 
         $currentBasket = false;
         if ( count( $basketList ) == 0 )

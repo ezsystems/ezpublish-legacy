@@ -69,20 +69,20 @@ class eZOrder extends eZPersistentObject
                       "name" => "ezorder" );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrder::definition(),
                                                 null,
                                                 array( "id" => $id
                                                       ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function attribute( $attr )
@@ -105,13 +105,13 @@ class eZOrder extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function &items( $as_object=true )
+    function &items( $asObject=true )
     {
         $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                        ),
                                                           null, null,
-                                                          $as_object );
+                                                          $asObject );
         return $items;
     }
 

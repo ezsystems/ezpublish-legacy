@@ -138,27 +138,27 @@ class eZContentClassAttribute extends eZPersistentObject
         return $stored;
     }
 
-    function &fetch( $id, $as_object = true, $version = 0, $field_filters = null )
+    function &fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentClassAttribute::definition(),
                                                 $field_filters,
                                                 array( 'id' => $id,
                                                        'version' => $version ),
-                                                $as_object );
+                                                $asObject );
     }
 
-    function &fetchList( $as_object = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                     null, null, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
-    function &fetchFilteredList( $cond, $as_object = true )
+    function &fetchFilteredList( $cond, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                     null, $cond, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     /*!

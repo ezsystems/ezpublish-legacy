@@ -90,7 +90,7 @@ foreach( array_keys( $workflows ) as $workflowID )
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();
 
-$list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $as_object = true);
+$list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 $workflow_list = & eZWorkflow::fetchList( );
 
 $list =array();
@@ -107,7 +107,7 @@ for ( $i=0;$i<count( $workflow_list );$i++ )
     }
 }
 
-$templist_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $as_object = true);
+$templist_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
 $tempworkflow_list = & eZWorkflow::fetchList( 1 );
 
 $temp_list =array();

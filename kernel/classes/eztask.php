@@ -146,12 +146,12 @@ class eZTask extends eZPersistentObject
         return new eZTask( $row );
     }
 
-    function &fetch( $id, $as_object = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTask::definition(),
                                                 null,
                                                 array( "id" => $id ),
-                                                $as_object );
+                                                $asObject );
     }
 
     function hasAttribute( $attr )
@@ -201,7 +201,7 @@ class eZTask extends eZPersistentObject
         return $user;
     }
 
-    function fetchMessages( $taskID = false, $as_object = true )
+    function fetchMessages( $taskID = false, $asObject = true )
     {
         if ( $taskID === false )
             $taskID = $this->ID;
@@ -215,7 +215,7 @@ class eZTask extends eZPersistentObject
         return $messageList;
     }
 
-    function &fetchList( $userID, $parent = 0, $incoming = true, $as_object = true )
+    function &fetchList( $userID, $parent = 0, $incoming = true, $asObject = true )
     {
         $conds = array();
         if ( $incoming )
@@ -230,7 +230,7 @@ class eZTask extends eZPersistentObject
         $conds['parent_task_id'] = $parent;
         return eZPersistentObject::fetchObjectList( eZTask::definition(),
                                                     null, $conds, null, null,
-                                                    $as_object );
+                                                    $asObject );
     }
 
     function updateTaskStatus( $taskList, $status, $userID )
