@@ -11,7 +11,7 @@
     {/section}
 
         <div class="attribute-short">
-           {attribute_view_gui attribute=$node.object.data_map.intro}
+           {attribute_view_gui attribute=$node.object.data_map.short_description}
         </div>
 
         <div class="attribute-price">

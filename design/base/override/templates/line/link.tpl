@@ -11,9 +11,9 @@
         </div>
     {/section}
 
-    {section show=ne( $node.object.data_map.link.content, '' )}
+    {section show=ne( $node.object.data_map.location.content, '' )}
         <div class="attribute-link">
-            <p><a href="{$node.object.data_map.link.content}">{$node.object.data_map.link.data_text}</a></p>
+            <p><a href="{$node.object.data_map.location.content}">{$node.object.data_map.location.data_text}</a></p>
         </div>
     {/section}
 

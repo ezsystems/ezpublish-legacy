@@ -11,7 +11,7 @@
         </div>
     {/section}
 
-        {attribute_view_gui attribute=$object.data_map.intro}
+        {attribute_view_gui attribute=$object.data_map.short_description}
 
         </div>
 

@@ -1,6 +1,6 @@
 {set-block scope=root variable=subject}{"Collected information from %1"|i18n("design/standard/content/edit",,array($collection.object.name))}{/set-block}
 
-{set-block scope=root variable=email_receiver}{$object.data_map.send_to_email.content}{/set-block}
+{set-block scope=root variable=email_receiver}{$object.data_map.recipient.content}{/set-block}
 
 {* Set this to redirect to another node
 {set-block scope=root variable=redirect_to_node_id}2{/set-block}
