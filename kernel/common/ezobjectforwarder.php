@@ -123,6 +123,39 @@ class eZObjectForwarder
         $extraParameters = array();
         if ( $resourceKeys !== false )
             $extraParameters['ezdesign:keys'] = $resourceKeys;
+        if ( is_array( $template_dir ) )
+        {
+            $templateRoot = $template_dir;
+            $template_dir = '';
+            if ( !isset( $templateRoot['type'] ) )
+                $tpl->error( $func_name,
+                             'No template root type defined' );
+            else if ( $templateRoot['type'] == 'multi_match' )
+            {
+                if ( !isset( $templateRoot['attributes'] ) )
+                    $tpl->error( $func_name,
+                                 'No template root attributes defined' );
+                else if ( !isset( $templateRoot['attributes'] ) )
+                    $tpl->error( $func_name,
+                                 'No template root matches defined' );
+                else
+                {
+                    $templateRootValue =& $tpl->variableAttribute( $input_var, $templateRoot['attributes'] );
+                    $templateRootMatches =& $templateRoot['matches'];
+                    foreach ( $templateRootMatches as $templateRootMatch )
+                    {
+                        if ( $templateRootMatch[0] == $templateRootValue )
+                        {
+                            $template_dir = $templateRootMatch[1];
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+                $tpl->error( $func_name,
+                             'Unknown template root type: ' . $templateRoot['type'] );
+        }
         if ( is_array( $attribute_access ) )
         {
             for ( $i = 0; $i < count( $attribute_access ) && !$res; ++$i )
