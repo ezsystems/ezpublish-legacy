@@ -91,6 +91,8 @@ eZINI:
   http://ez.no/community/bug_reports/wishlist_is_buggy  
 - Fixed bug of showing media controler when there is no media file.
   http://ez.no/community/bug_reports/view_of_media_datatype
+- Changed Webdav's 'PUT' to use the parent node's sectionID as sectionID for
+  the newly PUT object. (Merged from 3.4, rev. 6692)
 
 
 *Library:
