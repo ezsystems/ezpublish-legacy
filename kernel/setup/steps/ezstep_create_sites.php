@@ -100,11 +100,13 @@ class eZStepCreateSites extends eZStepInstaller
         for ( $counter = 0; $counter < $siteCount; ++$counter )
         {
             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
-            $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages/' . $sitePackage['identifier'] );
+            $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
             if ( $package )
             {
                 $package->install();
             }
+            else
+                eZDebug::writeError( "Failed fetching package " . $sitePackage['identifier'] );
         }
 
         $db->query ( 'show tables');

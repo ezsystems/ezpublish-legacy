@@ -18,7 +18,11 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <img src={concat( "/design/standard/images/setup/", $:item.image_file_name )|ezroot}>
+          {section show=$:item.image_file_name}
+            <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
+          {section-else}
+            <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />
+          {/section}
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">

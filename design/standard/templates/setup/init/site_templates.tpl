@@ -19,10 +19,10 @@
       <td class="setup_site_templates">
         <div align="top">
           {section show=$:item.image_file_name}
-            <img src={$:item.image_file_name|ezroot}>
+            <img src={$:item.image_file_name|ezroot} alt="{$:item.name|wash}" />
             <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="{$:item.image_file_name}" />
           {section-else}
-            <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
+            <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />
             <input type="hidden" name="eZSetup_site_templates[{$:index}][image]" value="" />
           {/section}
         </div>

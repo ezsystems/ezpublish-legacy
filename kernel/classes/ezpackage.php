@@ -398,7 +398,7 @@ class eZPackage
     function fileItemPath( $fileItem, $collectionName, $path = false )
     {
         if ( !$path )
-            $path = $this->path();
+            $path = $this->currentRepositoryPath();
         $typeDir = $fileItem['type'];
         if ( $fileItem['type'] == 'design' )
             $typeDir .= '.' . $fileItem['design'];
@@ -1224,7 +1224,7 @@ class eZPackage
 
     function install( $installParameters = array() )
     {
-        $installs = $this->Parameters['install']['pre'];
+        $installs = $this->Parameters['install'];
         foreach ( $installs as $install )
         {
             $type = $install['type'];
@@ -1232,7 +1232,7 @@ class eZPackage
             $os = $install['os'];
             $filename = $install['filename'];
             $subdirectory = $install['sub-directory'];
-            $parameters = $install['parameters'];
+            $parameters = $install;
             $content = false;
             if ( isset( $parameters['content'] ) )
                 $content = $parameters['content'];
@@ -1256,7 +1256,7 @@ class eZPackage
                             print( "Failed fetching dom from file $filepath\n" );
                     }
                 }
-                $installResult = $handler->install( $this, $partType, $parameters,
+                $installResult = $handler->install( $this, $type, $parameters,
                                                     $name, $os, $filename, $subdirectory,
                                                     $content, $installParameters );
             }

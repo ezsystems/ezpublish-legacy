@@ -63,27 +63,34 @@ class eZDBPackageHandler extends eZPackageHandler
                       $name, $os, $filename, $subdirectory,
                       &$content, $installParameters )
     {
+        print( "ezdb:install=$installType<br/>" );
         if ( $installType == 'sql' )
         {
             $path = $package->path();
+            $databaseType = false;
+            if ( isset( $parameters['database-type'] ) )
+                $databaseType = $parameters['database-type'];
             $path .= '/' . eZDBPackageHandler::sqlDirectory();
-            $path .= '/' . $filename;
+            if ( $databaseType )
+                $path .= '/' . $databaseType;
             if ( file_exists( $path ) )
             {
                 $db =& eZDB::instance();
                 $canInsert = true;
-                if ( isset( $parameters['database-type'] ) and
-                     $parameters['database-type'] != $db->databaseName() )
+                if ( $databaseType and
+                     $databaseType != $db->databaseName() )
                     $canInsert = false;
                 if ( $canInsert )
                 {
-                    print( "install SQL $path\n" );
-                    $db->insertFile( $path );
+                    eZDebug::writeDebug( "Installing SQL file $path/$filename" );
+                    $db->insertFile( $path, $filename, false );
                     return true;
                 }
+                else
+                    eZDebug::writeDebug( "Skipping SQL file $path/$filename" );
             }
             else
-                print( "could not find SQL $path\n" );
+                eZDebug::writeError( "Could not find SQL file $path/$filename" );
         }
         return false;
     }

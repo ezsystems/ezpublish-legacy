@@ -171,12 +171,15 @@ class eZDBInterface
      the currently connected database.
      \return \c true if succesful.
     */
-    function insertFile( $path, $sqlFile )
+    function insertFile( $path, $sqlFile, $usePathType = true )
     {
         $type = $this->databaseName();
 
         include_once( 'lib/ezutils/classes/ezdir.php' );
-        $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
+        if ( $usePathType )
+            $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
+        else
+            $sqlFileName = eZDir::path( array( $path, $sqlFile ) );
         $sqlFileHandler = fopen( $sqlFileName, 'r' );
         $buffer = '';
         $done = false;

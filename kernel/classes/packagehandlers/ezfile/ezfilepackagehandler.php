@@ -67,16 +67,22 @@ class eZFilePackageHandler extends eZPackageHandler
         {
             foreach ( $fileList as $fileItem )
             {
-                $filePath = $package->fileItemPath( $fileItem, $collectionName );
-                if ( is_dir( $filePath ) )
+                if ( $fileItem['type'] == 'thumbnail' )
                 {
-                    $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
-                    eZDir::mkdir( $newFilePath, eZDir::directoryPermission(), true );
                 }
                 else
                 {
-                    $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
-                    eZFileHandler::copy( $filePath, $newFilePath );
+                    $filePath = $package->fileItemPath( $fileItem, $collectionName );
+                    if ( is_dir( $filePath ) )
+                    {
+                        $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                        eZDir::mkdir( $newFilePath, eZDir::directoryPermission(), true );
+                    }
+                    else
+                    {
+                        $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                        eZFileHandler::copy( $filePath, $newFilePath );
+                    }
                 }
             }
         }
