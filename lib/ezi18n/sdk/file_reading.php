@@ -15,7 +15,7 @@ $files = array( array( "file" => "file1.txt",
                 array( "file" => "file3.txt",
                        "charset" => "utf8" ) );
 
-print( "&#8482;&trade;" );
+// print( "&#8482;&trade;" );
 
 foreach( $files as $fileItem )
 {

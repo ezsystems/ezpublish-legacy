@@ -52,6 +52,6 @@ the <b>$db->escapeString()</b> function.
   // commit the transaction
   $db->commit();
 
-  // fetch the last automatical incremented value
+  // fetch the last automatically incremented value
   $rowID = $db->lastSerialID( "sql_test", "id" );
 </pre>

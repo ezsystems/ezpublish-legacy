@@ -113,12 +113,12 @@ print( "
 <form action=\"\" method=\"post\" name=\"CodepageMapping\">
 <p>
 Mapping from one codepage to another can be done using the eZCodePageMapper class,
-it provides instantantious mapping from one character code in one charset to the
+it provides instantaneous mapping from one character code in one charset to the
 code in the other charset.
 </p>
 <p>
 Table <b>1</b> shows the charset to map from, table <b>2</b> shows the charset to map to
-and table <b>3</b> shows the characters which could be mapped.
+and table <b>3</b> shows the characters that could be mapped.
 </p>
 
 <p class=\"footnote\">

@@ -10,13 +10,13 @@ to MySQL, PostgreSQL and Oracle.</p>
   SQL databases. The current supported databases are:</p>
  <ul><li>PostgreSQL</li><li>MySQL</li><li>Oracle</li></ul>
 
-<p>To make the it easier to support the different databases we've defined a subset
+<p>To make it easier to support the different databases we have defined a subset
 of SQL data types to use. The types used are:</p>
 <ul>
 <li>int - integers, date and time as UNIX timestamp, enums and boolean</li>
 <li>float - float and prices</li>
-<li>varchar - short text strings ( < 255 chars )</li>
-<li>text, clob in oracle - large text objects like article contents</li>
+<li>varchar - short text strings (less than 255 characters)</li>
+<li>text (clob in oracle) - large text objects like article contents</li>
 </ul>
 
 <p>To store date and time values ints are used. eZ locale is used to
@@ -24,14 +24,14 @@ of SQL data types to use. The types used are:</p>
   to worry about the different date and time formats used in the different
   databases.</p>
 
-<p>Auto incrementing numbers, sequences, are used to generate unique id's
-  for a table row. This functionality is abstracted as it works different
+<p>Auto incrementing numbers, sequences, are used to generate unique ids
+  for a table row. This functionality is abstracted as it works differently
   in the different databases.</p>
 
 <p>Limit and offset functionality is also abstracted by the eZ db library.</p>
 
 <p>eZ db is designed to use lowercase in all table/column names. This is
-  done to prevent errors as the different databases handles this differently,
+  done to prevent errors as the different databases handle this differently,
   especially when returning the data as an associative array.</p>
 
 <h2>Useful links</h2>

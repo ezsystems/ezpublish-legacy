@@ -122,6 +122,21 @@ class eZ1337Translator extends eZTranslatorHandler
             return null;
     }
 
+    /*!
+     \static
+     Initialize the bork translator if this is not allready done.
+    */
+    function &initialize()
+    {
+        $translator =& $GLOBALS["eZ1337Translator"];
+        if ( isset( $translator ) and get_class( $translator ) == "ez1337translator" )
+            return $translator;
+        $translator = new eZ1337Translator();
+        $man =& eZTranslatorManager::instance();
+        $man->registerHandler( $translator );
+        return $translator;
+    }
+
     /// \privatesection
     /// Contains the hash table with cached 1337 translations
     var $Messages;
