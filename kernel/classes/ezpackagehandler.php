@@ -48,16 +48,30 @@ class eZPackageHandler
     /*!
      Constructor
     */
-    function eZPackageHandler()
+    function eZPackageHandler( $handlerType, $parameters = array() )
     {
+        $parameters = array_merge( array( 'extract-install-content' => false ),
+                                   $parameters );
+        $this->ExtractInstallContent = $parameters['extract-install-content'];
+        $this->HandlerType = $handlerType;
     }
 
     /*!
      \virtual
+     \return true if the content of the install item should be extracted
+             from disk before the install() function is called.
     */
-    function extractContentBeforeInstall()
+    function extractInstallContent()
     {
-        return false;
+        return $this->ExtractInstallContent;
+    }
+
+    /*!
+     \return the name of the type this handler works for.
+    */
+    function handlerType()
+    {
+        return $this->HandlerType;
     }
 
     /*!
@@ -103,6 +117,28 @@ class eZPackageHandler
      \param $installType The type of install, can be \c 'install' or \c 'uninstall'
     */
     function createInstallNode( &$installNode, $installItem, $installType )
+    {
+    }
+
+    /*!
+     \pure
+     Parses the XML node \c $dependencyNode and fills in extra information not handled
+     by the package parser.
+     \param $dependencyParameters Reference to an array with must be filled with specific data for the current handler.
+     \param $dependencyType The type of dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
+    */
+    function parseDependencyNode( &$dependencyNode, &$dependencyParameters, $dependencySection )
+    {
+    }
+
+    /*!
+     \pure
+     Parses the XML node \c $installNode and fills in extra information not handled
+     by the package parser.
+     \param $installParameters Reference to an array which must be filled with specific data for the current handler.
+     \param $isInstall Is \c true if this is an install node, \c false if it is an uninstall node
+    */
+    function parseInstallNode( &$installNode, &$installParameters, $isInstall )
     {
     }
 }

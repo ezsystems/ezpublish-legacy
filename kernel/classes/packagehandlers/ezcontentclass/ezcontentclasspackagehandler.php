@@ -54,14 +54,14 @@ class eZContentClassPackageHandler extends eZPackageHandler
     */
     function eZContentClassPackageHandler()
     {
-        $this->eZPackageHandler();
+        $this->eZPackageHandler( 'ezcontentclass',
+                                 array( 'extract-install-content' => true ) );
     }
 
-    function extractContentBeforeInstall()
-    {
-        return true;
-    }
-
+    /*!
+     \reimp
+     Creates a new contentclass as defined in the xml structure.
+    */
     function install( &$package, $parameters,
                       $name, $os, $filename, $subdirectory,
                       &$content )
@@ -171,7 +171,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $package->appendInstall( 'ezcontentclass', false, false, true,
                                      'class-' . $classID, 'ezcontentclass',
                                      array( 'content' => $classNode ) );
-            $package->appendProvides( 'ezcontentclass', $class->attribute( 'identifier' ) );
+            $package->appendProvides( 'ezcontentclass', $this->handlerType(), $class->attribute( 'identifier' ) );
             $package->appendInstall( 'ezcontentclass', false, false, false,
                                      'class-' . $classID, 'ezcontentclass',
                                      array( 'content' => false ) );

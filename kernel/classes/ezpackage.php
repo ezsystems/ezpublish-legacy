@@ -49,6 +49,7 @@ include_once( 'lib/ezutils/classes/ezdir.php' );
 
 define( 'EZ_PACKAGE_VERSION', '3.2-1' );
 define( 'EZ_PACKAGE_DEVELOPMENT', true );
+define( 'EZ_PACKAGE_USE_CACHE', false );
 
 class eZPackage
 {
@@ -166,7 +167,7 @@ class eZPackage
                             $handler =& new $importClass;
                             $handlers[$partType] =& $handler;
                         }
-                        if ( $handler->extractContentBeforeInstall() )
+                        if ( $handler->extractInstallContent() )
                         {
                             if ( !$content and
                                  $filename )
@@ -409,22 +410,27 @@ class eZPackage
                                                   'modified' => $modified );
     }
 
-    function appendProvides( $name, $value,
+    function appendProvides( $type, $name, $value,
                              $parameters = false, $modified = null )
     {
-        $this->appendDependency( 'provides', $name, $value,
+        $this->appendDependency( 'provides', $type, $name, $value,
                                  $parameters, $modified );
     }
 
-    function appendDependency( $dependencyName, $name, $value,
+    function appendDependency( $dependencySection, $type, $name, $value,
                                $parameters = false, $modified = null )
     {
+        if ( !in_array( $dependencySection,
+                        array( 'provides', 'requires',
+                               'obsoletes', 'conflicts' ) ) )
+            return false;
         if ( $modified === null )
             $modified = mktime();
+        $parameters['type'] = $type;
         $parameters['name'] = $name;
         $parameters['value'] = $value;
         $parameters['modified'] = $modified;
-        $this->Parameters['dependencies'][$dependencyName][] = $parameters;
+        $this->Parameters['dependencies'][$dependencySection][] = $parameters;
     }
 
     function appendFileList( $files, $role = false, $subDirectory = false,
@@ -456,7 +462,9 @@ class eZPackage
         $installEntry['sub-directory'] = $subdirectory;
         if ( $installEntry['filename'] )
         {
-            $content = $installEntry['content'];
+            $content = false;
+            if ( isset( $installEntry['content'] ) )
+                $content = $installEntry['content'];
             if ( get_class( $content ) == 'ezdomnode' )
             {
                 $partContentNode =& $content;
@@ -692,31 +700,52 @@ class eZPackage
         if ( file_exists( $filePath ) )
         {
             $fileModification = filemtime( $filePath );
-            $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
+            $package = false;
             $cacheExpired = false;
-            if ( file_exists( $packageCachePath ) )
-            {
-                $cacheModification = filemtime( $packageCachePath );
-                if ( $cacheModification >= $fileModification )
-                {
-                    include( $packageCachePath );
-                    if ( isset( $Parameters ) and
-                         isset( $ModifiedParameters ) )
-                    {
-                        $package = new eZPackage( $Parameters );
-                        $package->ModifiedParameters = $ModifiedParameters;
-                        return $package;
-                    }
-                }
-                else
-                    $cacheExpired = true;
-            }
+            if ( eZPackage::useCache() )
+                $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
+            if ( $package )
+                return $package;
             $package =& eZPackage::fetchFromFile( $filePath );
-            if ( $cacheExpired )
+            if ( $cacheExpired and
+                 eZPackage::useCache() )
             {
                 $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
             }
             return $package;
+        }
+        return false;
+    }
+
+    function useCache()
+    {
+        return EZ_PACKAGE_USE_CACHE;
+    }
+
+    /*!
+     \private
+    */
+    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired )
+    {
+        $path = eZPackage::repositoryPath() . '/' . $packageName;
+        $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
+        $cacheExpired = false;
+        if ( file_exists( $packageCachePath ) )
+        {
+            $cacheModification = filemtime( $packageCachePath );
+            if ( $cacheModification >= $packageModification )
+            {
+                include( $packageCachePath );
+                if ( isset( $Parameters ) and
+                     isset( $ModifiedParameters ) )
+                {
+                    $package = new eZPackage( $Parameters );
+                    $package->ModifiedParameters = $ModifiedParameters;
+                    return $package;
+                }
+            }
+            else
+                $cacheExpired = true;
         }
         return false;
     }
@@ -809,32 +838,34 @@ class eZPackage
             $dir = opendir( $path );
             while( ( $file = readdir( $dir ) ) !== false )
             {
-                $dirPath = $path . '/' . $file;
                 if ( $file == '.' or
                      $file == '..' )
                     continue;
+                $dirPath = $path . '/' . $file;
                 if ( !is_dir( $dirPath ) )
                     continue;
                 $filePath = $dirPath . '/package.xml';
                 if ( file_exists( $filePath ) )
                 {
+                    $fileModification = filemtime( $filePath );
                     $name = $file;
                     $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
                     unset( $package );
                     $package = false;
-                    if ( file_exists( $packageCachePath ) )
-                    {
-                        include( $packageCachePath );
-                        if ( isset( $Parameters ) )
-                        {
-                            $package = new eZPackage( $Parameters );
-                        }
-                    }
+                    $cacheExpired = false;
+                    if ( eZPackage::useCache() )
+                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                     if ( !$package )
                     {
                         $package =& eZPackage::fetchFromFile( $filePath );
-                        $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                        if ( $cacheExpired and
+                             eZPackage::useCache() )
+                        {
+                            $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                        }
                     }
+                    if ( !$package )
+                        continue;
                     $packages[] =& $package;
                 }
             }
@@ -997,11 +1028,26 @@ class eZPackage
     /*!
      \private
     */
-    function parseDependencyTree( &$node, $name )
+    function parseDependencyTree( &$dependenciesList, $dependencySection )
     {
         foreach ( array_keys( $dependenciesList ) as $dependencyKey )
         {
             $dependencyNode =& $dependenciesList[$dependencyKey];
+            $dependencyType = $dependencyNode->attributeValue( 'type' );
+            $dependencyName = $dependencyNode->attributeValue( 'name' );
+            $dependencyValue = $dependencyNode->attributeValue( 'value' );
+            $dependencyModified = $dependencyNode->attributeValue( 'modified' );
+
+            $dependencyParameters = array();
+            $handler =& $this->packageHandler( $dependencyType );
+            if ( $handler )
+            {
+                $handler->parseDependencyNode( $dependencyNode, $dependencyParameters, $dependencySection );
+            }
+            if ( count( $dependencyParameters ) == 0 )
+                $dependencyParameters = false;
+            $this->appendDependency( $dependencySection, $dependencyType, $dependencyName, $dependencyValue,
+                                     $dependencyParameters, $dependencyModified );
         }
     }
 
@@ -1013,6 +1059,25 @@ class eZPackage
         for ( $i = 0; $i < count( $installList ); ++$i )
         {
             $installNode =& $installList[$i];
+            $installType = $installNode->attributeValue( 'type' );
+            $installName = $installNode->attributeValue( 'name' );
+            $installModified = $installNode->attributeValue( 'modified' );
+            $installFilename = $installNode->attributeValue( 'filename' );
+            $installSubdirectory = $installNode->attributeValue( 'sub-directory' );
+            $installOS = $installNode->attributeValue( 'os' );
+
+            $handler =& $this->packageHandler( $installType );
+            $installParameters = array();
+            if ( $handler )
+            {
+                $handler->parseInstallNode( $installNode, $installParameters, $isInstall );
+            }
+            if ( count( $installParameters ) == 0 )
+                $installParameters = false;
+
+            $this->appendInstall( $installType, $installName, $installOS, $isInstall,
+                                  $installFilename, $installSubdirectory,
+                                  $installParameters, $installModified );
         }
 //         $installType = $child->name();
 //         switch ( $installType )

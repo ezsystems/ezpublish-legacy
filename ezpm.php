@@ -381,6 +381,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                 help();
                 exit();
             }
+            $readOptions = false;
         }
         else
         {
@@ -566,6 +567,7 @@ foreach ( $commandList as $commandItem )
             $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
                           " (" . $package->attribute( 'ezpublish-version' ) . ")" );
             $cli->output( "Description : " . $package->attribute( 'description' ) );
+            print_r( $package->Parameters );
         }
         else
             $cli->output( "package " . $commandItem['name'] . " is not installed" );
