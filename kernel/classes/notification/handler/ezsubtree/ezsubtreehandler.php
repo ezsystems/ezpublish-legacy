@@ -123,6 +123,13 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         }
+	//    NRF FIX
+        if ( $contentObject->attribute( 'current_version' ) > 1 )
+        {
+            //echo "Skipping republish\n";
+            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+        }
+	//    end NRF FIX
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
         $tpl->resetVariables();
@@ -187,6 +194,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             }
         }
         $nodeIDList = array_unique( $nodeIDList );
+	$nodeIDList[] = $contentObject->attribute( 'node_id' ); // NRF fix
 
         $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
