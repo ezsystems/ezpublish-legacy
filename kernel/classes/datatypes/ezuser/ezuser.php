@@ -294,6 +294,14 @@ class eZUser extends eZPersistentObject
         if ( $limit )
             $parameters['limit'] = $limit;
         $sortText = '';
+        if ( $asObject )
+        {
+            $selectArray = array( "ezuser.*" );
+        }
+        else
+        {
+            $selectArray = array( "ezuser.contentobject_id as user_id", "ezcontentobject.name" );
+        }
         if ( $sortBy !== false )
         {
             $sortElements = array();
@@ -321,6 +329,12 @@ class eZUser extends eZPersistentObject
                         $sortColumn = "ezuser.login $orderText";
                     } break;
 
+                    case 'activity':
+                    {
+                        $selectArray[] = "( ezsession.expiration_time -  " . ( $sessionTimeout - $activityTimeout ) . " ) AS activity";
+                        $sortColumn = "activity $orderText";
+                    } break;
+
                     case 'email':
                     {
                         $sortColumn = "ezuser.email $orderText";
@@ -328,6 +342,7 @@ class eZUser extends eZPersistentObject
 
                     default:
                     {
+                        eZDebug::writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
                         $sortColumn = false;
                     } break;
                 }
@@ -339,7 +354,8 @@ class eZUser extends eZPersistentObject
         }
         if ( $asObject )
         {
-            $sql = "SELECT ezuser.*
+            $selectText = implode( ', ',  $selectArray );
+            $sql = "SELECT $selectText
 FROM ezsession, ezuser
 WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       ezsession.expiration_time > '$time' AND
@@ -354,7 +370,8 @@ $sortText";
         }
         else
         {
-            $sql = "SELECT ezuser.contentobject_id as user_id, ezcontentobject.name
+            $selectText = implode( ', ',  $selectArray );
+            $sql = "SELECT $selectText
 FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       ezsession.expiration_time > '$time' AND
