@@ -211,7 +211,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             include_once( $overrideCacheFile );
             $match['file'] = overrideFile( "/" . $path, $matchKeys );
-
         }
         else
         {
@@ -543,6 +542,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     function setKeys( $keys )
     {
         $this->mergeKeys( $this->Keys, $keys );
+    }
+
+    /*!
+     Removes the given key
+    */
+    function removeKey( $key )
+    {
+        if ( isset( $this->Keys[$key] ) )
+        unset( $this->Keys[$key] );
     }
 
     /*!
