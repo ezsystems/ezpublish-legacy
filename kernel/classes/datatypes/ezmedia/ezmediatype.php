@@ -338,10 +338,10 @@ class eZMediaType extends eZDataType
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute,  $name = "filename" )
+    function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
         $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
-                                            $contentObjectAttribute->attribute( "version" ) );
+                                      $contentObjectAttribute->attribute( "version" ) );
 
         if ( $mediaFile != null )
             $value = $mediaFile->attribute( $name );
