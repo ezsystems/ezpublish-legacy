@@ -1,4 +1,8 @@
 
+
+[SiteSettings]
+LoginPage=embeded
+
 [DatabaseSettings]
 DatabasePluginPath=
 # Use either ezmysql or ezpostgresql
