@@ -41,28 +41,60 @@
 The formatted datatypes store the data in XML. A typical example of this is shown below:
 \code
 <?xml version="1.0" encoding="utf-8" ?>
-<section>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/">
 <header>This is a level one header</header>
 <paragraph>
 This is a <emphasize>block</emphasize> of text.
 </paragraph>
   <section>
-  <header>This is a level two header</header>
+  <header class="foo">This is a level two header has classification "foo"</header>
   <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+  This is the second paragraph with <bold class="foo">bold text which has classification "foo"</bold>
   </paragraph>
   <header>This is a level two header</header>
   <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+    <line>Paragraph can have table</line>
+    <table class="foo" border='1' width='100%'>
+      <tr>
+        <th class="foo"><paragraph>table header of class "foo"</paragraph></th>
+        <td xhtml:width="66" xhtml:colspan="2" xhtml:rowspan="2">
+          <paragraph>table cell text</paragraph>
+        </td>
+      </tr>
+    </table>
   </paragraph>
   <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
+    <line>This is the first line with <anchor name="first">anchor</anchor></line>
+    <line>This is the second line with <link target="_self" id="1">link</link></line>
+    <line>This is the third line.</line>
   </paragraph>
   <paragraph>
-  <ul>
-     <li>List item 1</li>
-     <li>List item 2</li>
-  </ul>
+    <ul class="foo">
+       <li>List item 1</li>
+       <li>List item 2</li>
+    </ul>
+  </paragraph>
+  <paragraph>
+    <ol>
+       <li>Ordered list item 1</li>
+       <li>ordered list item 2</li>
+    </ol>
+  </paragraph>
+  <paragraph>
+    <line>Paragraph can have both inline custom tag <custom name="myInlineTag">text</custom> and block custom tag</line>
+    <custom name="myBlockTag">
+      <paragraph>
+        block text
+      </paragraph>
+    </custom>
+  </paragraph>
+  <paragraph>
+    Paragraph can have image object with link <object id="55" size="large" align="center" image:ezurl_id="4" />
+  </paragraph>
+  <paragraph>
+    You can use literal tag to write html code if you have done some changes in override system.
+    <literal class="html">&lt;font color=&quot;red&quot;&gt;red text&lt;/font&gt;</literal>
   </paragraph>
   <header>This is a level two header</header>
   </section>
