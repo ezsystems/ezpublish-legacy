@@ -2,7 +2,7 @@
 
 
 
-
+SET search_path = public, pg_catalog;
 
 
 
@@ -578,44 +578,44 @@ INSERT INTO ezrole VALUES (3, 0, 'Editor', ' ');
 
 
 
-INSERT INTO ezsearch_object_word_link VALUES (49, 11, 13, 0, 0, 0, 14, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (50, 11, 14, 0, 1, 13, 13, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (51, 11, 13, 0, 2, 14, 14, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (52, 11, 14, 0, 3, 13, 0, 3, 1033920746, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (53, 40, 15, 0, 0, 0, 15, 4, 1053613020, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (54, 40, 15, 0, 1, 15, 15, 4, 1053613020, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (55, 40, 15, 0, 2, 15, 15, 4, 1053613020, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (56, 40, 15, 0, 3, 15, 0, 4, 1053613020, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (57, 12, 16, 0, 0, 0, 17, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (58, 12, 17, 0, 1, 16, 16, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (59, 12, 16, 0, 2, 17, 17, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (60, 12, 17, 0, 3, 16, 0, 3, 1033920775, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (61, 14, 16, 0, 0, 0, 16, 4, 1033920830, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (62, 14, 16, 0, 1, 16, 18, 4, 1033920830, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (63, 14, 18, 0, 2, 16, 18, 4, 1033920830, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (64, 14, 18, 0, 3, 18, 0, 4, 1033920830, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (65, 13, 19, 0, 0, 0, 19, 3, 1033920794, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (66, 13, 19, 0, 1, 19, 0, 3, 1033920794, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (67, 42, 20, 0, 0, 0, 17, 3, 1072186198, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (68, 42, 17, 0, 1, 20, 20, 3, 1072186198, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (69, 42, 20, 0, 2, 17, 17, 3, 1072186198, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (70, 42, 17, 0, 3, 20, 18, 3, 1072186198, 2, 6, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (71, 42, 18, 0, 4, 17, 21, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (72, 42, 21, 0, 5, 18, 22, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (73, 42, 22, 0, 6, 21, 23, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (74, 42, 23, 0, 7, 22, 20, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (75, 42, 20, 0, 8, 23, 18, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (76, 42, 18, 0, 9, 20, 18, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (77, 42, 18, 0, 10, 18, 21, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (78, 42, 21, 0, 11, 18, 22, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (79, 42, 22, 0, 12, 21, 23, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (80, 42, 23, 0, 13, 22, 20, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (81, 42, 20, 0, 14, 23, 18, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (82, 42, 18, 0, 15, 20, 0, 3, 1072186198, 2, 7, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (83, 10, 20, 0, 0, 0, 20, 4, 1033920665, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (84, 10, 20, 0, 1, 20, 18, 4, 1033920665, 2, 8, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (85, 10, 18, 0, 2, 20, 18, 4, 1033920665, 2, 9, '', 0);
-INSERT INTO ezsearch_object_word_link VALUES (86, 10, 18, 0, 3, 18, 0, 4, 1033920665, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (87, 11, 24, 0, 0, 0, 25, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (88, 11, 25, 0, 1, 24, 24, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (89, 11, 24, 0, 2, 25, 25, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (90, 11, 25, 0, 3, 24, 0, 3, 1033920746, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (91, 40, 26, 0, 0, 0, 26, 4, 1053613020, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (92, 40, 26, 0, 1, 26, 26, 4, 1053613020, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (93, 40, 26, 0, 2, 26, 26, 4, 1053613020, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (94, 40, 26, 0, 3, 26, 0, 4, 1053613020, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (95, 12, 27, 0, 0, 0, 28, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (96, 12, 28, 0, 1, 27, 27, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (97, 12, 27, 0, 2, 28, 28, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (98, 12, 28, 0, 3, 27, 0, 3, 1033920775, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (99, 14, 27, 0, 0, 0, 27, 4, 1033920830, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (100, 14, 27, 0, 1, 27, 29, 4, 1033920830, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (101, 14, 29, 0, 2, 27, 29, 4, 1033920830, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (102, 14, 29, 0, 3, 29, 0, 4, 1033920830, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (103, 13, 30, 0, 0, 0, 30, 3, 1033920794, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (104, 13, 30, 0, 1, 30, 0, 3, 1033920794, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (105, 42, 31, 0, 0, 0, 28, 3, 1072186198, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (106, 42, 28, 0, 1, 31, 31, 3, 1072186198, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (107, 42, 31, 0, 2, 28, 28, 3, 1072186198, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (108, 42, 28, 0, 3, 31, 29, 3, 1072186198, 2, 6, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (109, 42, 29, 0, 4, 28, 32, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (110, 42, 32, 0, 5, 29, 33, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (111, 42, 33, 0, 6, 32, 34, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (112, 42, 34, 0, 7, 33, 31, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (113, 42, 31, 0, 8, 34, 29, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (114, 42, 29, 0, 9, 31, 29, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (115, 42, 29, 0, 10, 29, 32, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (116, 42, 32, 0, 11, 29, 33, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (117, 42, 33, 0, 12, 32, 34, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (118, 42, 34, 0, 13, 33, 31, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (119, 42, 31, 0, 14, 34, 29, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (120, 42, 29, 0, 15, 31, 0, 3, 1072186198, 2, 7, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (121, 10, 31, 0, 0, 0, 31, 4, 1033920665, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (122, 10, 31, 0, 1, 31, 29, 4, 1033920665, 2, 8, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (123, 10, 29, 0, 2, 31, 29, 4, 1033920665, 2, 9, '', 0);
+INSERT INTO ezsearch_object_word_link VALUES (124, 10, 29, 0, 3, 29, 0, 4, 1033920665, 2, 9, '', 0);
 
 
 
@@ -637,17 +637,17 @@ INSERT INTO ezsearch_object_word_link VALUES (86, 10, 18, 0, 3, 18, 0, 4, 103392
 
 
 
-INSERT INTO ezsearch_word VALUES (13, 'guest', 2);
-INSERT INTO ezsearch_word VALUES (14, 'accounts', 2);
-INSERT INTO ezsearch_word VALUES (15, 'test', 4);
-INSERT INTO ezsearch_word VALUES (16, 'administrator', 4);
-INSERT INTO ezsearch_word VALUES (19, 'editors', 2);
-INSERT INTO ezsearch_word VALUES (17, 'users', 4);
-INSERT INTO ezsearch_word VALUES (21, 'group', 2);
-INSERT INTO ezsearch_word VALUES (22, 'for', 2);
-INSERT INTO ezsearch_word VALUES (23, 'the', 2);
-INSERT INTO ezsearch_word VALUES (20, 'anonymous', 6);
-INSERT INTO ezsearch_word VALUES (18, 'user', 8);
+INSERT INTO ezsearch_word VALUES (24, 'guest', 2);
+INSERT INTO ezsearch_word VALUES (25, 'accounts', 2);
+INSERT INTO ezsearch_word VALUES (26, 'test', 4);
+INSERT INTO ezsearch_word VALUES (27, 'administrator', 4);
+INSERT INTO ezsearch_word VALUES (30, 'editors', 2);
+INSERT INTO ezsearch_word VALUES (28, 'users', 4);
+INSERT INTO ezsearch_word VALUES (32, 'group', 2);
+INSERT INTO ezsearch_word VALUES (33, 'for', 2);
+INSERT INTO ezsearch_word VALUES (34, 'the', 2);
+INSERT INTO ezsearch_word VALUES (31, 'anonymous', 6);
+INSERT INTO ezsearch_word VALUES (29, 'user', 8);
 
 
 
@@ -1247,7 +1247,7 @@ SELECT pg_catalog.setval ('ezrole_s', 5, true);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 86, true);
+SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 124, true);
 
 
 
@@ -1271,7 +1271,7 @@ SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
 
 
 
-SELECT pg_catalog.setval ('ezsearch_word_s', 23, true);
+SELECT pg_catalog.setval ('ezsearch_word_s', 34, true);
 
 
 
