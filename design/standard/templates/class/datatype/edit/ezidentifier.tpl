@@ -22,7 +22,7 @@
 </div>
 <div class="break"></div>
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_update_start_value]" value="{'Update start value'|i18n('design/standard/class/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_update_start_value]" value="{'Update identifier'|i18n('design/standard/class/datatype')}" />
 </div>
 <div class="break"></div>
 </div>
