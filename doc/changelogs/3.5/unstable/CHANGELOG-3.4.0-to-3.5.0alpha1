@@ -64,6 +64,10 @@ eztc.php:
 - Added parameter --force to force compilation of template files.
 - Added checks for directory and temp/hidden files.
 
+eztemplatecheck.php:
+- New PHP script bin/php/eztemplatecheck.php which validates template files.
+  (Merged from stable/3.4 rev. 7333)
+
 Workflow:
 - Fixed ezsimpleshipping event to work with the 'before' trigger confirmorder
   and not the 'after' trigger.
