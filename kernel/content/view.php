@@ -51,6 +51,9 @@ $Module =& $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 
+if ( $NodeID < 2 )
+    $NodeID = 2;
+
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
