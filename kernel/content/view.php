@@ -96,7 +96,6 @@ $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_
                                                                           'language_code' => $LanguageCode ) );
 eZDebug::addTimingPoint( 'Operation end' );
 
-
 switch( $operationResult['status'] )
 {
     case EZ_MODULE_OPERATION_CONTINUE:
@@ -166,6 +165,7 @@ switch( $operationResult['status'] )
             $Result['view_parameters'] =& $viewParameters;
             $Result['path'] =& $path;
             $Result['section_id'] =& $object->attribute( 'section_id' );
+            $Result['node_id'] =& $NodeID;
 
             if ( $viewCacheEnabled )
             {
