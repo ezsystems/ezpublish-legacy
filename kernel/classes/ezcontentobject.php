@@ -1905,7 +1905,7 @@ class eZContentObject extends eZPersistentObject
         {
             $mainNode =& $this->attribute( 'main_node' );
             // We do not allow removal of objects placed at top-level
-            if ( $mainNode->attribute( 'parent_node_id' ) <= 1 )
+            if ( $mainNode and $mainNode->attribute( 'parent_node_id' ) <= 1 )
             {
                 return 0;
             }

@@ -2042,7 +2042,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeListArray =& $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
-            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, false );
             $returnValue = $retNodeArray[0];
         }
         return $returnValue;
