@@ -161,7 +161,7 @@ class eZWordToImageOperator
                     }
                 }
 
-                $iconPath = '/' . $repository . '/' . $theme . '/' . $subdir . '/' . $size . '/' . $icon;
+                $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $subdir . '/' . $icon;
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
