@@ -3856,9 +3856,16 @@ INSERT INTO eznode_assignment VALUES (570, 1, 9, 1, 9, 1, 1, 0, 0);
 
 
 INSERT INTO ezpolicy VALUES (308, 2, '*', '*', '*');
-INSERT INTO ezpolicy VALUES (341, 8, 'read', 'content', '*');
 INSERT INTO ezpolicy VALUES (378, 1, 'read', 'content', ' ');
 INSERT INTO ezpolicy VALUES (377, 1, 'login', 'user', '*');
+INSERT INTO ezpolicy VALUES (379, 8, 'read', 'content', '*');
+INSERT INTO ezpolicy VALUES (380, 8, 'create', 'content', ' ');
+INSERT INTO ezpolicy VALUES (381, 8, 'edit', 'content', ' ');
+INSERT INTO ezpolicy VALUES (382, 8, 'create', 'content', ' ');
+INSERT INTO ezpolicy VALUES (383, 8, 'edit', 'content', ' ');
+INSERT INTO ezpolicy VALUES (384, 8, 'selfedit', 'user', '*');
+INSERT INTO ezpolicy VALUES (385, 8, 'password', 'user', '*');
+INSERT INTO ezpolicy VALUES (386, 8, 'use', 'notification', '*');
 
 
 
@@ -3867,6 +3874,18 @@ INSERT INTO ezpolicy VALUES (377, 1, 'login', 'user', '*');
 
 
 INSERT INTO ezpolicy_limitation VALUES (298, 378, 'Class', 0, 'read', 'content');
+INSERT INTO ezpolicy_limitation VALUES (299, 380, 'Class', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (300, 380, 'Section', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (301, 380, 'ParentClass', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (302, 381, 'Class', 0, 'edit', 'content');
+INSERT INTO ezpolicy_limitation VALUES (303, 381, 'Section', 0, 'edit', 'content');
+INSERT INTO ezpolicy_limitation VALUES (304, 381, 'Owner', 0, 'edit', 'content');
+INSERT INTO ezpolicy_limitation VALUES (305, 382, 'Class', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (306, 382, 'Section', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (307, 382, 'ParentClass', 0, 'create', 'content');
+INSERT INTO ezpolicy_limitation VALUES (308, 383, 'Class', 0, 'edit', 'content');
+INSERT INTO ezpolicy_limitation VALUES (309, 383, 'Section', 0, 'edit', 'content');
+INSERT INTO ezpolicy_limitation VALUES (310, 383, 'Owner', 0, 'edit', 'content');
 
 
 
@@ -3882,6 +3901,18 @@ INSERT INTO ezpolicy_limitation_value VALUES (580, 298, '10');
 INSERT INTO ezpolicy_limitation_value VALUES (579, 298, '5');
 INSERT INTO ezpolicy_limitation_value VALUES (578, 298, '2');
 INSERT INTO ezpolicy_limitation_value VALUES (577, 298, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (585, 299, '21');
+INSERT INTO ezpolicy_limitation_value VALUES (586, 300, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (587, 301, '20');
+INSERT INTO ezpolicy_limitation_value VALUES (588, 302, '21');
+INSERT INTO ezpolicy_limitation_value VALUES (589, 303, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (590, 304, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (591, 305, '22');
+INSERT INTO ezpolicy_limitation_value VALUES (592, 306, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (593, 307, '21');
+INSERT INTO ezpolicy_limitation_value VALUES (594, 308, '22');
+INSERT INTO ezpolicy_limitation_value VALUES (595, 309, '1');
+INSERT INTO ezpolicy_limitation_value VALUES (596, 310, '1');
 
 
 
@@ -7877,6 +7908,7 @@ INSERT INTO ezuser_role VALUES (29, 1, 10);
 INSERT INTO ezuser_role VALUES (25, 2, 12);
 INSERT INTO ezuser_role VALUES (28, 1, 11);
 INSERT INTO ezuser_role VALUES (34, 1, 13);
+INSERT INTO ezuser_role VALUES (35, 8, 11);
 
 
 
