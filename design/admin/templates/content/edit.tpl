@@ -83,10 +83,10 @@
 
     <div class="block">
     <select>
-        <option>This location is visible (current)</option>
-        <option>This location is hidden</option>
-        <option>All locations are visible</option>
-        <option>All locations are hidden</option>
+        <option>{'Publish current as visible'|i18n('design/admin/content/edit')} </option>
+        <option>{'Publish current as hidden'|i18n('design/admin/content/edit')} </option>
+        <option>{'Publish all as visible'|i18n('design/admin/content/edit')} </option>
+        <option>{'Publish all as hidden'|i18n('design/admin/content/edit')} </option>
     </select>
     {*<label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>*}
     </div>
