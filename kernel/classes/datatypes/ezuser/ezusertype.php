@@ -253,7 +253,7 @@ class eZUserType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject'];
+        $user =& $GLOBALS['eZUserObject_$userID'];
         if ( !isset( $user ) or
              get_class( $user ) != 'ezuser' )
             $user = eZUser::fetch( $userID );
