@@ -649,16 +649,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Check for class filtering
         $classCondition = '';
-        if ( !isset( $params['ClassFilterType'] ) )
-            $params['ClassFilterType'] = false;
-        if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
+
+        if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
+             ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
-            $gotInvalidClassIdentifier = false;
-            $classCondition = ' ( ';
+            $classCondition = '  ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
-
+            $classIDArray = array();
             foreach ( $params['ClassFilterArray'] as $classID )
             {
                 $originalClassID = $classID;
@@ -666,29 +665,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
-                    if ( is_numeric( $classID ) )
-                    {
-                        if ( $i > 0 )
-                        {
-                            if ( $params['ClassFilterType'] == 'include' )
-                                $classCondition .= " OR ";
-                            else
-                                $classCondition .= " AND ";
-                        }
-
-                        if ( $params['ClassFilterType'] == 'include' )
-                            $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
-                        else
-                            $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
-
-                        $i++;
-
-                    } else
-                        eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
-
+                if ( is_numeric( $classID ) )
+                {
+                    $classIDArray[] = $classID;
+                }
+                else
+                {
+                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                }
             }
-            $classCondition .= ' ) AND ';
+            if ( count( $classIDArray ) > 0  )
+            {
+                $classCondition .= " ezcontentobject.contentclass_id ";
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " IN ";
+                else
+                    $classCondition .= " NOT IN ";
+
+                $classIDString =  implode( ', ', $classIDArray );
+                $classCondition .= ' ( ' . $classIDString . ' ) AND';
+            }
         }
 
 
@@ -1269,16 +1266,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $ini =& eZINI::instance();
-        $classCondition = "";
+               // Check for class filtering
+        $classCondition = '';
+
         if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
              ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
-            $gotInvalidClassIdentifier = false;
-            $classCondition = ' ( ';
+            $classCondition = '  ';
             $i = 0;
             $classCount = count( $params['ClassFilterArray'] );
-
+            $classIDArray = array();
             foreach ( $params['ClassFilterArray'] as $classID )
             {
                 $originalClassID = $classID;
@@ -1286,30 +1284,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
-                    if ( is_numeric( $classID ) )
-                    {
-                        if ( $i > 0 )
-                        {
-                            if ( $params['ClassFilterType'] == 'include' )
-                                $classCondition .= " OR ";
-                            else
-                                $classCondition .= " AND ";
-                        }
-
-                        if ( $params['ClassFilterType'] == 'include' )
-                            $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
-                        else
-                            $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
-
-                        $i++;
-
-                    } else
-                        eZDebug::writeError("Invalid class identifier in subTreeCount() classfilterarray, classID : " . $originalClassID );
                 }
-
+                if ( is_numeric( $classID ) )
+                {
+                    $classIDArray[] = $classID;
+                }
+                else
+                {
+                    eZDebug::writeError("Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                }
             }
-            $classCondition .= ' ) AND ';
+            if ( count( $classIDArray ) > 0  )
+            {
+                $classCondition .= " ezcontentobject.contentclass_id ";
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " IN ";
+                else
+                    $classCondition .= " NOT IN ";
 
+                $classIDString =  implode( ', ', $classIDArray );
+                $classCondition .= ' ( ' . $classIDString . ' ) AND';
+            }
         }
 
         // Main node check
