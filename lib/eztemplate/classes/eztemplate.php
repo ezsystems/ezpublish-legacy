@@ -777,7 +777,12 @@ class eZTemplate
                         if ( is_array( $value ) )
                         {
                             if ( isset( $value[$attributeValue] ) )
-                                $value =& $value[$attributeValue];
+                            {
+                                unset( $tempValue );
+                                $tempValue =& $value[$attributeValue];
+                                unset( $value );
+                                $value =& $tempValue;
+                            }
                             else
                             {
                                 $this->error( "",
