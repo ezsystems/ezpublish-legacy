@@ -1,6 +1,9 @@
 Changes from 3.2-3 to 3.2-4
 
 *Kernel:
+- Fixed wrong include line in ezwordtoimageoperator.php
+- Added content_info structure to module result when the view is not cached, previously this was only available
+  when the view was cached and restored.
 
 *Bugfixes:
 
