@@ -8,7 +8,7 @@
     <td valign="top">
     <!-- Left part start -->
     <div class="maincontentheader">
-    <h1>{"Edit"|i18n("design/standard/content/edit")} {$class.name} - {$object.name}</h1>
+    <h1>{"Edit %1 - %2"|i18n("design/standard/content/edit",,array($class.name|wash,$object.name|wash))}</h1>
     </div>
 
     {include uri="design:content/edit_validation.tpl"}

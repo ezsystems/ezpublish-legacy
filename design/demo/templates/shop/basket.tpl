@@ -22,7 +22,7 @@
 	<td bgcolor="#{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
 
-	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name}</a>
+	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name|wash}</a>
 	</td>
 	<td bgcolor="#{$Basket:ProductItem:sequence}">
 	<input type="text" name="ProductItemCountList[]" value="{$Basket:ProductItem:item.item_count}" size="3" />

@@ -1,1 +1,1 @@
-{$version.name}
+{$version.name|wash}

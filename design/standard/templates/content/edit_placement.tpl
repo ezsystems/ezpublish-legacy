@@ -12,7 +12,7 @@
    <input type="hidden" name="SetRemoteIDFieldMap[1]" value="9" />
 
    <select name="SetPlacementNodeIDArray[2]">
-   {section loop=hash(0,"None",28,"Feature",29,"Intervjuet",30,"En artikkel i Feature")}
+   {section loop=hash(0,"None",28,"Feature",29,"Some place",30,"Another place")}
      <option value="{$:key}" {section show=eq($:list_node1,$:key)}selected="selected"{/section}>{$:item}</option>
    {/section}
    </select>
@@ -58,11 +58,11 @@
 	{/case}
 	{case}
         {section name=Path loop=$Node:parent_node.path}
-	{$Node:Path:item.name} /
+	{$Node:Path:item.name|wash} /
 	{/section}
-        {$Node:parent_node.name}
+        {$Node:parent_node.name|wash}
 	{/case}
-	{/switch} / {$object.name}
+	{/switch} / {$object.name|wash}
         </td>
         <td class="{$Node:sequence}">
           <select name="SortFieldMap[{$Node:item.id}]">

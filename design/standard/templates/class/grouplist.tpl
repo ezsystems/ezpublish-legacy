@@ -1,4 +1,4 @@
-<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"></a>
+<a href={"/sdk/tutorials/view/content_classes"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} alt="{'help'|i18n('design/standard/class/list')}" align="right"/></a>
 
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
@@ -16,9 +16,8 @@
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
 <tr>
-    <td class="{$Group:sequence}"><a href={concat($module.functions.classlist.uri,"/",$Group:item.id)|ezurl}>{$Group:item.name}</a></td>
-    <td class="{$Group:sequence}">
-{content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
+    <td class="{$Group:sequence}"><a href={concat($module.functions.classlist.uri,"/",$Group:item.id)|ezurl}>{$Group:item.name|wash}</a></td>
+    <td class="{$Group:sequence}">{content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td class="{$Group:sequence}"><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Group:sequence}" width="1"><div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Group:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
     <td class="{$Group:sequence}" width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$Group:item.id}"></td>

@@ -6,7 +6,7 @@
 {section name=Result loop=$confirm_list}
     <li>
       {"Removing '%1' will remove the translation itself and %2 translated versions!"|
-       i18n("design/standard/content",,hash("%1",$:item.translation.name|gt(0)|choose(concat($:item.translation.locale_object.language_name," ",$:item.translation.locale_object.language_comment),$:item.translation.name),
+       i18n("design/standard/content",,hash("%1",$:item.translation.name|gt(0)|choose(concat($:item.translation.locale_object.language_name," ",$:item.translation.locale_object.language_comment),$:item.translation.name|wash),
                                             "%2",$:item.count))}
       <input type="hidden" name="ConfirmTranlationID[]" value="{$Result:item.translation.id}" />
     </li>

@@ -57,9 +57,9 @@
 &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a href="{$Path:item.url}">{$Path:item.text}</a>
+        <a href="{$Path:item.url}">{$Path:item.text|wash}</a>
         {section-else}
-	    {$Path:item.text}
+	    {$Path:item.text|wash}
         {/section}
 
         {delimiter}
@@ -68,9 +68,9 @@
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a href="{$Path:item.url}">{$Path:Path:item.text}</a>
+        <a href="{$Path:item.url}">{$Path:Path:item.text|wash}</a>
         {section-else}
-	    {$Path:Path:item.text}
+	    {$Path:Path:item.text|wash}
         {/section}
 
         {delimiter}
@@ -96,7 +96,7 @@
     {section name=Page loop=$page_list}
     <tr>
         <td>
-        <a class="menuitem" href={concat("/content/view/full/",$Page:item.node_id,"/")|ezurl}>{$Page:item.name}</a>
+        <a class="menuitem" href={concat("/content/view/full/",$Page:item.node_id,"/")|ezurl}>{$Page:item.name|wash}</a>
         </td>
     </tr>    
     {/section}

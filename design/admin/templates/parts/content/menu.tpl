@@ -5,7 +5,7 @@
 <form method="post" action={"content/action"|ezurl}>
          <select name="ClassID" class="classcreate">
 	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
-	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	      <option value="{$Classes:item.id}">{$Classes:item.name|wash}</option>
 	      {/section}
          </select>
 	 <br />

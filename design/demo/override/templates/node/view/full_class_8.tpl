@@ -32,7 +32,7 @@
     {attribute_view_gui attribute=$Child:item.object.data_map.topic}
     </th>
     <th class="answerdateheader" style="background-color: #{$Child:sequence};" width="25%">
-    {$Child:item.object.published|l10n(shortdatetime)} <br />by {$Child:item.object.owner.name}
+    {$Child:item.object.published|l10n(shortdatetime)} <br />by {$Child:item.object.owner.name|wash}
     </th>
 </tr>
 <tr>

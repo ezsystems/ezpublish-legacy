@@ -8,7 +8,7 @@
     <table width="150" border="0" cellspacing="0" cellpadding="3">
     <tr>
        <td bgcolor="#cccccc" style="border-style: solid; border-width: 1px; border-color: black;">
-       <a href={concat('content/view/full/',$Forum:item.node_id,'/')|ezurl}<b>{$Forum:item.name}</b></td>
+       <a href={concat('content/view/full/',$Forum:item.node_id,'/')|ezurl}<b>{$Forum:item.name|wash}</b></td>
     <tr>
     <tr>
        <td align="center">

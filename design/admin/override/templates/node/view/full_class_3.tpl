@@ -15,7 +15,7 @@
 <tr>
 	<td>
  	<div class="maincontentheader">
-        <h1>{$node_name}</h1>
+        <h1>{$node_name|wash}</h1>
         </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
@@ -41,7 +41,7 @@
     {section show=$is_standalone}
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
-      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
+      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
       </div>
       {/section}
     {/section}
@@ -131,10 +131,10 @@
 {/case}
 {/switch}
 &nbsp;
-{$Child:item.name}</a>
+{$Child:item.name|wash}</a>
 </a>
 	</td>
-        <td class="{$Child:sequence}">{$Child:item.object.class_name}
+        <td class="{$Child:sequence}">{$Child:item.object.class_name|wash}
 	</td>
 	{section show=eq($node.sort_array[0][0],'priority')}
 	<td width="40" align="left" class="{$Child:sequence}">
@@ -217,7 +217,7 @@
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID" class="create">
 	      {section name=Classes loop=$user_class_list}
-	      <option value="{$:item.id}">{$:item.name}</option>
+	      <option value="{$:item.id}">{$:item.name|wash}</option>
 	      {/section}
          </select>
          <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />

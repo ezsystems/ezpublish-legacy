@@ -20,14 +20,14 @@
 {section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(FDF4D9,FDF1CE)}
 <tr>
     <td class="messagetopic" style="background-color: #{$Message:sequence};" width="75%">
-    <a href={concat('content/view/full/',$Message:item.node_id,'/')|ezurl}>{$Message:item.name}</a>
+    <a href={concat('content/view/full/',$Message:item.node_id,'/')|ezurl}>{$Message:item.name|wash}</a>
     {let list_count=fetch('content','tree_count',hash(parent_node_id,$Message:item.node_id))}
      ( {$Message:list_count} )
     {/let}
     </td>
     <td class="messageauthor" style="background-color: #{$Message:sequence};" width="25%">
     {$Message:item.object.published|l10n(shortdatetime)}<br />
-    by {$Message:item.object.owner.name}
+    by {$Message:item.object.owner.name|wash}
     </td>
 </tr>
 {/section}

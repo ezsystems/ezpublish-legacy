@@ -19,7 +19,7 @@
 
 <div class="byline">
     <p class="price">Our Price: {attribute_view_gui attribute=$map.price}</p>
-    <p class="number">Product nr: {attribute_view_gui attribute=$map.product_nr}</p>
+    <p class="number">Product nr: {attribute_view_gui attribute=$map.product_nr|wash}</p>
 </div>
 
     {attribute_view_gui attribute=$map.intro}
@@ -30,7 +30,7 @@
     <!-- Action START -->
     <div class="buttonblock">
     {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
-    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name}" />
+    <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
     {/section}
     </div>
     <!-- Action END -->

@@ -31,36 +31,36 @@
 
 <div class="block">
 <label>{"Your name"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="YourName" value="{$your_name}" />
+<input class="box" type="text" size="40" name="YourName" value="{$your_name|wash}" />
 </div>
 
 <div class="block">
 <label>{"Your email address"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="YourEmail" value="{$your_email}" />
+<input class="box" type="text" size="40" name="YourEmail" value="{$your_email|wash}" />
 </div>
 
 <br/>
 
 <div class="block">
 <label>{"Receivers name"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="ReceiversName" value="{$receivers_name}" />
+<input class="box" type="text" size="40" name="ReceiversName" value="{$receivers_name|wash}" />
 </div>
 
 <div class="block">
 <label>{"Receivers email address"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="ReceiversEmail" value="{$receivers_email}" />
+<input class="box" type="text" size="40" name="ReceiversEmail" value="{$receivers_email|wash}" />
 </div>
 
 <br/>
 
 <div class="block">
 <label>{"Subject"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<input class="box" type="text" size="40" name="Subject" value="{$subject}" />
+<input class="box" type="text" size="40" name="Subject" value="{$subject|wash}" />
 </div>
 
 <div class="block">
 <label>{"Comment"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<textarea class="box" cols="97" rows="15" name="Comment" value="{$comment}" />
+<textarea class="box" cols="97" rows="15" name="Comment" value="{$comment|wash}" />
 </div>
 
 <br/>

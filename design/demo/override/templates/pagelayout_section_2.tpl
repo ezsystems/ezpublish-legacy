@@ -67,8 +67,8 @@ function OpenWindow ( URL, WinName, Features ) {
     <td bgcolor="#e8e8e8">
     {section name=Gallery loop=$gallery_list}
   {section show=and(eq($DesignKeys:used.node,$Gallery:item.node_id),eq($DesignKeys:used.viewmode,'slideshow'))}
-{*  &nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name}</a>*}
-  <strong class="small">&nbsp;&nbsp;{$Gallery:item.name}</strong>
+{*  &nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name|wash}</a>*}
+  <strong class="small">&nbsp;&nbsp;{$Gallery:item.name|wash}</strong>
   {/section}
 {/section}
    &nbsp;
@@ -130,7 +130,7 @@ function OpenWindow ( URL, WinName, Features ) {
 </tr>
 {section-else}
                 <tr>
-                  <td bgcolor="#e2e2e2" class="small">&nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name}</a></td>
+                  <td bgcolor="#e2e2e2" class="small">&nbsp;<a href={concat("/content/view/thumbnail/",$Gallery:item.node_id)|ezurl}>{$Gallery:item.name|wash}</a></td>
                 </tr>
 {/section}
 

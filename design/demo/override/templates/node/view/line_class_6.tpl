@@ -4,7 +4,7 @@
 <table class="forumfront" width="150" border="0" cellspacing="0" cellpadding="3">
 <tr>
    <th class="forumheader">
-   <a href={concat('content/view/full/',$node.node_id,'/')|ezurl}>{$node_name}</a>
+   <a href={concat('content/view/full/',$node.node_id,'/')|ezurl}>{$node_name|wash}</a>
    </th>
 <tr>
 <tr>

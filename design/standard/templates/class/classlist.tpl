@@ -5,13 +5,13 @@
 {switch name=Sw1 match=$class_count}
   {case match=0}
     <div class="feedback">
-    <h2>{"No classes in "|i18n("design/standard/class/view")}{$group_name}.</h2>
+    <h2>{"No classes in "|i18n("design/standard/class/view")}{$group_name|wash}.</h2>
     <p>{"Click on the 'New' button to create a class."}</p>
     </div>
   {/case}
   {case}
     <div class="maincontentheader">
-    <h1>{"Classes in"|i18n("design/standard/class/view")} {$group_name}</h1>
+    <h1>{"Classes in"|i18n("design/standard/class/view")} {$group_name|wash}</h1>
     </div> 
   {/case}
 {/switch}
@@ -31,8 +31,8 @@
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
 <tr>
     <td class="{$Classes:sequence}" width="1%">{$Classes:item.id}</td>
-    <td class="{$Classes:sequence}">{$Classes:item.name}</td>
-    <td class="{$Classes:sequence}">{$Classes:item.identifier}</td>
+    <td class="{$Classes:sequence}">{$Classes:item.name|wash}</td>
+    <td class="{$Classes:sequence}">{$Classes:item.identifier|wash}</td>
     <td class="{$Classes:sequence}">{content_view_gui view=text_linked content_object=$Classes:item.modifier.contentobject}</td>
     <td class="{$Classes:sequence}"><span class="small">{$Classes:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>

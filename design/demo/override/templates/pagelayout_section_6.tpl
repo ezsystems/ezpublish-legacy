@@ -69,7 +69,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <tr>
         {section name=Folder loop=$folder_list}
         <td class="topmenu" width="98%">
-        <a href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a> 
+        <a href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name|wash}</a> 
         </td>
         {/section}
         <td align="right" width="1%">
@@ -92,9 +92,9 @@ function OpenWindow ( URL, WinName, Features ) {
     &gt;
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
         {section-else}
-	{$Path:item.text}
+	{$Path:item.text|wash}
         {/section}
 
         {delimiter}
@@ -103,9 +103,9 @@ function OpenWindow ( URL, WinName, Features ) {
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a href={$Path:item.url|ezurl}>{$Path:Path:item.text}</a>
+        <a href={$Path:item.url|ezurl}>{$Path:Path:item.text|wash}</a>
         {section-else}
-	    {$Path:Path:item.text}
+	    {$Path:Path:item.text|wash}
         {/section}
 
         {delimiter}
@@ -119,7 +119,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <tr>
         <td class="leftedge" valign="top">
 	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1,24))) show=eq($DesignKeys:used.viewmode,'full')}
-	<p class="leftmenuitem"><a href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a></p>
+	<p class="leftmenuitem"><a href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name|wash}</a></p>
 	{delimiter}
 
 	{/delimiter}
@@ -149,7 +149,7 @@ function OpenWindow ( URL, WinName, Features ) {
         <td class="menuitem">
 
         <div class="menuname">
-        <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name}</a>
+        <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a>
         </div>
 	    <div class="menudate">({$News:item.object.published|l10n(shortdate)})</div>
 

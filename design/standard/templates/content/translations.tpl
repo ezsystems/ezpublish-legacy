@@ -15,7 +15,7 @@
 
 {section name=Translation loop=$existing_translations sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Translation:sequence}">{section show=$:item.name}{$:item.name}{section-else}{$:item.locale_object.language_name}{/section}</td>
+	<td class="{$Translation:sequence}">{section show=$:item.name}{$:item.name|wash}{section-else}{$:item.locale_object.language_name}{/section}</td>
 	<td class="{$Translation:sequence}">{$:item.locale_object.country_name}</td>
 	<td class="{$Translation:sequence}">{$:item.locale_object.locale_code}</td>
 {*	<td class="{$Translation:sequence}" align="right" >

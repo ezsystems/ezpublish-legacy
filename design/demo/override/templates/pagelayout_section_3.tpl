@@ -45,7 +45,7 @@
 {section name=Folder loop=$folder_list}
     <tr> 
         <td class="menuitem"> 
-        <a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  
+        <a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name|wash}</a>  
         </td>
     </tr>
 {/section}
@@ -70,9 +70,9 @@
     <td class="path" colspan="2">&gt;
                      {section name=Path loop=$module_result.path offset=2}
                     {section show=$Path:item.url}
-                        <a href="{concat($Path:item.url, "/")|ezurl}">{$Path:item.text}</a>
+                        <a href="{concat($Path:item.url, "/")|ezurl}">{$Path:item.text|wash}</a>
                     {section-else}
-                         {$Path:item.text}
+                         {$Path:item.text|wash}
                     {/section}
                    {delimiter}
 	              /
@@ -104,7 +104,7 @@
          {section name=News loop=$news_list offset=1}
          <tr> 
              <td class="menuitem"> 
-             <p class="readmore"><a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a></p>
+             <p class="readmore"><a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name|wash}</a></p>
              </td>
          </tr>
          {/section}   

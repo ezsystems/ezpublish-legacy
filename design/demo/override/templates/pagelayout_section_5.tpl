@@ -58,7 +58,7 @@
         {section name=Folder loop=$folder_list}
         <tr> 
             <td bgcolor="#dddddd">
-            &nbsp;<a class="small" href={concat("content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>
+            &nbsp;<a class="small" href={concat("content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name|wash}</a>
             </td>
         </tr>
         {/section}
@@ -119,7 +119,7 @@
         <h2><font color="#000000">New books</font></h2>
 	<br />
         {section name=Product loop=$product_list}
-        <a class="small" href={concat("/content/view/full/",$Product:item.node_id,"/")|ezurl}><font color="#000000"><b>{$Product:item.name}</b></font></a><br /><br />
+        <a class="small" href={concat("/content/view/full/",$Product:item.node_id,"/")|ezurl}><font color="#000000"><b>{$Product:item.name|wash}</b></font></a><br /><br />
         {/section}
         </td>
     </tr>

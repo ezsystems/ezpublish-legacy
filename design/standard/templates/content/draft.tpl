@@ -30,10 +30,10 @@
 <tr>
     <td class="{$Draft:sequence}">
     <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>
-    {$Draft:item.contentobject.name}</a>
+    {$Draft:item.contentobject.name|wash}</a>
     </td>
     <td class="{$Draft:sequence}">
-    {$Draft:item.contentobject.content_class.name}
+    {$Draft:item.contentobject.content_class.name|wash}
     </td>
     <td class="{$Draft:sequence}">
     {$Draft:item.contentobject.section_id}

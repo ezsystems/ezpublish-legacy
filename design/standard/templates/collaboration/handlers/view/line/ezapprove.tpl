@@ -4,16 +4,16 @@
 
   {switch match=$item.data_int3}
   {case match=0}
-    {set item_text="%1 awaits approval by editor"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+    {set item_text="%1 awaits approval by editor"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=1}
-    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=2}
-   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=3}
-   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case/}
   {/switch}
@@ -22,16 +22,16 @@
 
   {switch match=$item.data_int3}
   {case match=0}
-    {set item_text="%1 awaits your approval"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+    {set item_text="%1 awaits your approval"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=1}
-    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+    {set item_text="%1 was approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=2}
-   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+   {set item_text="%1 was not approved for publishing"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=3}
-   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name,"</i>")))}
+   {set item_text="%1 was deferred for reediting"|i18n('design/standard/collaboration',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case/}
   {/switch}

@@ -29,7 +29,7 @@ selected="selected"
 {/case}
 {case}
 {/case}
-{/switch} value="{$ContentClass:item.id}">{$ContentClass:item.name}</option>
+{/switch} value="{$ContentClass:item.id}">{$ContentClass:item.name|wash}</option>
 
 {/section}
 </select>
@@ -44,7 +44,7 @@ selected="selected"
 <select name="SearchContentClassAttributeID">
 <option value="-1">Any attribute</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
-<option value="{$Attribute:ClassAttribute:item.id}">{$Attribute:ClassAttribute:item.name}</option>
+<option value="{$Attribute:ClassAttribute:item.id}">{$Attribute:ClassAttribute:item.name|wash}</option>
 {/section}
 </select>
 
@@ -67,7 +67,7 @@ selected="selected"
 {/case}
 {case}
 {/case}
-{/switch} value="{$Section:item.id}">{$Section:item.name}</option>
+{/switch} value="{$Section:item.id}">{$Section:item.name|wash}</option>
 {/section}
 </select>
 
@@ -116,10 +116,10 @@ selected="selected"
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 <tr>
   <td class="{$SearchResult:sequence}">
-    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
+    <a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name|wash}</a>
   </td>
   <td class="{$SearchResult:sequence}">
-    {$SearchResult:item.object.class_name}
+    {$SearchResult:item.object.class_name|wash}
   </td>
 </tr>
   {/section}

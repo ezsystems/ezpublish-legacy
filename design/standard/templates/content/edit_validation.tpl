@@ -16,7 +16,7 @@
             <li>{$:item.text}</li>
           {/section}
           {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
-            <li>{$:item.name}: {$:item.description}</li>
+            <li>{$:item.name|wash}: {$:item.description}</li>
           {/section}
           </ul>
           </div>
@@ -26,7 +26,7 @@
           <div class="feedback">
           <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
           {section name=ValidationLog loop=$validation_log show=$validation_log}
-          <h4>{$:item.name}:</h4>
+          <h4>{$:item.name|wash}:</h4>
           <ul>
 	    {section name=LogMessage loop=$:item.description}
 	      <li>{$:item}</li>

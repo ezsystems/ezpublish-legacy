@@ -71,7 +71,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <tr>
         {section name=Folder loop=$folder_list}
         <td align="left">
-        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>  <font size="2">&nbsp;</font>
+        &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name|wash}</a>  <font size="2">&nbsp;</font>
         </td>
         {/section}
         <td align="right" width="30">
@@ -93,9 +93,9 @@ function OpenWindow ( URL, WinName, Features ) {
     &nbsp;<span class="small">&gt;</span>
      {section name=Path loop=$module_result.path offset=2 show=eq($DesignKeys:used.viewmode,'full')}
         {section show=$Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
         {section-else}
-	<span class="small">{$Path:item.text}</span>
+	<span class="small">{$Path:item.text|wash}</span>
         {/section}
 
         {delimiter}
@@ -104,9 +104,9 @@ function OpenWindow ( URL, WinName, Features ) {
     {section-else}
      {section name=Path loop=$module_result.path}
         {section show=$Path:Path:item.url}
-        <a class="small" href={$Path:item.url|ezurl}>{$Path:Path:item.text}</a>
+        <a class="small" href={$Path:item.url|ezurl}>{$Path:Path:item.text|wash}</a>
         {section-else}
-	<span class="small">{$Path:Path:item.text}</span>
+	<span class="small">{$Path:Path:item.text|wash}</span>
         {/section}
 
         {delimiter}
@@ -118,7 +118,7 @@ function OpenWindow ( URL, WinName, Features ) {
     <tr>
         <td valign="top" width="100">
 	{section name=Menu loop=fetch(content,list,hash(parent_node_id,$DesignKeys:used.node,class_filter_type,include,class_filter_array,array(1,24))) show=eq($DesignKeys:used.viewmode,'full')}
-	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name}</a>
+	<a class="small" href={concat('content/view/full/',$Menu:item.node_id)|ezurl}>{$Menu:item.name|wash}</a>
 	{delimiter}
 	<br />
 	{/delimiter}
