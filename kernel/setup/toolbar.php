@@ -54,7 +54,9 @@ $iniPath = "settings/siteaccess/$currentSiteAccess";
 
 if ( $http->hasPostVariable( 'NewToolButton' ) )
 {
-    $ini = eZINI::instance( "toolbar.ini", "settings", null, false, null, false );
+    $ini = eZINI::instance( "toolbar.ini", "settings", null, false, null, true );
+    $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+
     if ( $http->hasPostVariable( 'toolName' ) )
     {
         $addedToolName = $http->postVariable( 'toolName' );
@@ -97,6 +99,8 @@ if ( $http->hasPostVariable( 'NewToolButton' ) )
 if ( $http->hasPostVariable( 'UpdatePlacementButton' ) )
 {
     $ini = eZINI::instance( "toolbar.ini", "settings", null, false, null, false );
+    $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+
     $updatedToolArray = array();
     $iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
@@ -232,7 +236,8 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 
 if ( $http->hasPostVariable( 'StoreButton' ) )
 {
-    $ini =& eZINI::instance( "toolbar.ini" );
+    $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, true );
+    $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
 
     $iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
@@ -286,7 +291,9 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     $succeed = $iniAppend->save(  false, false, false, false, true, true );
 }
 
-$ini =& eZINI::instance( "toolbar.ini" );
+$ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
+
+$iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
 if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
 {
@@ -295,9 +302,16 @@ if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
 
 if ( !isset( $toolArray ) )
 {
-    if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
+    if ( $iniAppend->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
     {
-        $toolArray =  $ini->variable( "Toolbar_" . $toolbarPosition, "Tool" );
+        $toolArray =  $iniAppend->variable( "Toolbar_" . $toolbarPosition, "Tool" );
+    }
+    else
+    {
+        if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
+        {
+            $toolArray =  $ini->variable( "Toolbar_" . $toolbarPosition, "Tool" );
+        }
     }
 
     $toolList = array();
@@ -305,13 +319,20 @@ if ( !isset( $toolArray ) )
     {
         unset( $actionParameters );
         $toolName = $toolArray[$toolKey];
-        if ( $ini->hasGroup( "Tool_" . $toolName ) )
+        if ( $iniAppend->hasGroup( "Tool_" . $toolName ) )
         {
-            $actionParameters = $ini->group( "Tool_" . $toolName );
+            $actionParameters = $iniAppend->group( "Tool_" . $toolName );
         }
-        if ( $ini->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
+        else
         {
-            $actionParameters = $ini->group( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) );
+            if ( $ini->hasGroup( "Tool_" . $toolName ) )
+            {
+                $actionParameters = $ini->group( "Tool_" . $toolName );
+            }
+        }
+        if ( $iniAppend->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
+        {
+            $actionParameters = $iniAppend->group( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) );
         }
         $toolParameters = array();
         foreach ( array_keys( $actionParameters ) as $key )

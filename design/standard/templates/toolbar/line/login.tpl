@@ -1,0 +1,1 @@
+<a href={"/user/login"|ezurl}>{"Login"|i18n("design/shop/layout")}</a>&nbsp;

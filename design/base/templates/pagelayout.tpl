@@ -32,6 +32,10 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 </div>
 </div>
 
+<div>
+{tool_bar name=Toolbar_top view=line}
+</div>
+
 <hr class="hide" />
 
 {let top_menu=ezini( 'SelectedMenu', 'TopMenu', 'menu.ini' )}
@@ -67,7 +71,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <h3 class="hide">Right menu</h3>
 
-<ul>
+{*<ul>
     <li>One</li>
     <li>Two</li>
     <li>Three</li>
@@ -78,7 +82,9 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
     <li>Eight</li>
     <li>Nine</li>
     <li>Ten</li>
-</ul>
+</ul>*}
+
+{tool_bar name=Toolbar_right view=full}
 
 </div>
 </div>

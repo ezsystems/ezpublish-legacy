@@ -1,0 +1,1 @@
+<a href={"/shop/basket/"|ezurl}>{"View basket"|i18n("design/shop/layout")}</a>&nbsp;
