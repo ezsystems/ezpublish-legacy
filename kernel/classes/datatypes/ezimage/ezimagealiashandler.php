@@ -858,16 +858,11 @@ class eZImageAliasHandler
     */
     function normalizeImageName( $imageName )
     {
-        $imageName = strtolower( $imageName );
-        $imageName = preg_replace( array( "#[^a-z0-9_ ]#" ,
-                                          "/ /",
-                                          "/__+/",
-                                          "/^_|_$/" ),
-                                   array( "",
-                                          "_",
-                                          "_",
-                                          "" ),
-                                   $imageName );
+        // Initialize transformation system
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = new eZCharTransform();
+
+        $imageName = $trans->transformByGroup( $imageName, 'identifier' );
         return $imageName;
     }
 
