@@ -1,5 +1,7 @@
 Changes from 3.2-3 to 3.3.0-1
 
+- Fixed links in class and classgroup lists to the class view.
+
 
 *Kernel:
 - Added function checking main node id from drop down node assignments.
@@ -63,11 +65,21 @@ Changes from 3.2-3 to 3.3.0-1
 - Changed the url_alias attribute of eZContentObjectTreeNode to only return url aliases if
   url translations are enabled (site.ini). This ensures that the urls returned from nodes
   will always work. This also helps with creating urls to nodes/objects, just use the url_alias attribute.
+- Updated setup/info page with detection of Turck MMCache. Added name and url for current PHP accelerator.
+- Updated setup/info page with more database information, it will list server, database name, retry count
+  and the current slave server and database name (if any).
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.
 
 *DataType:
+
+eZ integer:
+- Fixed unserialization of class data to decode the min/max values correctly even if they contain 0.
+
+eZ float:
+- Fixed unserialization of class data to decode the min/max values correctly even if they contain 0.
+
 
 eZINISetting
 - New datatype for editing ini settings.
@@ -85,13 +97,15 @@ eZImage
 - Fixed bug of unable to show checkboxes if available packages less than 4.
 
 *Package system:
-- Finished the upload package system.
 - Added install type to packages, it will determine if the package can be install or just imported.
 - Added information on whether the packages are active or not, only active packages
   will show up in the admin interface.
-- Added support for removing packages (remove, not uninstall).
-- Added system for creating packages using a wizard.
+- Added support for removing packages.
+- Added system for creating packages using a wizard, added content class export and site style.
 - Added export of packages.
+- Finished package upload and added installation of packages.
+- Added uninstall of packages.
+- Added role support for packages, you can now limit the kind of operations various users can do.
 
 *Bugs:
 - http://ez.no/developer/ez_publish_3/bug_reports/logical_operators_do_not_work
@@ -105,7 +119,17 @@ eZImage
 - Added class specification limit to browse settings.
 
 *Library :
+
+eZ PDF:
 - Added basic PDF library. This will be extended in the following weeks.
+
+eZ DB:
+- Added attribute support to the database interface, this allows querying
+  for server, database name etc.
+- The charset setting for database can now be left empty in which case the
+  the current internal charset will be used. This makes sure the site
+  is in the most sane setting. The site.ini will now be shipped with an
+  empty Charset setting.
 
 eZ template:
 - Added support for using one variable to hold the iterator values instead of multiple variables.

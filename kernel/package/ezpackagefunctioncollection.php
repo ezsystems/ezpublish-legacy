@@ -203,6 +203,56 @@ class eZPackageFunctionCollection
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $packageList );
     }
+
+    function &fetchMaintainerRoleList( $packageType, $checkRoles )
+    {
+        include_once( 'kernel/classes/ezpackage.php' );
+        $list =& eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
+        if ( $list === false )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $list );
+    }
+
+    function &canCreate()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'create' ) );
+    }
+
+    function &canEdit()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'edit' ) );
+    }
+
+    function &canImport()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'import' ) );
+    }
+
+    function &canInstall()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'install' ) );
+    }
+
+    function &canExport()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'export' ) );
+    }
+
+    function &canRead()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'read' ) );
+    }
+
+    function &canList()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'list' ) );
+    }
+
+    function &canRemove()
+    {
+        return array( 'result' => eZPackage::canUsePolicyFunction( 'remove' ) );
+    }
 }
 
 ?>

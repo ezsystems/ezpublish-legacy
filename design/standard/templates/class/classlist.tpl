@@ -78,8 +78,8 @@
 
     {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}
         <tr>
-            <td class="{$class.sequence}" width="1%"><a href={concat( "/class/view/", $class.item.id )}>{$class.item.id}</a></td>
-            <td class="{$class.sequence}"><a href={concat( "/class/view/", $class.item.id )}>{$class.item.name|wash}</a></td>
+            <td class="{$class.sequence}" width="1%"><a href={concat( "/class/view/", $class.item.id )|ezurl}>{$class.item.id}</a></td>
+            <td class="{$class.sequence}"><a href={concat( "/class/view/", $class.item.id )|ezurl}>{$class.item.name|wash}</a></td>
             <td class="{$class.sequence}">{$class.item.identifier|wash}</td>
             <td class="{$class.sequence}">{content_view_gui view=text_linked content_object=$class.item.modifier.contentobject}</td>
             <td class="{$class.sequence}"><span class="small">{$class.item.modified|l10n(shortdatetime)}</span></td>

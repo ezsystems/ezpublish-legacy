@@ -348,11 +348,11 @@ class eZFloatType extends eZDataType
         $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
         $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
 
-        if ( $minValue and $maxValue )
+        if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
             $minMaxState = EZ_FLOAT_HAS_MIN_MAX_VALUE;
-        else if ( $minValue )
+        else if ( strlen( $minValue ) > 0 )
             $minMaxState = EZ_FLOAT_HAS_MIN_VALUE;
-        else if ( $maxValue )
+        else if ( strlen( $maxValue ) > 0 )
             $minMaxState = EZ_FLOAT_HAS_MAX_VALUE;
         else
             $minMaxState = EZ_FLOAT_NO_MIN_MAX_VALUE;

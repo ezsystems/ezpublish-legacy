@@ -42,7 +42,7 @@ $module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
 
 $creator = false;
-$runStep = false;
+$initializeStep = false;
 if ( $module->isCurrentAction( 'CreatePackage' ) )
 {
     $creatorID = $module->actionParameter( 'CreatorItemID' );
@@ -51,7 +51,11 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
         $creator =& eZPackageCreationHandler::instance( $creatorID );
         $persistentData = array();
         $http->setSessionVariable( 'eZPackageCreatorData' . $creatorID, $persistentData );
-        $runStep = true;
+        $initializeStep = true;
+	    $package = false;
+    	if ( isset( $persistentData['package_name'] ) )
+        	$package =& eZPackage::fetch( $persistentData['package_name'] );
+		$creator->generateStepMap( $package, $persistentData );
     }
 }
 else if ( $module->isCurrentAction( 'PackageStep' ) )
@@ -64,6 +68,10 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
             $persistentData = $http->sessionVariable( 'eZPackageCreatorData' . $creatorID );
         else
             $persistentData = array();
+	    $package = false;
+    	if ( isset( $persistentData['package_name'] ) )
+        	$package =& eZPackage::fetch( $persistentData['package_name'] );
+		$creator->generateStepMap( $package, $persistentData );
     }
 }
 
@@ -81,18 +89,17 @@ if ( $creator )
     $errorList = array();
     $hasAdvanced = false;
 
-    $package = false;
-    if ( isset( $persistentData['package_name'] ) )
-        $package =& eZPackage::fetch( $persistentData['package_name'] );
-
     $lastStepID = $currentStepID;
     if ( $module->hasActionParameter( 'NextStep' ) )
     {
         $hasAdvanced = true;
-        print( "Advance<br/>" );
-        $currentStepID = $creator->advanceStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
+        $currentStepID = $creator->validateStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
         if ( $currentStepID != $lastStepID )
-            $runStep = true;
+		{
+            $lastStep =& $steps['map'][$lastStepID];
+            $creator->commitStep( $package, $http, $lastStep, $persistentData, $tpl );
+            $initializeStep = true;
+		}
     }
 
     if ( $currentStepID )
@@ -103,8 +110,8 @@ if ( $creator )
         $stepTemplateName = $stepTemplate['name'];
         $stepTemplateDir = $stepTemplate['dir'];
 
-        if ( $runStep )
-            $creator->runStep( $package, $http, $currentStep, $persistentData, $tpl );
+        if ( $initializeStep )
+            $creator->initializeStep( $package, $http, $currentStep, $persistentData, $tpl );
 
         if ( $package )
             $persistentData['package_name'] = $package->attribute( 'name' );
@@ -132,7 +139,7 @@ if ( $creator )
 }
 else
 {
-    $creators =& eZPackageCreationHandler::creatorList();
+    $creators =& eZPackageCreationHandler::creatorList( true );
 
     $tpl->setVariable( 'creator_list', $creators );
 }

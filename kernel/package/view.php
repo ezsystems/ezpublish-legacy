@@ -41,11 +41,23 @@ $packageName = $Params['PackageName'];
 
 $package =& eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( 'kernel', EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$package->attribute( 'can_read' ) )
+    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 
 if ( $module->isCurrentAction( 'Export' ) )
 {
     return $module->run( 'export', array( $packageName ) );
+}
+else if ( $module->isCurrentAction( 'Install' ) )
+{
+    return $module->redirectToView( 'install', array( $packageName ) );
+}
+else if ( $module->isCurrentAction( 'Uninstall' ) )
+{
+    return $module->redirectToView( 'uninstall', array( $packageName ) );
 }
 
 $tpl =& templateInit();

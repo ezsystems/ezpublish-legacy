@@ -60,11 +60,75 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
     /*!
      \reimp
+     Returns an explanation for the content class install item.
+    */
+    function explainInstallItem( &$package, $installItem )
+    {
+        if ( $installItem['filename'] )
+        {
+            $filename = $installItem['filename'];
+            $subdirectory = $installItem['sub-directory'];
+            if ( $subdirectory )
+                $filepath = $subdirectory . '/' . $filename . '.xml';
+            else
+                $filepath = $filename . '.xml';
+
+            $filepath = $package->path() . '/' . $filepath;
+
+            $dom =& $package->fetchDOMFromFile( $filepath );
+            if ( $dom )
+            {
+                $content =& $dom->root();
+                $className = $content->elementTextContentByName( 'name' );
+                $classIdentifier = $content->elementTextContentByName( 'identifier' );
+                return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
+                                                       array( '%classname' => $className,
+                                                              '%classidentifier' => $classIdentifier ) ) );
+            }
+        }
+    }
+
+    /*!
+     \reimp
+     Uninstalls all previously installed content classes.
+    */
+    function uninstall( &$package, $installType, $parameters,
+                      $name, $os, $filename, $subdirectory,
+                      $installParameters,
+                      &$installData )
+    {
+        if ( isset( $installData['classid_list'] ) )
+        {
+            $classIDList = $installData['classid_list'];
+            foreach ( $classIDList as $classID )
+            {
+                eZContentClassClassGroup::removeClassMembers( $classID, 0 );
+                eZContentClassClassGroup::removeClassMembers( $classID, 1 );
+
+                $class =& eZContentClass::fetch( $classID );
+                if ( $class )
+                {
+                    $class->remove( true, EZ_CLASS_VERSION_STATUS_DEFINED );
+                }
+
+                $tmpClass =& eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+                if ( $tmpClass )
+                {
+                    $tmpClass->remove( true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+                }
+            }
+            unset( $installData['classid_list'] );
+        }
+    }
+
+    /*!
+     \reimp
      Creates a new contentclass as defined in the xml structure.
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters )
+                      &$content, $installParameters,
+                      &$installData )
     {
         $className = $content->elementTextContentByName( 'name' );
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
@@ -94,8 +158,19 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                  'contentobject_name' => $classObjectNamePattern,
                                                  'created' => $classCreated,
                                                  'modified' => $classModified ) );
+        $wantedClass =& eZContentClass::fetch( $classID );
+        if ( !$wantedClass )
+        {
+            $class->setAttribute( 'id', $classID );
+        }
         $class->store();
-        print( "Created class " . $class->attribute( 'id' ) . "\n" );
+
+        if ( !isset( $installData['classid_list'] ) )
+            $installData['classid_list'] = array();
+        if ( !isset( $installData['classid_map'] ) )
+            $installData['classid_map'] = array();
+        $installData['classid_list'][] = $class->attribute( 'id' );
+        $installData['classid_map'][$classID] = $class->attribute( 'id' );
 
         $classAttributeList =& $classAttributesNode->children();
         foreach ( array_keys( $classAttributeList ) as $classAttributeKey )
@@ -143,7 +218,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $classGroup->setAttribute( 'name', $classGroupName );
                 $classGroup->store();
             }
-            print( "Linked to class group " . $classGroup->attribute( 'id' ) . "\n" );
             $classGroup->appendClass( $class );
         }
         return true;

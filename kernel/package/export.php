@@ -40,7 +40,11 @@ $packageName = $Params['PackageName'];
 
 $package =& eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( 'kernel', EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( !$package->attribute( 'can_export' ) )
+    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 
 $exportDirectory = eZPackage::temporaryExportPath();
 $exportName = $package->exportName();

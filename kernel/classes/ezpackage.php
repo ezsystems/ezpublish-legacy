@@ -38,6 +38,8 @@
 */
 
 /*!
+  \group package The package manager system
+  \ingroup package
   \class eZPackage ezpackagehandler.php
   \brief Maintains eZ publish packages
 
@@ -52,6 +54,8 @@ define( 'EZ_PACKAGE_VERSION', '3.3.0-1' );
 define( 'EZ_PACKAGE_DEVELOPMENT', false );
 define( 'EZ_PACKAGE_USE_CACHE', true );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
+
+define( 'EZ_PACKAGE_STATUS_ALREADY_EXISTS', 1 );
 
 class eZPackage
 {
@@ -128,6 +132,8 @@ class eZPackage
                                                     'conflicts' => array() ),
                            'install' => array(),
                            'uninstall' => array() );
+        $this->PolicyCache = array();
+        $this->InstallData = array();
         $this->Parameters = array_merge( $defaults, $parameters );
         $this->ModifiedParameters = array();
         foreach ( $modifiedParameters as $name => $modifiedParameter )
@@ -149,6 +155,50 @@ class eZPackage
             unset( $document['create-document'] );
             unset( $document['data'] );
         }
+    }
+
+    /*!
+     \static
+     \return An associative array with the possible types for a package.
+             Each entry contains an \c id and a \c name key.
+    */    
+    function typeList()
+    {
+        $typeList =& $GLOBALS['eZPackageTypeList'];
+        if ( !isset( $typeList ) )
+        {
+            $typeList = array();
+            $ini =& eZINI::instance( 'package.ini' );
+            $types =& $ini->variable( 'PackageSettings', 'TypeList' );
+            foreach ( $types as $typeID => $typeName )
+            {
+                $typeList[] = array( 'name' => $typeName,
+                                     'id' => $typeID );
+            }
+        }
+        return $typeList;
+    }
+    
+    /*!
+     \static
+     \return An associative array with the possible states for a package.
+             Each entry contains an \c id and a \c name key.
+    */
+    function stateList()
+    {
+        $stateList =& $GLOBALS['eZPackageStateList'];
+        if ( !isset( $stateList ) )
+        {
+            $stateList = array();
+            $ini =& eZINI::instance( 'package.ini' );
+            $states =& $ini->variable( 'PackageSettings', 'StateList' );
+            foreach ( $states as $stateID => $stateName )
+            {
+                $stateList[] = array( 'name' => $stateName,
+                                      'id' => $stateID);
+            }
+        }
+        return $stateList;
     }
 
     function &create( $name, $parameters = array(), $repositoryPath = false )
@@ -174,9 +224,11 @@ class eZPackage
                                    'extension', 'source',
                                    'version-number', 'release-number', 'release-timestamp',
                                    'maintainers', 'documents', 'groups',
-                                   'file-list',
+                                   'file-list', 'file-count',
+                                   'can_read', 'can_export', 'can_import', 'can_install',
                                    'changelog', 'dependencies',
                                    'is_installed', 'is_active', 'install_type',
+                                   'thumbnail-list',
                                    'install', 'uninstall',
                                    'licence', 'state',
                                    'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
@@ -218,9 +270,11 @@ class eZPackage
                                 'extension', 'source',
                                 'version-number', 'release-number', 'release-timestamp',
                                 'maintainers', 'documents', 'groups',
-                                'file-list',
+                                'file-list', 'file-count',
+                                'can_read', 'can_export', 'can_import', 'can_install',
                                 'changelog', 'dependencies',
                                 'is_installed', 'is_active', 'install_type',
+                                'thumbnail-list',
                                 'install', 'uninstall',
                                 'licence', 'state',
                                 'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
@@ -255,6 +309,18 @@ class eZPackage
             return $this->Parameters['packaging']['host'];
         else if ( $attributeName == 'packaging-packager' )
             return $this->Parameters['packaging']['packager'];
+        else if ( $attributeName == 'can_read' )
+            return $this->canRead();
+        else if ( $attributeName == 'can_export' )
+            return $this->canExport();
+        else if ( $attributeName == 'can_import' )
+            return $this->canImport();
+        else if ( $attributeName == 'can_install' )
+            return $this->canInstall();
+        else if ( $attributeName == 'file-count' )
+            return $this->fileCount();
+        else if ( $attributeName == 'thumbnail-list' )
+            return $this->thumbnailList( 'default' );
 
         eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
         return null;
@@ -333,6 +399,182 @@ class eZPackage
 //         }
 //         return $attributeValue;
     }
+    
+    function canUsePolicyFunction( $functionName )
+    {
+		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+		$currentUser =& eZUser::currentUser();
+		$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
+		if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
+		{
+		    return true;
+		}
+        return false;
+    }
+
+    function canRead()
+    {
+        return $this->canUsePackagePolicyFunction( 'read' );
+    }
+
+    function canExport()
+    {
+        return $this->canUsePackagePolicyFunction( 'export' );
+    }
+
+    function canImport()
+    {
+        return $this->canUsePackagePolicyFunction( 'import' );
+    }
+
+    function canInstall()
+    {
+        return $this->canUsePackagePolicyFunction( 'install' );
+    }
+
+    function canUsePackagePolicyFunction( $functionName )
+    {
+        $canUse =& $this->PolicyCache[$functionName];
+        if ( !isset( $canUse ) )
+        {
+			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+			$currentUser =& eZUser::currentUser();
+			$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
+		    $limitationList = array();
+		    $canUse = false;
+			if ( $accessResult['accessWord'] == 'yes' )
+			{
+    		    $canUse = true;
+			}
+			else if ( $accessResult['accessWord'] == 'limited' )
+			{
+				$allRoles = array();
+			    $limitation =& $accessResult['policies'];
+			    foreach ( array_keys( $limitation ) as $key )
+			    {
+			        $policy =& $limitation[$key];
+			        $limitationList[] =& $policy->attribute( 'limitations' );
+			    }
+				$typeList = false;
+	            foreach( $limitationList as $limitationArray )
+	            {
+	                foreach ( $limitationArray as $limitation )
+	                {
+	                    if ( $limitation->attribute( 'identifier' ) == 'Type' )
+	                    {
+	                        if ( !is_array( $typeList ) )
+	                            $typeList = array();
+	                        $typeList = array_merge( $typeList, $limitation->attribute( 'values_as_array' ) );
+	                    }
+					}
+				}
+				if ( $typeList === false )
+				{
+				    $canUse = true;
+				}
+				else
+				{
+				    $canUse = in_array( $this->attribute( 'type' ), $typeList );
+				}
+			}
+        }
+        return $canUse;
+    }
+
+	function fetchMaintainerRoleIDList( $packageType = false, $checkRoles = false )
+	{
+		$allRoles = false;
+		if ( $checkRoles )
+		{
+			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+			$currentUser =& eZUser::currentUser();
+			$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
+		    $limitationList = array();
+			if ( $accessResult['accessWord'] == 'limited' )
+			{
+				$allRoles = array();
+			    $limitation =& $accessResult['policies'];
+			    foreach ( array_keys( $limitation ) as $key )
+			    {
+			        $policy =& $limitation[$key];
+			        $limitationList[] =& $policy->attribute( 'limitations' );
+			    }
+	            foreach( $limitationList as $limitationArray )
+	            {
+					$allowedType = true;
+					$allowedRoles = false;
+	                foreach ( $limitationArray as $limitation )
+	                {
+	                    if ( $limitation->attribute( 'identifier' ) == 'Role' )
+	                    {
+	                        $allowedRoles = $limitation->attribute( 'values_as_array' );
+	                    }
+	                    else if ( $limitation->attribute( 'identifier' ) == 'Type' )
+	                    {
+	                        $typeList = $limitation->attribute( 'values_as_array' );
+							if ( $packageType === false )
+							{
+								$allowedType = in_array( $packageType, $typeList );
+							}
+	                    }
+					}
+					if ( $allowedType and
+					     count( $allowedRoles ) > 0 )
+					{
+						$allRoles = array_merge( $allRoles, $allowedRoles );
+					}
+				}
+			}
+		}
+		if ( is_array( $allRoles ) and count( $allRoles ) == 0 )
+			return array();
+		$ini =& eZINI::instance( 'package.ini' );
+		$roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
+		if ( $allRoles !== false )
+		{
+			$roleList = array_intersect( $roleList, $allRoles );
+		}
+		return $roleList;
+	}
+
+	function fetchMaintainerRoleList( $packageType = false, $checkRoles = false )
+	{
+	    $roleList = eZPackage::fetchMaintainerRoleIDList( $packageType, $checkRoles );
+		$roleNameList = array();
+		foreach ( $roleList as $roleID )
+		{
+			$roleName = eZPackage::maintainerRoleName( $roleID );
+			$roleNameList[] = array( 'name' => $roleName,
+			                         'id' => $roleID );
+		}
+		return $roleNameList;
+	}
+	
+	function maintainerRoleListForRoles()
+	{
+		$ini =& eZINI::instance( 'package.ini' );
+		$roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
+		$roleNameList = array();
+		foreach ( $roleList as $roleID )
+		{
+			$roleName = eZPackage::maintainerRoleName( $roleID );
+			$roleNameList[] = array( 'name' => $roleName,
+			                         'id' => $roleID );
+		}
+		return $roleNameList;
+	}
+	
+	function maintainerRoleName( $roleID )
+	{
+		$nameMap = array( 'lead' => 'Lead',
+						  'developer' => 'Developer',
+						  'designer' => 'Designer',
+						  'contributor' => 'Contributor',
+						  'tester' => 'Tester' );
+		if ( isset( $nameMap[$roleID] ) )
+			return $nameMap[$roleID];
+		return false;
+	}
 
     function appendMaintainer( $name, $email, $role = false,
                                $modified = null )
@@ -552,6 +794,16 @@ class eZPackage
         }
         return $thumbnails;
     }
+    
+    function fileCount()
+    {
+        $count = 0;
+        foreach ( $this->Parameters['file-list'] as $collection )
+        {
+            $count += count( $collection );
+        }
+        return $count;
+    }
 
     function appendFile( $file, $type, $role,
                          $design, $filePath, $collection,
@@ -719,8 +971,18 @@ class eZPackage
                     $found = true;
                 if ( !$found and $type and $installItem['type'] == $type )
                     $found = true;
-                if ( !$found and $os and $installItem['os'] == $os )
-                    $found = true;
+                if ( !$found )
+                {
+                    if ( $os )
+                    {
+                        if ( !$installItem['os'] )
+                            $found = true;
+                        else if ( $os and $installItem['os'] == $os )
+                            $found = true;
+                    }
+                    else
+                        $found = true;
+                }
                 if ( $found )
                     $matches[] = $installItem;
             }
@@ -861,6 +1123,8 @@ class eZPackage
                            array( 'full-tree' => true ) );
         $php->addVariable( 'ModifiedParameters', $this->ModifiedParameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                            array( 'full-tree' => true ) );
+        $php->addVariable( 'InstallData', $this->InstallData, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                           array( 'full-tree' => true ) );
         $php->addVariable( 'RepositoryPath', $this->RepositoryPath );
         $php->store();
     }
@@ -932,7 +1196,7 @@ class eZPackage
         return $archivePath;
     }
 
-    function &import( $archiveName, $packageName )
+    function &import( $archiveName, &$packageName )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
         if ( is_dir( $archiveName ) )
@@ -970,6 +1234,12 @@ class eZPackage
             if ( $package )
             {
                 $packageName = $package->attribute( 'name' );
+                
+                $existingPackage =& eZPackage::fetch( $packageName );
+                if ( $existingPackage )
+                {
+                    return EZ_PACKAGE_STATUS_ALREADY_EXISTS;
+                }
                 unset( $archive );
                 unset( $package );
 
@@ -1188,7 +1458,8 @@ class eZPackage
                     return false;
                 }
                 if ( isset( $Parameters ) and
-                     isset( $ModifiedParameters ) )
+                     isset( $ModifiedParameters ) and
+                     isset( $InstallData ) )
                 {
                     if ( !EZ_PACKAGE_DEVELOPMENT )
                     {
@@ -1201,6 +1472,7 @@ class eZPackage
                     }
 
                     $package = new eZPackage( $Parameters, array(), $RepositoryPath );
+                    $package->InstallData = $InstallData;
                     $package->ModifiedParameters = $ModifiedParameters;
                     return $package;
                 }
@@ -1543,12 +1815,59 @@ class eZPackage
                             eZDebug::writeError( "Failed fetching dom from file $filepath" );
                     }
                 }
+                $installData =& $this->InstallData[$type];
+                if ( !isset( $installData ) )
+                    $installData = array();
                 $installResult = $handler->install( $this, $type, $parameters,
                                                     $name, $os, $filename, $subdirectory,
-                                                    $content, $installParameters );
+                                                    $content, $installParameters,
+                                                    $installData );
             }
         }
         $this->Parameters['is_installed'] = true;
+        $this->store();
+    }
+
+    function uninstall( $uninstallParameters = array() )
+    {
+        if ( $this->Parameters['install_type'] != 'install' )
+            return;
+        if ( !$this->Parameters['is_installed']  )
+            return;
+        $installs = $this->Parameters['uninstall'];
+        if ( !isset( $installParameters['path'] ) )
+            $installParameters['path'] = false;
+        foreach ( $installs as $install )
+        {
+            $type = $install['type'];
+            $name = $install['name'];
+            $os = $install['os'];
+            $filename = $install['filename'];
+            $subdirectory = $install['sub-directory'];
+            $parameters = $install;
+            $content = false;
+            if ( isset( $parameters['content'] ) )
+                $content = $parameters['content'];
+            $handler =& $this->packageHandler( $type );
+            if ( $handler )
+            {
+                if ( isset( $this->InstallData[$type] ) )
+                {
+                    $installData =& $this->InstallData[$type];
+                }
+                else
+                {
+                    unset( $installData );
+                    $installData = array();
+                }
+                $installResult = $handler->uninstall( $this, $type, $parameters,
+                                                      $name, $os, $filename, $subdirectory,
+                                                      $installParameters,
+                                                      $installData );
+            }
+        }
+        $this->InstallData = array();
+        $this->Parameters['is_installed'] = false;
         $this->store();
     }
 
@@ -1779,6 +2098,49 @@ class eZPackage
         $uninstallList =& $root->elementChildrenByName( 'uninstall' );
         $this->parseInstallTree( $installList, true );
         $this->parseInstallTree( $uninstallList, false );
+
+        $installDataList =& $root->elementChildrenByName( 'install-data' );
+        if ( $installDataList )
+        {
+            $this->InstallData = array();
+            for ( $i = 0; $i < count( $installDataList ); ++$i )
+            {
+                $installDataNode =& $installDataList[$i];
+                if ( $installDataNode->attribute( 'name' ) == 'data' )
+                {
+                    $installDataType = $installDataNode->attributeValue( 'type' );
+                    $installDataElements = $installDataNode->children();
+                    $installData = array();
+                    foreach ( array_keys( $installDataElements ) as $installDataElementKey )
+                    {
+                        $installDataElement =& $installDataElements[$installDataElementKey];
+                        if ( $installDataElement->attribute( 'name' ) == 'element' )
+                        {
+                            $name = $installDataElement->attributeValue( 'name' );
+                            $value = $installDataElement->attributeValue( 'value' );
+                            $installData[$name] = $value;
+                        }
+                        else if ( $installDataElement->attribute( 'name' ) == 'array' )
+                        {
+                            $arrayName = $installDataElement->attributeValue( 'name' );
+                            $installDataElementArray =& $installDataElement->children();
+                            $array = array();
+                            foreach ( array_keys( $installDataElementArray ) as $installDataElementArrayKey )
+                            {
+                                $installDataElementArrayElement =& $installDataElementArray[$installDataElementArrayKey];
+                                $name = $installDataElementArrayElement->attributeValue( 'name' );
+                                $value = $installDataElementArrayElement->attributeValue( 'value' );
+                                $array[$name] = $value;
+                            }
+                            $installData[$arrayName] = $array;
+                        }
+                    }
+                    if ( count( $installData ) > 0 )
+                        $this->InstallData[$installDataType] = $installData;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -2298,6 +2660,43 @@ class eZPackage
 
         $root->appendChild( $installNode );
         $root->appendChild( $uninstallNode );
+
+        if ( count( $this->InstallData ) > 0 )
+        {
+            $installDataNode =& $dom->createElementNode( 'install-data' );
+            $installDataNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
+            foreach ( $this->InstallData as $installDataType => $installData )
+            {
+                if ( count( $installData ) > 0 )
+                {
+                    $dataNode =& $dom->createElementNode( 'data',
+                                                          array( 'type' => $installDataType ) );
+                    $installDataNode->appendChild( $dataNode );
+                    foreach ( $installData as $installDataName => $installDataValue )
+                    {
+                        if ( is_array( $installDataValue ) )
+                        {
+                            $dataArrayNode =& $dom->createElementNode( 'array',
+                                                                       array( 'name' => $installDataName ) );
+                            $dataNode->appendChild( $dataArrayNode );
+                            foreach ( $installDataValue as $installDataValueName => $installDataValueValue )
+                            {
+                                $dataArrayNode->appendChild( $dom->createElementNode( 'element',
+                                                                                      array( 'name' => $installDataValueName,
+                                                                                             'value' => $installDataValueValue ) ) );
+                            }
+                        }
+                        else
+                        {
+                            $dataNode->appendChild( $dom->createElementNode( 'element',
+                                                                             array( 'name' => $installDataName,
+                                                                                    'value' => $installDataValue ) ) );
+                        }
+                    }
+                }
+            }
+            $root->appendChild( $installDataNode );
+        }
 
         return $dom;
     }

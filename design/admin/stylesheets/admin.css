@@ -484,6 +484,8 @@ div.object div.buttonblock
     font-weight: bold;
 }
 
+/* Package management */
+
 #package .creatorlist ul
 {
     list-style-type: none;
@@ -514,23 +516,48 @@ div.object div.buttonblock
 #package select
 {
     width: 12em;
+}
+
+#package select.combobox
+{
+}
+
+#package select.listbox
+{
     height: 25em;
 }
 
 #package input.textline
 {
-    width: 12em;
+    width: 26em;
+}
+
+#package input.shorttextline
+{
+    width: 8em;
 }
 
 #package textarea
 {
-    width: 16em;
+    width: 28em;
 }
+
+/* Package information page */
 
 #package .description textarea
 {
     height: 8em;
 }
+
+/* Package changelog page */
+
+#package .changelog_text textarea
+{
+    height: 12em;
+}
+
+/*! Package maintainer page */
+
 
 
 /* Doxygen related stylse */

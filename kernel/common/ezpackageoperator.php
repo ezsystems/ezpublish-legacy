@@ -80,6 +80,7 @@ class eZPackageOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $package =& $operatorValue;
         $class = $namedParameters['class'];
         switch ( $class )
         {
@@ -96,6 +97,36 @@ class eZPackageOperator
                         if ( $fileIdentifier == $variableName )
                         {
                             $operatorValue = $operatorValue->fileItemPath( $file, 'default' );
+                            return;
+                        }
+                    }
+                }
+            } break;
+
+            case 'fileitempath':
+            {
+                if ( get_class( $operatorValue ) == 'ezpackage' )
+                {
+                    $fileItem = $namedParameters['data'];
+                    $operatorValue = $operatorValue->fileItemPath( $fileItem, 'default' );
+                }
+            } break;
+
+            case 'documentpath':
+            {
+                if ( get_class( $package ) == 'ezpackage' )
+                {
+                    $documentName = $namedParameters['data'];
+                    $documentList = $package->attribute( 'documents' );
+                    foreach ( array_keys( $documentList ) as $key )
+                    {
+                        $document =& $documentList[$key];
+                        $name = $document["name"];
+                        if ( $name == $documentName )
+                        {
+                            $documentFilePath = $package->path() . '/' . eZPackage::documentDirectory() . '/' . $document['name'];
+                            $operatorValue = $documentFilePath;
+                            return;
                         }
                     }
                 }

@@ -137,18 +137,18 @@ class eZStepCreateSites extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $imageINI = eZINI::create( 'image.ini' );
-        $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
-        $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
+//        $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
+//        $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
-            $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'true' );
-            $imageINI->setVariable( 'ShellSettings', 'ConvertPath', $this->PersistenceList['imagemagick_program']['path'] );
-            $imageINI->setVariable( 'ShellSettings', 'ConvertExecutable', $this->PersistenceList['imagemagick_program']['program'] );
+//            $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'true' );
+            $imageINI->setVariable( 'ImageMagick', 'ExecutablePath', $this->PersistenceList['imagemagick_program']['path'] );
+            $imageINI->setVariable( 'ImageMagick', 'Executable', $this->PersistenceList['imagemagick_program']['program'] );
         }
-        if ( $this->PersistenceList['imagegd_extension']['result'] )
-        {
-            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
-        }
+//        if ( $this->PersistenceList['imagegd_extension']['result'] )
+//        {
+//            $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'true' );
+//        }
         $saveResult = false;
         if ( !$saveData )
             $saveResult = true;
@@ -316,7 +316,7 @@ class eZStepCreateSites extends eZStepInstaller
                                                          'Database' => $dbName,
                                                          'User' => $dbUser,
                                                          'Password' => $dbPwd,
-                                                         'Charset' => $charset );
+                                                         'Charset' => false );
             $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $sitePackage['identifier'] );
             if ( trim( $dbSocket ) != '' )
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;

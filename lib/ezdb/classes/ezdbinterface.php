@@ -75,6 +75,7 @@ class eZDBInterface
         $slaveDB =  $parameters['slave_database'];
         $socketPath = $parameters['socket'];
         $charset = $parameters['charset'];
+		$isInternalCharset = $parameters['is_internal_charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
         $connectRetries = $parameters['connect_retries'];
 
@@ -94,6 +95,7 @@ class eZDBInterface
         $this->SlaveUser = $slaveUser;
         $this->SlavePassword = $slavePassword;
         $this->Charset = $charset;
+		$this->IsInternalCharset = $isInternalCharset;
         $this->UseBuiltinEncoding = $builtinEncoding;
         $this->ConnectRetries = $connectRetries;
         $this->DBConnection = false;
@@ -123,7 +125,55 @@ class eZDBInterface
         $this->StartTime = false;
         $this->EndTime = false;
         $this->TimeTaken = false;
+
+		$this->AttributeVariableMap =
+		array(
+		    'database_name' => 'DB',
+            'database_server' => 'Server',
+            'database_socket_path' => 'SocketPath',
+            'database_user' => 'User',
+            'use_slave_server' => 'UseSlaveServer',
+            'slave_database_name' => 'SlaveDB',
+            'slave_database_server' => 'SlaveServer',
+            'slave_database_user' => 'SlaveUser',
+            'charset' => 'Charset',
+			'is_internal_charset' => 'IsInternalCharset',
+	        'use_builting_encoding' => 'UseBuiltinEncoding',
+        	'retry_count' => 'ConnectRetries' );
     }
+
+    /*!
+	 \return the available attributes for this database handler.
+	*/	
+	function attributes()
+	{
+		return array_keys( $this->AttributeVariableMap );
+	}
+
+    /*!
+	 \return \c true if the attribute \a $name exists for this database handler.
+	*/	
+	function hasAttribute( $name )
+	{
+		if ( isset( $this->AttributeVariableMap[$name] ) )
+		{
+		    return true;
+		}
+		return false;
+	}
+	
+    /*!
+	 \return the value of the attribute \a $name if it exists, otherwise \c null.
+	*/	
+	function &attribute( $name )
+	{
+		if ( isset( $this->AttributeVariableMap[$name] ) )
+		{
+		    $memberVariable = $this->AttributeVariableMap[$name];
+			return $this->$memberVariable;
+		}
+		return null;
+	}
 
     /*!
      \private

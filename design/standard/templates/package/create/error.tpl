@@ -2,7 +2,7 @@
 <div class="error">
 <ul>
 {section var=error loop=$error_list}
-    <li><em class="field">{$error.item.field|wash}:</em> {$error.item.description|wash}</li>
+    <li>{section show=$error.item.field}<em class="field">{$error.item.field|wash}:</em> {/section}{$error.item.description|wash}</li>
 {/section}
 </ul>
 </div>

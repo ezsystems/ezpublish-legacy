@@ -61,10 +61,13 @@
 </div>
 <div class="object">
 
+<table>
+<tr>
+
      {section name=Limitations loop=$function_limitations}
      {section-exclude match=$Limitations:item.name|eq('Subtree')}
      {section-exclude match=$Limitations:item.name|eq('Node')}
-<div class="element">
+<td class="element">
     <label>{$Limitations:item.name}</label><div class="labelbreak"/>
      <select name="{$Limitations:item.name}[]" size="8" multiple >
      <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
@@ -74,13 +77,13 @@
      {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
      {/section}   
      </select>
-</div>
+</td>
      {/section}  
 
 {section name=Limitations loop=$function_limitations}
 {switch match=$Limitations:item.name} 
   {case match="Node"}
-   <div class="element">
+   <td class="element">
     <label>Node</label><div class="labelbreak"></div>
     <table>
      {section show=$node_list name=NodeList loop=$node_list}
@@ -102,10 +105,10 @@
      </table>
      <input class="menubutton" type="image" name="BrowseLimitationNodeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
      <input class="menubutton" type="image" name="DeleteNodeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
-   </div>
+   </td>
   {/case}
   {case match="Subtree"}
-   <div class="element">
+   <td class="element">
     <label>Subtree</label><div class="labelbreak"></div>
     <table>
      {section show=$subtree_list name=SubtreeList loop=$subtree_list}
@@ -127,12 +130,15 @@
      </table>
      <input class="menubutton" type="image" name="BrowseLimitationSubtreeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
      <input class="menubutton" type="image" name="DeleteSubtreeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
-   </div>
+   </td>
   {/case}
   {case}
   {/case}
 {/switch}
 {/section} 
+
+</tr>
+</table>
 
 <div class="break"></div>
 </div>

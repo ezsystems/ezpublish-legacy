@@ -43,19 +43,31 @@ if ( $module->isCurrentAction( 'InstallPackage' ) )
     return $module->redirectToView( 'upload' );
 }
 
-if ( $module->isCurrentAction( 'RemovePackage' ) )
+$removeList = array();
+if ( $module->isCurrentAction( 'RemovePackage' ) or
+     $module->isCurrentAction( 'ConfirmRemovePackage' ) )
 {
     if ( $module->hasActionParameter( 'PackageSelection' ) )
     {
+	    $removeConfirmation = $module->isCurrentAction( 'ConfirmRemovePackage' );
         $packageSelection = $module->actionParameter( 'PackageSelection' );
         foreach ( $packageSelection as $packageID )
         {
             $package =& eZPackage::fetch( $packageID );
             if ( $package )
             {
-                $package->remove();
+				if ( $removeConfirmation )
+				{
+	                $package->remove();
+				}
+				else
+				{
+					$removeList[] =& $package;
+				}
             }
         }
+        if ( $removeConfirmation )
+            return $module->redirectToView( 'list' );
     }
 }
 
@@ -68,7 +80,9 @@ $tpl =& templateInit();
 
 $viewParameters = array( 'offset' => $offset );
 
+$tpl->setVariable( 'module_action', $module->currentAction() );
 $tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'remove_list', $removeList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:package/list.tpl" );

@@ -38,8 +38,9 @@
 */
 
 /*!
+  \ingroup package
   \class eZContentClassPackageCreator ezcontentclasspackagecreator.php
-  \brief The class eZContentClassPackageCreator does
+  \brief A package creator for content classes
 
 */
 
@@ -48,41 +49,35 @@ include_once( 'kernel/classes/ezpackagecreationhandler.php' );
 class eZContentClassPackageCreator extends eZPackageCreationHandler
 {
     /*!
-     Constructor
+     \reimp
     */
     function eZContentClassPackageCreator( $id )
     {
         $steps = array();
-        $steps[] = array( 'id' => 'start',
-                          'name' => ezi18n( 'kernel/package', 'Package information' ),
-                          'use_standard_template' => true,
-                          'template' => 'info.tpl' );
         $steps[] = array( 'id' => 'class',
                           'name' => ezi18n( 'kernel/package', 'Content classes to include' ),
+						  'methods' => array( 'initialize' => 'initializeClassData',
+						                      'validate' => 'validateClassData',
+											  'commit' => 'commitClassData' ),
                           'template' => 'class.tpl' );
+        $steps[] = $this->packageInformationStep();
+        $steps[] = $this->packageMaintainerStep();
+        $steps[] = $this->packageChangelogStep();
         $this->eZPackageCreationHandler( $id,
                                          ezi18n( 'kernel/package', 'Content class export' ),
                                          $steps );
     }
 
-    function nextstepMethodMap()
-    {
-        return array( 'start' => 'checkStartData',
-                      'class' => 'checkClassData' );
-    }
-
-    function runstepMethodMap()
-    {
-        return array( 'start' => 'initializeData',
-                      'class' => 'initializeClassData' );
-    }
-
+    /*!
+     \reimp
+     Creates the package and adds the selected content classes.
+    */
     function finalize( &$package, &$http, &$persistentData )
     {
-        print( "finalize( &$package, &$http, &$persistentData )<br/>" );
+		$this->createPackage( $package, $http, $persistentData, $cleanupFiles );
+
         $classHandler = eZPackage::packageHandler( 'ezcontentclass' );
         $classList = $persistentData['classlist'];
-        var_dump( $classList );
         foreach ( $classList as $classID )
         {
             $classHandler->addClass( $package, $classID );
@@ -91,61 +86,37 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         $package->store();
     }
 
-    function checkStartData( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    /*!
+     \reimp
+     Returns \c 'stable', content class packages are always stable.
+    */
+    function packageInitialState( &$package, &$persistentData )
     {
-        $packageName = false;
-        $packageSummary = false;
-        $packageVersion = false;
-        $packageDescription = false;
-        $packageLicence = 'GPL';
-        if ( $http->hasPostVariable( 'PackageName' ) )
-            $packageName = trim( $http->postVariable( 'PackageName' ) );
-        if ( $http->hasPostVariable( 'PackageSummary' ) )
-            $packageSummary = $http->postVariable( 'PackageSummary' );
-        if ( $http->hasPostVariable( 'PackageDescription' ) )
-            $packageDescription = $http->postVariable( 'PackageDescription' );
-        if ( $http->hasPostVariable( 'PackageVersion' ) )
-            $packageVersion = trim( $http->postVariable( 'PackageVersion' ) );
-        if ( $http->hasPostVariable( 'PackageLicence' ) )
-            $packageLicence = $http->postVariable( 'PackageLicence' );
-
-        $persistentData['name'] = $packageName;
-        $persistentData['summary'] = $packageSummary;
-        $persistentData['description'] = $packageDescription;
-        $persistentData['version'] = $packageVersion;
-        $persistentData['licence'] = $packageLicence;
-
-        $result = true;
-        if ( $packageName == '' )
-        {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),
-                                  'description' => ezi18n( 'kernel/package', 'Package name is missing' ) );
-            $result = false;
-        }
-        if ( !$packageSummary )
-        {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Summary' ),
-                                  'description' => ezi18n( 'kernel/package', 'Summary is missing' ) );
-            $result = false;
-        }
-        if ( !preg_match( "#^[0-9](\.[0-9])*$#", $packageVersion ) )
-        {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Version' ),
-                                  'description' => ezi18n( 'kernel/package', 'The version must only contain numbers and must be delimited by dots (.), e.g. 1.0' ) );
-            $result = false;
-        }
-        return $result;
+        return 'stable';
     }
 
-    function checkClassData( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    /*!
+     \return \c 'contentclass'.
+    */
+	function packageType( &$package, &$persistentData )
+	{
+	    return 'contentclass';
+	}
+
+    function initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-        print( "checkClassData( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )<br/>" );
+    }
+
+    /*!
+     Checks if at least one content class has been selected.
+    */
+    function validateClassData( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    {
         $classList = array();
         if ( $http->hasPostVariable( 'ClassList' ) )
             $classList = $http->postVariable( 'ClassList' );
 
         $persistentData['classlist'] = $classList;
-        var_dump( $classList );
 
         $result = true;
         if ( count( $classList ) == 0 )
@@ -157,39 +128,49 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitClassData( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-        print( "initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )<br/>" );
-        $package = eZPackage::create( $persistentData['name'],
-                                      array( 'summary' => $persistentData['summary'] ) );
+	}
 
-        $package->setAttribute( 'is_active', false );
-
-        $package->setRelease( $persistentData['version'], '1', false,
-                              $persistentData['licence'], 'alpha' );
-
-        $package->setAttribute( 'description', $persistentData['description'] );
-        $package->setAttribute( 'install_type', 'install' );
-        $user =& eZUser::currentUser();
-        $userObject =& $user->attribute( 'contentobject' );
-        if ( $userObject )
-        {
-            $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-            $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
-        }
-
-        $package->store();
-    }
-
-    function initializeData( &$package, &$http, $step, &$persistentData, &$tpl )
-    {
-        print( "initializeData( &$package, &$http, $step, &$persistentData, &$tpl )<br/>" );
-        $persistentData['name'] = false;
-        $persistentData['summary'] = false;
-        $persistentData['description'] = false;
-        $persistentData['licence'] = 'GPL';
-        $persistentData['version'] = '1.0';
-    }
+    /*!
+     \reimp
+     Fetches the selected content classes and generates a name, summary and description from the selection.
+    */	
+	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+	{
+        $classList = $persistentData['classlist'];
+		if ( count( $classList ) == 1 )
+		{
+			$classID = $classList[0];
+			$class =& eZContentClass::fetch( $classID );
+			if ( $class )
+			{
+				$packageInformation['name'] = $class->attribute( 'name' );
+				$packageInformation['summary'] = 'Export of content class ' . $class->attribute( 'name' );
+				$packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ publish site';
+			}
+		}
+		else if ( count( $classList ) > 1 )
+		{
+			$classNames = array();
+			foreach ( $classList as $classID )
+			{
+				$class =& eZContentClass::fetch( $classID );
+				if ( $class )
+				{
+					$classNames[] = $class->attribute( 'name' );
+				}
+			}
+			$packageInformation['name'] = count( $classList ) . ' Classes';
+			$packageInformation['summary'] = 'Export of ' . count( $classList ) . ' content classes';
+			$description = 'This package contains exported definitions of the following content classes:' . "\n";
+			foreach ( $classNames as $className )
+			{
+			    $description .= '- ' . $className . "\n";
+			}
+			$packageInformation['description'] = $description;
+		}
+	}
 }
 
 ?>
