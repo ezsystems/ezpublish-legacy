@@ -75,14 +75,6 @@ class eZRedirectManager
             if ( $http->hasSessionVariable( "LastAccessesURI" ) )
             {
                 $uri = $http->sessionVariable( "LastAccessesURI" );
-                if ( $http->hasSessionVariable( 'LastAccessesParameters' ) )
-                {
-                    $parameters = $http->sessionVariable( 'LastAccessesParameters' );
-                    foreach ( $parameters as $name => $value )
-                    {
-                        $uri .= '/(' . $name . ')/' . $value;
-                    }
-                }
             }
         }
         else
@@ -90,14 +82,6 @@ class eZRedirectManager
             if ( $http->hasSessionVariable( "LastAccessedModifyingURI" ) )
             {
                 $uri = $http->sessionVariable( "LastAccessedModifyingURI" );
-                if ( $http->hasSessionVariable( 'LastAccessedModifyingParameters' ) )
-                {
-                    $parameters = $http->sessionVariable( 'LastAccessedModifyingParameters' );
-                    foreach ( $parameters as $name => $value )
-                    {
-                        $uri .= '/(' . $name . ')/' . $value;
-                    }
-                }
             }
         }
 

@@ -424,6 +424,13 @@ while ( $moduleRunRequired )
     // Extract user specified parameters
     $userParameters = $uri->userParameters();
 
+    // Generate a URI which also includes the user parameters
+    $completeRequestedURI = $actualRequestedURI;
+    foreach ( $userParameters as $name => $value )
+    {
+        $completeRequestedURI .= '/(' . $name . ')/' . $value;
+    }
+
     // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
@@ -783,7 +790,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 if ( is_object( $db ) and $db->isConnected() and
      $module->exitStatus() == EZ_MODULE_STATUS_OK )
 {
-    $currentURI = $actualRequestedURI;
+    $currentURI = $completeRequestedURI;
     if ( strlen( $currentURI ) > 0 and $currentURI[0] != '/' )
         $currentURI = '/' . $currentURI;
 
@@ -807,14 +814,12 @@ if ( is_object( $db ) and $db->isConnected() and
          !in_array( $module->uiContextName(), array( 'edit', 'administration', 'browse', 'authentication' ) ) )
     {
         $http->setSessionVariable( "LastAccessesURI", $currentURI );
-        $http->setSessionVariable( "LastAccessesParameters", $userParameters );
     }
 
     // Update last accessed non-view page
     if ( $currentURI != $lastAccessedModifyingURI )
     {
         $http->setSessionVariable( "LastAccessedModifyingURI", $currentURI );
-        $http->setSessionVariable( "LastAccessedModifyingParameters", $userParameters );
     }
 }
 
