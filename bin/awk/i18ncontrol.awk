@@ -17,25 +17,40 @@ BEGIN {
     if( FileContext == "" )
     {
       FileContext = context;
-      printf( "Context: %s\n", context );
+      printf( "######## %s ########\n", FILENAME );
+      printf( "%i: Context is set: %s\n", NR, context );
       # sanity check context
       if( FileContext ~ /^\// || FileContext ~ /\/$/ )
       {
-        printf( "%i: Bad context\n", NR );
+        printf( "%i: Bad context [%s]\n", NR, FileContext );
         exit;
       }
       else if( FileContext !~ /^design/ )
         printf( "%i: Context should start with design\n", NR );
+      else if( FILENAME ~ /^design/   )
+      {
+        # fetch design name
+        match( FILENAME , /[^\/]*\/([^\/]*)/, matches);
+        probableContext = matches[1];
+        match( FileContext , /[^\/]*\/([^\/]*)/, matches);
+        if( matches[1] != probableContext )
+          printf( "%i: Probable mismatch between design and translation context [%s]\n", NR, FileContext );
+      }
     }
     else if( context != FileContext ) # check that new context is similar to old one
     {
-        print "Detected context inconsistency\n";
+        printf( "%i: Detected context inconsistency [%s]\n", NR, context );
     }
 
     # translation string related checks
     if( transString ~ /:$/ )
     {
-      printf( "%i: Translation string ends with :\n", NR );
+      printf( "%i: Translation string ends with ':' [%s]\n", NR, transString );
     }
   }
+}
+
+END {
+  if( FileContext != "" )
+    printf( "----------------------------------------------------------\n\n\n");
 }
