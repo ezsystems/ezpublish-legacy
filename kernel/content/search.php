@@ -86,6 +86,7 @@ $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
+$tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/search.tpl" );

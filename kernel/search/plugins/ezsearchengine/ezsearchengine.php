@@ -458,7 +458,7 @@ class eZSearchEngine
                 $i++;
             }
 
-            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word FROM ezsearch_word where $wordQueryString" );
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString" );
 
             // get the words in the correct order
             $wordIDArray = array();
@@ -466,7 +466,7 @@ class eZSearchEngine
             foreach ( $wordIDArrayRes as $wordRes )
             {
                 $wordIDArray[] = $wordRes['id'];
-                $wordIDHash[$wordRes['word']] = $wordRes['id'];
+                $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
             }
 
             // build an array of the word id's for each phrase
@@ -477,7 +477,7 @@ class eZSearchEngine
                 $wordIDArray = array();
                 foreach ( $wordArray as $word )
                 {
-                    $wordIDArray[] = $wordIDHash[$word];
+                    $wordIDArray[] = $wordIDHash[$word]['id'];
                 }
                 $phraseIDArrayArray[] = $wordIDArray;
             }
@@ -540,7 +540,7 @@ class eZSearchEngine
                     {
                         $wordID = null;
                         if ( isset( $wordIDHash[$searchWord] ) )
-                            $wordID = $wordIDHash[$searchWord];
+                            $wordID = $wordIDHash[$searchWord]['id'];
 
                         if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
                         {
@@ -677,6 +677,7 @@ class eZSearchEngine
             $searchWordArray =& $this->splitString( $fullText );
             $searchWordCount = count( $searchWordArray );
             $fullTextSQL = "";
+            $stopWordArray = array( );
             if ( count( $searchWordArray ) > 0 )
             {
                 $i = 0;
@@ -685,7 +686,12 @@ class eZSearchEngine
                 {
                     $wordID = null;
                     if ( isset( $wordIDHash[$searchWord] ) )
-                        $wordID = $wordIDHash[$searchWord];
+                        $wordID = $wordIDHash[$searchWord]['id'];
+
+                    $searchThresholdValue = (int)( $totalObjectCount * 0.05 );
+                    // do not search words that are too frequent
+                    if ( $wordIDHash[$searchWord]['object_count'] < $searchThresholdValue )
+                    {
 
                     if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
                     {
@@ -744,12 +750,19 @@ class eZSearchEngine
                     $versionNameJoins
                     $sqlPermissionCheckingString" );
                         }
+                        $i++;
                     }
-                    $i++;
+
+                    }
+                    else
+                    {
+                        $stopWordArray[] = array( 'word' => $wordIDHash[$searchWord]['word'] );
+                    }
+
                 }
             }
 
-            $objectResArray =& $db->arrayQuery( "SELECT * FROM ezsearch_tmp" );
+            $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
             // Fetch data from table
             $searchQuery = "SELECT DISTINCT COUNT(ezsearch_tmp.contentobject_id) AS count, ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
@@ -768,11 +781,11 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                     GROUP BY ezsearch_tmp.contentobject_id
-                    HAVING count >= $searchWordCount
+                    HAVING count >= $excludeWordCount
                     ORDER BY ezsearch_tmp.published DESC";
 
             // Count query
-            $searchCountQuery = "SELECT count( DISTINCT contentobject_id ) as count FROM ezsearch_tmp";
+            $searchCountQuery = "SELECT count( DISTINCT contentobject_id ) as count FROM ezsearch_tmp HAVING count >= $excludeWordCount";
 
             $objectRes = array();
 
@@ -793,12 +806,14 @@ class eZSearchEngine
             $db->query( "DROP TABLE IF EXISTS ezsearch_tmp" );
 
             return array( "SearchResult" => $objectRes,
-                          "SearchCount" => $searchCount );
+                          "SearchCount" => $searchCount,
+                          "StopWordArray" => $stopWordArray );
         }
         else
         {
             return array( "SearchResult" => array(),
-                          "SearchCount" => 0 );
+                          "SearchCount" => 0,
+                          "StopWordArray" => array() );
         }
     }
 
