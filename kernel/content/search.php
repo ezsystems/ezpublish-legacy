@@ -71,6 +71,13 @@ if ( $http->hasVariable( "SectionID" ) )
     $searchSectionID = $http->variable( "SectionID" );
 }
 
+$searchTimestamp = false;
+if ( $http->hasVariable( 'SearchTimestamp' ) and
+     $http->variable( 'SearchTimestamp' ) )
+{
+    $searchTimestamp = $http->variable( 'SearchTimestamp' );
+}
+
 $searchType = "fulltext";
 if ( $http->hasVariable( "SearchType" ) )
 {
@@ -98,6 +105,7 @@ if ( $useSearchCode )
     $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                            "SearchSectionID" => $searchSectionID,
                                                            "SearchSubTreeArray" => $subTreeArray,
+                                                           'SearchTimestamp' => $searchTimestamp,
                                                            "SearchLimit" => $pageLimit,
                                                            "SearchOffset" => $Offset ) );
 }
@@ -115,6 +123,7 @@ $searchData = false;
 $tpl->setVariable( "search_data", $searchData );
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_subtree_array", $subTreeArray );
+$tpl->setVariable( 'search_timestamp', $searchTimestamp );
 $tpl->setVariable( "search_text", $searchText );
 
 $tpl->setVariable( "view_parameters", $viewParameters );

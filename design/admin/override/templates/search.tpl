@@ -69,10 +69,10 @@
          search_result=$search_result}
 
 
-{include name=navigator
+{include name=Navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/search')
-         page_uri_suffix=concat('?SearchText=',$search_text|urlencode)
+         page_uri_suffix=concat('?SearchText=',$search_text|urlencode,$search_timestamp|gt(0)|choose('',concat('&SearchTimestamp=',$search_timestamp)))
          item_count=$search_count
          view_parameters=$view_parameters
          item_limit=$page_limit}

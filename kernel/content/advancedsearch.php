@@ -112,6 +112,13 @@ if ( $http->hasVariable( 'SearchDate' ) and
     $searchDate = $http->variable( 'SearchDate' );
 }
 
+$searchTimestamp = false;
+if ( $http->hasVariable( 'SearchTimestamp' ) and
+     $http->variable( 'SearchTimestamp' ) )
+{
+    $searchTimestamp = $http->variable( 'SearchTimestamp' );
+}
+
 $searchSectionID = -1;
 if ( $http->hasVariable( 'SearchSectionID' ) and
      $http->variable( 'SearchSectionID' ) != -1 )
@@ -155,6 +162,7 @@ if ( $useSearchCode )
                                                            'SearchContentClassAttributeID' => $searchContentClassAttributeID,
                                                            'SearchSubTreeArray' => $subTreeArray,
                                                            'SearchDate' => $searchDate,
+                                                           'SearchTimestamp' => $searchTimestamp,
                                                            'SearchLimit' => $pageLimit,
                                                            'SearchOffset' => $Offset ),
                                        $searchArray );
@@ -172,6 +180,7 @@ $tpl->setVariable( 'search_contentclass_id', $searchContentClassID );
 $tpl->setVariable( 'search_contentclass_attribute_id', $searchContentClassAttributeID );
 $tpl->setVariable( 'search_section_id', $searchSectionID );
 $tpl->setVariable( 'search_date', $searchDate );
+$tpl->setVariable( 'search_timestamp', $searchTimestamp );
 $tpl->setVariable( 'search_sub_tree', $subTreeArray );
 $tpl->setVariable( 'search_text', $searchText );
 $tpl->setVariable( 'search_page_limit', $searchPageLimit );
