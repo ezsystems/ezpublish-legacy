@@ -129,8 +129,8 @@ function eZWebDavAppendToLog( $logString )
 
     $logFile  = fopen( $fileName, 'a' );
     $nowTime = date( "Y-m-d H:i:s : " );
-    fwrite( $fileName, $nowTime . $logString . "\n" );
-    fclose( $fileName );
+    fwrite( $logFile, $nowTime . $logString . "\n" );
+    fclose( $logFile );
 }
 
 
