@@ -303,29 +303,52 @@ class eZContentOperationCollection
 
     function updateSectionID( $objectID, $versionNum )
     {
+        if ( $versionNum == 1  )
+            return;
+
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
 
-        $assignments =& $version->attribute( 'parent_nodes' );
-        foreach ( array_keys( $assignments ) as $key )
+        if ( $object->attribute( 'current_version' ) == $versionNum )
+            return;
+
+        list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+
+        $currentVersion =& $object->attribute( 'current' );
+        list( $oldMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 1 );
+
+        if ( $newMainAssignment && $oldMainAssignment
+             &&  $newMainAssignment->attribute( 'parent_node' ) != $oldMainAssignment->attribute( 'parent_node' ) )
         {
-            if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+            $oldMainParentNode =& $oldMainAssignment->attribute( 'parent_node_obj' );
+            if ( $oldMainParentNode )
             {
-                $parentNode =& $assignments[$key]->attribute( 'parent_node_obj' );
-                if ( $parentNode )
+                $oldParentObject =& $oldMainParentNode->attribute( 'object' );
+                $oldParentObjectSectionID = $oldParentObject->attribute( 'section_id' );
+                if ( $oldParentObjectSectionID == $object->attribute( 'section_id' ) )
                 {
-                    $parentObject =& $parentNode->attribute( 'object' );
-                    if ( $parentObject )
+                    $newParentNode =& $newMainAssignment->attribute( 'parent_node_obj' );
+                    if ( !$newParentNode )
+                        return;
+                    $newParentObject =& $newParentNode->attribute( 'object' );
+                    if ( !$newParentObject )
+                        return;
+
+                    $newSectionID = $newParentObject->attribute( 'section_id' );
+
+                    if ( $newSectionID != $object->attribute( 'section_id' ) )
                     {
-                        $sectionID = $parentObject->attribute( 'section_id' );
-                        if ( $sectionID != $object->attribute( 'section_id' ) )
-                        {
-                            $object->setAttribute( 'section_id', $sectionID );
-                            $object->store();
-                        }
+                        $oldSectionID = $object->attribute( 'section_id' );
+                        $object->setAttribute( 'section_id', $newSectionID );
+                        $object->store();
+                        $mainNodeID = $object->attribute( 'main_node_id' );
+                        if ( $mainNodeID > 0 )
+                            eZContentObjectTreeNode::assignSectionToSubTree( $mainNodeID,
+                                                                             $newSectionID,
+                                                                             $oldSectionID );
+
                     }
                 }
-                break;
             }
         }
     }
