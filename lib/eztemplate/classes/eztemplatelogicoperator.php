@@ -853,7 +853,7 @@ class eZTemplateLogicOperator
             } break;
             case $this->NotName:
             {
-                if ( $value !== null )
+                if ( $value !== null or $value === null)
                 {
                     $operand = $value;
                 }
