@@ -1,17 +1,15 @@
-{* Show the contents of the current node (will probably use an override)*}
-
 <div class="menu-block">
 <ul>
-    {* Content *}
+    {* Content preview *}
     <li>
     {section show=ezpreference( 'admin_navigation_content' )}
-        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl}>{'Content'|i18n( '/design/admin/navigation' )}</a>
+        <a class="enabled" href={'/user/preferences/set/admin_navigation_content/0'|ezurl}>{'Content preview'|i18n( '/design/admin/navigation' )}</a>
     {section-else}
-        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl}>{'Content'|i18n( '/design/admin/navigation' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl}>{'Content preview'|i18n( '/design/admin/navigation' )}</a>
     {/section}
     </li>
 
-    {* Information *}
+    {* Additional information *}
     <li>
     {section show=ezpreference( 'admin_navigation_information' )}
         <a class="enabled" href={'/user/preferences/set/admin_navigation_information/0'|ezurl}>{'Additional information'|i18n( '/design/admin/navigation' )}</a>
@@ -40,35 +38,18 @@
 </ul>
 </div>
 
-{*
-<div class="viewbar">
-<table>
-<tr>
-<td>
-{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )}
-</td>
-<td>
-Name: {$node.name}
-<br />
-Type: {$node.object.class_name}<br />
-</td>
-</tr>
-</table>
-</div>
-*}
-
 <div class="context-block">
 
 <h2 class="title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
 
+{* Content preview. *}
 {section show=ezpreference( 'admin_navigation_content'  )}
-<div class="mainobject-vindow" title="{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}">
-
-{* Show the actual contents of the object. *}
-{node_view_gui content_node=$node view=navigation}
+<div class="mainobject-vindow" title="{$node.name|wash} {'Node ID'|i18n( 'design/admin/navigation' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/navigation' )}: {$node.object.id}">
+    {node_view_gui content_node=$node view=navigation}
 </div>
 {/section}
 
+{* Edit, move, remove + additional action buttons. *}
 {include uri='design:buttons.tpl'}
 </div>
 
@@ -82,12 +63,14 @@ Type: {$node.object.class_name}<br />
     {include uri='design:locations.tpl'}
 {/section}
 
-{* Related objects and reverse related objects. *}
+{* Related objects and reverse related objects *}
 {section show=ezpreference( 'admin_navigation_relations'  )}
     {include uri='design:related_objects.tpl'}
 {/section}
 
-{* Children. *}
-<div class="content-view-children">
-{include uri='design:children.tpl'}
-</div>
+{* Children *}
+{section show=$node.object.contentclass.is_container}
+    <div class="content-view-children">
+        {include uri='design:children.tpl'}
+    </div>
+{/section}
