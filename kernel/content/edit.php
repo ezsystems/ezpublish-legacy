@@ -151,9 +151,9 @@ if ( !function_exists( 'checkContentActions' ) )
             }
         }
 
-        if ( $module->isCurrentAction( 'Cancel' ) )
+        if ( $module->isCurrentAction( 'Discard' ) )
         {
-            $http =& eZHttpTool::instance();
+            /*  $http =& eZHttpTool::instance();
             $module->redirectTo( '/content/view/full/2/' );
 
             $objectID = $object->attribute( 'id' );
@@ -185,6 +185,14 @@ if ( !function_exists( 'checkContentActions' ) )
                 $http->removeSessionVariable( 'NewObjectID' );
                 $module->redirectTo( $parentURL );
             }
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;*/
+
+            $http =& eZHttpTool::instance();
+            $objectID = $object->attribute( 'id' );
+            $http->setSessionVariable( 'DiscardObjectID', $objectID );
+            $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );
+            $http->setSessionVariable( 'DiscardObjectLanguage', $EditLanguage );
+            $module->redirectTo( $module->functionURI( 'removeeditversion' ) . '/' );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 

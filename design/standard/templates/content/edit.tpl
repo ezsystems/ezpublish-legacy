@@ -118,7 +118,7 @@
     <div class="buttonblock">
     <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
-    <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
+    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('content/object')}" />
     </div>
     <!-- Left part end -->
     </td>

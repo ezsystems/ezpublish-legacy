@@ -42,7 +42,7 @@ $ViewList["edit"] = array(
                                     'TranslateButton' => 'Translate',
                                     'VersionsButton' => 'VersionEdit',
                                     'PublishButton' => 'Publish',
-                                    'CancelButton' => 'Cancel',
+                                    'DiscardButton' => 'Discard',
                                     'BrowseNodeButton' => 'BrowseForNodes',
 //                                    'DeleteNodeButton' => 'DeleteNode',
 //                                    'MoveNodeButton' => 'MoveNode',
@@ -110,6 +110,11 @@ $ViewList["browse"] = array(
 $ViewList["removeobject"] = array(
     "functions" => array( 'read' ),
     "script" => "removeobject.php",
+    "params" => array( ) );
+
+$ViewList["removeeditversion"] = array(
+    "functions" => array( 'read' ),
+    "script" => "removeeditversion.php",
     "params" => array( ) );
 
 $ViewList["download"] = array(

@@ -62,7 +62,7 @@ foreach ( $deleteIDArray as $deleteID )
             }
         }
         if ( $deletedClassName == "class" )
-            $deletedClassName = " none class";
+            $deletedClassName = " 0 class";
         $item = array( "groupName" => $GroupName,
                        "deletedClassName" => $deletedClassName );
         $deleteResult[] = $item;
