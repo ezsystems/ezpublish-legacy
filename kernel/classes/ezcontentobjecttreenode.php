@@ -1996,9 +1996,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
-        $sqlPermissionCheckingString = preg_replace( "/AND$/i", "", $sqlPermissionCheckingString );
-
-             $query = "SELECT ( ezcontentobject.published / 86400 )  as published
+        $query = "SELECT ( ezcontentobject.published / 86400 )  as published
                               $groupBySelectText
 
                    FROM
@@ -2015,10 +2013,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $notEqParentString
                       $mainNodeOnlyCond
                       $classCondition
-                      $sqlPermissionCheckingString
                       ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                       ezcontentclass.id = ezcontentobject.contentclass_id 
                       $showInvisibleNodesCond
+                      $sqlPermissionCheckingString
                 $groupByText ";
 
 
