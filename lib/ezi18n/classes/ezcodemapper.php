@@ -55,6 +55,498 @@ class eZCodeMapper
     */
     function eZCodeMapper()
     {
+        $this->TransformationTables = array();
+    }
+
+    function mappingTable2( $identifier )
+    {
+    }
+
+    function parseTransformationFile( $filename )
+    {
+        $tbl =& $this->TransformationTables;
+
+        $fd = fopen( $filename, "rb" );
+        if ( !$fd )
+        {
+            print( "Failed opening $filename\n" );
+            return false;
+        }
+
+        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $this->ISOUnicodeCodec =& eZTextCodec::instance( 'iso-8859-1', 'unicode' );
+
+        $buffer = '';
+        $lineNum = 1;
+        $i = 0;
+        $hexValues = "0123456789abcdefABCDEF";
+        $identifier = false;
+
+        while ( !feof( $fd ) or strlen( $buffer ) > 0 )
+        {
+            $lines = array();
+            $len = strlen( $buffer );
+            if ( $len > 0 )
+            {
+                $endPos = false;
+                $eolPos = 0;
+                while ( $eolPos !== false and $eolPos < $len )
+                {
+                    $eolPos = strpos( $buffer, "\n", $endPos );
+                    if ( $eolPos !== false )
+                    {
+                        $line = substr( $buffer, $endPos, $eolPos - $endPos );
+                        $lines[] = array( 'text' => $line,
+                                          'line' => $lineNum );
+                        ++$lineNum;
+                        $endPos = $eolPos + 1;
+                    }
+                }
+                if ( $endPos !== false )
+                {
+                    $buffer = substr( $buffer, $endPos );
+                }
+            }
+            foreach ( $lines as $lineData )
+            {
+                $line = $lineData['text'];
+                $lineOrg = $line;
+                $linePos = $lineData['line'];
+                $commentPos = strpos( $line, '#' );
+                if ( $commentPos !== false )
+                {
+                    $line = substr( $line, 0, $commentPos );
+                }
+                $trimLine = trim( $line );
+                if ( strlen( $trimLine ) == 0 )
+                    continue;
+
+                print( "Line: '$line'\n" );
+
+                $unicodeData = false;
+
+                $sourceValue = false;
+                $sourceEndValue = false;
+                $destinationValues = false;
+                $transposeValue = false;
+                // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
+                $state = 'source';
+                // map, transpose, replace
+                $type = false;
+
+                $len = strlen( $line );
+                $colonPos = strpos( $line,  ':' );
+
+                if ( $colonPos !== false )
+                {
+                    $identifier = trim( substr( $line, 0, $colonPos ) );
+                    if ( !preg_match( '#^[a-zA-Z_-][a-zA-Z0-9_-]*$#', $identifier ) )
+                    {
+                        print( "Invalid identifier '$identifier', can only contain a-z, a-Z - and _\n" );
+                        $identifier = false;
+                        continue;
+                    }
+                    print( "identifier '$identifier'\n" );
+                    continue;
+                }
+                else if ( $identifier === false )
+                {
+                    print( "No identifier defined yet, skipping: '" . $line . "'\n" );
+                    continue;
+                }
+                else
+                {
+                    $pos = 0;
+                    $col = 0;
+                    $failed = false;
+                    while ( $pos < $len )
+                    {
+                        while ( $pos < $len and
+                                ( $line[$pos] == ' ' or
+                                  $line[$pos] == "\t" ) )
+                        {
+                            ++$pos;
+                        }
+                        if ( $pos >= $len )
+                            break;
+
+                        $char = $line[$pos];
+                        $unicodeData = false;
+                        if ( $char == '"' )
+                        {
+                            $delimiterPos = $pos;
+                            while ( $delimiterPos < $len )
+                            {
+                                $delimiterPos = strpos( $line, '"', $delimiterPos + 1 );
+                                if ( $delimiterPos === false or
+                                     $delimiterPos <= $pos + 1 or
+                                     $line[$delimiterPos - 1] != "\\" )
+                                    break;
+                            }
+                            if ( $delimiterPos === false )
+                            {
+                                print( "No end-quote found for line, skipping: '$line'\n" );
+                                $failed = true;
+                                break;
+                            }
+                            $str = str_replace( array( "\\\"", "\\\\" ),
+                                                array( "\"", "\\" ),
+                                                substr( $line, $pos + 1, $delimiterPos - $pos - 2 ) );
+                            print( "string '$str'\n" );
+                            $pos = $delimiterPos + 1;
+                            $unicodeData = array( 'value' => $str,
+                                                  'type' => 'string' );
+                        }
+                        else if ( $char == 'U' and
+                             $pos + 1 < $len and
+                             $line[$pos + 1] == '+' )
+                        {
+                            $hexPos = $pos + 2;
+                            if ( $hexPos + 4 > $len )
+                            {
+                                $col = $hexPos;
+                                print( "Found U+ value with " . ( $len - $hexPos ) . " missing hex numbers at $linePos, $col\n" );
+                                $failed = true;
+                                break;
+                            }
+                            $hasHexValues = true;
+                            for ( $offset = 0; $offset < 4; ++$offset )
+                            {
+                                $hexChar = $line[$hexPos + $offset];
+                                if ( $hexChar == ' ' or
+                                     $hexChar == "\t" )
+                                {
+                                    $col = $hexPos + $offset;
+                                    $hasHexValues = false;
+                                    print( "Found U+ value with " . ( 4 - $offset ) . " missing hex numbers at $linePos, $col\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                if ( strpos( $hexValues, $hexChar ) === false)
+                                {
+                                    $col = $hexPos + $offset;
+                                    $hasHexValues = false;
+                                    print( "Found U+ value with invalid hex numbers ($hexCar) at $linePos, $col\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            if ( $hasHexValues )
+                            {
+                                $unicodeValue = hexdec( substr( $line, $hexPos, 4 ) );
+                                $unicodeData = array( 'value' => $unicodeValue,
+                                                      'type' => 'unicode' );
+                                print( "unicode U+ '$unicodeValue'\n" );
+                            }
+                            $pos = $hexPos + 4;
+                        }
+                        else if ( strpos( $hexValues, $char ) !== false and
+                                  $pos + 1 < $len and
+                                  strpos( $hexValues, $line[$pos + 1] ) !== false )
+                        {
+                            $hexPos = $pos;
+                            if ( $hexPos + 2 > $len )
+                            {
+                                $col = $len;
+                                print( "Found ASCII value with " . ( $len - $hexPos ) . " missing hex numbers at $linePos, $col\n" );
+                                $failed = true;
+                                break;
+                            }
+                            $hasHexValues = true;
+                            for ( $offset = 0; $offset < 2; ++$offset )
+                            {
+                                $hexChar = $line[$hexPos + $offset];
+                                if ( $hexChar == ' ' or
+                                     $hexChar == "\t" )
+                                {
+                                    $col = $hexPos + $offset;
+                                    $hasHexValues = false;
+                                    print( "Found ASCII value with " . ( 2 - $offset ) . " missing hex numbers at $linePos, $col\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                if ( strpos( $hexValues, $hexChar ) === false)
+                                {
+                                    $col = $hexPos + $offset;
+                                    $hasHexValues = false;
+                                    print( "Found ASCII value with invalid hex numbers ($hexCar) at $linePos, $col\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            if ( $hasHexValues )
+                            {
+                                $asciiValue = hexdec( substr( $line, $hexPos, 4 ) );
+                                print( "unicode ASCII '$asciiValue'\n" );
+                                $unicodeData = array( 'value' => $asciiValue,
+                                                      'type' => 'ascii' );
+                            }
+                            $pos = $hexPos + 2;
+                        }
+
+                        if ( $unicodeData )
+                        {
+                            // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
+                            if ( $state == 'source' )
+                            {
+                                if ( $unicodeData['type'] == 'string' and
+                                     strlen( $unicodeData['value'] ) > 1 )
+                                {
+                                    print( "Text string with more than one character cannot be used as input value '" . $unicodeData['value'] . "'\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                $sourceValue = $this->extractUnicodeValue( $unicodeData );
+                                $state = 'marker';
+                            }
+                            else if ( $state == 'marker' )
+                            {
+                                print( "Source value not expected, a source value has already been extracted at $line" . "[$pos]\n" );
+                                $failed = true;
+                                break;
+                            }
+                            else if ( $state == 'range_input' )
+                            {
+                                if ( $unicodeData['type'] == 'string' and
+                                     strlen( $unicodeData['value'] ) > 1 )
+                                {
+                                    print( "Text string with more than one character cannot be used as range end value '" . $unicodeData['value'] . "'\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                $sourceEndValue = $this->extractUnicodeValue( $unicodeData );
+                                $state = 'range_marker';
+                            }
+                            else if ( $state == 'range_marker' )
+                            {
+                                print( "Range value not expected, a range value has already been extracted at $line" . "[$pos]\n" );
+                                $failed = true;
+                                break;
+                            }
+                            else if ( $state == 'map_input' )
+                            {
+                                $destinationValues = array_merge( $destinationValues,
+                                                                  $this->extractUnicodeValues( $unicodeData ) );
+                                $type = 'map';
+                            }
+                            else if ( $state == 'replace_input' )
+                            {
+                                $destinationValues = array_merge( $destinationValues,
+                                                                  $this->extractUnicodeValues( $unicodeData ) );
+                                $type = 'replace';
+                            }
+                            else if ( $state == 'transpose_input' )
+                            {
+                                if ( $unicodeData['type'] == 'string' and
+                                     strlen( $unicodeData['value'] ) > 1 )
+                                {
+                                    print( "Text string with more than one character cannot be used as transpose value '" . $unicodeData['value'] . "'\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                $transposeValue = $this->extractUnicodeValue( $unicodeData );
+                                $type = 'transpose';
+                            }
+                        }
+                        else
+                        {
+                            // source, marker, range_input, range_marker, map_input, transpose_input, replace_input
+                            if ( $state == 'source' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    print( "Cannot use map marker $char without prior character value at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else if ( $char == '+' or
+                                          $char == '-' )
+                                {
+                                    print( "Cannot use range marker $char without prior character value at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting input value at $linepos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'marker' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    $state = 'map_input';
+                                    ++$pos;
+                                }
+                                else if ( $char == '-' )
+                                {
+                                    $state = 'range_input';
+                                    ++$pos;
+                                }
+                                else if ( $char == '+' )
+                                {
+                                    print( "Cannot use range marker $char without prior character value at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting marker at $linepos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'range_marker' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    $state = 'replace_input';
+                                    ++$pos;
+                                }
+                                else if ( $char == '-' or
+                                          $char == '+' )
+                                {
+                                    $state = 'transpose_input';
+                                    ++$pos;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting range end value at $linepos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'map_input' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    print( "Duplicate mapping marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else if ( $char == '-' or
+                                          $char == '+' )
+                                {
+                                    print( "Already mapping values, cannot use range/transpose marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting output values at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'transpose_input' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    print( "Already transposing, cannot use mapping marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else if ( $char == '-' or
+                                          $char == '+' )
+                                {
+                                    print( "Duplicate transpose marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting transpose value at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                            else if ( $state == 'replace_input' )
+                            {
+                                if ( $char == '=' )
+                                {
+                                    print( "Already replacing, cannot use mapping marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else if ( $char == '-' or
+                                          $char == '+' )
+                                {
+                                    print( "Already replacing, cannot use transpose marker $char at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print( "Unknown character '$char', expecting replace value at $linePos" . "[$pos]\n" );
+                                    $failed = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if ( !$failed )
+                    {
+                        print( "\nGot type '$type'\n" );
+                        $destinationValues = array_diff( $destinationValues, array( '' ) );
+                        if ( $type == 'map' )
+                        {
+                            print( $sourceValue . ' => ' . implode( ', ', $destinationValues ) . "\n\n" );
+                        }
+                        else if ( $type == 'replace' )
+                        {
+                            print( $sourceValue . ' - ' . $sourceEndValue . ' => ' . implode( ', ', $destinationValues ) . "\n\n" );
+                        }
+                        if ( $type == 'transpose' )
+                        {
+                            print( $sourceValue . ' - ' . $sourceEndValue . ' + ' . $transposeValue . "\n\n" );
+                        }
+                    }
+                    else
+                    {
+                        print( "\nfailed!!!!!!!!!\n\n" );
+                    }
+                }
+            }
+            if ( !feof( $fd ) )
+            {
+                $buffer .= fread( $fd, 4096 );
+            }
+            ++$i;
+        }
+
+        fclose( $fd );
+    }
+
+    function extractUnicodeValue( $data )
+    {
+        $type = $data['type'];
+        if ( $type == 'string' )
+        {
+            $list = $this->ISOUnicodeCodec->convertString( $data['value'][0] );
+            return $list[0];
+        }
+        else if ( $type == 'unicode' )
+        {
+            return $data['value'];
+        }
+        return false;
+    }
+
+    function extractUnicodeValues( $data )
+    {
+        $type = $data['type'];
+        if ( $type == 'string' )
+        {
+            return $this->ISOUnicodeCodec->convertString( $data['value'] );
+        }
+        else if ( $type == 'unicode' )
+        {
+            return array( $data['value'] );
+        }
+        return array();
     }
 
     function mappingTable( $identifier )

@@ -1,0 +1,194 @@
+# Transformation formats
+# CF = CF           : Map from one char to one or more chars ""
+# CF - CF = CF      : Map several chars to one or more chars "replace"
+# CF - CF +- xx     : Transpose several chars by value       "transpose"
+#
+# Character formats:
+# U+xxxx : Unicode value in hexadecimal
+#////////// maybe not xx : Ascii/iso-8859-1 value in hexadecimal
+# remove : Remove character from result, can only be used in destination
+# keep : Keep character as it is, can only be used in destination
+# "xxxx" : Multiple characters as a string, can only be used in destination
+# (CF CF...) : Multiple characters, can only be used in destination
+#
+#
+#
+
+space:
+U+00A0 = U+0020 # Turn non-breaking-space into normal space
+
+hyphen:
+U+007E = U+002D # tilde/swung dash into hyphen-minus
+U+00AD = remove # Soft hyphens are only meant for helping with wordbreaking
+
+apostrophe_normalize:
+# Turn special accents into apostrophe which is defined in ASCII
+U+0060 = U+0027 # Grave accent
+U+00B4 = U+0027 # Acute accent
+U+02CA = U+0027 # Modified letter acute accent
+U+02CB = U+0027 # Modified letter grave accent
+U+02CF = U+0027 # Modified letter low acute accent
+U+02CE = U+0027 # Modified letter low grave accent
+
+doublequote_normalize:
+# Turns fancy double quote into ASCII double quote
+U+00AB = U+0022 # left-pointing double angle quotation mark
+U+00BB = U+0022 # right-pointing double angle quotation mark
+U+02DD = U+0027 # double accute accent
+
+apostrophe_to_doublequote:
+# Turns apostrophe into doublequote
+U+0027 = U+0022
+
+inverted_to_normal:
+# Turns inverted characters into their normal counterparts
+U+00BF = U+003F # Inverted question mark
+U+00A1 = U+0021 # Inverted exclamation
+
+special_to_space:
+# Map some special characters into spaces, may be useful for search etc.
+U+00BC - U+00BE = U+0020
+U+00A2 - U+00A7 = U+0020 # Cent, pound, currency, yen, broken sign, section
+U+00AC = U+0020  # Not sign
+U+00AF = U+0020  # Macron
+U+00B5 = U+0020  # Micron sign
+U+00B6 = U+0020  # Pillcrow sign
+U+00B7 = U+0020  # Middle dot
+U+00B8 = U+0020  # Cedilla
+U+00BA = U+0020  # Masculine ordinal indicator
+
+
+special_decompose:
+U+00A8 = "(C)" # Copyright sign
+U+00AE = "(R)" # Registered sign
+U+00B1 = "+-"  # Plus/minus sign
+U+00B2 = "2"   # Superscript two
+U+00B3 = "3"   # Superscript three
+U+00B9 = "1"   # Superscript one
+U+00BC = "1/4"   # Vulgar fraction one quarter
+U+00BC = "1/2"   # Vulgar fraction one half
+U+00BC = "3/4"   # Vulgar fraction three quarter
+
+ascii_lowercase:
+U+0041 - U+005A + 20
+
+ascii_uppercase:
+U+0061 - U+007A - 20
+
+cyrillic_transliterate:
+U+0402 = "D%"
+U+0403 = "G%"
+U+0404 = "IE"
+U+0405 = "DS"
+U+0406 = "II"
+U+0407 = "YI"
+U+0408 = "J%"
+U+0409 = "LJ"
+U+040a = "NJ"
+U+040b = "Ts"
+U+040c = "KJ"
+U+040e = "V%"
+U+040f = "DZ"
+
+U+0401 = "IO"
+
+U+0410 = "A"
+U+0411 = "B"
+U+0412 = "V"
+U+0413 = "G"
+U+0414 = "D"
+U+0415 = "E"
+U+0416 = "ZH"
+U+0417 = "Z"
+U+0418 = "I"
+U+0419 = "J"
+U+041a = "K"
+U+041b = "L"
+U+041c = "M"
+U+041d = "N"
+U+041e = "O"
+U+041f = "P"
+U+0420 = "R"
+U+0421 = "S"
+U+0422 = "T"
+U+0423 = "U"
+U+0424 = "F"
+U+0425 = "H"
+U+0426 = "C"
+U+0427 = "CH"
+U+0428 = "SH"
+U+0429 = "SCH"
+U+042a = "\""
+U+042b = "Y"
+U+042c = "\""
+U+042d = "`E"
+U+042e = "YU"
+U+042f = "YA"
+
+U+0430 = "a"
+U+0431 = "b"
+U+0432 = "v"
+U+0433 = "g"
+U+0434 = "d"
+U+0435 = "e"
+U+0436 = "zh"
+U+0437 = "z"
+U+0438 = "i"
+U+0439 = "j"
+U+043a = "k"
+U+043b = "l"
+U+043c = "m"
+U+043d = "n"
+U+043e = "o"
+U+043f = "p"
+U+0440 = "r"
+U+0441 = "s"
+U+0442 = "t"
+U+0443 = "u"
+U+0444 = "f"
+U+0445 = "h"
+U+0446 = "c"
+U+0447 = "ch"
+U+0448 = "sh"
+U+0449 = "sch"
+U+044a = "\""
+U+044b = "y"
+U+044c = "\""
+U+044d = "`e"
+U+044e = "yu"
+U+044f = "ya"
+
+U+0451 = "io"
+
+latin1_transliterate:
+U+00E6 = "ae" # æ => ae
+U+00C6 = "AE" # Æ => AE
+U+00E5 = "aa" # å => aa
+U+00C5 = "AA" # Å => AA
+U+00F8 = "oe" # ø => oe
+U+00D8 = "OE" # Ø => OE
+U+009C = "oe" # oe ligature
+U+008C = "OE" # OE ligature
+
+diacritical_remove:
+# Remove diacriticals from several latin characters
+U+00C0 - U+00C4 = U+0041  # A
+U+00E0 - U+00E4 = U+0061  # a
+U+00C8 - U+00CB = U+0045  # E
+U+00E8 - U+00EB = U+0065  # e
+U+00CC - U+00CF = U+0049  # I
+U+00EC - U+00EF = U+0069  # i
+U+00D2 - U+00D6 = U+004F  # O
+U+00F2 - U+00F6 = U+006F  # o
+U+00D9 - U+00DC = U+0055  # U
+U+00F9 - U+00FC = U+0075  # u
+
+U+00DD = U+0059           # Y
+U+009F = U+0059           # Y
+U+00FD = U+0079           # y
+U+00FF = U+0079           # y
+U+00C7 = U+0043           # C
+U+00E7 = U+0064           # c
+U+00D1 = U+004E           # N
+U+00F1 = U+006E           # n
+

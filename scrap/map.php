@@ -75,9 +75,10 @@ print( '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
         <meta http-equiv="Content-language" content="eng-GB" /> </header>' );
 print( '<body>' );
 print( '<form action="" method="post">' );
-print( $codec2->convertString( $newstr2 ) . "<br/>" );
+//print( $codec2->convertString( $newstr2 ) . "<br/>" );
+print( '<table><tr><td>' );
 print( '<label>Conversion type</label><br/>' );
-print( '<select multiple="multiple" name="IdentifierList[]">' );
+print( '<select multiple="multiple" style="height: 330px; width: 240px" name="IdentifierList[]">' );
 foreach ( $allIdentifiers as $identifier )
 {
     print( '<option value="' . $identifier . '"' );
@@ -86,11 +87,15 @@ foreach ( $allIdentifiers as $identifier )
     print( '>' . $identifier . '</option>' );
 }
 print( '</select><br/>' );
+print( '</td><td>' );
 print( "<label>Original</label><br/><textarea cols=\"60\" rows=\"20\" name=\"Text\">$str</textarea> <input type=\"submit\" name=\"TranslateButton\" value=\"Convert\" /> <br/>\n" );
+print( '</td></tr>' );
+print( '<tr><td colspan="2">' );
 if ( $isConverted )
 {
     print( "<label>Converted</label><br/><pre>$newstr</pre><br/>\n" );
 }
+print( '</td></tr></table>' );
 
 print( '</form>' );
 eZDebug::printReport();
