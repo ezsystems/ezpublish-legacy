@@ -38,7 +38,7 @@ function togglestuff( formname, checkboxname )
      can_edit=false()
      can_create=false()
      can_copy=false()
-     children_count=fetch( content, list_count, hash( parent_node_id, $node.node_id ) )
+     children_count=$node.children_count
      children=fetch( content, list, hash( parent_node_id, $node.node_id,
                                           sort_by, $node.sort_array,
                                           limit, $number_of_items,
@@ -206,26 +206,29 @@ function togglestuff( formname, checkboxname )
     <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     </div>
     {/section}
+
+{* Sorting *}
 <div class="right">
+<label>{'Sorting:'|i18n( 'design/admin/layout' )}</label>
 
-<label>Sorting:</label>
-
+{let disabled=' disabled="disabled"}
 {section show=$node.can_edit}
-<select>
+    {set disabled=''}
+{/section}
+<select{$disabled}>
     <option>Priority</option>
     <option>Name</option>
     <option>Published</option>
 </select>
-<select>
+<select{$disabled}>
     <option>Down</option>
     <option>Up</option>
 </select>
-<input class="button" type="submit" value="Set" />
-{/section}
+<input class="button" type="submit" value="{'Set'|i18n( 'design/admin/layout' )}"{$disabled} />
+{/let}
 
 
 </div>
-
 <div class="break"></div>
 
 </div>
