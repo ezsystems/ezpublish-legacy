@@ -5,6 +5,7 @@ Changes from 3.3-1 to 3.3-2
 - Fixed eZObjectRelationList::metaData
 - Fixed eZSelection::metaData
 - Replaced several " with ' in ezenumtype.php
+- Added storeData() function for eZContentObjectAttribute, this function is safe for datatypes to call (unlike store() ).
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
