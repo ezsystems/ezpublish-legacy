@@ -115,7 +115,7 @@
 <tr>
     <td>
         <div class="credits">
-            <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003.</p>
+            <p>Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2004.</p>
         </div>
     </td>
 </tr>

@@ -130,7 +130,7 @@
 </table>
 
 <div align="center" class="small">
-    Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003.
+    Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2004.
 </div>
 
 </body>

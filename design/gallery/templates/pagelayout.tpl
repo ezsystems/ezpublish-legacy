@@ -93,7 +93,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <tr>
     <td bgcolor="#e2e2e2" colspan="2">
         <div align="left" style="padding: 0.5em;">
-            <p class="small"><a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+            <p class="small"><a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2004 <a href="http://ez.no">eZ systems as</a></p>
         </div>
     </td>
 </tr>
@@ -101,7 +101,7 @@ function OpenWindow ( URL, WinName, Features ) {
 {/let}
 
 <div align="center" class="small">
-    Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003.
+    Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2004.
 </div>
 
 </body>
