@@ -1029,6 +1029,9 @@ class eZSearchEngine
                               array( 'type' => 'attribute',
                                      'subtype' => 'byidentifierrange',
                                      'params' => array( 'classattribute_id', 'identifier', 'from', 'to' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' => 'integersbyidentifier',
+                                     'params' => array( 'classattribute_id', 'identifier', 'values' ) ),
                               array( 'type' => 'fulltext',
                                      'subtype' => 'text',
                                      'params' => array( 'value' ) ) );
@@ -1134,6 +1137,33 @@ class eZSearchEngine
         }
     }
 
+    function searchAttributeIntegersByIdentifier( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $identifier = $searchParams['identifier'];
+        $values = $searchParams['values'];
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $integerValuesSql = implode( ', ', $values );
+        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND ezsearch_object_word_link.identifier = '$identifier' AND";
+        $searchPartText = $classAttributeQuery . $searchPartSql;
+        $tableResult = $this->createTemporaryTable( $searchPartText );
+
+        if ( $tableResult === false )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     function searchAttributePatternText( $searchParams )
     {
         $classAttributeID = $searchParams['classattribute_id'];
@@ -1146,6 +1176,7 @@ class eZSearchEngine
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
         {
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+            $this->GeneralFilter['classAttributeQuery'] = $classAttributeQuery;
         }
 
         $wordIDArrays =& $this->prepareWordIDArraysForPattern( $searchText );
@@ -1162,7 +1193,7 @@ class eZSearchEngine
 
         preg_replace( "/(\w+\*\s)/", " ", $searchText );
         $nonPhraseText = $this->normalizeText( $searchText );
-        
+
         $searchPartsArray =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
 
         foreach ( $patternWordIDHash as $patternWord )
@@ -1184,8 +1215,8 @@ class eZSearchEngine
 
 //        $searchPartsArray =& $this->buildSearchPartArrayForPatterns( $nonPhraseText, $wordIDHash );
         $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
+        $this->GeneralFilter['classAttributeQuery'] = '';
         return true;
-
     }
 
     function searchAttributeFulltext( $searchParams )
