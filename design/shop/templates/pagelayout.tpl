@@ -56,7 +56,6 @@
                  <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
                  {/section}
 		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
-		 <li><a href={"/shop/basket/"|ezurl}>Checkout</a></li>
              </ul>
         </div>
         
