@@ -928,6 +928,10 @@ td.timingpoint2
         foreach ( $groupList as $group )
         {
             $groupName = $group['name'];
+            $groupChildren = $group['children'];
+            if ( count( $groupChildren ) == 0 and
+                 !array_key_exists( 'time_data', $group ) )
+                continue;
             if ( $as_html )
                 $returnText .= "<tr><td class='$class'><b>$groupName</b></td>";
             else
@@ -963,7 +967,6 @@ td.timingpoint2
             else
                 $returnText .= "\n";
 
-            $groupChildren = $group['children'];
             $i = 0;
             foreach ( $groupChildren as $child )
             {
