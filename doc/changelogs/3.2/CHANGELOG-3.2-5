@@ -6,24 +6,37 @@ Changes from 3.2-4 to 3.2-5
 *Bugfixes:
 - Fixed bug with publish date when the first published version of an object were not 1,
   now the published date is updated if it is found to be 0.
-- Fixed keyword bug when discarding drafts. http://ez.no/developer/ez_publish_3/bug_reports/keywords_cannot_be_edited__1
-- Fixed mysql server and client version information. http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class
-- Fixed showing class in tabletes when using xml and table, th and td elements. http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
+- Fixed keyword bug when discarding drafts. 
+  http://ez.no/developer/ez_publish_3/bug_reports/keywords_cannot_be_edited__1
+- Fixed mysql server and client version information. 
+  http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class
+- Fixed showing class in tabletes when using xml and table, th and td elements. 
+  http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
 - Fixed fetching objects using attribute_filter when fetching objects with multiple translations. 
   http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
-- Fixed ezxml literal imput bug when using &amp;, &quot;, etc. http://ez.no/developer/ez_publish_3/bug_reports/html_no_break_space_in_literal_block_doesn_t_work
-- Fixed PHP 4 reference bug related stuff using eZContentObject::defaultLanguage() http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_at_content_saving_image_problem
-- Fixed cleaning up classification variable in template in xhtml output handler. http://ez.no/developer/ez_publish_3/bug_reports/classification_troubles
-- Fixed eZTimeType to return and store relative time. http://ez.no/developer/ez_publish_3/bug_reports/order_by_time
+- Fixed ezxml literal imput bug when using &amp;, &quot;, etc. 
+  http://ez.no/developer/ez_publish_3/bug_reports/html_no_break_space_in_literal_block_doesn_t_work
+- Fixed PHP 4 reference bug related stuff using eZContentObject::defaultLanguage() 
+  http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_at_content_saving_image_problem
+- Fixed cleaning up classification variable in template in xhtml output handler. 
+  http://ez.no/developer/ez_publish_3/bug_reports/classification_troubles
+- Fixed eZTimeType to return and store relative time. 
+  http://ez.no/developer/ez_publish_3/bug_reports/order_by_time
 - Fixed moving placement of class attributes. Changes done when moving are now store. Minor change of class edit template included.
   http://ez.no/developer/ez_publish_3/bug_reports/diappearing_field_information_when_editing_a_class
 - Fixed indexing large documents by deviding the text to be indexed into smaller chunks.
   http://ez.no/developer/ez_publish_3/bug_reports/weird_search_limitations_binary_file
-- Fixed undefined variabled. http://ez.no/developer/ez_publish_3/bug_reports/undefined_variables_in_class_groupedit_and_workflow_groupedit
-- Fixed language bug using sorty_by on attributes. http://ez.no/developer/ez_publish_3/bug_reports/sort_by_attribute_translation_duplicates_bug_incl_quickfix
+- Fixed undefined variabled. 
+  http://ez.no/developer/ez_publish_3/bug_reports/undefined_variables_in_class_groupedit_and_workflow_groupedit
+- Fixed language bug using sorty_by on attributes. 
+  http://ez.no/developer/ez_publish_3/bug_reports/sort_by_attribute_translation_duplicates_bug_incl_quickfix
 - Fixed bug in handling of email addresses with text (e.g name), previously the name and email were swapped giving bad To and From mail addresses.
-- Fixed ezdesign operator priority. http://ez.no/developer/ez_publish_3/bug_reports/extension_problem_with_ezdesign_operator
-- Fixed undefined property bug. http://ez.no/developer/ez_publish_3/bug_reports/undefined_property_contentobject_in_ezcontentobjecttreenode_php
+- Fixed ezdesign operator priority. 
+  http://ez.no/developer/ez_publish_3/bug_reports/extension_problem_with_ezdesign_operator
+- Fixed undefined property bug.
+  http://ez.no/developer/ez_publish_3/bug_reports/undefined_property_contentobject_in_ezcontentobjecttreenode_php
+- Fixed wrong order of forwarding url translator.
+  http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
 
 *Setup:
 
