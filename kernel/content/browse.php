@@ -101,6 +101,8 @@ $tpl->setVariable( 'browse', $browse );
 $tpl->setVariable( 'main_node', $node );
 $tpl->setVariable( 'node_id', $NodeID );
 $tpl->setVariable( 'parents', $parents );
+$tpl->setVariable( 'csm_menu_item_click_action', '/content/browse' );
+
 
 $viewParameters = array( 'offset' => $Offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -132,6 +134,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'depth', $node->attribute( 'depth' ) ),
                       array( 'url_alias', $node->attribute( 'url_alias' ) )
                       ) );
+
 
 $Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );

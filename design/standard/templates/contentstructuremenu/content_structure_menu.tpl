@@ -15,18 +15,28 @@
      contentStructureTree   = false
      menuID                 = "content_tree_menu" }
 
+    {* check custom_root_node *}
     {section show=$custom_root_node_id|is_set()}
         {set rootNodeID=$custom_root_node_id}
     {/section}
 
-    {section show=eq( $ui_context, 'browse' )}
-        {set itemClickAction='/content/browse/'}
-    {/section}    
-
+    {* check custom action when clicking on menu item *}
+    {section show=$csm_menu_item_click_action|is_set()}
+        {set itemClickAction=$csm_menu_item_click_action}
+    {/section}
+    
+    {* if menu action is set translate it to url *}
     {section show=eq( $itemClickAction, '' )|not()}
         {set itemClickAction = $:itemClickAction|ezurl(no)}
     {/section}
     
+    <br>                                                  
+    action = {$csm_menu_item_click_action}
+    <br>
+    real = {$:itemClickAction}
+    <br>
+    
+    {* create menu *}                                                   
     {cache-block keys=array($rootNodeID)}     
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID, 
@@ -43,6 +53,7 @@
 
     {/cache-block}        
     
+    {* initialize menu *}                       
     <script language="JavaScript"><!--
         
         {* get path to current node which consists of nodes ids *}
