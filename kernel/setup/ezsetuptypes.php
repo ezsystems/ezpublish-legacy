@@ -1662,10 +1662,10 @@ function eZSetupContentINISettings( $siteType, $parameters, $isAdmin )
         $allowVersions = true;
     $image = array( 'name' => 'content.ini',
                     'reset_arrays' => true,
-                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList ),
-                                         'DefaultPreviewDesign' => $parameters['preview_design'],
-                                         'AllowChangeButtons' => 'disabled',
-                                         'AllowVersionsButton' => ( $allowVersions ? 'enbled' : 'disabled' ) ) );
+                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList,
+                                                                 'DefaultPreviewDesign' => $parameters['preview_design'],
+                                                                 'AllowChangeButtons' => 'disabled',
+                                                                 'AllowVersionsButton' => ( $allowVersions ? 'enabled' : 'disabled' ) ) ) );
 
     return $image;
 }
