@@ -47,7 +47,7 @@ function toggleCheckboxes( formname, checkboxname )
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
-<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/standard/node/view' )}" title="{'Up one level'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{$node.class_identifier|class_icon( small, $node.class_name )}&nbsp;{$node.name|wash}&nbsp;[{$children_count}]</h2>
+<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/standard/node/view' )}" title="{'Up one level'|i18n( 'design/standard/node/view' )}" /></a>&nbsp;{'Items inside'|i18n( 'design/admin/node/view/full' )}&nbsp;<i>{$node.name|wash}</i>&nbsp;[{$children_count}]</h2>
 
 
 {* If there are children: show list and buttons that belong to the list. *}
