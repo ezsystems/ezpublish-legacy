@@ -278,9 +278,8 @@ class Cezpdf extends Cpdf
         if (isset($this->ez['columns']) && $this->ez['columns']['on']==1){
             // check if this is just going to a new column
             // increment the column number
-//echo 'HERE<br>';
+
             $this->ez['columns']['colNum']++;
-//echo $this->ez['columns']['colNum'].'<br>';
             if ($this->ez['columns']['colNum'] <= $this->ez['columns']['options']['num']){
                 // then just reset to the top of the next column
                 $pageRequired=0;

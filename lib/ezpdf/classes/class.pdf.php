@@ -2075,7 +2075,7 @@ class Cpdf
  * draw a line from one set of coordinates to another
  */
     function line($x1,$y1,$x2,$y2){
-	$this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' m '.sprintf('%.3f',$x2).' '.sprintf('%.3f',$y2).' l S';
+        $this->objects[$this->currentContents]['c'].="\n".sprintf('%.3f',$x1).' '.sprintf('%.3f',$y1).' m '.sprintf('%.3f',$x2).' '.sprintf('%.3f',$y2).' l S';
     }
 
 /**
@@ -2652,7 +2652,7 @@ class Cpdf
                 $directiveArray = $this->PRVTcheckTextDirective1($text,$i,$f,1,$xp,$yp,$size,$angle,$wordSpaceAdjust);
                 if ( $directiveArray['y'] != 0 )
                 {
-                    $returnArray['height'] = $directiveArray['y'];
+                    $returnArray['height'] = $y - $directiveArray['y'];
                 }
 
                 $directive = $directiveArray['directive'];
@@ -2801,7 +2801,11 @@ class Cpdf
 	$store_currentTextState = $this->currentTextState;
     $returnArray = array ( 'text' => '',
                            'width' => 0,
-                           'height' => -1 );
+                           'height' => 0 );
+    if ( $text != '' )
+    {
+        $returnArray['height'] = $this->getFontHeight( $size );
+    }
 
 	if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 	if ($width<=0){
