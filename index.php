@@ -151,7 +151,7 @@ while ( $moduleRunRequired )
     include_once( "lib/ezutils/classes/ezmodule.php" );
     include_once( 'kernel/error/errors.php' );
 
-    eZModule::setGlobalPathList( array( "kernel" ) );
+    eZModule::setGlobalPathList( array( "kernel", "extension" ) );
 
     $displayMissingModule = false;
     if ( $uri->isEmpty() )

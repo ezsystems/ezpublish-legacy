@@ -305,6 +305,34 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
+     Returns the boolean value of whether or not showing the virtual editor.
+    */
+    function &showEditor( &$contentObjectAttribute )
+    {
+        $isEditorEnabled = false;
+        $isEditorAvailable = false;
+        $ini =& eZINI::instance();
+        $editor = $ini->variable( "ExtensionSettings", "XMLEditor" );
+        if ( $editor == "DHTMLEditor" )
+        {
+            $isEditorAvailable = true;
+        }
+        $isCorrectBrowser = false;
+        $userAgent = getenv( 'HTTP_USER_AGENT' );
+        if (eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
+        {
+            $version = $browserInfo[1];
+            if ( $version >= 5.5 )
+            {
+                $isCorrectBrowser = true;
+            }
+        }
+        if ( $isEditorAvailable and  $isCorrectBrowser )
+            $isEditorEnabled = true;
+        return $isEditorEnabled;
+    }
+
+    /*!
      Returns the XML representation of the datatype.
     */
     function &xml( &$contentObjectAttribute )
@@ -318,20 +346,27 @@ class eZXMLTextType extends eZDataType
     */
     function &inputXML( &$contentObjectAttribute )
     {
-        $xml = new eZXML();
-        $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
-
-        if ( $dom )
-            $node = $dom->elementsByName( "section" );
-
-        eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
-        if ( count( $node ) > 0 )
+        $enableEditor =& $this->showEditor( $contentObjectAttribute );
+        if ( $enableEditor )
         {
-            $output = "";
-            $children =& $node[0]->children();
-            $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
+            eZDebug::writeError($this->objectAttributeContent( $contentObjectAttribute ), "Temporary code for DHTML" );
+            return $this->objectAttributeContent( $contentObjectAttribute );
         }
-        return $output;
+        else
+        {
+            $xml = new eZXML();
+            $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
+
+            if ( $dom )
+                $node = $dom->elementsByName( "section" );
+            eZDebug::writeDebug( $contentObjectAttribute->attribute( "data_text" ), "eZXMLTextType::inputXML" );
+            if ( count( $node ) > 0 )
+            {
+                $output = "";
+                $children =& $node[0]->children();
+                $output .= $this->inputSectionXML( $node[0], $contentObjectAttribute );
+            }
+        }
     }
 
     /*!
