@@ -1,9 +1,4 @@
-#!/bin/sh
-
-ROOT=./
-
-#DOXY_BIN=$ROOT/bin/linux/doxygen
-DOXY_BIN=doxygen
-DOXY_CONF=$ROOT/doc/doxygen/Doxyfile
-
-(cd $ROOT && $DOXY_BIN $DOXY_CONF)
+# dump site for offline reading
+# only parameter is url to site
+# -Jo Henrik
+wget -m -E --convert-links $1
