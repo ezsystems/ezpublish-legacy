@@ -244,6 +244,7 @@ class eZDB
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
                                                 'use_persistent_connection' => $usePersistentConnection );
+            /* This looks funny, but is needed to fix a crash in PHP */
             $b = $databaseParameters;
             $databaseParameters = $defaultDatabaseParameters;
             if ( isset( $b['server'] ) )
