@@ -108,6 +108,10 @@ table.list, table.special
     border-bottom: 1px solid #f0f0f0;
 }
 
+div.context-attributes table table.list, div.context-attributes table table.special
+{
+}
+
 table.list th, table.list td, table.special th, table.special td
 {
     padding: 0.25em;
@@ -151,18 +155,9 @@ table.list tr.object-cannot-remove td
     color: #ff0000;
 }
 
-td.tight
+th.tight, td.tight
 {
     width: 1%;
-}
-
-th.tight
-{
-    width: 1%;
-}
-
-th.wide
-{
 }
 
 td.nowrap 
@@ -174,6 +169,12 @@ div.context-attributes table.list th, div.context-attributes table.special th
 {
     color: #404040;
     background-color: #bfbfb7;
+}
+
+div.context-attributes table table.list th, div.context-attributes table table.special th
+{
+    color: #404040;
+    background-color: #ddddd5;
 }
 
 /* ORDERED AND UNORDERED LISTS */

@@ -6,18 +6,19 @@
 <div class="block">
 <label>{'Current image'|i18n( 'design/standard/content/datatype' )}</label>
 {section show=$attribute_content.original.is_valid}
-{attribute_view_gui image_class=ezini( 'ImageSettings', 'DefaultEditAlias', 'content.ini' ) attribute=$attribute}
 
 <table class="list" cellspacing="0">
 <tr>
-<th>{'Filename'|i18n( 'design/standard/content/datatype' )}</th>
-<th>{'MIME type'|i18n( 'design/standard/content/datatype' )}</th>
-<th>{'Size'|i18n( 'design/standard/content/datatype' )}</th>
+    <th class="tight">{'Preview'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Filename'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'MIME type'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Size'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 <tr>
-<td>{$attribute.content.original.original_filename|wash( xhtml )}</td>
-<td>{$attribute.content.original.mime_type|wash( xhtml )}</td>
-<td>{$attribute.content.original.filesize|si( byte )}</td>
+    <td>{attribute_view_gui image_class=ezini( 'ImageSettings', 'DefaultEditAlias', 'content.ini' ) attribute=$attribute}</td>
+    <td>{$attribute.content.original.original_filename|wash( xhtml )}</td>
+    <td>{$attribute.content.original.mime_type|wash( xhtml )}</td>
+    <td>{$attribute.content.original.filesize|si( byte )}</td>
 </tr>
 </table>
 {section-else}
