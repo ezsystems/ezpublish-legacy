@@ -40,3 +40,6 @@ Changes from 3.3-1 to 3.3-2
 - Fixed duplicate ezsite_data.release entry in db update scripts. http://ez.no/developer/ez_publish_3/bug_reports/extra_line_in_update_file_dbupdate_3_2_4_to_3_3_1_sql
 - Fixed ezsubtreehandler to check if parentclass exists. http://ez.no/developer/ez_publish_3/bug_reports/fatal_error_runcronjobs
 - Fixed {$node.name} to {$node.name|wash} in package templates. http://ez.no/developer/ez_publish_3/bug_reports/no_output_wash_in_some_of_the_new_templates
+
+*Setup:
+- Added check for imagegd2. http://ez.no/developer/ez_publish_3/bug_reports/gd_version_requirements
