@@ -131,6 +131,7 @@ class eZTemplateExecuteOperator
             $aliasSettings =& eZINI::instance( 'fetchalias.ini' );
             if ( $aliasSettings->hasSection( $aliasFunctionName ) )
             {
+                include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
                 $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
                 if ( !$moduleFunctionInfo->isValid() )
                 {
