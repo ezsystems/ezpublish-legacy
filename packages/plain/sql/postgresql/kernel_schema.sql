@@ -1199,8 +1199,8 @@ CREATE TABLE ezcontentobject_attribute (
     data_float double precision,
     attribute_original_id integer DEFAULT 0,
     sort_key_int integer DEFAULT 0 NOT NULL,
-    sort_key_string character varying(50) DEFAULT ''::character varying,
-    data_type_string character varying(50)
+    data_type_string character varying(50),
+    sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2365,14 +2365,6 @@ CREATE INDEX sort_key_int366 ON ezcontentobject_attribute USING btree (sort_key_
 
 
 
-CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
-
-
-
-
-
-
-
 CREATE INDEX ezcontentobject_tree_path416 ON ezcontentobject_tree USING btree (path_string);
 
 
@@ -2646,6 +2638,14 @@ CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING
 
 
 CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
+
+
+
+
+
+
+
+CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
 
 
 

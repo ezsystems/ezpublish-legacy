@@ -587,7 +587,7 @@ CREATE TABLE ezcontentobject_attribute (
   data_float float default NULL,
   attribute_original_id int(11) default '0',
   sort_key_int int(11) NOT NULL default '0',
-  sort_key_string varchar(50) NOT NULL default '',
+  sort_key_string varchar(255) NOT NULL default '',
   data_type_string varchar(50) NOT NULL default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
