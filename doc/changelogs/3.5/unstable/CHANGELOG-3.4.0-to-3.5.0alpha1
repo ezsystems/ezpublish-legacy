@@ -82,7 +82,9 @@ Changes from 3.4.0 to 3.5.0alpha1
   http://ez.no/community/bug_reports/mysql_4_incompatibility
 - Fixed a warning with conditional overrides. (Merged from stable/3.4, rev. 7831)
   http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
-
+- Fixed a couple of warnings about the navigationPartIdentifier (Merged from stable/3.4, rev 7833)
+  http://ez.no/community/bug_reports/with_debug_enabled_i_am_getting_the_following_error
+  
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
   the old code in basket and wishlist which were hardcoded against ezoption.
