@@ -43,7 +43,16 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 eZPreferences::setValue( $key, $value );
 
-$url = implode( '/', array_splice( $Params['Parameters'], 3 ) );
+// Extract URL to redirect to from user parameters.
+$urlArray = array_splice( $Params['Parameters'], 3 );
+foreach ( $urlArray as $key => $val ) // remove all the array elements that don't seem like URL parts
+{
+    if ( !is_numeric( $key ) )
+        unset( $urlArray[$key] );
+}
+$url = implode( '/', $urlArray );
+unset( $urlArray );
+
 if ( $url )
 {
     foreach( array_keys( $Params['UserParameters'] ) as $key )
