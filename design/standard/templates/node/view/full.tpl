@@ -17,7 +17,6 @@
 {*	{$node.name|texttoimage('archtura')}  *}
  	<div class="maincontentheader">
     <h1>{$node_name}</h1>
-{$content_version.version}
     </div>
 	<input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 	</td>
