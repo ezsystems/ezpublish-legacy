@@ -278,36 +278,70 @@ class eZURL extends eZPersistentObject
         if ( count( $conditions ) == 0 )
             $conditions = null;
 
-        $urls = eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                     null, $conditions, null, $limitArray,
-                                                     $asObject );
-
         if ( $onlyPublished )  // Only fetch published urls
         {
-            $publishedUrls = array();
-            include_once( "lib/ezdb/classes/ezdb.php" );
-            foreach ( $urls as $url )
+            $conditionQuery = "";
+            if ( $isValid !== null )
             {
-                $db =& eZDB::instance();
-                $db->setIsSQLOutputEnabled( false );
-                $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_version.contentobject_id
-                                          FROM ezurl_object_link, ezcontentobject_version
-                                          WHERE ezurl_object_link.contentobject_attribute_version =
-                                                ezcontentobject_version.version
-                                          AND ezcontentobject_version.status = 1
-                                          AND ezurl_object_link.url_id = '" . $url->attribute( 'id' ) . "'" );
-                if ( count( $rows ) > 0 )
-                {
-                    $publishedUrls[] = $url;
-                }
+                $conditionQuery = " AND ezurl.is_valid=$isValid ";
             }
-            $urls = $publishedUrls;
+            include_once( "lib/ezdb/classes/ezdb.php" );
+            $db =& eZDB::instance();
+            if ( $asCount )
+            {
+                $urls = $db->arrayQuery( "SELECT count(*) as count from ezurl
+                                                 $conditionQuery" );
+                return $urls[0]['count'];
+            }
+            else
+            {
+                $query = "SELECT DISTINCT ezurl.*
+                            FROM ezurl_object_link, ezcontentobject_version, ezurl
+                           WHERE ezurl_object_link.contentobject_attribute_version = ezcontentobject_version.version
+                             AND ezcontentobject_version.status = 1
+                             AND  ezurl_object_link.url_id = ezurl.id
+                             $conditionQuery";
+                if ( !$offset && !$limit )
+                {
+                    $urlArray =& $db->arrayQuery( $query );
+                }
+                else
+                {
+                    $urlArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                                 'limit'  => $limit ) );
+                }
+                if ( $asObject )
+                {
+                    $urls = array();
+                    foreach ( $urlArray as $url )
+                    {
+                        $urls[] = new eZURL( $url );
+                    }
+                    return $urls;
+                }
+                else
+                    $urls =& $urlArray;
+                return $urls;
+            }
         }
-
-        if ( $asCount )
-            return count( $urls );
         else
-            return $urls;
+        {
+            if ( $asCount )
+            {
+                $urls = eZPersistentObject::fetchObjectList( eZURL::definition(),
+                                                             array(), $conditions, null, null,
+                                                             false, null,
+                                                             array( array( 'operation' => 'count( id )',
+                                                                           'name' => 'count' ) ) );
+                return $urls[0]['count'];
+            }
+            else
+            {
+                return eZPersistentObject::fetchObjectList( eZURL::definition(),
+                                                            null, $conditions, null, $limitArray,
+                                                            $asObject );
+            }
+        }
     }
 
     /*!
