@@ -98,7 +98,10 @@ class eZKeywordType extends eZDataType
     {
         // create keyword index
         $keyword =& $attribute->content();
-        $keyword->store( $attribute );
+		if ( is_object( $keyword ) )
+		{
+        	$keyword->store( $attribute );
+		}
     }
 
     function storeClassAttribute( &$attribute, $version )
