@@ -31,7 +31,6 @@
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
 
-
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="topline" width="40%" colspan="2">
