@@ -92,9 +92,3 @@ CREATE TABLE eztipafriend_counter (
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
 ) TYPE=MyISAM;
-
-CREATE TABLE ezview_counter (
-  node_id int(11) NOT NULL default '0',
-  count int(11) NOT NULL default '0',
-  PRIMARY KEY  (node_id)
-) TYPE=MyISAM;
