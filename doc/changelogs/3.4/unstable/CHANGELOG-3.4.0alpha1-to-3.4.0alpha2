@@ -23,7 +23,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Added missing definition of class_identifier in eZContentObject which made hasAttribute() always return false. This made it impossible to have class identifier overrides of node children.
 - Added {$requested_uri_string} variable to pagelayout which will contain the untranslated requested URL. Useful for keys and subtree checks.
 - Made sure it is not possible to move, remove or add locations for top level objects. (Merged from stable/3.3 rev. 5577)
-
+- Added class_identification override key for embeded objects in XML text.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.
