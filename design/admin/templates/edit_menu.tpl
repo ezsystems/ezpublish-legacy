@@ -32,7 +32,7 @@
 
 
 <div class="versions">
-<h4>{"Versions"|i18n("design/standard/content/edit")}</h4>
+<h4>{"Versions"|i18n("design/standard/content/edit")}:</h4>
 <div class="block">
 <div class="element">
 <p>
@@ -61,7 +61,7 @@
      translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
 
 {section show=$Translation:translation_list}
-<h4>{"Translations"|i18n("design/standard/content/edit")}</h4>
+<h4>{"Translations"|i18n("design/standard/content/edit")}:</h4>
 
 {section loop=$Translation:translation_list}
   {section show=eq($edit_language,$Translation:item.language_code)}

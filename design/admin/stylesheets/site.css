@@ -497,6 +497,11 @@ div#contentstructure li.currentnode li a.nodetext
     padding: 0;
 }
 
+div#leftmenu div.translations
+{
+    margin-top: 0.5em;
+}
+
 div#leftmenu div.translations label
 {
     font-weight: normal;
@@ -706,7 +711,7 @@ div.menu-block a
 
 div.menu-block li.enabled a
 {
-    color: #000000;
+    color: #ffffff;
     background-image: url(../images/button-enabled-bl.gif);
     background-position: bottom left;
     background-repeat: no-repeat;
@@ -714,7 +719,7 @@ div.menu-block li.enabled a
 
 div.menu-block li.disabled a
 {
-    color: #999990;
+    color: #000000;
     background-image: url(../images/button-disabled-bl.gif);
     background-position: bottom left;
     background-repeat: no-repeat;
