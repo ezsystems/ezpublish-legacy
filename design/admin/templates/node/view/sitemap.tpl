@@ -1,8 +1,12 @@
 {default with_children=true()
-	 is_standalone=true()}
+         is_standalone=true()}
 {let page_limit=0
-     tree=and($with_children,fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)))
-     tree_count=and($with_children,fetch('content','tree_count',hash(parent_node_id,$node.node_id)))}
+     tree=and( $with_children, fetch( 'content', 'tree',
+                                      hash( parent_node_id, $node.node_id,
+                                            limit, $page_limit,
+                                            offset, $view_parameters.offset ) ) )
+     tree_count=and( $with_children, fetch( 'content', 'tree_count',
+                                            hash( parent_node_id, $node.node_id ) ) )}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}
@@ -21,22 +25,28 @@
 
 <div class="block">
 
-{let children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+{let children=fetch( 'content', 'list',
+                     hash( parent_node_id, $node.node_id,
+                           sort_by, $node.sort_array,
+                           limit, $page_limit,
+                           offset, $view_parameters.offset ) )}
 
-{section name=Child loop=$children}
+{section var=child loop=$children}
 
-    <h2><a href={concat( "/content/view/full/", $Child:item.node_id, "/")|ezurl}>{$Child:item.name}</a></h2>
-    {let grandchildren=fetch('content','list',hash(parent_node_id,$Child:item.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+    <h2>{$child.class_identifier|class_icon( small, $child.class_name )}&nbsp;<a href={$child.url|ezurl}>{$child.name|wash}</a></h2>
+    {let grandchildren=fetch( 'content', 'list',
+                              hash( parent_node_id, $child.node_id,
+                                    sort_by, $node.sort_array,
+                                    limit, $page_limit,
+                                    offset, $view_parameters.offset ) )}
 
-        {section show=$Child:grandchildren|eq(true())}
+        {section show=$grandchildren|count|gt( 0 )}
         <ul>
-        {/section}
-        {section name=Grandchild loop=$Child:grandchildren}
+            {section var=grandchild loop=$grandchildren}
 
-            <li><a href={concat( "/content/view/full/", $Child:Grandchild:item.node_id, "/")|ezurl}>{$Child:Grandchild:item.name}</a></li>
+                <li>{$grandchild.class_identifier|class_icon( small, $grandchild.class_name )}&nbsp;<a href={$grandchild.url|ezurl}>{$grandchild.name|wash}</a></li>
 
-        {/section}
-        {section show=$Child:grandchildren|eq(true())}
+            {/section}
         </ul>
         {/section}
 
