@@ -881,23 +881,6 @@ class eZDBSchemaInterface
         // Set the new format it will get
         $schema['_info']['format'] = $toLocal ? 'local' : 'generic';
 
-        /* replaces array key $oldKey with $newKey, preserving keys order in array */
-        if ( !function_exists( 'arrayreplacekey' ) )
-        {
-            function arrayReplaceKey( &$a, $oldKey, $newKey )
-            {
-                $tmpArray = array();
-                foreach ( $a as $key => $val )
-                {
-                    if ( $key == $oldKey )
-                        $tmpArray[$newKey] =& $a[$key];
-                    else
-                        $tmpArray[$key]    =& $a[$key];
-                }
-                $a = $tmpArray;
-            }
-        }
-
         // load the schema transformation rules
         $schemaType = $this->schemaType();
         $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
@@ -928,9 +911,13 @@ class eZDBSchemaInterface
             $fieldsSchema =& $schema[$tableName]['fields'];
             if ( isset( $fieldsSchema[$searchColName] )  )
             {
-                arrayReplaceKey( $schema[$tableName]['fields'], $searchColName, $replacementColName );
-                //eZDebug::writeDebug( "transformed table column name $tableName.$searchColName to $replacementColName" );
+                $schema[$tableName]['fields'][$replacementColName] =& $schema[$tableName]['fields'][$searchColName];
+                unset( $schema[$tableName]['fields'][$searchColName] );
+                ksort( $schema[$tableName]['fields'] );
+                eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                            "transformed table column name $tableName.$searchColName to $replacementColName" );
             }
+
 
             // transform column names in indexes
             $indexesSchema =& $schema[$tableName]['indexes'];
@@ -939,7 +926,8 @@ class eZDBSchemaInterface
                 if ( ( $key = array_search( $searchColName, $indexSchema['fields'] ) ) !== false )
                 {
                     $indexesSchema[$indexName]['fields'][$key] = $replacementColName;
-                    //eZDebug::writeDebug( "transformed index field $schemaType:$indexName.$searchColName to $replacementColName" );
+                    eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                                "transformed index columnn name $indexName.$searchColName to $replacementColName" );
                 }
             }
         }
@@ -989,7 +977,9 @@ class eZDBSchemaInterface
                 $fieldSchema['length'] = $replacementLength;
             else
                 unset( $fieldSchema['length'] );
-            //eZDebug::writeDebug( "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
+
+            eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                        "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
         }
 
         // remove default field values (which are supposed to be empty due to bug in mysql)
@@ -1005,7 +995,8 @@ class eZDBSchemaInterface
             }
 
             unset( $schema[$tableName]['fields'][$colName]['default'] );
-            //eZDebug::writeDebug( "removed default value from $schemaType:$tableName.$colName" );
+            eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                        "removed default value from $schemaType:$tableName.$colName" );
         }
 
         // Find indexes that needs to be fixed
@@ -1100,8 +1091,11 @@ class eZDBSchemaInterface
             $fieldsSchema =& $schema[$tableName]['indexes'];
             if ( isset( $fieldsSchema[$searchIdxName] )  )
             {
-                //eZDebug::writeDebug( "replaced $tableName.$searchIdxName => $replacementIdxName" );
-                arrayReplaceKey( $schema[$tableName]['indexes'], $searchIdxName, $replacementIdxName );
+                eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                            "replaced $tableName.$searchIdxName => $replacementIdxName" );
+                $schema[$tableName]['indexes'][$replacementIdxName] =& $schema[$tableName]['indexes'][$searchIdxName];
+                unset( $schema[$tableName]['indexes'][$searchIdxName] );
+                ksort( $schema[$tableName]['indexes'] );
             }
 
         }
