@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION="2.9-3"
+
 # column to start "[  OK  ]" label in
 RES_COL=60
 # terminal sequence to move to that column. You could change this

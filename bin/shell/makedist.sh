@@ -3,7 +3,7 @@
 DIST_PROP="ez:distribution"
 DIST_DIR_PROP="ez:distribution_include_all"
 DIST_TYPE='full'
-VERSION="2.9-2"
+VERSION="2.9-3"
 NAME="ezpublish"
 DEST_ROOT="/tmp"
 DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
