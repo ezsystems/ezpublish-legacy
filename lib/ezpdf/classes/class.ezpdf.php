@@ -668,6 +668,30 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
+    /*!
+     Get maximum length of single word in sentence.
+
+     \param font size
+     \param text ( sentence )
+
+     \return maximum word width
+    */
+    function eZGetMaxWordWidth( $size, $text )
+    {
+        $mx = 0;
+        $text = str_replace( '-', ' ', $text );
+        $words = str_word_count( $text, 1 );
+        foreach ( $words as $word )
+        {
+            $w = $this->getTextWidth($size,$word);
+            if ( $w > $mx )
+            {
+                $mx = $w;
+            }
+        }
+        return $mx;
+    }
+
     function ezPrvtGetTextWidth($size,$text){
         // will calculate the maximum width, taking into account that the text may be broken
         // by line breaks.

@@ -266,6 +266,7 @@ class eZPDFTable extends Cezpdf
         $middle = ($this->ez['pageWidth']- $this->rightMargin() - $this->leftMargin() )/2+$this->leftMargin();
         // figure out the maximum widths of the text within each column
         $maxWidth = array();
+        $minWidth = array();
 
         $maxRowCount = 0;
         // find the maximum cell widths based on the data
@@ -274,6 +275,8 @@ class eZPDFTable extends Cezpdf
             $realColCount = 0;
             for( $columnCount = 0; $columnCount < count( $row ); $columnCount++ )
             {
+                $wMax = 0; // total maximum width of table column
+                $wMix = 0; // minimum width of table column
                 $data[$rowCount][$columnCount] = $this->fixupTableCellText( $row[$columnCount] );
                 $row[$columnCount] = $data[$rowCount][$columnCount];
                 // get col span
@@ -287,19 +290,21 @@ class eZPDFTable extends Cezpdf
                 if ( ( $rowCount == 0 && $options['firstRowTitle'] ) ||
                      ( isset( $options['cellData'][$realColCount.','.$rowCount]['title'] ) && $options['cellData'][$realColCount.','.$rowCount]['title'] ) )
                 {
-                    $w = $this->ezPrvtGetTextWidth( $options['titleFontSize'], (string)$row[$columnCount] ) * 1.01;
+                    $wMax = $this->ezPrvtGetTextWidth( $options['titleFontSize'], (string)$row[$columnCount] ) * 1.01;
+                    $wMin = $this->eZGetMaxWordWidth( $options['titleFontSize'], (string)$row[$columnCount] ) * 1.01;
                     $options['cellData'][$realColCount.','.$rowCount]['title'] = true;
                 }
                 else
                 {
-                    $w = $this->ezPrvtGetTextWidth( $options['fontSize'], (string)$row[$columnCount] ) * 1.01;
+                    $wMax = $this->ezPrvtGetTextWidth( $options['fontSize'], (string)$row[$columnCount] ) * 1.01;
+                    $wMin = $this->eZGetMaxWordWidth( $options['fontSize'], (string)$row[$columnCount] ) * 1.01;
                 }
 
                 if ( isset( $maxWidth[$colSpan][$realColCount] ) )
                 {
-                    if ( $w > $maxWidth[$colSpan][$realColCount] )
+                    if ( $wMax > $maxWidth[$colSpan][$realColCount] )
                     {
-                        $maxWidth[$colSpan][$realColCount] = $w;
+                        $maxWidth[$colSpan][$realColCount] = $wMax;
                     }
                 }
                 else
@@ -308,7 +313,23 @@ class eZPDFTable extends Cezpdf
                     {
                         $maxWidth[$colSpan] = array();
                     }
-                    $maxWidth[$colSpan][$realColCount] = $w;
+                    $maxWidth[$colSpan][$realColCount] = $wMax;
+                }
+
+                if ( isset( $minWidth[$colSpan][$realColCount] ) )
+                {
+                    if ( $wMin > $minWidth[$colSpan][$realColCount] )
+                    {
+                        $minWidth[$colSpan][$realColCount] = $wMin;
+                    }
+                }
+                else
+                {
+                    if ( !isset( $minWidth[$colSpan] ) )
+                    {
+                        $minWidth[$colSpan] = array();
+                    }
+                    $minWidth[$colSpan][$realColCount] = $wMin;
                 }
 
                 $realColCount += $colSpan;
@@ -335,10 +356,15 @@ class eZPDFTable extends Cezpdf
             }
         }
 
+        // Scale column widths
         $pos=array();
         $columnWidths = array();
-        for ( $offset = 0; $offset < count( $cols ); )
-            $columnWidths[$offset++] = 0;
+        $minWidthArray = array();
+        for ( $offset = 0; $offset < count( $cols ); ++$offset )
+        {
+            $columnWidths[$offset] = 0;
+            $minWidthArray[$offset] = 0;
+        }
         $x=0;
         $t=$x;
         $adjustmentWidth=0;
@@ -348,26 +374,35 @@ class eZPDFTable extends Cezpdf
             foreach ( $maxWidth[$span] as $offset => $tmp2 )
             {
                 $currentWidth = 0;
+                $currentMinWidth = 0;
                 for ( $innerCount = 0; $innerCount < $span; $innerCount++ )
                 {
                     $currentWidth += $columnWidths[$offset+$innerCount];
+                    $currentMinWidth += $minWidthArray[$offset + $innerCount];
                 }
                 if ( $maxWidth[$span][$offset] > $currentWidth )
                 {
                     if ( $currentWidth == 0 ) // no width set
                     {
                         for ( $i = 0; $i < $span; $i++ )
-                            $columnWidths[$offset+$i] = ceil( $maxWidth[$span][$offset] / $span );
+                        {
+                            $columnWidths[$offset + $i] = ceil( $maxWidth[$span][$offset] / $span );
+                            $minWidthArray[$offset + $i] = ceil( $minWidth[$span][$offset] / $span );
+                        }
                     }
                     else // scale previous set widths
                     {
                         for ( $i = 0; $i < $span; $i++ )
-                            $columnWidths[$offset+$i] = ceil( $maxWidth[$span][$offset] / $currentWidth * $columnWidths[$offset+$i] );
+                        {
+                            $columnWidths[$offset + $i] = ceil( $maxWidth[$span][$offset] / $currentWidth * $columnWidths[$offset+$i] );
+                            $minWidthArray[$offset + $i] = ceil( $minWidth[$span][$offset] / $currentMinWidth * $minWidthArray[$offset+$i] );
+                        }
                     }
                 }
             }
         }
 
+        $t = 0;
         foreach ( $columnWidths as $count => $width )
         {
             $pos[$count]=$t;
@@ -397,17 +432,12 @@ class eZPDFTable extends Cezpdf
             $options['width'] = $this->ez['pageWidth'] - $this->leftMargin() - $this->rightMargin();
         }
 
-        // calculated width as forced. Shrink or enlarge
-        if ( $options['width'] && $adjustmentWidth>0 ){
-            $newCleanWidth = $options['width'] - $setWidth;
-            $t = 0;
-            foreach ( $columnWidths as $count => $width )
-            {
-                $pos[$count] = $t;
-                $columnWidths[$count] = round( $newCleanWidth/$adjustmentWidth * $columnWidths[$count] );
-                $t += $columnWidths[$count] + $options['gap'] + 2*$options['cellPadding'];
-            }
-            $pos['_end_']=$t;
+        // calculated width as forced. Shrink or enlarge.
+        $newColumnSize = $this->eZCalculateColumnWidth( $columnWidths, $options, $setWidth, $minWidthArray, $adjustmentWidth );
+        if ( $newColumnSize !== false )
+        {
+            $pos = $newColumnSize;
+            $t = $pos['_end_'];
         }
 
         /* Calculate max column widths */
@@ -418,11 +448,11 @@ class eZPDFTable extends Cezpdf
                 $maxWidth[$colspan][$offset] = 0;
                 for ( $columnCount = $offset; $columnCount < $offset + $colspan; $columnCount ++ )
                 {
-                    if ( $maxWidth[$colspan][$offset] != 0 )
+                    if ( $maxWidth[$colspan][$offset] == 0 )
                     {
-                        $maxWidth[$colspan][$offset] += $options['gap'] + 2*$options['cellPadding'];
+                        $maxWidth[$colspan][$offset] -= ( $options['gap'] + 2*$options['cellPadding'] );
                     }
-                    $maxWidth[$colspan][$offset] += $columnWidths[$columnCount];
+                    $maxWidth[$colspan][$offset] += ( $pos[$columnCount + 1] - $pos[$columnCount] );
                 }
             }
         }
@@ -932,6 +962,64 @@ class eZPDFTable extends Cezpdf
         }
 
         return $this->y;
+    }
+
+    /*!
+     \private
+     Calculate Table column widths
+
+     \param ColumnWidth Array
+     \param Table options
+     \param Total Width
+     \param Margin Width
+     \param minimum Table width Array
+     \param Position array ( for private use only ).
+     \return Array of fixed column sizes ( returned )
+    */
+    function eZCalculateColumnWidth( $columnWidthArray,
+                                     $options,
+                                     $marginWidth,
+                                     $minWidthArray,
+                                     $totalWidth,
+                                     $fixedSizeArray = array() )
+    {
+        $newWidth = 0;
+        if ( $options['width'] && $totalWidth>0 ){
+            $newCleanWidth = $options['width'] - $marginWidth;
+            $t = 0;
+            $pos = array();
+            foreach ( $columnWidthArray as $count => $width )
+            {
+                $pos[$count] = $t;
+
+                if ( isset( $fixedSizeArray[(string)$count] ) )
+                {
+                    $t += $fixedSizeArray[(string)$count] + $options['gap'] + 2*$options['cellPadding'];
+                    continue;
+                }
+
+                $newWidth = round( $newCleanWidth/$totalWidth * $columnWidthArray[$count] );
+
+                if ( $newWidth < $minWidthArray[$count] &&
+                     count( $fixedSizeArray ) < count( $columnWidthArray ) )
+                {
+                    $fixedSizeArray[(string)$count] = $minWidthArray[$count];
+
+                    return $this->eZCalculateColumnWidth( $columnWidthArray,
+                                                          $options,
+                                                          $marginWidth + $minWidthArray[$count],
+                                                          $minWidthArray,
+                                                          $totalWidth - $minWidthArray[$count],
+                                                          $fixedSizeArray );
+                }
+                $t += $newWidth + $options['gap'] + 2*$options['cellPadding'];
+            }
+            $pos[]=$t;
+            $pos['_end_']=$t;
+            return $pos;
+        }
+
+        return false;
     }
 
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
