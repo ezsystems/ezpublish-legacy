@@ -96,6 +96,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                     'id' => array( 'required' => true ),
                                                     'size' => array( 'required' => false, 'value' => $sizeArray),
                                                     'align' => array( 'required' => false ),
+                                                    'view' => array( 'required' => false ),
                                                     'ezurl_href' => array( 'required' => false ),
                                                     'ezurl_id' => array( 'required' => false ),
                                                     'ezurl_target' => array( 'required' => false ) );
@@ -622,7 +623,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         if ( $currentTag == "object" )
                         {
-                            if ( $attrName != "id" and $attrName != "class" and $attrName != "align" and $attrName != "size" and $attrName != "ezurl_href"
+                            if ( $attrName != "id" and $attrName != "class" and $attrName != "align" and $attrName != "size"
+                                 and $attrName != "view" and $attrName != "ezurl_href"
                                  and $attrName != "ezurl_id" and $attrName != "ezurl_target" )
                                 $attrbute->setPrefix( "custom" );
                         }
@@ -1800,6 +1802,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $objectAttr .= " target=\"$target\"";
                 }
 
+                if ( $view != "embed" )
+                {
+                    $objectAttr .= " view=\"$view\"";
+                }
+
                 $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
                 foreach ( $customAttributes as $attribute )
                 {
@@ -1924,7 +1931,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Custom tags
             case 'custom' :
             {
-                //eZDebug::writeDebug($tag->attributeValueNS("t", "http://ez.no/namespaces/ezpublish3/custom/"), "8888777");
                 $name = $tag->attributeValue( 'name' );
                 $isInline = false;
                 include_once( "lib/ezutils/classes/ezini.php" );
