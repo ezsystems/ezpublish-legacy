@@ -60,6 +60,10 @@ sql files:
 - Password hashes for users in the kernel_clean.sql and demokernel.sql has been update to use the user/password
   hash type.
 
+texttoimage operator:
+- The directory where cache files are stored has been moved to var/cache/texttoimage,
+  old files should be removed, unix users can do rm var/cache/image-*.png.
+
 *SDK :
 - Added main concepts tutorial
 
