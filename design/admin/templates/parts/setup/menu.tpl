@@ -6,6 +6,33 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{section show=eq( $ui_context, 'edit' )}
+<ul>
+    <li><span class="disabled">{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Extensions'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Global settings'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Ini settings'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+<!-- Removed from 3.5. Enable if you have special requirements.   <li><span class="disabled">{'Notification'|i18n( 'design/admin/parts/setup/menu' )}</span></li> -->
+    <li><span class="disabled">{'PDF export'|i18n( 'design/admin/parts/setup/menu' ,'PDF export')}</span></li>
+    <li><span class="disabled">{'Packages'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'RAD'|i18n( 'design/admin/parts/setup/menu' ,'Rapid Application Development')}</span></li>
+    <li><span class="disabled">{'Roles and policies'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'RSS'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Search statistics'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Sections'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'System information'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Translations'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+    <li><span class="disabled">{'Workflows'|i18n( 'design/admin/parts/setup/menu' )}</span></li>
+</ul>
+
+{section-else}
+
 <ul>
     <li><a href={'/setup/cache/'|ezurl}>{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/class/grouplist/'|ezurl}>{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
@@ -29,5 +56,7 @@
     <li><a href={'/content/urltranslator/'|ezurl}>{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
     <li><a href={'/workflow/grouplist/'|ezurl}>{'Workflows'|i18n( 'design/admin/parts/setup/menu' )}</a></li>
 </ul>
+
+{/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
