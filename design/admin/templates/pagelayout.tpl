@@ -106,7 +106,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
          nd=1
          left_checked=true()
          current_loc=true()}
-    {section show=eq($ui_context,'edit')}
+    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
         {set disabled=true()}
     {section-else}
         {section show=is_set($module_result.node_id)}
@@ -134,7 +134,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {/let}
     </p>
     <p class="advanced">
-    {section show=eq( $ui_context, 'edit' )}
+    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
     <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
     {section-else}
         <a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
@@ -183,9 +183,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div id="columns">
 
-{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component,
-'content' ) )}
-
+{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
 {section-else}
 <div id="leftmenu">
 <div id="leftmenu-design">
@@ -251,7 +249,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <ul>
 {let basket=fetch( shop, basket )}
 
-{section show=ne( $ui_context, 'edit' )}
+{section show=and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
     <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl} title="{'Change name, e-mail, password, etc.'|i18n( 'design/admin/pagelayout' )}">{'Change information'|i18n( 'design/admin/pagelayout' )}</a></li>
     <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl} title="{'Change password for <%username>.'|i18n( 'design/admin/pagelayout',, hash( '%username', $current_user.contentobject.name ) )|wash}">{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
 
@@ -285,7 +283,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
 
 {section show=ezpreference( 'admin_bookmark_menu' )}
-    {section show=ne( $ui_context, 'edit' )}
+    {section show=and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
      <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl} title="{'Hide bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( 'design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
     {section-else}
      <h4><span class="disabled openclose"><span class="bracket">[</span>-<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
@@ -313,7 +311,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </ul>
 
 {section-else}
-    {section show=ne( $ui_context,'edit' )}
+    {section show=and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
     <h4><a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/content/bookmark/'|ezurl}>{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a></h4>
     {section-else}
     <h4><span class="disabled openclose"><span class="bracket">[</span>+<span class="bracket">]</span></span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
@@ -325,7 +323,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div class="block">
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}
-{section show=and( is_set( $module_result.content_info.node_id ), $ui_context|ne( 'edit' ) )}
+{section show=and( is_set( $module_result.content_info.node_id ), $ui_context|ne( 'edit' ), $ui_context|ne( 'browse' ) )}
 <form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$module_result.content_info.node_id}" />
 <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to bookmarks'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}" />
