@@ -522,6 +522,14 @@ class eZDBInterface
     }
 
     /*!
+     \pure
+     \return existing ez publish tables in database
+    */
+    function eZTableList()
+    {
+    }
+
+    /*!
       \pure
       \return the relation names in the database as an array for the relation type \a $relationType.
     */
