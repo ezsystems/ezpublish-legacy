@@ -1090,7 +1090,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         if ( $cur_pos == $text_len ) // no more arguments
             return;
 
-        $this->parseSequenceParameter( true, 'do',
+        $this->parseSequenceParameter( true, 'while',
                                        $args, $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $rootNamespace );
     }
 
