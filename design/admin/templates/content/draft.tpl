@@ -36,7 +36,7 @@ function toggleCheckboxes( formname, checkboxname )
 <form name="draftaction" action={concat( 'content/draft/' )|ezurl} method="post">
 
 <div class="context-block">
-<h2 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/standard/content/draft',, hash( '%draft_count', $draft_list|count ) )}</h2>
+<h2 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/standard/content/draft',, hash( '%draft_count', $list_count ) )}</h2>
 
 {section show=$draft_list}
 
