@@ -736,7 +736,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	function generateTableSchema( $table, $table_def, $params )
 	{
         $arrays = $this->generateTableArrays( $table, $table_def, $params, true );
-        $sql = ( join( "\n\n", $arrays['sequences'] ) . "\n" .
+        return ( join( "\n\n", $arrays['sequences'] ) . "\n" .
                  join( "\n\n", $arrays['tables'] ) . "\n" .
                  join( "\n\n", $arrays['indexes'] ) . "\n" .
                  join( "\n\n", $arrays['constraints'] ) . "\n" );
