@@ -87,6 +87,18 @@ class eZDefaultShopAccountHandler
         eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
         $module->redirectTo( '/user/login/' );
     }
+
+    function accountInformation( $order )
+    {
+        $user =& $order->user();
+        $userObject =& $user->attribute( "contentobject" );
+        $dataMap =& $object->dataMap();
+
+        return array( 'first_name' => $dataMap['first_name']->content(),
+                      'last_name' => $dataMap['last_name']->content(),
+                      'email' => $user->attribute( "email" )
+                      );
+    }
 }
 
 ?>
