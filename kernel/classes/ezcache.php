@@ -147,11 +147,114 @@ class eZCache
 
     /*!
      \static
+     Goes through the cache info list \a $cacheInfoList and finds all the unique tags.
+     \return An array with tag strings.
+     \param $cacheInfoList If \c false the list will automatically be fetched, if multiple
+                           eZCache functions are called it is a good idea to call
+                           fetchList() yourself and pass it as a parameter.
+    */
+    function fetchTagList( $cacheInfoList = false )
+    {
+        if ( !$cacheInfoList )
+            $cacheInfoList = eZCache::fetchList();
+
+        $tagEntries = array();
+        foreach ( $cacheInfoList as $cacheInfo )
+        {
+            $tagList = $cacheInfo['tag'];
+            if ( $tagList !== false )
+                $tagEntries = array_merge( $tagEntries, $tagList );
+        }
+        return array_unique( $tagEntries );
+    }
+
+    /*!
+     \static
+     Goes through the cache info list \a $cacheInfoList and finds all the unique ids.
+     \return An array with id strings.
+     \param $cacheInfoList If \c false the list will automatically be fetched, if multiple
+                           eZCache functions are called it is a good idea to call
+                           fetchList() yourself and pass it as a parameter.
+    */
+    function fetchIDList( $cacheInfoList = false )
+    {
+        if ( !$cacheInfoList )
+            $cacheInfoList = eZCache::fetchList();
+
+        $idList = array();
+        foreach ( $cacheInfoList as $cacheInfo )
+        {
+            $idList[] = $cacheInfo['id'];
+        }
+        return $idList;
+    }
+
+    /*!
+     \static
+     Finds all cache entries using tag \a $tagName.
+     \return An array with cache items.
+    */
+    function fetchByTag( $tagName, $cacheInfoList = false )
+    {
+        if ( !$cacheInfoList )
+            $cacheInfoList = eZCache::fetchList();
+
+        $cacheEntries = array();
+        foreach ( $cacheInfoList as $cacheInfo )
+        {
+            $tagList = $cacheInfo['tag'];
+            if ( $tagList !== false and in_array( $tagName, $tagList ) )
+                $cacheEntries[] = $cacheInfo;
+        }
+        return $cacheEntries;
+    }
+
+    /*!
+     \static
+     Finds the first entry with the ID \a $id.
+     \return The cache info structure.
+    */
+    function fetchByID( $id, $cacheInfoList = false )
+    {
+        if ( !$cacheInfoList )
+            $cacheInfoList = eZCache::fetchList();
+
+        foreach ( $cacheInfoList as $cacheInfo )
+        {
+            if ( $cacheInfo['id'] == $id )
+                return $cacheInfo;
+        }
+        return false;
+    }
+
+    /*!
+     \static
+     Finds the entries matching and ID in the list \a $idList.
+     \return An array with cache info structures.
+    */
+    function fetchByIDList( $idList, $cacheInfoList = false )
+    {
+        if ( !$cacheInfoList )
+            $cacheInfoList = eZCache::fetchList();
+
+        $cacheList = array();
+        foreach ( $cacheInfoList as $cacheInfo )
+        {
+            if ( in_array( $cacheInfo['id'], $idList ) )
+                $cacheList[] = $cacheInfo;
+        }
+        return $cacheList;
+    }
+
+    /*!
+     \static
      Clears all cache items.
     */
-    function clearAll()
+    function clearAll( $cacheList = false )
     {
-        $cacheList = eZCache::fetchList();
+        if ( !$cacheList )
+            $cacheList = eZCache::fetchList();
+
         foreach ( $cacheList as $cacheItem )
         {
             eZCache::clearItem( $cacheItem );
@@ -163,9 +266,11 @@ class eZCache
      \static
      Finds all cache item which has the tag \a $tagName and clears them.
     */
-    function clearByTag( $tagName )
+    function clearByTag( $tagName, $cacheList = false )
     {
-        $cacheList = eZCache::fetchList();
+        if ( !$cacheList )
+            $cacheList = eZCache::fetchList();
+
         $cacheItems = array();
         foreach ( $cacheList as $cacheItem )
         {
@@ -184,9 +289,11 @@ class eZCache
      Finds all cache item which has ID equal to one of the IDs in \a $idList.
      You can also submit a single id to \a $idList.
     */
-    function clearByID( $idList )
+    function clearByID( $idList, $cacheList = false )
     {
-        $cacheList = eZCache::fetchList();
+        if ( !$cacheList )
+            $cacheList = eZCache::fetchList();
+
         $cacheItems = array();
         if ( !is_array( $idList ) )
             $idList = array( $idList );
@@ -236,6 +343,7 @@ class eZCache
     */
     function clearImageAlias( $cacheItem )
     {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
