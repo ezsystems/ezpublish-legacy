@@ -614,7 +614,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function availableDatabases()
     {
-        $databaseArray = $this->arrayQuery( 'show databases' );
+        $databaseArray = mysql_list_dbs( $this->DBConnection );
 
         if ( $this->errorNumber() != 0 )
         {
@@ -622,12 +622,11 @@ class eZMySQLDB extends eZDBInterface
         }
 
         $databases = array();
-        foreach ( $databaseArray as $key => $database )
-        {
-            if ( $database['Database'] != 'mysql' )
-            {
-                $databases[] = $database['Database'];
-            }
+        $i = 0;
+        $numRows = mysql_num_rows( $databaseArray );
+        while ( $i < $numRows ) {
+            $databases[] = mysql_db_name($databaseArray, $i);
+            ++$i;
         }
         return $databases;
     }
