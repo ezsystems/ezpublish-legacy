@@ -13,6 +13,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - The fetch functions content/list, content/tree, content/list_count
   and content/tree_count can now pass the parameter 'limitation' which controls
   the permission handling of the list.
+- Added possibility top configure top admin menu thrue menu.ini. 
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should

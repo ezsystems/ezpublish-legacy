@@ -1,15 +1,31 @@
 *Title: INI setting for top admin menu url's
 
 Incentive:
-Add a new aection and setting to the menu.ini
+Add new settings to the menu.ini
 - TopAdminMenu
-- MenuItemList[item_name]
-
+- Tabs[item_name]
+- URL[context]
+- NavigationPartIdentifier
+- Name
+- Tooltip
+- Enabled[context]
+- Shown[context]
 *Documentation:
 1.
-MenuItemList[item_name] - Array of top admin menu item urls.
+Tabs[item_name] - Array of top admin menu items.
+Here are the settings which controls behavour of each
+menuitem in top admin menu.
+URL['ui_context'] - which view item points to in different contextes.
+NavigationPartIdentifier  - Navigation part identifier of the menu item.
+Name - name which is shown on the menu item, if it is not set the default value 
+       is used. Note!!! When you use the not default value the text translation
+       of a menu item is done. 
+Tooltip - tooltip which is shown for the menu item, if it is not set the default value 
+          is used. Note!!! When you use the not default value the text translation
+          of a menu item is done. 
+Enabled[ui_context] - sets if menuitem is clickable in current ui_context.
+Shown[ui_context]  - sets if menuitem is clickable in current ui_context
 
-item_name is one of the top menu items (content,media,users,shop,design,setup,my_account)
-the value is the url for this item to point to.
+
 
 
