@@ -108,6 +108,7 @@ Webdav:
 - Fixed bug #6185: Headers are not correctly rendered for XML-fields
 - Fixed bug: Registering new user while being logged in causes troubles for the
   currently logged in user.
+- Fixed bug #6217: Wrong package version.
 
 *Library:
 - Changed: Added method to allow datatypes to set mime type.

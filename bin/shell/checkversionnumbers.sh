@@ -84,6 +84,28 @@ if ! grep "VERSION_NICK=\"$VERSION_ALIAS\"" bin/shell/common.sh &>/dev/null; the
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+# kernel/classes/ezpackage.php
+
+if ! grep "define( 'EZ_PACKAGE_VERSION', '$VERSION' );" kernel/classes/ezpackage.php &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable define EZ_PACKAGE_VERSION"
+    echo "Should be:"
+    echo "define( 'EZ_PACKAGE_VERSION', '`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' );"
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
+if ! grep "define( 'EZ_PACKAGE_DEVELOPMENT', $DEVELOPMENT );" kernel/classes/ezpackage.php &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong setting in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for define EZ_PACKAGE_DEVELOPMENT"
+    echo "Should be:"
+    echo "define( 'EZ_PACKAGE_DEVELOPMENT', `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
 # lib/version.php
 
 if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
