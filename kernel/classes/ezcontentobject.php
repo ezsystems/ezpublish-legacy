@@ -698,6 +698,7 @@ class eZContentObject extends eZPersistentObject
     function checkAccess( $functionName, $classID = false, $parentClassID = false )
     {
         $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         if ( ! $classID )
@@ -771,6 +772,18 @@ class eZContentObject extends eZPersistentObject
                         elseif ( $limitation->attribute( 'identifier' ) == 'SectionID' )
                         {
                             if (  in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
+                        {
+                            if ( $this->attribute( 'owner_id' ) == $userID )
                             {
                                 $access = 'allowed';
                             }
@@ -927,11 +940,14 @@ class eZContentObject extends eZPersistentObject
 
     function canEdit( )
     {
+         eZDebug::writeError("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 2");
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
             $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
         }
         $p = ( $this->Permissions["can_edit"] == 1 );
+        $temp= $this->permissions();
+        eZDebug::writeError($temp,"WWWWWWWWWW");
         return $p;
     }
 

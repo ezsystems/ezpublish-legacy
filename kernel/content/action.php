@@ -132,6 +132,41 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
     return;
 }
 
+if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
+{
+    if ( $http->hasPostVariable( 'Priority' ) and $http->hasPostVariable( 'PriorityID' ) )
+    {
+        $db =& eZDB::instance();
+        $priorityArray =& $http->postVariable( 'Priority' );
+        $priorityIDArray =& $http->postVariable( 'PriorityID' );
+        for ( $i=0; $i<count( $priorityArray );$i++ )
+        {
+            $priority = $priorityArray[$i];
+            $nodeID = $priorityIDArray[$i];
+            $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
+        }
+    }
+    if ( $http->hasPostVariable( 'ViewMode' ) )
+    {
+        $viewMode = $http->postVariable( 'ViewMode' );
+    }
+    else
+    {
+        $viewMode = 'full';
+    }
+    if ( $http->hasPostVariable( 'TopLevelNode' ) )
+    {
+        $topLevelNode = $http->postVariable( 'TopLevelNode' );
+    }
+    else
+    {
+        $topLevelNode = '2';
+    }
+    
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/19/' );
+    return;
+}
+
 if ( $http->hasPostVariable( 'RemoveObject' ) )
 {
     $removeObjectID = $http->postVariable( 'RemoveObject' );

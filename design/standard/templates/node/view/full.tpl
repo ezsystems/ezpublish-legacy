@@ -69,19 +69,30 @@
 	{section show=eq($node.sort_array[0][0],'priority')}<td width="40" align="left">
 	<input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
 	<input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}"></td>{/section}
-        <td width="1%">
+	{switch name=sw match=$Child:item.object.can_edit}
+        {case match=1}
+	<td width="1%">
         <a class="normal" href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
         </td>
-	<td class="{$Child:sequence}" align="right" width="1%">
-	{switch name=sw match=$Child:item.object.can_remove}
-        {case match=1}
-             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
 	{/case}
         {case} 
+	<td class="{$Child:sequence}" width="1%">
+	</td>
         {/case}
         {/switch} 
+	{switch name=sw match=$Child:item.object.can_remove}
+        {case match=1}
+	<td class="{$Child:sequence}" align="right" width="1%">
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
 	</td>
-        <td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} border="0"></td>
+	<td width="1%" class="{$Child:sequence}"><img src={"editdelete.png"|ezimage} border="0"></td>
+	{/case}
+        {case} 
+	<td class="{$Child:sequence}" align="right" width="1%">
+	</td>
+	<td width="1%" class="{$Child:sequence}"></td>
+        {/case}
+        {/switch} 
 </tr>
 {/section}
 </table>
@@ -109,16 +120,9 @@
  <p>You are not allowed to create child objects</p>
 {/case}
 {/switch}
-
-{switch match=$node.object.can_remove}
-{case match=1}
-    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
-    {/section}
-{/case}
-{case match=0}
- <p>You are not allowed to remove child objects</p>
-{/case}
+{section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
+<input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
+{/section}
 {/switch}
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 
