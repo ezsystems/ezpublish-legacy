@@ -46,7 +46,7 @@
   \ingroup eZWebDAV
   \brief Virtual base class for implementing WebDAV servers.
 
-  __FIX_ME__
+  \todo Add support for propall and propname
 */
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
@@ -163,7 +163,7 @@ class eZWebDAVServer
         $this->XMLBodyRead = false;
 
         // Dump some custom header/info.
-//		header( "WebDAV-Powered-By: eZ publish" );
+        $this->headers();
 
         // Clear file status cache (just in case).
         clearstatcache();
@@ -199,10 +199,48 @@ class eZWebDAVServer
                     $depth = "infinity";
                 $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
-                $collection = $this->getCollectionContent( $target, $depth );
+                // Find which properties were requested
+//                 $this->appendLogEntry( $xmlBody, 'xmlbody' );
+                $xml = new eZXML();
+                $bodyTree = $xml->domTree( $this->xmlBody() );
+                $requestedProperties = array();
+                if ( $bodyTree )
+                {
+                    $propfindNode =& $bodyTree->root();
+                    $propNode =& $propfindNode->elementByName( 'prop' );
+                    if ( $propNode )
+                    {
+                        $propList =& $propNode->children();
+                        foreach ( $propList as $node )
+                        {
+                            $name = $node->name();
+                            $requestedProperties[] = $name;
+                        }
+                    }
+                    else
+                    {
+                        $allpropNode =& $propfindNode->elementByName( 'allprop' );
+                        if ( $allpropNode )
+                        {
+                            // The server must return all possible properties
+                            $requestedProperties = true;
+                        }
+                        else
+                        {
+                            $propnameNode =& $propfindNode->elementByName( 'propname' );
+                            if ( $propnameNode )
+                            {
+                                // The server must return only the names of all properties
+                                $requestedProperties = false;
+                            }
+                        }
+                    }
+                }
+
+                $collection = $this->getCollectionContent( $target, $depth, $requestedProperties );
                 if ( is_array( $collection ) )
                 {
-                    $status = $this->outputCollectionContent( $collection, $this->xmlBody() );
+                    $status = $this->outputCollectionContent( $collection, $requestedProperties );
                 }
                 else
                 {
@@ -356,10 +394,22 @@ class eZWebDAVServer
                          - size - The size of the element in bytes, not needed for folders
       \return The WebDAV status code
     */
-    function outputCollectionContent( $collection, $xmlBody )
+    function outputCollectionContent( $collection, $requestedProperties )
     {
         $xmlText = "<?xml version='1.0' encoding='utf-8'?>\n" .
                    "<D:multistatus xmlns:D='DAV:'>\n";
+
+        // Maps from WebDAV property names to internal names
+        $nameMap = array( 'displayname' => 'name',
+                          'creationdate' => 'ctime',
+                          'getlastmodified' => 'mtime',
+                          'getcontenttype' => 'mimetype',
+                          'getcontentlength' => 'size' );
+        foreach ( $requestedProperties as $requestedProperty )
+        {
+            if ( !isset( $nameMap[$requestedProperty] ) )
+                $nameMap[$requestedProperty] = $requestedProperty;
+        }
 
         // For all the entries in this dir/collection-array:
         foreach ( $collection as $entry )
@@ -368,50 +418,65 @@ class eZWebDAVServer
             $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
             $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
 
-            // Check if collection and append/use appropriate tags.
-            if ( $entry['mimetype'] == 'httpd/unix-directory' )
+            $xmlText .= "<D:response>\n" .
+                 " <D:href>" . $entry['href'] ."</D:href>\n" .
+                 " <D:propstat>\n" .
+                 "  <D:prop>\n";
+
+            $unknownProperties = array();
+            $isCollection = $entry['mimetype'] == 'httpd/unix-directory';
+            foreach ( $requestedProperties as $requestedProperty )
             {
-                $xmlText .= "<D:response>\n" .
-                     " <D:href>" . $entry['href'] ."</D:href>\n" .
-                     " <D:propstat>\n" .
-                     "  <D:prop>\n" .
-                     "   <D:displayname>" . $entry['name'] . "</D:displayname>\n" .
-                     "   <D:resourcetype>\n" .
-                     "    <D:collection />\n" .
-                     "   </D:resourcetype>\n" .
-                     "   <D:creationdate>$creationTime</D:creationdate>\n" .
-                     "   <D:getlastmodified>$modificationTime</D:getlastmodified>\n" .
-                     "  </D:prop>\n" .
-                     "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
-                     " </D:propstat>\n";
-            }
-            else
-            {
-                $xmlText .= "<D:response>\n" .
-                     " <D:href>" . $entry['href'] ."</D:href>\n" .
-                     " <D:propstat>\n" .
-                     "  <D:prop>\n" .
-                     "   <D:displayname>" . $entry['name'] . "</D:displayname>\n" .
-                     "   <D:getcontenttype>" . $entry['mimetype'] . "</D:getcontenttype>\n" .
-                     "   <D:getcontentlength>" . $entry['size']  . "</D:getcontentlength>\n" .
-                     "   <D:creationdate>$creationTime</D:creationdate>\n" .
-                     "   <D:getlastmodified>$modificationTime</D:getlastmodified>\n" .
-                     "  </D:prop>\n" .
-                     "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
-                     " </D:propstat>\n";
+                $name = $nameMap[$requestedProperty];
+                if ( isset( $entry[$name] ) )
+                {
+                    if ( $requestedProperty == 'creationdate' )
+                    {
+                        $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
+                        $xmlText .= "   <D:" . $requestedProperty . ">" . $creationTime . "</D:" . $requestedProperty . ">\n";
+                    }
+                    else if ( $requestedProperty == 'getlastmodified' )
+                    {
+                        $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
+                        $xmlText .= "   <D:" . $requestedProperty . ">" . $modificationTime . "</D:" . $requestedProperty . ">\n";
+                    }
+                    else
+                    {
+                        if ( $isCollection and $requestedProperty == 'getcontentlength' )
+                        {
+                            $xmlText .= ( "   <D:resourcetype>\n" .
+                                          "    <D:collection />\n" .
+                                          "   </D:resourcetype>\n" );
+
+                            $unknownProperties[] = $requestedProperty;
+                        }
+                        else
+                        {
+                            $xmlText .= "   <D:" . $requestedProperty . ">" . $entry[$name] . "</D:" . $requestedProperty . ">\n";
+                        }
+                    }
+                }
+                else if ( $requestedProperty != 'resourcetype' or !$isCollection )
+                {
+                    $unknownProperties[] = $requestedProperty;
+                }
             }
 
+            $xmlText .= ( "  </D:prop>\n" .
+                          "  <D:status>HTTP/1.1 200 OK</D:status>\n" .
+                          " </D:propstat>\n" );
+
+
             // List the non supported properties
-            $xmlText .= "<D:propstat>\n";
-            $xmlText .= " <D:prop>\n";
-            $xmlText .= "  <D:supportedlock />\n";
-            $xmlText .= "  <D:source />\n";
-            $xmlText .= "  <D:executable />\n";
-            $xmlText .= "  <D:getetag />\n";
-            $xmlText .= "  <D:lockdiscovery />\n";
-            $xmlText .= " </D:prop>\n";
-            $xmlText .= " <D:status>HTTP/1.1 404 Not Found</D:status>\n";
-            $xmlText .= "</D:propstat>\n";
+            $xmlText .= " <D:propstat>\n";
+            $xmlText .= "  <D:prop>\n";
+            foreach ( $unknownProperties as $unknownProperty )
+            {
+                $xmlText .= "   <D:" . $unknownProperty . " />\n";
+            }
+            $xmlText .= "  </D:prop>\n";
+            $xmlText .= "  <D:status>HTTP/1.1 404 Not Found</D:status>\n";
+            $xmlText .= " </D:propstat>\n";
 
             $xmlText .= "</D:response>\n";
         }
@@ -430,7 +495,7 @@ class eZWebDAVServer
             $this->appendLogEntry( $text, "DAV: PHP Output" );
         while ( @ob_end_clean() );
 
-//        $this->appendLogEntry( $xmlText, 'xmlText' );
+//         $this->appendLogEntry( $xmlText, 'xmlText' );
 
         // Dump the actual XML data containing collection list.
         print( $xmlText );
@@ -603,6 +668,15 @@ class eZWebDAVServer
     }
 
     /*!
+     \protected
+     This is called before each each request is processed and can be used to output
+     some common headers.
+    */
+    function headers()
+    {
+    }
+
+    /*!
       \virtual
       Reports WebDAV options which information on what the server supports.
       \return An associative array with options, can contain:
@@ -618,8 +692,11 @@ class eZWebDAVServer
     /*!
       \virtual
       \return An array with elements that belongs to the collection \a $collection
-     */
-    function getCollectionContent( $collection, $depth )
+      \param $depth The current depth, \c 0 for only current object, \c 1 for it's children
+      \param $properties Which properties the client asked for, either an array with DAV
+                         property names, \c true for all properties or \c false for only property names.
+    */
+    function getCollectionContent( $collection, $depth, $properties )
     {
     }
 

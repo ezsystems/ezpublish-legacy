@@ -109,7 +109,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
       we're browsing within the content folder: it gets the content of the
       target/given folder.
     */
-    function getCollectionContent( $collection, $depth )
+    function getCollectionContent( $collection, $depth, $properties )
     {
         $fullPath = $collection;
         $collection = $this->splitFirstPathElement( $collection, $currentSite );
@@ -118,7 +118,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // Display the root which contains a list of sites
             $this->appendLogEntry( "Root: Fethcing site list", 'CS:getCollectionContent' );
-            $entries = $this->fetchSiteListContent( $depth );
+            $entries = $this->fetchSiteListContent( $depth, $properties );
             return $entries;
         }
 
@@ -128,7 +128,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        return $this->getVirtualFolderCollection( $currentSite, $collection, $fullPath, $depth );
+        return $this->getVirtualFolderCollection( $currentSite, $collection, $fullPath, $depth, $properties );
     }
 
     /*!
@@ -136,7 +136,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
      Handles collections on the virtual folder level, if no virtual folder
      elements are accessed it lists the virtual folders.
     */
-    function getVirtualFolderCollection( $currentSite, $collection, $fullPath, $depth )
+    function getVirtualFolderCollection( $currentSite, $collection, $fullPath, $depth, $properties )
     {
         $this->appendLogEntry( "Check virtual folder: site '$currentSite' in '$collection' ", 'CS:getCollectionContent' );
         $this->setCurrentSite( $currentSite );
@@ -145,7 +145,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // We are inside a site so we display the virtual folder for the site
             $this->appendLogEntry( "Virtual folder for '$currentSite'", 'CS:getCollectionContent' );
-            $entries = $this->fetchVirtualSiteContent( $currentSite, $depth );
+            $entries = $this->fetchVirtualSiteContent( $currentSite, $depth, $properties );
             return $entries;
         }
 
@@ -163,7 +163,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        return $this->getContentTreeCollection( $currentSite, $virtualFolder, $collection, $fullPath, $depth );
+        return $this->getContentTreeCollection( $currentSite, $virtualFolder, $collection, $fullPath, $depth, $properties );
     }
 
     /*!
@@ -172,7 +172,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
      Depending on the virtual folder we will generate a node path url and fetch
      the nodes for that path.
     */
-    function getContentTreeCollection( $currentSite, $virtualFolder, $collection, $fullPath, $depth )
+    function getContentTreeCollection( $currentSite, $virtualFolder, $collection, $fullPath, $depth, $properties )
     {
         $this->appendLogEntry( "Content collection: from site '$currentSite' in '$virtualFolder' using path '$collection'", 'CS:getCollectionContent' );
         $nodePath = $this->internalNodePath( $virtualFolder, $collection );
@@ -184,13 +184,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        if ( !$this->userHasCollectionAccess( $currentSite, $nodePath, $node ) )
+        // Can we list the children of the node?
+        if ( !$node->canRead() )
         {
             $this->appendLogEntry( "No access to content '$nodePath' in site '$currentSite'", 'CS:getCollectionContent' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        $entries = $this->fetchContentList( $node, $nodePath, $depth );
+        $entries = $this->fetchContentList( $node, $nodePath, $depth, $properties );
         return $entries;
     }
 
@@ -292,7 +293,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return $result;
         }
 
-        if ( !$this->userHasGetAccess( $currentSite, $nodePath, $node ) )
+        // Can we fetch the contents of the node
+        if ( !$node->canRead() )
         {
             $this->appendLogEntry( "No access to get '$nodePath' in site '$currentSite'", 'CS:get' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -402,7 +404,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_CONFLICT;
         }
 
-        if ( !$this->userHasPutAccess( $currentSite, $nodePath, $parentNode ) )
+        // Can we put content in the parent node
+        if ( !$parentNode->canRead() )
         {
             $this->appendLogEntry( "No access to put '$nodePath' in site '$currentSite'", 'CS:put' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -525,7 +528,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        if ( !$this->userHasMkcolAccess( $currentSite, $nodePath, $parentNode ) )
+        // Can we create a collection in the parent node
+        if ( !$parentNode->canRead() )
         {
             $this->appendLogEntry( "No access to mkcol '$nodePath' in site '$currentSite'", 'CS:getCollectionContent' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -615,7 +619,9 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        if ( !$this->userHasDeleteAccess( $currentSite, $nodePath, $node ) )
+        // Can we delete the node?
+        if ( !$node->canRead() or
+             !$node->canRemove() )
         {
             $this->appendLogEntry( "No access to delete '$nodePath' in site '$currentSite'", 'CS:delete' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -778,9 +784,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        if ( !$this->userHasMoveAccess( $sourceSite, $destinationSite,
-                                        $nodePath, $destinationNodePath,
-                                        $sourceNode, $destinationNode ) )
+        // Can we move the node from $sourceNode to $destinationNode
+        if ( !$sourceNode->canMove() )
         {
             $this->appendLogEntry( "No access to move '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:move' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
@@ -907,69 +912,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      Checks if the current user has access rights to list the collection \a $nodePath
-      on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasCollectionAccess( $currentSite, $nodePath, &$node )
-    {
-        return $node->canRead();
-    }
-
-    /*!
-      Checks if the current user has access rights to get the contensts of node \a $nodePath
-      on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasGetAccess( $currentSite, $nodePath, &$node )
-    {
-        return $node->canRead();
-    }
-
-    /*!
-      Checks if the current user has access rights to create node \a $nodePath
-      as child of \a $parentNode on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasPutAccess( $currentSite, $nodePath, &$parentNode )
-    {
-        return ( $parentNode->canRead()  );
-    }
-
-    /*!
-      Checks if the current user has access rights to create a collection (folder etc.)
-      at location \a $nodePath as child of \a $parentNode on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasMkcolAccess( $currentSite, $nodePath, &$parentNode )
-    {
-        return $parentNode->canRead();
-    }
-
-    /*!
-      Checks if the current user has access rights to remove node \a $nodePath on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasDeleteAccess( $currentSite, $nodePath, &$node )
-    {
-        return ( $node->canRead() and
-                 $node->canRemove() );
-    }
-
-    /*!
-      Checks if the current user has access rights to move node
-      \a $sourcePath to as child of parent node \a $destinationPath
-      on site \a $currentSite.
-      \return \c true if the user proper access.
-    */
-    function userHasMoveAccess( $sourceSite, $destinationSite,
-                                $sourcePath, $destinationPath,
-                                &$sourceNode, &$destinationNode )
-    {
-        return ( $sourceNode->canMove() );
-    }
-
-    /*!
       Detects a possible/valid site-name in start of a path.
       \return The name of the site that was detected or \c false if not site could be detected
     */
@@ -1026,6 +968,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         $this->appendLogEntry( "indexdir url: $url", 'CS:processURL' );
         return $url;
+    }
+
+    /*!
+     \reimp
+    */
+    function headers()
+    {
+		header( "WebDAV-Powered-By: eZ publish" );
     }
 
     /*!
@@ -1296,15 +1246,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
       contains the "content" folder which leads to the site's
       actual content.
     */
-    function fetchVirtualSiteContent( $site, $depth )
+    function fetchVirtualSiteContent( $site, $depth, $properties )
     {
         $this->appendLogEntry( "Script URL.." . $_SERVER["SCRIPT_URL"], 'CS:fetchVirtualSiteContent' );
-        $this->appendLogEntry( "href=" . $contentEntry["href"], 'CS:fetchVirtualSiteContent' );
         // Location of the info file.
         $infoFile = $_SERVER['DOCUMENT_ROOT'] . '/' . VIRTUAL_INFO_FILE_NAME;
 
         // Always add the current collection
-        $contentEntry = array ();
+        $contentEntry = array();
         $contentEntry["name"]     = $_SERVER["SCRIPT_URL"];
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
@@ -1319,7 +1268,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( $depth > 0 )
         {
             $scriptURL = $_SERVER["SCRIPT_URL"];
-            if ( $scriptURL{strlen($scriptURL)} != "/" )
+            if ( $scriptURL{strlen($scriptURL) - 1} != "/" )
                 $scriptURL .= "/";
 
             // Set up attributes for the virtual content folder:
@@ -1365,7 +1314,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     /*!
       Builds a content-list of available sites and returns it.
     */
-    function fetchSiteListContent( $depth )
+    function fetchSiteListContent( $depth, $properties )
     {
         // At the end: we'll return an array of entry-arrays.
         $entries = array();
@@ -1420,7 +1369,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
       List of other nodes belonging to the target node
       (one level below it) will be returned.
     */
-    function fetchContentList( &$node, $target, $depth )
+    function fetchContentList( &$node, $target, $depth, $properties )
     {
         // We'll return an array of entries (which is an array of attributes).
         $entries = array();

@@ -856,9 +856,57 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new version and returns it as an eZContentObjectVersion object.
      If version number is given as argument that version is used to create a copy.
+     \param $versionCheck If \c true it will check if there are too many version and
+                          remove some of them to make room for a new.
     */
-    function &createNewVersion( $copyFromVersion = false )
+    function &createNewVersion( $copyFromVersion = false, $versionCheck = false )
     {
+        // Check if we have enough space in version list
+        if ( $versionCheck )
+        {
+            $contentINI =& eZINI::instance( 'content.ini' );
+            $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+            $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+            $classID = $this->attribute( 'contentclass_id' );
+            foreach ( array_keys ( $limitList ) as $key )
+            {
+                if ( $classID == $key )
+                    $versionlimit =& $limitList[$key];
+            }
+            if ( $versionlimit < 2 )
+                $versionlimit = 2;
+            $versionCount = $this->getVersionCount();
+            if ( $versionCount >= $versionlimit )
+            {
+                // Remove oldest archived version
+                if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
+                {
+                    $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
+                }
+                else
+                {
+                    $params = array( 'conditions'=> array( 'status' => 3 ) );
+                }
+                $versions =& $this->versions( true, $params );
+                if ( count( $versions ) > 0 )
+                {
+                    $modified = $versions[0]->attribute( 'modified' );
+                    $removeVersion =& $versions[0];
+                    foreach ( array_keys( $versions ) as $versionKey )
+                    {
+                        $version =& $versions[$versionKey];
+                        $currentModified = $version->attribute( 'modified' );
+                        if ( $currentModified < $modified )
+                        {
+                            $modified = $currentModified;
+                            $removeVersion = $version;
+                        }
+                    }
+                    $removeVersion->remove();
+                }
+            }
+        }
+
         // get the next available version number
         $nextVersionNumber = $this->nextVersion();
 

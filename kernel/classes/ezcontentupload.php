@@ -355,18 +355,25 @@ class eZContentUpload
         $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
         $nameString = $this->processNamePattern( $variables, $namePattern );
 
-        // When we have an existing node we will already have the
-        // $object as well (look above).
-        // If not we need to create a new object from the class
-        if ( !is_object( $existingNode ) )
+        // If we have an existing node we need to create
+        // a new version in it.
+        // If we don't we have to make a new object
+        if ( is_object( $existingNode ) )
+        {
+            $version =& $object->createNewVersion( false, true );
+            unset( $dataMap );
+            $dataMap =& $version->dataMap();
+            $publishVersion = $version->attribute( 'version' );
+        }
+        else
         {
             $object =& $class->instantiate();
+            unset( $dataMap );
+            $dataMap =& $object->dataMap();
+            $publishVersion = $object->attribute( 'current_version' );
         }
 
-        unset( $dataMap );
-        $dataMap =& $object->dataMap();
-
-        $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+        $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $publishVersion, eZContentObject::defaultLanguage(),
                                                                $filePath,
                                                                $storeResult );
         if ( $status === null )
@@ -384,7 +391,7 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$fileAttribute]->store();
 
-        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, eZContentObject::defaultLanguage(),
                                                                 $nameString,
                                                                 $storeResult );
         if ( $status === null )
@@ -403,7 +410,7 @@ class eZContentUpload
             $dataMap[$nameAttribute]->store();
 
         return $this->publishObject( $result, $errors, $notices,
-                                     $object, $class, $parentNodes, $parentMainNode );
+                                     $object, $publishVersion, $class, $parentNodes, $parentMainNode );
     }
 
     /*!
@@ -526,18 +533,28 @@ class eZContentUpload
         $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
         $nameString = $this->processNamePattern( $variables, $namePattern );
 
-        // When we have an existing node we will already have the
-        // $object as well (look above).
-        // If not we need to create a new object from the class
-        if ( !is_object( $existingNode ) )
+        // If we have an existing node we need to create
+        // a new version in it.
+        // If we don't we have to make a new object
+        if ( is_object( $existingNode ) )
+        {
+            $version =& $object->createNewVersion( false, true );
+            unset( $dataMap );
+            $dataMap =& $version->dataMap();
+            $publishVersion = $version->attribute( 'version' );
+        }
+        else
         {
             $object =& $class->instantiate();
+            unset( $dataMap );
+            $dataMap =& $object->dataMap();
+            $publishVersion = $object->attribute( 'current_version' );
         }
 
         unset( $dataMap );
         $dataMap =& $object->dataMap();
 
-        $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+        $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $publishVersion, eZContentObject::defaultLanguage(),
                                                             $file, $mimeData,
                                                             $storeResult );
         if ( $status === null )
@@ -555,7 +572,7 @@ class eZContentUpload
         if ( $storeResult['require_storage'] )
             $dataMap[$fileAttribute]->store();
 
-        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+        $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $publishVersion, eZContentObject::defaultLanguage(),
                                                                 $nameString,
                                                                 $storeResult );
         if ( $status === null )
@@ -574,7 +591,7 @@ class eZContentUpload
             $dataMap[$nameAttribute]->store();
 
         return $this->publishObject( $result, $errors, $notices,
-                                     $object, $class, $parentNodes, $parentMainNode );
+                                     $object, $publishVersion, $class, $parentNodes, $parentMainNode );
     }
 
     /*!
@@ -584,7 +601,7 @@ class eZContentUpload
      \return \c true if everything was OK, \c false if something failed.
     */
     function publishObject( &$result, &$errors, &$notices,
-                            &$object, &$class, $parentNodes, $parentMainNode )
+                            &$object, $publishVersion, &$class, $parentNodes, $parentMainNode )
     {
         if ( is_array( $parentNodes ) )
         {
@@ -601,20 +618,20 @@ class eZContentUpload
 //            $oldObjectName = $object->name();
 //             print( "version: " . $object->attribute( 'current_version' ) . "<br/>\n" );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                     'version' => $object->attribute( 'current_version' ) ) );
+                                                                                     'version' => $publishVersion ) );
 
         $objectID = $object->attribute( 'id' );
         unset( $object );
         $object =& eZContentObject::fetch( $objectID );
         $result['contentobject'] =& $object;
         $result['contentobject_id'] = $object->attribute( 'id' );
-        $result['contentobject_version'] = $object->attribute( 'current_version' );
+        $result['contentobject_version'] = $publishVersion;
         $result['contentobject_main_node'] = false;
         $result['contentobject_main_node_id'] = false;
 
         $this->setResult( array( 'node_id' => false,
                                  'object_id' => $object->attribute( 'id' ),
-                                 'object_version' => $object->attribute( 'current_version' ) ) );
+                                 'object_version' => $publishVersion ) );
 
         switch ( $operationResult['status'] )
         {
@@ -651,7 +668,7 @@ class eZContentUpload
         $result['contentobject_main_node_id'] = $mainNode->attribute( 'node_id' );
         $this->setResult( array( 'node_id' => $mainNode->attribute( 'node_id' ),
                                  'object_id' => $object->attribute( 'id' ),
-                                 'object_version' => $object->attribute( 'current_version' ) ) );
+                                 'object_version' => $publishVersion ) );
 //         $newObjectName = $object->name();
         return true;
     }
