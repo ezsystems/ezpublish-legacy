@@ -39,7 +39,6 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
@@ -56,12 +55,12 @@ eZModule::setGlobalPathList( array( "kernel" ) );
 $varDir = eZSys::varDirectory();
 
 define( "VIRTUAL_CONTENT_FOLDER_NAME", ezi18n( 'kernel/content', "Content" ) );
-define( "VIRTUAL_INFO_FILE_NAME", $varDir."/webdav/root/info.txt" );
-define( "WEBDAV_INI_FILE", "webdav.ini" );
-define( "WEBDAV_AUTH_REALM", "eZ publish WebDAV content interface" );
-define( "WEBDAV_AUTH_FAILED", "Invalid username or password!" );
-define( "WEBDAV_INVALID_SITE", "Invalid site..." );
-define( "WEBDAV_DISABLED", "WebDAV functionality is disabled!" );
+define( "VIRTUAL_INFO_FILE_NAME",      $varDir."/webdav/root/info.txt" );
+define( "WEBDAV_INI_FILE",             "webdav.ini" );
+define( "WEBDAV_AUTH_REALM",           "eZ publish WebDAV interface" );
+define( "WEBDAV_AUTH_FAILED",          "Invalid username or password!" );
+define( "WEBDAV_INVALID_SITE",         "Invalid site name specified!" );
+define( "WEBDAV_DISABLED",             "WebDAV functionality is disabled!" );
 
 
 
@@ -97,9 +96,9 @@ function setSiteAccess( $site )
 
     $GLOBALS['eZCurrentAccess'] =& $access;
 
-    // Clear global database instance.
-    $nullvar = null;
-    $db =& eZDB::setInstance($nullvar);
+    // Clear/flush global database instance.
+    $nullVar = null;
+    $db =& eZDB::setInstance( $nullVar );
 }
 
 
@@ -144,11 +143,12 @@ function getCurrentSiteFromPath( $path )
 
 
 
-/*!
+/*! Removes the index file /if in NVH mode/ and
+    the site name from a given target URL.
  */
 function removeIndexAndSiteName( $targetURI, $currentSite )
 {
-    //
+    // Just in case none of the strings we want to remove exist.
     $stripped = false;
 
     //
@@ -166,7 +166,7 @@ function removeIndexAndSiteName( $targetURI, $currentSite )
         $stripped = $matches[1];
     }
 
-    //
+    // Return a stripped version of the inputted URL/path.
     return $stripped;
 }
 
@@ -178,11 +178,16 @@ function removeIndexAndSiteName( $targetURI, $currentSite )
     We're looking for the star "*").
     The function returns TRUE if the user has admin rights,
     and FALSE if not.
-*/
+ */
 function gotPermission()
 {
+    append_to_log( "gotPermission was called..." );
+
     // Get the current user ID.
     $user = eZUser::currentUser();
+
+    $userObject =& $user->attribute( 'contentobject' );
+    append_to_log( "gotPermission: username:".$userObject->attribute( 'name' ) );
 
     // Get the roles assigned to this user.
     $roles = $user->roles();
@@ -193,19 +198,18 @@ function gotPermission()
         // Grab the list of policies.
         $policies = $role->policyList();
 
+
         // For all the policies:
         foreach( $policies as $policy )
         {
-            // For all the vars within the policies:
-            foreach( $policy as $var )
-            {
-                // Look for the *star* - if found, return with success.
-                if ( $var == '*' ) return true;
-            }
+            if ( $policy->attribute( 'module_name' ) == '*' and
+                 $policy->attribute( 'function_name' ) == '*' and
+                 $policy->attribute( 'limitation' ) == '*' )
+               return true;
         }
     }
 
-    // Still haven't found the star? -> permission denied!
+    // Still haven't found the three stars? -> permission denied!
     return false;
 }
 
@@ -213,7 +217,7 @@ function gotPermission()
 
 
 /*! Gets and returns the path to the original image directory.
-*/
+ */
 function getPathToOriginalImageDir()
 {
     // Build the path to where the original images are:
@@ -238,13 +242,13 @@ function getPathToReferenceImageDir()
     $referenceImageDir  = $storageDir . '/' . "reference/image";
 
     // Return the path to the dir where the reference images are stored.
-    return( $referenceImageDir );
+    return $referenceImageDir;
 }
 
 
 
 
-/*! Attepmts to fetch a possible node by translating
+/*! Attepmts to fetch a possible/existing node by translating
     the inputted string/path to a node-number.
 */
 function getNodeByTranslation( $nodePathString )
@@ -260,20 +264,22 @@ function getNodeByTranslation( $nodePathString )
     {
         $nodePathString = $matches[1];
     }
-    append_to_log( "getNodeByTranslation: nodepathstring: $nodePathString");
+    append_to_log( "getNodeByTranslation: nodepathstring0: $nodePathString");
     // If exists: remove the content folder from the path.
 
-    if ( preg_match( "#^" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    if ( preg_match( "#^" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
+            append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring: $nodePathString");
         $nodePathString = $matches[1];
     }
 
-    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
+            append_to_log( "getNodeByTranslation: REMOVING CONTENT FOLDER: nodepathstring: $nodePathString");
         $nodePathString = $matches[1];
     }
 
-    append_to_log( "getNodeByTranslation: nodepathstring: $nodePathString");
+    append_to_log( "getNodeByTranslation: nodepathstring1: $nodePathString");
     // Get rid of possible extensions, remove .jpeg .txt .html etc..
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
@@ -287,17 +293,29 @@ function getNodeByTranslation( $nodePathString )
     //
     $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
 
+    //
+    append_to_log( "getNodeByTranslation: nodepathstring2: $nodePathString");
+
     // Attempt to translate the URL to something like "/content/view/full/84".
     $translateResult =& eZURLAlias::translate( $nodePathString );
 
+    append_to_log( "getNodeByTranslation: nodepathstring3: $nodePathString");
+
     // Get the ID of the node (which is the last part of the translated path).
-    $nodeID  = basename( $nodePathString );
+    if ( preg_match ( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
+    {
+        $nodeID = $matches[1];
+    }
+    else
+    {
+        return false;
+    }
 
     // Attempt to fetch the node.
     $node = eZContentObjectTreeNode::fetch( $nodeID );
 
     // Return the node.
-    return( $node );
+    return $node;
 }
 
 
@@ -307,7 +325,7 @@ function getNodeByTranslation( $nodePathString )
     the inputted string/path to a node-number. The last
     section of the path is removed before the actual
     translation: hence, the PARENT node is returned.
-*/
+ */
 function getParentNodeByTranslation( $nodePathString )
 {
     append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
@@ -318,7 +336,7 @@ function getParentNodeByTranslation( $nodePathString )
         $nodePathString = $matches[1];
     }
 
-    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.*)$#", $nodePathString, $matches ) )
     {
         $nodePathString = $matches[1];
     }
@@ -342,37 +360,27 @@ function getParentNodeByTranslation( $nodePathString )
     $nodePathString = substr( $nodePathString, 0, $cut );
 
     append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+    //
+    $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
 
     // Attempt to translate the URL to something like "/content/view/full/84".
     $translateResult =& eZURLAlias::translate( $nodePathString );
 
     // Get the ID of the node (which is the last part of the translated path).
-    $nodeID = basename( $nodePathString );
+    if ( preg_match ( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
+    {
+        $nodeID = $matches[1];
+    }
+    else
+    {
+        return false;
+    }
 
     // Attempt to fetch the node.
     $node = eZContentObjectTreeNode::fetch( $nodeID );
 
     // Return the node.
-    return( $node );
-}
-
-
-
-
-/*! Converts a string to eZ publish node-name style.
-    All characters are converted to lowercase.
-    Spaces are removed.
-    etc..
-    __FIX_ME__ -> burde hatt en bedre funksjon her.
- */
-function convertString( $string )
-{
-    //
-    $string = strtolower( $string );
-    $string = str_replace( " ", "_", $string );
-
-    //
-    return( $string );
+    return $node;
 }
 
 
@@ -420,20 +428,20 @@ function getVirtualStartFolderContent()
     }
 
     // Return the content of the virtual start folder.
-    return( $startFolderEntries );
+    return $startFolderEntries;
 }
 
 
 
 
-/*! Builds a list of available sites and returns it.
+/*! Builds a content-list of available sites and returns it.
  */
 function getSiteListContent()
 {
-    //
+    // At the end: we'll return an array of entry-arrays.
     $siteListFolderEntries = array();
 
-    //
+    // An entry consists of several attributes (name, size, etc).
     $contentEntry = array ();
 
     // Get list of available sites.
@@ -443,7 +451,7 @@ function getSiteListContent()
     foreach( $sites as $site )
     {
         // Set up attributes for the virtual site-list folder:
-        $contentEntry["name"]     = $site;
+        $contentEntry["name"]     = '/'.$site;
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
         $contentEntry["ctime"]    = filectime( 'var' );
@@ -464,7 +472,7 @@ function getSiteListContent()
     }
 
     // Return the content of the virtual start folder.
-    return( $siteListFolderEntries );
+    return $siteListFolderEntries;
 }
 
 
@@ -483,7 +491,6 @@ function getContent( $target )
     // If unable to fetch the node: get the content/root folder instead.
     if ( !$node )
     {
-        append_to_log( "getContent: unable to fetch node!");
         $node =& eZContentObjectTreeNode::fetch( 2 );
     }
 
@@ -507,7 +514,7 @@ function getContent( $target )
     $entries[] = $thisNodeInfo;
 
     // Return the content of the target.
-    return( $entries );
+    return $entries;
 }
 
 
@@ -582,7 +589,7 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
         eZImage::remove( $contentObjectAttributeID , $version );
 
         // Bail...
-        return( FALSE );
+        return false;
     }
 
     // Attempt to copy the source file to the reference location.
@@ -594,14 +601,14 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
         eZImage::remove( $contentObjectAttributeID , $version );
 
         // Bail...
-        return( FALSE );
+        return false;
     }
 
     // Get rid of the uploaded/source file.
     unlink( $imageFileName );
 
     // If we got this far: everything is OK.
-    return( TRUE );
+    return true;
 }
 
 
@@ -662,7 +669,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
     // Check if the move operation succeeded and return true/false...
     if ( $result )
     {
-        return( TRUE );
+        return true;
     }
     else
     {
@@ -670,7 +677,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
         eZImage::remove( $contentObjectAttributeID , $version );
 
         // Bail...
-        return( FALSE );
+        return false;
     }
 
     // Attempt to remove the uploaded file.
@@ -682,7 +689,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
 
 /*!
  */
-function putImage ( $target, $tempFile, $parentNodeID )
+function putImage( $target, $tempFile, $parentNodeID )
 {
     // Attempt to get the current user ID.
     $user = eZUser::currentUser();
@@ -745,12 +752,12 @@ function putImage ( $target, $tempFile, $parentNodeID )
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
 
         // We're safe.
-        return( EZ_WEBDAV_OK_CREATED );
+        return EZ_WEBDAV_OK_CREATED;
     }
     // Else: the store didn't succeed...
     else
     {
-        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+        return EZ_WEBDAV_FAILED_FORBIDDEN;
     }
 }
 
@@ -764,6 +771,8 @@ function putFile( $target, $tempFile, $parentNodeID )
     // Attempt to get the current user ID.
     $user = eZUser::currentUser();
     $userID = $user->id();
+
+    append_to_log( "putFile: User is: $userID" );
 
     // Fetch the file class.
     $class =& eZContentClass::fetch( 12 );
@@ -814,12 +823,12 @@ function putFile( $target, $tempFile, $parentNodeID )
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version'   => 1 ) );
         $contentObject->store();
 
-        return( EZ_WEBDAV_OK_CREATED );
+        return EZ_WEBDAV_OK_CREATED;
     }
     // Else: the store operation failed.
     else
     {
-        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+        return EZ_WEBDAV_FAILED_FORBIDDEN;
     }
 }
 
@@ -876,9 +885,9 @@ function createFolder( $node, $target )
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
 
-    return( EZ_WEBDAV_OK_CREATED );
-    return( EZ_WEBDAV_FAILED_FORBIDDEN );
-    return( EZ_WEBDAV_FAILED_EXISTS );
+    return EZ_WEBDAV_OK_CREATED;
+    return EZ_WEBDAV_FAILED_FORBIDDEN;
+    return EZ_WEBDAV_FAILED_EXISTS;
 }
 
 
@@ -915,21 +924,32 @@ function getNodeInfo( $node )
     // Attempt to determine the attribute that should be used for display:
     $attributeID = $iniSettings[$classIdentifier];
 
+    append_to_log( "getNodeInfo: classIdentifier is: $classIdentifier" );
+    append_to_log( "getNodeInfo: attributeID is: $attributeID" );
+
     // Only proceed to the special cases if the
     // attribute is actually defined in the ini file:
     if ( $attributeID )
     {
+        append_to_log( "getNodeInfo: inside if attributeID" );
+
         // Get the object's datamap.
-        $dataMap = $object->dataMap();
+        $dataMap =& $object->dataMap();
 
         //
-        $attribute = $dataMap[$attributeID];
+        $attribute =& $dataMap[$attributeID];
 
         //
-        $attributeContent = $attribute->content();
+        $attributeContent =& $attribute->attribute( 'content' );
+        $attributeDataType =& $attribute->dataType();
+        $attributeInformation =& $attributeDataType->attribute( "information" );
+        $attributeDataTypeIdentifier = $attributeInformation['string'];
 
         // Get the type of class.
         $attributeClass = get_class( $attributeContent );
+
+        append_to_log( "getNodeInfo: attributeClass is: $attributeClass" );
+        append_to_log( "getNodeInfo: attributeIdentifier is: $attributeDataTypeIdentifier" );
 
         //
         switch ( $attributeClass )
@@ -974,7 +994,7 @@ function getNodeInfo( $node )
     $entry["href"] = $_SERVER["SCRIPT_URL"].'/'.$entry['name'];
 
     // Return array of attributes/properties (name, size, mime, times, etc.).
-    return( $entry );
+    return $entry;
 }
 
 
@@ -988,11 +1008,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
      */
     function options()
     {
-        // Only certain operations are allowed.
+        // Only a few WebDAV operations are allowed.
         $options = "Allow: OPTIONS,PROPFIND,HEAD,GET,PUT,MKCOL,MOVE";
 
         // Return the allowed options.
-        return( $options );
+        return $options;
     }
 
 
@@ -1020,7 +1040,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             // Bail if the current user doesn't have the required privileges:
             if ( !gotPermission() )
             {
-                return( FALSE );
+                return false;
             }
 
             // If the path starts with "/content":
@@ -1045,14 +1065,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         // Return an array with content entries and their attributes.
-        return( $entries );
+        return $entries;
     }
 
 
 
 
-   /*!
-    */
+    /*!
+     */
     function get( $target )
     {
         // At the end, we'll return an array; let's initialize it:
@@ -1077,7 +1097,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             // Bail if the current user doesn't have the required privileges:
             if ( !gotPermission() )
             {
-                return( FALSE );
+                return false;
             }
 
             // If the path starts with "/content":
@@ -1146,13 +1166,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
                     // Set the result (to the file) & return it.
                     $result["file"] = $filePath;
-                    return( $result );
+                    return $result;
                 }
                 // Else: the node was invalid:
                 else
                 {
                     // Return empty result.
-                    return( $result );
+                    return $result;
                 }
             }
         }
@@ -1163,7 +1183,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             $result["file"] = VIRTUAL_INFO_FILE_NAME;
 
             // Return the file.
-            return( $result );
+            return $result;
         }
     }
 
@@ -1171,18 +1191,18 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
     /*! __FIX_ME__
-    */
+     */
     function head( $target )
     {
         // For now: always return a not-found reply.
-        return( EZ_WEBDAV_FAILED_NOT_FOUND );
+        return EZ_WEBDAV_FAILED_NOT_FOUND;
     }
 
 
 
 
     /*! __FIX_ME__
-    */
+     */
     function put( $target, $tempFile )
     {
         append_to_log( "put: target is: $target" );
@@ -1190,7 +1210,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Bail if the current user doesn't have the required privileges:
         if ( !gotPermission() )
         {
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
+            return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
         // Get the name of the site that is being browsed.
@@ -1251,15 +1271,15 @@ class eZWebDAVContentServer extends eZWebDAVServer
                         case 'image':
                         {
                             // Attempt to create image object, store in DB, copy file, etc.
-                            return( putImage( $target, $tempFile, $parentNodeID ) );
+                            return putImage( $target, $tempFile, $parentNodeID );
                         }
                         break;
 
-                        // Default case (file upload).
+                        // Default case (regular file upload).
                         default:
                         {
                             // Attempt to create file object, store in DB, copy file, etc.
-                            return( putFile( $target, $tempFile, $parentNodeID ) );
+                            return putFile( $target, $tempFile, $parentNodeID );
                         }
                         break;
                     }
@@ -1267,13 +1287,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 // Else: the parent node was invalid:
                 else
                 {
-                    return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                    return EZ_WEBDAV_FAILED_FORBIDDEN;
                 }
             }
             // Else: somebody is trying to put stuff in to a virtual dir: no deal!
             else
             {
-                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
     }
@@ -1282,13 +1302,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
     /*!
-    */
+     */
     function mkcol( $target )
     {
         // Bail if the current user doesn't have the required privileges:
         if ( !gotPermission() )
         {
-            return( FALSE );
+            return false;
         }
 
         // Get the name of the site that is being browsed.
@@ -1303,14 +1323,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             // Switch to the site being browsed.
             setSiteAccess( $currentSite );
 
-            // Get rid of the site name:
-            if ( preg_match( "#^/$currentSite(.+)$#", $target, $matches ) )
-            {
-                $target = $matches[1];
-            }
-
             // If the path starts with "/content":
-            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $target ) )
+            if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "(.*)$#", $target ) )
             {
                 // Attempt to get the parent node.
                 $parentNode = getParentNodeByTranslation( $target );
@@ -1322,12 +1336,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 }
 
                 // Attempt to create the folder.
-                return( createFolder( $parentNode, $target ) );
+                return createFolder( $parentNode, $target );
             }
             // Else: somebody is trying to make a folder in a virtual dir: no deal!
             else
             {
-                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
     }
@@ -1335,18 +1349,18 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
 
-   /*!
-    */
+    /*!
+     */
     function move( $source, $destination )
     {
         // Bail if the current user doesn't have the required privileges:
         if ( !gotPermission() )
         {
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
+            return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
         // Get the name of the site that is being browsed.
-        $currentSite = getCurrentSiteFromPath( $target );
+        $currentSite = getCurrentSiteFromPath( $source );
 
         // Get rid of the index-file /NVH mode/ and the site name.
         $source = removeIndexAndSiteName( $source, $currentSite );
@@ -1357,18 +1371,9 @@ class eZWebDAVContentServer extends eZWebDAVServer
             // Switch to the site being browsed.
             setSiteAccess( $currentSite );
 
-            // Get rid of the site name:
-            if ( preg_match( "#^/$currentSite(.+)$#", $source, $matches ) )
-            {
-                $source = $matches[1];
-            }
-
             // If the path starts with "/content":
             if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $source ) )
             {
-                // Convert the source string (lowercase, replace spaces with _, etc).
-                $source = convertString( $source );
-
                 // Attempt to get the node.
                 $node = getNodeByTranslation ( $source );
 
@@ -1393,13 +1398,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
                     $object->store();
 
                     // __FIX_ME__
-                    return( EZ_WEBDAV_OK_CREATED );
+                    return EZ_WEBDAV_OK_CREATED;
                 }
             }
             // Else: somebody is trying to move stuff in a virtual dir: no deal!
             else
             {
-                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
     }

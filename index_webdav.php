@@ -33,15 +33,21 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+
+
+
+
+// Turn off session stuff, isn't needed for WebDAV operations.
+$GLOBALS['eZSiteBasics']['session-required'] = false;
+
 include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 
 
 
 
-/*!
- Reads settings from site.ini and passes them to eZDebug.
-*/
+/*! Reads settings from site.ini and passes them to eZDebug.
+ */
 function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
@@ -63,6 +69,8 @@ $enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable == true )
 {
+    append_to_log( "Requested URI is: " . $_SERVER['REQUEST_URI'] );
+
     // Initialize/set the index file.
     eZSys::init( 'index_webdav.php' );
 
@@ -86,11 +94,13 @@ if ( $enable == true )
         {
             // Change site to the site being browsed:
             setSiteAccess( $currentSite );
-/*
+
             // Check if username & password contain someting, attempt to login.
             if ( ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) || ( !isset($_SERVER['PHP_AUTH_PW'] ) ) ||
                  ( !ezuser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) )
             {
+                append_to_log("LOGIN: Username: " . $_SERVER['PHP_AUTH_USER'] . " Password: " . $_SERVER['PHP_AUTH_PW'] . " FIKK IKKE LOGGET INN" );
+
                 header('HTTP/1.0 401 Unauthorized');
                 header('WWW-Authenticate: Basic realm="'.WEBDAV_AUTH_REALM.'"');
                 print( WEBDAV_AUTH_FAILED );
@@ -98,13 +108,13 @@ if ( $enable == true )
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
-*/
+                append_to_log("LOGIN: Username: " . $_SERVER['PHP_AUTH_USER'] . " Password: " . $_SERVER['PHP_AUTH_PW'] . " FIKK LOGGET INN" );
                 // Create & initialize a new instance of the content server.
                 $testServer = new eZWebDAVContentServer ();
 
                 // Process the request.
                 $testServer->processClientRequest ();
-//            }
+            }
         }
         // Else: site-name is invalid (was not among available sites).
         else

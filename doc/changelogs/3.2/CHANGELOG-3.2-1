@@ -57,3 +57,4 @@ eZ utils:
 
 *WebDAV:
 - Misc. webdav fixes: NVH compatibility; support for foreign languages (content) + some other stuff
+- Misc. webdav fixes: support for rename of files, better stability and security
