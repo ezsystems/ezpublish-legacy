@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 CREATE TABLE ezapprove_items (
   id int(11) NOT NULL auto_increment,
   workflow_process_id int(11) NOT NULL default '0',
@@ -13,7 +23,8 @@ CREATE TABLE ezbasket (
   id int(11) NOT NULL auto_increment,
   session_id varchar(255) NOT NULL default '',
   productcollection_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezbasket_session_id (session_id)
 ) TYPE=MyISAM;
 
 
@@ -333,7 +344,8 @@ CREATE TABLE ezcontentobject_attribute (
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
   KEY sort_key_int (sort_key_int),
-  KEY sort_key_string (sort_key_string)
+  KEY sort_key_string (sort_key_string),
+  KEY ezcontentobject_attribute_co_id_ver_lang_code (contentobject_id,version,language_code)
 ) TYPE=MyISAM;
 
 
@@ -692,7 +704,8 @@ CREATE TABLE ezoperation_memento (
   memento_data text NOT NULL,
   main int(11) NOT NULL default '0',
   main_key varchar(32) NOT NULL default '',
-  PRIMARY KEY  (id,memento_key)
+  PRIMARY KEY  (id,memento_key),
+  KEY ezoperation_memento_memento_key_main (memento_key,main)
 ) TYPE=MyISAM;
 
 
@@ -723,7 +736,8 @@ CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   price float default NULL,
   vat_value int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezorder_item_order_id (order_id)
 ) TYPE=MyISAM;
 
 
@@ -779,6 +793,8 @@ CREATE TABLE ezpreferences (
 
 
 
+
+
 CREATE TABLE ezproductcollection (
   id int(11) NOT NULL auto_increment,
   created int(11) default NULL,
@@ -798,7 +814,9 @@ CREATE TABLE ezproductcollection_item (
   is_vat_inc int(11) default NULL,
   vat_value float default NULL,
   discount float default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezproductcollection_item_productcollection_id (productcollection_id),
+  KEY ezproductcollection_item_contentobject_id (productcollection_id)
 ) TYPE=MyISAM;
 
 
@@ -813,7 +831,8 @@ CREATE TABLE ezproductcollection_item_opt (
   value varchar(255) NOT NULL default '',
   price float NOT NULL default '0',
   object_attribute_id int(11) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezproductcollection_item_opt_item_id (item_id)
 ) TYPE=MyISAM;
 
 
@@ -916,6 +935,16 @@ CREATE TABLE ezsession (
 
 
 
+CREATE TABLE ezsite_data (
+  name varchar(60) NOT NULL default '',
+  value text NOT NULL,
+  PRIMARY KEY  (name)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE ezsubtree_notification_rule (
   id int(11) NOT NULL auto_increment,
   address varchar(255) NOT NULL default '',
@@ -936,7 +965,8 @@ CREATE TABLE eztrigger (
   connect_type char(1) NOT NULL default '',
   workflow_id int(11) default NULL,
   PRIMARY KEY  (id),
-  UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type)
+  UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type),
+  KEY eztrigger_fetch (name(25),module_name(50),function_name(50))
 ) TYPE=MyISAM;
 
 
@@ -976,8 +1006,11 @@ CREATE TABLE ezurlalias (
   destination_url text NOT NULL,
   is_internal int(11) NOT NULL default '1',
   forward_to_id int(11) NOT NULL default '0',
+  is_wildcard int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezurlalias_source_md5 (source_md5)
+  KEY ezurlalias_source_md5 (source_md5),
+  KEY ezurlalias_source_url (source_url(255)),
+  KEY ezurlalias_desturl (destination_url(200))
 ) TYPE=MyISAM;
 
 
@@ -1180,17 +1213,7 @@ CREATE TABLE ezworkflow_process (
   status int(11) default NULL,
   parameters text,
   memento_key varchar(32) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezworkflow_process_process_key (process_key)
 ) TYPE=MyISAM;
 
-
-CREATE TABLE ezsite_data (
-  name varchar(60) NOT NULL default '',
-  value text NOT NULL default '',
-  PRIMARY KEY (name)
-) TYPE=MyISAM;
-
-CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
-CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);

@@ -1,3 +1,7 @@
+
+
+
+
 SET search_path = public, pg_catalog;
 
 
@@ -1871,7 +1875,8 @@ CREATE TABLE ezurlalias (
     source_md5 character varying(32),
     destination_url text NOT NULL,
     is_internal integer DEFAULT '1' NOT NULL,
-    forward_to_id integer DEFAULT '0' NOT NULL
+    forward_to_id integer DEFAULT '0' NOT NULL,
+    is_wildcard integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2088,6 +2093,1341 @@ CREATE TABLE ezworkflow_process (
     parameters text,
     memento_key character varying(32)
 );
+
+
+
+
+
+
+
+CREATE TABLE ezsite_data (
+    name character varying(60) DEFAULT '' NOT NULL,
+    value text DEFAULT '' NOT NULL
+);
+
+
+
+
+
+
+
+COPY ezapprove_items (id, workflow_process_id, collaboration_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezbasket (id, session_id, productcollection_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezbinaryfile (contentobject_attribute_id, "version", filename, original_filename, mime_type) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_group (id, parent_group_id, depth, path_string, is_open, user_id, title, priority, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_item (id, type_identifier, creator_id, status, data_text1, data_text2, data_text3, data_int1, data_int2, data_int3, data_float1, data_float2, data_float3, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_item_group_link (collaboration_id, group_id, user_id, is_read, is_active, last_read, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_item_message_link (id, collaboration_id, participant_id, message_id, message_type, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_item_participant_link (collaboration_id, participant_id, participant_type, participant_role, is_read, is_active, last_read, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_item_status (collaboration_id, user_id, is_read, is_active, last_read) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_notification_rule (id, user_id, collab_identifier) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_profile (id, user_id, main_group, data_text1, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcollab_simple_message (id, message_type, creator_id, data_text1, data_text2, data_text3, data_int1, data_int2, data_int3, data_float1, data_float2, data_float3, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcontent_translation (id, name, locale) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcontentbrowsebookmark (id, user_id, node_id, name) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcontentbrowserecent (id, user_id, node_id, created, name) FROM stdin;
+2	14	45	1061234306	Flowers
+\.
+
+
+
+
+
+
+
+COPY ezcontentclass (id, "version", name, identifier, contentobject_name, creator_id, modifier_id, created, modified) FROM stdin;
+1	0	Folder	folder	<name>	14	14	1024392098	1048494694
+2	0	Article	article	<title>	14	14	1024392098	1048494722
+3	0	User group	user_group	<name>	14	14	1024392098	1048494743
+4	0	User	user	<first_name> <last_name>	14	14	1024392098	1048494759
+5	0	Image	image	<name>	8	14	1031484992	1048494784
+6	0	Forum	forum	<name>	14	14	1052384723	1052384870
+7	0	Forum message	forum_message	<topic>	14	14	1052384877	1052384943
+8	0	Product	product	<title>	14	14	1052384951	1052385067
+9	0	Product review	product_review	<title>	14	14	1052385080	1052385252
+10	0	Info page	info_page	<name>	14	14	1052385274	1052385353
+11	0	Link	link	<title>	14	14	1052385361	1052385453
+12	0	File	file	<name>	14	14	1052385472	1052385669
+13	0	Comment	comment	<subject>	14	14	1052385685	1052385756
+\.
+
+
+
+
+
+
+
+COPY ezcontentclass_attribute (id, "version", contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) FROM stdin;
+123	0	2	enable_comments	Enable comments	ezboolean	0	0	5	0	0	0	0	0	0	0	0					\N	0	1
+119	0	1	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
+116	0	5	name	Name	ezstring	1	1	1	150	0	0	0	0	0	0	0					\N	0	1
+6	0	3	name	Name	ezstring	1	1	1	255	0	0	0	0	0	0	0					\N	0	1
+7	0	3	description	Description	ezstring	1	0	2	255	0	0	0	0	0	0	0					\N	0	1
+9	0	4	last_name	Last name	ezstring	1	1	2	255	0	0	0	0	0	0	0					\N	0	1
+12	0	4	user_account	User account	ezuser	0	1	3	0	0	0	0	0	0	0	0					\N	0	1
+118	0	5	image	Image	ezimage	0	0	3	2	0	0	0	0	0	0	0					\N	0	1
+4	0	1	name	Name	ezstring	1	1	1	255	0	0	0	0	0	0	0	Folder				\N	0	1
+122	0	2	thumbnail	Thumbnail	ezimage	0	0	4	2	0	0	0	0	0	0	0					\N	0	1
+121	0	2	body	Body	ezxmltext	1	0	3	20	0	0	0	0	0	0	0					\N	0	1
+120	0	2	intro	Intro	ezxmltext	1	1	2	10	0	0	0	0	0	0	0					\N	0	1
+1	0	2	title	Title	ezstring	1	1	1	255	0	0	0	0	0	0	0	New article				\N	0	1
+117	0	5	caption	Caption	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
+8	0	4	first_name	First name	ezstring	1	1	1	255	0	0	0	0	0	0	0					\N	0	1
+127	0	7	topic	Topic	ezstring	1	1	1	150	0	0	0	0	0	0	0	New topic				\N	0	1
+128	0	7	message	Message	eztext	1	1	2	10	0	0	0	0	0	0	0					\N	0	1
+126	0	6	description	Description	ezxmltext	1	0	3	15	0	0	0	0	0	0	0					\N	0	1
+125	0	6	icon	Icon	ezimage	0	0	2	1	0	0	0	0	0	0	0					\N	0	1
+124	0	6	name	Name	ezstring	1	1	1	150	0	0	0	0	0	0	0					\N	0	1
+134	0	8	photo	Photo	ezimage	0	0	6	1	0	0	0	0	0	0	0					\N	0	1
+133	0	8	price	Price	ezprice	0	1	5	1	0	0	0	1	0	0	0					\N	0	1
+132	0	8	description	Description	ezxmltext	1	0	4	10	0	0	0	0	0	0	0					\N	0	1
+131	0	8	intro	Intro	ezxmltext	1	0	3	10	0	0	0	0	0	0	0					\N	0	1
+130	0	8	product_nr	Product nr.	ezstring	1	0	2	40	0	0	0	0	0	0	0					\N	0	1
+129	0	8	title	Title	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
+139	0	9	review	Review	ezxmltext	1	0	5	10	0	0	0	0	0	0	0					\N	0	1
+138	0	9	geography	Town, Country	ezstring	1	1	4	0	0	0	0	0	0	0	0					\N	0	1
+137	0	9	reviewer_name	Reviewer Name	ezstring	1	1	3	0	0	0	0	0	0	0	0					\N	0	1
+136	0	9	rating	Rating	ezenum	1	0	2	0	0	0	0	0	0	0	0					\N	0	1
+135	0	9	title	Title	ezstring	1	1	1	50	0	0	0	0	0	0	0					\N	0	1
+142	0	10	image	Image	ezimage	0	0	3	1	0	0	0	0	0	0	0					\N	0	1
+141	0	10	body	Body	ezxmltext	1	0	2	20	0	0	0	0	0	0	0					\N	0	1
+140	0	10	name	Name	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
+146	0	12	name	Name	ezstring	1	1	1	0	0	0	0	0	0	0	0	New file				\N	0	1
+148	0	12	file	File	ezbinaryfile	0	1	3	0	0	0	0	0	0	0	0					\N	0	1
+147	0	12	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
+145	0	11	link	Link	ezurl	0	0	3	0	0	0	0	0	0	0	0					\N	0	1
+144	0	11	description	Description	ezxmltext	1	0	2	10	0	0	0	0	0	0	0					\N	0	1
+143	0	11	title	Title	ezstring	1	1	1	100	0	0	0	0	0	0	0					\N	0	1
+151	0	13	message	Message	eztext	1	1	3	10	0	0	0	0	0	0	0					\N	0	1
+150	0	13	author	Author	ezstring	1	1	2	0	0	0	0	0	0	0	0					\N	0	1
+149	0	13	subject	Subject	ezstring	1	1	1	40	0	0	0	0	0	0	0					\N	0	1
+\.
+
+
+
+
+
+
+
+COPY ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) FROM stdin;
+1	0	1	Content
+2	0	1	Content
+4	0	2	Content
+5	0	3	Media
+3	0	2	
+6	0	1	Content
+7	0	1	Content
+8	0	1	Content
+9	0	1	Content
+10	0	1	Content
+11	0	1	Content
+12	0	3	Media
+13	0	1	Content
+\.
+
+
+
+
+
+
+
+COPY ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) FROM stdin;
+1	Content	1	14	1031216928	1033922106
+2	Users	1	14	1031216941	1033922113
+3	Media	8	14	1032009743	1033922120
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) FROM stdin;
+1	14	1	1	Root folder	1	0	1033917596	1033917596	1	\N
+4	14	2	3	Users	1	0	1033917596	1033917596	1	\N
+10	14	2	4	Anonymous User	1	0	1033920665	1033920665	1	\N
+11	14	2	3	Guest accounts	1	0	1033920746	1033920746	1	\N
+12	14	2	3	Administrator users	1	0	1033920775	1033920775	1	\N
+13	14	2	3	Editors	1	0	1033920794	1033920794	1	\N
+14	14	2	4	Administrator User	1	0	1033920830	1033920830	1	\N
+40	14	2	4	test test	1	0	1053613020	1053613020	1	
+41	14	3	1	Media	1	0	1060695457	1060695457	1	
+42	14	1	10	About gallery	1	0	1061232666	1061232666	1	
+43	14	1	1	Flowers	1	0	1061232785	1061232785	1	
+44	14	1	5	Sunflower	1	0	1061232844	1061232844	1	
+45	14	1	5	A blue one	1	0	1061232872	1061232872	1	
+46	14	1	5	Flower 3	1	0	1061234271	1061234271	1	
+47	14	1	5	Flower 4	1	0	1061234305	1061234305	1	
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject_attribute (id, language_code, "version", contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) FROM stdin;
+1	eng-GB	1	1	4	Root folder	\N	\N	0	0	
+2	eng-GB	1	1	119	<?xml version="1.0"><section><paragraph>This folder contains some information about...</paragraph></section>	\N	\N	0	0	
+7	eng-GB	1	4	7	Main group	\N	\N	0	0	
+8	eng-GB	1	4	6	Users	\N	\N	0	0	
+21	eng-GB	1	10	12		0	0	0	0	
+22	eng-GB	1	11	6	Guest accounts	0	0	0	0	
+19	eng-GB	1	10	8	Anonymous	0	0	0	0	
+20	eng-GB	1	10	9	User	0	0	0	0	
+23	eng-GB	1	11	7		0	0	0	0	
+24	eng-GB	1	12	6	Administrator users	0	0	0	0	
+25	eng-GB	1	12	7		0	0	0	0	
+26	eng-GB	1	13	6	Editors	0	0	0	0	
+27	eng-GB	1	13	7		0	0	0	0	
+28	eng-GB	1	14	8	Administrator	0	0	0	0	
+29	eng-GB	1	14	9	User	0	0	0	0	
+30	eng-GB	1	14	12		0	0	0	0	
+95	eng-GB	1	40	8	test	0	0	0	0	
+96	eng-GB	1	40	9	test	0	0	0	0	
+97	eng-GB	1	40	12		0	0	0	0	
+98	eng-GB	1	41	4	Media	0	0	0	0	
+99	eng-GB	1	41	119	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />	1045487555	0	0	0	
+100	eng-GB	1	42	140	About gallery	0	0	0	0	0
+101	eng-GB	1	42	141	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <section>\n    <header>Proin consectetuer lacus</header>\n    <paragraph>\n      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>\n      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n    </paragraph>\n    <paragraph>\n      <ul>\n        <li>Phasellus</li>\n        <li>Dictum</li>\n        <li>Dignissim</li>\n      </ul>\n    </paragraph>\n  </section>\n</section>	1045487555	0	0	0	0
+102	eng-GB	1	42	142		0	0	0	0	0
+103	eng-GB	1	43	4	Flowers	0	0	0	0	0
+104	eng-GB	1	43	119	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />	1045487555	0	0	0	0
+105	eng-GB	1	44	116	Sunflower	0	0	0	0	0
+106	eng-GB	1	44	117	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>Or not?</paragraph>\n</section>	1045487555	0	0	0	0
+107	eng-GB	1	44	118		0	0	0	0	0
+108	eng-GB	1	45	116	A blue one	0	0	0	0	0
+109	eng-GB	1	45	117	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>And green.</paragraph>\n</section>	1045487555	0	0	0	0
+110	eng-GB	1	45	118		0	0	0	0	0
+111	eng-GB	1	46	116	Flower 3	0	0	0	0	0
+112	eng-GB	1	46	117	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>White one...</paragraph>\n</section>	1045487555	0	0	0	0
+113	eng-GB	1	46	118		0	0	0	0	0
+114	eng-GB	1	47	116	Flower 4	0	0	0	0	0
+115	eng-GB	1	47	117	<?xml version="1.0" encoding="iso-8859-1"?>\n<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"\n         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"\n         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">\n  <paragraph>Actually a tree.</paragraph>\n</section>	1045487555	0	0	0	0
+116	eng-GB	1	47	118		0	0	0	0	0
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject_link (id, from_contentobject_id, from_contentobject_version, to_contentobject_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) FROM stdin;
+1	Root folder	1	eng-GB	eng-GB
+4	Users	1	eng-GB	eng-GB
+10	Anonymous User	1	eng-GB	eng-GB
+11	Guest accounts	1	eng-GB	eng-GB
+12	Administrator users	1	eng-GB	eng-GB
+13	Editors	1	eng-GB	eng-GB
+14	Administrator User	1	eng-GB	eng-GB
+40	test test	1	eng-GB	eng-GB
+41	Media	1	eng-GB	eng-GB
+42	About gallery	1	eng-GB	eng-GB
+43	Flowers	1	eng-GB	eng-GB
+44	Sunflower	1	eng-GB	eng-GB
+45	A blue one	1	eng-GB	eng-GB
+46	Flower 3	1	eng-GB	eng-GB
+47	Flower 4	1	eng-GB	eng-GB
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) FROM stdin;
+1	1	0	1	1	0	/1/	1	1	0	\N	1
+2	1	1	1	1	1	/1/2/	1	1	0		2
+5	1	4	1	0	1	/1/5/	1	1	0	users	5
+11	5	10	1	1	2	/1/5/11/	1	1	0	users/anonymous_user	11
+12	5	11	1	1	2	/1/5/12/	1	1	0	users/guest_accounts	12
+13	5	12	1	1	2	/1/5/13/	1	1	0	users/administrator_users	13
+14	5	13	1	1	2	/1/5/14/	1	1	0	users/editors	14
+15	13	14	1	1	3	/1/5/13/15/	1	1	0	users/administrator_users/administrator_user	15
+42	12	40	1	1	3	/1/5/12/42/	9	1	0	users/guest_accounts/test_test	42
+43	1	41	1	1	1	/1/43/	9	1	0	media	43
+44	2	42	1	1	2	/1/2/44/	9	1	0	about_gallery	44
+45	2	43	1	1	2	/1/2/45/	9	1	0	flowers	45
+46	45	44	1	1	3	/1/2/45/46/	9	1	0	flowers/sunflower	46
+47	45	45	1	1	3	/1/2/45/47/	9	1	0	flowers/a_blue_one	47
+48	45	46	1	1	3	/1/2/45/48/	9	1	0	flowers/flower_3	48
+49	45	47	1	1	3	/1/2/45/49/	9	1	0	flowers/flower_4	49
+\.
+
+
+
+
+
+
+
+COPY ezcontentobject_version (id, contentobject_id, creator_id, "version", created, modified, status, workflow_event_pos, user_id) FROM stdin;
+1	1	14	1	1033919080	1033919080	1	1	0
+4	4	14	1	1033919080	1033919080	1	1	0
+438	10	14	1	1033920649	1033920665	1	0	0
+439	11	14	1	1033920737	1033920746	1	0	0
+440	12	14	1	1033920760	1033920775	1	0	0
+441	13	14	1	1033920786	1033920794	1	0	0
+442	14	14	1	1033920808	1033920830	1	0	0
+471	40	14	1	1053613007	1053613020	1	0	0
+472	41	14	1	1060695450	1060695457	1	0	0
+473	42	14	1	1061232647	1061232666	1	0	0
+474	43	14	1	1061232771	1061232785	1	0	0
+475	44	14	1	1061232824	1061232844	1	0	0
+476	45	14	1	1061232852	1061232872	1	0	0
+477	46	14	1	1061234247	1061234271	1	0	0
+478	47	14	1	1061234280	1061234305	1	0	0
+\.
+
+
+
+
+
+
+
+COPY ezdiscountrule (id, name) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezdiscountsubrule (id, name, discountrule_id, discount_percent, limitation) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezdiscountsubrule_value (discountsubrule_id, value, issection) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezenumobjectvalue (contentobject_attribute_id, contentobject_attribute_version, enumid, enumelement, enumvalue) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) FROM stdin;
+2	136	0	Ok	3	2
+1	136	0	Poor	2	1
+3	136	0	Good	5	3
+\.
+
+
+
+
+
+
+
+COPY ezforgot_password (id, user_id, hash_key, "time") FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezgeneral_digest_user_settings (id, address, receive_digest, digest_type, "day", "time") FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezimage (contentobject_attribute_id, "version", filename, original_filename, mime_type, alternative_text) FROM stdin;
+107	1	phph8inGr.jpg	flower2.jpg	image/jpeg	
+110	1	php2Kecsf.jpg	flower.jpg	image/jpeg	
+113	1	phpRFANTu.jpg	flower3.jpg	image/jpeg	
+116	1	phpUQzr4Z.jpg	flower4.jpg	image/jpeg	
+\.
+
+
+
+
+
+
+
+COPY ezimagevariation (contentobject_attribute_id, "version", filename, additional_path, requested_width, requested_height, width, height) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezinfocollection (id, contentobject_id, created) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezinfocollection_attribute (id, informationcollection_id, data_text, data_int, data_float, contentclass_attribute_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezkeyword (id, keyword, class_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezkeyword_attribute_link (id, keyword_id, objectattribute_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezmedia (contentobject_attribute_id, "version", filename, original_filename, mime_type, width, height, has_controller, is_autoplay, pluginspage, quality, controls, is_loop) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezmessage (id, send_method, send_weekday, send_time, destination_address, title, body, is_sent) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezmodule_run (id, workflow_process_id, module_name, function_name, module_data) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) FROM stdin;
+2	1	1	1	1	1	1	0	0
+4	8	2	5	1	1	1	0	0
+144	4	1	1	1	1	1	0	0
+147	210	1	5	1	1	1	0	0
+146	209	1	5	1	1	1	0	0
+145	1	2	1	1	1	1	0	0
+148	9	1	2	1	1	1	0	0
+149	10	1	5	1	1	1	0	0
+150	11	1	5	1	1	1	0	0
+151	12	1	5	1	1	1	0	0
+152	13	1	5	1	1	1	0	0
+153	14	1	13	1	1	1	0	0
+181	40	1	12	9	1	1	0	0
+182	41	1	1	9	1	1	0	0
+183	42	1	2	9	1	1	0	0
+184	43	1	2	9	1	1	0	0
+185	44	1	45	9	1	1	0	0
+186	45	1	45	9	1	1	0	0
+187	46	1	45	9	1	1	0	0
+188	47	1	45	9	1	1	0	0
+\.
+
+
+
+
+
+
+
+COPY eznotificationcollection (id, event_id, "handler", transport, data_subject, data_text) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY eznotificationcollection_item (id, collection_id, event_id, address, send_date) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) FROM stdin;
+1	0	ezpublish	41	1	0	0				
+2	0	ezpublish	42	1	0	0				
+3	0	ezpublish	43	1	0	0				
+4	0	ezpublish	44	1	0	0				
+5	0	ezpublish	45	1	0	0				
+6	0	ezpublish	46	1	0	0				
+7	0	ezpublish	47	1	0	0				
+\.
+
+
+
+
+
+
+
+COPY ezoperation_memento (id, memento_key, memento_data, main, main_key) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezorder (id, user_id, productcollection_id, created, is_temporary, order_nr, data_text_2, data_text_1, account_identifier, ignore_vat) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezorder_item (id, order_id, description, price, vat_value) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezpolicy (id, role_id, function_name, module_name, limitation) FROM stdin;
+317	3	*	content	*
+308	2	*	*	*
+326	1	read	content	 
+325	1	login	user	*
+319	3	login	user	*
+\.
+
+
+
+
+
+
+
+COPY ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) FROM stdin;
+249	326	Class	0	read	content
+\.
+
+
+
+
+
+
+
+COPY ezpolicy_limitation_value (id, limitation_id, value) FROM stdin;
+435	249	1
+436	249	10
+437	249	10
+438	249	11
+439	249	11
+440	249	12
+441	249	12
+442	249	13
+443	249	13
+444	249	2
+445	249	2
+446	249	5
+447	249	5
+448	249	6
+449	249	6
+450	249	7
+451	249	7
+452	249	8
+453	249	8
+454	249	9
+455	249	9
+\.
+
+
+
+
+
+
+
+COPY ezpreferences (id, user_id, name, value) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezproductcollection (id, created) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezproductcollection_item (id, productcollection_id, contentobject_id, item_count, price, is_vat_inc, vat_value, discount) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezproductcollection_item_opt (id, item_id, option_item_id, name, value, price, object_attribute_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezrole (id, "version", name, value) FROM stdin;
+1	0	Anonymous	 
+2	0	Administrator	*
+3	0	Editor	 
+\.
+
+
+
+
+
+
+
+COPY ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) FROM stdin;
+26	40	5	0	0	0	5	4	1053613020	2	8		0
+27	40	5	0	1	5	0	4	1053613020	2	9		0
+28	41	6	0	0	0	0	1	1060695457	3	4		0
+29	42	7	0	0	0	8	10	1061232666	1	140		0
+30	42	8	0	1	7	9	10	1061232666	1	140		0
+31	42	9	0	2	8	10	10	1061232666	1	141		0
+32	42	10	0	3	9	11	10	1061232666	1	141		0
+33	42	11	0	4	10	9	10	1061232666	1	141		0
+34	42	9	0	5	11	10	10	1061232666	1	141		0
+35	42	10	0	6	9	11	10	1061232666	1	141		0
+36	42	11	0	7	10	12	10	1061232666	1	141		0
+37	42	12	0	8	11	13	10	1061232666	1	141		0
+38	42	13	0	9	12	14	10	1061232666	1	141		0
+39	42	14	0	10	13	15	10	1061232666	1	141		0
+40	42	15	0	11	14	16	10	1061232666	1	141		0
+41	42	16	0	12	15	17	10	1061232666	1	141		0
+42	42	17	0	13	16	18	10	1061232666	1	141		0
+43	42	18	0	14	17	19	10	1061232666	1	141		0
+44	42	19	0	15	18	20	10	1061232666	1	141		0
+45	42	20	0	16	19	21	10	1061232666	1	141		0
+46	42	21	0	17	20	22	10	1061232666	1	141		0
+47	42	22	0	18	21	23	10	1061232666	1	141		0
+48	42	23	0	19	22	24	10	1061232666	1	141		0
+49	42	24	0	20	23	25	10	1061232666	1	141		0
+50	42	25	0	21	24	26	10	1061232666	1	141		0
+51	42	26	0	22	25	26	10	1061232666	1	141		0
+52	42	26	0	23	26	27	10	1061232666	1	141		0
+53	42	27	0	24	26	28	10	1061232666	1	141		0
+54	42	28	0	25	27	29	10	1061232666	1	141		0
+55	42	29	0	26	28	30	10	1061232666	1	141		0
+56	42	30	0	27	29	31	10	1061232666	1	141		0
+57	42	31	0	28	30	32	10	1061232666	1	141		0
+58	42	32	0	29	31	33	10	1061232666	1	141		0
+59	42	33	0	30	32	34	10	1061232666	1	141		0
+60	42	34	0	31	33	35	10	1061232666	1	141		0
+61	42	35	0	32	34	28	10	1061232666	1	141		0
+62	42	28	0	33	35	36	10	1061232666	1	141		0
+63	42	36	0	34	28	37	10	1061232666	1	141		0
+64	42	37	0	35	36	38	10	1061232666	1	141		0
+65	42	38	0	36	37	39	10	1061232666	1	141		0
+66	42	39	0	37	38	40	10	1061232666	1	141		0
+67	42	40	0	38	39	41	10	1061232666	1	141		0
+68	42	41	0	39	40	42	10	1061232666	1	141		0
+69	42	42	0	40	41	43	10	1061232666	1	141		0
+70	42	43	0	41	42	44	10	1061232666	1	141		0
+71	42	44	0	42	43	45	10	1061232666	1	141		0
+72	42	45	0	43	44	32	10	1061232666	1	141		0
+73	42	32	0	44	45	46	10	1061232666	1	141		0
+74	42	46	0	45	32	47	10	1061232666	1	141		0
+75	42	47	0	46	46	48	10	1061232666	1	141		0
+76	42	48	0	47	47	49	10	1061232666	1	141		0
+77	42	49	0	48	48	50	10	1061232666	1	141		0
+78	42	50	0	49	49	51	10	1061232666	1	141		0
+79	42	51	0	50	50	12	10	1061232666	1	141		0
+80	42	12	0	51	51	51	10	1061232666	1	141		0
+81	42	51	0	52	12	52	10	1061232666	1	141		0
+82	42	52	0	53	51	53	10	1061232666	1	141		0
+83	42	53	0	54	52	54	10	1061232666	1	141		0
+84	42	54	0	55	53	55	10	1061232666	1	141		0
+85	42	55	0	56	54	56	10	1061232666	1	141		0
+86	42	56	0	57	55	57	10	1061232666	1	141		0
+87	42	57	0	58	56	32	10	1061232666	1	141		0
+88	42	32	0	59	57	58	10	1061232666	1	141		0
+89	42	58	0	60	32	59	10	1061232666	1	141		0
+90	42	59	0	61	58	18	10	1061232666	1	141		0
+91	42	18	0	62	59	53	10	1061232666	1	141		0
+92	42	53	0	63	18	22	10	1061232666	1	141		0
+93	42	22	0	64	53	60	10	1061232666	1	141		0
+94	42	60	0	65	22	61	10	1061232666	1	141		0
+95	42	61	0	66	60	62	10	1061232666	1	141		0
+96	42	62	0	67	61	63	10	1061232666	1	141		0
+97	42	63	0	68	62	64	10	1061232666	1	141		0
+98	42	64	0	69	63	65	10	1061232666	1	141		0
+99	42	65	0	70	64	66	10	1061232666	1	141		0
+100	42	66	0	71	65	67	10	1061232666	1	141		0
+101	42	67	0	72	66	59	10	1061232666	1	141		0
+102	42	59	0	73	67	57	10	1061232666	1	141		0
+103	42	57	0	74	59	45	10	1061232666	1	141		0
+104	42	45	0	75	57	68	10	1061232666	1	141		0
+105	42	68	0	76	45	69	10	1061232666	1	141		0
+106	42	69	0	77	68	57	10	1061232666	1	141		0
+107	42	57	0	78	69	22	10	1061232666	1	141		0
+108	42	22	0	79	57	70	10	1061232666	1	141		0
+109	42	70	0	80	22	71	10	1061232666	1	141		0
+110	42	71	0	81	70	72	10	1061232666	1	141		0
+111	42	72	0	82	71	73	10	1061232666	1	141		0
+112	42	73	0	83	72	74	10	1061232666	1	141		0
+113	42	74	0	84	73	75	10	1061232666	1	141		0
+114	42	75	0	85	74	72	10	1061232666	1	141		0
+115	42	72	0	86	75	76	10	1061232666	1	141		0
+116	42	76	0	87	72	77	10	1061232666	1	141		0
+117	42	77	0	88	76	78	10	1061232666	1	141		0
+118	42	78	0	89	77	57	10	1061232666	1	141		0
+119	42	57	0	90	78	79	10	1061232666	1	141		0
+120	42	79	0	91	57	80	10	1061232666	1	141		0
+121	42	80	0	92	79	81	10	1061232666	1	141		0
+122	42	81	0	93	80	82	10	1061232666	1	141		0
+123	42	82	0	94	81	83	10	1061232666	1	141		0
+124	42	83	0	95	82	19	10	1061232666	1	141		0
+125	42	19	0	96	83	84	10	1061232666	1	141		0
+126	42	84	0	97	19	63	10	1061232666	1	141		0
+127	42	63	0	98	84	67	10	1061232666	1	141		0
+128	42	67	0	99	63	85	10	1061232666	1	141		0
+129	42	85	0	100	67	86	10	1061232666	1	141		0
+130	42	86	0	101	85	29	10	1061232666	1	141		0
+131	42	29	0	102	86	87	10	1061232666	1	141		0
+132	42	87	0	103	29	51	10	1061232666	1	141		0
+133	42	51	0	104	87	44	10	1061232666	1	141		0
+134	42	44	0	105	51	60	10	1061232666	1	141		0
+135	42	60	0	106	44	88	10	1061232666	1	141		0
+136	42	88	0	107	60	67	10	1061232666	1	141		0
+137	42	67	0	108	88	89	10	1061232666	1	141		0
+138	42	89	0	109	67	36	10	1061232666	1	141		0
+139	42	36	0	110	89	90	10	1061232666	1	141		0
+140	42	90	0	111	36	74	10	1061232666	1	141		0
+141	42	74	0	112	90	79	10	1061232666	1	141		0
+142	42	79	0	113	74	80	10	1061232666	1	141		0
+143	42	80	0	114	79	31	10	1061232666	1	141		0
+144	42	31	0	115	80	86	10	1061232666	1	141		0
+145	42	86	0	116	31	91	10	1061232666	1	141		0
+146	42	91	0	117	86	92	10	1061232666	1	141		0
+147	42	92	0	118	91	93	10	1061232666	1	141		0
+148	42	93	0	119	92	94	10	1061232666	1	141		0
+149	42	94	0	120	93	47	10	1061232666	1	141		0
+150	42	47	0	121	94	93	10	1061232666	1	141		0
+151	42	93	0	122	47	24	10	1061232666	1	141		0
+152	42	24	0	123	93	95	10	1061232666	1	141		0
+153	42	95	0	124	24	96	10	1061232666	1	141		0
+154	42	96	0	125	95	97	10	1061232666	1	141		0
+155	42	97	0	126	96	64	10	1061232666	1	141		0
+156	42	64	0	127	97	33	10	1061232666	1	141		0
+157	42	33	0	128	64	98	10	1061232666	1	141		0
+158	42	98	0	129	33	32	10	1061232666	1	141		0
+159	42	32	0	130	98	56	10	1061232666	1	141		0
+160	42	56	0	131	32	39	10	1061232666	1	141		0
+161	42	39	0	132	56	99	10	1061232666	1	141		0
+162	42	99	0	133	39	100	10	1061232666	1	141		0
+163	42	100	0	134	99	45	10	1061232666	1	141		0
+164	42	45	0	135	100	45	10	1061232666	1	141		0
+165	42	45	0	136	45	53	10	1061232666	1	141		0
+166	42	53	0	137	45	33	10	1061232666	1	141		0
+167	42	33	0	138	53	101	10	1061232666	1	141		0
+168	42	101	0	139	33	102	10	1061232666	1	141		0
+169	42	102	0	140	101	34	10	1061232666	1	141		0
+170	42	34	0	141	102	51	10	1061232666	1	141		0
+171	42	51	0	142	34	72	10	1061232666	1	141		0
+172	42	72	0	143	51	88	10	1061232666	1	141		0
+173	42	88	0	144	72	47	10	1061232666	1	141		0
+174	42	47	0	145	88	103	10	1061232666	1	141		0
+175	42	103	0	146	47	104	10	1061232666	1	141		0
+176	42	104	0	147	103	34	10	1061232666	1	141		0
+177	42	34	0	148	104	47	10	1061232666	1	141		0
+178	42	47	0	149	34	105	10	1061232666	1	141		0
+179	42	105	0	150	47	45	10	1061232666	1	141		0
+180	42	45	0	151	105	28	10	1061232666	1	141		0
+181	42	28	0	152	45	19	10	1061232666	1	141		0
+182	42	19	0	153	28	23	10	1061232666	1	141		0
+183	42	23	0	154	19	39	10	1061232666	1	141		0
+184	42	39	0	155	23	37	10	1061232666	1	141		0
+185	42	37	0	156	39	66	10	1061232666	1	141		0
+186	42	66	0	157	37	84	10	1061232666	1	141		0
+187	42	84	0	158	66	106	10	1061232666	1	141		0
+188	42	106	0	159	84	47	10	1061232666	1	141		0
+189	42	47	0	160	106	81	10	1061232666	1	141		0
+190	42	81	0	161	47	56	10	1061232666	1	141		0
+191	42	56	0	162	81	53	10	1061232666	1	141		0
+192	42	53	0	163	56	47	10	1061232666	1	141		0
+193	42	47	0	164	53	32	10	1061232666	1	141		0
+194	42	32	0	165	47	67	10	1061232666	1	141		0
+195	42	67	0	166	32	21	10	1061232666	1	141		0
+196	42	21	0	167	67	30	10	1061232666	1	141		0
+197	42	30	0	168	21	18	10	1061232666	1	141		0
+198	42	18	0	169	30	9	10	1061232666	1	141		0
+199	42	9	0	170	18	55	10	1061232666	1	141		0
+200	42	55	0	171	9	107	10	1061232666	1	141		0
+201	42	107	0	172	55	108	10	1061232666	1	141		0
+202	42	108	0	173	107	44	10	1061232666	1	141		0
+203	42	44	0	174	108	21	10	1061232666	1	141		0
+204	42	21	0	175	44	55	10	1061232666	1	141		0
+205	42	55	0	176	21	0	10	1061232666	1	141		0
+206	43	109	0	0	0	0	1	1061232785	1	4		0
+207	44	110	0	0	0	111	5	1061232844	1	116		0
+208	44	111	0	1	110	112	5	1061232844	1	117		0
+209	44	112	0	2	111	0	5	1061232844	1	117		0
+210	45	30	0	0	0	113	5	1061232872	1	116		0
+211	45	113	0	1	30	114	5	1061232872	1	116		0
+212	45	114	0	2	113	115	5	1061232872	1	116		0
+213	45	115	0	3	114	116	5	1061232872	1	117		0
+214	45	116	0	4	115	0	5	1061232872	1	117		0
+215	46	117	0	0	0	118	5	1061234271	1	116		0
+216	46	118	0	1	117	119	5	1061234271	1	116		0
+217	46	119	0	2	118	114	5	1061234271	1	117		0
+218	46	114	0	3	119	0	5	1061234271	1	117		0
+219	47	117	0	0	0	120	5	1061234305	1	116		0
+220	47	120	0	1	117	121	5	1061234305	1	116		0
+221	47	121	0	2	120	30	5	1061234305	1	117		0
+222	47	30	0	3	121	122	5	1061234305	1	117		0
+223	47	122	0	4	30	0	5	1061234305	1	117		0
+\.
+
+
+
+
+
+
+
+COPY ezsearch_return_count (id, phrase_id, "time", count) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezsearch_search_phrase (id, phrase) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezsearch_word (id, word, object_count) FROM stdin;
+5	test	1
+6	media	1
+7	about	1
+8	gallery	1
+9	proin	1
+10	consectetuer	1
+11	lacus	1
+12	nec	1
+13	neque	1
+14	vivamus	1
+15	volutpat	1
+16	elit	1
+17	id	1
+18	purus	1
+19	nulla	1
+20	varius	1
+21	dictum	1
+22	est	1
+23	maecenas	1
+24	sapien	1
+25	pede	1
+26	mattis	1
+27	mollis	1
+28	in	1
+29	pulvinar	1
+30	a	3
+31	mi	1
+32	vestibulum	1
+33	ante	1
+34	ipsum	1
+35	primis	1
+36	faucibus	1
+37	orci	1
+38	luctus	1
+39	et	1
+40	ultrices	1
+41	posuere	1
+42	cubilia	1
+43	curae	1
+44	phasellus	1
+45	arcu	1
+46	justo	1
+47	sed	1
+48	rhoncus	1
+49	suspendisse	1
+50	quis	1
+51	turpis	1
+52	pretium	1
+53	scelerisque	1
+54	fusce	1
+55	dignissim	1
+56	metus	1
+57	ut	1
+58	rutrum	1
+59	risus	1
+60	eu	1
+61	venenatis	1
+62	velit	1
+63	magna	1
+64	ac	1
+65	quam	1
+66	morbi	1
+67	non	1
+68	eleifend	1
+69	consequat	1
+70	augue	1
+71	malesuada	1
+72	vitae	1
+73	porttitor	1
+74	pellentesque	1
+75	egestas	1
+76	nunc	1
+77	curabitur	1
+78	feugiat	1
+79	sit	1
+80	amet	1
+81	dui	1
+82	etiam	1
+83	fermentum	1
+84	ornare	1
+85	urna	1
+86	cras	1
+87	imperdiet	1
+88	felis	1
+89	diam	1
+90	viverra	1
+91	euismod	1
+92	leo	1
+93	vel	1
+94	libero	1
+95	mauris	1
+96	aliquam	1
+97	enim	1
+98	nam	1
+99	blandit	1
+100	vulputate	1
+101	at	1
+102	dapibus	1
+103	aliquet	1
+104	tempus	1
+105	facilisis	1
+106	massa	1
+107	semper	1
+108	odio	1
+109	flowers	1
+110	sunflower	1
+111	or	1
+112	not	1
+113	blue	1
+114	one	2
+115	and	1
+116	green	1
+117	flower	2
+118	3	1
+119	white	1
+120	4	1
+121	actually	1
+122	tree	1
+\.
+
+
+
+
+
+
+
+COPY ezsection (id, name, locale, navigation_part_identifier) FROM stdin;
+1	Standard section	nor-NO	ezcontentnavigationpart
+2	Users		ezusernavigationpart
+3	Media		ezmedianavigationpart
+\.
+
+
+
+
+
+
+
+COPY ezsession (session_key, expiration_time, data) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezsubtree_notification_rule (id, address, use_digest, node_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY eztrigger (id, name, module_name, function_name, connect_type, workflow_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezurl_object_link (url_id, contentobject_attribute_id, contentobject_attribute_version) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id, is_wildcard) FROM stdin;
+12		d41d8cd98f00b204e9800998ecf8427e	content/view/full/2	1	0	0
+13	users	9bc65c2abec141778ffaa729489f3e87	content/view/full/5	1	0	0
+14	users/anonymous_user	a37b7463e2c21098fa1a729dad4b4437	content/view/full/11	1	0	0
+15	users/guest_accounts	02d4e844e3a660857a3f81585995ffe1	content/view/full/12	1	0	0
+16	users/administrator_users	1b1d79c16700fd6003ea7be233e754ba	content/view/full/13	1	0	0
+17	users/editors	0bb9dd665c96bbc1cf36b79180786dea	content/view/full/14	1	0	0
+18	users/administrator_users/administrator_user	f1305ac5f327a19b451d82719e0c3f5d	content/view/full/15	1	0	0
+19	users/guest_accounts/test_test	27a1813763d43de613bf05c31df7a6ef	content/view/full/42	1	0	0
+20	media	62933a2951ef01f4eafd9bdf4d3cd2f0	content/view/full/43	1	0	0
+21	about_gallery	1e94f1acda820814aa22ed94235d2fad	content/view/full/44	1	0	0
+22	flowers	7d37c580f9c36fa004af865448a6e278	content/view/full/45	1	0	0
+23	flowers/sunflower	361c42112cf2acd5ca74c99fa2731aee	content/view/full/46	1	0	0
+24	flowers/a_blue_one	9dcb161374eaaca0a7112d55c4e4509a	content/view/full/47	1	0	0
+25	flowers/flower_3	8f3a60e6c1712faa225402ccffb4fe74	content/view/full/48	1	0	0
+26	flowers/flower_4	50336154c8f588bc45846725f3f22347	content/view/full/49	1	0	0
+\.
+
+
+
+
+
+
+
+COPY ezuser (contentobject_id, login, email, password_hash_type, password_hash) FROM stdin;
+10	anonymous	nospam@ez.no	2	4e6f6184135228ccd45f8233d72a0363
+14	admin	nospam@ez.no	2	c78e3b0f3d9244ed8c6d1c29464bdff9
+40	test	test@test.com	2	be778b473235e210cc577056226536a4
+\.
+
+
+
+
+
+
+
+COPY ezuser_accountkey (id, user_id, hash_key, "time") FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezuser_discountrule (id, discountrule_id, contentobject_id, name) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezuser_role (id, role_id, contentobject_id) FROM stdin;
+29	1	10
+25	2	12
+30	3	13
+28	1	11
+\.
+
+
+
+
+
+
+
+COPY ezuser_setting (user_id, is_enabled, max_login) FROM stdin;
+10	1	1000
+14	1	10
+23	1	0
+40	1	0
+\.
+
+
+
+
+
+
+
+COPY ezvattype (id, name, percentage) FROM stdin;
+1	Std	0
+\.
+
+
+
+
+
+
+
+COPY ezwaituntildatevalue (id, workflow_event_id, workflow_event_version, contentclass_id, contentclass_attribute_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezwishlist (id, user_id, productcollection_id) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezworkflow (id, "version", is_enabled, workflow_type_string, name, creator_id, modifier_id, created, modified) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezworkflow_assign (id, workflow_id, node_id, access_type, as_tree) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezworkflow_event (id, "version", workflow_id, workflow_type_string, description, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4, placement) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezworkflow_group (id, name, creator_id, modifier_id, created, modified) FROM stdin;
+1	Standard	14	14	1024392098	1024392098
+\.
+
+
+
+
+
+
+
+COPY ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) FROM stdin;
+1	1	0	Standard
+\.
+
+
+
+
+
+
+
+COPY ezworkflow_process (id, process_key, workflow_id, user_id, content_id, content_version, node_id, session_key, event_id, event_position, last_event_id, last_event_position, last_event_status, event_status, created, modified, activation_date, event_state, status, parameters, memento_key) FROM stdin;
+\.
+
+
+
+
+
+
+
+COPY ezsite_data (name, value) FROM stdin;
+ezpublish-version	3.2
+ezpublish-release	2
+\.
 
 
 
@@ -2312,6 +3652,86 @@ CREATE INDEX ezuser_role_contentobject_id1112 ON ezuser_role USING btree (conten
 
 
 CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver1151 ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item USING btree (productcollection_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_opt USING btree (item_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (productcollection_id);
+
+
+
+
+
+
+
+CREATE INDEX ezbasket_session_id ON ezbasket USING btree (session_id);
+
+
+
+
+
+
+
+CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
+
+
+
+
+
+
+
+CREATE INDEX eztrigger_fetch ON eztrigger USING btree (name, module_name, function_name);
+
+
+
+
+
+
+
+CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process USING btree (process_key);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
 
 
 
@@ -3045,1160 +4465,530 @@ ALTER TABLE ONLY ezworkflow_process
 
 
 
--- MySQL dump 8.22
---
--- Host: localhost    Database: tmp
----------------------------------------------------------
--- Server version	3.23.56
 
---
--- Dumping data for table 'ezapprove_items'
---
 
 
+ALTER TABLE ONLY ezsite_data
+    ADD CONSTRAINT ezsite_data_pkey PRIMARY KEY (name);
 
---
--- Dumping data for table 'ezbasket'
---
 
 
 
---
--- Dumping data for table 'ezbinaryfile'
---
 
 
 
---
--- Dumping data for table 'ezcollab_group'
---
+SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
 
 
 
---
--- Dumping data for table 'ezcollab_item'
---
 
 
 
---
--- Dumping data for table 'ezcollab_item_group_link'
---
 
+SELECT pg_catalog.setval ('ezbasket_s', 1, false);
 
 
---
--- Dumping data for table 'ezcollab_item_message_link'
---
 
 
 
---
--- Dumping data for table 'ezcollab_item_participant_link'
---
 
 
+SELECT pg_catalog.setval ('ezcollab_group_s', 1, false);
 
---
--- Dumping data for table 'ezcollab_item_status'
---
 
 
 
---
--- Dumping data for table 'ezcollab_notification_rule'
---
 
 
 
---
--- Dumping data for table 'ezcollab_profile'
---
+SELECT pg_catalog.setval ('ezcollab_item_s', 1, false);
 
 
 
---
--- Dumping data for table 'ezcollab_simple_message'
---
 
 
 
---
--- Dumping data for table 'ezcontent_translation'
---
 
+SELECT pg_catalog.setval ('ezcollab_item_message_link_s', 1, false);
 
 
---
--- Dumping data for table 'ezcontentbrowsebookmark'
---
 
 
 
---
--- Dumping data for table 'ezcontentbrowserecent'
---
 
 
-INSERT INTO ezcontentbrowserecent (id, user_id, node_id, created, name) VALUES (2,14,45,1061234306,'Flowers');
+SELECT pg_catalog.setval ('ezcollab_notification_rule_s', 1, false);
 
---
--- Dumping data for table 'ezcontentclass'
---
 
 
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (1,0,'Folder','folder','<name>',14,14,1024392098,1048494694);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (2,0,'Article','article','<title>',14,14,1024392098,1048494722);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (4,0,'User','user','<first_name> <last_name>',14,14,1024392098,1048494759);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048494784);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (6,0,'Forum','forum','<name>',14,14,1052384723,1052384870);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (7,0,'Forum message','forum_message','<topic>',14,14,1052384877,1052384943);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (8,0,'Product','product','<title>',14,14,1052384951,1052385067);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (9,0,'Product review','product_review','<title>',14,14,1052385080,1052385252);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (10,0,'Info page','info_page','<name>',14,14,1052385274,1052385353);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (11,0,'Link','link','<title>',14,14,1052385361,1052385453);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (12,0,'File','file','<name>',14,14,1052385472,1052385669);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1052385756);
-
---
--- Dumping data for table 'ezcontentclass_attribute'
---
-
-
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',0,0,5,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (116,0,5,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (12,0,4,'user_account','User account','ezuser',0,1,3,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',0,0,4,2,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,20,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (120,0,2,'intro','Intro','ezxmltext',1,1,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (1,0,2,'title','Title','ezstring',1,1,1,255,0,0,0,0,0,0,0,'New article','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (117,0,5,'caption','Caption','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (127,0,7,'topic','Topic','ezstring',1,1,1,150,0,0,0,0,0,0,0,'New topic','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (128,0,7,'message','Message','eztext',1,1,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (126,0,6,'description','Description','ezxmltext',1,0,3,15,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (125,0,6,'icon','Icon','ezimage',0,0,2,1,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (124,0,6,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (134,0,8,'photo','Photo','ezimage',0,0,6,1,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (133,0,8,'price','Price','ezprice',0,1,5,1,0,0,0,1,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (132,0,8,'description','Description','ezxmltext',1,0,4,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (131,0,8,'intro','Intro','ezxmltext',1,0,3,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (130,0,8,'product_nr','Product nr.','ezstring',1,0,2,40,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (129,0,8,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (139,0,9,'review','Review','ezxmltext',1,0,5,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (138,0,9,'geography','Town, Country','ezstring',1,1,4,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (137,0,9,'reviewer_name','Reviewer Name','ezstring',1,1,3,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (136,0,9,'rating','Rating','ezenum',1,0,2,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (135,0,9,'title','Title','ezstring',1,1,1,50,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (142,0,10,'image','Image','ezimage',0,0,3,1,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (141,0,10,'body','Body','ezxmltext',1,0,2,20,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (140,0,10,'name','Name','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (146,0,12,'name','Name','ezstring',1,1,1,0,0,0,0,0,0,0,0,'New file','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (148,0,12,'file','File','ezbinaryfile',0,1,3,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (147,0,12,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (145,0,11,'link','Link','ezurl',0,0,3,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (144,0,11,'description','Description','ezxmltext',1,0,2,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (143,0,11,'title','Title','ezstring',1,1,1,100,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (151,0,13,'message','Message','eztext',1,1,3,10,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (150,0,13,'author','Author','ezstring',1,1,2,0,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, name, data_type_string, is_searchable, is_required, placement, data_int1, data_int2, data_int3, data_int4, data_float1, data_float2, data_float3, data_float4, data_text1, data_text2, data_text3, data_text4, data_text5, is_information_collector, can_translate) VALUES (149,0,13,'subject','Subject','ezstring',1,1,1,40,0,0,0,0,0,0,0,'','','','',NULL,0,1);
-
---
--- Dumping data for table 'ezcontentclass_classgroup'
---
-
-
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (1,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (2,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (4,0,2,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (5,0,3,'Media');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (3,0,2,'');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (6,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (7,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (8,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (9,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (10,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (11,0,1,'Content');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (12,0,3,'Media');
-INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (13,0,1,'Content');
-
---
--- Dumping data for table 'ezcontentclassgroup'
---
-
-
-INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Content',1,14,1031216928,1033922106);
-INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (2,'Users',1,14,1031216941,1033922113);
-INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (3,'Media',8,14,1032009743,1033922120);
-
---
--- Dumping data for table 'ezcontentobject'
---
-
-
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (1,14,1,1,'Root folder',1,0,1033917596,1033917596,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (4,14,2,3,'Users',1,0,1033917596,1033917596,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (10,14,2,4,'Anonymous User',1,0,1033920665,1033920665,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (11,14,2,3,'Guest accounts',1,0,1033920746,1033920746,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (12,14,2,3,'Administrator users',1,0,1033920775,1033920775,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (13,14,2,3,'Editors',1,0,1033920794,1033920794,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (14,14,2,4,'Administrator User',1,0,1033920830,1033920830,1,NULL);
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (40,14,2,4,'test test',1,0,1053613020,1053613020,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (41,14,3,1,'Media',1,0,1060695457,1060695457,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (42,14,1,10,'About gallery',1,0,1061232666,1061232666,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (43,14,1,1,'Flowers',1,0,1061232785,1061232785,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (44,14,1,5,'Sunflower',1,0,1061232844,1061232844,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (45,14,1,5,'A blue one',1,0,1061232872,1061232872,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (46,14,1,5,'Flower 3',1,0,1061234271,1061234271,1,'');
-INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (47,14,1,5,'Flower 4',1,0,1061234305,1061234305,1,'');
-
---
--- Dumping data for table 'ezcontentobject_attribute'
---
-
-
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (1,'eng-GB',1,1,4,'Root folder',NULL,NULL,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (2,'eng-GB',1,1,119,'<?xml version=\"1.0\"><section><paragraph>This folder contains some information about...</paragraph></section>',NULL,NULL,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (7,'eng-GB',1,4,7,'Main group',NULL,NULL,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (8,'eng-GB',1,4,6,'Users',NULL,NULL,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (21,'eng-GB',1,10,12,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (22,'eng-GB',1,11,6,'Guest accounts',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (19,'eng-GB',1,10,8,'Anonymous',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (20,'eng-GB',1,10,9,'User',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (23,'eng-GB',1,11,7,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (24,'eng-GB',1,12,6,'Administrator users',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (25,'eng-GB',1,12,7,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (26,'eng-GB',1,13,6,'Editors',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (27,'eng-GB',1,13,7,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (28,'eng-GB',1,14,8,'Administrator',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (29,'eng-GB',1,14,9,'User',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (30,'eng-GB',1,14,12,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (95,'eng-GB',1,40,8,'test',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (96,'eng-GB',1,40,9,'test',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (97,'eng-GB',1,40,12,'',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (98,'eng-GB',1,41,4,'Media',0,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (99,'eng-GB',1,41,119,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\" />',1045487555,0,0,0,'');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (100,'eng-GB',1,42,140,'About gallery',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (101,'eng-GB',1,42,141,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <section>\n    <header>Proin consectetuer lacus</header>\n    <paragraph>\n      <line>Proin consectetuer lacus nec neque. Vivamus volutpat elit id purus. Nulla varius dictum est. Maecenas sapien pede, mattis mattis, mollis in, pulvinar a, mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus arcu. Vestibulum justo. Sed rhoncus. Suspendisse quis turpis nec turpis pretium scelerisque. Fusce dignissim, metus ut vestibulum rutrum, risus purus scelerisque est, eu venenatis velit magna ac quam. Morbi non risus ut arcu eleifend consequat. Ut est augue, malesuada vitae, porttitor pellentesque, egestas vitae, nunc. Curabitur feugiat. Ut sit amet dui. Etiam fermentum. Nulla ornare magna non urna. Cras pulvinar imperdiet turpis.</line>\n      <line> Phasellus eu felis non diam faucibus viverra. Pellentesque sit amet mi. Cras euismod leo vel libero. Sed vel sapien. Mauris aliquam enim ac ante. Nam vestibulum, metus et blandit vulputate, arcu arcu scelerisque ante, at dapibus ipsum turpis vitae felis. Sed aliquet tempus ipsum. Sed facilisis arcu in nulla. Maecenas et orci. Morbi ornare massa. Sed dui metus, scelerisque sed, vestibulum non, dictum a, purus. Proin dignissim semper odio.</line>\n    </paragraph>\n    <paragraph>\n      <ul>\n        <li>Phasellus</li>\n        <li>Dictum</li>\n        <li>Dignissim</li>\n      </ul>\n    </paragraph>\n  </section>\n</section>',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (102,'eng-GB',1,42,142,'',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (103,'eng-GB',1,43,4,'Flowers',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (104,'eng-GB',1,43,119,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\" />',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (105,'eng-GB',1,44,116,'Sunflower',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (106,'eng-GB',1,44,117,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>Or not?</paragraph>\n</section>',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (107,'eng-GB',1,44,118,'',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (108,'eng-GB',1,45,116,'A blue one',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (109,'eng-GB',1,45,117,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>And green.</paragraph>\n</section>',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (110,'eng-GB',1,45,118,'',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (111,'eng-GB',1,46,116,'Flower 3',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (112,'eng-GB',1,46,117,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>White one...</paragraph>\n</section>',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (113,'eng-GB',1,46,118,'',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (114,'eng-GB',1,47,116,'Flower 4',0,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (115,'eng-GB',1,47,117,'<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>Actually a tree.</paragraph>\n</section>',1045487555,0,0,0,'0');
-INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject_id, contentclassattribute_id, data_text, data_int, data_float, attribute_original_id, sort_key_int, sort_key_string) VALUES (116,'eng-GB',1,47,118,'',0,0,0,0,'0');
-
---
--- Dumping data for table 'ezcontentobject_link'
---
-
-
-
---
--- Dumping data for table 'ezcontentobject_name'
---
-
-
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (1,'Root folder',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (4,'Users',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (10,'Anonymous User',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (11,'Guest accounts',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (12,'Administrator users',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (13,'Editors',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (14,'Administrator User',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (40,'test test',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (41,'Media',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (42,'About gallery',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (43,'Flowers',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (44,'Sunflower',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (45,'A blue one',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (46,'Flower 3',1,'eng-GB','eng-GB');
-INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (47,'Flower 4',1,'eng-GB','eng-GB');
-
---
--- Dumping data for table 'ezcontentobject_tree'
---
-
-
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (2,1,1,1,1,1,'/1/2/',1,1,0,'',2);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (11,5,10,1,1,2,'/1/5/11/',1,1,0,'users/anonymous_user',11);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (12,5,11,1,1,2,'/1/5/12/',1,1,0,'users/guest_accounts',12);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (13,5,12,1,1,2,'/1/5/13/',1,1,0,'users/administrator_users',13);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (14,5,13,1,1,2,'/1/5/14/',1,1,0,'users/editors',14);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (15,13,14,1,1,3,'/1/5/13/15/',1,1,0,'users/administrator_users/administrator_user',15);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (42,12,40,1,1,3,'/1/5/12/42/',9,1,0,'users/guest_accounts/test_test',42);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (43,1,41,1,1,1,'/1/43/',9,1,0,'media',43);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (44,2,42,1,1,2,'/1/2/44/',9,1,0,'about_gallery',44);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (45,2,43,1,1,2,'/1/2/45/',9,1,0,'flowers',45);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (46,45,44,1,1,3,'/1/2/45/46/',9,1,0,'flowers/sunflower',46);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (47,45,45,1,1,3,'/1/2/45/47/',9,1,0,'flowers/a_blue_one',47);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (48,45,46,1,1,3,'/1/2/45/48/',9,1,0,'flowers/flower_3',48);
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (49,45,47,1,1,3,'/1/2/45/49/',9,1,0,'flowers/flower_4',49);
-
---
--- Dumping data for table 'ezcontentobject_version'
---
-
-
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (1,1,14,1,1033919080,1033919080,1,1,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (4,4,14,1,1033919080,1033919080,1,1,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (438,10,14,1,1033920649,1033920665,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (439,11,14,1,1033920737,1033920746,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (440,12,14,1,1033920760,1033920775,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (441,13,14,1,1033920786,1033920794,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (442,14,14,1,1033920808,1033920830,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (471,40,14,1,1053613007,1053613020,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (472,41,14,1,1060695450,1060695457,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (473,42,14,1,1061232647,1061232666,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (474,43,14,1,1061232771,1061232785,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (475,44,14,1,1061232824,1061232844,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (476,45,14,1,1061232852,1061232872,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (477,46,14,1,1061234247,1061234271,1,0,0);
-INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, created, modified, status, workflow_event_pos, user_id) VALUES (478,47,14,1,1061234280,1061234305,1,0,0);
-
---
--- Dumping data for table 'ezdiscountrule'
---
-
-
-
---
--- Dumping data for table 'ezdiscountsubrule'
---
-
-
-
---
--- Dumping data for table 'ezdiscountsubrule_value'
---
-
-
-
---
--- Dumping data for table 'ezenumobjectvalue'
---
-
-
-
---
--- Dumping data for table 'ezenumvalue'
---
-
-
-INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (2,136,0,'Ok','3',2);
-INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (1,136,0,'Poor','2',1);
-INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (3,136,0,'Good','5',3);
-
---
--- Dumping data for table 'ezforgot_password'
---
-
-
-
---
--- Dumping data for table 'ezgeneral_digest_user_settings'
---
-
-
-
---
--- Dumping data for table 'ezimage'
---
-
-
-INSERT INTO ezimage (contentobject_attribute_id, version, filename, original_filename, mime_type, alternative_text) VALUES (107,1,'phph8inGr.jpg','flower2.jpg','image/jpeg','');
-INSERT INTO ezimage (contentobject_attribute_id, version, filename, original_filename, mime_type, alternative_text) VALUES (110,1,'php2Kecsf.jpg','flower.jpg','image/jpeg','');
-INSERT INTO ezimage (contentobject_attribute_id, version, filename, original_filename, mime_type, alternative_text) VALUES (113,1,'phpRFANTu.jpg','flower3.jpg','image/jpeg','');
-INSERT INTO ezimage (contentobject_attribute_id, version, filename, original_filename, mime_type, alternative_text) VALUES (116,1,'phpUQzr4Z.jpg','flower4.jpg','image/jpeg','');
-
---
--- Dumping data for table 'ezimagevariation'
---
-
-
-
---
--- Dumping data for table 'ezinfocollection'
---
-
-
-
---
--- Dumping data for table 'ezinfocollection_attribute'
---
-
-
-
---
--- Dumping data for table 'ezkeyword'
---
-
-
-
---
--- Dumping data for table 'ezkeyword_attribute_link'
---
-
-
-
---
--- Dumping data for table 'ezmedia'
---
 
-
 
---
--- Dumping data for table 'ezmessage'
---
 
 
+SELECT pg_catalog.setval ('ezcollab_profile_s', 1, false);
 
---
--- Dumping data for table 'ezmodule_run'
---
 
-
-
---
--- Dumping data for table 'eznode_assignment'
---
-
-
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (2,1,1,1,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (4,8,2,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (144,4,1,1,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (147,210,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (146,209,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (145,1,2,1,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (148,9,1,2,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (149,10,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (150,11,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (151,12,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (152,13,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (153,14,1,13,1,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (181,40,1,12,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (182,41,1,1,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (183,42,1,2,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (184,43,1,2,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (185,44,1,45,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (186,45,1,45,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (187,46,1,45,9,1,1,0,0);
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id) VALUES (188,47,1,45,9,1,1,0,0);
-
---
--- Dumping data for table 'eznotificationcollection'
---
-
-
 
---
--- Dumping data for table 'eznotificationcollection_item'
---
 
 
 
---
--- Dumping data for table 'eznotificationevent'
---
 
+SELECT pg_catalog.setval ('ezcollab_simple_message_s', 1, false);
 
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (1,0,'ezpublish',41,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (2,0,'ezpublish',42,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (3,0,'ezpublish',43,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (4,0,'ezpublish',44,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (5,0,'ezpublish',45,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (6,0,'ezpublish',46,1,0,0,'','','','');
-INSERT INTO eznotificationevent (id, status, event_type_string, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4) VALUES (7,0,'ezpublish',47,1,0,0,'','','','');
 
---
--- Dumping data for table 'ezoperation_memento'
---
 
 
 
---
--- Dumping data for table 'ezorder'
---
 
 
+SELECT pg_catalog.setval ('ezcontent_translation_s', 1, false);
 
---
--- Dumping data for table 'ezorder_item'
---
 
 
 
---
--- Dumping data for table 'ezpolicy'
---
-
-
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,1,'read','content','');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (325,1,'login','user','*');
-INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (319,3,'login','user','*');
-
---
--- Dumping data for table 'ezpolicy_limitation'
---
-
-
-INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
-
---
--- Dumping data for table 'ezpolicy_limitation_value'
---
-
-
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (435,249,'1');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (436,249,'10');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (437,249,'10');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (438,249,'11');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (439,249,'11');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (440,249,'12');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (441,249,'12');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (442,249,'13');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (443,249,'13');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (444,249,'2');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (445,249,'2');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (446,249,'5');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (447,249,'5');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (448,249,'6');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (449,249,'6');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (450,249,'7');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (451,249,'7');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (452,249,'8');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (453,249,'8');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (454,249,'9');
-INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249,'9');
-
---
--- Dumping data for table 'ezpreferences'
---
-
-
-
---
--- Dumping data for table 'ezproductcollection'
---
-
-
-
---
--- Dumping data for table 'ezproductcollection_item'
---
-
-
-
---
--- Dumping data for table 'ezproductcollection_item_opt'
---
-
-
-
---
--- Dumping data for table 'ezrole'
---
-
-
-INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
-INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
-INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
-
---
--- Dumping data for table 'ezsearch_object_word_link'
---
-
-
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (26,40,5,0,0,0,5,4,1053613020,2,8,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (27,40,5,0,1,5,0,4,1053613020,2,9,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (28,41,6,0,0,0,0,1,1060695457,3,4,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (29,42,7,0,0,0,8,10,1061232666,1,140,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (30,42,8,0,1,7,9,10,1061232666,1,140,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (31,42,9,0,2,8,10,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (32,42,10,0,3,9,11,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (33,42,11,0,4,10,9,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (34,42,9,0,5,11,10,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (35,42,10,0,6,9,11,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (36,42,11,0,7,10,12,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (37,42,12,0,8,11,13,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (38,42,13,0,9,12,14,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (39,42,14,0,10,13,15,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (40,42,15,0,11,14,16,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (41,42,16,0,12,15,17,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (42,42,17,0,13,16,18,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (43,42,18,0,14,17,19,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (44,42,19,0,15,18,20,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (45,42,20,0,16,19,21,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (46,42,21,0,17,20,22,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (47,42,22,0,18,21,23,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (48,42,23,0,19,22,24,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (49,42,24,0,20,23,25,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (50,42,25,0,21,24,26,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (51,42,26,0,22,25,26,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (52,42,26,0,23,26,27,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (53,42,27,0,24,26,28,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (54,42,28,0,25,27,29,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (55,42,29,0,26,28,30,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (56,42,30,0,27,29,31,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (57,42,31,0,28,30,32,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (58,42,32,0,29,31,33,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (59,42,33,0,30,32,34,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (60,42,34,0,31,33,35,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (61,42,35,0,32,34,28,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (62,42,28,0,33,35,36,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (63,42,36,0,34,28,37,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (64,42,37,0,35,36,38,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (65,42,38,0,36,37,39,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (66,42,39,0,37,38,40,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (67,42,40,0,38,39,41,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (68,42,41,0,39,40,42,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (69,42,42,0,40,41,43,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (70,42,43,0,41,42,44,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (71,42,44,0,42,43,45,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (72,42,45,0,43,44,32,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (73,42,32,0,44,45,46,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (74,42,46,0,45,32,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (75,42,47,0,46,46,48,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (76,42,48,0,47,47,49,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (77,42,49,0,48,48,50,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (78,42,50,0,49,49,51,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (79,42,51,0,50,50,12,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (80,42,12,0,51,51,51,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (81,42,51,0,52,12,52,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (82,42,52,0,53,51,53,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (83,42,53,0,54,52,54,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (84,42,54,0,55,53,55,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (85,42,55,0,56,54,56,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (86,42,56,0,57,55,57,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (87,42,57,0,58,56,32,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (88,42,32,0,59,57,58,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (89,42,58,0,60,32,59,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (90,42,59,0,61,58,18,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (91,42,18,0,62,59,53,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (92,42,53,0,63,18,22,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (93,42,22,0,64,53,60,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (94,42,60,0,65,22,61,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (95,42,61,0,66,60,62,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (96,42,62,0,67,61,63,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (97,42,63,0,68,62,64,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (98,42,64,0,69,63,65,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (99,42,65,0,70,64,66,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (100,42,66,0,71,65,67,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (101,42,67,0,72,66,59,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (102,42,59,0,73,67,57,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (103,42,57,0,74,59,45,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (104,42,45,0,75,57,68,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (105,42,68,0,76,45,69,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (106,42,69,0,77,68,57,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (107,42,57,0,78,69,22,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (108,42,22,0,79,57,70,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (109,42,70,0,80,22,71,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (110,42,71,0,81,70,72,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (111,42,72,0,82,71,73,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (112,42,73,0,83,72,74,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (113,42,74,0,84,73,75,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (114,42,75,0,85,74,72,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (115,42,72,0,86,75,76,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (116,42,76,0,87,72,77,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (117,42,77,0,88,76,78,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (118,42,78,0,89,77,57,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (119,42,57,0,90,78,79,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (120,42,79,0,91,57,80,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (121,42,80,0,92,79,81,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (122,42,81,0,93,80,82,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (123,42,82,0,94,81,83,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (124,42,83,0,95,82,19,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (125,42,19,0,96,83,84,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (126,42,84,0,97,19,63,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (127,42,63,0,98,84,67,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (128,42,67,0,99,63,85,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (129,42,85,0,100,67,86,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (130,42,86,0,101,85,29,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (131,42,29,0,102,86,87,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (132,42,87,0,103,29,51,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (133,42,51,0,104,87,44,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (134,42,44,0,105,51,60,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (135,42,60,0,106,44,88,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (136,42,88,0,107,60,67,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (137,42,67,0,108,88,89,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (138,42,89,0,109,67,36,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (139,42,36,0,110,89,90,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (140,42,90,0,111,36,74,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (141,42,74,0,112,90,79,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (142,42,79,0,113,74,80,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (143,42,80,0,114,79,31,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (144,42,31,0,115,80,86,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (145,42,86,0,116,31,91,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (146,42,91,0,117,86,92,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (147,42,92,0,118,91,93,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (148,42,93,0,119,92,94,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (149,42,94,0,120,93,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (150,42,47,0,121,94,93,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (151,42,93,0,122,47,24,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (152,42,24,0,123,93,95,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (153,42,95,0,124,24,96,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (154,42,96,0,125,95,97,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (155,42,97,0,126,96,64,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (156,42,64,0,127,97,33,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (157,42,33,0,128,64,98,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (158,42,98,0,129,33,32,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (159,42,32,0,130,98,56,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (160,42,56,0,131,32,39,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (161,42,39,0,132,56,99,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (162,42,99,0,133,39,100,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (163,42,100,0,134,99,45,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (164,42,45,0,135,100,45,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (165,42,45,0,136,45,53,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (166,42,53,0,137,45,33,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (167,42,33,0,138,53,101,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (168,42,101,0,139,33,102,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (169,42,102,0,140,101,34,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (170,42,34,0,141,102,51,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (171,42,51,0,142,34,72,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (172,42,72,0,143,51,88,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (173,42,88,0,144,72,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (174,42,47,0,145,88,103,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (175,42,103,0,146,47,104,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (176,42,104,0,147,103,34,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (177,42,34,0,148,104,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (178,42,47,0,149,34,105,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (179,42,105,0,150,47,45,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (180,42,45,0,151,105,28,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (181,42,28,0,152,45,19,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (182,42,19,0,153,28,23,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (183,42,23,0,154,19,39,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (184,42,39,0,155,23,37,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (185,42,37,0,156,39,66,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (186,42,66,0,157,37,84,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (187,42,84,0,158,66,106,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (188,42,106,0,159,84,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (189,42,47,0,160,106,81,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (190,42,81,0,161,47,56,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (191,42,56,0,162,81,53,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (192,42,53,0,163,56,47,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (193,42,47,0,164,53,32,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (194,42,32,0,165,47,67,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (195,42,67,0,166,32,21,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (196,42,21,0,167,67,30,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (197,42,30,0,168,21,18,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (198,42,18,0,169,30,9,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (199,42,9,0,170,18,55,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (200,42,55,0,171,9,107,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (201,42,107,0,172,55,108,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (202,42,108,0,173,107,44,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (203,42,44,0,174,108,21,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (204,42,21,0,175,44,55,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (205,42,55,0,176,21,0,10,1061232666,1,141,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (206,43,109,0,0,0,0,1,1061232785,1,4,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (207,44,110,0,0,0,111,5,1061232844,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (208,44,111,0,1,110,112,5,1061232844,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (209,44,112,0,2,111,0,5,1061232844,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (210,45,30,0,0,0,113,5,1061232872,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (211,45,113,0,1,30,114,5,1061232872,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (212,45,114,0,2,113,115,5,1061232872,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (213,45,115,0,3,114,116,5,1061232872,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (214,45,116,0,4,115,0,5,1061232872,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (215,46,117,0,0,0,118,5,1061234271,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (216,46,118,0,1,117,119,5,1061234271,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (217,46,119,0,2,118,114,5,1061234271,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (218,46,114,0,3,119,0,5,1061234271,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (219,47,117,0,0,0,120,5,1061234305,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (220,47,120,0,1,117,121,5,1061234305,1,116,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (221,47,121,0,2,120,30,5,1061234305,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (222,47,30,0,3,121,122,5,1061234305,1,117,'',0);
-INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency, placement, prev_word_id, next_word_id, contentclass_id, published, section_id, contentclass_attribute_id, identifier, integer_value) VALUES (223,47,122,0,4,30,0,5,1061234305,1,117,'',0);
-
---
--- Dumping data for table 'ezsearch_return_count'
---
-
-
-
---
--- Dumping data for table 'ezsearch_search_phrase'
---
-
-
-
---
--- Dumping data for table 'ezsearch_word'
---
-
-
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (5,'test',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (6,'media',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (7,'about',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (8,'gallery',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (9,'proin',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (10,'consectetuer',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (11,'lacus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (12,'nec',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (13,'neque',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (14,'vivamus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (15,'volutpat',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (16,'elit',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (17,'id',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (18,'purus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (19,'nulla',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (20,'varius',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (21,'dictum',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (22,'est',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (23,'maecenas',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (24,'sapien',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (25,'pede',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (26,'mattis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (27,'mollis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (28,'in',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (29,'pulvinar',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (30,'a',3);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (31,'mi',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (32,'vestibulum',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (33,'ante',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (34,'ipsum',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (35,'primis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (36,'faucibus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (37,'orci',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (38,'luctus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (39,'et',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (40,'ultrices',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (41,'posuere',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (42,'cubilia',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (43,'curae',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (44,'phasellus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (45,'arcu',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (46,'justo',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (47,'sed',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (48,'rhoncus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (49,'suspendisse',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (50,'quis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (51,'turpis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (52,'pretium',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (53,'scelerisque',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (54,'fusce',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (55,'dignissim',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (56,'metus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (57,'ut',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (58,'rutrum',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (59,'risus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (60,'eu',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (61,'venenatis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (62,'velit',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (63,'magna',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (64,'ac',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (65,'quam',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (66,'morbi',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (67,'non',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (68,'eleifend',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (69,'consequat',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (70,'augue',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (71,'malesuada',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (72,'vitae',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (73,'porttitor',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (74,'pellentesque',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (75,'egestas',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (76,'nunc',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (77,'curabitur',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (78,'feugiat',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (79,'sit',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (80,'amet',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (81,'dui',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (82,'etiam',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (83,'fermentum',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (84,'ornare',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (85,'urna',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (86,'cras',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (87,'imperdiet',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (88,'felis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (89,'diam',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (90,'viverra',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (91,'euismod',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (92,'leo',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (93,'vel',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (94,'libero',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (95,'mauris',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (96,'aliquam',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (97,'enim',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (98,'nam',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (99,'blandit',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (100,'vulputate',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (101,'at',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (102,'dapibus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (103,'aliquet',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (104,'tempus',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (105,'facilisis',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (106,'massa',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (107,'semper',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (108,'odio',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (109,'flowers',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (110,'sunflower',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (111,'or',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (112,'not',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (113,'blue',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (114,'one',2);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (115,'and',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (116,'green',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (117,'flower',2);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (118,'3',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (119,'white',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (120,'4',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (121,'actually',1);
-INSERT INTO ezsearch_word (id, word, object_count) VALUES (122,'tree',1);
-
---
--- Dumping data for table 'ezsection'
---
-
-
-INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard section','nor-NO','ezcontentnavigationpart');
-INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
-INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
-
---
--- Dumping data for table 'ezsession'
---
-
-
-
---
--- Dumping data for table 'ezsubtree_notification_rule'
---
-
-
-
---
--- Dumping data for table 'eztrigger'
---
-
-
-
---
--- Dumping data for table 'ezurl'
---
-
-
-
---
--- Dumping data for table 'ezurl_object_link'
---
-
-
-
---
--- Dumping data for table 'ezurlalias'
---
-
-
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (21,'about_gallery','1e94f1acda820814aa22ed94235d2fad','content/view/full/44',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (22,'flowers','7d37c580f9c36fa004af865448a6e278','content/view/full/45',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (23,'flowers/sunflower','361c42112cf2acd5ca74c99fa2731aee','content/view/full/46',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (24,'flowers/a_blue_one','9dcb161374eaaca0a7112d55c4e4509a','content/view/full/47',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (25,'flowers/flower_3','8f3a60e6c1712faa225402ccffb4fe74','content/view/full/48',1,0);
-INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal, forward_to_id) VALUES (26,'flowers/flower_4','50336154c8f588bc45846725f3f22347','content/view/full/49',1,0);
-
---
--- Dumping data for table 'ezuser'
---
-
-
-INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
-INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
-INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (40,'test','test@test.com',2,'be778b473235e210cc577056226536a4');
-
---
--- Dumping data for table 'ezuser_accountkey'
---
-
-
-
---
--- Dumping data for table 'ezuser_discountrule'
---
-
-
-
---
--- Dumping data for table 'ezuser_role'
---
-
-
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (29,1,10);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (25,2,12);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (30,3,13);
-INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (28,1,11);
-
---
--- Dumping data for table 'ezuser_setting'
---
-
-
-INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (10,1,1000);
-INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (14,1,10);
-INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (23,1,0);
-INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (40,1,0);
-
---
--- Dumping data for table 'ezvattype'
---
-
-
-INSERT INTO ezvattype (id, name, percentage) VALUES (1,'Std',0);
-
---
--- Dumping data for table 'ezwaituntildatevalue'
---
-
-
-
---
--- Dumping data for table 'ezwishlist'
---
-
-
-
---
--- Dumping data for table 'ezworkflow'
---
-
-
-
---
--- Dumping data for table 'ezworkflow_assign'
---
-
-
-
---
--- Dumping data for table 'ezworkflow_event'
---
-
-
-
---
--- Dumping data for table 'ezworkflow_group'
---
-
-
-INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Standard',14,14,1024392098,1024392098);
-
---
--- Dumping data for table 'ezworkflow_group_link'
---
-
-
-INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) VALUES (1,1,0,'Standard');
-
---
--- Dumping data for table 'ezworkflow_process'
---
-
-
-
-
-
-SELECT setval('ezapprove_items_s', max(id)) , 'ezapprove_items' as tablename FROM ezapprove_items;
-SELECT setval('ezbasket_s', max(id)) , 'ezbasket' as tablename FROM ezbasket;
-SELECT setval('ezcollab_group_s', max(id)) , 'ezcollab_group' as tablename FROM ezcollab_group;
-SELECT setval('ezcollab_item_s', max(id)) , 'ezcollab_item' as tablename FROM ezcollab_item;
-SELECT setval('ezcollab_item_message_link_s', max(id)) , 'ezcollab_item_message_link' as tablename FROM ezcollab_item_message_link;
-SELECT setval('ezcollab_notification_rule_s', max(id)) , 'ezcollab_notification_rule' as tablename FROM ezcollab_notification_rule;
-SELECT setval('ezcollab_profile_s', max(id)) , 'ezcollab_profile' as tablename FROM ezcollab_profile;
-SELECT setval('ezcollab_simple_message_s', max(id)) , 'ezcollab_simple_message' as tablename FROM ezcollab_simple_message;
-SELECT setval('ezcontent_translation_s', max(id)) , 'ezcontent_translation' as tablename FROM ezcontent_translation;
-SELECT setval('ezcontentbrowsebookmark_s', max(id)) , 'ezcontentbrowsebookmark' as tablename FROM ezcontentbrowsebookmark;
-SELECT setval('ezcontentbrowserecent_s', max(id)) , 'ezcontentbrowserecent' as tablename FROM ezcontentbrowserecent;
-SELECT setval('ezcontentclass_s', max(id)) , 'ezcontentclass' as tablename FROM ezcontentclass;
-SELECT setval('ezcontentclass_attribute_s', max(id)) , 'ezcontentclass_attribute' as tablename FROM ezcontentclass_attribute;
-SELECT setval('ezcontentclassgroup_s', max(id)) , 'ezcontentclassgroup' as tablename FROM ezcontentclassgroup;
-SELECT setval('ezcontentobject_s', max(id)) , 'ezcontentobject' as tablename FROM ezcontentobject;
-SELECT setval('ezcontentobject_attribute_s', max(id)) , 'ezcontentobject_attribute' as tablename FROM ezcontentobject_attribute;
-SELECT setval('ezcontentobject_link_s', max(id)) , 'ezcontentobject_link' as tablename FROM ezcontentobject_link;
-SELECT setval('ezcontentobject_tree_s', max(node_id)) , 'ezcontentobject_tree' as tablename FROM ezcontentobject_tree;
-SELECT setval('ezcontentobject_version_s', max(id)) , 'ezcontentobject_version' as tablename FROM ezcontentobject_version;
-SELECT setval('ezdiscountrule_s', max(id)) , 'ezdiscountrule' as tablename FROM ezdiscountrule;
-SELECT setval('ezdiscountsubrule_s', max(id)) , 'ezdiscountsubrule' as tablename FROM ezdiscountsubrule;
-SELECT setval('ezenumvalue_s', max(id)) , 'ezenumvalue' as tablename FROM ezenumvalue;
-SELECT setval('ezforgot_password_s', max(id)) , 'ezforgot_password' as tablename FROM ezforgot_password;
-SELECT setval('ezgeneral_digest_user_settings_s', max(id)) , 'ezgeneral_digest_user_settings' as tablename FROM ezgeneral_digest_user_settings;
-SELECT setval('ezinfocollection_s', max(id)) , 'ezinfocollection' as tablename FROM ezinfocollection;
-SELECT setval('ezinfocollection_attribute_s', max(id)) , 'ezinfocollection_attribute' as tablename FROM ezinfocollection_attribute;
-SELECT setval('ezkeyword_s', max(id)) , 'ezkeyword' as tablename FROM ezkeyword;
-SELECT setval('ezkeyword_attribute_link_s', max(id)) , 'ezkeyword_attribute_link' as tablename FROM ezkeyword_attribute_link;
-SELECT setval('ezmessage_s', max(id)) , 'ezmessage' as tablename FROM ezmessage;
-SELECT setval('ezmodule_run_s', max(id)) , 'ezmodule_run' as tablename FROM ezmodule_run;
-SELECT setval('eznode_assignment_s', max(id)) , 'eznode_assignment' as tablename FROM eznode_assignment;
-SELECT setval('eznotificationcollection_s', max(id)) , 'eznotificationcollection' as tablename FROM eznotificationcollection;
-SELECT setval('eznotificationcollection_item_s', max(id)) , 'eznotificationcollection_item' as tablename FROM eznotificationcollection_item;
-SELECT setval('eznotificationevent_s', max(id)) , 'eznotificationevent' as tablename FROM eznotificationevent;
-SELECT setval('ezoperation_memento_s', max(id)) , 'ezoperation_memento' as tablename FROM ezoperation_memento;
-SELECT setval('ezorder_s', max(id)) , 'ezorder' as tablename FROM ezorder;
-SELECT setval('ezorder_item_s', max(id)) , 'ezorder_item' as tablename FROM ezorder_item;
-SELECT setval('ezpolicy_s', max(id)) , 'ezpolicy' as tablename FROM ezpolicy;
-SELECT setval('ezpolicy_limitation_s', max(id)) , 'ezpolicy_limitation' as tablename FROM ezpolicy_limitation;
-SELECT setval('ezpolicy_limitation_value_s', max(id)) , 'ezpolicy_limitation_value' as tablename FROM ezpolicy_limitation_value;
-SELECT setval('ezpreferences_s', max(id)) , 'ezpreferences' as tablename FROM ezpreferences;
-SELECT setval('ezproductcollection_s', max(id)) , 'ezproductcollection' as tablename FROM ezproductcollection;
-SELECT setval('ezproductcollection_item_s', max(id)) , 'ezproductcollection_item' as tablename FROM ezproductcollection_item;
-SELECT setval('ezproductcollection_item_opt_s', max(id)) , 'ezproductcollection_item_opt' as tablename FROM ezproductcollection_item_opt;
-SELECT setval('ezrole_s', max(id)) , 'ezrole' as tablename FROM ezrole;
-SELECT setval('ezsearch_object_word_link_s', max(id)) , 'ezsearch_object_word_link' as tablename FROM ezsearch_object_word_link;
-SELECT setval('ezsearch_return_count_s', max(id)) , 'ezsearch_return_count' as tablename FROM ezsearch_return_count;
-SELECT setval('ezsearch_search_phrase_s', max(id)) , 'ezsearch_search_phrase' as tablename FROM ezsearch_search_phrase;
-SELECT setval('ezsearch_word_s', max(id)) , 'ezsearch_word' as tablename FROM ezsearch_word;
-SELECT setval('ezsection_s', max(id)) , 'ezsection' as tablename FROM ezsection;
-SELECT setval('ezsubtree_notification_rule_s', max(id)) , 'ezsubtree_notification_rule' as tablename FROM ezsubtree_notification_rule;
-SELECT setval('eztrigger_s', max(id)) , 'eztrigger' as tablename FROM eztrigger;
-SELECT setval('ezurl_s', max(id)) , 'ezurl' as tablename FROM ezurl;
-SELECT setval('ezurlalias_s', max(id)) , 'ezurlalias' as tablename FROM ezurlalias;
-SELECT setval('ezuser_accountkey_s', max(id)) , 'ezuser_accountkey' as tablename FROM ezuser_accountkey;
-SELECT setval('ezuser_discountrule_s', max(id)) , 'ezuser_discountrule' as tablename FROM ezuser_discountrule;
-SELECT setval('ezuser_role_s', max(id)) , 'ezuser_role' as tablename FROM ezuser_role;
-SELECT setval('ezvattype_s', max(id)) , 'ezvattype' as tablename FROM ezvattype;
-SELECT setval('ezwaituntildatevalue_s', max(id)) , 'ezwaituntildatevalue' as tablename FROM ezwaituntildatevalue;
-SELECT setval('ezwishlist_s', max(id)) , 'ezwishlist' as tablename FROM ezwishlist;
-SELECT setval('ezworkflow_s', max(id)) , 'ezworkflow' as tablename FROM ezworkflow;
-SELECT setval('ezworkflow_assign_s', max(id)) , 'ezworkflow_assign' as tablename FROM ezworkflow_assign;
-SELECT setval('ezworkflow_event_s', max(id)) , 'ezworkflow_event' as tablename FROM ezworkflow_event;
-SELECT setval('ezworkflow_group_s', max(id)) , 'ezworkflow_group' as tablename FROM ezworkflow_group;
-SELECT setval('ezworkflow_process_s', max(id)) , 'ezworkflow_process' as tablename FROM ezworkflow_process;
-
-CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );
-CREATE INDEX ezurlalias_source_url ON ezurlalias(source_url(255));
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute( contentobject_id, version, language_code);
-
-CREATE TABLE ezsite_data (
-  name varchar(60) NOT NULL default '',
-  value text NOT NULL default '',
-  PRIMARY KEY (name)
-);
-
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '2');
+
+
+
+SELECT pg_catalog.setval ('ezcontentbrowsebookmark_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentbrowserecent_s', 2, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclass_s', 13, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclass_attribute_s', 151, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentclassgroup_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_s', 47, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_attribute_s', 116, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_link_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_tree_s', 49, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezcontentobject_version_s', 478, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezdiscountrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezdiscountsubrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezenumvalue_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezforgot_password_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezgeneral_digest_user_settings_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezinfocollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezinfocollection_attribute_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezkeyword_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezkeyword_attribute_link_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezmessage_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezmodule_run_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznode_assignment_s', 188, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationcollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationcollection_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eznotificationevent_s', 7, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezoperation_memento_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezorder_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezorder_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_s', 326, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_limitation_s', 249, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpolicy_limitation_value_s', 455, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezpreferences_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_item_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezproductcollection_item_opt_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezrole_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_object_word_link_s', 223, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_return_count_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_search_phrase_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsearch_word_s', 122, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsection_s', 3, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezsubtree_notification_rule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('eztrigger_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezurl_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezurlalias_s', 26, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_accountkey_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_discountrule_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezuser_role_s', 30, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezvattype_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezwaituntildatevalue_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezwishlist_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_assign_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_event_s', 1, false);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_group_s', 1, true);
+
+
+
+
+
+
+
+SELECT pg_catalog.setval ('ezworkflow_process_s', 1, false);
+
+
