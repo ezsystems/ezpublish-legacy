@@ -52,6 +52,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->eZPersistentObject( $row );
 
         $this->Content = null;
+        $this->DisplayInfo = null;
         $this->Module = null;
     }
 
@@ -156,7 +157,8 @@ class eZContentClassAttribute extends eZPersistentObject
                       'keys' => array( 'id', 'version' ),
                       "function_attributes" => array( "content" => "content",
                                                       'temporary_object_attribute' => 'instantiateTemporary',
-                                                      'data_type' => 'dataType' ),
+                                                      'data_type' => 'dataType',
+                                                      'display_info' => 'displayInfo' ),
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',
@@ -433,6 +435,23 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
     /*!
+     \return Information on how to display the class attribute.
+             See eZDataType::classDisplayInformation() for more information on what is returned.
+    */
+    function &displayInfo()
+    {
+        if ( !$this->DisplayInfo )
+        {
+            $dataType =& $this->dataType();
+            if ( is_object( $dataType ) )
+            {
+                $this->DisplayInfo =& $dataType->classDisplayInformation( $this, false );
+            }
+        }
+        return $this->DisplayInfo;
+    }
+
+    /*!
      Executes the custom HTTP action
     */
     function customHTTPAction( &$module, &$http, $action )
@@ -456,6 +475,8 @@ class eZContentClassAttribute extends eZPersistentObject
     /// \privatesection
     /// Contains the content for this attribute
     var $Content;
+    /// Contains information on how to display the current attribute in various viewmodes
+    var $DisplayInfo;
     var $ID;
     var $Version;
     var $ContentClassID;

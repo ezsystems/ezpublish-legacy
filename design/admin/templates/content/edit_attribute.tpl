@@ -20,7 +20,7 @@
         {attribute_view_gui attribute_base=$attribute_base attribute=$from_content_attributes[$attributes.key]}
         </div>
         <div class="translation">
-        {section show=eq( ezini( 'EditSettings', $attributes.item.data_type_string, 'datatype.ini' ), 'multi' )}
+        {section show=$attributes.display_info.edit.grouped_input}
             <fieldset>
             {attribute_edit_gui attribute_base=$attribute_base attribute=$attributes.item}
             <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attributes.item.id}" />
@@ -31,7 +31,7 @@
         {/section}
         </div>
     {section-else}
-        {section show=eq( ezini( 'EditSettings', $attributes.item.data_type_string, 'datatype.ini' ), 'multi' )}
+        {section show=$attributes.display_info.edit.grouped_input}
             <fieldset>
             <legend{section show=$attributes.item.has_validation_error} class="message-error"{/section}>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.is_required}<span class="required">({'required'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}{section show=$attributes.item.is_information_collector}<span class="collector">({'information collector'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}</legend>
             {attribute_edit_gui attribute_base=$attribute_base attribute=$attributes.item}

@@ -446,6 +446,98 @@ class eZDataType
     }
 
     /*!
+      \virtual
+      Will return information on how the datatype should be represented in
+      the various display modes when used by an object.
+
+      If this method is reimplemented the implementor must call this method
+      with the new info array as second parameter.
+
+      \param $objectAttribute The content object attribute to return info for.
+      \param $mergeInfo A structure that must match the returned array, or \c false to ignore.
+                        Any entries here will override the default.
+      \return An array structure which contains:
+              - \c edit
+                - \c grouped_input - If \c true then the datatype has lots of input elements
+                                     that should be grouped. (e.g. in a fieldset)
+                                     EditSettings/GroupedInput in datatype.ini is used to
+                                     automatically determine this field
+                .
+              - \c view
+              - \c collection
+                - \c grouped_input - If \c true then the datatype has lots of input elements
+                                     that should be grouped. (e.g. in a fieldset)
+                                     CollectionSettings/GroupedInput in datatype.ini is used to
+                                     automatically determine this field
+                .
+              - \c result
+    */
+    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    {
+        $datatype = $objectAttribute->attribute( 'data_type_string' );
+        $ini =& eZINI::instance( 'datatype.ini' );
+        $editGrouped = in_array( $datatype, $ini->variable( 'EditSettings', 'GroupedInput' ) );
+        $collectionGrouped = in_array( $datatype, $ini->variable( 'CollectionSettings', 'GroupedInput' ) );
+
+        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+                       'view' => array(),
+                       'collection' => array( 'grouped_input' => $collectionGrouped ),
+                       'result' => array() );
+
+        if ( $mergeInfo )
+        {
+            // All entries in $mergeInfo will override the defaults
+            foreach ( array( 'edit', 'view', 'collection', 'result' ) as $view )
+            {
+                if ( isset( $mergeInfo[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $mergeInfo[$view] );
+            }
+        }
+        return $info;
+    }
+
+    /*!
+      \virtual
+      Will return information on how the datatype should be represented in
+      the various display modes when used by a class.
+
+      If this method is reimplemented the implementor must call this method
+      with the new info array as second parameter.
+
+      \param $classAttribute The content class attribute to return info for.
+      \param $mergeInfo A structure that must match the returned array, or \c false to ignore.
+                        Any entries here will override the default.
+      \return An array structure which contains:
+              - \c edit
+                - \c grouped_input - If \c true then the datatype has lots of input elements
+                                     that should be grouped. (e.g. in a fieldset)
+                                     ClassEditSettings/GroupedInput in datatype.ini is used to
+                                     automatically determine this field
+                .
+              - \c view
+    */
+    function &classDisplayInformation( &$classAttribute, $mergeInfo = false )
+    {
+        $datatype = $classAttribute->attribute( 'data_type_string' );
+        $ini =& eZINI::instance( 'datatype.ini' );
+        $editGrouped = in_array( $datatype, $ini->variable( 'ClassEditSettings', 'GroupedInput' ) );
+
+        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+                       'view' => array() );
+
+        if ( $mergeInfo )
+        {
+            // All entries in $mergeInfo will override the defaults
+            foreach ( array( 'edit', 'view' ) as $view )
+            {
+                if ( isset( $mergeInfo[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $mergeInfo[$view] );
+            }
+        }
+        return $info;
+    }
+
+    /*!
      Returns the content data for the given content object attribute.
     */
     function &objectAttributeContent( &$objectAttribute )

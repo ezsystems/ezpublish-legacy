@@ -55,6 +55,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function eZContentObjectAttribute( $row )
     {
         $this->Content = null;
+        $this->DisplayInfo = null;
         $this->HTTPValue = null;
         $this->ValidationError = null;
         $this->ValidationLog = null;
@@ -137,9 +138,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
-                                                      "is_a" => "isA"//,
-                                                      //'xml' => 'xml',
-                                                      //'xml_editor' => 'xmlEditor'
+                                                      "is_a" => "isA",
+                                                      'display_info' => 'displayInfo',
+                                                      'class_display_info' => 'classDisplayInfo'
                                                       ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectAttribute",
@@ -969,6 +970,40 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     \return Information on how to display the current attribute.
+             See eZDataType::objectDisplayInformation() for more information on what is returned.
+    */
+    function &displayInfo()
+    {
+        if ( !$this->DisplayInfo )
+        {
+            $dataType =& $this->dataType();
+            if ( is_object( $dataType ) )
+                $this->DisplayInfo =& $dataType->objectDisplayInformation( $this, false );
+        }
+        return $this->DisplayInfo;
+    }
+
+    /*!
+     \return Information on how to display the class attribute.
+             See eZDataType::classDisplayInformation() for more information on what is returned.
+     \note This is a copy of eZContentClassAttribute::displayInfo()
+    */
+    function &classDisplayInfo()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        if ( !$classAttribute->DisplayInfo )
+        {
+            $dataType =& $this->dataType();
+            if ( is_object( $dataType ) )
+            {
+                $classAttribute->DisplayInfo =& $dataType->classDisplayInformation( $classAttribute, false );
+            }
+        }
+        return $classAttribute->DisplayInfo;
+    }
+
+    /*!
      Returns the content action(s) for this attribute
     */
     function &contentActionList()
@@ -1170,6 +1205,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /// Contains the content for this attribute
     var $Content;
+
+    /// Contains information on how to display the current attribute in various viewmodes
+    var $DisplayInfo;
 
     /// Stores the is valid
     var $IsValid;

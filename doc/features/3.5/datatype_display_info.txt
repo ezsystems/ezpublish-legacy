@@ -1,0 +1,43 @@
+*Title: Display information for datatypes
+
+*Incentive:
+Make it possible for templates to find information to the
+display of a datatype in a specific viewmode.
+E.g to group multiple input elements in a fieldset tag.
+
+*Documentation:
+Two new attributes are available on an object attribute:
+- display_info - Returns info for the object
+- class_display_info - Returns info for the class (same as display_info on class)
+
+One new attribute is available on a class attribute:
+- display_info - Returns info for the class
+
+Object display info structure:
+- edit - Settings related to content edit mode
+  - grouped_input - Whether to group all input fields when displaying them
+- view - Settings related to content view mode
+- collection - Settings related to information collection mode
+  - grouped_input - Whether to group all input fields when displaying them
+- result - Settings related to information result mode
+
+Class display info structure:
+- edit - Settings related to content edit mode
+  - grouped_input - Whether to group all input fields when displaying them
+- view - Settings related to content view mode
+
+Example template usage:
+{section show=$attribute.display_info.edit.grouped_input}
+<fieldset>
+{section-else}
+<label>Name</label>
+{/section}
+
+INI settings:
+datatype.ini controls the default behaviour of the returned information.
+EditSettings:
+- GroupedInput - Contains a list of datatypes that will have its input grouped
+CollectionSettings:
+- GroupedInput - Contains a list of datatypes that will have its input grouped
+ClassEditSettings:
+- GroupedInput - Contains a list of datatypes that will have its input grouped
