@@ -151,7 +151,15 @@ class eZSearch
         include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
 
-        $searchTypesDefinition =& $searchEngine->supportedSearchTypes();
+        // This method was renamed in pre 3.5 trunk
+        if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
+        {
+            $searchTypesDefinition =& $searchEngine->supportedSearchTypes();  // new and correct
+        }
+        else
+        {
+            $searchTypesDefinition =& $searchEngine->suportedSearchTypes();  // deprecated
+        }
 
         $searchArray = array();
         $andSearchParts = array();

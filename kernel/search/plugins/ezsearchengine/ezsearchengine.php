@@ -1385,6 +1385,11 @@ class eZSearchEngine
         return $text;
     }
 
+    /*!
+     \static
+     \return Returns an array describing the supported search types in thie search engine.
+     \note It has been renamed. In eZ publish 3.4 and older it was (wrongly) named suportedSearchTypes().
+    */
     function &supportedSearchTypes()
     {
         $searchTypes = array( array( 'type' => 'attribute',
