@@ -1,6 +1,7 @@
 Changes from 3.4.0 to 3.5.0alpha1
 
 *Kernel:
+- Made content class group override keys optional based on .ini setting, disabled by default because of overhead.
 - Added attributes to fetch cache values of class_identifier and class_name in eZContentObjectTreeNode objects and eZContentObject objects
 - Added cache for contentclass attribute name, identifier and can translate value to minimize the number of SQL  queries.
 - Added memory cache for content object version objects.

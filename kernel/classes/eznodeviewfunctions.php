@@ -55,21 +55,31 @@ class eZNodeviewfunctions
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-        $class =& $object->attribute( 'content_class' );
+
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $classGroupOverrideEnabled = ( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' );
+
+        $keyArray = array();
+        $keyArray[] = array( 'object', $object->attribute( 'id' ) );
+        $keyArray[] = array( 'node', $node->attribute( 'node_id' ) );
+        $keyArray[] = array( 'parent_node', $node->attribute( 'parent_node_id' ) );
+        $keyArray[] = array( 'class', $object->attribute( 'contentclass_id' ) );
+        $keyArray[] = array( 'class_identifier', $node->attribute( 'class_identifier' ) );
+        $keyArray[] = array( 'view_offset', $offset );
+        $keyArray[] = array( 'viewmode', $viewMode );
+        $keyArray[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
+        $keyArray[] = array( 'depth', $node->attribute( 'depth' ) );
+        $keyArray[] = array( 'url_alias', $node->attribute( 'url_alias' ) );
+
+        if ( $classGroupOverrideEnabled )
+        {
+            $class =& $object->attribute( 'content_class' );
+
+            $keyArray[] = array( 'class_group', $class->attribute( 'ingroup_id_list' ) );
+        }
 
         $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
-                              array( 'node', $node->attribute( 'node_id' ) ),
-                              array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
-                              array( 'class', $object->attribute( 'contentclass_id' ) ),
-                              array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                              array( 'class_group', $class->attribute( 'ingroup_id_list' ) ),
-                              array( 'view_offset', $offset ),
-                              array( 'viewmode', $viewMode ),
-                              array( 'navigation_part_identifier', $navigationPartIdentifier ),
-                              array( 'depth', $node->attribute( 'depth' ) ),
-                              array( 'url_alias', $node->attribute( 'url_alias' ) )
-                              ) );
+        $res->setKeys( $keyArray );
 
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'viewmode', $viewMode );
@@ -111,17 +121,25 @@ class eZNodeviewfunctions
         $Result['section_id'] =& $object->attribute( 'section_id' );
         $Result['node_id'] =& $node->attribute( 'node_id' );
         $Result['navigation_part'] = $navigationPartIdentifier;
-        $Result['content_info'] = array( 'object_id' => $object->attribute( 'id' ),
-                                         'node_id' => $node->attribute( 'node_id' ),
-                                         'parent_node_id' => $node->attribute( 'parent_node_id' ),
-                                         'class_id' => $object->attribute( 'contentclass_id' ),
-                                         'class_identifier' => $class->attribute( 'identifier' ),
-                                         'class_group' => $class->attribute( 'ingroup_id_list' ),
-                                         'offset' => $offset,
-                                         'viewmode' => $viewMode,
-                                         'navigation_part_identifier' => $navigationPartIdentifier,
-                                         'node_depth' => $node->attribute( 'depth' ),
-                                         'url_alias' => $node->attribute( 'url_alias' ) );
+
+        $contentInfoArray = array();
+        $contentInfoArray['object_id'] = $object->attribute( 'id' );
+        $contentInfoArray['node_id'] = $node->attribute( 'node_id' );
+        $contentInfoArray['parent_node_id'] =  $node->attribute( 'parent_node_id' );
+        $contentInfoArray['class_id'] = $object->attribute( 'contentclass_id' );
+        $contentInfoArray['class_identifier'] = $node->attribute( 'class_identifier' );
+        $contentInfoArray['offset'] = $offset;
+        $contentInfoArray['viewmode'] = $viewMode;
+        $contentInfoArray['navigation_part_identifier'] = $navigationPartIdentifier;
+        $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
+        $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
+
+        if ( $classGroupOverrideEnabled )
+        {
+            $contentInfoArray['class_group'] = $class->attribute( 'ingroup_id_list' );
+        }
+
+        $Result['content_info'] = $contentInfoArray;
 
         // Check if time to live is set in template
         if ( $tpl->hasVariable( 'cache_ttl' ) )
