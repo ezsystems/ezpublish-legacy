@@ -139,14 +139,17 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     */
 	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
 	{
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans =& eZCharTransform::instance();
         $classList = $persistentData['classlist'];
+
 		if ( count( $classList ) == 1 )
 		{
 			$classID = $classList[0];
 			$class =& eZContentClass::fetch( $classID );
 			if ( $class )
 			{
-				$packageInformation['name'] = $class->attribute( 'name' );
+				$packageInformation['name'] = $trans->transformByGroup( $class->attribute( 'name' ), 'urlalias' );
 				$packageInformation['summary'] = 'Export of content class ' . $class->attribute( 'name' );
 				$packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ publish site';
 			}
