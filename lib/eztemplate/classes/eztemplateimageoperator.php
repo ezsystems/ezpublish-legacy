@@ -50,15 +50,18 @@
 */
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
+include_once( "lib/eztemplate/classes/eztemplateimagelayer.php" );
 
 class eZTemplateImageOperator
 {
     /*!
      Initializes the image operator with the operator name $name.
     */
-    function eZTemplateImageOperator( $name = "texttoimage" )
+    function eZTemplateImageOperator( $texttoimageName = "texttoimage",
+                                      $imageName = "image",
+                                      $imagefileName = "imagefile" )
     {
-        $this->Operators = array( $name );
+        $this->Operators = array( $texttoimageName, $imageName, $imagefileName );
         $this->FontDir = "";
         $this->CacheDir = "";
         $this->HTMLDir = "";
@@ -92,44 +95,54 @@ class eZTemplateImageOperator
     }
 
     /*!
+     \return true to tell the template engine that the parameter list exists per operator type.
+    */
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+
+    /*!
      See eZTemplateOperator::namedParameterList
     */
     function namedParameterList()
     {
-        return array( "class" => array( 'type' => 'string',
-                                        'required' => false,
-                                        'default' => $this->DefaultClass ),
-                      "family" => array( "type" => "string",
-                                         "required" => false,
-                                         "default" => null ),
-                      "pointsize" => array( "type" => "integer",
-                                            "required" => false,
-                                            "default" => null ),
-                      "angle" => array( "type" => "integer",
-                                        "required" => false,
-                                        "default" => null ),
-                      "bgcolor" => array( "type" => "mixed",
-                                          "required" => false,
-                                          "default" => null ),
-                      "textcolor" => array( "type" => "mixed",
-                                            "required" => false,
-                                            "default" => null ),
-                      "x" => array( "type" => "integer",
-                                    "required" => false,
-                                    "default" => null ),
-                      "y" => array( "type" => "integer",
-                                    "required" => false,
-                                    "default" => null ),
-                      "w" => array( "type" => "integer",
-                                    "required" => false,
-                                    "default" => null ),
-                      "h" => array( "type" => "integer",
-                                    "required" => false,
-                                    "default" => null ),
-                      "usecache" => array( "type" => "boolean",
-                                           "required" => false,
-                                           "default" => null )
-                      );
+        return array( 'texttoimage' => array( "class" => array( 'type' => 'string',
+                                                                'required' => false,
+                                                                'default' => $this->DefaultClass ),
+                                              "family" => array( "type" => "string",
+                                                                 "required" => false,
+                                                                 "default" => null ),
+                                              "pointsize" => array( "type" => "integer",
+                                                                    "required" => false,
+                                                                    "default" => null ),
+                                              "angle" => array( "type" => "integer",
+                                                                "required" => false,
+                                                                "default" => null ),
+                                              "bgcolor" => array( "type" => "mixed",
+                                                                  "required" => false,
+                                                                  "default" => null ),
+                                              "textcolor" => array( "type" => "mixed",
+                                                                    "required" => false,
+                                                                    "default" => null ),
+                                              "x" => array( "type" => "integer",
+                                                            "required" => false,
+                                                            "default" => null ),
+                                              "y" => array( "type" => "integer",
+                                                            "required" => false,
+                                                            "default" => null ),
+                                              "w" => array( "type" => "integer",
+                                                            "required" => false,
+                                                            "default" => null ),
+                                              "h" => array( "type" => "integer",
+                                                            "required" => false,
+                                                            "default" => null ),
+                                              "usecache" => array( "type" => "boolean",
+                                                                   "required" => false,
+                                                                   "default" => null )
+                                              ),
+                      'imagefile' => array( 'filename' => array( 'type' => 'string',
+                                                                 'required' => true ) ) );
     }
 
     /*!
@@ -388,134 +401,154 @@ class eZTemplateImageOperator
      text for the image.
      \todo Change the output to not use HTML but rather the path to the image.
     */
-    function modify( &$element, &$tpl, &$op_name, &$op_params, &$namespace, &$current_nspace, &$value, &$namedParameters )
+    function modify( &$element, &$tpl, &$operatorName, &$operatorParameters, &$namespace, &$current_nspace, &$inputValue, &$namedParameters )
     {
         if ( !$this->ImageGDSupported )
             return;
 
-        $class = $namedParameters['class'];
-
-        $family = $this->Family;
-        $size = $this->PointSize;
-        $angle = $this->Angle;
-        $xadj = $this->XAdjust;
-        $yadj = $this->YAdjust;
-        $wadj = $this->WAdjust;
-        $hadj = $this->HAdjust;
-        $usecache = $this->UseCache;
-        $bgcol = $this->color( "bgcolor" );
-        $textcol = $this->color( "textcolor" );
-
-        $ini =& eZINI::instance( 'texttoimage.ini' );
-        $family =& $ini->variable( 'DefaultSettings', 'Family' );
-        $size =& $ini->variable( 'DefaultSettings', 'PointSize' );
-        $angle =& $ini->variable( 'DefaultSettings', 'Angle' );
-        $xadj =& $ini->variable( 'DefaultSettings', 'XAdjustment' );
-        $yadj =& $ini->variable( 'DefaultSettings', 'YAdjustment' );
-        $wadj =& $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
-        $hadj =& $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
-        $bgcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
-        $textcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
-
-        if ( $ini->hasVariable( $class, 'Family' ) )
-            $family =& $ini->variable( $class, 'Family' );
-        if ( $ini->hasVariable( $class, 'PointSize' ) )
-            $size =& $ini->variable( $class, 'PointSize' );
-        if ( $ini->hasVariable( $class, 'Angle' ) )
-            $angle =& $ini->variable( $class, 'Angle' );
-        if ( $ini->hasVariable( $class, 'XAdjustment' ) )
-            $xadj =& $ini->variable( $class, 'XAdjustment' );
-        if ( $ini->hasVariable( $class, 'YAdjustment' ) )
-            $yadj =& $ini->variable( $class, 'YAdjustment' );
-        if ( $ini->hasVariable( $class, 'WidthAdjustment' ) )
-            $wadj =& $ini->variable( $class, 'WidthAdjustment' );
-        if ( $ini->hasVariable( $class, 'HeightAdjustment' ) )
-            $hadj =& $ini->variable( $class, 'HeightAdjustment' );
-        if ( $ini->hasVariable( $class, 'BackgroundColor' ) )
-            $bgcol =& $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
-        if ( $ini->hasVariable( $class, 'TextColor' ) )
-            $textcol =& $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
-
-        if ( $namedParameters['family'] !== null )
-            $family = $namedParameters["family"];
-        if ( $namedParameters["pointsize"] !== null )
-            $size = $namedParameters["pointsize"];
-        if ( $namedParameters["angle"] !== null )
-            $angle = $namedParameters["angle"];
-        if ( $namedParameters["x"] !== null )
-            $xadj = $namedParameters["x"];
-        if ( $namedParameters["y"] !== null )
-            $yadj = $namedParameters["y"];
-        if ( $namedParameters["w"] !== null )
-            $wadj = $namedParameters["w"];
-        if ( $namedParameters["h"] !== null )
-            $hadj = $namedParameters["h"];
-        if ( $namedParameters["usecache"] !== null )
-            $usecache = $namedParameters["usecache"];
-        if ( $namedParameters["bgcolor"] !== null )
-            $bgcol = $this->decodeColor( $namedParameters["bgcolor"] );
-        if ( $namedParameters["textcolor"] !== null )
-            $textcol = $this->decodeColor( $namedParameters["textcolor"] );
-
-        if ( preg_match( "/\.ttf$/", $family ) )
-            $family_file = $family;
-        else
-            $family_file = "$family.ttf";
-        if ( $this->FontDir != "" )
+        if ( $operatorName == 'texttoimage' )
         {
-            $font = $this->FontDir . "/$family_file";
-            if ( !file_exists( $font ) )
-                $font = $family;
-        }
-        else
-            $font = $family;
+            $class = $namedParameters['class'];
 
-        if ( $bgcol === null )
+            $family = $this->Family;
+            $size = $this->PointSize;
+            $angle = $this->Angle;
+            $xadj = $this->XAdjust;
+            $yadj = $this->YAdjust;
+            $wadj = $this->WAdjust;
+            $hadj = $this->HAdjust;
+            $usecache = $this->UseCache;
             $bgcol = $this->color( "bgcolor" );
-        if ( !is_array( $bgcol ) or
-             count( $bgcol ) < 3 )
-            $bgcol = array( 255, 255, 255 );
-        if ( $textcol === null )
             $textcol = $this->color( "textcolor" );
-        if ( !is_array( $textcol ) or
-             count( $textcol ) < 3 )
-            $textcol = array( 0, 0, 0 );
 
-        if ( is_string( $usecache ) )
-            $cnt = $usecache;
-        else
-            $cnt = md5( $value . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
-        if ( $usecache )
-            $file = "image-$cnt.png";
-        else
-            $file = "image-uncached-$cnt.png";
-        $output = $this->CacheDir . "/$file";
-        if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
-        {
-            $bbox = @ImageTTFBBox( $size, $angle, $font, $value );
-            if ( !$bbox )
+            $ini =& eZINI::instance( 'texttoimage.ini' );
+            $family =& $ini->variable( 'DefaultSettings', 'Family' );
+            $size =& $ini->variable( 'DefaultSettings', 'PointSize' );
+            $angle =& $ini->variable( 'DefaultSettings', 'Angle' );
+            $xadj =& $ini->variable( 'DefaultSettings', 'XAdjustment' );
+            $yadj =& $ini->variable( 'DefaultSettings', 'YAdjustment' );
+            $wadj =& $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
+            $hadj =& $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
+            $bgcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
+            $textcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
+
+            if ( $ini->hasVariable( $class, 'Family' ) )
+                $family =& $ini->variable( $class, 'Family' );
+            if ( $ini->hasVariable( $class, 'PointSize' ) )
+                $size =& $ini->variable( $class, 'PointSize' );
+            if ( $ini->hasVariable( $class, 'Angle' ) )
+                $angle =& $ini->variable( $class, 'Angle' );
+            if ( $ini->hasVariable( $class, 'XAdjustment' ) )
+                $xadj =& $ini->variable( $class, 'XAdjustment' );
+            if ( $ini->hasVariable( $class, 'YAdjustment' ) )
+                $yadj =& $ini->variable( $class, 'YAdjustment' );
+            if ( $ini->hasVariable( $class, 'WidthAdjustment' ) )
+                $wadj =& $ini->variable( $class, 'WidthAdjustment' );
+            if ( $ini->hasVariable( $class, 'HeightAdjustment' ) )
+                $hadj =& $ini->variable( $class, 'HeightAdjustment' );
+            if ( $ini->hasVariable( $class, 'BackgroundColor' ) )
+                $bgcol =& $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
+            if ( $ini->hasVariable( $class, 'TextColor' ) )
+                $textcol =& $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
+
+            if ( $namedParameters['family'] !== null )
+                $family = $namedParameters["family"];
+            if ( $namedParameters["pointsize"] !== null )
+                $size = $namedParameters["pointsize"];
+            if ( $namedParameters["angle"] !== null )
+                $angle = $namedParameters["angle"];
+            if ( $namedParameters["x"] !== null )
+                $xadj = $namedParameters["x"];
+            if ( $namedParameters["y"] !== null )
+                $yadj = $namedParameters["y"];
+            if ( $namedParameters["w"] !== null )
+                $wadj = $namedParameters["w"];
+            if ( $namedParameters["h"] !== null )
+                $hadj = $namedParameters["h"];
+            if ( $namedParameters["usecache"] !== null )
+                $usecache = $namedParameters["usecache"];
+            if ( $namedParameters["bgcolor"] !== null )
+                $bgcol = $this->decodeColor( $namedParameters["bgcolor"] );
+            if ( $namedParameters["textcolor"] !== null )
+                $textcol = $this->decodeColor( $namedParameters["textcolor"] );
+
+            $font =& new eZTemplateImageFont( $family, $size, $this->FontDir );
+
+            if ( $bgcol === null )
+                $bgcol = $this->color( "bgcolor" );
+            if ( !is_array( $bgcol ) or
+                 count( $bgcol ) < 3 )
+                $bgcol = array( 255, 255, 255 );
+            if ( $textcol === null )
+                $textcol = $this->color( "textcolor" );
+            if ( !is_array( $textcol ) or
+                 count( $textcol ) < 3 )
+                $textcol = array( 0, 0, 0 );
+
+            if ( is_string( $usecache ) )
+                $cnt = $usecache;
+            else
+                $cnt = md5( $inputValue . $family . $size . $angle . $xadj . $yadj . $wadj . $hadj . implode( ",", $bgcol ) . implode( ",", $textcol ) );
+            if ( $usecache )
+                $file = "image-$cnt.png";
+            else
+                $file = "image-uncached-$cnt.png";
+            $output = $this->CacheDir . "/$file";
+            if ( is_string( $usecache ) or !$usecache or !file_exists( $output ) )
             {
-                $tpl->error( $op_name, "Could not open font \"$family\"" );
-                return;
+                $layer =& eZTemplateImageLayer::createForText( $inputValue, $font,
+                                                               $wadj, $hadj, $angle );
+                if ( !$layer )
+                {
+                    $tpl->error( $operatorName, "Could not open font \"$family\", no image created" );
+                    return;
+                }
+                $layer->allocateColor( 'bgcol', $bgcol[0], $bgcol[1], $bgcol[2] );
+                $layer->allocateColor( 'textcol', $textcol[0], $textcol[1], $textcol[2] );
+                $layer->setTextColor( 'textcol' );
+
+                $bbox = $layer->textBoundingBox();
+
+                $layer->drawText( $inputValue, $bbox[6] + $xadj, -$bbox[7] + $yadj, $angle );
+
+                $layer->store( $file, $this->CacheDir, 'png' );
+                $layer->destroy();
             }
-
-            $width = $bbox[4] - $bbox[6];
-            $height = $bbox[1] - $bbox[7];
-
-            $width += $wadj;
-            $height += $hadj;
-
-            $im = ImageCreate( $width, $height );
-
-            $bgcolor = ImageColorAllocate( $im, $bgcol[0], $bgcol[1], $bgcol[2] );
-            $textcolor = ImageColorAllocate ($im, $textcol[0], $textcol[1], $textcol[2] );
-
-            ImageTTFText ( $im, $size, $angle, $bbox[6] + $xadj, -$bbox[7] + $yadj,
-                           $textcolor, $font, $value );
-            ImagePNG( $im, $output );
-            ImageDestroy( $im );
+            else
+                $layer =& eZTemplateImageLayer::createForFile( $file, $this->CacheDir, 'png' );
+            $layer->setAlternativeText( $inputValue );
+            $layer->setHTMLPath( $this->HTMLDir );
+            $inputValue = $layer;
         }
-        $value = "<img src=\"" . $this->HTMLDir . "/$file\" alt=\"$value\"/>";
+        else if ( $operatorName == 'image' )
+        {
+            $image = new eZTemplateImageObject();
+            $md5Input = 'image' . count( $operatorParameters );
+            foreach ( array_keys( $operatorParameters ) as $operatorParameterKey )
+            {
+                $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $namespace );
+                if ( get_class( $operatorParameter ) == 'eztemplateimagelayer' )
+                {
+                    $md5Input .= $operatorParameter->attribute( 'imagepath' ) . "\n";
+                    $image->addLayer( $operatorParameter );
+                }
+            }
+            if ( $image->flatten() )
+            {
+                $cnt = md5( $md5Input );
+                $file = "imageobject-$cnt.png";
+                $image->store( $file, $this->CacheDir, 'png' );
+                $image->setHTMLPath( $this->HTMLDir );
+                $inputValue = $image;
+            }
+        }
+        else if ( $operatorName == 'imagefile' )
+        {
+            $file =& $namedParameters['filename'];
+            $layer =& eZTemplateImageLayer::createForFile( $file, $this->CacheDir, 'png' );
+            $layer->setHTMLPath( $this->HTMLDir );
+            $inputValue = $layer;
+        }
     }
 
     /// \privatesection
@@ -527,7 +560,7 @@ class eZTemplateImageOperator
     var $FontDir;
     /// the directory were cache files are created, default is ""
     var $CacheDir;
-    /// the directory were html code fines the images, default is ""
+    /// the directory were html code finds the images, default is ""
     var $HTMLDir;
     /// the default font family, default is "arial"
     var $Family;

@@ -1,0 +1,1 @@
+<img src="{$image.imagepath}" alt="{$image.alternative_text}">

@@ -136,6 +136,9 @@ eZ template :
   content will only be included each n times, the parameter name is /modulo/. It's also possible to 
   specify the parameter /match/ which will be fetched and evaluated each time the delimiter is to
   be used, if the value is true the delimiter is used.
+- Added support for template objects, that's object which has a function called /templateData/
+  implemented. It will return an array which will either define pure text or a template to
+  be used for representing the object.
 
 eZ httpfile :
 - Added two more attributes for fetching the category and part of the mimetype

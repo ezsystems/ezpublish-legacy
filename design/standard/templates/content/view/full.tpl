@@ -5,6 +5,9 @@
 <tr>
 	<td>
 	{$object.name|texttoimage('archtura')}
+{*	{$object.name|imagefile('image-6f04edb50d1c35bf54e47ccb585d300a.png')} *}
+{*	{image($object.name|texttoimage('archtura'),'abc'|texttoimage('archtura'))} *}
+{* 	<h1>{$object.name}</h1> *}
 	</td>
 </tr>
 </table>

@@ -66,7 +66,7 @@ class eZTemplateVariableElement
     function process( &$tpl, &$text, $nspace, $current_nspace )
     {
         $value = $tpl->elementValue( $this->Variable, $nspace );
-        $text .= $value;
+        $tpl->appendElement( $text, $value, $nspace, $current_nspace );
     }
 
     /*!

@@ -1690,6 +1690,42 @@ class eZTemplate
     }
 
     /*!
+    */
+    function appendElement( &$text, &$item, $nspace, $name )
+    {
+        if ( is_object( $item ) )
+        {
+            $hasTemplateData = false;
+            if ( method_exists( $item, 'templateData' ) )
+            {
+                $templateData =& $item->templateData();
+                if ( is_array( $templateData ) and
+                     isset( $templateData['type'] ) )
+                {
+                    $templateType =& $templateData['type'];
+                    if ( $templateType == 'template' and
+                         isset( $templateData['uri'] ) and
+                         isset( $templateData['template_variable_name'] ) )
+                    {
+                        $templateURI =& $templateData['uri'];
+                        $templateVariableName =& $templateData['template_variable_name'];
+                        $templateText = '';
+                        include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+                        $this->setVariableRef( $templateVariableName, $item, $name );
+                        eZTemplateIncludeFunction::handleInclude( $templateText, $templateURI, $this, $nspace, $name );
+                        $this->appendElement( $text, $templateText, $nspace, $name );
+                        $hasTemplateData = true;
+                    }
+                }
+            }
+            if ( !$hasTemplateData )
+                $text .= 'Object(' . get_class( $item ) . ')';
+        }
+        else
+            $text .= $item;
+    }
+
+    /*!
      Registers the functions supplied by the object $func_obj.
      The object must have a function called functionList()
      which returns an array of functions this object handles.

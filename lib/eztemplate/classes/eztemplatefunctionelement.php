@@ -96,7 +96,8 @@ class eZTemplateFunctionElement
         $tmp =& $tpl->doFunction( $this->Name, $this, $nspace, $current_nspace );
         if ( $tmp === false )
             return;
-        $text .= $tmp;
+        $tpl->appendElement( $text, $tmp, $nspace, $current_nspace );
+//         $text .= $tmp;
     }
 
     /*!
