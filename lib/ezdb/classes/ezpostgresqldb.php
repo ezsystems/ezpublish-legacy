@@ -377,12 +377,12 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            foreach ( $this->supportedRelationTypes() as $relationKind )
+            foreach ( array ( EZ_DB_RELATION_TABLE, EZ_DB_RELATION_SEQUENCE ) as $relationType )
             {
-                $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationKind ) . "' AND relname like 'ez%'";
+                $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationType ) . "' AND relname like 'ez%'";
                 foreach ( $this->arrayQuery( $sql, array( 'column' => '0' ) ) as $result )
                 {
-                    $array[$result] = $relationKind;
+                    $array[$result] = $relationType;
                 }
             }
         }
@@ -404,7 +404,6 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "DROP $relationTypeName $relationName";
-            return $this->query( $sql );
         }
         return false;
     }
