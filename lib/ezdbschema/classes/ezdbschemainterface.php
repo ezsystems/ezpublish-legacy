@@ -458,6 +458,14 @@ class eZDBSchemaInterface
                     }
                 }
             }
+
+            // Update sequences for databases that require this
+            if ( method_exists( $this->DBInstance, 'correctSequenceValues' ) )
+            {
+                $status = $this->DBInstance->correctSequenceValues();
+                if ( !$status )
+                    return false;
+            }
         }
 
         $this->DBInstance->OutputSQL = $oldOutputSQL;
