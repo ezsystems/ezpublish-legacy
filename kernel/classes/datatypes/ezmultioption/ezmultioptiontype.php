@@ -34,9 +34,11 @@
 // you.
 
 /*!
-class eZMultiOption ezmultioption.php
-ingroup eZKernel
-brief eZMultiOption handles option set datatypes
+\class eZMultiOption ezmultioption.php
+\ingroup eZKernel
+\brief eZMultiOption handles option set datatypes
+
+ eZMultiOptionType class contains functions to perform specific tasks like validate objectattribute, fetch data from data structure, store variable to data structure  and also to perform specific tasks like to add or remove option or multioption to datastructure. while fetching attributeobject then it perform sorting data structure, this is special functionality that it sorts the data structure in ascending order of priority values.
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
@@ -47,7 +49,7 @@ define( "EZ_DATATYPESTRING_MULTIOPTION", "ezmultioption" );
 class eZMultiOptionType extends eZDataType
 {
     /*!
-     Constructor
+     Constructor to initialize the datatype.
     */
     function eZMultiOptionType()
     {
@@ -56,8 +58,8 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
+     Validates the input for this datatype.
+     \return True if input is valid.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
@@ -103,7 +105,7 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     Store content
+     This function calles xmlString function to create xml striln and then it Store the content.
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
@@ -170,8 +172,12 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-    Works for specific action like add/remove option or multi option as in this function explode function is used to
-    add/remove option and case is used to add/remove multioption.
+   This function performs specific action like add/remove option or multi option as in this function explode function is used to seperate $action in to several parts with delimeter '_', after explode function the varialble \c $actionlist[0] will contains the name of specific operation to perform like new-option,remove-selected-option etc and \c $actionlist[1] will contain the key value or id of the array for which the operation is to be performed. 
+   The various operation's that is performed by this function are as follow.
+   \a new-option This Option will add new option to a ezmultioption datatype.
+   \a remove-selected-option This option will remove option from ezmultioption datatype.
+   \a new_multioption This option will add new multioption to ezmultioption datatype.
+   \a remove_selected_multioption This option will remove all selected multioption
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
     {
@@ -201,21 +207,6 @@ class eZMultiOptionType extends eZDataType
                 {
                     //To add new MultiOption
                     $multioption =& $contentObjectAttribute->content();
-/*                    if ( $http->hasPostVariable( $postvarname ) )
-                    {
-                        $idArray = $http->postVariable( $postvarname );
-                        $beforeID = array_shift( $idArray );
-                        if ( $beforeID >= 0 )
-                        {
-                            $multioption->insertOption( array(), $beforeID );
-                            $contentObjectAttribute->setContent( $multioption );
-                            $contentObjectAttribute->store();
-                            $multioption = new eZMultiOption( "" );
-                            $multioption->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
-                            $contentObjectAttribute->setContent( $multioption );
-                            return;
-                        }
-                    }*/
                     $newID = $multioption->addMultiOption( "" ,0,false );
                     $multioption->addOption( $newID, "", "" );
                     $multioption->addOption( $newID, "", "" );
