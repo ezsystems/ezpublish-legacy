@@ -153,44 +153,6 @@ $ViewList['removeeditversion'] = array(
     'script' => 'removeeditversion.php',
     'params' => array( ) );
 
-$ViewList['exportpdf'] = array(
-    'script' => 'exportpdf.php',
-    'functions' => array( 'read', 'edit' ),
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'ExportPDFBrowse' => 'BrowseSource',
-                                    'ExportPDFButton' => 'Export',
-                                    'CreateExport' => 'CreateExport' ),
-    'post_action_parameters' => array( 'Export' => array( 'Title' => 'Title',
-                                                          'DisplayFrontpage' => 'DisplayFrontpage',
-                                                          'IntroText' => 'IntroText',
-                                                          'SubText' => 'SubText',
-                                                          'SourceNode' => 'SourceNode',
-                                                          'ExportType' => 'ExportType',
-                                                          'ClassList' => 'ClassList',
-                                                          'SiteAccess' => 'SiteAccess',
-                                                          'DestinationType' => 'DestinationType',
-                                                          'DestinationFile' => 'DestinationFile' ),
-                                       'BrowseSource' => array( 'Title' => 'Title',
-                                                                'DisplayFrontpage' => 'DisplayFrontpage',
-                                                                'IntroText' => 'IntroText',
-                                                                'SubText' => 'SubText',
-                                                                'ExportType' => 'ExportType',
-                                                                'ClassList' => 'ClassList',
-                                                                'SiteAccess' => 'SiteAccess',
-                                                                'DestinationType' => 'DestinationType',
-                                                                'DestinationFile' => 'DestinationFile' ) ),
-    'unordered_params' => array( 'language' => 'Language' ),
-    'params' => array( 'PDFExportID', 'PDFGenerate' ) );
-
-$ViewList['listpdf'] = array(
-    'script' => 'listpdf.php',
-    'functions' => array( 'read', 'edit' ),
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'NewPDFExport' => 'NewExport',
-                                    'RemoveExportButton' => 'RemoveExport' ),
-    'post_action_parameters' => array( 'RemoveExport' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
-    'unordered_params' => array( 'language' => 'Language' ) );
-
 $ViewList['download'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',

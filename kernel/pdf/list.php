@@ -42,7 +42,7 @@ include_once( 'kernel/classes/ezpdfexport.php' );
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
 {
-    return $Module->redirect( 'content', 'exportpdf' );
+    return $Module->redirect( 'pdf', 'export' );
 }
 //Remove existing PDF Export(s)
 else if ( $Module->isCurrentAction( 'RemoveExport' ) )
@@ -68,8 +68,8 @@ $tpl =& templateInit();
 $tpl->setVariable( 'pdfexport_list', $exportList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/listpdf.tpl" );
-$Result['path'] = array( array( 'url' => 'kernel/content',
-                                'text' => ezi18n( 'kernel/content', 'PDF Export' ) ) );
+$Result['content'] =& $tpl->fetch( "design:pdf/list.tpl" );
+$Result['path'] = array( array( 'url' => 'kernel/pdf',
+                                'text' => ezi18n( 'kernel/pdf', 'PDF Export' ) ) );
 
 ?>

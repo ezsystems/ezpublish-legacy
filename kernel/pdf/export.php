@@ -102,7 +102,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
-                                    'from_page' => '/content/exportpdf/'. $pdfExport->attribute( 'id' ) ),
+                                    'from_page' => '/pdf/export/'. $pdfExport->attribute( 'id' ) ),
                              $Module );
 }
 else if ( $Module->isCurrentAction( 'Export' ) )
@@ -111,12 +111,12 @@ else if ( $Module->isCurrentAction( 'Export' ) )
     {
         generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
         $pdfExport->store( 1 );
-        return $Module->redirect( 'content', 'listpdf' );
+        return $Module->redirect( 'pdf', 'list' );
     }
     else
     {
         $pdfExport->store( 2 );
-        return $Module->redirect( 'content', 'listpdf' );
+        return $Module->redirect( 'pdf', 'list' );
     }
 }
 
@@ -137,9 +137,9 @@ $tpl->setVariable( 'export_class_array', $classArray );
 $tpl->setVariable( 'pdfexport_list', eZPDFExport::fetchList() );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/export_pdf.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:pdf/export.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'content/pdf', 'PDF Export' ) ) );
+                                'text' => ezi18n( 'pdf/export', 'PDF Export' ) ) );
 
 /*!
  \generate and output PDF data, either to file or stream
