@@ -217,7 +217,7 @@ class eZContentBrowse
         }
 
         if ( !isset( $parameters['cancel_page'] ) )
-            $parameters['cance_page'] = false;
+            $parameters['cancel_page'] = false;
 
         if ( !isset( $parameters['from_page'] ) )
             eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );

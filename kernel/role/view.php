@@ -71,7 +71,8 @@ if ( $http->hasPostVariable( 'AssignRoleButton' ) )
 {
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
-                                    'from_page' => '/role/assign/' . $roleID ),
+                                    'from_page' => '/role/assign/' . $roleID,
+                                    'cancel_page' => '/role/view/'. $roleID ),
                              $Module );
 
     return;

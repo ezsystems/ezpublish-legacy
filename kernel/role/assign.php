@@ -83,7 +83,8 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
         case 'subtree':
         {
             eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
-                                            'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent ),
+                                            'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent,
+                                            'cancel_page' => '/role/view/' . $roleID ),
                                      $Module );
             return;
         } break;
@@ -115,12 +116,11 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
 else if ( is_numeric( $roleID ) )
 {
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
-                                    'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue ),
+                                    'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue,
+                                    'cancel_page' => '/role/view/' . $roleID ),
                              $Module );
 
     return;
 }
-
-
 
 ?>

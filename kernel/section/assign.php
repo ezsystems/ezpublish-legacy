@@ -68,7 +68,8 @@ else
     eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
                                     'description_template' => 'design:section/browse_assign.tpl',
                                     'content' => array( 'section_id' => $section->attribute( 'id' ) ),
-                                    'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/" ),
+                                    'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/",
+                                    'cancel_page' => '/section/list' ),
                              $Module );
     return;
 }
