@@ -547,6 +547,20 @@ Internal linking
 -----------------
 A browse function for linking internally to other pages. Similar to related object.
 
+Print pagelayout (and similar)
+---------------
+Add support for turning off warning list in page_mainarea.tpl for some pagelayouts.
+
+Sections
+---------------
+Fix the problems with sections when chaning main nodes (now it is not updated)
+Make it possible to assign section to just one object.
+Make it possible to assign section to only children of an object.
+
+eZ INI:
+--------------
+Text aren't escaped properly when storing as cache (eg. \ fails).
+
 Tables
 ----------
 css hover on table rows.
