@@ -128,8 +128,8 @@ $ViewList["templatecreate"] = array(
     "script" => "templatecreate.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride'
-                                    ),
+    'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride',
+                                    'CancelOverrideButton' => 'CancelOverride' ),
     "params" => array( ) );
 
 $ViewList["extensions"] = array(

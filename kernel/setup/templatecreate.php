@@ -190,6 +190,10 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
+else if( $module->isCurrentAction( 'CancelOverride' ) )
+{
+   $module->redirectTo( '/setup/templateview'. $template );
+}
 
 
 function &generateNodeViewTemplate( &$http, $template, $fileName )
