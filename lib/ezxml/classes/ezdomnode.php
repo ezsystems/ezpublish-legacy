@@ -269,9 +269,9 @@ class eZDOMNode
     }
 
     /*!
-     \returns the text contemt of first element that is named \a $name.
-              If multiple elements with that name is found \c false is returned.
-     \sa textContent
+     \returns the text content of first element that is named \a $name.
+     \note If multiple elements with that name is found \c false is returned.
+     \sa elementByName, textContent
     */
     function &elementTextContentByName( $name )
     {
@@ -316,8 +316,24 @@ class eZDOMNode
     }
 
     /*!
+     Finds the first element that is named \a $name then extracts the value
+     of the attribute named \a $attributeName on that element.
+     \return the attribute value if found.
+     \note If multiple elements with that name is found \c false is returned.
+     \sa elementByName, attributeValue
+    */
+    function &elementAttributeValueByName( $name, $attributeName )
+    {
+        $element =& $this->elementByName( $name );
+        if ( !$element )
+            return false;
+        return $element->attributeValue( $attributeName );
+    }
+
+    /*!
       Returns the attribute value for the given attribute.
       If no value is found false is returned.
+      \sa elementAttributeValueByName
     */
     function &attributeValues( $attributeDefinitions, $defaultValue = null )
     {
@@ -474,7 +490,8 @@ class eZDOMNode
 
     /*!
      Returns the contents of the node if it has one child which is a #text node.
-     False is returned if unsuccessful.
+     \c false is returned if unsuccessful.
+     \sa elementTextContentByName
     */
     function &textContent( )
     {

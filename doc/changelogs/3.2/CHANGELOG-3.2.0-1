@@ -156,6 +156,8 @@ eZ XML:
 - Added convenience function which allows fetching attribute names and values into PHP arrays.
 - Added convenience function to append multiple attribute values which are defined in a PHP array.
 - Added function to get all attributes in defined namespace.
+- Added convenience functions for fetching the text content and attribute value of a child
+  element by naming it.
 
 eZ i18n:
 - Added support for Unicode encoding which is an array with Unicode values. Conversion from
