@@ -83,8 +83,9 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     if( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );
 
-    $classID =& $object->contentClass();
-    if ( !$newParentNode->checkAccess( 'create', $classID ) )
+    $class =& $object->contentClass();
+
+    if ( $newParentNode->checkAccess( 'create', $class->attribute( 'id' ) ) != 1 )
     {
         $objectID =& $object->attribute( 'id' );
         eZDebug::writeError( "Cannot copy object $objectID to node $newParentNodeID, " .
@@ -92,8 +93,7 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
                              'content/copy' );
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
-    unset( $classID );
-
+    unset( $class );
 
     $db =& eZDB::instance();
     $db->begin();
