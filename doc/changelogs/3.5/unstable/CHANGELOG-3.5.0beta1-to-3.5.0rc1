@@ -5,7 +5,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 *Bugfixes:
 - Fixed bug: Workflow multiplexer doesn't store Users without workflow ID's
   http://ez.no/community/bug_reports/workflow_multiplexer_doesn_t_store_users_without_workflow_id_s
-  (Merged from stable/3.4 rev.9172)
+  (Merged from stable/3.4 rev. 9172)
 - Fixed bug: Deleting user account that is not yet activated caused fatal error when activating the account.
   (Merged from stable/3.3 rev. 9174, also in stable/3.4 rev. 9175)
   http://ez.no/community/bug_reports/deleting_user_account_not_activated
@@ -26,7 +26,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
   viewed node depth is greater.
   http://ez.no/community/bug_reports/contentstructure_javascript
 - Fixed bug: RSS exportlist will not have link if it is not active.
+  (Merged from stable/3.4 rev. 9211)
   http://www.ez.no/community/bug_reports/rss_part_view_not_found
-  stable 3.4 rev.9211
 - Fixed bug: Previous/Next Links in Gallery are wrong.
   http://ez.no/community/bug_reports/previous_next_links_in_gallery_are_wrong
