@@ -40,14 +40,30 @@
 /*!
   \class eZTestUnit eztestunit.php
   \ingroup eZTest
-  \brief The class eZTestUnit does
+  \brief eZTestUnit defines the basis for a unit test
+
+  This class provides basic functionality and interface
+  for creating test units. It keeps a list of tests and
+  a name which are accessible with testList() and name().
+
+  To add new tests use addTestEntry() with the appropriate
+  test data. What data to add to the entry is decided
+  by the test runner, see eZTestRunner for more information.
+
+  The methods setup() and teardown() will be called before
+  and after the test itself is run. This allows for common
+  initialization and cleanup code.
+
+  For more convenient test handling use the eZTestCase class,
+  it has ready made functionality for placing test code
+  in methods.
 
 */
 
 class eZTestUnit
 {
     /*!
-     Constructor
+     Initializes the unit with the name \a $name, if the name is \c false then the class name is used.
     */
     function eZTestUnit( $name = false )
     {
@@ -100,6 +116,7 @@ class eZTestUnit
     }
 
     /*!
+     \protected
      Adds a new test entry for the test list.
     */
     function addTestEntry( $entry )

@@ -42,6 +42,45 @@
   \ingroup eZTest
   \brief eZTestCase provides a base class for doing automated test cases
 
+  eZTestCase inherits from eZTestUnit and can be used in all
+  test suites and test runners. It provides an easy way of registering
+  test method using addTest().
+
+  To create a test case inherit this class and create some test methods
+  that takes one parameter \a $tr which is the current test runner.
+  The constructor must call the eZTestCase constructor with a useful
+  name and setup some test methods with addTest().
+
+  For running the tests you must pass the case to an eZTestRunner instance
+  or add it to a eZTestSuite object.
+
+  \code
+include_once( 'tests/classes/eztestcase.php' );
+class MyTest extends eZTest
+{
+    function MyTest()
+    {
+        $this->eZTest( 'My test case' );
+        $this->addTest( 'testFunctionA', 'Addition test' );
+        $this->addFunctionTest( 'MyFunctionTest', 'Addition test 2' );
+    }
+
+    function testFunctionA( &$tr )
+    {
+        $tr->assertEquals( 2 + 2, 4, '2+2 equals 4' );
+    }
+}
+
+function MyFunctionTest( &$tr )
+{
+    $tr->assertEquals( 2 + 2, 4, '2+2 equals 4' );
+}
+
+$case = new MyTest();
+$runner = new eZCLITestRunner();
+$runner->run( $case );
+  \endcode
+
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
@@ -50,7 +89,7 @@ include_once( 'tests/classes/eztestunit.php' );
 class eZTestCase extends eZTestUnit
 {
     /*!
-     Constructor
+     Initializes the case with the name \a $name which passed to eZTestUnit::eZTestUnit.
     */
     function eZTestCase( $name = false )
     {
@@ -59,6 +98,7 @@ class eZTestCase extends eZTestUnit
 
     /*!
      Adds a new test method \a $method. If \a $name is empty the method name is used as name.
+     \note If the method does not exist a warning is issued and the test will not be added the case.
     */
     function addTest( $method, $name = false )
     {
@@ -72,6 +112,23 @@ class eZTestCase extends eZTestUnit
         $this->addTestEntry( array( 'name' => $name,
                                     'object' => &$this,
                                     'method' => $method ) );
+    }
+
+    /*!
+     Adds a new test function \a $function. If \a $name is empty the function name is used as name.
+     \note If the function does not exist a warning is issued and the test will not be added the unit.
+    */
+    function addFunctionTest( $function, $name = false )
+    {
+        if ( !function_exists( $function ) )
+        {
+            eZDebug::writeWarning( "Test function $functuion in test " . $this->Name . " does not exist, cannot add",
+                                   'eZTestCase::addFunctionTest' );
+        }
+        if ( !$name )
+            $name = $method;
+        $this->addTestEntry( array( 'name' => $name,
+                                    'function' => $method ) );
     }
 }
 

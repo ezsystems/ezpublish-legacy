@@ -40,7 +40,14 @@
 /*!
   \class eZTestCLIRunner eztestclirunner.php
   \ingroup eZTest
-  \brief The class eZTestCLIRunner does
+  \brief eZTestRunner runs tests from test units and displays results on the console
+
+  This class overrides the display() method to provide instant
+  reporting of test results. Using this class is the same
+  as with the eZTestRunner class.
+
+  If you want to display all test results call the printResults() after
+  the tests have been run.
 
 */
 
@@ -49,7 +56,7 @@ include_once( 'tests/classes/eztestrunner.php' );
 class eZTestCLIRunner extends eZTestRunner
 {
     /*!
-     Constructor
+     Inititalizes the test runner.
     */
     function eZTestCLIRunner()
     {

@@ -39,7 +39,29 @@
 
 /*!
   \class eZTestSuite eztestsuite.php
+  \ingroup eZTest
   \brief eZTestSuite allows multiple test units to be run as one test
+
+  This class makes it easier to run multiple test cases or units
+  without resorting to multiple calls to run() on an eZTestRunner.
+  The suite will accumulate all tests into one test list.
+
+  Using this class is simply to create an instance with a name and
+  then add test units with addUnit(). The suite itself is also a
+  test unit so it is possible to add one suite to another as a
+  unit.
+
+  \code
+$suite = new eZTestSuite( 'Test of my system' );
+$mainTest = new MyMainTest();
+$subsystemTest = new MySubsystemTest();
+
+$suite->addUnit( $mainTest );
+$suite->addUnit( $subsystemTest );
+
+$runner = new eZTestCLIRunner();
+$runner->run( $suite );
+  \endcode
 
 */
 
@@ -48,7 +70,7 @@ include_once( 'tests/classes/eztestunit.php' );
 class eZTestSuite extends eZTestUnit
 {
     /*!
-     Initializes the test unit with the name \a $name.
+     Initializes the test suite with the name \a $name.
     */
     function eZTestSuite( $name = false )
     {
@@ -57,6 +79,7 @@ class eZTestSuite extends eZTestUnit
 
     /*!
      Adds all tests from the test unit \a $unit to this test suite.
+     \note If \a $unit is not a subclass of eZTestUnit a warning is issued and the tests are not added.
     */
     function addUnit( &$unit )
     {

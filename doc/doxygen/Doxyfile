@@ -327,6 +327,7 @@ INPUT                  = lib/ezdb/classes \
                          lib/ezutils/classes \
                          lib/eztemplate/classes \
                          lib/ezxml/classes \
+                         tests/classes \
                          kernel/classes \
                          kernel/common
 

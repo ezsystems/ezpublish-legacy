@@ -38,7 +38,7 @@
 */
 
 /*!
-  \defgroup eZTest Classes for dealing with testing software
+  \defgroup eZTest Testing of PHP code
 */
 
 /*!
@@ -46,6 +46,56 @@
   \ingroup eZTest
   \brief eZTestRunner runs tests from test units and accumulates test results
 
+  There are three uses of this class, as a client, as a test handler
+  and as a base class for a new runner.
+
+  <h3>Client usage</h3>
+  To run test cases and test suites an instance of this class
+  should be made and the method run() must be called with the
+  test unit.
+
+  Once the test is run you can check if all test were succesful with
+  isSuccessful(). Detailed test information can be fetched with
+  resultList().
+
+  <h3>Test handler</h3>
+  All tests that are run are sent an instance of an eZTestRunner
+  class as a parameter. The test must use this instance to
+  report failures.
+
+  The tests must use the methods assert(), assertEquals(),
+  assertNotEquals(), assertSimilar() and assertNotSimilar() for the runner
+  to know about failed tests. It is also possible to add a custom failure
+  with failure().
+
+  Some examples:
+  \code
+$tr = new eZTestRunner();
+
+function MyTests( &$tr )
+{
+    $tr->assert( $a > $b );
+    $tr->assertEquals( $c, $d );
+    $tr->assertNotEquals( $a, $b );
+    $tr->assertSimilar( $e, $f );
+    $tr->assertNotSimilar( $a, $b );
+    if ( $a - $b > $d )
+        $tr->failure( "\$a minus \$b is not larger than \$d" );
+}
+
+
+  \endcode
+
+  <h3>Base class</h3>
+  If you want to provide direct output of test results you must inherit
+  this class and override the display() method.
+
+  You can also add support for more test types by implementing the
+  testEntryType() and runTestEntry() methods. Optionally prepareTestEntry()
+  and finalizeTestEntry() can be implemented to add more specific
+  preparation and finalizing code.
+
+  To get output on console use eZTestCLIRunner instead.
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
@@ -77,59 +127,19 @@ class eZTestRunner
             $testList = $unit->testList();
             foreach ( $testList as $test )
             {
-                if ( isset( $test['method'] ) and
-                     isset( $test['object'] ) )
+                $type = $this->testEntryType( $unit, $test );
+                if ( $type )
                 {
-                    $object =& $test['object'];
-                    $method =& $test['method'];
-                    if ( method_exists( $object, $method ) )
-                    {
-                        $this->setCurrentTestName( $unit->name() . '::' . $test['name'] );
-                        $this->resetCurrentResult();
+                    $test['type'] = $type;
+                    $this->prepareTestEntry( $unit, $test );
 
-                        $object->setup();
-                        $object->$method( $this );
-                        $object->teardown();
-                        if ( !$this->isCurrentResultSuccessful() )
-                            $this->IsSuccessful = false;
+                    $this->runTestEntry( $unit, $test );
 
-                        $currentResult = $this->addCurrentResult();
-                        $this->setCurrentTestName( false );
-
-                        if ( $display )
-                            $this->display( $currentResult );
-
-                    }
-                    else
-                    {
-                        $this->addFailure( $test['name'],
-                                           "Method $method does not exist for test object(" . get_class( $object ) . ")" );
-                    }
+                    $this->finalizeTestEntry( $unit, $test, $display );
                 }
-                else if ( isset( $test['function'] ) )
-                {
-                    $function = $test['function'];
-                    if ( function_exists( $function ) )
-                    {
-                        $this->setCurrentTestName( $unit->name() . '::' . $test['name'] );
-                        $this->resetCurrentResult();
-
-                        $function( $this );
-                        if ( !$this->isCurrentResultSuccessful() )
-                            $this->IsSuccessful = false;
-
-                        $currentResult = $this->addCurrentResult();
-                        $this->setCurrentTestName( false );
-
-                        if ( $display )
-                            $this->display( $currentResult );
-                    }
-                    else
-                    {
-                        $this->addFailure( $test['name'],
-                                           "Function $function does not exist" );
-                    }
-                }
+                else
+                    $this->addFailure( $test['name'],
+                                       "Unknown test type for test " . $unit->name() . '::' . $test['name'] );
             }
         }
         else
@@ -141,6 +151,105 @@ class eZTestRunner
 
     /*!
      \virtual
+     \protected
+     Figures out the test type and returns a string identifiying it. The type
+     will be set in the test entry for other functions to use for checking.
+     \return \c false if the type could not be figure out, in which case the test is skipped.
+    */
+    function testEntryType( $unit, $entry )
+    {
+        if ( isset( $entry['method'] ) and
+             isset( $entry['object'] ) )
+        {
+            return 'method';
+        }
+        else if ( isset( $entry['function'] ) )
+        {
+            return 'function';
+        }
+        return false;
+    }
+
+    /*!
+     \virtual
+     \protected
+     Prepares the test for running, this involves setting the current test name
+     and resetting all current test restults.
+    */
+    function prepareTestEntry( &$unit, $entry )
+    {
+        $this->setCurrentTestName( $unit->name() . '::' . $entry['name'] );
+        $this->resetCurrentResult();
+    }
+
+    /*!
+     \virtual
+     \protected
+     Finalizes the test by applying the current test results to the main
+     result list and resetting current test name.
+     It will also call display() if \a $display is \c true.
+    */
+    function finalizeTestEntry( &$unit, $entry, $display )
+    {
+        if ( !$this->isCurrentResultSuccessful() )
+            $this->IsSuccessful = false;
+
+        $currentResult = $this->addCurrentResult();
+        $this->setCurrentTestName( false );
+
+        if ( $display )
+            $this->display( $currentResult );
+    }
+
+    /*!
+     \virtual
+     \protected
+     Runs the actual test entry based on the \c type value.
+
+     \note eZTestRunner supports \c 'method' and \c 'function' calls,
+           to get support for more test type this method must be overriden
+           in a subclass.
+    */
+    function runTestEntry( &$unit, $entry )
+    {
+        switch ( $entry['type'] )
+        {
+            case 'method':
+            {
+                $object =& $entry['object'];
+                $method =& $entry['method'];
+                if ( method_exists( $object, $method ) )
+                {
+                    $object->setup();
+                    $object->$method( $this );
+                    $object->teardown();
+                }
+                else
+                {
+                    $this->addFailure( $entry['name'],
+                                       "Method $method does not exist for test object(" . get_class( $object ) . ")" );
+                }
+            } break;
+
+            case 'function':
+            {
+                $function = $entry['function'];
+                if ( function_exists( $function ) )
+                {
+                    $function( $this );
+                }
+                else
+                {
+                    $this->addFailure( $entry['name'],
+                                       "Function $function does not exist" );
+                }
+            } break;
+        }
+    }
+
+    /*!
+     \virtual
+     \protected
      Called whenever a test is run, can be overriden to print out the test result immediately.
     */
     function display( $result )
@@ -165,6 +274,7 @@ class eZTestRunner
     }
 
     /*!
+     \protected
       Adds a failure for test \a $testName with optional message \a $message.
     */
     function addFailure( $testName, $message = false )
@@ -179,6 +289,7 @@ class eZTestRunner
     }
 
     /*!
+     \protected
       Adds a result for test \a $testName with optional message \a $message.
     */
     function addToCurrentResult( $status, $assertName, $testName, $message = false )
@@ -200,6 +311,7 @@ class eZTestRunner
     }
 
     /*!
+     \protected
      Adds the current result to the result list and resets the current result data.
     */
     function addCurrentResult()
@@ -210,6 +322,7 @@ class eZTestRunner
     }
 
     /*!
+     \protected
      Resets the current result data.
     */
     function resetCurrentResult()
@@ -221,6 +334,7 @@ class eZTestRunner
     }
 
     /*!
+     \protected
      \return \c true if the result of the currently run test is successful.
     */
     function isCurrentResultSuccessful()
@@ -239,11 +353,20 @@ class eZTestRunner
     }
 
     /*!
+     \protected
      Sets the name of the currently running test to \a $name.
     */
     function setCurrentTestName( $name )
     {
         $this->CurrentTestName = $name;
+    }
+
+    /*!
+     Adds a custom failure with message \a $message.
+    */
+    function failure( $message )
+    {
+        $this->addToCurrentResult( false, false, $this->currentTestName(), $message );
     }
 
     /*!
