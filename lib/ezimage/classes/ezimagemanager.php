@@ -996,12 +996,10 @@ class eZImageManager
                 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                 if ( $useCopy )
                 {
-                    print( "copy( " . $sourceMimeData['url'] . ", " . $destinationMimeData['url'] . " )<br/>" );
                     eZFileHandler::copy( $sourceMimeData['url'], $destinationMimeData['url'] );
                 }
                 else
                 {
-                    print( "linkCopy( " . $sourceMimeData['url'] . ", " . $destinationMimeData['url'] . " )<br/>" );
                     eZFileHandler::linkCopy( $sourceMimeData['url'], $destinationMimeData['url'] );
                 }
                 $currentMimeData = $destinationMimeData;
