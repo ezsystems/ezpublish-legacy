@@ -972,7 +972,6 @@ class eZContentObject extends eZPersistentObject
     */
     function purge( $id = false )
     {
-        $delID = $this->ID;
         if ( is_numeric( $id ) )
         {
             $delID = $id;
@@ -980,6 +979,7 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
+            $delID = $this->ID;
             $contentobject =& $this;
         }
         $db =& eZDB::instance();
