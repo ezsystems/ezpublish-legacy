@@ -104,7 +104,7 @@
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="5" /></td>
 </tr>
 <tr>
-    <td class="headlogo" width="120">
+    <td class="headlogo" width="130">
     {* Admin logo area *}
     &nbsp;
      </td>
@@ -190,7 +190,7 @@
 {* Top box END *}
 {cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 <tr>
-    <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
+    <td rowspan="2" width="130" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
 {* Left menu START *}
 
@@ -221,7 +221,6 @@
 
 
 {* Left menu END *}
-    <br />
 </td>
     <td class="mainarea" colspan="12"  valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat; background-position: left top;">
 
