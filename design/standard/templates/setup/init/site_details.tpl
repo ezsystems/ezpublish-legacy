@@ -88,9 +88,9 @@ The setup can continue with the initialization but may damage the present data."
             <div align="top">
                 {section show=eq( $site.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
                 {section show=$site.thumbnail}
-                    <img src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot}>
+                    <img class="site-type" src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot}>
                     {section-else}
-                    <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
+                    <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
                 {/section}
             </div>
 

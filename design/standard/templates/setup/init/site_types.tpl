@@ -28,9 +28,9 @@
       <td class="setup_site_templates">
             <label for="{$site.identifier|wash}">
             {section show=$site.thumbnail}
-              <img src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
+              <img class="site-type" src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
             {section-else}
-              <img src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}"  />
+              <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}"  />
             {/section}
             </label>
       </td>
@@ -44,7 +44,7 @@
       <tr>
       {section var=site2 loop=$site_types max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site2.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site2.identifier}">{$site2.name}</input>
+	    <input id="{$site2.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site2.identifier}" /><label for="{$site2.identifier|wash}">{$site2.name}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][identifier]" value="{$site2.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][name]" value="{$site2.name}" /> *}
 	  </td>
@@ -59,7 +59,7 @@
     <tr>
         {section var=site loop=$site_types offset=4 max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier|wash}">{$site.name|wash}</input>
+	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier|wash}" /><label for="{$site.identifier|wash}">{$site.name|wash}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][identifier]" value="{$:item.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][name]" value="{$site.name}" /> *}
 	  </td>
@@ -71,7 +71,7 @@
     <tr>
         {section var=site loop=$site_types max=4}
 	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier}">{$site.name}</input>
+	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier}" /><label for="{$site.identifier|wash}">{$site.name}</label>
 {*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][identifier]" value="{$site.identifier}" /> *}
 {*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][name]" value="{$site.name}" /> *}
 	  </td>

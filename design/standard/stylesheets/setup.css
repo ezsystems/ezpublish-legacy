@@ -243,3 +243,9 @@ div.input_highlight
     border-color: #505050;
     background-color: #f8f8f8;
 }
+
+img.site-type
+{
+    padding: 4px;
+    border: 1px solid #666;
+}
