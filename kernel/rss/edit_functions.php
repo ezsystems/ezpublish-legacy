@@ -44,7 +44,8 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     $config =& eZINI::instance( 'site.ini' );
     $cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
     $cacheFile = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
-    unlink( $cacheFile );
+    if ( file_exists( $cacheFile ) )
+        unlink( $cacheFile );
 
     /* Create the new RSS feed */
     for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
