@@ -162,6 +162,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.1) rev. 10940)
 - Fixed bug #6198: Time field as object name pattern for a class.
   (Merged from stable/3.5 (3.5.1) rev. 10944)
+- Fixed bug: infinite loop during RSS import.
+  (Merged from stable/3.5 (3.5.2) rev. 10974)
 
 *Library:
 PDF:
