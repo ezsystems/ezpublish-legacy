@@ -32,6 +32,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/bug_in_ezdatetime_class
 - Fixed bug with selection index id 
   http://ez.no/community/bug_reports/ezselection_options_id_jumping_0_to_2_skipping_1
+- Fixed bug with selection metadata, wrong index lookups
+  http://ez.no/community/bug_reports/fetch_search_searches_in_backend_coded_ezselections_and_not_actual_values
 
 *Library:
 
