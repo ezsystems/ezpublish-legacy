@@ -440,8 +440,6 @@ class eZPDFTable extends Cezpdf
         }
         switch ($options['xOrientation']){
             case 'left':
-                $dx = $xref-$t;
-            break;
             case 'right':
                 $dx = $xref;
             break;
@@ -454,8 +452,8 @@ class eZPDFTable extends Cezpdf
         foreach($pos as $key=>$value){
             $pos[$key] += $dx;
         }
-        $x0=$x+$dx;
-        $x1=$t+$dx;
+        $x0=$x+$dx + $options['gap']/2;
+        $x1=$t+$dx + $options['gap']/2;
 
         $baseLeftMargin = $this->leftMargin();
         $basePos = $pos;
@@ -691,7 +689,10 @@ class eZPDFTable extends Cezpdf
 
                                         $this->y = $storeY;
                                         $line=$textInfo['text'];
-                                        $this->y -= $textInfo['height'];
+                                        if ( $line == '' )
+                                        {
+                                            $this->y -= $textInfo['height'];
+                                        }
                                     }
                                 }
                             }
