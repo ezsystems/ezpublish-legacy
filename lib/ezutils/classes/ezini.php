@@ -777,6 +777,11 @@ class eZINI
             unlink( $filePath );
             return false;
         }
+
+        $siteConfig =& eZINI::instance( 'site.ini' );
+        $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
+        @chmod( $filePath, octdec( $filePermissions ) );
+
         if ( file_exists( $backupFilePath ) )
             unlink( $backupFilePath );
         if ( file_exists( $originalFilePath ) )
