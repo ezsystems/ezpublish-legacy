@@ -674,7 +674,7 @@ class eZObjectRelationListType extends eZDataType
             $redirectionURI = $parameters['current-redirection-uri'];
 
             $ini = eZINI::instance( 'content.ini' );
-            $browseType = 'AddRelatedObjectToDataType';
+            $browseType = 'AddRelatedObjectListToDataType';
             $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
             foreach ( $browseTypeINIVariable as $value )
             {
