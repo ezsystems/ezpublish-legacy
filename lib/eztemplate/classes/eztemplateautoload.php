@@ -117,6 +117,10 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'class' => 'eZTemplateBlockFunction',
                                     'function_names' => array( 'set-block', 'append-block', 'run-once' ) );
 
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',
+                                    'class' => 'eZTemplateCacheFunction',
+                                    'function_names' => array( 'cache-block' ) );
+
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage
 // for this operator class.

@@ -1017,7 +1017,6 @@ class eZModule
         if ( $searchPathList === null )
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
-//        print_r( $searchPathList );
         foreach ( $searchPathList as $path )
         {
             $file = "$path/$moduleName/module.php";

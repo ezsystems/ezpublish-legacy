@@ -258,6 +258,7 @@ class eZURI
         return $uri_obj;
     }
 
+
     /// The original URI string
     var $URI;
     /// The URI array
