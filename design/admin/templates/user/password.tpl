@@ -1,28 +1,41 @@
-<form action={concat( $module.functions.password.uri, '/', $userID )|ezurl} method="post" name="Password">
-<input type="hidden" name="RedirectOnCancel" value="/content/draft" />
-
+{* Feedbacks. *}
 {section show=$message}
-{section show=or($oldPasswordNotValid,$newPasswordNotMatch)}
+
+{section show=or( $oldPasswordNotValid, $newPasswordNotMatch )}
+    <div class="message-warning">
+    <h2>{'The password could not be changed.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n( shortdatetime )}</span></h2>
     {section show=$oldPasswordNotValid}
-        <div class="message-warning">
-            <h2>{'Please retype your old password.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
-        </div>
+        <ul>
+            <li>{'The old password was either missing or incorrect.'|i18n( 'design/admin/user/password' )}</li>
+            <li>{'Please retype the old password and try again.'|i18n( 'design/admin/user/password' )}</li>
+        <ul>
     {/section}
     {section show=$newPasswordNotMatch}
-        <div class="message-warning">
-            <h2>{"Password didn't match, please retype your new password."|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
-        </div>
+        <ul>
+            <li>{'The new passwords did not match.'|i18n( 'design/admin/user/password' )}</li>
+            <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
+        </ul>
     {/section}
+    </div>
 {section-else}
     <div class="message-feedback">
-        <h2>{'Password successfully updated.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
+        <h2>{'The password was successfully changed.'|i18n( 'design/admin/user/password' )}<span class="time">{currentdate()|l10n( shortdatetime )}</span></h2>
     </div>
 {/section}
 {/section}
 
+
+
+
+<form name="Password" method="post" action={concat( $module.functions.password.uri, '/', $userID )|ezurl}>
+
+<input type="hidden" name="RedirectOnCancel" value="/content/draft" />
+
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Change password for <%username>'|i18n( 'design/admin/user/password',, hash( '%username', $userAccount.login ) )|wash}</h2>
+
+<h1 class="context-title">{'Change password for <%username>'|i18n( 'design/admin/user/password',, hash( '%username', $userAccount.login ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -32,23 +45,27 @@
 
 <div class="context-attributes">
 
+{* Username. *}
 <div class="block">
-<label>{'Login'|i18n( 'design/admin/user/password' )}</label>
+<label>{'Username'|i18n( 'design/admin/user/password' )}</label>
 {$userAccount.login}
 </div>
 
+{* Old password. *}
 <div class="block">
 <label>{'Old password'|i18n( 'design/admin/user/password' )}</label>
-<input class="halfbox" type="password" name="oldPassword" value="{$oldPassword}" />
+<input class="halfbox" id="pass" type="password" name="oldPassword" value="{$oldPassword}" />
 </div>
 
+{* New password. *}
 <div class="block">
 <label>{'New password'|i18n( 'design/admin/user/password' )}</label>
 <input class="halfbox" type="password" name="newPassword" value="{$newPassword}" />
 </div>
 
+{* Confirm new password. *}
 <div class="block">
-<label>{'New password (retype)'|i18n( 'design/admin/user/password' )}</label>
+<label>{'Confirm new password'|i18n( 'design/admin/user/password' )}</label>
 <input class="halfbox" type="password" name="confirmPassword" value="{$confirmPassword}" />
 </div>
 
@@ -68,3 +85,17 @@
 </div>
 
 </form>
+
+
+
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        document.getElementById('pass').focus();
+    }
+-->
+</script>
+{/literal}
