@@ -46,7 +46,8 @@ alter table eznode_assignment add from_node_id int default 0;
 # alter table eznode_assignment add from_node_id int;
 # alter table eznode_assignment alter column from_node_id set default 0;
 
-# Beta 3 changes
+# After beta 3
+DROP TABLE IF EXISTS ezoperation_memento;
 CREATE TABLE ezoperation_memento (
 id int NOT NULL auto_increment,
 main_key int NOT NULL default 0,
@@ -55,7 +56,6 @@ memento_data text NOT NULL,
 main int NOT NULL default 0,
 PRIMARY KEY(id, memento_key) );
 
-# After beta 3
 alter table ezcontentclass_attribute add is_information_collector int not null default 0;
 
 alter table ezworkflow_group_link drop PRIMARY KEY;
