@@ -984,7 +984,15 @@ class eZPDFTable extends Cezpdf
      */
     function callTOC( $info )
     {
-        $this->insertTOC();
+        $params = array();
+
+        $this->extractParameters( $info['p'], 0, $params, true );
+
+        $sizes = isset( $params['size'] ) ? explode( ',', $params['size'] ) : '';
+        $indents = isset( $params['indent'] ) ? explode( ',', $params['indent'] ) : '';
+        $dots = isset( $params['dots'] ) ? $params['dots'] : '';
+
+        $this->insertTOC( $sizes, $indents, $dots );
     }
 
     /**

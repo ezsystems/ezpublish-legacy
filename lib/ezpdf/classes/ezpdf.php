@@ -84,9 +84,19 @@ class eZPDF
         {
             case 'toc':
             {
-                $specification = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+                $operatorValue = '<C:callTOC';
 
-                $operatorValue = '<C:callTOC>';
+                if ( count( $operatorParameters ) > 1 )
+                {
+                    $params = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                    $operatorValue .= isset( $params['size'] ) ? ':size:'. implode(',', $params['size'] ) : '';
+                    $operatorValue .= isset( $params['dots'] ) ? ':dots:'. $params['dots'] : '';
+                    $operatorValue .= isset( $params['indent'] ) ? ':indent:'. implode(',', $params['indent'] ) : '';
+
+                }
+
+                $operatorValue .= '>';
                 eZDebug::writeNotice( 'PDF: Generating TOC', 'eZPDF::modify' );
             } break;
 
