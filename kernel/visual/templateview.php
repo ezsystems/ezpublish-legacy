@@ -45,6 +45,7 @@ $ini =& eZINI::instance();
 $tpl =& templateInit();
 
 $template = "";
+
 foreach ( $parameters as $param )
 {
     $template .= "/$param";
@@ -110,6 +111,9 @@ if ( $module->isCurrentAction( 'UpdateOverride' ) )
     }
 }
 
+$overrideINISaveFailed = false;
+$notRemoved = array();
+
 if ( $module->isCurrentAction( 'RemoveOverride' ) )
 {
     if ( $http->hasPostVariable( 'RemoveOverrideArray' ) )
@@ -141,10 +145,14 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
             }
             else
             {
-                eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
+                $notRemoved[] = array( 'filename' => $fileName );
+                // eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
             }
         }
-        $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
+        if ( $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" ) == false )
+        {
+            $overrideINISaveFailed = true;
+        }
 
         // Expire content view cache
         $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
@@ -173,6 +181,8 @@ if ( !isset( $templateSettings['custom_match'] ) )
 
 $tpl->setVariable( 'template_settings', $templateSettings );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
+$tpl->setVariable( 'not_removed', $notRemoved );
+$tpl->setVariable( 'ini_not_saved', $overrideINISaveFailed );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templateview.tpl" );

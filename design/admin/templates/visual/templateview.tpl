@@ -1,3 +1,26 @@
+{section show=or( $not_removed, $ini_not_saved )}
+<div class="message-error">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Removing of selected template overrides unsuccessful'|i18n( 'design/admin/visual/templateview' )}</h2>
+
+{section show=$not_removed}
+<p>{'The following files and corresponding overrides could not be removed because of insufficient permissions:'|i18n( 'design/admin/visual/templateview' )}</p>
+<ul>
+
+{section var=item loop=$not_removed}
+    <li>{$item.filename}</li>
+{/section}
+
+</ul>
+{/section}
+
+{section show=$ini_not_saved}
+<p>{'The override.ini file could not be modified because of insufficient permissions.'|i18n( 'design/admin/visual/templateview' )}</p>
+{/section}
+
+</div>
+{/section}
+
+
 <form method="post" name="templateview" action={concat( '/visual/templateview', $template_settings.template )|ezurl}>
 
 <div class="context-block">
