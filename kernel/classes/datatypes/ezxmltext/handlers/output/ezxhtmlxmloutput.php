@@ -348,7 +348,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         foreach ( $tagChildren as $childTag )
         {
             if ( $tag->name() == "literal" )
-                $childTagText .= trim( $childTag->content() );
+                $childTagText .= $childTag->content();
             else
                 $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
         }
