@@ -380,7 +380,8 @@ include_once( 'kernel/classes/eznavigationpart.php' );
 while ( $moduleRunRequired )
 {
     if ( $urlTranslatorAllowed and
-         $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
+         $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
+         !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurltranslator.php' );
         $urlInstance =& eZURLTranslator::instance();
@@ -400,6 +401,7 @@ while ( $moduleRunRequired )
 
     $displayMissingModule = false;
     $oldURI = $uri;
+
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
