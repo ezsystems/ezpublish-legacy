@@ -45,7 +45,7 @@ define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
 */
 function prepareSqlQuery( &$file, &$buffer )
 {
-    
+
     $sqlQueryArray = array();
     while( count( $sqlQueryArray ) == 0 && !feof( $file ) )
     {
@@ -212,7 +212,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                                'socket' => $dbSocket,
                                'database' => $dbName,
                                'charset' => $dbCharset );
-        $db =& eZDB::instance( $dbDriver, $dbParameters );
+        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $dbStatus['connected'] = $db->isConnected();
 
         $dbError = false;

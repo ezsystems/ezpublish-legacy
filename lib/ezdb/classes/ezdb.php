@@ -131,13 +131,14 @@ class eZDB
     /*!
       \static
       Returns an instance of the database object.
+      If you want to change the current database values you should set \a $forceNewInstance to \c true to force a new instance.
     */
-    function &instance( $databaseImplementation = false, $databaseParameters = false )
+    function &instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = true )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
 
         $class =& get_class( $impl );
-        if ( !preg_match( '/.*?db/', $class ) )
+        if ( !preg_match( '/.*?db/', $class ) or $forceNewInstance )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();

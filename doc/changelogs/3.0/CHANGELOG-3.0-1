@@ -214,6 +214,8 @@ eZ db:
 - Fixed correct lastSerialID when running in master/slave configuration
 - Fixed sending "create temporary" queries to slave server ( pr connection memory tables )
 - Fixed problem when master db server was not available in MySQL master/slave setup
+- It is now possible to force a new instance when requesting an instance, this makes
+  is possible to change db setting even if an instance already exists.
 
 eZ debug:
 - The popup window was fixed to use the var directory and works on non-virtual hosts as well.
