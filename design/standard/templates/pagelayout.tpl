@@ -1,7 +1,6 @@
 {*?template charset=utf8?*}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
@@ -45,7 +44,7 @@
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
     <td class="topbox" width="20%" valign="bottom">
-	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n}" />
+	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
 {*    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p> *}
@@ -288,4 +287,3 @@
 
 </body>
 </html>
-
