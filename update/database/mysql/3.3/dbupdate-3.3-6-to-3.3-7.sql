@@ -12,5 +12,5 @@ ALTER TABLE ezsearch_word DROP KEY ezsearch_word;
 ALTER TABLE ezsearch_word CHANGE word word blob;
 ALTER TABLE ezsearch_word ADD KEY ezsearch_word (word(50));
 
-UPDATE ezcontentobject_attribute SET sort_key_string = data_text WHERE data_type_string = 'ezstring';
+UPDATE ezcontentobject_attribute SET sort_key_string = LOWER( data_text ) WHERE data_type_string = 'ezstring';
 
