@@ -240,25 +240,25 @@ class eZUser extends eZPersistentObject
     */
     function authenticationMatch()
     {
-    	include_once( 'lib/ezutils/classes/ezini.php' );
-    	$ini =& eZINI::instance();
-    	$matchArray = $ini->variableArray( 'UserSettings', 'AuthenticateMatch' );
-    	$match = 0;
-    	foreach ( $matchArray as $matchItem )
-    	{
-    	    switch ( $matchItem )
-    	    {
-    	    	case "login":
-    	    	{
-    	    	    $match = ( $match | EZ_USER_AUTHENTICATE_LOGIN );
-    	    	} break;
-    	    	case "email":
-    	    	{
-    	    	    $match = ( $match | EZ_USER_AUTHENTICATE_EMAIL );
-    	    	} break;
-    	    }
-    	}
-    	return $match;
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $matchArray = $ini->variableArray( 'UserSettings', 'AuthenticateMatch' );
+        $match = 0;
+        foreach ( $matchArray as $matchItem )
+        {
+            switch ( $matchItem )
+            {
+                case "login":
+                {
+                    $match = ( $match | EZ_USER_AUTHENTICATE_LOGIN );
+                } break;
+                case "email":
+                {
+                    $match = ( $match | EZ_USER_AUTHENTICATE_EMAIL );
+                } break;
+            }
+        }
+        return $match;
     }
 
     /*!
@@ -285,7 +285,12 @@ class eZUser extends eZPersistentObject
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
 
-        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login FROM ezuser WHERE $loginText";
+        $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+                  FROM ezuser, ezcontentobject
+                  WHERE ( $loginText ) AND
+                        ezcontentobject.status='$contentObjectStatus' AND
+                        ezcontentobject.id=contentobject_id";
 
         $users =& $db->arrayQuery( $query );
         $exists = false;
@@ -302,9 +307,9 @@ class eZUser extends eZPersistentObject
                 $exists = eZUser::authenticateHash( $userRow['login'], $password, eZUser::site(),
                                                     $hashType,
                                                     $hash );
-                eZDebug::writeDebug( eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                         $hashType ), "check hash" );
-                eZDebug::writeDebug( $hash, "stored hash" );
+                eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                                               $hashType ), "check hash" );
+                eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                 if ( $exists )
                 {
                     $userSetting = eZUserSetting::fetch( $userID );
@@ -315,7 +320,7 @@ class eZUser extends eZPersistentObject
                         $hashType = eZUser::hashType();
                         $hash = eZUser::createHash( $login, $password, eZUser::site(),
                                                     $hashType );
-                        $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE contentobject_id = '$userID'" );
+                        $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE contentobject_id='$userID'" );
                     }
                     break;
                 }
@@ -323,9 +328,9 @@ class eZUser extends eZPersistentObject
         }
         if ( $exists and $isEnabled )
         {
-            eZDebug::writeDebug( $userRow, 'user row' );
+            eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
             $user =& new eZUser( $userRow );
-            eZDebug::writeDebug( $user, 'user' );
+            eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $GLOBALS["eZUserGlobalInstance"] =& $user;
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             return $user;
@@ -503,7 +508,7 @@ class eZUser extends eZPersistentObject
     function createHash( $user, $password, $site, $type )
     {
         $str = '';
-//         eZDebug::writeDebug( "'$user' '$password' '$site'", "ezuser($type)" );
+//         eZDebugSetting::writeDebug( 'kernel-user', "'$user' '$password' '$site'", "ezuser($type)" );
         if( $type == EZ_USER_PASSWORD_HASH_MD5_USER )
         {
             $str = md5( "$user\n$password" );
@@ -524,7 +529,7 @@ class eZUser extends eZPersistentObject
         {
             $str = md5( $password );
         }
-//         eZDebug::writeDebug( $str, "ezuser($type)" );
+//         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
     }
 

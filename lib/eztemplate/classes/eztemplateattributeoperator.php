@@ -89,7 +89,7 @@ class eZTemplateAttributeOperator
                                               "default" => "" ),
                       "max_val" => array( "type" => "numerical",
                                           "required" => false,
-                                          "default" => 10 ),
+                                          "default" => 2 ),
                       "as_html" => array( "type" => "boolean",
                                           "required" => false,
                                           "default" => true ) );

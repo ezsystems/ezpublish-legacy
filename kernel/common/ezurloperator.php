@@ -111,13 +111,16 @@ class eZURLOperator
                         else
                             $ini =& eZINI::instance();
                         if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
+                        {
                             $operatorValue = $ini->variable( $iniGroup, $iniVariable );
+                        }
                         else
                         {
                             if ( $iniName === false )
                                 $iniName = 'site.ini';
                             $tpl->error( $operatorValue, "No such variable '$iniVariable' in group '$iniGroup' for $iniName" );
                         }
+                        return;
                     }
                     else
                         $tpl->error( $operatorName, "Missing variable name parameter" );
