@@ -63,7 +63,7 @@ if ( strlen( $hashKey ) == 32 )
 
     $userToSendEmail =& $user;
     $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
-
+    $user->store();
 
     include_once( "kernel/common/template.php" );
     include_once( 'lib/ezutils/classes/ezmail.php' );
