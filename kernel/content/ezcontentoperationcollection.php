@@ -159,8 +159,11 @@ class eZContentOperationCollection
         $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
 
         $object->setAttribute( 'current_version', $versionNum );
+        if ( $versionNum == 1 )
+        {
+            $object->setAttribute( 'published', mktime() );
+        }
         $object->setAttribute( 'modified', mktime() );
-        $object->setAttribute( 'published', mktime() );
         $object->store();
 
         $class =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
