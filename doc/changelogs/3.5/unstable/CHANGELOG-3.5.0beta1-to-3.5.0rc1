@@ -74,6 +74,8 @@ Datatype:
 - Fixed bug of no warning messages shows when xml data are not valid.
   http://ez.no/community/bug_reports/xml_field_validation_trouble
 - Fixed bug: ezsqldiff.php did not accept empty db user passwords.
+- Fixed bug: Search is not working when only search from visiable nodes.
+  http://ez.no/community/bug_reports/search_doesn_t_work
 
 *Library:
 

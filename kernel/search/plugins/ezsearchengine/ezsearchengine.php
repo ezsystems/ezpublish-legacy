@@ -868,12 +868,12 @@ class eZSearchEngine
                                                $classAttributeQuery
                                                $searchPartText
                                                $subTreeSQL
-                                               $showInvisibleNodesCond
                                          ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                                          ezcontentobject.contentclass_id = ezcontentclass.id and
                                          ezcontentclass.version = '0' and
                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                         $showInvisibleNodesCond
                                          $sqlPermissionCheckingString" );
                     }
                     else
@@ -895,12 +895,12 @@ class eZSearchEngine
                                           $classAttributeQuery
                                           $searchPartText
                                           $subTreeSQL
-                                          $showInvisibleNodesCond
                                           ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                                           ezcontentobject.contentclass_id = ezcontentclass.id and
                                           ezcontentclass.version = '0' and
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                          $showInvisibleNodesCond
                                           $sqlPermissionCheckingString" );
                     }
                     $i++;
