@@ -613,6 +613,10 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
 
             eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $objectID, false,
                                                        $newMainNode->attribute( 'parent_node_id' ) );
+
+            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            eZContentCacheManager::clearObjectViewCache( $objectID, true );
+            eZContentObject::expireTemplateBlockCacheIfNeeded();
         }
     }
     else
