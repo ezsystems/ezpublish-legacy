@@ -256,12 +256,21 @@ class eZTemplateArrayOperator
             break;
         }
 
-        // Are we operating on arrays?
+        $isArray = false;
+        if ( is_array( $operatorParameters[0] ) )
+            $isArray = true;
+
         if ( is_array( $operatorValue ) )
+            $isArray = true;
+
+        // Are we operating on arrays?
+        if ( $isArray )
         {
             switch( $operatorName )
             {
                 // Append or prepend an array (or single elements) to the target array:
+                case $this->ArrayPrependName:
+                case $this->ArrayAppendName:
                 case $this->PrependName:
                 case $this->AppendName:
                 {
@@ -299,10 +308,12 @@ class eZTemplateArrayOperator
                         $operatorValue = array_merge( $tmpArray, $mainArray );
                     else
                         $operatorValue = array_merge( $mainArray, $tmpArray );
+
                 }
                 break;
 
                 // Merge two arrays:
+                case $this->ArrayMergeName:
                 case $this->MergeName:
                 {
                     $tmpArray   = array();
