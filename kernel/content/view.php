@@ -146,13 +146,14 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
                                   array( 'node', $Result['content_info']['node_id'] ),
                                   array( 'parent_node', $Result['content_info']['parent_node_id'] ),
                                   array( 'class', $Result['content_info']['class_id'] ),
-                                  array( 'class_identifier', $Result['content_info']['class_identifier'] ),
                                   array( 'view_offset', $Result['content_info']['offset'] ),
                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
                                   array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                   array( 'depth', $Result['content_info']['node_depth'] ),
                                   array( 'url_alias', $Result['content_info']['url_alias'] )
                                   ) );
+            if ( isset( $Result['content_info']['class_identifier'] ) )
+                $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
             return $Result;
         }
     }
@@ -213,13 +214,14 @@ switch( $operationResult['status'] )
                                               array( 'node', $Result['content_info']['node_id'] ),
                                               array( 'parent_node', $Result['content_info']['parent_node_id'] ),
                                               array( 'class', $Result['content_info']['class_id'] ),
-                                              array( 'class_identifier', $Result['content_info']['class_identifier'] ),
                                               array( 'view_offset', $Result['content_info']['offset'] ),
                                               array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                               array( 'viewmode', $Result['content_info']['viewmode'] ),
                                               array( 'depth', $Result['content_info']['node_depth'] ),
                                               array( 'url_alias', $Result['content_info']['url_alias'] )
                                               ) );
+                        if ( isset( $Result['content_info']['class_identifier'] ) )
+                            $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
                         return $Result;
                     }
                 }
