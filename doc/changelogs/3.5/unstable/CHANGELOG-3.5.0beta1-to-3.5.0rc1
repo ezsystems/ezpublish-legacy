@@ -115,6 +115,9 @@ Datatype:
   http://ez.no/community/bug_reports/3_5_typo_in_ezcontentobjectattribute_serialize
 - Fixed bug with adjustment of datetime:
   http://ez.no/community/bug_reports/ez_datetime_datatype_malfunction
+- Fixed problem with the decimal separator and compiled templates
+  http://ez.no/community/bug_reports/compiled_template_and_decimalsymbol_problem_parse_error
+  (Merged from stable/3.4, rev. 9674)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
