@@ -27,7 +27,7 @@
 
 {section show=ne( $ui_context, 'browse')}
 <ul>
-    <li><a href={'role/list/'|ezurl} title="{'Manage permission settings.'|i18n( 'design/admin/parts/user/menu' )}">{'Roles'|i18n( 'design/admin/parts/user/menu' )}</a></li>
+    <li><a href={'role/list/'|ezurl} title="{'Manage permission settings.'|i18n( 'design/admin/parts/user/menu' )}">{'Roles and policies'|i18n( 'design/admin/parts/user/menu' )}</a></li>
 </ul>
 
 {* Trashcan. *}
