@@ -21,21 +21,24 @@
 	{$Section:item.name}
 	</td>
 	<td class="{$Section:sequence}">
-	<a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}>[{"edit"|i18n("design/standard/section")}]</a>
+	<a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.png"|ezimage}/></a>
 	</td>
 	<td class="{$Section:sequence}">
-	<a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}>[{"assign"|i18n("design/standard/section")}]</a>
+	<a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}><img src={"attach.png"|ezimage}/></a>
 	</td>
-	<td class="{$Section:sequence}">
+	<td class="{$Section:sequence}" width="1" align="right">
 	<input type="checkbox" name="SectionIDArray[]" value="{$Section:item.id}" />
 	</td>	
 </tr>
 {/section}
+<tr>
+  <td colspan="4">
+    <input class="button" type="submit" name="CreateSectionButton" value="{'New'|i18n('design/standard/section')}" />
+  </td>
+  <td width="1" align="right">
+    <input type="image" name="RemoveSectionButton" value="{'Remove'|i18n('design/standard/section')}" src={"trash.png"|ezimage} />
+  </td>
+<tr>
 </table>
-
-<div class="buttonblock">
-<input class="button" type="submit" name="CreateSectionButton" value="{'New'|i18n('design/standard/section')}" />
-<input class="button" type="submit" name="RemoveSectionButton" value="{'Remove'|i18n('design/standard/section')}" /> 
-</div>
 
 </form>

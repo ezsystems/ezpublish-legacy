@@ -54,8 +54,7 @@
     </div>
   </td>
   <td align="right">
-{*    {include uri="design:gui/button.tpl" name=RemoveGroup id_name=RemoveGroupButton value="Remove from groups"|i18n("design/standard/class/edit")}*}
-    <input class="button" type="image" name="RemoveGroupButton" value="{'Remove from groups'|i18n('design/standard/class/edit')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveGroupButton" value="{'Remove from groups'|i18n('design/standard/class/edit')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>
@@ -175,7 +174,11 @@
     {include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"|i18n("design/standard/class/edit")}
     </div>
   </td>
-  <td colspan="4" align="right">{section show=$attributes}{include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/edit")}{section-else}&nbsp;{/section}</td>
+  <td colspan="4" align="right">
+  {section show=$attributes}
+    {include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/edit")}
+  {section-else}&nbsp;{/section}
+  </td>
 </tr>
 </table>
 

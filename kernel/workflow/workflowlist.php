@@ -93,7 +93,7 @@ $user =& eZUser::currentUser();
 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 $workflow_list = & eZWorkflow::fetchList( );
 
-$list =array();
+$list = array();
 for ( $i=0;$i<count( $workflow_list );$i++ )
 {
     for ( $j=0;$j<count( $list_in_group );$j++ )

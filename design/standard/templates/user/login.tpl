@@ -23,7 +23,7 @@
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
+<input class="defaultbutton" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
 

@@ -31,7 +31,7 @@
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="OKButton" value="{'OK'|i18n('design/standard/user')}" />
+<input class="defaultbutton" type="submit" name="OKButton" value="{'OK'|i18n('design/standard/user')}" />
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/user')}" />
 </div>
 

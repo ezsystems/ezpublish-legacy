@@ -6,11 +6,11 @@
 
 <table width="100%" cellspacing="0" cellpadding="2">
 <tr>
-	<th align="left">{"Language"|i18n("design/standard/content")}</th>
-	<th align="left">{"Country"|i18n("design/standard/content")}</th>
-	<th align="left">{"Locale"|i18n("design/standard/content")}</th>
-{*	<th align="left">{"Edit"|i18n("design/standard/content")}</th>*}
-        <th width="1%" align="right">{"Remove"|i18n("design/standard/content")}</th>
+	<th align="left">{"Language:"|i18n("design/standard/content")}</th>
+	<th align="left">{"Country:"|i18n("design/standard/content")}</th>
+	<th align="left">{"Locale:"|i18n("design/standard/content")}</th>
+{*	<th align="left">{"Edit:"|i18n("design/standard/content")}</th>*}
+        <th width="1%" align="right">{"Remove:"|i18n("design/standard/content")}</th>
 </tr>
 
 {section name=Translation loop=$existing_translations sequence=array(bglight,bgdark)}
@@ -28,7 +28,9 @@
 {/section}
 <tr>
   <td colspan="3"><input class="defaultbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content')}" /></td>
-  <td align="right"><input class="button" type="image" src={"remove.png"|ezimage} name="RemoveButton" value="{'Remove'|i18n('design/standard/content')}" /></td>
+  <td align="right">
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
+  </td>
 </tr>
 
 </table>

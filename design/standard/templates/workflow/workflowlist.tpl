@@ -22,7 +22,7 @@
     <td class="{$WorkflowSequence:item}">{$Workflow:item.modifier_id}</td>
     <td class="{$WorkflowSequence:item}"><span class="small">{$Workflow:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$WorkflowSequence:item}"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$Workflow:item.id)|ezurl}><img name="edit"  src={"edit.png"|ezimage} width="16" height="16" align="{'Edit'|i18n('design/standard/workflow')}" /></a></div></td>
-    <td class="{$WorkflowSequence:item}"><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflow:item.id}"></td>
+    <td class="{$WorkflowSequence:item}" align="right"><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflow:item.id}"></td>
 </tr>
 {sequence name=WorkflowSequence}
 {/section}
@@ -48,19 +48,20 @@
     <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modifier_id}</td>
     <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modified|l10n(shortdatetime)}</td>
     <td class="{$TempWorkflowSequence:item}"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$TempWorkflow:item.id)|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" align="Edit" /></a></div></td>
-    <td class="{$TempWorkflowSequence:item}"><input type="checkbox" name="Temp_Workflow_id_checked[]" value="{$TempWorkflow:item.id}"></td>
+    <td class="{$TempWorkflowSequence:item}" align="right"><input type="checkbox" name="Temp_Workflow_id_checked[]" value="{$TempWorkflow:item.id}"></td>
 </tr>
 {sequence name=TempWorkflowSequence}
 {/section}
+<tr>
+  <td colspan="4">
+    {include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New"|i18n("design/standard/workflow")}
+  </td>
+  <td align="right">
+    <input type="image" name="DeleteButton" value="{'Remove'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
+  </td>
+</tr>
 </table>
 {/section}
-
-
-<div class="buttonblock">
-{include uri="design:gui/button.tpl" name=new id_name=NewWorkflowButton value="New"|i18n("design/standard/workflow")}
-{include uri="design:gui/button.tpl" name=delete id_name=DeleteButton value="Remove"|i18n("design/standard/workflow")}
-</div>
-
 <input type="hidden" name="CurrentGroupID" value="{$group_id}">
 <input type="hidden" name="CurrentGroupName" value="{$group_name}">
 </form>

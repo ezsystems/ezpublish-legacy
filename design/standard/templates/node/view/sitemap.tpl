@@ -30,8 +30,8 @@
 <table class="list" width="100%" cellpadding="1" cellspacing="0" border="0">
 <tr>
 	<th><nobr>{"Object:"|i18n("design/standard/node/view")}</nobr></th>
-	<th><nobr>{"Section ID:"|i18n("design/standard/node/view")}</nobr></th>
 	<th><nobr>{"Class:"|i18n("design/standard/node/view")}</nobr></th>
+	<th><nobr>{"Section ID:"|i18n("design/standard/node/view")}</nobr></th>
 	<th width="1"><nobr>{"Edit:"|i18n("design/standard/node/view")}</nobr></th>
 	<th width="1"><nobr>{"Copy:"|i18n("design/standard/node/view")}</nobr></th>
 	<th width="1"><nobr>{"Remove:"|i18n("design/standard/node/view")}</nobr></th>
@@ -43,8 +43,8 @@
        	<img src={"1x1.gif"|ezimage} width="{mul(sub($Tree:item.depth,$node.depth)|dec,$sitemap_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} alt="Folder" border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
-	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.object.class_name}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.object.section_id}</td>
 	<td class="{$Tree:sequence}">
 	{switch name=sw1 match=$Tree:item.object.can_edit}
         {case match=1}  

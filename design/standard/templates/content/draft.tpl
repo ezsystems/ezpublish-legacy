@@ -14,13 +14,16 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <th>{"Name:"|i18n("design/standard/content/view")}</th>
+    <th>{"Class:"|i18n("design/standard/content/view")}</th>
+    <th>{"Section:"|i18n("design/standard/content/view")}</th>
     <th>{"Version:"|i18n("design/standard/content/view")}</th>
     <th>{"Edit:"|i18n("design/standard/content/view")}</th>
-    <th>
+    <th>{"Remove:"|i18n("design/standard/content/view")}</th>
+{*    <th>
     <div class="buttonblock">
     <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" />
     </div>
-    </th>
+    </th>*}
 </tr>
 
 {section name=Draft loop=$draft_list sequence=array(bglight,bgdark)}
@@ -30,17 +33,29 @@
     {$Draft:item.contentobject.name}</a>
     </td>
     <td class="{$Draft:sequence}">
+    {$Draft:item.contentobject.content_class.name}
+    </td>
+    <td class="{$Draft:sequence}">
+    {$Draft:item.contentobject.section_id}
+    </td>
+    <td class="{$Draft:sequence}">
     {$Draft:item.version}
     </td>
     <td class="{$Draft:sequence}">
     <a href={concat("/content/edit/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
     </td>
-    <td class="{$Draft:sequence}">
+    <td class="{$Draft:sequence}" align="right">
     <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
   </td>
 </tr>
 {/section}
 <tr>
+  <td colspan="5">
+  </td>
+  <td align="right">
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" src={"trash.png"|ezimage} />
+  </td>
+</tr>
 </table>
 {include name=navigator
          uri='design:navigator/google.tpl'
