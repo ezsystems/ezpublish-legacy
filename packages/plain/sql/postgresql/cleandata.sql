@@ -1,4 +1,3 @@
-
 SET search_path = public, pg_catalog;
 
 INSERT INTO ezcontentbrowserecent VALUES (1, 14, 2, 1060695457, 'Root folder');
