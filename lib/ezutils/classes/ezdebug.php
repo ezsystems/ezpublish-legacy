@@ -84,12 +84,14 @@ define( "EZ_LEVEL_NOTICE", 1 );
 define( "EZ_LEVEL_WARNING", 2 );
 define( "EZ_LEVEL_ERROR", 3 );
 define( "EZ_LEVEL_TIMING_POINT", 4 );
+define( "EZ_LEVEL_DEBUG", 5 );
 
 define( "EZ_SHOW_NOTICE", 1 << (EZ_LEVEL_NOTICE - 1) );
 define( "EZ_SHOW_WARNING", 1 << (EZ_LEVEL_WARNING - 1) );
 define( "EZ_SHOW_ERROR", 1 << (EZ_LEVEL_ERROR - 1) );
 define( "EZ_SHOW_TIMING_POINT", 1 << (EZ_LEVEL_TIMING_POINT - 1) );
-define( "EZ_SHOW_ALL", EZ_SHOW_NOTICE | EZ_SHOW_WARNING | EZ_SHOW_ERROR | EZ_SHOW_TIMING_POINT );
+define( "EZ_SHOW_DEBUG", 1 << (EZ_LEVEL_DEBUG - 1) );
+define( "EZ_SHOW_ALL", EZ_SHOW_NOTICE | EZ_SHOW_WARNING | EZ_SHOW_ERROR | EZ_SHOW_TIMING_POINT | EZ_SHOW_DEBUG );
 
 define( "EZ_HANDLE_NONE", 0 );
 define( "EZ_HANDLE_FROM_PHP", 1 );
@@ -107,7 +109,8 @@ class eZDebug
     {
         $this->TmpTimePoints = array( EZ_LEVEL_NOTICE => array(),
                                       EZ_LEVEL_WARNING => array(),
-                                      EZ_LEVEL_ERROR => array() );
+                                      EZ_LEVEL_ERROR => array(),
+                                      EZ_LEVEL_DEBUG => array() );
 
         $this->OutputFormat = array( EZ_LEVEL_NOTICE => array( "color" => "green",
                                                                "name" => "Notice" ),
@@ -115,11 +118,14 @@ class eZDebug
                                                                 "name" => "Warning" ),
                                      EZ_LEVEL_ERROR => array( "color" => "red",
                                                               "name" => "Error" ),
+                                     EZ_LEVEL_DEBUG => array( "color" => "brown",
+                                                              "name" => "Debug" ),
                                      EZ_LEVEL_TIMING_POINT => array( "color" => "blue",
                                                                      "name" => "Timing" ) );
         $this->LogFiles = array( EZ_LEVEL_NOTICE => "var/log/notice.log",
                                  EZ_LEVEL_WARNING => "var/log/warning.log",
-                                 EZ_LEVEL_ERROR => "var/log/error.log" );
+                                 EZ_LEVEL_ERROR => "var/log/error.log",
+                                 EZ_LEVEL_DEBUG => "var/log/debug.log" );
         $this->ShowTypes = EZ_SHOW_ALL;
         $this->HandleType = EZ_HANDLE_NONE;
         $this->OldHandler = false;
@@ -320,6 +326,24 @@ class eZDebug
 
     /*!
       \static
+      Writes a debug message.
+    */
+    function writeDebug( $string, $label="" )
+    {
+        if ( !eZDebug::showMessage( EZ_SHOW_ERROR ) )
+            return;
+        if ( is_object( $string ) || is_array( $string ) )
+            $string =& eZDebug::dumpVariable( $string );
+
+        $debug =& eZDebug::instance();
+        if ( $debug->HandleType == EZ_HANDLE_TO_PHP )
+            trigger_error( $string, E_USER_NOTICE );
+        else
+            $debug->write( $string, EZ_LEVEL_DEBUG, $label );
+    }
+
+    /*!
+      \static
       \private
       Dumps the variables contents using the dump_var function
     */
@@ -386,6 +410,7 @@ class eZDebug
             case EZ_LEVEL_NOTICE:
             case EZ_LEVEL_WARNING:
             case EZ_LEVEL_ERROR:
+            case EZ_LEVEL_DEBUG:
             case EZ_LEVEL_TIMING_POINT:
                 break;
 
@@ -444,7 +469,7 @@ class eZDebug
 
     /*!
      Returns an associative array of all the log files used by this class
-     where each key is the debug level (EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING or EZ_LEVEL_ERROR).
+     where each key is the debug level (EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING or EZ_LEVEL_ERROR or EZ_LEVEL_DEBUG).
     */
     function &logFiles()
     {
@@ -526,7 +551,7 @@ ezdebug.reload();
                      "Description" => $description );
         $debug->TimePoints[] = $tp;
         $desc = "Timing Point: $description";
-        foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR ) as $lvl )
+        foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR, EZ_LEVEL_DEBUG ) as $lvl )
         {
             if ( $debug->TmpTimePoints[$lvl] === false )
             {
