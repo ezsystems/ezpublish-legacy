@@ -29,4 +29,8 @@ Changes from 3.2-4 to 3.2-5
 
 *Library :
 
+eZ template:
+- Some changes to the compiled templates. Removed the references when accessing attributes which fixed some of the problems with the image system.
+  Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
+
 *Translations:
