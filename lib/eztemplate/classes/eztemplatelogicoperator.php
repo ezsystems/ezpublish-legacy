@@ -198,27 +198,35 @@ class eZTemplateLogicOperator
             } break;
             case $this->EQName:
             {
-                if ( count( $op_params ) >= 2 )
+                if ( count( $op_params ) >= 1 )
                 {
-                    $similar = false;
-                    $value = true;
-                    $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
-                    for ( $i = 1; $i < count( $op_params ); ++$i )
+                    if ( count( $op_params ) == 1 )
                     {
-                        $operand =& $tpl->elementValue( $op_params[$i], $namespace );
-                        if ( $operand != $lastOperand )
+                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        $value = ( $lastOperand == $value );
+                    }
+                    else
+                    {
+                        $similar = false;
+                        $value = true;
+                        $lastOperand =& $tpl->elementValue( $op_params[0], $namespace );
+                        for ( $i = 1; $i < count( $op_params ); ++$i )
                         {
-                            $value = false;
-                            break;
+                            $operand =& $tpl->elementValue( $op_params[$i], $namespace );
+                            if ( $operand != $lastOperand )
+                            {
+                                $value = false;
+                                break;
+                            }
+                            unset( $lastOperand );
+                            $lastOperand =& $operand;
                         }
-                        unset( $lastOperand );
-                        $lastOperand =& $operand;
                     }
                 }
                 else
                 {
                     $value = false;
-                    $tpl->warning( $op_name, "Requires two or more parameters" );
+                    $tpl->warning( $op_name, "Requires one parameter for input checking or two or more for parameter checking" );
                 }
             } break;
             case $this->OrName:
