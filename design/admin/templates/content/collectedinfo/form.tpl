@@ -3,11 +3,17 @@
 
 {set-block scope=global variable=title}{'Form %formname'|i18n('design/admin/content/collectedinfo/form',,hash('%formname',$node.name))}{/set-block}
 
+{section show=and( $error, $error_existing_data )}
+<div class="message-warning">
+    <p>{'You have already submitted data to this form. The previously submitted data was the following.'|i18n( 'design/admin/content/collectedinfo/form' )}</p>
+</div>
+{/section}
+
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Collected information'|i18n( 'design/admin/content/collectedinfo/form' )}</h1>
+<h1 class="context-title">{'Collected information'|i18n( 'design/admin/content/collectedinfo/form' )}&nbsp;({$object.name|wash})</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -15,29 +21,17 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<div class="block">
+<div class="context-attributes">
 
-<h2>{$object.name}</h2>
+    {section var=CollectedAttributes loop=$collection.attributes}
+        <div class="block">
+            <label>{$CollectedAttributes.item.contentclass_attribute_name}</label>
+            {attribute_result_gui view=info attribute=$CollectedAttributes.item}
+        </div>
+    {/section}
 
-{section show=$error}
-
-{section show=$error_existing_data}
-<p>{'You have already submitted data to this form. The previously submitted data was the following.'|i18n('design/admin/content/collectedinfo/form')}</p>
-{/section}
-
-{/section}
-
-{section loop=$collection.attributes}
-
-<h3>{$:item.contentclass_attribute_name}</h3>
-
-{attribute_result_gui view=info attribute=$:item}
-
-{/section}
-
-<p/>
-
-<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/admin/content/collectedinfo/form')}</a>
+    <hr />
+    <a href={$node.parent.url|ezurl}>{'Back'|i18n( 'design/admin/content/collectedinfo/form' )}</a>
 
 </div>
 
