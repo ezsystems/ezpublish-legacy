@@ -57,6 +57,8 @@ eZ PHP creator:
   the assignment is applied in compiled template code.
 - Made sure the same repository is not scanned multiple times.
   http://ez.no/community/bug_reports/ezdatatype_php_latest_trunk
+- Fixed bug, mondayfirst does not take effect (merged from 3.2 stable rev. 5464)
+  http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
 
-*Update
+  *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

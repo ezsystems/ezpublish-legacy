@@ -250,16 +250,16 @@ class eZLocale
             $this->initCountry( $countryVariationINI );
         }
 
+        if ( $this->MondayFirst )
+            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
+        else
+            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
+
         // Load language information
         if ( $languageVariationINI !== null )
         {
             $this->initLanguage( $languageVariationINI );
         }
-
-        if ( $this->MondayFirst )
-            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
-        else
-            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
 
         $this->AM = 'am';
         $this->PM = 'pm';
