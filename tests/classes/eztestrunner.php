@@ -236,7 +236,7 @@ class eZTestRunner
                 $function = $entry['function'];
                 if ( function_exists( $function ) )
                 {
-                    $function( $this );
+                    $function( $this, $entry['parameter'] );
                 }
                 else
                 {
