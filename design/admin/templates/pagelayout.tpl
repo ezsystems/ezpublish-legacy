@@ -299,16 +299,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <h3 class="hide">Right</h3>
 {* --- Current user ---*}
 <div id="currentuser">
-<div class="box-header">
-<div class="box-tc"><div class="box-ml"><div class="box-mr">
-<div class="box-tl"><div class="box-tr">
-<h4>{'Current user'|i18n( 'design/admin/pagelayout' )}</h4>
-</div></div>
-</div></div></div>
-</div>
 
-<div class="box-ml"><div class="box-mr">
-<div class="box-content">
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Current user'|i18n( 'design/admin/pagelayout' )}</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <p>{$current_user.contentobject.name|wash}</p>
 
@@ -330,14 +328,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {/let}
 </ul>
 
-</div>
-</div></div>
+</div></div></div>
+
 </div>
 
 {* --- Bookmarks --- *}
 <div id="bookmarks">
-<div class="box-header">
-<div class="box-tc"><div class="box-ml"><div class="box-mr">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
 
 {section show=ezpreference( 'admin_bookmark_menu' )}
     {section show=ne( $ui_context, 'edit' )}
@@ -346,11 +344,9 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
      <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[-]</span></h4>
     {/section}
 
-</div></div></div>
-</div>
+</div></div></div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <ul>
 {let bookmark_list=fetch( content, bookmarks )}
@@ -373,11 +369,9 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
      <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[+]</span></h4>
     {/section}
 
-</div></div></div>
-</div>
+</div></div></div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {/section}
 
@@ -389,16 +383,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </form>
 {/section}
 
-</div>
-</div></div></div>
+</div></div></div></div>
 
 </div>
 
 {* --- Notifications --- *}
 <div id="notifications">
 
-<div class="box-header">
-<div class="box-ml"><div class="box-mr">
+<div class="box-header"><div class="box-ml"><div class="box-mr">
 
 {section show=ne( $ui_context, 'edit' )}
 <h4><a href={'/notification/settings'|ezurl} title="{'Manage your personal notification settings.'|i18n( '/design/admin/pagelayout' )}">{'Notifications'|i18n( 'design/admin/pagelayout' )}</a></h4>
@@ -406,12 +398,9 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <h4><span class="disabled">{'Notifications'|i18n( 'design/admin/pagelayout' )}</span></h4>
 {/section}
 
-</div></div>
-</div>
+</div></div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-bl"><div class="box-br">
-<div class="box-content">
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Show "Add to notification" button if we're viewing an actual node. *}
 {section show=is_set($node.node_id)}
@@ -421,9 +410,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 </form>
 {/section}
 
-</div>
-</div></div>
-</div></div></div>
+</div></div></div></div></div></div>
 
 </div>
 

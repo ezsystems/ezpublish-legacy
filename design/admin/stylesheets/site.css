@@ -261,6 +261,22 @@ div#leftmenu div.box-bc, div#rightmenu div.box-bc
     background-repeat: repeat-x;
 }
 
+div#maincontent div.box-bc
+{
+    background-image: url(../images/box-bc.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #e7e8e0;
+    border-bottom: 1px solid #ecece4; /* Strange IE bug fix */ 
+}
+
+div#maincontent div.controlbar div.box-bc
+{
+    background-image: url(../images/controlbar-background.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
 div#leftmenu div.box-ml, div#rightmenu div.box-ml, div#maincontent div.box-ml
 {
     background-image: url(../images/box-edge.gif);
@@ -328,23 +344,6 @@ div.controlbar div.block
 /*     border: 1px solid #000000; */
 }
 
-div#maincontent div.box-bc
-{
-    background-image: url(../images/box-bc.gif);
-    background-position: bottom;
-    background-repeat: repeat-x;
-    background-color: #e7e8e0;
-}
-
-div#maincontent div.controlbar div.box-bc
-{
-    background-image: url(../images/controlbar-background.gif);
-    background-position: bottom;
-    background-repeat: repeat-x;
-    background-color: #e7e8e0;
-    border-bottom: 1px solid #ecece4; /* Strange IE bug fix */
-}
-
 div#rightmenu div.box-content
 {
     padding: 0.5em 0.5em 0.5em 0.5em;  
@@ -353,7 +352,7 @@ div#rightmenu div.box-content
 div#contentstructure
 {
     width: 100%;
-    overflow: auto;
+    overflow: scroll;
     overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
     overflow-x: auto;                      /* hide vertical scrollbar in IE */
     overflow-y: hidden;
@@ -593,7 +592,7 @@ div.menu-block a
 
 div.menu-block li.enabled a
 {
-    color: #75756c;
+    color: #000000;
     background-image: url(../images/button-enabled-bl.gif);
     background-position: bottom left;
     background-repeat: no-repeat;
@@ -822,21 +821,21 @@ div.context-toolbar p, div.context-information p
 
 div.context-toolbar a, div.context-toolbar span.current
 {
-    color: #000000;
+    color: #254b71;
     padding: 0 0.25em 0 0.25em;
     text-decoration: none;
 }
 
 div.context-toolbar span.current, div.context-toolbar span.current
 {
-    color: #ffffff;
-    background-color: #808080;
+    color: #254b71;
+    background-color: #c8cfd7;
 }
 
 div.context-toolbar a:hover
 {
     color: #ffffff;
-    background-color: #000000;
+    background-color: #9d9d98;
     text-decoration: none;
 }
 
