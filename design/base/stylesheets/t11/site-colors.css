@@ -4,12 +4,12 @@
 
 body
 {
-    background-color: #999;
+    background-color: #fff;
 }
 
 div#allcontent
 {
-    background-color: #ffffff;
+    background-color: #c1c1c1;
     border: 1px solid #666;
 }
 
@@ -18,29 +18,29 @@ div#allcontent
 
 div#toolbar-top li.toolbar-item
 {
-    color: #336699;
-    border-color: #336699;
+    color: #000;
+    border-color: #000;
 }
 
 div#toolbar-top li.toolbar-item a
 { 
-    color: #336699;
+    color: #000;
 }
 
 div#toolbar-bottom div.toolbar-design
 {
-    background-color: #e5e5e5;
+    background-color: #003466;
 }
 
 div#toolbar-bottom li.toolbar-item
 {
-    color: #003399;
-    border-color: #003399;
+    color: #fff;
+    border-color: #fff;
 }
 
 div#toolbar-bottom li.toolbar-item a
 { 
-    color: #003399;
+    color: #fff;
 }
 
 
@@ -48,24 +48,24 @@ div#toolbar-bottom li.toolbar-item a
 
 div#topmenu
 {
-    background-color: #626262;
-    border-color: #626262;
+    background-color: #ff740d;
+    border-color: #ff740d;
 }
 
 div.topmenu-line
 {
-    border-color: #626262;
+    border-color: #ff740d;
 }
 
 div#topmenu li
 {
-    background-color: #626262;
+    background-color: #ff740d;
     border-color: #ffffff;
 }
 
 div#topmenu li.selected
 {
-    background-color: #bdbdbd;
+    background-color: #0d4168;
 }
 
 div#topmenu li div.spacing
@@ -91,8 +91,8 @@ div#topmenu li.selected a
 
 div#submenu
 {
-    background-color: #bdbdbd;
-    border-color: #bdbdbd;
+    background-color: #0d4168;
+    border-color: #0d4168;
 }
 
 div#submenu li a
@@ -123,37 +123,37 @@ div#path p a:hover
 
 div#leftmenu-design li.menu-level-0
 { 
-    border-color: #cccc99;
+    border-color: #000;
 }
 
 div#leftmenu-design li.menu-level-0 a
 { 
-    color: #333333;
+    color: #0c4065;
 }
 
 div#leftmenu-design li.menu-level-0 a:hover
 {
-    color: #003399;
+    color: #0c4065;
 }
 
 div#leftmenu-design li.menu-level-0 a.selected
 {
-    color: #003399;
+    color: #0c4065;
 }
 
 div#leftmenu-design li.menu-level-1 a
 { 
-    color: #999999;
+    color: #333;
 }
 
 div#leftmenu-design li.menu-level-1 a:hover
 {
-    color: #003399;
+    color: #333;
 }
 
 div#leftmenu-design li.menu-level-1 a.selected
 {
-    color: #003399;
+    color: #333;
 }
 
 
@@ -179,13 +179,13 @@ div.content-navigator div.content-navigator-arrow
 
 div.toolbox-design
 { 
-    background-color: #e5e5e5;
+    background-color: #d6d6d6;
 }
 
 div.toolbox-design h2
 { 
     color: #ffffff;
-    background-color: #626262;
+    background-color: #003466;
 }
 
 div.toolbox-design input.searchtext, div.toolbox-design input.textinput
@@ -206,7 +206,7 @@ div.toolbox-design div.info-text p
 
 div.toolbox-design div.attribute-link p
 { 
-    background-image: url(../../images/t2/arrow.gif);
+    background-image: url(../../images/t11/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -221,14 +221,14 @@ div.toolbox-design div.attribute-link-disabled p
 
 div.toollist-design
 { 
-    background-color: #ffffff;
-    border-color: #626262;
+    background-color: #c1c1c1;
+    border-color: #000;
 }
 
 div.toollist-design h2
 { 
     color: #ffffff;
-    background-color: #626262;
+    background-color: #003466;
 }
 
 div.toollist-design h3
@@ -257,7 +257,7 @@ div.toollist-design div.class-article div.attribute-link-disabled p
 div#footer-design 
 {
     color: #003366;
-    background-color: #ffffff;
+    background-color: #c1c1c1;
 }
 
 div#footer-design a:hover
@@ -269,7 +269,7 @@ div#footer-design a:hover
 
 a
 { 
-    color: #626262;
+  color: #0f4068;
 }
 
 li
@@ -279,32 +279,32 @@ li
 
 div#maincontent h1
 { 
-    color: #003399;
+    color: #ff6600;
 }
 
 div#maincontent h2
 { 
-    color: #003399;
+    color: #366599;
 }
 
 div#maincontent h2 a
 { 
-    color: #003399;
+    color: #366599;
 }
 
 div#maincontent h3
 { 
-    color: #003399;
+    color: #366599;
 }
 
 div#maincontent h4
 { 
-    color: #666;
+    color: #366599;
 }
 
 div#maincontent-design h5
 { 
-    color: #666;
+    color: #366599;
 }
 
 
@@ -340,6 +340,6 @@ input.shopbutton
 
 input.searchimage
 {
-    background-image: url(../../images/t2/button.gif);
+    background-image: url(../../images/t11/button.gif);
     background-repeat: no-repeat;
 }

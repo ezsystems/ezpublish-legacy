@@ -6,7 +6,7 @@
 
 div#maincontent div.content-view-line div.attribute-link p
 { 
-    background-image: url(../../images/t6/arrow.gif);
+    background-image: url(../../images/t11/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@ div#maincontent div.content-view-line div.attribute-link p
 div#maincontent div.content-view-line div.attribute-link-disabled p
 { 
     color: #666666;
-    background-image: url(../../images/t6/arrow.gif);
+    background-image: url(../../images/t11/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -24,7 +24,7 @@ div#maincontent div.content-view-line div.attribute-link-disabled p
 
 div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
 { 
-    background-image: url(../../images/t6/arrow.gif);
+    background-image: url(../../images/t11/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -297,12 +297,6 @@ div.shop-basket table td.product-details, div.shop-confirmorder td.product-detai
 div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.product-subtotal, div.shop-orderview table td.product-subtotal
 {
     border-color: #cccc99;
-}
-
-input.shop-basketbin
-{ 
-    background-image: url(../../images/t2/bin.gif);
-    background-repeat: no-repeat;
 }
 
 /* RENDERED TABLE */
