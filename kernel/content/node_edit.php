@@ -435,6 +435,15 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
                 }
 
+                // we don't allow moving object to itself or to the same parent object
+                $objectAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                $ignoreNodesArray = array();
+                foreach( $objectAssignedNodes as $curAN )
+                {
+                    $ignoreNodesArray[] = $curAN->NodeID;
+                    $ignoreNodesArray[] = $curAN->ParentNodeID;
+                }
+
                 eZContentBrowse::browse( array( 'action_name' => 'MoveNodeAssignment',
                                                 'description_template' => 'design:content/browse_move_placement.tpl',
                                                 'keys' => array( 'class' => $class->attribute( 'id' ),
@@ -444,6 +453,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                 'start_node' => $fromNodeID,
                                                 'persistent_data' => array( 'FromNodeID' => $fromNodeID,
                                                                             'OldAssignmentParentID' => $oldAssignmentParentID ),
+						'ignore_nodes' => $ignoreNodesArray,
                                                 'content' => array( 'object_id' => $objectID,
                                                                     'previous_node_id' => $fromNodeID,
                                                                     'object_version' => $editVersion,
