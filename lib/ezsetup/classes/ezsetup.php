@@ -47,7 +47,7 @@ Here a short todo list (in no order):
         + security tests (.htaccess, admin password) 
     - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
     - create classes
-    - installation of demo data (problem: convert .tgz package to phpzip? doesnt work.)
+    - installation of demo data
     - register email to ez systems
     - download of ez publish by php script
     - upgrade option
