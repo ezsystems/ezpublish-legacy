@@ -584,7 +584,7 @@ while ( $moduleRunRequired )
                 }
                 if ( $accessResult['accessWord'] == 'no' )
                 {
-                    $accessList = $siteAccessResult['accessList'];
+                    $accessList = $accessResult['accessList'];
                     $moduleAccessAllowed = false;
                 }
             }
