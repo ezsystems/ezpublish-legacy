@@ -111,6 +111,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'sort_array' => 'sortArray',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
+                                                      'path_array' => 'pathArray',
                                                       "parent" => "fetchParent",
                                                       'url_alias' => 'urlAlias'
                                                       ),
@@ -179,6 +180,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'path' )
         {
             return $this->fetchPath();
+        }
+        else if ( $attr == 'path_array' )
+        {
+            return $this->pathArray();
         }
         elseif ( $attr == 'parent' )
         {
@@ -1013,6 +1018,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
+    }
+
+    function pathArray()
+    {
+        $pathString = $this->attribute( 'path_string' );
+        $pathItems = explode( '/', $pathString );
+        $pathArray = array();
+        foreach ( $pathItems as $pathItem )
+        {
+            if ( $pathItem != '' )
+                $pathArray[] = $pathItem;
+        }
+        return $pathArray;
     }
 
     function fetchPath()
