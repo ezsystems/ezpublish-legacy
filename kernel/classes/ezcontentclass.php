@@ -164,7 +164,7 @@ class eZContentClass extends eZPersistentObject
         {
             $http =& eZHTTPTool::instance();
             $classesExpired = eZSessionCache::isExpired( EZ_SESSION_CACHE_CLASSES_LIST );
-            eZDebug::writeDebug( $classesExpired, 'EZ_SESSION_CACHE_CLASSES_LIST'  );
+            eZDebugSetting::writeDebug( 'kernel-content-class', $classesExpired, 'EZ_SESSION_CACHE_CLASSES_LIST'  );
 //            $permissionExpired = $http->sessionVariable( 'roleExpired' );
             $classesCachedForUser = $http->sessionVariable( 'canInstantiateClassesCachedForUser' );
             $user =& eZUser::currentUser();
