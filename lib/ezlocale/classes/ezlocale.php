@@ -1213,9 +1213,11 @@ class eZLocale
     }
 
     /*!
+     \static
      Returns an unique instance of the locale class for a given locale string. If $localeString is not
      specified the default local string in site.ini is used.
      Use this instead of newing eZLocale to benefit from speed and unified access.
+     \note Use create() if you need to get a new unique copy you can alter.
     */
     function &instance( $localeString = false )
     {
@@ -1229,6 +1231,21 @@ class eZLocale
         {
             $instance = new eZLocale( $localeString );
         }
+        return $instance;
+    }
+
+    /*!
+     \static
+     Similar to instance() but will always create a new copy.
+    */
+    function &create( $localeString = false )
+    {
+        if ( $localeString === false )
+        {
+            $ini =& eZINI::instance();
+            $localeString =& $ini->variable( 'RegionalSettings', 'Locale' );
+        }
+        $instance = new eZLocale( $localeString );
         return $instance;
     }
 

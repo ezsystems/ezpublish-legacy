@@ -978,9 +978,9 @@ class eZINI
      \static
      \return true if the ini file \a $fileName has been loaded yet.
     */
-    function isLoaded( $fileName = "site.ini", $rootDir = "settings" )
+    function isLoaded( $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
     {
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName"];
+        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
         if ( !isset( $isLoaded ) )
             return false;
         return $isLoaded;
@@ -991,6 +991,7 @@ class eZINI
       Returns the current instance of the given .ini file
       If $useLocalOverrides is set to true you will get a copy of the current overrides,
       but changes to the override settings will not be global.
+      \note Use create() if you need to get a unique copy which you can alter.
     */
     function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
@@ -1006,6 +1007,16 @@ class eZINI
 
             $isLoaded = true;
         }
+        return $impl;
+    }
+
+    /*!
+      \static
+      Similar to instance() but will always create a new copy.
+    */
+    function &create( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    {
+        $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
         return $impl;
     }
 

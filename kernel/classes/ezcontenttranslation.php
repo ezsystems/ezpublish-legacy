@@ -43,8 +43,6 @@
 
 */
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-
 class eZContentTranslation extends eZPersistentObject
 {
     /*!
@@ -129,6 +127,7 @@ class eZContentTranslation extends eZPersistentObject
         $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                  null, array(), null,null,
                                                                  true );
+        include_once( 'kernel/classes/ezcontentobject.php' );
         $defaultLanguage =& eZContentObject::defaultLanguage();
         $foundDefaultLanguage = false;
         foreach ( $translationList as $translationItem )
@@ -155,6 +154,7 @@ class eZContentTranslation extends eZPersistentObject
         $translationArray =&  eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                    null, array(), null,null,
                                                                    false );
+        include_once( 'kernel/classes/ezcontentobject.php' );
         $defaultLanguage =& eZContentObject::defaultLanguage();
         $foundDefaultLanguage = false;
         $localeList = array();
@@ -175,6 +175,7 @@ class eZContentTranslation extends eZPersistentObject
 
     function updateObjectNames()
     {
+        include_once( 'kernel/classes/ezcontentobject.php' );
         $defaultLanguage = eZContentObject::defaultLanguage();
         $newLanguage = $this->attribute( 'locale' );
         $db =& eZDB::instance();

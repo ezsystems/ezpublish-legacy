@@ -40,10 +40,12 @@ include_once( "kernel/setup/ezsetuptests.php" );
 /*!
     Step 1: General tests and information for the databases
 */
-function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
+function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
 {
     // Set to false to avoid files being written to.
     $saveData = true;
+
+    $ini =& eZINI::create();
 
     $databaseMap = eZSetupDatabaseMap();
     $databaseInfo = $persistenceList['database_info'];
@@ -53,7 +55,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $emailInfo = $persistenceList['email_info'];
     $siteInfo = $persistenceList['site_info'];
 
-    $imageINI =& eZINI::instance( 'image.ini' );
+    $imageINI = eZINI::create( 'image.ini' );
     $imageINI->setVariable( 'ConverterSettings', 'UseConvert', 'false' );
     $imageINI->setVariable( 'ConverterSettings', 'UseGD', 'false' );
     if ( $persistenceList['imagemagick_program']['result'] )
@@ -115,7 +117,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
             $variations = $persistenceList['regional_info']['variations'];
             foreach ( $variations as $variation )
             {
-                $locale = eZLocale::instance( $variation );
+                $locale = eZLocale::create( $variation );
                 if ( $locale->localeCode() == $primaryLanguageCode )
                 {
                     $primaryLanguage = $locale;
@@ -128,7 +130,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
         }
 
         if ( $primaryLanguage === null )
-            $primaryLanguage =& eZLocale::instance( $persistenceList['regional_info']['primary_language'] );
+            $primaryLanguage = eZLocale::create( $persistenceList['regional_info']['primary_language'] );
         $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
         $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
         if ( $primaryLanguage->localeCode() == 'eng-GB' )
@@ -184,22 +186,22 @@ WHERE
 
         $languages = array( $primaryLanguage->localeFullCode() );
         $languageObjects = array();
-        $languageObjects[] =& $primaryLanguage;
+        $languageObjects[] = $primaryLanguage;
         foreach ( array_keys( $extraLanguages ) as $extraLanguageKey )
         {
-            $extraLanguage =& $extraLanguages[$extraLanguageKey];
+            $extraLanguage = $extraLanguages[$extraLanguageKey];
             $languages[] = $extraLanguage->localeFullCode();
-            $languageObjects[] =& $extraLanguage;
+            $languageObjects[] = $extraLanguage;
         }
         $ini->setVariable( 'ContentSettings', 'TranslationList', implode( ';', $languages ) );
         include_once( 'kernel/classes/ezcontenttranslation.php' );
         foreach ( array_keys( $languageObjects ) as $languageObjectKey )
         {
-            $languageObject =& $languageObjects[$languageObjectKey];
+            $languageObject = $languageObjects[$languageObjectKey];
             $languageLocale = $languageObject->localeCode();
             if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
             {
-                $translation =& eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
                 $translation->store();
                 $translation->updateObjectNames();
             }
@@ -218,7 +220,7 @@ WHERE
 
     if ( $saveResult )
     {
-        $setupINI =& eZINI::instance( 'setup.ini' );
+        $setupINI = eZINI::create( 'setup.ini' );
         $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
         $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
         $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
@@ -230,7 +232,7 @@ WHERE
     if ( $saveResult and
          $charset !== false )
     {
-        $i18nINI =& eZINI::instance( 'i18n.ini' );
+        $i18nINI = eZINI::create( 'i18n.ini' );
         $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
         if ( $saveData )
             $saveResult = $i18nINI->save( false, '.php', 'append', true );

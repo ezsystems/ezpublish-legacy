@@ -71,6 +71,11 @@ eZUtils:
 - Added support for recursive accumulator calls in debug, the caller must specify this for it to work.
 - Made sure sendmail transport sent out correct mails when safe_mode is on.
 - Made sure header list does not return duplicate standard headers.
+- Added function create() to eZINI which works like instance() but doesn't keep a global instance.
+
+eZLocale:
+- Added function create() which works like instance() but doesn't keep a global instance.
+
 
 eZ PHP Creator:
 - Added optional whitespacehandling on comments
