@@ -62,11 +62,10 @@ class eZTestTemplateOutput extends eZTestCase
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
-        $expected = $tpl->fetch( 'tests/eztemplate/image.tpl' );
-        $fp = fopen( 'tests/eztemplate/image.exp', 'w' );
-        fwrite( $fp, $expected );
+        $fp = fopen( 'tests/eztemplate/image.exp', 'rb' );
+        $expected = fread( $fp, filesize( 'tests/eztemplate/image.exp' ) );
         fclose( $fp );
-        
+
         $tpl->reset();
 
         eZTemplateCompiler::setSettings( array( 'compile' => true,
@@ -83,7 +82,7 @@ class eZTestTemplateOutput extends eZTestCase
         fwrite( $fp, $actual );
         fclose( $fp );
 
-        $tr->assert( $actual == $expected );
+        $tr->assert( $actual == $expected, 'String compare of results' );
     }
 
     function testOutput( &$tr )
