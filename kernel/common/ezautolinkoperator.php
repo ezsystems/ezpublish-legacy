@@ -62,7 +62,7 @@ class eZAutoLinkOperator
                                             'default' => null ) );
     }
 
-    function formatUri($url, $max)
+    function formatUri( $url, $max )
     {
         $text = $url;
         if (strlen($text) > $max)
@@ -75,10 +75,10 @@ class eZAutoLinkOperator
     /*!
      \static
     */
-    function addURILinks($text, $max, $methods = 'http|https|ftp')
+    function addURILinks( $text, $max, $methods = 'http|https|ftp' )
     {
         return preg_replace(
-            "!($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?!e",
+            "!($methods):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&:\/~\+#;]*[\w\-\@?^=%&\/~\+#;])?!e",
             'eZAutoLinkOperator::formatUri("$0", '. $max. ')',
             $text
         );

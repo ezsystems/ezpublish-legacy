@@ -342,6 +342,9 @@ Workflow:
 - Fixed incorrect API doc for eZUser.
   http://ez.no/community/bug_reports/ezuser_api_correction
   (Merged from stable/3.4 rev. 7317)
+- Fixed problem with autolink operator not allowing semi-colons in the url.
+  http://ez.no/community/bug_reports/xml_text_text_to_a_links_does_not_work_correctly
+  (Merged from stable/3.4 rev. 7355)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
