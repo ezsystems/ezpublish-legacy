@@ -66,7 +66,10 @@ $ViewList['session'] = array(
                                         'ChangeFilterButton' => 'ChangeFilter',
                                         'RemoveTimedOutSessionsButton' => 'RemoveTimedOutSessions',
                                         'RemoveSelectedSessionsButton' => 'RemoveSelectedSessions' ),
-    'post_action_parameters' => array( 'ChangeFilter' => array( 'FilterType' => 'FilterType' ) ),
+    'post_action_parameters' => array( 'ChangeFilter' => array( 'FilterType' => 'FilterType',
+                                                                'ExpirationFilterType' => 'ExpirationFilterType',
+                                                                'InactiveUsersCheck' => 'InactiveUsersCheck',
+                                                                'InactiveUsersCheckExists' => 'InactiveUsersCheckExists' ) ),
     'params' => array( 'UserID' ) );
 
 $ViewList["info"] = array(

@@ -39,7 +39,7 @@ function checkAll()
 //-->
 {/literal}
 </SCRIPT>
-<form name="trashaction" method="post" action={concat( '/setup/session/', cond( $user_id, concat( $user_id, '/' ), '' ), '(offset)/', $view_parameters.offset )|ezurl}>
+<form name="trashaction" method="post" action={concat( '/setup/session/', cond( $user_id, concat( $user_id, '/' ), '' ), cond( $view_parameters.offset|gt( 0 ), concat( '(offset)/', $view_parameters.offset ), '' ) )|ezurl}>
 <h1>{"Session admin"|i18n( "design/standard/setup/session" )}</h1>
 
 {section show=$sessions_removed}
@@ -74,14 +74,17 @@ function checkAll()
             <input type="submit" name="ShowAllUsersButton" value="{"Show from all users"|i18n( "design/standard/setup/session" )}" />
         </div>
     {section-else}
-    <div class="buttonblock">
-            <label>{'Sessions from'|i18n( 'design/standard/setup/session' )}</label>
-            <select name="FilterType">
+            <label>{'Filter sessions'|i18n( 'design/standard/setup/session' )}:</label><br/>
+            <select class="combobox" name="FilterType">
                 <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/standard/setup/session" )}</option>
                 <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/standard/setup/session" )}</option>
                 <option value="anonymous"{cond( eq( $filter_type, 'anonymous' ), ' selected="selected"', '' )}>{"Anonymous users"|i18n( "design/standard/setup/session" )}</option>
             </select>
-            <input type="submit" name="ChangeFilterButton" value="{"Refresh"|i18n( "design/standard/setup/session" )}" />
+            <input type="hidden" name="InactiveUsersCheckExists" />
+            <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" /> <label for="InactiveUsersCheck">{'Include inactive users'|i18n( 'design/standard/setup/session' )}</label><br/>
+
+    <div class="buttonblock">
+            <input class="defaultbutton" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/standard/setup/session" )}" />
     </div>
     {/section}
 
@@ -137,9 +140,9 @@ function checkAll()
         {$session_user.name|wash}
     </td>
 
-    <td width="10%"> 
+    <td width="10%">
         {$session.idle.hour}:{$session.idle.minute}:{$session.idle.second}
-    </td> 
+    </td>
     <td width="19%">
       {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
           {"Timescrew detected"|i18n( "design/standard/setup/session")}

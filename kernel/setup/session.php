@@ -47,6 +47,9 @@ $param['limit'] = 50;
 $filterType = 'registered';
 if ( $http->hasSessionVariable( 'eZSessionFilterType' ) )
     $filterType = $http->sessionVariable( 'eZSessionFilterType' );
+$expirationFilterType = 'active';
+if ( $http->hasSessionVariable( 'eZSessionExpirationFilterType' ) )
+    $expirationFilterType = $http->sessionVariable( 'eZSessionExpirationFilterType' );
 
 $userID = $Params['UserID'];
 
@@ -59,7 +62,20 @@ else if ( $module->isCurrentAction( 'ChangeFilter' ) )
     $filterType = $module->actionParameter( 'FilterType' );
     if ( !in_array( $filterType, array( 'everyone', 'registered', 'anonymous' ) ) )
         $filterType = 'registered';
+    if ( $module->hasActionParameter( 'InactiveUsersCheckExists' ) )
+    {
+        $expirationFilterType = 'active';
+        if ( $module->hasActionParameter( 'InactiveUsersCheck' ) )
+            $expirationFilterType = 'all';
+    }
+    if ( $module->hasActionParameter( 'ExpirationFilterType' ) )
+    {
+        $expirationFilterType = $module->actionParameter( 'ExpirationFilterType' );
+    }
+    if ( !in_array( $expirationFilterType, array( 'all', 'active' ) ) )
+        $expirationFilterType = 'active';
     $http->setSessionVariable( 'eZSessionFilterType', $filterType );
+    $http->setSessionVariable( 'eZSessionExpirationFilterType', $expirationFilterType );
 }
 else if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 {
@@ -154,6 +170,7 @@ function &eZFetchActiveSessions( $params = array() )
             $orderBy = "ezsession.expiration_time DESC";
         } break;
     }
+
     $filterType = $params['filter_type'];
     switch ( $filterType )
     {
@@ -171,6 +188,26 @@ function &eZFetchActiveSessions( $params = array() )
         default:
         {
             $filterSQL = '';
+        } break;
+    }
+
+    $expirationFilterType = $params['expiration_filter'];
+    switch ( $expirationFilterType )
+    {
+        case 'active':
+        {
+            $ini =& eZINI::instance();
+            $time = mktime();
+            $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+            $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+            $time = $time + $sessionTimeout - $activityTimeout;
+            $expirationFilterSQL = ' AND ezsession.expiration_time > ' . $time;
+        } break;
+
+        case 'all':
+        default:
+        {
+            $expirationFilterSQL = '';
         } break;
     }
 
@@ -196,6 +233,7 @@ FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id=ezuser.contentobject_id AND
       ezsession.user_id=ezcontentobject.id
       $filterSQL
+      $expirationFilterSQL
 $countGroup
 ORDER BY $orderBy";
 
@@ -240,7 +278,7 @@ ORDER BY $orderBy";
 }
 
 /*
-  Get all sessions by limit and offset, and returns it
+  Counts active sessions according the filters and returns the count.
 */
 function &eZFetchActiveSessionCount( $params = array() )
 {
@@ -249,12 +287,12 @@ function &eZFetchActiveSessionCount( $params = array() )
     {
         case 'registered':
         {
-            $filterSQL = 'WHERE ezsession.user_id != ' . EZ_USER_ANONYMOUS_ID;
+            $filterSQL = ' ezsession.user_id != ' . EZ_USER_ANONYMOUS_ID;
         } break;
 
         case 'anonymous':
         {
-            $filterSQL = 'WHERE ezsession.user_id = ' . EZ_USER_ANONYMOUS_ID;
+            $filterSQL = ' ezsession.user_id = ' . EZ_USER_ANONYMOUS_ID;
         } break;
 
         case 'everyone':
@@ -264,17 +302,46 @@ function &eZFetchActiveSessionCount( $params = array() )
         } break;
     }
 
+    $expirationFilterType = $params['expiration_filter'];
+    switch ( $expirationFilterType )
+    {
+        case 'active':
+        {
+            $ini =& eZINI::instance();
+            $time = mktime();
+            $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
+            $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
+            $time = $time + $sessionTimeout - $activityTimeout;
+            $expirationFilterSQL = '';
+            if ( strlen( $filterSQL ) > 0 )
+                $expirationFilterSQL .= ' AND ';
+            $expirationFilterSQL .= ' ezsession.expiration_time > ' . $time;
+        } break;
+
+        case 'all':
+        default:
+        {
+            $expirationFilterSQL = '';
+        } break;
+    }
+
     $userID = $params['user_id'];
     if ( $userID )
     {
-        $filterSQL = 'WHERE ezsession.user_id = ' .  (int)$userID;
+        $filterSQL = ' ezsession.user_id = ' .  (int)$userID;
     }
+
+    $whereSQL = '';
+    if ( ( strlen( $filterSQL ) + strlen( $expirationFilterSQL ) ) > 0 )
+        $whereSQL = 'WHERE';
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $query = "SELECT count( * ) AS count
 FROM ezsession
-$filterSQL";
+$whereSQL
+$filterSQL
+$expirationFilterSQL";
 
     $rows = $db->arrayQuery( $query );
 
@@ -283,11 +350,12 @@ $filterSQL";
 
 $param['sortby'] = false;
 $param['filter_type'] = $filterType;
+$param['expiration_filter'] = $expirationFilterType;
 $param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
 $sessionsActive = eZSessionCountActive( $param );
-$sessionscount = eZFetchActiveSessionCount( $param );
+$sessionsCount = eZFetchActiveSessionCount( $param );
 $sessionsList =& eZFetchActiveSessions( $param );
 
 
@@ -304,6 +372,7 @@ $tpl->setVariable( "page_limit", $param['limit'] );
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "form_parameter_string", $viewParameters );
 $tpl->setVariable( 'filter_type', $filterType );
+$tpl->setVariable( 'expiration_filter_type', $expirationFilterType );
 $tpl->setVariable( 'user_id', $userID );
 
 $Result = array();
