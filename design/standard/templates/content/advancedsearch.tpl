@@ -79,7 +79,7 @@ selected="selected"
 {section name=Attribute show=$search_contentclass_id|gt(0)}
 
 <select name="SearchContentClassAttributeID">
-<option value="-1">Any attribute</option>
+<option value="-1">{"Any attribute"|i18n("design/standard/content/search")}</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
 <option value="{$Attribute:ClassAttribute:item.id}" 
         {section show=eq($search_contentclass_attribute_id,$Attribute:ClassAttribute:item.id)}
