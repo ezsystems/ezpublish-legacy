@@ -35,6 +35,20 @@
 // you.
 //
 
+/*! \file ezwebdavserver.php
+ WebDAV server base class.
+*/
+
+/*! \defgroup eZWebDAV WebDAV system */
+
+/*!
+  \class eZWebDAVServer ezwebdavserver.php
+  \ingroup eZWebDAV
+  \brief Virtual base class for implementing WebDAV servers.
+
+  __FIX_ME__
+*/
+
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
@@ -134,47 +148,26 @@ function eZWebDavAppendToLog( $logString )
     fclose( $logFile );
 }
 
-
-
-/*! \file ezwebdavserver.php
- WebDAV server base class.
-*/
-
-/*! \defgroup eZWebDAV WebDAV system */
-
-
-/*!
-  \class eZWebDAVServer ezwebdavserver.php
-  \ingroup eZWebDAV
-  \brief Virtual base class for implementing WebDAV servers.
-
-  __FIX_ME__
-*/
 class eZWebDAVServer
 {
-    var $ServerRootDir = "";
-
     /*! Constructor of eZWebDAVServer;
         disables PHP error messages.
      */
     function eZWebDAVServer()
     {
-        // Since PHP messages destroy XML output; we should switch them off.
-        //ini_set( "display_errors", 0 );
     }
 
     function setServerRoot( $rootDir )
     {
-        // Failsafe check: does the dir actually exist?
         if ( file_exists ( $rootDir ) )
         {
-            $this->$ServerRootDir = $rootDir;
+            $this->ServerRootDir = $rootDir;
 
-            return( TRUE );
+            return true;
         }
         else
         {
-            return( FALSE );
+            return false;
         }
     }
 
@@ -204,7 +197,6 @@ class eZWebDAVServer
         // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
 
-        // Check what the client wants & do it:
         switch ( $_SERVER["REQUEST_METHOD"] )
         {
             // OPTIONS  (Server ID reply.)
@@ -213,8 +205,7 @@ class eZWebDAVServer
                 append_to_log( "OPTIONS was issued from client." );
                 $options = $this->options( $target );
                 $status  = $this->outputOptions( $options );
-            }break;
-
+            } break;
 
             // PROPFIND (Show dir/collection content.)
             case "PROPFIND":
@@ -228,8 +219,7 @@ class eZWebDAVServer
 
                 $collection = $this->getCollectionContent( $target, $depth );
                 $status = $this->outputCollectionContent( $collection, $xmlBody );
-            }break;
-
+            } break;
 
             // HEAD (Check if file/resource exists.)
             case "HEAD":
@@ -237,9 +227,7 @@ class eZWebDAVServer
                 append_to_log( "HEAD was issued from client." );
                 $data   = $this->get( $target );
                 $status = $this->outputSendDataToClient( $data, true );
-            }
-            break;
-
+            } break;
 
             // GET (Download a file/resource from server to client.)
             case "GET":
@@ -247,8 +235,7 @@ class eZWebDAVServer
                 append_to_log( "GET was issued from client." );
                 $data   = $this->get( $target );
                 $status = $this->outputSendDataToClient( $data );
-            }break;
-
+            } break;
 
             // PUT (Upload a file/resource from client to server.)
             case "PUT":
@@ -273,8 +260,7 @@ class eZWebDAVServer
                     $status = EZ_WEBDAV_FAILED_FORBIDDEN;
                 }
 
-            }break;
-
+            } break;
 
             // MKCOL (Create a directory/collection.)
             case "MKCOL":
@@ -289,8 +275,7 @@ class eZWebDAVServer
                 {
                     $status = $this->mkcol( $target );
                 }
-            }break;
-
+            } break;
 
             // COPY (Copy a resource/collection from one location to another.)
             case "COPY":
@@ -301,8 +286,7 @@ class eZWebDAVServer
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
                 $destination = urldecode( $url["path"] );
                 $status      = $this->copy( $source, $destination );
-            }break;
-
+            } break;
 
             // MOVE (Move a resource/collection from one location to another.)
             case "MOVE":
@@ -312,22 +296,20 @@ class eZWebDAVServer
                 $url         = parse_url( $_SERVER["HTTP_DESTINATION"] );
                 $destination = urldecode( $url["path"] );
                 $status      = $this->move( $source, $destination );
-            }break;
-
+            } break;
 
             // DELETE (Remove a resource/collection.)
             case "DELETE":
             {
                 append_to_log( "DELETE was issued from client." );
                 $status = $this->delete( $target );
-            }break;
-
+            } break;
 
             // Default case: unknown command from client.
             default:
             {
                 // __FIX_ME__
-            }break;
+            } break;
         }
 
         // Handle the returned status code (post necessary/matching headers, etc.).
@@ -338,13 +320,13 @@ class eZWebDAVServer
      */
     function outputOptions( $options )
     {
-        header("Content-Length: 0");
-        header("MS-Author-Via: DAV");
-        header("Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK");
-        header("DAV: 1,2,<http://apache.org/dav/propset/fs/1>");
-        header("Content-Type: text/plain; charset=iso-8859-1");
+        header( "Content-Length: 0" );
+        header( "MS-Author-Via: DAV" );
+        header( "Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK" );
+        header( "DAV: 1,2,<http://apache.org/dav/propset/fs/1>" );
+        header( "Content-Type: text/plain; charset=iso-8859-1" );
 
-        return( EZ_WEBDAV_OK_SILENT );
+        return EZ_WEBDAV_OK_SILENT;
     }
 
     /*!
@@ -352,7 +334,7 @@ class eZWebDAVServer
     function outputCollectionContent( $collection, $xmlBody )
     {
         $xmlText = "<?xml version='1.0' encoding='utf-8'?>\n" .
-                  "<D:multistatus xmlns:D='DAV:'>\n";
+                   "<D:multistatus xmlns:D='DAV:'>\n";
 
         // For all the entries in this dir/collection-array:
         foreach ( $collection as $entry )
@@ -406,7 +388,6 @@ class eZWebDAVServer
             $xmlText .= "<D:status>HTTP/1.1 404 Not Found</D:status>";
             $xmlText .= "</D:propstat>\n";
 
-
             $xmlText .= "</D:response>\n";
         }
 
@@ -419,7 +400,7 @@ class eZWebDAVServer
         // want to use chunked transfer encoding.
         // header( 'Content-Length: '.strlen( $xml ) );
 
-        while( @ob_end_clean() );
+        while ( @ob_end_clean() );
 
         // Dump the actual XML data containing collection list.
         print( $xmlText );
@@ -432,7 +413,7 @@ class eZWebDAVServer
             append_to_log( "XML was NOT parsed $xmlText" );
 
         // If we got this far: everything is OK.
-        return( EZ_WEBDAV_OK_SILENT );
+        return EZ_WEBDAV_OK_SILENT;
     }
 
     /*!
@@ -472,7 +453,7 @@ class eZWebDAVServer
                 header( 'Content-Type: '.$mimeType );
                 header( 'ETag: '.$eTag );
 
-                while( @ob_end_clean() );
+                while ( @ob_end_clean() );
 
                 if ( !$headers_only )
                 {
@@ -485,32 +466,32 @@ class eZWebDAVServer
                     // Check if the last command succeded..
                     if ( $status == $size)
                     {
-                        return( EZ_WEBDAV_OK_SILENT );
+                        return EZ_WEBDAV_OK_SILENT;
                     }
                     else
                     {
-                        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                        return EZ_WEBDAV_FAILED_FORBIDDEN;
                     }
                 }
                 else
                 {
-                    return( EZ_WEBDAV_OK_SILENT );
+                    return EZ_WEBDAV_OK_SILENT;
                 }
             }
             // Else: file/dir doesn't exist!
             else
             {
                 append_to_log( "outputData: file DOES NOT exists on server...");
-                return( EZ_WEBDAV_FAILED_NOT_FOUND );
+                return EZ_WEBDAV_FAILED_NOT_FOUND;
             }
         }
         else
         {
             append_to_log( "outputData: No file specified");
 
-            while( @ob_end_clean() );
+            while ( @ob_end_clean() );
 
-            return( EZ_WEBDAV_FAILED_NOT_FOUND );
+            return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
     }
 
@@ -531,11 +512,11 @@ class eZWebDAVServer
             fwrite( $fpWrite, $body );
             fclose( $fpWrite );
 
-            return( $tempFileName );
+            return $tempFileName;
         }
         else
         {
-            return( FALSE );
+            return false;
         }
     }
 
@@ -562,9 +543,6 @@ class eZWebDAVServer
     function get( $target )
     {
     }
-
-
-
 
     /*! Virtual PUT function.
      */
@@ -609,46 +587,43 @@ class eZWebDAVServer
             case EZ_WEBDAV_OK:
             {
                 header( "HTTP/1.1 200 OK" );
-            }break;
+            } break;
 
             // OK, SILENT.
             case EZ_WEBDAV_OK_SILENT:
             {
                 // Do nothing...
-            }break;
+            } break;
 
             // OK, CREATED.
             case EZ_WEBDAV_OK_CREATED:
             {
                 header( "HTTP/1.1 201 Created" );
-            }break;
+            } break;
 
             // OK, OVERWRITE.
             case EZ_WEBDAV_OK_OVERWRITE:
             {
                 header( "HTTP/1.1 204 No Content");
-            }break;
-
-
-
+            } break;
 
             // FAILED, FORBIDDEN!
             case EZ_WEBDAV_FAILED_FORBIDDEN:
             {
                 header( "HTTP/1.1 403 Forbidden");
-            }break;
+            } break;
 
             // FAILED, NOT FOUND!
             case EZ_WEBDAV_FAILED_NOT_FOUND:
             {
                 header( "HTTP/1.1 404 Not Found" );
-            }break;
+            } break;
 
             // FAILED, ALREADY EXISTS!
             case EZ_WEBDAV_FAILED_EXISTS:
             {
                 header( "HTTP/1.1 405 Method not allowed" );
-            }break;
+            } break;
 
             // FAILED, CONFLICT!
             case EZ_WEBDAV_FAILED_CONFLICT:
@@ -660,39 +635,42 @@ class eZWebDAVServer
             case EZ_WEBDAV_FAILED_PRECONDITION:
             {
                 header( "HTTP/1.1 412 Precondition Failed" );
-            }break;
+            } break;
 
             // FAILED, RESOURCE IS LOCKED!
             case EZ_WEBDAV_FAILED_LOCKED:
             {
                 header( "HTTP/1.1 423 Locked" );
-            }break;
+            } break;
 
             // FAILED, BAD GATEWAY!
             case EZ_WEBDAV_FAILED_BAD_GATEWAY:
             {
                 header( "HTTP/1.1 502 Bad Gateway" );
-            }break;
+            } break;
 
             // FAILED, NO SPACE LEFT ON DEVICE!
             case EZ_WEBDAV_FAILED_STORAGE_FULL:
             {
                 header( "HTTP/1.1 507 Insufficient Storage" );
-            }break;
+            } break;
 
             // FAILED, UNSUPPORTED REQUEST!
             case EZ_WEBDAV_FAILED_UNSUPPORTED:
             {
                 header( "HTTP/1.1 415 Unsupported Media Type" );
-            }break;
+            } break;
 
             // Default case: something went wrong...
             default:
             {
-                append_to_log("HTTP 500, THIS SHOULD NOT HAPPEN!");
+                append_to_log( "HTTP 500, THIS SHOULD NOT HAPPEN!" );
                 header( "HTTP/1.1 500 Internal Server Error" );
-            }break;
+            } break;
         }
     }
+
+    /// \privatesection
+    var $ServerRootDir = "";
 }
 ?>

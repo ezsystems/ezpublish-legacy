@@ -34,11 +34,21 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+
+/*!
+  \class eZWebDAVFileServer ezwebdavfileserver.php
+  \ingroup eZWebDAV
+  \brief A simple file based WebDAV server
+
+  Usage:
+  \code
+  $myserver = new eZWebDAVFileServer();
+  $myserver->processClientRequest();
+  \endcode
+*/
+
 include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
-
-
-
 
 // Get and return the files/dir-names that reside at a given path.
 function getDirEntries( $targetPath )
@@ -61,14 +71,12 @@ function getDirEntries( $targetPath )
     // Else: unable to open the dir for listing, bail out...
     else
     {
-        return( FALSE );
+        return false;
     }
 
     // Return array of filenames.
     return $files;
 }
-
-
 
 // Recursively copies the contents of a directory.
 function copyDir( $source, $destination )
@@ -79,16 +87,16 @@ function copyDir( $source, $destination )
     // If no success: bail out.
     if ( !$status )
     {
-        return( FALSE );
+        return false;
     }
 
     // Get the contents of the directory.
     $entries = getDirEntries( $source );
 
     // Bail if contents is unavailable.
-    if ( $entries == FALSE )
+    if ( $entries == false )
     {
-        return (FALSE );
+        return false;
     }
     // Else: contents is OK:
     else
@@ -107,7 +115,7 @@ function copyDir( $source, $destination )
                     $status = copyDir( $from, $to );
                     if (!$status)
                     {
-                        return( FALSE );
+                        return false;
                     }
                 }
                 // Else: simple file case.
@@ -116,7 +124,7 @@ function copyDir( $source, $destination )
                     $status = copy( $from, $to );
                     if (!$status)
                     {
-                        return( FALSE );
+                        return false;
                     }
                 }
             }
@@ -125,28 +133,25 @@ function copyDir( $source, $destination )
     }
 
     // Phew: if we got this far then everything is OK.
-    return( TRUE );
+    return true;
 }
-
-
-
 
 // Recursively deletes the contents of a directory.
 function delDir( $dir )
 {
     // Attempt to open the target dir.
-    $currentDir = opendir($dir);
+    $currentDir = opendir( $dir );
 
     // Bail if unable to open dir.
-    if ( $currentDir == FALSE )
+    if ( $currentDir == false )
     {
-        return( FALSE );
+        return false;
     }
     // Else, dir is available, do the thing:
     else
     {
         // For all entires in the dir:
-        while($entry = readdir($currentDir))
+        while ( $entry = readdir( $currentDir ) )
         {
             // If entry is a directory and not . && .. :
             if ( is_dir( "$dir/$entry" ) and
@@ -158,7 +163,7 @@ function delDir( $dir )
                 // Bail if unable to delete the dir.
                 if ( !$status )
                 {
-                    return( FALSE );
+                    return false;
                 }
             }
             // Else: not dir but plain file.
@@ -170,7 +175,7 @@ function delDir( $dir )
                 // Bail if unable to delete the file.
                 if ( !$status )
                 {
-                    return( FALSE );
+                    return false;
                 }
             }
         }
@@ -183,11 +188,8 @@ function delDir( $dir )
     // OK as soon as we get this far...
     $status = rmdir( ${dir} );
 
-    return( $status );
+    return $status;
 }
-
-
-
 
 /* getFileInfo
    Gathers information about a specific file,
@@ -241,7 +243,6 @@ function getFileInfo( $dir, $file )
 }
 
 
-
 /* The eZWebDAVFileServer class
    Enables local file administration/management through the WebDAV interface.
 */
@@ -258,16 +259,13 @@ class eZWebDAVFileServer extends eZWebDAVServer
         // Check if the target file/dir really exists:
         if ( file_exists( $realPath ) )
         {
-            return( EZ_WEBDAV_OK_CREATED );
+            return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
-            return( EZ_WEBDAV_FAILED_NOT_FOUND );
+            return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
     }
-
-
-
 
     // Override put function.
     function put( $target, $tempFile )
@@ -286,37 +284,31 @@ class eZWebDAVFileServer extends eZWebDAVServer
         {
             append_to_log( "move of tempfile was OK" );
             // OK!
-            return( EZ_WEBDAV_OK_CREATED );
+            return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "move of tempfile FAILED" );
 
             // No deal!
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
+            return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
     }
-
-
-
 
     // Override get function.
     function get( $target )
     {
         $result         = array();
-        $result["data"] = FALSE;
-        $result["file"] = FALSE;
+        $result["data"] = false;
+        $result["file"] = false;
 
         // Set the file.
         $result["file"] = $_SERVER["DOCUMENT_ROOT"].$target;
 
         append_to_log( "GET: file is ".$result["file"]);
 
-        return( $result );
+        return $result;
     }
-
-
-
 
     // Override mkdir function.
     function mkcol( $target )
@@ -336,23 +328,20 @@ class eZWebDAVFileServer extends eZWebDAVServer
             if ( $status )
             {
                 // OK:
-                return( EZ_WEBDAV_OK_CREATED );
+                return EZ_WEBDAV_OK_CREATED;
             }
             else
             {
                 // No deal.
-                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
         // Else: a dir/file with that name already exists:
         else
         {
-            return( EZ_WEBDAV_FAILED_EXISTS );
+            return EZ_WEBDAV_FAILED_EXISTS;
         }
     }
-
-
-
 
     // Override delete function
     function delete( $target )
@@ -387,25 +376,22 @@ class eZWebDAVFileServer extends eZWebDAVServer
             {
                 append_to_log( "delete was OK" );
                 // OK!
-                return( EZ_WEBDAV_OK );
+                return EZ_WEBDAV_OK;
             }
             else
             {
                 append_to_log( "delete FAILED" );
 
                 // No deal!
-                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
             }
         }
         else
         {
             // Non-existent file/dir:
-            return( EZ_WEBDAV_FAILED_NOT_FOUND );
+            return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
     }
-
-
-
 
     // Override move function.
     function move( $source, $destination )
@@ -423,25 +409,22 @@ class eZWebDAVFileServer extends eZWebDAVServer
         {
             append_to_log( "move was OK" );
             // OK!
-            return( EZ_WEBDAV_OK_CREATED );
+            return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "move FAILED" );
 
             // No deal!
-            return( EZ_WEBDAV_FAILED_CONFLICT );
+            return EZ_WEBDAV_FAILED_CONFLICT;
         }
     }
-
-
-
 
     // Override copy function.
     function copy( $source, $destination )
     {
         append_to_log( "Source: $source   Destination: $destination" );
-        ob_start(); var_dump($_SERVER); $m = ob_get_contents(); ob_end_clean(); append_to_log($m);
+        ob_start(); var_dump( $_SERVER ); $m = ob_get_contents(); ob_end_clean(); append_to_log( $m );
 
         // Make real path to source and destination.
         $realSource      = $_SERVER["DOCUMENT_ROOT"].$source;
@@ -454,18 +437,16 @@ class eZWebDAVFileServer extends eZWebDAVServer
         {
             append_to_log( "copy was OK" );
             // OK!
-            return( EZ_WEBDAV_OK_CREATED );
+            return EZ_WEBDAV_OK_CREATED;
         }
         else
         {
             append_to_log( "copy FAILED" );
 
             // No deal!
-            return( EZ_WEBDAV_FAILED_CONFLICT );
+            return EZ_WEBDAV_FAILED_CONFLICT;
         }
     }
-
-
 
     // Override getCollectionContent function (dir list).
     function getCollectionContent( $dir )
@@ -494,14 +475,4 @@ class eZWebDAVFileServer extends eZWebDAVServer
         return $files;
     }
 }
-
-
-
-
-
-// Usage, simple:
-//
-//$myserver = new eZWebDAVFileServer();
-//$myserver->processClientRequest();
-
 ?>
