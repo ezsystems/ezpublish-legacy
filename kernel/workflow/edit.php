@@ -124,10 +124,9 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $execStack =& eZExecutionStack::instance();
     $execStack->pop();
     $uri = $execStack->peek( "uri" );
-    $Module->redirectTo( $uri == "" ? $Module->functionURI( "list" ) : $uri );
+    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
-
 if ( $http->hasPostVariable( "AddGroupButton" ) )
 {
     if ( $http->hasPostVariable( "Workflow_group") )
