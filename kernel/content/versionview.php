@@ -110,7 +110,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         }
         else
         {
-            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+            $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_parent_node_id' ) ) );
         }
     }
     else
