@@ -6,6 +6,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed problem with cache block expiry when ignore_content_expiry was set
 - Fixed several layout and functionality bugs in blog package
 - Fixed calendar operator bug
+- Fixed several UI issues in forum package
 
 *RSS:
 
