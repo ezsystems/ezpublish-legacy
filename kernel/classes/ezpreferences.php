@@ -114,6 +114,10 @@ class eZPreferences
             $value = $existingRes[0]['value'];
             $http->setSessionVariable( 'Preferences-' . $name, $value );
         }
+        else
+        {
+            $http->setSessionVariable( 'Preferences-' . $name, false );
+        }
         return $value;
     }
 }
