@@ -1818,19 +1818,6 @@ CREATE TABLE ezsession (
 
 
 
-CREATE TABLE ezsubtree_notification_rule (
-    id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
-    address character varying(255) DEFAULT '' NOT NULL,
-    use_digest integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL
-);
-
-
-
-
-
-
-
 CREATE TABLE eztrigger (
     id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
     name character varying(255),
@@ -2293,6 +2280,19 @@ CREATE TABLE eztipafriend_counter (
 CREATE TABLE ezview_counter (
     node_id integer DEFAULT '0' NOT NULL,
     count integer DEFAULT '0' NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezsubtree_notification_rule (
+    id integer DEFAULT nextval('tmp_notification_rule_s'::text) NOT NULL,
+    use_digest integer DEFAULT 0,
+    node_id integer NOT NULL,
+    user_id integer NOT NULL
 );
 
 
@@ -9454,13 +9454,6 @@ INSERT INTO ezsection VALUES (13, 'Blogs', '', 'ezcontentnavigationpart');
 
 
 
-
-
-
-
-
-
-
 INSERT INTO ezurl VALUES (1, 'http://ez.no', 1068713677, 1068713677, 1, 0, 'dfcdb471b240d964dc3f57b998eb0533');
 INSERT INTO ezurl VALUES (2, 'http://www.vg.no', 1068718860, 1068718860, 1, 0, '26f1033e463720ae68742157890bc752');
 INSERT INTO ezurl VALUES (3, 'http://www.sina.com.cn', 1068718957, 1068718957, 1, 0, '4f12a25ee6cc3d6123be77df850e343e');
@@ -9848,6 +9841,13 @@ INSERT INTO ezimagefile VALUES (49, 109, 'var/storage/original/image/phppIJtoa.j
 
 
 
+
+
+
+
+
+
+
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
 
 
@@ -10177,6 +10177,22 @@ CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribut
 
 
 CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING btree (id);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
 
@@ -10742,15 +10758,6 @@ ALTER TABLE ONLY ezsession
 
 
 
-ALTER TABLE ONLY ezsubtree_notification_rule
-    ADD CONSTRAINT ezsubtree_notification_rule994_key PRIMARY KEY (id);
-
-
-
-
-
-
-
 ALTER TABLE ONLY eztrigger
     ADD CONSTRAINT eztrigger1007_key PRIMARY KEY (id);
 
@@ -10978,6 +10985,15 @@ ALTER TABLE ONLY eztipafriend_counter
 
 ALTER TABLE ONLY ezview_counter
     ADD CONSTRAINT ezview_counter_pkey PRIMARY KEY (node_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsubtree_notification_rule
+    ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
 
 
 

@@ -1818,19 +1818,6 @@ CREATE TABLE ezsession (
 
 
 
-CREATE TABLE ezsubtree_notification_rule (
-    id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
-    address character varying(255) DEFAULT '' NOT NULL,
-    use_digest integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL
-);
-
-
-
-
-
-
-
 CREATE TABLE eztrigger (
     id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
     name character varying(255),
@@ -2293,6 +2280,19 @@ CREATE TABLE eztipafriend_counter (
 CREATE TABLE ezview_counter (
     node_id integer DEFAULT '0' NOT NULL,
     count integer DEFAULT '0' NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezsubtree_notification_rule (
+    id integer DEFAULT nextval('tmp_notification_rule_s'::text) NOT NULL,
+    use_digest integer DEFAULT 0,
+    node_id integer NOT NULL,
+    user_id integer NOT NULL
 );
 
 
@@ -8831,13 +8831,6 @@ INSERT INTO ezsection VALUES (11, 'Set up object', '', 'ezsetupnavigationpart');
 
 
 
-
-
-
-
-
-
-
 INSERT INTO ezurlalias VALUES (19, 'users/guest_accounts/test_test', '27a1813763d43de613bf05c31df7a6ef', 'content/view/full/42', 1, 0, 0);
 INSERT INTO ezurlalias VALUES (22, 'setup/classes', '9e8c46c1357285763cd49ea56c57312d', 'content/view/full/45', 1, 24, 0);
 INSERT INTO ezurlalias VALUES (25, 'setup/setup_links/setup_objects', 'a695bd42e59634b44441ca4e4548e94a', 'content/view/full/47', 1, 80, 0);
@@ -9125,6 +9118,13 @@ INSERT INTO ezimagefile VALUES (37, 109, 'var/storage/original/image/phpAhcEu9.p
 INSERT INTO ezimagefile VALUES (38, 103, 'var/storage/original/image/phpWJgae7.png');
 INSERT INTO ezimagefile VALUES (39, 109, 'var/storage/original/image/phpbVfzkm.png');
 INSERT INTO ezimagefile VALUES (40, 103, 'var/storage/original/image/php7ZhvcB.png');
+
+
+
+
+
+
+
 
 
 
@@ -9475,6 +9475,22 @@ CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribut
 
 
 CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING btree (id);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
 
@@ -10040,15 +10056,6 @@ ALTER TABLE ONLY ezsession
 
 
 
-ALTER TABLE ONLY ezsubtree_notification_rule
-    ADD CONSTRAINT ezsubtree_notification_rule994_key PRIMARY KEY (id);
-
-
-
-
-
-
-
 ALTER TABLE ONLY eztrigger
     ADD CONSTRAINT eztrigger1007_key PRIMARY KEY (id);
 
@@ -10276,6 +10283,15 @@ ALTER TABLE ONLY eztipafriend_counter
 
 ALTER TABLE ONLY ezview_counter
     ADD CONSTRAINT ezview_counter_pkey PRIMARY KEY (node_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsubtree_notification_rule
+    ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
 
 
 

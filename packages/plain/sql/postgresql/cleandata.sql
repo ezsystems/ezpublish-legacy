@@ -693,13 +693,6 @@ INSERT INTO ezsection VALUES (3, 'Media', '', 'ezmedianavigationpart');
 
 
 
-
-
-
-
-
-
-
 INSERT INTO ezurlalias VALUES (12, '', 'd41d8cd98f00b204e9800998ecf8427e', 'content/view/full/2', 1, 0, 0);
 INSERT INTO ezurlalias VALUES (13, 'users', '9bc65c2abec141778ffaa729489f3e87', 'content/view/full/5', 1, 0, 0);
 INSERT INTO ezurlalias VALUES (15, 'users/guest_accounts', '02d4e844e3a660857a3f81585995ffe1', 'content/view/full/12', 1, 0, 0);
@@ -831,6 +824,13 @@ INSERT INTO ezworkflow_group_link VALUES (1, 1, 0, 'Standard');
 
 INSERT INTO ezsite_data VALUES ('ezpublish-version', '3.3');
 INSERT INTO ezsite_data VALUES ('ezpublish-release', '1');
+
+
+
+
+
+
+
 
 
 

@@ -1818,19 +1818,6 @@ CREATE TABLE ezsession (
 
 
 
-CREATE TABLE ezsubtree_notification_rule (
-    id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
-    address character varying(255) DEFAULT '' NOT NULL,
-    use_digest integer DEFAULT '0' NOT NULL,
-    node_id integer DEFAULT '0' NOT NULL
-);
-
-
-
-
-
-
-
 CREATE TABLE eztrigger (
     id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
     name character varying(255),
@@ -2301,6 +2288,19 @@ CREATE TABLE ezview_counter (
 
 
 
+CREATE TABLE ezsubtree_notification_rule (
+    id integer DEFAULT nextval('tmp_notification_rule_s'::text) NOT NULL,
+    use_digest integer DEFAULT 0,
+    node_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+
+
+
+
+
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
 
 
@@ -2630,6 +2630,22 @@ CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribut
 
 
 CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING btree (id);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
 
@@ -3195,15 +3211,6 @@ ALTER TABLE ONLY ezsession
 
 
 
-ALTER TABLE ONLY ezsubtree_notification_rule
-    ADD CONSTRAINT ezsubtree_notification_rule994_key PRIMARY KEY (id);
-
-
-
-
-
-
-
 ALTER TABLE ONLY eztrigger
     ADD CONSTRAINT eztrigger1007_key PRIMARY KEY (id);
 
@@ -3431,5 +3438,14 @@ ALTER TABLE ONLY eztipafriend_counter
 
 ALTER TABLE ONLY ezview_counter
     ADD CONSTRAINT ezview_counter_pkey PRIMARY KEY (node_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezsubtree_notification_rule
+    ADD CONSTRAINT tmp_notification_rule_pkey PRIMARY KEY (id);
 
 
