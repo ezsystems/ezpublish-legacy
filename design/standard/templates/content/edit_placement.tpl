@@ -33,18 +33,26 @@
 
 
 {default exclude_remote_assignments=true()}
+    {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
+                   sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))
+                   has_top_levels=false()}
+    {section loop=$assigned_node_array}
+        {section show=$Node:item.parent_node|le( 1 )}
+            {set has_top_levels=true()}
+        {/section}
+    {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <th width="60%">{"Location"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Sort by"|i18n("design/standard/content/edit")}</th>
         <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}</th>
+    {section show=$:has_top_levels|not}
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
+    {/section}
     </tr>
-    {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
-                   sort_fields=hash(9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
     {let existingParentNodes=$object.parent_nodes}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {section-exclude match=$:item.parent_node|le(0)}
@@ -77,34 +85,47 @@
         <td class="{$Node:sequence}" width="25">
 	<nobr><img src={"desc-transp.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} /></nobr>
         </td>
+
+        {section show=$:has_top_levels|not}
         <td class="{$Node:sequence}" align="right">
-        <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
+            <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
         </td>
+        {/section}
+
+        {section show=$:has_top_levels|not}
         <td class="{$Node:sequence}" align="right">
-        {switch match=$Node:item.parent_node}
-        {case in=$Node:existingParentNodes}
-         <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-        {/case}
-        {case}
-          {section show=$Node:item.from_node_id|gt(0)}
-            <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-          {section-else}      
-          {/section}   
-         {/case}
-        {/switch}
+            {switch match=$Node:item.parent_node}
+            {case in=$Node:existingParentNodes}
+             <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+            {/case}
+            {case}
+              {section show=$Node:item.from_node_id|gt(0)}
+                <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+              {section-else}
+              {/section}
+             {/case}
+            {/switch}
         </td>
         <td class="{$Node:sequence}" align="right">
 {*     {section show=eq($Node:item.parent_node,$main_node_id)|not}*}
-        <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"trash.png"|ezimage} value="{$Node:item.parent_node}"  />
+            <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"trash.png"|ezimage} value="{$Node:item.parent_node}"  />
 {*     {/section}*}
         </td>
+        {/section}
+
     </tr>
     {/let}
     {/section}
     {/let}
-    {/let}
  </table>
- <div align="left" class="buttonblock">
-  <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
- </div>
+{section show=$:has_top_levels}
+    <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
+{/section}
+{section show=$:has_top_levels|not}
+    <div align="left" class="buttonblock">
+        <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
+    </div>
+{/section}
+
+    {/let}
 {/default}
