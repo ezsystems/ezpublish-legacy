@@ -2863,13 +2863,9 @@ WHERE
 
                 $db->query( $query );
 
-                eZContentObject::expireAllCache();
                 eZRole::expireCache();
             }
-
-
         }
-
     }
 
     function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )

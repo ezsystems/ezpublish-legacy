@@ -559,6 +559,9 @@ Workflow:
 - Fixed bug  eZText datatype bug when disabled translation.
   ( Merged from stable/3.4 rev. 8042 )
   http://ez.no/community/bug_reports/eztext_datatype_bug_when_disabled_translation
+- Fixed bug: dirty cache after node where moved.
+  ( manually merged from stable/3.4 rev. 8060 )
+- Fixed bug: incorrect value of eZNodeAssignment after node was moved.
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
