@@ -15,14 +15,32 @@
     {set select_type='radio'}
 {/section}
 
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Browse'|i18n('design/admin/content/browse')}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<div class="block">
+
 {section show=$browse.description_template}
     {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
 {section-else}
-    <h1>{'Browse'|i18n('design/admin/content/browse')} - {$main_node.name|wash}</h1>
-
     <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n('design/admin/content/browse')}</p>
     <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n('design/admin/content/browse')}</p>
 {/section}
+
+</div>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+
+</div>
 
 <div class="context-block">
 
@@ -32,15 +50,15 @@
 
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
 {section show=$browse.start_node|gt(1)}
-    <h1 class="context-title">
+    <h2 class="context-title">
     <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
-    {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h1>
+    {$current_node.object.content_class.identifier|class_icon( small, $current_node.object.content_class.name )}&nbsp;{$current_node.name|wash}&nbsp;[{$current_node.children_count}]</h2>
 {section-else}
-    <h1 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h1>
+    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
 {/section}
 {/let}
 
-{* DESIGN: Mainline *}<div class="header-mainline"></div>
+{* DESIGN: Mainline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
