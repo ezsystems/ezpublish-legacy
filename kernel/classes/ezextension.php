@@ -73,6 +73,12 @@ class eZExtension
     {
         $ini =& eZINI::instance();
         $activeExtensions = $ini->variable( 'ExtensionSettings', 'ActiveExtensions' );
+        $globalActiveExtensions =& $GLOBALS['eZActiveExtensions'];
+        if ( isset( $globalActiveExtensions ) )
+        {
+            $activeExtensions = array_unique( array_merge( $activeExtensions,
+                                                           $globalActiveExtensions ) );
+        }
         return $activeExtensions;
     }
 

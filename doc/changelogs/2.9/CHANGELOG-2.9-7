@@ -59,6 +59,8 @@ Changes from 2.9-6 to 2.9-7
 - Added session cache of disount rules
 - Added GUI interface to manage possible tranlations for object
 - Added possibility to limit user to have acces to different siteaccesses
+- New object forward template functions, content_version_view_gui,
+  collaboration_view_gui and collaboration_icon.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

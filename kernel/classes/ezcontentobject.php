@@ -79,6 +79,7 @@ class eZContentObject extends eZPersistentObject
                       "function_attributes" => array( "current" => "currentVersion",
                                                       'versions' => 'versions',
                                                       "class_name" => "className",
+                                                      "content_class" => "contentClass",
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "owner" => "owner",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
@@ -107,6 +108,7 @@ class eZContentObject extends eZPersistentObject
         if ( $attr == "current" or
              $attr == 'versions' or
              $attr == "class_name" or
+             $attr == "content_class" or
              $attr == "owner" or
              $attr == "contentobject_attributes" or
              $attr == "related_contentobject_array" or
@@ -126,6 +128,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->versions();
             else if ( $attr == "class_name" )
                 return $this->className();
+            else if ( $attr == 'content_class' )
+                return $this->contentClass();
             else if ( $attr == "owner" )
                 return $this->owner();
             else if ( $attr == "can_read" )
@@ -185,22 +189,27 @@ class eZContentObject extends eZPersistentObject
         {
             return $this->Name;
         }
-        $db =& eZDb::instance();
-        if ( !$lang )
-        {
-            $lang = $this->defaultLanguage();
-        }
         if ( !$version )
         {
             $version = $this->attribute( 'current_version' );
         }
         $objectID = $this->attribute( 'id' );
-        $query= "select name,real_translation from ezcontentobject_name where contentobject_id = $objectID and content_version= $version  and content_translation ='$lang'";
+        return $this->versionLanguageName( $objectID, $version, $lang );
+    }
+
+    function &versionLanguageName( $contentObjectID, $version, $lang = false )
+    {
+        if ( !$lang )
+        {
+            $lang = eZContentObject::defaultLanguage();
+        }
+        $db =& eZDb::instance();
+        $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
         $result =& $db->arrayQuery( $query );
         if ( count( $result ) < 1 )
         {
-            eZDebug::writeError( $this, "unable to fetch object name from db");
-            $name = "default";
+            eZDebug::writeError( "Unable to fetch object name from DB with content object ($contentObjectID), version($version) and language($lang)", 'eZContentObject::versionLanguageName' );
+            $name = false;
             return $name;
         }
         return $result[0]['name'];

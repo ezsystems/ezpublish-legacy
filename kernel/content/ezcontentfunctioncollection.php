@@ -71,7 +71,7 @@ class eZContentFunctionCollection
         if ( $contentVersion === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $contentObject );
+        return array( 'result' => $contentVersion );
     }
 
     function &fetchContentNode( $nodeID )

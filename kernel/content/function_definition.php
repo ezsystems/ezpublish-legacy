@@ -57,7 +57,7 @@ $FunctionList['version'] = array( 'name' => 'version',
                                                          array( 'name' => 'version_id',
                                                                 'type' => 'integer',
                                                                 'default' => false,
-                                                                'required' => false ) ) );
+                                                                'required' => true ) ) );
 $FunctionList['node'] = array( 'name' => 'node',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

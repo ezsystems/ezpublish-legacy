@@ -1,0 +1,1 @@
+<img src={"collaboration/ezapprove.png"|ezimage} alt="Approval" />

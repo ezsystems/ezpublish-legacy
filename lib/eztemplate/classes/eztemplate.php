@@ -1126,7 +1126,8 @@ class eZTemplate
     */
     function setVariable( $var, $val, $namespace = "" )
     {
-        if ( isset( $this->Variables[$namespace][$var] ) )
+        if ( array_key_exists( $namespace, $this->Variables ) and
+             array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
         $this->Variables[$namespace][$var] = $val;
     }
@@ -1138,7 +1139,8 @@ class eZTemplate
     */
     function setVariableRef( $var, &$val, $namespace = "" )
     {
-        if ( isset( $this->Variables[$namespace][$var] ) )
+        if ( array_key_exists( $namespace, $this->Variables ) and
+             array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
         $this->Variables[$namespace][$var] =& $val;
     }
@@ -1148,8 +1150,10 @@ class eZTemplate
     */
     function unsetVariable( $var, $namespace = "" )
     {
-        if ( isset( $this->Variables[$namespace][$var] ) )
-             unset( $this->Variables[$namespace][$var] );
+//         if ( isset( $this->Variables[$namespace][$var] ) )
+        if ( array_key_exists( $namespace, $this->Variables ) and
+             array_key_exists( $var, $this->Variables[$namespace] ) )
+            unset( $this->Variables[$namespace][$var] );
         else
             $this->warning( "unsetVariable()", "Undefined Variable: \$$namespace:$var, cannot unset" );
     }
@@ -1160,7 +1164,9 @@ class eZTemplate
     */
     function hasVariable( $var, $namespace = "", $attrs = array() )
     {
-        $exists = isset( $this->Variables[$namespace][$var] );
+        $exists = ( array_key_exists( $namespace, $this->Variables ) and
+                    array_key_exists( $var, $this->Variables[$namespace] ) );
+//         $exists = isset( $this->Variables[$namespace][$var] );
         if ( $exists and count( $attrs ) > 0 )
         {
             $ptr =& $this->Variables[$namespace][$var];
@@ -1176,7 +1182,7 @@ class eZTemplate
                 }
                 else if ( is_array( $ptr ) )
                 {
-                    if ( isset( $ptr[$attr] ) )
+                    if ( array_key_exists( $attr, $ptr ) )
                         $tmp =& $ptr[$attr];
                     else
                         return false;
@@ -1199,7 +1205,9 @@ class eZTemplate
     function &variable( $var, $namespace = "", $attrs = array() )
     {
         $val = null;
-        $exists = isset( $this->Variables[$namespace][$var] );
+        $exists = ( array_key_exists( $namespace, $this->Variables ) and
+                    array_key_exists( $var, $this->Variables[$namespace] ) );
+//         $exists = isset( $this->Variables[$namespace][$var] );
         if ( $exists )
         {
             if ( count( $attrs ) > 0 )
@@ -1217,7 +1225,7 @@ class eZTemplate
                     }
                     else if ( is_array( $ptr ) )
                     {
-                        if ( isset( $ptr[$attr] ) )
+                        if ( array_key_exists( $attr, $ptr ) )
                             $tmp =& $ptr[$attr];
                         else
                             return $val;

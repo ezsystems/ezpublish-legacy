@@ -65,6 +65,18 @@ class eZObjectForwarder
         $rule =& $this->Rules[$functionName];
         $template_dir = $rule["template_root"];
         $input_name =& $rule["input_name"];
+        $outCurrentNamespace = $currentNamespace;
+        if ( isset( $rule['namespace'] ) )
+        {
+            $ruleNamespace = $rule['namespace'];
+            if ( $ruleNamespace != '' )
+            {
+                if ( $outCurrentNamespace != '' )
+                    $outCurrentNamespace .= ':' . $ruleNamespace;
+                else
+                    $outCurrentNamespace = $ruleNamespace;
+            }
+        }
 
         $params = $functionParameters;
         if ( !isset( $params[$input_name] ) )
@@ -198,15 +210,15 @@ class eZObjectForwarder
                 $designUsedKeys = $extraParameters['ezdesign:used_keys'];
             if ( isset( $extraParameters['ezdesign:matched_keys'] ) )
                 $designMatchedKeys = $extraParameters['ezdesign:matched_keys'];
-            if ( $currentNamespace != '' )
-                $designKeyNamespace = $currentNamespace . ':DesignKeys';
+            if ( $outCurrentNamespace != '' )
+                $designKeyNamespace = $outCurrentNamespace . ':DesignKeys';
             else
                 $designKeyNamespace = 'DesignKeys';
 
             $sub_text = "";
             $output_name =& $rule["output_name"];
             $setVariableArray = array();
-            $tpl->setVariableRef( $output_name, $input_var, $currentNamespace );
+            $tpl->setVariableRef( $output_name, $input_var, $outCurrentNamespace );
             $setVariableArray[] = $output_name;
             // Set design keys
             $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
@@ -218,7 +230,7 @@ class eZObjectForwarder
                      $paramName == $view_var )
                     continue;
                 $paramValue =& $tpl->elementValue( $params[$paramName], $old_nspace, $currentNamespace, $functionPlacement );
-                $tpl->setVariableRef( $paramName, $paramValue, $currentNamespace );
+                $tpl->setVariableRef( $paramName, $paramValue, $outCurrentNamespace );
                 $setVariableArray[] = $paramName;
             }
             // Set constant variables
@@ -230,7 +242,7 @@ class eZObjectForwarder
                          $constantTemplateVariableKey == $view_var or
                          $tpl->hasVariable( $constantTemplateVariableKey, $currentNamespace ) )
                         continue;
-                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $currentNamespace );
+                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $outCurrentNamespace );
                     $setVariableArray[] = $constantTemplateVariableKey;
                 }
             }
@@ -242,14 +254,14 @@ class eZObjectForwarder
             else if ( $resourceData['root-node'] )
             {
                 $root =& $resourceData['root-node'];
-                $tpl->process( $root, $sub_text, $currentNamespace, $currentNamespace );
+                $tpl->process( $root, $sub_text, $outCurrentNamespace, $outCurrentNamespace );
                 $tpl->setIncludeOutput( $uri, $sub_text );
 
                 $textElements[] = $sub_text;
             }
             foreach ( $setVariableArray as $setVariableName )
             {
-                $tpl->unsetVariable( $setVariableName, $currentNamespace );
+                $tpl->unsetVariable( $setVariableName, $outCurrentNamespace );
             }
         }
         else

@@ -66,6 +66,8 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $this->ContentObjectAttributeArray = false;
         $this->DataMap = false;
+        $this->TempNode = null;
+        $this->VersionName = null;
         $this->eZPersistentObject( $row );
     }
 
@@ -83,6 +85,7 @@ class eZContentObjectVersion extends eZPersistentObject
                       'keys' => array( 'id' ),
                       'function_attributes' => array( // 'data' => 'fetchData',
                                                       'creator' => 'creator',
+                                                      "name" => "name",
                                                       'main_parent_node_id' => 'mainParentNodeID',
                                                       "contentobject_attributes" => "contentObjectAttributes",
                                                       "related_contentobject_array" => "relatedContentObjectArray",
@@ -94,7 +97,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'contentobject' => 'contentObject',
                                                       'language_list' => 'translations',
                                                       'translation' => 'translation',
-                                                      'translation_list' => 'translationList'
+                                                      'translation_list' => 'translationList',
+                                                      'temp_main_node' => 'tempMainNode'
                                                       ),
                       'class_name' => "eZContentObjectVersion",
                       'sort' => array( 'version' => 'asc' ),
@@ -116,6 +120,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function hasAttribute( $attr )
     {
         return $attr == 'creator'
+            or $attr == 'name'
             or $attr == 'main_parent_node_id'
             or $attr == 'parent_nodes'
             or $attr == 'node_assignments'
@@ -125,6 +130,7 @@ class eZContentObjectVersion extends eZPersistentObject
             or $attr == 'translation_list'
             or $attr == 'related_contentobject_array'
             or $attr == 'reverse_related_object_list'
+            or $attr == 'temp_main_node'
             or eZPersistentObject::hasAttribute( $attr );
     }
 
@@ -136,8 +142,6 @@ class eZContentObjectVersion extends eZPersistentObject
                                                 $asObject );
     }
 
-
-
     /*!
      \return the attribute with the requested name.
     */
@@ -146,6 +150,10 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $attr == 'creator' )
         {
             return $this->creator();
+        }
+        else if ( $attr == 'name' )
+        {
+            return $this->name();
         }
         elseif ( $attr == 'main_parent_node_id' )
         {
@@ -191,12 +199,60 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             return  $this->translationList( eZContentObject::defaultLanguage() );
         }
+        else if ( $attr == 'temp_main_node' )
+        {
+            return $this->tempMainNode();
+        }
         else if ( $attr == "can_versionread" )
             return $this->canVersionRead();
         else
         {
             return eZPersistentObject::attribute( $attr );
         }
+    }
+
+    /*!
+     \return an eZContentObjectTreeNode object which doesn't really exist in the DB,
+             this can be passed to a node view template.
+    */
+    function &tempMainNode()
+    {
+        if ( $this->TempNode !== null )
+            return $this->TempNode;
+        $nodeAssignments =& $this->nodeAssignments();
+        $mainNodeAssignment = null;
+        for ( $i = 0; $i < count( $nodeAssignments ); ++$i )
+        {
+            $nodeAssignment =& $nodeAssignments[$i];
+            if ( $nodeAssignment->attribute( 'is_main' ) )
+            {
+                $mainNodeAssignment =& $nodeAssignment;
+                break;
+            }
+        }
+        if ( $mainNodeAssignment === null and
+             count( $nodeAssignments ) > 0 )
+            $mainNodeAssignment =& $nodeAssignments[0];
+        $this->TempNode =& $mainNodeAssignment->tempNode();
+        return $this->TempNode;
+    }
+
+    /*!
+     \return the name of the current version, optionally in the specific language \a $lang
+    */
+    function &name( $lang = false )
+    {
+        if ( $this->VersionName !== null )
+            return $this->VersionName;
+        $this->VersionName = eZContentObject::versionLanguageName( $this->attribute( 'contentobject_id' ),
+                                                                   $this->attribute( 'version' ),
+                                                                   $lang );
+        if ( $this->VersionName === false )
+        {
+            $contentObject =& $this->contentObject();
+            $this->VersionName = $contentObject->name( $lang );
+        }
+        return $this->VersionName;
     }
 
     /*!

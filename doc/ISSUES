@@ -446,6 +446,10 @@ eZ Setup System
 - See if it's possible to implement array_key_exists with pure PHP and see if we can lower
   the min requirements because of this.
 
+- Check if file uploading is enabled, if not give clues on how to enabled it.
+  See php.ini file_uploads = Off
+
+
 Classes
 -----------
 - Group names should not be cached in the group/class link table, it should be taken from the

@@ -203,6 +203,60 @@ alter table ezcontentobject_tree add column md5_path varchar(32);
 update ezcontentobject_tree set md5_path = md5( path_identification_string );
 alter table ezcontentobject drop column parent_id;
 
+create table ezcollab_item(
+    id int NOT NULL auto_increment,
+    type_identifier varchar(40) NOT NULL default '',
+    creator_id int NOT NULL default '0',
+    status int NOT NULL default '1',
+    data_text1 text NOT NULL default '',
+    data_text2 text NOT NULL default '',
+    data_text3 text NOT NULL default '',
+    data_int1 int NOT NULL default '0',
+    data_int2 int NOT NULL default '0',
+    data_int3 int NOT NULL default '0',
+    data_float1 float NOT NULL default '0',
+    data_float2 float NOT NULL default '0',
+    data_float3 float NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (id)
+    );
+
+create table ezcollab_group(
+    id int NOT NULL auto_increment,
+    parent_group_id int NOT NULL default '0',
+    depth int(11) NOT NULL default '0',
+    path_string varchar(255) NOT NULL default '',
+    is_open int NOT NULL default '1',
+    user_id int NOT NULL default '0',
+    title varchar(255) NOT NULL default '',
+    priority int NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (id),
+    KEY ezcollab_group_path (path_string),
+    KEY ezcollab_group_depth (depth)
+    );
+
+create table ezcollab_item_group_link(
+    collaboration_id int NOT NULL DEFAULT '0',
+    group_id  int NOT NULL default '0',
+    user_id int NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, group_id, user_id)
+    );
+
+create table ezcollab_item_participant_link(
+    collaboration_id int NOT NULL DEFAULT '0',
+    participant_id  int NOT NULL default '0',
+    participant_type  int NOT NULL default '1',
+    is_read int NOT NULL default '0',
+    is_active int NOT NULL default '1',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (collaboration_id, participant_id)
+    );
 
 
 create table ezcontent_translation(

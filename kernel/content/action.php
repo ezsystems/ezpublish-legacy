@@ -290,7 +290,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     return;
 }*/
 
-
 // return module contents
 $Result = array();
 $Result['content'] =& $result;

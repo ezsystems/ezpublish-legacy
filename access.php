@@ -87,7 +87,7 @@ function accessType( &$uri, $host, $port, $file )
     if ( $order == 'none' )
         return $access;
     $order = $ini->variableArray( 'SiteAccessSettings', 'MatchOrder' );
-    foreach( $order as $match )
+    foreach ( $order as $match )
     {
         $tmp_type = null;
         $match_type = false;
@@ -365,6 +365,11 @@ function changeAccess( $access )
         $ini->prependOverrideDir( "siteaccess/$name" );
         $ini->loadCache();
 //         $ini->parse( 'site.ini' );
+    }
+    if ( file_exists( "settings/siteaccess/$name/custom/debugsettings.php" ) )
+    {
+        eZDebug::appendOverrideDirectory( "settings/siteaccess/$name/custom" );
+        eZDebug::loadSettings();
     }
     if ( $access === null )
     {
