@@ -78,7 +78,7 @@ $ViewList["view"] = array(
 
 
 $ViewList["versionview"] = array(
-    "functions" => array( 'read' ),
+    "functions" => array( 'versionread' ),
     "script" => "versionview.php",
     'single_post_actions' => array( 'SelectLanguageButton' => 'SelectLanguage',
                                     'SelectPlacementButton' => 'SelectPlacement',
@@ -200,6 +200,15 @@ $SectionID = array(
     "function" => "fetchList",
     "parameter" => array(  false )
     );
+$Status = array(
+    'name'=> 'Status',
+    'values'=> array(),
+    "path" => "classes/",
+    "file" => "ezcontentobjectversion.php",
+    "class" => 'eZContentObjectVersion',
+    "function" => "statusList",
+    "parameter" => array(  false )
+    );
 $Assigned = array(
     'name'=> 'Owner',
     'values'=> array(
@@ -234,6 +243,11 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
 $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'Owner' => $Assigned );
+
+$FunctionList['versionread'] = array( 'Class' => $ClassID,
+                                      'Section' => $SectionID,
+                                      'Owner' => $Assigned,
+                                      'Status' => $Status);
 
 /*
 $ViewArray["view"] = array(

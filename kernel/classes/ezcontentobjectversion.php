@@ -92,9 +92,18 @@ class eZContentObjectVersion extends eZPersistentObject
                       'name' => 'ezcontentobject_version' );
     }
 
+    function statusList()
+    {
+        return array( array( 'name' => "Draft", 'id' =>  EZ_VERSION_STATUS_DRAFT ),
+                      array( 'name' => "Published", 'id' =>  EZ_VERSION_STATUS_PUBLISHED ),
+                      array( 'name' => "Pending", 'id' =>  EZ_VERSION_STATUS_PENDING ),
+                      array( 'name' => "Archived", 'id' =>  EZ_VERSION_STATUS_ARCHIVED ),
+                      array( 'name' => "Rejected", 'id' =>  EZ_VERSION_STATUS_REJECTED ) );
+    }
     /*!
      \return true if the requested attribute exists in object.
     */
+    
     function hasAttribute( $attr )
     {
         return $attr == 'creator'
