@@ -1,6 +1,6 @@
 {let file_results=$test_result[2]}
 
-{$file_results.safe_mode}
+{* {$file_results.safe_mode} *}
 
 <h3>{$result_number}. {"Insufficient directory permissions"|i18n("design/standard/setup/tests")}</h3>
 <p>{"eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail."|i18n("design/standard/setup/tests")}</p>
