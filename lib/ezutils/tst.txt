@@ -1,2 +1,2 @@
-A stupid file
+A test file for testing something.
  
