@@ -115,7 +115,7 @@ class eZKeywordType extends eZDataType
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( &$http, $base, &$attribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -123,14 +123,14 @@ class eZKeywordType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( &$http, $base, &$attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( &$http, $base, &$attribute )
     {
         return true;
     }
@@ -140,15 +140,22 @@ class eZKeywordType extends eZDataType
     */
     function &objectAttributeContent( &$attribute )
     {
-        return "test";
+        $keyword = new eZKeyword();
+        $keyword->fetch( $attribute );
+
+        return $keyword;
     }
 
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( &$attribute )
     {
-        return "KEYWORDS to index 42";
+        $keyword = new eZKeyword();
+        $keyword->fetch( $attribute );
+        $return =& $keyword->keywordString();
+
+        return $return;
     }
 
     /*!
@@ -162,9 +169,13 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the content of the keyword for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( &$attribute )
     {
-        return "FIX ME";
+        $keyword = new eZKeyword();
+        $keyword->fetch( $attribute );
+        $return =& $keyword->keywordString();
+
+        return $return;
     }
 
     /*!

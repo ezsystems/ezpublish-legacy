@@ -1025,6 +1025,45 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
+    /*!
+     \static$objectString
+     Fetches the main nodes for the given node ID's and returns the node objects.
+    */
+    function &findMainNodeArray( $objectIDArray, $asObject = true )
+    {
+        if ( count( $objectIDArray ) > 0 )
+        {
+            $objectString = implode( ', ', $objectIDArray );
+            $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE ezcontentobject_tree.contentobject_id IN ( $objectString ) AND
+                          ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0 AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id";
+
+            $db =& eZDB::instance();
+            $nodeListArray =& $db->arrayQuery( $query );
+
+            if ( $asObject )
+            {
+                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                $returnValue =& $retNodeArray;
+                return $returnValue;
+            }
+            else
+            {
+                $retNodeArray =& $nodeListArray;
+                return $retNodeArray['node_id'];
+            }
+        }
+        return null;
+    }
+
     function &fetch( $nodeID, $lang = false )
     {
         $returnValue = null;

@@ -2,6 +2,9 @@ Changes from 3.1-1 to 3.1-2
 
 *Kernel:
 - Fixed problem with related object datatype causing input validation error
+- Added function for returning the authors of a content object
+- Fixed numerous problems with eZKeyword datatype
+- Added function for initializing an array of content object nodes from object id's
 - Fixed permissons on override.ini.append and templeate overrides when creating them from Setup
   Now sets permission StorageDirPermissions and StorageFilePermissions from [FileSettings]
 
