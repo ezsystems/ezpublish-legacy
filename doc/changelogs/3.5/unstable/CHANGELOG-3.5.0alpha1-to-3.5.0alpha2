@@ -30,6 +30,11 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   use the temporary version of the image instead of the one with correct
   node path.
 
+*ContentUpload:
+- Added support for passing an existing node to handleUpload() and
+  handleLocalFile(), in which it will reuse the object the node points to.
+- Implemented the missing findRegularFileAttribute() function.
+
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the
   viewcache for a given node or subtree.

@@ -235,10 +235,12 @@ class eZContentUpload
      \param $result Result data, will be filled with information which the client can examine, contains:
                     - errors - An array with errors, each element is an array with \c 'description' containing the text
      \param $location The node ID which the new object will be placed or the string \c 'auto' for automatic placement of type.
+     \param $existingNode Pass a contentobjecttreenode object to let the uploading be done to an existing object,
+                          if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
     */
-    function handleLocalFile( &$result, $filePath, $location )
+    function handleLocalFile( &$result, $filePath, $location, $existingNode )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -258,14 +260,31 @@ class eZContentUpload
         $mimeData = eZMimeType::findByFileContents( $filePath );
         $mime = $mimeData['name'];
 
-        $classIdentifier = $this->detectClassIdentifier( $mime );
+        $object = false;
+        $class = false;
+        // Figure out class identifier from an existing node
+        // if not we will have to detect it from the mimetype
+        if ( is_object( $existingNode ) )
+        {
+            $object =& $existingNode->object();
+            $class =& $object->contentClass();
+            $classIdentifier = $class->attribute( 'identifier' );
+        }
+        else
+        {
+            $classIdentifier = $this->detectClassIdentifier( $mime );
+        }
+
         if ( !$classIdentifier )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'No matching class identifier found.' ) );
             return false;
         }
-        $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+
+        if ( !is_object( $class ) )
+            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+
         if ( !$class )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -277,14 +296,18 @@ class eZContentUpload
 
         $parentNodes = false;
         $parentMainNode = false;
-        $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
-        if ( !$locationOK )
+        // If do not have an existing node we need to figure
+        // out the locations from $location and $classIdentifier
+        if ( !is_object( $existingNode ) )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                        'Was not able to figure out placement of object.' ) );
-            return false;
+            $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+            if ( !$locationOK )
+            {
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Was not able to figure out placement of object.' ) );
+                return false;
+            }
         }
-
 
         $uploadINI =& eZINI::instance( 'upload.ini' );
         $iniGroup = $classIdentifier . '_ClassSettings';
@@ -325,13 +348,19 @@ class eZContentUpload
         $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
         $nameString = $this->processNamePattern( $variables, $namePattern );
 
-        $object =& $class->instantiate();
+        // When we have an existing node we will already have the
+        // $object as well (look above).
+        // If not we need to create a new object from the class
+        if ( !is_object( $existingNode ) )
+        {
+            $object =& $class->instantiate();
+        }
 
         unset( $dataMap );
         $dataMap =& $object->dataMap();
 
         $status = $dataMap[$fileAttribute]->insertRegularFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
-                                                               $filePath, $mimeData,
+                                                               $filePath,
                                                                $storeResult );
         if ( $status === null )
         {
@@ -377,10 +406,12 @@ class eZContentUpload
      \param $result Result data, will be filled with information which the client can examine, contains:
                     - errors - An array with errors, each element is an array with \c 'description' containing the text
      \param $location The node ID which the new object will be placed or the string \c 'auto' for automatic placement of type.
+     \param $existingNode Pass a contentobjecttreenode object to let the uploading be done to an existing object,
+                          if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
     */
-    function handleUpload( &$result, $httpFileIdentifier, $location )
+    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -394,15 +425,31 @@ class eZContentUpload
         if ( $mime == '' )
             $mime = $file->attribute( "mime_type" );
 
+        $object = false;
+        $class = false;
+        // Figure out class identifier from an existing node
+        // if not we will have to detect it from the mimetype
+        if ( is_object( $existingNode ) )
+        {
+            $object =& $existingNode->object();
+            $class =& $object->contentClass();
+            $classIdentifier = $class->attribute( 'identifier' );
+        }
+        else
+        {
+            $classIdentifier = $this->detectClassIdentifier( $mime );
+        }
 
-        $classIdentifier = $this->detectClassIdentifier( $mime );
         if ( !$classIdentifier )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'No matching class identifier found.' ) );
             return false;
         }
-        $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+
+        if ( !is_object( $class ) )
+            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+
         if ( !$class )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -414,14 +461,18 @@ class eZContentUpload
 
         $parentNodes = false;
         $parentMainNode = false;
-        $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
-        if ( !$locationOK )
+        // If do not have an existing node we need to figure
+        // out the locations from $location and $classIdentifier
+        if ( !is_object( $existingNode ) )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                        'Was not able to figure out placement of object.' ) );
-            return false;
+            $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+            if ( !$locationOK )
+            {
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Was not able to figure out placement of object.' ) );
+                return false;
+            }
         }
-
 
         $uploadINI =& eZINI::instance( 'upload.ini' );
         $iniGroup = $classIdentifier . '_ClassSettings';
@@ -462,7 +513,13 @@ class eZContentUpload
         $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
         $nameString = $this->processNamePattern( $variables, $namePattern );
 
-        $object =& $class->instantiate();
+        // When we have an existing node we will already have the
+        // $object as well (look above).
+        // If not we need to create a new object from the class
+        if ( !is_object( $existingNode ) )
+        {
+            $object =& $class->instantiate();
+        }
 
         unset( $dataMap );
         $dataMap =& $object->dataMap();
@@ -516,9 +573,12 @@ class eZContentUpload
     function publishObject( &$result, &$errors, &$notices,
                             &$object, &$class, $parentNodes, $parentMainNode )
     {
-        foreach ( $parentNodes as $key => $parentNode )
+        if ( is_array( $parentNodes ) )
         {
-            $object->createNodeAssignment( $parentNode, $parentNode == $parentMainNode );
+            foreach ( $parentNodes as $key => $parentNode )
+            {
+                $object->createNodeAssignment( $parentNode, $parentNode == $parentMainNode );
+            }
         }
 
         $object->setName( $class->contentObjectName( $object ) );
@@ -637,6 +697,40 @@ class eZContentUpload
                 $attribute =& $dataMap[$identifier];
                 $datatype = $attribute->dataType();
                 if ( $datatype->isHTTPFileInsertionSupported() )
+                {
+                    $fileAttribute = $identifier;
+                    break;
+                }
+            }
+        }
+        return $fileAttribute;
+    }
+
+    /*!
+     \private
+     \static
+     Checks if the attribute with the identifier \a $fileAttribute in \a $dataMap
+     supports file uploading. If not it will go trough all attributes and
+     find the first that has this support.
+
+     \return The identifier of the matched attribute or \c false if none were found.
+     \param $dataMap Associative array with class attributes, the key is attribute identifier
+     \param $fileAttribute The identifier of the attribute that is expected to have the file datatype.
+    */
+    function findRegularFileAttribute( &$dataMap, $fileAttribute )
+    {
+        $fileDatatype = false;
+        if ( isset( $dataMap[$fileAttribute] ) )
+            $fileDatatype =& $dataMap[$fileAttribute]->dataType();
+        if ( !$fileDatatype or
+             !$fileDatatype->isRegularFileInsertionSupported() )
+        {
+            $fileAttribute = false;
+            foreach ( $dataMap as $identifier => $attribute )
+            {
+                $attribute =& $dataMap[$identifier];
+                $datatype = $attribute->dataType();
+                if ( $datatype->isRegularFileInsertionSupported() )
                 {
                     $fileAttribute = $identifier;
                     break;
