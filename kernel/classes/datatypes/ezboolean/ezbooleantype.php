@@ -58,6 +58,26 @@ class eZBooleanType extends eZDataType
     {
     }
 
+
+   /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
+            $contentObjectAttribute->setAttribute( "data_int", $dataInt );
+        }
+        else
+        {
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $default = $contentClassAttribute->attribute( "data_int3" );
+	    $contentObjectAttribute->setAttribute( "data_int", $default );
+        }
+    }
+
+
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
@@ -76,7 +96,26 @@ class eZBooleanType extends eZDataType
         $contentObjectAttribute->setAttribute( "data_int", $data );
     }
 
-    /*!
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+    
+        if( $http->hasPostVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) ))
+	{
+            $data = $http->postVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) );
+            if( isset( $data ) )
+                $data = 1;
+        }
+        else
+        {
+            $data = 0;
+        }
+	
+        $classAttribute->setAttribute( "data_int3", $data );
+   
+    }
+   
+
+/*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
