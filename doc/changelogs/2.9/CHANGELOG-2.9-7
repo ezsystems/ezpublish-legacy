@@ -106,7 +106,8 @@ contentclass:
 - Fixed a major problem with mementos fetchin in runcronworkflows, before
   the wrong memento data would be fetched in some occasions.
 - Error view will set 404 HTTP status for some error numbers.
-
+- Made sure the xmltext datatype stores correct link elements.
+- New script for fixing bad xmltext link tags.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
