@@ -168,3 +168,12 @@ CREATE TABLE ezgeneral_digest_user_settings (
     primary key ( id )
 );
 
+
+create temporary table ezpolicy_limitation_value_temp as select * from ezpolicy_limitation_value;
+drop table ezpolicy_limitation_value;
+CREATE TABLE ezpolicy_limitation_value (
+    id integer DEFAULT nextval('ezpolicy_limitation_value_s'::text) NOT NULL,
+    limitation_id integer,
+    limitation_id integer,
+ );
+insert into ezpolicy_limitation_value(id, limitation_id,value) select id, limitation_id,value::char from ezpolicy_limitation_value_temp;

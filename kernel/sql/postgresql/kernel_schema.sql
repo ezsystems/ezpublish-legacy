@@ -575,7 +575,7 @@ CREATE SEQUENCE ezpolicy_limitation_value_s
 CREATE TABLE ezpolicy_limitation_value (
     id integer DEFAULT nextval('ezpolicy_limitation_value_s'::text) NOT NULL,
     limitation_id integer,
-    value integer
+    value varchar(255)
 );
 
 

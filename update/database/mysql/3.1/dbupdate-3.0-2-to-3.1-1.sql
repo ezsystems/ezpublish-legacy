@@ -98,3 +98,4 @@ CREATE TABLE ezgeneral_digest_user_settings (
     primary key ( id )
 );
 
+alter table  ezpolicy_limitation_value MODIFY value varchar(255);
