@@ -295,6 +295,13 @@ class eZDB
 
             foreach( $repositoryDirectories as $repositoryDir )
             {
+                // If we have an alias get the real name
+                $aliasList = $ini->variable( 'DatabaseSettings', 'ImplementationAlias' );
+                if ( isset( $aliasList[$databaseImplementation] ) )
+                {
+                    $databaseImplementation = $aliasList[$databaseImplementation];
+                }
+
                 $dbFile = $repositoryDir . $databaseImplementation . 'db.php';
                 if ( file_exists( $dbFile ) )
                 {

@@ -131,3 +131,7 @@ eZDBSchema:
   not exceed 63 characters.
 - Added lint checker for DB schemas, this will make sure that the schema
   can be used for all databases supported by eZ publish.
+
+eZDB:
+- Database implementations can now have aliases, currently mysql points to
+  ezmysql and postgresql to ezpostgresql.
