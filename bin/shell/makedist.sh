@@ -134,6 +134,7 @@ for arg in $*; do
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
+	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)"
 	    echo "         --skip-db-update           Do not run db update check"
 	    echo "         --skip-translation         Do not run translation check"
 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
@@ -194,6 +195,9 @@ for arg in $*; do
 	    ;;
 	--skip-php-check)
 	    SKIPCHECKPHP="1"
+	    ;;
+	--skip-db-schema)
+	    SKIPDBSCHEMA="1"
 	    ;;
 	--skip-db-update)
 	    SKIPDBUPDATE="1"
@@ -696,25 +700,43 @@ if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
 fi
 
+if [ -z "$SKIPDBSCHEMA" ]; then
 # Create SQL schema definition for later checks
 
-echo "Creating SQL schema"
-if [ "$DB_PASSWORD"x == x ]; then
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -f drop "$DB_NAME" &>/dev/null
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" create "$DB_NAME" &>/dev/null || exit 1
-    mysql -u "$DB_USER" -h "$DB_SERVER" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
+    echo "Creating MySQL schema"
+    if [ "$DB_PASSWORD"x == x ]; then
+	DBPWDOPTION=""
+	DBPWDOPTION_LONG=""
+    else
+	DBPWDOPTION="-p $DB_PASSWORD"
+	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
+    fi
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION create "$DB_NAME"  &>/dev/null || exit 1
+    mysql -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/share/db_schema.dat  &>/dev/null || exit 1
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_mysql_schema.dat  &>/dev/null || exit 1
 
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -f drop "$DB_NAME"  &>/dev/null
-else
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" -f drop "$DB_NAME" &>/dev/null
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" create "$DB_NAME"  &>/dev/null || exit 1
-    mysql -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
 
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/share/db_schema.dat  &>/dev/null || exit 1
 
-    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" -f drop "$DB_NAME" &>/dev/null
+    echo "Creating PostgreSQL schema"
+    if [ "$DB_PASSWORD"x == x ]; then
+	DBPWDOPTION=""
+	DBPWDOPTION_LONG=""
+    else
+	DBPWDOPTION=""
+	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
+    fi
+
+    dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
+    createdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME"  &>/dev/null || exit 1
+    psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/kernel_schema.sql  &>/dev/null || exit 1
+    psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/setval.sql  &>/dev/null || exit 1
+
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_postgresql_schema.dat  &>/dev/null || exit 1
+
+    dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
 fi
 
 # Create MD5 check sums

@@ -106,12 +106,12 @@ if [ "$DB_TYPE" == "mysql" ]; then
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`"
 
     echo -n " `$POSITION_STORE`Validating"
-    ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_schema.dat &>/dev/null
+    ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_mysql_schema.dat &>/dev/null
     if [ $? -ne 0 ]; then
 	echo
 	echo "MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
 	echo "Check the database difference with"
-	echo "./bin/php/ezsqldiff.php --type=mysql $DATABASE_NAME share/db_schema.dat"
+	echo "./bin/php/ezsqldiff.php --type=mysql $DATABASE_NAME share/db_mysql_schema.dat"
 	exit 1
     fi
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Validating`$SETCOLOR_NORMAL`"
@@ -169,12 +169,12 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`"
 
     echo -n " `$POSITION_STORE`Validating"
-    ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_schema.dat &>/dev/null
+    ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_postgresql_schema.dat &>/dev/null
     if [ $? -ne 0 ]; then
 	echo
 	echo "MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` did not validate, this probably means the update file is incorrect"
 	echo "Check the database difference with"
-	echo "./bin/php/ezsqldiff.php --type=postgresql $DATABASE_NAME share/db_schema.dat"
+	echo "./bin/php/ezsqldiff.php --type=postgresql $DATABASE_NAME share/db_postgresql_schema.dat"
 	exit 1
     fi
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Validating`$SETCOLOR_NORMAL`"

@@ -121,7 +121,7 @@ if ( !in_array( $matchType, array( 'mysql', 'postgresql' ) ) )
 
 $ini =& eZINI::instance();
 
-function &loadDatabaseSchema( $type, $host, $user, $password, $db )
+function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
 {
     if ( file_exists( $db ) and is_file( $db ) )
     {
@@ -133,16 +133,23 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db )
     {
         include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $dbInstance =& eZDB::instance( 'ez'.$type,
+        $dbInstance =& eZDB::instance( 'ez' . $type,
                                        array( 'server' => $host,
                                               'user' => $user,
                                               'password' => $password,
                                               'database' => $db ),
                                        true );
 
-        if ( !$dbInstance )
+        if ( !is_object( $dbInstance ) )
         {
             $cli->error( 'Failed to open database ' . $type . ', ' . $host . ', ' . $user );
+            $cli->error( $dbInstance->errorMessage() );
+            return false;
+        }
+        if ( !$dbInstance->isConnected() )
+        {
+            $cli->error( 'Failed to connect to database ' . $type . ', ' . $host . ', ' . $user );
+            $cli->error( $dbInstance->errorMessage() );
             return false;
         }
 
@@ -150,7 +157,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db )
     }
 }
 
-$sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB );
+$sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB, $cli );
 if ( !$sourceSchema )
 {
     $cli->error( "Failed to load schema from source database" );
@@ -158,7 +165,7 @@ if ( !$sourceSchema )
     $script->shutdown( 1 );
 }
 
-$matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDB );
+$matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDB, $cli );
 if ( !$matchSchema )
 {
     $cli->error( "Failed to load schema from match database" );

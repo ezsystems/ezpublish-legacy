@@ -129,7 +129,7 @@ if [ "$USE_MYSQL" != "" ]; then
 	echo "Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user=root $DBNAME share/db_schema.dat
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user=root $DBNAME share/db_mysql_schema.dat
 fi
 if [ "$USE_POSTGRESQL" != "" ]; then
 
@@ -144,6 +144,7 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
     fi
+    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=root $DBNAME share/db_postgresql_schema.dat
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
