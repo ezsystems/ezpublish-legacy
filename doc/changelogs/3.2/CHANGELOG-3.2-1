@@ -29,3 +29,7 @@ Changes from 3.2.0-2 to 3.2-1
 - Added user/settings/<uID> into user admin user (class) template
 
 *Library :
+
+*Translations:
+- Fixed and added Hungarian translation
+
