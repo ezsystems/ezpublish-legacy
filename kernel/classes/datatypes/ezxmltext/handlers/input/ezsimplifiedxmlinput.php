@@ -716,7 +716,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $currentNode =& $subNode;
             }
 
-            // Add paragraph tag for td and th
+            // Add paragraph tag for td, th and custom
             if ( $currentTag == "td" or $currentTag == "th" or $currentTag == "custom" )
             {
                 // Set variable isInsideTd to true
@@ -924,6 +924,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
                             $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
                             $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
+
+                            if ( $convertedTag == 'custom' and $lastInsertedNodeTag != 'custom' )
+                            {
+                                array_push( $TagStack,
+                                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
+                                break;
+                            }
                         }
                     }
 
