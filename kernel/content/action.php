@@ -39,10 +39,16 @@ include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+/* We retrieve the class ID for users as this is used in many places in this
+ * code in order to be able to cleanup the user-policy cache. */
+$ini =& eZINI::instance();
+$userClassID = $ini->variable( "UserSettings", "UserClassID" );
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -184,6 +190,9 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
 }
 else if ( $module->isCurrentAction( 'MoveNode' ) )
 {
+    /* This action is used through the admin interface with the "Move" button,
+     * or in the pop-up menu and will move a node to a different location. */
+
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
@@ -248,6 +257,12 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     $oldParentNode = $node->fetchParent();
     $oldParentObject = $oldParentNode->object();
 
+    // clear user policy cache if this was a user object
+    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+    {
+        eZUser::cleanupCache();
+    }
+
     $node->move( $selectedNodeID );
 
     $newNode =& eZContentObjectTreeNode::fetchNode( $objectID, $selectedNodeID );
@@ -297,6 +312,10 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
 }
 else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
 {
+    /* This action is started through the pop-up menu when a "Move" is
+     * requested and through the use of the "Move" button. It will start the
+     * browser to select where the node should be moved to. */
+
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
@@ -445,6 +464,12 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedNode->setAttribute( 'contentobject_version', $objectVersion );
     $selectedNode->store();
 
+    // clear user policy cache if this was a user object
+    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+    {
+        eZUser::cleanupCache();
+    }
+
     // modify assignment
     $sourceNodeAssignment =& eZNodeAssignment::fetch( $objectID, $objectVersion, $nodeParentNodeID );
     if ( $sourceNodeAssignment )
@@ -478,6 +503,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
 }
 else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
 {
+    /* This action brings a browse screen up to select with which the selected
+     * node should be swapped. It will not actually move the nodes. */
+
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
@@ -549,6 +577,8 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
 }
 else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
 {
+    /* This action selects a different main assignment node for the object. */
+
     if ( !$module->hasActionParameter( 'ObjectID' ) )
     {
         eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
@@ -701,6 +731,10 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 $canCreate = $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1;
                 if ( $isPermitted )
                 {
+                    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+                    {
+                        eZUser::cleanupCache();
+                    }
                     $isMain = 0;
                     if ( $setMainNode )
                         $isMain = 1;
@@ -881,6 +915,12 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     include_once( 'kernel/content/ezcontentoperationcollection.php' );
     eZContentOperationCollection::clearObjectViewCache( $objectID, true );
+
+    // clear user policy cache if this was a user object
+    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+    {
+        eZUser::cleanupCache();
+    }
 
     // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::remove()
 

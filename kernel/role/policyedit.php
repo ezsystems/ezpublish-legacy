@@ -137,6 +137,10 @@ if ( $http->hasPostVariable( "DeleteNodeButton" ) )
             eZPolicyLimitationValue::removeByValue( $deletedID, $policyID );
         }
     }
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 }
 
 if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
@@ -152,6 +156,10 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
             eZPolicyLimitationValue::removeByValue( $path, $policyID );
         }
     }
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 }
 
 // Fetch node limitations
@@ -257,6 +265,10 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
     }
 
     $policy->store();
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
 }

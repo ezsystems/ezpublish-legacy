@@ -44,6 +44,8 @@
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( 'lib/ezutils/classes/ezsys.php' );
 
 $ini =& eZINI::instance();
 define( 'EZ_USER_ANONYMOUS_ID', (int)$ini->variable( 'UserSettings', 'AnonymousUserID' ) );
@@ -582,6 +584,7 @@ WHERE user_id = '" . $userID . "' AND
         eZUserSetting::remove( $userID );
         eZUserAccountKey::remove( $userID );
         eZForgotPassword::remove( $userID );
+        eZUser::cleanupCache();
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
@@ -928,9 +931,9 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        // Check cache
         $fetchFromDB = true;
 
+        // Check session cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiredTimeStamp = 0;
@@ -951,7 +954,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( is_numeric( $userArray['contentobject_id'] ) )
                 {
-                    $currentUser =& new eZUser( $userArray );
+                    $currentUser = new eZUser( $userArray );
                     $fetchFromDB = false;
                 }
             }
@@ -959,7 +962,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $fetchFromDB == true )
         {
-            $currentUser =& eZUser::fetch( $id );
+            $currentUser = eZUser::fetch( $id );
 
             if ( $currentUser )
             {
@@ -971,7 +974,7 @@ WHERE user_id = '" . $userID . "' AND
                                         'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
                                         );
                 $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
-                $http->setSessionVariable( 'eZUserInfoCache_Timestamp', mktime()  );
+                $http->setSessionVariable( 'eZUserInfoCache_Timestamp', mktime() );
             }
         }
 
@@ -997,7 +1000,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( !$currentUser )
         {
-            $currentUser = & eZUser::fetch( EZ_USER_ANONYMOUS_ID );
+            $currentUser = eZUser::fetch( EZ_USER_ANONYMOUS_ID );
             eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
 
@@ -1226,6 +1229,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         $accessArray = null;
         $ini =& eZINI::instance();
+        $userID = $this->attribute( 'contentobject_id' );
         if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' )
         {
             $http =& eZHTTPTool::instance();
@@ -1247,8 +1251,27 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $accessArray == null )
         {
+            $cacheFile = eZUser::getCacheFilename( $userID );
+            if ( $cacheFile !== false && file_exists( $cacheFile ) )
+            {
+                // var_dump("CACHEFILE DOES EXIST FOR USER $userID");
+                $accessArray = include( $cacheFile );
+            }
+        }
+
+        if ( $accessArray == null )
+        {
             include_once( 'kernel/classes/ezrole.php' );
-            $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $this->attribute( 'contentobject_id' ) ) ) );
+            $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $userID ) ) );
+
+            $cacheFile = eZUser::getCacheFilename( $userID );
+            if ( $cacheFile )
+            {
+                // var_dump("WRITE USER INFO TO $cacheFile");
+                $f = fopen( $cacheFile, 'w' );
+                fwrite( $f, "<?php\n\treturn ". var_export( $accessArray, true ) . ";\n?>\n" );
+                fclose( $f );
+            }
         }
 
         $access = 'no';
@@ -1601,6 +1624,59 @@ WHERE user_id = '" . $userID . "' AND
     {
         return false;
     }
+
+    /*!
+     Creates the cache path if it doesn't exist, and returns the cache directory
+     \static
+     \return filename of the cachefile
+    */
+    function getCacheDir()
+    {
+        $sys =& eZSys::instance();
+        $dir = $sys->cacheDirectory() . '/user-info';
+        if ( !is_dir( $dir ) )
+        {
+            eZDir::mkdir( $dir, false, true );
+            // var_dump("MADE DIRECTORY");
+        }
+        return $dir;
+    }
+
+    function cleanupCache()
+    {
+        // var_dump("CLEANUP DIRECTORY");
+        $sys =& eZSys::instance();
+        $dir = $sys->cacheDirectory() . '/user-info';
+        eZDir::recursiveDelete( $dir );
+    }
+
+    /*!
+     Returns the filename for a cache file with user information
+     \static
+     \return filename of the cachefile, or false when the user should not be cached
+    */
+    function getCacheFilename( $id )
+    {
+        $ini =& eZINI::instance();
+        $cacheUserPolicies = $ini->variable( 'RoleSettings', 'UserPolicyCache' ); 
+        if ( $cacheUserPolicies == 'enabled' )
+        {
+            // var_dump("BUILD FILENAME FOR $id");
+            return eZUser::getCacheDir(). '/user-'. $id . '.cache.php';
+        }
+        else if ( $cacheUserPolicies != 'disabled' )
+        {
+            $cachableIDs = split( ',', $cacheUserPolicies );
+            if ( in_array( $id, $cachableIDs ) )
+            {
+                // var_dump("BUILD FILENAME FOR $id");
+                return eZUser::getCacheDir(). '/user-'. $id . '.cache.php';
+            }
+        }
+        // var_dump("NO CACHE FOR $id");
+        return false;
+    }
+     
 
     /// \privatesection
     var $Login;

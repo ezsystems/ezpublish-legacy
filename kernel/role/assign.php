@@ -87,6 +87,11 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
         include_once( 'kernel/classes/ezcontentobject.php' );
         eZContentObject::expireAllCache();
     }
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
+
     $Module->redirectTo( '/role/view/' . $roleID );
 }
 else if ( is_string( $limitIdent ) && !isset( $limitValue ) )

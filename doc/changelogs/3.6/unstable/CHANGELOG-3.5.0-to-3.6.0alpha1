@@ -1,7 +1,11 @@
 Changes from 3.5.0 to 3.6.0alpha1
 
 *Kernel:
-- Rewritten login hanlder. Supports beeing placed in extensions, and interrupt in several stages of the login process.
+- Rewritten login handler. Supports beeing placed in extensions, and interrupt in several stages of the login process.
+- Added support for caching of user-policy data. You can configure what you
+  want to cache with the RoleSettings/UserPolicyCache setting. enabled means
+  that all will be cached, "disabled" means that none will be cached and a
+  comma separated list of user IDs means that only those user IDs are cached.
 
 *Scripts:
 

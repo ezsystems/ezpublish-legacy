@@ -96,6 +96,10 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
             $role->assignToUser( $objectID );
         }
     }
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 }
 
 // Remove the role assignment
@@ -107,6 +111,10 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     {
         $role->removeUserAssignmentByID( $id );
     }
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 }
 
 $tpl =& templateInit();

@@ -102,6 +102,10 @@ if ( $http->hasPostVariable( 'Apply' ) )
     include_once( 'kernel/classes/ezcontentobject.php' );
     eZContentObject::expireAllCache();
     $Module->redirectTo( $Module->functionURI( 'view' ) . '/' . $originalRole->attribute( 'id' ) . '/');
+
+    /* Clean up policy cache */
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    eZUser::cleanupCache();
 }
 
 if ( $http->hasPostVariable( 'Discard' ) )

@@ -241,6 +241,17 @@ class eZContentOperationCollection
         $class      =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
         $objectName =  $class->contentObjectName( $object );
 
+        /* Check if current class is the user class, and if so, clean up the
+         * user-policy cache */
+        include_once( "lib/ezutils/classes/ezini.php" );
+        $ini =& eZINI::instance();
+        $userClassID = $ini->variable( "UserSettings", "UserClassID" );
+        if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            eZUser::cleanupCache();
+        }
+
         $object->setName( $objectName, $versionNum );
 //        $object->store();  // removed to reduce sql calls. restore if publish bugs occur, by kk
 
