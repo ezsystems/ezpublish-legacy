@@ -29,7 +29,7 @@
 {* Buttons. *}
 <div class="controlbar">
 <div class="block">
-    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}" />
+    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}" {section show=$groups|count|not}disabled="disabled"{/section} />
     <input class="button" type="submit" name="NewGroupButton" value="{'New group'|i18n( 'design/admin/workflow/grouplist' )}" />
 </div>
 </div>
