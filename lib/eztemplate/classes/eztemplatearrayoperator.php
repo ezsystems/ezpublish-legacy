@@ -217,46 +217,50 @@ class eZTemplateArrayOperator
                      &$rootNamespace, &$currentNamespace, &$operatorValue,
                      &$namedParameters )
     {
+        switch( $operatorName )
+        {
+            // Create/build an array:
+            case $this->ArrayName:
+            {
+                $operatorValue = array();
+                for ( $i = 0; $i < count( $operatorParameters ); ++$i )
+                {
+                    $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
+                                                            $rootNamespace,
+                                                            $currentNamespace );
+                }
+                return;
+            }break;
+
+            // __FIX_ME__
+            case $this->HashName:
+            {
+                $operatorValue = array();
+                $hashCount = (int)( count( $operatorParameters ) / 2 );
+                for ( $i = 0; $i < $hashCount; ++$i )
+                {
+                    $hashName = $tpl->elementValue( $operatorParameters[$i*2],
+                                                    $rootNamespace,
+                                                    $currentNamespace );
+                    if ( is_string( $hashName ) or
+                         is_numeric( $hashName ) )
+                        $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1],
+                                                                         $rootNamespace,
+                                                                         $currentNamespace );
+                    else
+                        $tpl->error( $operatorName,
+                                     "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
+                }
+                return;
+            }
+            break;
+        }
+
         // Are we operating on arrays?
         if ( is_array( $operatorValue ) )
         {
             switch( $operatorName )
             {
-                // Create/build an array:
-                case $this->ArrayName:
-                {
-                    $operatorValue = array();
-                    for ( $i = 0; $i < count( $operatorParameters ); ++$i )
-                    {
-                        $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
-                                                                $rootNamespace,
-                                                                $currentNamespace );
-                    }
-                }break;
-
-                // __FIX_ME__
-                case $this->HashName:
-                {
-                    $operatorValue = array();
-                    $hashCount = (int)( count( $operatorParameters ) / 2 );
-                    for ( $i = 0; $i < $hashCount; ++$i )
-                    {
-                        $hashName = $tpl->elementValue( $operatorParameters[$i*2],
-                                                        $rootNamespace,
-                                                        $currentNamespace );
-                        if ( is_string( $hashName ) or
-                             is_numeric( $hashName ) )
-                            $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1],
-                                                                             $rootNamespace,
-                                                                             $currentNamespace );
-                        else
-                            $tpl->error( $operatorName,
-                                         "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
-                    }
-
-                }
-                break;
-
                 // Append or prepend an array (or single elements) to the target array:
                 case $this->PrependName:
                 case $this->AppendName:
@@ -497,7 +501,7 @@ class eZTemplateArrayOperator
             }
         }
         // ..or are we operating on strings?
-        elseif ( is_string( $operatorValue ) )
+        else if ( is_string( $operatorValue ) )
         {
             switch( $operatorName )
             {
