@@ -3,13 +3,16 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 -- We allow users from the "Editors" group 
 -- access only to "Root Folder" and "Media" trees.
-DELETE FROM ezuser_role WHERE id=30 AND role_id=3;  
-INSERT INTO ezuser_role
-       (role_id, contentobject_id, limit_identifier,limit_value)
-       VALUES (3,13,'Subtree','/1/2/');
-INSERT INTO ezuser_role
-       (role_id, contentobject_id, limit_identifier,limit_value)
-       VALUES (3,13,'Subtree','/1/43/');
+-- If you want to fix this you need to figure out the ids of these roles and modify
+-- the following SQLs
+--
+-- DELETE FROM ezuser_role WHERE id=30 AND role_id=3;
+-- INSERT INTO ezuser_role
+--        (role_id, contentobject_id, limit_identifier,limit_value)
+--        VALUES (3,13,'Subtree','/1/2/');
+-- INSERT INTO ezuser_role
+--        (role_id, contentobject_id, limit_identifier,limit_value)
+--        VALUES (3,13,'Subtree','/1/43/');
 
 CREATE SEQUENCE tmp_notification_rule_s
     START 1
@@ -39,3 +42,8 @@ ALTER TABLE ezbasket ADD COLUMN order_id integer;
 UPDATE ezbasket SET order_id=0;
 ALTER TABLE ezbasket ALTER order_id SET NOT NULL;
 ALTER TABLE ezbasket ALTER order_id SET DEFAULT 0;
+
+ALTER TABLE ezcontentclass ADD is_container integer;
+UPDATE ezcontentclass SET is_container=0;
+ALTER TABLE ezcontentclass ALTER is_container SET NOT NULL;
+ALTER TABLE ezcontentclass ALTER is_container SET DEFAULT 0;
