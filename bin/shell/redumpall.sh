@@ -31,6 +31,9 @@ for arg in $*; do
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
+	--pause)
+	    USE_PAUSE="yes"
+	    ;;
 	-*)
 	    echo "$arg: unkown option specified"
             $0 -h
@@ -95,7 +98,11 @@ if [ "$USE_MYSQL" != "" ]; then
     fi
 
     for sql in $PACKAGE_MYSQL_FILES; do
-	./bin/shell/sqlredump.sh --mysql --sql-full $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	if [ ! -z $USE_PAUSE ]; then
+	    ./bin/shell/sqlredump.sh --mysql --pause --sql-full $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	else
+	    ./bin/shell/sqlredump.sh --mysql --sql-full $DBNAME $sql $MYSQL_SCHEMA_UPDATES $MYSQL_DATA_UPDATES
+	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
 	    exit 1
@@ -145,7 +152,11 @@ elif [ "$USE_POSTGRESQL" != "" ]; then
     fi
 
     for sql in $PACKAGE_POSTGRESQL_FILES; do
-	./bin/shell/sqlredump.sh --postgresql --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	if [ ! -z $USE_PAUSE ]; then
+	    ./bin/shell/sqlredump.sh --postgresql --sql-full $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	else
+	    ./bin/shell/sqlredump.sh --postgresql --sql-full --pause $DBNAME $sql $POSTGRESQL_SCHEMA_UPDATES $POSTGRESQL_DATA_UPDATES
+	fi
 	if [ $? -ne 0 ]; then
 	    "Failed re-dumping SQL file $sql"
 	    exit 1

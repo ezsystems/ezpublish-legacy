@@ -52,6 +52,9 @@ for arg in $*; do
 	--mysql)
 	    USE_MYSQL="yes"
 	    ;;
+	--pause)
+	    USE_PAUSE="yes"
+	    ;;
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
@@ -115,6 +118,11 @@ if [ "$USE_MYSQL" != "" ]; then
 	echo "Importing SQL file $sql"
 	mysql "$USERARG" "$DBNAME" < "$sql"
     done
+
+    if [ ! -z $USE_PAUSE ]; then
+	read -p "`$SETCOLOR_EMPHASIZE`SQL dump paused, press any key to continue.`$SETCOLOR_NORMAL`" TMP
+    fi
+
     ./update/common/scripts/flatten.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
     ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER --clean
     ./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER
