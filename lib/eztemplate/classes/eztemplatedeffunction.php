@@ -127,20 +127,20 @@ class eZTemplateDefFunction
             if ( $undef )
             {
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// undef \$$parameterName" );
+                // generates "$tpl->unsetLocalVariable();"
                 $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue = false,
                                                                                   $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL,
                                                                                   $parameterName ),
                                                                            array( 'remember_set' => false, 'local-variable' => true ) );
-
             }
             else
             {
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// def \$$parameterName" );
+                // generates "$tpl->setLocalVariable();"
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, $nodePlacement, array( 'local-variable' => true ),
                                                                       array( $namespaceValue = false, $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, $parameterName ),
                                                                       $onlyExisting = false, $overwrite = true, false, $rememberSet = false );
             }
-
         }
 
         return $newNodes;
@@ -188,9 +188,6 @@ class eZTemplateDefFunction
 
             }
         }
-
-        //if ( $undef && isset( $tpl->Variables[''] ) )
-        //    eZDebug::writeDebug( $tpl->Variables[''], 'undef: tpl variables left' );
     }
 
     /*!

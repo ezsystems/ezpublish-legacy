@@ -151,7 +151,7 @@ class eZTemplateForeachFunction
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['array'], $nodePlacement, array( 'text-result' => false ), $array );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$arrayKeys =& array_keys( \$$array );" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItems =& count( \$$arrayKeys );" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItems = count( \$$arrayKeys );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItemsProcessed = 0;" );
 
 
@@ -223,6 +223,9 @@ class eZTemplateForeachFunction
         $loop->cleanup();
 
         // unset the loop variables
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $parameters['item_var'][0][1] );
+        if ( isset( $parameters['key_var'] ) )
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $parameters['key_var'][0][1] );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $array );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $arrayKeys );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $nItems );

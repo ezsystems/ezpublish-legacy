@@ -76,6 +76,7 @@ class eZTemplateCompiledLoop
         $uniqid     = $this->UniqID;
         $this->NewNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "${fName}_sequence_array_$uniqid" );
         $this->NewNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "${fName}_sequence_var_$uniqid" );
+        $this->NewNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $this->Parameters['sequence_var'][0][1] );
     }
 
 

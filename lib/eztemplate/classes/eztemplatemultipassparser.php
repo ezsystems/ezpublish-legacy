@@ -1029,7 +1029,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             // parse variable name
             if ( $text[$cur_pos] != '$' )
             {
-                $tpl->error( $funcName, '($) expected' );
+                $tpl->error( $funcName, '($) expected at [' . substr( $text, $cur_pos ) . ']' );
                 $cur_pos = $text_len;
                 return;
 
@@ -1052,7 +1052,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
                 // parse variable value
-                if ( $text[$cur_pos] != '=' )
+                if ( $cur_pos >= $text_len || $text[$cur_pos] != '=' )
                 {
                     $tpl->error( $funcName, "parser error @ $relatedTemplateName\n" .
                                  "(=) expected." );

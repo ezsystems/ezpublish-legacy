@@ -467,7 +467,8 @@ class eZTemplate
     }
 
     /*!
-     initialize list of local variables for the current template
+     * Initialize list of local variables for the current template.
+     * The list contains only names of variables.
      */
     function createLocalVariablesList()
     {
@@ -475,12 +476,18 @@ class eZTemplate
         $this->CurrentLocalVariablesNames =& $this->LocalVariablesNamesStack[ count( $this->LocalVariablesNamesStack ) - 1];
     }
 
+    /*!
+     * Create a local variable.
+     */
     function setLocalVariable( $varName, $varValue, $rootNamespace )
     {
         $this->CurrentLocalVariablesNames[$rootNamespace][$varName] = 1;
         $this->setVariable( $varName, $varValue, $rootNamespace );
     }
 
+    /*!
+     * Destroy a local variable.
+     */
     function unsetLocalVariable( $varName, $rootNamespace )
     {
         $this->unsetVariable( $varName, $rootNamespace );
@@ -488,7 +495,7 @@ class eZTemplate
     }
 
     /*!
-     Unset all local variables defined in the current template.
+     * Destroy all local variables defined in the current template.
      */
     function unsetLocalVariables()
     {
@@ -500,7 +507,7 @@ class eZTemplate
     }
 
     /*!
-     Destroy list of local variables for the current template.
+     * Destroy list of local variables defined in the current (innermost) template.
      */
     function destroyLocalVariablesList()
     {

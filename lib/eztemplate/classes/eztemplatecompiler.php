@@ -606,6 +606,16 @@ class eZTemplateCompiler
 // Code to decrement include level of the templates
         $php->addCodePiece("\$tpl->Level--;\n" );
 
+        /*
+        // dump names of all defined PHP variables
+        $php->addCodePiece( "echo \"defined vars in $resourceData[uri]:<br/><pre>\\n\";\n" );
+        $php->addCodePiece( 'foreach ( array_keys( get_defined_vars() ) as $var_name  ) echo "- $var_name\n";' );
+        // dump tpl vars
+        $php->addCodePiece( 'echo "\n-----------------------------------------------------------\nvars: ";' );
+        $php->addCodePiece( 'var_dump( $vars );' );
+        $php->addCodePiece( 'echo "</pre><hr/>\n";' );
+        */
+
         $php->store( true );
 
         return true;
@@ -2608,7 +2618,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\nunset( $variableText );";
-                        if ( isset( $variableParameters['local-variable'] ) && $isStaticElement )
+                        if ( isset( $variableParameters['local-variable'] ) )
                         {
                             $php->addCodePiece( "\$tpl->setLocalVariable( $variableNameText, $variableText, $namespaceText );\n" ,
                                                 array( 'spacing' => $spacing ) );

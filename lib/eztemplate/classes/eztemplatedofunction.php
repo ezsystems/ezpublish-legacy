@@ -123,9 +123,10 @@ class eZTemplateDoFunction
 
         // loop footer
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['condition'], $nodePlacement, array( 'treat-value-as-non-object' => true ), 'do_cond' );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( ! \$do_cond ) break;\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( ! \$do_cond ) break;" );
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // do..while" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'do_cond' );
 
         $loop->cleanup();
 
