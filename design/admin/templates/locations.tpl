@@ -26,7 +26,7 @@
 
 <tr class="{$assignment.sequence}">
     <td><input type="checkbox" name="AssignmentIDSelection[]" {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
-    {section show=eq( $assignment.node.path_string, $node.path_string )}
+    {section show=and( eq( $assignment.node.path_string, $node.path_string ), $assigned_nodes|count|gt(1))}
     <td><b>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</b></td>
     {section-else}
     <td>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
