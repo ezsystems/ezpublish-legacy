@@ -173,7 +173,7 @@ $ViewList['browse'] = array(
 $ViewList['upload'] = array(
     'functions' => array( 'create' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
-    'ui_context' => 'upload',
+    'ui_context' => 'edit',
     'script' => 'upload.php',
     'single_post_actions' => array( 'UploadFileButton' => 'UploadFile' ),
     'post_action_parameters' => array( 'UploadFile' => array( 'UploadLocation' => 'UploadLocationChoice' ) ),
