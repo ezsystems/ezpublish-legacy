@@ -171,7 +171,9 @@ eZINI:
 - Fixed bug: semicolons are not escaped in arrays specified in fetchalias.ini.
   Additional fix for:
   http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
-
+- Removed vardumps from cronjobs/unpublish.php.
+  http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
+    
 *Library:
 
 eZ Locale:
