@@ -667,6 +667,36 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /*!
      \static
+     \return Gives all knows bases for avialable sitedesign folders.
+    */
+    function &allDesignBases()
+    {
+        $ini =& eZINI::instance();
+
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $extensionDirectory = eZExtension::baseDirectory();
+        $designINI =& eZINI::instance( 'design.ini' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+
+        $bases = array();
+
+        $std_base = eZTemplateDesignResource::designSetting( 'standard' );
+        $site_base = eZTemplateDesignResource::designSetting( 'site' );
+        $SiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+        array_unshift( $SiteDesignList , $site_base );
+        $SiteDesignList[] = $std_base;
+        $designStartPath = eZTemplateDesignResource::designStartPath();
+        foreach ( $SiteDesignList as $design ){
+            $bases[] = "$designStartPath/$design";
+            foreach( $extensions as $extension ){
+               $bases[] = "$extensionDirectory/$extension/$designStartPath/$design";
+            }
+        }
+        return $bases;
+    }
+
+    /*!
+     \static
      \return The start path of the design directory, by default it will return \c 'design'
              To change the directory use setDesignStartPath().
     */

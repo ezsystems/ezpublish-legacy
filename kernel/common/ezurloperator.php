@@ -334,51 +334,24 @@ class eZURLOperator
                         $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
                     }
 
-                    $ini =& eZINI::instance();
-                    $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-                    $site_base = eZTemplateDesignResource::designSetting( 'site' );
-                    $std_file = "design/$std_base/images/$path";
-                    $site_file = "design/$site_base/images/$path";
+                    $bases = eZTemplateDesignResource::allDesignBases();
                     $no_slash_prefix = false;
                     if ( $skipSlash == true && strlen( $this->Sys->wwwDir() ) == 0 )
                         $no_slash_prefix = true;
 
-                    if ( file_exists( $site_file ) )
+                    $imageFound = false;
+                    foreach ( $bases as $base )
                     {
-                        if ( $no_slash_prefix == true )
-                            $path = $site_file;
-                        else
-                            $path = $this->Sys->wwwDir() . "/$site_file";
-                    }
-                    else
-                    {
-                        $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
-
-                        $imageFound = false;
-                        // Check all additional sitedesigns
-                        foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+                        if ( file_exists( $base . "/images/" . $path ) )
                         {
-                            if ( file_exists( "design/$additionalSiteDesign/images/$path" ) )
-                            {
-                                if ( $no_slash_prefix == true )
-                                    $path = "design/$additionalSiteDesign/images/$path";
-                                else
-                                    $path = $this->Sys->wwwDir() . "/design/$additionalSiteDesign/images/$path";
-                                $imageFound = true;
-                            }
-                        }
-
-                        if ( !$imageFound )
-                        {
-                            if ( file_exists( $std_file ) )
-                            {
-                                if ( $no_slash_prefix == true )
-                                    $path = $std_file;
-                                else
-                                    $path = $this->Sys->wwwDir() . "/$std_file";
-                            }
+                            if ( $no_slash_prefix == true )
+                                $path = $base . '/images/' . $path;
+                            else
+                                $path = $this->Sys->wwwDir() . '/' . $base . '/images/'. $path;
+                            break;
                         }
                     }
+
                     $path = htmlspecialchars( $path );
 
                     $path = $this->applyQuotes( $path, $parameters[1] );
@@ -391,8 +364,6 @@ class eZURLOperator
                     $values[] = $parameters[0];
 
                     $no_slash_prefix = false;
-                    $ini =& eZINI::instance();
-                    $wwwDir = $this->Sys->wwwDir();
                     if ( count ( $parameters ) > 2 )
                     {
                         if ( eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true && strlen( $wwwDir ) )
@@ -402,65 +373,26 @@ class eZURLOperator
                     }
 
                     $ini =& eZINI::instance();
-                    $values[] = array( eZTemplateNodeTool::createStringElement( 'design/' . eZTemplateDesignResource::designSetting( 'standard' ) . '/images/' ) );
-                    $values[] = array( eZTemplateNodeTool::createStringElement( 'design/' . eZTemplateDesignResource::designSetting( 'site' ) . '/images/' ) );
-                    $values[] = array( eZTemplateNodeTool::createStringElement( $wwwDir ) );
-                    $values[] = array( eZTemplateNodeTool::createArrayElement( $ini->variable( "DesignSettings", "AdditionalSiteDesignList" ) ) );
-
-                    $code = 'if ( file_exists( %3%.%1% ) )' . "\n" .
-                         '{' . "\n";
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
+                    $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
+                    $code = 'foreach ( %3% as %tmp1% )'."\n{\n";
+                    $code = 'if ( file_exists( %tmp1% . \'/images/\' . %1% ) )' . "\n" .'{' . "\n";
                     if ( $no_slash_prefix == true )
                     {
-                        $code .= '%output% = %3% . %1%;' . "\n";
+                        $code .= '%output% = %3% . \'/images/\' . %1%;' . "\n";
                     }
                     else
                     {
-                        $code .= '%output% = %4% . \'/\' . %3% . %1%;' . "\n";
+                        $code .= '%output% = %2% . \'/\' . %3% . \'/images/\' . %1%;' . "\n";
                     }
-                    $code .= '}' . "\n" .
-                         'else' . "\n" .
-                         '{' . "\n" .
-                         '  %tmp1% = false;' . "\n" .
-                         ' if ( %5% ){' . "\n" .
-                         ' foreach ( %5% as %tmp2% )' . "\n" .
-                         ' {' . "\n" .
-                         '   if ( file_exists( \'design/\' . %tmp2% . \'/images/\' . %1% ) )' . "\n" .
-                         '   {' . "\n";
-                    if ( $no_slash_prefix == true )
-                    {
-                        $code .= '%output% = \'design/\' . %tmp2% . \'/images/\' . %1%;' . "\n";
-                    }
-                    else
-                    {
-                        $code .= '%output% = %4% . \'/design/\' . %tmp2% . \'/images/\' . %1%;' . "\n";
-                    }
-                    $code .= '      %tmp1% = true;' . "\n" .
-                         '    }' . "\n" .
-                         '  }' . "\n" .
-                         '}' . "\n" .
-                         'if ( !%tmp1% )' . "\n" .
-                         '{' . "\n" .
-                         '  if ( file_exists( %2% . %1% ) )' . "\n" .
-                         '  {' . "\n";
-                    if ( $no_slash_prefix == true )
-                    {
-                        $code .= '%output% = %2% . %1%;' . "\n";
-                    }
-                    else
-                    {
-                        $code .= '%output% = %4% . \'/\' . %2% . %1%;' . "\n";
-                    }
-                    $code .= '  }' . "\n" .
-                         '}' . "\n" .
-                         '}' . "\n" .
-                         '%output% = htmlspecialchars( %output% );' . "\n";
+                    $code .= '  }' . "\n" . '}' . "\n" . '%output% = htmlspecialchars( %output% );' . "\n";
 
                     $quote = $this->applyQuotes( '', $parameters[1], true );
 
                     if ( $quote )
                     {
                         $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-                        $code .= '%output% = %6% . %output% . %6%;' . "\n";
+                        $code .= '%output% = %4% . %output% . %4%;' . "\n";
                     }
 
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
@@ -750,47 +682,27 @@ class eZURLOperator
                     if ( $operatorParameters[1] == true && strlen( $this->Sys->wwwDir() ) == 0 )
                         $no_slash_prefix = true;
                 }
+                
+                $bases = eZTemplateDesignResource::allDesignBases();
 
-                if ( file_exists( $site_file ) )
+                $imageFound = false;
+                foreach ( $bases as $base )
                 {
-                    if ( $no_slash_prefix == true )
-                        $operatorValue = $site_file;
-                    else
-                        $operatorValue = $this->Sys->wwwDir() . "/$site_file";
-                    $operatorValue = htmlspecialchars( $operatorValue );
-                }
-                else
-                {
-                    $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
-
-                    $imageFound = false;
-                    // Check all additional sitedesigns
-                    foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+                    if ( file_exists( $base . "/images/" . $operatorValue ) )
                     {
-                        if ( file_exists( "design/$additionalSiteDesign/images/$operatorValue" ) )
-                        {
-                            if ( $no_slash_prefix == true )
-                                $operatorValue = "design/$additionalSiteDesign/images/$operatorValue";
-                            else
-                                $operatorValue = $this->Sys->wwwDir() . "/design/$additionalSiteDesign/images/$operatorValue";
-                            $operatorValue = htmlspecialchars( $operatorValue );
-                            $imageFound = true;
-                        }
-                    }
-
-                    if ( !$imageFound )
-                    {
-                        if ( file_exists( $std_file ) )
-                        {
-                            if ( $no_slash_prefix == true )
-                                $operatorValue = $std_file;
-                            else
-                                $operatorValue = $this->Sys->wwwDir() . "/$std_file";
-                            $operatorValue = htmlspecialchars( $operatorValue );
-                        }
+                        if ( $no_slash_prefix == true )
+                            $operatorValue = $base . '/images/' . $operatorValue;
                         else
-                            $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                            $operatorValue = $this->Sys->wwwDir() . '/' . $base . '/images/'. $operatorValue;
+                        $operatorValue = htmlspecialchars( $operatorValue );
+                        $imageFound = true;
+                        break;
                     }
+                }
+
+                if ( !$imageFound )
+                {
+                    $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
                 }
             } break;
 
