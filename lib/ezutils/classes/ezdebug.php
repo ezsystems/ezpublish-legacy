@@ -239,6 +239,9 @@ class eZDebug
         if ( $type != EZ_HANDLE_TO_PHP and
              $type != EZ_HANDLE_FROM_PHP )
             $type = EZ_HANDLE_NONE;
+        if ( extension_loaded( 'xdebug' ) and
+             $type == EZ_HANDLE_FROM_PHP )
+            $type = EZ_HANDLE_NONE;
         if ( $type == $this->HandleType )
             return $this->HandleType;
 
