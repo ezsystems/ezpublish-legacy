@@ -232,6 +232,18 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     {
                         foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
                         {
+                            // Create special substring match for subtree override
+                            if ( $conditionKey == 'url_alias' )
+                            {
+                                if ( strpos( $matchKeys['url_alias'], $customMatch['conditions'][$conditionKey] ) === 0 )
+                                {
+                                }
+                                else
+                                {
+                                    $matchOverride = false;
+                                }
+                            }
+                            else
                             if ( $matchKeys[$conditionKey] == $customMatch['conditions'][$conditionKey] )
                             {
                             }
@@ -357,7 +369,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         {
                             if ( $condCount > 0 )
                                 $matchCondition .= " and ";
-                            $matchCondition .= "\$matchKeys['$conditionKey'] == '" . $customMatch['conditions'][$conditionKey] . "'";
+
+                            // Have a special substring match for subtree matching
+                            if ( $conditionKey == 'url_alias' )
+                                $matchCondition .= "( strpos( \$matchKeys['url_alias'],  '" . $customMatch['conditions'][$conditionKey] . "' ) === 0 )";
+                            else
+                                $matchCondition .= "\$matchKeys['$conditionKey'] == '" . $customMatch['conditions'][$conditionKey] . "'";
+
 
                             $condCount++;
                         }
