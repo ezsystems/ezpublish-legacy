@@ -1,5 +1,3 @@
-<form action={concat( $module.functions.discountgroupview.uri, '/', $discountgroup.id )|ezurl} method="post" name="DiscountGroupView">
-
 <div class="context-block">
 <h2 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )}</h2>
 
@@ -14,13 +12,18 @@
 
 <div class="controlbar">
 <div class="block">
-    <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-    <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+<form action={'shop/discountgroup'|ezurl} method="post">
+    <input type="hidden" name="discountGroupIDList[]" value="{$discountgroup.id}" />
+    <input type="hidden" name="EditGroupID" value="{$discountgroup.id}" />
+    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+    <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
+</form>
 </div>
 </div>
 
 </div>
 
+<form action={concat( $module.functions.discountgroupview.uri, '/', $discountgroup.id )|ezurl} method="post" name="DiscountGroupView">
 
 <div class="context-block">
 <h2 class="context-title">{'Discount rules [%rule_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%rule_count', $rule_list|count ) )}</h2>

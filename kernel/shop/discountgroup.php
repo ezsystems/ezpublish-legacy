@@ -52,6 +52,12 @@ if ( $http->hasPostVariable( "AddDiscountGroupButton" ) )
     return;
 }
 
+if ( $http->hasPostVariable( "EditGroupButton" ) && $http->hasPostVariable( "EditGroupID" ) )
+{
+    $Module->redirectTo( $Module->functionURI( "discountgroupedit" ) . "/" . $http->postVariable( "EditGroupID" ) );
+    return;
+}
+
 if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "discountGroupIDList" );
