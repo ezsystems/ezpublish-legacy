@@ -1395,7 +1395,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Always include the information about the current level node
         $thisNodeInfo = array();
         $thisNodeInfo = $this->fetchNodeInfo( $node );
-        $thisNodeInfo["href"] = $_SERVER['SCRIPT_URI'];
+        $thisNodeInfo["href"] = $_SERVER['SCRIPT_URL'];
         $entries[] = $thisNodeInfo;
 
         // Return the content of the target.

@@ -442,7 +442,6 @@ class eZWebDAVServer
         //$this->appendLogEntry( var_dump( $nameMap ), 'outputCollectionContent' );
         //$this->appendLogEntry( var_dump( $collection ), 'outputCollectionContent' );
 
-
         // For all the entries in this dir/collection-array:
         foreach ( $collection as $entry )
         {
@@ -450,13 +449,23 @@ class eZWebDAVServer
             $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
             $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
 
-            // Keep only the path and convert spaces to %20. This is needed
-            // for CaDAVer compatibility and is a more correct way to reveal paths.
-            $parsedPath = parse_url( $entry['href'] );
-            $fixedPath = str_replace( ' ', '%20', $parsedPath['path'] );
+            // The following lines take care of URL encoding special characters
+            // for each element (stuff between slashes) in the path.
+            $pathArray = split( '/', $entry['href'] );
+
+            $encodedPath = '/';
+
+            foreach( $pathArray as $pathElement )
+            {
+                if( $pathElement != '' )
+                {
+                    $encodedPath .= rawurlencode( $pathElement );
+                    $encodedPath .= '/';
+                }
+            }
 
             $xmlText .= "<D:response>\n" .
-                 " <D:href>" . $fixedPath ."</D:href>\n" .
+                 " <D:href>" . $encodedPath ."</D:href>\n" .
                  " <D:propstat>\n" .
                  "  <D:prop>\n";
 
