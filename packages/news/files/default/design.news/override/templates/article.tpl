@@ -33,7 +33,7 @@
        <h2>{"Related stories"|i18n("design/news/layout")}</h2>	 
        <ul>
            {section name=ContentObject loop=$related_objects show=$related_objects} 
-               <li><a href={$ContentObject:item.url_alias|ezurl}>{$ContentObject:item.name}</a></li>
+               <li><a href={$ContentObject:item.main_node.url_alias|ezurl}>{$ContentObject:item.name}</a></li>
            {/section}
        </ul>
 </div>
