@@ -1,4 +1,6 @@
 {* Generic script for toggling the status of a bunch of checkboxes. *}
+<div class="content-view-children">
+
 {literal}
 <script language="JavaScript1.2" type="text/javascript">
 <!--
@@ -242,3 +244,4 @@ function togglestuff( formname, checkboxname )
 <!-- Children END -->
 
 {/let}
+</div>
