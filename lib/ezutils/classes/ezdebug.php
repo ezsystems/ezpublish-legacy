@@ -1055,8 +1055,8 @@ td.timingpoint2
             }
 
             // Convert memeory usage to human readable
-            $memory = number_format( $memory / 1024, 0 ) . "KB";
-            $relMemory = number_format( $relMemory / 1024, 0 ) . "KB";
+            $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . "KB";
+            $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . "KB";
 
             if ( $i % 2 == 0 )
                $class = "timingpoint1";
