@@ -345,6 +345,8 @@ class eZPersistentObject
             $value =& $obj->attribute( $key );
             $key_conds[$key] = $value;
         }
+        unset( $value );
+
         $important_keys = $keys;
         if ( is_array( $relations ) )
         {
