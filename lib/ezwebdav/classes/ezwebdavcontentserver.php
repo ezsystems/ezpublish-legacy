@@ -33,8 +33,8 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
-include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
+include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
@@ -49,56 +49,126 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( "access.php" );
 include_once( "kernel/common/i18n.php" );
 
-
-
-//
+// __FIX_ME__
 eZModule::setGlobalPathList( array( "kernel" ) );
 
-//
+// Get the path to the var directory.
 $varDir = eZSys::varDirectory();
 
-define( "VIRTUAL_CONTENT_FOLDER_NAME", "content" );
-define( "VIRTUAL_INFO_FILE_NAME",      $varDir."/webdav/root/info.txt" );
+define( "VIRTUAL_CONTENT_FOLDER_NAME", ezi18n( 'kernel/content', "Content" ) );
+define( "VIRTUAL_INFO_FILE_NAME", $varDir."/webdav/root/info.txt" );
 define( "WEBDAV_INI_FILE", "webdav.ini" );
+define( "WEBDAV_AUTH_REALM", "eZ publish WebDAV content interface" );
+define( "WEBDAV_AUTH_FAILED", "Invalid username or password!" );
+define( "WEBDAV_INVALID_SITE", "Invalid site..." );
+define( "WEBDAV_DISABLED", "WebDAV functionality is disabled!" );
 
 
 
 
-/*
+/*! Gets and returns a list of the available sites (from site.ini).
  */
-function getSiteAccessList()
+function getSiteList()
 {
-    //
-    $siteAccessList = array();
+    // The site list is an array of strings.
+    $siteList = array();
 
-    //
+    // Grab the sitelist from the ini file.
     $webdavINI =& eZINI::instance();
-    $siteList = $webdavINI->variable( 'SiteAccessSettings', 'SiteList' );
+    $siteList = $webdavINI->variable( 'SiteSettings', 'SiteList' );
 
-    ob_start(); var_dump( $siteList ); $output = ob_get_contents(); ob_end_clean();
+    // Return the site list.
+    return $siteList ;
 }
 
 
 
 
-/*
+/*! Sets/changes the current site(access) to a given site.
  */
 function setSiteAccess( $site )
 {
-    //
-    $access = array( 'name' => $site, 'type' => EZ_ACCESS_TYPE_STATIC );
+    $access = array( 'name' => $site,
+                     'type' => EZ_ACCESS_TYPE_STATIC );
 
-    //
     $access = changeAccess( $access );
 
-    //
     eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 
-    //
     $GLOBALS['eZCurrentAccess'] =& $access;
+
+    // Clear global database instance.
+    $nullvar = null;
+    $db =& eZDB::setInstance($nullvar);
 }
 
-setSiteAccess( 'plain' );
+
+
+
+/*! Detects a possible/valid site-name in start of a path.
+    Returns the name of the site that was detected.
+ */
+function getCurrentSiteFromPath( $path )
+{
+    append_to_log( "getCurrentSiteFromPath: path is: $path" );
+
+    //
+    $indexDir = eZSys::indexDir();
+
+    // Remove indexDir if used in non-virtualhost mode.
+    if ( preg_match( "#^$indexDir(.+)$#", $path, $matches ) )
+    {
+        $path = $matches[1];
+    }
+
+    append_to_log( "getCurrentSiteFromPath: path is: $path" );
+
+    // Get the list of available sites.
+    $sites = getSiteList();
+
+    // For each site:
+    foreach( $sites as $site )
+    {
+        // Check if given path starts with this site-name, if so: return it.
+        if ( preg_match( "#^/$site(.*)$#", $path, $matches ) )
+        {
+            return $site ;
+        }
+    }
+
+    append_to_log( "getCurrentSiteFromPath: no valid site was found.." );
+    // No valid site was found!
+    return false ;
+}
+
+
+
+
+/*!
+ */
+function removeIndexAndSiteName( $targetURI, $currentSite )
+{
+    //
+    $stripped = false;
+
+    //
+    $indexDir = eZSys::indexDir();
+
+    // Remove indexDir if used in non-virtualhost mode.
+    if ( preg_match( "#^$indexDir(.+)$#", $targetURI, $matches ) )
+    {
+        $stripped = $matches[1];
+    }
+
+    // Get rid of the site name:
+    if ( preg_match( "#^/$currentSite(.+)$#", $stripped, $matches ) )
+    {
+        $stripped = $matches[1];
+    }
+
+    //
+    return $stripped;
+}
 
 
 
@@ -108,7 +178,7 @@ setSiteAccess( 'plain' );
     We're looking for the star "*").
     The function returns TRUE if the user has admin rights,
     and FALSE if not.
- */
+*/
 function gotPermission()
 {
     // Get the current user ID.
@@ -130,21 +200,20 @@ function gotPermission()
             foreach( $policy as $var )
             {
                 // Look for the *star* - if found, return with success.
-                if ( $var == '*' ) return( TRUE );
+                if ( $var == '*' ) return true;
             }
         }
     }
 
     // Still haven't found the star? -> permission denied!
-    return( FALSE );
+    return false;
 }
 
 
 
 
-
-/*!
- */
+/*! Gets and returns the path to the original image directory.
+*/
 function getPathToOriginalImageDir()
 {
     // Build the path to where the original images are:
@@ -153,13 +222,13 @@ function getPathToOriginalImageDir()
     $originalImageDir  = $storageDir . '/' . "original/image";
 
     // Return the path to the dir where the original images are stored.
-    return( $originalImageDir );
+    return $originalImageDir ;
 }
 
 
 
 
-/*!
+/*! Gets and returns the path to the reference image directory.
  */
 function getPathToReferenceImageDir()
 {
@@ -175,25 +244,48 @@ function getPathToReferenceImageDir()
 
 
 
-/*!
- */
+/*! Attepmts to fetch a possible node by translating
+    the inputted string/path to a node-number.
+*/
 function getNodeByTranslation( $nodePathString )
 {
+    append_to_log( "getNodeByTranslation: nodepathstring: $nodePathString");
+    //
     $indexDir = eZSys::indexDir();
-    // Remove indexDir if used in non-virtualhost mode
+
+    append_to_log( "indexDir er: $indexDir" );
+
+    // Remove indexDir if used in non-virtualhost mode.
     if ( preg_match( "#^$indexDir/(.+)$#", $nodePathString, $matches ) )
+    {
         $nodePathString = $matches[1];
+    }
+    append_to_log( "getNodeByTranslation: nodepathstring: $nodePathString");
+    // If exists: remove the content folder from the path.
 
-    // Remove the content folder part of the path.
-    $nodePathString = substr( $nodePathString, (int) strlen( VIRTUAL_CONTENT_FOLDER_NAME ) + 1 );
+    if ( preg_match( "#^" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    {
+        $nodePathString = $matches[1];
+    }
 
+    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    {
+        $nodePathString = $matches[1];
+    }
+
+    append_to_log( "getNodeByTranslation: nodepathstring: $nodePathString");
     // Get rid of possible extensions, remove .jpeg .txt .html etc..
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
 
     // Remove the first slash if it exists.
     if ( $nodePathString[1] == '/' )
+    {
         $nodePathString = substr( $nodePathString, 1 );
+    }
+
+    //
+    $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
 
     // Attempt to translate the URL to something like "/content/view/full/84".
     $translateResult =& eZURLAlias::translate( $nodePathString );
@@ -211,23 +303,45 @@ function getNodeByTranslation( $nodePathString )
 
 
 
-/*!
- */
+/*! Attepmts to fetch a possible node by translating
+    the inputted string/path to a node-number. The last
+    section of the path is removed before the actual
+    translation: hence, the PARENT node is returned.
+*/
 function getParentNodeByTranslation( $nodePathString )
 {
-    // Get rid of the virtual content folder from the path.
-    $nodePathString = substr( $nodePathString, (int) strlen( VIRTUAL_CONTENT_FOLDER_NAME ) + 1 );
+    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+
+    // If exists: remove the content folder from the path.
+    if ( preg_match( "#^content/(.+)$#", $nodePathString, $matches ) )
+    {
+        $nodePathString = $matches[1];
+    }
+
+    if ( preg_match( "#^/" . VIRTUAL_CONTENT_FOLDER_NAME . "/(.+)$#", $nodePathString, $matches ) )
+    {
+        $nodePathString = $matches[1];
+    }
 
     // Strip extensions. E.g. .jpg
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
 
-    // Remove the first slash.
-    $nodePathString = substr( $nodePathString, 1 );
+    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
+
+    // Remove the first slash if it exists.
+    if ( $nodePathString[1] == '/' )
+    {
+        $nodePathString = substr( $nodePathString, 1 );
+    }
+
+    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
 
     // Get rid of the last part; strip away last slash and anything behind it.
     $cut = strrpos( $nodePathString, '/' );
     $nodePathString = substr( $nodePathString, 0, $cut );
+
+    append_to_log( "getParentNodeByTranslation: nodePathString: $nodePathString" );
 
     // Attempt to translate the URL to something like "/content/view/full/84".
     $translateResult =& eZURLAlias::translate( $nodePathString );
@@ -245,7 +359,11 @@ function getParentNodeByTranslation( $nodePathString )
 
 
 
-/*!
+/*! Converts a string to eZ publish node-name style.
+    All characters are converted to lowercase.
+    Spaces are removed.
+    etc..
+    __FIX_ME__ -> burde hatt en bedre funksjon her.
  */
 function convertString( $string )
 {
@@ -260,7 +378,11 @@ function convertString( $string )
 
 
 
-/*!
+/*! Builds and returns the content of the virtual start fodler
+    for a site. The virtual startfolder is an intermediate step
+    between the site-list and actual content. This directory
+    contains the "content" folder which leads to the site's
+    actual content.
  */
 function getVirtualStartFolderContent()
 {
@@ -304,18 +426,65 @@ function getVirtualStartFolderContent()
 
 
 
-/*!
+/*! Builds a list of available sites and returns it.
+ */
+function getSiteListContent()
+{
+    //
+    $siteListFolderEntries = array();
+
+    //
+    $contentEntry = array ();
+
+    // Get list of available sites.
+    $sites = getSiteList();
+
+    // For all available sites:
+    foreach( $sites as $site )
+    {
+        // Set up attributes for the virtual site-list folder:
+        $contentEntry["name"]     = $site;
+        $contentEntry["size"]     = 0;
+        $contentEntry["mimetype"] = 'httpd/unix-directory';
+        $contentEntry["ctime"]    = filectime( 'var' );
+        $contentEntry["mtime"]    = filemtime( 'var' );
+
+        //
+        if ( $_SERVER["SCRIPT_URL"] == '/' )
+        {
+            $contentEntry["href"] = '/'.$contentEntry["name"];
+        }
+        else
+        {
+            $contentEntry["href"] = $_SERVER["SCRIPT_URL"].'/'.$contentEntry["name"];
+        }
+
+        //
+        $siteListFolderEntries[] = $contentEntry;
+    }
+
+    // Return the content of the virtual start folder.
+    return( $siteListFolderEntries );
+}
+
+
+
+
+/*! Gets and returns the content of an actual node.
+    List of other nodes belonging to the target node
+    (one level below it) will be returned.
  */
 function getContent( $target )
 {
+    append_to_log( "getContent: target is: $target" );
     // Attempt to fetch the desired node.
     $node = getNodeByTranslation( $target );
 
     // If unable to fetch the node: get the content/root folder instead.
     if ( !$node )
     {
+        append_to_log( "getContent: unable to fetch node!");
         $node =& eZContentObjectTreeNode::fetch( 2 );
-        append_to_log( "Fetching root listing, failed $target" );
     }
 
     // Get all the children of the target node.
@@ -391,13 +560,13 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
     // Check if the original dir for images exists, if not: create it!
     if ( !file_exists( $originalDir ) )
     {
-        eZDir::mkdir( $originalDir, 0777, true);
+        eZDir::mkdir( $originalDir, eZDir::directoryPermission(), true);
     }
 
     // Check if the reference dir for images exists, if not: create it!
     if ( !file_exists( $referenceDir ) )
     {
-        eZDir::mkdir( $ref_dir, 0777, true);
+        eZDir::mkdir( $ref_dir, eZDir::directoryPermission(), true);
     }
 
     // Set the location of the source, original and reference files.
@@ -444,9 +613,8 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
  */
 function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribute )
 {
-
     // Get the file/base-name part of the filepath.
-    $filename = basename( fileFileName );
+    $filename = basename( $fileFileName );
 
     // Create a new mime object.
     $mimeObj = new eZMimeType();
@@ -482,7 +650,7 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
     // If no directory for these files exists: create one!
     if ( !file_exists( $destinationDir ) )
     {
-        eZDir::mkdir( $destinationDir, 0777, true);
+        eZDir::mkdir( $destinationDir, eZDir::directoryPermission(), true);
     }
 
     // Build the target filename.
@@ -658,7 +826,7 @@ function putFile( $target, $tempFile, $parentNodeID )
 
 
 
-/*!
+/*! Creates a new folder under the given target node.
  */
 function createFolder( $node, $target )
 {
@@ -707,7 +875,6 @@ function createFolder( $node, $target )
 
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
-    $contentObject->store();
 
     return( EZ_WEBDAV_OK_CREATED );
     return( EZ_WEBDAV_FAILED_FORBIDDEN );
@@ -717,7 +884,7 @@ function createFolder( $node, $target )
 
 
 
-/*! Gathers information about a given node (specified as parameter to the function).
+/*! Gathers information about a given node (specified as parameter).
  */
 function getNodeInfo( $node )
 {
@@ -739,7 +906,7 @@ function getNodeInfo( $node )
     $classIdentifier =& $class->attribute( 'identifier' );
 
     // By default, everything is displayed as a folder:
-    $entry["name"]     = basename( $node->attribute( 'url_alias' ) );
+    $entry["name"]     = $node->attribute( 'name' );
     $entry["size"]     = 0;
     $entry["mimetype"] = 'httpd/unix-directory';
     $entry["ctime"]    = $object->attribute( 'published' );
@@ -790,12 +957,15 @@ function getNodeInfo( $node )
             {
                 $mime = $attributeContent->attribute( 'mime_type' );
                 $originalName = $attributeContent->attribute( 'original_filename' );
-                $pathInfo = pathinfo( $originalName );
-                $extension = '.'.$pathInfo["extension"];
+                $fileLocation = $attributeContent->attribute( 'filepath' );
+                $pathInfo     = pathinfo( $originalName );
+                $extension    = '.'.$pathInfo["extension"];
 
                 $entry["size"]      = $attributeContent->attribute( 'filesize' );
                 $entry["mimetype"]  = $mime;
                 $entry["name"]      .= $extension;
+                $entry["ctime"]     = filectime( $fileLocation );
+                $entry["mtime"]     = filemtime( $fileLocation );
             }break;
         }
     }
@@ -818,10 +988,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
      */
     function options()
     {
-        //
+        // Only certain operations are allowed.
         $options = "Allow: OPTIONS,PROPFIND,HEAD,GET,PUT,MKCOL,MOVE";
 
-        //
+        // Return the allowed options.
         return( $options );
     }
 
@@ -835,28 +1005,46 @@ class eZWebDAVContentServer extends eZWebDAVServer
      */
     function getCollectionContent( $collection )
     {
-        getSiteAccessList();
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath( $collection );
 
-        // Bail if the current user doesn't have the required privileges:
-        if ( !gotPermission() )
-        {
-          return( FALSE );
-        }
+        // Get rid of the index-file /NVH mode/ and the site name.
+        $collection = removeIndexAndSiteName( $collection, $currentSite );
 
-        // If we're browsing inside the content folder:
-        if ( stristr( $collection, 'content' ) )
+        // Proceed only if the current site is valid.
+        if ( $currentSite )
         {
-            // Get the content of the target.
-            $entries = getContent( $collection );
+            // Switch to the site being browsed.
+            setSiteAccess( $currentSite );
+
+            // Bail if the current user doesn't have the required privileges:
+            if ( !gotPermission() )
+            {
+                return( FALSE );
+            }
+
+            // If the path starts with "/content":
+            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $collection ) )
+            {
+                append_to_log( "We're browing actual content, collection is: $collection" );
+                $entries = getContent( $collection );
+            }
+            // We aren't browsing content just yet, show the virtual start folder:
+            else
+            {
+                append_to_log( "We're browsing the virtual start folder.." );
+                $entries = getVirtualStartFolderContent();
+            }
         }
-        // Else: we're browsing the virtual start folder.
+        // Else: we're browsing the list of sites.
         else
         {
-            // Get the content of the virtual start folder.
-            $entries = getVirtualStartFolderContent();
+            append_to_log( "We're browsing list of sites.." );
+            // Get the list of sites.
+            $entries = getSiteListContent();
         }
 
-        // Return an array with nodes and their attributes.
+        // Return an array with content entries and their attributes.
         return( $entries );
     }
 
@@ -867,88 +1055,105 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function get( $target )
     {
-        // Bail if the current user doesn't have the required privileges:
-        if ( !gotPermission() )
-        {
-            return( FALSE );
-        }
-
         // At the end, we'll return an array; let's initialize it:
         $result         = array();
         $result["data"] = FALSE;
         $result["file"] = FALSE;
 
-        // Check if we're browsing actual content.
-        if ( stristr( $target, VIRTUAL_CONTENT_FOLDER_NAME ) )
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath( $target );
+
+        // Get rid of the index-file /NVH mode/ and the site name.
+        $target = removeIndexAndSiteName( $target, $currentSite );
+
+
+        // Proceed only if the current site is valid:
+        if ( $currentSite )
         {
-            // Attempt to fetch the node the client wants to get.
-            $node = getNodeByTranslation( $target );
+            append_to_log( "get: current site er $currentSite" );
+            // Switch site to the site being browsed.
+            setSiteAccess( $currentSite );
 
-            // Proceed only if the node is valid:
-            if ( $node != null )
+            // Bail if the current user doesn't have the required privileges:
+            if ( !gotPermission() )
             {
-                // Get the object.
-                $object = $node->attribute( 'object' );
-
-                // Get the object's content class ID.
-                $classID = $object->attribute( 'contentclass_id' );
-
-                // Get the content class ID string of the object (image, folder, file, etc.).
-                $class =& $object->attribute( 'content_class' );
-                $classIdentifier =& $class->attribute( 'identifier' );
-
-                // Grab settings from the ini file:
-                $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-                $iniSettings = $webdavINI->variable( 'GetSettings', 'FileAttribute' );
-
-                // Attempt to determine the attribute that should be used for display:
-                $attributeID = $iniSettings[$classIdentifier];
-
-                // Only proceed to the special cases if the
-                // attribute is actually defined in the ini file:
-                if ( $attributeID )
-                {
-                    // Get the object's datamap.
-                    $dataMap = $object->dataMap();
-
-                    //
-                    $attribute = $dataMap[$attributeID];
-
-                    //
-                    $attributeContent = $attribute->content();
-
-                    // Get the type of class.
-                    $attributeClass = get_class( $attributeContent );
-
-                    switch ( $attributeClass )
-                    {
-                        case 'ezimage':
-                        {
-                            // Grab the filename.
-                            $filename = $attributeContent->attribute( 'filename' );
-
-                            // The actual location of the image.
-                            $filePath = getPathToOriginalImageDir().'/'.$filename;
-                        }break;
-
-
-                        case 'ezbinaryfile':
-                        {
-                            // The actual location of the file.
-                            $filePath = $attributeContent->attribute( 'filepath' );
-                        }break;
-                    }
-                }
-
-                // Set the result (to the file) & return it.
-                $result["file"] = $filePath;
-                return( $result );
+                return( FALSE );
             }
-            // Else: the node was invalid:
-            else
+
+            // If the path starts with "/content":
+            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $target ) )
             {
-                // Return empty result.
-                return( $result );
+                append_to_log( "get: attempting to fetch node, target is: $target");
+
+                // Attempt to fetch the node the client wants to get.
+                $node = getNodeByTranslation( $target );
+
+                // Proceed only if the node is valid:
+                if ( $node != null )
+                {
+                    // Get the object.
+                    $object = $node->attribute( 'object' );
+
+                    // Get the object's content class ID.
+                    $classID = $object->attribute( 'contentclass_id' );
+
+                    // Get the content class ID string of the object (image, folder, file, etc.).
+                    $class =& $object->attribute( 'content_class' );
+                    $classIdentifier =& $class->attribute( 'identifier' );
+
+                    // Grab settings from the ini file:
+                    $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+                    $iniSettings = $webdavINI->variable( 'GetSettings', 'FileAttribute' );
+
+                    // Attempt to determine the attribute that should be used for display:
+                    $attributeID = $iniSettings[$classIdentifier];
+
+                    // Only proceed to the special cases if the
+                    // attribute is actually defined in the ini file:
+                    if ( $attributeID )
+                    {
+                        // Get the object's datamap.
+                        $dataMap = $object->dataMap();
+
+                        //
+                        $attribute = $dataMap[$attributeID];
+
+                        //
+                        $attributeContent = $attribute->content();
+
+                        // Get the type of class.
+                        $attributeClass = get_class( $attributeContent );
+
+                        switch ( $attributeClass )
+                        {
+                            case 'ezimage':
+                            {
+                                // Grab the filename.
+                                $filename = $attributeContent->attribute( 'filename' );
+
+                                // The actual location of the image.
+                                $filePath = getPathToOriginalImageDir().'/'.$filename;
+                            }break;
+
+
+                            case 'ezbinaryfile':
+                            {
+                                // The actual location of the file.
+                                $filePath = $attributeContent->attribute( 'filepath' );
+                            }break;
+                        }
+                    }
+
+                    // Set the result (to the file) & return it.
+                    $result["file"] = $filePath;
+                    return( $result );
+                }
+                // Else: the node was invalid:
+                else
+                {
+                    // Return empty result.
+                    return( $result );
+                }
             }
         }
         // Else: the target is the virtual info file: serve it.
@@ -965,7 +1170,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
 
-   /*!
+    /*! __FIX_ME__
     */
     function head( $target )
     {
@@ -976,79 +1181,100 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
 
-    /*!
-     */
+    /*! __FIX_ME__
+    */
     function put( $target, $tempFile )
     {
+        append_to_log( "put: target is: $target" );
+
         // Bail if the current user doesn't have the required privileges:
         if ( !gotPermission() )
         {
             return( EZ_WEBDAV_FAILED_FORBIDDEN );
         }
 
-        // If we're browsing content:
-        if ( stristr( $target, VIRTUAL_CONTENT_FOLDER_NAME ) )
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath( $target );
+
+        // Get rid of the index-file /NVH mode/ and the site name.
+        $target = removeIndexAndSiteName( $target, $currentSite );
+
+        append_to_log( "put: target is: $target" );
+
+        // Proceed only if the current site is valid:
+        if ( $currentSite )
         {
-            // Attempt to get the parent node of the target.
-            $parentNode = getParentNodeByTranslation( $target );
+            append_to_log( "put: current site is: $currentSite" );
 
-            // Proceed only if the parentNode is OK:
-            if ( $parentNode != null )
+            // Switch to the site being browsed.
+            setSiteAccess( $currentSite );
+
+            // If the path starts with "/content":
+            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $target ) )
             {
-                // Get the node ID of the node.
-                $parentNodeID = $parentNode->attribute( 'node_id' );
+                append_to_log( "put: inside virtual content folder, ok" );
 
-                // Attempt to determine the mime type of the file that has been uploaded.
-                $mimeObj = new eZMimeType();
-                $mime = $mimeObj->mimeTypeFor( false, strtolower( basename( $target ) ) );
+                // Attempt to get the parent node of the target.
+                $parentNode = getParentNodeByTranslation( $target );
 
-                // Extract elements from the mime array.
-                list( $type, $extension ) = split ("/", $mime );
-
-                // Grab settings from the ini file:
-                $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-                $iniSettings = $webdavINI->variable( 'GetSettings', 'MIME' );
-                $iniDefaultSetting = $webdavINI->variable( 'GetSettings', 'DefaultClass' );
-
-                // Attempt to determine the attribute that should be used for display:
-                $attributeID = $iniSettings[$mime];
-
-                // If no attribute ID : set to default (from ini file).
-                if ( !$attributeID )
+                // Proceed only if the parentNode is OK:
+                if ( $parentNode != null )
                 {
-                    $attributeID = $iniDefaultSetting;
+                    // Get the node ID of the node.
+                    $parentNodeID = $parentNode->attribute( 'node_id' );
+
+                    // Attempt to determine the mime type of the file that has been uploaded.
+                    $mimeObj = new eZMimeType();
+                    $mime = $mimeObj->mimeTypeFor( false, strtolower( basename( $target ) ) );
+
+                    // Extract elements from the mime array.
+                    list( $type, $extension ) = split ("/", $mime );
+
+                    // Grab settings from the ini file:
+                    $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+                    $iniSettings = $webdavINI->variable( 'GetSettings', 'MIME' );
+                    $iniDefaultSetting = $webdavINI->variable( 'GetSettings', 'DefaultClass' );
+
+                    // Attempt to determine the attribute that should be used for display:
+                    $attributeID = $iniSettings[$mime];
+
+                    // If no attribute ID : set to default (from ini file).
+                    if ( !$attributeID )
+                    {
+                        $attributeID = $iniDefaultSetting;
+                    }
+
+                    //
+                    switch ( $attributeID )
+                    {
+                        // Image case: image upload.
+                        case 'image':
+                        {
+                            // Attempt to create image object, store in DB, copy file, etc.
+                            return( putImage( $target, $tempFile, $parentNodeID ) );
+                        }
+                        break;
+
+                        // Default case (file upload).
+                        default:
+                        {
+                            // Attempt to create file object, store in DB, copy file, etc.
+                            return( putFile( $target, $tempFile, $parentNodeID ) );
+                        }
+                        break;
+                    }
                 }
-
-                //
-                switch ( $attributeID )
+                // Else: the parent node was invalid:
+                else
                 {
-                    // Image case: image upload.
-                    case 'image':
-                    {
-                        // Attempt to create image object, store in DB, copy file, etc.
-                        return( putImage( $target, $tempFile, $parentNodeID ) );
-                    }
-                    break;
-
-                    // Default case (file upload).
-                    default:
-                    {
-                        // Attempt to create file object, store in DB, copy file, etc.
-                        return( putFile( $target, $tempFile, $parentNodeID ) );
-                    }
-                    break;
+                    return( EZ_WEBDAV_FAILED_FORBIDDEN );
                 }
             }
-            // Else: the parent node was invalid:
+            // Else: somebody is trying to put stuff in to a virtual dir: no deal!
             else
             {
                 return( EZ_WEBDAV_FAILED_FORBIDDEN );
             }
-        }
-        // Else: somebody is trying to put stuff in the virtual dir: no deal!
-        else
-        {
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
         }
     }
 
@@ -1056,7 +1282,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
 
     /*!
-     */
+    */
     function mkcol( $target )
     {
         // Bail if the current user doesn't have the required privileges:
@@ -1065,33 +1291,52 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return( FALSE );
         }
 
-        // If we're browsing content:
-        if ( stristr( $target, VIRTUAL_CONTENT_FOLDER_NAME ) )
-        {
-            // Attempt to get the parent node.
-            $parentNode = getParentNodeByTranslation( $target );
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath( $target );
 
-            // If no node: use the root node.
-            if ( !$parentNode )
+        // Get rid of the index-file /NVH mode/ and the site name.
+        $target = removeIndexAndSiteName( $target, $currentSite );
+
+        // Proceed only if the current site is valid:
+        if ( $currentSite != "" )
+        {
+            // Switch to the site being browsed.
+            setSiteAccess( $currentSite );
+
+            // Get rid of the site name:
+            if ( preg_match( "#^/$currentSite(.+)$#", $target, $matches ) )
             {
-                $parentNode =& eZContentObjectTreeNode::fetch( 2 );
+                $target = $matches[1];
             }
 
-            // Attempt to create the folder.
-            return( createFolder( $parentNode, $target ) );
-        }
-        // Else: somebody is trying to make a folder in the virtual dir: no deal!
-        else
-        {
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
+            // If the path starts with "/content":
+            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $target ) )
+            {
+                // Attempt to get the parent node.
+                $parentNode = getParentNodeByTranslation( $target );
+
+                // If no node: use the root node.
+                if ( !$parentNode )
+                {
+                    $parentNode =& eZContentObjectTreeNode::fetch( 2 );
+                }
+
+                // Attempt to create the folder.
+                return( createFolder( $parentNode, $target ) );
+            }
+            // Else: somebody is trying to make a folder in a virtual dir: no deal!
+            else
+            {
+                return( EZ_WEBDAV_FAILED_FORBIDDEN );
+            }
         }
     }
 
 
 
 
-    /*!
-     */
+   /*!
+    */
     function move( $source, $destination )
     {
         // Bail if the current user doesn't have the required privileges:
@@ -1100,44 +1345,63 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return( EZ_WEBDAV_FAILED_FORBIDDEN );
         }
 
-        // If we're browsing content:
-        if ( stristr( $source, VIRTUAL_CONTENT_FOLDER_NAME ) )
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath( $target );
+
+        // Get rid of the index-file /NVH mode/ and the site name.
+        $source = removeIndexAndSiteName( $source, $currentSite );
+
+        // Proceed only if the current site is valid:
+        if ( $currentSite )
         {
-            // Convert the source string (lowercase, replace spaces with _, etc).
-            $source = convertString( $source );
+            // Switch to the site being browsed.
+            setSiteAccess( $currentSite );
 
-            // Attempt to get the node.
-            $node = getNodeByTranslation ( $source );
-
-            // Proceed only if we were able to find the node:
-            if ( $node != null )
+            // Get rid of the site name:
+            if ( preg_match( "#^/$currentSite(.+)$#", $source, $matches ) )
             {
-                // Get the object.
-                $object = $node->attribute( 'object' );
+                $source = $matches[1];
+            }
 
-                // Get rid of possible extensions, remove .jpeg .txt .html etc..
-                $destination = preg_replace( "/\.\w*$/", "", $destination );
-                $destination = preg_replace( "#\/$#", "", $destination );
+            // If the path starts with "/content":
+            if ( preg_match( "#^/".VIRTUAL_CONTENT_FOLDER_NAME."(.*)$#", $source ) )
+            {
+                // Convert the source string (lowercase, replace spaces with _, etc).
+                $source = convertString( $source );
 
-                //
-                $contentObjectID = $object->attribute( 'id' );
-                $contentObjectAttributes =& $object->contentObjectAttributes();
-                $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $destination ) );
-                $contentObjectAttributes[0]->store();
+                // Attempt to get the node.
+                $node = getNodeByTranslation ( $source );
 
-                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
-                $object->store();
+                // Proceed only if we were able to find the node:
+                if ( $node != null )
+                {
+                    // Get the object.
+                    $object = $node->attribute( 'object' );
 
-                // __FIX_ME__
-                return( EZ_WEBDAV_OK_CREATED );
+                    // Get rid of possible extensions, remove .jpeg .txt .html etc..
+                    $destination = preg_replace( "/\.\w*$/", "", $destination );
+                    $destination = preg_replace( "#\/$#", "", $destination );
+
+                    //
+                    $contentObjectID = $object->attribute( 'id' );
+                    $contentObjectAttributes =& $object->contentObjectAttributes();
+                    $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $destination ) );
+                    $contentObjectAttributes[0]->store();
+
+                    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
+                    $object->store();
+
+                    // __FIX_ME__
+                    return( EZ_WEBDAV_OK_CREATED );
+                }
+            }
+            // Else: somebody is trying to move stuff in a virtual dir: no deal!
+            else
+            {
+                return( EZ_WEBDAV_FAILED_FORBIDDEN );
             }
         }
-        // Else: somebody is trying to move stuff in the virtual dir: no deal!
-        else
-        {
-            return( EZ_WEBDAV_FAILED_FORBIDDEN );
-        }
     }
-}
 
+}

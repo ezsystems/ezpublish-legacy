@@ -33,11 +33,12 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
 
 
 
 
-// __FIX_ME__ Hack? ->
 /*!
  Reads settings from site.ini and passes them to eZDebug.
 */
@@ -46,39 +47,76 @@ function eZUpdateDebugSettings()
     $ini =& eZINI::instance();
     $debugSettings = array();
     $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
-    $debugSettings['debug-by-ip'] = $ini->variable( 'DebugSettings', 'DebugByIP' ) == 'enabled';
+    $debugSettings['debug-by-ip']   = $ini->variable( 'DebugSettings', 'DebugByIP' )   == 'enabled';
     $debugSettings['debug-ip-list'] = $ini->variable( 'DebugSettings', 'DebugIPList' );
     eZDebug::updateSettings( $debugSettings );
 }
 
-include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
 
-eZSys::init( 'index_webdav.php' );
 
-/*
-// Check if the username & password actually contain someting, proceed
-// only if empty values or if they are invalid (can't login):
-if ( ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) || ( !isset($_SERVER['PHP_AUTH_PW'] ) ) ||
-     ( !ezuser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) )
 
+// Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
+$ini =& eZINI::instance( WEBDAV_INI_FILE );
+$enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
+
+
+// Check and proceed only if WebDAV functionality is enabled:
+if ( $enable == true )
 {
-    header('HTTP/1.0 401 Unauthorized');
-    header('WWW-Authenticate: Basic realm="eZ publish WebDAV content interface"');
-    echo( 'Authorization required!' );
+    // Initialize/set the index file.
+    eZSys::init( 'index_webdav.php' );
+
+    // The top/root folder is publicly available (without auth):
+    if ( $_SERVER['REQUEST_URI'] == ''  ||
+         $_SERVER['REQUEST_URI'] == '/' ||
+         $_SERVER['REQUEST_URI'] == '/index_webdav.php/' ||
+         $_SERVER['REQUEST_URI'] == '/index_webdav.php' )
+    {
+        $testServer = new eZWebDAVContentServer ();
+        $testServer->processClientRequest ();
+    }
+    // Else: need to login with username/password:
+    else
+    {
+        // Get the name of the site that is being browsed.
+        $currentSite = getCurrentSiteFromPath ( $_SERVER['REQUEST_URI'] );
+
+        // Proceed only if the current site is valid:
+        if ( $currentSite )
+        {
+            // Change site to the site being browsed:
+            setSiteAccess( $currentSite );
+/*
+            // Check if username & password contain someting, attempt to login.
+            if ( ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) || ( !isset($_SERVER['PHP_AUTH_PW'] ) ) ||
+                 ( !ezuser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) )
+            {
+                header('HTTP/1.0 401 Unauthorized');
+                header('WWW-Authenticate: Basic realm="'.WEBDAV_AUTH_REALM.'"');
+                print( WEBDAV_AUTH_FAILED );
+            }
+            // Else: non-empty & valid values were supplied: login successful!
+            else
+            {
+*/
+                // Create & initialize a new instance of the content server.
+                $testServer = new eZWebDAVContentServer ();
+
+                // Process the request.
+                $testServer->processClientRequest ();
+//            }
+        }
+        // Else: site-name is invalid (was not among available sites).
+        else
+        {
+            print( WEBDAV_INVALID_SITE );
+        }
+    }
 }
-// Else: non-empty & valid values were supplied: login successful!
+// Else: WebDAV functionality is disabled, do nothing...
 else
 {
-    $testServer = new eZWebDAVContentServer ();
-    $testServer->processClientRequest ();
+    print ( WEBDAV_DISABLED );
 }
-*/
-
-
-// Without auth:
- $testServer = new eZWebDAVContentServer ();
- $testServer->processClientRequest ();
-
 
 ?>

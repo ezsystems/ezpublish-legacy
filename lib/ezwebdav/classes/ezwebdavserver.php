@@ -75,13 +75,13 @@ define( "EZ_WEBDAV_TEMP_FILE_PREFIX", "eZWebDAVUpload_" );
 // Check if necessary temp. dir. actually exists, if not: create it!
 if ( !file_exists( EZ_WEBDAV_TEMP_DIRECTORY ) )
 {
-    eZDir::mkdir( EZ_WEBDAV_TEMP_DIRECTORY, 0770, true);
+    eZDir::mkdir( EZ_WEBDAV_TEMP_DIRECTORY, eZDir::directoryPermission(), true);
 }
 
 // Check if necessary root dir. actually exists, if not: create it!
 if ( !file_exists( EZ_WEBDAV_ROOT_DIRECTORY ) )
 {
-    eZDir::mkdir( EZ_WEBDAV_ROOT_DIRECTORY, 0770, true);
+    eZDir::mkdir( EZ_WEBDAV_ROOT_DIRECTORY, eZDir::directoryPermission(), true);
 }
 
 
