@@ -186,9 +186,6 @@ class eZTemplateArrayOperator
                                                         'length'       => array( "type"      => "integer",
                                                                                  "required"  => false,
                                                                                  "default"   => false) ),
-                      $this->AppendName     => array( 'append_string'  => array ("type"      => "string",
-                                                                                 "required"  => false,
-                                                                                 "default"   => false ) ),
                       $this->PrependName    => array( 'prepend_string' => array( "type"      => "string",
                                                                                  "required"  => false,
                                                                                  "default"   => false ) ),
@@ -531,7 +528,13 @@ class eZTemplateArrayOperator
                 // Add a string at the end of the input/target string:
                 case $this->AppendName:
                 {
-                    $operatorValue .= $namedParameters['append_string'];
+                    for ( $i = 0; $i < count( $operatorParameters ); ++$i )
+                    {
+                        $operatorValue .= $tpl->elementValue( $operatorParameters[$i],
+                                                              $rootNamespace,
+                                                              $currentNamespace );
+                    }
+                        
                 }break;
 
                 // Not implemented.
