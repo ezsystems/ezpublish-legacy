@@ -154,7 +154,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $templateFilenameArray = false;
         if ( $options['include_templates'] )
         {
-            $overrideSettingsListNode =& $this->generateOverrideSettingsArray( $options['site_access_array'] );
+            $overrideSettingsListNode =& $this->generateOverrideSettingsArray( $options['site_access_array'], $options['minimal_template_set'] );
             $packageRoot->appendChild( $overrideSettingsListNode );
 
             $designTemplateListNode =& $this->generateTemplateFilenameArray();
@@ -419,8 +419,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
      \param site access array
     */
-    function &generateOverrideSettingsArray( $siteAccessArray )
+    function &generateOverrideSettingsArray( $siteAccessArray, $minimalTemplateSet )
     {
+        $datatypeHash = array();
+        $simpleMatchList = array();
+        $regexpMatchList = array();
         foreach ( $siteAccessArray as $siteAccess )
         {
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
@@ -432,7 +435,44 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             foreach( array_keys( $this->NodeObjectArray ) as $nodeID )
             {
+                // Extract some information that will be used
+                unset( $contentNode, $contentObject, $contentClass );
                 $contentNode =& $this->NodeObjectArray[$nodeID];
+                $contentObject =& $contentNode->attribute( 'object' );
+                $contentClass =& $contentObject->attribute( 'content_class' );
+                $attributeList = $contentClass->fetchAttributes( false, false, false );
+                $datatypeList = array();
+                foreach ( $attributeList as $attribute )
+                {
+                    $datatypeList[] = $attribute['data_type_string'];
+                    if ( !isset( $datatypeHash[$attribute['data_type_string']] ) )
+                    {
+                        include_once( 'kernel/classes/ezdatatype.php' );
+                        $datatype =& eZDataType::create( $attribute['data_type_string'] );
+                        $datatypeHash[$attribute['data_type_string']] =& $datatype;
+                        if ( !method_exists( $datatype, 'templateList' ) )
+                            continue;
+                        $templateList = $datatype->templateList();
+                        if ( $templateList === false )
+                            continue;
+                        foreach ( $templateList as $templateMatch )
+                        {
+                            if ( is_string( $templateMatch ) )
+                            {
+                                $simpleMatchList[] = $templateMatch;
+                            }
+                            else if ( is_array( $templateMatch ) )
+                            {
+                                if ( $templateMatch[0] == 'regexp' )
+                                {
+                                    $regexpMatchList[] = $templateMatch[1];
+                                }
+                            }
+                        }
+                    }
+                }
+                $datatypeText = implode( '|', array_unique( $datatypeList ) );
+
                 foreach( array_keys( $overrideINI->groups() ) as $blockName )
                 {
                     if ( isset( $blockMatchArray[$blockName] ) )
@@ -440,10 +480,15 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         continue;
                     }
 
-                    $matchSettings = $overrideINI->variable( $blockName, 'Match' );
+                    $blockData = $overrideINI->group( $blockName );
+                    $sourceName = $blockData['Source'];
+                    $matchSettings = false;
+                    if ( isset( $blockData['Match'] ) )
+                        $matchSettings = $blockData['Match'];
 
                     $matchValue = array();
                     $validMatch = true;
+                    $hasMatchType = false;
                     if ( $matchSettings )
                     {
                         foreach( array_keys( $matchSettings ) as $matchType )
@@ -452,19 +497,20 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                             {
                                 case 'object':
                                 {
+                                    $hasMatchType = true;
                                     if ( $contentNode->attribute( 'contentobject_id' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
                                     }
                                     else
                                     {
-                                        $contentObject = $contentNode->attribute( 'object' );
                                         $matchValue[$this->OverrideObjectRemoteID] = $contentObject->attribute( 'remote_id' );
                                     }
                                 } break;
 
                                 case 'node':
                                 {
+                                    $hasMatchType = true;
                                     if ( $nodeID != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
@@ -477,6 +523,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                                 case 'parent_node':
                                 {
+                                    $hasMatchType = true;
                                     if ( $contentNode->attribute( 'parent_node_id' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
@@ -490,21 +537,20 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                                 case 'class':
                                 {
-                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    $hasMatchType = true;
                                     if ( $contentObject->attribute( 'contentclass_id' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
                                     }
                                     else
                                     {
-                                        $contentClass = $contentObject->attribute( 'content_class' );
                                         $matchValue[$this->OverrideClassRemoteID] = $contentClass->attribute( 'remote_id' );
                                     }
                                 } break;
 
                                 case 'class_identifier':
                                 {
-                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    $hasMatchType = true;
                                     if ( $contentObject->attribute( 'class_identifier' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
@@ -513,7 +559,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                                 case 'section':
                                 {
-                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    $hasMatchType = true;
                                     if ( $contentObject->attribute( 'section_id' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
@@ -522,6 +568,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                                 case 'depth':
                                 {
+                                    $hasMatchType = true;
                                     if ( $contentNode->attribute( 'depth' ) != $matchSettings[$matchType] )
                                     {
                                         $validMatch = false;
@@ -535,11 +582,40 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                             }
                         }
                     }
+                    if ( !$hasMatchType and $validMatch )
+                    {
+                        // Datatype match, we include overrides for datatype templates
+                        if ( preg_match( "#^content/datatype/[a-zA-Z]+/(" . $datatypeText . ")\\.tpl$#", $sourceName ) )
+                        {
+                            $validMatch = true;
+                            $hasMatchType = true;
+                        }
+                        else if ( in_array( $sourceName, $simpleMatchList ) )
+                        {
+                            $validMatch = true;
+                            $hasMatchType = true;
+                        }
+                        else
+                        {
+                            foreach ( $regexpMatchList as $regexpMatch )
+                            {
+                                if ( preg_match( $regexpMatch, $sourceName ) )
+                                {
+                                    $validMatch = true;
+                                    $hasMatchType = true;
+                                }
+                            }
+                        }
+                    }
 
                     if ( $validMatch )
                     {
-                        $blockMatchArray[$blockName] = array_merge( $overrideINI->group( $blockName ),
-                                                                    $matchValue );
+                        if ( !$minimalTemplateSet or
+                             $hasMatchType )
+                        {
+                            $blockMatchArray[$blockName] = array_merge( $blockData,
+                                                                        $matchValue );
+                        }
                     }
                 }
             }
@@ -897,6 +973,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $options['versions'] = $parameters['version-type'];
         $options['related_objects'] = $parameters['related-type'];
         $options['embed_objects'] = $parameters['embed-type'];
+        $options['minimal_template_set'] = $parameters['minimal-template-set'];
         $this->generatePackage( $package, $options );
     }
 
@@ -922,6 +999,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $embedObjectType = 'selected';
         $versionType = 'current';
         $languageList = array();
+        $minimalTemplateSet = false;
         $nodeItem = array( 'node-id-list' => array() );
         $longOptions = array( 'include-classes' => 'include-classes',
                               'include-templates' => 'include-templates',
@@ -932,7 +1010,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                               'all-versions' => 'all-versions',
                               'node-main' => 'node-main',
                               'node-selected' => 'node-selected',
-                              'siteaccess' => 'siteaccess' );
+                              'siteaccess' => 'siteaccess',
+                              'minimal-template-set' => 'minimal-template-set' );
         $shortOptions = array();
         foreach ( $arguments as $argument )
         {
@@ -1003,6 +1082,10 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 else if ( $optionName == 'all-versions' )
                 {
                     $versionType = 'all';
+                }
+                else if ( $optionName == 'minimal-template-set' )
+                {
+                    $minimalTemplateSet = true;
                 }
             }
             else
@@ -1075,7 +1158,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                       'node-assignment-type' => $nodeAssignmentType,
                       'related-type' => $relatedObjectType,
                       'embed-type' => $embedObjectType,
-                      'version-type' => $versionType
+                      'version-type' => $versionType,
+                      'minimal-template-set' => $minimalTemplateSet,
                       );
     }
 
