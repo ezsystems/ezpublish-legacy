@@ -21,7 +21,7 @@
  To do this you need to change all the <tt class="note">chmod</tt> commands.
 </p>
 <h3>Example</h3>
-<pre class="example">chmod -R og+rwx var
+<pre class="example">chmod -R ug+rwx var
 chown -R nouser.nouser var</pre>
 
 <blockquote class="note">
