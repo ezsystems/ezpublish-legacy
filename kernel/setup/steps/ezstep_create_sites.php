@@ -619,12 +619,13 @@ class eZStepCreateSites extends eZStepInstaller
             }
             if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
             {
-                $dataMap =& $userObject->attribute( 'data_map' );
+                $newUserObject =& $userObject->createNewVersion( 1, false);
+                $dataMap =& $newUserObject->attribute( 'data_map' );
                 $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
                 $dataMap['first_name']->store();
                 $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
                 $dataMap['last_name']->store();
-                $userObject->store();
+                $newUserObject->store();
                 $publishAdmin = true;
             }
             $userAccount->store();
@@ -632,8 +633,8 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $publishAdmin )
             {
                 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
-                                                                                             'version' => $userObject->attribute( 'version' ) ) );
+                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
+                                                                                             'version' => $newUserObject->attribute( 'version' ) ) );
             }
         }
 //         else
@@ -676,7 +677,7 @@ WHERE
 
                 if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
                 {
-                    $translation = eZContentTranslation::createNew( $languageObject->internationalLanguageName(), $languageLocale );
+                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
                     $translation->store();
                     if ( $languageLocale != $primaryLanguageLocaleCode )
                     {

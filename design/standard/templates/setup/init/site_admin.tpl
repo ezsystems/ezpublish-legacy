@@ -57,11 +57,11 @@
     </tr>
     <tr>
         <td{section show=eq( $first_name_missing, 1 )} class="invalid"{/section}>{"First name"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="text" size="20" name="eZSetup_site_templates_first_name" value="{$admin.first_name|wash}" /></td>
+        <td><input type="text" size="20" name="eZSetup_site_templates_first_name" value="{section show=$admin.first_name}{$admin.first_name|wash}{section-else}Administrator{/section}" /></td>
     </tr>
     <tr>
         <td{section show=eq( $last_name_missing, 1 )} class="invalid"{/section}>{"Last name"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="text" size="20" name="eZSetup_site_templates_last_name" value="{$admin.last_name|wash}" /></td>
+        <td><input type="text" size="20" name="eZSetup_site_templates_last_name" value="{section show=$admin.last_name}{$admin.last_name|wash}{section-else}User{/section}" /></td>
     </tr>
     <tr>
         <td{section show=or( $email_missing, $email_invalid )} class="invalid"{/section}>{"E-mail address"|i18n("design/standard/setup/init")}:&nbsp;</td>
