@@ -1,16 +1,16 @@
-{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/standard/content/poll',,hash('%pollname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/admin/content/collectedinfo/poll',,hash('%pollname',$node.name))}{/set-block}
 
 {section show=$error}
 
 {section show=$error_anonymous_user}
 <div class="message-warning">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/standard/content/poll')}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
 {/section}
 
 {section show=$error_existing_data}
 <div class="message-warning">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'You have already voted for this poll.'|i18n('design/standard/content/poll')}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'You have already voted for this poll.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
 {/section}
 
@@ -49,7 +49,7 @@
 
 {/section}
 
-<p>{"%count total votes"|i18n( 'design/standard/content/poll' ,,
+<p>{"%count total votes"|i18n( 'design/admin/content/collectedinfo/poll' ,,
                              hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}</p>
 
 </div>

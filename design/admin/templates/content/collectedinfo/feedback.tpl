@@ -1,7 +1,7 @@
 {default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
                           fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
 
-{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/standard/content/feedback',,hash('%feedbackname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/admin/content/collectedinfo/feedback',,hash('%feedbackname',$node.name))}{/set-block}
 
 <div class="context-block">
 
@@ -20,12 +20,12 @@
 {section show=$error}
 
 {section show=$error_existing_data}
-<p>{'You have already submitted data to this feedback. The previously submitted data was the following.'|i18n('design/standard/content/feedback')}</p>
+<p>{'You have already submitted data to this feedback. The previously submitted data was the following.'|i18n('design/admin/content/collectedinfo/feedback')}</p>
 {/section}
 
 {section-else}
 
-<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/standard/content/feedback')}</p>
+<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/admin/content/feedback')}</p>
 
 {/section}
 
@@ -41,7 +41,7 @@
 
 <p/>
 
-<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/standard/content/feedback')}</a>
+<a href={$node.parent.url|ezurl}>{'Return to site'|i18n('design/admin/content/feedback')}</a>
 
 </div>
 

@@ -1,7 +1,7 @@
 {default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
                           fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
 
-{set-block scope=global variable=title}{'Form %formname'|i18n('design/standard/content/form',,hash('%formname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Form %formname'|i18n('design/admin/content/collectedinfo/form',,hash('%formname',$node.name))}{/set-block}
 
 <div class="context-block">
 
