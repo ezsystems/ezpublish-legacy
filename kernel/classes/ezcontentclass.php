@@ -124,6 +124,7 @@ class eZContentClass extends eZPersistentObject
                                             $userID,
                                             $sectionID );
         $object->store();
+        $object->setName( "New " . $this->attribute( "name" ) );
 
         $version = $object->createInitialVersion( $userID );
         $version->store();
