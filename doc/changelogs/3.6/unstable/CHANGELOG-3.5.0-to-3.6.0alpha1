@@ -40,6 +40,8 @@ Changes from 3.5.0 to 3.6.0alpha1
   'reverse_related_objects_count' to get reverse related objects with relations
   made by attributes of 'ezobjectrelationlist' and 'ezobjectrelation' types.
   (see doc/features/3.6/advanced_related_objects.txt for details)
+- Added functionality to copy subtree.
+  (see doc/features/3.6/admin_copy_subtree.txt for details)
 
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default
@@ -284,6 +286,7 @@ eZDB:
   design/admin/templates/toolbar/full/admin_quick_settings.tpl
   Debug toolbar template:
   design/standard/templates/setup/debug_toolbar.tpl
+
 
 eZDateTime:
 -  Fixed bug with missing array in function setHMS().
