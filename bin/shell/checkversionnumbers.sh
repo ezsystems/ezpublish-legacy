@@ -84,7 +84,9 @@ function check_common_version
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -100,7 +102,9 @@ function check_common_version_only
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -116,7 +120,9 @@ function check_common_version_stable
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -132,7 +138,9 @@ function check_common_version_state
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -148,7 +156,9 @@ function check_common_version_previous
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -164,7 +174,9 @@ function check_common_version_development
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -218,7 +230,9 @@ function lib_check_version_major
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -234,7 +248,9 @@ function lib_check_version_minor
 	fi
 	MAIN_ERROR="1"
 	[ -n $EXIT_AT_ONCE ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -250,7 +266,9 @@ function lib_check_version_release
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -266,7 +284,9 @@ function lib_check_version_state
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -282,7 +302,9 @@ function lib_check_version_development
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -331,7 +353,9 @@ function doxygen_check_version
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
@@ -414,7 +438,9 @@ function lupdate_check_version
 	fi
 	MAIN_ERROR="1"
 	[ -n "$EXIT_AT_ONCE" ] && exit 1
-	return 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
     fi
 }
 
