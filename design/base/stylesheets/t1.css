@@ -893,6 +893,18 @@ div.view-listitem div.class-product div.content-link a
     color: #369;
 }
 
+/* File styles */
+div#maincontent-design div.class-folder div.class-file div.content-short p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: normal;
+    color: #036;
+}
+
+
+
 /*! article style */
 div.class-article div.content-image div.imagecaption
 { 
