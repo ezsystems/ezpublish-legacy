@@ -352,3 +352,7 @@ alter table ezurl add modified int NOT NULL DEFAULT '0';
 alter table ezurl add is_valid int NOT NULL DEFAULT '1';
 alter table ezurl add last_checked int NOT NULL DEFAULT '0';
 alter table ezurl add original_url_md5 varchar(32) NOT NULL DEFAULT '';
+
+#After RC2
+alter table ezproductcollection add column created integer;
+
