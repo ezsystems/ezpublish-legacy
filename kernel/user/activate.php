@@ -70,6 +70,11 @@ include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
 $tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'account_activated', $accountActivated );
+
+// This line is deprecated, the correct name of the variable should
+// be 'account_activated' as shown above.
+// However it is kept for backwards compatability.
 $tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
