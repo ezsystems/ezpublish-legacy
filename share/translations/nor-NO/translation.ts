@@ -19,44 +19,9 @@
     </message>
 </context>
 <context>
-    <name>class/datatype</name>
-    <message>
-        <source>New Enum Element</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>content/class</name>
     <message>
-        <source>No classes have been defined for </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined class types for </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Identifier</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Modifier</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -65,42 +30,6 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined class groups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined class types</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Creator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Created</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Temporary class types</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Items are sorted by modification date.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Class</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -269,128 +198,6 @@
     </message>
 </context>
 <context>
-    <name>content/datatypes/ezauthor</name>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>content/datatypes/ezbinaryfile</name>
-    <message>
-        <source>Filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing orignal filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing mime/type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>content/datatypes/ezmedia</name>
-    <message>
-        <source>Filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Autoplay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Loop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Controls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing orignal filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing mime/type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>content/datatypes/ezobjectrelation</name>
-    <message>
-        <source>Find object</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>content/datatypes/ezoption</name>
-    <message>
-        <source>New option</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>content/edit/image</name>
-    <message>
-        <source>Image filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove image</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>content/node/view</name>
     <message>
         <source>m.nam</source>
@@ -440,18 +247,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>e-mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password confirm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,8 +278,296 @@
         <source>Find object</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>design/standard/class/datatype</name>
+    <message>
+        <source>Max file size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple choice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Option style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checkbox style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enum Element:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enum Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Enum Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min float value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max float value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min integer value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max integer value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media player type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QuickTime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows media player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>VAT type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price inc. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Price ex. VAT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max string length:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prefered columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prefered columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class/edit</name>
+    <message>
+        <source>Editing class type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In group:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input did not validate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input was stored successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attributes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searchable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information collector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing class group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this(these) class(es)?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>will remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this(these) group(s)?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class/list</name>
+    <message>
+        <source>Defined class groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/class/view</name>
+    <message>
+        <source>No classes have been defined for </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined class types for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -500,6 +583,181 @@
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/datatype</name>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filename:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing filename:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing orignal filename:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing mime/type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hour:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minute:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image filename:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISBN:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autohigh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autolow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autoplay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ImageWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ControlPanel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>InfoVolumePanel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>InfoPanel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password confirmation:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -651,6 +909,10 @@
     </message>
     <message>
         <source>Not yet published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1066,6 +1328,26 @@
     </message>
     <message>
         <source>eZ publish SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

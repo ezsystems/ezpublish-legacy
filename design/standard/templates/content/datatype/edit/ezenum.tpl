@@ -37,10 +37,10 @@
       {switch match=$attribute.content.enum_isoption}
         {case match=0}
           {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	    <input type="hidden" name = "ContentObjectAttribute_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />
-	    <input type="hidden" name = "ContentObjectAttribute_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />  
-	    <input type ="hidden" name ="ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" />
-	    <input type = "radio" name = "ContentObjectAttribute_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" 
+	    <input type="hidden" name="ContentObjectAttribute_data_enumid_{$attribute.id}[]" value="{$EnumList:item.id}" />
+	    <input type="hidden" name="ContentObjectAttribute_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}" />  
+	    <input type="hidden" name="ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" />
+	    <input type="radio" name="ContentObjectAttribute_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" 
           {section name=EnumObjectList loop=$attribute.content.enumobject_list}
           {switch match=$EnumList:item.enumelement}
             {case match=$EnumList:EnumObjectList:item.enumelement}
