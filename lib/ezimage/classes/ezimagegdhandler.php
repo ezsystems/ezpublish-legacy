@@ -41,6 +41,7 @@
 
 /*!
   \class eZImageGDHandler ezimagegdhandler.php
+  \ingroup eZImage
   \brief The class eZImageGDHandler does
 
   A geometry array has the following entries.

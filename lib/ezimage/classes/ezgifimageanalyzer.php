@@ -41,6 +41,7 @@
 
 /*!
   \class eZGIFImageAnalyzer ezgifimageanalyzer.php
+  \ingroup eZImageAnalyzer
   \brief The class eZGIFImageAnalyzer does
 
 */

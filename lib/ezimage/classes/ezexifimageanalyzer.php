@@ -41,6 +41,7 @@
 
 /*!
   \class eZEXIFImageAnalyzer ezexifimageanalyzer.php
+  \ingroup eZImageAnalyzer
   \brief Analyzes image formats which can contain EXIF information.
 
 */

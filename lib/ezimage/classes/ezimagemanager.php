@@ -136,7 +136,7 @@ class eZImageManager
     }
 
     /*!
-     Sets which MIME types are allowed to use for destination format, this is an array of MIME type names.
+     Sets which MIME-Types are allowed to use for destination format, this is an array of MIME-Type names.
      e.g.
      \code
      $manager->setOutputTypes( array( 'image/jpeg', 'image/gif' ) );
@@ -153,7 +153,7 @@ class eZImageManager
     }
 
     /*!
-     Sets which MIME types are allowed to use for destination format, this is an array of MIME type names.
+     Sets which MIME-Types are allowed to use for destination format, this is an array of MIME-Type names.
      e.g.
      \code
      $manager->setOutputTypes( array( 'image/jpeg', 'image/gif' ) );
@@ -165,6 +165,12 @@ class eZImageManager
         $this->SupportedMIMEMap[$mimeName] = true;
     }
 
+    /*!
+     Appends the image handler \a $handler to the list of known handlers in the image system.
+     Onces it is added the supported image filters for that handler is extracted.
+
+     \note If the handler is not available (isAvailable()) it will not be added.
+    */
     function appendImageHandler( &$handler )
     {
         if ( !$handler )
@@ -185,6 +191,16 @@ class eZImageManager
         return in_array( $filterName, $this->ImageFilters );
     }
 
+    /*!
+     Returns a list of defined image aliases in the image system.
+     Each entry in the list is an associative array with the following keys:
+     - name - The name of the alias
+     - reference - The name of the alias it refers to or \c false if no reference
+     - mime_type - Controls which MIME-Type the alias will be in, or \c false if not defined.
+     - filters - An array with filters which applies to this alias
+     - alias_key - The CRC key for this alias, it is created from the current values of the alias
+                   and will change each time the alias values changes
+    */
     function aliasList()
     {
         $aliasList = $this->AliasList;
@@ -200,6 +216,9 @@ class eZImageManager
         return $aliasList;
     }
 
+    /*!
+     \return \c true if the image alias \a $aliasName exists.
+    */
     function hasAlias( $aliasName )
     {
         $aliasList = $this->aliasList();
@@ -217,6 +236,9 @@ class eZImageManager
         return $aliasList[$aliasName];
     }
 
+    /*!
+     Appends the image alias \a $alias to the list of defined aliases.
+    */
     function appendImageAlias( $alias )
     {
         $key = $this->createImageAliasKey( $alias );
@@ -274,6 +296,12 @@ class eZImageManager
         return false;
     }
 
+    /*!
+     \return \c true if the timestamp \a $timestamp is newer than the image alias expiry timestamp.
+     The image alias expiry timestamp will be set whenever the image aliases must be recreated.
+
+     \note Normally the expiry timestamp is not set.
+    */
     function isImageTimestampValid( $timestamp )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
@@ -286,6 +314,11 @@ class eZImageManager
         return true;
     }
 
+    /*!
+     Reads all image aliases from the INI file 'image.ini'
+     and appends them to the image system.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+    */
     function readImageAliasesFromINI( $iniFile = false )
     {
         if ( !$iniFile )
@@ -325,6 +358,11 @@ class eZImageManager
         }
     }
 
+    /*!
+     Reads all supported image formats from the INI file 'image.ini'
+     and appends them to the image system.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+    */
     function readSupportedFormatsFromINI( $iniFile = false )
     {
         if ( !$iniFile )
@@ -339,11 +377,17 @@ class eZImageManager
         }
     }
 
+    /*!
+     \return \c true if the MIME-Type defined in \a $mimeData exists in the image system.
+    */
     function hasMIMETypeSetting( $mimeData )
     {
         return isset( $this->MIMETypeSettingsMap[$mimeData['name']] );
     }
 
+    /*!
+     \return The setting for the MIME-Type defined in \a $mimeData.
+    */
     function mimeTypeSetting( $mimeData )
     {
         if ( !isset( $this->MIMETypeSettingsMap[$mimeData['name']] ) )
@@ -376,13 +420,17 @@ class eZImageManager
         return false;
     }
 
+    /*!
+     Calls eZImageHandler::wildcardToRegexp() to generate
+     a regular expression out of the wilcard and return it.
+    */
     function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
         return eZImageHandler::wildcardToRegexp( $wildcard, $separatorCharacter );
     }
 
     /*!
-     \return The override MIME type for the MIME structure \a $mimeData or \c false if no override.
+     \return The override MIME-Type for the MIME structure \a $mimeData or \c false if no override.
     */
     function mimeTypeOverride( $mimeData )
     {
@@ -398,7 +446,7 @@ class eZImageManager
     }
 
     /*!
-     \return An array with extra filters for the MIME type defined in \a $mimeData
+     \return An array with extra filters for the MIME-Type defined in \a $mimeData
              or \c false if no filters.
     */
     function mimeTypeFilters( $mimeData )
@@ -454,7 +502,7 @@ class eZImageManager
     }
 
     /*!
-     Binds the quality value \a $qualityValue to the MIME type \a $mimeType.
+     Binds the quality value \a $qualityValue to the MIME-Type \a $mimeType.
     */
     function appendQualityValue( $mimeType, $qualityValue )
     {
@@ -465,7 +513,7 @@ class eZImageManager
     }
 
     /*!
-     \return the quality value for MIME type \a $mimeType or \c false if none exists.
+     \return the quality value for MIME-Type \a $mimeType or \c false if none exists.
     */
     function qualityValue( $mimeType )
     {
@@ -474,6 +522,9 @@ class eZImageManager
         return false;
     }
 
+    /*!
+     Appends the MIME-Type setting \a $settings to the image system.
+    */
     function appendMIMETypeSetting( $settings )
     {
         $this->MIMETypeSettings[] =& $settings;
@@ -482,6 +533,11 @@ class eZImageManager
         $this->MIMETypeSettingsMap[$settings['mime_type']][] =& $settings;
     }
 
+    /*!
+     Reads all MIME-Type settings from the INI file 'image.ini'
+     and appends them to the image system.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+    */
     function readMIMETypeSettingsFromINI( $iniFile = false )
     {
         if ( !$iniFile )
@@ -499,7 +555,7 @@ class eZImageManager
     }
 
     /*!
-     Reads MIME Type quality settings and appends them.
+     Reads MIME-Type quality settings and appends them.
     */
     function readMIMETypeQualitySettingFromINI( $iniFile = false )
     {
@@ -561,7 +617,7 @@ class eZImageManager
     }
 
     /*!
-     Appens a new global conversion rule.
+     Appends a new global conversion rule.
     */
     function appendConversionRule( $conversionRule )
     {
@@ -576,6 +632,13 @@ class eZImageManager
         return $this->ConversionRules;
     }
 
+    /*!
+     Reads a single MIME-Type setting from the INI file 'image.ini'
+     and appends them to the image system.
+     \param $mimeGroup Which INI group to read settings from.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+     \return The settings that were read.
+    */
     function readMIMETypeSettingFromINI( $mimeGroup, $iniFile = false )
     {
         if ( !$iniFile )
@@ -613,6 +676,11 @@ class eZImageManager
         return $settings;
     }
 
+    /*!
+     Reads all settings for image handlers from the INI file 'image.ini'
+     and appends them to the image system.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+    */
     function readImageHandlersFromINI( $iniFile = false )
     {
         if ( !$iniFile )
@@ -649,6 +717,10 @@ class eZImageManager
         }
     }
 
+    /*!
+     Finds the image handler factory with the name \a $factoryName and returns it.
+     \param $iniFile The INI file to read from or if \c false use 'image.ini'
+    */
     function &factoryFor( $factoryName, $iniFile = false )
     {
         if ( !$iniFile )
@@ -1044,7 +1116,7 @@ class eZImageManager
                 }
                 if ( !$nextMimeData )
                 {
-                    eZDebug::writeError( "None of the handlers can convert MIME type " . $currentMimeData['name'],
+                    eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
                                          'eZImageManager::convert' );
                     return false;
                 }
@@ -1147,6 +1219,10 @@ class eZImageManager
         return $result;
     }
 
+    /*!
+     \return the path for temporary images.
+     \note The default value uses the temporary directory setting from site.ini.
+    */
     function temporaryImageDirPath()
     {
         return $this->TemporaryImageDirPath;

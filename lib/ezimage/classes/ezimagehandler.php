@@ -41,6 +41,7 @@
 
 /*!
   \class eZImageHandler ezimagehandler.php
+  \ingroup eZImage
   \brief The class eZImageHandler does
 
 */
@@ -52,7 +53,15 @@ define( "EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX", 3 );
 class eZImageHandler
 {
     /*!
-     Constructor
+     Initializes the image handler with data sent from the inheriting class.
+     \param $handlerName The name of the current handler
+     \param $isEnabled A boolean which tells whether the handler can be used or not
+     \param $outputRewriteType Defines how output filenames are rewritten
+     \param $supportedInputMIMETypes A list of MIME-Types the handler supports as input or \c false if no type as defined
+     \param $supportedOutputMIMETypes A list of MIME-Types the handler supports as output or \c false if no type as defined
+     \param $conversionRules A list of conversion rules specific for this handler, is combined with the global rules
+     \param $filters A list of filters this handler supports
+     \param $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
     */
     function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                              $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
@@ -307,6 +316,9 @@ class eZImageHandler
         return $wildcardString;
     }
 
+    /*!
+     \return \c true if the MIME-Type defined in \a $mimeData is supported as output by this handler.
+    */
     function isOutputMIMETypeSupported( $mimeData )
     {
         $mimeTypes = $this->supportedOutputMIMETypes();
@@ -331,6 +343,9 @@ class eZImageHandler
         return false;
     }
 
+    /*!
+     \return \c true if the MIME-Type defined in \a $mimeData is supported as input by this handler.
+    */
     function isInputMIMETypeSupported( $mimeData )
     {
         $mimeTypes = $this->supportedInputMIMETypes();
@@ -468,8 +483,11 @@ class eZImageHandler
 
 /*!
   \class eZImageFactory ezimagehandler.php
-  \brief The class eZImageFactory does
+  \brief Base class for image factories
 
+  The image factory is responsible for producing image handlers
+  when requested. This class must be inherited by specific
+  factories to create specific handlers.
 */
 
 class eZImageFactory
