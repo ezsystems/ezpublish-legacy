@@ -158,7 +158,7 @@ class eZContentClass extends eZPersistentObject
     {
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-//        eZDebug::writeDebug( $enableCaching, "" );
+//        eZDebugSetting::writeDebug( 'kernel-content-class', $enableCaching, "" );
         if ( $enableCaching == 'true' )
         {
             $http =& eZHTTPTool::instance();
@@ -219,7 +219,7 @@ class eZContentClass extends eZPersistentObject
             }
         }
 
-        //        eZDebug::writeNotice( $this, "object in canCreateClass" );
+        //        eZDebugSetting::writeDebug( 'kernel-content-class', $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
@@ -229,7 +229,7 @@ class eZContentClass extends eZPersistentObject
         if ( $accessWord == 'yes' )
         {
             $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-            eZDebug::writeDebug( $classList, "class list fetched from db when access is yes" );
+            eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db when access is yes" );
 
             //          return $classList;
         }
@@ -282,7 +282,7 @@ class eZContentClass extends eZPersistentObject
             }
 
         }
-        eZDebug::writeDebug( $classList, "class list fetched from db" );
+        eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
         if ( $enableCaching == 'true' )
         {
             $http->setSessionVariable( 'canInstantiateClassList', $classList );
@@ -568,14 +568,14 @@ class eZContentClass extends eZPersistentObject
         $contentObjectName = $this->ContentObjectName;
         $dataMap =& $contentObject->dataMap();
 
-        eZDebug::writeNotice( $dataMap, "data map" );
+        eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
 
         // get all tags to replace
         preg_match_all( "|<[^>]+>|U",
                         $contentObjectName,
                         $tagMatchArray );
 
-        eZDebug::writeNotice( $tagMatchArray );
+        eZDebugSetting::writeDebug( 'kernel-content-class', $tagMatchArray );
         foreach ( $tagMatchArray[0] as $tag )
         {
             $tagName = str_replace( "<", "", $tag );

@@ -207,8 +207,11 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                             array( 'name' => 'class_filter_array',
                                                                    'type' => 'array',
                                                                    'required' => false,
-                                                                   'default' => false )
-                                                            ) );
+                                                                   'default' => false ),
+                                                            array( 'name' => 'depth',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => 0 ) ) );
 
 $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_class_list',
                                                      'operation_types' => array( 'read' ),
