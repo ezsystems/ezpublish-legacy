@@ -139,7 +139,7 @@ function processList( &$module )
     <td valign="top" width="15%">
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
-    <th class="menuheaddark" colspan="2">
+    <th class="menuheaddark" colspan="3">
     <p class="menuhead">eZ publish SDK</p>
     </th>
 </tr>
@@ -148,7 +148,21 @@ function processList( &$module )
     <img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem">Version: %sdk_version%</p>
+    <p class="menuitem">Version:</p>
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">%sdk_version%</p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src="%path_prepend%/design/standard/images/bullet.gif" width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">Alias:</p>
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem">%sdk_alias%</p>
     </td>
 </tr>
 </table>
@@ -307,6 +321,7 @@ function processList( &$module )
     }
 
     $TemplateVars["sdk_version"] = eZPublishSDK::version();
+    $TemplateVars["sdk_alias"] = eZPublishSDK::alias();
     $TemplateVars["path_prepend"] = $pathPrepend;
     $TemplateVars["index_path_prepend"] = $indexPathPrepend;
 

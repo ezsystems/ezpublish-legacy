@@ -84,7 +84,7 @@ class eZPublishSDK
     */
     function alias()
     {
-        return '3.0.0-rc1';
+        return '3.0-rc1';
     }
 }
 

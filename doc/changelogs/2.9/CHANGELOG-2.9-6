@@ -33,7 +33,8 @@ index.php:
   which controls the index script. This array can be modified by code
   like precheck and access to turn off/on features or otherwise modify
   basic settings before the actual module handling is started.
-- Policy check omit list was moved to site.ini under RoleSettings.
+- Policy check omit list was moved to site.ini under RoleSettings and added support
+  for setting a module/view pair.
 - Module repository list was moved to site.ini under ModuleSettings.
 - URL translator is now only run if $urlTranslatorAllowed is true.
 - Policy checking is now only run if $policyCheckRequired is true.

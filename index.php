@@ -54,7 +54,7 @@ $siteBasics = array();
 $siteBasics['external-css'] =& $use_external_css;
 $siteBasics['show-page-layout'] =& $show_page_layout;
 $siteBasics['module-run-required'] =& $moduleRunRequired;
-$siteBasics['policy-check-required'] =& $policyCheckRequired;
+$siteBasics['policy-check-required'] =& $policyheckRequired;
 $siteBasics['policy-check-omit-list'] =& $policyCheckOmitList;
 $siteBasics['url-translator-allowed'] =& $urlTranslatorAllowed;
 $siteBasics['validity-check-required'] =& $validityCheckRequired;
@@ -259,7 +259,6 @@ if ( $dbRequired or
     if ( $sessionRequired and
          $db->isConnected() )
     {
-        eZDebug::writeDebug( 'session started in index.php');
         eZSessionStart();
     }
 
@@ -274,8 +273,21 @@ include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();
 
 // Read role settings
-$globalPolicyCheckOmitList = $ini->variableArray( 'RoleSettings', 'PolicyOmitList' );
+$globalPolicyCheckOmitList = $ini->variable( 'RoleSettings', 'PolicyOmitList' );
 $policyCheckOmitList = array_merge( $policyCheckOmitList, $globalPolicyCheckOmitList );
+$policyCheckViewMap = array();
+foreach ( $policyCheckOmitList as $omitItem )
+{
+    $items = explode( '/', $omitItem );
+    if ( count( $items ) > 1 )
+    {
+        $module = $items[0];
+        $view = $items[1];
+        if ( !isset( $policyCheckViewMap[$module] ) )
+            $policyCheckViewMap[$module] = array();
+        $policyCheckViewMap[$module][] = $view;
+    }
+}
 
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
@@ -337,8 +349,19 @@ while ( $moduleRunRequired )
         eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
 
         $moduleAccessAllowed = true;
-        if ( $policyCheckRequired and
-             !in_array( $module->attribute( 'name'), $policyCheckOmitList ) )
+        $omitPolicyCheck = true;
+        if ( $policyCheckRequired )
+        {
+            $omitPolicyCheck = false;
+            $moduleName = $module->attribute( 'name');
+            $viewName = $function_name;
+            if ( in_array( $moduleName, $policyCheckOmitList ) )
+                $omitPolicyCheck = true;
+            else if ( isset( $policyCheckViewMap[$moduleName] ) and
+                      in_array( $viewName, $policyCheckViewMap[$moduleName] ) )
+                $omitPolicyCheck = true;
+        }
+        if ( !$omitPolicyCheck )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser =& eZUser::currentUser();
@@ -432,8 +455,8 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
 
     $redirectURI = eZSys::indexDir();
-    eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
-    eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
+//     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
+//     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
     if ( $automatic_redir )
     {
         $redirectURI .= $module->redirectURI();

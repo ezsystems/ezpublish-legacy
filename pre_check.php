@@ -39,13 +39,13 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 function eZCheckValidity( &$siteBasics )
 {
-    eZDebug::writeDebug( "Checking validity" );
+//     eZDebug::writeDebug( "Checking validity" );
     $ini =& eZINI::instance();
     $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
     if ( $checkValidity )
     {
-        eZDebug::writeDebug( "Setup required" );
+//         eZDebug::writeDebug( "Setup required" );
         $check = array( "module" => "setup",
                         'function' => 'init' );
         // Turn off some features that won't bee needed yet
@@ -68,10 +68,10 @@ function eZCheckValidity( &$siteBasics )
 */
 function eZCheckUser( &$siteBasics )
 {
-    eZDebug::writeDebug( "Checking user" );
+//     eZDebug::writeDebug( "Checking user" );
     if ( !$siteBasics['user-object-required'] )
     {
-        eZDebug::writeDebug( "Skipping user requirements" );
+//         eZDebug::writeDebug( "Skipping user requirements" );
         return null;
     }
     $ini =& eZINI::instance();

@@ -134,12 +134,12 @@ function eZRegisterSessionFunctions()
 {
     session_module_name( 'user' );
     session_set_save_handler(
- 	'ezsessionopen',
-	'ezsessionclose',
-	'ezsessionread',
-	'ezsessionwrite',
-	'ezsessiondestroy',
-	'ezsessiongarbagecollector' );
+        'ezsessionopen',
+        'ezsessionclose',
+        'ezsessionread',
+        'ezsessionwrite',
+        'ezsessiondestroy',
+        'ezsessiongarbagecollector' );
 }
 
 /*!
@@ -154,7 +154,7 @@ function eZSessionStart()
          return false;
     eZRegisterSessionFunctions();
     session_start();
-    eZDebug::writeDebug( "Session is started" );
+//     eZDebug::writeDebug( "Session is started" );
     $hasStarted = true;
     return true;
 }

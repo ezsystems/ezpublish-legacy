@@ -159,8 +159,7 @@ class eZHTTPTool
             return $GLOBALS["_GET"];
         if ( $attr == "session" )
         {
-            if ( eZSessionStart() )
-                eZDebug::writeDebug( "session start in ezhttptool::attribute" );
+            eZSessionStart();
             return $GLOBALS["HTTP_SESSION_VARS"];
         }
         return null;
@@ -225,22 +224,19 @@ class eZHTTPTool
     */
     function getSessionKey()
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::getsessionkey" );
+        eZSessionStart();
         return session_id();
     }
 
     function setSessionKey( $sessionKey )
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::setsessionkey" );
+        eZSessionStart();
         return session_id( $sessionKey );
     }
 
     function setSessionVariable( $name, $value )
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::setsessionvariable" );
+        eZSessionStart();
         global $HTTP_SESSION_VARS;
         session_register( $name );
         $HTTP_SESSION_VARS[$name] =& $value;
@@ -251,8 +247,7 @@ class eZHTTPTool
     */
     function removeSessionVariable( $name )
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::removesessionvariable" );
+        eZSessionStart();
         session_unregister( $name );
     }
 
@@ -261,8 +256,7 @@ class eZHTTPTool
     */
     function hasSessionVariable( $name )
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::hassessionvariable" );
+        eZSessionStart();
         global $HTTP_SESSION_VARS;
         return isset( $HTTP_SESSION_VARS[$name] );
     }
@@ -272,8 +266,7 @@ class eZHTTPTool
     */
     function &sessionVariable( $name )
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::sessionvariable" );
+        eZSessionStart();
         global $HTTP_SESSION_VARS;
         return $HTTP_SESSION_VARS[$name];
     }
@@ -283,8 +276,7 @@ class eZHTTPTool
     */
     function sessionID()
     {
-        if ( eZSessionStart() )
-            eZDebug::writeDebug( "session start in ezhttptool::sessionid" );
+        eZSessionStart();
         return session_id();
     }
 }
