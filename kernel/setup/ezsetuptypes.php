@@ -216,6 +216,42 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
                                                                                   'parent_node' => $nodeID ),
                                                ) );
     }
+    else if ( $siteType == 'gallery' )
+    {
+        $nodeID = 2;
+        $nodeListTitle = 'New images';
+        if ( isset( $nodeRemoteMap['ee24204c9b90600531bca6bea97b558c'] ) )
+            $nodeID = $nodeRemoteMap['ee24204c9b90600531bca6bea97b558c'];
+
+        $nodeSubtree = 'weblog';
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'search', 'users' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'login', 'search' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_node_list_1' => array( 'show_subtree' => false,
+                                                                                  'title' => $nodeListTitle,
+                                                                                  'parent_node' => $nodeID ),
+                                               ) );
+    }
+    else if ( $siteType == 'news' )
+    {
+        $nodeID = 2;
+        $nodeListTitle = 'Latest news';
+        if ( isset( $nodeRemoteMap['fade9b4882ffea151a9b10043ff7cb25'] ) )
+            $nodeID = $nodeRemoteMap['fade9b4882ffea151a9b10043ff7cb25'];
+
+        $nodeSubtree = 'weblog';
+        $toolbar = array( 'name' => 'toolbar.ini',
+                          'reset_arrays' => true,
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'users' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'search' ) ),
+                                               'Toolbar_bottom' => array( 'Tool' => array() ),
+                                               'Tool_right_node_list_1' => array( 'show_subtree' => false,
+                                                                                  'title' => $nodeListTitle,
+                                                                                  'parent_node' => $nodeID ),
+                                               ) );
+    }
     else if ( $siteType == 'shop' )
     {
         $nodeSubtree = 'products';
@@ -231,7 +267,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         }
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
-                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search' ) ),
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search', 'best_seller' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_1' => array( 'parent_node' => $nodeID,
