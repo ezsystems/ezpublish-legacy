@@ -81,6 +81,11 @@ div#search label
     display: inline;
 }
 
+div#search label.disabled, div#search span.disabled
+{
+    color: #1a324a;
+}
+
 div#userstatus
 {
     float: right;
@@ -935,7 +940,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
     vertical-align: middle;
 }
 
-div.context-block table.list
+div.context-block table.list, div.context-block table.special
 {
     margin: 0;
     padding: 0;

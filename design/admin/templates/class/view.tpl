@@ -29,22 +29,22 @@
 <div class="context-attributes">
 
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/class/view' )}</label>
+    <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
     {$class.name|wash}
 </div>
 
 <div class="block">
-    <label>{'Identifier'|i18n( 'design/admin/class/view' )}</label>
+    <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
     {$class.identifier|wash}
 </div>
 
 <div class="block">
-    <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}</label>
+    <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
     {$class.contentobject_name|wash}
 </div>
 
 <div class="block">
-    <label>{'Container'|i18n( 'design/admin/class/view' )}</label>
+    <label>{'Container'|i18n( 'design/admin/class/view' )}:</label>
     {section show=$class.is_container|eq(1)}
         {'Yes'|i18n( 'design/admin/class/view' )}
     {section-else}
@@ -53,44 +53,40 @@
 </div>
 
 <div class="block">
-    <label>{'Object count'|i18n( 'design/admin/class/view' )}</label>
+    <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
     {$class.object_count}
 </div>
 
 
 <h2>{'Attributes'|i18n( 'design/admin/class/view' )}</h2>
-<table class="class_list" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table class="special" cellspacing="0">
 
 {section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 <tr>
-    <td colspan="3"><b>{$Attributes.number}.&nbsp;{$Attributes.item.name|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</b></td>
+    <th colspan="3">{$Attributes.number}.&nbsp;{$Attributes.item.name|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</td>
 </tr>
 
-<tr>
-
-    <td class="{$Attributes.sequence}">
+<tr class="{$Attributes.sequence}">
+    <td>
         <input type="hidden" name="ContentAttribute_id[]" value="{$Attributes.item.id}" />
         <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
         <div class="block">
-            <label>{'Name'|i18n( 'design/admin/class/view' )}</label>
+            <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
             <p>{$Attributes.item.name|wash}</p>
         </div>
     </td>
 
     <td class="{$Attributes.sequence}">
         <div class="block">
-            <label>{'Identifier'|i18n( 'design/admin/class/view' )}</label>
+            <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
             <p>{$Attributes.item.identifier|wash}</p>
         </div>
     </td>
-
-
-
-<td class="{$Attributes.sequence}" rowspan="2" width="20%" valign="top">
+    <td rowspan="2">
 <div class="block">
-<label>{'Flags'|i18n( 'design/admin/class/view' )}</label>
+<label>{'Flags'|i18n( 'design/admin/class/view' )}:</label>
 </div>
 
         <div class="block">
@@ -123,8 +119,8 @@
     </td>
 </tr>
 
-<tr>
-    <td class="{$Attributes.sequence}" colspan="2">
+<tr class="{$Attributes.sequence}">
+    <td colspan="2">
         {class_attribute_view_gui class_attribute=$Attributes.item}
     </td>
 </tr>

@@ -59,7 +59,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div id="logo">
 <a href="/"><img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ publish" border="0" /></a>
-<p>version 3.5 - alpha</p>
+<p>version 3.5 - beta</p>
 </div>
 
 {* --- Search ---*}
@@ -222,12 +222,12 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {* Set up menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/' menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/menu/' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='middle'}
     {/section}
 
     {* Personal *}

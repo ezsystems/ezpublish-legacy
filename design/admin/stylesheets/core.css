@@ -99,7 +99,7 @@ th, td
     padding: 0;
 }
 
-table.list
+table.list, table.special
 {
     width: 100%;
     margin: 1em 0 1em 0;
@@ -108,14 +108,14 @@ table.list
     border-bottom: 1px solid #f0f0f0;
 }
 
-table.list th, table.list td
+table.list th, table.list td, table.special th, table.special td
 {
     padding: 0.25em;
     text-align: left;
     vertical-align: top;
 }
 
-table.list th
+table.list th, table.special th
 {
     color: #254b71;
     background-color: #b5bec7;
@@ -141,7 +141,7 @@ tr.bgdark
     background-color: #f4f4ec;
 }
 
-tr.bglight:hover, tr.bgdark:hover
+table.list tr.bglight:hover, table.list tr.bgdark:hover
 {
     background-color: #ffffff;
 }
@@ -346,7 +346,7 @@ div.button-right
 div.message-confirmation, div.message-feedback, div.message-warning, div.message-error
 {
     margin: 0.5em 0 1em 0;
-    padding: 0.25em 1em 0.5em 1em;
+    padding: 0.25em 1em 0.75em 1em;
     border: 6px solid #000000;
     background-color: #f8f8f4;
 }
