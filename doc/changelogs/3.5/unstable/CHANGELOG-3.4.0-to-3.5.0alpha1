@@ -11,6 +11,9 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Updated updatetranslations.php script to skip objects without versions
   and create missing object attributes. (merge from stable/3.4 rev. 6955)
 - Added option to set the number of rows to add to the matrix datatype
+- Added functionality of preserving of attribute values in the edit interface.
+  Preservig means that if you enter value and submitting returns you back because
+  of an error, you will still have the form filled with these values.)
 
 *Scripts:
 eztc.php:
@@ -202,5 +205,5 @@ eZ Template
 - Added classification as classname in xmltags
   http://ez.no/community/bug_reports/many_of_the_ezxmltags_templates_lacks_class
 
-
-
+*Templates:
+- Added the red color marking of titles of attributes with invalid content.
