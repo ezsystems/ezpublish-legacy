@@ -369,8 +369,7 @@ div.selectbar
 
 td.selectbar
 {
-        background-color: #e0f4ff;
-    color: #000000;
+    color: #ECF1F9;
     font-size: 70%;
     text-align: center;
 }
@@ -385,7 +384,7 @@ a.selectbar
 
 a.selectbar:hover, td.selected
 {
-        background-color: #0099cc;
+    background-color: #4373B4;
     color: #ffffff;
     text-decoration: none;
 }
