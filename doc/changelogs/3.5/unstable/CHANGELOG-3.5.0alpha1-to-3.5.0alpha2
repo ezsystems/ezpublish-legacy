@@ -4,9 +4,6 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 
 *Kernel:
 
-- Fixed bug: Roles, limit on section.
-  (Merged from stable 3.4 rev 8423)
-  http://ez.no/community/bug_reports/roles_limit_on_section
 
 Payment:
 - removed paypal from kernel, from now it is available only in extension.
@@ -15,3 +12,8 @@ Payment:
 - Fixed bug: wrong redirection after changing preferences.
   (Merged from stable/3.3 rev. 8450, also in stable/3.4 rev. 8451)
   http://ez.no/community/bug_reports/wrong_redirection_after_changing_preferences
+- Fixed bug: Roles, limit on section.
+  (Merged from stable 3.4 rev 8423)
+  http://ez.no/community/bug_reports/roles_limit_on_section
+- Fixed bug: Class edit - wrong redirect.
+  http://ez.no/community/bug_reports/class_edit_wrong_redirect

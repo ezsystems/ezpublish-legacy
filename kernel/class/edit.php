@@ -133,6 +133,10 @@ if ( $http->hasSessionVariable( 'FromGroupID' ) )
 {
     $fromGroupID = $http->sessionVariable( 'FromGroupID' );
 }
+else
+{
+    $fromGroupID = false;
+}
 $ClassID = $class->attribute( 'id' );
 $ClassVersion = $class->attribute( 'version' );
 
