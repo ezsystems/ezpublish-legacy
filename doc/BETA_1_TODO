@@ -76,6 +76,7 @@ order.
 - Complete task system ( JB )
 - Implement messaging system ( WY )
 - XML format definition and implementation. Validation ( BF )
+- Sorting ( SP )
 - Content action to use for forms, poll etc.. ( is not speced yet ) ( BF )
 - Complete user accounts. Enable disable, banned etc.. ( WY )
 - Complete shopping functionality with price groups % based and fixed price ( BF )
