@@ -217,7 +217,8 @@ if ( $activeTranslation )
                 $dataProperties = $dataType->attribute( 'properties' );
                 if ( $dataProperties['translation_allowed'] )
                 {
-                    if ( $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' ) == false )
+                    $inputParameters = array();
+                    if ( $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute', $inputParameters ) == false )
                     {
                         eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' failed' );
                         $inputValidated = false;
