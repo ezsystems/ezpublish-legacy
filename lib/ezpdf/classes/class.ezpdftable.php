@@ -1503,9 +1503,19 @@ class eZPDFTable extends Cezpdf
             $this->ez['leftMargin'] = (float)$options['left'];
         }
 
+        if ( isset( $options['delta_left'] ) )
+        {
+            $this->ez['leftMargin'] += $options['delta_left'];
+        }
+
         if ( isset( $options['right'] ) )
         {
             $this->ez['rightMargin'] = (float)$options['right'];
+        }
+
+        if ( isset( $options['delta_right'] ) )
+        {
+            $this->ez['rightMargin'] += $options['delta_right'];
         }
 
         if ( isset( $options['bottom'] ) )
@@ -1528,6 +1538,8 @@ class eZPDFTable extends Cezpdf
             $this->ez['yOffset'] = (float)$options['y'];
             $this->y = (float)$options['y'];
         }
+
+        return array( 'x' => $this->xOffset() );
     }
 
     /*!

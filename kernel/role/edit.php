@@ -57,7 +57,6 @@ $modules = eZModuleManager::availableModules();
 sort( $modules );
 
 $role = eZRole::fetch( 0, $roleID );
-eZDebug::writeNotice( $role, 'temporary role' );
 if ( is_null( $role ) )
 {
     $role = eZRole::fetch( $roleID );
@@ -66,7 +65,6 @@ if ( is_null( $role ) )
         $temporaryRole = $role->createTemporaryVersion();
         unset( $role );
         $role = $temporaryRole;
-        eZDebug::writeNotice( $role, 'new temporary role' );
     }
 }
 
