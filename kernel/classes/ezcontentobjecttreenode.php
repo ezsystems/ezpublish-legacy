@@ -1194,7 +1194,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
+    function &createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
     {
         $pathString = false;
         $pathArray  = explode( '/', trim($nodePath,'/') );
@@ -1217,6 +1217,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $pathString;
     }
+
+    /*!
+        \a static
+        If \a $useSettings is true \a $fetchHidden will be ignored.
+        If \a $useSettings is false \a $fetchHidden will be used.
+    */
+    function &createShowInvisibleSQLString( $useSettings, $fetchHidden = true )
+    {
+        $showInvisibleNodesCond = '';
+        $showInvisible          = $fetchHidden;
+
+        if ( $useSettings )
+        {
+            $ini =& eZINI::instance( 'site.ini' );
+            $showInvisible = $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) ? $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) : true;
+        }
+
+        if ( !$showInvisible )
+            $showInvisibleNodesCond = 'AND ezcontentobject_tree.is_invisible = 0';
+
+        return $showInvisibleNodesCond;
+    }
+
 
     /*!
         \a static
@@ -1307,14 +1330,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.
-        $ini =& eZINI::instance( 'site.ini' );
-        if( $ini->hasVariable( 'SiteAccessSettings', 'ShowHiddenNodes' ) &&
-            $ini->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'false' )
-        {
-            $showInvisibleNodesCond = 'AND ezcontentobject_tree.is_invisible = 0';
-        }
-        else
-            $showInvisibleNodesCond = '';
+        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( true );
 
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,

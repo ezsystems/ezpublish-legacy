@@ -124,7 +124,7 @@ class eZContentStructureTreeOperator
 
         // node params
         $notEqParentString =& eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, 1, false );
-        $pathStringCond    =& eZContentObjectTreeNode::createPathConditionSQLString( $params['nodePath'], $params['nodeDepth'], 1, false );
+        $pathStringCond    =& eZContentObjectTreeNode::createPathConditionSQLString( $params['NodePath'], $params['NodeDepth'], 1, false );
 
         // class filter
         $classCondition =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
@@ -138,6 +138,9 @@ class eZContentStructureTreeOperator
         $versionNameTables =& eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
         $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins =& eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName );
+
+        // invisible nodes.
+        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( false, $params['FetchHidden'] );
 
         $query = '';
         if ( $countChildren )
@@ -179,6 +182,7 @@ class eZContentStructureTreeOperator
                              $classCondition
                              ezcontentobject_tree.contentobject_is_published = 1
                              $versionNameJoins
+                             $showInvisibleNodesCond
                              $permissionChecking
                       ORDER BY $sortingInfo[sortingFields]";
 
@@ -208,7 +212,14 @@ class eZContentStructureTreeOperator
     */
     function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden )
     {
-        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID );
+        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden );
+
+        // if root node is invisible then no point to fetch children
+        //if ( count( $contentTree ) == 0 )
+        //    return $contentTree;
+
+        if ( $contentTree === false)
+            return $contentTree;
 
         $nodesLeft = $maxNodes - 1;
         $depthLeft = $maxDepth - 1;
@@ -247,8 +258,9 @@ class eZContentStructureTreeOperator
             $children =& eZContentStructureTreeOperator::subTree( array(  'SortBy' => $sortArray,
                                                                           'ClassFilterType' => 'include',
                                                                           'ClassFilterArray'=> $classFilter,
-                                                                          'nodePath' => $parentNode['node']['path_string'],
-                                                                          'nodeDepth' => $parentNode['node']['depth'] ),
+                                                                          'NodePath' => $parentNode['node']['path_string'],
+                                                                          'NodeDepth' => $parentNode['node']['depth'],
+                                                                          'FetchHidden' => $fetchHidden ),
                                                                   $parentNode['node']['node_id'] );
             if ( $children && count( $children ) > 0 )
             {
@@ -263,8 +275,9 @@ class eZContentStructureTreeOperator
                         $childrenCount = eZContentStructureTreeOperator::subTree( array(  'SortBy' => false,
                                                                               'ClassFilterType' => 'include',
                                                                               'ClassFilterArray'=> $classFilter,
-                                                                              'nodePath' => $child['path_string'],
-                                                                              'nodeDepth' => $child['depth'] ),
+                                                                              'NodePath' => $child['path_string'],
+                                                                              'NodeDepth' => $child['depth'],
+                                                                              'FetchHidden' => $fetchHidden ),
                                                                       $child['node_id'],
                                                                       true );
                     }
@@ -296,7 +309,7 @@ class eZContentStructureTreeOperator
         \a $depthLeft determines a depth of recursion.
         \a $nodesLeft determines a number of nodes which are left to fetch.
         \a $sortBy is a method of sorting one-level children.
-        \a $fetchHidden - should or not fetch unpublished/hidden nodes(NOT IMPLEMENTED)
+        \a $fetchHidden - should or not fetch unpublished/hidden nodes
     */
     function children( &$contentTree, &$classFilter, &$depthLeft, &$nodesLeft, &$sortBy, $fetchHidden )
     {
@@ -341,7 +354,8 @@ class eZContentStructureTreeOperator
                                         'children_count' => $childrenCount,
                                         'sort_array' => eZContentObjectTreeNode::sortArrayBySortFieldAndSortOrder( $treeNode['sort_field'], $treeNode['sort_order'] ),
                                         'path_string' => $treeNode['path_string'],
-                                        'depth' => $treeNode['depth'] ),
+                                        'depth' => $treeNode['depth'],
+                                        'is_invisible' => $treeNode['is_invisible'] ),
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
@@ -356,26 +370,35 @@ class eZContentStructureTreeOperator
         Initializes a tree: creates root node.
      \return a tree with one node and empty children subtree.
     */
-    function &initContentStructureTree( $rootNodeID )
+    function &initContentStructureTree( $rootNodeID, $fetchHidden )
     {
         // create initial subtree with root node and empty children.
         $rootTreeNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
         $contentObject =& $rootTreeNode->attribute( 'object' );
 
-        $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
-                                            'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
-                                            'children_count' => $rootTreeNode->attribute( 'children_count' ),
-                                            'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
-                                            'path_string' => $rootTreeNode->attribute( 'path_string' ),
-                                            'depth' => $rootTreeNode->attribute( 'depth' ) ),
-                           'object' => array( 'id' => $contentObject->attribute( 'id' ),
-                                              'name' => $contentObject->attribute( 'name' ),
-                                              'class_identifier' => $contentObject->attribute( 'class_identifier' ),
-                                              'published' => $contentObject->attribute( 'published' ),
-                                              'is_container' => true ) );
+        if ( $fetchHidden || !$rootTreeNode->attribute( 'is_invisible' ) )
+        {
+            $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
+                                                'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
+                                                'children_count' => $rootTreeNode->attribute( 'children_count' ),
+                                                'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
+                                                'path_string' => $rootTreeNode->attribute( 'path_string' ),
+                                                'depth' => $rootTreeNode->attribute( 'depth' ),
+                                                'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
+                               'object' => array( 'id' => $contentObject->attribute( 'id' ),
+                                                  'name' => $contentObject->attribute( 'name' ),
+                                                  'class_identifier' => $contentObject->attribute( 'class_identifier' ),
+                                                  'published' => $contentObject->attribute( 'published' ),
+                                                  'is_container' => true ) );
 
-        $nodes = array( 'parent_node' => &$rootNode,
-                        'children' => array() );
+            $nodes = array( 'parent_node' => &$rootNode,
+                            'children' => array() );
+        }
+        else
+        {
+            $nodes = false;
+        }
+
         return $nodes;
     }
 
