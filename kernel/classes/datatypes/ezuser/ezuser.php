@@ -603,7 +603,6 @@ class eZUser extends eZPersistentObject
             eZSessionRegenerate();
             $user->cleanup();
             eZUser::moveSession( session_id(), $oldUserID, $userRow['contentobject_id'] );
-            $user->store();
             return $user;
         }
         else
