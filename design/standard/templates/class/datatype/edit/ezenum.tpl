@@ -3,7 +3,7 @@
 {* Multiple choice. *}
 <div class="block">
     <label>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}</label>
-    <input type="checkbox" name="ContentClass_ezenum_ismultiple_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" {section show=$class_attribute.data_int1}checked{/section} />
+    <input type="checkbox" name="ContentClass_ezenum_ismultiple_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" {section show=$class_attribute.data_int1}checked="checked"{/section} />
 </div>
 
 {* Checkbox style. *}
