@@ -106,6 +106,7 @@ contentclass:
 - Fixed a major problem with mementos fetchin in runcronworkflows, before
   the wrong memento data would be fetched in some occasions.
 
+
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
   as the second condition item.
