@@ -13,6 +13,8 @@ find . -name \*.php -exec ./bin/shell/checkforeach.sh {} \;
 
 echo "Check for elsif"
 
+echo "Check for && and ||"
+
 echo
 echo "Check for global variable access"
 find . -name \*.php -exec grep -n -H 'getenv' {} \;
