@@ -42,7 +42,7 @@ include_once( 'kernel/classes/ezpdfexport.php' );
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
 {
-    return $Module->redirect( 'pdf', 'export' );
+    return $Module->redirect( 'pdf', 'edit' );
 }
 //Remove existing PDF Export(s)
 else if ( $Module->isCurrentAction( 'RemoveExport' ) )

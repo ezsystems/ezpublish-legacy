@@ -35,8 +35,8 @@
 $Module = array( 'name' => 'eZContentObject',
                  'variable_params' => true );
 
-$ViewList['export'] = array(
-    'script' => 'export.php',
+$ViewList['edit'] = array(
+    'script' => 'edit.php',
     'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'ExportPDFBrowse' => 'BrowseSource',

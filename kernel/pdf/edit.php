@@ -102,7 +102,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
-                                    'from_page' => '/pdf/export/'. $pdfExport->attribute( 'id' ) ),
+                                    'from_page' => '/pdf/edit/'. $pdfExport->attribute( 'id' ) ),
                              $Module );
 }
 else if ( $Module->isCurrentAction( 'Export' ) )
@@ -137,9 +137,9 @@ $tpl->setVariable( 'export_class_array', $classArray );
 $tpl->setVariable( 'pdfexport_list', eZPDFExport::fetchList() );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:pdf/export.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:pdf/edit.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'pdf/export', 'PDF Export' ) ) );
+                                'text' => ezi18n( 'pdf/edit', 'PDF Export' ) ) );
 
 /*!
  \generate and output PDF data, either to file or stream

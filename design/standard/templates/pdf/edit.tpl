@@ -1,4 +1,4 @@
-<form action={concat("content/exportpdf/",$pdf_export.id)|ezurl} method="post" name="ExportPDF">
+<form action={concat("pdf/edit/",$pdf_export.id)|ezurl} method="post" name="ExportPDF">
 
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
