@@ -62,7 +62,7 @@ function &eZSessionRead( $key )
 
     if ( count( $sessionRes ) == 1 )
     {
-        $data = $sessionRes[0]['data'];
+        $data =& $sessionRes[0]['data'];
         return $data;
     }
     else

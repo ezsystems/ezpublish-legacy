@@ -277,18 +277,24 @@ class eZContentObject extends eZPersistentObject
 
     /*!
 	 \return the content object attribute
+     \todo return the correct version and language
     */
     function &dataMap()
     {
-        if ( $this->ContentObjectAttributeArray === false )
+        // Global variable to cache datamaps
+        global $DataMapCache;
+
+        if ( !isset( $DataMapCache[$this->ID] ) )
         {
             $data =& $this->contentObjectAttributes();
             // Store the attributes for later use
             $this->ContentObjectAttributeArray =& $data;
+
+            $DataMapCache[$this->ID] =& $data;
         }
         else
         {
-            $data =& $this->ContentObjectAttributeArray;
+            $data =& $DataMapCache[$this->ID];
         }
 
         if ( $this->DataMap == false )
@@ -344,22 +350,32 @@ class eZContentObject extends eZPersistentObject
         return $temp;
     }
 
-
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZContentObject::definition(),
-                                                array( 'id',
-                                                       'parent_id',
-                                                       'section_id',
-                                                       'owner_id',
-                                                       'contentclass_id',
-                                                       'is_published',
-                                                       'published',
-                                                       'modified',
-                                                       'current_version'
-                                                       ),
-                                                array( 'id' => $id ),
-                                                $asObject );
+        global $ContentObjectCache;
+
+        if ( !isset( $ContentObjectCache[$id] ) and $asObject )
+        {
+            $obj =& eZPersistentObject::fetchObject( eZContentObject::definition(),
+                                                     array( 'id',
+                                                            'parent_id',
+                                                            'section_id',
+                                                            'owner_id',
+                                                            'contentclass_id',
+                                                            'is_published',
+                                                            'published',
+                                                            'modified',
+                                                            'current_version'
+                                                            ),
+                                                     array( 'id' => $id ),
+                                                     $asObject );
+            $ContentObjectCache[$id] =& $obj;
+            return $obj;
+        }
+        else
+        {
+            return $ContentObjectCache[$id];
+        }
     }
 
     function &fetchList( $asObject = true )
@@ -614,7 +630,12 @@ class eZContentObject extends eZPersistentObject
         if ( $language === false )
             $language = eZContentObject::defaultLanguage();
 
-        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
+        print( "Attributes fetch $this->ID, $version" );
+        
+        if ( !isset( $this->ContentObjectAttributes[$version][$language] ) )
+        {
+            print( "uncached<br>" );
+            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
@@ -625,17 +646,107 @@ class eZContentObject extends eZPersistentObject
                   ORDER by
                     ezcontentclass_attribute.placement ASC";
 
-        $attributeArray =& $db->arrayQuery( $query );
+            $attributeArray =& $db->arrayQuery( $query );
 
-        $returnAttributeArray = array();
-        foreach ( $attributeArray as $attribute )
+            $returnAttributeArray = array();
+            foreach ( $attributeArray as $attribute )
+            {
+                $attr = new eZContentObjectAttribute( $attribute );
+                $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
+                $returnAttributeArray[] = $attr;
+            }
+
+            $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
+        }
+        else
         {
-            $attr = new eZContentObjectAttribute( $attribute );
-            $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
-            $returnAttributeArray[] = $attr;
+            print( "Cached<br>" );
+            $returnAttributeArray =& $this->ContentObjectAttributes[$version][$language];
         }
 
         return $returnAttributeArray;
+    }
+
+    /*!
+     Initializes the cached copy of the content object attributes for the given version and language
+    */
+    function setContentObjectAttributes( &$attributes, $version, $language )
+    {
+        print( "set" );
+        $this->ContentObjectAttributes[$version][$language] =& $attributes;
+    }
+
+    /*!
+      \static
+      Fetches the attributes for an array of objects. The objectList parameter
+      contains an array of object id's , versions and language to fetch attributes from.
+     \todo fix language fetching
+    */
+    function &fillNodeListAttributes( &$nodeList, $asObject = true )
+    {
+        $db =& eZDB::instance();
+
+        $keys = array_keys( $nodeList );
+        $objectArray = array();
+        $whereSQL = '';
+        $count = count( $nodeList );
+        $i = 0;
+        foreach ( $keys as $key )
+        {
+            $object =& $nodeList[$key]->attribute( 'object' );
+
+            $objectArray = array( 'id' => $object->attribute( 'id' ),
+                                  'language' => eZContentObject::defaultLanguage(),
+                                  'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
+
+            $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
+                    ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
+                    ezcontentobject_attribute.language_code = '" . eZContentObject::defaultLanguage() . "' ) ";
+
+            $i++;
+            if ( $i < $count )
+                $whereSQL .= ' OR ';
+        }
+
+        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
+                    ezcontentobject_attribute, ezcontentclass_attribute
+                  WHERE
+                    ezcontentclass_attribute.version = '0' AND
+                    ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                    ( $whereSQL )
+                  ORDER BY
+                    ezcontentobject_attribute.contentobject_id, ezcontentclass_attribute.placement ASC";
+
+        $attributeArray =& $db->arrayQuery( $query );
+
+        $tmpAttributeObjectList = array();
+        $returnAttributeArray = array();
+        foreach ( $attributeArray as $attribute )
+        {
+            unset( $attr );
+            $attr = new eZContentObjectAttribute( $attribute );
+            $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
+
+//            print( $attr->attribute( 'contentobject_id' ) . "<br>" );
+            $tmpAttributeObjectList[$attr->attribute( 'contentobject_id' )] = $attr;
+        }
+
+        $keys = array_keys( $nodeList );
+        foreach ( $keys as $key )
+        {
+            unset( $node );
+            $node = $nodeList[$key];
+
+            unset( $object );
+            $object = $node->attribute( 'object' );
+            $object->setContentObjectAttributes( $tmpAttributeObjectList, $nodeList[$key]->attribute( 'contentobject_version' ), eZContentObject::defaultLanguage() );
+            $node->setContentObject( $object );
+
+
+            $nodeList[$key] =& $node;
+        }
+
+        return $nodeList;
     }
 
     /*!
@@ -1196,7 +1307,7 @@ class eZContentObject extends eZPersistentObject
                     {
                         if ( !$this->hasContentAction( $action['action'] ) )
                         {
-                            $this->ContentActionList[] =& $action;
+                            $this->ContentActionList[] = $action;
                         }
                     }
                 }
@@ -1364,15 +1475,14 @@ class eZContentObject extends eZPersistentObject
     /// Stores the current permissions
     var $ClassName;
 
-    /// Contains the current attributes
-    var $ContentObjectAttributeArray = false;
-
     /// Contains the datamap for content object attributes
     var $DataMap = false;
 
     /// Contains an array of the content object actions for the current object
     var $ContentActionList = false;
 
+    /// Contains a cached version of the content object attributes for the given version and language
+    var $ContentObjectAttributes = false;
 }
 
 ?>

@@ -120,8 +120,11 @@ class eZContentFunctionCollection
         return array( 'result' => &$object );
     }
 
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array   )
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array )
     {
+        $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $class_filter_type, $class_filter_array" );
+        print( "fetch list $parentNodeID $hash<br>" );
+
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
                                  'Limit' => $limit,
@@ -138,6 +141,10 @@ class eZContentFunctionCollection
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+
+        /// Fill objects with attributes
+        eZContentObject::fillNodeListAttributes( $children );
+
         return array( 'result' => &$children );
     }
 
