@@ -169,13 +169,13 @@ else if ( !$placementID && count( $nodeAssignments ) )
 }
 
 $contentINI =& eZINI::instance( 'content.ini' );
-if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
+if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
 {
-    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesignList' );
+    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
 }
 else
 {
-    $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+    $sitedesignList = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
 }
 
 if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
