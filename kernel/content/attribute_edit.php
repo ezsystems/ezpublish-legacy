@@ -114,7 +114,8 @@ $storeActions = array( 'Preview',
                        'NewObject',
                        'BrowseForNodes',
                        'DeleteRelation',
-                       'DeleteNode' );
+                       'DeleteNode',
+                       'MoveNode' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
 // These variables will be modified according to validation

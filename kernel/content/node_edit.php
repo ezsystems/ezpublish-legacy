@@ -114,6 +114,14 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                                                                               ),
                                                                        true );
 //                    var_dump( $oldAssignment );
+                    $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+
+                    $realNode = & eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
+                    
+                    if ( is_null( $realNode ) )
+                    {
+                        $fromNodeID = 0;
+                    }
                     if ( $oldAssignment->attribute( 'is_main' ) == '1' )
                     {
                         $version->assignToNode( $nodeID, 1, $fromNodeID );
