@@ -324,7 +324,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
     if ( $module->isCurrentAction( 'BrowseForNodes' ) )
     {
-        $assignedArray = array();
+        $ignoreNodesSelect = array();
+        $ignoreNodesClick  = array();
         $assigned = $version->nodeAssignments();
         $publishedAssigned = $object->assignedNodes( false );
         $isTopLevel = false;
@@ -342,13 +343,14 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             }
             if ( $append )
             {
-                $assignedArray[] = $element['node_id'];
-                $assignedArray[] = $element['parent_node_id'];
+                $ignoreNodesSelect[] = $element['node_id'];
+                $ignoreNodesClick[]  = $element['node_id'];
+                $ignoreNodesSelect[] = $element['parent_node_id'];
             }
         }
         if ( !$isTopLevel )
         {
-            $assignedArray = array_unique( $assignedArray );
+            $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
             $objectID = $object->attribute( 'id' );
             eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
                                             'description_template' => 'design:content/browse_placement.tpl',
@@ -356,7 +358,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                              'class_id' => $class->attribute( 'identifier' ),
                                                              'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                              'section' => $object->attribute( 'section_id' ) ),
-                                            'ignore_nodes' => $assignedArray,
+                                            'ignore_nodes_select' => $ignoreNodesSelect,
+                                            'ignore_nodes_click'  => $ignoreNodesClick,
                                             'content' => array( 'object_id' => $objectID,
                                                                 'object_version' => $editVersion,
                                                                 'object_language' => $editLanguage ),
@@ -435,13 +438,22 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
                 }
 
-                // we don't allow moving object to itself or to the same parent object
+                // we don't allow moving object to itself, to its descendants or parent object(s)
                 $objectAssignedNodes =& $object->attribute( 'assigned_nodes' );
-                $ignoreNodesArray = array();
+
+                // nodes that are not allowed to select (via checkbox or radiobutton) when browsing
+                $ignoreNodesSelectArray = array();
+
+                // nodes that are not allowed to click on
+                $ignoreNodesClickArray  = array();
                 foreach( $objectAssignedNodes as $curAN )
                 {
-                    $ignoreNodesArray[] = $curAN->NodeID;
-                    $ignoreNodesArray[] = $curAN->ParentNodeID;
+                    // current node should be neihter selectable, nor clickable
+                    $ignoreNodesClickArray[]  = $curAN->NodeID;
+                    $ignoreNodesSelectArray[] = $curAN->NodeID;
+
+                    // parent node should be only clickable, but not selectable
+                    $ignoreNodesSelectArray[] = $curAN->ParentNodeID;
                 }
 
                 eZContentBrowse::browse( array( 'action_name' => 'MoveNodeAssignment',
@@ -453,7 +465,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                 'start_node' => $fromNodeID,
                                                 'persistent_data' => array( 'FromNodeID' => $fromNodeID,
                                                                             'OldAssignmentParentID' => $oldAssignmentParentID ),
-						'ignore_nodes' => $ignoreNodesArray,
+						'ignore_nodes_select' => $ignoreNodesSelectArray,
+						'ignore_nodes_click'  => $ignoreNodesClickArray,
                                                 'content' => array( 'object_id' => $objectID,
                                                                     'previous_node_id' => $fromNodeID,
                                                                     'object_version' => $editVersion,
