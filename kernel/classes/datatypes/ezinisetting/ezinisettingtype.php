@@ -142,7 +142,8 @@ class eZIniSettingType extends eZDataType
                               $sectionParam . ': ' .  $http->postVariable( $sectionParam ) . "\n" .
                               $parameterParam . ': ' .  $http->postVariable( $parameterParam ) . "\n" .
                               $typeParam . ': ' .  $http->postVariable( $typeParam ). "\n" .
-                              $iniInstanceParam. ': '. $http->postVariable( $iniInstanceParam ) );
+                              $iniInstanceParam. ': '. $http->postVariable( $iniInstanceParam ), 'eZIniSettingType::validateClassAttributeHTTPInput',
+                              'eZIniSettingType::validateClassAttributeHTTPInput' );
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -205,7 +206,8 @@ class eZIniSettingType extends eZDataType
                 {
                     $objectAttribute->setAttribute( 'data_text', $configValue );
                     eZDebug::writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
-                                          '    ' . $configValue );
+                                          '    ' . $configValue,
+                                          'eZIniSettingType::initializeObjectAttribute');
                 }
             }
 
@@ -331,7 +333,8 @@ class eZIniSettingType extends eZDataType
                 $config->setVariable( $section, $parameter, $contentObjectAttribute->attribute( 'data_text' ) );
                 eZDebug::writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
                                       '                            ['. $section . ']' . "\n" .
-                                      '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ) );
+                                      '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ),
+                                      'eZIniSettingType::onPublish' );
             }
             $config->save( false, '.append.php', false, true, $path );
         }
@@ -403,9 +406,23 @@ class eZIniSettingType extends eZDataType
 
             $config =& eZINI::instance( $filename, $path, null, null, null, true );
 
-            if ( $config->variable( $section, $parameter ) != $contentObjectAttribute->attribute( 'data_text' ) )
+            if ( is_array( $config->variable( $section, $parameter ) ) )
             {
-                $modified[] = array( 'ini_value' => $config->variable( $section, $parameter ),
+                $objectIniArray = array();
+                eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $objectIniArray );
+                $existingIniArray =& $config->variable( $section, $parameter );
+                foreach ( array_keys( $existingIniArray ) as $key )
+                {
+                    if ( !is_int( $key ) && $existingIniArray[$key] != $objectIniArray[$key] )
+                    {
+                        $modified[] = array( 'ini_value' => $parameter . '[' . $key . ']=' . $existingIniArray[$key],
+                                             'file' => $path . '/' . $filename );
+                    }
+                }
+            }
+            else if ( $config->variable( $section, $parameter ) != $contentObjectAttribute->attribute( 'data_text' ) )
+            {
+                $modified[] = array( 'ini_value' => $parameter . '=' . $config->variable( $section, $parameter ),
                                      'file' => $path . '/' . $filename );
             }
         }

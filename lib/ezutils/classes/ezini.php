@@ -267,36 +267,51 @@ class eZINI
         include_once( 'lib/ezutils/classes/ezdir.php' );
         $inputFiles = array();
         $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
-        if ( file_exists( $iniFile ) )
-            $inputFiles[] = $iniFile;
-        if ( file_exists( $iniFile . '.php' ) )
-            $inputFiles[] = $iniFile . '.php';
-        $overrideDirs = $this->overrideDirs();
-        foreach ( $overrideDirs as $overrideDirItem )
-        {
-            $overrideDir = $overrideDirItem[0];
-            $isGlobal = $overrideDirItem[1];
-            if ( $isGlobal )
-                $overrideFile = eZDir::path( array( $overrideDir, $this->FileName ) );
-            else
-                $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
-            if ( file_exists( $overrideFile . '.php' ) )
-            {
-                $inputFiles[] = $overrideFile . '.php';
-            }
-            if ( file_exists( $overrideFile ) )
-                $inputFiles[] = $overrideFile;
 
-            if ( $isGlobal )
-                $overrideFile = eZDir::path( array( $overrideDir, $this->FileName . '.append' ) );
-            else
-                $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
-            if ( file_exists( $overrideFile . '.php' ) )
+        if ( $this->DirectAccess )
+        {
+            if ( file_exists ( $iniFile ) )
+                $inputFiles[] = $iniFile;
+
+            if ( file_exists ( $iniFile . '.append' ) )
+                $inputFiles[] = $iniFile . '.append';
+
+            if ( file_exists ( $iniFile . '.append.php' ) )
+                $inputFiles[] = $iniFile . '.append.php';
+        }
+        else
+        {
+            if ( file_exists( $iniFile ) )
+                $inputFiles[] = $iniFile;
+            if ( file_exists( $iniFile . '.php' ) )
+                $inputFiles[] = $iniFile . '.php';
+            $overrideDirs = $this->overrideDirs();
+            foreach ( $overrideDirs as $overrideDirItem )
             {
-                $inputFiles[] = $overrideFile . '.php';
+                $overrideDir = $overrideDirItem[0];
+                $isGlobal = $overrideDirItem[1];
+                if ( $isGlobal )
+                    $overrideFile = eZDir::path( array( $overrideDir, $this->FileName ) );
+                else
+                    $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
+                if ( file_exists( $overrideFile . '.php' ) )
+                {
+                    $inputFiles[] = $overrideFile . '.php';
+                }
+                if ( file_exists( $overrideFile ) )
+                    $inputFiles[] = $overrideFile;
+
+                if ( $isGlobal )
+                    $overrideFile = eZDir::path( array( $overrideDir, $this->FileName . '.append' ) );
+                else
+                    $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
+                if ( file_exists( $overrideFile . '.php' ) )
+                {
+                    $inputFiles[] = $overrideFile . '.php';
+                }
+                if ( file_exists( $overrideFile ) )
+                    $inputFiles[] = $overrideFile;
             }
-            if ( file_exists( $overrideFile ) )
-                $inputFiles[] = $overrideFile;
         }
     }
 
@@ -479,33 +494,9 @@ class eZINI
     {
         if ( $reset )
             $this->reset();
-        if ( $this->DirectAccess )
-        {
-            if ( $inputFiles === false )
-            {
-                $inputFiles = array();
-            }
-
-            if ( $this->RootDir !== false )
-                $fileName = $this->RootDir . '/' . $this->FileName;
-            else
-                $fileName = $this->FileName;
-
-            if ( file_exists ( $fileName ) )
-                $inputFiles[] = $fileName;
-
-            if ( file_exists ( $fileName . '.append' ) )
-                $inputFiles[] = $fileName . '.append';
-
-            if ( file_exists ( $fileName . '.append.php' ) )
-                $inputFiles[] = $fileName . '.append.php';
-        }
-        else
-        {
-            if ( $inputFiles === false or
-                 $iniFile === false )
-                $this->findInputFiles( $inputFiles, $iniFile );
-        }
+        if ( $inputFiles === false or
+             $iniFile === false )
+            $this->findInputFiles( $inputFiles, $iniFile );
 
         foreach ( $inputFiles as $inputFile )
         {
