@@ -723,46 +723,6 @@ function definition()
         return $out;
     }
 
-    // Too slow
-//     function updateObjectList2( $parameters )
-//     {
-//         $db =& eZDB::instance();
-//         $def =& $parameters['definition'];
-//         $table =& $def['name'];
-//         $fields =& $def['fields'];
-//         $keys =& $def['keys'];
-
-//         $updateFields =& eZPersistentObject::escapeArray( $parameters['update_fields'] );
-//         $conditions =& eZPersistentObject::escapeArray( $parameters['conditions'] );
-
-//         $query = array( 'UPDATE ',
-//                         $table,
-//                         ' SET ' );
-//         $query[] = eZTextTool::arrayAddDelimiter( eZTextTool::arrayElevateKeys( $updateFields, '', "='", "'" ), ', ' );
-//         $query[] = ' WHERE ';
-//         $conditionArray = array();
-//         foreach( $conditions as $conditionKey => $condition )
-//         {
-//             if ( is_array( $condition ) )
-//             {
-//                 $conditionArray[] = array( $conditionKey,
-//                                            ' IN (',
-//                                            eZTextTool::arrayAddDelimiter( $condition, ', ', "'", "'" ),
-//                                            ')' );
-//             }
-//             else
-//                 $conditionArray[] = array( $conditionKey,
-//                                            "='",
-//                                            $condition,
-//                                            "'" );
-//         }
-//         $query[] = eZTextTool::arrayAddDelimiter( $conditionArray, ' AND ' );
-//         return implode( '', eZTextTool::arrayFlatten( $query ) );
-
-//         // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
-//         // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
-//     }
-
     function updateObjectList( $parameters )
     {
         $db =& eZDB::instance();
@@ -807,79 +767,13 @@ function definition()
             ++$i;
         }
         $db->query( $query );
-
-        // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
-        // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
     }
-
-    // Slower than #1
-//     function updateObjectList3( $parameters )
-//     {
-//         $db =& eZDB::instance();
-//         $def =& $parameters['definition'];
-//         $table =& $def['name'];
-//         $fields =& $def['fields'];
-//         $keys =& $def['keys'];
-
-//         $updateFields =& eZPersistentObject::escapeArray( $parameters['update_fields'] );
-//         $conditions =& eZPersistentObject::escapeArray( $parameters['conditions'] );
-
-//         $query = array( 'UPDATE ',
-//                         $table,
-//                         ' SET ' );
-//         $i = 0;
-//         foreach( $updateFields as $field => $value )
-//         {
-//             if ( $i > 0 )
-//                 $query[] = ', ';
-//             $query[] = $field;
-//             $query[] = "='";
-//             $query[] = $value;
-//             $query[] = "'";
-//             ++$i;
-//         }
-//         $query[] = ' WHERE ';
-//         $i = 0;
-//         foreach( $conditions as $conditionKey => $condition )
-//         {
-//             if ( $i > 0 )
-//                 $query[] = ' AND ';
-//             if ( is_array( $condition ) )
-//             {
-//                 $query[] = $conditionKey;
-//                 $query[] = ' IN (';
-//                 $j = 0;
-//                 foreach( $condition as $conditionValue )
-//                 {
-//                     if ( $j > 0 )
-//                         $query[] = ', ';
-//                     $query[] = "'";
-//                     $query[] = $conditionValue;
-//                     $query[] = "'";
-//                     ++$j;
-//                 }
-//                 $query[] = ')';
-//             }
-//             else
-//             {
-//                 $query[] = $conditionKey;
-//                 $query[] = "='";
-//                 $query[] = $condition;
-//                 $query[] = "'";
-//             }
-//             ++$i;
-//         }
-//         return implode( '', $query );
-
-//         // UPDATE ez... SET is_enabled='1' WHERE (ID='1' OR ID='2') AND version='0';
-//         // UPDATE ez... SET is_enabled='1' WHERE ID IN ('1', '2') AND version='0';
-//     }
 
     /*!
      \return the attributes for this object, taken from the definition fields and
              function attributes.
     */
-    function &attributes()
+    function attributes()
     {
         $def =& $this->definition();
         $attrs = array_keys( $def["fields"] );
