@@ -3,8 +3,10 @@ Changes from 3.2-5 to 3.2-6
 *Kernel:
 
 *Datatypes:
-- Made sure eZOption does no initialization when an attribute is copied
+- Made sure eZOption and eZRangeOption does no initialization when an attribute is copied
   (e.g. on when creating a new version).
+- Made sure eZImage, eZMedia and eZENUM only copies attribute data when
+  supplied version is non-false.
 
 
 *Bugfixes:
