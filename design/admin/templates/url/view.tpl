@@ -1,6 +1,8 @@
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h1 class="context-title">{'url'|icon( 'normal', 'URL'|i18n( 'design/admin/url/view' ) )}&nbsp;{'URL #%url_id'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</h1>
+{let item_type=ezpreference( 'admin_url_view_limit' )
+     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -72,6 +74,42 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Objects using URL #%url_id [%url_count]'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id, '%url_count', $object_list|count ) )}</h2>
 
+{* Items per page and view mode selector. *}
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+    <p>
+    {switch match=$number_of_items}
+    {case match=25}
+        <a href={'/user/preferences/set/admin_url_view_limit/1'|ezurl}>10</a>
+        <span class="current">25</span>
+        <a href={'/user/preferences/set/admin_url_view_limit/3'|ezurl}>50</a>
+
+        {/case}
+
+        {case match=50}
+        <a href={'/user/preferences/set/admin_url_view_limit/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_url_view_limit/2'|ezurl}>25</a>
+        <span class="current">50</span>
+        {/case}
+
+        {case}
+        <span class="current">10</span>
+        <a href={'/user/preferences/set/admin_url_view_limit/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_url_view_limit/3'|ezurl}>50</a>
+        {/case}
+
+        {/switch}
+    </p>
+</div>
+<div class="right">
+<p>
+</div>
+<div class="break"></div>
+</div>
+</div>
+
+
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
@@ -99,6 +137,14 @@
 
 </table>
 
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/url/view/',$url_object.id )
+         item_count=$url_view_count
+         view_parameters=$view_parameters
+         item_limit=$number_of_items}
+</div>
 {section-else}
 <p>{'URL #%url_id is not in use by any objects.'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</p>
 {/section}

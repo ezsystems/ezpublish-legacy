@@ -49,7 +49,8 @@ $ViewList['view'] = array(
     'script' => 'view.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'EditObject' => 'EditObject' ),
-    'params' => array( 'ID' ) );
+    'params' => array( 'ID' ),
+    'unordered_params'=> array( 'offset' => 'Offset' ) );
 $ViewList['edit'] = array(
     'script' => 'edit.php',
     'ui_context' => 'edit',

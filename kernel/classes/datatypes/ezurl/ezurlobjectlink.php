@@ -123,14 +123,14 @@ class eZURLObjectLink extends eZPersistentObject
      \static
      \return all object versions which has the link.
     */
-    function &fetchObjectVersionList( $urlID )
+    function &fetchObjectVersionList( $urlID, $parameters = false )
     {
         $objectVersionList = array();
         $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                    null,
                                                                    array( 'url_id' => $urlID ),
                                                                    null,
-                                                                   null,
+                                                                   $parameters,
                                                                    true );
         $storedVersionList = array();
         foreach ( array_keys( $urlObjectLinkList ) as $key )
@@ -155,6 +155,21 @@ class eZURLObjectLink extends eZPersistentObject
         }
         return $objectVersionList;
     }
+
+    /*!
+     Get url object count
+     \param urld id
+    */
+     function fetchObjectVersionCount( $urlID )
+     {
+         $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                                    null,
+                                                                    array( 'url_id' => $urlID ),
+                                                                    null,
+                                                                    null,
+                                                                    true );
+         return( count( $urlObjectLinkList ) );
+     }
 
     /*!
      \static
