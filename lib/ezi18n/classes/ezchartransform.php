@@ -48,7 +48,7 @@
 /// The timestamp for when the format of the cache files were
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1101043014 );
+define( 'EZ_CHARTRANSFORM_CODEDATE', 1101045295 );
 
 class eZCharTransform
 {
@@ -66,13 +66,54 @@ class eZCharTransform
      \param $text The text string to be converted, currently Unicode arrays are not supported
      \param $rule Which transformation rule to use, can either be a string identifier or an array with identifiers.
      \param $charset Which charset to use when transforming, if \c false it will use current charset (i18n.ini).
-     \param $useCache If \c true then it will use cache files for the tables,
+     \param $useCache If \c true then it will use cache files for the mapping,
                       if not it will have to calculate them each time.
     */
     function transform( $text, $rule, $charset = false, $useCache = true )
     {
-        $data = $this->charsetTransformationData( $rule, $charset, $useCache );
-        return strtr( $text, $data['table'] );
+        if ( $useCache )
+        {
+            // CRC32 is used for speed, MD5 would be more unique but is slower
+            $key = crc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
+
+            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
+
+            // Try to execute code in the cache file, if it succeeds
+            // \a $text will/ transformated
+            if ( $this->executeCacheFile( $text,
+                                          'rule-', '-' . $charsetName,
+                                          $key, false, $filepath ) )
+            {
+                eZDebug::writeDebug( 'executed cache file ' . $filepath );
+                return $text;
+            }
+        }
+
+        // Make sure we have a mapper
+        if ( $this->Mapper === false )
+        {
+            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            $this->Mapper = new eZCodeMapper();
+        }
+
+        $this->loadTransformationFiles();
+
+        // First generate a unicode based mapping table from the rules
+        $unicodeTable = $this->Mapper->generateMappingCode( $rule );
+        // Then transform that to a table that works with the current charset
+        // Any character not available in the current charset will be removed
+        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $transformationData = array( 'table' => $charsetTable );
+        unset( $unicodeTable );
+
+        if ( $useCache )
+        {
+            $this->writeCacheFile( $filepath, $transformationData,
+                                   'Rule', $charsetName );
+        }
+
+        // Execute transformations
+        return strtr( $text, $transformationData['table'] );
     }
 
     /*!
@@ -89,8 +130,63 @@ class eZCharTransform
         $commands = $this->groupCommands( $group );
         if ( $commands === false )
             return false;
-        $data = $this->charsetTransformationDataForCommands( $group, $commands, $charset, $useCache );
-        return strtr( $text, $data['table'] );
+
+
+        if ( $useCache )
+        {
+            // CRC32 is used for speed, MD5 would be more unique but is slower
+            $keyText = 'Group:' . $group . '=';
+            foreach ( $commands as $command )
+            {
+                $keyText .= $command['text'] . ';';
+            }
+            $key = crc32( $keyText . '-' . $charset );
+
+            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
+
+            // Try to execute code in the cache file, if it succeeds
+            // \a $text will/ transformated
+            if ( $this->executeCacheFile( $text,
+                                          'g-' . $group . '-', '-' . $charsetName,
+                                          $key, false, $filepath ) )
+            {
+                eZDebug::writeDebug( 'executed cache file ' . $filepath );
+                return $text;
+            }
+        }
+
+        // Make sure we have a mapper
+        if ( $this->Mapper === false )
+        {
+            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            $this->Mapper = new eZCodeMapper();
+        }
+
+        $this->loadTransformationFiles();
+
+        $rules = array();
+        foreach ( $commands as $command )
+        {
+            $rules = array_merge( $rules,
+                                  $this->Mapper->decodeCommand( $command['command'], $command['parameters'] ) );
+        }
+
+        // First generate a unicode based mapping table from the rules
+        $unicodeTable = $this->Mapper->generateMappingCode( $rules );
+        // Then transform that to a table that works with the current charset
+        // Any character not available in the current charset will be removed
+        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $transformationData = array( 'table' => $charsetTable );
+        unset( $unicodeTable );
+
+        if ( $useCache )
+        {
+            $this->storeCacheFile( $filepath, $transformationData,
+                                   'Group:' . $group, $charsetName );
+        }
+
+        // Execute transformations
+        return strtr( $text, $transformationData['table'] );
     }
 
     /*!
@@ -165,125 +261,7 @@ class eZCharTransform
 
     /*!
      \private
-     \static
-     Returns the charset transformation data for rule \a $rule using charset \a $charset.
-     The data contains:
-     - table - Mapping table for characters/strings for the given charset
-
-     It will try to restore the table from a cache file if possible, if not it will recreate it
-     and store it on disk then return it.
-
-     \param $useCache If \c true then it will use cache files for the tables,
-                      if not it will have to calculate them each time.
-    */
-    function charsetTransformationData( $rule, $charset = false, $useCache = true )
-    {
-        if ( $useCache )
-        {
-            // CRC32 is used for speed, MD5 would be more unique but is slower
-            $key = crc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
-
-            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
-            $cachedData = $this->restoreCacheFile( 'rule-', '-' . $charsetName,
-                                                   $key, false, $filepath );
-            if ( $cachedData !== false )
-                return $cachedData;
-        }
-
-        // Make sure we have a mapper
-        if ( $this->Mapper === false )
-        {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
-            $this->Mapper = new eZCodeMapper();
-        }
-
-        $this->loadTransformationFiles();
-
-        // First generate a unicode based mapping table from the rules
-        $unicodeTable = $this->Mapper->generateMappingCode( $rule );
-        // Then transform that to a table that works with the current charset
-        // Any character not available in the current charset will be removed
-        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
-        $transformationData = array( 'table' => $charsetTable );
-        unset( $unicodeTable );
-
-        if ( $useCache )
-        {
-            $this->writeCacheFile( $filepath, $transformationData,
-                                   'Rule', $charsetName );
-        }
-
-        return $transformationData;
-    }
-
-    /*!
-     \private
-     \static
-     Returns the charset transformation data for rule \a $rule using charset \a $charset.
-     The data contains:
-     - table - Mapping table for characters/strings for the given charset
-
-     It will try to restore the table from a cache file if possible, if not it will recreate it
-     and store it on disk then return it.
-
-     \param $useCache If \c true then it will use cache files for the tables,
-                      if not it will have to calculate them each time.
-    */
-    function charsetTransformationDataForCommands( $group, $commands, $charset = false, $useCache = true )
-    {
-        if ( $useCache )
-        {
-            // CRC32 is used for speed, MD5 would be more unique but is slower
-            $keyText = 'Group:' . $group . '=';
-            foreach ( $commands as $command )
-            {
-                $keyText .= $command['text'] . ';';
-            }
-            $key = crc32( $keyText . '-' . $charset );
-
-            $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
-            $cachedData = $this->restoreCacheFile( 'g-' . $group . '-', '-' . $charsetName,
-                                                   $key, false, $filepath );
-            eZDebug::writeDebug( $filepath, 'filepath' );
-            if ( $cachedData !== false )
-                return $cachedData;
-        }
-
-        // Make sure we have a mapper
-        if ( $this->Mapper === false )
-        {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
-            $this->Mapper = new eZCodeMapper();
-        }
-
-        $this->loadTransformationFiles();
-
-        $rules = array();
-        foreach ( $commands as $command )
-        {
-            $rules = array_merge( $rules,
-                                  $this->Mapper->decodeCommand( $command['command'], $command['parameters'] ) );
-        }
-
-        // First generate a unicode based mapping table from the rules
-        $unicodeTable = $this->Mapper->generateMappingCode( $rules );
-        // Then transform that to a table that works with the current charset
-        // Any character not available in the current charset will be removed
-        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
-        $transformationData = array( 'table' => $charsetTable );
-        unset( $unicodeTable );
-
-        if ( $useCache )
-        {
-            $this->storeCacheFile( $filepath, $transformationData,
-                                   'Group:' . $group, $charsetName );
-        }
-
-        return $transformationData;
-    }
-
-    /*!
-     \private
+     \param $text The text that should be transformed
      \param $key The unique key for the cache, this should be a CRC32 or MD5 of
                  the current rules or commands which are used.
      \param $timestamp A timestamp value which is matched against the cache file,
@@ -292,7 +270,7 @@ class eZCharTransform
                            this can be used for the storeCacheFile() method.
      \return The restored transformation data or \c false if there is no cached data.
     */
-    function restoreCacheFile( $prefix, $suffix, $key, $timestamp = false, &$filepath )
+    function executeCacheFile( &$text, $prefix, $suffix, $key, $timestamp = false, &$filepath )
     {
         $path = eZCharTransform::cachedTransformationPath();
         if ( !file_exists( $path ) )
@@ -306,8 +284,9 @@ class eZCharTransform
             $time = filemtime( $filepath );
             if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
-                $data = eval( file_get_contents( $filepath ) );
-                return $data;
+                // Execute the PHP file causing $text will be transformed
+                include( $filepath );
+                return true;
             }
         }
         return false;
@@ -322,11 +301,17 @@ class eZCharTransform
         $fd = @fopen( $filepath, 'wb' );
         if ( $fd )
         {
+            @fwrite( $fd, "<?" . "php\n" );
             @fwrite( $fd, "// Cached transformation data\n" );
             @fwrite( $fd, "// Type: $type\n" );
             @fwrite( $fd, "// Charset: $charsetName\n" );
             @fwrite( $fd, "// Cached transformation data\n" );
-            @fwrite( $fd, 'return ' . var_export( $transformationData, true ) . ";\n" );
+
+            // The code that does the transformation
+            @fwrite( $fd, '$data = ' . var_export( $transformationData, true ) . ";\n" );
+            @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
+
+            @fwrite( $fd, "?>" );
             @fclose( $fd );
         }
         else
