@@ -199,7 +199,13 @@ else
         $node =& eZContentObjectTreeNode::fetch( $NodeID );
     }
 
+    if ( !is_object( $node ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
     $object = $node->attribute( 'object' );
+
+    if ( !is_object( $object ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
     if ( $Params['Language'] != '' )
     {
