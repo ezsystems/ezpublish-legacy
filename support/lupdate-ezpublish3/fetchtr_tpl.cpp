@@ -133,6 +133,9 @@ static void parse( MetaTranslator *tor, const QString &filename )
 
     while ( pos >= 0 )
     {
+        source = QString::null;
+        context = QString::null;
+        comment = QString::null;
         startpos = i18nRE.search( content, pos );
         pos = startpos + i18nRE.matchedLength();
         if ( pos < 0 )
@@ -164,14 +167,15 @@ static void parse( MetaTranslator *tor, const QString &filename )
         }
         pos = endpos;
         skipComma( content, pos, endpos );
-        if ( endpos < 0 )
-            continue;
-        pos = endpos;
+        if ( endpos >= 0 )
+        {
+            pos = endpos;
 
-        comment = getString( content, pos, false, endpos );
-        if ( endpos >= 0 &&
-             comment.length() == 0 )
+            comment = getString( content, pos, false, endpos );
+            if ( endpos >= 0 &&
+                 comment.length() == 0 )
                 comment = QString::null;
+        }
 
         if ( context.isNull() )
             continue;
