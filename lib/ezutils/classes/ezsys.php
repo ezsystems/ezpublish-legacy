@@ -269,22 +269,22 @@ class eZSys
      \return the variable named \a $variableName in the global \c $_ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    function &enviromentVariable( $variableName )
+    function &environmentVariable( $variableName )
     {
         global $_ENV;
         if ( !isset( $_ENV[$variableName] ) )
         {
-            eZDebug::writeError( "Enviroment variable '$variableName' does not exist", 'eZSys::enviromentVariable' );
+            eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
             return null;
         }
         return $_ENV[$variableName];
     }
 
     /*!
-     Sets the enviroment variable named \a $variableName to \a $variableValue.
+     Sets the environment variable named \a $variableName to \a $variableValue.
      \note Variables are only set for the current page view.
     */
-    function setEnviromentVariable( $variableName, $variableValue )
+    function setEnvironmentVariable( $variableName, $variableValue )
     {
         global $_ENV;
         $_ENV[$variableName] = $variableValue;
