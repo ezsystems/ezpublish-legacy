@@ -150,6 +150,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classModified = $dateTime;
 
         $userID = false;
+        if ( isset( $installParameters['user_id'] ) )
+            $userID = $installParameters['user_id'];
 
         $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
 

@@ -623,9 +623,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     function installContentObjects( $objectListNode, $topNodeListNode, $installParameters )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
+        $userID = eZUser::currentUserID();
+        if ( isset( $installParameters['user_id'] ) )
+            $userID = $installParameters['user_id'];
         foreach( $objectListNode->elementsByName( 'object' ) as $objectNode )
         {
-            eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, eZUser::currentUserID() );
+            eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
         }
     }
 
