@@ -9,9 +9,6 @@
 
     {include uri="design:content/edit_validation.tpl"}
 
-{*   {include uri="design:content/edit_placement.tpl"} 
-     {include uri="design:content/edit_attribute.tpl"}
-*}
     <br/>
 
     <div class="block">
@@ -26,11 +23,8 @@
          attribute=$object.data_map.author}
     <div class="block">
         {section show=$user.is_logged_in}
-{*	
-            <label>{$attribute.contentclass_attribute.name}</label><div class="labelbreak"></div>
-	    <p>{$user.contentobject.name}</p> 
-*}
-	    <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$attribute.id}" value="{$user.contentobject.name}" />
+
+        <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$attribute.id}" value="{$user.contentobject.name}" />
         {section-else}
             <label>{$attribute.contentclass_attribute.name}</label><div class="labelbreak"></div>
 	    <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}" />
@@ -49,8 +43,7 @@
 
     <div class="buttonblock">
         <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-{*      <input class="button" type="submit" name="StoreButton" value="{'Store draft'|i18n('design/standard/content/edit')}" /> *}
-	<input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
+	    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
         <input type="hidden" name="MainNodeID" value="{$main_node_id }" />
         <input type="hidden" name="DiscardConfirm" value="0" />
     </div>

@@ -36,6 +36,14 @@ div.class-folder
 {
 }
 
+div.relatedinfo
+{  
+    font-style: italic;
+    width: 30%;
+    float: right;
+}
+
+
 /* ARTICLE STYLES */
 
 div.view-full div.class-article div.content-short

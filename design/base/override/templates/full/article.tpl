@@ -7,19 +7,19 @@
 
         {section}
             <div class="content-byline">
-                <p class="author"><a href="/">Mr. Besinnelsen</a></p>
+                <p class="author"><a href="/">{$node.object.data_map.author.content|wash(xhtml)}</a></p>
                 <p class="date">{$node.object.published|l10n(date)}</p>
                 <div class="break"></div>
             </div>
         {/section}
 
-        {section show=ne($node.object.data_map.intro.content.output.output_text,'')}
+        {section show=$node.object.data_map.intro.content.is_empty|not}
             <div class="content-short">
                 {attribute_view_gui attribute=$node.object.data_map.intro}
             </div>
         {/section}
 
-        {section show=ne($node.object.data_map.body.content.output.output_text,'')}
+        {section show=$node.object.data_map.body.content.is_empty|not}
             <div class="content-long">
                 {attribute_view_gui attribute=$node.object.data_map.body}
             </div>
@@ -27,14 +27,13 @@
 
         {* Should we allow comments? *}
         {section show=$node.object.data_map.enable_comments.content}
-        
             <h2>Comments</h2>
                 <div class="view-children">
                     {section name=Child loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}
                         {node_view_gui view='line' content_node=$:item}
                     {/section}
                 </div>
-        
+
                 {* Are we allowed to create new object under this node? *}
                 {section show=$node.object.can_create}
                     <form method="post" action={"content/action"|ezurl}>
@@ -51,4 +50,3 @@
 
     </div>
 </div>
-
