@@ -2,11 +2,11 @@
 <div class="block">
 <div class="element">
 <label>{"Pretext"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
-<p>{$class_attribute.data_text1}</p>
+<p>{section show=$class_attribute.data_text1}{$class_attribute.data_text1}{section-else}{"Empty"|i18n("design/standard/class/datatype")}{/section}</p>
 </div>
 <div class="element">
 <label>{"Posttext"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
-<p>{$class_attribute.data_text2}</p>
+<p>{section show=$class_attribute.data_text2}{$class_attribute.data_text2}{section-else}{"Empty"|i18n("design/standard/class/datatype")}{/section}</p>
 </div>
 <div class="element">
 <label>{"Digits"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
