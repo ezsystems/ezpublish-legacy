@@ -77,11 +77,19 @@ Items:
         {case match='thumbnail'}
         <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
         Thumbnail
+        <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
+        {/case}
+
+        {case match='detailed'}
+        <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
+        <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
+        Detailed
         {/case}
 
         {case}
         List
         <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
+        <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
         {/switch}
 </div>
@@ -116,15 +124,20 @@ Items:
 {/section}
 
 {* Display the actual list of nodes. *}
-{section show=eq( ezpreference( 'viewmode' ), 'thumbnail' )}
+{switch match=ezpreference( 'viewmode' )}
 
+{case match='thumbnail'}
     {include uri='design:children_thumbnail.tpl'}
+{/case}
 
-    {section-else}
+{case match='detailed'}
+    {include uri='design:children_detailed.tpl'}
+{/case}
 
+{case}
     {include uri='design:children_list.tpl'}
-
-{/section}
+{/case}
+{/switch}
 
 {* Select/deselect all links: *}
 {section show=$can_remove}
@@ -148,9 +161,9 @@ Items:
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
     {section show=$node.object.can_edit}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
+        <input class="button-right" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
+        <input class="button-right" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
     {/section}
 
