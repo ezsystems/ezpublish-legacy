@@ -6,7 +6,7 @@
 <div class="block">
 {section name=Package loop=$:package_list}
  <div class="package_element" align="bottom">
-      <label for="{$:item.name|wash}"><img src={$:item|ezpackage( filepath, "thumbnail" )|ezroot} /></label>
+      <label for="{$:item.name|wash}"><img class="package-thumbnail" src={$:item|ezpackage( filepath, "thumbnail" )|ezroot} /></label>
       <br />
       <input type="radio" id="{$:item.name|wash}" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name|wash}"
       {section show=eq( $:item.name, $attribute.data_text )} checked{/section} /><label for="{$:item.name|wash}">{$:item.summary|wash}</label>
@@ -18,6 +18,7 @@
 {/section}
 </div>
 
+
 {*
 {switch match=1}
 {switch match=$attribute.contentclass_attribute.data_int1}
@@ -26,8 +27,8 @@
  <div class="package_element" align="bottom">
       <img src={$:item|ezpackage(filepath,"thumbnail")|ezroot} />
       <br />
-      <input type="radio" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name|wash}"
-      {section show=eq( $:item.name, $attribute.data_text )} checked{/section} /><label>{$:item.summary|wash}</label>
+      <input type="radio" id="{$:item.name|wash}" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name|wash}"
+      {section show=eq( $:item.name, $attribute.data_text )} checked{/section} /><labelfor="{$:item.name|wash}">{$:item.summary|wash}</label>
  </div>
  {delimiter modulo=4}
     </div>
