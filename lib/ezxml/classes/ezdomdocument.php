@@ -276,11 +276,19 @@ class eZDOMDocument
 
         foreach ( $array as $arrayKey => $value )
         {
-            if ( is_array( $value ) )
+            $valueKeys = array_keys( $value );
+            if ( count( $valueKeys ) > 0 )
             {
-                foreach( $value as $child )
+                if ( is_int( $valueKeys[0] ) )
                 {
-                    $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $child ) );
+                    foreach( $value as $child )
+                    {
+                        $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $child ) );
+                    }
+                }
+                else
+                {
+                    $node->appendChild( eZDOMDocument::createElementNodeFromArray( $arrayKey, $value ) );
                 }
             }
             else
