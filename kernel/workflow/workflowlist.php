@@ -133,6 +133,7 @@ $tpl->setVariable( "temp_workflow_list", $temp_list );
 $tpl->setVariable( "group_id", $WorkflowGroupID );
 $WorkflowgroupInfo = & eZWorkflowGroup::fetch( $WorkflowGroupID );
 $WorkflowGroupName = $WorkflowgroupInfo->attribute("name");
+$tpl->setVariable( "group", $WorkflowgroupInfo );
 $tpl->setVariable( "group_name", $WorkflowGroupName );
 $tpl->setVariable( 'workflow_list', $list );
 $tpl->setVariable( 'module', $Module );
@@ -143,5 +144,4 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' 
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'List' ),
                                 'url' => false ) );
-
 ?>
