@@ -71,7 +71,7 @@ mkdir kernel/setup/packages
 
 ## Plain package
 
-./ezpm.php -r packages create plain -- add plain design -n design plain -- add plain ini -r siteaccess -v plain -n user_siteaccess settings/siteaccess/plain/override.ini.append -- add plain ini -r siteaccess -v plain -n user_siteaccess settings/siteaccess/plain/site.ini.append -- add plain ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append -- add plain ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append -- add plain sql -d mysql kernel/sql/mysql/kernel_schema.sql -- add plain sql -d mysql kernel/sql/mysql/cleandata.sql -- add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql -- add plain thumbnail plain.gif -- set plain summary "Plain" -- export plain -d kernel/setup/packages
+./ezpm.php -r packages create plain -- add plain design -n design plain -- add plain ini -r siteaccess -v plain -n user_siteaccess settings/siteaccess/plain/override.ini.append -- add plain ini -r siteaccess -v plain -n user_siteaccess settings/siteaccess/plain/site.ini.append -- add plain ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/override.ini.append -- add plain ini -r siteaccess -v admin -n admin_siteaccess settings/siteaccess/admin/site.ini.append -- add plain sql -d mysql kernel/sql/mysql/kernel_schema.sql -- add plain sql -d mysql kernel/sql/mysql/cleandata.sql -- add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql -- add plain thumbnail design/plain/images/plain.gif -- set plain summary "Plain" -- export plain -d kernel/setup/packages
 
 
 
