@@ -64,15 +64,23 @@
     <em>Parenthetical thoughts, concepts, and brainstorms</em>
   </div>
 
+  <div class="loglist">
   <h2>Excerpts from Recent Entries</h2>
-  <dl>
     {section var=log loop=$log_list}
-      <dt><a href={concat( "content/view/full/", $log.item.node_id )|ezurl} >{$log.item.name|wash}</a> <em class="date">{$log.item.object.published|datetime( custom, "%d %M %Y" )}</em></dt>
-      <dd>{attribute_view_gui attribute=$log.item.data_map.log}</dd>
+    <div class="log">
+      <h2><a href={concat( "content/view/full/", $log.item.node_id )|ezurl} >{$log.item.name|wash}</a>
+          <em class="byline">{$log.item.object.published|datetime( custom, "%d %M %Y" )}
+          {section show=$node.object.data_map.enable_comments.content}
+              <a class="comments" href={$node.url_alias|ezurl}>{fetch('content','list_count',hash(parent_node_id,$node.node_id))} comments</a>
+          {section-else}
+              Comments disabled
+          {/section}</em>
+      </h2>
+      <div class="logentry">
+        {attribute_view_gui attribute=$log.item.data_map.log}
+      </div>
+    </div>
     {/section}
-
-    <dt><a href={concat( "content/view/full/", $node.node_id )|ezurl} )>View all entry titles</a><strong class="arrow">&nbsp;&raquo;</strong></dt>
-  </dl>
   
   
   <h2>Entry Categories</h2>
@@ -87,6 +95,7 @@
     {/section}
   </dl>
 
+  </div>
 </div>
 
 {/let}

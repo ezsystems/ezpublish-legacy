@@ -401,9 +401,14 @@ div.selectedsearch input.searchbutton
 
 table.calendar
 {
-    font-size:100%;
     margin-top:.5em;
 }
+
+table.calendar a
+{ 
+   border: 0;
+}
+
 
 .calendar .month th
 {
@@ -520,9 +525,14 @@ dl dt em
 
 /* Archive */
 
-#archive h2, #archive dl
+#archive .loglist
 {
     padding-left: 20px;
+}
+
+#archive .loglist .log, #archive .loglist .logentry, #archive .loglist h2
+{
+    padding-left: 0px;
 }
 
 #archive .header, #category .header
@@ -562,20 +572,16 @@ dl dt em
     font-weight: bold;
 }
 
-#archive em.date
+#archive .log .byline
 {
     color: #ffa113;
 }
 
-#archive dl a
+#archive .log .byline .comments
 {
-    font-style: normal;
-    font-size: 120%;
-}
-
-#archive dd
-{
-    font-style: normal;
+    color: #999999;
+    font-size: 75%;
+    border: 0;
 }
 
 /* Feedback */
