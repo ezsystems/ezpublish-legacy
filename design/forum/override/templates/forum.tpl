@@ -1,4 +1,7 @@
-{let child_list=fetch('content','list',hash(parent_node_id,$node.node_id,limit,20,offset,$view_parameters.offset,sort_by,array(array(published,false()))))
+{let child_list=fetch('content','list',hash( parent_node_id, $node.node_id,
+                                             limit, 20,
+                                             offset, $view_parameters.offset,
+                                             sort_by, array( array( attribute, false(), 190 ), array(published,false()))))
      child_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 <div id="forum">
@@ -28,6 +31,14 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 </form>
 
 
+<form action={"/content/search/"|ezurl} method="get">
+    <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
+    <input class="button" name="SearchButton" type="submit" value="Search this forum" />
+    <input type="hidden" name="SearchContentClassID" value="22" />
+    <input type="hidden" name="SubTreeArray[]" value="{$node.node_id}" />
+</form>
+
+
 
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
@@ -46,9 +57,11 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <tr>
     <td class="{$Child:sequence}" valign="top">
     <p>
+    {section show=$Child:item.object.data_map.sticky.content}[STICKY-ICON-2DO]{/section}
     <a href={$Child:item.url_alias|ezurl}>{$Child:item.object.name|wash}</a>
     {let last_reply=fetch('content','list',hash(parent_node_id,$Child:item.node_id,sort_by,array(array('published',false())),limit,1))}
     {section name=Reply loop=$Child:last_reply show=$Child:last_reply}
+
     <br /><br />
     Last reply:     <a href={concat($Child:Reply:item.parent.url_alias,'#msg',$Child:Reply:item.node_id)|ezurl}>{$Child:Reply:item.name|wash}</a><br />
 <span class="forumdate">({$Child:Reply:item.object.published|l10n(shortdatetime)}) by {$Child:Reply:item.object.owner.name|wash}</span>

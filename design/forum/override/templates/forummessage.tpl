@@ -57,15 +57,15 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     </td>
 
     <td align="right">
-    <form action="/content/advancedsearch/" method="get">
+    <form action={"/content/search/"|ezurl} method="get">
     <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="Search forum" />
     <input type="hidden" name="SearchContentClassID" value="22" />
+    <input type="hidden" name="SubTreeArray[]" value="{$node.parent_node_id}" />
     </form>
     </td>
 </tr>
 </table>
-
 
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
