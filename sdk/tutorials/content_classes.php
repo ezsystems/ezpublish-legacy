@@ -99,6 +99,11 @@ For our car class we will create datatypes of "Text line", "XML text" and image.
 Now that we've created all our attributes we can just click on the store button and our class is ready to use.
 </p>
 
+<p>
+<b>Note: To make objects of the new class available to anonymous users you must edit the Anonymous role,
+as this role has specified access limitation by class by default.</b>
+</p>
+
 <h2>Creating content</h2>
 
 <p>
@@ -117,6 +122,12 @@ When we view our newly created it will display with the standard templates as sh
 <img src="/doc/images/object_view_plain.jpg" alt="Object view standard" border="1" />
 
 <h2>Custom template</h2>
+
+<p>
+<b>Note: When developing templates you should disable the template cache. The template engine does not check
+the modification date of the templates, this is done to optimize template loading speed. Edit settings/site.ini
+and set ViewCaching=disabled in [ContentSettings].</b>
+</p>
 
 <p>
 The standard template is not how we want our car to be displayed at our webpage. Now we need to get our hands dirty, and create

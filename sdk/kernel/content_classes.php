@@ -52,6 +52,10 @@ it has just been created but is currently being worked on or it is modified whic
 someone is working on a temporary version and a defined version is already exists.
 </p>
 <p>
+<b>Note: To make objects of a new class available to anonymous users you must edit the Anonymous role,
+as this role has specified access limitation by class by default.</b>
+</p>
+<p>
 Creating the class is done by calling the static <b>create()</b> function in <b>eZContentClass</b>,
 it takes one parameter which is the ID of the user creating the class. Usually this is the current
 user which is fetched with <b>eZUser::currentUser()</b>. Once the <b>create()</b> functions returns

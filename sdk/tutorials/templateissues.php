@@ -36,6 +36,12 @@ it, create a file called 'full_class_1.tpl' in the directory 'design/admin/overr
 Login to the admin interface, create a test folder, and fill it with some articles.
 </p>
 
+<p>
+<b>Note: When developing templates you should disable the template cache. The template engine does not check
+the modification date of the templates, this is done to optimize template loading speed. Edit settings/site.ini
+and set ViewCaching=disabled in [ContentSettings].</b>
+</p>
+
 <br>
 <h1>Just a list</h1>
 

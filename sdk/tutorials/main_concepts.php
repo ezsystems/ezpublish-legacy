@@ -149,6 +149,12 @@ is set so that users do not have to log into eZ publish to browse the website.
 <h2>Applying design</h2>
 
 <p>
+<b>Note: When developing templates you should disable the template cache. The template engine does not check
+the modification date of the templates, this is done to optimize template loading speed. Edit settings/site.ini
+and set ViewCaching=disabled in [ContentSettings].</b>
+</p>
+
+<p>
 The main template in eZ publish is called pagelayout.tpl and is located in the templates/
 folder or the current design folder. In our example this is design/mybookstore/templates/pagelayout.tpl.
 This template defines the layout of our website. Here you normally decide where your logo and menu goes.

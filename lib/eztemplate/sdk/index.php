@@ -21,6 +21,10 @@ $infoArray["description"] = "
   handlers fetches the template files using different kind of transport mechanism.
   For simplicity a default resource class is available, eZTemplateFileResource fetches
   templates from the filesystem.</p>
+<p><b>Note: When developing templates you should disable the template cache. The
+  template engine does not check the modification date of the templates, this is done
+  to optimize template loading speed. Edit settings/site.ini and set
+  ViewCaching=disabled in [ContentSettings].</b></p>
 ";
 
 $dependArray = array();
