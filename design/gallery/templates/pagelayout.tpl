@@ -12,6 +12,7 @@
 </style>
 
 </head>
+    {cache-block}
 
 <body>
 
@@ -49,9 +50,20 @@
   							     class_filter_type, exclude, 
 							     class_filter_array, array( 'gallery' ) ) )}
                 {section name=Folder loop=$folder_list}
-                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl} title="{attribute_view_gui attribute=$Folder:item.description}">{$Folder:item.name|wash}</a></li>
                 {/section}
                 {/let}
+    {/cache-block}
+
+                <li>
+                    {section show=$current_user.is_logged_in}
+                        <a href={"user/logout"|ezurl}>Logout</a>
+                    {section-else}
+                        <a href={"user/login"|ezurl}>Login</a>
+                    {/section}
+                </li>
+    {cache-block}
+
                 </ul>
             
             </div>
@@ -123,11 +135,11 @@
                                                           
             <h3>Latest comments</h3>
             <ul>
-                   {section name=Comments loop=$comments_list}
+                   {section var=comment loop=$comments_list}
                        <li>
-                       <a href={concat('content/view/full/',$Comments:item.node_id)|ezurl}>{$Comments:item.name|wash}</a>
+                       <a href={concat( $comment.item.parent.url_alias, "/#commentlist" )|ezurl}>{$comment.item.name|wash}</a>
                        <div class="date">
-                        ({$Comments:item.object.published|l10n( shortdate )})
+                        ({$comment.item.object.published|l10n( shortdate )})
                        </div>  
                        </li>
                     {/section}
@@ -136,6 +148,7 @@
         
         </div>
     </div>
+    {/cache-block}
 
     <div id="maincontent">
         <div class="design">
@@ -143,13 +156,14 @@
     <div id="path">
         <div class="design">
 
+    {cache-block keys=array( $uri_string )}
            <p>
            &gt;
-           {section name=Path loop=$module_result.path }
-               {section show=$Path:item.url}
-                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+           {section var=path loop=$module_result.path }
+               {section show=$path.item.url}
+                   <a href={cond( is_set( $path.item.url_alias ), $path.item.url_alias|ezurl, $path.item.url|ezurl )}>{$path.item.text|wash}</a>
                {section-else}
-    	      {$Path:item.text|wash}
+                   {$path.item.text|wash}
                {/section}
     
                {delimiter}
@@ -157,6 +171,7 @@
                {/delimiter}
             {/section}
            </p>
+    {/cache-block}
 
         </div>
     </div>
@@ -165,6 +180,7 @@
         </div>
     </div>
 
+    {cache-block}
     <div id="footer">
         <div class="design">
         
@@ -179,6 +195,9 @@
 </div>
 
 </body>
+    {/cache-block}
+
+
 {/let}
 </html>
 

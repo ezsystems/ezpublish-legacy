@@ -54,6 +54,10 @@ Changes from 3.2-3 to 3.3.0-1
 - Improved the content download system with support for images. Also the handleDownload function has been
   split into one that figures out the filename and one that does the actual download.
 - Changed the move node operation in content/edit to start from the original node placement.
+- Added view for content classes, most of the datatypes has been implemented for this.
+- Added correct path for versionview, it uses a similar technique as content edit.
+- Added class_attribute_view_gui template function for viewing content class attributes.
+- Added content_attributes_data_map to content edit, it is similar to data_map for a contentobject.
 
 *Templates:
 - navigator/google.tpl has changed the arrows to use arrow characters as HTML entities.

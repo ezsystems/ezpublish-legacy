@@ -1,0 +1,4 @@
+[VersionView]
+AvailableSiteDesignList[]
+AvailableSiteDesignList[]=gallery
+DefaultPreviewDesign=gallery

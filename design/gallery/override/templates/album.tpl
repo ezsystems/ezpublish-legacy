@@ -1,4 +1,5 @@
-{let image_limit=mul( $node.object.data_map.column.content, 4 )
+{default is_preview=false()}
+{let image_limit=mul( $node.object.data_map.column.content, 2 )
      image_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
                                                    class_filter_type, include,
 						   class_filter_array, array( 'image' ) ) )
@@ -20,9 +21,20 @@
                                             limit, 1,
                                             attribute_filter, array( and, array( 'name', '>', $node.object.name ) ),
                                             sort_by, array( 'name', true() ) ) )
+     example_list=false()
      previous_album_image=false()
      next_album_image=false()
      page_count=ceil( div( $image_count, $image_limit ) )}
+
+{section show=and( $is_preview, $image_list|eq( 0 ) )}
+    {set example_list=true()}
+    {set image_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                limit, $image_limit,
+                                                class_filter_type, include,
+                                                class_filter_array, array( 'image' ),
+                                                sort_by, array( 'published', false() ) ) )}
+    {set image_count=$image_list|count}
+{/section}
 
 {section show=$previous_album|gt( 0 )}
     {set previous_album_image=fetch( content, list, hash( parent_node_id, $previous_album[0].node_id,
@@ -47,7 +59,7 @@
     <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
     <input type="hidden" name="ViewMode" value="full" />
 
-    {section show=$node.object.can_edit}
+    {section show=and( $is_preview|not, $node.object.can_edit )}
     <div class="editbutton">
        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
     </div>
@@ -63,10 +75,11 @@
 
     <div class="info">
       {section show=$page_count_count|gt( 1 )}
-          <h2>{$image_count} images in this album on {$page_count} pages</h2>
+          <h2>{$image_count} images in this album on {$page_count} pages{section show=$example_list} (Examples only){/section}</h2>
       {section-else}
-          <h2>{$image_count} images in this album</h2>
+          <h2>{$image_count} images in this album{section show=$example_list} (Examples only){/section}</h2>
       {/section}
+      {section show=$is_preview|not}
       <div class="navigator">
           {include name=navigator
              uri='design:navigator/google.tpl'
@@ -75,6 +88,7 @@
              view_parameters=$view_parameters
              item_limit=$image_limit}
       </div>
+      {/section}
     </div>
   
     <table>
@@ -91,6 +105,7 @@
       </tr>
       </table>
 
+    {section show=$is_preview|not}
     <div class="info">
       <div class="navigator">
           {include name=navigator
@@ -101,6 +116,7 @@
              item_limit=$image_limit}
       </div>
     </div>
+    {/section}
 
     <div class="navigation">
 
@@ -138,6 +154,30 @@
 
     </div>
 
+    {section show=$is_preview|not}
+        <form method="post" action={"content/action"|ezurl}>
+
+        <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+        <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+        <input type="hidden" name="ViewMode" value="full" />
+
+        {let class_list=$node.object.can_create_class_list
+             id_list=array()}
+        {section var=class loop=$class_list}
+            {set id_list=$id_list|array_append( $class.item.id )}
+        {/section}
+        {section show=$id_list|contains( 5 )}
+            <div class="editbutton">
+                <input type="hidden" name="NodeID" value="{$node.node_id}" />
+                <input type="hidden" name="ClassID" value="5" />
+               <input class="button" type="submit" name="NewButton" value="{'New image'|i18n('design/standard/node/view')}" />
+            </div>
+        {/section}
+        {/let}
+        </form>
+    {/section}
+
 </div>
 
 {/let}
+{/default}

@@ -2,6 +2,8 @@
 
    Displays the image in full view with download link and navigation.
 *}
+{default is_preview=false()}
+
 {let comment_limit=5
      comments=fetch( 'content', 'list', hash( parent_node_id, $node.node_id,
                                               sort_by ,array( array( 'published', false() ) ),
@@ -65,9 +67,13 @@
   {attribute_view_gui attribute=$node.object.data_map.caption}
 </p>
 
+{section show=$is_preview|not}
 <div class="download">
     <a href={concat( "content/download/", $node.contentobject_id, "/", $image_attribute.id, "/image/", $image_content.original_filename )|ezurl}>[download-icon-todo]</a>
 </div>
+{/section}
+
+{section show=$is_preview|not}
 
 <div class="navigation">
 
@@ -91,6 +97,7 @@
     </div>
     {/section}
 
+    {cache-block keys=array( $node.parent.node_id )}
     {section show=or( $previous_album_image|gt( 0 ), $next_album_image|gt( 0 ) )}
     <div class="gallery">
         <h2>In gallery <em>{$node.parent.parent.name|wash}</em></h2>
@@ -110,6 +117,7 @@
         </ul>
     </div>
     {/section}
+    {/cache-block}
 
 </div>
 
@@ -129,6 +137,9 @@
 
 </form>
 
+{/section}
+
 </div>
 
 {/let}
+{/default}

@@ -439,6 +439,7 @@ div.image_line img
 #gallery .list .info h2
 {
     background-color: #cccccc;
+    font-weight: bold;
     color: #000000;
 }
 
@@ -482,4 +483,12 @@ div.editbutton input
    font-size: small;
    background-color: #304b82;
    color: #ffffff;
+}
+
+/* Frontpage */
+
+#frontpage .image img
+{
+    background-color: #ff6600;
+    padding: 6px;
 }
