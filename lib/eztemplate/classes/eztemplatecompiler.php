@@ -446,6 +446,8 @@ class eZTemplateCompiler
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
 
+        $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
+
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
         $resourceData['uniqid'] = md5( $resourceData['template-filename']. uniqid( "ezp". getmypid(), true ) );
 
@@ -2082,7 +2084,7 @@ $rbracket
                     if ( isset( $node[1]['spacing'] ) )
                         $spacing += $node[1]['spacing'];
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( !isset( \$textStack ) )\n" .
+                    $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$textStack ) )\n" .
                                         "    \$textStack = array();\n" .
                                         "\$textStack[] = \$$textName;\n" .
                                         "\$$textName = '';", array( 'spacing' => $spacing ) );
@@ -2134,7 +2136,7 @@ $rbracket
                         $variableNameText = $php->variableText( $variableName, 0, 0, false );
                         if ( isset( $node[2]['remember_set'] ) and $node[2]['remember_set'] )
                         {
-                            $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( isset( \$setArray[$namespaceText][$variableNameText] ) )\n".
+                            $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( isset( \$setArray[$namespaceText][$variableNameText] ) )\n".
                                                 "{\n" );
                             $spacing += 4;
                         }
@@ -2314,7 +2316,7 @@ $rbracket
                                 $php->addVariable( "phpScript", $phpScriptArray[$node[10]], EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array('spacing' => $spacing ) );
                             }
 
-                            $php->addCodePiece( "\$resourceFound = false;\nif /*TC:" . __LINE__ . "*/( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( "\$resourceFound = false;\nif " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
                         }
                         else
                         {
@@ -2324,7 +2326,7 @@ $rbracket
                             // Not sure where this should come from
 //                         if ( $resourceIndex > 0 )
 //                             $php->addCodePiece( "else " );
-                            $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
                         }
 
@@ -2354,7 +2356,7 @@ $rbracket
                         /* Yes, this is a hack, but it is required because
                          * sometimes the generated nodes after this one emit an
                          * else statement while there is no accompanied if */
-                        $php->addCodePiece( "\nif /*TC:" . __LINE__ . "*/(false)\n{\n}\n" );
+                        $php->addCodePiece( "\nif " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "(false)\n{\n}\n" );
                     }
 
                     /* The fallback code will be added if we need to process an
@@ -2530,7 +2532,7 @@ END;
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
                     {
-                        $php->addCodePiece( "while /*TC:" . __LINE__ . "*/( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
+                        $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
                                             "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n" .
                                             "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$$generatedVariableName ) : \$$generatedVariableName );\n" .
                                             "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
@@ -2555,7 +2557,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( isset( \$vars[$namespaceText][$variableNameText] ) or\n".
+                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( isset( \$vars[$namespaceText][$variableNameText] ) or\n".
                                             "( \$vars[$namespaceText][$variableNameText] === null ) )\n".
                                             "{\n".
                                             "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
@@ -2573,7 +2575,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( !isset( \$vars[$namespaceText][$variableNameText] ) )\n".
+                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$vars[$namespaceText][$variableNameText] ) )\n".
                                             "{\n".
                                             "    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n".
                                             "    \$setArray[$namespaceText][$variableNameText] = true;\n".
@@ -2584,7 +2586,7 @@ END;
                     {
                         if ( !$isStaticElement )
                             $unsetVariableText = "\n    unset( $variableText );";
-                        $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( !isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
+                        $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$vars[$namespaceText][$variableNameText] ) )\n{\n    \$vars[$namespaceText][$variableNameText] = $variableText;$unsetVariableText\n}",
                                             array( 'spacing' => $spacing ) );
                     }
                 }
@@ -2596,7 +2598,7 @@ END;
                 {
                     if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
                     {
-                        $php->addCodePiece( "while /*TC:" . __LINE__ . "*/( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
+                        $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
                                             "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n",
                                             array( 'spacing' => $spacing ) );
                     }
@@ -2722,7 +2724,7 @@ else
                                                                               array( 'variable' => 'name',
                                                                                      'counter' => 0 ),
                                                                               $resourceData );
-                                    $php->addCodePiece( "if /*TC:" . __LINE__ . "*/( \$currentNamespace != '' )
+                                    $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( \$currentNamespace != '' )
 {
     if ( \$name != '' )
         \$name = \"\$currentNamespace:\$name\";
@@ -3006,7 +3008,7 @@ END;
                 }
 
                 $php->addCodePiece( "if (! isset( \$$variableAssignmentName ) ) \$$variableAssignmentName = NULL;\n", array ( 'spacing' => $spacing ) );
-                $php->addCodePiece( "while /*TC:" . __LINE__ . "*/( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
+                $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
                                                   "    \$$variableAssignmentName = \$$variableAssignmentName" . "->templateValue();\n" );
                 $php->addCodePiece( "\$" . $variableAssignmentName . "Data = array( 'value' => \$$variableAssignmentName );
 \$tpl->processOperator( $operatorNameText,
@@ -3110,7 +3112,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                 $newCode = $tmpPHP->fetch( false );
                                 if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
                                 {
-                                    $newCode .= ( "while /*TC:" . __LINE__ . "*/( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
+                                    $newCode .= ( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
                                                   "    \$$newVariableAssignmentName = \$$newVariableAssignmentName" . "->templateValue();\n" );
                                 }
                                 $matchMap[] = '%code' . $counter . '%';
@@ -3123,7 +3125,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                                                               $persistence, $newParameters, $resourceData );
                                 if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
                                 {
-                                    $php->addCodePiece( "while /*TC:" . __LINE__ . "*/( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
+                                    $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
                                                         "    \$$newVariableAssignmentName = \$$newVariableAssignmentName" . "->templateValue();\n",
                                                         array( 'spacing' => $spacing ) );
                                 }

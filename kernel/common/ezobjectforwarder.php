@@ -76,6 +76,7 @@ class eZObjectForwarder
         if ( !isset( $this->Rules[$functionName] ) )
             return false;
         $rule =& $this->Rules[$functionName];
+        $resourceData =& $privateData['resource-data'];
 
         $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
         $inputName = $rule['input_name'];
@@ -163,7 +164,7 @@ class eZObjectForwarder
             $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
                                                                        $outputName, $namespaceValue,
                                                                        $templateRoot, $viewDir, $viewValue,
-                                                                       $matchFileArray, 0 );
+                                                                       $matchFileArray, 0, $resourceData );
             $newNodes = array_merge( $newNodes, $resourceNodes );
         }
         else
@@ -191,14 +192,14 @@ class eZObjectForwarder
                     $rootMatchValueText = eZPHPCreator::variableText( $rootMatchValue, 0, 0, false );
                     $code = '';
                     if ( $rootMatchCounter > 0 )
-                        $code .= "else /*OF:" . __LINE__ . "*/";
-                    $code .= "if /*OF:" . __LINE__ . "*/( \$templateRootMatch == $rootMatchValueText )\n{";
+                        $code .= "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "";
+                    $code .= "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( \$templateRootMatch == $rootMatchValueText )\n{";
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
 
                     $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
                                                                                $outputName, $namespaceValue,
                                                                                $templateRoot, $viewDir, $viewValue,
-                                                                               $matchFileArray, 4 );
+                                                                               $matchFileArray, 4, $resourceData );
                     $newNodes = array_merge( $newNodes, $resourceNodes );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
                     ++$rootMatchCounter;
@@ -218,7 +219,8 @@ class eZObjectForwarder
     function resourceAcquisitionTransformation( $functionName, &$node, $rule, $inputData,
                                                 $outputName, $namespaceValue,
                                                 $templateRoot, $viewDir, $viewValue,
-                                                $matchFileArray, $acquisitionSpacing )
+                                                $matchFileArray, $acquisitionSpacing,
+                                                &$resourceData )
     {
         $startRoot = '/' . $templateRoot . $viewDir;
         $viewFileMatchName = '/' . $templateRoot . '/' . $viewValue . '.tpl';
@@ -239,7 +241,7 @@ class eZObjectForwarder
                 $viewFileMatch = $matchFile;
         }
         $designKeysName = 'dKeys';
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if /*OF:" . __LINE__ . "*/( !isset( \$$designKeysName ) )\n" .
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$$designKeysName ) )\n" .
                                                                "{\n" .
                                                                "    \$resH =& \$tpl->resourceHandler( 'design' );\n" .
                                                                "    \$$designKeysName =& \$resH->keys();\n" .
@@ -247,7 +249,7 @@ class eZObjectForwarder
         $attributeKeys =& $rule["attribute_keys"];
         if ( isset( $attributeKeys ) )
         {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if /*OF:" . __LINE__ . "*/( !isset( \$" . $designKeysName . "Stack ) )\n" .
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$" . $designKeysName . "Stack ) )\n" .
                                                                    "{\n" .
                                                                    "    \$" . $designKeysName . "Stack = array();\n" .
                                                                    "}\n" .
@@ -283,12 +285,12 @@ class eZObjectForwarder
                 $spacing = $acquisitionSpacing;
                 if ( $attributeAccessCount > 1 )
                 {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else /*OF:" . __LINE__ . "*/ if ( !$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . " if ( !$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
                     $spacing += 4;
                 }
                 else if ( $attributeAccessCount > 0 )
                 {
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if /*OF:" . __LINE__ . "*/( !\$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !\$resourceFound )\n{\n", array( 'spacing' => $acquisitionSpacing ) );
                     $spacing += 4;
                 }
                 foreach ( $attributeAccessEntries as $attributeAccessName )
@@ -309,9 +311,9 @@ class eZObjectForwarder
                     $matchPart = $matchItem['match_part'];
                     if ( preg_match( "/^(.+)\.tpl$/", $matchPart, $matches ) )
                         $matchPart = $matches[1];
-                    $code = "if /*OF:" . __LINE__ . "*/( \$attributeAccess == '$matchPart' )\n{\n";
+                    $code = "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( \$attributeAccess == '$matchPart' )\n{\n";
                     if ( $templateCounter > 0 )
-                        $code = "else /*OF:" . __LINE__ . "*/" . $code;
+                        $code = "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "" . $code;
                     $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $spacing ) );
 
                     $defaultMatchSpacing = $spacing;
@@ -329,13 +331,13 @@ class eZObjectForwarder
                             $code = '';
                             if ( $matchCount > 0 )
                             {
-                                $code = "else /*OF:" . __LINE__ . "*/";
+                                $code = "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "";
                             }
                             if ( $matchConditionCount > 0 )
                             {
                                 if ( $matchCount > 0 )
                                     $code .= " ";
-                                $code .= "if /*OF:" . __LINE__ . "*/( ";
+                                $code .= "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( ";
                             }
                             $ifLength = strlen( $code );
                             $conditionCount = 0;
@@ -381,7 +383,7 @@ class eZObjectForwarder
                             }
                         }
                         if ( $addFileResource )
-                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "else /*OF:" . __LINE__ . "*/ \n{", array( 'spacing' => $customSpacing ) );
+                            $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . " \n{", array( 'spacing' => $customSpacing ) );
                     }
                     else
                     {
@@ -421,7 +423,7 @@ class eZObjectForwarder
                                                                                      $rule['namespace'], 'attributeAccess' );
                     if ( $hasAcquisitionNodes )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else /*OF:" . __LINE__ . "*/\n{", array( 'spacing' => $spacing ) );
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "\n{", array( 'spacing' => $spacing ) );
                         $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
                     }
                 }
@@ -454,7 +456,7 @@ class eZObjectForwarder
             $mainSpacing = 0;
             if ( $hasAttributeAccess )
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else /*OF:" . __LINE__ . "*/\n{\n", array( 'spacing' => $acquisitionSpacing ) );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "\n{\n", array( 'spacing' => $acquisitionSpacing ) );
                 $mainSpacing = 4;
             }
             $templateCounter = 0;
@@ -475,13 +477,13 @@ class eZObjectForwarder
                     $code = '';
                     if ( $matchCount > 0 )
                     {
-                        $code = "else /*OF:" . __LINE__ . "*/";
+                        $code = "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "";
                     }
                     if ( $matchConditionCount > 0 )
                     {
                         if ( $matchCount > 0 )
                             $code .= " ";
-                        $code .= "if /*OF:" . __LINE__ . "*/( ";
+                        $code .= "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( ";
                     }
                     $ifLength = strlen( $code );
                     $conditionCount = 0;
@@ -524,7 +526,7 @@ class eZObjectForwarder
                     }
                 }
                 if ( $addFileResource )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else /*OF:" . __LINE__ . "*/\n{", array( 'spacing' => $acquisitionSpacing ) );
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "\n{", array( 'spacing' => $acquisitionSpacing ) );
             }
             if ( $addFileResource )
             {
