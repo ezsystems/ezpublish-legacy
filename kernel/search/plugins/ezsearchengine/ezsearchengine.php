@@ -129,113 +129,87 @@ class eZSearchEngine
                             $indexArrayOnlyWords[] = $word;
                             $wordCount++;
                         }
-
-                        if ( $wordCount == 1000 ) // generates SQL queries of about maximum 85kB
-                        {
-                            $placement = $this->indexWords( $contentObject, $indexArray, $indexArrayOnlyWords, $placement );
-                            unset( $indexArray );
-                            unset( $indexArrayOnlyWords );
-                            $indexArray = array();
-                            $indexArrayOnlyWords = array();
-                            $wordCount = 0;
-                        }
                     }
-
                 }
             }
         }
 
-        if ( $wordCount != 0 )
+        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
+
+        $wordIDArray =& $this->buildWordIDArray( $indexArrayOnlyWords );
+
+        for( $arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 1000 )
         {
-            $this->indexWords( $contentObject, $indexArray, $indexArrayOnlyWords, $placement );
+            $placement = $this->indexWords( $contentObject, array_slice( $indexArray, $arrayCount, 1000 ), $wordIDArray, $placement );
         }
     }
 
     /*!
       \private
 
-      \param contentObject
-      \param indexArray
-      \param indexArrayOnlyWords
-      \param placement offset
-      Index wordIndex
+      Build WordIDArray and update ezsearch_word table
 
-      \return placement offset
+      \params words for object to add
+
+      \return wordIDArray
     */
-    function indexWords( &$contentObject, &$indexArray, &$indexArrayOnlyWords, $placement = 0 )
+    function &buildWordIDArray( &$indexArrayOnlyWords )
     {
         $db =& eZDB::instance();
 
-        $contentObjectID = $contentObject->attribute( 'id' );
-
-        // Count the total words in index text
-        $totalWordCount = count( $indexArray );
-
-        /* // Needs to be rewritten
-
-        // Count the number of instances of each word
-        $wordCountArray = array_count_values( $indexArray );
-
-        // Strip double words
-        $uniqueIndexArray = array_unique( $indexArray );
-
-        // Count unique words
-        $uniqueWordCount = count( $uniqueIndexArray );
-        */
-
-        // Create an unique array
-        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
-
+        $wordCount = count( $indexArrayOnlyWords );
         $wordIDArray = array();
+        $wordArray = array();
         // store the words in the index and remember the ID
         $dbName = $db->databaseName();
         if ( $dbName == 'mysql' )
         {
-            // Fetch already indexed words from database
-            $wordArray = array();
-            $wordsString = implode( '\',\'', $indexArrayOnlyWords );
-            $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
-
-            // Build a has of the existing words
-            $wordResCount = count( $wordRes );
-            $wordIDArray = array();
-            $existingWordArray = array();
-            for ( $i = 0; $i < $wordResCount; $i++ )
+            for( $arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 500 )
             {
-                $wordIDArray[] = $wordRes[$i]['id'];
-                $existingWordArray[] = $wordRes[$i]['word'];
-                $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
-            }
+                // Fetch already indexed words from database
+                $wordArrayChuck = array_slice( $indexArrayOnlyWords, $arrayCount, 500 );
+                $wordsString = implode( '\',\'',  $wordArrayChuck );
+                $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
 
-            // Update the object count of existing words by one
-            $wordIDString = implode( ',', $wordIDArray );
-            if ( count( $wordIDArray ) > 0 )
+                // Build a has of the existing words
+                $wordResCount = count( $wordRes );
+                $existingWordArray = array();
+                for ( $i = 0; $i < $wordResCount; $i++ )
+                {
+                    $wordIDArray[] = $wordRes[$i]['id'];
+                    $existingWordArray[] = $wordRes[$i]['word'];
+                    $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
+                }
+
+                // Update the object count of existing words by one
+                $wordIDString = implode( ',', $wordIDArray );
+                if ( count( $wordIDArray ) > 0 )
                 $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
-            // Insert if there is any news words
-            $newWordArray = array_diff( $indexArrayOnlyWords, $existingWordArray );
-            if ( count ($newWordArray) > 0 )
-            {
-                $newWordString = implode( "', '1' ), ('", $newWordArray );
-                $db->query( "INSERT INTO
+                // Insert if there is any news words
+                $newWordArray = array_diff( $wordArrayChuck, $existingWordArray );
+                if ( count ($newWordArray) > 0 )
+                {
+                    $newWordString = implode( "', '1' ), ('", $newWordArray );
+                    $db->query( "INSERT INTO
                                ezsearch_word ( word, object_count )
                              VALUES ('$newWordString', '1' )" );
-                $newWordString = implode( "','", $newWordArray );
-                $newWordRes =& $db->arrayQuery( "select id,word from ezsearch_word where word in ( '$newWordString' ) " );
-                $newWordCount = count( $newWordRes );
-                for ( $i=0;$i<$newWordCount;++$i )
-                {
-                    $wordLowercase = strtolower( $newWordRes[$i]['word'] );
-                    $wordArray[$newWordRes[$i]['word']] = $newWordRes[$i]['id'];
+                    $newWordString = implode( "','", $newWordArray );
+                    $newWordRes =& $db->arrayQuery( "select id,word from ezsearch_word where word in ( '$newWordString' ) " );
+                    $newWordCount = count( $newWordRes );
+                    for ( $i=0;$i<$newWordCount;++$i )
+                    {
+                        $wordLowercase = strtolower( $newWordRes[$i]['word'] );
+                        $wordArray[$newWordRes[$i]['word']] = $newWordRes[$i]['id'];
+                    }
                 }
             }
-            $wordIDArray = $wordArray;
         }
         else
         {
-            foreach ( $indexArray as $indexWord )
+            foreach ( $indexArrayOnlyWords as $indexWord )
             {
-                $indexWord = strToLower( $indexWord['Word'] );
+                $indexWord = strToLower( $indexWord );
 
                 // Store word if it does not exist.
                 $wordRes = array();
@@ -255,9 +229,44 @@ class eZSearchEngine
                     $wordID = $db->lastSerialID( "ezsearch_word", "id" );
                 }
 
-                $wordIDArray[$indexWord] = $wordID;
+                $wordArray[$indexWord] = $wordID;
             }
         }
+
+        return $wordArray;
+    }
+
+    /*!
+      \private
+
+      \param contentObject
+      \param indexArray
+      \param wordIDArray
+      \param placement
+
+      \return last placement
+      Index wordIndex
+    */
+    function indexWords( &$contentObject, &$indexArray, &$wordIDArray, $placement = 0 )
+    {
+        $db =& eZDB::instance();
+
+        $contentObjectID = $contentObject->attribute( 'id' );
+
+        // Count the total words in index text
+        $totalWordCount = count( $indexArray );
+
+        /* // Needs to be rewritten
+
+        // Count the number of instances of each word
+        $wordCountArray = array_count_values( $indexArray );
+
+        // Strip double words
+        $uniqueIndexArray = array_unique( $indexArray );
+
+        // Count unique words
+        $uniqueWordCount = count( $uniqueIndexArray );
+        */
 
         $prevWordID = 0;
         $nextWordID = 0;
