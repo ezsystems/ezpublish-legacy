@@ -87,102 +87,103 @@
     </message>
     <message>
         <source>My notification settings</source>
-        <translation>Mine meldingsinnstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>Mine bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Templates</source>
-        <translation>Maler</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>RAD</source>
-        <translation>RAD</translation>
-    </message>
-    <message>
-        <source>Cache</source>
-        <translation>Cache</translation>
-    </message>
-    <message>
-        <source>Notification</source>
-        <translation>Meldinger</translation>
-    </message>
-    <message>
-        <source>System information</source>
-        <translation>Systeminformasjon</translation>
+        <comment>Rapid Application Development</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation>Oppsett av utvidelser</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
     <message>
         <source>Article</source>
-        <translation>Artikkel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Placed in</source>
-        <translation>Plassert i</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Kommentar</translation>
+        <translation type="unfinished">Kommentar</translation>
     </message>
     <message>
         <source>File</source>
-        <translation>Fil</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Folder</source>
-        <translation>Katalog</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Forum</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Forum message</source>
-        <translation>Forummelding</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image</source>
-        <translation>Bilde</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Info page</source>
-        <translation>Infoside</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Default object view</source>
-        <translation>Standard objektvisning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Product</source>
-        <translation>Produkt</translation>
+        <translation type="unfinished">Produkt</translation>
     </message>
     <message>
         <source>Product review</source>
-        <translation>Produktanmeldelse</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User</source>
-        <translation>Bruker</translation>
+        <translation type="unfinished">Bruker</translation>
     </message>
     <message>
         <source>Also part of these groups</source>
-        <translation>Også medlem av disse gruppene</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User group</source>
-        <translation>Brukergruppe</translation>
+        <translation type="unfinished">Brukergruppe</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation>Brukere</translation>
+        <translation type="unfinished">Brukere</translation>
     </message>
 </context>
 <context>
@@ -335,6 +336,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>New objects will be placed in %nodename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>New objects will not be placed in the content tree</source>
         <translation type="unfinished"></translation>
     </message>
@@ -346,13 +351,13 @@
         <source>Disable placement</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
+    <message>
+        <source>Created by</source>
+        <translation type="obsolete">Laget av</translation>
+    </message>
     <message>
         <source>on</source>
         <translation> den</translation>
@@ -414,12 +419,20 @@
         <translation>Forkast</translation>
     </message>
     <message>
+        <source>Editing class group</source>
+        <translation type="obsolete">Redigerer klassegruppe</translation>
+    </message>
+    <message>
         <source>Confirm</source>
         <translation>Bekreft</translation>
     </message>
     <message>
         <source>Cancel</source>
         <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Editing class</source>
+        <translation type="obsolete">Redigerer klassen</translation>
     </message>
     <message>
         <source>Last modified by</source>
@@ -479,15 +492,15 @@
     </message>
     <message>
         <source>Editing class - %1</source>
-        <translation>Redigerer klasse - %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Editing class group - %1</source>
-        <translation>Redigerer klassegruppe - %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation type="unfinished">URL</translation>
     </message>
 </context>
 <context>
@@ -522,7 +535,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Hjelp</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -623,6 +636,10 @@
         <translation>Godkjenning</translation>
     </message>
     <message>
+        <source>%1 was deferred for reediting</source>
+        <translation type="obsolete">%1 ble utsatt for republisering</translation>
+    </message>
+    <message>
         <source>Read</source>
         <translation>Les</translation>
     </message>
@@ -662,6 +679,18 @@
         <translation>Innholdsobjektet %1 ble godkjent og vil bli publisert når arbeidsflyten fortsetter.</translation>
     </message>
     <message>
+        <source>You must reedit the draft and publish it again for the approval to continue.</source>
+        <translation type="obsolete">Du må redigere utkastet og publisere det igjen hvis du vil sende det til ny godkjenning.</translation>
+    </message>
+    <message>
+        <source>If the approver finds the new changes satisfying the object will be accepted.</source>
+        <translation type="obsolete">Redaktøren vil akseptere objektet hvis endringene blir godkjent.</translation>
+    </message>
+    <message>
+        <source>The author must reedit the draft and publish it again for the approval to continue.</source>
+        <translation type="obsolete">Forfatteren må redigere utkastet og publisere det igjen hvis det skal sendes til ny godkjenning.</translation>
+    </message>
+    <message>
         <source>Comment</source>
         <translation>Kommentar</translation>
     </message>
@@ -682,8 +711,16 @@
         <translation>Deltakere</translation>
     </message>
     <message>
+        <source>Content object class - %1</source>
+        <translation type="obsolete">Klasse til innholdsobject - %1</translation>
+    </message>
+    <message>
         <source>Messages</source>
         <translation>Meldinger</translation>
+    </message>
+    <message>
+        <source>The content object %1 was not approved and will be archived. If you wish you may publish a new version of the object by clicking the edit link.</source>
+        <translation type="obsolete">Innholdsobjektet %1 ble ikke godkjent, og ble arkivert. Hvis du vil kan du publisere en ny versjon av objektet ved å klikke Rediger-lenken.</translation>
     </message>
     <message>
         <source>Edit the object</source>
@@ -810,6 +847,14 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="obsolete">Slett</translation>
+    </message>
+    <message>
+        <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1089,32 +1134,32 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>E-post</translation>
     </message>
     <message>
+        <source>New row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Replace object</source>
-        <translation>Erstatt objekt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation>Fjern objekt</translation>
-    </message>
-    <message>
-        <source>New row</source>
-        <translation>Ny rad</translation>
+        <translation type="unfinished">Fjern objekt</translation>
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation>Lag ny %classname</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation>Legg til %classname</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>Rediger objekter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove objects</source>
-        <translation>Fjern objekter</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1285,11 +1330,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit %1 - %2</source>
-        <translation>Rediger %1 - %2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New draft</source>
-        <translation>Nytt utkast</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1384,7 +1429,12 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>For more options try the %1Advanced search%2</source>
-        <translation>For flere valg, prøv %1Avansert søk%2</translation>
+        <translation type="obsolete">For flere valg, prøv %1Avansert søk%2</translation>
+    </message>
+    <message>
+        <source>For more options try the %1Advanced search%2</source>
+        <comment>The parameters are link start and end tags.</comment>
+        <translation type="unfinished">For flere valg, prøv %1Avansert søk%2</translation>
     </message>
     <message>
         <source>Display per page</source>
@@ -1485,6 +1535,14 @@ If you wish to send comments to the approver or view the status use the URL belo
 <context>
     <name>design/standard/content/translate</name>
     <message>
+        <source>Translating</source>
+        <translation type="obsolete">Oversetter</translation>
+    </message>
+    <message>
+        <source>Remove the following translations from</source>
+        <translation type="obsolete">Fjern følgende oversettelser fra</translation>
+    </message>
+    <message>
         <source>(No locale information available)</source>
         <translation>(Ingen stedsinformasjon tilgjengelig)</translation>
     </message>
@@ -1534,11 +1592,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Translating &apos;%1&apos;</source>
-        <translation>Oversetter &apos;%1&apos;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove the following translations from &apos;%1&apos;</source>
-        <translation>Fjern følgende oversettelser fra &apos;%1&apos;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1577,14 +1635,26 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Empty Trash</source>
-        <translation>Tøm papirkurven</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/version</name>
     <message>
+        <source>Versions for:</source>
+        <translation type="obsolete">Versjoner av:</translation>
+    </message>
+    <message>
         <source>Version not a draft</source>
         <translation>Versjonen er ikke et utkast</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="obsolete">Versjon</translation>
+    </message>
+    <message>
+        <source>is not available for editing anymore, only drafts can be edited.</source>
+        <translation type="obsolete">kan ikke redigeres, bare utkast kan redigeres.</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
@@ -1593,6 +1663,10 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>Version not yours</source>
         <translation>Versjonen er ikke laget av deg</translation>
+    </message>
+    <message>
+        <source>was not created by you, only your own drafts can be edited.</source>
+        <translation type="obsolete">er ikke laget av deg. Du kan bare redigere dine egne utkast.</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -1624,15 +1698,15 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>Versjoner av: %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
-        <translation>Versjon %1 kan ikke redigeres, bare utkast kan redigeres.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Version %1 was not created by you, only your own drafts can be edited.</source>
-        <translation>Versjon %1 er ikke laget av deg. Du kan bare redigere dine egne utkast.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unable to create new version</source>
@@ -1734,8 +1808,20 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Klikk på navnet til et objekt og du får en liste over barna til dette objektet. Slik kan du velge et objekt som er på et høyere nivå i treet.</translation>
     </message>
     <message>
+        <source>Choose initial placement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please choose where you want to place the new %classname.
+
+    Select the placement and click the %buttonname button.
+    Using the recent and bookmark items for quick placement is also possible.
+    Click on placement names to change the browse listing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>My bookmarks</source>
-        <translation>Mine bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
@@ -1746,27 +1832,27 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Add bookmarks</source>
-        <translation>Legg til bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You have no bookmarks</source>
-        <translation>Du har ingen bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Up one level</source>
-        <translation>Opp ett nivå</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Top levels</source>
-        <translation>Topnivåer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switch top levels by clicking one of these items.</source>
-        <translation>Bytt topnivå ved å klikke en av disse enhetene.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation>Bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
@@ -1793,20 +1879,8 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose initial placement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose where you want to place the new %classname.
-
-    Select the placement and click the %buttonname button.
-    Using the recent and bookmark items for quick placement is also possible.
-    Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Choose new placement</source>
-        <translation type="unfinished">Velg ny plassering</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -1819,7 +1893,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Choose placements</source>
-        <translation type="unfinished">Velg plasseringer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -1831,7 +1905,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation type="unfinished">Velg relaterte objekter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -1842,16 +1916,16 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Empty Draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Sist endret</translation>
-    </message>
-    <message>
-        <source>Empty Draft</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1903,26 +1977,26 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>View is disabled</source>
-        <translation>Visningen er sperret</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The view %2/%1 is disabled and cannot be accessed.</source>
-        <translation>Visningen %2/%1 er sperret og kan ikke brukes.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Module is disabled</source>
-        <translation>Modulen er sperret</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The module %1 is disabled and cannot be accessed.</source>
-        <translation>Modulen %1 er sperret og kan ikke brukes.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/gui</name>
     <message>
         <source>Delete</source>
-        <translation>Slett</translation>
+        <translation type="unfinished">Slett</translation>
     </message>
 </context>
 <context>
@@ -2013,7 +2087,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Revision:</source>
-        <translation>Revisjon:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2130,62 +2204,26 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Bookmark</source>
-        <translation>Bokmerke</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Keep me updated</source>
-        <translation>Hold meg oppdatert</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to Bookmarks</source>
-        <translation>Legg til bokmerke</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation>Gi meg beskjed om oppdateringer</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification</name>
     <message>
-        <source>Do you want to receive messages combined in digest</source>
-        <translation>Vil du motta meldinger i form av et sammendrag</translation>
-    </message>
-    <message>
-        <source>Digest settings</source>
-        <translation>Sammendragsinnstillinger</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation>Ny</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Store</source>
-        <translation>Lagre</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Day of the week</source>
-        <translation>Ukedag</translation>
-    </message>
-    <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Receive all messages combined in one digest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2202,6 +2240,14 @@ The item can viewed by using the URL below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Receive all messages combined in one digest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>[%sitename] Digest for %date</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2210,8 +2256,28 @@ The item can viewed by using the URL below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Do you want to receive messages combined in digest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digest settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of the week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>This email is to inform you on news at %sitename.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished">Ny</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Fjern</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
@@ -2221,6 +2287,14 @@ The item can viewed by using the URL below.</source>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store</source>
+        <translation type="unfinished">Lagre</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Avbryt</translation>
     </message>
 </context>
 <context>
@@ -2293,12 +2367,28 @@ The item can viewed by using the URL below.</source>
         <translation>Steg 3</translation>
     </message>
     <message>
+        <source>Specify limitations in function</source>
+        <translation type="obsolete">Spesifiser begrensninger i funksjonen</translation>
+    </message>
+    <message>
+        <source>in module</source>
+        <translation type="obsolete">i modulen</translation>
+    </message>
+    <message>
+        <source>&apos;Any&apos; means no limitation by this parameter.</source>
+        <translation type="obsolete">&apos;Alle&apos; betyr ingen begrensninger.</translation>
+    </message>
+    <message>
         <source>Any</source>
         <translation>Alle</translation>
     </message>
     <message>
         <source>Ok</source>
         <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Role edit</source>
+        <translation type="obsolete">Rolleredigering</translation>
     </message>
     <message>
         <source>New</source>
@@ -2378,39 +2468,39 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Spesifiser begrensninger for funksjonen &apos;%functionname&apos; i modulen &apos;%modulename&apos;. &apos;Alle&apos; betyr ingen begrensninger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation>Rolleredigering %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit policy</source>
-        <translation>Rediger rolleregel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Policy</source>
-        <translation>Rolleregel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Node</source>
-        <translation>Node</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation>Ikke spesifisert.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subtree</source>
-        <translation>Undertre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Oppdater</translation>
+        <translation type="unfinished">Oppdater</translation>
     </message>
     <message>
         <source>Role</source>
-        <translation>Rolle</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2532,15 +2622,15 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Node notification</source>
-        <translation>Nodemeldinger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation>Meldingsinnstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation type="unfinished">Velg seksjonstilordning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -2703,7 +2793,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Cache admin</source>
-        <translation type="unfinished">Cache administrering</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Content view cache was cleared.</source>
@@ -2742,11 +2832,132 @@ The item can viewed by using the URL below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Datatype wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <comment>Datatype start</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basic information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of datatype</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descriptive name of datatype</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handle input on class level</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <comment>Datatype next</comment>
+        <translation type="unfinished">Neste</translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <comment>Datatype restart</comment>
+        <translation type="unfinished">Restart</translation>
+    </message>
+    <message>
+        <source>Optional information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name of class</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constant name</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The creator of the datatype</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description of your datatype</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The first line will be used as the brief description and the rest are operator documentation.</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Handles the datatype %datatypename
+By using %datatypename you can ...</source>
+        <comment>Datatype default description</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
+        <comment>Datatype</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <comment>Datatype download</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extension setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>System information</source>
-        <translation type="unfinished">Systeminformasjon</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <comment>eZ publish version</comment>
+        <translation type="unfinished">Versjon</translation>
+    </message>
+    <message>
+        <source>SVN revision</source>
+        <comment>eZ publish version</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Extensions</source>
+        <comment>eZ publish extensions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <comment>PHP version</comment>
+        <translation type="unfinished">Versjon</translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <comment>PHP extensions</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2798,7 +3009,13 @@ The item can viewed by using the URL below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Type</source>
+        <comment>Database type</comment>
+        <translation type="unfinished">Type</translation>
+    </message>
+    <message>
         <source>Charset</source>
+        <comment>Database charset</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2811,14 +3028,23 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Tools</source>
+        <comment>RAD Tools</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation type="unfinished">Maloperator-hjelper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create new template override for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create template, permission denied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2843,7 +3069,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished">Node</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Base template on</source>
@@ -2867,11 +3093,11 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Object</source>
-        <translation type="unfinished">Objekt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Template list</source>
-        <translation type="unfinished">Malliste</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Most common templates</source>
@@ -2891,89 +3117,99 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Basic information</source>
+        <comment>Template operator start</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name of operator</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>One operator in class</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Handles operator input</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generates operator output</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Parameter handling</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
+        <comment>Template operator next</comment>
         <translation type="unfinished">Neste</translation>
     </message>
     <message>
         <source>Restart</source>
+        <comment>Template operator restart</comment>
         <translation type="unfinished">Restart</translation>
     </message>
     <message>
-        <source>Optional information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Name of class</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The creator of the operator</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description of your operator</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
+        <comment>Template operator default description</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Example code</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
+        <comment>Template operator</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
+        <comment>Template operator download</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Template view</source>
-        <translation type="unfinished">Malvisning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Default template resource</source>
@@ -2989,7 +3225,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">Fil</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Match conditions</source>
@@ -3007,69 +3243,12 @@ The default code was made from the basic parameters you chose.</source>
         <source>Create new</source>
         <translation type="unfinished">Lag ny</translation>
     </message>
-    <message>
-        <source>Datatype wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name of datatype</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Descriptive name of datatype</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Handle input on class level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Constant name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The creator of the datatype</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description of your datatype</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Handles the datatype %datatypename
-By using %datatypename you can ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extension setup</source>
-        <translation type="unfinished">Oppsett av utvidelser</translation>
-    </message>
-    <message>
-        <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Available extensions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SVN revision</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not create template, permission denied.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation>Konstruktør</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3190,6 +3369,18 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The database is ready for initialization, click the</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Create Database</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>button when ready.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3250,12 +3441,24 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Continue and remove the data.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Continue and skip database initialization.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Let me choose a new database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Note:</source>
         <translation type="unfinished">Merk:</translation>
+    </message>
+    <message>
+        <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
@@ -3286,8 +3489,16 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The database was succesfully initialized, you are now ready for some post configuration of the site. Click the</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Configure</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>button to start the configuration process.</source>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No database connection</source>
@@ -3426,6 +3637,10 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>which must available on the server or</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>SMTP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3470,16 +3685,52 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>If you need help with eZ publish, you can go to the</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>eZ publish website</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you find a bug (error), please go to</source>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>and report it.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>With your help we can fix the errors eZ publish might have and implement new features.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>If you ever want to restart this setup, edit the file</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>and look for a line that says:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Click on the URL to access your new</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>or click the</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Done</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>button. Enjoy one of the most successful web content management systems!</source>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
@@ -3586,6 +3837,10 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Register Site</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3690,6 +3945,14 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>button to re-run the system checking.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Welcome to the setup program for eZ publish</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3724,6 +3987,10 @@ By using %datatypename you can ...</source>
     <message>
         <source>URL to your site</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
@@ -3762,7 +4029,25 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
+  If you find a bug (error), please go to %buglink and report it.
+  With your help we can fix the errors eZ publish might have and implement new features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>ez.no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the second line from %false to %true.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3771,6 +4056,10 @@ By using %datatypename you can ...</source>
     </message>
     <message>
         <source>Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your site is running in virtualhost mode and is considered secure. You may safely continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3784,6 +4073,10 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Administrator E-Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Securing Site</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3793,32 +4086,6 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Welcome to the setup program for eZ publish %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your site is running in virtualhost mode and is considered secure. You may safely continue.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Administrator E-Mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
-  If you find a bug (error), please go to %buglink and report it.
-  With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change the second line from %false to %true.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4012,6 +4279,30 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>It&apos;s recommended that the option is turned off. To turn it off edit your</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>configuration and set</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>and</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>More information on the subject can be found at</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Configuration example:</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Insufficient PHP version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4203,6 +4494,10 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
         <translation>Redigerer regel</translation>
     </message>
     <message>
+        <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
+        <translation type="obsolete">Velg hvilke klasser eller seksjoner som tilordnes denne underregelen. &apos;Alle&apos; betyr at regelen gjelder for alt.</translation>
+    </message>
+    <message>
         <source>Any</source>
         <translation>Alle</translation>
     </message>
@@ -4376,38 +4671,43 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     </message>
     <message>
         <source>Find</source>
-        <translation>Finn</translation>
+        <translation type="unfinished">Finn</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>Customer name</comment>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <source>Attributes</source>
-        <translation>Attributter</translation>
+        <translation type="unfinished">Attributter</translation>
     </message>
     <message>
         <source>Rule settings</source>
-        <translation>Regelinnstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Choose which classes, sections or objects ( products ) applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation>Velg hvilke klasser, seksjoner eller objekter (produkter) denne regelen skal gjelde for. &apos;Alle&apos; betyr at regelen gjelder for alle.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Object</source>
-        <translation>Objekt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation>Ikke spesifisert.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation>Sorter</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation>Velg kunder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -4415,15 +4715,11 @@ If you do not have the possiblity to use virtualhost mode you should follow the 
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Velg kundene du vil legge til tilbudsgruppen &apos;%groupname&apos;.
-
-Velg kundene og klikk på &apos;%buttonname&apos;-knappen.
-Bruk nylig valgte og bokmerker for raskere valg.
-Klikk navnene til objektene for å gå igjennom treet.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation>Velg product for avslag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -4431,11 +4727,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation>Velg produktene du vil legge til tilbudsregelen %discountname i tilbudsgruppen &apos;%groupname&apos;.
-
-Velg produktene og klikk på &apos;%buttonname&apos;-knappen.
-Bruk nylig valgte og bokmerker for raskere valg.
-Klikk navnene til objektene for å gå igjennom treet.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4513,14 +4805,14 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Objects which use this link:</source>
-        <translation>Objekter som bruker denne linken:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
     <message>
         <source>Editing URL - %1</source>
-        <translation>Redigerer URL - %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4531,11 +4823,19 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation>Registrer</translation>
+        <translation type="obsolete">Registrer</translation>
     </message>
     <message>
         <source>Activate account</source>
         <translation>Aktiver konto</translation>
+    </message>
+    <message>
+        <source>Registed user profile</source>
+        <translation type="obsolete">Registrert brukerprofil</translation>
+    </message>
+    <message>
+        <source>Update Profile</source>
+        <translation type="obsolete">Oppdater profil</translation>
     </message>
     <message>
         <source>Change Password</source>
@@ -4638,28 +4938,38 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <translation>Gjenta passord</translation>
     </message>
     <message>
+        <source>Login</source>
+        <comment>Button</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>User profile</source>
-        <translation>Brukerprofil</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Navn</translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <source>Edit Profile</source>
-        <translation>Rediger profil</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Up</source>
+        <comment>Button</comment>
+        <translation type="unfinished">Registrer</translation>
     </message>
     <message>
         <source>Please retype your old password.</source>
-        <translation>Gjenta gammelt passord.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password didn&apos;t match, please retype your new password.</source>
-        <translation>Passordene var ikke like, vennligst skriv inn ditt nye passord igjen.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password successfully updated.</source>
-        <translation>Passordet ble endret.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4908,7 +5218,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Workflows in %1</source>
-        <translation>Arbeidsflyt i %1</translation>
+        <translation type="obsolete">Arbeidsflyt i %1</translation>
     </message>
     <message>
         <source>New group</source>
@@ -4917,6 +5227,11 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <message>
         <source>New workflow</source>
         <translation>Ny arbeidsflyt</translation>
+    </message>
+    <message>
+        <source>Workflows in %1</source>
+        <comment>%1 is workflow group</comment>
+        <translation type="unfinished">Arbeidsflyt i %1</translation>
     </message>
 </context>
 <context>
@@ -4970,6 +5285,10 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <translation>Melding</translation>
     </message>
     <message>
+        <source>Section IDs</source>
+        <translation type="obsolete">SeksjonsIDer</translation>
+    </message>
+    <message>
         <source>Users without workflow IDs</source>
         <translation>Brukere uten arbeidsflyt IDer</translation>
     </message>
@@ -4991,11 +5310,11 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
-        <translation>Klasser som skal kjøre arbeidsflyt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Workflow to run</source>
-        <translation>Arbeidsflyt som skal kjøre</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5148,11 +5467,11 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Workflow fetches template</source>
-        <translation>Arbeidsflyt henter mal</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Workflow redirects user view</source>
-        <translation>Arbeidsflyt videresender brukervisning</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5431,7 +5750,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>Mine bokmerker</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5490,7 +5809,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <name>kernel/notification</name>
     <message>
         <source>Notification settings</source>
-        <translation>Meldingsinnstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5513,7 +5832,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>Editing policy</source>
-        <translation>Redigerer rolleregel</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5538,43 +5857,43 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <name>kernel/setup</name>
     <message>
         <source>Cache admin</source>
-        <translation>Cache administrering</translation>
-    </message>
-    <message>
-        <source>System information</source>
-        <translation>Systeminformasjon</translation>
-    </message>
-    <message>
-        <source>Rapid Application Development</source>
-        <translation>Rapid Application Development</translation>
-    </message>
-    <message>
-        <source>Template list</source>
-        <translation>Malliste</translation>
-    </message>
-    <message>
-        <source>Template view</source>
-        <translation>Malvisning</translation>
-    </message>
-    <message>
-        <source>Create new template</source>
-        <translation>Lag ny mal</translation>
-    </message>
-    <message>
-        <source>Template edit</source>
-        <translation>Malredigering</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation>Maloperator-hjelper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Extension configuration</source>
-        <translation>Utvidelsesinstillinger</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rapid Application Development</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template edit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Activate extensions</source>
-        <translation>Aktiver utvidelser</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5647,7 +5966,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     </message>
     <message>
         <source>URL edit</source>
-        <translation>URL-redigering</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5738,15 +6057,15 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
     <name>setup/templateadmin</name>
     <message>
         <source>Template edit</source>
-        <translation>Malredigering</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Lagre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Forkast</translation>
+        <translation type="unfinished">Forkast</translation>
     </message>
 </context>
 </TS>
