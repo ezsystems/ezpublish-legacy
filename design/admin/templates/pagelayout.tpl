@@ -238,6 +238,7 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 <h3 class="hide">Right</h3>
 
 {tool_bar name='admin_right' view=full}
+{tool_bar name='admin_developer' view=full}
 
 </div>
 </div>

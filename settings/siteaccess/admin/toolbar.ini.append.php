@@ -4,6 +4,7 @@
 AvailableToolBarArray[]
 AvailableToolBarArray[]=setup
 AvailableToolBarArray[]=admin_right
+AvailableToolBarArray[]=admin_developer
 
 [Tool]
 AvailableToolArray[]
@@ -25,6 +26,9 @@ Tool[]=setup_link
 Tool[]
 Tool[]=admin_current_user
 Tool[]=admin_bookmarks
+
+[Toolbar_admin_developer]
+Tool[]
 Tool[]=admin_clear_cache
 Tool[]=admin_quick_settings
 

@@ -392,6 +392,8 @@ function eZSetupAdminToolbarINISettings( $siteType, $parameters )
                 'AvailableToolBarArray' =>
                 array (
                     0 => 'setup',
+                    1 => 'admin_right',
+                    2 => 'admin_developer'
                     ),
                 ),
             'Tool' =>
@@ -399,6 +401,10 @@ function eZSetupAdminToolbarINISettings( $siteType, $parameters )
                 'AvailableToolArray' =>
                 array (
                     0 => 'setup_link',
+                    1 => 'admin_current_user',
+                    2 => 'admin_bookmarks',
+                    3 => 'admin_clear_cache',
+                    4 => 'admin_quick_settings',
                     ),
                 ),
             'Toolbar_setup' =>
@@ -410,6 +416,22 @@ function eZSetupAdminToolbarINISettings( $siteType, $parameters )
                     2 => 'setup_link',
                     3 => 'setup_link',
                     4 => 'setup_link',
+                    ),
+                ),
+            'Toolbar_admin_right' =>
+            array (
+                'Tool' =>
+                array (
+                    0 => 'admin_current_user',
+                    1 => 'admin_bookmarks',
+                    ),
+                ),
+            'Toolbar_admin_developer' =>
+            array (
+                'Tool' =>
+                array (
+                    0 => 'admin_clear_cache',
+                    1 => 'admin_quick_settings',
                     ),
                 ),
             'Tool_setup_link' =>
