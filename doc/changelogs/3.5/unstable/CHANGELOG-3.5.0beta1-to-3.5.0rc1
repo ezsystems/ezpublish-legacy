@@ -38,5 +38,8 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - Added missing operator i18n for RSS Exports.
 - Fixed bug: management is not working when using old admin interface.
   http://ez.no/community/bug_reports/old_admin_menu_management
+- Fixed problem with versionview not displaying objects in trash.
+  http://ez.no/community/bug_reports/view_in_trash
+  (Merged from stable/3.4 (3.4.3) rev. 9270)
 
 
