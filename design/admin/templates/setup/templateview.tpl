@@ -73,7 +73,7 @@
         <input class="button" type="submit" name="RemoveOverrideButton" value="{"Remove selected"|i18n( 'design/standard/setup/templateview' )}" {section show=$template_settings.custom_match|not}disabled="disabled"{/section} />
         <input class="button" type="submit" name="NewOverrideButton" value="{"New override"|i18n( 'design/standard/setup/templateview' )}" />
         <div class="right">
-            <input class="button" type="submit" name="UpdateOverrideButton" value="{"Update priorities"|i18n( 'design/standard/setup/templateview' )}" />
+            <input class="button" type="submit" name="UpdateOverrideButton" value="{"Update priorities"|i18n( 'design/standard/setup/templateview' )}" {section show=$template_settings.custom_match|not}disabled="disabled"{/section} />
         </div>
     </div>
 </div>
