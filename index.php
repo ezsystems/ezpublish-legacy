@@ -29,6 +29,8 @@
 // you.
 //
 
+ob_start();
+
 $scriptStartTime = microtime();
 
 $use_external_css = true;
@@ -226,6 +228,7 @@ header( 'Content-language: ' . $languageCode );
 
 include_once( "lib/ezutils/classes/ezsys.php" );
 
+
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
@@ -267,7 +270,7 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
-ob_start();
+
 
 include( "lib/ezutils/classes/ezweb.php" );
 
@@ -573,7 +576,6 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 }
 
 
-
 eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
 if ( !is_array( $moduleResult ) )
 {
@@ -682,6 +684,7 @@ else
 {
     $templateResult =& $moduleResult['content'];
 }
+
 
 eZDebug::addTimingPoint( "End" );
 
