@@ -2770,6 +2770,11 @@ else
             $spacing = $parameters['spacing'];
         if ( $variableAssignmentCounter > 0 )
             $variableAssignmentName .= $variableAssignmentCounter;
+
+        // We need to unset the assignment variable before any elements are processed
+        // This ensures that we don't work on existing variables
+        $php->addCodePiece( "unset( \$$variableAssignmentName );\n", array( 'spacing' => $spacing ) );
+
         foreach ( $variableData as $variableDataItem )
         {
             $variableDataType = $variableDataItem[0];
