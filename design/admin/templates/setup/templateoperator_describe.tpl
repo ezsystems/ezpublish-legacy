@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Template operator wizard (step 2 of 2)'|i18n( 'design/admin/setup/rad/templateoperator' )}</h1>
+<h1 class="context-title">{'Template operator wizard (step 3 of 3)'|i18n( 'design/admin/setup/rad/templateoperator' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
