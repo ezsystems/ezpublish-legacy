@@ -94,6 +94,7 @@ links to clickable links.
 - Added suport for custom cancel message ( template ) in checkout
 - Fixed bug with numbering in nice urls
 - Fixed problem with multiple word search
+- Added stopword support in search engine for searching large ammounts of data
 
 *SDK :
 
