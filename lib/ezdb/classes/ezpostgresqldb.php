@@ -404,6 +404,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "DROP $relationTypeName $relationName";
+            return $this->query( $sql );
         }
         return false;
     }
