@@ -21,6 +21,7 @@ DEV_TEXT=""
 VERSION=$MAJOR"."$MINOR$DEV_TEXT"-"$RELEASE
 VERSION_NORELEASE=$MAJOR"."$MINOR$DEV_TEXT
 VERSION_ONLY=$MAJOR"."$MINOR
+VERSION_ALIAS="$VERSION_NORELEASE release $RELEASE"
 BRANCH_VERSION=$MAJOR"."$MINOR
 # If non-empty the script will check for changelog and db update from $LAST_STABLE
 FIRST_STABLE=""
@@ -72,6 +73,16 @@ if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
     [ -n "$EXIT_AT_ONCE" ] && exit 1
 fi
 
+if ! grep "VERSION_NICK=\"$VERSION_ALIAS\"" bin/shell/common.sh &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_NICK"
+    echo "Should be:"
+    echo "VERSION_NICK=\"`$SETCOLOR_EMPHASIZE`$VERSION_ALIAS`$SETCOLOR_NORMAL`\""
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
 # lib/version.php
 
 if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
@@ -109,6 +120,16 @@ if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.
     echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_DEVELOPMENT"
     echo "Should be:"
     echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+    echo
+    MAIN_ERROR="1"
+    [ -n "$EXIT_AT_ONCE" ] && exit 1
+fi
+
+if ! grep "define( 'EZ_SDK_VERSION_ALIAS', \"$VERSION_ALIAS\" );" lib/version.php &>/dev/null; then
+    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_ALIAS"
+    echo "Should be:"
+    echo "define( \"EZ_SDK_VERSION_ALIAS\", \"`$SETCOLOR_EMPHASIZE`$VERSION_ALIAS`$SETCOLOR_NORMAL`\" );"
     echo
     MAIN_ERROR="1"
     [ -n "$EXIT_AT_ONCE" ] && exit 1
