@@ -65,10 +65,10 @@ function stepTwo( &$tpl, &$http )
         $dbEncoding    = $http->postVariable( "builtin_encoding" );
     else
         $dbEncoding    = "true";
-    /* if ( $http->hasVariable( "dbCreateUser" ) )
+    if ( $http->hasVariable( "dbCreateUser" ) )
         $dbCreateUser  = $http->postVariable( "dbCreateUser" );
     else
-        $dbCreateUser  = ""; */
+        $dbCreateUser  = "";
 
     
     // Assign some defaults
@@ -77,7 +77,7 @@ function stepTwo( &$tpl, &$http )
     $tpl->setVariable( "dbMainUser", $dbMainUser );        
     $tpl->setVariable( "dbCharset", $dbCharset );        
     $tpl->setVariable( "dbEncoding", $dbEncoding );        
-    // $tpl->setVariable( "dbCreateUser", $dbCreateUser );
+    $tpl->setVariable( "dbCreateUser", $dbCreateUser );
 
 
 	// Get our values from the step before and set the in testItems

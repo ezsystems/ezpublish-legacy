@@ -51,17 +51,28 @@ function stepThree( &$tpl, &$http )
 
     // Get our variables
 	$dbParams = array();
-    $dbParams["type"]     = trim( $http->postVariable( "dbType" ) );
-    $dbParams["server"]   = trim( $http->postVariable( "dbServer" ) );
-    $dbParams["database"] = trim( $http->postVariable( "dbName" ) );
-    $dbParams["user"]     = trim( $http->postVariable( "dbMainUser" ) );
-    $dbParams["password"] = $http->postVariable( "dbMainPass" );
-    $dbParams["charset"]  = $http->postVariable( "dbCharset" );
-    $dbParams["builtin_encoding"]  = $http->postVariable( "dbEncoding" );
-    /* $dbCreateUser  = $http->postVariable( "dbCreateUser" );
-    $dbCreatePass  = $http->postVariable( "dbCreatePass" );
-    $dbCreatePass2 = $http->postVariable( "dbCreatePass2" ); */
+    $dbParams["type"]             = trim( $http->postVariable( "dbType" ) );
+    $dbParams["server"]           = trim( $http->postVariable( "dbServer" ) );
+    $dbParams["database"]         = trim( $http->postVariable( "dbName" ) );
+    $dbParams["main_user"]        = trim( $http->postVariable( "dbMainUser" ) );
+    $dbParams["main_pass"]        = $http->postVariable( "dbMainPass" );
+    $dbParams["charset"]          = trim( $http->postVariable( "dbCharset" ) );
+    $dbParams["builtin_encoding"] = trim( $http->postVariable( "dbEncoding" ) );
+    $dbParams["create_user"]      = trim( $http->postVariable( "dbCreateUser" ) );
+    $dbParams["create_pass"]      = $http->postVariable( "dbCreatePass" );
+    $dbParams["create_pass2"]     = $http->postVariable( "dbCreatePass2" );
     
+
+	// Go back to step 2, if create_pass != create_pass2
+	if ( $dbParams["create_pass"] != $dbParams["create_pass2"] )
+	{
+		$tpl->setVariable( "step", "2" );
+		$tpl->setVariable( "nextStep", "3" );
+		include_once( "lib/ezsetup/classes/ezsetupstep2.php" );
+		stepTwo( $tpl, $http );
+		return;
+	}
+
 
 	// Complete testItems with the test results
 	foreach( array_keys( $testItems ) as $key )
@@ -88,16 +99,17 @@ function stepThree( &$tpl, &$http )
     $tpl->setVariable( "dbType", $dbParams["type"] );
     $tpl->setVariable( "dbServer", $dbParams["server"] );
     $tpl->setVariable( "dbName", $dbParams["database"] );
-    $tpl->setVariable( "dbMainUser", $dbParams["user"] );
+    $tpl->setVariable( "dbMainUser", $dbParams["main_user"] );
     $tpl->setVariable( "charset", $dbParams["charset"] );
     $tpl->setVariable( "builtin_encoding", $dbParams["builtin_encoding"] );
-    $tpl->setVariable( "dbMainPass", $dbParams["password"] );
-    /*$tpl->setVariable( "dbCreateUser", $dbCreateUser );
-    $tpl->setVariable( "dbCreatePass", $dbCreatePass );*/
-    
+    $tpl->setVariable( "dbMainPass", $dbParams["main_pass"] );
+    $tpl->setVariable( "dbCreateUser", $dbParams["create_user"] );
+    $tpl->setVariable( "dbCreatePass", $dbParams["create_pass"] );
 
+	
     $tpl->setVariable( "createDb", false );
     $tpl->setVariable( "createSql", false );
+    $tpl->setVariable( "createUser", false );
 
     // Only continue, if we are successful
     $continue = false;
@@ -111,6 +123,11 @@ function stepThree( &$tpl, &$http )
 	
 	// Try to get a connection to the database
 	eZDebug::writeError( "Please ignore possible error message concerning connection errors of eZDB. We take care of this.", "eZSetup" ); 
+
+	// Set the right user to use
+	$dbParams["user"] = $dbParams["main_user"];
+	$dbParams["password"] = $dbParams["main_pass"];
+	
 	$dbObject = new $dbModule( $dbParams );
 	
 	if ( $dbObject->isConnected() == false && $dbObject->errorNumber() != "1049" )
@@ -137,6 +154,7 @@ function stepThree( &$tpl, &$http )
 		{
 			$tpl->setVariable( "dbCreate", "successful." );
             $continue = true;            
+
 			// We have to reconnect otherwise query() will fail without error message!
 			unset( $dbObject );
 			$dbObject = new $dbModule( $dbParams );
@@ -147,6 +165,40 @@ function stepThree( &$tpl, &$http )
 			$error = errorHandling( $testItems, $dbParams, $dbObject );
 		}
     }
+
+	
+	//
+	// If wanted, create database user for new database
+	if ( $continue && $dbParams["create_user"] != "" )
+	{
+		$tpl->setVariable( "createUser", true );
+		$continue = false;
+
+		// From now on we want to use the new user!
+		$dbParams["user"] = $dbParams["create_user"];
+		$dbParams["password"] = $dbParams["create_pass"];
+		
+		// Try to create user
+		$sqlQuery = "grant all on ". $dbParams["database"] . ".* to " . $dbParams["user"] . "@localhost identified by \"" . $dbParams["password"] . "\"";
+		$dbObject->query( $sqlQuery, true );
+
+		// Reconnect to database with new user
+		if ( $dbObject->errorNumber() == 0 )
+			$dbObject = new $dbModule( $dbParams );
+		
+		if ( $dbObject->errorNumber() == 0 )
+		{
+
+			$tpl->setVariable( "dbCreateUserMsg", "successful." );
+			$continue = true;
+		}
+		else
+		{
+			$tpl->setVariable( "dbCreateUserMsg", "unsuccessful." );
+			$error = errorHandling( $testItems, $dbParams, $dbObject );
+		}
+	
+	}
   
     
     //
@@ -159,13 +211,16 @@ function stepThree( &$tpl, &$http )
 	    $sqlFile = "kernel/sql/" . $dbParams["type"] . "/kernel_clean.sql";
 		$sqlArray = prepareSqlQuery( $sqlFile );
 
+		// Turn unneccessary SQL debug output off
+		$dbObject->OutputSQL = false;
 		if ( $sqlArray && is_array( $sqlArray ) )
 		{
 	    	foreach( $sqlArray as $singleQuery )
 			{
 				if ( trim( $singleQuery ) != "" )
 				{
-					$dbObject->query( $singleQuery );
+					$dbObject->query( $singleQuery, true );
+					eZDebug::writeDebug( "Error: " . $dbObject->errorNumber() );
 					if ( $dbObject->errorNumber() != 0 )
 						break;
 				} 

@@ -51,8 +51,8 @@ function stepFour( &$tpl, &$http, &$ini )
     $dbName        = $http->postVariable( "dbName" );
     $dbMainUser    = $http->postVariable( "dbMainUser" );
     $dbMainPass    = $http->postVariable( "dbMainPass" );
-    /*$dbCreateUser    = $http->postVariable( "dbCreateUser" );
-    $dbCreatePass    = $http->postVariable( "dbCreatePass" );*/
+    $dbCreateUser    = $http->postVariable( "dbCreateUser" );
+    $dbCreatePass    = $http->postVariable( "dbCreatePass" );
     
     if ( isset( $dbCreateUser ) and $dbCreateUser != "" )
     {
