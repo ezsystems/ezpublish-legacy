@@ -78,27 +78,46 @@ class eZDir
     */
     function mkdir( $dir, $perm, $parents = false )
     {
+        $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
+//        print( "About to mkdir( '$dir' )<br/>" );
+//        exit;
         if ( !$parents )
             return eZDir::doMkdir( $dir, $perm );
         else
-            return eZDir::mkdirRecursive( $dir, $perm );
+        {
+            $dirElements = explode( '/', $dir );
+            if ( count( $dirElements ) == 0 )
+                return true;
+            $currentDir = $dirElements[0];
+            $result = true;
+            if ( !file_exists( $currentDir ) )
+                $result = eZDir::doMkdir( $currentDir, $perm );
+            if ( !$result )
+                return false;
+            for ( $i = 1; $i < count( $dirElements ); ++$i )
+            {
+                $dirElement = $dirElements[$i];
+                $currentDir .= '/' . $dirElement;
+//                print( "trying '$dir' )<br/>" );
+                $result = true;
+                if ( !file_exists( $currentDir ) )
+                    $result = eZDir::doMkdir( $currentDir, $perm );
+                if ( !$result )
+                    return false;
+            }
+        }
     }
 
-    /*!
-     \static
-     \private
-     Creates directories recursively like 'mkdir -p', calls
-     either itself or doMkDir.
-    */
+/*
     function mkdirRecursive( $dir, $perm )
     {
         if ( file_exists( $dir ) )
             return true;
         else
         {
-            $new_dir = preg_replace( "#/+#", "/", $dir );
-            if ( $dir[0] != "/" )
-                $new_dir = "$new_dir";
+//            $new_dir = preg_replace( "#/+#", "/", $dir );
+//            if ( $dir[0] != "/" )
+//                $new_dir = "$new_dir";
 // Fix to make this work on windows.. To quick ?
 //                $new_dir = realpath( "." ) . "/$new_dir";
             if ( preg_match( "#^(.+/)([^/]+)/?$#", $new_dir, $regs ) )
@@ -112,6 +131,7 @@ class eZDir
             return false;
         return true;
     }
+*/
 
     /*!
      \static
@@ -120,6 +140,8 @@ class eZDir
     */
     function doMkdir( $dir, $perm )
     {
+//        print( "About to doMkdir( '$dir' )<br/>" );
+//        exit;
         $oldumask = umask( 0 );
         if ( ! @mkdir( $dir, $perm ) )
         {
@@ -153,6 +175,48 @@ class eZDir
         }
         return null;
     }
+    
+    /*!
+     \static
+     Converts any directory separators found in \a $path, in both unix and dos style, into
+     the separator type specified by \a $toType and returns it.
+    */
+    function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    {
+        $separator = eZDir::separator( $toType );
+        return preg_replace( "#[/\\\\]#", $separator, $path );
+    }
+
+    /*!
+     \static
+     Removes all unneeded directory separators and resolves any "."s and ".."s found in \a $path.
+     
+     For instance: "var/../lib/ezdb" becomes "lib/ezdb", while "../site/var" will not be changed.
+     \note Will also convert separators
+     \sa convertSeparators.
+    */
+    function cleanPath( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    {
+        $path = eZDir::convertSeparators( $path, $toType );
+        $separator = eZDir::separator( $toType );
+        $path = preg_replace( "#$separator$separator+#", $separator, $path );
+        $pathElements = explode( $separator, $path );
+        $newPathElements = array();
+        foreach ( $pathElements as $pathElement )
+        {
+            if ( $pathElement == '.' )
+                continue;
+            if ( $pathElement == '..' and
+                 count( $newPathElements ) > 0 )
+                array_pop( $newPathElements );
+            else
+                $newPathElements[] = $pathElement;
+        }
+        if ( count( $newPathElements ) == 0 )
+            $newPathElements[] = '.';
+        $path = implode( $separator, $newPathElements );
+        return $path;
+    }
 
     /*!
      \static
@@ -163,11 +227,11 @@ class eZDir
      If \a $includeEndSeparator is true then it will make sure that the path ends with a
      separator if false it make sure there are no end separator.
     */
-    function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_LOCAL )
+    function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $type );
         $path = implode( $separator, $names );
-        $path = preg_replace( '#//+#', '/', $path );
+        $path = eZDir::cleanPath( $path, $type );
         $hasEndSeparator = ( strlen( $path ) > 0 and
                          $path[strlen( $path ) - 1] == $separator );
         if ( $includeEndSeparator and
@@ -178,7 +242,6 @@ class eZDir
             $path = substr( $path, 0, strlen( $path ) - 1 );
         return $path;
     }
-
 }
 
 ?>

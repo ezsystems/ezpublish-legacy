@@ -210,11 +210,12 @@ if ( $access !== null )
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 $db =& eZDB::instance();
-session_start();
+if ( $db->isConnected() )
+{
+    eZRegisterSessionFunctions();
+    session_start();
+}
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-
-$db =& eZDB::instance();
 if ( !$db->isConnected() )
     $warningList[] = array( 'error' => array( 'type' => 'kernel',
                                               'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),

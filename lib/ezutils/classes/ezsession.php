@@ -41,10 +41,11 @@
 function eZSessionOpen( )
 {
     // do nothing eZDB will open connection when needed.
-    include_once( 'lib/ezdb/classes/ezdb.php' );
+/*    include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     if ( !$db->isConnected() )
         eZDebug::writeError( 'Database session will not work, not connected to a database', 'eZSession' );
+*/
 }
 
 function eZSessionClose( )
@@ -125,13 +126,20 @@ function eZSessionGarbageCollector()
     $db->query();
 }
 
-session_module_name( 'user' );
-session_set_save_handler(
-	'ezsessionopen',
+/*!
+ Register the needed session functions.
+ Call this only once.
+*/
+function eZRegisterSessionFunctions()
+{
+    session_module_name( 'user' );
+    session_set_save_handler(
+ 	'ezsessionopen',
 	'ezsessionclose',
 	'ezsessionread',
 	'ezsessionwrite',
 	'ezsessiondestroy',
 	'ezsessiongarbagecollector' );
+}
 
 ?>
