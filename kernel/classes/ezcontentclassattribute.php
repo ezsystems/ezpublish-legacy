@@ -142,6 +142,10 @@ class eZContentClassAttribute extends eZPersistentObject
                                          'data_text4' => array( 'name' => 'DataText4',
                                                                 'datatype' => 'text',
                                                                 'default' => '',
+                                                                'required' => true ),
+                                         'data_text5' => array( 'name' => 'DataText5',
+                                                                'datatype' => 'text',
+                                                                'default' => '',
                                                                 'required' => true ) ),
                       'keys' => array( 'id', 'version' ),
                       "function_attributes" => array( "content" => "content",
@@ -176,7 +180,8 @@ class eZContentClassAttribute extends eZPersistentObject
             'data_text1' => $this->attribute( 'data_text1' ),
             'data_text2' => $this->attribute( 'data_text1' ),
             'data_text3' => $this->attribute( 'data_text3' ),
-            'data_text4' => $this->attribute( 'data_text4' ) );
+            'data_text4' => $this->attribute( 'data_text4' ),
+            'data_text5' => $this->attribute( 'data_text5' ) );
         return new eZContentClassAttribute( $row );
     }
 

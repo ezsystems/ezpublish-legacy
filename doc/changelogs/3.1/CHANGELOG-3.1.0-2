@@ -1,4 +1,4 @@
-Changes from 3.1.0-1 to 3.1
+Changes from 3.1.0-1 to 3.1.0-2
 
 * Kernel:
 - Added function is_empty to eZXMLText datatype
@@ -14,6 +14,7 @@ Changes from 3.1.0-1 to 3.1
 - Added correct permission checking in template creation admin and proper error messages.
 - Fixed bug with phrase search, fixed problem with combining phrases with usual words in one search query.
 - Fixed bug where printable version used the same cache file as the normal view
+- Added data_text5 field to eZContentClassAttribute which is a text type.
 
 *Library :
 eZ xml:
@@ -29,3 +30,6 @@ eZ soap:
 * Update:
 - Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.
 - Made sure text codec settings were initialized correctly in updatexmltext.php.
+
+*SQL:
+- Some new fields defined in update/database/mysql/3.1/dbupdate-3.1.0-1-to-3.1.0-2.sql
