@@ -17,7 +17,7 @@
             <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
             <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
-            <input type="hidden" name="ClassID" value="22" />
+            <input type="hidden" name="ClassIdentifier" value="forum_reply" />
         </form>
         {section-else}
            <p>
