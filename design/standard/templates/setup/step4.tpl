@@ -43,14 +43,16 @@
 		<li>The domain of your site</li>
 		<li>The charset you choose to use</li>
 	</ul>
+	Send register email to eZ systems? <input type="checkbox" name="sendEmail" value="sendEmail" />
 
-	Please enter your email address: <input type="text" size="20" name="emailAddress" /><br />
+	<p>Please enter your email address: <input type="text" size="20" name="emailAddress" /><br />
 	If you can't send emails from your web server, please enter a mail server: <input type="text"
 	size="20" name="emailServer" /><br />
 	If you need to enter a login to be able to send emails, please enter it here:<br />
 	Username: <input type="text" size="20" name="emailUser" /><br />
 	Password: <input type="password" size="20" name="emailPassword" /><br />
-	Send register email to eZ systems? <input type="checkbox" name="sendEmail" value="sendEmail" />
+	Please write any comments that you have about this install or eZ publish:<br />
+	<textarea name="comment" cols="70" rows="5"></textarea></p>
 	
     <input type="hidden" name="nextStep" value="{$nextStep}" />
     <p><button name="buttonNextStep" type="submit">Next step</button></p>
