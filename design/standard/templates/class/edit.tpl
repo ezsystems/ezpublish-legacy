@@ -1,5 +1,6 @@
 <form action={concat($module.functions.edit.uri,"/",$class.id)|ezurl} method="post" name="ClassEdit">
 
+<input type="hidden" name="ContentClassHasInput" value="1" />
 <div class="maincontentheader">
 <h1>{"Editing class - %1"|i18n("design/standard/class/edit",,array($class.name|wash))}</h1>
 </div>

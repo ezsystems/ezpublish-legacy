@@ -42,7 +42,8 @@ eZINI:
   http://ez.no/community/bug_reports/typo_in_rssimport_php
 - Fixed bug of undefined field "use_id" in ezcontentobject_version.
   http://ez.no/community/bug_reports/ezcontentobjectversion
- 
+- Fixed bug of datatype checkbox looses default state.
+  http://ez.no/community/bug_reports/checkbox_looses_default_state_when_class_is_edited
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path

@@ -74,7 +74,7 @@ class eZBooleanType extends eZDataType
         {
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_int3" );
-	    $contentObjectAttribute->setAttribute( "data_int", $default );
+            $contentObjectAttribute->setAttribute( "data_int", $default );
         }
     }
 
@@ -187,7 +187,7 @@ class eZBooleanType extends eZDataType
     */
     function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( 'data_int' );
+        $defaultValue = $classAttribute->attribute( 'data_int3' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
                                                                                  array( 'is-set' => $defaultValue ? 'true' : 'false' ) ) );
     }
@@ -198,7 +198,7 @@ class eZBooleanType extends eZDataType
     function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = strtolower( $attributeParametersNode->elementTextContentByName( 'default-value' ) ) == 'true';
-        $classAttribute->setAttribute( 'data_int', $defaultValue );
+        $classAttribute->setAttribute( 'data_int3', $defaultValue );
     }
 }
 
