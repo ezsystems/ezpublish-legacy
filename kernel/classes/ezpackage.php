@@ -1050,8 +1050,21 @@ class eZPackage
      and create a package object from it.
      \return \c false if it could be fetched.
     */
-    function &fetchFromFile( $filename )
+    function &fetchFromFile( $filename, $filterArray = false )
     {
+        $requiredType = null;
+        $requiredPriority = null;
+        $requiredVendor = null;
+        $requiredExtension = null;
+        if ( isset( $filterArray['type'] ) )
+             $requiredType = $filterArray['type'];
+        if ( isset( $filterArray['priority'] ) )
+             $requiredPriority = $filterArray['priority'];
+        if ( isset( $filterArray['vendor'] ) )
+             $requiredVendor = $filterArray['vendor'];
+        if ( isset( $filterArray['extension'] ) )
+             $requiredExtension = $filterArray['extension'];
+
         if ( !file_exists( $filename ) )
         {
             return false;
@@ -1083,6 +1096,37 @@ class eZPackage
                 }
             }
 
+            $root =& $dom->root();
+            if ( !$root )
+                return false;
+
+            if ( $requiredType !== null )
+            {
+                $type = $root->elementAttributeValueByName( 'type', 'value' );
+                if ( $type != $requiredType )
+                    return false;
+            }
+
+            if ( $requiredPriority !== null )
+            {
+                $priority = $root->elementAttributeValueByName( 'priority', 'value' );
+                if ( $priority != $requiredPriority )
+                    return false;
+            }
+
+            if ( $requiredExtension !== null )
+            {
+                $extension = $root->elementAttributeValueByName( 'extension', 'name' );
+                if ( $extension != $requiredExtension )
+                    return false;
+            }
+
+            if ( $requiredVendor !== null )
+            {
+                $vendor = $root->elementTextContentByName( 'vendor' );
+                if ( $vendor != $requiredVendor )
+                    return false;
+            }
             return $package;
         }
     }
@@ -1130,10 +1174,25 @@ class eZPackage
     /*!
      \private
     */
-    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired )
+    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired, $filterArray = false )
     {
-        $path = $this->currentRepositoryPath() . '/' . $packageName;
+        $requiredType = null;
+        $requiredPriority = null;
+        $requiredVendor = null;
+        $requiredExtension = null;
+        if ( isset( $filterArray['type'] ) )
+             $requiredType = $filterArray['type'];
+        if ( isset( $filterArray['priority'] ) )
+             $requiredPriority = $filterArray['priority'];
+        if ( isset( $filterArray['vendor'] ) )
+             $requiredVendor = $filterArray['vendor'];
+        if ( isset( $filterArray['extension'] ) )
+             $requiredExtension = $filterArray['extension'];
+
+//        $path = $this->currentRepositoryPath() . '/' . $packageName;
+        $path = eZPackage::repositoryPath() . '/' . $packageName;
         $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
+
         $cacheExpired = false;
         if ( file_exists( $packageCachePath ) )
         {
@@ -1158,6 +1217,34 @@ class eZPackage
                             $cli->warning( "Could not load package from cache " . $cli->stylize( 'emphasize', $packageName ) );
                             return false;
                         }
+                    }
+
+                    if ( $requiredType !== null )
+                    {
+                        $type = $Parameters['type'];
+                        if ( $type != $requiredType )
+                            return false;
+                    }
+
+                    if ( $requiredPriority !== null )
+                    {
+                        $priority = $Parameters['priority'];
+                        if ( $priority != $requiredPriority )
+                            return false;
+                    }
+
+                    if ( $requiredExtension !== null )
+                    {
+                        $extension = $Parameters['extension'];
+                        if ( $extension != $requiredExtension )
+                            return false;
+                    }
+
+                    if ( $requiredVendor !== null )
+                    {
+                        $vendor = $Parameters['vendor'];
+                        if ( $vendor != $requiredVendor )
+                            return false;
                     }
                     $package = new eZPackage( $Parameters, array(), $RepositoryPath );
                     $package->ModifiedParameters = $ModifiedParameters;
@@ -1298,13 +1385,59 @@ class eZPackage
     }
 
     /*!
+     Locates all dependent packages in the repository and returns an array with eZPackage objects.
+    */
+    function fetchDependentPackages( $parameters = array() )
+    {
+        $packages = array();
+        $requiredType = null;
+        $requiredName = null;
+        if ( isset( $parameters['type'] ) )
+            $requiredType = $parameters['type'];
+        if ( isset( $parameters['name'] ) )
+            $requiredName = $parameters['name'];
+
+        $privides = $this->Parameters['dependencies']["provides"];
+
+        if ( $privides != null )
+        {
+            foreach ( $privides as $privide )
+            {
+                $packageName = $privide['name'];
+                if ( $requiredType !== null )
+                {
+                    $type = $privide['type'];
+                    if ( $requiredType != $type )
+                    {
+                        continue;
+                    }
+                }
+
+                if ( $requiredName !== null )
+                {
+                    if ( $requiredName != $packageName )
+                        continue;
+                }
+                $package =& $this->fetch( $packageName );
+                if ( !$package )
+                        continue;
+                $packages[] =& $package;
+            }
+        }
+        eZDebug::writeDebug( $packages , "888");
+        return $packages;
+    }
+
+    /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
     */
-    function fetchPackages( $parameters = array() )
+    function fetchPackages( $parameters = array(), $filterParams = array() )
     {
         $path = eZPackage::repositoryPath();
         if ( isset( $parameters['path'] ) )
             $path = $parameters['path'];
+        /* if ( isset( $parameters['type'] ) )
+            $type = $parameters['type'];*/
         $packages = array();
         if ( file_exists( $path ) )
         {
@@ -1335,11 +1468,11 @@ class eZPackage
                     $cacheExpired = false;
                     if ( eZPackage::useCache() )
                     {
-                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
+                        $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired, $filterParams );
                     }
                     if ( !$package )
                     {
-                        $package =& eZPackage::fetchFromFile( $filePath );
+                        $package =& eZPackage::fetchFromFile( $filePath, $filterParams );
                         if ( $package and
                              $cacheExpired and
                              eZPackage::useCache() )
