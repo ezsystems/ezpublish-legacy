@@ -94,6 +94,9 @@ $featureArray[] = array( "uri" => "xhtml_coding_standard",
 $featureArray[] = array( "uri" => "security_standard",
                          "level" => 1,
                          "name" => "Security" );
+$featureArray[] = array( "uri" => "security_handling",
+                         "level" => 1,
+                         "name" => "Security handling" );
 // $featureArray[] = array( "uri" => "uri_coding_standard",
 //                          "level" => 1,
 //                          "name" => "URI" );
