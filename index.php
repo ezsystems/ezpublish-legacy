@@ -519,8 +519,10 @@ while ( $moduleRunRequired )
                 $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
+                    $moduleName = $module->attribute( 'name' );
+                    $functionName = $runningFunctions[0];
                     $params['Limitation'] =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list'] =& $params['Limitation'];
+                    $GLOBALS['ezpolicylimitation_list'][$moduleName][$functionName] =& $params['Limitation'];
                 }
                 if ( $accessResult['accessWord'] == 'no' )
                     $moduleAccessAllowed = false;

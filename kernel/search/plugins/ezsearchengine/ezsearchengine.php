@@ -611,7 +611,34 @@ class eZSearchEngine
             {
                 $limitationList =& $params['Limitation'];
             }
-            else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
+            else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
+            {
+                $policyList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+                $limitationList = array();
+                foreach ( array_keys( $policyList ) as $key )
+                {
+                    $policy =& $policyList[$key];
+                    $limitationList[] =& $policy->attribute( 'limitations' );
+                }
+            }
+            else
+            {
+                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+                $currentUser =& eZUser::currentUser();
+                $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
+                if ( $accessResult['accessWord'] == 'limited' )
+                {
+                    $params['Limitation'] =& $accessResult['policies'];
+                    $limitationList = array();
+                    foreach ( array_keys( $params['Limitation'] ) as $key )
+                    {
+                        $policy =& $params['Limitation'][$key];
+                        $limitationList[] =& $policy->attribute( 'limitations' );
+                    }
+                    $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
+                }
+            }
+            /* else if ( isset( $GLOBALS['ezpolicylimitation_list'] ) )
             {
                 $policyList =& $GLOBALS['ezpolicylimitation_list'];
                 $limitationList = array();
@@ -620,7 +647,7 @@ class eZSearchEngine
                     $policy =& $policyList[$key];
                     $limitationList[] =& $policy->attribute( 'limitations' );
                 }
-            }
+            }*/
 
             $sqlPermissionCheckingString = '';
             if ( count( $limitationList ) > 0 )
