@@ -8,11 +8,11 @@
 <div class="block">
 <div class="element">
 <label>{"Filename:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<p class="box">	{$attribute.content.original_filename}</p>
+<p class="box">	{$attribute.content.original_filename|wash(xhtml)}</p>
 </div>
 <div class="element">
 <label>{"MIME Type:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<p class="box">{$attribute.content.mime_type}</p>
+<p class="box">{$attribute.content.mime_type|wash(xhtml)}</p>
 </div>
 <div class="element">
 <label>{"Filesize:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>

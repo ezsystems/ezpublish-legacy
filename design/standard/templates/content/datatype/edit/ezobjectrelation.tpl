@@ -1,10 +1,10 @@
 <p class="box">
 {switch name=sw match=$attribute.content}
    {case match=0}
-   No relation
+   {"No relation"|i18n("design/standard/content/datatype")}
    {/case}
    {case}
-   {$attribute.content.name}
+   {$attribute.content.name|wash(xhtml)}
    {/case}
 {/switch}
 </p>

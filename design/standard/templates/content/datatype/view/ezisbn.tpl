@@ -1,1 +1,1 @@
-<p class="box">ISBN&nbsp;{$attribute.data_text}</p>
+ISBN&nbsp;{$attribute.data_text|wash(xhtml)}

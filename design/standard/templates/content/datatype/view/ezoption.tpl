@@ -1,4 +1,4 @@
-<label>{$attribute.content.name}</label><div class="labelbreak"></div>
+<label>{$attribute.content.name|wash(xhtml)}</label><div class="labelbreak"></div>
 
 <select name="eZOption[{$attribute.id}]">
 {section name=Option loop=$attribute.content.option_list sequence=array(bglight,bgdark)}

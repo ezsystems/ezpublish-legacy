@@ -1,1 +1,1 @@
-<p class="box">{$attribute.content}</p>
+{$attribute.content|wash(xhtml)}

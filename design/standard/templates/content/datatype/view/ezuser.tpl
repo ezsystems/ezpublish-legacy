@@ -3,11 +3,11 @@
 <div class="block">
 <div class="element">
 <label>{"Login:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<p class="box">{$attribute.content.login}</p>
+<p class="box">{$attribute.content.login|wash(xhtml)}</p>
 </div>
 <div class="element">
 <label>{"Email:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
-<p class="box">{$attribute.content.email}</p>
+<p class="box">{$attribute.content.email|wash(xhtml)}</p>
 </div>
 <div class="break"></div>
 </div>
