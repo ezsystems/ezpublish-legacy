@@ -124,7 +124,7 @@
 {*          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />*}
             <input class="menubutton" type="image" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" src={"trash.png"|ezimage} />
     {/section}
-          <div>
+          </div>
         </td>
     </tr>
     <tr>
