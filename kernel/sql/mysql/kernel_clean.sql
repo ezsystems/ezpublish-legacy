@@ -265,37 +265,6 @@ CREATE TABLE ezcontentobject_link (
 # Dumping data for table 'ezcontentobject_link'
 #
 
-INSERT INTO ezcontentobject_link VALUES (1,79,2,31);
-INSERT INTO ezcontentobject_link VALUES (2,79,2,32);
-INSERT INTO ezcontentobject_link VALUES (3,79,2,33);
-INSERT INTO ezcontentobject_link VALUES (4,79,2,47);
-INSERT INTO ezcontentobject_link VALUES (5,79,2,54);
-INSERT INTO ezcontentobject_link VALUES (6,79,2,55);
-INSERT INTO ezcontentobject_link VALUES (7,79,2,56);
-INSERT INTO ezcontentobject_link VALUES (8,39,6,79);
-INSERT INTO ezcontentobject_link VALUES (9,34,4,34);
-INSERT INTO ezcontentobject_link VALUES (10,34,4,35);
-INSERT INTO ezcontentobject_link VALUES (11,34,4,36);
-INSERT INTO ezcontentobject_link VALUES (12,32,10,102);
-INSERT INTO ezcontentobject_link VALUES (13,32,10,106);
-INSERT INTO ezcontentobject_link VALUES (14,32,10,107);
-INSERT INTO ezcontentobject_link VALUES (15,32,10,124);
-INSERT INTO ezcontentobject_link VALUES (16,119,3,102);
-INSERT INTO ezcontentobject_link VALUES (17,119,3,106);
-INSERT INTO ezcontentobject_link VALUES (18,119,3,107);
-INSERT INTO ezcontentobject_link VALUES (19,119,3,124);
-INSERT INTO ezcontentobject_link VALUES (20,31,11,118);
-INSERT INTO ezcontentobject_link VALUES (21,31,11,31);
-INSERT INTO ezcontentobject_link VALUES (22,162,1,102);
-INSERT INTO ezcontentobject_link VALUES (23,162,1,106);
-INSERT INTO ezcontentobject_link VALUES (24,162,1,107);
-INSERT INTO ezcontentobject_link VALUES (25,162,1,124);
-INSERT INTO ezcontentobject_link VALUES (26,173,16,102);
-INSERT INTO ezcontentobject_link VALUES (27,173,16,106);
-INSERT INTO ezcontentobject_link VALUES (28,173,16,107);
-INSERT INTO ezcontentobject_link VALUES (29,183,6,33);
-INSERT INTO ezcontentobject_link VALUES (30,183,6,101);
-
 #
 # Table structure for table 'ezcontentobject_tree'
 #
