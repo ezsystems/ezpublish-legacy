@@ -55,7 +55,7 @@ $ViewList['login'] = array(
     'params' => array( ) );
 $ViewList['setting'] = array(
     'functions' => array( 'preferences' ),
-    'ui_context' => 'edit',
+    'default_navigation_part' => 'ezusernavigationpart',
     'script' => 'setting.php',
     'params' => array( 'UserID' ) );
 
