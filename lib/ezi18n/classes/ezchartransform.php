@@ -85,7 +85,7 @@ class eZCharTransform
                                           'rule-', '-' . $charsetName,
                                           $key, false, $filepath ) )
             {
-                eZDebug::writeDebug( 'executed cache file ' . $filepath );
+//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
                 return $text;
             }
         }
@@ -143,7 +143,7 @@ class eZCharTransform
                                           'g-' . $group . '-', '-' . $charsetName,
                                           $key, false, $filepath ) )
             {
-                eZDebug::writeDebug( 'executed cache file ' . $filepath );
+//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
                 return $text;
             }
         }

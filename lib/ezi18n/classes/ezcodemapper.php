@@ -197,7 +197,7 @@ class eZCodeMapper
     */
     function parseTransformationFile( $filename, $name )
     {
-        eZDebug::writeDebug( "Parsing file $filename" );
+//         eZDebug::writeDebug( "Parsing file $filename" );
         $tbl = array();
 
         $fd = fopen( $filename, "rb" );
