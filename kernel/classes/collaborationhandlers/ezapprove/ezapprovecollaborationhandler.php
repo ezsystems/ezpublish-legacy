@@ -70,7 +70,8 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function eZApproveCollaborationHandler()
     {
-        $this->eZCollaborationItemHandler( 'ezapprove', ezi18n( 'design/standard/collaboration/approval', 'Approval' ) );
+        $this->eZCollaborationItemHandler( 'ezapprove', ezi18n( 'design/standard/collaboration/approval', 'Approval' ),
+                                           array( 'use-messages' => true ) );
     }
 
     /*!
@@ -89,6 +90,44 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
                       "content_object_version" => $collaborationItem->attribute( "data_int2" ),
                       "is_approved" => $collaborationItem->attribute( "data_int3" ) );
+    }
+
+    /*!
+     \reimp
+     Updates the last_read for the participant link.
+    */
+    function readItem( &$collaborationItem )
+    {
+        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+        eZCollaborationItemParticipantLink::setLastRead( $collaborationItem->attribute( 'id' ) );
+    }
+
+    /*!
+     \reimp
+     \return the number of messages for the approve item.
+    */
+    function messageCount( &$collaborationItem )
+    {
+        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+        return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
+    }
+
+    /*!
+     \reimp
+     \return the number of unread messages for the approve item.
+    */
+    function unreadMessageCount( &$collaborationItem )
+    {
+        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $participantID =& eZUser::currentUserID();
+        $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
+        $lastRead = 0;
+        if ( $participant )
+            $lastRead = $participant->attribute( 'last_read' );
+        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+        return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ),
+                                                                      'conditions' => array( 'modified' => array( '>', $lastRead ) ) ) );
     }
 
     /*!
@@ -147,7 +186,27 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function handleCustomAction( &$module, &$collaborationItem )
     {
+        $redirectView = 'item';
+        $redirectParameters = array( 'full', $collaborationItem->attribute( 'id' ) );
+        $addComment = false;
+
         if ( $this->isCustomAction( 'Comment' ) )
+        {
+            $addComment = true;
+        }
+        else if ( $this->isCustomAction( 'Accept' ) or
+                  $this->isCustomAction( 'Deny' ) )
+        {
+            $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+            if ( $this->isCustomAction( 'Accept' ) )
+                $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
+            $collaborationItem->setAttribute( 'data_int3', $status );
+            $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );
+            $redirectView = 'view';
+            $redirectParameters = array( 'summary' );
+            $addComment = true;
+        }
+        if ( $addComment )
         {
             $messageText = $this->customInput( 'ApproveComment' );
             if ( trim( $messageText ) != '' )
@@ -159,9 +218,9 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                 include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
                 eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
             }
-            return $module->redirectToView( 'item', array( 'full', $collaborationItem->attribute( 'id' ) ) );
         }
-        return $module->redirectToView( 'item', array( 'full', $collaborationItem->attribute( 'id' ) ) );
+        $collaborationItem->sync();
+        return $module->redirectToView( $redirectView, $redirectParameters );
     }
 
 }

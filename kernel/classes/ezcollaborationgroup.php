@@ -44,6 +44,7 @@
 */
 
 include_once( 'kernel/classes/ezpersistentobject.php' );
+include_once( 'kernel/classes/ezcollaborationitem.php' );
 
 class eZCollaborationGroup extends eZPersistentObject
 {
@@ -135,6 +136,15 @@ class eZCollaborationGroup extends eZPersistentObject
                                                 null,
                                                 $conditions,
                                                 $asObject );
+    }
+
+    /*!
+     \return an array with collaboration items which are in this group.
+    */
+    function &itemList( $parameters = array() )
+    {
+        return eZCollaborationItem::fetchList( array_merge( array( 'parent_group_id' => $this->ID ),
+                                                            $parameters ) );
     }
 
     function &subTree( $parameters = array() )
@@ -283,6 +293,7 @@ class eZCollaborationGroup extends eZPersistentObject
     {
         return ( $attr == 'user' or
                  $attr == 'parent_group' or
+                 $attr == 'item_list' or
                  $attr == 'item_count' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
@@ -305,6 +316,10 @@ class eZCollaborationGroup extends eZPersistentObject
                 if ( $parentGroupID > 0 )
                     $parent = eZCollaborationGroup::fetch( $parentGroupID );
                 return $parent;
+            } break;
+            case 'item_list':
+            {
+                return $this->itemList();
             } break;
             case 'item_count':
             {

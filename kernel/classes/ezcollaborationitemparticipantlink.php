@@ -78,6 +78,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                          'participant_role' => 'ParticipantRole',
                                          'is_read' => 'IsRead',
                                          'is_active' => 'IsActive',
+                                         'last_read' => 'LastRead',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
                       'keys' => array( 'collaboration_id', 'participant_id' ),
@@ -89,25 +90,52 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                       $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $date_time = eZDateTime::currentTimeStamp();
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array(
             'collaboration_id' => $collaborationID,
             'participant_id' => $participantID,
             'participant_type' => $participantType,
             'is_read' => false,
             'is_active' => true,
-            'created' => $date_time,
-            'modified' => $date_time );
+            'created' => $dateTime,
+            'modified' => $dateTime );
         return new eZCollaborationItemParticipantLink( $row );
+    }
+
+    function setLastRead( $collaborationID, $userID = false, $timestamp = false )
+    {
+        if ( $userID === false )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::currentUser();
+            $userID = $user->attribute( 'contentobject_id' );
+        }
+        if ( $timestamp === false )
+        {
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $timestamp = eZDateTime::currentTimeStamp();
+        }
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+        $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
+                WHERE  collaboration_id='$collaborationID' AND participant_id='$userID'";
+        $db->query( $sql );
+        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID];
+        if ( isset( $collabLink ) )
+            $collabLink->setAttribute( 'last_read', $timestamp );
     }
 
     function &fetch( $collaborationID, $participantID, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
-                                                null,
-                                                array( "collaboration_id" => $collaborationID,
-                                                       'participant_id' => $participantID ),
-                                                $asObject );
+        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
+        if ( isset( $collabLink ) )
+            return $collabLink;
+        $collabLink = eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
+                                                       null,
+                                                       array( "collaboration_id" => $collaborationID,
+                                                              'participant_id' => $participantID ),
+                                                       $asObject );
+        return $collabLink;
     }
 
     function &fetchParticipantList( $parameters = array() )
@@ -122,14 +150,32 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $asObject = $parameters['as_object'];
         $offset = $parameters['offset'];
         $limit = $parameters['limit'];
+        $linkList = null;
+        if ( !$offset and !$limit )
+        {
+            $linkList =& $GLOBALS['eZCollaborationItemParticipantLinkListCache'];
+            if ( isset( $linkList ) )
+                return $linkList;
+        }
         $limitArray = null;
         if ( $offset and $limit )
             $limitArray = array( $offset, $limit );
-        return eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
-                                                    null,
-                                                    array( "collaboration_id" => $itemID ),
-                                                    null, $limitArray,
-                                                    $asObject );
+        $linkList = eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
+                                                         null,
+                                                         array( "collaboration_id" => $itemID ),
+                                                         null, $limitArray,
+                                                         $asObject );
+        for ( $i = 0; $i < count( $linkList ); ++$i )
+        {
+            $linkItem =& $linkList[$i];
+            if ( $asObject )
+                $participantID =& $linkItem->attribute( 'participant_id' );
+            else
+                $participantID =& $linkItem['participant_id'];
+            if ( !isset( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] ) )
+                $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] =& $linkList[$i];
+        }
+        return $linkList;
     }
 
     function &fetchParticipantMap( $originalParameters = array() )

@@ -54,6 +54,22 @@ class eZCollaborationFunctionCollection
     {
     }
 
+    function &fetchParticipant( $itemID, $participantID )
+    {
+        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+        if ( $participantID === false )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::currentUser();
+            $participantID = $user->attribute( 'contentobject_id' );
+        }
+        $participant =& eZCollaborationItemParticipantLink::fetch( $itemID, $participantID );
+        if ( $participant === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$participant );
+    }
+
     function &fetchParticipantList( $itemID, $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
@@ -98,12 +114,14 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchItemList( $sortBy, $offset, $limit )
+    function &fetchItemList( $sortBy, $offset, $limit, $status )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
         $itemParameters = array( 'offset' => $offset,
                                  'limit' => $limit,
                                  'sort_by' => $sortBy );
+        if ( $status !== false )
+            $itemParameters['status'] = $status;
         $children =& eZCollaborationItem::fetchList( $itemParameters );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',

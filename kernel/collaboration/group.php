@@ -32,26 +32,33 @@
 // you.
 //
 
-/*! \file view.php
+/*! \file group.php
 */
 
 $Module =& $Params['Module'];
 $ViewMode = $Params['ViewMode'];
-$ItemID = $Params['ItemID'];
+$GroupID = $Params['GroupID'];
 
 $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-include_once( 'kernel/classes/ezcollaborationitem.php' );
+include_once( 'kernel/classes/ezcollaborationgroup.php' );
 
-$collabItem =& eZCollaborationItem::fetch( $ItemID );
-if ( $collabItem === null )
+$collabGroup =& eZCollaborationGroup::fetch( $GroupID );
+if ( $collabGroup === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$collabHandler =& $collabItem->handler();
-$template = $collabHandler->template( $ViewMode );
-$collabTitle = $collabItem->title();
+include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
+
+if ( !eZCollaborationViewHandler::groupExists( $ViewMode ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+$view =& eZCollaborationViewHandler::instance( $ViewMode, EZ_COLLABORATION_VIEW_TYPE_GROUP );
+
+$template = $view->template();
+
+$collabGroupTitle = $collabGroup->attribute( 'title' );
 
 include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
@@ -61,16 +68,15 @@ include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( 'collab_item', $collabItem );
+$tpl->setVariable( 'collab_group', $collabGroup );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( $template );
-
-$collabHandler->readItem( $collabItem );
-
 $Result['path'] = array( array( 'url' => 'collaboration/view/summary',
                                 'text' => 'Collaboration' ),
                          array( 'url' => false,
-                                'text' => $collabTitle ) );
+                                'text' => 'Group' ),
+                         array( 'url' => false,
+                                'text' => $collabGroupTitle ) );
 
 ?>

@@ -6,7 +6,7 @@
 
 {let group_tree=fetch("collaboration","group_tree",hash("parent_group_id",$parent_group_id))
      latest_item_count=fetch("collaboration","item_count")
-     latest_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset))}
+     latest_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"status",array(1)))}
 
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
@@ -23,8 +23,17 @@
   <td class="{$:sequence}">
     {collaboration_view_gui view=line collaboration_item=$:item}
   </td>
+  <td class="{$:sequence}">&nbsp;</td>
   <td class="{$:sequence}">
-    <a href={concat("collaboration/item/full/",$:item.id)|ezurl}>[more]</a>
+    {section show=and($:item.use_messages,$:item.unread_message_count)}
+    <p><b><a href={concat("collaboration/item/full/",$:item.id,"#messages")|ezurl}>({$:item.unread_message_count})</a></b></p>
+    {section-else}
+    &nbsp;
+    {/section}
+  </td>
+  <td class="{$:sequence}">&nbsp;</td>
+  <td class="{$:sequence}">
+    <p><a href={concat("collaboration/item/full/",$:item.id)|ezurl}>[more]</a></p>
   </td>
 </tr>
 {/section}
@@ -45,19 +54,8 @@
 
   <td valign="top" align="right" width="20%">
 
-
-<table cellspacing="0" cellpadding="0" border="0">
-{section name=Group loop=$group_tree sequence=array(bglight,bgdark)}
-<tr>
-{let group_item_count=$:item.item_count}
-  <td class="{$:sequence}">
-    <img src={"1x1-transparent.gif"|ezimage} width="{mul(sub($:item.depth,$current_depth),$summary_indentation)}" height="1" alt="" border="0" />
-    <a href={concat("collaboration/group/list/",$:item.id)|ezurl}>{$:item.title}</a>{section show=$:group_item_count|gt(0)} <b>({$:group_item_count})</b>{/section}
-  </td>
-{/let}
-</tr>
-{/section}
-</table>
+  {include uri="design:collaboration/group_tree.tpl" group_tree=$group_tree current_depth=$current_depth
+           summary_indentation=$summary_indentation parent_group_id=$parent_group_id}
 
   </td>
 </tr>

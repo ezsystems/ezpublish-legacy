@@ -115,6 +115,9 @@ class eZCollaborationItem extends eZPersistentObject
                  $attribute == 'handler' or
                  $attribute == 'content' or
                  $attribute == 'title' or
+                 $attribute == 'use_messages' or
+                 $attribute == 'message_count' or
+                 $attribute == 'unread_message_count' or
                  $attribute == 'is_creator' or
                  eZPersistentObject::hasAttribute( $attribute ) );
     }
@@ -142,6 +145,18 @@ class eZCollaborationItem extends eZPersistentObject
                 include_once( 'kernel/classes/ezcollaborationitemparticipantlist.php' );
                 return eZCollaborationItemParticipantList::fetchParticipantList( $this->ID );
             } break;
+            case 'use_messages':
+            {
+                return $this->useMessages();
+            } break;
+            case 'message_count':
+            {
+                return $this->messageCount();
+            } break;
+            case 'unread_message_count':
+            {
+                return $this->unreadMessageCount();
+            } break;
             case 'handler':
             {
                 return $this->handler();
@@ -157,6 +172,37 @@ class eZCollaborationItem extends eZPersistentObject
             default:
                 return eZPersistentObject::attribute( $attribute );
         }
+    }
+
+    /*!
+     \return true if the item uses messages.
+     \note It's up to each handler to control this.
+    */
+    function useMessages()
+    {
+        $handler =& $this->handler();
+        return $handler->useMessages( $this );
+    }
+
+    /*!
+     \return the number of messages in this item.
+     \note The message count is purely abstract and it's up to each handler to return a valid count.
+    */
+    function messageCount()
+    {
+        $handler =& $this->handler();
+        return $handler->messageCount( $this );
+    }
+
+    /*!
+     \return the number of unread messages in this item.
+     \note The message count is purely abstract and it's up to each handler to return a valid count.
+           It's also up the handler to keep track of which messages are read or not.
+    */
+    function unreadMessageCount()
+    {
+        $handler =& $this->handler();
+        return $handler->unreadMessageCount( $this );
     }
 
     function content()
@@ -206,12 +252,16 @@ class eZCollaborationItem extends eZPersistentObject
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'offset' => false,
+                                          'parent_group_id' => false,
                                           'limit' => false,
+                                          'status' => false,
                                           'sort_by' => false ),
                                    $parameters );
         $asObject = $parameters['as_object'];
         $offset = $parameters['offset'];
         $limit = $parameters['limit'];
+        $statusTypes = $parameters['status'];
+        $parentGroupID = $parameters['parent_group_id'];
 
         $sortCount = 0;
         $sortList = $parameters['sort_by'];
@@ -263,11 +313,20 @@ class eZCollaborationItem extends eZPersistentObject
             $sortingFields = " ezcollab_item_group_link.modified DESC";
         }
 
+        $parentGroupText = '';
+        if ( $parentGroupID !== false )
+        {
+            $parentGroupText = "ezcollab_item_group_link.group_id = '$parentGroupID' AND";
+        }
+
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
-        $statusText = implode( ', ', array( EZ_COLLABORATION_STATUS_ACTIVE,
-                                            EZ_COLLABORATION_STATUS_INACTIVE ) );
+        $statusText = '';
+        if ( $statusTypes === false )
+            $statusTypes = array( EZ_COLLABORATION_STATUS_ACTIVE,
+                                  EZ_COLLABORATION_STATUS_INACTIVE );
+        $statusText = implode( ', ', $statusTypes );
 
         $sql = "SELECT ezcollab_item.*
                 FROM
@@ -275,7 +334,8 @@ class eZCollaborationItem extends eZPersistentObject
                        ezcollab_item_group_link
                 WHERE  ezcollab_item.status IN ( $statusText ) AND
                        ezcollab_item.id = ezcollab_item_group_link.collaboration_id AND
-                       ezcollab_item_group_link.user_id=$userID
+                       $parentGroupText
+                       ezcollab_item_group_link.user_id = '$userID'
                 ORDER BY $sortingFields";
 
         $db =& eZDB::instance();

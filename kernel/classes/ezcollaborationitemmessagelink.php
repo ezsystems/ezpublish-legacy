@@ -73,14 +73,14 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
     function &create( $collaborationID, $messageID, $messageType, $participantID )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $date_time = eZDateTime::currentTimeStamp();
+        $dateTime = eZDateTime::currentTimeStamp();
         $row = array(
             'collaboration_id' => $collaborationID,
             'message_id' => $messageID,
             'message_type' => $messageType,
             'participant_id' => $participantID,
-            'created' => $date_time,
-            'modified' => $date_time );
+            'created' => $dateTime,
+            'modified' => $dateTime );
         return new eZCollaborationItemMessageLink( $row );
     }
 
@@ -101,6 +101,10 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
             $participantID =& $user->attribute( 'contentobject_id' );
         }
         $collaborationID = $collaborationItem->attribute( 'id' );
+        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $timestamp = eZDateTime::currentTimeStamp();
+        $collaborationItem->setAttribute( 'modified', $timestamp );
+        $collaborationItem->sync();
         $link =& eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
         $link->store();
         return $link;
@@ -113,6 +117,28 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                                                 array( "id" => $id ),
                                                 null, null,
                                                 $asObject );
+    }
+
+    function &fetchItemCount( $parameters )
+    {
+        $parameters = array_merge( array( 'item_id' => false,
+                                          'conditions' => null ),
+                                   $parameters );
+        $itemID = $parameters['item_id'];
+        $conditions = $parameters['conditions'];
+        if ( $conditions === null )
+            $conditions = array();
+        $conditions['collaboration_id'] = $itemID;
+
+        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationItemMessageLink::definition(),
+                                                            array(),
+                                                            $conditions,
+                                                            null, null,
+                                                            false,
+                                                            false,
+                                                            array( array( 'operation' => 'count( id )',
+                                                                          'name' => 'count' ) ) );
+        return $objectList[0]['count'];
     }
 
     function &fetchItemList( $parameters )

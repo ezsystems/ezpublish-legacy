@@ -49,13 +49,19 @@ include_once( 'lib/ezutils/classes/ezdir.php' );
 class eZCollaborationItemHandler
 {
     /*!
-     Initializes the handler with identifier, name and class list.
+     Initializes the handler with identifier and name.
+     Optional parameters can be placed in \a $parameters.
     */
-    function eZCollaborationItemHandler( $typeIdentifier, $typeName, $typeClassList = array() )
+    function eZCollaborationItemHandler( $typeIdentifier, $typeName, $parameters = array() )
     {
+        $parameters = array_merge( array( 'use-messages' => false,
+                                          'type-class-list' => array() ),
+                                   $parameters );
+        $typeClassList = $parameters['type-class-list'];
         $this->Info['type-identifier'] = $typeIdentifier;
         $this->Info['type-class-list'] = $typeClassList;
         $this->Info['type-name'] = $typeName;
+        $this->Info['use-messages'] = $parameters['use-messages'];
     }
 
     /*!
@@ -108,6 +114,45 @@ class eZCollaborationItemHandler
     function title( &$collaborationItem )
     {
         return $this->Info['type-name'];
+    }
+
+    /*!
+     \return true if the collaboration item \a $collaborationItem supports messages.
+     \note The handler can either determine this by passing \a $useMessages to the constructor
+           or by reimplementing this function to do it per item.
+    */
+    function useMessages( &$collaborationItem )
+    {
+        return $this->Info['use-messages'];
+    }
+
+    /*!
+     \return the number of messages for the collaboration item \a $collaborationItem.
+     \note The default implementation returns 0, if you want real counts
+           the handler must reimplement this function.
+    */
+    function messageCount( &$collaborationItem )
+    {
+        return 0;
+    }
+
+    /*!
+     \return the number of unread messages for the collaboration item \a $collaborationItem.
+     \note The default implementation returns 0, if you want real counts
+           the handler must reimplement this function.
+    */
+    function unreadMessageCount( &$collaborationItem )
+    {
+        return 0;
+    }
+
+    /*!
+     This is called whenever the item is considered to be read,
+     it can be used by handlers to update when the item was last read.
+     \note Default implementation does nothing.
+    */
+    function readItem( &$collaborationItem )
+    {
     }
 
     /*!

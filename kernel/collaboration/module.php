@@ -47,36 +47,20 @@ $ViewList['action'] = array(
     'params' => array() );
 $ViewList['view'] = array(
     'script' => 'view.php',
-    'single_post_actions' => array( 'CancelTaskButton' => 'CancelTask',
-                                    'CloseTaskButton' => 'CloseTask',
-                                    'NewTaskButton' => 'NewTask',
-                                    'NewAssignmentButton' => 'NewAssignment',
-                                    'NewMessageButton' => 'NewMessage' ),
-    'post_action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
-                                       'CloseTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
-                                       'NewMessage' => array( 'SelectedIDList' => 'Task_id_checked',
-                                                              'ClassID' => 'ClassID' ) ),
-    'action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' ),
-                                  'NewMessage' => array( 'SelectedIDList', 'ClassID' ) ),
     'params' => array( 'ViewMode' ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
 $ViewList['item'] = array(
     'script' => 'item.php',
-    'single_post_actions' => array( 'CancelTaskButton' => 'CancelTask',
-                                    'CloseTaskButton' => 'CloseTask',
-                                    'NewTaskButton' => 'NewTask',
-                                    'NewAssignmentButton' => 'NewAssignment',
-                                    'NewMessageButton' => 'NewMessage' ),
-    'post_action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
-                                       'CloseTask' => array( 'SelectedIDList' => 'Task_id_checked' ),
-                                       'NewMessage' => array( 'SelectedIDList' => 'Task_id_checked',
-                                                              'ClassID' => 'ClassID' ) ),
-    'action_parameters' => array( 'CancelTask' => array( 'SelectedIDList' ),
-                                  'NewMessage' => array( 'SelectedIDList', 'ClassID' ) ),
     'params' => array( 'ViewMode', 'ItemID' ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
+$ViewList['group'] = array(
+    'script' => 'group.php',
+    'params' => array( 'ViewMode', 'GroupID' ),
+    "unordered_params" => array( "language" => "Language",
+                                 "offset" => "Offset" ) );
+/*
 $ViewList['messageview'] = array(
     'script' => 'messageview.php',
     'params' => array( 'MessageID' ),
@@ -90,4 +74,6 @@ $ViewList['message'] = array(
                                     'ApplyButton' => 'Apply',
                                     'PublishButton' => 'Publish',
                                     'CancelButton' => 'Cancel' ) );
+*/
+
 ?>

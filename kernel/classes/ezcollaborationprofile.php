@@ -60,6 +60,7 @@ class eZCollaborationProfile extends eZPersistentObject
         return array( 'fields' => array( 'id' => 'ID',
                                          'user_id' => 'UserID',
                                          'main_group' => 'MainGroup',
+                                         'data_text1' => 'DataText1',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
                       'keys' => array( 'id' ),

@@ -3,6 +3,7 @@
 {let message_limit=2
      message_offset=0
      content_version=fetch("content","version",hash("object_id",$collab_item.content.content_object_id,"version_id",$collab_item.content.content_object_version))
+     current_participant=fetch("collaboration","participant",hash("item_id",$collab_item.id))
      participant_list=fetch("collaboration","participant_map",hash("item_id",$collab_item.id))
      message_list=fetch("collaboration","message_list",hash("item_id",$collab_item.id,"limit",$message_limit,"offset",$message_offset))}
 
@@ -51,13 +52,7 @@
    {section name=Participant loop=$:item.items sequence=array(bglight,bgdark)}
    <tr>
      <td>
-{collaboration_participation_view view=text_linked collaboration_participant=$:item}
-{*     {section show=eq($:item.participant_type,1)}
-       {content_view_gui view=text_linked content_object=$:item.participant.contentobject}
-     {section-else}
-       {content_view_gui view=text_linked content_object=$:item.participant}
-     {/section}
-*}
+     {collaboration_participation_view view=text_linked collaboration_participant=$:item}
      </td>
    </tr>
    {/section}
@@ -78,11 +73,11 @@
 
 {section show=$message_list}
 
-  <h1>Messages</h1>
+  <h1><a name="messages" ></a>Messages</h1>
   <table width="100%" cellspacing="0" cellpadding="4" border="0">
   {section name=Message loop=$message_list sequence=array(bglight,bgdark)}
 
-      {collaboration_simple_message_view view=element sequence=$:sequence item_link=$:item collaboration_message=$:item.simple_message}
+      {collaboration_simple_message_view view=element sequence=$:sequence is_read=$current_participant.last_read|gt($:item.modified) item_link=$:item collaboration_message=$:item.simple_message}
 
   {/section}
   </table>

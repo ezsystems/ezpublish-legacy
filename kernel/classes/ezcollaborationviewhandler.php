@@ -43,17 +43,30 @@
 
 */
 
+define( 'EZ_COLLABORATION_VIEW_TYPE_STANDARD', 1 );
+define( 'EZ_COLLABORATION_VIEW_TYPE_GROUP', 2 );
+
 class eZCollaborationViewHandler
 {
     /*!
      Initializes the view mode.
     */
-    function eZCollaborationViewHandler( $viewMode )
+    function eZCollaborationViewHandler( $viewMode, $viewType )
     {
         $this->ViewMode = $viewMode;
+        $this->ViewType = $viewType;
         $this->TemplateName = $viewMode;
         $ini =& $this->ini();
-        $viewGroup = $viewMode . "View";
+        if ( $viewType == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+        {
+            $this->TemplatePrefix = "design:collaboration/view/";
+            $viewGroup = $viewMode . "View";
+        }
+        else if ( $viewType == EZ_COLLABORATION_VIEW_TYPE_GROUP )
+        {
+            $this->TemplatePrefix = "design:collaboration/group/view/";
+            $viewGroup = $viewMode . "GroupView";
+        }
         if ( $ini->hasGroup( $viewGroup ) )
         {
             if ( $ini->hasVariable( $viewGroup, 'TemplateName' ) )
@@ -66,7 +79,7 @@ class eZCollaborationViewHandler
     */
     function template()
     {
-        return "design:collaboration/view/" . $this->TemplateName . ".tpl";
+        return $this->TemplatePrefix . $this->TemplateName . ".tpl";
     }
 
     /*!
@@ -90,6 +103,16 @@ class eZCollaborationViewHandler
 
     /*!
      \static
+     \return true if the viewmode \a $viewMode exists for groups with the current configuration
+    */
+    function groupExists( $viewMode )
+    {
+        $list =& eZCollaborationViewHandler::fetchGroupList();
+        return in_array( $viewMode, $list );
+    }
+
+    /*!
+     \static
      \return a list of active viewmodes.
     */
     function fetchList()
@@ -100,14 +123,29 @@ class eZCollaborationViewHandler
 
     /*!
      \static
+     \return a list of active viewmodes for groups.
+    */
+    function fetchGroupList()
+    {
+        $ini =& eZCollaborationViewHandler::ini();
+        return $ini->variable( 'ViewSettings', 'GroupViewList' );
+    }
+
+    /*!
+     \static
      \return the single instance of the viewmode \a $viewMode.
     */
-    function instance( $viewMode )
+    function instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
     {
-        $instance =& $GLOBALS["eZCollaborationView-$viewMode"];
+        if ( $type == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+            $instance =& $GLOBALS["eZCollaborationView"][$viewMode];
+        else if ( $type == EZ_COLLABORATION_VIEW_TYPE_GROUP )
+            $instance =& $GLOBALS["eZCollaborationGroupView"][$viewMode];
+        else
+            return null;
         if ( !isset( $instance ) )
         {
-            $instance = new eZCollaborationViewHandler( $viewMode );
+            $instance = new eZCollaborationViewHandler( $viewMode, $type );
         }
         return $instance;
     }
@@ -115,6 +153,9 @@ class eZCollaborationViewHandler
     /// \privatesection
     /// The viewmode
     var $ViewMode;
+    var $ViewType;
+    var $TemplateName;
+    var $TemplatePrefix;
 }
 
 ?>
