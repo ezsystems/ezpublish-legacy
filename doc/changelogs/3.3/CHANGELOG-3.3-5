@@ -6,6 +6,10 @@ Changes from 3.3-4 to 3.3-5
 
 *DataTypes:
 
+eZINI:
+- Made sure the recreated array line includes all elements not just
+  the first and second.
+
 *Bugs:
 - Fixed a bug with login of user when running mysql, the number of returned rows would
   increase exponentially. (Merged from stable/3.2 rev. 5647)
