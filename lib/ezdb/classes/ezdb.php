@@ -168,21 +168,30 @@ class eZDB
             $fetchInstance = true;
         }
 
+        $useDefaults = true;
+        if ( is_array( $databaseParameters ) and isset( $databaseParameters['use_defaults'] ) )
+            $useDefaults = $databaseParameters['use_defaults'];
+
         if ( $fetchInstance )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
-            if ( $databaseImplementation === false )
+            if ( $databaseImplementation === false and $useDefaults )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
-            list( $server, $user, $pwd, $db, $usePersistentConnection ) =
-                $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'User', 'Password', 'Database', 'UsePersistentConnection' ) );
+            $server = $user = $pwd = $db = $usePersistentConnection = false;
+            if ( $useDefaults )
+                list( $server, $user, $pwd, $db, $usePersistentConnection ) =
+                    $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'User', 'Password', 'Database', 'UsePersistentConnection' ) );
 
             $socketPath = false;
-            $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
-            if ( trim( $socket != "" ) and $socket != "disabled" )
+            if ( $useDefaults )
             {
-                $socketPath = $socket;
+                $socket = $ini->variable( 'DatabaseSettings', 'Socket' );
+                if ( trim( $socket != "" ) and $socket != "disabled" )
+                {
+                    $socketPath = $socket;
+                }
             }
 
             // Check slave servers
