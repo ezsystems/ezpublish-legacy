@@ -17,6 +17,8 @@ Changes from 3.5.0rc2 to 3.5.0
   http://ez.no/community/bug_reports/fatal_error_call_to_undefined_function_ezi18n_in_eztopmenuoperator_php
 - Fixed bug with wrongly quotes query for Delayed Indexing
   http://ez.no/community/bug_reports/delayed_indexing
+- Fixed incorrect display of requirements for package name.
+  (Merged from trunk rev. 10348)
 
 *Library:
 
