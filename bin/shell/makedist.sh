@@ -144,6 +144,7 @@ for arg in $*; do
 #	    echo "         --skip-site-creation       Do not build sites*"
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
+	    echo "         --skip-code-template-check Do not check code templates*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
 	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)*"
 	    echo "         --skip-db-update           Do not run db update check*"
@@ -233,6 +234,9 @@ for arg in $*; do
 	    ;;
 	--skip-php-check)
 	    SKIPCHECKPHP="1"
+	    ;;
+	--skip-code-template-check)
+	    SKIPCODETEMPLATECHECK="1"
 	    ;;
 	--skip-db-schema)
 	    SKIPDBSCHEMA="1"
@@ -330,6 +334,20 @@ if [ -z $SKIPCHECKVERSION ]; then
 	echo
 	exit 1
     fi
+    echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+fi
+
+if [ -z $SKIPCODETEMPLATECHECK ]; then
+    echo -n "Checking code templates"
+    ./bin/php/ezapplytemplate.php --all --check-only -q
+    if [ $? -ne 0 ]; then
+	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	echo "Some PHP files were updated by code templates"
+	echo "Run the following command to find the files"
+	echo "./bin/php/ezapplytemplate.php --all"
+	exit 1
+    fi
+
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
 

@@ -75,7 +75,7 @@ class eZCodeTemplate
 
       \note It will create a backup file of the original
     */
-    function apply( $filePath )
+    function apply( $filePath, $checkOnly = false )
     {
         if ( !file_exists( $filePath ) )
         {
@@ -349,7 +349,12 @@ class eZCodeTemplate
                 unlink( $tempFile );
                 return EZ_CODE_TEMPLATE_STATUS_NO_CHANGE;
             }
-            else
+            else if ( $checkOnly )
+            {
+                unlink( $tempFile );
+                return EZ_CODE_TEMPLATE_STATUS_OK;
+            }
+            else if ( $checkOnly )
             {
                 $backupFile = $filePath . eZSys::backupFilename();
                 // Make a backup and make the temporary file the real one

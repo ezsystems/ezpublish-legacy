@@ -50,9 +50,10 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Code Templa
 
 $script->startup();
 
-$options = $script->getOptions( "[a|all]",
+$options = $script->getOptions( "[a|all][check-only]",
                                 "[file]",
-                                array( 'all' => 'Go trough all files defined in codetemplate.ini' ) );
+                                array( 'all' => 'Go trough all files defined in codetemplate.ini',
+                                       'check-only' => 'Will only check if the files will be changed or have errors' ) );
 $script->initialize();
 
 if ( !$options['all'] and count( $options['arguments'] ) < 1 )
@@ -79,7 +80,7 @@ else
 
 foreach ( $files as $file )
 {
-    $status = $tpl->apply( $file );
+    $status = $tpl->apply( $file, $options['check-only'] );
     if ( $status == EZ_CODE_TEMPLATE_STATUS_OK )
     {
         $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
