@@ -23,7 +23,7 @@
         {* Role name. *}
         <td>{'role'|icon( 'small', 'Role'|i18n( 'design/admin/node/view/full' ) )}&nbsp;<a href={concat( '/role/view/', $Roles.item.id )|ezurl}>{$Roles.item.name|wash}</a></td>
 
-        {* Limitation. *}
+        {* Limitation with link. *}
         <td>
         {section show=$Roles.item.limit_identifier}
          {section show=$Roles.item.limit_value|begins_with( '/' )}
@@ -38,15 +38,6 @@
         {section-else}
         <i>{'No limitation'|i18n( 'design/admin/node/view/full' )}</i>
         {/section}
-
-
-{*
-        {section show=$Roles.item.limit_identifier}
-            {$Roles.item.limit_identifier|wash} ({$Roles.item.limit_value|wash})
-        {section-else}
-            <i>{'No limitation'|i18n( 'design/admin/node/view/full' )}</i>
-        {/section}
-*}
         </td>
 
         {* Edit. *}
