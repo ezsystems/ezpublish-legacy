@@ -55,6 +55,7 @@ chmod $DIR_MODE var/storage/packages
 
 chmod $DIR_MODE var/cache/ini
 chmod -R $DIR_MODE var/storage
+chmod -R $DIR_MODE var/webdav
 
 chmod -R $DIR_MODE settings
 
