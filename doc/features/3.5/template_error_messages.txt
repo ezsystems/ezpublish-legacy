@@ -1,0 +1,21 @@
+*Title: Improve template error messages
+
+*Incentive:
+Make it easier to spot where errors occur in templates and make it
+easier to debug which operators and functions are causing problems.
+
+*Documentation:
+When template debug is on it will now add a debug entry before and after
+the template is loaded with its url and filepath (not in compiled mode).
+
+For advanced debugging it is now possible to see when a certain template
+operator or function is started and ended, this can make it much easier
+to spot errors in the template system.
+Configure it in site.ini in the group TemplateSettings, set ShowMethodDebug
+to enabled.
+
+Now all operators and functions will send the location information to the
+template system, enabling detailed information on what goes wrong.
+
+A couple of bugs were fixed in the template system that caused the line
+and column number to be incorrect.
