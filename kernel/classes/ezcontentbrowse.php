@@ -144,7 +144,8 @@ class eZContentBrowse
         if ( !isset( $parameters['description_template'] ) )
             $parameters['description_template'] = false;
 
-        $parameters['start_node'] = $ini->variable( $parameters['type'], 'StartNode' );
+        if ( !isset( $parameters['start_node'] ) )
+            $parameters['start_node'] = $ini->variable( $parameters['type'], 'StartNode' );
 
         if ( isset( $parameters['keys'] ) )
         {

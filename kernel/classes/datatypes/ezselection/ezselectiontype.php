@@ -204,7 +204,7 @@ class eZSelectionType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return "";
+        return $this->objectAttributeContent( $contentObjectAttribute );
     }
 
     /*!
