@@ -2443,11 +2443,11 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Site:</source>
-        <translation type="unfinished">Lloc:</translation>
+        <translation type="obsolete">Lloc:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished">Versió:</translation>
+        <translation type="obsolete">Versió:</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -5510,6 +5510,47 @@ Per solucionar aquest problema cal que facis el següent:</translation>
         <source>Site security</source>
         <translation>Seguretat del lloc</translation>
     </message>
+    <message>
+        <source>System finetuning</source>
+        <translation type="unfinished">Ajust precís de sistema</translation>
+    </message>
+    <message>
+        <source>Finetune</source>
+        <comment>Finetune button in installation</comment>
+        <translation type="unfinished">Ajustament precís</translation>
+    </message>
+    <message>
+        <source>It is also possible to do some finetuning of your system, click &lt;i&gt;Finetune&lt;/i&gt; instead &lt;i&gt;Next&lt;/i&gt; if you want to see the finetuning hints.</source>
+        <translation type="unfinished">També és possible fer alguns ajustaments precisos del teu sistema. Fes clic a &lt;i&gt;Ajustament precís&lt;/i&gt; en lloc de &lt;i&gt;Següent&lt;/i&gt; per veure les opcions d&apos;ajustaments.</translation>
+    </message>
+    <message>
+        <source>There are some issues that should be resolved to get maximum performance and features. A list of issues is presented below. Each section contains a description and a suggested / recommended solution.</source>
+        <translation type="unfinished">Hi ha algunes qüestions que s&apos;han de resoldre per obtenir el màxim rendiment i funcionalitats. A sota en trobaràs una llista. Cada secció conté una descripció i una solució suggerida/recomanada.</translation>
+    </message>
+    <message>
+        <source>Once the issues are handled, you may click the &lt;i&gt;Finetune&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If the issues are not solved the system finetune page will reappear.</source>
+        <translation type="unfinished">Un cop hagis gestionat aquestes qüestions, fes clic al botó &lt;i&gt;Ajustament precís&lt;/i&gt; per continuar. La comprovació del sistema arrencarà de nou. Si tot és correcte, la instal·lació continuarà amb el següent pas. Si les qüestions no s&apos;han resolt, el sistema d&apos;ajustament precís tornarà a aparèixer.</translation>
+    </message>
+    <message>
+        <source>If you do not want to fix these issues just click &lt;i&gt;Next&lt;/i&gt;.</source>
+        <translation type="unfinished">Si no vols solucionar aquestes qüestions, fes clic a &lt;i&gt;Següent&lt;/i&gt;.</translation>
+    </message>
+    <message>
+        <source>The system finetune page is being displayed. This means that there are some issues which can be solved to improve the performance or features.</source>
+        <translation type="unfinished">S&apos;està mostrant el sistema d&apos;ajustament precís. Això vol dir que hi ha algunes qüestions que pots resoldre per millorar el rendiment o les funcionalitats.</translation>
+    </message>
+    <message>
+        <source>These issues do not need to be resolved/fixed. eZ publish will function properly without them.</source>
+        <translation type="unfinished">No cal resoldre aquestes qüestions. eZ publish funcionarà correctament sense elles.</translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;There are some important issues that have to be resolved. Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
+        <translation type="unfinished">Benvingut/da al sistema de gestió de continguts i marc de desenvolupament eZ publish. Aquest assistent t&apos;ajudarà a configurar eZ publish.&lt;br&gt;Hi ha algunes qüestions importants que has de resoldre. Fes clic a &lt;i&gt;Següent&lt;/i&gt; per continuar.</translation>
+    </message>
+    <message>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
+        <translation type="unfinished">Benvingut/da al sistema de gestió de continguts i marc de desenvolupament eZ publish. Aquest assistent t&apos;ajudarà a configurar eZ publish.&lt;br&gt; El teu sistema no és òptim. Si ho vols, pots fer clic al botó &lt;i&gt;Ajustament precís&lt;/i&gt;. Això t&apos;ajudarà a solucionar aquestes qüestions. Fes clic a &lt;i&gt;Següent&lt;/i&gt; per continuar sense fer-hi els ajustaments.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
@@ -5883,6 +5924,18 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     <message>
         <source>Another version of PHP can be download at</source>
         <translation>Pots descarregar una altra versió de PHP a </translation>
+    </message>
+    <message>
+        <source>Missing text creation functions</source>
+        <translation type="unfinished">S&apos;han perdut les funcions de creació de text</translation>
+    </message>
+    <message>
+        <source>The PHP functions ImageTTFText and ImageTTFBBox is missing. Without these functions it is not possible to use the texttoimage template operator.</source>
+        <translation type="unfinished">S&apos;han perdut les funcions PHP ImageTTFText i ImageTTFBBox. Sense aquestes funcions no és possible fer ús l&apos;operador de plantilles &quot;texttoimage&quot;.</translation>
+    </message>
+    <message>
+        <source>To enable these functions you need to recompile PHP with support for it, more information on that subject is available at</source>
+        <translation type="unfinished">Per activar aquestes funcions cal que recompilis PHP amb suport per aquestes funcions. Pots trobar més informació a</translation>
     </message>
 </context>
 <context>
@@ -8171,7 +8224,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publica</translation>
+        <translation type="obsolete">Publica</translation>
     </message>
     <message>
         <source>Publish on time</source>
@@ -8183,11 +8236,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Temporalització</translation>
+        <translation type="obsolete">Temporalització</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>No el publiquis</translation>
+        <translation type="obsolete">No el publiquis</translation>
     </message>
     <message>
         <source>Wait until date</source>
