@@ -58,6 +58,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiomenuoperator
                                     'class' => 'eZHiOMenuOperator',
                                     'operator_names' => array( 'hiomenu' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiosortoperator.php',
+                                    'class' => 'eZHiOSortOperator',
+                                    'operator_names' => array( 'hiosort' ) );
+
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'class' => 'eZTemplatePHPOperator',
