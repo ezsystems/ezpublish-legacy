@@ -14,7 +14,7 @@
 
 <form action={"/content/removelocation/"|ezurl} method="post">
 
-<h1>{'Removal of locations'|i18n( 'design/admin/content/removelocation' )}</h1>
+<h2>{'Removal of locations'|i18n( 'design/admin/content/removelocation' )}</h2>
 
 <p>{'Some of the locations you tried to remove has children, are you sure you want to remove those locations?
 If you do all the children will be removed as well.'|i18n( 'design/admin/content/removelocation' )}</p>
