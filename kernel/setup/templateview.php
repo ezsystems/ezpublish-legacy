@@ -69,6 +69,11 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 if ( $module->isCurrentAction( 'NewOverride' ) )
 {
+    if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
+    {
+        $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $http->postVariable( 'CurrentSiteAccess' ) );
+    }
+
     $module->redirectTo( '/setup/templatecreate'. $template );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
