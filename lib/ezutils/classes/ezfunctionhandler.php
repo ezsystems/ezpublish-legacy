@@ -102,7 +102,40 @@ class eZFunctionHandler
                 foreach ( array_keys( $constantParameterArray ) as $constKey )
                 {
                     if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
-                        $functionArray[$constKey] = explode( ';', $constantParameterArray[$constKey] );
+                    {
+                        /*
+                         Split given string using semicolon as delimiter.
+                         Semicolon may be escaped by prepending it with backslash:
+                         in this case it is not treated as delimiter.
+                         I use \x5c instead of \\ here.
+                         */
+                        $constantParameter = preg_split( '/((?<=\x5c\x5c)|(?<!\x5c{1}));/',
+                                                         $constantParameterArray[$constKey] );
+
+                        /*
+                         Unfortunately, my PHP 4.3.6 doesn't work correctly
+                         if flag PREG_SPLIT_NO_EMPTY is set.
+                         That's why we need to manually remove
+                         empty strings from $constantParameter.
+                         */
+                        $constantParameter = array_diff( $constantParameter, array('') );
+
+                        /*
+                         Hack: force array keys to be consecutive, starting from zero (0, 1, 2, ...).
+                         Otherwise SQL syntax error occurs.
+                         */
+                        $constantParameter = array_values( $constantParameter );
+
+                        if ( $constantParameter ) // if the array is not empty
+                        {
+                            // Remove backslashes used for delimiter escaping.
+                            $constantParameter = preg_replace( '/\x5c{1};/', ';', $constantParameter );
+                            $constantParameter = str_replace( '\\\\', '\\', $constantParameter );
+
+                            // Return the result.
+                            $functionArray[$constKey] =& $constantParameter;
+                        }
+                    }
                     else
                         $functionArray[$constKey] = $constantParameterArray[$constKey];
                 }

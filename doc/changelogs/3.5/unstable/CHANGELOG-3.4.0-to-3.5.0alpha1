@@ -168,6 +168,10 @@ eztc.php:
 - Fixed bug causing that the siteaccess names could not be written in capitals
   http://ez.no/community/bug_reports/changing_the_siteaccess_name_causes_a_module_not_found_error
   Merged from stable/3.3 rev. 6970, stable/3.4 rev. 6971
+- Fixed bugs: semicolons are not escaped in arrays specified in fetchalias.ini
+  (merged from stable/3.3 rev. 6979, also in stable/3.4 rev. 6980).
+  Additional fix for:
+  http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
