@@ -613,7 +613,7 @@ class eZDir
          * So we have to use the following hack on those OSes.
          * FIXME: maybe on Win9x we shouldn't do this?
          */
-        $tmpfname = $dir . eZSys::fileSeparator() . "ezsetup_" . md5( microtime() ) . ".tmp";
+        $tmpfname = $dirname . eZSys::fileSeparator() . "ezsetup_" . md5( microtime() ) . ".tmp";
 
         // try to create temporary file
         if ( !( $fp = @fopen( $tmpfname, "w" ) ) )
