@@ -18,6 +18,7 @@ eZ xml:
 
 eZ soap:
 - Added support for SOAP faults as return data from the server
+- Fixed compatibility problems with SOAP responses using the 1999 SOAP schema instance definition
 
 * Update:
 - Fixed generateoverridesettings.php to create correct Source and MatchFile entries for the .ini file.

@@ -110,12 +110,18 @@ class eZSOAPResponse extends eZSOAPEnvelope
 
         $attr = $node->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
 
+        if ( !$attr )
+        {
+            $attr = $node->attributeValueNS( "type", "http://www.w3.org/1999/XMLSchema-instance" );
+        }
+
         $dataType = $type;
         $attrParts = explode( ":", $attr );
         if ( $attrParts[1] )
         {
             $dataType = $attrParts[1];
         }
+
 
         $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
 
@@ -131,6 +137,7 @@ TODO: add encoding checks with schema validation.
             {
                 case "string" :
                 {
+
                     $returnValue =& $node->textContent();
                 }break;
 
