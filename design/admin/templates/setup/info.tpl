@@ -11,9 +11,13 @@
 
 <div class="context-attributes">
 
-    <fieldset>
-    <legend>{'eZ publish'|i18n( 'design/admin/setup/info' )}</legend>
+<table class="list" cellspacing="0">
 
+<tr>
+    <th><label>{'eZ publish'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
     <div class="block">
         <label>{'Site'|i18n( 'design/admin/setup/info' )}:</label>
         {ezini('SiteSettings','SiteURL')}
@@ -31,12 +35,24 @@
 
     <div class="block">
         <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ publish extensions' )}:</label>
-        {section loop=$ezpublish_extensions}{$:item}{delimiter}, {/delimiter}{/section}
+        {section show=$ezpublish_extensions}
+            {section var=Extensions loop=$ezpublish_extensions}
+                {$Extensions.item}{delimiter}, {/delimiter}
+            {/section}
+        {section-else}
+            {'Not in use.'|i18n( 'design/admin/setup/info' )}
+        {/section}
     </div>
-    </fieldset>
 
-    <fieldset>
-    <legend>{'PHP'|i18n( 'design/admin/setup/info' )}</legend>
+</td>
+</tr>
+</table>
+<table class="list" cellspacing="0">
+<tr>
+    <th><label>{'PHP'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
     <div class="block">
         <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP version' )}:</label>
         {$php_version}
@@ -73,11 +89,16 @@
         {'Script memory limit is %1.'|i18n( 'design/admin/setup/info' ,,array( $php_ini.memory_limit ) )}<br/>
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
-    </fieldset>
+</td>
+</tr>
+</table>
 
-<fieldset>
-<legend>{'PHP Accelerator'|i18n( 'design/admin/setup/info' )}</legend>
-
+<table class="list" cellspacing="0">
+<tr>
+<th><label>{'PHP Accelerator'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
 {section show=$php_accelerator}
 
 <div class="block">
@@ -104,13 +125,19 @@
 </div>
 
 {section-else}
+<div class="block">
     {'A known and active PHP accelerator could not be found.'|i18n( 'design/admin/setup/info' )}
+</div>
 {/section}
-</fieldset>
-
-    <fieldset>
-    <legend>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</legend>
-
+</td>
+</tr>
+</table>
+<table class="list" cellspacing="0">
+<tr>
+    <th><label>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</label></th>
+</tr>
+<tr>
+<td>
     {section show=$webserver_info}
 
     <div class="block">
@@ -135,11 +162,16 @@
     {section-else}
         {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
     {/section}
-    </fieldset>
+</td>
+</tr>
+</table>
 
-    <fieldset>
-    <legend>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</legend>
-
+<table class="list" cellspacing="0">
+<tr>
+    <th><label>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
     <div class="block">
         <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}:</label>
         {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
@@ -149,11 +181,16 @@
         <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}:</label>
         {$system_info.memory_size|si( byte )}
     </div>
-    </fieldset>
+</td>
+</tr>
+</table>
 
-<fieldset>
-<legend>{'Database'|i18n( 'design/admin/setup/info' )}</legend>
-
+<table class="list" cellspacing="0">
+<tr>
+<th><label>{'Database'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
 <div class="block">
     <label>{'Type'|i18n( 'design/admin/setup/info', 'Database type' )}:</label>
     {$database_info}
@@ -187,11 +224,16 @@
     <label>{'Character set'|i18n( 'design/admin/setup/info', 'Database charset' )}:</label>
     {$database_charset|wash}{section show=$database_object.is_internal_charset} ({'Internal'|i18n( 'design/admin/setup/info' )}){/section}
 </div>
-</fieldset>
 
-<fieldset>
-<legend>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</legend>
-
+</td>
+</tr>
+</table>
+<table class="list" cellspacing="0">
+<tr>
+<th><label>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
 {section show=$database_object.use_slave_server}
 
     <div class="block">
@@ -209,8 +251,10 @@
     {'There is no slave database in use.'|i18n( 'design/admin/setup/info' )}
 
 {/section}
+</td>
+</tr>
+</table>
 
-</fieldset>
 
 </div>
 
