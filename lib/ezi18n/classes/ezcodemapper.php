@@ -83,8 +83,6 @@ class eZCodeMapper
     */
     function error( $text, $position = false )
     {
-        include_once( 'lib/ezutils/classes/ezcli.php' );
-        $cli =& eZCLI::instance();
         if ( $position )
         {
             $str = $position['file'] . ':' . $position['from'][0] . ' C' . $position['from'][1];
@@ -93,7 +91,16 @@ class eZCodeMapper
             $str .= ':';
         }
         $str .= $text;
-        $cli->error( $str );
+        if ( class_exists( 'ezcli' ) )
+        {
+            include_once( 'lib/ezutils/classes/ezcli.php' );
+            $cli =& eZCLI::instance();
+            $cli->error( $str );
+        }
+        else
+        {
+            eZDebug::writeError( $str, 'eZCodeMapper::error' );
+        }
     }
 
     /*!
@@ -101,8 +108,6 @@ class eZCodeMapper
     */
     function warning( $text, $position = false )
     {
-        include_once( 'lib/ezutils/classes/ezcli.php' );
-        $cli =& eZCLI::instance();
         if ( $position )
         {
             $str = $position['file'] . ':' . $position['from'][0] . ' C' . $position['from'][1];
@@ -111,7 +116,16 @@ class eZCodeMapper
             $str .= ':';
         }
         $str .= $text;
-        $cli->warning( $str );
+        if ( class_exists( 'ezcli' ) )
+        {
+            include_once( 'lib/ezutils/classes/ezcli.php' );
+            $cli =& eZCLI::instance();
+            $cli->warning( $str );
+        }
+        else
+        {
+            eZDebug::writeWarning( $str, 'eZCodeMapper::warning' );
+        }
     }
 
     /*!
@@ -577,6 +591,13 @@ class eZCodeMapper
                                     break;
                                 }
                                 $moduloValue = $this->extractUnicodeValue( $unicodeData );
+                                if ( $moduloValue == 0 )
+                                {
+                                    $this->error( "Modulo value of 0 is not allowed, 1 will be used instead",
+                                                  array( 'file' => $filename,
+                                                         'from' => array( $linePos, $pos ) ) );
+                                    // Note: There is another 0 check in generateSimpleMappingTable()
+                                }
 //                                 print( "modulo value=$moduloValue\n" );
                                 $state = 'range_marker';
                             }
@@ -1155,6 +1176,7 @@ class eZCodeMapper
                         if ( count( $toCode ) == 1 )
                             $toCode = $toCode[0];
                         $unicodeMap[$fromCode] = $toCode;
+                        eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
                     }
                     else
                     {
@@ -1551,8 +1573,10 @@ class eZCodeMapper
                        '                             "#^\.#",' . "\n" .
                        '                             "#\s\.#",' . "\n" .
                        '                             "#\.\s#",' . "\n" .
-                       '                             "#\.$#" ),' . "\n" .
+                       '                             "#\.$#",' . "\n" .
+                       '                             "#([^0-9])%#" ),' . "\n" .
                        '                      array( " ",' . "\n" .
+                       '                             " ",' . "\n" .
                        '                             " ",' . "\n" .
                        '                             " ",' . "\n" .
                        '                             " ",' . "\n" .
@@ -1625,16 +1649,19 @@ class eZCodeMapper
                 $text = $revCodec->convertString( $normalizedTextArray );
             }
 
+            // Make sure dots inside words/numbers are kept, the rest is turned into space
             $text = preg_replace( array( "#(\.){2,}#",
                                          "#^\.#",
                                          "#\s\.#",
                                          "#\.\s#",
-                                         "#\.$#" ),
+                                         "#\.$#",
+                                         "#([^0-9])%#" ), // Keep only % after a number
                                   array( " ",
                                          " ",
                                          " ",
                                          " ",
-                                         " " ),
+                                         " ",
+                                         "$1 " ),
                                   $text );
             $ini =& eZINI::instance();
             if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
