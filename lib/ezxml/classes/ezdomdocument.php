@@ -265,7 +265,7 @@ class eZDOMDocument
         if ( $charset === true )
             $charset = 'UTF-8';
         if ( $charset !== false )
-            $charsetText = " charset=\"$charset\"";
+            $charsetText = " encoding=\"$charset\"";
         $text = "<?xml version=\"1.0\"$charsetText?>\n";
 
         if ( get_class( $this->Root ) == "ezdomnode" )

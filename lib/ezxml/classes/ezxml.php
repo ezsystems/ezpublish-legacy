@@ -91,7 +91,10 @@ class eZXML
             for ( $i = 0; $i < count( $xmlAttributes ); ++$i )
             {
                 $xmlAttribute =& $xmlAttributes[$i];
-                if ( $xmlAttribute->name() == 'charset' )
+                if ( $xmlAttribute->name() == 'encoding' )
+                    $charset = $xmlAttribute->content();
+                // This is required due to a bug in an old xml parser
+                else if ( $xmlAttribute->name() == 'charset' )
                     $charset = $xmlAttribute->content();
             }
         }
