@@ -89,8 +89,8 @@ links to clickable links.
   the template.
 - It is possible to send out a feedback email to site owners when a new user registers.
   Controlled by a site.ini setting.
+- Fixed storing of VAT value instead of reference in order item
 - Improved clearcache to be able to handle more cache types.
-
 
 *SDK :
 
