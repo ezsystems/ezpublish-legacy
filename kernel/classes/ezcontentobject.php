@@ -869,6 +869,15 @@ class eZContentObject extends eZPersistentObject
         return $this->ClassName;
     }
 
+    /*!
+     Returns an array of the content actions which can be performed on
+     the current object.
+    */
+    function contentActionList( )
+    {
+        
+    }
+
     function defaultLanguage()
     {
         $ini =& eZINI::instance();

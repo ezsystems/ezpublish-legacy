@@ -36,38 +36,21 @@
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="topline" width="60%">
+    <td class="topline" width="40%">
     <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
     </td>
-    <td class="topbox" width="1%" valign="bottom">
+    <td class="topbox" width="20%" valign="bottom">
 	<label class="topline" for="Search">Search:</label><a class="topline" href="/content/advancedsearch/"><span class="small">Advanced search</span></a><div class="labelbreak"></div>
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
-    <td class="topbox" width="34%" valign="bottom">
-	<input class="button" name="SearchButton" type="submit" value="S" />
+    <td class="topbox" width="20%" valign="bottom">
+	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n}" />
     </td>
-    <td class="topbox" valign="bottom" width="1%">
-	<label class="topline" for="ID">ID:</label><br />
-	<input type="text" size="4" name="ObjectID" id="ID" value="" />
-    </td>
-    <td class="topbox" valign="bottom" width="1%">
-	<label class="topline" for="Type">Class:</label><br />
-	<select size="1" name="ObjectType" id="Type">
-		<option>Folder</option>
-		<option>Article</option>
-		<option>Product</option>
-		<option>Link</option>
-		<option>Image</option>
-	</select>
-    </td>
-    <td class="topbox" valign="bottom" width="1%">
-	<input class="button" type="submit" value="N" />
-    </td>
-    <td class="topbox" valign="bottom" width="1%">
-	<input class="button" type="submit" value="E" />
-    </td>
-    <td class="topbox" valign="bottom" width="1%">
-	<input class="button" type="submit" value="P" />
+    <td class="topbox" valign="bottom" width="20%">
+    <label class="topline">Name: {$current_user.login}</label>
+    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p>
+
+
     </td>
 </tr>
 </table>
@@ -193,7 +176,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/shop/cart/">Shopping cart</a></p>
+    <p class="menuitem"><a class="menuitem" href="/shop/basket/">Shopping basket</a></p>
     </td>
 </tr>
 </table>
@@ -280,71 +263,6 @@
 {$content}
 
 <!-- Main area END -->
-
-    </td>
-    <td width="120" valign="top" style="padding-left: 4px;">
-
-<!-- Right menu START -->
-
-<table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheaddark" colspan="2">
-    <p class="menuhead">Current user</p>
-    </th>
-</tr>
-<tr>
-    <td class="menu" colspan="2">
-    <p class="menufieldlabel">Name:</p>
-    <p class="menufield">
-    {$current_user.login}
-    </p>
-    <p class="menufieldlabel">Groups:</p>
-    <p class="menufield">
-    {section name=groups loop=$current_user.groups}
-    {delimiter},{/delimiter}
-    {$groups:item}
-    {/section}
-    </p>
-    <p class="menufieldlabel">Roles:</p>
-    <p class="menufield">
-        {section name=Roles loop=$current_user.roles}
-        <a href="/role/view/{$Roles:item.id}/">{$Roles:item.name}</a><br/>
-        {/section}
-    </p>
-    </td>
-</tr>
-<tr>
-    <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
-    </td>
-    <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p>
-    </td>
-</tr>
-</table>
-
-<table>
-{section name=Execution loop=$execution_entries}
-<tr><td>{$Execution:item.module}/{$Execution:item.function}</td></tr>
-{/section}
-</table>
-
-<table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
-<tr>
-    <th class="menuheadlight">
-    <p class="menuhead">Connected items</p>
-    </th>
-</tr>
-<tr>
-    <td class="menu">
-    <p class="menutext">
-    Tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst, tekst!
-    </p>
-    </td>
-</tr>
-</table>
-
-<!-- Right menu END -->
 
     </td>
 </tr>
