@@ -123,6 +123,7 @@ Payment:
   http://ez.no/community/bug_reports/cancel_in_create_new_workflow_group_does_not_work
 - Fixed bug for shop/discountgroup, after clicking New Discount Group and then Cancel button it does not create new discount group now.
   http://ez.no/community/bug_reports/cancel_in_create_new_discount_group_shop_does_not_work  
+- Removed some commented code.
 
 *Library:
 

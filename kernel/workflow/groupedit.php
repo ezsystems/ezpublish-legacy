@@ -60,10 +60,7 @@ else
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup =& eZWorkflowGroup::create( $user_id );
     $workflowGroup->setAttribute( "name", "New WorkflowGroup" );
-//    $workflowGroup->store();
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
-//    $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID );
-//    return;
 }
 
 //$assignedWorkflows =& $workflowGroup->fetchWorkflowList();
