@@ -140,6 +140,17 @@ MatchFile=line/image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
+[image_galleryline]
+Source=node/view/galleryline.tpl
+MatchFile=galleryline/image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
+[image_galleryslide]
+Source=node/view/galleryslide.tpl
+MatchFile=galleryslide/image.tpl
+Subdir=templates
+Match[class_identifier]=image
 
 [image_listitem]
 Source=node/view/listitem.tpl

@@ -212,7 +212,9 @@ div#leftmenu ul, div#rightmenu ul
 div#leftmenu
 {
     float: left;
+    width: 168px;
 }
+
 
 div#leftmenu-design
 {
@@ -296,7 +298,7 @@ div#rightmenu-design
 
 div#maincontent
 {
-    margin-left: 190px;
+    margin-left: 174px;
     margin-right: 184px;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
@@ -350,8 +352,8 @@ div.toollist-design h2
     position: relative;
     left: -10px;
     padding-left: 10px;
-    padding-top: 0px;
     margin-top: 0px;
+    padding-top: 2px;
     padding-bottom: 3px;
     font: 12px regular;
     background-color: #336699;
@@ -396,7 +398,7 @@ div#footer
 
 /* COMMON STYLES SET JUST AS AN EXAMPLE */
 /* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
-div#leftmenu-design, div#footer-design 
+div#footer-design 
 {
     background-color: #ffffff;
     margin: 1em 0 0 0;
@@ -457,16 +459,17 @@ div#maincontent-design h5
     margin-bottom: 0px;
 }
 
-/*
-div#maincontent-design h2
+/* folder */
+div#maincontent-design div.class-folder div.content-short p
 { 
-    font: 13pt bold;
-    color: #099;
-    margin-bottom: 0px;
+    padding-top: 0px;
     margin-top: 0px;
+    font: 9pt;
+    font-weight: bold;
+    color: #036;
 }
-*/
 
+/* article */
 div#maincontent-design div.class-article div.content-short p
 { 
     padding-top: 0px;
@@ -475,6 +478,78 @@ div#maincontent-design div.class-article div.content-short p
     font-weight: bold;
     color: #036;
 }
+
+div#maincontent-design div.class-folder div.class-article div.content-short p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: normal;
+    color: #036;
+}
+
+/* gallery */
+div#maincontent-design div.class-folder div.class-gallery div.content-short p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: normal;
+    color: #036;
+}
+
+div#maincontent-design div.class-folder div.class-gallery div.content-link p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: normal;
+}
+
+div#maincontent-design div.class-gallery div.content-short p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: bold;
+    color: #036;
+}
+
+div#maincontent-design div.class-gallery div.view-children table
+{ 
+    width: 100%;
+}
+
+div#maincontent-design div.class-gallery div.view-children table td
+{ 
+    border: 1px solid #666;
+    text-align: center;
+    vertical-align: top;
+    padding: 6px;
+    width: 25%;
+    background-color: #efefef;
+}
+
+div#maincontent-design div.class-gallery div.view-children div.content-image p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    font: 9pt;
+    font-weight: none;
+    color: #666;
+}
+
+div#maincontent-design div.class-gallery div.view-children div.content-caption p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 8pt;
+    font-weight: none;
+    color: #666;
+}
+
 
 div#maincontent-design div.content-long p
 { 
