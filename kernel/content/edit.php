@@ -272,25 +272,6 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
 }
 $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
 
-if ( !function_exists ( 'registerSearchObject'  ) )
-{
-    function registerSearchObject( &$module, $parameters )
-    {
-        eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
-
-        include_once( "kernel/classes/ezsearch.php" );
-        $object =& $parameters[1];
-        // Register the object in the search engine.
-        eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-        eZSearch::removeObject( $object );
-        eZDebug::accumulatorStop( 'remove_object', 'search_total', 'remove object' );
-        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-        eZSearch::addObject( $object );
-        eZDebug::accumulatorStop( 'add_object', 'search_total', 'add object' );
-    }
-}
-$Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
-
 if ( !function_exists( 'checkContentActions' ) )
 {
     function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
