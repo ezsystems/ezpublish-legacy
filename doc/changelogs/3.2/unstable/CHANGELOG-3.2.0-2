@@ -21,8 +21,11 @@ Changes from 3.2.0-1 to 3.2.0-2
 *Bugfixes:
 - Fixed bug for copy object function.
 - Fixed bug for role edit function which can't remove * if limitation changed from "allow all" to "allow limited".
-- Add i18n(translation) support when create a new content object. The default name of the object could be translated.
+- Add i18n(translation) support when create a new content object. The default name of the object could be translated. 
 - Fixed bug in eZSelection datatype which made it impossible to add new elements.
+- Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
+- Role list does now not show temporary roles.
+- Fixed bug when assigning a node to it self.
 
 *Setup:
 - Made sure the password is used when connecting to database.
