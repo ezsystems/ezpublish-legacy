@@ -481,3 +481,8 @@ Template engine
 ---------------
 - Whitespace handling, improve to allow whitespace more places eg. let a = 1 etc..
 
+
+Internal linking
+-----------------
+A browse function for linking internally to other pages. Similar to related object.
+

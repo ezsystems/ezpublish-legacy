@@ -97,6 +97,7 @@ links to clickable links.
 - Added stopword support in search engine for searching large ammounts of data
 - Fixed rendering of custom tag as a block tag
 - Added next/prev to search template
+- Made integer datatype searchable
 
 *SDK :
 
