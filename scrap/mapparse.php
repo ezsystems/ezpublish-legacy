@@ -19,16 +19,23 @@ include_once( 'lib/ezi18n/classes/ezchartransform.php' );
 
 $tr = new eZCharTransform();
 
-$in = 'A space';
-$out = $tr->transform( $in, 'ascii_lowercase' );
+$codec1 =& eZTextCodec::instance( 'latin1', 'utf8' );
+$codec2 =& eZTextCodec::instance( 'utf8', 'latin1' );
+
+//$in = 'A "space" and a \'word\'. Ut på kjøretur for å lære. ĀāŃĦŉŬİıœŒſŮů';
+$in = 'A "space" and a \'word\'. Ut p� kj�retur for � l�re';
+//$in = $codec1->convertString( $inSrc );
+$out = $tr->transformByGroup( $in, 'identifier' );
+//$out2 = $codec2->convertString( $outSrc );
 
 print( $in . "\n" );
 print( $out . "\n" );
+//print( $out2 . "\n" );
 
 //$map = new eZCodeMapper();
 
 //$map->parseTransformationFile( "share/transformations/basic.tr" );
-var_dump( $tr->Mapper->TransformationTables );
+// var_dump( $tr->Mapper->TransformationTables );
 // var_dump( $map->mappingTable( 'ascii_uppercase' ) );
 
 $script->shutdown();
