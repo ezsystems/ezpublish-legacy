@@ -41,6 +41,7 @@ label.topline, a.topline, a.topline:hover
 
 td.pathline
 {
+    padding-top: 4px;
     color: #000000; 
 }
 
@@ -52,12 +53,13 @@ table.path td.bullet
 
 p.path
 {
-        font-weight: none;
+   font-size: 70%;
+   font-weight: none;
 }
 
 p.path a.path
 {
-        text-decoration: none;
+    text-decoration: none;
     color: #3C67A2;
 }
 

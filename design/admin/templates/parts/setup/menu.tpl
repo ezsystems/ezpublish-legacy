@@ -45,3 +45,12 @@
 <div style="padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
 <a class="leftmenuitem"  href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a>
 </div>
+
+
+
+{section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+   {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
+   {'Version:'|i18n('design/standard/layout')} {$ezinfo.version}
+   {'Revision:'|i18n('design/standard/layout')} {$ezinfo.revision}
+ {/section}
+

@@ -17,18 +17,11 @@
 {* Top box START *}
 
 
-
-{section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-   {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
-   {'Version:'|i18n('design/standard/layout')} {$ezinfo.version}
-   {'Revision:'|i18n('design/standard/layout')} {$ezinfo.revision}
- {/section}
-
 {* Cache header for each navigation part *}
-{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
 <tr>
-    <td style="padding: 4px" colspan="11">
+    <td style="padding: 4px" colspan="13">
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr>
         <td width="5" style="background-image:url('{"tbox-top-left.gif"|ezimage(no)}'); background-repeat: no-repeat;">
@@ -116,6 +109,16 @@
     <td class="menuheadspacer" width="3">
     <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
     <td class="headlink" width="66">
+    {* Media menu *}
+    {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
+    {include uri="design:page_menuheadselected.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {section-else}
+    {include uri="design:page_menuheadgray.tpl" menu_text='Media'|i18n('design/admin/layout') menu_url="/content/view/full/2/"}</td>
+    {/section}
+
+    <td class="menuheadspacer" width="3">
+    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
+    <td class="headlink" width="66">
     {* Shop menu *}
     {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
     {include uri="design:page_menuheadselected.tpl" menu_text='Shop'|i18n('design/admin/layout') menu_url="/shop/orderlist/"}</td>
@@ -168,7 +171,7 @@
    &nbsp;</td>
 </tr>
 <tr>
-    <td colspan="11" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
+    <td colspan="13" style="background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="1" height="8" /></td>
 <tr>
 </table>
@@ -209,7 +212,7 @@
     </td>
     <td rowspan="2" valign="top"  style="background-color: #ffffff; background-image:url('{"corner.gif"|ezimage(no)}'); background-repeat: no-repeat;">
     <img src={"1x1.gif"|ezimage} alt="" width="23" height="1" /></td>
-    <td class="pathline" colspan="11">
+    <td class="pathline" colspan="13">
     {include uri="design:page_toppath.tpl"}
     </td>
 </tr>
