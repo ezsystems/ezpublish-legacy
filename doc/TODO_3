@@ -309,3 +309,12 @@ Some crazy ideas we could think about:
   attributes and objects already use that class they won't be affected until a
   new version is created, ie they link to the class id and class version in an
   object version. Again version history is preserved.
+
+Search / binaryfile datatype metadata
+------------------------------------
+We need to add a plugin system which generates meta data for binary files based
+on mime. E.g. we need a word and PDF indexer.
+
+
+
+
