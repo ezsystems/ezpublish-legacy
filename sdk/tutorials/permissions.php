@@ -34,93 +34,130 @@
 
 ?>
 
-<h1>Permissions and sections </h1>
+<h1>Permissions and sections</h1>
 
 <p>
-With the permission ( roles ) system in eZ Publish 3 you can very flexible limit access to different parts of your content. One of the ways to do it is to give limited acces to the sections of your site. For example you have a webshop with articles and products  and two groups of persons.Where one group of persons can write articles in the "articles" section and another group updates the products.
+With the permission (roles) system in eZ Publish 3 you can very flexibly limit access to different parts of your content. One of the ways to do it is to give limited access to the sections of your site. For example can you have a web shop with articles and products and two groups of persons, where one group of persons can write articles in the "articles" section and the other group updates the products.
 </p>
 
 <p>
-To  make that configuration you need to do next steps
-
+To make such a configuration you need to do the next five steps:
 <ul>
 <li>you need to define two sections.</li>
-<li>assign that sections to a different parts of you sitemap tree</li>
-<li>create two different roles (or you can use allready existend roles and just change the access policies )</li>
-<li>set up policies for that user roles </li>
-<li>assign that roles to the user  </li>
+<li>assign these sections to a different parts of you sitemap tree</li>
+<li>create two different roles (or you can use already existing roles and just change the access policies)</li>
+<li>set up policies for these user roles</li>
+<li>assign these roles to the users.</li>
 </ul>
 </p>
 
-<h4>Define and assigning sections </h4>
+<h2>Define and assign sections</h2>
 <p>
-To create a neew section you need to go to the sections part of admin interface in the "Set up" box  and  push "New" button there. Create two sections: "Articles" and "Products". <br>
+To create a new section you need to go to the sections part of the admin interface in the "Set up" menu box and click the "New" button there. Create two sections: "Articles" and "Products".
+</p>
 
+<p>
 <img src="/doc/images/section_new.png" alt="Creating a section" />
-<br>
 </p>
-<p>
-To assign created sections to the part of your site you need to click "assign" link. You will see so called "browse" page in which you can select a folder(s) ( in general any object of any class ) to assign section to. After you select a falder system will assign section to that folder and all its children.
-</p>
-<img src="/doc/images/browse.png" alt="Browse page" />
 
-<h4>Roles setup</h4>
 <p>
-Go to the "roles" page. Create new role with the "New" button. You will be redirected to the role edit page. There you can set the name for role and  set up policies. To create new policy for role you click "New" at edit page.
+To assign the created sections to certain parts of your site you click the "assign" link. You will see the so called "browse" page in which you can select one or more folders (in general any object of any class) to assign the section to. After you select a folder the system will assign the section to that folder and all its children.
 </p>
-<img src="/doc/images/role_edit.png" alt="Role edit page" />
+
 <p>
-Policy creation consist of max three steps.
+<img src="/doc/images/browse.png" alt="Browse page" />
+</p>
+
+<h2>Roles setup</h2>
+<p>
+Go to the "roles" page. Create a new role with the "New" button. You will be redirected to the role edit page. There you
+can set the name for the role and set up policies. To create a new policy for the role you click "New" at the edit page.
+</p>
+
+<p>
+<img src="/doc/images/role_edit.png" alt="Role edit page" />
+</p>
+
+<p>
+Policy creation consist of (at maximum) three steps.
 <ul>
 <li>selecting a module</li>
 <li>selecting a function </li>
-<li>creating limitation for fumction</li>
+<li>creating limitations for function</li>
 </ul>
 </p>
 
-<h5> Select module </h5>
+<h2>Select module</h2>
 <p>
-Select "content" module from dropdown  and click "Allow limited".
+Select the "content" module from the dropdown  and click "Allow limited".
 </p>
-<img src="/doc/images/policy_step1.png" alt="Selecting module" />
 
-
-<h5> Select function </h5>
 <p>
-Select "create" function from dropdown and click "Allow limited"
+<img src="/doc/images/policy_step1.png" alt="Selecting module" />
+</p>
+
+<h2>Select function</h2>
+<p>
+Select the "create" function from the dropdown and click "Allow limited"
 </p>
 <img src="/doc/images/policy_step2.png" alt="Selecting function" />
 
-<h5> Adding limitation to the function </h5>
+<h2>Adding limitations to the function</h2>
 <p>
-You create "policy limitations" when you want to allow user execute a module function with some limitations. For example user can read content from section "1" and only articles from that section. "Section 1" and "only articles" are limitations. So in our case we need to create policy limitation which will allow users to create objects only in one section. Depending of what role you are editing now ( for article editors or for product editors ) you need to select proper section(s) from list.
+You create "policy limitations" when you want to allow the user to execute a module function with some limitations.
+For example a user can read content from section "1" and only articles from that section. "Section 1" and "only articles"
+are limitations. So in our case we need to create a limitation policy which will allow users to create objects only in
+one section. Depending on what role you are editing now (for article editors or for product editors) you need to select
+proper section(s) from the list.
 </p>
+
+<p>
 <img src="/doc/images/policy_step3.png" alt="Selecting function" />
-<p>
-In addition to section limitation you can limit access with classes as well. It will be more restricted policy. For example for "article editors" you want to limit classes of objects they can create to folders and articles. Selection for that case is shown on picture above.
-</p>
-<p>
-After selecting limitation you click "Ok" button which will add policy to role.
-</p>
-<p>
-You need to create policies for each function in "content" module. Create new policies  according to the permissions you want to give to the users which that role assigned to.
-</p>
-<p>
-To save the role you need to click "Apply" button in "role edit" page. Modifications to role are not visible for the system until you save the role.
-</p>
-<p>
-So you need to repeat the  steps described above for another role ( "Product editors" ). But you need to select different limitation parameters according to the role you are seting up.
 </p>
 
-<h5> Assign that roles to the user  </h5>
+<p>
+In addition to section limitations you can limit access by classes as well. For example for "article editors" you want to
+limit the classes of objects they can create to folders and articles. This is shown in the picture above.
+</p>
 
 <p>
-After you create roles. You need to assign that roles to users or user groups. If you are planing to have couple of product and article editors it is beter to create two user groups and assign roles to that user groups. After that role assigned to that user group  automatically  assigned  to  every user in that group. You can assign roles to users from two places: from role/view page or from role/list page. You are redirected to the role/view page after applying modifications to the role.
+After selecting limitations you click the "Ok" button which will add the policy to the role.
 </p>
+
+<p>
+You need to create policies for each function in the "content" module. Create new policies according to the permissions
+you want to give to the users that role is assigned to.
+</p>
+
+<p>
+To save the role you click the "Apply" button on the "role edit" page. Modifications to the role are not visible for the
+system until you save the role.
+</p>
+
+<p>
+Now you need to repeat the steps described above for another role ("Product editors"). You must select different
+limitation parameters according to the role you are setting up.
+</p>
+
+<h2>Assign these roles to the users</h2>
+
+<p>
+After you have created the roles, you need to assign them to users or user groups. If you are planning to have a couple
+of product and article editors it is better to create two user groups and assign the roles to these user groups. After
+that any users in these groups will have the roles assigned to them. You can assign roles to users from two places:
+From the role/view page or from the role/list page. You are redirected to the role/view page after applying modifications
+to the role.
+</p>
+
+<p>
 <img src="/doc/images/role_view.png" alt="Role view" />
-<p>
-After clicking "Assign" button you will be redirected to the "browse" page. You can select usergroups or users there. By clicking "select" on that page you assign role to the selected groups or users.
 </p>
+
 <p>
-after assigning roles to the users configuration is done
+After clicking the "Assign" button you will be redirected to the "browse" page. You can select user groups or users there.
+By clicking "select" on that page you assign the role to the selected groups or users.
+</p>
+
+<p>
+After assigning roles to the users the configuration is done.
 </p>
