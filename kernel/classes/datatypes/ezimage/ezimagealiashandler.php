@@ -860,7 +860,7 @@ class eZImageAliasHandler
     {
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans = new eZCharTransform();
+        $trans =& eZCharTransform::instance();
 
         $imageName = $trans->transformByGroup( $imageName, 'identifier' );
         return $imageName;

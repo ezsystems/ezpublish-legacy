@@ -338,6 +338,19 @@ class eZCharTransform
             eZDebug::writeError( "Failed to store transformation table $filepath" );
         }
     }
+
+    /*!
+     \return The unique instance of the character transformer.
+    */
+    function &instance()
+    {
+        $instance =& $GLOBALS['eZCharTransformInstance'];
+        if ( !isset( $instance ) )
+        {
+            $instance = new eZCharTransform();
+        }
+        return $instance;
+    }
 }
 
 ?>

@@ -323,7 +323,7 @@ class eZMatrixType extends eZDataType
                     $columnID = $name;
                     // Initialize transformation system
                     include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                    $trans = new eZCharTransform();
+                    $trans =& eZCharTransform::instance();
                     $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                 }
 

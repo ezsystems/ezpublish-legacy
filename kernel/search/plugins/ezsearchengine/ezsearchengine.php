@@ -163,7 +163,7 @@ class eZSearchEngine
 
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans = new eZCharTransform();
+        $trans =& eZCharTransform::instance();
 
         $wordCount = count( $indexArrayOnlyWords );
         $wordIDArray = array();
@@ -278,7 +278,7 @@ class eZSearchEngine
 
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans = new eZCharTransform();
+        $trans =& eZCharTransform::instance();
 
         $prevWordID = 0;
         $nextWordID = 0;
@@ -1336,7 +1336,7 @@ class eZSearchEngine
     function &normalizeText( $text, $isMetaData = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans = new eZCharTransform();
+        $trans =& eZCharTransform::instance();
         $text = $trans->transformByGroup( $text, 'search' );
 
         // Remove quotes and asterix when not handling search text by end-user

@@ -656,7 +656,7 @@ WHERE
     function convertToAlias( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans = new eZCharTransform();
+        $trans =& eZCharTransform::instance();
 
         $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
         if ( strlen( $urlElement ) == 0 )

@@ -320,7 +320,7 @@ if ( $contentClassHasInput )
 $class->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-$trans = new eZCharTransform();
+$trans =& eZCharTransform::instance();
 
 // Fixed identifiers to only contain a-z0-9_
 foreach( array_keys( $attributes ) as $key )

@@ -676,7 +676,7 @@ class eZPackageCreationHandler
             /* Make sure to generate a package name that can be called through
              * a urlalias */
             include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans = new eZCharTransform;
+            $trans =& eZCharTransform::instance();
             $packageName = $trans->transformByGroup( $packageName, 'urlalias' );
         }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
