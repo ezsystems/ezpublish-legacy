@@ -16,27 +16,27 @@
     {* Title. *}
     <div class="block">
         <label>{"Name"|i18n( 'design/admin/rss/edit_import' )}:</label>
-        {include uri="design:gui/lineedit.tpl" id_name=name value=$rss_import.name|wash}
+        <input class="halfbox" type="text" name="name" value="{$rss_import.name|wash}" />
     </div>
 
     {* URL. *}
     <div class="block">
     <label>{"Source URL"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    {include uri="design:gui/lineedit.tpl" id_name=url value=$rss_import.url|wash}
+    <input class="halfbox" type="text" name="url" value="{$rss_import.url|wash}" />
     </div>
 
     {* Destination path. *}
     <div class="block">
     <label>{"Destination path"|i18n( 'design/admin/rss/edit_import' )}:</label>
     <input type="text" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" maxlength="60" />
-    {include uri="design:gui/button.tpl" id_name="DestinationBrowse" value="Browse"|i18n( 'design/admin/rss/edit_import' )}
+    <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" />
     </div>
 
     {* Imported objects owner. *}
     <div class="block">
     <label>{"Imported objects will be owned by"|i18n( 'design/admin/rss/edit_import' )}:</label>
     <p>{$rss_import.object_owner.contentobject.name}</p>
-    {include uri="design:gui/button.tpl" id_name="UserBrowse" value="Change user"|i18n( 'design/admin/rss/edit_import' )}
+    <input class="button" type="submit" name="UserBrowse" value="{'Change user'|i18n( 'design/admin/rss/edit_import' )}" />
     </div>
 
     {* Class. *}
@@ -51,7 +51,7 @@
     </option>
     {/section}
     </select>
-    {include uri="design:gui/button.tpl" id_name="Update_Class" value="Set"|i18n( 'design/admin/rss/edit_import' )}
+    <input class="button" type="submit" name="Update_Class" value="{'Set'|i18n( 'design/admin/rss/edit_import' )}" />
     </div>
 
     {* Title. *}
@@ -59,7 +59,7 @@
     <label>{"Title"|i18n( 'design/admin/rss/edit_import' )}:</label>
     <select name="Class_Attribute_Title">
     {section name=ClassAttribute loop=$rss_import.class_attributes}
-    <option value="{$:item.identifier|wash}" 
+    <option value="{$:item.identifier|wash}"
       {section name=ShowSelected show=eq($rss_import.class_title,$:item.identifier)}
         selected="selected"
       {/section}>{$:item.name|wash}

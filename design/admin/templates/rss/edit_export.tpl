@@ -15,17 +15,17 @@
 
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    {include uri='design:gui/lineedit.tpl' id_name=title value=$rss_export.title|wash}
+    <input class="halfbox" type="text" name="title" value="{$rss_export.title|wash}" />
     </div>
 
     <div class="block">
     <label>{'Description'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <textarea name="Description" cols="64" rows="3">{$rss_export.description|wash}</textarea>
+    <textarea class="halfbox" name="Description" rows="3">{$rss_export.description|wash}</textarea>
     </div>
 
     <div class="block">
     <label>{'Site URL'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    {include uri='design:gui/lineedit.tpl' id_name=url value=$rss_export.url}
+    <input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}" />
     </div>
 
     <input type="hidden" name="RSSImageID" value="{$rss_export.image_id}" />
@@ -64,7 +64,7 @@
 
     <div class="block">
     <label>{'Access URL'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    rss/feed/ {include uri='design:gui/lineedit.tpl' id_name='Access_URL' value=$rss_export.access_url}
+    rss/feed/<input class="halfbox" type="text" name="Access_URL" value="{$rss_export.access_url|wash}" />
     </div>
 
 
