@@ -32,6 +32,10 @@ Changes from 3.2-3 to 3.3.0-1
 - Added content_info structure to module result when the view is not cached, previously this was only available
   when the view was cached and restored.
 - Removed warnings from eztemplatedesignresource.
+- Added latest_list fetch function for classes.
+- Added last modified class list to class group list and class list.
+- Added support for not having confirmation on draft remove.
+- Fixed namespaces for some of the gui template functions.
 
 *DataType:
 

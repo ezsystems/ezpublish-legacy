@@ -203,10 +203,11 @@ class eZTemplateSectionFunction
         {
             $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
-        $noLastValue = false;
-        if ( isset( $parameters['no-last-value'] ) )
+        $noLastValue = true;
+        if ( isset( $parameters['last-value'] ) )
         {
-            $noLastValue =& $tpl->elementValue( $parameters['no-last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $lastValue =& $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $noLastValue = !$lastValue;
         }
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )

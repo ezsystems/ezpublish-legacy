@@ -322,9 +322,13 @@ if ( !function_exists( 'checkContentActions' ) )
         {
             $http =& eZHTTPTool::instance();
             $objectID = $object->attribute( 'id' );
+            $discardConfirm = true;
+            if ( $http->hasPostVariable( 'DiscardConfirm' ) )
+                $discardConfirm = $http->postVariable( 'DiscardConfirm' );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );
             $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );
             $http->setSessionVariable( 'DiscardObjectLanguage', $EditLanguage );
+            $http->setSessionVariable( 'DiscardConfirm', $discardConfirm );
             $module->redirectTo( $module->functionURI( 'removeeditversion' ) . '/' );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }

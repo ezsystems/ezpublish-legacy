@@ -253,8 +253,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                     $matchOverride = false;
                                 }
                             }
-                            else
-                            if ( $matchKeys[$conditionKey] == $customMatch['conditions'][$conditionKey] )
+                            else if ( isset( $matchKeys[$conditionKey] ) and
+                                      isset( $customMatch['conditions'][$conditionKey] ) and
+                                      $matchKeys[$conditionKey] == $customMatch['conditions'][$conditionKey] )
                             {
                             }
                             else

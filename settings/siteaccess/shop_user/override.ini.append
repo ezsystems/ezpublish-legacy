@@ -89,6 +89,19 @@ MatchFile=edit_user.tpl
 Subdir=templates
 Match[class]=4
 
+[edit_review]
+Source=content/edit.tpl
+MatchFile=edit_review.tpl
+Subdir=templates
+Match[class]=25
+
+
+[preview_review]
+Source=content/view/versionview.tpl
+MatchFile=preview_review.tpl
+Subdir=templates
+Match[class]=25
+
 [review_line]
 Source=node/view/line.tpl
 MatchFile=review_line.tpl

@@ -614,7 +614,7 @@ class eZContentClass extends eZPersistentObject
      \static
     */
     function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
-                         $sorts = null, $fields = null, $classFilter = false )
+                         $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
         if ( is_numeric( $version ) )
@@ -638,7 +638,7 @@ class eZContentClass extends eZPersistentObject
                 $conds['identifier'] = $classIdentifierFilter;
         }
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
-                                                    $fields, $conds, $sorts, null,
+                                                    $fields, $conds, $sorts, $limit,
                                                     $asObject );
     }
 

@@ -47,6 +47,20 @@ $FunctionList['list'] = array( 'name' => 'list',
                                                              'required' => false,
                                                              'default' => false ) ) );
 
+$FunctionList['latest_list'] = array( 'operation_types' => array( 'read' ),
+                                      'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',
+                                                              'class' => 'eZClassFunctionCollection',
+                                                              'method' => 'fetchLatestClassList' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array( array( 'name' => 'offset',
+                                                                    'type' => 'integer',
+                                                                    'required' => false,
+                                                                    'default' => false ),
+                                                             array( 'name' => 'limit',
+                                                                    'type' => 'integer',
+                                                                    'required' => false,
+                                                                    'default' => false ) ) );
+
 $FunctionList['attribute_list'] = array( 'name' => 'attribute_list',
                                          'operation_types' => array( 'read' ),
                                          'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',

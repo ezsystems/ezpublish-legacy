@@ -1,0 +1,5 @@
+[NotificationEventHandlerSettings]
+AvailableNotificationEventTypes[]
+AvailableNotificationEventTypes[]=ezgeneraldigest
+#AvailableNotificationEventTypes[]=ezcollaborationnotification
+AvailableNotificationEventTypes[]=ezsubtree

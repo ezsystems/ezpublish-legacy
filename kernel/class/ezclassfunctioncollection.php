@@ -71,6 +71,20 @@ class eZClassFunctionCollection
         return array( 'result' => $contentClassList );
     }
 
+    function &fetchLatestClassList( $offset, $limit )
+    {
+        $contentClassList = array();
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        $limitData = null;
+        if ( $limit )
+            $limitData = array( 'offset' => $offset,
+                                'length' => $limit );
+        $contentClassList =& eZContentClass::fetchList( 0, true, false,
+                                                        array( 'modified' => 'desc' ), null,
+                                                        false, $limitData );
+        return array( 'result' => $contentClassList );
+    }
+
     function &fetchClassAttributeList( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );

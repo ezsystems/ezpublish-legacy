@@ -44,7 +44,19 @@ $objectID = $http->sessionVariable( "DiscardObjectID" );
 $version = $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
 
+$isConfirmed = false;
 if ( $http->hasPostVariable( "ConfirmButton" ) )
+    $isConfirmed = true;
+
+if ( $http->hasSessionVariable( "DiscardConfirm" ) )
+{
+    $discardConfirm = $http->sessionVariable( "DiscardConfirm" );
+    if ( !$discardConfirm )
+        $isConfirmed = true;
+}
+
+
+if ( $isConfirmed )
 {
     $object =& eZContentObject::fetch( $objectID );
     if ( $object === null )
