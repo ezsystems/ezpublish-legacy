@@ -11,8 +11,8 @@ Upgrades to the development format will not be supported.</warning>
   <description>Adds media functionality. Allows for publishing of Flash, Quicktime, Real video and Windows media files.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0beta1</version>
-    <named-version>3.4.0beta1-beta1</named-version>
+    <version>3.4.0</version>
+    <named-version>3.4</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -22,37 +22,37 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1083917392</timestamp>
-    <host>trunk.ezpublish.drakhendvh1.ez.no</host>
+    <timestamp>1086170061</timestamp>
+    <host></host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1083917392"
+    <entry timestamp="1086170061"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
-      <change>Created package for 3.4.0beta1.</change>
+      <change>Creation of package</change>
     </entry>
   </changelog>
   <simple-files>
-    <961e29c8060623e980cd17495ed1b196 original-path="var/storage/original/application/phpxosqTf.swf"
-                                      package-path="simplefiles/57fb3e3a.swf" />
-    <6e585e24fd1d16ec60b84de583296f7d original-path="var/storage/original/video/phpy9lUos.mov"
-                                      package-path="simplefiles/14db302b.mov" />
-    <71bc160df9200636180b6ba9812d74bb original-path="var/storage/original/application/phpxDKuAr.asf"
-                                      package-path="simplefiles/a186a858.asf" />
-    <c3ec23a31ff8f6f5ca49962e5d8a76e1 original-path="var/storage/original/application/phpIW3Czy.rm"
-                                      package-path="simplefiles/e6d841a1.rm" />
+    <6fa806601ea6a01481b83f8cc385a057 original-path="var/storage/original/application/phpxosqTf.swf"
+                                      package-path="simplefiles/575f5934.swf" />
+    <0ed5a6bb808f52ad955b8e85c114a54c original-path="var/storage/original/video/php1lFY1S.mov"
+                                      package-path="simplefiles/3a90dacb.mov" />
+    <440468076835498f9d87cdd08bd44207 original-path="var/storage/original/application/phpxDKuAr.asf"
+                                      package-path="simplefiles/41be17c3.asf" />
+    <1beb1990e48c10de31d44a3a0c42abaf original-path="var/storage/original/application/phpIW3Czy.rm"
+                                      package-path="simplefiles/f4765a69.rm" />
   </simple-files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>3.4.0beta1</number>
+    <number>3.4.0</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
-  <state>stable</state>
+  <state>alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezcontentclass"
@@ -92,7 +92,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-real_video"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="2169ade7"
+          filename="54a38417"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -112,7 +112,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-real_video"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="2169ade7"
+          filename="54a38417"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>

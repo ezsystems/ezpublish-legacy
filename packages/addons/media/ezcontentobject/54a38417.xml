@@ -3,33 +3,33 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="146"
-            name="Media"
+            name="Media files"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
             ezremote:published="Thu, 22 Apr 2004 14:00:39 GMT"
-            ezremote:modified="Fri, 07 May 2004 07:35:12 GMT"
+            ezremote:modified="Wed, 02 Jun 2004 09:53:25 GMT"
             remote_id="8abeffcbfe656157a41d54a8d2523dab"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="2"
+      <version-list active_version="3"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version ezremote:version="2"
+        <ezobject:version ezremote:version="3"
                           ezremote:status="1"
-                          ezremote:created="Fri, 07 May 2004 07:35:05 GMT"
-                          ezremote:modified="Fri, 07 May 2004 07:35:12 GMT">
+                          ezremote:created="Wed, 02 Jun 2004 09:52:36 GMT"
+                          ezremote:modified="Wed, 02 Jun 2004 09:53:24 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="368"
                                 ezremote:identifier="name"
                                 name="Name"
                                 type="ezstring">
-              <text>Media directory</text>
+              <text>Media files</text>
             </ezobject:attribute>
             <ezobject:attribute ezremote:id="369"
                                 ezremote:identifier="short_name"
                                 name="Short name"
                                 type="ezstring">
-              <text>Media</text>
+              <text></text>
             </ezobject:attribute>
             <ezobject:attribute ezremote:id="370"
                                 ezremote:identifier="short_description"
@@ -110,7 +110,7 @@
                           filename="phpxosqTf.swf"
                           original-filename="ezpublishdemo.swf"
                           mime-type="application/x-shockwave-flash"
-                          filekey="961e29c8060623e980cd17495ed1b196"
+                          filekey="6fa806601ea6a01481b83f8cc385a057"
                           width="300"
                           height="200"
                           has-controller="0"
@@ -141,16 +141,16 @@
             ezremote:owner_id="14"
             ezremote:class_id="29"
             ezremote:published="Thu, 22 Apr 2004 14:54:42 GMT"
-            ezremote:modified="Thu, 22 Apr 2004 14:54:42 GMT"
+            ezremote:modified="Wed, 26 May 2004 13:41:49 GMT"
             remote_id="b73905ecede584f8d11a0a23948767d8"
             class_remote_id="16d7b371979d6ba37894cc8dc306f38f"
             ezremote:class_identifier="quicktime">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version ezremote:version="1"
+        <ezobject:version ezremote:version="2"
                           ezremote:status="1"
-                          ezremote:created="Thu, 22 Apr 2004 14:52:27 GMT"
-                          ezremote:modified="Thu, 22 Apr 2004 14:54:42 GMT">
+                          ezremote:created="Wed, 26 May 2004 13:39:02 GMT"
+                          ezremote:modified="Wed, 26 May 2004 13:41:49 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="383"
                                 ezremote:identifier="name"
@@ -165,7 +165,7 @@
               <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
                        xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
                        xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-                <paragraph>This is a Quicktime test. </paragraph>
+                <paragraph>This is a Quicktime test.</paragraph>
               </section>
             </ezobject:attribute>
             <ezobject:attribute ezremote:id="385"
@@ -173,10 +173,10 @@
                                 name="File"
                                 type="ezmedia">
               <media-file filesize=""
-                          filename="phpy9lUos.mov"
-                          original-filename="phpbylGlW.mov"
+                          filename="php1lFY1S.mov"
+                          original-filename="quicktimesample.mov"
                           mime-type="video/quicktime"
-                          filekey="6e585e24fd1d16ec60b84de583296f7d"
+                          filekey="0ed5a6bb808f52ad955b8e85c114a54c"
                           width="300"
                           height="200"
                           has-controller="0"
@@ -242,7 +242,7 @@
                           filename="phpxDKuAr.asf"
                           original-filename="phpYj4iJV.asf"
                           mime-type="application/octet-stream"
-                          filekey="71bc160df9200636180b6ba9812d74bb"
+                          filekey="440468076835498f9d87cdd08bd44207"
                           width="300"
                           height="200"
                           has-controller="1"
@@ -308,7 +308,7 @@
                           filename="phpIW3Czy.rm"
                           original-filename="phpNOohcL.rm"
                           mime-type="application/vnd.rn-realmedia"
-                          filekey="c3ec23a31ff8f6f5ca49962e5d8a76e1"
+                          filekey="1beb1990e48c10de31d44a3a0c42abaf"
                           width="300"
                           height="200"
                           has-controller="0"
@@ -445,7 +445,7 @@
     <block name="quicktime_full"
            site-access="base">
       <quicktime_full Source="node/view/full.tpl"
-                      MatchFile="full/flash.tpl"
+                      MatchFile="full/quicktime.tpl"
                       Subdir="templates">
         <Match class_identifier="quicktime" />
       </quicktime_full>
@@ -593,8 +593,8 @@
     </file>
     <file site-access="base"
           file-type="design">
-      <original-path>design/base/override/templates/full/flash.tpl</original-path>
-      <path>/override/templates/full/flash.tpl</path>
+      <original-path>design/base/override/templates/full/quicktime.tpl</original-path>
+      <path>/override/templates/full/quicktime.tpl</path>
     </file>
     <file site-access="base"
           file-type="design">
@@ -672,6 +672,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="140"
-              remote-id="8abeffcbfe656157a41d54a8d2523dab">Media</top-node>
+              remote-id="8abeffcbfe656157a41d54a8d2523dab">Media files</top-node>
   </top-node-list>
 </content-object>
