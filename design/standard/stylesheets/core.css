@@ -45,7 +45,7 @@ h4, h5, h6
     font-size: 80%;
 }
 
-p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td
+p, ul, ol, dl, label, div.block input, div.block select, .normal, table.list th, table.list td, textarea
 /* This is the "regular" font size. */
 {
     font-size: 80%;
