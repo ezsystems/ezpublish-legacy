@@ -102,6 +102,7 @@ class eZTemplateIfFunction
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, $parameters, $privateData )
     {
+        $tpl->ElseifCounter++;
         $newNodes       = array();
         $nodesToPrepend = array();
         $nodesToAppend  = array();
@@ -133,6 +134,8 @@ class eZTemplateIfFunction
                                                                                 "elseif_cond_$uniqid" );
                     $newNodes[]      = eZTemplateNodeTool::createCodePieceNode( "}\nelseif ( \$elseif_cond_$uniqid )\n{\n" );
                     $nodesToAppend[] = eZTemplateNodeTool::createVariableUnsetNode( "elseif_cond_$uniqid" );
+                    // increment unique elseif counter
+                    $uniqid        =  md5( $nodePlacement[2] ) . "_" . ++$tpl->ElseifCounter;
                 }
                 elseif ( $childFunctionName == 'else' )
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
