@@ -157,8 +157,15 @@ class eZDataType
     */
     function &create( $dataTypeString )
     {
+        var_dump($dataTypeString, $GLOBALS["eZDataTypes"]);
+
         $types =& $GLOBALS["eZDataTypes"];
         $def = null;
+        if ( !isset( $types[$dataTypeString] ) )
+        {
+            eZDataType::loadAndRegisterType( $dataTypeString );
+        }
+
         if ( isset( $types[$dataTypeString] ) )
         {
             $className = $types[$dataTypeString];
@@ -708,7 +715,5 @@ class eZDataType
     /// The descriptive name of the datatype, usually used for displaying to the user
     var $Name;
 }
-
-eZDataType::loadAndRegisterAllTypes();
 
 ?>
