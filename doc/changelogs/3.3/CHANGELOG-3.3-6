@@ -190,6 +190,8 @@ eZINI:
   http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
 - Fixed problems with overwritten uploaded files.
   http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
+- Fixed problem with section placements for new related objects.
+  http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
     
 *Library:
 
