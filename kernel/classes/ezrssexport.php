@@ -165,7 +165,11 @@ class eZRSSExport extends eZPersistentObject
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = eZDateTime::currentTimeStamp();
         $user =& eZUser::currentUser();
-
+        if (  $this->ID == null )
+        {
+            eZPersistentObject::store();
+            return;
+        }
         if ( isset( $export_items ) && is_array( $export_items ) )
         {
             foreach ( $export_items as $export_item )
@@ -277,12 +281,16 @@ class eZRSSExport extends eZPersistentObject
 
             case 'image_node':
             {
+                if ( !$this->ImageID > 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 return eZContentObjectTreeNode::fetch( $this->ImageID );
             }
 
             case 'image_path':
             {
+                if ( !$this->ImageID > 0 )
+                    return null;
                 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
                 $objectNode =& eZContentObjectTreeNode::fetch( $this->ImageID );
                 if ( !isset( $objectNode ) )
@@ -347,8 +355,15 @@ class eZRSSExport extends eZPersistentObject
             else
                 return null;
         }
-
-        return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id ) );
+        if ( $id !== null )
+        {
+            return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id ) );
+        }
+        else
+        {
+            $items = array();
+            return array();
+        }
     }
 
     /*!

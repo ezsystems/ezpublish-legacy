@@ -71,6 +71,8 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug #6166: forgot password entries are not removed once password is 
   regenerated.
   (Merged from stable/3.5 rev. 10719)
+- Fixed bug #6169: SQL errors and general warnings when create new RSS export.
+  ( Manually merged from stable/3.3 rev. 10739 )
 - Fixed bug #6034: eZMYSQLDB::query() unproper error handling
 
 *Library:
