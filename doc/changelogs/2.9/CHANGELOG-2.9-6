@@ -25,6 +25,9 @@ Changes from 2.9-5 to 2.9-6
   where the class belongs to.
 - Addeed limit to search stats page.
 
+eZ contentcache:
+- New cache system for content views. For clearing cache use bin/shell/clearcache.sh
+
 shop:
 - Added more information to order list
 - Added real order number to orders
@@ -72,7 +75,7 @@ texttoimage operator:
 - Added main concepts tutorial
 
 
-eZ setup:
+*eZ setup:
 - Moved the setup code as a module, overriding the already existing setup module.
 - Added the notion of part and started work on the 'init' part which is the
   first and mandatory part.

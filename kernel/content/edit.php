@@ -227,6 +227,42 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $module->redirectToView( 'view', array( 'sitemap', 2 ) );
             }
+
+            $ini =& eZINI::instance();
+            $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+
+            if ( $viewCacheEnabled )
+            {
+                include_once( 'kernel/classes/ezcontentcache.php' );
+                $nodeList = array();
+
+                $parentNodes =& $object->parentNodes( $EditVersion );
+                foreach ( array_keys( $parentNodes ) as $parentNodeKey )
+                {
+                    $parentNode =& $parentNodes[$parentNodeKey];
+                    $nodeList[] = $parentNode->attribute( 'node_id' );
+                }
+
+                $assignedNodes =& $object->assignedNodes();
+                foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
+                {
+                    $assignedNode =& $assignedNodes[$assignedNodeKey];
+                    $nodeList[] = $assignedNode->attribute( 'node_id' );
+
+                    $children =& eZContentObjectTreeNode::subTree( false, $assignedNode->attribute( 'node_id' ) );
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $nodeList[] = $child->attribute( 'node_id' );
+                    }
+                }
+
+                $designSetting = eZTemplateDesignResource::designSetting( 'site' );
+                if ( eZContentCache::cleanup( $designSetting, $nodeList ) )
+                {
+//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
+                }
+            }
         }
     }
 }

@@ -476,6 +476,17 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \return an array of role ids which the user is assigned to
+    */
+    function &roleIDList()
+    {
+        $groups = $this->attribute( 'groups' );
+        $groups[] = $this->attribute( 'contentobject_id' );
+        $roleList = eZRole::fetchIDListByUser( $groups );
+        return $roleList;
+    }
+
+    /*!
      Returns true if it's a real user which is logged in. False if the user
      is the default user or the fallback buildtin user.
     */

@@ -1226,6 +1226,30 @@ class eZContentObject extends eZPersistentObject
         return $objectNode;
     }
 
+    /*!
+     \return a structure with information required for caching.
+    */
+    function cacheInfo( $Params )
+    {
+        $contentCacheInfo =& $GLOBALS['eZContentCacheInfo'];
+        if ( !isset( $contentCacheInfo ) )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            include_once( 'kernel/classes/ezuserdiscountrule.php' );
+            $user =& eZUser::currentUser();
+            $languageCode = $Params['LanguageCode'];
+            $language = $languageCode;
+            if ( $language == '' )
+                $language  = eZContentObject::defaultLanguage();
+            $roleList = $user->roleIDList();
+            $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
+            $contentCacheInfo = array( 'language' => $language,
+                                       'role_list' => $roleList,
+                                       'discount_list' => $discountList );
+        }
+        return $contentCacheInfo;
+    }
+
     var $ID;
     var $Name;
 

@@ -57,14 +57,27 @@ class eZDir
     function eZDir()
     {
     }
+
     function getPathFromFilename( $filename )
     {
         $ini =& eZINI::instance();
         $dirDepth = $ini->variable( "FileSettings" , "DirDepth" );
         $path = '';
-        for( $i = 0; $i < $dirDepth; $i++)
+        for ( $i = 0; $i < $dirDepth and $i < strlen( $filename ); $i++ )
         {
-            $path= $path . substr( $filename, $i, 1 ) . '/';
+            $path = $path . substr( $filename, $i, 1 ) . '/';
+        }
+
+        return $path;
+    }
+
+    function filenamePath( $filename, $maxCharLen = 2 )
+    {
+        $path = '';
+        for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen;
+              $i++ )
+        {
+            $path = $path . substr( $filename, $i, 1 ) . '/';
         }
 
         return $path;
@@ -175,7 +188,7 @@ class eZDir
         }
         return null;
     }
-    
+
     /*!
      \static
      Converts any directory separators found in \a $path, in both unix and dos style, into
@@ -190,7 +203,7 @@ class eZDir
     /*!
      \static
      Removes all unneeded directory separators and resolves any "."s and ".."s found in \a $path.
-     
+
      For instance: "var/../lib/ezdb" becomes "lib/ezdb", while "../site/var" will not be changed.
      \note Will also convert separators
      \sa convertSeparators.

@@ -54,6 +54,25 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
+$ini =& eZINI::instance();
+$viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+
+if ( $viewCacheEnabled )
+{
+    include_once( 'kernel/classes/ezcontentcache.php' );
+    $cacheInfo = eZContentObject::cacheInfo( $Params );
+    $language = $cacheInfo['language'];
+    $roleList = $cacheInfo['role_list'];
+    $discountList = $cacheInfo['discount_list'];
+    $designSetting = eZTemplateDesignResource::designSetting( 'site' );
+    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
+    {
+//         eZDebug::writeDebug( 'found cache', 'content/view' );
+        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
+        return $Result;
+    }
+}
+
 $limitationList = array();
 
 if ( array_key_exists( 'Limitation', $Params ) )
@@ -148,6 +167,20 @@ switch( $operationResult['status'] )
             $Result['view_parameters'] =& $viewParameters;
             $Result['path'] =& $path;
             $Result['section_id'] =& $object->attribute( 'section_id' );
+
+            if ( $viewCacheEnabled )
+            {
+                include_once( 'kernel/classes/ezcontentcache.php' );
+                $cacheInfo = eZContentObject::cacheInfo( $Params );
+                $language = $cacheInfo['language'];
+                $roleList = $cacheInfo['role_list'];
+                $discountList = $cacheInfo['discount_list'];
+                if ( eZContentCache::store( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $Result ) )
+                {
+//                     eZDebug::writeDebug( 'cache written', 'content/view' );
+                }
+            }
+
         }
     }break;
     case EZ_MODULE_OPERATION_HALTED:

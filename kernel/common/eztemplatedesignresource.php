@@ -58,6 +58,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
+     \static
      \return the sitedesign for the design type \a $type, currently \c standard and \c site is allowed.
              If no sitedesign is set it will fetch it from site.ini.
     */

@@ -178,13 +178,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return eZPersistentObject::attribute( $attr );
     }
 
-    function &subTree( $params = array( 'Depth' => false,
-                                        'Offset' => false,
-                                        'Limit' => false,
-                                        'SortBy' => false,
-                                        'ClassFilterType' => false,
-                                        'ClassFilterArray' => false ) ,$nodeID = 0 )
+    function &subTree( $params = false ,$nodeID = 0 )
     {
+        if ( $params === false )
+        {
+            $params = array( 'Depth' => false,
+                             'Offset' => false,
+                             'Limit' => false,
+                             'SortBy' => false,
+                             'ClassFilterType' => false,
+                             'ClassFilterArray' => false );
+        }
         $depth = false;
         $offset = false;
         $limit = false;

@@ -218,6 +218,29 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+     Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
+    */
+    function &fetchIDListByUser( $idArray )
+    {
+        $db =& eZDB::instance();
+
+        $groupString = implode( ',', $idArray );
+//        $groupString .= ',' . $userID ;
+        $query = "SELECT DISTINCT ezrole.id
+                  FROM ezrole,
+                       ezuser_role
+                  WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
+                        ezuser_role.role_id = ezrole.id";
+        $roleArray = $db->arrayQuery( $query );
+        $roles = array();
+        foreach ( $roleArray as $roleRow )
+        {
+            $roles[] = $roleRow['id'];
+        }
+        return $roles;
+    }
+
+    /*!
      Assigns the current role to the given user or user group identified by the id.
     */
     function assignToUser( $userID )

@@ -89,6 +89,24 @@ class eZUserDiscountRule extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &fetchIDListByUserID( $userID )
+    {
+        $db =& eZDB::instance();
+        $query = "SELECT DISTINCT ezdiscountrule.id
+                  FROM ezdiscountrule,
+                       ezuser_discountrule
+                  WHERE ezuser_discountrule.contentobject_id = '$userID' AND
+                        ezuser_discountrule.discountrule_id = ezdiscountrule.id";
+        $ruleArray =& $db->arrayQuery( $query );
+
+        $rules = array();
+        foreach ( $ruleArray as $ruleRow )
+        {
+            $rules[] = $ruleRow['id'];
+        }
+        return $rules;
+    }
+
     function &fetchByUserIDArray( $idArray )
     {
         $db =& eZDB::instance();
