@@ -54,6 +54,26 @@ $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
 $http =& eZHTTPTool::instance();
 
+
+if( $http->hasPostVariable( 'CancelDraftButton' ) )
+{
+   $mainNode =& eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
+ 
+   if( (count( $mainNode )) == 1 )
+   {
+        $node = $mainNode[0]->attribute( 'node' );
+        return $Module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
+   }
+   else
+   {
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+        return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+   }
+   
+}
+
+
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
     if ( $http->hasPostVariable( 'SelectedVersion' ) )
@@ -95,7 +115,15 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     if ( $versionCount < $versionlimit )
     {
         $version =& $obj->createNewVersion();
-        return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+	
+	if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
+	{
+            return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
+        }
+	else
+	{
+            return $Module->redirectToView( 'edit', array( $ObjectID ) );
+	}
     }
     else
     {
@@ -125,7 +153,16 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
             }
             $removeVersion->remove();
             $version =& $obj->createNewVersion();
-            $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+
+   	    if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
+  	    {
+                return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
+            }
+	    else
+	    {
+                return $Module->redirectToView( 'edit', array( $ObjectID ) );
+	    }
+
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
         else
@@ -156,6 +193,16 @@ else
     $draftVersions =& $obj->versions( true, array( 'conditions' => array( 'status' => EZ_VERSION_STATUS_DRAFT ) ) );
     if ( count( $draftVersions ) > 0 )
     {
+        $mostRecentDraft =& $draftVersions[0];
+	
+	foreach( $draftVersions as $currentDraft )
+	{
+	    if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
+	    {
+	        $mostRecentDraft =& $currentDraft; 
+	    }
+	}
+            
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
@@ -169,6 +216,7 @@ else
         $tpl->setVariable( 'object', $obj );
         $tpl->setVariable( 'class', $class );
         $tpl->setVariable( 'draft_versions', $draftVersions );
+        $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
 
         $Result = array();
         $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
