@@ -90,9 +90,6 @@ if ( !is_numeric( $Offset ) )
 $ini =& eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
-$contentINI =& eZINI::instance( 'content.ini' );
-$classGroupOverrideEnabled = ( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' );
-
 if ( isset( $Params['ViewCache'] ) )
 {
     $viewCacheEnabled = $Params['ViewCache'];
@@ -189,21 +186,16 @@ else
             {
                 $res =& eZTemplateDesignResource::instance();
 
-                $keyArray = array();
-                $keyArray[] = array( 'object', $Result['content_info']['object_id'] );
-                $keyArray[] = array( 'node', $Result['content_info']['node_id'] );
-                $keyArray[] = array( 'parent_node', $Result['content_info']['parent_node_id'] );
-                $keyArray[] = array( 'class', $Result['content_info']['class_id'] );
-                $keyArray[] = array( 'view_offset', $Result['content_info']['offset'] );
-                $keyArray[] = array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] );
-                $keyArray[] = array( 'viewmode', $Result['content_info']['viewmode'] );
-                $keyArray[] = array( 'depth', $Result['content_info']['node_depth'] );
-                $keyArray[] = array( 'url_alias', $Result['content_info']['url_alias'] );
-
-                if ( $classGroupOverrideEnabled )
-                {
-                    $keyArray[] = array( 'class_group', $Result['content_info']['class_group'] );
-                }
+                $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
+                                   array( 'node', $Result['content_info']['node_id'] ),
+                                   array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                   array( 'class', $Result['content_info']['class_id'] ),
+                                   array( 'view_offset', $Result['content_info']['offset'] ),
+                                   array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
+                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                   array( 'depth', $Result['content_info']['node_depth'] ),
+                                   array( 'url_alias', $Result['content_info']['url_alias'] ),
+                                   array( 'class_group', $Result['content_info']['class_group'] ) );
 
                 $res->setKeys( $keyArray  );
                 if ( isset( $Result['content_info']['class_identifier'] ) )

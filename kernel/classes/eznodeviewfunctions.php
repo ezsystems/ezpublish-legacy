@@ -57,28 +57,17 @@ class eZNodeviewfunctions
         else
             $navigationPartIdentifier = null;
 
-
-        $contentINI =& eZINI::instance( 'content.ini' );
-        $classGroupOverrideEnabled = ( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' );
-
-        $keyArray = array();
-        $keyArray[] = array( 'object', $object->attribute( 'id' ) );
-        $keyArray[] = array( 'node', $node->attribute( 'node_id' ) );
-        $keyArray[] = array( 'parent_node', $node->attribute( 'parent_node_id' ) );
-        $keyArray[] = array( 'class', $object->attribute( 'contentclass_id' ) );
-        $keyArray[] = array( 'class_identifier', $node->attribute( 'class_identifier' ) );
-        $keyArray[] = array( 'view_offset', $offset );
-        $keyArray[] = array( 'viewmode', $viewMode );
-        $keyArray[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
-        $keyArray[] = array( 'depth', $node->attribute( 'depth' ) );
-        $keyArray[] = array( 'url_alias', $node->attribute( 'url_alias' ) );
-
-        if ( $classGroupOverrideEnabled )
-        {
-            $class =& $object->attribute( 'content_class' );
-
-            $keyArray[] = array( 'class_group', $class->attribute( 'ingroup_id_list' ) );
-        }
+        $keyArray = array( array( 'object', $object->attribute( 'id' ) ),
+                           array( 'node', $node->attribute( 'node_id' ) ),
+                           array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
+                           array( 'class', $object->attribute( 'contentclass_id' ) ),
+                           array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
+                           array( 'view_offset', $offset ),
+                           array( 'viewmode', $viewMode ),
+                           array( 'navigation_part_identifier', $navigationPartIdentifier ),
+                           array( 'depth', $node->attribute( 'depth' ) ),
+                           array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                           array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ) );
 
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
@@ -135,11 +124,7 @@ class eZNodeviewfunctions
         $contentInfoArray['navigation_part_identifier'] = $navigationPartIdentifier;
         $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
         $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
-
-        if ( $classGroupOverrideEnabled )
-        {
-            $contentInfoArray['class_group'] = $class->attribute( 'ingroup_id_list' );
-        }
+        $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
 
         $Result['content_info'] = $contentInfoArray;
 

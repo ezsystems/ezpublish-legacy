@@ -147,7 +147,7 @@ else
         $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                               array( 'class', $class->attribute( 'id' ) ),
                               array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                              array( 'class_group', $class->attribute( 'ingroup_id_list' ) ) ) );
+                              array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
 
         $tpl->setVariable( 'object', $obj );
         $tpl->setVariable( 'class', $class );

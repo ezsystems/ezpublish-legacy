@@ -150,7 +150,8 @@ class eZContentObject extends eZPersistentObject
                                                       "content_action_list" => "contentActionList",
                                                       "class_identifier" => "contentClassIdentifier",
                                                       'class_group_id_list' => 'contentClassGroupIDList',
-                                                      "name" => "Name" ),
+                                                      "name" => "Name",
+                                                      'match_ingroup_id_list' => 'matchIngroupIDList' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -173,6 +174,23 @@ class eZContentObject extends eZPersistentObject
         }
         else
             return eZPersistentObject::attribute( $attr );
+    }
+
+    /*!
+     Get class groups this object's class belongs to if match for class groups is enabled.
+
+     \return array of class group ids. False if match is disabled.
+     */
+    function matchIngroupIDList()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $contentINI =& eZINI::instance( 'content.ini' );
+        if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
+        {
+            $contentClass =& $this->contentClass();
+            return $contentClass->attribute( 'ingroup_id_list' );
+        }
+        return false;
     }
 
     /*!

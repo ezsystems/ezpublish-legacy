@@ -391,6 +391,11 @@ class eZContentClass extends eZPersistentObject
                 return $this->InGroups;
             } break;
 
+            case 'remote_id':
+            {
+                return $this->remoteID();
+            } break;
+
             case "ingroup_id_list":
             {
                 $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
@@ -402,6 +407,20 @@ class eZContentClass extends eZPersistentObject
                     $this->InGroupIDs[] = $item['group_id'];
                 }
                 return $this->InGroupIDs;
+            } break;
+
+            case 'match_ingroup_id_list':
+            {
+                include_once( 'lib/ezutils/classes/ezini.php' );
+                $contentINI =& eZINI::instance( 'content.ini' );
+                if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
+                {
+                    return $this->attribute( 'ingroup_id_list' );
+                }
+                else
+                {
+                    return false;
+                }
             } break;
 
             case "group_list":

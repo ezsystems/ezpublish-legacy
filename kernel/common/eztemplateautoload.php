@@ -201,6 +201,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                              'output_name' => 'object',
                                              'namespace' => 'ContentView',
                                              'attribute_keys' => array( 'object' => array( 'id' ),
+                                                                        'class_group' => array( 'match_ingroup_id_list' ),
                                                                         'class' => array( 'contentclass_id' ),
                                                                         'section' => array( 'section_id' ) ),
                                              'attribute_access' => array(),
