@@ -804,7 +804,7 @@ class eZImageAliasHandler
                 $suffixList = array( 'jpg', 'png', 'gif' );
                 foreach ( $suffixList as $suffix )
                 {
-                    $referenceFilePath = $referenceDirPath . '/' . $basename . '.' . $suffix;
+                    $referenceFilePath = $referenceDirPath . '/' . $baseName . '.' . $suffix;
                     if ( file_exists( $referenceFilePath ) )
                     {
                         $filePath = $referenceFilePath;
