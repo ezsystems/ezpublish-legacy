@@ -1,6 +1,11 @@
-# Transliteration rules
+# Rules related to cyrillic
+#
+# The following charsets uses characters from cyrillic:
+# koi-8, koi-8r, iso-8859-5, cp932, cp866, cp855, windows-1251
 #
 # See basic.tr for formatting options
+
+# Transliteration of cyrillic, is used in URLs and identifiers
 
 cyrillic_transliterate_ascii:
 U+0402 = "D%"
@@ -87,12 +92,3 @@ U+044f = "ya"
 
 U+0451 = "io"
 
-latin_transliterate_ascii:
-U+00E6 = "ae" # æ => ae
-U+00C6 = "AE" # Æ => AE
-U+00E5 = "aa" # å => aa
-U+00C5 = "AA" # Å => AA
-U+00F8 = "oe" # ø => oe
-U+00D8 = "OE" # Ø => OE
-U+009C = "oe" # oe ligature
-U+008C = "OE" # OE ligature
