@@ -10,6 +10,8 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/class_datatype_view_ezselection_tpl_bugs
 - Fixed	design content/datatype/edit/ezenum.tpl
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_edit_ezenum_tpl
+- Fixed undefined variable in eZContentObjectTreeNode::childrenByName()
+  http://ez.no/developer/ez_publish_3/bug_reports/undefined_variable_classcondition_in_ezcontentobjecttreenode_php
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl

@@ -1557,7 +1557,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
-                            $classCondition
                             ezcontentobject_tree.contentobject_is_published = 1";
 
         $nodeListArray =& $db->arrayQuery( $query );
