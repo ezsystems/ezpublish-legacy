@@ -383,7 +383,7 @@ class eZSearchEngine
             $searchTypes['subtype'] = array();
             $searchTypes['and'] = array();
         }
-        $allowSearch = trim( $searchText ) != "" || count( $searchTypes ) > 0 || true;
+        $allowSearch = true;
         if ( trim( $searchText ) == '' )
         {
             $ini =& eZINI::instance();
