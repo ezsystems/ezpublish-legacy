@@ -11,18 +11,18 @@ Upgrades to the development format will not be supported.</warning>
   <description>Adds feedback form functionality.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0beta2</version>
-    <named-version>3.4beta2</named-version>
+    <version>3.4.0</version>
+    <named-version>3.4</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
-      <name>Anonymous User</name>
+      <name>Administrator User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1084894399</timestamp>
+    <timestamp>1086168211</timestamp>
     <host></host>
   </packaging>
   <documents>
@@ -30,8 +30,8 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1084894399"
-           person="Anonymous User"
+    <entry timestamp="1086168211"
+           person="Administrator User"
            email="nospam@ez.no"
            release="1">
       <change>Creation of package</change>
@@ -39,7 +39,7 @@ Upgrades to the development format will not be supported.</warning>
   </changelog>
   <simple-files />
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>3.4.0beta2</number>
+    <number>3.4.0</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -59,7 +59,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="a42cb416"
+          filename="b0570464"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -67,7 +67,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-feedback_form"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="a42cb416"
+          filename="b0570464"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>

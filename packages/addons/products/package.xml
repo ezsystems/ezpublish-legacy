@@ -11,8 +11,8 @@ Upgrades to the development format will not be supported.</warning>
   <description>Adds products with shopping functionality.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0beta2</version>
-    <named-version>3.4beta2</named-version>
+    <version>3.4.0</version>
+    <named-version>3.4</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -22,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1084954239</timestamp>
+    <timestamp>1086168246</timestamp>
     <host></host>
   </packaging>
   <documents>
@@ -30,7 +30,7 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1084954239"
+    <entry timestamp="1086168246"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
@@ -39,7 +39,7 @@ Upgrades to the development format will not be supported.</warning>
   </changelog>
   <simple-files />
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>3.4.0beta2</number>
+    <number>3.4.0</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -71,7 +71,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-review"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="1b2ec736"
+          filename="9328b9f3"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -85,7 +85,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-review"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="1b2ec736"
+          filename="9328b9f3"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>

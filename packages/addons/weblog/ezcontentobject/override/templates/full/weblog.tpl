@@ -92,7 +92,7 @@
                 <form method="post" action={"content/action"|ezurl}>
                    <input type="hidden" name="ClassIdentifier" value="comment" />
                    <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                   <input class="button weblog-new-comment" type="submit" name="NewButton" value="{'New comment'|i18n("design/base")}" />
+                   <input class="button new_comment" type="submit" name="NewButton" value="{'New comment'|i18n("design/base")}" />
                 </form>
             </div>
             {section-else}

@@ -7,16 +7,17 @@
     {include uri="design:datatype/ezmatrix/selectcomponent.tpl" }
     {/let}
 {/case}
-{case match='company_numbers'}
-   {* {let selectbox_content=array( "Phone", "Fax", "Email", "Homepage" ) }*}
-      {let selectbox_content=ezini( 'MatrixComponentSettings', 'CompanyNumbers', 'content.ini' )
-           inputType=text}
-    {include uri="design:datatype/ezmatrix/selectcomponent.tpl" }
-    {/let}
-{/case}
-{case match='person_numbers'}
-    {let selectbox_content=ezini( 'MatrixComponentSettings', 'PersonNumbers', 'content.ini' )
+{case match='contact_information'}
+    {let selectbox_content=false()
          inputType=text}
+    {switch match=$attribute.object.class_identifier}
+    {case match='company'}
+        {set selectbox_content=ezini( 'MatrixComponentSettings', 'CompanyContactInfo', 'content.ini' )}
+    {/case}
+    {case match='person'}
+        {set selectbox_content=ezini( 'MatrixComponentSettings', 'PersonContactInfo', 'content.ini' )}
+    {/case}
+    {/switch}
     {include uri="design:datatype/ezmatrix/selectcomponent.tpl" }
     {/let}
 {/case}

@@ -82,7 +82,21 @@
       <name>Rating</name>
       <identifier>rating</identifier>
       <placement>4</placement>
-      <datatype-parameters />
+      <datatype-parameters>
+        <options>
+          <option id="0"
+                  name="Very good" />
+          <option id="1"
+                  name="Good" />
+          <option id="2"
+                  name="Ok" />
+          <option id="3"
+                  name="Poor" />
+          <option id="4"
+                  name="Very poor" />
+        </options>
+        <is-multiselect>0</is-multiselect>
+      </datatype-parameters>
     </attribute>
   </attributes>
 </content-class>

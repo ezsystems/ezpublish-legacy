@@ -336,6 +336,14 @@
         <Match class_identifier="link" />
       </full_link>
     </block>
+    <block name="listitem_link"
+           site-access="base">
+      <listitem_link Source="node/view/listitem.tpl"
+                     MatchFile="listitem/link.tpl"
+                     Subdir="templates">
+        <Match class_identifier="link" />
+      </listitem_link>
+    </block>
     <block name="line_link"
            site-access="base">
       <line_link Source="node/view/line.tpl"
@@ -410,6 +418,11 @@
           file-type="design">
       <original-path>design/base/override/templates/full/link.tpl</original-path>
       <path>/override/templates/full/link.tpl</path>
+    </file>
+    <file site-access="base"
+          file-type="design">
+      <original-path>design/base/override/templates/listitem/link.tpl</original-path>
+      <path>/override/templates/listitem/link.tpl</path>
     </file>
     <file site-access="base"
           file-type="design">

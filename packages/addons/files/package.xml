@@ -11,8 +11,8 @@ Upgrades to the development format will not be supported.</warning>
   <description>Adds a file database.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0beta2</version>
-    <named-version>3.4beta2</named-version>
+    <version>3.4.0</version>
+    <named-version>3.4</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -22,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1084954223</timestamp>
+    <timestamp>1086168212</timestamp>
     <host></host>
   </packaging>
   <documents>
@@ -30,7 +30,7 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1084954223"
+    <entry timestamp="1086168212"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
@@ -38,13 +38,13 @@ Upgrades to the development format will not be supported.</warning>
     </entry>
   </changelog>
   <simple-files>
-    <f551eb8ff808d7f8c5cbf31f2e8bc657 original-path="var/storage/original/text/phpB9YWj2.txt"
-                                      package-path="simplefiles/c3164c76.txt" />
-    <a6a5b0851032b71b756265c0b140ebeb original-path="var/storage/original/application/phpAIgZTx.pdf"
-                                      package-path="simplefiles/a1e9b5a5.pdf" />
+    <3ad430396cc30cdcad9a19a29044bcfc original-path="var/storage/original/text/phpB9YWj2.txt"
+                                      package-path="simplefiles/d416d78d.txt" />
+    <4bc680451ee9d83ee90dd4b457654bef original-path="var/storage/original/application/phpAIgZTx.pdf"
+                                      package-path="simplefiles/3aebd2f5.pdf" />
   </simple-files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>3.4.0beta2</number>
+    <number>3.4.0</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -70,7 +70,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-file"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="13d3785f"
+          filename="ef3d56bf"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -81,7 +81,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-file"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="13d3785f"
+          filename="ef3d56bf"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>
