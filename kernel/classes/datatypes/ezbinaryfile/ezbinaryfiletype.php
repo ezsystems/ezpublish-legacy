@@ -335,7 +335,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute,  $name = "filename" )
+    function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
         $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
