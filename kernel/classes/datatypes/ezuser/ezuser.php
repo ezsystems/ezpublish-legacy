@@ -834,9 +834,30 @@ class eZUser extends eZPersistentObject
     */
     function &roleIDList()
     {
+        $http =& eZHTTPTool::instance();
+
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $expiredTimeStamp = 0;
+        $userGroupTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
+        if ( $handler->hasTimestamp( 'user-info-cache' ) )
+            $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+        if ( $userGroupTimestamp > $expiredTimeStamp )
+        {
+            $userGroupsInfo = array();
+            if ( $http->hasSessionVariable( 'eZRoleIDList' ) )
+            {
+                return $http->sessionVariable( 'eZRoleIDList' );
+            }
+        }
+
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         $roleList = eZRole::fetchIDListByUser( $groups );
+
+        $http->setSessionVariable( 'eZRoleIDList', $roleList );
+        $http->setSessionVariable( 'eZRoleIDList_Timestamp', mktime() );
         return $roleList;
     }
 

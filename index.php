@@ -511,26 +511,19 @@ while ( $moduleRunRequired )
             if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
                 $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
             $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
-
             $hasAccessToSite = false;
             if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
             {
                 foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                 {
                     $policy =& $siteAccessResult['policies'][$key];
-                    $limitations =& $policy->attribute( 'limitations' );
-                    foreach ( array_keys( $limitations ) as $limitationKey )
+                    if ( isset( $policy['SiteAccess'] ) )
                     {
-                        $limitation =& $limitations[$limitationKey];
-                        if ( $limitation->attribute( 'identifier' ) == 'SiteAccess' )
+                        eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
+                        if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
                         {
-                            $limitationValues =& $limitation->attribute( 'values_as_array' );
-                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $limitationValues, crc32( $access[ 'name' ] ));
-                            if ( in_array( crc32( $access[ 'name' ] ), $limitationValues ) )
-                            {
-                                $hasAccessToSite = true;
-                                break;
-                            }
+                            $hasAccessToSite = true;
+                            break;
                         }
                     }
                     if ( $hasAccessToSite )

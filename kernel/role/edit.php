@@ -37,6 +37,7 @@
 
 include_once( 'kernel/classes/ezmodulemanager.php' );
 include_once( 'kernel/classes/ezrole.php' );
+include_once( 'kernel/classes/ezpolicy.php' );
 
 include_once( 'kernel/classes/ezsearch.php' );
 
