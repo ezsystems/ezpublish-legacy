@@ -205,6 +205,9 @@ eztc.php:
 - Fixed bug with misquoted filenames in Content-disposition header. (Merged
   from stable/3.4, rev. 7108)
   http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
+- Fixed hard coded "alternative name" for Company Logo. (Merged from
+  stable/3.4, rev. 7115)
+  http://ez.no/community/bug_reports/alt_image_text_for_company_logo_is_hardcoded
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
