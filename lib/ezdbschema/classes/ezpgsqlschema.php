@@ -121,7 +121,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     */
     function schema( $params = array() )
     {
-        $schema = array_merge( array( 'meta_data' => false,
+        $params = array_merge( array( 'meta_data' => false,
                                       'format' => 'generic' ),
                                $params );
         $schema = array();
