@@ -1,6 +1,6 @@
 {* Article - Full view *}
 
-<div class="content-content-view-full">
+<div class="content-view-full">
     <div class="class-article">
 
         <h1>{$node.object.data_map.title.content|wash()}</h1>
