@@ -1,0 +1,1 @@
+{$attribute.content.keyword_string|wash(xhtml)}
