@@ -48,6 +48,9 @@ $Module =& $Params["Module"];
 $ViewMode = $Params["ViewMode"];
 $Offset = $Params['Offset'];
 
+if ( $ViewMode == "offset" )
+    $ViewMode = "";
+
 $tpl =& templateInit();
 
 $searchText = '';
