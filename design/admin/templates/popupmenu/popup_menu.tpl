@@ -57,6 +57,7 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy"|i18n("design/standard/popupmenu")}</a>
     <a id="menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/standard/popupmenu")}</a>
     <a id="menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/standard/popupmenu")}</a>
+    <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap'|i18n( 'design/admin/node/view/full' )}</a>
     <hr />
     <a id="menu-expand" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezcst_expandSubtree( CurrentSubstituteValues['%nodeID%'] ); ezpopmenu_hideAll(); return false;">{"Expand"|i18n("design/standard/popupmenu")}</a>
@@ -78,11 +79,12 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="child-menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"View"|i18n("design/standard/popupmenu")}</a>
     <a id="child-menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Edit"|i18n("design/standard/popupmenu")}</a>
     <hr />
+    <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/standard/popupmenu")}</a>
     <a id="child-menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/standard/popupmenu")}</a>
     <a id="child-menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/standard/popupmenu")}</a>
-    <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/standard/popupmenu")}</a>
+    <a id="child-menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap'|i18n( 'design/admin/node/view/full' )}</a>
     <hr />
     <a id="child-menu-bookmark" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-addbookmark' ); return false;">{"Add to my bookmarks"|i18n("design/standard/popupmenu")}</a>
@@ -148,10 +150,17 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
   <input type="hidden" name="MoveNodeButton" value="x" />
 </form>
 
+{* Swap node *}
+<form id="menu-form-swap" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="TopLevelNode" value="%nodeID%" />
+  <input type="hidden" name="ContentNodeID" value="%nodeID%" />
+  <input type="hidden" name="ContentObjectID" value="%objectID" />
+  <input type="hidden" name="SwapNodeButton" value="x" />
+</form>
+
 
 {* Add to notifications. *}
 <form id="menu-form-notify" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
   <input type="hidden" name="ActionAddToNotification" value="x" />
 </form>
-
