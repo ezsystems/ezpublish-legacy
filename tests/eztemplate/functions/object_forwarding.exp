@@ -1,3 +1,4 @@
+Full:
 Name: New article
 
 Edit gui:
@@ -27,3 +28,9 @@ eZString: Input your value
 -------------------------------
 *Author2*
 Viewing eZString(abc)(Author2): Arne
+
+Children:
+Name: Sub article
+
+Line:
+Name: New article

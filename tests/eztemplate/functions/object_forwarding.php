@@ -35,6 +35,49 @@ if ( !class_exists( 'TestContentObject' ) )
     }
 }
 
+if ( !class_exists( 'TestContentObjectTreeNode' ) )
+{
+    class TestContentObjectTreeNode
+    {
+        function TestContentObjectTreeNode( $id, $name, &$object )
+        {
+            $this->ID = $id;
+            $this->Name = $name;
+            $this->Object =& $object;
+            $this->Children = array();
+            $object->Node =& $this;
+        }
+
+        function attributes()
+        {
+            return array( 'id', 'name', 'object', 'children' );
+        }
+
+        function hasAttribute( $name )
+        {
+            return in_array( $name, array( 'id', 'name', 'object', 'children' ) );
+        }
+
+        function &attribute( $name )
+        {
+            if ( $name == 'name' )
+                return $this->Name;
+            else if ( $name == 'object' )
+                return $this->Object;
+            else if ( $name == 'children' )
+                return $this->Children;
+            else if ( $name == 'id' )
+                return $this->ID;
+            return null;
+        }
+
+        function addChild( &$node )
+        {
+            $this->Children[] =& $node;
+        }
+    }
+}
+
 if ( !class_exists( 'TestContentObjectAttribute' ) )
 {
     class TestContentObjectAttribute
@@ -153,8 +196,15 @@ $attribute4->ClassAttribute = $cattribute4;
 
 $attributes1 = array( $attribute1, $attribute2, $attribute3, $attribute4 );
 $object1 = new TestContentObject( 2, 'New article', $attributes1 );
+$attributes2 = array();
+$object2 = new TestContentObject( 3, 'Sub article', $attributes2 );
+
+$node1 = new TestContentObjectTreeNode( 2, 'New article', $object1 );
+$node2 = new TestContentObjectTreeNode( 3, 'Sub article', $object2 );
+$node1->addChild( $node2 );
 
 $tpl->setVariable( 'object', $object1 );
+$tpl->setVariable( 'node', $node1 );
 
 include_once( 'kernel/common/eztemplatedesignresource.php' );
 $designResource =& eZTemplateDesignResource::instance();

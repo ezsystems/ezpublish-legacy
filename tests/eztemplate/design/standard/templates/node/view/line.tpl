@@ -1,0 +1,1 @@
+Name: {$node.name}
