@@ -39,7 +39,7 @@ initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
 
-$obj =& eZContentObject::fetch( $objectID );
+$obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
