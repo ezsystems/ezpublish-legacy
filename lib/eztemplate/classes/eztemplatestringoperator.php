@@ -287,7 +287,7 @@ function modify( &$tpl,
             {
                 $codec =& eZTextCodec::instance( false, 'unicode' );
                 $output = $codec->convertString( $operatorValue );
-                $operatorValue = implode( ",", $output );
+                $operatorValue = $output;
             }break;
 
             // Chr (generate unicode characters based on input):
