@@ -75,30 +75,54 @@ function stepFour( &$tpl, &$http, &$ini )
     // deactivate setup
     $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
                         
-    // write back site.ini
-    $savingStatus = $ini->save( "site.ini" );
-    if ( $savingStatus )
+    
+    // Make backup of site.ini
+    $filePath = $ini->rootDir() . "/site.ini";
+    $ext = ".bak.php";
+    $i=0;
+    while( file_exists( $filePath . $ext ) )
     {
-        $tpl->setVariable( "configWrite", "successful" );
-        $tpl->setVariable( "continue", true );
+        if ( $i < 10 )
+            $ext = ".b0$i.php";
+        else
+            $ext = ".b$i.php";
+        $i++;
+    }
+    if ( file_exists( $filePath . ".php" ) )
+        $backup = copy( $filePath . ".php", $filePath . $ext ); 
+    else
+        $backup = copy( $filePath, $filePath . $ext ); 
+    if ( $backup )
+    {
+        // write back site.ini
+        $savingStatus = $ini->save( "site.ini.php" );
+        if ( $savingStatus )
+        {
+            @unlink( $filePath );
+            $tpl->setVariable( "configWrite", "successful" );
+            $tpl->setVariable( "continue", true );
         $tpl->setVariable( "url", eZSys::wwwDir() . eZSys::indexFile() );
+        }
+        else
+        {
+            $tpl->setVariable( "configWrite", "unsuccessful" );
+            $tpl->setVariable( "continue", false );
+        }
+        
+        // TODO: do this better and more secure!
+        if ($dir = @opendir("var/cache/ini"))
+        {
+            while ( ( $file = readdir( $dir ) ) !== false )
+            {
+                if($item=="." or $item=="..") continue;
+                unlink( $file );
+            }  
+              closedir( $dir );
+        }
     }
     else
-    {
-        $tpl->setVariable( "configWrite", "unsuccessful" );
-        $tpl->setVariable( "continue", false );
-    }
+        $tpl->setVariable( "configWrite", "Couldn't backup old site.ini" );
     
-    // TODO: do this better and more secure!
-    if ($dir = @opendir("var/cache/ini"))
-    {
-        while ( ( $file = readdir( $dir ) ) !== false )
-        {
-            if($item=="." or $item=="..") continue;
-            unlink( $file );
-        }  
-          closedir( $dir );
-    }
     // Show template
     $tpl->display( "design/standard/templates/setup/step4.tpl" );    
 }
