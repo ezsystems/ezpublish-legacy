@@ -121,6 +121,33 @@ class eZPreferences
 
     /*!
      \static
+     \return the array with all the preferences for the current user. If no user is logged in,
+     the empty array will be returned.
+    */
+    function values()
+    {
+        $user =& eZUser::currentUser();
+        if ( $user->isLoggedIn() )
+        {
+            $returnArray = array();
+            $userID = $user->attribute( 'contentobject_id' );
+            $db =& eZDB::instance();
+            $values = $db->arrayQuery( "SELECT name,value FROM ezpreferences WHERE user_id=$userID ORDER BY id" );
+            foreach ( $values as $item )
+            {
+                eZPreferences::storeInSession( $item['name'], $item['value'] );
+                $returnArray[$item['name']] = $item['value'];
+            }
+            return $returnArray;
+        }
+        else
+        {
+            return array();
+        }
+    }
+
+    /*!
+     \static
      Makes sure the stored session values are cleaned up.
     */
     function sessionCleanup()

@@ -199,6 +199,7 @@ class eZNodeviewfunctions
     function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false )
     {
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
+        include_once( 'kernel/classes/ezpreferences.php' );
 
         $roleList = $user->roleIDList();
         $discountList =& eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
@@ -222,6 +223,20 @@ class eZNodeviewfunctions
             }
             $cacheHashArray[] = $vpString;
         }
+
+        // Make the cache unique for every case of the preferences
+        $pString = "";
+        $preferences =& eZPreferences::values();
+        if ( $preferences )
+        {
+            ksort( $preferences );
+            foreach( $preferences as $key => $value )
+            {
+                $pString .= 'p:' . $key . '='. $value;                
+            }
+        }
+        $cacheHashArray[] = $pString;
+
         $ini =& eZINI::instance();
 
         $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
