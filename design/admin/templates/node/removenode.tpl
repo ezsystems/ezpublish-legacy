@@ -17,7 +17,7 @@
     <li>{"Removing this assignment will also remove its %1 children."|i18n("design/admin/node/removenode",,hash("%1",$ChildObjectsCount))}</li>
 </ul>
 
-<p><b>{"Note:"|i18n("design/admin/node/removenode")}</b> {"Removed nodes can be retrieved later. You will find them in the trash."|i18n("design/admin/node/removenode")}</p>
+<p><b>{"Note"|i18n("design/admin/node/removenode")}:</b> {"Removed nodes can be retrieved later. You will find them in the trash."|i18n("design/admin/node/removenode")}</p>
 <br/>
 
 <h1>{"Removing node assignment of %1"|i18n("design/admin/node/removenode",,array($object.name))}</h1>
