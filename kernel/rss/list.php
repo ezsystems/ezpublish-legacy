@@ -101,7 +101,7 @@ $tpl->setVariable( 'rssimport_list', $importList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:rss/list.tpl" );
-$Result['path'] = array( array( 'url' => 'kernel/rss',
+$Result['path'] = array( array( 'url' => 'rss/list',
                                 'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
 
 
