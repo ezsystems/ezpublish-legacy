@@ -48,7 +48,8 @@ class eZStepData
     /*!
       Get file and class info for specified step
 
-      \param step number or name
+      \param step number or
+             step name
       \return array containing file name and class name
      */
     function &step( $description )
@@ -88,6 +89,38 @@ class eZStepData
             if ( $step['class'] == $tableStep['class'] )
             {
                 return $this->StepTable[++$key];
+            }
+        }
+        return null;
+    }
+
+    /*!
+     Get previous install step from step array
+
+     \param current step
+
+     \return previous step
+    */
+    function &previousStep( &$step )
+    {
+        print_r( $step );
+        if ( is_string( $step ) ){
+            foreach ( $this->StepTable as $key => $tableStep )
+            {
+                if ( $step == $tableStep['class'] )
+                {
+                    return $this->StepTable[--$key];
+                }
+            }
+        }
+        else
+        {
+            foreach ( $this->StepTable as $key => $tableStep )
+            {
+                if ( $step['class'] == $tableStep['class'] )
+                {
+                    return $this->StepTable[--$key];
+                }
             }
         }
         return null;
