@@ -152,6 +152,9 @@ eZInformationCollection:
   (Merged from stable/3.5 rev. 10912)
 - Changed code for site.ini file change CookieTimeout=300 to 360.
   (Merged from stable/3.5 rev. 10904)
+- Fixed: SQL errors in ezkeyword and ezenum datatypes when running
+  on PostgreSQL.
+  (Merged from release/3.5.1 rev. 10896)
   
 *Library:
 PDF:
