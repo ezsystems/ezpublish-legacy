@@ -1181,6 +1181,7 @@ class eZModule
         if ( $searchPathList === null )
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
+        $triedList = array();
         foreach ( $searchPathList as $path )
         {
             $file = "$path/$moduleName/module.php";
@@ -1192,7 +1193,13 @@ class eZModule
                     $module->initialize( $path, $file, $moduleName );
                 return $module;
             }
+            else
+            {
+                $triedList[] = "$path/$moduleName";
+            }
         }
+        eZDebug::writeWarning( "Could not find module named '$moduleName'\n" .
+                               "Looked in directores: " . implode( ", ", $triedList ) );
         return null;
     }
     function &getNamedParameters()

@@ -112,6 +112,10 @@ class eZExtension
         $ini =& eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
+            if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
+            {
+                eZDebug::writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
+            }
             $extensionSettingsPath = $extensionDirectory . '/' . $activeExtension . '/settings';
             if ( file_exists( $extensionSettingsPath ) )
             {
@@ -234,7 +238,13 @@ class eZExtension
             if ( $extensionSubdir != '' )
                 $extensionPath .= '/' . $extensionSubdir;
             if ( file_exists( $extensionPath ) )
+            {
                 $repositoryDirectoryList[] = $extensionPath;
+            }
+            else if ( $extensionSubdir )
+            {
+                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory $extensionSubdir, looked for directory '" . $extensionPath . "'" );
+            }
         }
         $foundType = false;
         foreach ( $repositoryDirectoryList as $repositoryDirectory )

@@ -280,7 +280,7 @@ if ( $requireFixup )
     }
 }
 
-$cur_datatype = 0;
+$cur_datatype = 'ezstring';
 // Apply HTTP POST variables
 if ( $contentClassHasInput )
 {

@@ -201,6 +201,9 @@ class eZDataType
                 if ( get_class( $def ) != $className )
                     $def = new $className();
             }
+            usort( $type_objects,
+                   create_function( '$a, $b',
+                                    'return strcmp( $a->Name, $b->Name);' ) );
         }
         return $type_objects;
     }
@@ -991,12 +994,22 @@ class eZDataType
         $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         $extensionDirectories = array_unique( $extensionDirectories );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
+        $triedDirectories = $repositoryDirectories;
 
         foreach ( $extensionDirectories as $extensionDirectory )
         {
             $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/datatypes';
+            $triedDirectories[] = $extensionPath;
             if ( file_exists( $extensionPath ) )
+            {
                 $repositoryDirectories[] = $extensionPath;
+            }
+            else
+            {
+                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory 'datatypes'\n" .
+                                       "Looked for directory '" . $extensionPath . "'\n" .
+                                       "Cannot look for datatype '$type' in this extension." );
+            }
         }
         $foundEventType = false;
         $repositoryDirectories = array_unique( $repositoryDirectories );
@@ -1011,7 +1024,7 @@ class eZDataType
         }
         if ( !$foundEventType )
         {
-            eZDebug::writeError( "Datatype not found: $type, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZDataType::loadAndRegisterType" );
+            eZDebug::writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), "eZDataType::loadAndRegisterType" );
             return false;
         }
         include_once( $includeFile );
