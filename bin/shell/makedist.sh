@@ -217,14 +217,20 @@ for file in $EXTRA_DIRS; do
     mkdir -p $DEST/$file
 done
 
-
 if [ -d "$PACKAGE_DIR" ]; then
+    echo $PACKAGE_DIR
+    echo -n "Export packages:"
     mkdir -p $DEST/kernel/setup/packages
-    for package in "$PACKAGE_DIR/*"; do
-	if [ -d "$PACKAGE_DIR/$package" ]; then
-	    ./ezpm.sh -q -r "$PACKAGE_DIR" export $package -d $DEST/kernel/setup/packages
+    for package in $PACKAGE_DIR/*; do
+	if [ -d "$package" ]; then
+	    PACKAGE_NAME=`basename $package`
+	    echo -n " `$SETCOLOR_EMPHASIZE`$PACKAGE_NAME`$SETCOLOR_NORMAL`"
+	    ./ezpm.php -q -r "$PACKAGE_DIR" export "$PACKAGE_NAME" -d "$DEST/kernel/setup/packages"
 	fi
     done
+    echo
+else
+    echo "No packages to export"
 fi
 
 # if [ "$DIST_TYPE" == "sdk" ]; then

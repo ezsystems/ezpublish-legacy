@@ -193,11 +193,13 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
-        $cli->notice( "Using siteaccess $siteaccess for cronjob" );
+        if ( !$isQuiet )
+            $cli->notice( "Using siteaccess $siteaccess for cronjob" );
     }
     else
     {
-        $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+        if ( !$isQuiet )
+            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
 }
 
@@ -720,12 +722,15 @@ foreach ( $commandList as $commandItem )
                         foreach ( $groups as $group )
                         {
                             $package->appendGroup( $group );
-                            $cli->notice( "Added to group $group" );
+                            if ( !$isQuiet )
+                                $cli->notice( "Added to group $group" );
                         }
                         $package->store();
                     }
                     else
+                    {
                         $cli->error( "No groups supplied" );
+                    }
                 } break;
                 default:
                 {
@@ -780,8 +785,9 @@ foreach ( $commandList as $commandItem )
                     case 'state':
                     {
                         $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
-                        $cli->notice( "Attribute " . $cli->style( 'emphasize' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
-                                      " was set to " . $cli->style( 'emphasize' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
+                        if ( !$isQuiet )
+                            $cli->notice( "Attribute " . $cli->style( 'emphasize' ) . $commandItem['attribute'] . $cli->style( 'emphasize-end' ) .
+                                          " was set to " . $cli->style( 'emphasize' ) . $commandItem['attribute-value'] . $cli->style( 'emphasize-end' ) );
                     } break;
                 }
                 $package->store();
@@ -792,49 +798,53 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'import' )
     {
-        $archiveNames = array();
-        $archiveName = $commandItem['name'];
-        $archiveNames[] = $archiveName;
-        if ( !file_exists( $archiveName ) )
-        {
-            $archiveName .= '.' . eZPackage::suffix();
-            $archiveNames[] = $archiveName;
-        }
-        if ( file_exists( $archiveName ) )
-        {
-            $package =& eZPackage::import( $archiveName, $commandItem['name'] );
-            if ( $package )
-            {
-                $cli->notice( "Package " . $package->attribute( 'name' ) . " sucessfully imported" );
-            }
-            else
-                $cli->error( "Failed importing package $archiveName" );
-        }
-        else
-            $cli->error( "Could not open package " . $commandItem['name'] . ", none of these files were found: " . implode( ',', $archiveNames ) );
+        if ( !$isQuiet )
+            $cli->notice( "Disabled for now" );
+//         $archiveNames = array();
+//         $archiveName = $commandItem['name'];
+//         $archiveNames[] = $archiveName;
+//         if ( !file_exists( $archiveName ) )
+//         {
+//             $archiveName .= '.' . eZPackage::suffix();
+//             $archiveNames[] = $archiveName;
+//         }
+//         if ( file_exists( $archiveName ) )
+//         {
+//             $package =& eZPackage::import( $archiveName, $commandItem['name'] );
+//             if ( $package )
+//             {
+//                 $cli->notice( "Package " . $package->attribute( 'name' ) . " sucessfully imported" );
+//             }
+//             else
+//                 $cli->error( "Failed importing package $archiveName" );
+//         }
+//         else
+//             $cli->error( "Could not open package " . $commandItem['name'] . ", none of these files were found: " . implode( ',', $archiveNames ) );
     }
     else if ( $command == 'export' )
     {
-        $cli->notice( "Disabled for now" );
-//         $package =& eZPackage::fetch( $commandItem['name'] );
-//         if ( isset( $commandItem['export-directory'] ) )
-//         {
-//             $exportDirectory = $commandItem['export-directory'];
-//             if ( !file_exists( $exportDirectory ) )
-//             {
-//                 $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
-//             }
-//             else
-//             {
-//                 $package->export( $exportDirectory );
-//                 $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
-//             }
-//         }
-//         else
-//         {
-//             $exportPath = $package->archive( $package->exportName() );
-//             $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
-//         }
+        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+        if ( isset( $commandItem['export-directory'] ) )
+        {
+            $exportDirectory = $commandItem['export-directory'];
+            if ( !file_exists( $exportDirectory ) )
+            {
+                if ( !$isQuiet )
+                    $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
+            }
+            else
+            {
+                $package->export( $exportDirectory );
+                if ( !$isQuiet )
+                    $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
+            }
+        }
+        else
+        {
+            $exportPath = $package->archive( $package->exportName() );
+            if ( !$isQuiet )
+                $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
+        }
     }
     else if ( $command == 'create' )
     {

@@ -96,6 +96,7 @@ class eZStepCreateSites extends eZStepInstaller
         eZDB::setInstance( $db );
 
         $siteCount = $this->PersistenceList['site_templates']['count'];
+        include_once( 'kernel/classes/ezpackage.php' );
         for ( $counter = 0; $counter < $siteCount; ++$counter )
         {
             $sitePackage = $this->PersistenceList['site_templates_'.$counter];

@@ -70,10 +70,17 @@ class eZDBPackageHandler extends eZPackageHandler
             $path .= '/' . $filename;
             if ( file_exists( $path ) )
             {
-                print( "install SQL $path\n" );
                 $db =& eZDB::instance();
-                $db->insertFile( $path );
-                return true;
+                $canInsert = true;
+                if ( isset( $parameters['database-type'] ) and
+                     $parameters['database-type'] != $db->databaseName() )
+                    $canInsert = false;
+                if ( $canInsert )
+                {
+                    print( "install SQL $path\n" );
+                    $db->insertFile( $path );
+                    return true;
+                }
             }
             else
                 print( "could not find SQL $path\n" );
