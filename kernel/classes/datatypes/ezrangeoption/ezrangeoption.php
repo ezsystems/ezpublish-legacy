@@ -123,6 +123,8 @@ class eZRangeOption
 
     function decodeXML( $xmlString )
     {
+        include_once( 'lib/ezxml/classes/ezxml.php' );
+
         $xml = new eZXML();
 
 
@@ -165,6 +167,8 @@ class eZRangeOption
     */
     function &xmlString( )
     {
+        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+
         $doc = new eZDOMDocument( "Option" );
 
         $root =& $doc->createElementNode( "ezrangeoption" );

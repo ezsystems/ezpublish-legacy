@@ -53,3 +53,5 @@ Datatype:
   (merged from stable/3.4/rev. 9278)
 - Fixed bug:  Cancel button in browse doesn't work in  old_admin.
   http://ez.no/community/bug_reports/old_admin_cancel_button_in_browse_doesn_t_work
+- Fixed bug: http://ez.no/community/bug_reports/broken_datatype
+  Merged from 3.3/r9321, 3.4/r9322.
