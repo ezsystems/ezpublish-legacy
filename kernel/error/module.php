@@ -37,6 +37,6 @@ $Module = array( "name" => "eZError" );
 $ViewList = array();
 $ViewList["view"] = array(
     "script" => "view.php",
-    "params" => array( 'Type', 'Number' ) );
+    "params" => array( 'Type', 'Number', 'ExtraParameters' ) );
 
 ?>

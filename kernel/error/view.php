@@ -38,6 +38,9 @@ $tpl =& templateInit();
 
 $Type = $Params['Type'];
 $Number = $Params['Number'];
+$ExtraParameters = $Params['ExtraParameters'];
+
+$tpl->setVariable( 'parameters', $ExtraParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$Type/$Number.tpl" );

@@ -225,7 +225,7 @@ class eZModule
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function &handleError( $errorCode, $errorType )
+    function &handleError( $errorCode, $errorType, $parameters = array() )
     {
 //         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
 //         $this->setErrorCode( $errorCode );
@@ -233,7 +233,7 @@ class eZModule
         $module =& eZModule::findModule( $errorModule['module'], $this );
         if ( $module === null )
             return false;
-        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode ) );
+        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters ) );
         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
         $this->setErrorCode( $errorCode );
         return $result;
@@ -728,7 +728,7 @@ class eZModule
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
         {
-            eZDebug::writeError( "Undefined function: " . $this->Module["name"] . "::$functionName ",
+            eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
             return null;
         }

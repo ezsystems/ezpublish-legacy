@@ -207,6 +207,9 @@ while ( $moduleRunRequired )
         else
         {
             $moduleResult =& $module->run( $function_name, $params );
+            if ( $moduleResult == null )
+                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
+                                                                                                               'view' => $function_name ) );
         }
     }
     else
@@ -214,7 +217,7 @@ while ( $moduleRunRequired )
         eZDebug::writeError( "Undefined module: $module_name", "index" );
         $module = new eZModule( "", "", $module_name );
         $GLOBALS['eZRequestedModule'] =& $module;
-        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel' );
+        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $module_name ) );
 //         $moduleResult = array();
 //         $moduleResult["pagelayout"] = "undefinedmodule.tpl";
 //         $tpl_vars = array( "module" => array( "name" => $module_name ) );
