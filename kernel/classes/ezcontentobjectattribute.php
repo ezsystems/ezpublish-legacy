@@ -262,7 +262,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $dataType->storeObjectAttribute( $this );
 
             eZPersistentObject::store();
-
+            $dataType->postStore( $this );
             $db->commit();
         }
     }
@@ -885,14 +885,19 @@ class eZContentObjectAttribute extends eZPersistentObject
                 $tmp->setAttribute( 'id', null );
             $tmp->setAttribute( 'contentobject_id', $contentObjectID );
         }
-        
         $db =& eZDB::instance();
         $db->begin();
         $tmp->sync();
         $tmp->initialize( $currentVersionNumber, $this );
+        $tmp->sync();
+        $tmp->postInitialize( $currentVersionNumber, $this );
         $db->commit();
+
         return $tmp;
     }
+
+    // rush: temporary string
+    //$tmp->postInitialize( $translationVersion, $contentObjectAttribute );
 
     /*!
      Clones the attribute to the translation \a $languageCode.
@@ -904,11 +909,14 @@ class eZContentObjectAttribute extends eZPersistentObject
         $tmp = $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
-        
+
         $db =& eZDB::instance();
         $db->begin();
         $tmp->sync();
-        $tmp->initialize( $this->attribute( 'version' ), $this );
+        $currentVersionNumber = $this->attribute( 'version' );
+        $tmp->initialize( $currentVersionNumber, $this );
+        $tmp->sync();
+        $tmp->postInitialize( $currentVersionNumber, $this );
         $db->commit();
         return $tmp;
     }

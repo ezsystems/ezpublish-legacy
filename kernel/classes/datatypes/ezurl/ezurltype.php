@@ -149,6 +149,24 @@ class eZURLType extends eZDataType
     }
 
     /*!
+      Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
+    */
+    function postStore( &$objectAttribute )
+    {
+        // Update url-object link
+        $urlValue = $objectAttribute->content();
+        if ( trim( $urlValue ) != '' )
+        {
+            $urlID = eZURL::registerURL( $urlValue );
+            //$urlID = $objectAttribute->attribute( 'data_int' );+
+            $objectAttributeID = $objectAttribute->attribute( 'id' );
+            $objectAttributeVersion = $objectAttribute->attribute( 'version' );
+            $linkObjectLink =& eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
+            $linkObjectLink->store();
+        }
+    }
+
+    /*!
       Store the URL in the URL database and store the reference to it.
     */
     function storeObjectAttribute( &$attribute )
@@ -160,20 +178,9 @@ class eZURLType extends eZDataType
             $urlID = eZURL::registerURL( $urlValue );
             $attribute->setAttribute( 'data_int', $urlID );
 
-            // Update url-object link
-            $contentObjectAttributeID = $attribute->attribute( 'id' );
-            $contentObjectAttributeVersion = $attribute->attribute( 'version' );
-            eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
-            $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-            $linkObjectLink->store();
-
-            if ( $oldURLID )
-            {
-                if ( !eZURLObjectLink::hasObjectLinkList( $oldURLID ) )
-                {
+            if ( $oldURLID &&
+                 !eZURLObjectLink::hasObjectLinkList( $oldURLID ) )
                     eZURL::removeByID( $oldURLID );
-                }
-            }
         }
     }
 
