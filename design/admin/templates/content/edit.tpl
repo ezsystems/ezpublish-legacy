@@ -13,6 +13,7 @@
 </script>
 {/literal}
 
+{include uri="design:content/edit_validation.tpl"}
 
 <div class="content-edit">
 
@@ -29,8 +30,6 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
-    {include uri="design:content/edit_validation.tpl"}
 
     {* The location edit field is only used when the INI setting is set to enabled *}
     {section show=eq( ezini( 'EditSettings', 'EmbedLocationHandling', 'content.ini' ), 'enabled' )}
