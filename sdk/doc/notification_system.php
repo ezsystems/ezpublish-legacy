@@ -48,30 +48,62 @@ These notifications are generalized in eZ publish to enable an extensible
 notification system.
 </p>
 
-<h2>Personalized settings</h2>
+<h2>Message gateway</h2>
+<p>
+The message geteway can send messages to users via different plugins.
+Every user can configure how he wants to be updated. E.g. internal
+eZ publish message/task, e-mail, sms etc..
+</p>
+
+<p>
+Messages can be sent in bulk or when the message event occurs.
+</p>
+
+Setting: Send notification in bulk. E.g. once a week. Or immediately.
+
+
+<h2>Personalized message filter</h2>
 
 <p>
 Every registered and logged in user can create their own notification rules.
 </p>
 
 
-<h2>TMP: Things that can be done with notification system</h2>
-<p>
-Check of "I want to receive news from this site". This can then
-be used to send notification whenever articles are published.
-Can also be used to send "manual" newsletters to registered users.
-</p>
+
+<h2>Notification rules</h2>
+
+<h3>Examples</h3>
+<table class="example">
+<tr>
+    <td>
+    Check of "I want to receive news from this site". This can then
+    be used to send notification whenever articles are published.
+    Can also be used to send "manual" newsletters to registered users.
+    </td>
+</tr>
+</table>
+
+<table class="example">
+<tr>
+    <td>
+    Notify me when someone replies to this message. E.g. answer on a
+    forum posting. Message comment on an article. Book review.
+    </td>
+</tr>
+</table>
+
+<table class="example">
+<tr>
+    <td>
+    I'm interested in "Pop&Rock and Jazz". Used to send newsletter
+    to registered users.
+
+    </td>
+</tr>
+</table>
+
+
+<h2>Notification triggers</h2>
 
 <p>
-Notify me when someone replies to this message. E.g. answer on a
-forum posting. Message comment on an article. Book review.
-</p>
-
-<p>
-I'm interested in "Pop&Rock and Jazz". Used to send newsletter
-to registered users.
-</p>
-
-<p>
-Setting: Send notification in bulk. E.g. once a week. Or immediately.
 </p>
