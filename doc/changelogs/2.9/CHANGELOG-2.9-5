@@ -15,8 +15,13 @@ Changes from 2.9-4 to 2.9-5
   required.
 - Added new function createPassword in eZUser which can be used for creating random passwords which are sent to users.
 - The eZObjectForwarder class can now use different template roots depending on values from the input.
+- New class eZURLTranslator which handles all types of url translations.
+- Moved url nodepath matching to the new urltranslator class.
 
 *Library :
 
 eZ utils:
 - Added function for automatically remove escaped ' and " characters done by magic quote
+
+eZ debug:
+- Made sure debug messages are ignored when debug is off.

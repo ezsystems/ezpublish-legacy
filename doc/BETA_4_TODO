@@ -84,6 +84,10 @@ Add a checkbox to each attribute which tells whether the attribute is considered
 attribute or a metadata attribute. Metadata attributes are not translated and are generally
 not shown in views but instead used to control objects, like "have comments".
 
+Add a mass add text field which one can enter datatypes one line after another and click
+add to get them all, this makes it easier to setup classes. To make this work the combobox
+must default to a None entry. It might even be possible to have options for datatypes.
+
 Policy:
 Make policy checking more centralized instead of copying code all the time.
 
