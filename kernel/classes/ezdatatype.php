@@ -297,7 +297,12 @@ class eZDataType
     {
     }
 
+    
     function storeDefinedClassAttribute( &$classAttribute )
+    {
+    }
+
+    function preStoreDefinedClassAttribute( &$classAttribute )
     {
     }
 
