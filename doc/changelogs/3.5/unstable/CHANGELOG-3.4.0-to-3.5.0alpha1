@@ -74,6 +74,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   content updates can not mangle the file.
 - Fixed concurrency issue with cached files.
   http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
+- Fixed double listing of the notification tool. (Merged from stable/3.4, rev 7819)
+  http://ez.no/community/bug_reports/notification_toolbox_is_listed_twice
 
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
