@@ -73,6 +73,9 @@ class eZURLObjectLink extends eZPersistentObject
                       'name' => 'ezurl_object_link' );
     }
 
+    /*!
+     \static
+    */
     function &create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
         $row = array(
@@ -83,6 +86,7 @@ class eZURLObjectLink extends eZPersistentObject
     }
 
     /*!
+     \static
      \return the url object for id \a $id.
     */
     function &fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
@@ -96,9 +100,28 @@ class eZURLObjectLink extends eZPersistentObject
     }
 
     /*!
+     \static
+     \return \c true if the URL \a $urlID has any object links
+    */
+    function &hasObjectLinkList( $urlID )
+    {
+        $rows =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                      array(),
+                                                      array( 'url_id' => $urlID ),
+                                                      array(),
+                                                      null,
+                                                      false,
+                                                      false,
+                                                      array( array( 'name' => 'count',
+                                                                    'operation' => 'count( url_id )' ) ) );
+        return ( $rows[0]['count'] > 0 );
+    }
+
+    /*!
+     \static
      \return all object versions which has the link.
     */
-    function &fetchObjectVersionList( $urlID, $asObject = true )
+    function &fetchObjectVersionList( $urlID )
     {
         $objectVersionList = array();
         $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
@@ -106,7 +129,7 @@ class eZURLObjectLink extends eZPersistentObject
                                                                    array( 'url_id' => $urlID ),
                                                                    null,
                                                                    null,
-                                                                   $asObject );
+                                                                   true );
         $storedVersionList = array();
         foreach ( array_keys( $urlObjectLinkList ) as $key )
         {
@@ -121,7 +144,7 @@ class eZURLObjectLink extends eZPersistentObject
             $versionID = $versionObject->attribute( 'id' );
             if ( !in_array( $versionID, $storedVersionList ) )
             {
-                $objectVersionList[] = $versionObject;
+                $objectVersionList[] =& $versionObject;
                 $storedVersionList[] = $versionID;
             }
         }
@@ -129,34 +152,51 @@ class eZURLObjectLink extends eZPersistentObject
     }
 
     /*!
-     \remove all links of a object.
+     \static
+     Removes all links for the object attribute \a $contentObjectAttributeID and version \a $contentObjectVersion.
+     If \a $contentObjectVersion is \c false then all versions are removed as well.
     */
     function &removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
+        $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
+        if ( $contentObjectAttributeVersion !== false )
+            $conditions['contentobject_attribute_version'] = $contentObjectAttributeVersion;
         eZPersistentObject::removeObject( eZURLObjectLink::definition(),
-                                          array( 'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                 'contentobject_attribute_version' => $contentObjectAttributeVersion ) );
+                                          $conditions );
     }
 
+
     /*!
-     \return all links of a object.
+     \static
+     \return all links for the contenobject attribute ID \a $contenObjectAttributeID and version \a $contenObjectVersion.
+     If \a $contentObjectVersion is \c false then all links for all versions are returned.
     */
-    function &fetchLinkList( $contentObjectID, $contentObjectVersion, $asObject = true )
+    function &fetchLinkList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
         $linkList = array();
+        $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
+        if ( $contentObjectAttributeVersion !== false )
+            $conditions['contentobject_attribute_version'] = $contentObjectAttributeVersion;
         $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                    null,
-                                                                   array( 'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                                          'contentobject_attribute_version' => $contentObjectAttributeVersion  ),
+                                                                   $conditions,
                                                                    null,
                                                                    null,
                                                                    $asObject );
         foreach ( array_keys( $urlObjectLinkList ) as $key )
         {
             $urlObjectLink =& $urlObjectLinkList[$key];
-            $linkID = $urlObjectLink->attribute( 'url_id' );
-            $link =& eZURL::fetch( $linkID );
-            $linkList[] = $link;
+            if ( $asObject )
+            {
+                $linkID = $urlObjectLink->attribute( 'url_id' );
+                $link =& eZURL::fetch( $linkID );
+                $linkList[] =& $link;
+            }
+            else
+            {
+                $linkID = $urlObjectLink['url_id'];
+                $linkList[] = $linkID;
+            }
         }
         return $linkList;
     }

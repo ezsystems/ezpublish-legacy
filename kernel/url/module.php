@@ -46,10 +46,12 @@ $ViewList['list'] = array(
     "unordered_params" => array( "offset" => "Offset" ) );
 $ViewList['view'] = array(
     'script' => 'view.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'EditObject' => 'EditObject' ),
     'params' => array( 'ID' ) );
 $ViewList['edit'] = array(
     'script' => 'edit.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'Cancel' => 'Cancel',
                                     'Store' => 'Store' ),
     'params' => array( 'ID' ) );
