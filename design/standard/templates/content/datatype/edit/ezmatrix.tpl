@@ -2,6 +2,10 @@
 {default attribute_base=ContentObjectAttribute}
 {let matrix=$attribute.content}
 
+{section show=$matrix.rows.sequential}
+{'There are no rows in the matrix.'|i18n( 'design/content/datatype/edit' )}
+{/section}
+
 <table class="list" cellspacing="0">
 <tr>
 
@@ -63,7 +67,7 @@
    {/section}
 </select>
 
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_row]" value="{'Add rows'|i18n('design/standard/content/datatype')}" title="{'Add rows to the matrix.'|i18n( 'design/standard/content/datatype' )}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_row]" value="{'Add rows'|i18n('design/standard/content/datatype')}" title="{'Add new rows to the matrix.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 
 </div>

@@ -13,7 +13,7 @@
     <td>
       <label>{"Value (optional)"|i18n("design/standard/content/datatype")}</label>
     </td>
-  </tr>  
+  </tr>
 {/section}
 {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
 <tr>
@@ -23,14 +23,14 @@
   </td>
   <td>
     <input type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}[]" value="{$OptionList:item.additional_price}" />
-    <input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}[]" value="{$OptionList:item.id}" /><br />
+    <input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}[]" value="{$OptionList:item.id}" title="{'Select option for removal.'|i18n('design/standard/content/datatype')}" /><br />
   </td>
 </tr>
 {/section}
 </table>
 </div>
 <div class="buttonblock">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'New option'|i18n('design/standard/content/datatype')}" />
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/content/datatype')}" />
+<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'i18n|'design/standard/content/datatype')}" />
+<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 {/default}

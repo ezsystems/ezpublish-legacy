@@ -20,7 +20,7 @@
                 <input type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name}" />
                 <label>{"Priority"|i18n("design/standard/content/datatype")}</label>
                 <input type="text" size="3" name = "{$attribute_base}_data_multioption_priority_{$attribute.id}_{$MultiOptionList.id}" value="{sum($MultiOptionList.index,1)}" />
-                <input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}[]" value="{$MultiOptionList.id}" /><br>
+                <input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}[]" value="{$MultiOptionList.id}" title="{'Select multioption for removal.'|i18n( 'design/standard/content/datatype' )}" /><br>
                 <label>{"Default"|i18n("design/standard/content/datatype")}</label>
                 <label>{"Options"|i18n("design/standard/content/datatype")}</label>
                 <label>{"Additional price"|i18n("design/standard/content/datatype")}</label>
@@ -34,29 +34,29 @@
              <input type="hidden" name="{$attribute_base}_data_option_option_id_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.option_id}" />
 
                     {section show=eq(sum($OptionList.index,1),$MultiOptionList.default_option_id)}
-                        <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" checked="checked" />
+                        <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" checked="checked" title="{'Use the radio buttons to set the default option.'|i18n( 'design/standard/content/datatype' )}" />
                     {section-else}
-                        <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" />
+                        <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}"  title="{'Use the radio buttons to set the default option.'|i18n( 'design/standard/content/datatype' )}" />
                     {/section}
                     <input type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.value}" />
                     <input type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.additional_price}" />
-                    <input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" />
+                    <input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/contet/datatype')}" />
                 </td>
             </tr>
         {/section}
         <tr>
             <td>
             <div class="buttonblock">
-                <input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new-option_{$MultiOptionList.id}]" value="{'New option'|i18n('design/standard/content/datatype')}" />
-                <input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove-selected-option_{$MultiOptionList.id}]" value="{'Remove Selected'|i18n('design/standard/content/datatype')}" />
+                <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new-option_{$MultiOptionList.id}]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'|i18n( 'design/standard/content/datatype' )}" />
+                <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove-selected-option_{$MultiOptionList.id}]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
             </div><br/>
             </td>
         </tr>
     {/section}
     </table>
 <div class="buttonblock">
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_new_multioption]" value="{'New MultiOption'|i18n('design/standard/content/datatype')}" />
-<input class="smallbutton" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected_multioption]" value="{'Remove Selected MultiOption'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_multioption]" value="{'Add multioption'|i18n('design/standard/content/datatype')}" title="{'Add a new multioption.'|i18n('design/standard/content/datatype')}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected_multioption]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected multioptions.'|i18n( 'design/standard/content/datatype' )}" />
 </div>
 {/default}
 

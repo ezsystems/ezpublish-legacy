@@ -16,7 +16,7 @@
 {section name=Author loop=$attribute.content.author_list sequence=array(bglight,bgdark) }
 <tr class="{$Author:sequence}">
 	<td width="1">
-	<input type="checkbox" name="{$attribute_base}_data_author_remove_{$attribute.id}[]" value="{$Author:item.id}" >
+	<input type="checkbox" name="{$attribute_base}_data_author_remove_{$attribute.id}[]" value="{$Author:item.id}" title="{'Select author row for removal.'|i18n( 'design/standard/content/datatype' )}" />
 	</td>
 	<td>
 	<input type="hidden" name="{$attribute_base}_data_author_id_{$attribute.id}[]" value="{$Author:item.id}">
@@ -39,7 +39,7 @@
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" disabled="disabled" />
 {/section}
 
-<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_author]" value="{'Add row'|i18n('design/standard/content/datatype')}" title="{'Add a new row to the author list.'|i18n( 'design/standard/content/datatype' )}" />
+<input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_author]" value="{'Add author'|i18n('design/standard/content/datatype')}" title="{'Add a new row to the author list.'|i18n( 'design/standard/content/datatype' )}" />
 
 </div>
 {/default}
