@@ -88,6 +88,10 @@ if ( $module->isCurrentAction( 'Save' ) )
         }
         fclose( $fp );
 
+        $siteConfig =& eZINI::instance( 'site.ini' );
+        $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
+        @chmod( $template, octdec( $filePermissions ) );
+
         // Expire content cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
