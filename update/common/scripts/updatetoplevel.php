@@ -58,10 +58,11 @@ $contentINI =& eZINI::instance( 'content.ini' );
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$checkNodes = array( array( 'Content', 'RootNode',      '',      'Standard section', 'ezcontentnavigationpart', false ),
-                     array( 'Users',   'UserRootNode',  'users', 'Users',            'ezusernavigationpart',    true ),
-                     array( 'Media',   'MediaRootNode', 'media', 'Media',            'ezmedianavigationpart',   true ),
-                     array( 'Setup',   'SetupRootNode', 'setup', 'Setup',            'ezsetupnavigationpart',   true ) );
+$checkNodes = array( array( 'Content', 'RootNode',       '',       'Standard section', 'ezcontentnavigationpart', false ),
+                     array( 'Users',   'UserRootNode',   'users',  'Users',            'ezusernavigationpart',    true  ),
+                     array( 'Media',   'MediaRootNode',  'media',  'Media',            'ezmedianavigationpart',   true  ),
+                     array( 'Design',  'DesignRootNode', 'design', 'Design',           'ezvisualnavigationpart',  true  ),
+                     array( 'Setup',   'SetupRootNode',  'setup',  'Setup',            'ezsetupnavigationpart',   true  ) );
 
 $contentClassIdentifier = 'folder';
 if ( $options['class-identifier'] )
@@ -210,6 +211,25 @@ foreach ( $checkNodes as $checkNode )
                     $storeContentINI = true;
                 }
             }
+
+            if ( $name == 'Design' )
+            {
+                $cli->output( "Moving node /setup/ez_publish to /design", false );
+                $setupEzPublushNode =& ezContentObjectTreeNode::fetchByURLPath( 'setup/ez_publish' );
+                if ( !is_object( $setupEzPublushNode ) )
+                {
+
+                    $cli->output( '' ); // \n
+                    $cli->output( "Node not found.", false );
+                    $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'failure', "[ Failed ]" ) );
+                }
+                else
+                {
+                    $setupEzPublushNode->move( $node->attribute( 'node_id' ) );
+                    $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
+                }
+                unset( $setupEzPublushNode );
+            }
         }
         else
         {
@@ -219,6 +239,7 @@ foreach ( $checkNodes as $checkNode )
 
     ++$i;
 }
+
 if ( $storeContentINI )
 {
     $cli->output();
