@@ -3,12 +3,11 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-
 <div class="objectinfo">
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Object information'|i18n( 'design/admin/content/edit' )}</h4>
+<h4>{'Object information'|i18n( 'design/admin/content/view/versionview' )}</h4>
 
 </div></div></div></div></div></div>
 
@@ -16,39 +15,39 @@
 
 {* Object ID *}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'ID'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
 {/section}
 </p>
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
 {/section}
 </p>
 
 {* Published version *}
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+<label>{'Published version'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {section show=$object.published}
 {$object.main_node.contentobject_version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
 {/section}
 </p>
 
@@ -56,9 +55,9 @@
 <div class="block">
 {section show=$allow_versions_button}
 {section show=$object.versions|count|gt( 1 )}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" />
 {/section}
 {section-else}
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You do not have permissions to manage versions.'i18n( 'design/admin/content/view/versionview' )}" />
@@ -249,10 +248,8 @@
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $object_version, '/', $language )|ezurl}>
 {section show=and( eq( $version.status, 0 ), $is_creator, $object.can_edit )}
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" />
-{* <input class="button" type="submit" name="PreviewPublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/view/versionview' )}" /> *}
 {section-else}
-<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version can not be edited because it is not a draft. Only drafts can be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
-{* <input class="button" type="submit" name="PreviewPublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" /> *}
+<input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version is not a draft and thus it can not be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
 {/section}
 </form>
 </div>
