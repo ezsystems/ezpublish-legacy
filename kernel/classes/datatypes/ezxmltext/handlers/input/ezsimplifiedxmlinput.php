@@ -33,6 +33,7 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
+
 //
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
@@ -423,22 +424,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
       Change input tags to standard tag name
     */
-    function &standizeTag( $tagName )
+    function &standardizeTag( $tagName )
     {
         $convertedTagName = $tagName;
-        if ( in_array( $tagName, $this->TagAliasArray['strong'] ) )
-            $convertedTagName = "strong";
-        if ( in_array( $tagName, $this->TagAliasArray['emphasize'] ) )
+        foreach ( $this->TagAliasArray as $tag => $aliases )
         {
-            $convertedTagName = "emphasize";
-        }
-        if ( in_array( $tagName, $this->TagAliasArray['link'] ) )
-        {
-            $convertedTagName = "link";
-        }
-        if ( in_array( $tagName, $this->TagAliasArray['header'] ) )
-        {
-            $convertedTagName = "header";
+            if ( in_array( $tagName, $aliases ) )
+            {
+                $convertedTagName = $tag;
+                break;
+            }
         }
         return $convertedTagName;
     }
@@ -885,7 +880,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $tagName = substr( $justName, 1, strlen( $justName ) );
 
                     // Convert to standard tag name.
-                    $convertedTag = $this->standizeTag( $tagName );
+                    $convertedTag = $this->standardizeTag( $tagName );
 
                     // If last inserted node is line and either a paragraph or a li tag found, should pop up line node.
                     if ( $lastInsertedNodeTag == "line" and ( $convertedTag == "paragraph" or
@@ -1066,7 +1061,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 else
                 {
                     // Convert to standard tag name.
-                    $justName = $this->standizeTag( $justName );
+                    $justName = $this->standardizeTag( $justName );
 
                     if ( $tagNameEnd > 0 )
                     {
@@ -2098,7 +2093,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li' );
 
-    var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ) );
+    var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ), 'paragraph' => array( 'p' ) );
 
     /// Contains all supported tag for xml parse
     var $SupportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
