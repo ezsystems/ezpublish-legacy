@@ -195,7 +195,7 @@ class eZImageGD
     */
     function scale( &$from, &$to, &$to_file, &$filters, $scale )
     {
-        $this->convert( $from, $to, $to_file, $filters, $scale );
+        $this->convert( $from, $to, $to_dir, $to_file, $filters, $scale );
     }
 
     /// Array of allowed input types mapped to the corresponding function.

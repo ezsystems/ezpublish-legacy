@@ -90,8 +90,7 @@ function &imageInit()
     }
     if ( $useGD )
     {
-        $img->registerType( 'gd', new eZImageGD( EZ_IMAGE_KEEP_SUFFIX,
-                                                 EZ_IMAGE_PREPEND_SUFFIX_TAG ) );
+        $img->registerType( 'gd', new eZImageGD() );
     }
 
     // Output types
