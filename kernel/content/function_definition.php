@@ -478,13 +478,17 @@ $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_
                                                                              'method' => 'canInstantiateClassList' ),
                                                      'parameter_type' => 'standard',
                                                      'parameters' => array( array( 'name' => 'group_id',
-                                                                                   'type' => 'integer',
+                                                                                   'type' => 'array',
                                                                                    'required' => false,
                                                                                    'default' => 0 ),
                                                                             array( 'name' => 'parent_node',
                                                                                    'type' => 'object',
                                                                                    'required' => false,
-                                                                                   'default' => 0 ) ) );
+                                                                                   'default' => 0 ),
+                                                                            array( 'name' => 'filter_type',
+                                                                                   'type' => 'string',
+                                                                                   'required' => false,
+                                                                                   'default' => 'include' ) ) );
 
 $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
                                                   'operation_types' => array( 'read' ),
