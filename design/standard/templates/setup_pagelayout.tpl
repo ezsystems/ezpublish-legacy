@@ -111,7 +111,7 @@
     <form method="post" action="{$script}">
       <div class="buttonblock">
         <input type="hidden" name="ChangeStepAction" value="" />
-        <input class="menubutton" type="submit" name="StepButton_1" value="Restart" />
+        <input class="menubutton" type="submit" name="StepButton_1" value="{'Restart'|i18n('design/standard/setup')}" />
       </div>
     </form>
   </td>

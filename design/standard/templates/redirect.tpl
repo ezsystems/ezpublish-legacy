@@ -6,8 +6,8 @@
 </head>
 <body>
   <form action="{$redirect_uri}" method="post" name="Redirect">
-  Redirecting to: <b>{$redirect_uri}</b><br/>
-  <input class="stdbutton" type="submit" Name="RedirectButton" value="Redirect"/>
+  {"Redirecting to:"|i18n("redirect")} <b>{$redirect_uri}</b><br/>
+  <input class="stdbutton" type="submit" Name="RedirectButton" value="{'Redirect'|i18n('redirect')}"/>
   </form>
 
 <!--DEBUG_REPORT-->

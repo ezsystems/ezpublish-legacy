@@ -100,7 +100,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">Installation & configuration</p>
+    <p class="menuhead">{"Installation & configuration"|i18n("manual")}</p>
     </th>
 </tr>
 <tr>
@@ -108,7 +108,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/introduction"|ezurl}>Introduction</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/introduction"|ezurl}>{"Introduction"|i18n("manual")}</a></p>
     </td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">Setup & design</p>
+    <p class="menuhead">{"Setup & design"|i18n("manual")}</p>
     </th>
 </tr>
 <tr>
@@ -132,7 +132,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>List</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"List"|i18n("manual")}</a></p>
     </td>
 </tr>
 </table>
@@ -140,7 +140,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">User manuals</p>
+    <p class="menuhead">{"User manuals"|i18n("manual")}</p>
     </th>
 </tr>
 <tr>
@@ -148,7 +148,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>List</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"List"|i18n("manual")}</a></p>
     </td>
 </tr>
 </table>

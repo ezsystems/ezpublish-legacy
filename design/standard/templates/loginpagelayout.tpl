@@ -105,8 +105,8 @@
     {$module_result.content}
     </td>
     <td width="50%" bgcolor="#ffffff" valign="top">
-    <h2>{"Welcome to eZ publish administration"|i18n('logon')}</h2>
-    <p>{"To log in enter a valid login and password."|i18n('logon')}</p>
+    <h2>{"Welcome to eZ publish administration"|i18n('login')}</h2>
+    <p>{"To log in enter a valid login and password."|i18n('login')}</p>
     </td>
 </tr>
 </table>

@@ -62,6 +62,8 @@
   th|   -> t
   -tion -> shun
   -u    -> oo
+  |U-   -> Oo
+  y|    -> ai
   v     -> f
   w     -> v
 
@@ -122,9 +124,10 @@ class eZBorkTranslator extends eZTranslatorHandler
         $text = preg_replace( "/th\b/", "t", $text );
         $text = preg_replace( "/\Btion/", "shun", $text );
         $text = preg_replace( "/\Bu/", "oo", $text );
+        $text = preg_replace( "/\bU/", "Oo", $text );
+        $text = preg_replace( "/y\b/", "ai", $text );
         $text = preg_replace( "/v/", "f", $text );
         $text = preg_replace( "/w/", "v", $text );
-        $text = preg_replace( "/y\b/", "ai", $text );
         if ( $orgtext == $text )
             $text = $text . "-a";
         $text = "[" . $text . "]";
