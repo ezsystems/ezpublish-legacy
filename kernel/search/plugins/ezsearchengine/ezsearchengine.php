@@ -1322,35 +1322,6 @@ class eZSearchEngine
 
     function &normalizeText( $text )
     {
-        $text =& strToLower( $text );
-
-        // Add spaces after chinese / japanese multibyte characters
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        $codec =& eZTextCodec::instance( false, 'unicode' );
-
-        $unicodeValueArray =& $codec->convertString( $text );
-
-        $normalizedTextArray = array();
-        foreach ( array_keys( $unicodeValueArray ) as $valueKey )
-        {
-            // Check for word characters that should be broken up for search
-            if ( ( $unicodeValueArray[$valueKey] >= 13312 and
-                   $unicodeValueArray[$valueKey] <= 40863 ) or
-                 (  $unicodeValueArray[$valueKey] >= 44032 and
-                    $unicodeValueArray[$valueKey] <= 55203 ) )
-            {
-                $normalizedTextArray[] = $unicodeValueArray[$valueKey];
-                $normalizedTextArray[] = 32;
-            }
-            else
-            {
-                $normalizedTextArray[] = $unicodeValueArray[$valueKey];
-            }
-        }
-
-        $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
-        $text = $revCodec->convertString( $normalizedTextArray );
-
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = new eZCharTransform();
         $text = $trans->transformByGroup( $text, 'search' );

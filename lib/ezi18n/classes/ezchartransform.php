@@ -49,7 +49,7 @@
 /// The timestamp for when the format of the cache files were
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1101047459 );
+define( 'EZ_CHARTRANSFORM_CODEDATE', 1101288452 );
 
 class eZCharTransform
 {

@@ -1516,17 +1516,54 @@ class eZCodeMapper
         }
         else if ( $command['command'] == 'search_cleanup' )
         {
-            $code = ( '$text = preg_replace( "#(\.){2,}#", " ", $text );' . "\n" .
-                      '$text = preg_replace( "#^\.#", " ", $text );' . "\n" .
-                      '$text = preg_replace( "#\s\.#", " ", $text );' . "\n" .
-                      '$text = preg_replace( "#\.\s#", " ", $text );' . "\n" .
-                      '$text = preg_replace( "#\.$#", " ", $text );' . "\n" .
-                      '$ini =& eZINI::instance();' . "\n" .
-                      'if ( $ini->variable( \'SearchSettings\', \'EnableWildcard\' ) != \'true\' )' . "\n" .
-                      '{' . "\n" .
-                      '    $text = str_replace( "*", " ", $text );' . "\n" .
-                      '}' . "\n" .
-                      '$text = preg_replace( "(\s+)", " ", $text );' . "\n" );
+            $code = '';
+            $nonCJKCharsets = $this->nonCJKCharsets();
+            if ( !in_array( $charsetName, $nonCJKCharsets ) )
+            {
+                print( "adding CJK handling\n" );
+                $code .= ( '// Add spaces after chinese / japanese / korean multibyte characters' . "\n" .
+                           'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
+                           '$codec =& eZTextCodec::instance( false, \'unicode\' );' . "\n" .
+                           "\n" .
+                           '$unicodeValueArray =& $codec->convertString( $text );' . "\n" .
+                           "\n" .
+                           '$normalizedTextArray = array();' . "\n" .
+                           'foreach ( array_keys( $unicodeValueArray ) as $valueKey )' . "\n" .
+                           '{' . "\n" .
+                           '    // Check for word characters that should be broken up for search' . "\n" .
+                           '    if ( ( $unicodeValueArray[$valueKey] >= 13312 and' . "\n" .
+                           '           $unicodeValueArray[$valueKey] <= 40863 ) or' . "\n" .
+                           '         (  $unicodeValueArray[$valueKey] >= 44032 and' . "\n" .
+                           '            $unicodeValueArray[$valueKey] <= 55203 ) )' . "\n" .
+                           '    {' . "\n" .
+                           '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '        $normalizedTextArray[] = 32; // A space' . "\n" .
+                           '    }' . "\n" .
+                           '    else' . "\n" .
+                           '    {' . "\n" .
+                           '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '    }' . "\n" .
+                           '}' . "\n" .
+                           '$revCodec =& eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
+                           '$text = $revCodec->convertString( $normalizedTextArray );' . "\n" );
+            }
+            $code .= ( '$text = preg_replace( array( "#(\.){2,}#",' . "\n" .
+                       '                             "#^\.#",' . "\n" .
+                       '                             "#\s\.#",' . "\n" .
+                       '                             "#\.\s#",' . "\n" .
+                       '                             "#\.$#" ),' . "\n" .
+                       '                      array( " ",' . "\n" .
+                       '                             " ",' . "\n" .
+                       '                             " ",' . "\n" .
+                       '                             " ",' . "\n" .
+                       '                             " " ),' . "\n" .
+                       '                      $text );' . "\n" .
+                       '$ini =& eZINI::instance();' . "\n" .
+                       'if ( $ini->variable( \'SearchSettings\', \'EnableWildcard\' ) != \'true\' )' . "\n" .
+                       '{' . "\n" .
+                       '    $text = str_replace( "*", " ", $text );' . "\n" .
+                       '}' . "\n" .
+                       '$text = preg_replace( "(\s+)", " ", $text );' . "\n" );
             return $code;
         }
         return false;
@@ -1557,11 +1594,48 @@ class eZCodeMapper
         }
         else if ( $command['command'] == 'search_cleanup' )
         {
-            $text = preg_replace( "#(\.){2,}#", " ", $text );
-            $text = preg_replace( "#^\.#", " ", $text );
-            $text = preg_replace( "#\s\.#", " ", $text );
-            $text = preg_replace( "#\.\s#", " ", $text );
-            $text = preg_replace( "#\.$#", " ", $text );
+            $nonCJKCharsets = $this->nonCJKCharsets();
+            if ( !in_array( $charsetName, $nonCJKCharsets ) )
+            {
+                // Add spaces after chinese / japanese / korean multibyte characters
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $codec =& eZTextCodec::instance( false, 'unicode' );
+
+                $unicodeValueArray =& $codec->convertString( $text );
+
+                $normalizedTextArray = array();
+                foreach ( array_keys( $unicodeValueArray ) as $valueKey )
+                {
+                    // Check for word characters that should be broken up for search
+                    if ( ( $unicodeValueArray[$valueKey] >= 13312 and
+                           $unicodeValueArray[$valueKey] <= 40863 ) or
+                         (  $unicodeValueArray[$valueKey] >= 44032 and
+                            $unicodeValueArray[$valueKey] <= 55203 ) )
+                    {
+                        $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                        $normalizedTextArray[] = 32; // A space
+                    }
+                    else
+                    {
+                        $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                    }
+                }
+
+                $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
+                $text = $revCodec->convertString( $normalizedTextArray );
+            }
+
+            $text = preg_replace( array( "#(\.){2,}#",
+                                         "#^\.#",
+                                         "#\s\.#",
+                                         "#\.\s#",
+                                         "#\.$#" ),
+                                  array( " ",
+                                         " ",
+                                         " ",
+                                         " ",
+                                         " " ),
+                                  $text );
             $ini =& eZINI::instance();
             if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
             {
@@ -1571,6 +1645,25 @@ class eZCodeMapper
             return true;
         }
         return false;
+    }
+
+    /*!
+     \return An array with charsets that are certain to not contain CJK characters.
+    */
+    function nonCJKCharsets()
+    {
+        return array( 'adobe-standard-encoding',
+                      'cp437', 'cp737', 'cp775', 'cp850', 'cp852', 'cp855', 'cp857',
+                      'cp860', 'cp861', 'cp862', 'cp863', 'cp864', 'cp865', 'cp866',
+                      'cp869', 'cp874',
+                      'dec-mcs', 'hp-roman8',
+                      'iso-8859-1', 'iso-8859-2', 'iso-8859-3', 'iso-8859-4', 'iso-8859-5',
+                      'iso-8859-6', 'iso-8859-7', 'iso-8859-8', 'iso-8859-9', 'iso-8859-10',
+                      'iso-8859-11', 'iso-8859-13', 'iso-8859-14', 'iso-8859-15',
+                      'koi8-r', 'macintosh', 'next', 'us-ascii',
+                      'windows-1250', 'windows-1251', 'windows-1252', 'windows-1253',
+                      'windows-1254', 'windows-1255', 'windows-1256', 'windows-1257',
+                      'windows-1258' );
     }
 
     /// \privatesection
