@@ -130,6 +130,12 @@ MatchFile=line/forum.tpl
 Subdir=templates
 Match[class_identifier]=forum
 
+[forum_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/forum.tpl
+Subdir=templates
+Match[class_identifier]=forum
+
 [forum_topic_full]
 Source=node/view/full.tpl
 MatchFile=full/forum_topic.tpl
@@ -153,7 +159,6 @@ Source=node/view/line.tpl
 MatchFile=line/forum_reply.tpl
 Subdir=templates
 Match[class_identifier]=forum_reply
-
 
 # Weblog templates
 
@@ -193,7 +198,6 @@ Match[class_identifier]=product
 Source=content/view/embed.tpl
 MatchFile=embed/product.tpl
 Subdir=templates
-#Match[class]=18
 Match[class_identifier]=product
 
 [review_line]
