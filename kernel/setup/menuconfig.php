@@ -41,15 +41,8 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( "kernel/common/template.php" );
 
-
 $ini =& eZINI::instance();
 $tpl =& templateInit();
-
-$siteAccess = "base";
-
-$menuINI = eZINI::instance( 'menu.ini', 'settings', null, null, true );
-$menuINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-$menuINI->loadCache();
 
 if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
 {
@@ -75,6 +68,8 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
 }
 
+$iniPath = "settings/siteaccess/$siteAccess";
+$menuINI = eZINI::instance( 'menu.ini.append.php', $iniPath, null, false, null, true );
 
 if ( $module->isCurrentAction( 'Store' ) )
 {
@@ -84,7 +79,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     $menuINI->setVariable( 'SelectedMenu', 'TopMenu', $menuINI->variable( $menuType, "TopMenu" ) );
     $menuINI->setVariable( 'SelectedMenu', 'LeftMenu', $menuINI->variable( $menuType, "LeftMenu" ) );
 
-    $menuINI->save( "siteaccess/$siteAccess/menu.ini.append" );
+    $menuINI->save( false, false, false, false, true, true );
 
     // Delete compiled template
     $iniPath = "settings/siteaccess/$siteAccess";
