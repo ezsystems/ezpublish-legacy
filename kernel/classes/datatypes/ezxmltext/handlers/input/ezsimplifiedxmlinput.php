@@ -1306,7 +1306,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             case '#text' :
             {
-                $output .= trim( $tag->content() );
+                $output .= $tag->content();
             }break;
 
             case 'object' :
