@@ -441,92 +441,95 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                     $matchValue = array();
                     $validMatch = true;
-                    foreach( array_keys( $matchSettings ) as $matchType )
+                    if ( $matchSettings )
                     {
-                        switch( $matchType )
+                        foreach( array_keys( $matchSettings ) as $matchType )
                         {
-                            case 'object':
+                            switch( $matchType )
                             {
-                                if ( $contentNode->attribute( 'contentobject_id' ) != $matchSettings[$matchType] )
+                                case 'object':
                                 {
-                                    $validMatch = false;
-                                }
-                                else
-                                {
-                                    $contentObject = $contentNode->attribute( 'object' );
-                                    $matchValue[$this->OverrideObjectRemoteID] = $contentObject->attribute( 'remote_id' );
-                                }
-                            } break;
+                                    if ( $contentNode->attribute( 'contentobject_id' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                    else
+                                    {
+                                        $contentObject = $contentNode->attribute( 'object' );
+                                        $matchValue[$this->OverrideObjectRemoteID] = $contentObject->attribute( 'remote_id' );
+                                    }
+                                } break;
 
-                            case 'node':
+                                case 'node':
+                                {
+                                    if ( $nodeID != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                    else
+                                    {
+                                        $matchValue[$this->OverrideNodeRemoteID] = $contentNode->attribute( 'remote_id' );
+                                    }
+                                } break;
+
+                                case 'parent_node':
+                                {
+                                    if ( $contentNode->attribute( 'parent_node_id' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                    else
+                                    {
+                                        $parentNode = $contentNode->attribute( 'parent' );
+                                        $matchValue[$this->OverrideParentNodeRemoteID] = $parentNode->attribute( 'remote_id' );
+                                    }
+                                } break;
+
+                                case 'class':
+                                {
+                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    if ( $contentObject->attribute( 'contentclass_id' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                    else
+                                    {
+                                        $contentClass = $contentObject->attribute( 'content_class' );
+                                        $matchValue[$this->OverrideClassRemoteID] = $contentClass->attribute( 'remote_id' );
+                                    }
+                                } break;
+
+                                case 'class_identifier':
+                                {
+                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    if ( $contentObject->attribute( 'class_identifier' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                } break;
+
+                                case 'section':
+                                {
+                                    $contentObject =& $contentNode->attribute( 'object' );
+                                    if ( $contentObject->attribute( 'section_id' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                } break;
+
+                                case 'depth':
+                                {
+                                    if ( $contentNode->attribute( 'depth' ) != $matchSettings[$matchType] )
+                                    {
+                                        $validMatch = false;
+                                    }
+                                } break;
+                            }
+
+                            if ( !$validMatch )
                             {
-                                if ( $nodeID != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                                else
-                                {
-                                    $matchValue[$this->OverrideNodeRemoteID] = $contentNode->attribute( 'remote_id' );
-                                }
-                            } break;
-
-                            case 'parent_node':
-                            {
-                                if ( $contentNode->attribute( 'parent_node_id' ) != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                                else
-                                {
-                                    $parentNode = $contentNode->attribute( 'parent' );
-                                    $matchValue[$this->OverrideParentNodeRemoteID] = $parentNode->attribute( 'remote_id' );
-                                }
-                            } break;
-
-                            case 'class':
-                            {
-                                $contentObject =& $contentNode->attribute( 'object' );
-                                if ( $contentObject->attribute( 'contentclass_id' ) != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                                else
-                                {
-                                    $contentClass = $contentObject->attribute( 'content_class' );
-                                    $matchValue[$this->OverrideClassRemoteID] = $contentClass->attribute( 'remote_id' );
-                                }
-                            } break;
-
-                            case 'class_identifier':
-                            {
-                                $contentObject =& $contentNode->attribute( 'object' );
-                                if ( $contentObject->attribute( 'class_identifier' ) != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                            } break;
-
-                            case 'section':
-                            {
-                                $contentObject =& $contentNode->attribute( 'object' );
-                                if ( $contentObject->attribute( 'section_id' ) != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                            } break;
-
-                            case 'depth':
-                            {
-                                if ( $contentNode->attribute( 'depth' ) != $matchSettings[$matchType] )
-                                {
-                                    $validMatch = false;
-                                }
-                            } break;
-                        }
-
-                        if ( !$validMatch )
-                        {
-                            break;
+                                break;
+                            }
                         }
                     }
 

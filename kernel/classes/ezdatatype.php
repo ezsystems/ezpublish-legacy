@@ -634,8 +634,6 @@ class eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-int', (string)$objectAttribute->attribute( 'sort_key_int' ) ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-string', $objectAttribute->attribute( 'sort_key_string' ) ) );
 
         $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
         $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
@@ -652,8 +650,6 @@ class eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
-        $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );
         $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
         $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
         $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );

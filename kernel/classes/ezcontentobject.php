@@ -2342,7 +2342,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &unserialize( &$package, &$domNode, $options, $ownerID = false )
     {
-        if ( $domNode->prefix() != 'ez' || $domNode->name() != 'object' )
+        if ( $domNode->name() != 'object' )
         {
             return false;
         }
@@ -2434,20 +2434,22 @@ class eZContentObject extends eZPersistentObject
         $objectNode = new eZDOMNode();
 
         $objectNode->setName( 'object' );
-        $objectNode->setPrefix( 'ez' );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'ezremote', 'http://ez.no/ezobject', 'xmlns' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->Name, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->Name ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', strftime( "%b %d %Y %H:%M:%S", $this->attribute( 'published' ) ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', strftime( "%b %d %Y %H:%M:%S", $this->attribute( 'modified' ) ), 'ezremote' ) );
         if ( !$this->attribute( 'remote_id' ) )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)mktime() );
             $this->store();
         }
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ) ) );
         $contentClass =& $this->attribute( 'content_class' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ), 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ) ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_identifier', $contentClass->attribute( 'identifier' ), 'ezremote' ) );
 
         $versions = array();
@@ -2467,7 +2469,6 @@ class eZContentObject extends eZPersistentObject
         $this->fetchClassAttributes();
 
         $versionsNode = new eZDOMNode();
-        $versionsNode->setPrefix( 'ez' );
         $versionsNode->setName( 'version-list' );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNode( 'active_version', $this->CurrentVersion ) );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNamespaceDefNode( "ezobject", "http://ez.no/object/" ) );

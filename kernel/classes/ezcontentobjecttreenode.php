@@ -1707,6 +1707,39 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     \return the field name for the sort order number \a $sortOrder.
+             Gives a warning if the number is unknown and return \c 'path'.
+    */
+    function sortFieldID( $sortFieldName )
+    {
+        switch ( $sortFieldName )
+        {
+            default:
+                eZDebug::writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
+            case 'path':
+                return 1;
+            case 'published':
+                return 2;
+            case 'modified':
+                return 3;
+            case 'section':
+                return 4;
+            case 'depth':
+                return 5;
+            case 'class_identifier':
+                return 6;
+            case 'class_name':
+                return 7;
+            case 'priority':
+                return 8;
+            case 'name':
+                return 9;
+            case 'modified_subnode':
+                return 10;
+        }
+    }
+
+    /*!
      \return an array which defines the sorting method for this node.
      The array will contain one element which is an array with sort field
      and sort order.
@@ -2624,7 +2657,7 @@ WHERE
                                                             'is_main' => $isMain,
                                                             'parent_node' => $parentNodeID,
                                                             'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
-                                                            'sort_field' => $contentNodeDOMNode->attributeValue( 'sort-field' ),
+                                                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
                                                             'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ),
                                                             'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) ) );
         $nodeAssignment->store();
@@ -2653,7 +2686,7 @@ WHERE
         $nodeAssignmentNode->setName( 'node-assignment' );
         if ( $this->attribute( 'main_node_id' ) == $this->attribute( 'node_id' ) )
         {
-            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'main-node', 1 ) );
+            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-main-node', 1 ) );
         }
         if( !in_array( $this->attribute( 'node_id'), $topNodeIDArray ) )
         {
@@ -2663,7 +2696,7 @@ WHERE
         $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->attribute( 'name' ) ) );
         $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'node-id', $this->attribute( 'node_id' ) ) );
         $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote-id', $this->attribute( 'remote_id' ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-field', $this->attribute( 'sort_field' ) ) );
+        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-field', eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ) ) );
         $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-order', $this->attribute( 'sort_order' ) ) );
         $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'priority', $this->attribute( 'priority' ) ) );
         return $nodeAssignmentNode;

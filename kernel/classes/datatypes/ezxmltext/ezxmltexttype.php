@@ -425,12 +425,13 @@ class eZXMLTextType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-int', (string)$objectAttribute->attribute( 'sort_key_int' ) ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-string', $objectAttribute->attribute( 'sort_key_string' ) ) );
 
         $xml = new eZXML();
         $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        if ( $domDocument )
+        {
+            $node->appendChild( $domDocument->root() );
+        }
 
         return $node;
     }
@@ -442,10 +443,11 @@ class eZXMLTextType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
-        $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );
         $rootNode = $attributeNode->firstChild();
-        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+        if ( $rootNode )
+        {
+            $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+        }
     }
 
 }

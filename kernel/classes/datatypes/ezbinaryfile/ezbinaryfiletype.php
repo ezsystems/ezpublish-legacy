@@ -425,8 +425,6 @@ class eZBinaryFileType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-int', (string)$objectAttribute->attribute( 'sort_key_int' ) ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'sort-key-string', $objectAttribute->attribute( 'sort_key_string' ) ) );
 
         $binaryFile =& $objectAttribute->attribute( 'content' );
         $fileKey = md5( mt_rand() );
@@ -451,8 +449,6 @@ class eZBinaryFileType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $objectAttribute->setAttribute( 'sort_key_int', (int)$attributeNode->attributeValue( 'sort-key-int' ) );
-        $objectAttribute->setAttribute( 'sort_key_string', $attributeNode->attributeValue( 'sort-key-float' ) );
         $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
 
         $fileNode = $attributeNode->elementByName( 'binary-file' );
