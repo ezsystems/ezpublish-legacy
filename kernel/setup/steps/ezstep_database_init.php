@@ -122,6 +122,12 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'socket' => $dbSocket,
                                'database' => false,
                                'charset' => $dbCharset );
+
+        // PostgreSQL requires us to specify database name.
+        // We use template1 here since it exists on all PostgeSQL installations.
+        if( $this->PersistenceList['database_info']['type'] == 'pgsql' )
+            $dbParameters['database'] = 'template1';
+
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
         $this->PersistenceList['database_info']['use_unicode'] = false;
