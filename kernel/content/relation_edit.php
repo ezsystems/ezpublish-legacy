@@ -55,17 +55,15 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
         $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
         $relatedObjectIDArray = array();
+        $objectID = $object->attribute( 'id' );
+
         foreach (  $relatedObjects as  $relatedObject )
+            $relatedObjectIDArray[] = $relatedObject->attribute( 'id' );
+
+        foreach ( $selectedObjectIDArray as $selectedObjectID )
         {
-            $relatedObjectID =  $relatedObject->attribute( 'id' );
-            $relatedObjectIDArray[] =  $relatedObjectID;
-        }
-        foreach ( $selectedObjectIDArray as $objectID )
-        {
-            if ( !in_array( $objectID, $relatedObjectIDArray ) )
-            {
-                $object->addContentObjectRelation( $objectID, $editVersion );
-            }
+            if ( $selectedObjectID != $objectID && !in_array( $selectedObjectID, $relatedObjectIDArray ) )
+                $object->addContentObjectRelation( $selectedObjectID, $editVersion );
         }
     }
 }
@@ -80,6 +78,13 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
         $objectID = $object->attribute( 'id' );
+
+        $assignedNodes =& $object->attribute( 'assigned_nodes' );
+        $assignedNodesIDs = array();
+        foreach ( $assignedNodes as $node )
+            $assignedNodesIDs = $node->attribute( 'node_id' );
+        unset( $assignedNodes );
+
         eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject',
                                         'description_template' => 'design:content/browse_related.tpl',
                                         'content' => array( 'object_id' => $objectID,
@@ -89,6 +94,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                                          'class_id' => $class->attribute( 'identifier' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                          'section' => $object->attribute( 'section_id' ) ),
+                                        'ignore_nodes_select' => $assignedNodesIDs,
                                         'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
                                  $module );
 
