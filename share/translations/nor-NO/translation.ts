@@ -93,14 +93,6 @@
 <context>
     <name>design/standard/class/datatype</name>
     <message>
-        <source>Max file size:</source>
-        <translation>Maksimum filstørrelse:</translation>
-    </message>
-    <message>
-        <source>Default value:</source>
-        <translation>Standardverdi:</translation>
-    </message>
-    <message>
         <source>Empty</source>
         <translation>Ingen verdi</translation>
     </message>
@@ -121,40 +113,12 @@
         <translation>Avkryssingsrute</translation>
     </message>
     <message>
-        <source>Enum Element:</source>
-        <translation>Enum-element:</translation>
-    </message>
-    <message>
-        <source>Enum Value:</source>
-        <translation>Enum-verdi:</translation>
-    </message>
-    <message>
         <source>New Enum Element</source>
         <translation>Nytt enum-element</translation>
     </message>
     <message>
         <source>Remove Selected</source>
         <translation>Fjern markerte</translation>
-    </message>
-    <message>
-        <source>Min float value:</source>
-        <translation>Minimumverdi:</translation>
-    </message>
-    <message>
-        <source>Max float value:</source>
-        <translation>Maksimumverdi:</translation>
-    </message>
-    <message>
-        <source>Min integer value:</source>
-        <translation>Minimumverdi:</translation>
-    </message>
-    <message>
-        <source>Max integer value:</source>
-        <translation>Maksimumverdi:</translation>
-    </message>
-    <message>
-        <source>Media player type:</source>
-        <translation>Medieavspiller:</translation>
     </message>
     <message>
         <source>Flash</source>
@@ -173,10 +137,6 @@
         <translation>Windows media player</translation>
     </message>
     <message>
-        <source>VAT type:</source>
-        <translation>MVA-type:</translation>
-    </message>
-    <message>
         <source>Price inc. VAT</source>
         <translation>Pris inkl. MVA</translation>
     </message>
@@ -185,24 +145,64 @@
         <translation>Pris eks. MVA</translation>
     </message>
     <message>
-        <source>Max string length:</source>
-        <translation>Maksimum tekstlengde:</translation>
-    </message>
-    <message>
-        <source>Preferred number of rows:</source>
-        <translation>Foretrukket antall rader:</translation>
-    </message>
-    <message>
-        <source>Default name:</source>
-        <translation>Standardnavn:</translation>
-    </message>
-    <message>
         <source>Current date</source>
         <translation>Nåværende dato</translation>
     </message>
     <message>
         <source>Current datetime</source>
         <translation>Nåværende dato/klokkeslett</translation>
+    </message>
+    <message>
+        <source>Max file size</source>
+        <translation>Maksimum filstørrelse</translation>
+    </message>
+    <message>
+        <source>Default value</source>
+        <translation>Standardverdi</translation>
+    </message>
+    <message>
+        <source>Enum Element</source>
+        <translation>Enum-element</translation>
+    </message>
+    <message>
+        <source>Enum Value</source>
+        <translation>Enum-verdi</translation>
+    </message>
+    <message>
+        <source>Min float value</source>
+        <translation>Minimumsverdi</translation>
+    </message>
+    <message>
+        <source>Max float value</source>
+        <translation>Maksimumsverdi</translation>
+    </message>
+    <message>
+        <source>Min integer value</source>
+        <translation>Minimumsverdi</translation>
+    </message>
+    <message>
+        <source>Max integer value</source>
+        <translation>Maksimumsverdi</translation>
+    </message>
+    <message>
+        <source>Media player type</source>
+        <translation>Medieavspiller</translation>
+    </message>
+    <message>
+        <source>Default name</source>
+        <translation>Standardnavn</translation>
+    </message>
+    <message>
+        <source>VAT type</source>
+        <translation>MVA-type</translation>
+    </message>
+    <message>
+        <source>Max string length</source>
+        <translation>Maksimum tekstlengde</translation>
+    </message>
+    <message>
+        <source>Preferred number of rows</source>
+        <translation>Foretrukket antall rader</translation>
     </message>
 </context>
 <context>
@@ -220,14 +220,6 @@
         <translation>Endret av</translation>
     </message>
     <message>
-        <source>Identifier:</source>
-        <translation>Identifikator:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
         <source>Input did not validate</source>
         <translation>Den innlagte informasjonen ble ikke godkjent</translation>
     </message>
@@ -238,10 +230,6 @@
     <message>
         <source>Attributes</source>
         <translation>Attributter</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Type:</translation>
     </message>
     <message>
         <source>Required</source>
@@ -304,10 +292,6 @@
         <translation>Sist endret av</translation>
     </message>
     <message>
-        <source>Datatypes:</source>
-        <translation>Datatyper:</translation>
-    </message>
-    <message>
         <source>Discard Changes</source>
         <translation>Forkast endringer</translation>
     </message>
@@ -328,24 +312,36 @@
         <translation>Hvis du fjerner klassegruppen %1 vil også klassene %2 bli fjernet!</translation>
     </message>
     <message>
-        <source>Object name pattern:</source>
-        <translation>Objektnavn-mønster:</translation>
-    </message>
-    <message>
-        <source>Member of groups:</source>
-        <translation>Medlem av grupper:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
-    </message>
-    <message>
         <source>Add to group</source>
         <translation>Legg til i gruppe</translation>
     </message>
     <message>
         <source>Remove from groups</source>
         <translation>Fjern fra grupper</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation>Identifikator</translation>
+    </message>
+    <message>
+        <source>Object name pattern</source>
+        <translation>Objektnavn-mønster</translation>
+    </message>
+    <message>
+        <source>Member of groups</source>
+        <translation>Medlem av grupper</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Datatypes</source>
+        <translation>Datatyper</translation>
     </message>
 </context>
 <context>
@@ -355,52 +351,32 @@
         <translation>Definerte klassegrupper</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Modifier:</source>
-        <translation>Endret av:</translation>
-    </message>
-    <message>
-        <source>Modified:</source>
-        <translation>Endret tidspunkt:</translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Ny</translation>
     </message>
     <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
+        <source>Name</source>
+        <translation>Navn</translation>
     </message>
     <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
+        <source>Modifier</source>
+        <translation>Endret av</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Endringstidspunkt</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/view</name>
-    <message>
-        <source>ID:</source>
-        <translation>ID:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Identifier:</source>
-        <translation>Identifikator:</translation>
-    </message>
-    <message>
-        <source>Modifier:</source>
-        <translation>Endret av:</translation>
-    </message>
-    <message>
-        <source>Modified:</source>
-        <translation>Endret tidspunkt:</translation>
-    </message>
     <message>
         <source>New</source>
         <translation>Ny</translation>
@@ -408,14 +384,6 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
     </message>
     <message>
         <source>No classes in </source>
@@ -426,8 +394,32 @@
         <translation>Klasser i</translation>
     </message>
     <message>
-        <source>Copy:</source>
-        <translation>Kopier:</translation>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation>Identifikator</translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation>Endret av</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Endringstidspunkt</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopier</translation>
     </message>
 </context>
 <context>
@@ -655,32 +647,20 @@
         <translation>Innholdsoversettelse</translation>
     </message>
     <message>
-        <source>Language:</source>
-        <translation>Språk:</translation>
+        <source>Language</source>
+        <translation>Språk</translation>
     </message>
     <message>
-        <source>Country:</source>
-        <translation>Land:</translation>
+        <source>Country</source>
+        <translation>Land</translation>
     </message>
     <message>
-        <source>Locale:</source>
-        <translation>Stedsinformasjon:</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
+        <source>Remove</source>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
-    <message>
-        <source>Copying:</source>
-        <translation>Kopierer:</translation>
-    </message>
     <message>
         <source>Versions</source>
         <translation>Versjoner</translation>
@@ -701,6 +681,10 @@
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
+    <message>
+        <source>Copying %1</source>
+        <translation>Kopierer %1</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/create</name>
@@ -720,14 +704,6 @@
 <context>
     <name>design/standard/content/datatype</name>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>E-mail:</source>
-        <translation>E-post:</translation>
-    </message>
-    <message>
         <source>New author</source>
         <translation>Ny forfatter</translation>
     </message>
@@ -736,64 +712,8 @@
         <translation>Fjern markerte</translation>
     </message>
     <message>
-        <source>Filename:</source>
-        <translation>Filnavn:</translation>
-    </message>
-    <message>
-        <source>Existing filename:</source>
-        <translation>Eksisterende filnavn:</translation>
-    </message>
-    <message>
-        <source>Existing orignal filename:</source>
-        <translation>Eksisterende originalfilnavn:</translation>
-    </message>
-    <message>
-        <source>Existing mime/type:</source>
-        <translation>Eksisterende mimetype:</translation>
-    </message>
-    <message>
-        <source>Year:</source>
-        <translation>År:</translation>
-    </message>
-    <message>
-        <source>Month:</source>
-        <translation>Måned:</translation>
-    </message>
-    <message>
-        <source>Day:</source>
-        <translation>Dag:</translation>
-    </message>
-    <message>
-        <source>Hour:</source>
-        <translation>Time:</translation>
-    </message>
-    <message>
-        <source>Minute:</source>
-        <translation>Minutt:</translation>
-    </message>
-    <message>
-        <source>Image filename:</source>
-        <translation>Bildefilnavn:</translation>
-    </message>
-    <message>
         <source>Remove image</source>
         <translation>Fjern bilde</translation>
-    </message>
-    <message>
-        <source>ISBN:</source>
-        <translation>ISBN:</translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation>Bredde:</translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation>Høyde:</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation>Kvalitet:</translation>
     </message>
     <message>
         <source>High</source>
@@ -828,10 +748,6 @@
         <translation>Kontroll</translation>
     </message>
     <message>
-        <source>Controls:</source>
-        <translation>Kontroller:</translation>
-    </message>
-    <message>
         <source>ImageWindow</source>
         <translation>Bildevindu</translation>
     </message>
@@ -856,28 +772,8 @@
         <translation>Finn objekt</translation>
     </message>
     <message>
-        <source>Options:</source>
-        <translation>Opsjoner:</translation>
-    </message>
-    <message>
         <source>New option</source>
         <translation>Ny opsjon</translation>
-    </message>
-    <message>
-        <source>URL:</source>
-        <translation>URL:</translation>
-    </message>
-    <message>
-        <source>Text:</source>
-        <translation>Tekst:</translation>
-    </message>
-    <message>
-        <source>Login:</source>
-        <translation>Login:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Passord</translation>
     </message>
     <message>
         <source>Price:</source>
@@ -896,44 +792,8 @@
         <translation>Informasjon om brukerkonto</translation>
     </message>
     <message>
-        <source>Email:</source>
-        <translation>E-post:</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>MIME Type:</source>
-        <translation>MIME type:</translation>
-    </message>
-    <message>
-        <source>Filesize:</source>
-        <translation>Filstørrelse:</translation>
-    </message>
-    <message>
-        <source>Start value:</source>
-        <translation>Startverdi:</translation>
-    </message>
-    <message>
-        <source>Stop value:</source>
-        <translation>Stoppverdi:</translation>
-    </message>
-    <message>
-        <source>Step value:</source>
-        <translation>Stegverdi:</translation>
-    </message>
-    <message>
-        <source>E-Mail:</source>
-        <translation>E-post:</translation>
-    </message>
-    <message>
-        <source>Confirm password:</source>
-        <translation>Gjenta passord:</translation>
-    </message>
-    <message>
-        <source>Alternative image text:</source>
-        <translation>Alternativ bildetekst:</translation>
     </message>
     <message>
         <source>No relation</source>
@@ -948,16 +808,136 @@
         <translation>Ja</translation>
     </message>
     <message>
-        <source>User ID:</source>
-        <translation>Bruker ID:</translation>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Filename</source>
+        <translation>Filnavn</translation>
+    </message>
+    <message>
+        <source>MIME Type</source>
+        <translation>MIME type</translation>
+    </message>
+    <message>
+        <source>Filesize</source>
+        <translation>Filstørrelse</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation>År</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation>Måned</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation>Dag</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation>Time</translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation>Minutt</translation>
+    </message>
+    <message>
+        <source>Image filename</source>
+        <translation>Bildefilnavn</translation>
+    </message>
+    <message>
+        <source>Alternative image text</source>
+        <translation>Alternative bildetekst</translation>
+    </message>
+    <message>
+        <source>ISBN</source>
+        <translation>ISBN</translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation>Bredde</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Høyde</translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation>Kvalitet</translation>
+    </message>
+    <message>
+        <source>Controls</source>
+        <translation>Kontroller</translation>
+    </message>
+    <message>
+        <source>Existing filename</source>
+        <translation>Eksisterende filnavn</translation>
+    </message>
+    <message>
+        <source>Existing orignal filename</source>
+        <translation>Eksisterende originalfilnavn</translation>
+    </message>
+    <message>
+        <source>Existing mime/type</source>
+        <translation>Eksisterende mimetype</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation>Opsjoner</translation>
+    </message>
+    <message>
+        <source>Start value</source>
+        <translation>Startverdi</translation>
+    </message>
+    <message>
+        <source>Stop value</source>
+        <translation>Stopverdi</translation>
+    </message>
+    <message>
+        <source>Step value</source>
+        <translation>Stegverdi</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Tekst</translation>
+    </message>
+    <message>
+        <source>User ID</source>
+        <translation>Bruker ID</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Brukernavn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passord</translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation>Bekreft passord</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation>E-post</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/edit</name>
-    <message>
-        <source>Collected information from:</source>
-        <translation>Innhentet informasjon fra:</translation>
-    </message>
     <message>
         <source>The following information was collected:</source>
         <translation>Følgende informasjon ble registrert:</translation>
@@ -1091,14 +1071,6 @@
         <translation>Ny</translation>
     </message>
     <message>
-        <source>Created:</source>
-        <translation>Opprettet:</translation>
-    </message>
-    <message>
-        <source>Editing:</source>
-        <translation>Redigerer:</translation>
-    </message>
-    <message>
         <source>Name</source>
         <translation>Navn</translation>
     </message>
@@ -1114,6 +1086,22 @@
         <source>Location did not validate</source>
         <translation>Den plasseringen ble ikke validert</translation>
     </message>
+    <message>
+        <source>Collected information from %1</source>
+        <translation>Innhentet informasjon fra %1</translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation>Opprettet</translation>
+    </message>
+    <message>
+        <source>Editing</source>
+        <translation>Redigerer</translation>
+    </message>
+    <message>
+        <source>%1 (No locale information available)</source>
+        <translation>%1 (Ingen stedsinformasjon tilgjengelig)</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
@@ -1122,60 +1110,16 @@
         <translation>Avansert søk</translation>
     </message>
     <message>
-        <source>No results were found when searching for:</source>
-        <translation>Ingen treff ved søk etter:</translation>
-    </message>
-    <message>
-        <source>Search for:</source>
-        <translation>Søk etter:</translation>
-    </message>
-    <message>
-        <source>returned</source>
-        <translation>returnerte</translation>
-    </message>
-    <message>
-        <source>matches</source>
-        <translation>treff</translation>
-    </message>
-    <message>
-        <source>Search all the words:</source>
-        <translation>Søk etter alle ordene:</translation>
-    </message>
-    <message>
-        <source>Search the exact phrase:</source>
-        <translation>Søk etter eksakt tekst:</translation>
-    </message>
-    <message>
-        <source>Search with at least one of the words:</source>
-        <translation>Søk etter minst ett av ordene:</translation>
-    </message>
-    <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
-    </message>
-    <message>
         <source>Any class</source>
         <translation>Alle klasser</translation>
-    </message>
-    <message>
-        <source>Class attribute:</source>
-        <translation>Klasseattributt:</translation>
     </message>
     <message>
         <source>Update attributes</source>
         <translation>Oppdater attributter</translation>
     </message>
     <message>
-        <source>In:</source>
-        <translation>I:</translation>
-    </message>
-    <message>
         <source>Any section</source>
         <translation>Alle seksjoner</translation>
-    </message>
-    <message>
-        <source>Published:</source>
-        <translation>Publiseringstidspunkt:</translation>
     </message>
     <message>
         <source>Any time</source>
@@ -1206,10 +1150,6 @@
         <translation>Søk</translation>
     </message>
     <message>
-        <source>No results were found for searching:</source>
-        <translation>Ingen treff ved søk etter:</translation>
-    </message>
-    <message>
         <source>Object name</source>
         <translation>Objektnavn</translation>
     </message>
@@ -1220,6 +1160,42 @@
     <message>
         <source>For more options try the %1advanced search%2</source>
         <translation>For flere valg, prøv %1avansert søk%2</translation>
+    </message>
+    <message>
+        <source>No results were found when searching for \&quot;%1\&quot;</source>
+        <translation>Ingen treff ved søk etter \&quot;%1\&quot;</translation>
+    </message>
+    <message>
+        <source>Search for \&quot;%1\&quot; returned %2 matches</source>
+        <translation>Søk etter \&quot;%1\&quot; ga %2 treff</translation>
+    </message>
+    <message>
+        <source>Search all the words</source>
+        <translation>Search all the words</translation>
+    </message>
+    <message>
+        <source>Search the exact phrase</source>
+        <translation>Søk etter eksakt tekst</translation>
+    </message>
+    <message>
+        <source>Search with at least one of the words</source>
+        <translation>Søk etter minst ett av ordene</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Klasse</translation>
+    </message>
+    <message>
+        <source>Class attribute</source>
+        <translation>Klasseattributt</translation>
+    </message>
+    <message>
+        <source>In</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>Published</source>
+        <translation>Publiseringstidspunkt</translation>
     </message>
 </context>
 <context>
@@ -1233,14 +1209,6 @@
         <translation>Fjern følgende oversettelser fra</translation>
     </message>
     <message>
-        <source>Locale:</source>
-        <translation>Stedsinformasjon:</translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation>Språk:</translation>
-    </message>
-    <message>
         <source>(No locale information available)</source>
         <translation>(Ingen stedsinformasjon tilgjengelig)</translation>
     </message>
@@ -1251,10 +1219,6 @@
     <message>
         <source>No</source>
         <translation>Nei</translation>
-    </message>
-    <message>
-        <source>Translate into:</source>
-        <translation>Oversett til:</translation>
     </message>
     <message>
         <source>Add</source>
@@ -1284,20 +1248,24 @@
         <source>%1 input was stored successfully</source>
         <translation>%1 ble lagret</translation>
     </message>
+    <message>
+        <source>Locale</source>
+        <translation>Stedsinformasjon</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Språk</translation>
+    </message>
+    <message>
+        <source>Translate into</source>
+        <translation>Oversett til</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/trash</name>
     <message>
         <source>Trash</source>
         <translation>Papirkurv</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Restore:</source>
-        <translation>Hent tilbake:</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1308,20 +1276,24 @@
         <translation>Papirkurven er tom</translation>
     </message>
     <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
+        <source>Name</source>
+        <translation>Navn</translation>
     </message>
     <message>
-        <source>Section:</source>
-        <translation>Seksjon:</translation>
+        <source>Class</source>
+        <translation>Klasse</translation>
     </message>
     <message>
-        <source>Current version:</source>
-        <translation>Gjeldende versjon:</translation>
+        <source>Section</source>
+        <translation>Seksjon</translation>
     </message>
     <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
+        <source>Current version</source>
+        <translation>Gjeldende versjon</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Gjenopprett</translation>
     </message>
 </context>
 <context>
@@ -1390,28 +1362,12 @@
         <translation>Bla igjennom</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Select:</source>
-        <translation>Velg:</translation>
-    </message>
-    <message>
         <source>Select</source>
         <translation>Velg</translation>
     </message>
     <message>
         <source>My drafts</source>
         <translation>Mine utkast</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versjon:</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1422,28 +1378,12 @@
         <translation>Du har ingen utkast</translation>
     </message>
     <message>
-        <source>Current version:</source>
-        <translation>Gjeldende versjon:</translation>
-    </message>
-    <message>
         <source>Related objects</source>
         <translation>Tilhørende objekter</translation>
     </message>
     <message>
         <source>None</source>
         <translation>Ingen</translation>
-    </message>
-    <message>
-        <source>Translation:</source>
-        <translation>Oversettelse:</translation>
-    </message>
-    <message>
-        <source>Placement:</source>
-        <translation>Plassering:</translation>
-    </message>
-    <message>
-        <source>Site Design:</source>
-        <translation>Nettstedsdesign:</translation>
     </message>
     <message>
         <source>Change</source>
@@ -1462,16 +1402,36 @@
         <translation>Versjoner</translation>
     </message>
     <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
+        <source>Name</source>
+        <translation>Navn</translation>
     </message>
     <message>
-        <source>Section:</source>
-        <translation>Seksjon:</translation>
+        <source>Class</source>
+        <translation>Klasse</translation>
     </message>
     <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
+        <source>Section</source>
+        <translation>Seksjon</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Versjon</translation>
+    </message>
+    <message>
+        <source>Current version</source>
+        <translation>Gjeldende versjon</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Oversettelse</translation>
+    </message>
+    <message>
+        <source>Placement</source>
+        <translation>Plassering</translation>
+    </message>
+    <message>
+        <source>Site Design</source>
+        <translation>Nettstedsdesign</translation>
     </message>
 </context>
 <context>
@@ -1544,10 +1504,6 @@
         <translation>Søk</translation>
     </message>
     <message>
-        <source>Redirecting to:</source>
-        <translation>Videresender til:</translation>
-    </message>
-    <message>
         <source>Redirect</source>
         <translation>Videresend</translation>
     </message>
@@ -1607,6 +1563,10 @@
         <source>Version:</source>
         <translation>Versjon:</translation>
     </message>
+    <message>
+        <source>Redirecting to %1</source>
+        <translation>Videresender til %1</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
@@ -1646,12 +1606,12 @@
         <translation>Hvis du fjerner denne tilordningen blir også %1 av denne fjernet!</translation>
     </message>
     <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2!</source>
-        <translation>Hvis du fjerner noden %1 blir også %2 av denne fjernet!</translation>
-    </message>
-    <message>
         <source>The following items were removed from your basket, because the products were changed</source>
         <translation>De følgende varene ble fjernet fra handlekurven din, fordi produktene er endret</translation>
+    </message>
+    <message>
+        <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
+        <translation>Hvis du fjerner noden %1 blir også %2 av denne fjernet! %3</translation>
     </message>
 </context>
 <context>
@@ -1659,18 +1619,6 @@
     <message>
         <source>Edit</source>
         <translation>Rediger</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
     </message>
     <message>
         <source>Update</source>
@@ -1693,30 +1641,6 @@
         <translation>Nettstedskart</translation>
     </message>
     <message>
-        <source>Object:</source>
-        <translation>Objekt:</translation>
-    </message>
-    <message>
-        <source>Section ID:</source>
-        <translation>Seksjons-ID:</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
-        <source>You are not allowed to create child objects</source>
-        <translation>Du har ikke tilgang til å redigere underobjekter</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Prioritet:</translation>
-    </message>
-    <message>
-        <source>Copy:</source>
-        <translation>Kopier:</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>Kopier</translation>
     </message>
@@ -1728,16 +1652,28 @@
         <source>User group</source>
         <translation>Brukergruppe</translation>
     </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Klasse</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioritet</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation>Seksjon</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
     <message>
         <source>Notification registration form</source>
         <translation>Registrering av meldingsregel</translation>
-    </message>
-    <message>
-        <source>Send Method:</source>
-        <translation>Sendingsmåte:</translation>
     </message>
     <message>
         <source>Email</source>
@@ -1750,10 +1686,6 @@
     <message>
         <source>Internal message</source>
         <translation>Intern melding</translation>
-    </message>
-    <message>
-        <source>Send day:</source>
-        <translation>Dag:</translation>
     </message>
     <message>
         <source>Immediately</source>
@@ -1788,40 +1720,12 @@
         <translation>Søndag</translation>
     </message>
     <message>
-        <source>Send time:</source>
-        <translation>Klokkeslett:</translation>
-    </message>
-    <message>
         <source>Register</source>
         <translation>Registrer</translation>
     </message>
     <message>
         <source>Discard</source>
         <translation>Forkast</translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation>ID:</translation>
-    </message>
-    <message>
-        <source>Rule Type:</source>
-        <translation>Regeltype:</translation>
-    </message>
-    <message>
-        <source>Class Name:</source>
-        <translation>Klassenavn:</translation>
-    </message>
-    <message>
-        <source>Path:</source>
-        <translation>Sti:</translation>
-    </message>
-    <message>
-        <source>Keyword:</source>
-        <translation>Nøkkelord:</translation>
-    </message>
-    <message>
-        <source>Additional constraint:</source>
-        <translation>Tilleggsberensning:</translation>
     </message>
     <message>
         <source>New Rule</source>
@@ -1836,35 +1740,63 @@
         <translation>Fjern</translation>
     </message>
     <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Send Method</source>
+        <translation>Transportmetode</translation>
+    </message>
+    <message>
+        <source>Send day</source>
+        <translation>Dag</translation>
+    </message>
+    <message>
+        <source>Send time</source>
+        <translation>Time</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Rule Type</source>
+        <translation>Regeltype</translation>
+    </message>
+    <message>
+        <source>Class Name</source>
+        <translation>Klassenavn</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Sti</translation>
+    </message>
+    <message>
+        <source>Keyword</source>
+        <translation>Nøkkelord</translation>
+    </message>
+    <message>
+        <source>Additional constraint</source>
+        <translation>Tilleggsberensning</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification/rules</name>
     <message>
-        <source>Content Class Name:</source>
-        <translation>Navn på innholdsklasse:</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Alle</translation>
     </message>
     <message>
-        <source>Path:</source>
-        <translation>Sti:</translation>
+        <source>Content Class Name</source>
+        <translation>Navn på innholdsklasse</translation>
     </message>
     <message>
-        <source>Keyword:</source>
-        <translation>Nøkkelord:</translation>
+        <source>Path</source>
+        <translation>Sti</translation>
+    </message>
+    <message>
+        <source>Keyword</source>
+        <translation>Nøkkelord</translation>
     </message>
 </context>
 <context>
@@ -1876,10 +1808,6 @@
     <message>
         <source>Step 1</source>
         <translation>Steg 1</translation>
-    </message>
-    <message>
-        <source>Give access to module:</source>
-        <translation>Gi tilgang til modulen:</translation>
     </message>
     <message>
         <source>Every module</source>
@@ -1896,14 +1824,6 @@
     <message>
         <source>Cancel</source>
         <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Module:</source>
-        <translation>Modul:</translation>
-    </message>
-    <message>
-        <source>Access:</source>
-        <translation>Tilgang:</translation>
     </message>
     <message>
         <source>Limited</source>
@@ -1928,10 +1848,6 @@
     <message>
         <source>Specify function in module</source>
         <translation>Spesifiser funksjon i modulen</translation>
-    </message>
-    <message>
-        <source>Function:</source>
-        <translation>Funksjon:</translation>
     </message>
     <message>
         <source>Go back to step 2</source>
@@ -1966,18 +1882,6 @@
         <translation>Rolleredigering</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
-        <source>Current policies:</source>
-        <translation>Gjeldende tilgangsregler:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Ny</translation>
     </message>
@@ -1990,14 +1894,6 @@
         <translation>Rolleliste</translation>
     </message>
     <message>
-        <source>Assign:</source>
-        <translation>Tilordne:</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
         <source>Role view</source>
         <translation>Rollevisning</translation>
     </message>
@@ -2006,24 +1902,12 @@
         <translation>Tilgangsregler</translation>
     </message>
     <message>
-        <source>Limitation:</source>
-        <translation>Begrensninger:</translation>
-    </message>
-    <message>
         <source>Users and groups assigned to this role</source>
         <translation>Brukere og grupper tilordnet denne rollen</translation>
     </message>
     <message>
-        <source>User:</source>
-        <translation>Bruker:</translation>
-    </message>
-    <message>
         <source>Assign</source>
         <translation>Tilordne</translation>
-    </message>
-    <message>
-        <source>Limitations:</source>
-        <translation>Begrensninger:</translation>
     </message>
     <message>
         <source>Store</source>
@@ -2037,6 +1921,42 @@
         <source>Edit</source>
         <translation>Rediger</translation>
     </message>
+    <message>
+        <source>Give access to module</source>
+        <translation>Gi tilgang til modulen</translation>
+    </message>
+    <message>
+        <source>Module</source>
+        <translation>Modul</translation>
+    </message>
+    <message>
+        <source>Access</source>
+        <translation>Tilgang</translation>
+    </message>
+    <message>
+        <source>Function</source>
+        <translation>Funksjon</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Current policies</source>
+        <translation>Nåværende tilgangsregler</translation>
+    </message>
+    <message>
+        <source>Limitations</source>
+        <translation>Begrensninger</translation>
+    </message>
+    <message>
+        <source>Limitation</source>
+        <translation>Begrensning</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>Bruker</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/search</name>
@@ -2049,16 +1969,16 @@
         <translation>Mest brukte søketekster</translation>
     </message>
     <message>
-        <source>Phrase:</source>
-        <translation>Tekst:</translation>
+        <source>Phrase</source>
+        <translation>Tekst</translation>
     </message>
     <message>
-        <source>Number of phrases:</source>
-        <translation>Antall søketekster:</translation>
+        <source>Number of phrases</source>
+        <translation>Antall søketekster</translation>
     </message>
     <message>
-        <source>Average result returned:</source>
-        <translation>Gjennomsnittlig resultat:</translation>
+        <source>Average result returned</source>
+        <translation>Gjennomsnittlig resultat</translation>
     </message>
 </context>
 <context>
@@ -2076,32 +1996,12 @@
         <translation>Redigere seksjon</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
         <source>Store</source>
         <translation>Lagre</translation>
     </message>
     <message>
         <source>Section list</source>
         <translation>Seksjonsliste</translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation>ID:</translation>
-    </message>
-    <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
-    </message>
-    <message>
-        <source>Assign:</source>
-        <translation>Tilordne:</translation>
-    </message>
-    <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
     </message>
     <message>
         <source>New</source>
@@ -2128,10 +2028,6 @@
         <translation>Dersom du fjerner seksjoner kan rettigheter, design, og andre elementer av systemet slutte å fungere som de skal. Ikke gjør dette hvis du ikke er helt sikker på hva du gjør.</translation>
     </message>
     <message>
-        <source>Navigation Part:</source>
-        <translation>Navigasjonsdel:</translation>
-    </message>
-    <message>
         <source>Content</source>
         <translation>Innhold</translation>
     </message>
@@ -2150,6 +2046,26 @@
     <message>
         <source>Personal</source>
         <translation>Personlig</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Navigation Part</source>
+        <translation>Navigasjonsdel</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Assign</source>
+        <translation>Tilordne</translation>
     </message>
 </context>
 <context>
@@ -2192,7 +2108,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Type</translation>
     </message>
     <message>
         <source>Driver</source>
@@ -2533,18 +2449,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Type:</source>
-        <translation type="unfinished">Type:</translation>
-    </message>
-    <message>
-        <source>Driver:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unicode support:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2607,26 +2511,6 @@
     <message>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Servername:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Databasename:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="unfinished">Passord</translation>
-    </message>
-    <message>
-        <source>Confirm password:</source>
-        <translation type="unfinished">Gjenta passord:</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
@@ -2750,7 +2634,7 @@
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passord</translation>
     </message>
     <message>
         <source>Site Details</source>
@@ -2925,14 +2809,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Title of your site:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL to your site:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Register Site</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3049,7 +2925,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Socket:</source>
+        <source>Type</source>
+        <translation type="unfinished">Type</translation>
+    </message>
+    <message>
+        <source>Servername</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Socket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Databasename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm password</source>
+        <translation type="unfinished">Bekreft passord</translation>
+    </message>
+    <message>
+        <source>Title of your site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL to your site</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3319,38 +3223,6 @@
         <translation>Handlekurv</translation>
     </message>
     <message>
-        <source>Product:</source>
-        <translation>Produkt:</translation>
-    </message>
-    <message>
-        <source>Count:</source>
-        <translation>Antall:</translation>
-    </message>
-    <message>
-        <source>VAT:</source>
-        <translation>MVA:</translation>
-    </message>
-    <message>
-        <source>Price ex. VAT:</source>
-        <translation>Pris eks. MVA:</translation>
-    </message>
-    <message>
-        <source>Price inc. VAT:</source>
-        <translation>Pris inkl. MVA:</translation>
-    </message>
-    <message>
-        <source>Discount:</source>
-        <translation>Tilbud:</translation>
-    </message>
-    <message>
-        <source>Total Price ex. VAT:</source>
-        <translation>Totalpris eks. MVA:</translation>
-    </message>
-    <message>
-        <source>Total Price inc. VAT:</source>
-        <translation>Totalpris inkl. MVA:</translation>
-    </message>
-    <message>
         <source>Subtotal Ex. VAT:</source>
         <translation>Subtotal eks. MVA:</translation>
     </message>
@@ -3387,10 +3259,6 @@
         <translation>Definerte tilbudsgrupper</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Rediger</translation>
     </message>
@@ -3415,20 +3283,8 @@
         <translation>Forkast</translation>
     </message>
     <message>
-        <source>Group Name:</source>
-        <translation>Gruppenavn:</translation>
-    </message>
-    <message>
-        <source>Defined rules:</source>
-        <translation>Definerte regler:</translation>
-    </message>
-    <message>
         <source>Percent</source>
         <translation>Prosent</translation>
-    </message>
-    <message>
-        <source>Apply to:</source>
-        <translation>Aktiver for:</translation>
     </message>
     <message>
         <source>Add Rule</source>
@@ -3455,24 +3311,12 @@
         <translation>Redigerer regel</translation>
     </message>
     <message>
-        <source>Discount percent:</source>
-        <translation>Tilbudsprosent:</translation>
-    </message>
-    <message>
         <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
         <translation>Velg hvilke klasser eller seksjoner som tilordnes denne underregelen. &apos;Alle&apos; betyr at regelen gjelder for alt.</translation>
     </message>
     <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
-    </message>
-    <message>
         <source>Any</source>
         <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Section:</source>
-        <translation>Seksjon:</translation>
     </message>
     <message>
         <source>Store</source>
@@ -3513,10 +3357,6 @@
     <message>
         <source>VAT Types</source>
         <translation>MVA-typer</translation>
-    </message>
-    <message>
-        <source>Percentage:</source>
-        <translation>Prosent:</translation>
     </message>
     <message>
         <source>Wish list</source>
@@ -3569,6 +3409,74 @@
     <message>
         <source>The order list is empty</source>
         <translation>Ordrelisten er tom</translation>
+    </message>
+    <message>
+        <source>Product</source>
+        <translation>Produkt</translation>
+    </message>
+    <message>
+        <source>Count</source>
+        <translation>Antall</translation>
+    </message>
+    <message>
+        <source>VAT</source>
+        <translation>MVA</translation>
+    </message>
+    <message>
+        <source>Price ex. VAT</source>
+        <translation>Pris eks. MVA</translation>
+    </message>
+    <message>
+        <source>Price inc. VAT</source>
+        <translation>Pris inkl. MVA</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Tilbud</translation>
+    </message>
+    <message>
+        <source>Total Price ex. VAT</source>
+        <translation>Totalpris eks. MVA</translation>
+    </message>
+    <message>
+        <source>Total Price inc. VAT</source>
+        <translation>Totalpris inkl. MVA</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Navn</translation>
+    </message>
+    <message>
+        <source>Group Name</source>
+        <translation>Gruppenavn</translation>
+    </message>
+    <message>
+        <source>Defined rules</source>
+        <translation>Definerte regler</translation>
+    </message>
+    <message>
+        <source>Apply to</source>
+        <translation>Aktiver for</translation>
+    </message>
+    <message>
+        <source>Discount percent</source>
+        <translation>Tilbudsprosent</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Klasse</translation>
+    </message>
+    <message>
+        <source>Section</source>
+        <translation>Seksjon</translation>
+    </message>
+    <message>
+        <source>Order total</source>
+        <translation>Ordretotal</translation>
+    </message>
+    <message>
+        <source>Percentage</source>
+        <translation>Prosent</translation>
     </message>
 </context>
 <context>
@@ -3664,28 +3572,12 @@
         <translation>Aktiver konto</translation>
     </message>
     <message>
-        <source>Login ID:</source>
-        <translation>Innloggings-ID:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Passord:</translation>
-    </message>
-    <message>
         <source>Activate</source>
         <translation>Aktiver</translation>
     </message>
     <message>
         <source>Registed user profile</source>
         <translation>Registrert brukerprofil</translation>
-    </message>
-    <message>
-        <source>Login:</source>
-        <translation>Brukernavn:</translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
-        <translation>E-post:</translation>
     </message>
     <message>
         <source>Update Profile</source>
@@ -3714,18 +3606,6 @@
     <message>
         <source>Change password for user</source>
         <translation>Bytt passord for bruker</translation>
-    </message>
-    <message>
-        <source>Old Password:</source>
-        <translation>Gammelt passord:</translation>
-    </message>
-    <message>
-        <source>New Password:</source>
-        <translation>Nytt passord:</translation>
-    </message>
-    <message>
-        <source>Retype Password:</source>
-        <translation>Gjenta passord:</translation>
     </message>
     <message>
         <source>OK</source>
@@ -3783,6 +3663,30 @@
         <source>You are not allowed to access %1.</source>
         <translation>Du har ikke tilgang til å aksessere %1.</translation>
     </message>
+    <message>
+        <source>Login ID</source>
+        <translation>Bruker ID</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passord</translation>
+    </message>
+    <message>
+        <source>E-Mail</source>
+        <translation>E-post</translation>
+    </message>
+    <message>
+        <source>Old Password</source>
+        <translation>Gammelt passord</translation>
+    </message>
+    <message>
+        <source>New Password</source>
+        <translation>Nytt passord</translation>
+    </message>
+    <message>
+        <source>Retype Password</source>
+        <translation>Gjenta passord</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
@@ -3799,28 +3703,12 @@
         <translation>De oppgitte data ble ikke godkjent</translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation>Navn:</translation>
-    </message>
-    <message>
         <source>Groups</source>
         <translation>Grupper</translation>
     </message>
     <message>
         <source>Events</source>
         <translation>Hendelser</translation>
-    </message>
-    <message>
-        <source>Pos:</source>
-        <translation>Pos:</translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation>Beskrivelse:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Type:</translation>
     </message>
     <message>
         <source>New</source>
@@ -3971,59 +3859,27 @@
         <translation>Definert arbeidsflyt for</translation>
     </message>
     <message>
-        <source>Modifier:</source>
-        <translation>Endret av:</translation>
+        <source>Pos</source>
+        <translation>Pos</translation>
     </message>
     <message>
-        <source>Modified:</source>
-        <translation>Endret tidspunkt:</translation>
+        <source>Type</source>
+        <translation>Type</translation>
     </message>
     <message>
-        <source>Edit:</source>
-        <translation>Rediger:</translation>
+        <source>Modifier</source>
+        <translation>Endret av</translation>
     </message>
     <message>
-        <source>Remove:</source>
-        <translation>Fjern:</translation>
-    </message>
-    <message>
-        <source>Temporary workflows for</source>
-        <translation>Midlertidig arbeidsflyt for</translation>
+        <source>Modified</source>
+        <translation>Endringstidspunkt</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
-        <source>Editor:</source>
-        <translation>Redaktør:</translation>
-    </message>
-    <message>
-        <source>Sections:</source>
-        <translation>Seksjoner:</translation>
-    </message>
-    <message>
         <source>Any</source>
         <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Users without approval:</source>
-        <translation>Brukere med tillatelse:</translation>
-    </message>
-    <message>
-        <source>Checkout text:</source>
-        <translation>Betalingstekst:</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation>Melding:</translation>
-    </message>
-    <message>
-        <source>Section IDs:</source>
-        <translation>Seksjons-IDer:</translation>
-    </message>
-    <message>
-        <source>Users without workflow IDs:</source>
-        <translation>Brukere med arbeidsflyt-IDer:</translation>
     </message>
     <message>
         <source>Unpublish object</source>
@@ -4032,22 +3888,6 @@
     <message>
         <source>Publish object</source>
         <translation>Publiser objekt</translation>
-    </message>
-    <message>
-        <source>Days:</source>
-        <translation>Dager:</translation>
-    </message>
-    <message>
-        <source>Hours:</source>
-        <translation>Timer:</translation>
-    </message>
-    <message>
-        <source>Minutes:</source>
-        <translation>Minutter:</translation>
-    </message>
-    <message>
-        <source>Class:</source>
-        <translation>Klasse:</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
@@ -4064,6 +3904,50 @@
     <message>
         <source>Load Attributes</source>
         <translation>Hent attributter</translation>
+    </message>
+    <message>
+        <source>Editor</source>
+        <translation>Redaktør</translation>
+    </message>
+    <message>
+        <source>Sections</source>
+        <translation>Seksjoner</translation>
+    </message>
+    <message>
+        <source>Users without approval</source>
+        <translation>Brukere uten tillatelse</translation>
+    </message>
+    <message>
+        <source>Checkout text</source>
+        <translation>Betalingstekst</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Melding</translation>
+    </message>
+    <message>
+        <source>Section IDs</source>
+        <translation>SeksjonsIDer</translation>
+    </message>
+    <message>
+        <source>Users without workflow IDs</source>
+        <translation>Brukere uten arbeidsflyt IDer</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Dager</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Timer</translation>
+    </message>
+    <message>
+        <source>Minutes</source>
+        <translation>Minutter</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Klasse</translation>
     </message>
 </context>
 <context>
