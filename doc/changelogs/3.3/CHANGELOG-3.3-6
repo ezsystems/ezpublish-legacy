@@ -83,6 +83,9 @@ eZINI:
   http://ez.no/community/bug_reports/ezxml_domtree_call_to_undefined_function_parseattributes
 - Fixed problem in eZDebug when running cronjobs. (Merged from 3.4, rev. 5858)
   http://ez.no/community/bug_reports/cronjob_debugger_broken
+- Fixed void "recompile options" field of "Missing database handlers" issue 
+  when setting up site without PostgreSQL support in PHP.  
+  http://ez.no/community/bug_reports/fine_tune_database_message
   
 *Library:
 
