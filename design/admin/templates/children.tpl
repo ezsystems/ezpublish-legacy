@@ -26,35 +26,35 @@
         {set can_copy=$content_object.can_create}
 
 
-
-        <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<div class="admin-childlist">
+        <table class="list" cellspacing="0">
         <tr>
             {section show=$:can_remove}
-                <th width="1">
+                <th class="remove">
                     &nbsp;
                 </th>
             {/section}
-            <th>
+            <th class="name">
                 {"Name"|i18n("design/standard/node/view")}
             </th>
-            <th>
+            <th class="class">
                 {"Class"|i18n("design/standard/node/view")}
             </th>
-            <th>
+            <th class="section">
                 {"Section"|i18n("design/standard/node/view")}
             </th>
             {section show=eq( $node.sort_array[0][0], 'priority' )}
-                <th>
+                <th class="priority">
                     {"Priority"|i18n( "design/standard/node/view" )}
                 </th>
             {/section}
             {section show=$:can_edit}
-                <th width="1">
+                <th class="edit">
                     {"Edit"|i18n("design/standard/node/view")}
                 </th>
             {/section}
             {section show=$:can_copy}
-                <th width="1">
+                <th class="copy">
                     {"Copy"|i18n("design/standard/node/view")}
                 </th>
             {/section}
@@ -62,14 +62,14 @@
         {section loop=$:children sequence=array( bglight, bgdark )}
             <tr class="{$Child:sequence}">
                 {section show=$:can_remove}
-                    <td align="right" width="1">
+                    <td>
                         {section show=$:item.object.can_remove}
                             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
                         {/section}
                     </td>
                 {/section}
                 <td>
-                    <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
+                    {node_view_gui view=line content_node=$:item}
                     {* {node_view_gui view=line content_node=$:item} *}
                 </td>
                 <td>
@@ -79,14 +79,14 @@
                     {$Child:item.object.section_id}
                 </td>
                 {section show=eq( $node.sort_array[0][0], 'priority' )}
-                    <td width="40" align="left">
+                    <td>
                         <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
                         <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
                     </td>
                 {/section}
 
                 {section show=$:can_edit}
-                    <td width="1">
+                    <td>
                         {section show=$:item.object.can_edit}
                             <a href={concat( "content/edit/", $Child:item.contentobject_id )|ezurl}><img src={"edit.png"|ezimage} alt="Edit" /></a>
                         {/section}
@@ -101,7 +101,7 @@
             </tr>
         {/section}
         </table>
-
+</div>
 {*           {include name=navigator
              uri='design:navigator/google.tpl'
              page_uri=concat('/content/view','/full/',$node.node_id)

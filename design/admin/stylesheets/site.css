@@ -293,10 +293,14 @@ div.viewbar input.menubutton
 
 div.controlbar
 {
-    margin-bottom: 2em;    
 }
 
 div.controlbar div.createblock
 {
     margin-top: 0.5em;    
+}
+
+div.admin-childlist
+{
+    margin-top: 2em;
 }
