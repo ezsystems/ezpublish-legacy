@@ -59,14 +59,16 @@ function OpenWindow ( URL, WinName, Features ) {
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
-<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
-<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
-<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
-<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
+<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
 <br />
 
-{let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))}
+{let folder_list=fetch(content,list,hash(parent_node_id,158,sort_by,array(array(priority))))
+     news_list=fetch(content,list,hash(parent_node_id,159,limit,5,sort_by,array(published),class_filter_type,include,class_filter_array,array(2)))}
 
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
@@ -84,7 +86,11 @@ function OpenWindow ( URL, WinName, Features ) {
         </td>
 {/section}
         <td align="right">
-	<input type="text" size="10"/>&nbsp;
+        <form action={"/content/search/"|ezurl} method="get">
+        <input type="hidden" name="SectionID" value="6">
+        <input  type="text" size="10" name="SearchText" id="Search" value="" />
+        <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
+	</form>
         </td>
     </tr>
     </table>    
@@ -93,7 +99,7 @@ function OpenWindow ( URL, WinName, Features ) {
 <tr>
     <td valign="top">
     &nbsp;
-     {section name=Path loop=$module_result.path}
+     {section name=Path loop=$module_result.path  offset=2}
         {section show=$Path:item.url}
         <a class="small" href="{$Path:item.url}">{$Path:item.text}</a>
         {section-else}
@@ -131,11 +137,12 @@ function OpenWindow ( URL, WinName, Features ) {
     </tr>
     <tr>
         <td bgcolor="#ffffff">
-	lings<br />
-	lings<br />
-	lings<br />
-	lings<br />
-	lings<br />
+        {section name=News loop=$news_list}
+        {node_view_gui view=menu content_node=$News:item}
+	{delimiter}
+	<br />
+	{/delimiter}
+	{/section}
         </td>
     </tr>
     </td>

@@ -34,10 +34,11 @@
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
-<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
-<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
-<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
-<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
+<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
 
 {let folder_list=fetch(content,list,hash(parent_node_id,24,sort_by,array(array(priority))))
@@ -69,7 +70,7 @@
         <input type="hidden" name="SectionID" value="3">
         <input  type="text" size="10" name="SearchText" id="Search" value="" />
         <input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
-
+	</form>
         <br /><br />
 	&nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
         </td>

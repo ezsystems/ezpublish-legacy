@@ -36,10 +36,11 @@
 <img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
 
 <map name="map">
-<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
-<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
-<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
-<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
+<area SHAPE="RECT" COORDS="2,1,103,27" href={"content/view/full/159/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="104,0,175,24" href={"content/view/full/32/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="177,2,245,23" href={"content/view/full/26/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="248,3,317,24" href={"content/view/full/82/"|ezurl} />
+<AREA SHAPE="RECT" COORDS="320,3,392,23" href={"content/view/full/62/"|ezurl} />
 </map>
 
 <h2>Unfinished design</h2>
