@@ -124,14 +124,14 @@ class eZPaymentCallbackChecker
             
             if ( !fputs( $fp, "$theCall", strlen( $theCall ) ) )
             {
-                $this->logger->writeTimedString( "Could not write to socket to server: $server:$port", 'sendPOSTRequest faild' );
+                $this->logger->writeTimedString( "Could not write to server socket: $server:$port", 'sendPOSTRequest failed' );
                 return null;
             }
 
             return $this->handleResponse( $fp );
         }
       
-        $this->logger->writeTimedString( "Unable to open socket on $server:$port. errno = $errno, errstr = $errstr", 'sendPOSTRequest faild' );
+        $this->logger->writeTimedString( "Unable to open socket on $server:$port. errno = $errno, errstr = $errstr", 'sendPOSTRequest failed' );
         return null;
     }
 
@@ -159,13 +159,13 @@ class eZPaymentCallbackChecker
                 {
                     return true;
                 }
-                $this->logger->writeTimedString( "Unable to fetch order object by orderID=$orderID", 'setupOrderAndPaymentObject faild' );
+                $this->logger->writeTimedString( "Unable to fetch order object with orderID=$orderID", 'setupOrderAndPaymentObject failed' );
                 return false;    
             }
-            $this->logger->writeTimedString( "Unable to fetch payment object by orderID=$orderID", 'setupOrderAndPaymentObject faild' );
+            $this->logger->writeTimedString( "Unable to fetch payment object with orderID=$orderID", 'setupOrderAndPaymentObject failed' );
             return false;    
         }
-        $this->logger->writeTimedString( "Invalid orderID=$orderID", 'setupOrderAndPaymentObject faild' );
+        $this->logger->writeTimedString( "Invalid orderID=$orderID", 'setupOrderAndPaymentObject failed' );
         return false;
     }
   
@@ -184,7 +184,7 @@ class eZPaymentCallbackChecker
             return ( $continueWorkflow ? $this->continueWorkflow() : null );
         }
     
-        $this->logger->writeTimedString( "payment object is not set", 'approvePayment faild' );
+        $this->logger->writeTimedString( "payment object is not set", 'approvePayment failed' );
         return null;
     }
 
@@ -201,11 +201,11 @@ class eZPaymentCallbackChecker
                 return eZPaymentObject::continueWorkflow( $workflowID );
             }
 
-            $this->logger->writeTimedString( "workflowID is not set", 'continueWorkflow faild' );
+            $this->logger->writeTimedString( "workflowID is not set", 'continueWorkflow failed' );
             return null;
         }
 
-        $this->logger->writeTimedString( "payment object is not set", 'continueWorkflow faild' );
+        $this->logger->writeTimedString( "payment object is not set", 'continueWorkflow failed' );
         return null;
     }
   
@@ -219,7 +219,7 @@ class eZPaymentCallbackChecker
             return $this->callbackData[ $field ];
         }
 
-        $this->logger->writeTimedString( "field $field doesn't exists.", 'getFieldValue faild' );
+        $this->logger->writeTimedString( "field $field does not exist.", 'getFieldValue failed' );
         return null;
     }
 
@@ -237,7 +237,7 @@ class eZPaymentCallbackChecker
             return true;
         }
 
-        $this->logger->writeTimedString( "server with ip = $remoteHostIP doesn't exists.", 'checkServerIP faild' );
+        $this->logger->writeTimedString( "server with ip = $remoteHostIP does not exist.", 'checkServerIP failed' );
         $this->logger->writeTimedString( $serverIPList, 'serverIPList from ini file is' );
 
         return false;
@@ -254,7 +254,7 @@ class eZPaymentCallbackChecker
             return true;
         }
 
-        $this->logger->writeTimedString( "orderAmount = $orderAmount. Expected amount = $amount", 'checkAmount faild' );
+        $this->logger->writeTimedString( "Order amount ($ordermount) and received amount ($amount) do not match.", 'checkAmount failed' );
         return false;
     }
     
@@ -272,7 +272,7 @@ class eZPaymentCallbackChecker
             return true;
         }
 
-        $this->logger->writeTimedString( "orderCurrency = $orderCurrency. Expected currency = $curency", 'checkCurrency faild' );
+        $this->logger->writeTimedString( "Order currency ($orderCurrency) and received currency ($currency).", 'checkCurrency failed' );
         return false;
     }
 
@@ -306,7 +306,7 @@ class eZPaymentCallbackChecker
     */
     function &buildRequestString()
     {
-        $this->logger->writeTimedString( 'You must override this function.', 'buildRequestString faild' );
+        $this->logger->writeTimedString( 'You must override this function.', 'buildRequestString failed' );
         return null;
     }
 
@@ -315,7 +315,7 @@ class eZPaymentCallbackChecker
     */
     function &handleResponse( &$socket )
     {
-        $this->logger->writeTimedString( 'You must override this function.', 'handlePOSTResponse faild' );
+        $this->logger->writeTimedString( 'You must override this function.', 'handlePOSTResponse failed' );
         return null;
     }
 
