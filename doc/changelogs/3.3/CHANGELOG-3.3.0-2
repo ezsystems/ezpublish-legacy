@@ -84,6 +84,7 @@
 - Changed the minimum required version check in Setup Wizard to 4.2.3 (was 4.1.0). ( merged in from 3.2 3485)
 - Made sure the embed view template for objects don't show a link if there is no main node.
 - Added edit button for all object relation list (datatype) items.
+- New template operator 'simpletags' which can do simple replacement of tags listed in template.ini.
 
 *DataTypes:
 
