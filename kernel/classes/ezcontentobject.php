@@ -249,7 +249,7 @@ class eZContentObject extends eZPersistentObject
         $result =& $db->arrayQuery( $query );
         if ( count( $result ) < 1 )
         {
-            eZDebug::writeError( "Unable to fetch object name from DB with content object ($contentObjectID), version($version) and language($lang)", 'eZContentObject::versionLanguageName' );
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
             $name = false;
             return $name;
         }
