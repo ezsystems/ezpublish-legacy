@@ -4,7 +4,7 @@
   {case match=0}
     <div class="warning">
     <h2>{"No classes have been defined for "|i18n("design/standard/class/view")}{$group_name}.</h2>
-    <p>{"Click on 'New Class' button to creat a class."}</p>
+    <p>{"Click on the 'New Class' button to create a class."}</p>
     </div>
   {/case}
   {case}
@@ -21,6 +21,8 @@
     <th>{"Identifier:"|i18n("design/standard/class/view")}</th>
     <th>{"Modifier:"|i18n("design/standard/class/view")}</th>
     <th>{"Modified:"|i18n("design/standard/class/view")}</th>
+    <th>{"Edit:"|i18n("design/standard/class/view")}</th>
+    <th>{"Remove:"|i18n("design/standard/class/view")}</th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}

@@ -9,6 +9,8 @@
     <th>{"Name:"|i18n("design/standard/class/list")}</th>
     <th>{"Modifier:"|i18n("design/standard/class/list")}</th>
     <th>{"Modified:"|i18n("design/standard/class/list")}</th>
+    <th>{"Edit:"|i18n("design/standard/class/list")}</th>
+    <th>{"Remove:"|i18n("design/standard/class/list")}</th>
 </tr>
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
@@ -18,7 +20,7 @@
 {content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td class="{$Group:sequence}"><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Group:sequence}" width="1%"><div class="listbutton"><a href={concat($module.functions.groupedit.uri,"/",$Group:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></div></td>
-  <td class="{$Group:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Group:item.id}"></td>
+    <td class="{$Group:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Group:item.id}"></td>
 </tr>
 {/section}
 

@@ -95,8 +95,13 @@
     <th>
     {"Class:"|i18n("design/standard/node/view")}
     </th>
+    {section show=eq($node.sort_array[0][0],'priority')}
     <th>
-    {"Sorting:"|i18n("design/standard/node/view")}
+    {"Priority:"|i18n("design/standard/node/view")}
+    </th>
+    {/section}
+    <th>
+    {"Edit:"|i18n("design/standard/node/view")}
     </th>
     <th colspan="2" align="right">
     {"Remove:"|i18n("design/standard/node/view")}
@@ -145,6 +150,7 @@
     </td>
     <td>
     </td>
+    {section show=eq($node.sort_array[0][0],'priority')}
     <td>
     {switch match=$content_object.can_edit}
         {case match=1}
@@ -152,11 +158,14 @@
          <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
         {/section}
         {/case}
-        {case match=0}
+        {case}
         {/case}
     {/switch}
     </td>
-    <td colspan="2" align="right">
+    {/section}
+    <td>
+    </td>
+    <td>
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
     {/section}
