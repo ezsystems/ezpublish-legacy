@@ -10,13 +10,20 @@ eZText
 Author:
 eZString
 
+Author2:
+eZString
+
+------------------------------
 
 View gui:
 *Title*
-Viewing eZString(abc): Title
+Viewing eZString(abc)(Title): New article
 -------------------------------
 *Message*
-Viewing eZText
+eZText: Input your value
 -------------------------------
 *Author*
-Viewing eZString(abc): Author
+eZString: Input your value
+-------------------------------
+*Author2*
+Viewing eZString(abc)(Author2): Arne

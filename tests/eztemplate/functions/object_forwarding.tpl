@@ -13,6 +13,7 @@ Edit gui:
 {/delimiter}
 {/section}
 
+------------------------------
 
 View gui:
 

@@ -173,6 +173,7 @@ class eZObjectForwarder
             {
                 $rootAttributes = $templateRoot['attributes'];
                 $attributeAccessData = array();
+                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE );
                 foreach ( $rootAttributes as $rootAttributeName )
                 {
                     $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $rootAttributeName );

@@ -580,6 +580,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     function &overrideKeys( $siteAccess = false )
     {
         $keys = array();
+        $designStartPath = eZTemplateDesignResource::designStartPath();
+        $keys[] = $designStartPath;
 
         // fetch the override array from a specific siteacces
         if ( $siteAccess )

@@ -12,12 +12,17 @@ if ( !class_exists( 'TestContentObject' ) )
             $this->Attributes = $attributes;
         }
 
+        function attributes()
+        {
+            return array( 'id', 'name', 'attributes' );
+        }
+
         function hasAttribute( $name )
         {
             return in_array( $name, array( 'id', 'name', 'attributes' ) );
         }
 
-        function attribute( $name )
+        function &attribute( $name )
         {
             if ( $name == 'name' )
                 return $this->Name;
@@ -44,6 +49,14 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
             $this->ClassAttribute = false;
         }
 
+        function attributes()
+        {
+            return array( 'edit_template', 'view_template',
+                          'name', 'contentclass_attribute',
+                          'data_type_string',
+                          'id', 'data_text', 'data_int' );
+        }
+
         function hasAttribute( $name )
         {
             return in_array( $name, array( 'edit_template', 'view_template',
@@ -52,7 +65,7 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
                                            'id', 'data_text', 'data_int' ) );
         }
 
-        function attribute( $name )
+        function &attribute( $name )
         {
             if ( $name == 'edit_template' )
                 return $this->ClassAttribute->attribute( 'data_type_string' );
@@ -87,6 +100,13 @@ if ( !class_exists( 'TestContentClassAttribute' ) )
 //         $this->DataInt = $dataInt;
         }
 
+        function attributes()
+        {
+            return array( 'edit_template', 'view_template',
+                          'data_type_string',
+                          'id', 'name', 'is_information_collector' );
+        }
+
         function hasAttribute( $name )
         {
             return in_array( $name, array( 'edit_template', 'view_template',
@@ -94,7 +114,7 @@ if ( !class_exists( 'TestContentClassAttribute' ) )
                                            'id', 'name', 'is_information_collector' ) );
         }
 
-        function attribute( $name )
+        function &attribute( $name )
         {
             if ( $name == 'edit_template' )
                 return $this->DataTypeString;
@@ -120,6 +140,7 @@ if ( !class_exists( 'TestContentClassAttribute' ) )
 $cattribute1 = new TestContentClassAttribute( 2, 'ezstring', 'Title', false );
 $cattribute2 = new TestContentClassAttribute( 3, 'eztext', 'Message', true );
 $cattribute3 = new TestContentClassAttribute( 4, 'ezstring', 'Author', true );
+$cattribute4 = new TestContentClassAttribute( 5, 'ezstring', 'Author2', false );
 
 $attribute1 = new TestContentObjectAttribute( 5, 'New article' );
 $attribute1->ClassAttribute = $cattribute1;
@@ -127,8 +148,10 @@ $attribute2 = new TestContentObjectAttribute( 6, 'Cool site' );
 $attribute2->ClassAttribute = $cattribute2;
 $attribute3 = new TestContentObjectAttribute( 7, 'John Doe' );
 $attribute3->ClassAttribute = $cattribute3;
+$attribute4 = new TestContentObjectAttribute( 8, 'Arne' );
+$attribute4->ClassAttribute = $cattribute4;
 
-$attributes1 = array( $attribute1, $attribute2, $attribute3 );
+$attributes1 = array( $attribute1, $attribute2, $attribute3, $attribute4 );
 $object1 = new TestContentObject( 2, 'New article', $attributes1 );
 
 $tpl->setVariable( 'object', $object1 );
