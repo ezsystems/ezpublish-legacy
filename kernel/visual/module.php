@@ -72,22 +72,24 @@ $ViewList["templateview"] = array(
                                     'NewOverrideButton' => 'NewOverride' ),
     "params" => array( ) );
 
-$ViewList["templateedit"] = array(
-    "script" => "templateedit.php",
+$ViewList['templateedit'] = array(
+    'script' => 'templateedit.php',
     'ui_context' => 'edit',
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    'default_navigation_part' => 'ezvisualnavigationpart',
     'single_post_actions' => array( 'SaveButton' => 'Save',
                                     'DiscardButton' => 'Discard' ),
-    "params" => array( ),
-    "unordered_params" => array( "siteAccess" => "SiteAccess" ) );
+    'params' => array( ),
+    'unordered_params' => array( 'siteAccess' => 'SiteAccess' ) );
 
-$ViewList["templatecreate"] = array(
-    "script" => "templatecreate.php",
+$ViewList['templatecreate'] = array(
+    'script' => 'templatecreate.php',
     'ui_context' => 'edit',
-    "default_navigation_part" => 'ezvisualnavigationpart',
+    'default_navigation_part' => 'ezvisualnavigationpart',
     'single_post_actions' => array( 'CreateOverrideButton' => 'CreateOverride',
                                     'CancelOverrideButton' => 'CancelOverride' ),
-    "params" => array( ),
-    "unordered_params" => array( "siteAccess" => "SiteAccess" ) );
+    'params' => array( ),
+    'unordered_params' => array( 'siteAccess' => 'SiteAccess',
+                                 'classID' => 'ClassID',
+                                 'nodeID' => 'NodeID' ) );
 
 ?>

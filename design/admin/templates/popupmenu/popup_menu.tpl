@@ -20,7 +20,6 @@ menuArray['Advanced']['elements']['menu-hide']['url'] = {"/content/hide/%nodeID%
 menuArray['Advanced']['elements']['menu-list'] = new Array();
 menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
 
-
 menuArray['SubitemsContextMenu'] = new Array();
 menuArray['SubitemsContextMenu']['depth'] = 0;
 menuArray['SubitemsContextMenu']['headerID'] = 'child-menu-header';
@@ -53,6 +52,18 @@ menuArray['BookmarkMenu']['elements']['bookmark-view'] = new Array();
 menuArray['BookmarkMenu']['elements']['bookmark-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
 menuArray['BookmarkMenu']['elements']['bookmark-edit'] = new Array();
 menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
+
+{* Site access popup menu for override*}
+menuArray['OverrideSiteAccess'] = new Array();
+menuArray['OverrideSiteAccess']['depth'] = 1;
+
+{* Site access popup menu for override by class*}
+menuArray['OverrideByClassSiteAccess'] = new Array();
+menuArray['OverrideByClassSiteAccess']['depth'] = 1;
+
+{* Site access popup menu for override by node*}
+menuArray['OverrideByNodeSiteAccess'] = new Array();
+menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 </script>
 <script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
@@ -132,12 +143,10 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="template-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Delete template cache"|i18n("design/admin/popupmenu")}</a>
 -->
     <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-recursive-view-cache-delete' ); return false;">{"Delete view cache from here"|i18n("design/admin/popupmenu")}</a>
-<!--
     <hr />
-    <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Template overrides"|i18n("design/admin/popupmenu")}</a>
-    <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"New class override"|i18n("design/admin/popupmenu")}</a>
-    <a id="override-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"New node override"|i18n("design/admin/popupmenu")}</a>
--->
+    <a id="override-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideSiteAccess', 'override-view' ); return false;">{"Template overrides"|i18n("design/admin/popupmenu")}</a>
+    <a id="override-by-class-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByClassSiteAccess', 'override-by-class-view' ); return false;">{"New class override"|i18n("design/admin/popupmenu")}</a>
+    <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
 </div>
 
 
@@ -152,6 +161,45 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     <a id="bookmark-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
 </div>
 
+<!-- Site access for override popup menu -->
+<div class="popupmenu" id="OverrideSiteAccess">
+    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+        <div class="break"></div>
+    </div>
+
+    {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
+        {let link=concat("visual/templatecreate/node/view/full.tpl/(siteAccess)/",$siteAccess)|ezurl}
+            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideSiteAccess' )">{$siteAccess}</a>
+        {/let}
+    {/section}
+</div>
+
+<!-- Site access for override by class popup menu -->
+<div class="popupmenu" id="OverrideByClassSiteAccess">
+    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+        <div class="break"></div>
+    </div>
+
+    {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
+        {let link=concat('visual/templatecreate/node/view/full.tpl/(siteAccess)/', $siteAccess, '/(classID)/%classID%')|ezurl}
+            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByClassSiteAccess' )">{$siteAccess}</a>
+        {/let}
+    {/section}
+
+</div>
+
+<!-- Site access for override by node popup menu -->
+<div class="popupmenu" id="OverrideByNodeSiteAccess">
+    <div class="popupmenuheader"><h3 id="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+        <div class="break"></div>
+    </div>
+
+    {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
+        {let link=concat('visual/templatecreate/node/view/full.tpl/(siteAccess)/', $siteAccess, '/(nodeID)/%nodeID%')|ezurl}
+            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByNodeSiteAccess' )">{$siteAccess}</a>
+        {/let}
+    {/section}
+</div>
 
 {* Forms used by the various elements *}
 

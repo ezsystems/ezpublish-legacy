@@ -37,6 +37,9 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 $parameters =& $Params["Parameters"];
 
+$overrideKeys = array( 'nodeID' => $Params['NodeID'],
+                       'classID' => $Params['ClassID'] );
+
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
@@ -164,7 +167,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
             $oldumask = umask( 0 );
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-            chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
+            chmod( "settings/siteaccess/$siteAccess/override.ini.append.php", octdec( $filePermission ) );
             umask( $oldumask );
 
             // Expire content view cache
@@ -462,6 +465,7 @@ $tpl->setVariable( 'template_type', $templateType );
 $tpl->setVariable( 'template_name', $templateName );
 $tpl->setVariable( 'site_base', $siteBase );
 $tpl->setVariable( 'site_design', $siteDesign );
+$tpl->setVariable( 'override_keys', $overrideKeys );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templatecreate.tpl" );

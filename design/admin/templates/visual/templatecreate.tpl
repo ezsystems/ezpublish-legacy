@@ -31,7 +31,6 @@
     <input class="halfbox" type="text" name="TemplateName" value="{$template_name}" />.tpl
 </div>
 
-
 {switch match=$template_type}
 {case match='node_view'}
 <div class="block">
@@ -44,7 +43,9 @@
     <select name="Match[class_identifier]">
         <option value="-1">{'All classes'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
-        <option value="{fetch( content, class, hash( class_id, $Class:item.id ) ).identifier}">{$Class:item.name|wash}</option>
+            {let contentClass = fetch( content, class, hash( class_id, $Class:item.id ) )}
+                <option value="{$Class:contentClass.identifier}" {section show=eq($Class:contentClass.id, $override_keys['classID'])}selected{/section}>{$Class:item.name|wash}</option>
+            {/let}
         {/section}
     </select>
     </td>
@@ -62,7 +63,7 @@
 </tr>
 <tr>
     <td>{'Node ID'|i18n( 'design/admin/visual/templatecreate' )}:</td>
-    <td><input type="text" size="5" value="" name="Match[node]" /></td>
+    <td><input type="text" size="5" value="{$override_keys['nodeID']}" name="Match[node]" /></td>
 </tr>
 </table>
 </div>

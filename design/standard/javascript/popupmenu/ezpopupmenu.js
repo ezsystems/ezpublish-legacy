@@ -423,3 +423,18 @@ function ez_createAArray( flat )
 
    return resultArray;
 }
+
+/*
+ * Perform subsitution in 'href' and redirect browser to
+ * newly created link.
+ */
+function ezpopup_SubstituteAndRedirect( href )
+{
+    // loop though substitute values and substitute for each of them
+    for ( var substItem in CurrentSubstituteValues )
+    {
+        href = href.replace( substItem, CurrentSubstituteValues[substItem] );
+    }
+    location.href = href;
+}
+

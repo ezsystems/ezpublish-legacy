@@ -80,3 +80,4 @@ eZDebug:
   design/admin/override/templates/thumbnail/image_browse.tpl
   design/admin/templates/content/browse_mode_list.tpl
   design/admin/templates/content/browse_mode_thumbnail.tpl
+- Added "Override Template" popup menu when clicking on the big icon during viewing a node 
