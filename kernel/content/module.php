@@ -199,6 +199,7 @@ $ViewList["draft"] = array(
     "unordered_params" => array( "offset" => "Offset" ) );
 
 $ViewList["trash"] = array(
+    "functions" => array( 'restore' ),
     "script" => "trash.php",
     "default_navigation_part" => 'ezcontentnavigationpart',
     "params" => array( ),
@@ -336,6 +337,9 @@ $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Status' => $Status,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
+
+$FunctionList['restore'] = array( );
+$FunctionList['cleantrash'] = array( );
 
 /*
 $ViewArray["view"] = array(

@@ -53,12 +53,21 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        foreach ( $deleteIDArray as $deleteID )
+        $access = $user->hasAccessTo( 'content', 'cleantrash' );
+        if ( $access['accessWord'] == 'yes' )
         {
-            eZDebug::writeNotice( $deleteID, "deleteID" );
-            $object =& eZContentObject::fetch( $deleteID );
-            $object->purge();
+            $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+            foreach ( $deleteIDArray as $deleteID )
+            {
+                eZDebug::writeNotice( $deleteID, "deleteID" );
+                $object =& eZContentObject::fetch( $deleteID );
+                $object->purge();
+            }
+        }
+        else
+        {
+
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
 }
