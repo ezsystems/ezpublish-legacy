@@ -66,10 +66,7 @@ class eZSys
     */
     function eZSys()
     {
-        $this->Attributes = array( "mysqlSupport" => true,
-                                   "postgresqlSupport" => true,
-                                   "oracleSupport" => true,
-                                   "magickQuotes" => true,
+        $this->Attributes = array( "magickQuotes" => true,
                                    "hostname" => true );
         // Determine OS specific settings
         if ( substr( php_uname(), 0, 7 ) == "Windows" )
@@ -339,42 +336,6 @@ class eZSys
             }
         }
         return $port;
-    }
-
-    /*!
-     Returns true if PostgreSQL support was found in PHP
-     \static
-    */
-    function postgresqlSupport()
-    {
-        if ( function_exists( "pg_pconnect" ) )
-            return true;
-        else
-            return false;
-    }
-
-    /*!
-     Returns true if MySQL support was found in PHP.
-     \static
-    */
-    function mysqlSupport()
-    {
-        if ( function_exists( "mysql_pconnect" ) )
-            return true;
-        else
-            return false;
-    }
-
-    /*!
-     Returns true if Oracle support was found in PHP.
-     \static
-    */
-    function oracleSupport()
-    {
-        if ( function_exists( "OCILogon" ) )
-            return true;
-        else
-            return false;
     }
 
     /*!
