@@ -14,17 +14,17 @@
 {/section}
 
 <div class="block">
-<label for="id1">{"Login"|i18n('logon')}:</label><div class="labelbreak"></div>
+<label for="id1">{"Login"|i18n("design/standard/user")}:</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
 </div>
 <div class="block">
-<label for="id2">{"Password"|i18n('logon')}:</label><div class="labelbreak"></div>
+<label for="id2">{"Password"|i18n("design/standard/user")}:</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" />
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('logon','Button')}" />
-<input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('signup','Button')}" />
+<input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
+<input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />

@@ -128,8 +128,10 @@ class eZBorkTranslator extends eZTranslatorHandler
         $text = preg_replace( "/y\b/", "ai", $text );
         $text = preg_replace( "/v/", "f", $text );
         $text = preg_replace( "/w/", "v", $text );
+        $text = preg_replace( "/ooo/", "oo", $text );
         if ( $orgtext == $text )
             $text = $text . "-a";
+        $text = preg_replace( "/([:.?!])(.*)/", "\\2\\1", $text );
         $text = "[" . $text . "]";
         return $text;
     }
