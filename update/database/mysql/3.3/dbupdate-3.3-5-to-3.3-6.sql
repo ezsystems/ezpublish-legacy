@@ -16,3 +16,10 @@ create temporary  table ezcontentbrowserecent_temp as
       where  ezcontentbrowserecent.node_id = ezcontentobject_tree.node_id;
 delete from ezcontentbrowserecent;
 insert into ezcontentbrowserecent select * from ezcontentbrowserecent_temp;
+
+-- fixes for schemas in packages, they did not have 100% similarity with the kernel_schema
+ALTER TABLE ezcontentobject_attribute MODIFY data_type_string VARCHAR(50) default '';
+ALTER TABLE ezproductcollection_item DROP INDEX ezproductcollection_item_contentobject_id;
+ALTER TABLE ezproductcollection_item ADD INDEX ezproductcollection_item_contentobject_id ( contentobject_id );
+ALTER TABLE ezsubtree_notification_rule DROP INDEX ezsubtree_notification_rule_id;
+ALTER TABLE ezurlalias CHANGE COLUMN is_wildcard is_wildcard int(11) NOT NULL DEFAULT '0' ;
