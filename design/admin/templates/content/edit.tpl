@@ -18,6 +18,9 @@
 
 <form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
 
+    <div class="context-block">
+    <h2 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;{'Edit <%object_name> [%class_name]'|i18n( 'design/admin/content/edit',, hash( '%object_name', $object.name, '%class_name', $class.name ) )|wash}</h2>
+
     {include uri="design:content/edit_validation.tpl"}
 
     {* The location edit field is only used when the INI setting is set to enabled *}
@@ -27,9 +30,6 @@
     {* This disables all node assignment checking in content/edit *}
     <input type="hidden" name="UseNodeAssigments" value="0" />
     {/section}
-
-    <div class="context-block">
-    <h2 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;Edit&nbsp;<i>{$object.name|wash}</i>&nbsp;[{$class.name|wash}]</h2>
 
     <div class="context-attributes"">
     {include uri="design:content/edit_attribute.tpl"}
