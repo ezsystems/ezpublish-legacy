@@ -391,6 +391,43 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
+    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $content =& $classAttribute->content();
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'selection-type',
+                                                                                 array( 'id' => $content['selection_type'] ) ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'fuzzy-match',
+                                                                                 array( 'id' => $content['fuzzy_match'] ) ) );
+        if ( $content['default_selection_node'] )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-selection',
+                                                                                     array( 'node-id' => $content['default_selection_node'] ) ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $content =& $classAttribute->content();
+        $selectionTypeNode = $attributeParametersNode->elementByName( 'selection-type' );
+        $content['selection_type'] = 0;
+        if ( $selectionTypeNode )
+            $content['selection_type'] = $selectionTypeNode->attributeValue( 'id' );
+
+        $fuzzyMatchNode = $attributeParametersNode->elementByName( 'fuzzy-match' );
+        $content['fuzzy_match'] = false;
+        if ( $fuzzyMatchNode )
+            $content['fuzzy_match'] = $fuzzyMatchNode->attributeValue( 'id' );
+
+        $defaultSelectionNode = $attributeParametersNode->elementByName( 'default-selection' );
+        $content['default_selection_node'] = false;
+        if ( $defaultSelectionNode )
+            $content['default_selection_node'] = $defaultSelectionNode->attributeValue( 'node-id' );
+
+        $classAttribute->setContent( $content );
+        $classAttribute->store();
+    }
+
     /// \privatesection
 }
 
