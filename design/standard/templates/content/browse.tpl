@@ -1,3 +1,4 @@
+{let browse_indentation=10}
 <form action={concat($return_url)|ezurl} method="post">
 
 <div class="maincontentheader">
@@ -15,6 +16,9 @@
 	<th width="30%">
 	{"Class"|i18n("design/standard/content/view")}
 	</th>
+	<th width="30%">
+	{"Section"|i18n("design/standard/content/view")}
+	</th>
 	<th width="1%">
 	{"Select"|i18n("design/standard/content/view")}
 	</th>
@@ -26,6 +30,10 @@
 
 	<td class="bglight">
 	{$main_node.object.content_class.name}
+	</td>
+
+	<td class="bglight">
+	{$main_node.object.section_id}
 	</td>
 
 	<td class="bglight">
@@ -57,6 +65,7 @@
 {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
 <tr>
 	<td class="{$Object:sequence}">
+        <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
 	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
 	{$Object:item.name}
         </a>
@@ -64,6 +73,10 @@
 
 	<td class="{$Object:sequence}">
 	{$Object:item.object.content_class.name}
+	</td>
+
+	<td class="{$Object:sequence}">
+	{$:item.object.section_id}
 	</td>
 
 	<td class="{$Object:sequence}">
@@ -95,7 +108,8 @@
 <tr>
     <td>
     </td>
-
+    <td>
+    </td>
     <td>
     </td>
 
@@ -121,3 +135,4 @@
 {/section}
 
 </form>
+{/let}

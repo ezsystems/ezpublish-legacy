@@ -584,6 +584,7 @@ This means that parameters are persistent between the entire operation.
 Setup
 ----------
 Explain the socket in mysql setup. Maybe use right hand info messages like on ez.no
+Add a email sending test page, that way users can know if the email transport works.
 
 Template/Design
 -------------
@@ -591,3 +592,8 @@ Support having more than just sitedesign and standard design. It should be possi
 an array with designs which are tried in order. This makes it possible to create designs
 which work on top of existing designs such as admin.
 Fix bug with extension design where you have to link the design to /design to make it work.
+
+Template regexp
+-----------------
+Add support for regexp operators in the template engine to work on text. Allow matching,
+extraction, replacement etc.

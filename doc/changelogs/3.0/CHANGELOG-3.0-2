@@ -1,4 +1,4 @@
-Changes from 3.0-1 to 3.0.1
+Changes from 3.0-1 to 3.0-2
 
 *Kernel :
 - Workflow process cleans up input parameter cache when setting new input parameters.
@@ -7,7 +7,11 @@ Changes from 3.0-1 to 3.0.1
 - fixed bug with ezoption datatype with adding new option before checked
 - fixed bug with checking site.ini variable to allow special characters in generated passwords
 
-collaboration:
+Browser:
+- Made sure children are indented one level to it's parent in the list.
+- Added section information to list.
+
+Collaboration:
 - Denied and deferred items now displays an edit link for the author.
 - Changed display name for deferred to Pushback.
 
