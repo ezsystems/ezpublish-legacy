@@ -29,7 +29,7 @@
 <tr class="{$WishedItems.sequence}">
 
     {* Remove. *}
-    <td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$WishedItems.item.id}" /></td>
+    <td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$WishedItems.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/shop/wishlist' )}" /></td>
 
     {* Name. *}
     <td>
@@ -98,8 +98,8 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {section show=$wish_list.items}
-<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" />
-<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" />
+<input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" title="{'Remove selected items from the wish list.'|i18n( 'design/admin/shop/wishlist' )}" />
+<input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" title="{'Use this button after changing quantity and option values.'|i18n( 'design/admin/shop/wishlist' )}" />
 {section-else}
 <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
 <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/wishlist' )}" disabled="disabled" />
