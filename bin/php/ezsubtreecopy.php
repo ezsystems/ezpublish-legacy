@@ -198,7 +198,7 @@ function &copyPublishContentObject( &$sourceObject,
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
-        $cli->output( "Subtree Copy Error!\nCannot publish content object." );
+        $cli->output( "Subtree Copy Error!\nCannot publish contentobject." );
         return 5;
     }
 
@@ -367,7 +367,7 @@ while ( count( $sourceNodeList ) > 0 )
     if ( $k > $countNodeList )
     {
         $cli->output( "Subtree Copy Error!\nToo many loops while copying nodes." );
-        return 6; //break;
+        return 6;
     }
 
     for ( $i = 0; $i < count( $sourceNodeList ); $i)
@@ -379,11 +379,10 @@ while ( count( $sourceNodeList ) > 0 )
         else
         {
             $sourceObject =& $sourceNodeList[ $i ]->object();
-
-            $aaaa = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
+            $srcSubtreeNodeIDlist = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
 
             $copyResult = copyPublishContentObject( $sourceObject,
-                                                    $aaaa,
+                                                    $srcSubtreeNodeIDlist,
                                                     $syncNodeIDListSrc, $syncNodeIDListNew,
                                                     $syncObjectIDListSrc, $syncObjectIDListNew,
                                                     $allVersions, $keepCreator, $keepTime );
