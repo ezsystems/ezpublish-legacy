@@ -175,6 +175,13 @@ function eZSessionStart()
     if ( !$db->isConnected() )
         return false;
     eZRegisterSessionFunctions();
+    $ini =& eZINI::instance();
+    $cookieTimeout = $ini->variable( 'Session', 'CookieTimeout' );
+    $cookieTimeout = 300;
+    if ( is_integer( $cookieTimeout ) )
+    {
+        session_set_cookie_params( $cookieTimeout );
+    }
     session_start();
 //     eZDebug::writeDebug( "Session is started" );
     $hasStarted = true;
@@ -200,6 +207,25 @@ function eZSessionStop()
 }
 
 /*!
+ Will make sure the user gets a new session ID while keepin the session data.
+ This is useful to call on logins, to avoid sessions theft from users.
+ \note This requires PHP 4.3.2 and higher which has the session_regenerate_id
+ \return \c true if succesful
+*/
+function eZSessionRegenerate()
+{
+    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
+    if ( isset( $hasStarted ) and
+         !$hasStarted )
+         return false;
+    if ( !function_exists( 'session_regenerate_id' ) )
+        return false;
+    // This doesn't seem to work as expected
+//     session_regenerate_id();
+    return true;
+}
+
+/*!
  Removes the current session and resets session variables.
 */
 function eZSessionRemove()
@@ -212,7 +238,7 @@ function eZSessionRemove()
     $db =& eZDB::instance();
     if ( !$db->isConnected() )
         return false;
-    $GLOBALS['HTTP_SESSION_VARS'] = array();
+    $_SESSION = array();
     session_destroy();
     $hasStarted = false;
     return true;

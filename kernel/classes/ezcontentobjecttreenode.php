@@ -939,7 +939,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
                     {
-                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
+                        $user =& eZUser::currentUser();
+                        $userID = $user->attribute( 'contentobject_id' );
+                        $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Node' )
                     {
@@ -1336,7 +1338,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
                     {
-                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in  objects' );
+                        $user =& eZUser::currentUser();
+                        $userID = $user->attribute( 'contentobject_id' );
+                        $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Node' )
                     {
