@@ -1,7 +1,0 @@
-
-[VersionView]
-AvailableSiteDesignList[]
-AvailableSiteDesignList[]=blog
-# Define default preview site design from one of available designs. Comment 
-# the following line if you don't want to define default.
-DefaultPreviewDesign=blog
