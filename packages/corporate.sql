@@ -2263,3 +2263,4 @@ LOCK TABLES ezworkflow_process WRITE;
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezworkflow_process ENABLE KEYS */;
 
+alter table ezrss_export add rss_version varchar(255) default null;
