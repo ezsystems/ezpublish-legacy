@@ -258,6 +258,34 @@ create table ezcollab_item_participant_link(
     PRIMARY KEY  (collaboration_id, participant_id)
     );
 
+create table ezcollab_item_message_link(
+    id int NOT NULL auto_increment,
+    collaboration_id int NOT NULL DEFAULT '0',
+    participant_id  int NOT NULL default '0',
+    message_id  int NOT NULL default '0',
+    message_type  int NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (id)
+    );
+
+create table ezcollab_simple_message(
+    id int NOT NULL auto_increment,
+    message_type varchar(40) NOT NULL default '',
+    creator_id int NOT NULL default '0',
+    data_text1 text NOT NULL default '',
+    data_text2 text NOT NULL default '',
+    data_text3 text NOT NULL default '',
+    data_int1 int NOT NULL default '0',
+    data_int2 int NOT NULL default '0',
+    data_int3 int NOT NULL default '0',
+    data_float1 float NOT NULL default '0',
+    data_float2 float NOT NULL default '0',
+    data_float3 float NOT NULL default '0',
+    created int NOT NULL default '0',
+    modified int NOT NULL default '0',
+    PRIMARY KEY  (id)
+    );
 
 create table ezcontent_translation(
     id int NOT NULL auto_increment,

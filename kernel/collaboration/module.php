@@ -39,7 +39,7 @@ $ViewList['action'] = array(
     'script' => 'action.php',
     'default_action' => array( array( 'name' => 'Custom',
                                       'type' => 'post',
-                                      'parameters' => array( 'CollaborationAction',
+                                      'parameters' => array( 'CollaborationActionCustom',
                                                              'CollaborationTypeIdentifier',
                                                              'CollaborationItemID' ) ) ),
     'post_action_parameters' => array( 'Custom' => array( 'TypeIdentifer' => 'CollaborationTypeIdentifier',

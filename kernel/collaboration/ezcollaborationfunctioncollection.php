@@ -68,6 +68,20 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
+    function &fetchMessageList( $itemID, $sortBy, $offset, $limit )
+    {
+        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+        $itemParameters = array( 'item_id' => $itemID,
+                                 'offset' => $offset,
+                                 'limit' => $limit,
+                                 'sort_by' => $sortBy );
+        $children =& eZCollaborationItemMessageLink::fetchItemList( $itemParameters );
+        if ( $children === null )
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => &$children );
+    }
+
     function &fetchItemList( $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );

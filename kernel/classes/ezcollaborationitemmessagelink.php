@@ -1,8 +1,8 @@
 <?php
 //
-// Definition of eZCollaborationItemParticipantLink class
+// Definition of eZCollaborationItemMessageLink class
 //
-// Created on: <22-Jan-2003 16:08:22 amos>
+// Created on: <24-Jan-2003 15:11:23 amos>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -34,70 +34,88 @@
 // you.
 //
 
-/*! \file ezcollaborationparticipantlink.php
+/*! \file ezcollaborationitemmessagelink.php
 */
 
 /*!
-  \class eZCollaborationItemParticipantLink ezcollaborationitemparticipantlink.php
-  \brief The class eZCollaborationItemParticipantLink does
+  \class eZCollaborationItemMessageLink ezcollaborationitemmessagelink.php
+  \brief The class eZCollaborationItemMessageLink does
 
 */
 
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USER", 1 );
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP", 2 );
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM", 1024 );
-
 include_once( 'kernel/classes/ezpersistentobject.php' );
 
-class eZCollaborationItemParticipantLink extends eZPersistentObject
+class eZCollaborationItemMessageLink extends eZPersistentObject
 {
     /*!
      Constructor
     */
-    function eZCollaborationItemParticipantLink( $row )
+    function eZCollaborationItemMessageLink( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
     function &definition()
     {
-        return array( 'fields' => array( 'collaboration_id' => 'CollaborationID',
+        return array( 'fields' => array( 'id' => 'ID',
+                                         'collaboration_id' => 'CollaborationID',
+                                         'message_id' => 'MessageID',
+                                         'message_type' => 'MessageType',
                                          'participant_id' => 'ParticipantID',
-                                         'participant_type' => 'ParticipantType',
-                                         'is_read' => 'IsRead',
-                                         'is_active' => 'IsActive',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
-                      'keys' => array( 'collaboration_id', 'participant_id' ),
-                      'class_name' => 'eZCollaborationItemParticipantLink',
-                      'name' => 'ezcollab_item_participant_link' );
+                      'keys' => array( 'id' ),
+                      'increment_key' => 'id',
+                      'class_name' => 'eZCollaborationItemMessageLink',
+                      'name' => 'ezcollab_item_message_link' );
     }
 
-    function &create( $collaborationID, $participantID, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
+    function &create( $collaborationID, $messageID, $messageType, $participantID )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $date_time = eZDateTime::currentTimeStamp();
         $row = array(
             'collaboration_id' => $collaborationID,
+            'message_id' => $messageID,
+            'message_type' => $messageType,
             'participant_id' => $participantID,
-            'participant_type' => $participantType,
-            'is_read' => false,
-            'is_active' => true,
             'created' => $date_time,
             'modified' => $date_time );
-        return new eZCollaborationItemParticipantLink( $row );
+        return new eZCollaborationItemMessageLink( $row );
     }
 
-    function &fetch( $collaborationID, $participantID, $asObject = true )
+    function &addMessage( &$collaborationItem, &$message, $messageType, $participantID = false )
     {
-        return eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
+        $messageID =& $message->attribute( 'id' );
+        eZDebug::writeDebug( $message );
+        eZDebug::writeDebug( $messageID );
+        if ( !$messageID )
+        {
+            eZDebug::writeError( 'No message ID, cannot create link', 'eZCollaborationItemMessageLink::addMessage' );
+            return null;
+        }
+        if ( $participantID === false )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::currentUser();
+            $participantID =& $user->attribute( 'contentobject_id' );
+        }
+        $collaborationID = $collaborationItem->attribute( 'id' );
+        $link =& eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
+        $link->store();
+        return $link;
+    }
+
+    function &fetch( $id, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZCollaborationItemMessageLink::definition(),
                                                 null,
-                                                array( "collaboration_id" => $collaborationID,
-                                                       'participant_id' => $participantID ),
+                                                array( "id" => $id ),
+                                                null, null,
                                                 $asObject );
     }
 
-    function &fetchParticipantList( $parameters = array() )
+    function &fetchItemList( $parameters )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,
@@ -111,56 +129,55 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $limit = $parameters['limit'];
         $limitArray = null;
         if ( $offset and $limit )
-            $limitArray = array( $offset, $limit );
-        return eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
+        {
+            $limitArray = array( 'offset' => $offset,
+                                 'limit' => $limit );
+        }
+
+        return eZPersistentObject::fetchObjectList( eZCollaborationItemMessageLink::definition(),
                                                     null,
                                                     array( "collaboration_id" => $itemID ),
                                                     null, $limitArray,
                                                     $asObject );
     }
 
-    function hasAttribute( $attr )
+    function hasAttribute( $attribute )
     {
-        return ( $attr == 'collaboration_item' or
-                 $attr == 'participant' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        return ( $attribute == 'collaboration_item' or
+                 $attribute == 'participant' or
+                 $attribute == 'simple_message' or
+                 eZPersistentObject::hasAttribute( $attribute ) );
     }
 
-    function &attribute( $attr )
+    function &attribute( $attribute )
     {
-        switch( $attr )
+        switch( $attribute )
         {
             case 'collaboration_item':
             {
                 include_once( 'kernel/classes/ezcollaborationitem.php' );
                 return eZCollaborationItem::fetch( $this->CollaborationID );
             } break;
+            case 'simple_message':
+            {
+                include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+                $message =& eZCollaborationSimpleMessage::fetch( $this->MessageID );
+                eZDebug::writeDebug( $message );
+                return $message;
+            } break;
             case 'participant':
             {
-                if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
-                {
-                    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                    $user =& eZUser::fetch( $this->ParticipantID );
-                    return $user;
-                }
-                else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
-                {
-                    include_once( 'kernel/classes/ezcontentobject.php' );
-                    return eZContentObject::fetch( $this->ParticipantID );
-                }
-                return null;
+                // TODO: Get participant trough participant link from item
             } break;
             default:
-                return eZPersistentObject::attribute( $attr );
+                return eZPersistentObject::attribute( $attribute );
         }
     }
 
     /// \privatesection
     var $CollaborationID;
+    var $MessageID;
     var $ParticipantID;
-    var $ParticipantType;
-    var $IsRead;
-    var $IsActive;
     var $Created;
     var $Modified;
 }

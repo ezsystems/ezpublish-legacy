@@ -34,6 +34,8 @@
 
 $Module =& $Params['Module'];
 
+$http =& eZHTTPTool::instance();
+eZDebug::writeDebug( $http->attribute( 'post' ) );
 
 if ( $Module->isCurrentAction( 'Custom' ) )
 {
@@ -43,7 +45,7 @@ if ( $Module->isCurrentAction( 'Custom' ) )
     include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
     $collaborationItem =& eZCollaborationItem::fetch( $itemID );
     $handler =& eZCollaborationItemHandler::instantiate( $typeIdentifier );
-    return $handler->handleCustomAction( $collaborationItem );
+    return $handler->handleCustomAction( $Module, $collaborationItem );
 }
 
 $Result = array();

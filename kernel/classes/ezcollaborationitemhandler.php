@@ -96,8 +96,22 @@ class eZCollaborationItemHandler
         return eZINI::instance( 'collaboration.ini' );
     }
 
-    function handleCustomAction( &$collaborationItem )
+    function handleCustomAction( &$module, &$collaborationItem )
     {
+    }
+
+    function hasCustomInput( $name )
+    {
+        $http =& eZHTTPTool::instance();
+        $postVariable = 'Collaboration_' . $name;
+        return $http->hasPostVariable( $postVariable );
+    }
+
+    function customInput( $name )
+    {
+        $http =& eZHTTPTool::instance();
+        $postVariable = 'Collaboration_' . $name;
+        return $http->postVariable( $postVariable );
     }
 
     function defaultRepositories()

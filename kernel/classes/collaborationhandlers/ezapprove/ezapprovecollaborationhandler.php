@@ -43,6 +43,8 @@
 
 */
 
+define( "EZ_COLLABORATION_MESSAGE_TYPE_APPROVE", 1 );
+
 class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 {
     /*!
@@ -64,8 +66,16 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                       "content_object_version" => $collaborationItem->attribute( "data_int2" ) );
     }
 
-    function handleCustomAction( &$collaborationItem )
+    function handleCustomAction( &$module, &$collaborationItem )
     {
+        $messageText = $this->customInput( 'ApproveComment' );
+        include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+        $message =& eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
+        $message->store();
+        eZDebug::writeDebug( $message );
+        include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+        eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
+        return $module->redirectToView( 'item', array( 'full', $collaborationItem->attribute( 'id' ) ) );
     }
 
 }

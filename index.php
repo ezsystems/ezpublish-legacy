@@ -250,7 +250,7 @@ $access = accessType( $uri,
 //{
 $access = changeAccess( $access );
 //}
-eZDebug::writeDebug( $access, 'current siteaccess' );
+eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 $check = eZHandlePreChecks( $siteBasics );
 
 if ( $sessionRequired )
@@ -411,7 +411,7 @@ while ( $moduleRunRequired )
             }
             else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
             {
-                eZDebug::writeDebug( "access is yes" );
+                eZDebugSetting::writeDebug( 'kernel-siteaccess', "access is yes" );
                 $hasAccessToSite = true;
             }
 
@@ -428,7 +428,7 @@ while ( $moduleRunRequired )
             }
             else
             {
-                eZDebug::writeDebug( $access, 'note able to get access to siteaccess' );
+                eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'not able to get access to siteaccess' );
                 $moduleAccessAllowed = false;
             }
         }
@@ -558,9 +558,14 @@ if ( $show_page_layout )
     $meta = $ini->variable( 'SiteSettings', 'MetaDataArray' );
 
     $metaDescription = "";
-    foreach ( $moduleResult['path'] as $pathPart )
+    if ( isset( $moduleResult['path'] ) and
+         is_array( $moduleResult['path'] ) )
     {
-        $metaDescription .= $pathPart['text'] . " ";
+        foreach ( $moduleResult['path'] as $pathPart )
+        {
+            if ( isset( $pathPart['text'] ) )
+                $metaDescription .= $pathPart['text'] . " ";
+        }
     }
     $meta['description'] = $metaDescription;
 

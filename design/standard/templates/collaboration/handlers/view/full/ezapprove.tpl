@@ -1,7 +1,10 @@
 <form method="post" action={"collaboration/action/"|ezurl}>
 
-{let content_version=fetch("content","version",hash("object_id",$collab_item.content.content_object_id,"version_id",$collab_item.content.content_object_version))
-     participant_list=fetch("collaboration","participant_list",hash("item_id",$collab_item.id))}
+{let message_limit=2
+     message_offset=0
+     content_version=fetch("content","version",hash("object_id",$collab_item.content.content_object_id,"version_id",$collab_item.content.content_object_version))
+     participant_list=fetch("collaboration","participant_list",hash("item_id",$collab_item.id))
+     message_list=fetch("collaboration","message_list",hash("item_id",$collab_item.id,"limit",$message_limit,"offset",$message_offset))}
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -25,7 +28,7 @@
 <br/>
 
 <label>Comments</label><div class="break"/>
-<textarea class="box" name="ApproveComment" cols="50" rows="6"></textarea>
+<textarea class="box" name="Collaboration_ApproveComment" cols="50" rows="6"></textarea>
 
 <div class="buttonblock">
 <input type="submit" name="CommentButton" value="Add Comment" />
@@ -66,6 +69,20 @@
   </td>
 </tr>
 </table>
+
+
+{section show=$message_list}
+
+  <h1>Messages</h1>
+  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  {section name=Message loop=$message_list sequence=array(bglight,bgdark)}
+
+      {collaboration_simple_message_view view=element sequence=$:sequence collaboration_message=$:item.simple_message}
+
+  {/section}
+  </table>
+
+{/section}
 
 {/let}
 

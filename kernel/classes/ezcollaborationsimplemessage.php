@@ -58,6 +58,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
     function &definition()
     {
         return array( 'fields' => array( 'id' => 'ID',
+                                         'message_type' => 'MessageType',
                                          'data_text1' => 'DataText1',
                                          'data_text2' => 'DataText2',
                                          'data_text3' => 'DataText3',
@@ -67,18 +68,29 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                                          'data_float1' => 'DataFloat1',
                                          'data_float2' => 'DataFloat2',
                                          'data_float3' => 'DataFloat3',
+                                         'creator_id' => 'CreatorID',
                                          'created' => 'Created',
                                          'modified' => 'Modified' ),
                       'keys' => array( 'id' ),
+                      'increment_key' => 'id',
                       'class_name' => 'eZCollaborationSimpleMessage',
                       'name' => 'ezcollab_simple_message' );
     }
 
-    function &create()
+    function &create( $type, $text = false, $creatorID = false )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $date_time = eZDateTime::currentTimeStamp();
+        if ( $creatorID === false )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::currentUser();
+            $creatorID =& $user->attribute( 'contentobject_id' );
+        }
         $row = array(
+            'message_type' => $type,
+            'data_text1' => $text,
+            'creator_id' => $creatorID,
             'created' => $date_time,
             'modified' => $date_time );
         return new eZCollaborationSimpleMessage( $row );
