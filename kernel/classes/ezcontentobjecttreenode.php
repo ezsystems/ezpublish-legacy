@@ -1160,19 +1160,36 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true )
+    function &createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
     {
         $versionNameJoins = '';
 
         if ( $useVersionName )
         {
-            $lang = eZContentObject::defaultLanguage();
+            // Find the default language for use if lang is not set or wrong.
+            $defaultLanguage = eZContentObject::defaultLanguage();
+            if ( $lang )
+            {
+                // Escape the language string
+                $db =& eZDB::instance();
+                $lang = $db->escapeString($lang);
+            }
+            else // Set the language to the default if the parameter is not set.
+            {
+                $lang = $defaultLanguage;
+            }
 
             if ( $includeAnd )
                 $versionNameJoins = ' and';
             $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                    ezcontentobject_name.content_translation = '$lang' ";
+
+            // Add SQL to force the return of only translated objects
+            if ( $onlyTranslated )
+            {
+                $versionNameJoins .= "and ezcontentobject_name.real_translation = '$lang' ";
+            }
         }
 
         return $versionNameJoins;
@@ -1356,6 +1373,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $params = array( 'Depth'                    => false,
                              'Offset'                   => false,
+                             'OnlyTranslated'           => false,
+                             'Language'                 => false,
                              'Limit'                    => false,
                              'SortBy'                   => false,
                              'AttributeFilter'          => false,
@@ -1366,6 +1385,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
+        $onlyTranslated   = ( isset( $params['OnlyTranslated']      ) )                       ? $params['OnlyTranslated']     : false;
+        $language         = ( isset( $params['Language']      ) )                             ? $params['Language']           : false;
         $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
         $depth            = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
         $depthOperator    = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
@@ -1397,7 +1418,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $useVersionName     = true;
         $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
+        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
