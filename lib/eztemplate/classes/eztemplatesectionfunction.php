@@ -364,11 +364,11 @@ class eZTemplateSectionFunction
 
             // Initialization for array
             $code .= ( "if ( is_array( \$loopItem ) )\n{\n" .
-                       "    \$loopKeys = array_keys( \$loopItem );\n" .
-                       $arrayCode .
-                       "    \$loopCount = count( \$loopKeys );\n" );
+                       "    \$loopKeys = array_keys( \$loopItem );\n" );
             if ( $reverseLoop )
                 $code .= "    \$loopKeys = array_reverse( \$loopKeys );\n";
+            $code .= $arrayCode;
+            $code .= "    \$loopCount = count( \$loopKeys );\n";
             $code .= "}\n";
 
             // Initialization for numeric
@@ -386,7 +386,7 @@ class eZTemplateSectionFunction
             $code .= ( "else if ( is_string( \$loopItem ) )\n{\n" .
                        "    \$loopKeys = false;\n" .
                        $stringCode .
-                       "    \$loopCount = strlen( \$loopItem );\n" .
+                       "    \$loopCount = strlen( \$loopItem ) - $offsetText;\n" .
                        "}\n" );
             // Fallback for no item
             $code .= ( "else\n{\n" .
@@ -844,11 +844,11 @@ class eZTemplateSectionFunction
                 {
                     $array =& $loopItem;
                     $arrayKeys =& array_keys( $array );
+                    if ( $reverseLoop )
+                        $arrayKeys = array_reverse( $arrayKeys );
                     if ( $iterationOffset !== false )
                         $arrayKeys = array_splice( $arrayKeys, $iterationOffset );
                     $currentCount = 0;
-                    if ( $reverseLoop )
-                        $arrayKeys = array_reverse( $arrayKeys );
                     foreach ( $arrayKeys as $key )
                     {
                         unset( $item );
@@ -925,7 +925,7 @@ class eZTemplateSectionFunction
                     for ( $i = $loopStart; $i < $stringLength; ++$i )
                     {
                         if ( $reverseLoop )
-                            $iterator = ($stringLength - $i) + $loopStart - 1;
+                            $iterator = ($stringLength - $i) - 1;
                         else
                             $iterator = $i;
                         unset( $key );
