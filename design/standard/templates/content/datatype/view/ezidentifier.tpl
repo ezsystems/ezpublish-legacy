@@ -1,1 +1,1 @@
-{$attribute.data_text}
+{$attribute.content}
