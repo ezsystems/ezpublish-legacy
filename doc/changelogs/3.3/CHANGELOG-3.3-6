@@ -259,6 +259,9 @@ eZINI:
   http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
 - Fixed bug: wrong redirection after changing preferences.
   http://ez.no/community/bug_reports/wrong_redirection_after_changing_preferences
+- Fixed bug: Users were able to add existing objects of non-allowed classes to the
+  object relation list datatype.
+  http://ez.no/community/bug_reports/object_relation_list_allowed_classes_should_be_redone
 
 *Library:
 
