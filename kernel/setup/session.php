@@ -44,7 +44,24 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 $param['limit'] = 50;
 
-if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
+$filterType = 'registered';
+if ( $http->hasSessionVariable( 'eZSessionFilterType' ) )
+    $filterType = $http->sessionVariable( 'eZSessionFilterType' );
+
+$userID = $Params['UserID'];
+
+if ( $module->isCurrentAction( 'ShowAllUsers' ) )
+{
+    return $module->redirectToView( 'session' );
+}
+else if ( $module->isCurrentAction( 'ChangeFilter' ) )
+{
+    $filterType = $module->actionParameter( 'FilterType' );
+    if ( !in_array( $filterType, array( 'everyone', 'registered', 'anonymous' ) ) )
+        $filterType = 'registered';
+    $http->setSessionVariable( 'eZSessionFilterType', $filterType );
+}
+else if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 {
     eZSessionEmpty();
     $sessionsRemoved = true;
@@ -56,12 +73,32 @@ else if ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
 }
 else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
 {
-    if ( eZHTTPTool::hasPostVariable( 'SessionKeyArray' ) )
+    if ( $userID )
     {
-        $sessionKeyArray = eZHTTPTool::postVariable( 'SessionKeyArray' );
-        foreach ( $sessionKeyArray as $sessionKeyItem )
+        if ( eZHTTPTool::hasPostVariable( 'SessionKeyArray' ) )
         {
-            eZSessionDestroy( $sessionKeyItem );
+            $sessionKeyArray = eZHTTPTool::postVariable( 'SessionKeyArray' );
+            foreach ( $sessionKeyArray as $sessionKeyItem )
+            {
+                eZSessionDestroy( $sessionKeyItem );
+            }
+        }
+    }
+    else
+    {
+        if ( eZHTTPTool::hasPostVariable( 'UserIDArray' ) )
+        {
+            $userIDArray = eZHTTPTool::postVariable( 'UserIDArray' );
+            if ( count( $userIDArray ) > 0 )
+            {
+                include_once( 'lib/ezdb/classes/ezdb.php' );
+                $db =& eZDB::instance();
+                $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . implode( ', ', $userIDArray ) . " )" );
+                foreach ( $rows as $row )
+                {
+                    eZSessionDestroy( $row['session_key'] );
+                }
+            }
         }
     }
 }
@@ -117,12 +154,49 @@ function &eZFetchActiveSessions( $params = array() )
             $orderBy = "ezsession.expiration_time DESC";
         } break;
     }
+    $filterType = $params['filter_type'];
+    switch ( $filterType )
+    {
+        case 'registered':
+        {
+            $filterSQL = 'AND ezsession.user_id != ' . EZ_USER_ANONYMOUS_ID;
+        } break;
+
+        case 'anonymous':
+        {
+            $filterSQL = 'AND ezsession.user_id = ' . EZ_USER_ANONYMOUS_ID;
+        } break;
+
+        case 'everyone':
+        default:
+        {
+            $filterSQL = '';
+        } break;
+    }
+    
+    $userID = $params['user_id'];
+    $countField = '';
+    $countGroup = '';
+    if ( $userID )
+    {
+        $filterSQL = 'AND ezsession.user_id = ' .  (int)$userID;
+        $expirationSQL = 'ezsession.expiration_time';
+    }
+    else
+    {
+        $countField = ', count( ezsession.user_id ) AS count';
+        $countGroup = 'GROUP BY ezsession.user_id';
+        $expirationSQL = 'max( ezsession.expiration_time ) as expiration_time';
+    }
+
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $query = "SELECT ezsession.user_id, ezsession.expiration_time, ezsession.session_key
+    $query = "SELECT ezsession.user_id, $expirationSQL, ezsession.session_key $countField
 FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id=ezuser.contentobject_id AND
       ezsession.user_id=ezcontentobject.id
+      $filterSQL
+$countGroup
 ORDER BY $orderBy";
 
     $rows = $db->arrayQuery( $query, array( 'offset' => $offset, 'limit' => $limit ) );
@@ -138,6 +212,8 @@ ORDER BY $orderBy";
     {
         $sessionUser =& eZUser::fetch( $row['user_id'], true );
         $session['user_id'] = $row['user_id'];
+        if ( !$userID )
+            $session['count'] = $row['count'];
         $session['expiration_time'] = $row['expiration_time'];
         $session['session_key'] = $row['session_key'];
         $session['idle_time'] = $row['expiration_time'] - $sessionTimeout;
@@ -162,8 +238,10 @@ ORDER BY $orderBy";
     }
     return $resultArray;
 }
-
+//$userID=14;
 $param['sortby'] = false;
+$param['filter_type'] = $filterType;
+$param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
 $sessionsActive = eZSessionCountActive();
@@ -181,6 +259,8 @@ $tpl->setVariable( "sessions_list", $sessionsList );
 $tpl->setVariable( "page_limit", $param['limit'] );
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "form_parameter_string", $viewParameters );
+$tpl->setVariable( 'filter_type', $filterType );
+$tpl->setVariable( 'user_id', $userID );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/session.tpl" );

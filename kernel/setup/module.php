@@ -58,18 +58,16 @@ $ViewList["cache"] = array(
     'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
     "params" => array() );
 
-
-
-
 $ViewList['session'] = array(
     'script'                  => 'session.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions'     => array( 'RemoveAllSessionsButton' => 'RemoveAllSessions',
+                                        'ShowAllUsersButton' => 'ShowAllUsers',
+                                        'ChangeFilterButton' => 'ChangeFilter',
                                         'RemoveTimedOutSessionsButton' => 'RemoveTimedOutSessions',
                                         'RemoveSelectedSessionsButton' => 'RemoveSelectedSessions' ),
-    'params' => array() );
-
-
+    'post_action_parameters' => array( 'ChangeFilter' => array( 'FilterType' => 'FilterType' ) ),
+    'params' => array( 'UserID' ) );
 
 $ViewList["info"] = array(
     "script" => "info.php",
