@@ -336,7 +336,6 @@ class eZContentStructureTreeOperator
     */
     function &createContentStructureNode( &$treeNode, $childrenCount )
     {
-        eZDebug::writeDebug( $treeNode, 'lazy.$treeNode' );
         $node = array( 'node' => array( 'node_id' => $treeNode['node_id'],
                                         'path_identification_string' => $treeNode['path_identification_string'],
                                         'children_count' => $childrenCount,
@@ -375,7 +374,6 @@ class eZContentStructureTreeOperator
                                               'published' => $contentObject->attribute( 'published' ),
                                               'is_container' => true ) );
 
-        eZDebug::writeDebug( $contentObject, 'lazy.root content object' );
         $nodes = array( 'parent_node' => &$rootNode,
                         'children' => array() );
         return $nodes;

@@ -335,17 +335,15 @@ class eZSelectionType extends eZDataType
     */
     function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $options    =& $attributeParametersNode->elementByName( 'options' );
+        $options =& $attributeParametersNode->elementByName( 'options' );
 
-        $doc        =& new eZDOMDocument( "selection" );
-        $root       =& $doc->createElementNode( "ezselection" );
+        $doc =& new eZDOMDocument( "selection" );
+        $root =& $doc->createElementNode( "ezselection" );
         
         $doc->setRoot( $root );
         $root->appendChild( $options );
         
-        eZDebug::writeDebug( $doc, 'lazy. $doc' );
-
-        $xml        =& $doc->toString();
+        $xml =& $doc->toString();
         $classAttribute->setAttribute( "data_text5", $xml );
 
         if ( $attributeParametersNode->elementTextContentByName( 'is-multiselect' ) == 0 )
