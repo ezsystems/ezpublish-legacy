@@ -342,10 +342,14 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
             if ( $sitePackage['email'] )
             {
-                $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $sitePackage['email'] );
-                $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $sitePackage['email'] );
+//                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $sitePackage['email'] );
+//                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $sitePackage['email'] );
+//                 $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
+//                                                          'EmailSender' => $sitePackage['email'] );
+                $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
+                $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
                 $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
-                                                         'EmailSender' => $sitePackage['email'] );
+                                                         'EmailSender' => false );
             }
             $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
                                                          'ContentObjectLocale' => $primaryLanguage->localeCode() );

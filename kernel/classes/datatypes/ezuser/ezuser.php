@@ -350,6 +350,15 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \return \c true if there can only be one instance of an email address on the site.
+    */
+    function requireUniqueEmail()
+    {
+        $ini =& eZINI::instance();
+        return $ini->variable( 'UserSettings', 'RequireUniqueEmail' ) == 'true';
+    }
+
+    /*!
     \static
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.

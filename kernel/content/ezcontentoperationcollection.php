@@ -113,7 +113,20 @@ class eZContentOperationCollection
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
             if ( $nodeAssignment->attribute( 'parent_node' ) > 0 )
-                $parameters[] = array( 'parent_node_id' => $nodeAssignment->attribute( 'parent_node' ) );
+            {
+                if ( $nodeAssignment->attribute( 'is_main' ) == 1 )
+                {
+                    $mainNodeID = $this->publishNode( $nodeAssignment->attribute( 'parent_node' ), $objectID, $versionNum, false );
+                }
+                else
+                {
+                    $parameters[] = array( 'parent_node_id' => $nodeAssignment->attribute( 'parent_node' ) );
+                }
+            }
+        }
+        for ( $i = 0; $i < count( $parameters ); $i++ )
+        {
+            $parameters[$i]['main_node_id'] = $mainNodeID;
         }
 
         return array( 'parameters' => $parameters );
@@ -171,12 +184,11 @@ class eZContentOperationCollection
         }
     }
 
-    function publishNode( $parentNodeID, $objectID, $versionNum )
+    function publishNode( $parentNodeID, $objectID, $versionNum, $mainNodeID )
     {
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
         $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
-
         $object->setAttribute( 'current_version', $versionNum );
         if ( $versionNum == 1 )
         {
@@ -245,23 +257,15 @@ class eZContentOperationCollection
 
         $existingNode->updateSubTreePath();
 
-        if ( $nodeAssignment->attribute( 'is_main' ) )
+        if ( $mainNodeID > 0 )
         {
-
-            if ( $existingNode->attribute( 'main_node_id' ) != $existingNode->attribute( 'node_id' ) )
-            {
-                $updateSectionID = true;
-            }
-
-            $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
-            $existingNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $objectID, true );
-            foreach( array_keys( $existingNodes ) as $key )
-            {
-                $node =& $existingNodes[$key];
-                $node->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
-                $node->store();
-            }
+            $existingNode->setAttribute( 'main_node_id', $mainNodeID );
         }
+        else
+        {
+            $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
+        }
+
 /*
         if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
         {
@@ -279,7 +283,10 @@ class eZContentOperationCollection
             eZDebug::writeDebug( "will  update section ID " );
             eZContentOperationCollection::updateSectionID( $objectID, $versionNum );
         }
-
+        if ( $mainNodeID == false )
+        {
+            return $existingNode->attribute( "node_id" );
+        }
     }
 
     function updateSectionID( $objectID, $versionNum )

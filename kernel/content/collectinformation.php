@@ -100,6 +100,8 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     {
         // receiver does not contain a valid email address, get the default one
         $receiver = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
+        if ( !$receiver )
+            $receiver = $ini->variable( "MailSettings", "AdminEmail" );
     }
 
     $mail->setReceiver( $receiver );

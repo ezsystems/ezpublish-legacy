@@ -41,7 +41,7 @@ include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
-    print( "Checking link ...\n"  );
+    $cli->output( "Checking link ..." );
 $linkList = eZURL::fetchList();
 foreach ( array_keys( $linkList ) as $key )
 {
@@ -50,7 +50,7 @@ foreach ( array_keys( $linkList ) as $key )
     $url = $link->attribute( 'url' );
     $isValid = $link->attribute( 'is_valid' );
 
-    print( "check-". $url ."\n" );
+    $cli->output( "check-" . $cli->stylize( 'emphasize', $url ) . " ", false );
     if ( preg_match("/^(http:)/i", $url ) or
          preg_match("/^(ftp:)/i", $url ) or
          preg_match("/^(https:)/i", $url ) or
@@ -66,13 +66,13 @@ foreach ( array_keys( $linkList ) as $key )
             {
                 if ( $isValid )
                     eZURL::setIsValid( $linkID, false );
-                print( "invalid\n\n" );
+                $cli->output( $cli->stylize( 'warning', "invalid" ) );
             }
             else
             {
                 if ( !$isValid )
                     eZURL::setIsValid( $linkID, true );
-                print( "valid\n\n" );
+                $cli->output( $cli->stylize( 'success', "valid" ) );
             }
         }
         else if ( preg_match("/^(http:)/i", $url ) or
@@ -84,19 +84,19 @@ foreach ( array_keys( $linkList ) as $key )
             {
                 if ( $isValid )
                     eZURL::setIsValid( $linkID, false );
-                print( "invalid\n\n" );
+                $cli->output( $cli->stylize( 'warning', "invalid" ) );
             }
             else
             {
                 fclose($fp);
                 if ( !$isValid )
                     eZURL::setIsValid( $linkID, true );
-                print( "valid\n\n" );
+                $cli->output( $cli->stylize( 'success', "valid" ) );
             }
         }
         else
         {
-            print( "Couldn't check https protocol\n\n" );
+            $cli->output( "Couldn't check https protocol" );
         }
     }
     else
@@ -130,19 +130,19 @@ foreach ( array_keys( $linkList ) as $key )
         {
             if ( !$isValid )
                 eZURL::setIsValid( $linkID, true );
-            print( "valid\n\n" );
+            $cli->output( $cli->stylize( 'success', "valid" ) );
         }
         else
         {
             if ( $isValid )
                 eZURL::setIsValid( $linkID, false );
-            print( "invalid\n\n" );
+            $cli->output( $cli->stylize( 'warning', "invalid" ) );
         }
     }
     eZURL::setLastChecked( $linkID );
 }
 
 if ( !$isQuiet )
-    print( "All links have been checked!" );
+    $cli->output( "All links have been checked!" );
 
 ?>

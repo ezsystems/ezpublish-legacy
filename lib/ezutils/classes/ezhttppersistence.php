@@ -118,7 +118,7 @@ class eZHTTPPersistence
      If no post variable was found with that signature the field is ignored.
      Example of name:
      \code
-       In the HTML code use:
+       In the HTML code use:<br/>
        <input type="checkbox" name="ContentClassAttribute_is_searchable_checked[]" value="some_id" />
      \endcode
     */
@@ -142,9 +142,9 @@ class eZHTTPPersistence
     }
 
     /*!
-     \deprecated This function has some serious flaws and will be removed in a future release
      \private
      Helper function for handleChecked().
+     \deprecated This function has some serious flaws and will be removed in a future release
     */
     function handleCheckedElement( $base_name, &$def,
                                    &$object, &$http )

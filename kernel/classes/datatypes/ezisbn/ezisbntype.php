@@ -139,6 +139,11 @@ class eZISBNType extends eZDataType
         return $isbn;
     }
 
+    function isIndexable()
+    {
+        return true;
+    }
+
     /*!
      Returns the meta data used for storing search indeces.
     */

@@ -103,6 +103,8 @@ class eZShopOperationCollection
         {
         }
         $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+        if ( !$emailSender )
+            $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
 
         $mail->setReceiver( $email );
         $mail->setSender( $emailSender );
@@ -112,8 +114,6 @@ class eZShopOperationCollection
 
 
         $email = $ini->variable( 'MailSettings', 'AdminEmail' );
-
-        eZDebug::writeDebug( $email,  'email' );
 
         $mail = new eZMail();
 

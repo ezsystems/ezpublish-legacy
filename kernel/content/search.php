@@ -59,6 +59,9 @@ if ( $http->hasVariable( 'SearchPageLimit' ) )
 {
     $searchPageLimit = $http->variable( 'SearchPageLimit' );
 }
+$maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
+if ( $searchPageLimit > $maximumSearchLimit )
+    $searchPageLimit = $maximumSearchLimit;
 
 if ( $http->hasVariable( "SearchText" ) )
 {
@@ -126,6 +129,7 @@ $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_subtree_array", $subTreeArray );
 $tpl->setVariable( 'search_timestamp', $searchTimestamp );
 $tpl->setVariable( "search_text", $searchText );
+$tpl->setVariable( 'search_page_limit', $searchPageLimit );
 
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( 'use_template_search', !$useSearchCode );
