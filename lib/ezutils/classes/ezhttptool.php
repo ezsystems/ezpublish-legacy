@@ -362,7 +362,7 @@ class eZHTTPTool
 			}
             else
             {
-                foreach ( array_keys( $GLOBALS["_GET"][$key] as $arrayKey ) )
+                foreach ( array_keys( $GLOBALS["_GET"][$key] ) as $arrayKey )
                 {
                     $GLOBALS["_GET"][$key][$arrayKey] = str_replace( "\'", "'", $GLOBALS["_GET"][$key][$arrayKey] );
                     $GLOBALS["_GET"][$key][$arrayKey] = str_replace( '\"', '"', $GLOBALS["_GET"][$key][$arrayKey] );
