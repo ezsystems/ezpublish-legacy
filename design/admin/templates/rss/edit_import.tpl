@@ -1,7 +1,14 @@
 <form action={"rss/edit_import"|ezurl} method="post" name="RSSImport">
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Edit <%rss_import_name> [RSS Import]'|i18n( '/design/admin/rss/edit_import',, hash( '%rss_import_name', $rss_import.name ) )|wash}</h2>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 
 <div class="context-attributes">
@@ -109,13 +116,18 @@
 
     </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
+
     {* Buttons. *}
     <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
     <input type="hidden" name="RSSImport_ID" value={$rss_import_id} />
     <input class="button" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/rss/edit_import' )}" />
     <input class="button" type="submit" name="RemoveButton" value="{'Cancel'|i18n( 'design/admin/rss/edit_import' )}" />
     </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
     </div>
 
 </div>
