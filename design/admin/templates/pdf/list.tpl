@@ -1,4 +1,4 @@
-<form name="pdfexportlist" action={"pdf/list"|ezurl} method="post" name="PDFList">
+<form name="pdfexportlist" method="post" action={'pdf/list'|ezurl}>
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -22,16 +22,26 @@
 
 {section var=PDFExports loop=$pdfexport_list sequence=array( bglight, bgdark )}
 <tr class="{$PDFExports.sequence}">
+
+    {*Remove. *}
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$PDFExports.item.id}"></td>
+
+    {* Name. *}
     <td>{'pdfexport'|icon( 'small', 'PDF Export'|i18n( 'design/admin/pdf/list' ) )}&nbsp;
     {section show=$PDFExports.item.status|eq(1)}
       <a href={$PDFExports.item.filepath|ezroot}>{$PDFExports.item.title|wash}</a>
     {section-else show=$PDFExports.item.status|eq(2)}
-      <a href={concat("pdf/edit/", $PDFExports.item.id, "/generate")|ezurl}>{$PDFExports.item.title|wash}</a>
+      <a href={concat('pdf/edit/', $PDFExports.item.id, '/generate')|ezurl}>{$PDFExports.item.title|wash}</a>
     {/section}
     </td>
-    <td>{content_view_gui view=text_linked content_object=$PDFExports.item.modifier.contentobject}</td>
+
+    {* Modifier. *}
+    <td><a href={$PDFExports.item.modifier.contentobject.main_node.url_alias|ezurl}>{$PDFExports.item.modifier.contentobject.name|wash}</a></td>
+
+    {* Modified. *}
     <td>{$PDFExports.item.modified|l10n( shortdatetime )}</td>
+
+    {* Edit. *}
     <td><a href={concat( 'pdf/edit/', $PDFExports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
 
 </tr>
@@ -43,14 +53,17 @@
 </div>
 {/section}
 
-
 {* DESIGN: Content END *}</div></div></div>
 
 {* Buttons. *}
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" {section show=$pdfexport_list|not}disabled="disabled"{/section} />
+{section show=$pdfexport_list}
+    <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" />
+{section-else}
+    <input class="button-disabled" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" disabled="disabled" />
+{/section}
     <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -59,4 +72,3 @@
 </div>
 
 </form>
-
