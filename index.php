@@ -614,7 +614,10 @@ if ( $show_page_layout )
                               );
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
-        while ( !$done )
+	else if ($moduleResult['section_id'] = 19)
+	    $offset = 1;
+        
+	while ( !$done )
         {
 
             // get node id
