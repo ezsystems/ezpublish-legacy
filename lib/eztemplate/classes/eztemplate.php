@@ -1003,13 +1003,6 @@ class eZTemplate
                                     return null;
                                 }
                             }
-                            else if ( array_key_exists( $attributeValue, get_class_vars( get_class( $value ) ) ) )
-                            {
-                                unset( $tempValue );
-                                $tempValue =& $value->$attributeValue;
-                                unset( $value );
-                                $value =& $tempValue;
-                            }
                             else
                             {
                                 if ( !$checkExistance )
