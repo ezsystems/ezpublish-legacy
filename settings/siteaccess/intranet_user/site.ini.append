@@ -1,13 +1,9 @@
-<?php /* #?ini charset="utf8"?
-
-[ContentSettings]
-TranslationList=
-
 [SiteSettings]
-SiteName=Plain
-SiteURL=intranet.vl.dvh1.ez.no
-
 LoginPage=embeded
+SiteURL=intranet.wy.dvh1.ez.no
+
+[SiteAccessSettings]
+RequireUserLogin=false
 
 [DatabaseSettings]
 DatabaseImplementation=ezmysql
@@ -18,29 +14,14 @@ Password=ezpack
 Charset=iso-8859-1
 Socket=disabled
 
-[FileSettings]
-VarDir=var/intranet
-
-[InformationCollectionSettings]
-EmailReceiver=
-
-[UserSettings]
-RegistrationEmail=
-
-[MailSettings]
-AdminEmail=admin@localhost
-EmailSender=
-
-[RegionalSettings]
-Locale=eng-GB
-ContentObjectLocale=eng-GB
-TextTranslation=disabled
-
 [DesignSettings]
 StandardDesign=standard
 SiteDesign=intranet
 
-[SiteAccessSettings]
-RequireUserLogin=true
+[FileSettings]
+VarDir=var/intranet
 
-*/ ?>
+[ContentSettings]
+# What to do when editing an object that has draft versions newer than the current version.
+# Use 'showversions' to select which version to edit, or 'usecurrent' to always edit the current version.
+EditDirtyObjectAction=usecurrent
