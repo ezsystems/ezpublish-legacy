@@ -16,7 +16,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 
-define( "{$constant_name}", "{$datatype_name}" );
+define( {$constant_name}, "{$datatype_name}" );
 
 class {$full_class_name} extends eZDataType 
 {literal}{{/literal}
@@ -102,4 +102,4 @@ class {$full_class_name} extends eZDataType
 
 {literal}}{/literal}
 
-eZDataType::register( "{$constant_name}", "{$full_class_name}" );
+eZDataType::register( {$constant_name}, "{$full_class_name}" );

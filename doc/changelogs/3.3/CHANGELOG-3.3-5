@@ -69,6 +69,8 @@ eZINI:
   http://ez.no/community/bug_reports/problem_with_fetch_tree_in_php_v_4_3_4_or_msql_depth_query_resolved
 - Fixed bug no feedback when using the wishlist without beeing logged in
   http://ez.no/community/bug_reports/wishlist
+- Fixed bug in generated datatype code
+  http://ez.no/community/bug_reports/setup_rad_datatype_assistent_ezdatatype_register
 
 
 *Library:
