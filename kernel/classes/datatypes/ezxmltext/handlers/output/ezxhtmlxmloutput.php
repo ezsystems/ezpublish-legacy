@@ -254,7 +254,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         }
         if ( $paragraph->children() == null )
-            $output = "<p></p>";
+            $output = "<p>&nbsp;</p>";
         return $output;
     }
 
