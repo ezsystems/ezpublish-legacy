@@ -169,6 +169,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                    // Remove the design key, so it will not override other tags
                    $res->removeKey( 'classification' );
+                   $tpl->unsetVariable( 'classification', 'xmltagns' );
                 }break;
 
                 case 'paragraph' :
@@ -347,6 +348,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
                 }
             }break;
 
@@ -396,6 +398,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                         // Remove the design key, so it will not override other tags
                         $res->removeKey( 'classification' );
+                        $tpl->unsetVariable( 'classification', 'xmltagns' );
                     }
                     $tpl->setVariable( 'content', $tableData, 'xmltagns' );
                     $tpl->setVariable( 'row_count', $rowCount, 'xmltagns' );
@@ -422,6 +425,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }break;
 
             case 'ul' :
@@ -461,6 +465,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tagText .= implode( '', $textElements );
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }break;
 
             // Literal text which allows xml specific caracters < >
@@ -480,6 +485,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tagText .= implode( '', $textElements );
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }break;
 
             // normal content tags
@@ -504,6 +510,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }break;
 
             // custom tags which could added for special custom needs.
@@ -581,6 +588,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }break;
 
             case 'anchor' :
