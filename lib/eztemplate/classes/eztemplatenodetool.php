@@ -95,6 +95,24 @@ class eZTemplateNodeTool
      Creates an element which represents the static value and returns it,
      the type of the variable determines the type of the element.
     */
+    function createConstantElement( $constant, $variablePlacement = false )
+    {
+        if ( is_array( $constant ) )
+            return eZTemplateNodeTool::createArrayElement( $constant, $variablePlacement );
+        else if ( is_string( $constant ) )
+            return eZTemplateNodeTool::createStringElement( $constant, $variablePlacement );
+        else if ( is_bool( $constant ) )
+            return eZTemplateNodeTool::createBooleanElement( $constant, $variablePlacement );
+        else if ( is_numeric( $constant ) )
+            return eZTemplateNodeTool::createNumericElement( $constant, $variablePlacement );
+        else
+            return eZTemplateNodeTool::createVoidElement();
+    }
+
+    /*!
+     \static
+     \deprecated Use createConstantElement instead.
+    */
     function createStaticElement( $static, $variablePlacement = false )
     {
         if ( is_array( $static ) )
@@ -227,13 +245,25 @@ class eZTemplateNodeTool
     }
 
     /*!
-     \return The value of the static element or \c null if the element is not static.
-     \note Make sure the element is checked with isStaticElement() before running this.
+     \return The value of the constant element or \c null if the element is not constant.
+     \note Make sure the element is checked with isConstantElement() before running this.
      \note Can also be used on PHP variable elements, it will then fetch the variable name.
+    */
+    function elementConstantValue( $elements )
+    {
+        if ( eZTemplateNodeTool::isConstantElement( $elements ) or
+             eZTemplateNodeTool::isPHPVariableElement( $elements ) )
+            return $elements[0][1];
+        return null;
+    }
+
+    /*!
+     \static
+     \deprecated Use elementConstantValue instead.
     */
     function elementStaticValue( $elements )
     {
-        if ( eZTemplateNodeTool::isStaticElement( $elements ) or
+        if ( eZTemplateNodeTool::isConstantElement( $elements ) or
              eZTemplateNodeTool::isPHPVariableElement( $elements ) )
             return $elements[0][1];
         return null;
@@ -261,11 +291,30 @@ class eZTemplateNodeTool
 
 
     /*!
-     \return \c true if the element list \a $elements is considered to have a static value.
-             It is considered static if the following is true:
+     \return \c true if the element list \a $elements is considered to have a constant value.
+             It is considered constant if the following is true:
              - The start value is either numeric, text, identifier, array or boolean
              - It has no operators
              - It has no attribute lookup
+    */
+    function isConstantElement( $elements )
+    {
+        $constantElements = array( EZ_TEMPLATE_TYPE_VOID,
+                                   EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER,
+                                   EZ_TEMPLATE_TYPE_NUMERIC, EZ_TEMPLATE_TYPE_BOOLEAN, EZ_TEMPLATE_TYPE_ARRAY );
+
+        if ( count( $elements ) == 0 )
+            return false;
+        if ( count( $elements ) > 1 )
+            return false;
+
+        if ( in_array( $elements[0][0], $constantElements ) )
+            return true;
+        return false;
+    }
+
+    /*!
+     \deprecated Use isConstantElement instead.
     */
     function isStaticElement( $elements )
     {
@@ -324,87 +373,87 @@ class eZTemplateNodeTool
 
     /*!
      \return \c true if the element list \a $elements is considered to be numerical.
-             It is considered static if the following is true:
+             It is considered constant if the following is true:
              - The start value is numeric (integer or float)
              - It has no operators
              - It has no attribute lookup
-     \sa isStaticElement
-     \note If you don't care about pure integers or floats use isStaticElement instead and just use the
+     \sa isConstantElement
+     \note If you don't care about pure integers or floats use isConstantElement instead and just use the
            element value as numerical value.
     */
     function isNumericElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_NUMERIC );
+        $constantElements = array( EZ_TEMPLATE_TYPE_NUMERIC );
 
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $staticElements ) )
+        if ( in_array( $elements[0][0], $constantElements ) )
             return true;
         return false;
     }
 
     /*!
      \return \c true if the element list \a $elements is considered to be a string.
-             It is considered static if the following is true:
+             It is considered constant if the following is true:
              - The start value is string or identifier
              - It has no operators
              - It has no attribute lookup
-     \sa isStaticElement
-     \note If you don't care about pure strings use isStaticElement instead and just use the
+     \sa isConstantElement
+     \note If you don't care about pure strings use isConstantElement instead and just use the
            element value as string value.
     */
     function isStringElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER );
+        $constantElements = array( EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER );
 
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $staticElements ) )
+        if ( in_array( $elements[0][0], $constantElements ) )
             return true;
         return false;
     }
 
     /*!
      \return \c true if the element list \a $elements is considered to be an identifier.
-             It is considered static if the following is true:
+             It is considered constant if the following is true:
              - The start value is identifier
              - It has no operators
              - It has no attribute lookup
-     \sa isStaticElement
-     \note If you don't care about pure identifiers use isStringElement or isStaticElement instead.
+     \sa isConstantElement
+     \note If you don't care about pure identifiers use isStringElement or isConstantElement instead.
     */
     function isIdentifierElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_IDENTIFIER );
+        $constantElements = array( EZ_TEMPLATE_TYPE_IDENTIFIER );
 
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $staticElements ) )
+        if ( in_array( $elements[0][0], $constantElements ) )
             return true;
         return false;
     }
 
     /*!
      \return \c true if the element list \a $elements is considered to be a boolean.
-             It is considered static if the following is true:
+             It is considered constant if the following is true:
              - The start value is boolean
              - It has no operators
              - It has no attribute lookup
-     \sa isStaticElement
-     \note If you don't care about pure booleans use isStaticElement instead and just use the
+     \sa isConstantElement
+     \note If you don't care about pure booleans use isConstantElement instead and just use the
            element value as boolean value.
     */
     function isBooleanElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_BOOLEAN );
+        $constantElements = array( EZ_TEMPLATE_TYPE_BOOLEAN );
 
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $staticElements ) )
+        if ( in_array( $elements[0][0], $constantElements ) )
             return true;
         return false;
     }
@@ -425,20 +474,20 @@ class eZTemplateNodeTool
 
     /*!
      \return \c true if the element list \a $elements is considered to be an array.
-             It is considered static if the following is true:
+             It is considered constant if the following is true:
              - The start value is array
              - It has no operators
              - It has no attribute lookup
-     \sa isStaticElement
+     \sa isConstantElement
     */
     function isArrayElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_ARRAY );
+        $constantElements = array( EZ_TEMPLATE_TYPE_ARRAY );
 
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $staticElements ) )
+        if ( in_array( $elements[0][0], $constantElements ) )
             return true;
         return false;
     }

@@ -177,6 +177,10 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'class' => 'eZTemplateBlockFunction',
                                     'function_names' => array( 'set-block', 'append-block', 'run-once' ) );
 
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedebugfunction.php',
+                                    'class' => 'eZTemplateDebugFunction',
+                                    'function_names' => array( 'debug-timing-point', 'debug-accumulator' ) );
+
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',
                                     'class' => 'eZTemplateCacheFunction',
                                     'function_names' => array( 'cache-block' ) );
