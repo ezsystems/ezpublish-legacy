@@ -266,7 +266,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 eZDebug::writeDebug($domString, "stored xml");
                 $contentObjectAttribute->setAttribute( "data_text", $domString );
                 $contentObjectAttribute->setValidationLog( $message );
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+
+                $paragraphs = $tmpDom->elementsByName( 'paragraph' );
+
+                $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+                if ( $classAttribute->attribute( "is_required" ) == true )
+                {
+                    if ( count( $paragraphs ) == 0 )
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    else
+                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                }
+                else
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
