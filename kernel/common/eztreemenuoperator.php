@@ -91,7 +91,7 @@ class eZTreeMenuOperator
             $excludeNode = false;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
 
-            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false )
+            if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < 2)
             {
                 $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                           'Offset' => 0,
