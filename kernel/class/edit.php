@@ -195,7 +195,7 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
 }
 
 // validate name, identifier, object pattern name
-$bacisClassAttibutesInitialized = true;
+$bacisClassAttributesInitialized = true;
 
 // Validate input
 $validation = array( 'processed' => false,
@@ -390,7 +390,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     {
         $canStore = false;
         $validation['processed'] = false;
-        $bacisClassAttibutesInitialized = false;
+        $bacisClassAttributesInitialized = false;
     }
     else
     {
@@ -570,7 +570,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
-$tpl->setVariable( 'bacis_class_attibutes_initialized', $bacisClassAttibutesInitialized );
+$tpl->setVariable( 'bacis_class_attributes_initialized', $bacisClassAttributesInitialized );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );
