@@ -591,6 +591,9 @@ Workflow:
   http://ez.no/community/bug_reports/removing_class_does_not_remove_objects_in_trash
 - Fixed bug with leaving corrupted policies with subtree limitations when node is removed.
   http://ez.no/community/bug_reports/ezcontentobject_php_role_limit_error_line_1936
+- Fixed fatal error regarding to reposting after removal of a section.
+  (Merged from stable/3.3 rev. 8307, also in stable/3.4 rev. 8308)
+  http://ez.no/community/bug_reports/repost_crash_section
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
