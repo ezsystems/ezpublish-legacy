@@ -553,6 +553,7 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Fetches the content object with the given ID
+     \note Uses the static function createFetchSQLString() to generate the SQL
     */
     function &fetch( $id, $asObject = true )
     {
@@ -600,6 +601,7 @@ class eZContentObject extends eZPersistentObject
      \static
      Tests for the existance of a content object by using the ID \a $id.
      \return \c true if the object exists, \c false otherwise.
+     \note Uses the static function createFetchSQLString() to generate the SQL
     */
     function exists( $id )
     {
