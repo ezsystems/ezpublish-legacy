@@ -53,6 +53,18 @@ MatchFile=admin_preview/forum.tpl
 Subdir=templates
 Match[class_identifier]=forum
 
+[forum_topic]
+Source=node/view/admin_preview.tpl
+MatchFile=admin_preview/forum_topic.tpl
+Subdir=templates
+Match[class_identifier]=forum_topic
+
+[forum_reply]
+Source=node/view/admin_preview.tpl
+MatchFile=admin_preview/forum_reply.tpl
+Subdir=templates
+Match[class_identifier]=forum_reply
+
 [gallery]
 Source=node/view/admin_preview.tpl
 MatchFile=admin_preview/gallery.tpl
@@ -88,6 +100,12 @@ Source=node/view/admin_preview.tpl
 MatchFile=admin_preview/product.tpl
 Subdir=templates
 Match[class_identifier]=product
+
+[review]
+Source=node/view/admin_preview.tpl
+MatchFile=admin_preview/review.tpl
+Subdir=templates
+Match[class_identifier]=review
 
 [quicktime]
 Source=node/view/admin_preview.tpl
