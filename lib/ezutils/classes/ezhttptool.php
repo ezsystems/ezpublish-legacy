@@ -49,6 +49,7 @@
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezsessioncache.php" );
+include_once( "lib/ezutils/classes/ezsession.php" );
 
 class eZHTTPTool
 {
