@@ -81,8 +81,23 @@ function eZFatalError()
 }
 
 
+function eZUpdateTextCodecSettings()
+{
+    $ini =& eZINI::instance( 'i18n.ini' );
+    $i18nSettings = array();
+    $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
+    $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
+    $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
+    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    eZTextCodec::updateSettings( $i18nSettings );
+}
+
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
+
+// Initialize text codec settings
+eZUpdateTextCodecSettings();
+
 include_once( 'kernel/classes/ezcontentclassattribute.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
