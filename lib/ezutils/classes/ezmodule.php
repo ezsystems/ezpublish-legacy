@@ -493,6 +493,39 @@ class eZModule
             return $this->ViewActions[$view];
         include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http =& eZHTTPTool::instance();
+        if ( isset( $this->Functions[$view]['default_action'] ) )
+        {
+            $defaultAction = $this->Functions[$view]['default_action'];
+            foreach ( $defaultAction as $defaultActionStructure )
+            {
+                $actionName = $defaultActionStructure['name'];
+                $type = $defaultActionStructure['type'];
+                if ( $type == 'post' )
+                {
+                    $parameters = array();
+                    if ( isset( $defaultActionStructure['parameters'] ) )
+                        $parameters = $defaultActionStructure['parameters'];
+                    $hasParameters = true;
+                    foreach ( $parameters as $parameterName )
+                    {
+                        if ( !$http->hasPostVariable( $parameterName ) )
+                        {
+                            $hasParameters = false;
+                            break;
+                        }
+                    }
+                    if ( $hasParameters )
+                    {
+                        $this->ViewActions[$view] = $actionName;
+                        return $this->ViewActions[$view];
+                    }
+                }
+                else
+                {
+                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, 'eZModule::currentAction' );
+                }
+            }
+        }
         if ( isset( $this->Functions[$view]['single_post_actions'] ) )
         {
             $singlePostActions =& $this->Functions[$view]['single_post_actions'];

@@ -47,6 +47,8 @@ $userLogin = '';
 $userPassword = '';
 $userRedirectURI = '';
 
+$loginWarning = false;
+
 if ( $Module->isCurrentAction( 'Login' ) and
      $Module->hasActionParameter( 'UserLogin' ) and
      $Module->hasActionParameter( 'UserPassword' )
@@ -57,6 +59,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
     $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
 
     $user = eZUser::loginUser( $userLogin, $userPassword );
+    if ( get_class( $user ) != 'ezuser' )
+        $loginWarning = true;
 
     $redirectionURI = $userRedirectURI;
     if ( $redirectionURI == '' )
@@ -89,13 +93,14 @@ else
 
 if( $http->hasPostVariable( "RegisterButton" ) )
 {
-    $Module->redirectTo( "/user/register" );
+    $Module->redirectToView( 'register' );
 }
 $tpl =& templateInit();
 
 $tpl->setVariable( 'login', $userLogin, 'User' );
 $tpl->setVariable( 'password', $userPassword, 'User' );
 $tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
+$tpl->setVariable( 'warning', array( 'bad_login' => $loginWarning ), 'User' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
