@@ -7,13 +7,13 @@
 
 {let handlers=fetch('notification','handler_list')}
 
-{section name=Handlers loop=$handlers}
-{*Handler: {$Handlers:item.name}*}
-<p>
-{include handler=$Handlers:item uri=concat( "design:notification/handler/",$Handlers:item.id_string,"/settings/edit.tpl")}
-{delimiter}<br/>{/delimiter}
-{/section}
-</p>
+    <p>
+    {section name=Handlers loop=$handlers}
+        {*Handler: {$Handlers:item.name}*}
+        {include handler=$Handlers:item uri=concat( "design:notification/handler/",$Handlers:item.id_string,"/settings/edit.tpl")}
+        {delimiter}<br/>{/delimiter}
+    {/section}
+    </p>
 {/let}
 
 <div>

@@ -32,19 +32,14 @@
 {case match=1}
   <p>{"The content object %1 was approved and will be published once the publishing workflow continues."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
 {/case}
-{case match=2}
-  <p>{"The content object %1 was not approved and will be archived. If you wish you may publish a new version of the object by clicking the edit link."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-  <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
-{/case}
-{case match=3}
+{case in=array(2,3)}
   {section show=$collab_item.is_creator}
     <p>{"The content object %1 was not accepted but is available as a draft again."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-    <p>{"You must reedit the draft and publish it again for the approval to continue."|i18n('design/standard/collaboration/approval')}</p>
-    <p>{"If the approver finds the new changes satisfying the object will be accepted."|i18n('design/standard/collaboration/approval')}</p>
-    <p><a href={concat("content/edit/",$content_version.contentobject_id,"/",$content_version.version)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
+    <p>{"You may reedit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
+    <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
   {section-else}
     <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-    <p>{"The author must reedit the draft and publish it again for the approval to continue."|i18n('design/standard/collaboration/approval')}</p>
+    <p>{"The author can reedit the draft and publish it again, in which a new approval item is made."|i18n('design/standard/collaboration/approval')}</p>
   {/section}
 {/case}
 {case/}
@@ -69,7 +64,7 @@
 {section show=$collab_item.is_creator|not}
 <input type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/standard/collaboration/approval')}" />
 <input type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/standard/collaboration/approval')}" />
-<input type="submit" name="CollaborationAction_Defer" value="{'Pushback'|i18n('design/standard/collaboration/approval')}" />
+{*<input type="submit" name="CollaborationAction_Defer" value="{'Pushback'|i18n('design/standard/collaboration/approval')}" />*}
 {/section}
 </div>
 {/section}

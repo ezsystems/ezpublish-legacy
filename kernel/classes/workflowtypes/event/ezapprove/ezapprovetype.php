@@ -288,18 +288,20 @@ class eZApproveType extends eZWorkflowEventType
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was accepted' );
             $status = EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
-        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DENIED )
+        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DENIED or
+                  $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
-            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_REJECTED );
+//             $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_REJECTED );
+            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
-        else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
-        {
-            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was deferred' );
-            $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-            $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET;
-        }
+//         else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
+//         {
+//             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was deferred' );
+//             $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+//             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET;
+//         }
         else
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, "approval unknown status '$approvalStatus'" );

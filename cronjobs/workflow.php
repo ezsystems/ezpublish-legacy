@@ -62,6 +62,9 @@ $user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     print( "Checking for workflow processes$endl"  );
+$removedProcessCount = 0;
+$processCount = 0;
+$statusMap = array();
 foreach( array_keys( $workflowProcessList ) as $key )
 {
     $process =& $workflowProcessList[ $key ];
@@ -72,8 +75,15 @@ foreach( array_keys( $workflowProcessList ) as $key )
     $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
 
+    ++$processCount;
+    $status = $process->attribute( 'status' );
+    if ( !isset( $statusMap[$status] ) )
+        $statusMap[$status] = 0;
+    ++$statusMap[$status];
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
+        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
+            ++$removedProcessCount;
         $process->store();
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
         {
@@ -109,11 +119,35 @@ foreach( array_keys( $workflowProcessList ) as $key )
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
         $operationResult =& eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
+        ++$removedProcessCount;
         $process->remove();
     }
 
-    if ( !$isQuiet )
-        print( "\n" . $process->attribute( 'status' ) . " workflow process status\n"  );
+//     if ( !$isQuiet )
+//         print( $process->attribute( 'status' ) . " workflow process status$endl"  );
+}
+if ( !$isQuiet )
+{
+    print( $emphasizeText . "Status list" . $normalText . $endl );
+    $statusTextList = array();
+    $maxStatusTextLength = 0;
+    foreach ( $statusMap as $statusID => $statusCount )
+    {
+        $statusName = eZWorkflow::statusName( $statusID );
+        $statusText = "$statusName($statusID)";
+        $statusTextList[] = array( 'text' => $statusText,
+                                   'count' => $statusCount );
+        if ( strlen( $statusText ) > $maxStatusTextLength )
+            $maxStatusTextLength = strlen( $statusText );
+    }
+    foreach ( $statusTextList as $item )
+    {
+        $text = $item['text'];
+        $count = $item['count'];
+        print( $successText . $text . $normalText . ': ' . str_repeat( ' ', $maxStatusTextLength - strlen( $text ) ) . $emphasizeText . $count . $normalText . $endl );
+    }
+    print( $endl );
+    print( "$removedProcessCount out of $processCount processes was finished$endl"  );
 }
 
 ?>

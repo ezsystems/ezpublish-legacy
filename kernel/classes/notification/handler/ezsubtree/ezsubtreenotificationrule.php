@@ -49,7 +49,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     /*!
      Constructor
     */
-    function eZSubtreeeNotificationRule( $row )
+    function eZSubtreeNotificationRule( $row )
     {
         $this->eZPersistentObject( $row );
     }

@@ -69,7 +69,8 @@ class eZCollaborationItemHandler
     */
     function hasAttribute( $attribute )
     {
-        return $attribute == 'info';
+        return ( $attribute == 'info' or
+                 $attribute == 'notification_types' );
     }
 
     /*!
@@ -79,7 +80,113 @@ class eZCollaborationItemHandler
     {
         if ( $attribute == 'info' )
             return $this->Info;
+        else if ( $attribute == 'notification_types' )
+            return $this->notificationTypes();
         return null;
+    }
+
+    /*!
+      \return what kind of notification types this handler supports. Can either return an array or a boolean.
+      If it returns \c true the handler supports notification but does not have subnotifications.
+      If it returns \c false the handler does not support notificiation.
+      If it returns an array the array contains a list associative arrays each containing a \c name and \c value entry.
+    */
+    function notificationTypes()
+    {
+        return false;
+    }
+
+    /*!
+     Handles a notification event for collaboration items.
+     \note The default implementation sends out a generic email.
+    */
+    function handleCollaborationEvent( &$event, &$item )
+    {
+        include_once( 'kernel/classes/notification/eznotificationcollection.php' );
+        include_once( 'kernel/common/template.php' );
+        $tpl =& templateInit();
+        $tpl->setVariable( 'collaboration_item', $item );
+        $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
+        $subject = $tpl->variable( 'subject' );
+
+        $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
+                                                        EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
+                                                        EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+
+        $collection->setAttribute( 'data_subject', $subject );
+        $collection->setAttribute( 'data_text', $result );
+        $collection->store();
+
+//         $assignedNodes =& $contentObject->parentNodes( true );
+//         $nodeIDList = array();
+//         foreach( array_keys( $assignedNodes ) as $key )
+//         {
+//             $node =& $assignedNodes[$key];
+//             $pathString = $node->attribute( 'path_string' );
+//             $pathString = ltrim( rtrim( $pathString, '/' ), '/' );
+//             $nodeIDListPart = explode( '/', $pathString );
+//             $nodeIDList = array_merge( $nodeIDList, $nodeIDListPart );
+//         }
+//         $nodeIDList = array_unique( $nodeIDList );
+
+        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+        $participantList =& eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
+                                                                                             'participant_type' => EZ_COLLABORATION_PARTICIPANT_TYPE_USER,
+                                                                                             'as_object' => false ) );
+
+        $userIDList = array();
+        foreach ( $participantList as $participant )
+        {
+            $userIDList[] = $participant['participant_id'];
+        }
+
+//         $collaborationIdentifier = $event->attribute( 'collaboration_identifier' );
+        $collaborationIdentifier = $event->attribute( 'data_text1' );
+        $ruleList =& eZCollaborationNotificationRule::fetchItemTypeList( $collaborationIdentifier, $userIDList, false );
+        $userIDList = array();
+        foreach ( $ruleList as $rule )
+        {
+            $userIDList[] = $rule['user_id'];
+        }
+        $userList = array();
+        if ( count( $userIDList ) > 0 )
+        {
+            $db =& eZDB::instance();
+            $userIDListText = implode( "', '", $userIDList );
+            $userIDListText = "'$userIDListText'";
+            $userList = $db->arrayQuery( "SELECT email FROM ezuser WHERE contentobject_id IN ( $userIDListText )" );
+        }
+
+//         $userList =& eZCollaborationNotificationRule::fetchUserList( $nodeIDList );
+
+// //// needs to be rebuilt
+//         $locale =& eZLocale::instance();
+//         $weekDayNames = $locale->attribute( 'weekday_list' );
+//         $weekDays = $locale->attribute( 'weekday_name_list' );
+//         $weekDaysByName = array();
+//         foreach ( $weekDays as $weekDay )
+//         {
+//             $weekDaysByName[$weekDayNames[$weekDay]] = $weekDay;
+//         }
+// ///////////
+        foreach( $userList as $subscriber )
+        {
+            $item =& $collection->addItem( $subscriber['email'] );
+//             if ( $userList['use_digest'] == 0 )
+//             {
+//                 $settings =& eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
+//                 if ( !is_null( $settings ) && $settings->attribute( 'receive_digest' ) == 1 )
+//                 {
+//                     $hours = $settings->attribute( 'time' );
+//                     $hoursArray = explode( ':', $hours );
+//                     $hours = $hoursArray[0];
+//                     $weekday = $weekDaysByName[ $settings->attribute( 'day' ) ];
+//                     eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week', 'day' => $weekday, 'time' => $hours ) );
+//                     $item->store();
+//                 }
+//             }
+        }
+        return EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
     }
 
     /*!

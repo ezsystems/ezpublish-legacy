@@ -143,6 +143,24 @@ class eZCollaborationItem extends eZPersistentObject
         return new eZCollaborationItem( $row );
     }
 
+    /*!
+     Creates a collaboration notification event and stores it.
+     \a subType can be used to specify a sub type of this collaboration item.
+    */
+    function &createNotificationEvent( $subType = false )
+    {
+        $handler =& $this->attribute( 'handler' );
+        $info = $handler->attribute( 'info' );
+        $type = $info['type-identifier'];
+        if ( $subType )
+            $type .= '_' . $subType;
+        include_once( 'kernel/classes/notification/eznotificationevent.php' );
+        $event =& eZNotificationEvent::create( 'ezcollaboration', array( 'collaboration_id' => $this->attribute( 'id' ),
+                                                                         'collaboration_identifier' => $type ) );
+        $event->store();
+        return $event;
+    }
+
     function &fetch( $id, $creatorID = false, $asObject = true )
     {
         $conditions = array( 'id' => $id );

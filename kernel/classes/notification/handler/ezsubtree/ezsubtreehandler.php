@@ -260,9 +260,6 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
 
     }
-
-
-    var $SubscriberList = array( 'sp@ez.no', 'spspam@ez.no' );
 }
 
 ?>

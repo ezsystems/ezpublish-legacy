@@ -331,6 +331,8 @@ if ( $cronPart !== false )
     $scriptGroup = "CronjobPart-$cronPart";
 $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
+$index = 0;
+
 foreach ( $scripts as $script )
 {
     foreach ( $scriptDirectories as $scriptDirectory )
@@ -342,10 +344,15 @@ foreach ( $scripts as $script )
     if ( file_exists( $scriptFile ) )
     {
         if ( !$isQuiet )
+        {
+            if ( $index > 0 )
+                print( $endl );
             print( "Running $emphasizeText$scriptFile$normalText$endl" );
+        }
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
         include( $scriptFile );
         eZDebug::addTimingPoint( "Script $scriptFile done" );
+        ++$index;
     }
 }
 

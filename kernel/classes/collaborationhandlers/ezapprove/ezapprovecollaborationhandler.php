@@ -94,6 +94,11 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         return ezi18n( 'kernel/classes', 'Approval' );
     }
 
+    function notificationTypes()
+    {
+        return true;
+    }
+
     /*!
      \reimp
     */
@@ -220,6 +225,9 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 //             eZDebug::writeDebug( 'Adding item group link' );
             eZCollaborationItemGroupLink::addItem( $groupID, $collaborationID, $participantID );
         }
+
+        // Create the notification
+        $collaborationItem->createNotificationEvent();
         return $collaborationItem;
     }
 
@@ -245,9 +253,12 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             if ( $this->isCustomAction( 'Accept' ) )
                 $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
-            else if ( $this->isCustomAction( 'Defer' ) )
-                $status = EZ_COLLABORATION_APPROVE_STATUS_DEFERRED;
-            else if ( $this->isCustomAction( 'Deny' ) )
+//             else if ( $this->isCustomAction( 'Defer' ) )
+//                 $status = EZ_COLLABORATION_APPROVE_STATUS_DEFERRED;
+//             else if ( $this->isCustomAction( 'Deny' ) )
+//                 $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+            else if ( $this->isCustomAction( 'Defer' ) or
+                      $this->isCustomAction( 'Deny' ) )
                 $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             $collaborationItem->setAttribute( 'data_int3', $status );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );

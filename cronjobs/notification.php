@@ -37,7 +37,7 @@
 
 include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
 if ( !$isQuiet )
-    print( "Starting notification event proccessing" . $endl );
+    print( "Starting notification event processing" . $endl );
 eZNotificationEventFilter::process();
 if ( !$isQuiet )
     print( "Done" . $endl );
