@@ -37,6 +37,7 @@ Changes from 2.9-6 to 2.9-7
 - Added reverse_related_object_list attribute to eZContentObjectVersion 
 - Added next/previous navigation on browse page
 - Made ezurl operator convert empty strings to / url's.
+- Improved validation for datetime datatype.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
@@ -90,3 +91,9 @@ eZXML:
 - Some minor fixes to the toString() function with regards to text output.
 - Added prefix to attribute creation function in eZDOMDocument.
 - Added helper function for creating an element and a text as child in eZDOMDocument.
+- Added helper function for creating an element and a CDATA as child in eZDOMDocument.
+- The createElementNode now takes an additional parameter called attributes which
+  is an associative array with attributes, the key will be the name and the value
+  the content. This is also available on some of the other functions.
+- New function firstChild() which returns the first child of all the children
+  or null if no children.
