@@ -3,12 +3,12 @@
 <h1>{"Defined class groups"|i18n('content/class')}</h1>
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.list.uri}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/id">{"ID"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/name">{"Name"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/creator">{"Creator"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/modifier">{"Modifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/created">{"Created"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.grouplist.uri}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
 
 {section name=Groups loop=$groups sequence=array(bglight,bgdark)}

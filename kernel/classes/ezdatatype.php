@@ -292,6 +292,14 @@ class eZDataType
     }
 
     /*!
+     Initializes the class attribute with some data.
+     \note Default implementation does nothing.
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+    }
+
+    /*!
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
@@ -304,6 +312,14 @@ class eZDataType
      \note Default implementation does nothing.
     */
     function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
+    {
+    }
+
+    /*!
+     Clean up stored class attribute
+     \note Default implementation does nothing.
+    */
+    function deleteStoredClassAttribute( &$classAttribute, $version = null )
     {
     }
 

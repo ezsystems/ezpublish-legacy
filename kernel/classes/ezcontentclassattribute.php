@@ -78,7 +78,6 @@ class eZContentClassAttribute extends eZPersistentObject
                       'keys' => array( 'id', 'version' ),
                       "function_attributes" => array( "content" => "content",
                                                       "contentclass_attribute_identifier" ),
-                      "increment_key" => "id",
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',

@@ -54,11 +54,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     function eZContentObjectAttribute( $row )
     {
         $this->eZPersistentObject( $row );
-
         $this->Content = null;
         $this->ValidationError = null;
-        $this->ContentClassAttributeCatch = null;
         $ContentClassAttributeIdentifier = null;
+        $ContentClassAttributeID = null;
     }
 
     function &definition()
@@ -95,7 +94,17 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    function create( $contentclassAttributeID, $contentobjectID, $version = 1 )
+    function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                    null,
+                                                    array( "contentclassattribute_id" => $contentClassAttributeID ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
+    }
+
+    function &create( $contentclassAttributeID, $contentobjectID, $version = 1 )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $row = array(
@@ -123,6 +132,15 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         return eZPersistentObject::store();
     }
+
+    /*!
+     Store one row into content attribute table
+    */
+    function storeNewRow()
+    {
+        return eZPersistentObject::store();
+    }
+
 
     function attribute( $attr )
     {
@@ -160,16 +178,10 @@ class eZContentObjectAttribute extends eZPersistentObject
       Returns the attribute  for the current data attribute instance
       \todo read from cached information
     */
-    function &contentClassAttribute()
+    function contentClassAttribute()
     {
-        if ( $this->ContentClassAttributeCatch === null ){
-            $this->ContentClassAttributeCatch = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            return $this->ContentClassAttributeCatch;
-        }
-        else
-        {
-            return $this->ContentClassAttributeCatch;
-        }
+        $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+        return $classAttribute;
     }
 
     /*!
@@ -252,6 +264,27 @@ class eZContentObjectAttribute extends eZPersistentObject
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
         $dataType->initializeObjectAttribute( $this, $currentVersion );
+    }
+
+    /*!
+     Remove the attribute by using the datatype.
+    */
+    function &remove( $id, $currentVersion = null )
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        $dataType->deleteStoredObjectAttribute( $this, $currentVersion );
+        if( $currentVersion == null )
+        {
+            eZPersistentObject::removeObject( eZContentObjectAttribute::definition(),
+                                              array( "id" => $id ) );
+        }
+        else
+        {
+            eZPersistentObject::removeObject( eZContentObjectAttribute::definition(),
+                                              array( "id" => $id,
+                                                     "version" => $currentVersion ) );
+        }
     }
 
     /*!
@@ -397,12 +430,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     /// Contains the input XML for this attribute
     var $InputXML;
 
-    /// Contains the content for this attribute
-    var $Content;
+    var $ContentClassAttributeID;
+    
     /// Contains the last validation error
     var $ValidationError;
-
-    var $ContentClassAttributeCatch;
 
     ///
     var $ContentClassAttributeIdentifier;

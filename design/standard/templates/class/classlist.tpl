@@ -6,19 +6,19 @@
 {section show=$groupclasses}
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.list.uri}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/identifier">{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/status">{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/id">{"ID"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/name">{"Name"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/identifier">{"Identifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/status">{"Status"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/creator">{"Creator"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modifier">{"Modifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/created">{"Created"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
 <tr>
-  <td class="{$Classes:sequence}" width="1%">{$Classes:item.id}</td>
+  <td class="{$Classes:sequence}" width="3%">{$Classes:item.id}</td>
   <td class="{$Classes:sequence}">{$Classes:item.name}</td>
   <td class="{$Classes:sequence}">{$Classes:item.identifier}</td>
   <td class="{$Classes:sequence}">{$Classes:item.version_status|choose("Temporary","Defined","Modified")}</td>
@@ -41,14 +41,14 @@
 </p>
 <table width="100%" cellspacing="0">
 <tr>
-  <th align="left"><a href="{$module.functions.list.uri}/id">{"ID"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/name">{"Name"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/identifier">{"Identifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/status">{"Status"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/creator">{"Creator"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modifier">{"Modifier"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/created">{"Created"|i18n('content/class')}</a></th>
-  <th align="left"><a href="{$module.functions.list.uri}/modified">{"Modified"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/id">{"ID"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/name">{"Name"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/identifier">{"Identifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/status">{"Status"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/creator">{"Creator"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modifier">{"Modifier"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/created">{"Created"|i18n('content/class')}</a></th>
+  <th align="left"><a href="{$module.functions.classlist.uri}/{$group_id}/modified">{"Modified"|i18n('content/class')}</a></th>
 </tr>
 
 {section name=TempClasses loop=$temp_groupclasses sequence=array(bglight,bgdark)}

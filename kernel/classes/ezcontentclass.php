@@ -201,9 +201,24 @@ class eZContentClass extends eZPersistentObject
             }
             else
             {
+                $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
+                foreach ( $contentObjects as $contentObject )
+                {
+                    $contentObject->remove();
+                }
+
+                $contentClassID = $this->ID;
+                $version = $this->Version;
+                $classAttributes =& $this->fetchAttributes( );
+
+                foreach ( $classAttributes as $classAttribute )
+                {
+                    $dataType =& $classAttribute->dataType();
+                    $dataType->deleteStoredClassAttribute( $classAttribute, $version );
+                }
                 eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                                  array( "contentclass_id" => $this->ID,
-                                                         "version" => $this->Version ) );
+                                                  array( "contentclass_id" => $contentClassID,
+                                                         "version" => $version ) );
             }
         }
         eZPersistentObject::remove();

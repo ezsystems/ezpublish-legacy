@@ -247,6 +247,9 @@ for ( $i = 0; $i < count( $attributes ); ++$i )
                                        "_" ),
                                 $identifier );
     $attribute->setAttribute( "identifier", $identifier );
+
+    $dataType =& $attribute->dataType();
+    $dataType->initializeClassAttribute( $attribute );
 }
 
 // Run custom actions if any
@@ -301,7 +304,73 @@ while( ( $key = key( $attributes ) ) !== null )
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
-    $class->storeDefined( $attributes );
+    // Class cleanup, update existing class objects according to new changes
+    include_once( "kernel/classes/ezcontentobject.php" );
+    $id = $class->attribute( "id" );
+    $oldClassAttributes = $class->fetchAttributes( $id, true, 0 );
+    $newClassAttributes = $class->fetchAttributes( );
+    $objects =& eZContentObject::fetchSameClassList( $ClassID );
+    if ( $objects[0] !== null )
+    {
+        // Delete object attributes which have been removed.
+        foreach ( $oldClassAttributes as $oldClassAttribute )
+        {
+            $attributeExist = false;
+            $oldClassAttributeID = $oldClassAttribute->attribute( "id" );
+            foreach ( $newClassAttributes as $newClassAttribute )
+            {
+                $newClassAttributeID = $newClassAttribute->attribute( "id" );
+                if ( $oldClassAttributeID == $newClassAttributeID )
+                    $attributeExist = true;
+            }
+            if ( !$attributeExist )
+            {
+                $objectAttributes =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
+                foreach ( $objectAttributes as $objectAttribute )
+                {
+                    $objectAttributeID = $objectAttribute->attribute( "id" );
+                    $objectAttribute->remove( $objectAttributeID );
+                }
+            }
+        }
+
+        $class->storeDefined( $attributes );
+
+        // Add object attributes which have been added.
+        foreach ( $newClassAttributes as $newClassAttribute )
+        {
+            $attributeExist = false;
+            $newClassAttributeID = $newClassAttribute->attribute( "id" );
+            foreach ( $oldClassAttributes as $oldClassAttribute )
+            {
+                $oldClassAttributeID = $oldClassAttribute->attribute( "id" );
+                if ( $oldClassAttributeID == $newClassAttributeID )
+                    $attributeExist = true;
+            }
+            if ( !$attributeExist )
+            {
+                foreach ( $objects as $object )
+                {
+                    $contentobjectID = $object->attribute( "id" );
+                    $objectVersions =& $object->versions();
+                    foreach ( $objectVersions as $objectVersion )
+                    {
+                        //$version = $objectVersion->attribute( "version" );
+                        //$objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                        //$objectAttribute->storeNewRow();
+                        $version = $objectVersion->attribute( "version" );
+                        $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                        $objectAttribute->initialize();
+                        $objectAttribute->store();
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        $class->storeDefined( $attributes );
+    }
 
     // Remove old version 0 first
     eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );

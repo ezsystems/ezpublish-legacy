@@ -91,12 +91,37 @@ class eZEnumType extends eZDataType
     }
 
     /*!
-     Delete stored attribute
+     Set class attribute value for template version
+    */
+    function initializeClassAttribute( &$classAttribute )
+    {
+        $contentClassAttributeID = $classAttribute->attribute( "id" );
+        $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
+
+        foreach ( $enums as $enum )
+        {
+            $enum->setAttribute( "contentclass_attribute_version", 1 );
+            $enum->store();
+        }
+    }
+
+    /*!
+     Delete stored object attribute
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         eZEnumObjectValue::removeAllElements( $contentObjectAttributeID, $version );
+
+    }
+
+    /*!
+     Delete stored class attribute
+    */
+    function deleteStoredClassAttribute( &$contentClassAttribute, $version = null )
+    {
+        $contentClassAttributeID = $contentClassAttribute->attribute( "id" );
+        eZEnumValue::removeAllElements( $contentClassAttributeID, $version );
 
     }
 
@@ -229,7 +254,7 @@ class eZEnumType extends eZDataType
             {
                  $optionValue = $http->postVariable( $isoption );
                  if( $optionValue == 1 )
-                 { eZDebug::writeError( "eee".$optionValue );
+                 {
                      $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, "1" );
                  }
                  else
@@ -255,12 +280,10 @@ class eZEnumType extends eZDataType
     function storeDefinedClassAttribute( &$contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( "id" );
-        $version = 0;
-        $enumVersion0 = new eZEnum( $id, $version );
-        $enumVersion0->removeOldVerion( $id, $version );
         $version = 1;
         $enumVersion1 = new eZEnum( $id, $version );
         $enumVersion1->setVersion( 0 );
+        eZEnumValue::removeAllElements( $id, 1 );
     }
 
     /*!
@@ -278,6 +301,7 @@ class eZEnumType extends eZDataType
     */
     function customClassAttributeHTTPAction( $http, $action, &$contentClassAttribute )
     {
+        $id = $contentClassAttribute->attribute( "id" );
         switch ( $action )
         {
             case "new_enumelement" :
@@ -293,7 +317,7 @@ class eZEnumType extends eZDataType
                 $array_remove = $http->postVariable( $postvarname );
                 foreach( $array_remove as $enumid )
                 {
-                    eZEnum::removeEnumeration( $enumid, $version );
+                    eZEnum::removeEnumeration( $id, $enumid, $version );
                 }
             }break;
             default :

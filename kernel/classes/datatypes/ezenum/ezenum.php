@@ -157,13 +157,24 @@ class eZEnum
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
     	for ( $i=0;$i<count( $this->Enumerations );$i++ )
     	{
-            $enumvalue = $this->Enumerations[$i];
-            $oldversion = $enumvalue->attribute ( "contentclass_attribute_version" );
-            $enumid = $enumvalue->attribute ( "id" );
+            $enum = $this->Enumerations[$i];
+            $oldversion = $enum->attribute ( "contentclass_attribute_version" );
+            $id = $enum->attribute( "id" );
+            $contentClassAttributeID = $enum->attribute( "contentclass_attribute_id" );
+            $element = $enum->attribute( "enumelement" );
+            $value = $enum->attribute( "enumvalue" );
+            $placement = $enum->attribute( "placement" );
+            $enumCopy =& eZEnumValue::createCopy( $id,
+                                                  $contentClassAttributeID,
+                                                  0,
+                                                  $element,
+                                                  $value,
+                                                  $placement );
+            $enumCopy->store();
             if ( $oldversion != $version )
             {
-                $enumvalue->setAttribute("contentclass_attribute_version", $version );
-                $enumvalue->store();
+                $enum->setAttribute("contentclass_attribute_version", $version );
+                $enum->store();
             }
     	}
     }
@@ -183,9 +194,10 @@ class eZEnum
         $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
     }
 
-    function removeEnumeration( $enumid, $version )
+    function removeEnumeration( $id, $enumid, $version )
     {
        eZEnumValue::remove( $enumid, $version );
+       $this->Enumerations =& eZEnumValue::fetchAllElements( $id, $version );
     }
 
     var $Enumerations;

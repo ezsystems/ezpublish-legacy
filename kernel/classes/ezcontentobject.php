@@ -239,6 +239,16 @@ class eZContentObject extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &fetchSameClassList( $contentClassID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                    null,
+                                                    array( "contentclass_id" => $contentClassID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
     /*!
       Returns the current version of this document.
     */

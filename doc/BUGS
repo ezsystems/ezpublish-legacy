@@ -23,7 +23,7 @@ Search
 Too many database calls when indexing objects. Need to find the unique words
 in PHP so that we will only index unique words.
 
-זרו caracters do not work properly, we must also test russian and chinese. 
+זר? caracters do not work properly, we must also test russian and chinese. 
 Probably the same error there.
 
 Note: non-ASCII character support must be done with the i18n system.
@@ -43,7 +43,7 @@ View object with temporary class will show double of all attributes in list.
 Due to temporary version of class which is joined in SQL.
 (just join where version=0)
 
-Enum datatype
+Enum datatype (fixed)
 -------------
 It does not work to edit enum datatypes when there exists a temporary version
 of the class.

@@ -86,6 +86,17 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
+    function &createCopy( $id, $contentClassAttributeID, $contentClassAttributeVersion, $element, $value, $placement )
+    {
+        $row = array( "id" => $id,
+                      "contentclass_attribute_id" => $contentClassAttributeID,
+                      "contentclass_attribute_version" => $contentClassAttributeVersion,
+                      "enumvalue" => $value,
+                      "enumelement" => $element,
+                      "placement" => $placement );
+        return new eZEnumValue( $row );
+    }
+
     function &removeAllElements( $contentClassAttributeID, $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
