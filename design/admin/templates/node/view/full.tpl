@@ -1,4 +1,5 @@
 {include uri="design:window_controls.tpl"}
+<div class="content-navigation">
 
 {* Content window. *}
 <div class="context-block">
@@ -98,4 +99,4 @@
 
 {include uri="design:windows.tpl"}
 
-
+</div>

@@ -513,7 +513,7 @@ div#contentstructure li.currentnode li a.nodetext:hover
     text-decoration: underline;
 }
 
-div#contentstructure li.currentnode a.nodetext span.node-name /* Highlighting of current node */
+div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
 {
     font-weight: bold;
     color: #ffffff;
@@ -521,7 +521,7 @@ div#contentstructure li.currentnode a.nodetext span.node-name /* Highlighting of
     padding: 0 0.25em 0 0.2em;
 }
 
-div#contentstructure li.currentnode li a.nodetext span.node-name
+div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
 {
     font-weight: normal;
     color: #315578;
@@ -536,6 +536,21 @@ div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbypa
     color: #ffffff;
     background-color: #bfbfb7;
     padding: 0 0.25em 0 0.2em;
+}
+
+div#contentstructure span.node-hiddenbyparent
+{
+    background-color: #ffffff;
+}
+
+span.node-name-hidden, span.node-name-hiddenbyparent
+{
+    font-style: italic;
+}
+
+li.node-hidden li.normal span.node-name, li.node-hiddenbyparent li.normal span.node-name
+{
+    font-style: normal;
 }
 
 div#leftmenu div.translations label
@@ -691,10 +706,14 @@ div#fix /* Breaks unwanted connection between the content of the maincontent box
 div.mainobject-window
 {
     background-color: #f8f8f4;
-    height: 200px;
     margin: 0 1px 0 1px;    
     padding: 0 0.5em 0 0.5em;
     border: 6px solid #ecece4;
+}
+
+div.content-navigation div.mainobject-window
+{
+    height: 200px;
     overflow: auto;
 }
 
@@ -721,20 +740,6 @@ div.menu-block li
 div.context-user div.menu-block li
 {
     width: 14%;
-}
-
-div.menu-block li.enabled
-{
-    background-image: url(../images/button-enabled-tc.gif);
-    background-position: top left;
-    background-repeat: repeat-x;
-}
-
-div.menu-block li.disabled
-{
-    background-image: url(../images/button-disabled-tc.gif);
-    background-position: top left;
-    background-repeat: repeat-x;
 }
 
 div.menu-block a
@@ -773,11 +778,18 @@ div.menu-block li.disabled a:hover
     text-decoration: none;
 }
 
-div.menu-block li.enabled div.button-tc
+div.menu-block li.enabled
 {
-/*    background-image: url(../images/button-enabled-tc.gif);
+    background-image: url(../images/button-enabled-tc.gif);
+    background-position: top left;
     background-repeat: repeat-x;
-    background-position: top left; */
+}
+
+div.menu-block li.disabled
+{
+    background-image: url(../images/button-disabled-tc.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
 }
 
 div.menu-block li.enabled div.button-bl
