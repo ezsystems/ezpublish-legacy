@@ -1057,6 +1057,7 @@ class eZPDFTable extends Cezpdf
         }
 
         $yOffset -= $params['height'];
+        $yOffset += $this->lineHeight()/2;
         if ( isset( $params['y'] ) )
         {
             $yOffset = $params['y'];
@@ -1064,11 +1065,11 @@ class eZPDFTable extends Cezpdf
 
         if ( $leftMargin !== false )
         {
-            $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 2, $leftMargin + 7 );
+            $this->setLimitedLeftMargin( $yOffset - 7, $yOffset + $params['height'] + 7, $leftMargin + 7 );
         }
         if ( $rightMargin !== false )
         {
-            $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 2, $rightMargin + 7 );
+            $this->setLimitedRightMargin( $yOffset- 7, $yOffset + $params['height'] + 7, $rightMargin + 7 );
         }
 
         switch( $mimetype['name'] )
@@ -1107,10 +1108,10 @@ class eZPDFTable extends Cezpdf
 
         if ( !$leftMargin && !$rightMargin  && !$params['static'] )
         {
-            $this->y -= $params['height'];
+            $this->y -= $params['height'] + $this->lineHeight();
         }
 
-        return array( 'y' => $params['height'] );
+        return array( 'y' => $params['height'] + $this->lineHeight() );
     }
 
 
