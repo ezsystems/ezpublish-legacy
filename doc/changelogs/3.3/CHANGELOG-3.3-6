@@ -246,6 +246,9 @@ eZINI:
   http://ez.no/community/bug_reports/repost_crash_pdf
 - Fixed bug: fatal error occurs when one removes a policy and then reloads the page.
   http://ez.no/community/bug_reports/repost_crash_role
+- Fixed bugs: if you create RSS import/export, remove it and then reload the page, fatal error occurs.
+  http://ez.no/community/bug_reports/repost_crash_rss
+  http://ez.no/community/bug_reports/repost_crash_rss__1
 
 *Library:
 
