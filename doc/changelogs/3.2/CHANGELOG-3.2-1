@@ -39,3 +39,6 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed and added Hungarian translation
 - Updated Norwegian translation.
 - Added updated Swedish translation.
+
+*Misc:
+- Added the ezpublish.cron crontab file that takes care of running the runcronjobs.php script every 15th minute.

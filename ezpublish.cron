@@ -1,0 +1,8 @@
+# This must be set to the directory where eZ publish is installed.
+EZPUBLISHROOT=/path/to/the/ez/publish/directory
+
+# Location of the PHP Command Line Interface binary.
+PHP=/usr/local/bin/php
+
+# Executes the runcronjobs.php script every 15th minute.
+0,15,30,45 * * * *	cd $EZPUBLISHROOT; $PHP -C runcronjobs.php -q 2>&1
