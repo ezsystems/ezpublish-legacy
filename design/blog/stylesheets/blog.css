@@ -270,6 +270,21 @@ div.log div.commentlist p
     color: #999;
 }
 
+/* info page */
+
+div#infopage
+{ 
+    padding-left: 20px;
+}
+
+#infopage div.object_title h1
+{ 
+    font: italic 130%/1.6em Georgia,Serif;
+    border-bottom: 1px dotted #ccc; 
+    color: #ffa113;
+    padding-left: 0px;
+}
+
 /* Search */
 
 div.advancedsearchbox
@@ -278,13 +293,6 @@ div.advancedsearchbox
 }
 
 /* General */
-
-#header h1
-{ 
-    font: italic 130%/1.6em Georgia,Serif;
-    color: #ffffff;
-    padding-left: 25px;
-} 
 
 h1
 { 
