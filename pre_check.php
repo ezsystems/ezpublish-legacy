@@ -76,15 +76,18 @@ function eZCheckUser( &$siteBasics )
     $ini =& eZINI::instance();
     $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
     $check = null;
-    $http =& eZHttpTool::instance();
-    if ( $requireUserLogin and ( !$http->hasSessionVariable( "eZUserLoggedInID" ) or
-                                $http->sessionVariable( "eZUserLoggedInID" ) == '' or
-                                $http->sessionVariable( "eZUserLoggedInID" ) == $ini->variable( 'UserSettings', 'AnonymousUserID' ) ) )
-    {
-        $check = array( "module" => "user",
-                        "function" => "login" );
-    }
-    return $check;
+    $http =& eZHTTPTool::instance();
+    if ( !$requireUserLogin )
+        return null;
+    $check = array( "module" => "user",
+                    "function" => "login" );
+    if ( !$http->hasSessionVariable( "eZUserLoggedInID" ) )
+        return $check;
+    if ( $http->sessionVariable( "eZUserLoggedInID" ) == '' )
+        return $check;
+    if ( $http->sessionVariable( "eZUserLoggedInID" ) == $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+        return $check;
+    return null;
 }
 
 /*!

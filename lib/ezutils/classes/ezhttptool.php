@@ -240,9 +240,9 @@ class eZHTTPTool
 
     function setSessionVariable( $name, $value )
     {
-        global $HTTP_SESSION_VARS;
         if ( eZSessionStart() )
             eZDebug::writeDebug( "session start in ezhttptool::setsessionvariable" );
+        global $HTTP_SESSION_VARS;
         session_register( $name );
         $HTTP_SESSION_VARS[$name] =& $value;
     }
@@ -262,9 +262,9 @@ class eZHTTPTool
     */
     function hasSessionVariable( $name )
     {
-        global $HTTP_SESSION_VARS;
         if ( eZSessionStart() )
             eZDebug::writeDebug( "session start in ezhttptool::hassessionvariable" );
+        global $HTTP_SESSION_VARS;
         return isset( $HTTP_SESSION_VARS[$name] );
     }
 
@@ -273,9 +273,9 @@ class eZHTTPTool
     */
     function &sessionVariable( $name )
     {
-        global $HTTP_SESSION_VARS;
         if ( eZSessionStart() )
             eZDebug::writeDebug( "session start in ezhttptool::sessionvariable" );
+        global $HTTP_SESSION_VARS;
         return $HTTP_SESSION_VARS[$name];
     }
 
