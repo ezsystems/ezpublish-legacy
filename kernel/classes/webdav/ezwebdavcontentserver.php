@@ -1354,3 +1354,4 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
 }
+?>

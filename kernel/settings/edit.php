@@ -225,3 +225,4 @@ $Result['path'] = array( array( 'text' => ezi18n( 'settings/edit', 'Settings' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'settings/edit', 'Edit' ),
                                 'url' => false ) );
+?>

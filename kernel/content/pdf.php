@@ -315,3 +315,4 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
     $textElements = '';
     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, '', '' );
 }
+?>

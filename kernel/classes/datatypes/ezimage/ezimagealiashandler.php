@@ -1336,3 +1336,4 @@ class eZImageAliasHandler
     /// Contains a reference to the object attribute
     var $ContentObjectAttribute;
 }
+?>

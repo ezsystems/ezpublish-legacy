@@ -252,3 +252,4 @@ class eZDbSchemaChecker
 		}
 	}
 }
+?>

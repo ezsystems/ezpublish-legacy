@@ -293,4 +293,3 @@ class eZRSSImport extends eZPersistentObject
 }
 
 ?>
-

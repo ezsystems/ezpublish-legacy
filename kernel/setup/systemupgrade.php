@@ -52,3 +52,4 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/systemupgrade.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'System Upgrade' ) ) );
+?>

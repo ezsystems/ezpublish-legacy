@@ -76,3 +76,4 @@ class eZMD5
         return $result;
     }
 }
+?>

@@ -1,4 +1,3 @@
-
 <?php
 //
 // Definition of Customorderview class
