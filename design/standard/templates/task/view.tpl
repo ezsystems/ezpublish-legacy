@@ -13,21 +13,39 @@
 {section show=$task_id|gt(0)}
   {section show=$task.parent_task_id|gt(0)}
 <a href="{$module.functions.view.uri}/{$task.parent_task_id}">Parent</a>
-{section-else}
+  {section-else}
 <a href="{$module.functions.view.uri}">Parent</a>
   {/section}
 {/section}
 
-<table>
+{sequence name=MessageSeq loop=array('bglight','bgdark')}
+
+<table cellpadding="0" cellspacing="0">
 {section show=$task_id|gt(0)}
-<tr><td><h2>Messages</h2></td></tr>
-{section name=Message loop=$task.messages max=5}
-  {section show=$Message:item.contentobject_id|gt(0)}
-    {let object=$Message:item.contentobject}
+  {section name=Message loop=$task.messages max=1}
+    {section show=$Message:item.contentobject_id|gt(0)}
+      {let object=$Message:item.contentobject}
 <tr><td>{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
-    {/let}
+      {/let}
+    {/section}
+<tr><td>
   {/section}
-{/section}
+<br/>
+Type: {$task.task_type|choose('None','Task','Assignment')}<br/>
+Status: {$task.status|choose('None','Temporary','Open','Closed','Cancelled')}<br/>
+Created: {$task.created|l10n('shortdatetime')}<br/>
+Modified: {$task.modified|l10n('shortdatetime')}<br/></td></tr>
+
+<tr><td><h2>Messages</h2></td></tr>
+  {section name=Message loop=$task.messages offset=1}
+    {section show=$Message:item.contentobject_id|gt(0)}
+      {let object=$Message:item.contentobject}
+<tr><th class="{$MessageSeq:item}">By {$Message:item.creator.login}</th></tr>
+<tr><td class="{$MessageSeq:item}">{content_view_gui view=$view_type content_object=$Message:object}</td></tr>
+      {/let}
+    {/section}
+  {sequence name=MessageSeq}
+  {/section}
 </table>
 
 {/section}
@@ -62,6 +80,7 @@
   <td class="{$Incoming:sequence}" width="1%"><input type="checkbox" name="Task_id_checked[]" value="{$Incoming:item.id}"></td>
 </tr>
 {/section}
+
 {/section}
 
 

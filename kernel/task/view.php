@@ -44,25 +44,44 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $currentUser =& eZUser::currentUser();
 $currentUserID =& $currentUser->attribute( 'contentobject_id' );
 
+$TaskID = 0;
+if ( isset( $Params['TaskID'] ) and
+     is_numeric( $Params['TaskID'] ) )
+    $TaskID =& $Params['TaskID'];
+
 if ( $Module->isCurrentAction( 'CancelTask' ) and
-     $Module->hasActionParameter( 'SelectedIDList' ) )
+     ( $Module->hasActionParameter( 'SelectedIDList' ) or
+       $TaskID != 0 ) )
 {
-    $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
+    $selectedTasks = $TaskID;
+    if ( $Module->hasActionParameter( 'SelectedIDList' ) )
+        $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
     eZTask::updateTaskStatus( $selectedTasks, EZ_TASK_STATUS_CANCELLED, $currentUserID );
 }
 if ( $Module->isCurrentAction( 'CloseTask' ) and
-     $Module->hasActionParameter( 'SelectedIDList' ) )
+     ( $Module->hasActionParameter( 'SelectedIDList' ) or
+       $TaskID != 0 ) )
 {
-    $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
+    $selectedTasks = $TaskID;
+    if ( $Module->hasActionParameter( 'SelectedIDList' ) )
+        $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
     eZTask::updateTaskStatus( $selectedTasks, EZ_TASK_STATUS_CLOSED, $currentUserID );
 }
+
 if ( $Module->isCurrentAction( 'NewMessage' ) and
-     $Module->hasActionParameter( 'SelectedIDList' ) and
+     ( $Module->hasActionParameter( 'SelectedIDList' ) or
+       $TaskID != 0 ) and
      $Module->hasActionParameter( 'ClassID' ) )
 {
-    $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
     $classID = $Module->actionParameter( 'ClassID' );
-    return $Module->run( 'message', array( $selectedTasks[0] ),
+    $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
+    $taskID = $TaskID;
+    if ( $Module->hasActionParameter( 'SelectedIDList' ) )
+    {
+        $selectedTasks = $Module->actionParameter( 'SelectedIDList' );
+        $taskID = $selectedTasks[0];
+    }
+    return $Module->run( 'message', array( $taskID ),
                          array( 'ClassID' => $classID ) );
 }
 
@@ -74,11 +93,6 @@ if ( $Module->isCurrentAction( 'NewAssignment' ) )
 {
     return $Module->run( 'edit', array( 'TaskType' => EZ_TASK_TYPE_ASSIGNMENT ) );
 }
-
-$TaskID = 0;
-if ( isset( $Params['TaskID'] ) and
-     is_numeric( $Params['TaskID'] ) )
-    $TaskID =& $Params['TaskID'];
 
 $incomingTaskList =& eZTask::fetchList( $currentUserID, $TaskID, true );
 $outgoingTaskList =& eZTask::fetchList( $currentUserID, $TaskID, false );
@@ -96,6 +110,19 @@ $tpl =& templateInit();
 $Module->setTitle( 'Task view' );
 
 $ini =& eZINI::instance();
+
+$taskType = 0;
+$connectionType = 0;
+if ( get_class( $task ) == 'eztask' )
+{
+    $taskType = $task->attribute( 'task_type' );
+    $connectionType = $task->attribute( 'connection_type' );
+}
+
+$res =& eZTemplateDesignResource::instance();
+$res->setKeys( array( array( 'task', $TaskID ),
+                      array( 'task_type', $taskType ),
+                      array( 'connection_type', $connectionType ) ) );
 
 $tpl->setVariable( "incoming_task_list", $incomingTaskList );
 $tpl->setVariable( "outgoing_task_list", $outgoingTaskList );
