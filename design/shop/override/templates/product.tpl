@@ -32,13 +32,11 @@
 <input class="button" type="submit" name="ActionAddToNotification" value="Notify me about updates to {$node.name}" />
 
 
-<h3>Related purchases</h3>
+<h3>People who bought this also bought</h3>
 {let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
                                                            limit, 10 ) )}
 {section name=Products loop=$related_purchase}
-<p>
-  <a href={concat('content/view/full/',$Products:item.main_node_id)|ezurl}>{$Products:item.name|wash}</a>
-</p>
+   {content_view_gui view=text_linked content_object=$Products:item}
 {/section}
 {/let}
 
@@ -46,7 +44,6 @@
                                              class_filter_type, include, class_filter_array, array( 25 ),
                                              sort_by, array( published, false() ),
                                              limit, 10 ) )}
-{$review_list|count}
 {section show=$review_list}
 <h3>Reviews</h3>
     {section var=review loop=$review_list}

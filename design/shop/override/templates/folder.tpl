@@ -40,11 +40,21 @@
                                           class_filter_array, array( 'folder', 'info_page' ) ))
     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
+<table width="100%">
+<tr>
 {section name=Child loop=$children sequence=array(bglight,bgdark)}
-<div class="child">
-{node_view_gui view=line content_node=$Child:item}
-</div>
+    <td>
+    <div class="child">
+       {node_view_gui view=line content_node=$Child:item}
+    </div>
+    </td>
+    {delimiter modulo=2}
+        </tr>
+        <tr>
+    {/delimiter}
 {/section}
+</tr>
+</table>
 
 {include name=navigator
     uri='design:navigator/google.tpl'
