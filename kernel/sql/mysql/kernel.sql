@@ -382,6 +382,8 @@ placement int not null,
 prev_word_id int not null,
 next_word_id int not null,
 contentclass_id int not null,
+published int not null,
+section_id int not null,
 contentclass_attribute_id int not null
 );
 
@@ -711,14 +713,3 @@ create table eztrigger(
     primary key( id )
     );
 create unique index eztrigger_def_id on  eztrigger(module_name,function_name,connect_type);
-
-
-
-
-
-
-
-
-
-
-
