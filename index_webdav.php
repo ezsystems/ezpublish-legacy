@@ -52,6 +52,9 @@ function eZUpdateDebugSettings()
 }
 
 include_once( "lib/ezwebdav/classes/ezwebdavcontentserver.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
+
+eZSys::init( 'index_webdav.php' );
 
 /*
 // Check if the username & password actually contain someting, proceed

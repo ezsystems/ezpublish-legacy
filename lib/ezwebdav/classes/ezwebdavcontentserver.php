@@ -179,6 +179,10 @@ function getPathToReferenceImageDir()
  */
 function getNodeByTranslation( $nodePathString )
 {
+    // Remove indexDir if used in non-virtualhost mode
+    if ( preg_match( "#^$indexDir/(.+)$#", $nodePathString, $matches ) )
+        $nodePathString = $matches[1];
+
     // Remove the content folder part of the path.
     $nodePathString = substr( $nodePathString, (int) strlen( VIRTUAL_CONTENT_FOLDER_NAME ) + 1 );
 
@@ -186,8 +190,9 @@ function getNodeByTranslation( $nodePathString )
     $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
     $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
 
-    // Remove the first slash.
-    $nodePathString = substr( $nodePathString, 1 );
+    // Remove the first slash if it exists.
+    if ( $nodePathString[1] == '/' )
+        $nodePathString = substr( $nodePathString, 1 );
 
     // Attempt to translate the URL to something like "/content/view/full/84".
     $translateResult =& eZURLAlias::translate( $nodePathString );
@@ -309,6 +314,7 @@ function getContent( $target )
     if ( !$node )
     {
         $node =& eZContentObjectTreeNode::fetch( 2 );
+        append_to_log( "Fetching root listing, failed $target" );
     }
 
     // Get all the children of the target node.
