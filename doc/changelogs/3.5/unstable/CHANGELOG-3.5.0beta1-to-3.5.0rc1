@@ -111,6 +111,8 @@ Datatype:
 - Fixed bug: viewing the object with attibute of  datatype which is not present causes fatal error
   http://ez.no/community/bug_reports/crash_with_object_when_datatype_is_not_present
   (Merged from stable/3.4 rev. 9633)
+- Fixed typo in kernel/classes/ezcontentobjectattribute.php
+  http://ez.no/community/bug_reports/3_5_typo_in_ezcontentobjectattribute_serialize
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 

@@ -1131,7 +1131,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &serialize( &$package )
     {
-        $reuslt = false;
+        $result = false;
         $dataType =& $this->dataType();
         if ( is_object( $dataType ) )
             $result =& $dataType->serializeContentObjectAttribute( $package, $this );
