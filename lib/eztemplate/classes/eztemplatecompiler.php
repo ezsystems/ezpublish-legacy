@@ -1143,13 +1143,17 @@ class eZTemplateCompiler
                 {
                     $hasTransformationSupport = false;
                     $transformParameters = false;
+                    $inputAsParameter = false;
                     if ( method_exists( $operatorObject, 'operatorTemplateHints' ) )
                     {
                         $hints = $operatorObject->operatorTemplateHints();
                         if ( isset( $hints[$operatorName] ) and
                              isset( $hints[$operatorName]['element-transformation'] ) and
                              $hints[$operatorName]['element-transformation'] )
+                        {
                             $hasTransformationSupport = true;
+                        }
+
                         if ( $hasTransformationSupport  and
                              isset( $hints[$operatorName]['element-transformation-func'] ) )
                         {
@@ -1159,9 +1163,21 @@ class eZTemplateCompiler
                         {
                             $transformationMethod = 'templateElementTransformation';
                         }
+
                         if ( isset( $hints[$operatorName] ) and
                              isset( $hints[$operatorName]['transform-parameters'] ) )
+                        {
                             $transformParameters = $hints[$operatorName]['transform-parameters'];
+                        }
+
+                        if ( isset( $hints[$operatorName] ) and
+                             isset( $hints[$operatorName]['input-as-parameter'] ) )
+                        {
+                            if ( $elementList[0][0] != EZ_TEMPLATE_TYPE_OPERATOR )
+                            {
+                                $inputAsParameter = true;
+                            }
+                        }
                     }
                     if ( $hasTransformationSupport and
                          method_exists( $operatorObject, $transformationMethod ) )
@@ -1170,6 +1186,21 @@ class eZTemplateCompiler
                              count( $operatorParameters ) > 0 )
                         {
                             $newParameters = array();
+                            if ( $inputAsParameter )
+                            {
+                                if ( count ($newElementList) == 1 )
+                                {
+                                    unset ( $newElementList[0] );
+                                }
+
+                                $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
+                                                                                                               $elementTree, $elementList[0], $resourceData );
+                                if ( !$newParameterElements )
+                                    $newParameters[] = $operatorParameter;
+                                else
+                                    $newParameters[] = array ( $newParameterElements );
+                            }
+
                             foreach ( $operatorParameters as $operatorParameter )
                             {
                                 $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
@@ -1319,7 +1350,8 @@ class eZTemplateCompiler
                         $newVariableData = array();
                     if ( !$operatorHint['parameters'] )
                         $newVariableItem[1] = array( $operatorName );
-                    if ( $operatorHint['static'] )
+                    if ( isset ( $operatorHint['static'] ) and
+                         $operatorHint['static'] )
                     {
                         $operatorStaticData = eZTemplateCompiler::operatorStaticData( $tpl, $operatorName );
                         $newVariableItem = eZTemplateCompiler::createStaticVariableData( $tpl, $operatorStaticData, $variableItemPlacement );
