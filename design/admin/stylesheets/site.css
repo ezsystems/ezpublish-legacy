@@ -317,7 +317,7 @@ div#leftmenu li span.disabled, div#rightmenu li span.disabled
     padding-left: 18px;
 }
 
-div#leftmenu div#contentstructure li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled
+div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled
 {
     background-image: none;
     padding-left: 0;
@@ -669,9 +669,12 @@ a.openclose img, span.openclose img
     margin: 0;
 }
 
-span.openclose
+/*
+a.openclose, span.openclose
 {
+    padding-right: 20px;
 }
+*/
 
 div#contentstructure a.openclose, div#contentstructure span.openclose
 {
