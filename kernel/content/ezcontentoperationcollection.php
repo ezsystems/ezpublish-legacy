@@ -440,11 +440,8 @@ class eZContentOperationCollection
         $nodeList =& eZContentOperationCollection::viewCacheGetNodes( $objectID, $versionNum );
         if ( is_array( $additionalNodesIDList ) )
         {
-            eZDebug::writeDebug( 'doing concattanation', 'lazy.' );
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodesIDList );
         }
-
-        eZDebug::writeDebug( $nodeList, 'lazy. $nodesList' );
 
         eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
 
@@ -502,7 +499,6 @@ class eZContentOperationCollection
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
         $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
-        eZDebug::writeDebug( $nodeAssignment, 'lazy. $nodeAssignment 1' );
         $object->setAttribute( 'current_version', $versionNum );
         if ( $object->attribute( 'published' ) == 0 )
         {
@@ -575,7 +571,6 @@ class eZContentOperationCollection
             }
         }
 
-        eZDebug::writeDebug( $nodeAssignment, 'lazy. $nodeAssignment 2' );
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
             $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
