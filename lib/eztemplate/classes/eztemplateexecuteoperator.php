@@ -151,12 +151,15 @@ class eZTemplateExecuteOperator
                 if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Constant' ) )
                 {
                     $constantParameterArray =& $aliasSettings->variable( $aliasFunctionName, 'Constant' );
-                    foreach ( array_keys( $constantParameterArray ) as $constKey )
+                    if ( is_array( $constantParameterArray ) )
                     {
-                        if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
-                            $constParameters[$constKey] = explode( ';', $constantParameterArray[$constKey] );
-                        else
-                            $constParameters[$constKey] = $constantParameterArray[$constKey];
+                        foreach ( array_keys( $constantParameterArray ) as $constKey )
+                        {
+                            if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
+                                $constParameters[$constKey] = explode( ';', $constantParameterArray[$constKey] );
+                            else
+                                $constParameters[$constKey] = $constantParameterArray[$constKey];
+                        }
                     }
                 }
             }

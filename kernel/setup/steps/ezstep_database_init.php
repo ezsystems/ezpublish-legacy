@@ -104,7 +104,14 @@ class eZStepDatabaseInit extends eZStepInstaller
         // Check database connection
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
-        $regionalInfo = $this->PersistenceList['regional_info'];
+        if ( isset( $this->PersistenceList['regional_info'] ) )
+        {
+            $regionalInfo = $this->PersistenceList['regional_info'];
+        }
+        else
+        {
+            $regionalInfo = '';
+        }
 
         $dbStatus = array();
         $dbDriver = $databaseInfo['info']['driver'];
@@ -123,6 +130,12 @@ class eZStepDatabaseInit extends eZStepInstaller
                                'database' => false,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        if ( $db->isConnected() == false )
+        {
+            $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            return false;
+        }
+        
         $availDatabases = $db->availableDatabases();
         $this->PersistenceList['database_info']['use_unicode'] = false;
         if ( $db->isCharsetSupported( 'utf-8' ) )
@@ -244,7 +257,14 @@ class eZStepDatabaseInit extends eZStepInstaller
         $databaseInfo = $this->PersistenceList['database_info'];
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $databaseInfo['table']['is_empty'] = $this->DBEmpty;
-        $regionalInfo = $this->PersistenceList['regional_info'];
+        if ( isset( $this->PersistenceList['regional_info'] ) )
+        {
+            $regionalInfo = $this->PersistenceList['regional_info'];
+        }
+        else
+        {
+            $regionalInfo = '';
+        }
 
         $this->Tpl->setVariable( 'db_error', $dbError );
         $this->Tpl->setVariable( 'database_info', $databaseInfo );

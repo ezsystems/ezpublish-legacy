@@ -230,6 +230,7 @@ class eZTemplateCacheFunction
             $code .= <<<ENDADDCODE
 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 \$handler =& eZExpiryHandler::instance();
+\$globalExpiryTime = -1;
 if ( \$handler->hasTimestamp( 'content-cache' ) )
 {
     \$globalExpiryTime = \$handler->timestamp( 'content-cache' );
@@ -243,13 +244,13 @@ ENDADDCODE;
             $code .= "\n    and filemtime( $filepathText ) >= ( time() - $expiryText )";
         }
         if ( !$ignoreContentExpiry ) {
-            $code .= "\n    and ( filemtime( $filepathText ) > \$globalExpiryTime )";
+            $code .= "\n    and ( ( filemtime( $filepathText ) > \$globalExpiryTime ) or ( \$globalExpiryTime == -1 ) )";
         }
         $code .= " )\n" .
                  "{\n" .
-                 "\$fp = fopen( $filepathText, 'r' );\n
-                  \$contentData = fread( \$fp, filesize( $filepathText ) );\n
-                   fclose( \$fp );\n";
+                 "    \$fp = fopen( $filepathText, 'r' );\n" .
+                 "    \$contentData = fread( \$fp, filesize( $filepathText ) );\n" .
+                 "    fclose( \$fp );\n";
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'contentData', array( 'spacing' => 4 ) );

@@ -342,15 +342,12 @@ class eZBasket extends eZPersistentObject
                 {
                     $priceObj =& $attribute->content();
                     $price += $priceObj->attribute( 'price' );
-                    eZDebug::writeDebug( $price, "price" );
                     break;
                 }
             }
             $optionsPrice = $item->calculatePriceWithOptions();
-            eZDebug::writeDebug( $optionsPrice, "price 1" );
 
             $price += $optionsPrice;
-            eZDebug::writeDebug( $price, "price 2" );
             $item->setAttribute( "price", $price );
             if ( $priceObj->attribute( 'is_vat_included' ) )
             {

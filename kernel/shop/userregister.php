@@ -54,19 +54,22 @@ $user =& eZUser::currentUser();
 
 if ( $user->isLoggedIn() )
 {
-    $userObject =& $user->attribute( 'contentobject' );
+    $userObject = $user->attribute( 'contentobject' );
     $userMap = $userObject->dataMap();
     $firstName = $userMap['first_name']->content();
     $lastName = $userMap['last_name']->content();
     $email = $user->attribute( 'email' );
 }
 
+// Initialize variables
+$street1 = $street2 = $zip = $place = $state = $country = $comment = '';
+
 
 // Check if user has an earlier order, copy order info from that one
-$orderList =& eZOrder::activeByUserID( $user->attribute( 'contentobject_id' ) );
+$orderList = eZOrder::activeByUserID( $user->attribute( 'contentobject_id' ) );
 if ( count( $orderList ) > 0 and  $user->isLoggedIn() )
 {
-    $accountInfo =& $orderList[0]->accountInformation();
+    $accountInfo = $orderList[0]->accountInformation();
     $street1 = $accountInfo['street1'];
     $street2 = $accountInfo['street2'];
     $zip = $accountInfo['zip'];

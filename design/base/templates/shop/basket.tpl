@@ -37,7 +37,7 @@
         </th>
         <th>
        {* <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp; *}
-        <input type="image" class="shop-basketbin" src={"1x1.gif"|ezimage"} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" />
+        <input type="image" class="shop-basketbin" src={"1x1.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" />
         </th>
     </tr>
     {section var=product_item loop=$basket.items sequence=array(bglight,bgdark)}

@@ -87,31 +87,52 @@ class eZSetupSummary
         }
 
         // Image settings
-        if ( $this->PersistenceList['imagegd_extension']['result'] )
+        $persistenceList = $this->PersistenceList;
+        if ( isset( $persistenceList['imagegd_extension'] ) && $persistenceList['imagegd_extension']['result'] )
         {
             $this->Tpl->setVariable( 'image_processor', 'ImageGD' );
         }
-        if ( $this->PersistenceList['imagemagick_program']['result'] )
+        else if ( isset( $persistenceList['imagemagick_program'] ) && $persistenceList['imagemagick_program']['result'] )
         {
             $this->Tpl->setVariable( 'image_processor', 'ImageMagick' );
         }
+        else
+        {
+            $this->Tpl->setVariable( 'image_processor', '' );
+        }
 
         // Database selected
-        $database = $databaseMap[$this->PersistenceList['database_info']['type']]['name'];
-        $this->Tpl->setVariable( 'database', $database );
+        if ( isset( $persistenceList['database_info'] ) ) {
+            $database = $databaseMap[$persistenceList['database_info']['type']]['name'];
+            $this->Tpl->setVariable( 'database', $database );
+        }
+        else
+        {
+            $this->Tpl->setVariable( 'database', '' );
+        }
 
         // Languages selected
-        $languages = $this->PersistenceList['regional_info']['languages'];
-        $this->Tpl->setVariable( 'languages', $languages );
+        if ( isset( $persistenceList['regional_info'] ) ) {
+            $languages = $persistenceList['regional_info']['languages'];
+            $this->Tpl->setVariable( 'languages', $languages );
+        }
+        else
+        {
+            $this->Tpl->setVariable( 'languages', '' );
+        }
 
         // Email settings
-        if ( $this->PersistenceList['email_info']['type'] == 1 )
-        {
-            $this->Tpl->setVariable( 'summary_email_info', 'sendmail' );
-        }
-        else if ( $this->PersistenceList['email_info']['type'] == 2 )
-        {
-            $this->Tpl->setVariable( 'summary_email_info', 'SMTP' );
+        $this->Tpl->setVariable( 'summary_email_info', '' );
+
+        if ( isset( $persistenceList['email_info'] ) ) {
+            if ( $persistenceList['email_info']['type'] == 1 )
+            {
+                $this->Tpl->setVariable( 'summary_email_info', 'sendmail' );
+            }
+            else if ( $persistenceList['email_info']['type'] == 2 )
+            {
+                $this->Tpl->setVariable( 'summary_email_info', 'SMTP' );
+            }
         }
 
         // Templates chosen

@@ -54,6 +54,7 @@ include_once( 'kernel/common/template.php' );
 if ( isset( $Module ) )
     $Module =& $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
+$EditLanguage = false;
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];
 if ( !isset( $EditLanguage ) )

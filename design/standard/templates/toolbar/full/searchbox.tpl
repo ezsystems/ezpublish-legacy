@@ -5,7 +5,7 @@
            <label>{'Search'|i18n( 'design/standard/toolbar' )}</label>
            <form action={"/content/search/"|ezurl} method="get">
            <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-           <input type="image" class="searchimage" src={"1x1.gif"|ezimage"} />
+           <input type="image" class="searchimage" src={"1x1.gif"|ezimage} />
            </form>
        </div>
     </div>

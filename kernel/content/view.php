@@ -148,7 +148,10 @@ else
 
         // Read Cache file
         $fp = @fopen( $cacheFileArray['cache_path'], 'r' );
-        $stat = fstat( $fp );
+        if ( $fp )
+        {
+            $stat = fstat( $fp );
+        }
         if ( $fp and !eZContentObject::isCacheExpired( $stat['mtime'] ) )
         {
             $contents = fread( $fp, filesize( $cacheFileArray['cache_path'] ) );

@@ -277,7 +277,6 @@ class eZUser extends eZPersistentObject
         $sql = "SELECT * FROM ezuser WHERE contentobject_id='$contentObjectID' AND login!=''";
         $rows = $db->arrayQuery( $sql );
         $hasStoredLogin = count( $rows ) > 0;
-        eZDebug::writeDebug( $hasStoredLogin, 'hasStoredLogin' );
         return $hasStoredLogin;
     }
 

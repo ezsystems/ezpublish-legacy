@@ -83,9 +83,12 @@ class eZStepWelcome extends eZStepInstaller
         $this->OptionalResult = $optionalRunResult['result'];
 
         $testsRun = array();
-        foreach ( $this->Results as $testResultItem )
+        if ( isset( $this->Results ) && is_array( $this->Results ) )
         {
-            $testsRun[$testResultItem[1]] = $testResultItem[0];
+            foreach ( $this->Results as $testResultItem )
+            {
+                $testsRun[$testResultItem[1]] = $testResultItem[0];
+            }
         }
 
         $this->PersistenceList['tests_run'] = $testsRun;
