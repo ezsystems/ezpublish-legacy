@@ -43,43 +43,44 @@
 
 */
 
-class eZTestTemplateOutput extends eZTestCase
+class eZTestTemplateOperator extends eZTestCase
 {
     /*!
      Constructor
     */
-    function eZTestTemplateOutput( $name = false )
+    function eZTestTemplateOperator( $name = false )
     {
         $this->eZTestCase( $name );
-        $this->addTest( 'testOutput', 'Compiled template output' );
-        $this->addTest( 'testZero', 'Handling of zero elements' );
-    }
-        
 
-    function testOutput( &$tr )
+        foreach ( glob('tests/eztemplate/operators/*.tpl') as $template )
+        {
+            $this->addTemplateTest( $template );
+        }
+    }
+
+    function addTemplateTest( $file )
+    {
+        $name = str_replace( 'tests/eztemplate/operators/', '', $file );
+        $name = str_replace( '.tpl', '', $name );
+        $name = ucwords( $name );
+        $this->addTest( 'testTemplate', $name, $file );
+    }
+
+    function testTemplate( &$tr, $templateFile )
     {
         include_once( 'kernel/common/template.php' );
         $tpl =& templateInit();
 
         $tpl->setIsCachingAllowed( false );
-        $expected = $tpl->fetch( 'tests/eztemplate/output.tpl' );
+        $actual = $tpl->fetch( $templateFile );
 
-        $tpl->setIsCachingAllowed( true );
-        $tpl->reset();
-        $actual = $tpl->fetch( 'tests/eztemplate/output.tpl' );
+        $expectedFileName = str_replace( '.tpl', '.exp', $templateFile );
+        $expected = file_get_contents( $expectedFileName );
 
-        $tr->assert( $actual == $expected );
-    }
-
-    function testZero( &$tr )
-    {
-        include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
-
-        $tpl->setIsCachingAllowed( false );
-        $expected = $tpl->fetch( 'tests/eztemplate/empty.tpl' );
-
-        $actual = '0';
+        $actualFileName = str_replace( '.tpl', '.out', $templateFile );
+        $fp = fopen( $actualFileName, 'w');
+        fwrite( $fp, $actual );
+        fclose( $fp );
 
         $tr->assert( strcmp( $actual, $expected ) == 0, 'String compare of results' );
     }

@@ -41,4 +41,8 @@ $SuiteDefinition['tests'][] = array( 'name' => 'OutputHandling',
                                      'file' => 'eztesttemplateoutput.php',
                                      'class' => 'eZTestTemplateOutput' );
 
+$SuiteDefinition['tests'][] = array( 'name' => 'Operator',
+                                     'file' => 'eztesttemplateoperator.php',
+                                     'class' => 'eZTestTemplateOperator' );
+
 ?>
