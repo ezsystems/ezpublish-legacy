@@ -65,6 +65,7 @@ Changes from 2.9-6 to 2.9-7
 - New ezhttp and ezini template operators which can return data from http post, get
   and session variables and ini files.
 - User login can now be done with email address as well as username.
+- Bug with correct fetchTree count when using limitations is fixed
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

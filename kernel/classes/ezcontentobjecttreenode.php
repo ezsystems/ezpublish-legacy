@@ -560,7 +560,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             $classCondition .= ' ) AND ';
         }
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
+            $ini =& eZINI::instance();
+            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$lang' ";
+        }
         if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -590,6 +602,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       FROM
                            ezcontentobject_tree,
                            ezcontentobject,ezcontentclass
+                           $versionNameTables
                       WHERE $pathString
                             $depthCond
                             $classCondition
@@ -597,6 +610,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id
+                            $versionNameJoins
                             $sqlPermissionCheckingString ";
 
         }
@@ -608,6 +622,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree,
                           ezcontentobject,
                           ezcontentclass
+                          $versionNameTables
                     WHERE
                            $pathString
                            $depthCond
@@ -615,7 +630,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentclass.version=0 AND
                            node_id != '$fromNode' AND
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
-                           ezcontentclass.id = ezcontentobject.contentclass_id ";
+                           ezcontentclass.id = ezcontentobject.contentclass_id
+                           $versionNameJoins ";
         }
 
         $nodeListArray = $db->arrayQuery( $query );
