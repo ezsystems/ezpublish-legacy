@@ -13,6 +13,6 @@
 <h5{section show=ne($classification|trim,'')} class="{$classification|wash}"{/section}>{$content}</h5>
 {/case}
 {case}
-<h2{section show=ne($classification|trim,'')} class="{$classification|wash}"{/section}>{$content}>{$content}</h2>
+<h2{section show=ne($classification|trim,'')} class="{$classification|wash}"{/section}>{$content}</h2>
 {/case}
 {/switch}
