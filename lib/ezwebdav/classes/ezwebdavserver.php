@@ -170,10 +170,10 @@ class eZWebDAVServer
         // Convert the requested URI string to non-bogus format.
         $target = urldecode( $_SERVER["REQUEST_URI"] );
 
-        $this->appendLogEntry( "----------------------------------------", 'processClientRequest' );
+        $this->appendLogEntry( "----------------------------------------" );
         $this->appendLogEntry( "Client says: " . $_SERVER["REQUEST_METHOD"], 'processClientRequest' );
         $this->appendLogEntry( "Target: " . $_SERVER["REQUEST_URI"], 'processClientRequest' );
-        $this->appendLogEntry( "----------------------------------------", 'processClientRequest' );
+        $this->appendLogEntry( "----------------------------------------" );
 
         // Read the XML body, PHP should discard it but it's a bug in some PHP versions
         $xmlBody = file_get_contents( "php://input" );
@@ -301,15 +301,29 @@ class eZWebDAVServer
     /*!
       \protected
       Generates HTTP headers with information on what the server supports.
+      \param $options An array with the various options the server supports
+                      - methods - An array with methods it can handle,
+                                   if not supplied it will report all possible methods.
+                      - versions - An array with versions this server supports,
+                                    if not supplied it will return 1,2,<http://apache.org/dav/propset/fs/1>.
       \return The WebDAV status code
     */
     function outputOptions( $options )
     {
-        header( "Content-Length: 0" );
-        header( "MS-Author-Via: DAV" );
-        header( "Allow: OPTIONS, GET, HEAD, POST, DELETE, TRACE, PROPFIND, PROPPATCH, COPY, MOVE, LOCK, UNLOCK" );
-        header( "DAV: 1,2,<http://apache.org/dav/propset/fs/1>" );
-        header( "Content-Type: text/plain; charset=iso-8859-1" );
+        // Default options
+        $methods = array( 'OPTIONS', 'GET', 'HEAD', 'POST', 'DELETE', 'TRACE', 'PROPFIND', 'PROPPATCH', 'COPY', 'MOVE', 'LOCK', 'UNLOCK' );
+        $versions = array( '1', '2', '<http://apache.org/dav/propset/fs/1>' );
+
+        if ( isset( $options['methods'] ) )
+            $methods = $options['methods'];
+        if ( isset( $options['versions'] ) )
+            $versions = $options['versions'];
+
+        header( 'Content-Length: 0' );
+        header( 'MS-Author-Via: DAV' );
+        header( 'Allow: ' . implode( ', ', $methods ) );
+        header( 'DAV: ' . implode( ',', $versions ) );
+        header( 'Content-Type: text/plain; charset=iso-8859-1' );
 
         return EZ_WEBDAV_OK_SILENT;
     }
@@ -525,7 +539,12 @@ class eZWebDAVServer
 
     /*!
       \virtual
-      Returns WebDAV options which information on what the server supports.
+      Reports WebDAV options which information on what the server supports.
+      \return An associative array with options, can contain:
+              - methods - An array with methods it can handle,
+                           if not supplied it will use all possible methods.
+              - versions - An array with versions this server supports,
+                            if not supplied it will use 1,2,<http://apache.org/dav/propset/fs/1>.
     */
     function options( $target )
     {
