@@ -95,6 +95,9 @@ $tpl->setVariable( "rule_list", $list );
 $tpl->setVariable( "rule_type", $ruleTypes );
 $tpl->setVariable( "module", $Module );
 
-$Result =& $tpl->fetch( "design:notification/list.tpl" );
+$Result['content'] =& $tpl->fetch( "design:notification/list.tpl" );
+$Result['path'] = array( array( 'url' => '/notification/list/',
+                                'text' => 'Notification rule list' ) );
+
 
 ?>

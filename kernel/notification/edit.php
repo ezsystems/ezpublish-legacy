@@ -186,6 +186,8 @@ $tpl->setVariable( "class_list", $class_list );
 $tpl->setVariable( "userlink_list", $userlink_list );
 $tpl->setVariable( "ClassAttributeID", $ClassAttributeID );
 
-$Result =& $tpl->fetch( "design:notification/edit.tpl" );
+$Result['content'] =& $tpl->fetch( "design:notification/edit.tpl" );
+$Result['path'] = array( array( 'url' => '/notification/edit/',
+                                'text' => 'Notification edit' ) );
 
 ?>
