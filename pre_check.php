@@ -101,8 +101,6 @@ function eZCheckUser( &$siteBasics, &$uri )
     $moduleName = $uri->element();
     $viewName = $uri->element( 1 );
     $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
-    $anonymousAccessList[] = 'user/register';
-    $anonymousAccessList[] = 'user/success';
     $anonymousAccessList[] = 'ezinfo';
     foreach ( $anonymousAccessList as $anonymousAccess )
     {
