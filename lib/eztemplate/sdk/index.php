@@ -71,6 +71,10 @@ $featureArray[] = array( "uri" => "basic_functions",
 
 $featureArray[] = array( "level" => 0,
                          "name" => "Operators" );
+$featureArray[] = array( "uri" => "operator_list",
+                         "level" => 0,
+                         "name" => "Operator list" );
+
 $featureArray[] = array( "uri" => "operator_creators",
                          "level" => 0,
                          "name" => "Type creators" );
@@ -81,12 +85,11 @@ $featureArray[] = array( "uri" => "operator_creators",
 //                          "level" => 0,
 //                          "name" => "Units" );
 
-$featureArray[] = array( "uri" => "operator_list",
-                         "level" => 0,
-                         "name" => "Operator list" );
-
 $featureArray[] = array( "level" => 0,
                          "name" => "Functions" );
+$featureArray[] = array( "uri" => "function_list",
+                         "level" => 0,
+                         "name" => "Function list" );
 $featureArray[] = array( "uri" => "function_delimit",
                          "level" => 0,
                          "name" => "Delimiter" );
