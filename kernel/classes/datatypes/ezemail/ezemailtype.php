@@ -40,7 +40,6 @@
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
 
 define( "EZ_DATATYPESTRING_EMAIL", "ezemail" );
 
@@ -63,19 +62,23 @@ class eZEmailType extends eZDataType
         {
             $email =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if( $classAttribute->attribute( "is_required" ) == true )
+            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
             {
-                if( $email == "" )
+                if ( $classAttribute->attribute( "is_required" ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'A valid email account is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    if ( trim( $email ) == "" )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Email address is empty.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                 }
             }
-            if( $email != "" )
+            if ( trim( $email ) != "" )
             {
-                $isValidate =  eZMail::validate( $email );
-                if ( ! $isValidate )
+                include_once( "lib/ezutils/classes/ezmail.php" );
+                $isValidated = eZMail::validate( trim( $email ) );
+                if ( !$isValidated )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Email address is not valid.' ) );
@@ -97,6 +100,50 @@ class eZEmailType extends eZDataType
             $contentObjectAttribute->setAttribute( "data_text", $data );
             return true;
         }
+        return false;
+    }
+
+    /*!
+     \reimp
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $email =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if ( $classAttribute->attribute( "is_required" ) )
+            {
+                if ( strlen( trim( $email ) ) == 0 )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Email address is empty.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+            include_once( "lib/ezutils/classes/ezmail.php" );
+            if ( !eZMail::validate( trim( $email ) ) )
+            {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Email address is not valid.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
+        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    /*!
+     Fetches the http post variables for collected information
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $collectionAttribute->setAttribute( 'data_text', $dataText );
+        }
+
         return false;
     }
 
@@ -139,6 +186,14 @@ class eZEmailType extends eZDataType
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return true;
     }
 
     /*!
