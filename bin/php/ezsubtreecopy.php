@@ -94,6 +94,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 function &copyPublishContentObject( &$sourceObject,
+                                    &$sourceSubtreeNodeIDList,
                                     &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                     &$syncObjectIDListSrc, &$syncObjectIDListNew,
                                     $allVersions = false, $keepCreator = false, $keepTime = false )
@@ -110,11 +111,20 @@ function &copyPublishContentObject( &$sourceObject,
 
     $srcNodeList = $sourceObject->attribute( 'assigned_nodes' );
 
+    // check if all parent nodes for given contentobject are already published:
     foreach ( $srcNodeList as $srcNode )
     {
         $sourceParentNodeID = $srcNode->attribute( 'parent_node_id' );
-        $key = array_search( $sourceParentNodeID, $syncNodeIDListSrc );
 
+        // if parent node for this node is outside
+        // of subtree being copied, then skip this node.
+        $key = array_search( $sourceParentNodeID, $sourceSubtreeNodeIDList );
+        if ( $key === false )
+        {
+            continue;
+        }
+
+        $key = array_search( $sourceParentNodeID, $syncNodeIDListSrc );
         if ( $key === false )
         {
             return 2; // one of parent nodes is not published yet - have to try to publish later.
@@ -139,21 +149,45 @@ function &copyPublishContentObject( &$sourceObject,
     $curVersionObject  = $newObject->attribute( 'current' );
 
     $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
-    unset( $curVersionObject );
 
-    // copy nodeassigments
+    // copy nodeassigments:
+    $assignmentsForRemoving = array();
+    $foundMainAssignment = false;
     foreach ( $newObjAssignments as $assignment )
     {
         $parentNodeID = $assignment->attribute( 'parent_node' );
+
+        // if assigment is outside of subtree being copied then do not copy this assigment
+        $key = array_search( $parentNodeID, $sourceSubtreeNodeIDList );
+        if ( $key === false )
+        {
+            $assignmentsForRemoving[] = $assignment->attribute( 'id' );
+            continue;
+        }
+
         $key = array_search( $parentNodeID, $syncNodeIDListSrc );
         if ( $key === false )
         {
+            $cli->output( "Subtree Copy Error!\nOne of parent nodes for contentobject (ID = $sourceObjectID) is not published yet." );
             return 4;
         }
+
+        if ( $assignment->attribute( 'is_main' ) )
+            $foundMainAssignment = true;
 
         $newParentNodeID = $syncNodeIDListNew[ $key ];
         $assignment->setAttribute( 'parent_node', $newParentNodeID );
         $assignment->store();
+    }
+    // remove assigments which are outside of subtree being copied:
+    eZNodeAssignment::removeByID( $assignmentsForRemoving );
+
+    // if main nodeassigment was not copied then set as main first nodeassigment
+    if ( $foundMainAssignment == false )
+    {
+        $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
+        $newObjAssignments[0]->setAttribute( 'is_main', 1 );
+        $newObjAssignments[0]->store();
     }
 
     // publish the newly created object
@@ -316,10 +350,14 @@ $syncNodeIDListNew[] = (int) $dstNodeID;
 $syncObjectIDListSrc = array();
 $syncObjectIDListNew = array();
 
-$sourceNodeList = array_merge( $sourceNodeList,
-                               eZContentObjectTreeNode::subTree( false, $sourceSubTreeMainNodeID ) );
-
+$sourceNodeList = array_merge( $sourceNodeList, eZContentObjectTreeNode::subTree( false, $sourceSubTreeMainNodeID ) );
 $countNodeList = count( $sourceNodeList );
+
+// Prepare list of source node IDs. We will need it in the future
+// for checking node is inside or outside of the subtree being copied.
+$sourceNodeIDList = array();
+foreach ( $sourceNodeList as $sourceNode )
+    $sourceNodeIDList[] = $sourceNode->attribute( 'node_id' );
 
 $cli->output( "Copying subtree:" );
 
@@ -328,7 +366,7 @@ while ( count( $sourceNodeList ) > 0 )
 {
     if ( $k > $countNodeList )
     {
-        $cli->output( "Subtree Copy Error! Too many loops while copying nodes." );
+        $cli->output( "Subtree Copy Error!\nToo many loops while copying nodes." );
         return 6; //break;
     }
 
@@ -337,13 +375,15 @@ while ( count( $sourceNodeList ) > 0 )
         $sourceNodeID = $sourceNodeList[ $i ]->attribute( 'node_id' );
 
         if ( in_array( $sourceNodeID, $syncNodeIDListSrc ) )
-        {
             array_splice( $sourceNodeList, $i, 1 );
-        }
         else
         {
             $sourceObject =& $sourceNodeList[ $i ]->object();
+
+            $aaaa = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
+
             $copyResult = copyPublishContentObject( $sourceObject,
+                                                    $aaaa,
                                                     $syncNodeIDListSrc, $syncNodeIDListNew,
                                                     $syncObjectIDListSrc, $syncObjectIDListNew,
                                                     $allVersions, $keepCreator, $keepTime );
@@ -353,9 +393,7 @@ while ( count( $sourceNodeList ) > 0 )
                 $cli->output( ".", false );
             }
             else
-            {
                 $i++;
-            }
         }
     }
     $k++;
@@ -372,7 +410,7 @@ $cli->output( "Number of copied contentobjects: " . count( $syncObjectIDListNew 
 $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
 if ( $key === false )
 {
-    $cli->output( "Subtree copy Error!\nCannot find new main node in array of new node_IDs." );
+    $cli->output( "Subtree copy Error!\nCannot find subtree root node in array of IDs of copied nodes." );
     return 2;
 }
 
