@@ -47,6 +47,11 @@
   \sa eZXML eZDOMDocument
 */
 
+define( "EZ_XML_NODE_ELEMENT", 1 );
+define( "EZ_XML_NODE_ATTRIBUTE", 2 );
+define( "EZ_XML_NODE_TEXT", 3 );
+define( "EZ_XML_NODE_CDATASECTION", 4 );
+
 class eZDOMNode
 {
     /*!
@@ -187,15 +192,17 @@ class eZDOMNode
     {
         $ret = false;
         if ( count( $this->Attributes  ) > 0 )
-        foreach ( $this->Attributes as $attribute )
         {
-            if ( ( $attribute->name() == $attributeName )
-                 &&
-                 ( $attribute->namespaceURI() == $namespaceURI )
-                 )
+            foreach ( $this->Attributes as $attribute )
             {
+                if ( ( $attribute->name() == $attributeName )
+                     &&
+                     ( $attribute->namespaceURI() == $namespaceURI )
+                     )
+                {
 
-                $ret = $attribute->content();
+                    $ret = $attribute->content();
+                }
             }
         }
 
@@ -259,7 +266,7 @@ class eZDOMNode
                 $tagContent =& str_replace( "'", "&apos;", $tagContent );
                 $tagContent =& str_replace( '"', "&quot;", $tagContent );
 
-                $ret =& $tagContent;
+                $ret = $tagContent;
             }break;
 
             case "#cdata-section" :
@@ -296,7 +303,7 @@ class eZDOMNode
                         if ( $attr->prefix() != false )
                             $attrPrefix = $attr->prefix(). ":";
 
-                        $attrStr .= " " . $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\" ";
+                        $attrStr .= " " . $attrPrefix . $attr->name() . "=\"" . $attr->content() . "\"";
                     }
                 }
 
@@ -310,18 +317,27 @@ class eZDOMNode
                 if ( $this->Prefix != false )
                     $prefix = $this->Prefix. ":";
 
-                $ret = "$spacer<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
+                $ret = '';
+                if ( $level > 0 )
+                    $ret .= "\n";
+                $ret .= "$spacer<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
 
+                $lastChildType = false;
                 if ( count( $this->Children ) > 0 )
                 {
                     foreach ( $this->Children as $child )
                     {
-                        $ret .= "\n" . $child->toString( $level + 1 );
+                        $ret .= $child->toString( $level + 1 );
+                        $lastChildType = $child->type();
                     }
                 }
 
                 if ( !$isOneLiner )
-                    $ret .= "$spacer</" . $prefix . $this->Name . ">\n";
+                {
+                    if ( $lastChildType == 1 )
+                        $ret .= "\n$spacer";
+                    $ret .= "</" . $prefix . $this->Name . ">";
+                }
 //                    $ret .= "$spacer</" . $prefix . $this->Name . ">\n";
 
             }break;
@@ -330,10 +346,10 @@ class eZDOMNode
     }
 
     /// Name of the node
-    var $Name;
+    var $Name = false;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
-    var $Type;
+    var $Type = EZ_XML_NODE_ELEMENT;
 
     /// Content of the node
     var $Content = "";

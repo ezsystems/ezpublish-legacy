@@ -85,3 +85,4 @@ eZ debug:
 eZXML:
 - Some minor fixes to the toString() function with regards to text output.
 - Added prefix to attribute creation function in eZDOMDocument.
+- Added helper function for creating an element and a text as child in eZDOMDocument.

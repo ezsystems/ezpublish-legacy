@@ -170,6 +170,19 @@ class eZDOMDocument
     }
 
     /*!
+      Creates and returns a element node with a text node as child.
+      \sa createTextNode, createElementNode
+    */
+    function &createElementTextNode( $name, $text )
+    {
+        $node =& eZDOMDocument::createElementNode( $name );
+        $textNode =& eZDOMDocument::createTextNode( $text );
+        $node->appendChild( $textNode );
+
+        return $node;
+    }
+
+    /*!
       Creates and returns a element node with a namespace URI
     */
     function &createElementNodeNS( $uri, $name )

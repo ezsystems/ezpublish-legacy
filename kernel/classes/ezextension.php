@@ -176,5 +176,14 @@ function kernel_common( $name )
     return include_once( $include );
 }
 
+/*!
+*/
+function datatype_class( $datatype, $className )
+{
+    $className = strtolower( $className );
+    $include = "kernel/classes/datatypes/$datatype/$className.php";
+    return include_once( $include );
+}
+
 
 ?>
