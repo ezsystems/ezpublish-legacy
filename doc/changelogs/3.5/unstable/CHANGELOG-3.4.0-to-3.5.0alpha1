@@ -72,6 +72,8 @@ eztc.php:
 - Removed eztime from the list of simple types because its data_int field
   cannot be treated as sort key anymore (merged from 3.3 rev. 6818, also in 3.4 rev. 6819).
 - Fixed bug in ezurl when relating to root "/", merged from stable/3.3 6839, stable/3.4 6840.
+- Fixed missing attribute_parameters in attribute in , from stable/3.4 rev. 6853.
+  design/standard/templates/content/datatype/view/ezxmltags/object.tpl.
 - Fixed unneeded eZDateTimeType dependencies on eZObjectRelationListType
   (merged from 3.4 rev. 6821).
   http://ez.no/community/bug_reports/undefined_class_name_ezobjectrelationlisttype
