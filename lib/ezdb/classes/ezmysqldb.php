@@ -65,7 +65,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->DBWriteConnection == false )
         {
             $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
-            if ( $this->isConnected() )
+            if ( $this->IsConnected )
             {
                 $this->DBWriteConnection = $connection;
             }
@@ -141,7 +141,7 @@ class eZMySQLDB extends eZDBInterface
             $this->IsConnected = false;
         }
 
-        if ( $this->isConnected() && $db != null )
+        if ( $this->IsConnected && $db != null )
         {
             $ret = @mysql_select_db( $db, $connection );
             $this->setError();
@@ -167,7 +167,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function &query( $sql )
     {
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             $orig_sql = $sql;
@@ -226,13 +226,11 @@ class eZMySQLDB extends eZDBInterface
             else
             {
                 eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
-                $this->RecordError = false;
                 $this->unlock();
                 $this->RecordError = true;
 
                 return false;
             }
-            mysql_free_result( $result );
         }
         else
         {
@@ -248,7 +246,7 @@ class eZMySQLDB extends eZDBInterface
     function &arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
-        if ( $this->isConnected() )
+        if ( $this->IsConnected )
         {
             $limit = false;
             $offset = 0;

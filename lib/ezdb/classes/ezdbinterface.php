@@ -591,6 +591,7 @@ class eZDBInterface
     }
 
     /*!
+      \protected
       Returns true if we're connected to the database backend.
     */
     function isConnected()
