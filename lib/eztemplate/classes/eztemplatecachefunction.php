@@ -115,18 +115,13 @@ class eZTemplateCacheFunction
         if ( isset( $parameters['keys'] ) )
         {
             $keysData = $parameters['keys'];
-            $keysDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
-                                                                           $keysData, false,
-                                                                           $resourceData );
-            if ( !$keysDataInspection['is-constant'] or
-                 $keysDataInspection['has-operators'] or
-                 $keysDataInspection['has-attributes'] )
+            if ( !eZTemplateNodeTool::isStaticElement( $keysData ) )
             {
                 $useDynamicKeys = true;
             }
             else
             {
-                $keyValue = $keysDataInspection['new-data'][0][1];
+                $keyValue = eZTemplateNodeTool::elementStaticValue( $keysData );
                 $keyValueText = $keyValue . '_';
             }
         }

@@ -1201,7 +1201,10 @@ class eZTemplateCompiler
                                 $newParameters[$parameterName] = $newParamNode;
                         }
                         if ( count( $newParameters ) > 0 )
+                        {
                             $node[3] = $newParameters;
+                            $functionParameters = $newParameters;
+                        }
                     }
 
                     $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
