@@ -16,6 +16,8 @@ Changes from 3.0-2 to 3.0-3
 - Fixed bug in datatype object relation which causes can not move or add locations for object. 
 - Fixed bug in node deletion which does not remove children in noen main node locations when 
   a main node is deleted.
+- Fixed bug in override system which would cause override files to not be used if no
+  design keys were set (for instance from shop/basket).
 
 *Library :
 - The handleChecked function in eZHTTPPersistence is now deprecated.
