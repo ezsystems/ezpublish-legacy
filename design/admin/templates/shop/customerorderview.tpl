@@ -46,7 +46,7 @@
 </tr>
 {/section}
 </table>
-</section>
+{/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
