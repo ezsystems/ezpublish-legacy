@@ -1740,6 +1740,12 @@ class eZPDFTable extends Cezpdf
             }
         }
 
+	if ( $params['y'] - $this->getFontHeight( $this->fontSize() ) < $this->ez['bottomMargin'] )
+	  {
+	    $this->ezNewPage();
+	    return $this->callCircle( $info );
+	  }
+
         $params['x'] += $params['pre_indent'];
 
         $this->filledEllipse( $params['x'], $params['y'], $params['radius'] );
