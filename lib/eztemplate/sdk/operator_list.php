@@ -87,7 +87,7 @@ for eZ publish.
 <h2>Text operations</h2>
 <dl>
 <dt>concat</dt>
-<dd>Concatenates values to one string. E.g. {concat('/var/',$node.node_id,'/')}</dd>
+<dd>Concatenates values to one string. If you give it an array, it will concatenate the elements of the array. E.g. {concat('/var/',$node.node_id,'/')}</dd>
 </dl>
 
 <h2>Unit operators</h2>
@@ -220,7 +220,8 @@ Example: {image(imagefile('image1.png'|ezimage),imagefile('image2.png'|ezimage))
 <dd>Creates and returns an image layer for the image file given as the first parameter.
 This requires the ImageMagick or the ImageGD extension. See the 'image' example.</dd>
 <dt>texttoimage</dt>
-<dd>Converts the input value, which should be a string, into an image. This requires the ImageGD extension.</dd>
+<dd>Converts the input value, which should be a string, into an image. This requires the ImageGD extension.
+It can also be used with the 'image' operator to allow you to merge the output with another image.</dd>
 <dd>Accepts the following parameters:<br/>
 - class: The font class, which is specified in settings/texttoimage.ini. Use for instance 'archtura'.<br/>
 The following parameters will override the settings in the font class.<br/>

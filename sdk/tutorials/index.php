@@ -68,21 +68,25 @@ $featureArray[] = array( "uri" => "wrappingworkflow",
                          "level" => 0,
                          "name" => "Example of wrapping workflow" );
 
-$featureArray[] = array( "uri" => "permissions",
-                         "level" => 0,
-                         "name" => "Permissions and sections" );
-
 $featureArray[] = array( "uri" => "publishworkflow",
                          "level" => 0,
                          "name" => "Approval workflow" );
 
-$featureArray[] = array( "uri" => "translation",
-                         "level" => 0,
-                         "name" => "Translation and i18n" );
-
 $featureArray[] = array( "uri" => "datatypes",
                          "level" => 0,
                          "name" => "Datatypes" );
+
+$featureArray[] = array( "uri" => "permissions",
+                         "level" => 0,
+                         "name" => "Permissions and sections" );
+
+$featureArray[] = array( "uri" => "forms",
+                         "level" => 0,
+                         "name" => "Creating forms" );
+
+$featureArray[] = array( "uri" => "translation",
+                         "level" => 0,
+                         "name" => "Translation and i18n" );
 
 
 $infoArray["features"] =& $featureArray;

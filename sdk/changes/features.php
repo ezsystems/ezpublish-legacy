@@ -46,15 +46,18 @@ that lets you do a large part of the installation in your browser.
 
 <h2>Custom content</h2>
 <p>
-In eZ publish 3.0 you don't have to make your content fit a predescribed content model.
-eZ publish lets you create your own content classes with exactly the attributes you need.
-Create a class, select attributes and attribute datatypes, and begin creating content.
+In eZ publish 3.0 you don't have to make your content fit a certain general, one-size-fits-all
+content model. eZ publish lets you create your own content classes with exactly the attributes
+you need. Create a class, select attributes and attribute data types, and begin creating content.
 Without even editing a template.
 </p>
 
 <h2>Object oriented</h2>
 <p>
-bla bla bla
+eZ publish 3.0 is object oriented like the 2.2 series are, but better implemented. Where 2.2 had
+several different modules, each with their own content tree, 3.0 has one content tree for all
+kinds of objects. Although content objects are of different content classes, all content objects
+are of the same PHP class, thus they can be treated equally in PHP and template code.
 </p>
 
 <h2>Advanced template engine</h2>
@@ -90,26 +93,28 @@ in gift paper.
 
 <h2>Collaboration system</h2>
 <p>
-bla bla bla
+The new collaboration system can be used to organize and distribute tasks within a work group,
+as an instant messaging system, and as a private todo list, among other things. It is participant
+based, and designed to be customized to fit your needs.
 </p>
 
-<h2>Extendability</h2>
+<h2>Extensions</h2>
 <p>
 Despite the ability to create custom content and workflows, you might run into a situation where
 you need to extend eZ publish code. The extension system lets you keep your code separated from
 eZ publish code, making it safe to update to newer versions of eZ publish.
 </p>
 
-<h2>Translation and internationalization</h2>
+<h2>Translation and internationalisation</h2>
 <p>
 eZ publish continues to use the Qt linguist tool for translation, but the process is simplified.
-It is also easier to use translations in templates, and internationalized templates are easier to
+It is also easier to use translations in templates, and internationalised templates are easier to
 read for the template developer.
 </p>
 
 <h2>Documentation</h2>
 <p>
-The eZ publish SDK has full, crosslinked API documentation with UML diagrams, and several tutorials
+The eZ publish SDK has full, cross linked API documentation with UML diagrams, and several tutorials
 and other documents helping you getting up to speed with the new system.
 </p>
 
@@ -117,5 +122,5 @@ and other documents helping you getting up to speed with the new system.
 <p>
 eZ publish comes with a set of PHP libraries that can be reused in other situations, such as
 XML document creation, parsing and validating, SOAP communication, database connectivity,
-image manipulation, template engine, and internationalization.
+image manipulation, template engine, and internationalisation.
 </p>
