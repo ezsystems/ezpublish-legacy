@@ -1173,9 +1173,9 @@ class eZTemplateCompiler
                         if ( isset( $hints[$operatorName] ) and
                              isset( $hints[$operatorName]['input-as-parameter'] ) )
                         {
-                            if ( $elementList[0][0] != EZ_TEMPLATE_TYPE_OPERATOR )
+                            if ( eZTemplateNodeTool::isStaticElement( $newElementList ) )
                             {
-                                $inputAsParameter = true;
+                                $inputAsParameter = $hints[$operatorName]['input-as-parameter'];
                             }
                         }
                     }
@@ -1187,21 +1187,12 @@ class eZTemplateCompiler
                             $newParameters = array();
                             if ( $inputAsParameter )
                             {
-                                /* We only unset the first element if the
-                                 * newElement list only has ONE element,
-                                 * otherwise there might be some other case
-                                 * which we don't handle here. */
-                                if ( count ($newElementList) == 1 )
-                                {
-                                    unset ( $newElementList[0] );
-                                }
-
                                 $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
-                                                                                                               $elementTree, $elementList[0], $resourceData );
-                                if ( !$newParameterElements )
-                                    $newParameters[] = $operatorParameter;
-                                else
-                                    $newParameters[] = array ( $newParameterElements );
+                                                                                                               $elementTree, $newElementList, $resourceData );
+                                if ( $newParameterElements or
+                                     $inputAsParameter == 'always' )
+                                    $newParameters[] = $newParameterElements;
+                                $newElementList = array();
                             }
 
                             foreach ( $operatorParameters as $operatorParameter )
