@@ -352,6 +352,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
             if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
             {
+                var_dump($cacheMap['code']);
                 eval( "\$matchFile = " . $cacheMap['code'] . ";" );
             }
             else
@@ -531,9 +532,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 if ( $conditionKey == 'url_alias' )
                                     $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
                                 else
-                                    $matchCondition .= "( ( isset( \$matchKeys[\\'$conditionKey\\'] ) and is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
+                                    $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and ( ( is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
                                         "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) ) or " .
-                                        "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\')";
+                                        "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\') )";
 
                                 $condCount++;
                             }
@@ -905,7 +906,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
                                      "eZTemplateDesignResource::overrideArray" );
-                eZDebug::writeError( implode( ',', $triedFiles ),
+                eZDebug::writeError( implode( ', ', $triedFiles ),
                                      "eZTemplateDesignResource::overrideArray, tried files" );
             }
 
