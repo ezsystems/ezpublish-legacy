@@ -15,6 +15,9 @@
 {section show=$order_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+    <th width="1">
+    &nbsp;
+    </th>
 	<th>
 	{"ID"|i18n("design/standard/shop")}
 	</th>
@@ -30,9 +33,14 @@
 	<th>
 	{"Total inc. VAT"|i18n("design/standard/shop")}
 	</th>
+    <th>
+	</th>
 </tr>
 {section name="Order" loop=$order_list sequence=array(bglight,bgdark)}
 <tr>
+    <td class="{$Order:sequence}">
+	<input type="checkbox" name="DeleteIDArray[]" value="{$Order:item.id}" />
+	</td>
 	<td class="{$Order:sequence}">
 	{$Order:item.order_nr}
 	</td>
@@ -40,7 +48,7 @@
 	{$Order:item.created|l10n(shortdatetime)}
 	</td>
 	<td class="{$Order:sequence}">
-	{content_view_gui view=text_linked content_object=$Order:item.user.contentobject}
+    <a href={concat("/shop/customorderview/",$Order:item.user_id,"/",$Order:item.account_email)|ezurl}>{$Order:item.account_name}</a>
 	</td>
 	<td class="{$Order:sequence}">
 	{$Order:item.total_ex_vat|l10n(currency)}
@@ -62,6 +70,9 @@
 
 {/section}
 
+<div class="button">
+<input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/shop')}" />
+</div>
 
 {include name=navigator
          uri='design:navigator/google.tpl'

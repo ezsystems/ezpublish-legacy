@@ -2,7 +2,8 @@
   <h1>{"Order %1"|i18n("design/standard/shop",,array($order.order_nr))}</h1>
 </div>
 
-<b>{"Customer"|i18n("design/standard/shop")}</b> 
+<b>{"Customer"|i18n("design/standard/shop")}</b>
+<br />
 {shop_account_view_gui view=html order=$order}
 
 <br />

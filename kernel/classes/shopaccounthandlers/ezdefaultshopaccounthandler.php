@@ -70,6 +70,17 @@ class eZDefaultShopAccountHandler
         $user =& eZUser::currentUser();
         return $user->attribute( 'email' );
     }
+
+    /*!
+     \return the custom name for the given order
+    */
+    function accountName( $order )
+    {
+        $user =& eZUser::currentUser();
+        $accountName = $user->attribute( 'name' );
+        return $accountName;
+    }
+
     function fetchAccountInformation( &$module )
     {
         eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
