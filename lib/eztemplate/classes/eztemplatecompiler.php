@@ -321,6 +321,9 @@ class eZTemplateCompiler
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale =& eZLocale::instance();
         $language =& $locale->translationCode();
+        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http =& eZHTTPTool::instance();
+        $useFullUrlText = $http->UseFullUrl ? 'full' : 'relative';
 
         $pageLayoutVariable = "";
         if ( isset( $GLOBALS['eZCustomPageLayout'] ) )
