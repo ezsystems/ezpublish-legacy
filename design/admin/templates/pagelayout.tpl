@@ -216,6 +216,14 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/section}
 </div>
 
+{* Show bookmark button if we're looking at a node. *}
+{section show=$node.node_id|is_set()}
+<form method="post" action={"content/action"|ezurl}>
+<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to bookmarks'|i18n('design/standard/node/view')}" />
+</form>
+{/section}
+
 </div>
 </div>
 
