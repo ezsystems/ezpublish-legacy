@@ -44,6 +44,7 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'lib/ezutils/classes/ezsys.php' );
+include_once( 'lib/ezutils/classes/ezexecution.php' );
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
@@ -98,6 +99,12 @@ if ( $enableSOAP == 'true' )
 {
     eZSys::init( 'soap.php' );
 
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+
+    // Login if we have username and password.
+    if ( isset( $_SERVER['PHP_AUTH_USER'] ) and isset( $_SERVER['PHP_AUTH_PW'] ) )
+        eZUser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+
     include_once( 'lib/ezsoap/classes/ezsoapserver.php' );
 
     $server = new eZSOAPServer();
@@ -109,5 +116,7 @@ if ( $enableSOAP == 'true' )
 
     $server->processRequest();
 }
+
+eZExecution::cleanExit();
 
 ?>
