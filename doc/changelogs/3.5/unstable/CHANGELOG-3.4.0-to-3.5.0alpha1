@@ -275,6 +275,8 @@ eZ Template:
 - Added classification as classname in xmltags
   http://ez.no/community/bug_reports/many_of_the_ezxmltags_templates_lacks_class
 - Fixed problem with array/hash creation in template compiler.
+- Fixed bug in switch function when using in parameter and no subkey.
+  (Merged from stable/3.4 rev. 7191)
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
