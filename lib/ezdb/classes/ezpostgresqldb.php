@@ -588,7 +588,7 @@ class eZPostgreSQLDB extends eZDBInterface
             return array( 'string' => $versionInfo,
                           'values' => $versionArray );
         }
-        return $versionInfo;
+        return false;
     }
 
     /// \privatesection
