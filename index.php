@@ -660,26 +660,47 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     $ini =& eZINI::instance();
     $uri =& eZURI::instance( eZSys::requestURI() );
 
-    $redir_uri = $ini->variable( "DebugSettings", "DebugRedirection" );
+    list( $redirUri, $debugByIP, $debugIPList ) =
+        $ini->variableMulti( "DebugSettings", array( 'DebugRedirection', 'DebugByIP', 'DebugIPList' ) );
     $automatic_redir = true;
-    if ( $redir_uri == "enabled" )
+
+    if ( $redirUri == "enabled" )
     {
         $automatic_redir = false;
     }
-    else if ( $redir_uri != "disabled" )
+    else if ( $redirUri != "disabled" )
     {
-        $redir_uris = $ini->variableArray( "DebugSettings", "DebugRedirection" );
+        $redirUris = $ini->variableArray( "DebugSettings", "DebugRedirection" );
         $uri->toBeginning();
-        foreach ( $redir_uris as $redir_uri )
+        foreach ( $redirUris as $redirUri )
         {
-            $redir_uri = new eZURI( $redir_uri );
-            if ( $redir_uri->matchBase( $uri ) )
+            $redirUri = new eZURI( $redirUri );
+            if ( $redirUri->matchBase( $uri ) )
             {
                 $automatic_redir = false;
                 break;
             }
         }
     }
+
+    if ( $debugByIP == 'enabled' )
+    {
+        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        if ( $ipAddress )
+        {
+            $debugEnabled = in_array( $ipAddress, $debugIPList );
+        }
+        else
+        {
+            $debugEnabled = (
+                in_array( 'commandline', $debugIPList ) &&
+                (php_sapi_name() == 'cli')
+            );
+        }
+        $automatic_redir = !$debugEnabled;
+    }
+
+
 
     $redirectURI = eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
