@@ -2429,6 +2429,11 @@ WHERE
         $nodeID = $node->attribute( 'node_id' );
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
         eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
+
+        // Clean up bookmarks
+        $nodeID = $node->attribute( 'node_id' );
+        include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
+        eZContentBrowseBookmark::removeByNodeID( $nodeID );
     }
 
     /*!

@@ -76,7 +76,9 @@ eZINI:
   http://ez.no/community/bug_reports/export_to_pdf_does_not_store_export_type
 - Fixed PHP error when trying to edit non existing role.
   http://ez.no/community/bug_reports/error_in_role_view
-
+- Fixed bug (suggestion) of  Remove object should also remove bookmark
+  Also added cleaning up existing bookmarks and recent items for corrupted nodes
+  http://ez.no/community/bug_reports/remove_object_should_also_remove_bookmark
 *Library:
 
 eZ Locale:

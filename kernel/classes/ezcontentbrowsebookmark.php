@@ -206,6 +206,16 @@ class eZContentBrowseBookmark extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezcontentbrowsebookmark" );
     }
+
+    /*!
+     \static
+     Removes all bookmark entries for node.
+    */
+    function removeByNodeID( $nodeID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID" );
+    }
 }
 
 ?>
