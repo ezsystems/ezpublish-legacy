@@ -95,7 +95,7 @@ class eZTimeType extends eZDataType
         $hour = $http->postVariable( $base . "_time_hour_" . $contentObjectAttribute->attribute( "id" ) );
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $time = new eZTime();
+        $time = new eZTime( );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
         if ( $hour == '' and $minute == '' )
         {
@@ -108,7 +108,7 @@ class eZTimeType extends eZDataType
             $time->setHMS( $hour, $minute, 0 );
 
         eZDebug::writeDebug( $time->timeStamp(), 'time' );
-        $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() );
+        $contentObjectAttribute->setAttribute( "data_int", $time->timeStamp() % eZTime::secondsPerDay() );
         return true;
     }
 
@@ -118,7 +118,7 @@ class eZTimeType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $time = new eZTime( );
-        $stamp = $contentObjectAttribute->attribute( 'data_int' );
+        $stamp = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
         $time->setTimeStamp( $stamp );
         return $time;
     }
@@ -128,7 +128,7 @@ class eZTimeType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        return (int)$contentObjectAttribute->attribute( 'data_int' );
+        return (int)$contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
     }
 
     /*!
