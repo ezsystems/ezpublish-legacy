@@ -95,6 +95,8 @@ class eZTemplateCacheFunction
                 $keyString .= $functionPlacement[1][1] . "_";
                 $keyString .= $functionPlacement[2] . "_";
 
+                // Fetch the current siteaccess
+                $keyString .= $GLOBALS['eZCurrentAccess']['name'];
                 include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                 $md5Key = md5( $keyString );
 
