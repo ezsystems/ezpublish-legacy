@@ -1,18 +1,8 @@
 [SiteSettings]
 LoginPage=custom
-SiteURL=intranet.wy.dvh1.ez.no
 
 [SiteAccessSettings]
 RequireUserLogin=true
-
-[DatabaseSettings]
-DatabasePluginPath=
-# Use either ezmysql or ezpostgresql
-DatabaseImplementation=ezmysql
-Server=bf.ez.no
-User=root
-Password=mofser
-Database=intranet
 
 [DesignSettings]
 StandardDesign=standard

@@ -2,15 +2,6 @@
 [SiteAccessSettings]
 RequireUserLogin=true
 
-[DatabaseSettings]
-DatabasePluginPath=
-# Use either ezmysql or ezpostgresql
-DatabaseImplementation=ezmysql
-Server=bf.ez.no
-User=root
-Password=mofser
-Database=corporate
-
 [DesignSettings]
 StandardDesign=standard
 SiteDesign=admin

@@ -91,7 +91,11 @@ if [ "$USE_MYSQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+    if [ ! -z $USE_PAUSE ]; then
+	./bin/shell/sqlredump.sh --mysql --pause --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+    else
+	./bin/shell/sqlredump.sh --mysql --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_MYSQL_DATA_FILE $MYSQL_DATA_UPDATES
+    fi
     if [ $? -ne 0 ]; then
 	"Failed re-dumping SQL file $KERNEL_MYSQL_DATA_FILE"
 	exit 1
