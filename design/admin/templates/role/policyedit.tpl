@@ -36,7 +36,7 @@
 <div class="element">
 {/section}
 <label>{$Limitations:item.name}</label>
-<select name="{$Limitations:item.name}[]" size="8" multiple >
+<select name="{$Limitations:item.name}[]" size="8" multiple="multiple">
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/policyedit' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
@@ -58,7 +58,8 @@
 {* Nodes *}
 {case match='Node'}
 <div class="block">
-<label>{'Nodes [%node_count]'|i18n( 'design/admin/role/policyedit',, hash( '%node_count', $node_list|count ) )}</label>
+<fieldset>
+<legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/policyedit',, hash( '%node_count', $node_list|count ) )}</legend>
 {section show=$node_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -67,7 +68,7 @@
 </tr>
 {section var=Nodes loop=$node_list sequence=array( bglight, bgdark )}
 <tr class="{$Nodes.sequence}">
-<td><input type="checkbox" name="DeleteNodeIDArray[]" value={$Nodes.item.node_id} /></td>
+<td><input type="checkbox" name="DeleteNodeIDArray[]" value="{$Nodes.item.node_id}" /></td>
 <td>{$Nodes.item.name}</td>
 </tr>
 {/section}
@@ -85,13 +86,15 @@
 {/section}
 
 <input class="button" type="submit" name="BrowseLimitationNodeButton" value="{'Add nodes'|i18n( 'design/admin/role/policyedit' )}" />
+</fieldset>
 </div>
 {/case}
 
 {* Subtrees *}
 {case match='Subtree'}
 <div class="block">
-<label>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/policyedit',, hash( '%subtree_count', $subtree_list|count ) )}</label>
+<fieldset>
+<legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/policyedit',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
 {section show=$subtree_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -100,7 +103,7 @@
 </tr>
 {section var=Subtrees loop=$subtree_list sequence=array( bglight, bgdark )}
 <tr class="{$Subtrees.sequence}">
-<td><input type="checkbox" name="DeleteSubtreeIDArray[]" value={$Subtrees.item.node_id} /></td>
+<td><input type="checkbox" name="DeleteSubtreeIDArray[]" value="{$Subtrees.item.node_id}" /></td>
 <td>{$Subtrees.item.name}</td>
 </tr>
 {/section}
@@ -116,7 +119,7 @@
 {/section}
 
 <input class="button" type="submit" name="BrowseLimitationSubtreeButton" value="{'Add subtrees'|i18n( 'design/admin/role/policyedit' )}" />
-
+</fieldset>
 </div>
 {/case}
 
@@ -139,14 +142,13 @@
 <div class="block">
     <input type="hidden" name="CurrentModule" value="{$current_module}" />
     <input type="hidden" name="CurrentFunction" value="{$current_function}" />
-    <input class="button" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" />
-
     {section show=$function_limitations}
-    <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" />
+    <input class="button" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" />
     {section-else}
-    <input class="button-disabled" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
     {/section}
 
+    <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
