@@ -252,7 +252,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>{'Change password'|i18n( 'design/admin/pagelayout' )}</a></li>
 
 {section show=$basket.is_empty|not}
-<li><a href={'shop/basket'|ezurl}>{'Webshop basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( %basket_count, $basket.items|count ) )}</a></li>
+<li><a href={'shop/basket'|ezurl}>{'Webshop basket (%basket_count)'|i18n( 'design/admin/pagelayout',, hash( '%basket_count', $basket.items|count ) )}</a></li>
 {/section}
 
         <li><a href={'/user/logout'|ezurl}>{'Logout'|i18n( 'design/admin/pagelayout' )}</a></li>
