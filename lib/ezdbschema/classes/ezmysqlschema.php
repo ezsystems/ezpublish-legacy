@@ -208,13 +208,18 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	/*!
 	 * \private
 	 */
-	function generateAddIndexSql( $table_name, $index_name, $def, $params )
+	function generateAddIndexSql( $table_name, $index_name, $def, $params, $isEmbedded = false )
 	{
         $diffFriendly = $params['diff_friendly'];
         $sql = '';
-		$sql .= "ALTER TABLE $table_name ADD";
 
-        $sql .= " ";
+        // Will be set to true when primary key is inside CREATE TABLE
+        if ( !$isEmbedded )
+        {
+            $sql .= "ALTER TABLE $table_name ADD";
+            $sql .= " ";
+        }
+
 		switch ( $def['type'] )
 		{
             case 'primary':
@@ -233,10 +238,14 @@ class eZMysqlSchema extends eZDBSchemaInterface
             } break;
 		}
         $sql .= ( $diffFriendly ? " (\n    " : " ( " );
-		$sql .= join( ( $diffFriendly ? ",\n    " : ', ' ), $def['fields'] );
+        $sql .= join( ( $diffFriendly ? ",\n    " : ', ' ), $def['fields'] );
         $sql .= ( $diffFriendly ? "\n)" : " )" );
 
-		return $sql . ";\n";
+        if ( !$isEmbedded )
+        {
+            return $sql . ";\n";
+        }
+        return $sql;
 	}
 
 	/*!
@@ -301,11 +310,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
 		{
             if ( $diffFriendly )
             {
-                $sql_def .= "int(11)\n    NOT NULL\n    AUTO_INCREMENT\n    PRIMARY KEY";
+                $sql_def .= "int(11)\n    NOT NULL\n    AUTO_INCREMENT";
             }
             else
             {
-                $sql_def .= 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY';
+                $sql_def .= 'int(11) NOT NULL AUTO_INCREMENT';
             }
 			$skip_primary = true;
 		}
@@ -352,7 +361,19 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $skip_pk = true;
             }
         }
-        $sql .= join( ",\n", $sql_fields ) . "\n);\n";
+        if ( $skip_pk )
+        {
+            foreach ( $tableDef['indexes'] as $index_name => $index_def )
+            {
+                if ( $index_def['type'] != 'primary' )
+                    continue;
+                $sql_fields[] = ( $diffFriendly ? '' : '  ' ) . eZMysqlSchema::generateAddIndexSql( $tableName, $index_name, $index_def, $params, true );
+                break;
+            }
+        }
+        $sql .= join( ",\n", $sql_fields );
+        // We need to add primary key in table definition
+        $sql .= "\n);\n";
 
         foreach ( $tableDef['indexes'] as $index_name => $index_def )
         {
