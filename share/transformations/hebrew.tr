@@ -1,0 +1,67 @@
+# Rules related to hebrew
+#
+# The following charsets uses characters from hebrew:
+# cp862, iso-8859-8, windows-1255
+#
+# See basic.tr for formatting options
+
+# Transliteration of hebrew, is used in URLs and identifiers
+
+hebrew_transliterate_ascii:
+U+0591 - U+05A1 = ""
+U+05A3 - U+05AF = ""
+
+U+05B0 = ""
+U+05B1 = "e"
+U+05B2 = "a"
+U+05B3 = "o"
+U+05B4 = "i"
+U+05B5 = "e"
+U+05B6 = "e"
+U+05B7 = "a"
+U+05B8 = "e"
+U+05B9 = "o"
+U+05BA = ""
+U+05BB = "u"
+U+05BC = ""
+U+05BD = ""
+U+05BE = "\'"
+U+05BF = ""
+
+U+05C0 = "|"
+U+05C3 = ":"
+
+U+05D0 = "\'"
+U+05D1 = "b"
+U+05D2 = "g"
+U+05D3 = "d"
+U+05D4 = "h"
+U+05D5 = "o"
+U+05D6 = "z"
+U+05D7 = "h"
+U+05D8 = "t"
+U+05D9 = "y"
+U+05DA = "k"
+U+05DB = "k"
+U+05DC = "l"
+U+05DD = "m"
+U+05DE = "m"
+U+05DF = "n"
+
+U+05E0 = "n"
+U+05E1 = "s"
+U+05E2 = "\'"
+U+05E3 = "p"
+U+05E4 = "p"
+U+05E5 = "z"
+U+05E6 = "z"
+U+05E7 = "q"
+U+05E8 = "r"
+U+05E9 = "s"
+U+05EA = "t"
+
+U+05F0 = "ww"
+U+05F1 = "wy"
+U+05F2 = "yy"
+U+05F3 = "\'"
+U+05F4 = "\""
