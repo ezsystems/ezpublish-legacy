@@ -49,7 +49,7 @@ $Params['TemplateObject'] =& $tpl;
 
 // Create new user object if user is not logged in
 $user =& eZUser::currentUser();
-if ( !$user->isLoggedIn() )
+if ( !$user->isLoggedIn() and !$http->hasSessionVariable( "RegisterUserID" ) )
 {
     $ini =& eZINI::instance();
 
@@ -61,18 +61,31 @@ if ( !$user->isLoggedIn() )
     $contentObject =& $class->instantiate( 14, 1 );
     $objectID = $contentObject->attribute( 'id' );
 
+    // Store the ID in session variable
+    $http->setSessionVariable( "RegisterUserID", $objectID );
+
+    $userID = $objectID;
+
     $nodeAssignment =& eZNodeAssignment::create( array(
                                                      'contentobject_id' => $contentObject->attribute( 'id' ),
                                                      'contentobject_version' => 1,
                                                      'parent_node' => $defaultUserPlacement,
-                                                     'main' => 1
+                                                     'is_main' => 1
                                                      )
                                                  );
     $nodeAssignment->store();
-
+}
+else if ( $http->hasSessionVariable( "RegisterUserID" ) )
+{
+    $userID = $http->sessionVariable( "RegisterUserID" );
+}
+else
+{
+    $userID = $user->attribute( 'contentobject_id' );
 }
 
-$Params['ObjectID'] = $objectID;
+
+$Params['ObjectID'] = $userID;
 
 $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
@@ -110,10 +123,8 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $http =& eZHttpTool::instance();
-            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+            $http =& eZHTTPTool::instance();
 
-            $count = 0;
             $user =& eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
@@ -124,6 +135,8 @@ if ( !function_exists( 'checkContentActions' ) )
             // Check if user should be enabled and logged in
             $user =& eZUser::fetch( $object->attribute( 'id' ) );
             $user->loginCurrent();
+
+            $http->removeSessionVariable( "RegisterUserID" );
 
             // check for redirectionvariable
             if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )

@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data"  action={concat($module.functions.register.uri)|ezurl} method="post" name="Register">
+<form enctype="multipart/form-data"  action={"/user/register/"|ezurl} method="post" name="Register">
 
 <div class="maincontentheader">
 <h1>Register user</h1>

@@ -198,9 +198,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-//            $nodeAssignmentList =& $version->attribute( 'node_assignments' );
-
-//            $count = 0;
             $user =& eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
