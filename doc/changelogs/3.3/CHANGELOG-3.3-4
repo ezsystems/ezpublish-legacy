@@ -39,6 +39,8 @@ eZ template:
 eZ db:
 
 eZ Locale:
+- Removed space between dollar sign and pricevalue in eng-US
+  http://ez.no/community/bug_reports/space_after_dollar_sign_should_be_removed
 
 *Design:
 
