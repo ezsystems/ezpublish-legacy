@@ -22,24 +22,19 @@ alter table ezorder add data_text_1 text;
 alter table ezsection add navigation_part_identifier varchar(100) default 'ezcontentnavigationpart';
 alter table ezorder add account_identifier varchar(100) not null default 'default';
 
-# run update/common/scripts/updatexmltext.php to fix XML fields with inproper text encoding
-
 drop table eztask;
 drop table eztask_message;
 
 alter table ezimage add alternative_text varchar(255) not null default "";
-# Default field for import syncronization
 alter table ezcontentobject add remote_id varchar(100);
 
 
 alter table ezorder add ignore_vat int not null default '0';
 
-# Store the VAT value
 alter table ezorder_item drop vat_type_id;
 alter table ezorder_item drop vat_is_included;
 alter table ezorder_item add vat_value int not null default '0';
 
-# Missing indexes
 alter table ezcontentobject_tree add index ( md5_path );
 alter table ezsession drop cache_mask_1;
 
