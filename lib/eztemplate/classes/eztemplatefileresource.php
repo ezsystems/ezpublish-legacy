@@ -89,8 +89,8 @@ class eZTemplateFileResource
     function &cachedTemplateTree( $uri, $res, $templatePath, &$extraParameters )
     {
         $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
-        if ( eZTemplateTreeCache::canRestoreCache( $key ) )
-            eZTemplateTreeCache::restoreCache( $key );
+//         if ( eZTemplateTreeCache::canRestoreCache( $key ) )
+//             eZTemplateTreeCache::restoreCache( $key );
         return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
     }
 
@@ -98,7 +98,7 @@ class eZTemplateFileResource
     {
         $key = $this->cacheKey( $uri, $res, $templatePath, $extraParameters );
         eZTemplateTreeCache::setCachedTree( $key, $uri, $res, $templatePath, $extraParameters, $root );
-        eZTemplateTreeCache::storeCache( $key );
+//         eZTemplateTreeCache::storeCache( $key );
     }
 
     /*!
