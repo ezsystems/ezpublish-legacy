@@ -125,6 +125,7 @@ links to clickable links.
 - Applied new design to setup
 - Fixed problem with redirection in SSL mode
 - Fixed problem with language setting not remembered if language details was skipped
+- Fixed redirection after login to last accessed page.
 
 *SDK :
 
