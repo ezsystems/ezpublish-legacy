@@ -4,9 +4,9 @@
     <li><a href={"/setup/info/"|ezurl}>{"System information"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/url/list/"|ezurl}>{"URL management"|i18n("design/admin/layout")}</a></li>
     <li><a href={"/content/urltranslator/"|ezurl}>{"URL translator"|i18n("design/admin/layout")}</a></li>
-    {section show=eq(ezpreference('advanced_menu'),'on')}
-    <li><a href={"/user/preferences/set/advanced_menu/off"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
-    <a href={"/user/preferences/set/advanced_menu/off"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
+    {section show=ezpreference( 'admin_setup_advanced' )}
+    <li><a href={"/user/preferences/set/admin_setup_advanced/0"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
+    <a href={"/user/preferences/set/admin_setup_advanced/0"|ezurl}><img src={"down.gif"|ezimage} alt="" width="11" height="6" /></a>
         <ul>
         <li><a href={"/class/grouplist/"|ezurl}>{"Classes"|i18n("design/admin/layout")}</a></li>
         <li><a href={"/setup/extensions/"|ezurl}>{"Extensions"|i18n("design/admin/layout")}</a></li>
@@ -26,7 +26,7 @@
         </ul>
     </li>
     {section-else}
-    <li><a href={"/user/preferences/set/advanced_menu/on"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
-    <a href={"/user/preferences/set/advanced_menu/on"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a></li>
+    <li><a href={"/user/preferences/set/admin_setup_advanced/1"|ezurl}>{"Advanced"|i18n("design/admin/layout")}</a>
+    <a href={"/user/preferences/set/admin_setup_advanced/1"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a></li>
     {/section}
 </ul>
