@@ -5,8 +5,8 @@
 </div>
 
 <div class="byline">
-<p class="created">Created by {$class.creator_id} on {$class.created|l10n(shortdatetime)}</p>
-<p class="date">Modified by {$class.modifier_id} on {$class.modified|l10n(shortdatetime)}</p>
+<p class="created">Created by {content_view_gui view=text_linked content_object=$class.creator.contentobject} on {$class.created|l10n(shortdatetime)}</p>
+<p class="date">Modified by {content_view_gui view=text_linked content_object=$class.modifier.contentobject} on {$class.modified|l10n(shortdatetime)}</p>
 </div>
 
 <div class="block">
