@@ -32,13 +32,22 @@ Match[classification]=subtree
 Source=node/view/full.tpl
 MatchFile=full/article.tpl
 Subdir=templates
-Match[class]=2
+Match[class_identifier]=article
 
 [line_article]
 Source=node/view/line.tpl
 MatchFile=line/article.tpl
 Subdir=templates
-Match[class]=2
+Match[class_identifier]=article
+# Match[class_identifier]=2
+
+[class_image]
+Source=content/datatype/view/ezobjectrelation.tpl
+MatchFile=datatype/ezobjectrelation/image.tpl
+Subdir=templates
+Match[class_identifier]=article
+# Match[class_identifier]=2
+
 
 # Comment templates
 
