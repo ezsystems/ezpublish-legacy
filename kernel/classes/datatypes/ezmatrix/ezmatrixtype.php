@@ -198,6 +198,7 @@ class eZMatrixType extends eZDataType
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
                 $arrayRemove = $http->postVariable( $postvarname );
 
+                rsort( $arrayRemove );
                 foreach ( $arrayRemove as $rowNum)
                 {
                     $matrix->removeRow( $rowNum );
