@@ -2,24 +2,24 @@
 
 
 <p>Items per page: <a href={'/user/preferences/set/items/1'|ezurl}>10</a> <a href={'/user/preferences/set/items/2'|ezurl}>25</a> <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
+
 {let number_of_items=10}
 
 {switch match=ezpreference( 'items' )}
-
 {case match=2}
     {set number_of_items=25}
 {/case}
-
 {case match=3}
     {set number_of_items=50}
 {/case}
-
 {case}
     {set number_of_items=10}
 {/case}
-
 {/switch}
+
 </p>
+
+
 <form method="post" action={"content/action"|ezurl}>
 {let can_remove=false()
      can_edit=false()

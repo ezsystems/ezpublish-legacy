@@ -6,19 +6,19 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 
 {section show=$node.object.can_edit}
-    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
+    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" title="{'Click here to edit the item that is being displayed above.'|i18n( 'design/admin/layout' )}" />
 {section-else}
-    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" disabled="disabled" />
+    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to edit the item that is being displayed above.'|i18n( 'design/admin/layout' )} "disabled="disabled" />
 {/section}
 
-{* Alloe remove button if this is not a root node and if the user is allowed to remove it: *}
+{* Allow remove button if this is not a root node and if the user is allowed to remove it: *}
 {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode',      'content.ini' ) ),
                   eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ),
                   eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode',  'content.ini' ) ),
                   eq( $node.object.can_remove, false() ) ) }
-<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" disabled="disabled" />
+<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove the item that is being displayed above.'|i18n( 'design/admin/layout' )}"disabled="disabled" />
 {section-else}
-<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" title="{'Click here to remove the item that is being displayed above.'|i18n( 'design/admin/layout' )}" />
 {/section}
 
 <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
