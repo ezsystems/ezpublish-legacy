@@ -44,18 +44,21 @@ function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
 {
     // Set to false to avoid files being written to.
     $saveData = true;
-
     $ini =& eZINI::create();
 
     $databaseMap = eZSetupDatabaseMap();
-
+    $databaseInfo = $persistenceList["database_info"];
     $dbServer = $databaseInfo['server'];
     $dbName = $databaseInfo['name'];
     $dbSocket = $databaseInfo['socket'];
     $dbUser = $databaseInfo['user'];
     $dbPwd = $databaseInfo['password'];
+    if ( !isset( $charset ) )
+    {
+        $charset = 'iso-8859-1';
+    }
     $dbCharset = $charset;
-    $dbDriver = $databaseInfo['info']['driver'];
+    $dbDriver = $databaseMap[$databaseInfo['type']]['driver'];
     $dbParameters = array( 'server' => $dbServer,
                            'user' => $dbUser,
                            'password' => $dbPwd,
@@ -108,6 +111,7 @@ function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
             $ini->setVariable( 'MailSettings', 'AdminEmail', $siteInfo['admin_email'] );
             $ini->setVariable( 'MailSettings', 'EmailSender', $siteInfo['admin_email'] );
         }
+
         $ini->setVariable( "SiteSettings", "SiteURL", $url );
 
         $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
@@ -144,7 +148,6 @@ function eZSetupStep_finished( &$tpl, &$http, &$oldINI, &$persistenceList )
                 }
             }
         }
-
         if ( $primaryLanguage === null )
             $primaryLanguage = eZLocale::create( $persistenceList['regional_info']['primary_language'] );
         $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
