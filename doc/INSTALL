@@ -76,10 +76,12 @@ insert a database.
 3. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
    (This command will also create the specified user, in addition to granting permissions.)
 4. If you don't want demodata:
-   $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_clean.sql
+   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_schema.sql
+   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/cleandata.sql
 
    If you do want demodata:
-   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/demokernel.sql
+   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/kernel_schema.sql
+   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/mysql/demodata.sql
 
 2.1.2 PosgreSQL
 We need to login, create a new database, grant permissions to a user and
@@ -98,7 +100,7 @@ insert a database.
 2.2 Demo data
 -------------
 Demodata is only for MySQL. Before you proceed make sure you
-installed the demokernel.sql file.
+installed the demodata.sql file.
 To install the demodata all you have to do is unpack the var.tgz file:
 
 1. $ cd <httproot>/ezpublish-xxx/
@@ -175,8 +177,10 @@ and insert a database.
 4. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
    (This command will also create the specified user, in addition to granting permissions.)
 5. If you don't want demodata:
-   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_clean.sql
+   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_schema.sql
+   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\cleandata.sql
    If you do want demodata:
+   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql\mysql\kernel_schema.sql
    $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-xxx\kernel\sql/mysql\demokernel.sql
 
 
