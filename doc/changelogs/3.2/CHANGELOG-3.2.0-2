@@ -14,6 +14,9 @@ Changes from 3.2.0-1 to 3.2.0-2
   updateniceurls.php and updatesearchindex.php.
 - Added back the API reference viewer, it is now a separate module which can be used to view
   the generated reference as well as other references (in the future). The url is reference/view/ez/
+- Added a site list to site.ini under SiteSettings, this is a list of sites which this installation
+  has. Each item on the list is a siteaccess, often this is the user siteaccess for an installed
+  package.
 
 *Setup:
 - Made sure the password is used when connecting to database.
