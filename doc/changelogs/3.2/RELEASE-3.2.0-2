@@ -1,0 +1,24 @@
+Release notes for 3.2.0-2
+
+- All text strings in eZ publish has been freezed and can now be translated before the final release.
+- The admin email address can now be controlled by one ini setting making it easier to maintain.
+- The new script functionality has been integrated with all scripts in eZ publish making them
+  easier to use as well as making it easier to maintain them.
+- The old API reference view has been brought in a similar way as it was in the old SDK.
+  To access it you must enter the url reference/view/ez
+- The setup has been given an overhaul with new help texts, better user interface and some bugfixes.
+- The command line utility for managing packages (ezpm.php) has been updated. The missing install command
+  was added, this means that it's now possible to install package archives from the command line.
+  Also the content class handling was fixed.
+- The search statistics page now has a button to reset the stats if this is needed.
+- The webdav library has been improved and should now even work without the use of rewrite rules but only
+  for some clients. The need for having register_globals set to on is now removed.
+- The following reported bugs has been fixed:
+  http://ez.no/developer/ez_publish_3/bug_reports/main_node_id_in_node_tree_always_set_to_zero_for_additional_locations
+  http://ez.no/developer/ez_publish_3/bug_reports/choosing_new_image_while_editing_article_gives_me_a_new_article
+  http://ez.no/developer/ez_publish_3/bug_reports/user_role_problem_unable_to_change_own_password
+  http://ez.no/developer/ez_publish_3/bug_reports/adding_locations_gives_a_bad_main_node_id_as_attribute
+  http://ez.no/developer/ez_publish_3/bug_reports/sum_operator
+  http://ez.no/developer/ez_publish_3/bug_reports/wiredin_english_words_in_the_kernel_output
+  http://ez.no/developer/ez_publish_3/bug_reports/copying_content_object_does_not_work
+  http://ez.no/developer/ez_publish_3/bug_reports/roles_changing_from_allow_all_to_more_restrictive_leaves_asterisk_in_limitations_column

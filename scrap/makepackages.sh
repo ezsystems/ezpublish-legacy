@@ -3,7 +3,7 @@
 export PATH=$PATH:/usr/local/php/bin/
 
 # Make dir for packages
-rm -rf var/storage/packages/
+#rm -rf var/storage/packages/
 rm -rf kernel/setup/packages
 mkdir kernel/setup/packages
 
