@@ -117,6 +117,7 @@ class eZLocale
         $this->TimeSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->TimePHPArray );
         $this->DateSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->DatePHPArray );
         $this->DateTimeSlashOutputArray = preg_replace( '/.+/', '\\\\$0', $this->DateTimePHPArray );
+        $this->HTTPLocaleCode = '';
 
         $this->DayNames = array( 0 => 'sun', 1 => 'mon', 2 => 'tue',
                                  3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat' );
@@ -235,7 +236,6 @@ class eZLocale
         $this->LanguageName = '';
         $this->LanguageComment = '';
         $this->IntlLanguageName = '';
-        $this->HTTPLocaleCode = '';
 
         $this->ShortDayNames = array();
         $this->LongDayNames = array();
@@ -279,7 +279,7 @@ class eZLocale
             $this->MondayFirst = strtolower( $countryINI->variable( 'DateTime', 'MondayFirst' ) ) == 'yes';
 
         $countryINI->assign( 'RegionalSettings', 'Country', $this->Country );
-        $this->CountryComment =& $countryINI->assign( "RegionalSettings", "CountryComment", $this->CountryComment );
+        $countryINI->assign( "RegionalSettings", "CountryComment", $this->CountryComment );
 
         $countryINI->assign( 'Numbers', 'DecimalSymbol', $this->DecimalSymbol );
         $countryINI->assign( 'Numbers', 'ThousandsSeparator', $this->ThousandsSeparator );
@@ -357,7 +357,7 @@ class eZLocale
     function localeInformation( $localeString )
     {
         $info = null;
-        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+)(\(([a-zA-Z0-9]+)\))?)?(\.([a-zA-Z-]+))?/', $localeString, $regs ) )
+        if ( preg_match( '/^([a-zA-Z]+)([_-]([a-zA-Z]+))?(@([a-zA-Z0-9]+))?(\.([a-zA-Z-]+))?/', $localeString, $regs ) )
         {
             $info = array();
             $language = strtolower( $regs[1] );
@@ -368,8 +368,8 @@ class eZLocale
             if ( isset( $regs[5] ) )
                 $countryVariation = strtolower( $regs[5] );
             $charset = '';
-            if ( isset( $regs[6] ) )
-                $charset = strtolower( $regs[6] );
+            if ( isset( $regs[7] ) )
+                $charset = strtolower( $regs[7] );
             $locale = $language;
             if ( $country !== '' )
                 $locale .= '-' . $country;
@@ -958,7 +958,7 @@ class eZLocale
             if ( $withVariation )
             {
                 if ( $countryVariation !== '' )
-                    $locale .= '(' . $countryVariation . ')';
+                    $locale .= '@' . $countryVariation;
             }
             $localeFile = $locale . '.ini';
             eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
@@ -983,7 +983,7 @@ class eZLocale
             if ( $withVariation )
             {
                 if ( $countryVariation !== '' )
-                    $locale .= '(' . $countryVariation . ')';
+                    $locale .= '@' . $countryVariation;
             }
             $countryFile = 'country/' . $locale . '.ini';
             eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
@@ -1003,11 +1003,12 @@ class eZLocale
         if ( get_class( $this->LanguageINI[$type] ) != 'ezini' )
         {
             $language = $this->languageCode();
+            $countryVariation = $this->countryVariation();
             $locale = $language;
             if ( $withVariation )
             {
                 if ( $countryVariation !== '' )
-                    $locale .= '(' . $countryVariation . ')';
+                    $locale .= '@' . $countryVariation;
             }
             $languageFile = 'language/' . $locale . '.ini';
             eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
