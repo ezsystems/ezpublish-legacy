@@ -124,7 +124,9 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 - Fixed bug with pre and post text for the 'text' tag in the simpletags operator. (Merged from stable/3.2 rev. 5516)
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
-  
+- Fixed a warning in content/browse.php (Merged from stable/3.2 rev. 5525)
+  http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
+
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
 
