@@ -1,14 +1,18 @@
 Changes from 3.2-2 to 3.2-3
 
 *Kernel:
-- Fixed wait until date event handler to support backwards dates.
+- Fixed wait until date event handler to support dates in the past.
   If the date is in the past the publishing date is changed to that date.
 - Added support for controlling whether template override cache is to be used or not. If disabled
   you don't need to clear the cache for new templates until you enable the cache again.
-- Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
+- Added a $cli initialization where a function could be called on a non-object in eZScript::initialize()
 - Fixed case where the ezsearch_tmp_0 table could be created twice in ezsearchenginge.php
 - Added support for setting the From, Message-ID, In-Reply-To and References
   message headers from the notification templates.
+- Improved the path to show URL aliases if they are enabled and the path contains such aliases.
+- Fixed the path from content/edit to show the path of main assignment if possible.
+  This should help figuring out where the object goes with custom made edit templates
+  where the path selection is hidden.
 
 *DataType:
 
@@ -19,7 +23,7 @@ Changes from 3.2-2 to 3.2-3
   Removed the sum operator from the array operator collection. Implemented support
   for summarizing arrays put as input value to the operator as well as parameters.
   The sub operator was also fixed to work with arrays.
-- Added stylesheets to the redirect template to make the buttons appear in Opera.
+- Added style sheets to the redirect template to make the buttons appear in Opera.
 - Made sure session variable RedirectAfterUserRegister is removed after user is registered.
 - In tipafriend the email address is checked to be empty before the POST variable YourEmail is fetched.
 - http://ez.no/developer/ez_publish_3/bug_reports/link_in_media_template_of_folder_is_broken
@@ -63,7 +67,7 @@ Changes from 3.2-2 to 3.2-3
 - http://ez.no/developer/ez_publish_3/bug_reports/related_objects_error
   Added missing function findMainNodeArray in eZContentObjectTreeNode.
 - http://ez.no/developer/ez_publish_3/bug_reports/httplocale_etc_get_loaded_with_original_siteini
-  Fixed reading locale settings after siteaccess initializing.
+  Fixed reading locale settings after site access initializing.
 - http://ez.no/developer/ez_publish_3/bug_reports/embedded_object_inline_view_bug
   Fixed correct namespace.
 - Made sure redirects only use reverse url translation if the translation system is enabled.
@@ -88,7 +92,7 @@ eZ template:
 - Fixed missing comma (,) in eztemplatenl2broperator.php (nl2br).
 
 eZFile:
-- Made sure eZDir::mkdir returned true when succesful and made sure it skips empty dir elements.
+- Made sure eZDir::mkdir returned true when successful and made sure it skips empty dir elements.
 - New function cleanupEmptyDirectories in eZDir, it will remove empty directories in a path.
 - Implemented the missing doRename function in eZFileHandler.
 - Added move function to eZFileHandler, it can move (rename or copy/delete) a file from one place to another.
@@ -100,6 +104,6 @@ eZ soap:
 
 *Translations:
 - Updated Portuguese translation, thanks to Miguel Angelo Gouveia Saturnino.
-- Fixed correct HTTP content language to zh-CH for chinese.
+- Fixed correct HTTP content language to zh-CH for Chinese.
 
 *Miscellaneous:

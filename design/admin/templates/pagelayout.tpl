@@ -227,10 +227,7 @@
 
 {/cache-block}
 
-{cache-block keys=$uri_string}
     {include uri="design:page_toppath.tpl"}
-
-{/cache-block}
 
 
 {* Main area START *}
