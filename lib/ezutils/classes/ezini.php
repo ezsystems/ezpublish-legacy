@@ -736,6 +736,21 @@ class eZINI
             $fileName .= ".append";
         if ( $suffix !== false )
             $fileName .= $suffix;
+
+        /* Try to guess which filename would fit better: 'xxx.apend' or 'xxx.append.php'.
+         * We choose 'xxx.append.php' in all cases except when
+         * 'xxx.append' exists already and 'xxx.append.php' does not exist.
+         */
+        if( strstr( $fileName, '.append' ) )
+        {
+            $fnAppend    = ereg_replace( '\.php$', '', $fileName );
+            $fnAppendPhp = $fnAppend.'.php';
+            $fpAppend    = eZDir::path( array_merge( $pathArray, $fnAppend    ) );
+            $fpAppendPhp = eZDir::path( array_merge( $pathArray, $fnAppendPhp ) );
+            $fileName = ( file_exists( $fpAppend ) && !file_exists( $fpAppendPhp ) )
+                       ? $fnAppend : $fnAppendPhp;
+        }
+
         $originalFileName = $fileName;
         $backupFileName = $originalFileName . eZSys::backupFilename();
         $fileName .= '.tmp';
