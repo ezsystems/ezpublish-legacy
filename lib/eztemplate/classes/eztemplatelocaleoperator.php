@@ -53,6 +53,7 @@
 */
 
 include_once( "lib/ezlocale/classes/ezlocale.php" );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZTemplateLocaleOperator
 {
@@ -60,9 +61,14 @@ class eZTemplateLocaleOperator
      Initializes the object with the default locale.
      \note Add support for specifying the locale object.
     */
-    function eZTemplateLocaleOperator()
+    function eZTemplateLocaleOperator( $localeName = 'l10n', $dateTimeName = 'datetime',
+                                       $currentDateName = 'currentdate' )
     {
-        $this->Operators = array( "l10n", 'currentdate' );
+        $this->Operators = array( $localeName, $dateTimeName,
+                                  $currentDateName );
+        $this->LocaleName = $localeName;
+        $this->DateTimeName = $dateTimeName;
+        $this->CurrentDateName = $currentDateName;
         $this->Locale =& eZLocale::instance();
     }
 
@@ -87,9 +93,15 @@ class eZTemplateLocaleOperator
     */
     function namedParameterList()
     {
-        return array( 'l10n' => array( "type" => array( "type" => "string",
-                                                        "required" => true,
-                                                        "default" => false ) ) );
+        return array( 'l10n' => array( 'type' => array( 'type' => 'string',
+                                                        'required' => true,
+                                                        'default' => false ) ),
+                      'datetime' => array( 'class' => array( 'type' => 'string',
+                                                             'required' => true,
+                                                             'default' => false ),
+                                           'data' => array( 'type' => 'mixed',
+                                                            'required' => false,
+                                                            'default' => false ) ) );
     }
 
     /*!
@@ -104,54 +116,75 @@ class eZTemplateLocaleOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        if ( $operatorName == 'currentdate' )
+        if ( $operatorName == $this->CurrentDateName )
         {
-            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
             $value = eZDateTime::currentTimestamp();
         }
-        else
+        else if ( $operatorName == $this->DateTimeName )
         {
-            $type = $namedParameters["type"];
+            $class = $namedParameters['class'];
+            if ( $class === null )
+                return;
+            if ( $class == 'custom' )
+            {
+                $value = $this->Locale->formatDateTimeType( $namedParameters['data'], $value );
+            }
+            else
+            {
+                $dtINI =& eZINI::instance( 'datetime.ini' );
+                $formats = $dtINI->variable( 'ClassSettings', 'Formats' );
+                if ( array_key_exists( $class, $formats ) )
+                {
+                    $classFormat = $formats[$class];
+                    $value = $this->Locale->formatDateTimeType( $classFormat, $value );
+                }
+                else
+                    $tpl->error( $operatorName, "DateTime class '$class' is not defined" );
+            }
+        }
+        else if ( $operatorName == $this->LocaleName )
+        {
+            $type = $namedParameters['type'];
             if ( $type === null )
                 return;
             switch ( $type )
             {
-                case "time":
+                case 'time':
                 {
                     $value = $this->Locale->formatTime( $value );
                 } break;
 
-                case "shorttime":
+                case 'shorttime':
                 {
                     $value = $this->Locale->formatShortTime( $value );
                 } break;
 
-                case "date":
+                case 'date':
                 {
                     $value = $this->Locale->formatDate( $value );
                 } break;
 
-                case "shortdate":
+                case 'shortdate':
                 {
                     $value = $this->Locale->formatShortDate( $value );
                 } break;
 
-                case "datetime":
+                case 'datetime':
                 {
                     $value = $this->Locale->formatDateTime( $value );
                 } break;
 
-                case "shortdatetime":
+                case 'shortdatetime':
                 {
                     $value = $this->Locale->formatShortDateTime( $value );
                 } break;
 
-                case "currency":
+                case 'currency':
                 {
                     $value = $this->Locale->formatCurrency( $value );
                 } break;
 
-                case "number":
+                case 'number':
                 {
                     $value = $this->Locale->formatNumber( $value );
                 } break;
@@ -163,10 +196,15 @@ class eZTemplateLocaleOperator
         }
     }
 
+    /// \privatesection
     /// The operator array
     var $Operators;
     /// A reference to the locale object
     var $Locale;
+
+    var $LocaleName;
+    var $DateTimeName;
+    var $CurrentDateName;
 }
 
 ?>

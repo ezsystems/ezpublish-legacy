@@ -113,6 +113,9 @@ eZTemplate:
 - New arithmetic operator count to get the count of a type, supports arrays and objects.
 - Added check for ImageTTFBox support in eZTemplateImageLayer class
 - Added documentation of the available template operators in eZ publish.
+- Added datetime operator which allows for custom date/time formats, it
+  can read the formats from the datetime.ini file using class names or
+  the format may be added directly in the template.
 
 eZINI:
 - Added support for override directories which are not a subdir
