@@ -23,8 +23,14 @@ Changes from 2.9-4 to 2.9-5
 eZ utils:
 - Added function for automatically remove escaped ' and " characters done by magic quote
 
+eZ text codec:
+- A new function /conversionRequired/ can be used to detect if it's necessary to call
+  the conversion functions in text codec. This improves speed for code which handles
+  lots of strings.
+
 eZ debug:
 - Made sure debug messages are ignored when debug is off.
 - New feature: Accumulators, they can be used for profiling how much time
   a part the program takes.
 - Added support for total script time.
+- No string conversion is run if it is not required, this means sql queries are much faster.
