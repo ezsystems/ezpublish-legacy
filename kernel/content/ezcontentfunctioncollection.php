@@ -64,14 +64,16 @@ class eZContentFunctionCollection
         return array( 'result' => &$object );
     }
 
-    function &fetchObjectList( $parentNodeID, $sortBy, $offset, $limit )
+    function &fetchObjectList( $parentNodeID, $sortBy, $offset, $limit, $class_filter_type, $class_filter_array )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $children =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                               'Offset' => $offset,
-                                                              'sort_by' => $sortBy,
+                                                              'SortBy' => $sortBy,
                                                               'Limit' => $limit,
-                                                              'Limitation' => null ),
+                                                              'Limitation' => null,
+                                                              'ClassFilterType' => $class_filter_type,
+                                                              'ClassFilterArray' => $class_filter_array ),
                                                        $parentNodeID );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',

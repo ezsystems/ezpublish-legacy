@@ -263,7 +263,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                         'Offset' => false,
                                         'Limit' => false,
                                         'sort_by' => array(),
-                                        'class_id' => false) ,$nodeID = 0)
+                                        'ClassFilterType' => false,
+                                        'ClassFilterArray' => false ) ,$nodeID = 0 )
     {
         $depth = false;
         $offset = false;
@@ -349,9 +350,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sortingFields = " path_string ASC";
         }
 
-        if ( isset( $params['class_id'] ) && $params['class_id'] )
+        if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
+             and count( $params['ClassFilterArray'] ) > 0 )
         {
-            $classCondition = ' ezcontentobject.contentclass_id = \'' . $params['class_id'] . '\' AND ';
+            $classCondition = ' ( ';
+            $i = 0;
+            $classCount = count( $params['ClassFilterArray'] );
+            foreach ( $params['ClassFilterArray'] as $classID )
+            {
+                if ( $params['ClassFilterType'] == 'include' )
+                    $classCondition .= " ezcontentobject.contentclass_id = '$classID' ";
+                else
+                    $classCondition .= " ezcontentobject.contentclass_id <> '$classID' ";
+
+                $i++;
+                if ( $i < $classCount )
+                {
+                    if ( $params['ClassFilterType'] == 'include' )
+                        $classCondition .= " OR ";
+                    else
+                        $classCondition .= " AND ";
+                }
+            }
+            $classCondition .= ' ) AND ';
         }
 
         if ( $nodeID == 0 )
