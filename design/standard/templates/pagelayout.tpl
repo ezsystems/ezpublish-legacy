@@ -48,7 +48,10 @@
 	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
-    <label class="topline">Name: {$current_user.login}</label>
+{*    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p> *}
+
+    <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label>
+{*    <label class="topline">Name: {$current_user.login}</label> *}
     <p class="topline"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/logout/">Log out</a></p>
     </td>
 </tr>
