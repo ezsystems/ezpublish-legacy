@@ -472,7 +472,7 @@ $FunctionList['read'] = array( 'Class' => $ClassID,
 $FunctionList['create'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'ParentClass' => $ParentClassID,
-                                 'Node' => $Node,
+                                 'Node' => array_merge(  $Node, array( 'DropList' => array( 'ParentClass', 'Section' ) ) ),
                                  'Subtree' => $Subtree
                                  );
 $FunctionList['edit'] = array( 'Class' => $ClassID,
