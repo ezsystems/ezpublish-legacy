@@ -57,11 +57,11 @@
 
   <h1>{"System check"|i18n("design/standard/setup/init")}</h1>
   <p>
-  {"The system check found some issues that needs to be resolve before the setup can continue."|i18n("design/standard/setup/init")}
+  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
   {"Each problem will give you instructions on how to fix the problem."|i18n("design/standard/setup/init")}
   </p>
-  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Check Again"|i18n("design/standard/setup/init"),"</i>")))}</p>
+  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Next"|i18n("design/standard/setup/init"),"</i>")))}</p>
 
   <h1>{"Issues"|i18n("design/standard/setup/init")}</h1>
   <table width="100%" border="0" cellpadding="0" cellspacing="0">

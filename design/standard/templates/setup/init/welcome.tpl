@@ -6,21 +6,24 @@
 </div>
 
 <p>
-{"Welcome to the installation of eZ publish content management system and development framework. The setup wizard will now guide you through the installation of eZ publish."|i18n("design/standard/setup/init")}
+{"Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed."|i18n("design/standard/setup/init")}
 </p>
 <p>
-{"You will need to have information about a database server you can connect to. You need to have a database which you can use for eZ publish. MySQL and PostgreSQL are supported."|i18n("design/standard/setup/init")}
+{"Requirements"|i18n("design/standard/setup/init")}
+</p>
+<p>
+{"You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):"|i18n("design/standard/setup/init")}
+</p>
+<p>
+1) MySQL: <a href="http://www.mysql.com">http://www.mysql.com</a> ({"recommended"|i18n("design/standard/setup/init")})<br>
+2) PostgreSQL: <a href="http://www.postgresql.org">http://www.postgresql.org</a>
+</p>
+<p>
+{'Click "Next" to start the configuration of up eZ publish.'|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">
   {include uri='design:setup/persistence.tpl'}
-<p>
-  {section show=$system_test_result|eq(1)}
-    {'Click "Next" to continue the installation of eZ publish'|i18n("design/standard/setup/init")}
-  {section-else}
-    {'Your system cannot install eZ publish as it is. You need to do some modifications. Click "Next" to see what you have to do.'|i18n("design/standard/setup/init")}
-  {/section}
-</p>
 
   {include uri='design:setup/init/navigation.tpl' dont_show_back=1}
 
