@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <27-Aug-2002 15:41:43 bf>
+// Created on: <31-Sep-2004 16:31:33 bh>
 //
 // Copyright (C) 1999-2004 eZ systems as. All rights reserved.
 //
@@ -33,32 +33,23 @@
 // you.
 //
 
-$Module = array( 'name' => 'eZSection' );
+include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( "kernel/classes/ezsection.php" );
+include_once( "kernel/common/template.php" );
 
-$ViewList = array();
-$ViewList['list'] = array(
-    'script' => 'list.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    "unordered_params" => array( "offset" => "Offset" ),
-    'params' => array( ) );
+$http =& eZHTTPTool::instance();
+$SectionID =& $Params["SectionID"];
+$Module =& $Params["Module"];
 
-$ViewList['view'] = array(
-    'script' => 'view.php',
-    'ui_context' => 'view',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'params' => array( 'SectionID' ) );
+$section =& eZSection::fetch( $SectionID );
 
-$ViewList['edit'] = array(
-    'script' => 'edit.php',
-    'ui_context' => 'edit',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'params' => array( 'SectionID' ) );
+$tpl =& templateInit();
 
-$ViewList['assign'] = array(
-    'script' => 'assign.php',
-    'default_navigation_part' => 'ezsetupnavigationpart',
-    'post_actions' => array( 'BrowseActionName' ),
-    'params' => array( 'SectionID' ) );
+$tpl->setVariable( "section", $section );
 
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:section/view.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/section', 'View section' ) ) );
 
 ?>
