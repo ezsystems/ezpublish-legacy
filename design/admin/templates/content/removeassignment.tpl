@@ -11,8 +11,8 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
 
-{let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
-     content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
+{let content_object=fetch( content, object, hash( object_id, $assignment_data.object_id  ) )
+     content_version=fetch( content, version, hash( object_id, $assignment_data.object_id, version_id, $assignment_data.object_version ) )}
 <p>
 <label>{'ID'|i18n( 'design/admin/content/upload' )}:</label>
 {$content_object.id}
@@ -125,7 +125,7 @@
     <th>{'Sub items'|i18n( 'design/admin/content/removeassignment' )}</th>
 </tr>
 
-{section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
+{section var=remove_item loop=$assignment_data.remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}">
     <td>
 

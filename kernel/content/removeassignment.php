@@ -95,18 +95,25 @@ $removeList = array();
 foreach ( $assignmentsToRemove as $ass )
 {
         $node =& $ass->attribute( 'node' );
+
+        // skip assignments which don't have associated node or node with no children
         if ( !$node )
             continue;
+        $count = $node->childrenCount( false );
+        if( $count < 1 )
+            contunue;
+
         $removeList[] = array( 'node' => $node,
-                               'count' => $node->childrenCount( false ) );
+                               'count' => $count );
 }
 unset( $assignmentsToRemove );
 
-$upload = array( 'content' => array( 'object_id' => $objectID,
-                                     'object_version' => $editVersion ) );
+$assignmentData = array( 'object_id'      => $objectID,
+                         'object_version' => $editVersion,
+                         'remove_list'    => $removeList );
+
 $tpl =& templateInit();
-$tpl->setVariable( 'remove_list', $removeList );
-$tpl->setVariable( 'upload', $upload );
+$tpl->setVariable( 'assignment_data', $assignmentData );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,
