@@ -42,8 +42,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input type="submit" name="RemoveAllSessionsButton" value="{"Remove all sessions"|i18n( "design/standard/setup/session" )}" />&nbsp;
-<input type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n( "design/standard/setup/session" )}" />
+<input class="button" type="submit" name="RemoveAllSessionsButton" value="{"Remove all sessions"|i18n( "design/standard/setup/session" )}" />&nbsp;
+<input class="button" type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n( "design/standard/setup/session" )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -71,7 +71,7 @@
         <p>{'Displaying sessions for %username'|i18n( 'design/standard/setup/session',, hash( '%username', $session_user.name ) )}</p>
         {/let}
         <div class="buttonblock">
-            <input type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/standard/setup/session" )}" />
+            <input class="button" type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/standard/setup/session" )}" />
         </div>
     {section-else}
             <select class="combobox" name="FilterType">
@@ -79,9 +79,13 @@
                 <option value="registered"{cond( eq( $filter_type, 'registered' ), ' selected="selected"', '' )}>{"Registered users"|i18n( "design/standard/setup/session" )}</option>
                 <option value="anonymous"{cond( eq( $filter_type, 'anonymous' ), ' selected="selected"', '' )}>{"Anonymous users"|i18n( "design/standard/setup/session" )}</option>
             </select>
-           <input class="defaultbutton" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/standard/setup/session" )}" /><br />
+           <input class="button" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/standard/setup/session" )}" /><br />
+<label>{'Include inactive users'|i18n( 'design/standard/setup/session' )}</label>
+           <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" /> 
 
-           <input class="checkbox" type="checkbox" name="InactiveUsersCheck" id="InactiveUsersCheck" {cond( eq( $expiration_filter_type, 'all' ), ' checked="checked"', '' )} value="active" /> <label for="InactiveUsersCheck">{'Include inactive users'|i18n( 'design/standard/setup/session' )}</label><br/>
+
+
+                                                   <br/>
 
             <input type="hidden" name="InactiveUsersCheckExists" /><br />
 
@@ -163,7 +167,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  <input type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
+  <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
