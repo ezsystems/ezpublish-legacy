@@ -111,6 +111,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         unset( $contentObject );
     }
+    /*
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
         $objectID =& $http->postVariable( 'ContentObjectID' );
@@ -119,7 +120,8 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             $contentObject->remove();
         }
-    }
+    }*/
+    
     if( $http->hasPostVariable( 'ViewMode' ) )
     {
         $viewMode = $http->postVariable( 'ViewMode' );
