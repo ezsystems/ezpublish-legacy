@@ -83,7 +83,7 @@
 </tr>
 <tr>
     <td>
-    <a href="/workflow/list/"><nobr><img src={"uml.png"|ezimage} border="0" alt=""/> Workflows</nobr></a>
+    <a href="/workflow/grouplist/"><nobr><img src={"uml.png"|ezimage} border="0" alt=""/> Workflows</nobr></a>
     </td>
 </tr>
 <tr>

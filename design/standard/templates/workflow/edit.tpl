@@ -7,8 +7,29 @@
 <tr><td>Name:</td></tr>
 <tr><td>{include uri="design:gui/lineedit.tpl" name=Name id_name=Workflow_name value=$workflow.name}</td></tr>
 <tr><td>Workflow Type: {$workflow.workflow_type.name}</td></tr>
-
+<tr><td>In group:</td></tr>
+{section name=InGroups loop=$workflow.ingroup_list sequence=array(bglight,bgdark)}
+<tr>
+<td class="{$InGroups:sequence}">{$InGroups:item.group_name}</td>
+<td class="{$InGroups:sequence}"><input type="checkbox" name="group_id_checked[]" value="{$InGroups:item.group_id}"></td>
+</tr>
+{/section}
 <tr><td>
+</table>
+
+<table width="100%">
+<tr>
+<td><select name = "Workflow_group">
+{section name=AllGroup loop=$workflow.group_list}
+<option name = "Workflow_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
+{/section}
+</select></td>
+<td>{include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}</td>
+<td>{include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete group"}</td>
+<td width="99%"></td>
+</tr>
+</table>
+
 
 {section show=$can_store}
 <p class="important">Workflow stored</p>

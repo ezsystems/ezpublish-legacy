@@ -77,22 +77,6 @@ if ( $http->hasPostVariable( "NewButton" ) )
 }
 
 $sorting = null;
-if ( isset( $Params["SortingColumn"] ) )
-{
-    $sort_array = array( "id" => "id",
-                         "name" => "name",
-                         "identifier" => "identifier",
-                         "status" => "version",
-                         "creator" => "creator_id",
-                         "modifier" => "modifier_id",
-                         "created" => "created",
-                         "modified" => "modified" );
-    $sort_column = $Params["SortingColumn"];
-    if ( isset( $sort_array[$sort_column] ) )
-        $sorting = array( $sort_array[$sort_column] => "asc" );
-    else
-        eZDebug::writeError( "Undefined sorting column: $sort_column", "Class::list" );
-}
 
 if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 {
@@ -102,7 +86,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                    "type" => "class" ) ) );
 }
 
-$Module->setTitle( "Class list of group" .$GroupID );
+$Module->setTitle( "Class list of group " .$GroupID );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
@@ -161,7 +145,7 @@ foreach( $TemplateData as $tpldata )
     removeSelectedClasses( $http, $temp_list, $temp_base );
     $tpl->setVariable( "temp_groupclasses", $temp_list );
     $tpl->setVariable( "group_id", $GroupID );
-    $groupInfo =  & eZContentClassGroup::fetch( $GroupID );
+    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
     $GroupName = $groupInfo->attribute("name");
     $tpl->setVariable( "group_name", $GroupName );
 }

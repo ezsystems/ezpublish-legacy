@@ -124,6 +124,8 @@ class eZImageType extends eZDataType
             if( $count == 1 )
             {
                 $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
+
+                eZDebug::writeError("qqqqqqqqqqqqqqqqqqq  " .  $variationFileName );
                 $additionalPath = eZDir::getPathFromFilename( $currentFileName );
                 if( file_exists( $orig_dir . "/" . $currentFileName ) )
                     unlink( $orig_dir . "/" .  $currentFileName );

@@ -74,7 +74,7 @@ switch ( $Params["FunctionName"] )
 if ( is_numeric( $ClassID ) )
 {
     $class =& eZContentClass::fetch( $ClassID, true, 1 );
-    eZDebug::writeError( $class ,"uhghjgfjhg");
+
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
     if ( $class->attribute("id") == null )
     {

@@ -137,7 +137,8 @@ class eZContentClass extends eZPersistentObject
             case "ingroup_list":
             {
                 $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute("id"),
-                                                                           $as_object = true);
+                                                                             $this->attribute("version"),
+                                                                             $as_object = true);
                 return $this->InGroups;
             } break;
             case "group_list":

@@ -33,6 +33,7 @@
 //
 
 include_once( "kernel/classes/ezworkflowgroup.php" );
+include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
@@ -64,15 +65,15 @@ else
     return;
 }
 
-$assignedWorkflows =& $workflowGroup->fetchWorkflowList();
-
-$canRemove = true;
-$isRemoveTried = false;
+//$assignedWorkflows =& $workflowGroup->fetchWorkflowList();
+//$isRemoveTried = false;
 
 $http =& eZHttpTool::instance();
-if ( $http->hasPostVariable( "RemoveButton" ) and $canRemove )
+if ( $http->hasPostVariable( "DiscardButton" ) )
 {
-    $isRemoveTried = true;
+    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
+    return;
+    // $isRemoveTried = true;
 //     $workflowGroup->remove();
 //     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 //     $execStack =& eZExecutionStack::instance();
@@ -84,13 +85,7 @@ if ( $http->hasPostVariable( "RemoveButton" ) and $canRemove )
 
 // Validate input
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
-$canStore = true;
 $requireFixup = false;
-
-// Fixup input
-if ( $requireFixup )
-{
-}
 
 // Apply HTTP POST variables
 eZHttpPersistence::fetch( "WorkflowGroup", eZWorkflowGroup::definition(),
@@ -106,21 +101,31 @@ $user_id = $user->attribute( "contentobject_id" );
 $workflowGroup->setAttribute( "modifier_id", $user_id );
 
 // Discard existing events, workflow version 1 and store version 0
-if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
+if ( $http->hasPostVariable( "StoreButton" ) )
 {
+    if ( $http->hasPostVariable( "WorkflowGroup_name" ) )
+    {
+        $name = $http->postVariable( "WorkflowGroup_name" );
+    }
+    $workflowGroup->setAttribute( "name", $name );
+    // Set new modification date
+    include_once( "lib/ezlocale/classes/ezdatetime.php" );
+    $date_time = eZDateTime::currentTimeStamp();
+    $workflowGroup->setAttribute( "modified", $date_time );
+    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $user =& eZUser::currentUser();
+    $user_id = $user->attribute( "contentobject_id" );
+    $workflowGroup->setAttribute( "modifier_id", $user_id );
     $workflowGroup->store();
+    $Module->redirectTo( $Module->functionURI( 'grouplist' ) );
+    return;
+    /*
     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
     $execStack =& eZExecutionStack::instance();
     $execStack->pop();
     $uri = $execStack->peek( "uri" );
     $Module->redirectTo( $uri == "" ? $Module->functionURI( "grouplist" ) : $uri );
-    return;
-}
-
-// Store changes
-if ( $canStore )
-{
-    $workflowGroup->store();
+    return;*/
 }
 
 $Module->setTitle( "Edit workflow group" . $workflowGroup->attribute( "name" ) );
@@ -138,7 +143,7 @@ $tpl->setVariable( "require_fixup", $requireFixup );
 $tpl->setVariable( "is_remove_tried", $isRemoveTried );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "workflow_group", $workflowGroup );
-$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );
+//$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );
 
 $Result =& $tpl->fetch( "design:workflow/groupedit.tpl" );
 

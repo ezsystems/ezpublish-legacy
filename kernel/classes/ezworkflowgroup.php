@@ -93,7 +93,13 @@ class eZWorkflowGroup extends eZPersistentObject
                                                     $as_object );
     }
 
-    function &fetchWorkflowList( $as_object = true, $id = false )
+    function &removeSelected ( $id )
+    {
+        eZPersistentObject::removeObject( eZWorkflowGroup::definition(),
+                                          array( "id" => $id ) );
+    }
+
+    /*  function &fetchWorkflowList( $as_object = true, $id = false )
     {
         if ( $id === false )
             $id = $this->attribute( "id" );
@@ -134,7 +140,7 @@ ORDER BY ezworkflow.name ASC";
                 $workflows[] = $row['workflow_id'];
         }
         return $workflows;
-    }
+    }*/
 
     function attributes()
     {
@@ -165,7 +171,7 @@ ORDER BY ezworkflow.name ASC";
             } break;
             case "workflows":
             {
-                return $this->fetchWorkflowList( false );
+                // return $this->fetchWorkflowList( false );
             } break;
             default:
                 return eZPersistentObject::attribute( $attr );

@@ -11,51 +11,18 @@
 <tr><td>{include uri="design:gui/lineedit.tpl" name=Name id_name=WorkflowGroup_name value=$workflow_group.name}</td></tr>
 
 <tr><td>
-
-{section show=$can_store}
-<p class="important">Workflow group stored</p>
-{/section}
-{section show=$require_fixup}
-<p class="important">Data requires fixup</p>
-{/section}
-
-<table>
-<tr>
-  <th colspan="2">Workflow</th>
-</tr>
-{section name=Workflow loop=$assigned_workflow_list sequence=array(bglight,bgdark)}
-<tr>
-  <td class="{$Workflow:sequence}">{$Workflow:item.name}</td>
-  <td class="{$Workflow:sequence}" width="1%"><a href="{$module.functions.edit.uri}/{$Workflow:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
-</tr>
-{/section}
 </table>
 
-</td>
-
-</table>
-
-<hr/>
 
 <table width="100%">
 <tr>
     <td>{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}</td>
-    <td>{include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value=Apply}</td>
-    <td>{include uri="design:gui/button.tpl" name=Discard id_name=RemoveButton value=Remove}</td>
+    <td>{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value=Discard}</td>
     <td width="99%"></td>
 </tr>
 </table>
 
 </td></tr>
 </table>
-
-{/section}
-{section show=$is_remove_tried}
-
-blah
-
-
-{/section}
-
 
 </form>

@@ -33,6 +33,7 @@
 //
 
 include_once( "kernel/classes/ezworkflow.php" );
+include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "kernel/classes/ezworkflowevent.php" );
 include_once( "kernel/classes/ezworkflowtype.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
@@ -43,6 +44,12 @@ if ( isset( $Params["WorkflowID"] ) )
     $WorkflowID = $Params["WorkflowID"];
 else
     $WorkflowID = false;
+
+if ( isset( $Params["GroupID"] ) )
+    $GroupID = $Params["GroupID"];
+if ( isset( $Params["GroupName"] ) )
+    $GroupName = $Params["GroupName"];
+
 switch ( $Params["FunctionName"] )
 {
     case "up":
@@ -73,8 +80,20 @@ $execStack->addEntry( $Module->functionURI( "edit" ) . "/" . $WorkflowID,
 if ( is_numeric( $WorkflowID ) )
 {
     $workflow =& eZWorkflow::fetch( $WorkflowID, true, 1 );
-    if ( is_null( $workflow ) ) // If temporary version does not exist fetch the current
+
+    // If temporary version does not exist fetch the current
+    if ( is_null( $workflow ) )
+    {
         $workflow =& eZWorkflow::fetch( $WorkflowID, true, 0 );
+        $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+        foreach ( $workflowGroups as $workflowGroup )
+        {
+            $groupID = $workflowGroup->attribute( "group_id" );
+            $groupName = $workflowGroup->attribute( "group_name" );
+            $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
+            $ingroup->store();
+        }
+    }
 }
 else
 {
@@ -87,21 +106,49 @@ else
     $workflow->setAttribute( "name", "New Workflow$workflowCount" );
     $workflow->store();
     $WorkflowID = $workflow->attribute( "id" );
+    $WorkflowVersion = $workflow->attribute( "version" );
+    $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
+    $ingroup->store();
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $WorkflowID );
     return;
 }
 
 $http =& eZHttpTool::instance();
+$WorkflowVersion = $workflow->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $workflow->setVersion( 1 );
     $workflow->remove( true );
+    eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
     $execStack =& eZExecutionStack::instance();
     $execStack->pop();
     $uri = $execStack->peek( "uri" );
     $Module->redirectTo( $uri == "" ? $Module->functionURI( "list" ) : $uri );
     return;
+}
+
+if ( $http->hasPostVariable( "AddGroupButton" ) )
+{
+    if ( $http->hasPostVariable( "Workflow_group") )
+    {
+        $selectedGroup = $http->postVariable( "Workflow_group" );
+        list ( $groupID, $groupName ) = split( "/", $selectedGroup );
+        $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $groupID, $groupName );
+        $ingroup->store();
+    }
+}
+
+if ( $http->hasPostVariable( "DeleteGroupButton" ) )
+{
+    if ( $http->hasPostVariable( "group_id_checked") )
+    {
+        $selectedGroup = $http->postVariable( "group_id_checked" );
+        foreach(  $selectedGroup as $group_id )
+        {
+            eZWorkflowGroupLink::remove( $WorkflowID, $WorkflowVersion , $group_id );
+        }
+    }
 }
 
 // Fetch events and types
@@ -160,6 +207,19 @@ $workflow->setAttribute( "modifier_id", $user_id );
 // Discard existing events, workflow version 1 and store version 0
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
+    // Remove old version 0 first
+    eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
+
+    $workflowgroups =& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
+	for ( $i=0;$i<count(  $workflowgroups );$i++ )
+    {
+        $workflowgroup =& $workflowgroups[$i];
+        $workflowgroup->setAttribute("workflow_version", 0 );
+        $workflowgroup->store();
+    }
+    // Remove version 1
+    eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 1 );
+
     eZWorkflow::removeEvents( false, $WorkflowID, 0 );
     $workflow->remove( true );
     $workflow->setVersion( 0, $event_list );
@@ -169,7 +229,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $execStack =& eZExecutionStack::instance();
     $execStack->pop();
     $uri = $execStack->peek( "uri" );
-    $Module->redirectTo( $uri == "" ? $Module->functionURI( "list" ) : $uri );
+    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
 

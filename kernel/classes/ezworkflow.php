@@ -123,6 +123,13 @@ class eZWorkflow extends eZPersistentObject
                                               );
     }
 
+    function removeWorkflow( $id, $version )
+    {
+        eZPersistentObject::removeObject( eZWorkflow::definition(),
+                                          array("id" => $id,
+                                                "version" => $version ) );
+    }
+
     function remove( $remove_childs = false )
     {
         if ( is_array( $remove_childs ) or $remove_childs )
@@ -322,7 +329,9 @@ class eZWorkflow extends eZPersistentObject
                                    "event_count",
                                    "ordered_event_list",
                                    "creator",
-                                   "modifier" ) );
+                                   "modifier",
+                                   "ingroup_list",
+                                   "group_list" ) );
     }
 
     function hasAttribute( $attr )
@@ -330,6 +339,7 @@ class eZWorkflow extends eZPersistentObject
         return ( $attr == "version_status" or $attr == "version_count" or
                  $attr == "creator" or $attr == "modifier" or $attr == "workflow_type" or
                  $attr == "event_count" or $attr == "ordered_event_list" or
+                 $attr == "ingroup_list" or  $attr == "group_list" or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -361,6 +371,18 @@ class eZWorkflow extends eZPersistentObject
             {
                 $user_id = $this->ModifierID;
             } break;
+            case "ingroup_list":
+            {
+                $this->InGroups =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
+                                                                        $this->attribute("version"),
+                                                                        $as_object = true );
+                return $this->InGroups;
+            } break;
+            case "group_list":
+            {
+                $this->AllGroups =& eZWorkflowGroup::fetchList();
+                return $this->AllGroups;
+            } break;
             case "workflow_type":
             {
                 return $this->workflowType();
@@ -389,6 +411,8 @@ class eZWorkflow extends eZPersistentObject
     var $ModifierID;
     var $Created;
     var $Modified;
+    var $InGroups;
+    var $AllGroups;
 }
 
 ?>

@@ -17,6 +17,7 @@
 <td class="{$InGroups:sequence}"><input type="checkbox" name="group_id_checked[]" value="{$InGroups:item.group_id}"></td>
 </tr>
 {/section}
+</table>
 
 <table width="100%">
 <tr>
