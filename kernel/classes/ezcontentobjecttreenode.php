@@ -382,7 +382,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
-        $pathString = " $subStringString = '$childrensPath' and ";
+//        $pathString = " $subStringString = '$childrensPath' and ";
+          $pathString = " path_string like '$childrensPath%' and ";
         $depthCond = '';
         if ( $depth )
         {
@@ -478,7 +479,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
-        $pathString = " $subStringString = '$childrensPath' AND ";
+        //       $pathString = " $subStringString = '$childrensPath' AND ";
+        $pathString = " path_string like '$childrensPath%' AND ";
 
         $nodeDepth = $this->attribute( 'depth' );
         $depthCond = '';
