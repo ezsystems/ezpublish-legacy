@@ -286,7 +286,7 @@ input.button-disabled
     border: 2px solid #f0f0f0;
     border-bottom: 2px solid #b0b0b0;
     border-right: 2px solid #b0b0b0;
-    background-color: #b9b9b9;
+    background-color: #cdcdcd;
     background-image: url(../images/inputbutton-disabled-bg.gif);
     background-repeat: repeat-x;
     background-position: top;
@@ -306,6 +306,27 @@ input.halfbox, textarea.halfbox
 td input.halfbox, td textarea.halfbox
 {
     width: 98%;
+}
+
+fieldset
+{
+    border: 1px solid #a0a099;
+    padding: 0.5em;
+}
+
+legend
+{
+    font-weight: bold;
+}
+
+fieldset label
+{
+    color: #a0a099;
+}
+
+fieldset input.button
+{
+    margin-top: 0.5em;
 }
 
 /* PAGE DIVIDERS */
