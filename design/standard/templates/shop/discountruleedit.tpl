@@ -14,7 +14,7 @@
     </div>
     <div class="block">
         <label>{"Discount percent"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
-        <input type="text" name="discountrule_percent" value="{$discountrule.discount_percent}" size="4" />%
+        <input type="text" name="discountrule_percent" value="{$discountrule.discount_percent|l10n(number)}" size="5" />%
     </div>
 </div>
 

@@ -34,7 +34,7 @@
         {$:item.name|wash}
     </td>
     <td>
-        {$:item.discount_percent}%
+        {$:item.discount_percent|l10n(number)}%
     </td>
     <td>
         {$:item.limitation}

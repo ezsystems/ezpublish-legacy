@@ -83,6 +83,28 @@ class eZDiscountSubRule extends eZPersistentObject
                       "name" => "ezdiscountsubrule" );
     }
 
+    /*!
+     \reimp
+    */
+    function setAttribute( $attr, $val )
+    {
+        switch( $attr )
+        {
+            case 'discount_percent':
+            {
+                include_once( 'lib/ezlocale/classes/ezlocale.php' );
+                $locale =& eZLocale::instance();
+
+                eZPersistentObject::setAttribute( $attr, $locale->internalNumber( $val ) );
+            } break;
+
+            default:
+            {
+                eZPersistentObject::setAttribute( $attr, $val );
+            } break;
+        }
+    }
+
     function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),

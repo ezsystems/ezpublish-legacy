@@ -109,6 +109,12 @@ eZ template:
   Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
   Merged in from 3.2 stable (Rev. 4814).
 
+eZ Locale:
+- Fixed eZFloat datatype to to handle locale settings correctly. Merged from stable/3.2 rev. 4916.
+- Fixed eZPrice to handle locale settings correctly. Merged from stable/3.2 rev. 4916.
+- Fixed shop->discount to handle locale settings correctly. Merged from stable/3.2 rev. 4916.
+  http://ez.no/community/bug_reports/floats_and_decimal_point_separator
+
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
 - Fixed blog, corporate and shop css for stylesheet bug in IE 6.0.
