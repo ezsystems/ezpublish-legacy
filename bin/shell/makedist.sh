@@ -852,13 +852,19 @@ if [ -n "$FINAL" ]; then
     cp "$DEST_ROOT/$ZIPFILE" "$VERSIONROOT/"
     echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
 
+    CURRENT_SVN_PATH=`svn info | grep 'URL:' | sed 's/URL: //'`
+
     echo
     echo "The following command will be run to tag the release"
-    echo "`$SETCOLOR_EMPHASIZE`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
-    echo -n "Do you wish to do this? "
-    read -q tag_release
+    echo "`$SETCOLOR_EMPHASIZE`svn cp $CURRENT_SVN_PATH $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
+    echo -n "Do you wish to do this (yes/No)? "
+    read tag_release
+    tag_release=`echo $tag_release | tr [A-Z] [a-z]`
+    if [ "$tag_release" == "yes" ]; then
+        tag_release="y"
+    fi
     if [ "$tag_release" == "y" ]; then
-	svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION
+	svn cp $CURRENT_SVN_PATH $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION
     fi
 
     current_date=`date '+%e-%b-%Y'`
@@ -872,6 +878,6 @@ if [ -n "$FINAL" ]; then
     echo
     echo "You should also note the revision from the tag above, it should say"
     echo "- Revision=REV"
-    echo "Where REV is the revision number
+    echo "Where REV is the revision number"
 fi
 
