@@ -33,6 +33,7 @@
 //
 
 include_once( "kernel/classes/ezworkflow.php" );
+include_once( "kernel/classes/eztrigger.php" );
 include_once( "kernel/classes/ezworkflowgroup.php" );
 include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
@@ -49,9 +50,33 @@ function &removeSelectedGroups( &$http, &$groups, $base )
             for ( $i = 0; $i < count( $rejects ); ++$i )
             {
                 $reject =& $rejects[$i];
-                $reject->remove( );
                 $group_id = $reject->attribute("id");
-                // eZWorkflowGroupLink::removeGroupMembers( $group_id );
+
+                // Remove all workflows in current group
+                $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $group_id, $asObject = true);
+                $workflow_list = & eZWorkflow::fetchList( );
+
+                $list = array();
+                for ( $i=0;$i<count( $workflow_list );$i++ )
+                {
+                    for ( $j=0;$j<count( $list_in_group );$j++ )
+                    {
+                        $id =  $workflow_list[$i]->attribute("id");
+                        $workflow_id =  $list_in_group[$j]->attribute("workflow_id");
+                        if ( $id === $workflow_id )
+                        {
+                            $list[] =& $workflow_list[$i];
+                        }
+                    }
+                }
+                foreach ( $list as $workFlow )
+                {
+                  eZTrigger::removeTriggerForWorkflow( $workFlow->attribute( 'id' ) );
+                  $workFlow->remove();
+                }
+
+                $reject->remove( );
+                eZWorkflowGroupLink::removeGroupMembers( $group_id );
             }
         }
     }
