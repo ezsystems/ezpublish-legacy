@@ -55,15 +55,22 @@ $roleID =& $Params['RoleID'];
 $modules = eZModuleManager::availableModules();
 sort( $modules );
 
-$role = eZRole::fetch( 0, $roleID );
+$role = eZRole::fetch( $roleID, 1 );
 if ( is_null( $role ) )
 {
     $role = eZRole::fetch( $roleID );
-    if ( $role->attribute( 'version' ) == '0' )
+    if( $role )
     {
-        $temporaryRole = $role->createTemporaryVersion();
-        unset( $role );
-        $role = $temporaryRole;
+        if ( $role->attribute( 'version' ) == '0' )
+        {
+            $temporaryRole = $role->createTemporaryVersion();
+            unset( $role );
+            $role = $temporaryRole;
+        }
+    }
+    else
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 }
 
