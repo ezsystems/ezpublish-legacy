@@ -48,3 +48,7 @@ eZ debug:
 
 eZ i18n:
 - Changed the 0 character into a chr( 0 ) to avoid problems with unpackers messing up the line.
+
+eZ webdav:
+- Fixed file up/download bug in windows + some other small/annoying bugs.
+
