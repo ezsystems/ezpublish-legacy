@@ -273,6 +273,29 @@ class eZTemplateLoop
         return true;
     }
 
+    function parseScalarParamValue( $paramName, &$dst, &$isProxyObject )
+    {
+        $dst = null;
+
+        if ( !isset( $this->FunctionParameters[$paramName] ) || !count( $this->FunctionParameters[$paramName] ) )
+            return false;
+
+        // get parameter value
+        $dst = $this->Tpl->elementValue( $this->FunctionParameters[$paramName], $this->RootNamespace,
+                                         $this->CurrentNamespace, $this->FunctionPlacement );
+
+        // check if a proxy object ({section} loop iterator) was involved in the parameter value
+        if ( isset( $this->FunctionParameters[$paramName]['proxy-object-found'] ) )
+        {
+            $isProxyObject = true;
+            unset( $this->FunctionParameters[$paramName]['proxy-object-found'] ); // just not to leave garbage
+        }
+        else
+            $isProxyObject = false;
+
+        return true;
+    }
+
     /*!
     Parses value the given function parameter and stores it to $dst.
     \return false if specified parameter is not found or it is wrong, otherwise true is returned.

@@ -166,8 +166,18 @@ class eZTemplateForFunction
         if ( !$loop->initialized() )
             return;
 
-        $loop->parseParamValue( 'first_val', $firstVal );
-        $loop->parseParamValue( 'last_val',  $lastVal  );
+        $loop->parseScalarParamValue( 'first_val', $firstVal, $firstValIsProxy );
+        $loop->parseScalarParamValue( 'last_val',  $lastVal,  $lastValIsProxy  );
+
+        if ( $firstValIsProxy || $lastValIsProxy )
+        {
+            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+                         "Proxy objects ({section} loop iterators) cannot be used to specify the range \n" .
+                         "(this will lead to indefinite loops in compiled mode).\n" .
+                         "Please explicitly dereference the proxy object like this: \$current_node.item." );
+            return;
+        }
+
         $loop->parseParamVarName( 'loop_var' , $loopVarName );
 
         if ( is_null( $firstVal ) || is_null( $lastVal ) || !$loopVarName )

@@ -1095,6 +1095,13 @@ class eZTemplate
     function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
                             $checkExistance = false )
     {
+        /*
+         * We use a small dirty hack in this function...
+         * To help the caller to determine if the value was a proxy object,
+         * we store boolean true to $dataElements['proxy-object-found'] in this case.
+         * (it's up to caller to remove this garbage from $dataElements...)
+         */
+
         $value = null;
         if ( !is_array( $dataElements ) )
         {
@@ -1259,6 +1266,7 @@ class eZTemplate
                     if ( is_object( $value ) and
                          method_exists( $value, 'templateValue' ) )
                     {
+                        $dataElements['proxy-object-found'] = true;
                         $value =& $value->templateValue();
                     }
                     $valueData = array( 'value' => $value );
@@ -1279,6 +1287,7 @@ class eZTemplate
         if ( is_object( $value ) and
              method_exists( $value, 'templateValue' ) )
         {
+            $dataElements['proxy-object-found'] = true;
             $value =& $value->templateValue();
         }
         return $value;
