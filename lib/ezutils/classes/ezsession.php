@@ -229,7 +229,6 @@ function eZSessionStart()
         session_set_cookie_params( (int)$cookieTimeout );
     }
     session_start();
-//     eZDebug::writeDebug( "Session is started" );
     $hasStarted = true;
     return true;
 }

@@ -200,9 +200,7 @@ class eZHTTPTool
             return $_GET;
         if ( $attr == "session" )
         {
-            eZSessionStart();
             return $_SESSION;
-//             return $GLOBALS["HTTP_SESSION_VARS"];
         }
         return null;
     }
@@ -217,6 +215,7 @@ class eZHTTPTool
         {
             $instance = new eZHTTPTool();
             $instance->createPostVarsFromImageButtons();
+            eZSessionStart();
         }
         return $instance;
     }
@@ -587,20 +586,16 @@ class eZHTTPTool
     */
     function getSessionKey()
     {
-        eZSessionStart();
         return session_id();
     }
 
     function setSessionKey( $sessionKey )
     {
-        eZSessionStart();
         return session_id( $sessionKey );
     }
 
     function setSessionVariable( $name, $value )
     {
-        eZSessionStart();
-//         session_register( $name );
         $_SESSION[$name] =& $value;
     }
 
@@ -609,8 +604,6 @@ class eZHTTPTool
     */
     function removeSessionVariable( $name )
     {
-        eZSessionStart();
-//         session_unregister( $name );
         unset( $_SESSION[$name] );
     }
 
@@ -619,8 +612,6 @@ class eZHTTPTool
     */
     function hasSessionVariable( $name )
     {
-        eZSessionStart();
-//         global $HTTP_SESSION_VARS;
         return isset( $_SESSION[$name] );
     }
 
@@ -629,8 +620,6 @@ class eZHTTPTool
     */
     function &sessionVariable( $name )
     {
-        eZSessionStart();
-//         global $HTTP_SESSION_VARS;
         return $_SESSION[$name];
     }
 
@@ -639,7 +628,6 @@ class eZHTTPTool
     */
     function sessionID()
     {
-        eZSessionStart();
         return session_id();
     }
 }
