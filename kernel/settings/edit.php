@@ -31,6 +31,7 @@
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
 //
+include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
