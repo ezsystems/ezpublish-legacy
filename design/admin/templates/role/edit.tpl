@@ -71,7 +71,7 @@
 
 
 <input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" />
-<input class="button" type="submit" name="CreatePolicy" value="{'Create new'|i18n( 'design/admin/role/edit' )}" />
+<input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" />
 
 </div>
 </div>
