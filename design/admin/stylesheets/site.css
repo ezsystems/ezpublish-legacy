@@ -777,6 +777,11 @@ div.content-navigation div.mainobject-window div.fixedsize
     overflow: auto;
 }
 
+div.content-navigation div.mainobject-window div.holdinplace
+{
+    padding-right: 0.5em;
+}
+
 div#maincontent div.content-translation div.block div.original
 {
     background-color: #ecece4;

@@ -36,6 +36,7 @@ td input.box, td textarea.box { width: 97%; }
 div#search p.select { margin-top: 0; }
 div#search p.advanced { margin-top: 0.3em; }
 div.content-navigation div.mainobject-window div.fixedsize { float: none; width: auto; }
+div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
