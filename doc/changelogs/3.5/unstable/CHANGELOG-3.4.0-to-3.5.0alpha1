@@ -126,6 +126,9 @@ eztc.php:
 - Fixed (partially) bug: content object(s) export sometimes fails (merged from stable/3.4 rev. 6885).
 - Fixed bug with incorrect object count when view a class.  
   Merged from stable/3.4 rev. 6887.
+- Fixed bug in dbupdate-3.3-5-to-3.3-6.sql for postgresql.
+  Merged from stable/3.3 rev. 6890.
+  http://ez.no/community/bug_reports/problem_with_sql_update_file_dbupdate_3_3_5_to_3_3_6_sql
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
