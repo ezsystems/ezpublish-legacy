@@ -172,10 +172,8 @@ class eZMultiplexerType extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $processParameters = $process->attribute( 'parameter_list' );
-        $nodeID = $processParameters['node_id'];
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
-        $objectID = $node->attribute( 'contentobject_id' );
-        $object =& $node->attribute( 'object');
+        $objectID = $processParameters['object_id'];
+        $object =& eZContentObject::fetch( $objectID );
         $class =& $object->attribute( 'content_class' );
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
         $classArray = explode( ',', $event->attribute( 'data_text3' ) );
@@ -196,12 +194,25 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
 
-                $childParameters = array( 'workflow_id' => $workflowToRun,
-                                          'user_id' => $userID,
-                                          'contentobject_id' => $objectID,
-                                          'node_id' => $processParameters['node_id'],
-                                          'session_key' => $sessionKey
-                                          );
+                if ( isSet( $processParameters['node_id'] ) )
+                {
+                    $childParameters = array( 'workflow_id' => $workflowToRun,
+                                              'user_id' => $userID,
+                                              'contentobject_id' => $objectID,
+                                              'node_id' => $processParameters['node_id'],
+                                              'session_key' => $sessionKey
+                                              );
+                }
+                else
+                {
+                    $childParameters = array( 'workflow_id' => $workflowToRun,
+                                              'user_id' => $userID,
+                                              'contentobject_id' => $objectID,
+                                              'node_id' => $processParameters['node_id'],
+                                              'object_id' => $processParameters['object_id'],
+                                              'session_key' => $sessionKey
+                                              );
+                }
 
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
 
