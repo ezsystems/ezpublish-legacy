@@ -7,7 +7,11 @@
     <h2>{attribute_view_gui attribute=$content_version.data_map.title}</h2>
     <div class="imageright">
         <a class="small" href={concat( "/content/view/full/", $node.node_id, "/")|ezurl}>
-        {attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium}
+        {section show=$node.object.data_map.frontpage_image.data_int}
+	{let image=fetch(content,object,hash(object_id,$node.object.data_map.frontpage_image.data_int))}
+        {attribute_view_gui attribute=$image.data_map.image image_class=small}
+	{/let}
+	{/section}
         </a>
     </div>
     <div class="byline">
