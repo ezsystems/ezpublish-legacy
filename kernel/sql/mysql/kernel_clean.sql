@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nextgen
 ---------------------------------------------------------
--- Server version	4.0.7-gamma
+-- Server version	4.0.10-gamma
 
 --
 -- Table structure for table 'ezapprove_items'
@@ -386,6 +386,7 @@ CREATE TABLE ezcontentobject (
   published int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   status int(11) default '0',
+  remote_id varchar(100) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -393,13 +394,13 @@ CREATE TABLE ezcontentobject (
 -- Dumping data for table 'ezcontentobject'
 --
 
-INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596,1);
-INSERT INTO ezcontentobject VALUES (4,0,2,3,'Users',1,0,0,0,1);
-INSERT INTO ezcontentobject VALUES (10,8,2,4,'Anonymous User',1,0,1033920665,1033920665,1);
-INSERT INTO ezcontentobject VALUES (11,8,2,3,'Guest accounts',1,0,1033920746,1033920746,1);
-INSERT INTO ezcontentobject VALUES (12,8,2,3,'Administrator users',1,0,1033920775,1033920775,1);
-INSERT INTO ezcontentobject VALUES (13,8,2,3,'Editors',1,0,1033920794,1033920794,1);
-INSERT INTO ezcontentobject VALUES (14,8,2,4,'Administrator User',1,0,1033920830,1033920830,1);
+INSERT INTO ezcontentobject VALUES (1,0,1,1,'Frontpage20',1,0,1033917596,1033917596,1,NULL);
+INSERT INTO ezcontentobject VALUES (4,0,2,3,'Users',1,0,0,0,1,NULL);
+INSERT INTO ezcontentobject VALUES (10,8,2,4,'Anonymous User',1,0,1033920665,1033920665,1,NULL);
+INSERT INTO ezcontentobject VALUES (11,8,2,3,'Guest accounts',1,0,1033920746,1033920746,1,NULL);
+INSERT INTO ezcontentobject VALUES (12,8,2,3,'Administrator users',1,0,1033920775,1033920775,1,NULL);
+INSERT INTO ezcontentobject VALUES (13,8,2,3,'Editors',1,0,1033920794,1033920794,1,NULL);
+INSERT INTO ezcontentobject VALUES (14,8,2,4,'Administrator User',1,0,1033920830,1033920830,1,NULL);
 
 --
 -- Table structure for table 'ezcontentobject_attribute'
@@ -508,7 +509,8 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
   KEY ezcontentobject_tree_depth (depth),
-  KEY ezcontentobject_tree_crc32_path (crc32_path)
+  KEY ezcontentobject_tree_crc32_path (crc32_path),
+  KEY md5_path (md5_path)
 ) TYPE=MyISAM;
 
 --
@@ -652,6 +654,7 @@ CREATE TABLE ezimage (
   filename varchar(255) NOT NULL default '',
   original_filename varchar(255) NOT NULL default '',
   mime_type varchar(50) NOT NULL default '',
+  alternative_text varchar(255) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
@@ -887,6 +890,7 @@ CREATE TABLE ezorder (
   data_text_2 text,
   data_text_1 text,
   account_identifier varchar(100) NOT NULL default 'default',
+  ignore_vat int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -904,8 +908,7 @@ CREATE TABLE ezorder_item (
   order_id int(11) NOT NULL default '0',
   description varchar(255) default NULL,
   price float default NULL,
-  vat_is_included int(11) default NULL,
-  vat_type_id int(11) default NULL,
+  vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -1156,7 +1159,6 @@ CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
   expiration_time int(11) unsigned NOT NULL default '0',
   data text NOT NULL,
-  cache_mask_1 int(11) NOT NULL default '0',
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
@@ -1164,6 +1166,7 @@ CREATE TABLE ezsession (
 --
 -- Dumping data for table 'ezsession'
 --
+
 
 --
 -- Table structure for table 'eztrigger'
@@ -1473,4 +1476,3 @@ CREATE TABLE ezworkflow_process (
 --
 
 
-alter table ezimage add alternative_text varchar(255) not null default "";

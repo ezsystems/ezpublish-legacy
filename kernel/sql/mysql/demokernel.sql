@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nextgen
 ---------------------------------------------------------
--- Server version	4.0.7-gamma
+-- Server version	4.0.10-gamma
 
 --
 -- Table structure for table 'ezapprove_items'
@@ -454,6 +454,7 @@ CREATE TABLE ezcontentobject (
   published int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   status int(11) default '0',
+  remote_id varchar(100) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -461,148 +462,148 @@ CREATE TABLE ezcontentobject (
 -- Dumping data for table 'ezcontentobject'
 --
 
-INSERT INTO ezcontentobject VALUES (1,0,1,1,'My folder',3,0,1037197879,1037197879,1);
-INSERT INTO ezcontentobject VALUES (4,0,9,3,'Users',1,0,0,0,1);
-INSERT INTO ezcontentobject VALUES (10,8,9,4,'Anonymous User',1,0,1033920665,1033920665,1);
-INSERT INTO ezcontentobject VALUES (11,8,9,3,'Guest accounts',1,0,1033920746,1033920746,1);
-INSERT INTO ezcontentobject VALUES (12,8,9,3,'Administrator users',1,0,1033920775,1033920775,1);
-INSERT INTO ezcontentobject VALUES (13,8,9,3,'Editors',1,0,1033920794,1033920794,1);
-INSERT INTO ezcontentobject VALUES (14,8,9,4,'Administrator User',1,0,1033920830,1033920830,1);
-INSERT INTO ezcontentobject VALUES (15,14,2,1,'White box',5,0,1035893229,1035893229,1);
-INSERT INTO ezcontentobject VALUES (17,14,2,1,'Flowers',4,0,1035886818,1035886818,1);
-INSERT INTO ezcontentobject VALUES (23,14,3,1,'News',2,0,1035967901,1035967901,1);
-INSERT INTO ezcontentobject VALUES (25,14,3,1,'Frontpage',3,0,1034334677,1034334677,1);
-INSERT INTO ezcontentobject VALUES (26,14,3,1,'Sport',3,0,1034334718,1034334718,1);
-INSERT INTO ezcontentobject VALUES (29,14,3,1,'World news',3,0,1034334767,1034334767,1);
-INSERT INTO ezcontentobject VALUES (30,14,4,1,'Crossroads forum',1,0,1034181792,1034181792,1);
-INSERT INTO ezcontentobject VALUES (31,14,4,1,'Forums',1,0,1034181825,1034181825,1);
-INSERT INTO ezcontentobject VALUES (57,14,1,20,'',1,0,1034190865,1034190865,1);
-INSERT INTO ezcontentobject VALUES (62,14,5,1,'The Book Corner',2,0,1035971219,1035971219,1);
-INSERT INTO ezcontentobject VALUES (63,14,5,1,'Thriller',3,0,1035973207,1035973207,1);
-INSERT INTO ezcontentobject VALUES (64,14,5,1,'Bestsellers',1,0,1034252256,1034252256,1);
-INSERT INTO ezcontentobject VALUES (65,14,5,1,'Recommendations',1,0,1034252479,1034252479,1);
-INSERT INTO ezcontentobject VALUES (83,14,2,24,'Whitebox contemporary art gallery',5,0,1035967595,1035967595,1);
-INSERT INTO ezcontentobject VALUES (84,14,2,1,'Forest',5,0,1035892777,1035892777,1);
-INSERT INTO ezcontentobject VALUES (85,14,2,5,'Forest 1',3,0,1035888358,1035888358,1);
-INSERT INTO ezcontentobject VALUES (86,14,2,5,'Flower 1',5,0,1035892919,1035892919,1);
-INSERT INTO ezcontentobject VALUES (87,14,2,5,'Flower 2',3,0,1035892937,1035892937,1);
-INSERT INTO ezcontentobject VALUES (88,14,2,5,'',2,0,1035888272,1035888272,1);
-INSERT INTO ezcontentobject VALUES (89,14,2,5,'',2,0,1035888302,1035888302,1);
-INSERT INTO ezcontentobject VALUES (90,14,2,5,'Forest 2',2,0,1035888387,1035888387,1);
-INSERT INTO ezcontentobject VALUES (91,14,2,5,'Forest 3',2,0,1035888410,1035888410,1);
-INSERT INTO ezcontentobject VALUES (92,14,2,5,'Forest 4',2,0,1035888444,1035888444,1);
-INSERT INTO ezcontentobject VALUES (93,14,2,1,'Water',1,0,1035887037,1035887037,1);
-INSERT INTO ezcontentobject VALUES (94,14,2,5,'Water 1',3,0,1035888486,1035888486,1);
-INSERT INTO ezcontentobject VALUES (95,14,2,5,'Water 2',2,0,1035888527,1035888527,1);
-INSERT INTO ezcontentobject VALUES (96,14,2,5,'Water 3',2,0,1035888554,1035888554,1);
-INSERT INTO ezcontentobject VALUES (97,14,2,5,'Water 4',2,0,1035888617,1035888617,1);
-INSERT INTO ezcontentobject VALUES (98,14,2,1,'Animals',1,0,1035887250,1035887250,1);
-INSERT INTO ezcontentobject VALUES (99,14,2,5,'Animal 1',2,0,1035888720,1035888720,1);
-INSERT INTO ezcontentobject VALUES (100,14,2,5,'Animal 2',2,0,1035888750,1035888750,1);
-INSERT INTO ezcontentobject VALUES (101,14,2,5,'Animal 3',2,0,1035888654,1035888654,1);
-INSERT INTO ezcontentobject VALUES (102,14,2,5,'Animal 4',2,0,1035888685,1035888685,1);
-INSERT INTO ezcontentobject VALUES (103,14,2,1,'Landscape',1,0,1035887800,1035887800,1);
-INSERT INTO ezcontentobject VALUES (104,14,2,5,'Landscape 1',2,0,1035888035,1035888035,1);
-INSERT INTO ezcontentobject VALUES (105,14,2,5,'Landscape 2',2,0,1035888065,1035888065,1);
-INSERT INTO ezcontentobject VALUES (106,14,2,5,'Landscape 3',2,0,1035888094,1035888094,1);
-INSERT INTO ezcontentobject VALUES (107,14,2,5,'Landscape 4',2,0,1035888131,1035888131,1);
-INSERT INTO ezcontentobject VALUES (109,14,3,2,'New article',3,0,1035905739,1035905739,1);
-INSERT INTO ezcontentobject VALUES (110,14,3,1,'Action',1,0,1035905816,1035905816,1);
-INSERT INTO ezcontentobject VALUES (111,14,3,2,'eZ systems travel company',1,0,1035905861,1035905861,1);
-INSERT INTO ezcontentobject VALUES (112,14,3,1,'Leisure',1,0,1035905944,1035905944,1);
-INSERT INTO ezcontentobject VALUES (113,14,3,2,'Food for the soul',3,0,1045818963,1045818963,1);
-INSERT INTO ezcontentobject VALUES (114,14,3,2,'We did it again',4,0,1035989523,1035989523,1);
-INSERT INTO ezcontentobject VALUES (115,14,3,2,'eZ publish 3.0',2,0,1035969409,1035969409,1);
-INSERT INTO ezcontentobject VALUES (116,14,3,2,'eZ systems and Siemens partner up',3,0,1035974950,1035974950,1);
-INSERT INTO ezcontentobject VALUES (117,14,3,2,'New article',1,0,1035969959,1035969959,1);
-INSERT INTO ezcontentobject VALUES (118,14,4,6,'Sports',2,0,1035988501,1035988501,1);
-INSERT INTO ezcontentobject VALUES (119,14,4,6,'Computers',2,0,1035988870,1035988870,1);
-INSERT INTO ezcontentobject VALUES (120,14,4,6,'Games',3,0,1035989049,1035989049,1);
-INSERT INTO ezcontentobject VALUES (121,14,4,6,'Politics',3,0,1035989376,1035989376,1);
-INSERT INTO ezcontentobject VALUES (122,14,4,8,'Formula 1 2003',1,0,1035970902,1035970902,1);
-INSERT INTO ezcontentobject VALUES (123,14,3,2,'A weekend in the mountain',2,0,1035971131,1035971131,1);
-INSERT INTO ezcontentobject VALUES (125,14,5,22,'The thriller book',4,0,1037264916,1037264916,1);
-INSERT INTO ezcontentobject VALUES (127,14,5,23,'I\'ve read this book',1,0,1035974003,1035974003,1);
-INSERT INTO ezcontentobject VALUES (128,14,3,2,'Sports weekend',1,0,1035974314,1035974314,1);
-INSERT INTO ezcontentobject VALUES (131,14,4,8,'The best football team in England',1,0,1035976181,1035976181,1);
-INSERT INTO ezcontentobject VALUES (132,14,4,8,'Are sports for idiots ?',1,0,1035976274,1035976274,1);
-INSERT INTO ezcontentobject VALUES (133,14,4,8,'Computer nerds',1,0,1035976334,1035976334,1);
-INSERT INTO ezcontentobject VALUES (134,14,4,8,'Without computers the world stops',1,0,1035976395,1035976395,1);
-INSERT INTO ezcontentobject VALUES (135,14,4,8,'Colin McRae Rally 3',1,0,1035976440,1035976440,1);
-INSERT INTO ezcontentobject VALUES (136,14,4,8,'Games should be done outside',1,0,1035976529,1035976529,1);
-INSERT INTO ezcontentobject VALUES (137,14,4,8,'Politics are boring',1,0,1035976603,1035976603,1);
-INSERT INTO ezcontentobject VALUES (139,14,4,8,'I do not agree !!!',1,0,1035976794,1035976794,1);
-INSERT INTO ezcontentobject VALUES (140,14,4,8,'Without politics chaos will rule',1,0,1035977266,1035977266,1);
-INSERT INTO ezcontentobject VALUES (141,14,4,8,'Yes, and it is great',1,0,1035977376,1035977376,1);
-INSERT INTO ezcontentobject VALUES (142,14,4,8,'Yes',1,0,1035977386,1035977386,1);
-INSERT INTO ezcontentobject VALUES (143,14,4,8,'I agree',1,0,1035977458,1035977458,1);
-INSERT INTO ezcontentobject VALUES (144,14,4,8,'Hmmm',1,0,1035977973,1035977973,1);
-INSERT INTO ezcontentobject VALUES (145,14,4,8,'Test',1,0,1035978540,1035978540,1);
-INSERT INTO ezcontentobject VALUES (146,14,4,8,'Not !',1,0,1035978999,1035978999,1);
-INSERT INTO ezcontentobject VALUES (148,14,5,22,'Forest fog',7,0,1037265917,1037265917,1);
-INSERT INTO ezcontentobject VALUES (149,14,5,1,'Computers',1,0,1035983221,1035983221,1);
-INSERT INTO ezcontentobject VALUES (150,14,5,22,'How to make a perfect CMS solution',7,0,1037265165,1037265165,1);
-INSERT INTO ezcontentobject VALUES (151,14,5,22,'eZ publish - a tutorial',3,0,1037264747,1037264747,1);
-INSERT INTO ezcontentobject VALUES (152,14,5,1,'House and garden',1,0,1035985040,1035985040,1);
-INSERT INTO ezcontentobject VALUES (153,14,5,22,'Color is everything',2,0,1037264782,1037264782,1);
-INSERT INTO ezcontentobject VALUES (154,14,5,22,'Peaceful waters',3,0,1037264815,1037264815,1);
-INSERT INTO ezcontentobject VALUES (155,14,4,8,'Ferrari or BMW ?',1,0,1035985365,1035985365,1);
-INSERT INTO ezcontentobject VALUES (156,14,5,1,'Travel',1,0,1035985697,1035985697,1);
-INSERT INTO ezcontentobject VALUES (157,14,5,22,'Travel guide',2,0,1037264847,1037264847,1);
-INSERT INTO ezcontentobject VALUES (158,14,5,22,'Animal planet',3,0,1037265973,1037265973,1);
-INSERT INTO ezcontentobject VALUES (160,14,6,1,'My company',2,0,1037197585,1037197585,1);
-INSERT INTO ezcontentobject VALUES (161,14,6,1,'News',1,0,1037177708,1037177708,1);
-INSERT INTO ezcontentobject VALUES (163,14,6,1,'Products',3,0,1037263615,1037263615,1);
-INSERT INTO ezcontentobject VALUES (164,14,6,1,'Software',1,0,1037192378,1037192378,1);
-INSERT INTO ezcontentobject VALUES (165,14,6,1,'Services',2,0,1037281706,1037281706,1);
-INSERT INTO ezcontentobject VALUES (169,14,6,24,'About',3,0,1037285403,1037285403,1);
-INSERT INTO ezcontentobject VALUES (170,14,6,24,'Careers',6,0,1037284973,1037284973,1);
-INSERT INTO ezcontentobject VALUES (171,14,6,2,'My company wins award',1,0,1037200671,1037200671,1);
-INSERT INTO ezcontentobject VALUES (172,14,6,2,'My company wins $ billion contract',1,0,1037201872,1037201872,1);
-INSERT INTO ezcontentobject VALUES (174,14,6,1,'Servers',1,0,1037202070,1037202070,1);
-INSERT INTO ezcontentobject VALUES (184,14,6,24,'Consulting',1,0,1037261018,1037261018,1);
-INSERT INTO ezcontentobject VALUES (185,14,6,24,'Support',1,0,1037261069,1037261069,1);
-INSERT INTO ezcontentobject VALUES (186,14,6,24,'Programming',1,0,1037261113,1037261113,1);
-INSERT INTO ezcontentobject VALUES (187,14,6,24,'Sys admin',1,0,1037261172,1037261172,1);
-INSERT INTO ezcontentobject VALUES (188,14,6,24,'Feature request',1,0,1037261217,1037261217,1);
-INSERT INTO ezcontentobject VALUES (191,14,6,22,'My company desktop editor',2,0,1037281355,1037281355,1);
-INSERT INTO ezcontentobject VALUES (192,14,6,22,'Server optimized',3,0,1037281397,1037281397,1);
-INSERT INTO ezcontentobject VALUES (196,14,4,1,'Links',1,0,1037280633,1037280633,1);
-INSERT INTO ezcontentobject VALUES (197,14,4,25,'eZ systems',1,0,1037280728,1037280728,1);
-INSERT INTO ezcontentobject VALUES (201,14,4,25,'eZ publish',1,0,1037281396,1037281396,1);
-INSERT INTO ezcontentobject VALUES (202,14,4,24,'About this forum',1,0,1037281592,1037281592,1);
-INSERT INTO ezcontentobject VALUES (203,14,7,1,'My Intranet',1,0,1038916142,1038916142,1);
-INSERT INTO ezcontentobject VALUES (204,14,7,1,'News',1,0,1038916156,1038916156,1);
-INSERT INTO ezcontentobject VALUES (205,14,7,1,'Files',1,0,1038916201,1038916201,1);
-INSERT INTO ezcontentobject VALUES (206,14,7,26,'Important document',1,0,1038917707,1038917707,1);
-INSERT INTO ezcontentobject VALUES (207,14,7,2,'This months budget',1,0,1038919010,1038919010,1);
-INSERT INTO ezcontentobject VALUES (208,14,7,2,'Wine lottery today',1,0,1038919541,1038919541,1);
-INSERT INTO ezcontentobject VALUES (209,14,7,26,'Document template',3,0,1038919177,1038919177,1);
-INSERT INTO ezcontentobject VALUES (210,14,7,26,'Another template',4,0,1038919287,1038919287,1);
-INSERT INTO ezcontentobject VALUES (211,14,7,2,'Meeting today at 13',1,0,1038920436,1038920436,1);
-INSERT INTO ezcontentobject VALUES (212,14,8,1,'My site',1,0,1039687283,1039687283,1);
-INSERT INTO ezcontentobject VALUES (213,14,8,24,'About me',2,0,1039687926,1039687926,1);
-INSERT INTO ezcontentobject VALUES (214,14,8,24,'Portfolio',1,0,1039687794,1039687794,1);
-INSERT INTO ezcontentobject VALUES (72,14,3,2,'Typhoon is near',9,0,1034264438,1034264438,0);
-INSERT INTO ezcontentobject VALUES (39,10,4,8,'New Forum message',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (43,10,4,8,'First reply',1,0,1034186575,1034186575,0);
-INSERT INTO ezcontentobject VALUES (45,10,4,8,'I agree !',1,0,1034186992,1034186992,0);
-INSERT INTO ezcontentobject VALUES (46,10,4,8,'This forum is bad!!!!!!!!!!',1,0,1034187189,1034187189,0);
-INSERT INTO ezcontentobject VALUES (47,10,4,8,'This is my reply',1,0,1034187441,1034187441,0);
-INSERT INTO ezcontentobject VALUES (159,14,4,8,'New Forum message',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (70,14,5,23,'Fantastic',1,0,1034259506,1034259506,0);
-INSERT INTO ezcontentobject VALUES (108,14,2,5,'New Image',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (126,14,3,2,'New Article',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (138,14,4,8,'New Forum message',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (147,14,5,23,'Good',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (194,10,4,8,'New Forum message',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (178,14,6,1,'System administration',1,0,1037202310,1037202310,0);
-INSERT INTO ezcontentobject VALUES (193,14,5,22,'New Product',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (190,14,5,22,'New Product',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (195,14,1,2,'New Article',1,0,0,0,0);
-INSERT INTO ezcontentobject VALUES (200,14,3,2,'Test article',1,0,1037281016,1037281016,0);
-INSERT INTO ezcontentobject VALUES (215,14,3,27,'First post!',1,0,1045819013,1045819013,2);
-INSERT INTO ezcontentobject VALUES (216,10,3,27,'My comment',1,0,1045819258,1045819258,1);
+INSERT INTO ezcontentobject VALUES (1,0,1,1,'My folder',3,0,1037197879,1037197879,1,NULL);
+INSERT INTO ezcontentobject VALUES (4,0,9,3,'Users',1,0,0,0,1,NULL);
+INSERT INTO ezcontentobject VALUES (10,8,9,4,'Anonymous User',1,0,1033920665,1033920665,1,NULL);
+INSERT INTO ezcontentobject VALUES (11,8,9,3,'Guest accounts',1,0,1033920746,1033920746,1,NULL);
+INSERT INTO ezcontentobject VALUES (12,8,9,3,'Administrator users',1,0,1033920775,1033920775,1,NULL);
+INSERT INTO ezcontentobject VALUES (13,8,9,3,'Editors',1,0,1033920794,1033920794,1,NULL);
+INSERT INTO ezcontentobject VALUES (14,8,9,4,'Administrator User',1,0,1033920830,1033920830,1,NULL);
+INSERT INTO ezcontentobject VALUES (15,14,2,1,'White box',5,0,1035893229,1035893229,1,NULL);
+INSERT INTO ezcontentobject VALUES (17,14,2,1,'Flowers',4,0,1035886818,1035886818,1,NULL);
+INSERT INTO ezcontentobject VALUES (23,14,3,1,'News',2,0,1035967901,1035967901,1,NULL);
+INSERT INTO ezcontentobject VALUES (25,14,3,1,'Frontpage',3,0,1034334677,1034334677,1,NULL);
+INSERT INTO ezcontentobject VALUES (26,14,3,1,'Sport',3,0,1034334718,1034334718,1,NULL);
+INSERT INTO ezcontentobject VALUES (29,14,3,1,'World news',3,0,1034334767,1034334767,1,NULL);
+INSERT INTO ezcontentobject VALUES (30,14,4,1,'Crossroads forum',1,0,1034181792,1034181792,1,NULL);
+INSERT INTO ezcontentobject VALUES (31,14,4,1,'Forums',1,0,1034181825,1034181825,1,NULL);
+INSERT INTO ezcontentobject VALUES (57,14,1,20,'',1,0,1034190865,1034190865,1,NULL);
+INSERT INTO ezcontentobject VALUES (62,14,5,1,'The Book Corner',2,0,1035971219,1035971219,1,NULL);
+INSERT INTO ezcontentobject VALUES (63,14,5,1,'Thriller',3,0,1035973207,1035973207,1,NULL);
+INSERT INTO ezcontentobject VALUES (64,14,5,1,'Bestsellers',1,0,1034252256,1034252256,1,NULL);
+INSERT INTO ezcontentobject VALUES (65,14,5,1,'Recommendations',1,0,1034252479,1034252479,1,NULL);
+INSERT INTO ezcontentobject VALUES (83,14,2,24,'Whitebox contemporary art gallery',5,0,1035967595,1035967595,1,NULL);
+INSERT INTO ezcontentobject VALUES (84,14,2,1,'Forest',5,0,1035892777,1035892777,1,NULL);
+INSERT INTO ezcontentobject VALUES (85,14,2,5,'Forest 1',3,0,1035888358,1035888358,1,NULL);
+INSERT INTO ezcontentobject VALUES (86,14,2,5,'Flower 1',5,0,1035892919,1035892919,1,NULL);
+INSERT INTO ezcontentobject VALUES (87,14,2,5,'Flower 2',3,0,1035892937,1035892937,1,NULL);
+INSERT INTO ezcontentobject VALUES (88,14,2,5,'',2,0,1035888272,1035888272,1,NULL);
+INSERT INTO ezcontentobject VALUES (89,14,2,5,'',2,0,1035888302,1035888302,1,NULL);
+INSERT INTO ezcontentobject VALUES (90,14,2,5,'Forest 2',2,0,1035888387,1035888387,1,NULL);
+INSERT INTO ezcontentobject VALUES (91,14,2,5,'Forest 3',2,0,1035888410,1035888410,1,NULL);
+INSERT INTO ezcontentobject VALUES (92,14,2,5,'Forest 4',2,0,1035888444,1035888444,1,NULL);
+INSERT INTO ezcontentobject VALUES (93,14,2,1,'Water',1,0,1035887037,1035887037,1,NULL);
+INSERT INTO ezcontentobject VALUES (94,14,2,5,'Water 1',3,0,1035888486,1035888486,1,NULL);
+INSERT INTO ezcontentobject VALUES (95,14,2,5,'Water 2',2,0,1035888527,1035888527,1,NULL);
+INSERT INTO ezcontentobject VALUES (96,14,2,5,'Water 3',2,0,1035888554,1035888554,1,NULL);
+INSERT INTO ezcontentobject VALUES (97,14,2,5,'Water 4',2,0,1035888617,1035888617,1,NULL);
+INSERT INTO ezcontentobject VALUES (98,14,2,1,'Animals',1,0,1035887250,1035887250,1,NULL);
+INSERT INTO ezcontentobject VALUES (99,14,2,5,'Animal 1',2,0,1035888720,1035888720,1,NULL);
+INSERT INTO ezcontentobject VALUES (100,14,2,5,'Animal 2',2,0,1035888750,1035888750,1,NULL);
+INSERT INTO ezcontentobject VALUES (101,14,2,5,'Animal 3',2,0,1035888654,1035888654,1,NULL);
+INSERT INTO ezcontentobject VALUES (102,14,2,5,'Animal 4',2,0,1035888685,1035888685,1,NULL);
+INSERT INTO ezcontentobject VALUES (103,14,2,1,'Landscape',1,0,1035887800,1035887800,1,NULL);
+INSERT INTO ezcontentobject VALUES (104,14,2,5,'Landscape 1',2,0,1035888035,1035888035,1,NULL);
+INSERT INTO ezcontentobject VALUES (105,14,2,5,'Landscape 2',2,0,1035888065,1035888065,1,NULL);
+INSERT INTO ezcontentobject VALUES (106,14,2,5,'Landscape 3',2,0,1035888094,1035888094,1,NULL);
+INSERT INTO ezcontentobject VALUES (107,14,2,5,'Landscape 4',2,0,1035888131,1035888131,1,NULL);
+INSERT INTO ezcontentobject VALUES (109,14,3,2,'New article',3,0,1035905739,1035905739,1,NULL);
+INSERT INTO ezcontentobject VALUES (110,14,3,1,'Action',1,0,1035905816,1035905816,1,NULL);
+INSERT INTO ezcontentobject VALUES (111,14,3,2,'eZ systems travel company',1,0,1035905861,1035905861,1,NULL);
+INSERT INTO ezcontentobject VALUES (112,14,3,1,'Leisure',1,0,1035905944,1035905944,1,NULL);
+INSERT INTO ezcontentobject VALUES (113,14,3,2,'Food for the soul',3,0,1045818963,1045818963,1,NULL);
+INSERT INTO ezcontentobject VALUES (114,14,3,2,'We did it again',4,0,1035989523,1035989523,1,NULL);
+INSERT INTO ezcontentobject VALUES (115,14,3,2,'eZ publish 3.0',2,0,1035969409,1035969409,1,NULL);
+INSERT INTO ezcontentobject VALUES (116,14,3,2,'eZ systems and Siemens partner up',3,0,1035974950,1035974950,1,NULL);
+INSERT INTO ezcontentobject VALUES (117,14,3,2,'New article',1,0,1035969959,1035969959,1,NULL);
+INSERT INTO ezcontentobject VALUES (118,14,4,6,'Sports',2,0,1035988501,1035988501,1,NULL);
+INSERT INTO ezcontentobject VALUES (119,14,4,6,'Computers',2,0,1035988870,1035988870,1,NULL);
+INSERT INTO ezcontentobject VALUES (120,14,4,6,'Games',3,0,1035989049,1035989049,1,NULL);
+INSERT INTO ezcontentobject VALUES (121,14,4,6,'Politics',3,0,1035989376,1035989376,1,NULL);
+INSERT INTO ezcontentobject VALUES (122,14,4,8,'Formula 1 2003',1,0,1035970902,1035970902,1,NULL);
+INSERT INTO ezcontentobject VALUES (123,14,3,2,'A weekend in the mountain',2,0,1035971131,1035971131,1,NULL);
+INSERT INTO ezcontentobject VALUES (125,14,5,22,'The thriller book',4,0,1037264916,1037264916,1,NULL);
+INSERT INTO ezcontentobject VALUES (127,14,5,23,'I\'ve read this book',1,0,1035974003,1035974003,1,NULL);
+INSERT INTO ezcontentobject VALUES (128,14,3,2,'Sports weekend',1,0,1035974314,1035974314,1,NULL);
+INSERT INTO ezcontentobject VALUES (131,14,4,8,'The best football team in England',1,0,1035976181,1035976181,1,NULL);
+INSERT INTO ezcontentobject VALUES (132,14,4,8,'Are sports for idiots ?',1,0,1035976274,1035976274,1,NULL);
+INSERT INTO ezcontentobject VALUES (133,14,4,8,'Computer nerds',1,0,1035976334,1035976334,1,NULL);
+INSERT INTO ezcontentobject VALUES (134,14,4,8,'Without computers the world stops',1,0,1035976395,1035976395,1,NULL);
+INSERT INTO ezcontentobject VALUES (135,14,4,8,'Colin McRae Rally 3',1,0,1035976440,1035976440,1,NULL);
+INSERT INTO ezcontentobject VALUES (136,14,4,8,'Games should be done outside',1,0,1035976529,1035976529,1,NULL);
+INSERT INTO ezcontentobject VALUES (137,14,4,8,'Politics are boring',1,0,1035976603,1035976603,1,NULL);
+INSERT INTO ezcontentobject VALUES (139,14,4,8,'I do not agree !!!',1,0,1035976794,1035976794,1,NULL);
+INSERT INTO ezcontentobject VALUES (140,14,4,8,'Without politics chaos will rule',1,0,1035977266,1035977266,1,NULL);
+INSERT INTO ezcontentobject VALUES (141,14,4,8,'Yes, and it is great',1,0,1035977376,1035977376,1,NULL);
+INSERT INTO ezcontentobject VALUES (142,14,4,8,'Yes',1,0,1035977386,1035977386,1,NULL);
+INSERT INTO ezcontentobject VALUES (143,14,4,8,'I agree',1,0,1035977458,1035977458,1,NULL);
+INSERT INTO ezcontentobject VALUES (144,14,4,8,'Hmmm',1,0,1035977973,1035977973,1,NULL);
+INSERT INTO ezcontentobject VALUES (145,14,4,8,'Test',1,0,1035978540,1035978540,1,NULL);
+INSERT INTO ezcontentobject VALUES (146,14,4,8,'Not !',1,0,1035978999,1035978999,1,NULL);
+INSERT INTO ezcontentobject VALUES (148,14,5,22,'Forest fog',7,0,1037265917,1037265917,1,NULL);
+INSERT INTO ezcontentobject VALUES (149,14,5,1,'Computers',1,0,1035983221,1035983221,1,NULL);
+INSERT INTO ezcontentobject VALUES (150,14,5,22,'How to make a perfect CMS solution',7,0,1037265165,1037265165,1,NULL);
+INSERT INTO ezcontentobject VALUES (151,14,5,22,'eZ publish - a tutorial',3,0,1037264747,1037264747,1,NULL);
+INSERT INTO ezcontentobject VALUES (152,14,5,1,'House and garden',1,0,1035985040,1035985040,1,NULL);
+INSERT INTO ezcontentobject VALUES (153,14,5,22,'Color is everything',2,0,1037264782,1037264782,1,NULL);
+INSERT INTO ezcontentobject VALUES (154,14,5,22,'Peaceful waters',3,0,1037264815,1037264815,1,NULL);
+INSERT INTO ezcontentobject VALUES (155,14,4,8,'Ferrari or BMW ?',1,0,1035985365,1035985365,1,NULL);
+INSERT INTO ezcontentobject VALUES (156,14,5,1,'Travel',1,0,1035985697,1035985697,1,NULL);
+INSERT INTO ezcontentobject VALUES (157,14,5,22,'Travel guide',2,0,1037264847,1037264847,1,NULL);
+INSERT INTO ezcontentobject VALUES (158,14,5,22,'Animal planet',3,0,1037265973,1037265973,1,NULL);
+INSERT INTO ezcontentobject VALUES (160,14,6,1,'My company',2,0,1037197585,1037197585,1,NULL);
+INSERT INTO ezcontentobject VALUES (161,14,6,1,'News',1,0,1037177708,1037177708,1,NULL);
+INSERT INTO ezcontentobject VALUES (163,14,6,1,'Products',3,0,1037263615,1037263615,1,NULL);
+INSERT INTO ezcontentobject VALUES (164,14,6,1,'Software',1,0,1037192378,1037192378,1,NULL);
+INSERT INTO ezcontentobject VALUES (165,14,6,1,'Services',2,0,1037281706,1037281706,1,NULL);
+INSERT INTO ezcontentobject VALUES (169,14,6,24,'About',3,0,1037285403,1037285403,1,NULL);
+INSERT INTO ezcontentobject VALUES (170,14,6,24,'Careers',6,0,1037284973,1037284973,1,NULL);
+INSERT INTO ezcontentobject VALUES (171,14,6,2,'My company wins award',1,0,1037200671,1037200671,1,NULL);
+INSERT INTO ezcontentobject VALUES (172,14,6,2,'My company wins $ billion contract',1,0,1037201872,1037201872,1,NULL);
+INSERT INTO ezcontentobject VALUES (174,14,6,1,'Servers',1,0,1037202070,1037202070,1,NULL);
+INSERT INTO ezcontentobject VALUES (184,14,6,24,'Consulting',1,0,1037261018,1037261018,1,NULL);
+INSERT INTO ezcontentobject VALUES (185,14,6,24,'Support',1,0,1037261069,1037261069,1,NULL);
+INSERT INTO ezcontentobject VALUES (186,14,6,24,'Programming',1,0,1037261113,1037261113,1,NULL);
+INSERT INTO ezcontentobject VALUES (187,14,6,24,'Sys admin',1,0,1037261172,1037261172,1,NULL);
+INSERT INTO ezcontentobject VALUES (188,14,6,24,'Feature request',1,0,1037261217,1037261217,1,NULL);
+INSERT INTO ezcontentobject VALUES (191,14,6,22,'My company desktop editor',2,0,1037281355,1037281355,1,NULL);
+INSERT INTO ezcontentobject VALUES (192,14,6,22,'Server optimized',3,0,1037281397,1037281397,1,NULL);
+INSERT INTO ezcontentobject VALUES (196,14,4,1,'Links',1,0,1037280633,1037280633,1,NULL);
+INSERT INTO ezcontentobject VALUES (197,14,4,25,'eZ systems',1,0,1037280728,1037280728,1,NULL);
+INSERT INTO ezcontentobject VALUES (201,14,4,25,'eZ publish',1,0,1037281396,1037281396,1,NULL);
+INSERT INTO ezcontentobject VALUES (202,14,4,24,'About this forum',1,0,1037281592,1037281592,1,NULL);
+INSERT INTO ezcontentobject VALUES (203,14,7,1,'My Intranet',1,0,1038916142,1038916142,1,NULL);
+INSERT INTO ezcontentobject VALUES (204,14,7,1,'News',1,0,1038916156,1038916156,1,NULL);
+INSERT INTO ezcontentobject VALUES (205,14,7,1,'Files',1,0,1038916201,1038916201,1,NULL);
+INSERT INTO ezcontentobject VALUES (206,14,7,26,'Important document',1,0,1038917707,1038917707,1,NULL);
+INSERT INTO ezcontentobject VALUES (207,14,7,2,'This months budget',1,0,1038919010,1038919010,1,NULL);
+INSERT INTO ezcontentobject VALUES (208,14,7,2,'Wine lottery today',1,0,1038919541,1038919541,1,NULL);
+INSERT INTO ezcontentobject VALUES (209,14,7,26,'Document template',3,0,1038919177,1038919177,1,NULL);
+INSERT INTO ezcontentobject VALUES (210,14,7,26,'Another template',4,0,1038919287,1038919287,1,NULL);
+INSERT INTO ezcontentobject VALUES (211,14,7,2,'Meeting today at 13',1,0,1038920436,1038920436,1,NULL);
+INSERT INTO ezcontentobject VALUES (212,14,8,1,'My site',1,0,1039687283,1039687283,1,NULL);
+INSERT INTO ezcontentobject VALUES (213,14,8,24,'About me',2,0,1039687926,1039687926,1,NULL);
+INSERT INTO ezcontentobject VALUES (214,14,8,24,'Portfolio',1,0,1039687794,1039687794,1,NULL);
+INSERT INTO ezcontentobject VALUES (72,14,3,2,'Typhoon is near',9,0,1034264438,1034264438,0,NULL);
+INSERT INTO ezcontentobject VALUES (39,10,4,8,'New Forum message',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (43,10,4,8,'First reply',1,0,1034186575,1034186575,0,NULL);
+INSERT INTO ezcontentobject VALUES (45,10,4,8,'I agree !',1,0,1034186992,1034186992,0,NULL);
+INSERT INTO ezcontentobject VALUES (46,10,4,8,'This forum is bad!!!!!!!!!!',1,0,1034187189,1034187189,0,NULL);
+INSERT INTO ezcontentobject VALUES (47,10,4,8,'This is my reply',1,0,1034187441,1034187441,0,NULL);
+INSERT INTO ezcontentobject VALUES (159,14,4,8,'New Forum message',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (70,14,5,23,'Fantastic',1,0,1034259506,1034259506,0,NULL);
+INSERT INTO ezcontentobject VALUES (108,14,2,5,'New Image',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (126,14,3,2,'New Article',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (138,14,4,8,'New Forum message',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (147,14,5,23,'Good',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (194,10,4,8,'New Forum message',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (178,14,6,1,'System administration',1,0,1037202310,1037202310,0,NULL);
+INSERT INTO ezcontentobject VALUES (193,14,5,22,'New Product',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (190,14,5,22,'New Product',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (195,14,1,2,'New Article',1,0,0,0,0,NULL);
+INSERT INTO ezcontentobject VALUES (200,14,3,2,'Test article',1,0,1037281016,1037281016,0,NULL);
+INSERT INTO ezcontentobject VALUES (215,14,3,27,'First post!',1,0,1045819013,1045819013,2,NULL);
+INSERT INTO ezcontentobject VALUES (216,10,3,27,'My comment',1,0,1045819258,1045819258,1,NULL);
 
 --
 -- Table structure for table 'ezcontentobject_attribute'
@@ -1982,7 +1983,8 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
   KEY ezcontentobject_tree_depth (depth),
-  KEY ezcontentobject_tree_crc32_path (crc32_path)
+  KEY ezcontentobject_tree_crc32_path (crc32_path),
+  KEY md5_path (md5_path)
 ) TYPE=MyISAM;
 
 --
@@ -3184,6 +3186,7 @@ CREATE TABLE ezorder (
   data_text_2 text,
   data_text_1 text,
   account_identifier varchar(100) NOT NULL default 'default',
+  ignore_vat int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -3191,11 +3194,11 @@ CREATE TABLE ezorder (
 -- Dumping data for table 'ezorder'
 --
 
-INSERT INTO ezorder VALUES (1,14,5,1035976440,1,0,NULL,NULL,'default');
-INSERT INTO ezorder VALUES (2,10,8,1037195564,1,0,NULL,NULL,'default');
-INSERT INTO ezorder VALUES (3,10,9,1037195595,1,0,NULL,NULL,'default');
-INSERT INTO ezorder VALUES (4,10,10,1037195644,1,0,NULL,NULL,'default');
-INSERT INTO ezorder VALUES (5,10,12,1037263309,1,0,NULL,NULL,'default');
+INSERT INTO ezorder VALUES (1,14,5,1035976440,1,0,NULL,NULL,'default',0);
+INSERT INTO ezorder VALUES (2,10,8,1037195564,1,0,NULL,NULL,'default',0);
+INSERT INTO ezorder VALUES (3,10,9,1037195595,1,0,NULL,NULL,'default',0);
+INSERT INTO ezorder VALUES (4,10,10,1037195644,1,0,NULL,NULL,'default',0);
+INSERT INTO ezorder VALUES (5,10,12,1037263309,1,0,NULL,NULL,'default',0);
 
 --
 -- Table structure for table 'ezorder_item'
@@ -3206,8 +3209,7 @@ CREATE TABLE ezorder_item (
   order_id int(11) NOT NULL default '0',
   description varchar(255) default NULL,
   price float default NULL,
-  vat_is_included int(11) default NULL,
-  vat_type_id int(11) default NULL,
+  vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -12815,7 +12817,6 @@ CREATE TABLE ezsession (
   session_key varchar(32) NOT NULL default '',
   expiration_time int(11) unsigned NOT NULL default '0',
   data text NOT NULL,
-  cache_mask_1 int(11) NOT NULL default '0',
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time)
 ) TYPE=MyISAM;
