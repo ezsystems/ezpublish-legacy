@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZStepSystemCheck class
+// Definition of eZStepSystemFinetune class
 //
 // Created on: <08-Aug-2003 16:46:32 kk>
 //
@@ -46,12 +46,12 @@ include_once( "kernel/common/i18n.php" );
 
 */
 
-class eZStepSystemCheck extends eZStepInstaller
+class eZStepSystemFinetune extends eZStepInstaller
 {
     /*!
      Constructor
     */
-    function eZStepSystemCheck( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSystemFinetune( &$tpl, &$http, &$ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList );
     }
@@ -60,59 +60,62 @@ class eZStepSystemCheck extends eZStepInstaller
      */
     function processPostData()
     {
-        $return = $this->init();
         if ( $this->Http->hasPostVariable( 'eZSetup_finetune_button' ) )
         {
             $this->PersistenceList['run_finetune'] = true;
+            return false;
         }
-        return $return;
+        $this->PersistenceList['run_finetune'] = false;
+        return true;
     }
 
     /*!
      */
     function init()
     {
-        $criticalTests = eZSetupCriticalTests();
-        $optionalTests = eZSetupOptionalTests();
-        $testTable = eZSetupTestTable();
-
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
-        $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check' );
-        $this->Results = $runResult['results'];
-        $this->Result = $runResult['result'];
-        $this->OptionalResults = $optionalRunResult['results'];
-        $this->OptionalResult = $optionalRunResult['result'];
-        $persistenceData = $runResult['persistence_list'];
-
-        $testsRun = array();
-        foreach ( $this->Results as $testResultItem )
+        if ( $this->PersistenceList['run_finetune'] )
         {
-            $testsRun[$testResultItem[1]] = $testResultItem[0];
+            $criticalTests = eZSetupCriticalTests();
+            $optionalTests = eZSetupOptionalTests();
+            $testTable = eZSetupTestTable();
+
+            $arguments = array();
+            $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check' );
+            $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check' );
+            $this->Results = $runResult['results'];
+            $this->Result = $runResult['result'];
+            $this->OptionalResults = $optionalRunResult['results'];
+            $this->OptionalResult = $optionalRunResult['result'];
+            $persistenceData = $runResult['persistence_list'];
+
+            $testsRun = array();
+            foreach ( $this->Results as $testResultItem )
+            {
+                $testsRun[$testResultItem[1]] = $testResultItem[0];
+            }
+
+            eZSetupMergePersistenceList( $this->PersistenceList, $persistenceData );
+
+            $this->PersistenceList['tests_run'] = $testsRun;
+            $this->PersistenceList['optional_tests_run'] = $testsRun;
+
+            return ( $this->OptionalResult == EZ_SETUP_TEST_SUCCESS );
         }
-
-        eZSetupMergePersistenceList( $this->PersistenceList, $persistenceData );
-
-        $this->PersistenceList['tests_run'] = $testsRun;
-        $this->PersistenceList['optional_tests_run'] = $testsRun;
-
-        return ( $this->Result == EZ_SETUP_TEST_SUCCESS );
+        return true;
     }
 
     /*!
     */
     function &display()
     {
-        $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
-                                                'results' => $this->Results ) );
-        $this->Tpl->setVariable( 'optional_test', array( 'result' => $this->OptionalResult,
+        $this->Tpl->setVariable( 'test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
         $this->Tpl->setVariable( 'persistence_data', $this->PersistenceList );
         $result = array();
         // Display template
-        $result['content'] = $this->Tpl->fetch( "design:setup/init/system_check.tpl" );
+        $result['content'] = $this->Tpl->fetch( "design:setup/init/system_finetune.tpl" );
         $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                          'System check' ),
+                                                          'System finetuning' ),
                                         'url' => false ) );
         return $result;
     }
