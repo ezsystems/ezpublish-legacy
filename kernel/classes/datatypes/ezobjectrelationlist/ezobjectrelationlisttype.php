@@ -37,7 +37,7 @@
 
 /*!
   \class eZObjectRelationListType ezobjectrelationlisttype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles object relations
 
 Bugs/missing features:

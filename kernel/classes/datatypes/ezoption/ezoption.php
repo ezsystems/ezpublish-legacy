@@ -37,7 +37,7 @@
 
 /*!
   \class eZOption ezoption.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief eZOption handles option set datatypes
 
   \code

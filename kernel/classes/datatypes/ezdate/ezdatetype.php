@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZDateType
 /*!
+  \class eZDateType ezdatetype.php
+  \ingroup eZDatatype
+  \brief Stores a date value
 
 */
 

@@ -34,9 +34,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZEmailType does
 /*!
+  \class eZEmailType ezemailtype.php
+  \ingroup eZDatatype
+  \brief Stores an email address
 
 */
 

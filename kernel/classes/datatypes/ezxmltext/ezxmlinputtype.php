@@ -39,7 +39,8 @@
 */
 
 /*!
-  \class eZXMLInputType
+  \class eZXMLInputType ezxmlinputtype.php
+  \ingroup eZDatatype
   \brief The class eZXMLInputType does
 
 */

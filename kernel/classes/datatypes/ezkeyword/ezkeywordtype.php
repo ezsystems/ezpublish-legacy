@@ -37,7 +37,7 @@
 
 /*!
   \class eZKeywordType ezkeywordtype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles keyword indexes
 
 */

@@ -37,9 +37,10 @@
 
 /*!
   \class eZImage ezimage.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZImage handles registered images
 
+  \deprecated
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );

@@ -44,6 +44,7 @@ include_once( "kernel/classes/ezcontentclassattribute.php" );
 
 /*!
   \class eZEnumValue ezenumvalue.php
+  \ingroup eZDatatype
   \brief The class eZEnumValue does
 
 */

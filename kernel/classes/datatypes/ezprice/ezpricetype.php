@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZPriceType
 /*!
+  \class eZPriceType ezpricetype.php
+  \ingroup eZDatatype
+  \brief Stores a price (float)
 
 */
 

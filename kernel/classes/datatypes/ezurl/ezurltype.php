@@ -37,7 +37,7 @@
 
 /*!
   \class eZURLType ezurltype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles urls
 
 */

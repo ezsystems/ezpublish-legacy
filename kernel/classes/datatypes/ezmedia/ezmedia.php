@@ -37,7 +37,7 @@
 
 /*!
   \class eZMedia ezmedia.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZMedia handles registered media files
 
 */

@@ -40,6 +40,7 @@
 
 /*!
   \class eZForgotPassword ezforgotpassword.php
+  \ingroup eZDatatype
   \brief The class eZForgotPassword does
 
 */

@@ -37,7 +37,7 @@
 
 /*!
   \class eZMediaType ezmediatype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZMediaType handles storage and playback of media files.
 
 */

@@ -37,7 +37,7 @@
 
 /*!
   \class eZBinaryFileType ezbinaryfiletype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZBinaryFileType handles image accounts and association with content objects
 
 */

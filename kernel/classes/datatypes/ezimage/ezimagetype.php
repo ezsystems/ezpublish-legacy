@@ -37,7 +37,7 @@
 
 /*!
   \class eZImageType ezimagetype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZImageType handles image accounts and association with content objects
 
 */

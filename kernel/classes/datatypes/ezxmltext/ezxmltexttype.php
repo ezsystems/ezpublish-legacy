@@ -36,7 +36,8 @@
 //
 
 /*!
-  \class eZXMLTextType
+  \class eZXMLTextType ezxmltexttype
+  \ingroup eZDatatype
   \brief The class eZXMLTextType haneles XML formatted datatypes
 
 The formatted datatypes store the data in XML. A typical example of this is shown below:

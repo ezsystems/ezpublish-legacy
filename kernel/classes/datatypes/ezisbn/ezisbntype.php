@@ -35,9 +35,9 @@
 //
 
 /*!
-  \class eZISBNType ezusertype.php
-  \brief The class eZISBNType
-  \ingroup eZKernel
+  \class eZISBNType ezisbntype.php
+  \brief Handles ISBN type strings
+  \ingroup eZDatatype
 
 */
 

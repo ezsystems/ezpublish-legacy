@@ -40,6 +40,7 @@
 
 /*!
   \class eZTextFileUser eztextfileuser.php
+  \ingroup eZDatatype
   \brief Handles logins for users defined a simple text file
 
   The handler will read the users from the text file defined in textfile.ini,

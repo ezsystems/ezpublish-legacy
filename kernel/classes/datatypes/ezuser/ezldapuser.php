@@ -40,6 +40,7 @@
 
 /*!
   \class eZLDAPUser ezldapuser.php
+  \ingroup eZDatatype
   \brief The class eZLDAPUser does
 
 */

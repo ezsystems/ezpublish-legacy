@@ -41,7 +41,7 @@
 
 /*!
   \class eZEnumType ezenumtype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
 
 */
 

@@ -38,7 +38,7 @@
 /*!
   \class eZUser ezuser.php
   \brief eZUser handles eZ publish user accounts
-  \ingroup eZKernel
+  \ingroup eZDatatype
 
 */
 

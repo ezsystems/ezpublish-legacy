@@ -34,9 +34,9 @@
 // you.
 //
 
-//!! eZUser
-//! The class eZUserSetting
 /*!
+  \class eZUserSetting ezusersetting.php
+  \ingroup eZDatatype
 
 */
 

@@ -40,6 +40,7 @@
 
 /*!
   \class eZSubtreeSubscriptionType ezsubtreesubscriptiontype.php
+  \ingroup eZDatatype
   \brief The class eZSubtreeSubscriptionType does
 
 */

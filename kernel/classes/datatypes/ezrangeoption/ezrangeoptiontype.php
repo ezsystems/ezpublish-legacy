@@ -40,6 +40,7 @@
 
 /*!
   \class eZRangeOptionType ezrangeoptiontype.php
+  \ingroup eZDatatype
   \brief The class eZRangeOptionType does
 
 */

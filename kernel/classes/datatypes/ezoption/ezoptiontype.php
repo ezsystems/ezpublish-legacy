@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZOptionType does
 /*!
+  \class eZOptionType ezoptiontype.php
+  \ingroup eZDatatype
+  \brief Stores option values
 
 */
 

@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZBooleanType does
 /*!
+  \class eZBooleanType ezbooleantype.php
+  \ingroup eZDatatype
+  \brief Stores a boolean value
 
 */
 

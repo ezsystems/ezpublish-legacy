@@ -37,7 +37,7 @@
 
 /*!
   \class eZURL ezurl.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A class which handles central storage of urls
 
   URLs can be stored using eZURL. When registering URL's

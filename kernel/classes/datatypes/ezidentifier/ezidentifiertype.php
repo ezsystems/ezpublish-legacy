@@ -40,6 +40,7 @@
 
 /*!
   \class eZIdentifierType ezidentifiertype.php
+  \ingroup eZDatatype
   \brief The class eZIdentifierType does
 
 */

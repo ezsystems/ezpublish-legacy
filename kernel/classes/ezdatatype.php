@@ -35,6 +35,8 @@
 // you.
 //
 
+/*! \defgroup eZDatatype Content datatypes */
+
 /*!
   \class eZDataType ezdatatype.php
   \ingroup eZKernel

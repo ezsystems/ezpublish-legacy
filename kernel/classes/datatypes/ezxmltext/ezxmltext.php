@@ -39,7 +39,8 @@
 */
 
 /*!
-  \class eZXMLText
+  \class eZXMLText ezxmltext.php
+  \ingroup eZDatatype
   \brief The class eZXMLText handles XML text data type instances
 
 */

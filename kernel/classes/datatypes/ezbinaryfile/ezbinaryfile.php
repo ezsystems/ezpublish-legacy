@@ -37,7 +37,7 @@
 
 /*!
   \class eZBinaryFile ezbinaryfile.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZBinaryFile handles registered binaryfiles
 
 */

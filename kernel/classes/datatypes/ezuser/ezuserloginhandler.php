@@ -40,6 +40,7 @@
 
 /*!
   \class eZUserLoginHandler ezuserloginhandler.php
+  \ingroup eZDatatype
   \brief The class eZUserLoginHandler does
 
 */

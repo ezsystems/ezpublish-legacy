@@ -39,7 +39,8 @@
 */
 
 /*!
-  \class eZXMLOutputHandler
+  \class eZXMLOutputHandler ezxmloutputhandler
+  \ingroup eZDatatype
   \brief The class eZXMLOutputHandler does
 
 */

@@ -37,7 +37,7 @@
 
 /*!
   \class eZObjectRelationType ezobjectrelationtype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles object relations
 
 */

@@ -35,7 +35,7 @@
 
 /*!
   \class eZIntegerType ezintegertype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles integers
 
   It provides the functionality to work as an integer and handles

@@ -40,6 +40,7 @@
 
 /*!
   \class eZURLObjectLink ezurlobjectlink.php
+  \ingroup eZDatatype
   \brief The class eZURLObjectLink does
 
 */

@@ -37,7 +37,7 @@
 
 /*!
   \class eZImageFile ezimagefile.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief The class eZImageFile handles registered images
 
 */

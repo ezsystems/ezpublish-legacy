@@ -40,6 +40,7 @@
 
 /*!
   \class eZMatrixDefinition ezmatrixdefinition.php
+  \ingroup eZDatatype
   \brief The class eZMatrixDefinition does
 
 */

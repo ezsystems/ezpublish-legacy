@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZTextType does
 /*!
+  \class eZTextType eztexttype.php
+  \ingroup eZDatatype
+  \brief Stores a text area value
 
 */
 

@@ -40,6 +40,7 @@
 
 /*!
   \class eZUserAccountKey ezuseraccountkey.php
+  \ingroup eZDatatype
   \brief The class eZUserAccountKey does
 
 */

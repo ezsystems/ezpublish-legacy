@@ -37,7 +37,7 @@
 
 /*!
   \class eZStringType ezstringtype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype which handles text lines
 
   It provides the functionality to work as a text line and handles

@@ -35,9 +35,10 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZFloatType
 /*!
+  \class eZFloatType ezfloattype.php
+  \ingroup eZDatatype
+  \brief Stores a float value
 
 */
 

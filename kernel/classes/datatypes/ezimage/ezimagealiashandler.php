@@ -37,7 +37,7 @@
 
 /*!
   \class eZImageAliasHandler ezimagealiashandler.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief Internal manager for the eZImage datatype
 
   Takes care of image conversion and serialization from and to

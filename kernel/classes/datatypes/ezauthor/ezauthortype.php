@@ -37,7 +37,7 @@
 
 /*!
   \class eZAuthorType ezauthortype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief eZAuthorType handles multiple authors
 
 */

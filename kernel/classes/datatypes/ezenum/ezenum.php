@@ -44,6 +44,7 @@ include_once( "kernel/classes/datatypes/ezenum/ezenumobjectvalue.php" );
 
 /*!
   \class eZEnum ezenum.php
+  \ingroup eZDatatype
   \brief The class eZEnum does
 
 */

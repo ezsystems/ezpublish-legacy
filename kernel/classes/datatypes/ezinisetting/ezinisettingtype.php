@@ -37,7 +37,7 @@
 
 /*!
   \class eZIniSettingType ezinisettingtype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A content datatype for setting ini file settings
 
   Enable editing and versioning of ini files from the admin interface

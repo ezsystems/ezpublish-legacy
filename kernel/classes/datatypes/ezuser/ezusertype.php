@@ -38,7 +38,7 @@
 /*!
   \class eZUserType ezusertype.php
   \brief The class eZUserType handles user accounts and association with content objects
-  \ingroup eZKernel
+  \ingroup eZDatatype
 
 */
 

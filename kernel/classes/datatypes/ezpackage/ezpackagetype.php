@@ -40,6 +40,7 @@
 
 /*!
   \class eZPackageType ezpackagetype.php
+  \ingroup eZDatatype
   \brief The class eZPackageType does
 
 */

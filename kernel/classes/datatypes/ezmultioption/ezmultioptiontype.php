@@ -35,7 +35,7 @@
 
 /*!
   \class eZMultiOptionType ezmultioptiontype.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief A datatype which works with multiple options.
 
   This allows the user to add several option choices almost as if he

@@ -34,12 +34,13 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZTimeType
-
 /*!
+  \class eZTimeType eztimetype.php
+  \ingroup eZDatatype
+  \brief Stores a time value
 
 */
+
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezlocale/classes/eztime.php" );
 include_once( "lib/ezlocale/classes/ezlocale.php" );

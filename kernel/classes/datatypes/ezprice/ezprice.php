@@ -40,6 +40,7 @@
 
 /*!
   \class eZPrice ezprice.php
+  \ingroup eZDatatype
   \brief The class eZPrice does
 
 */

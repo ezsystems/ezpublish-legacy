@@ -36,7 +36,7 @@
 
 /*!
   \class eZMultiOption ezmultioption.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief Encapsulates multiple options in one datatype.
 
   This class encapsulates multiple options by storing an array

@@ -40,8 +40,10 @@
 
 /*!
   \class eZImageVariation ezimagevariation.php
+  \ingroup eZDatatype
   \brief The class eZImageVariation does
 
+  \deprecated
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );

@@ -37,7 +37,7 @@
 
 /*!
   \class eZAuthor ezauthor.php
-  \ingroup eZKernel
+  \ingroup eZDatatype
   \brief eZAuthor handles author lists
 
   \code
