@@ -14,7 +14,7 @@
     <div class="remove">
     {include uri="design:content/edit_placement.tpl"}
     </div>
-    
+
     {include uri="design:content/edit_attribute.tpl"}
 
     <div class="controlbar">
@@ -23,130 +23,7 @@
     <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     </div>
 
-<!-- Dummy list START -->
-
-<h2>Related objects</h2>
-
-{section show=$related_contentobjects}
-<table class="list" cellspacing="0">
-<tr>
-    <th class="checkbox"></th>
-    <th class="name">Name:</th>
-    <th class="code">Code:</th>
-</tr>
-
-{section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
-<tr class="{$Object:sequence}">
-    <td class="checkbox"><input type="checkbox" name="DeleteRelationIDArray[]" value="{$Object:item.id}" /></td>
-    <td class="name">{node_view_gui view=thumb content_node=$Object:item.main_node}</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id='{$Object:item.id}' /&gt;"></td>
-</tr>     
-{/section}
-</table>
-{/section}
-
-<div class="image-thumbnail-list">
-
-<div class="image-thumbnail-item">
-
-<img src="images/testbilde01.jpg" height="128" width="128" alt="" /><br />
-
-<p><input type="checkbox" /> An image</p>
-
-<input class="linkbox" type="text" value="&lt;object id=1 /&gt;">
-
-</div>
-
-<div class="image-thumbnail-item">
-
-<img src="images/testbilde02.jpg" height="128" width="128" alt="" /><br />
-
-<p><input type="checkbox" /> Another image</p>
-
-<input class="linkbox" type="text" value="&lt;object id=2 /&gt;">
-
-</div>
-
-<div class="image-thumbnail-item">
-
-<img src="images/testbilde03.jpg" height="128" width="128" alt="" /><br />
-
-<p><input type="checkbox" /> Last image</p>
-
-<input class="linkbox" type="text" value="&lt;object id=3 /&gt;">
-
-</div>
-
-<div class="break"></div>
-</div>
-
-<table class="list" cellspacing="0">
-<tr>
-    <th class="checkbox"></th>
-    <th class="icon"></th>
-    <th class="name">Attached file:</th>
-    <th class="class">File type:</th>
-    <th class="filesize">Size:</th>
-    <th class="code">Code:</th>
-</tr>
-<tr class="bglight">
-    <td class="checkbox"><input type="checkbox" /></td>
-    <td class="icon"><img src="images/pdf_file-icon-16x16.gif" height="16" width="16" alt="" /></td>
-    <td class="name">Technical description</td>
-    <td class="class">PDF</td>
-    <td class="filesize">380 KB</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id=4 /&gt;"></td>
-</tr>
-<tr class="bgdark">
-    <td class="checkbox"><input type="checkbox" /></td>
-    <td class="icon"><img src="images/doc_file-icon-16x16.gif" height="16" width="16" alt="" /></td>
-    <td class="name">Meeting summary</td>
-    <td class="class">DOC</td>
-    <td class="filesize">560 KB</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id=5 /&gt;"></td>
-</tr>
-</table>
-
-<table class="list" cellspacing="0">
-<tr>
-    <th class="checkbox"></th>
-    <th class="icon"></th>
-    <th class="name">Related content:</th>
-    <th class="class">Class type:</th>
-    <th class="code">Code:</th>
-</tr>
-<tr class="bglight">
-    <td class="checkbox"><input type="checkbox" /></td>
-    <td class="icon"><img src="images/folder-icon-16x16.gif" height="16" width="16" alt="" onclick="popLayer(1); displaystatus(1); return true"/></td>
-    <td class="name">Data list something</td>
-    <td class="class">Folder</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id=6 /&gt;"></td>
-</tr>
-<tr class="bgdark">
-    <td class="checkbox"><input type="checkbox" /></td>
-    <td class="icon"><img src="images/document-icon-16x16.gif" height="16" width="16" alt="" onclick="popLayer(1); displaystatus(1); return true"/></td>
-    <td class="name">Another document</td>
-    <td class="class">Article</td>
-    <td class="code"><input class="linkbox" type="text" value="&lt;object id=7 /&gt;"></td>
-</tr>
-</table>
-
-<div class="controlbar">
-<div class="editblock">
-<input class="button" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />
-<input class="button" type="Submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />
-</div>
-<div class="createblock">
-	<select	name="ClassID" class="classcreate">
-	    {section name=Classes loop=$object.can_create_class_list}
-	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
-	    {/section}
-	</select>
-	<input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
-</div>
-</div>
-
-<!-- Dummy list END -->
+    {include uri="design:content/edit_related.tpl"}
 
 </form>
 

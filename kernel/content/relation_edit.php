@@ -155,6 +155,42 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
 {
     $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
+
+    $ini =& eZINI::instance( 'content.ini' );
+
+    $groups = $ini->variable( 'RelationGroupSettings', 'Groups' );
+    $defaultGroup = $ini->variable( 'RelationGroupSettings', 'DefaultGroup' );
+
+    $groupedRelatedObjects = array();
+    $groupClassLists = array();
+    $classGroupMap = array();
+    foreach ( $groups as $groupName )
+    {
+        $groupedRelatedObjects[$groupName] = array();
+        $setting = strtoupper( $groupName[0] ) . substr( $groupName, 1 ) . 'ClassList';
+        $groupClassLists[$groupName] = $ini->variable( 'RelationGroupSettings', $setting );
+        foreach ( $groupClassLists[$groupName] as $classIdentifier )
+        {
+            $classGroupMap[$classIdentifier] = $groupName;
+        }
+    }
+    $groupedRelatedObjects[$defaultGroup] = array();
+
+    foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
+    {
+        $classIdentifier = $relatedObject->attribute( 'class_identifier' );
+        if ( isset( $classGroupMap[$classIdentifier] ) )
+        {
+            $groupName = $classGroupMap[$classIdentifier];
+            $groupedRelatedObjects[$groupName][] =& $relatedObjects[$relatedObjectKey];
+        }
+        else
+        {
+            $groupedRelatedObjects[$defaultGroup][] =& $relatedObjects[$relatedObjectKey];
+        }
+    }
+    $tpl->setVariable( 'related_contentobjects', $relatedObjects );
+    $tpl->setVariable( 'grouped_related_contentobjects', $groupedRelatedObjects );
 }
 
 function initializeRelationEdit( &$module )
