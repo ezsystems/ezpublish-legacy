@@ -34,6 +34,8 @@
 - Fixed cleanup bug in workflows http://ez.no/developer/ez_publish_3/bug_reports/deleted_workflow_shows_up_in_triggers ( merged from stable 4336 )
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/contentini_defaultversionhistorylimit_2_provokes_kernel_crash ( merged from stable 4339 )
 - Fixed path bug while editing top nodes : http://ez.no/developer/ez_publish_3/bug_reports/editing_root_node_fails_path_error ( merged from stable 4342 )
+- Fixed the adding of new object attributes to add attributes for all translations.
+  http://ez.no/developer/ez_publish_3/bug_reports/translated_attributes_are_not_added_when_class_is_extended
 
 *Kernel:
 - Fixed editing PDF exports : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_must_be_editable_and_schedulable
@@ -46,6 +48,7 @@
 - When you add a new location to an object it will be automatically set to main if no other
   locations is already set as main
 - Added check when published content has warning ( validation log ), content can't be published before user has seen the warning.
+- Fixed the content/translations list to show the internal name of the languages instead of the local name.
 
 *DataTypes:
 

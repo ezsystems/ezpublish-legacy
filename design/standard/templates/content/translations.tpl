@@ -15,9 +15,9 @@
 
 {section name=Translation loop=$existing_translations sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Translation:sequence}">{section show=$:item.name}{$:item.name|wash}{section-else}{$:item.locale_object.language_name}{/section}</td>
-	<td class="{$Translation:sequence}">{$:item.locale_object.country_name}</td>
-	<td class="{$Translation:sequence}">{$:item.locale_object.locale_code}</td>
+	<td class="{$Translation:sequence}">{section show=$:item.name}{$:item.name|wash}{section-else}{$:item.locale_object.intl_language_name|wash}{/section}</td>
+	<td class="{$Translation:sequence}">{$:item.locale_object.country_name|wash}</td>
+	<td class="{$Translation:sequence}">{$:item.locale_object.locale_code|wash}</td>
 {*	<td class="{$Translation:sequence}" align="right" >
           <input class="button" type="image" src={"edit.png"|ezimage} name="EditButton_{$:item.id}" value="{'Edit'|i18n('design/standard/content')}" />
         </td>  *}
