@@ -1859,7 +1859,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id";
-
         $db =& eZDB::instance();
         $nodeListArray =& $db->arrayQuery( $query );
         if ( count( $nodeListArray ) > 1 )
@@ -2226,35 +2225,37 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
 
-        $sqlToCheckOriginalName = 'select path_identification_string
-                                   from ezcontentobject_tree
-                                   where  path_identification_string = \'' . $path . '\'
-                                          and node_id != ' . $nodeID;
+		/* The two checks below don't use the return value from the query,
+		 * but are just checks to see if there *is* a record */
+        $sqlToCheckOriginalName = 'SELECT 1
+                                   FROM ezcontentobject_tree
+                                   WHERE  path_identification_string = \'' . $path . '\'
+                                          AND node_id != ' . $nodeID;
 
         $retNode = $db->arrayQuery( $sqlToCheckOriginalName );
         if ( count( $retNode ) == 0 )
         {
             return $path;
         }
-        $sqlToCheckCurrentName = 'select path_identification_string
-                                  from ezcontentobject_tree
-                                  where ( path_identification_string = \'' . $path . '\' or
+        $sqlToCheckCurrentName = 'SELECT 1
+                                  FROM ezcontentobject_tree
+                                  WHERE ( path_identification_string = \'' . $path . '\' OR
                                           path_identification_string like \'' . $path . '\\\_\\\_%\' )
-                                          and node_id = ' . $nodeID ;
+                                          AND node_id = ' . $nodeID ;
         $retNode = $db->arrayQuery( $sqlToCheckCurrentName );
         if ( count( $retNode ) > 0 )
         {
             return $retNode[0]['path_identification_string'];
-        }
-        $sql = 'select path_identification_string
-                from ezcontentobject_tree
-                where parent_node_id = ' . $parentNodeID . ' and
-                      depth = ' . $depth . ' and
-                      ( path_identification_string = \'' . $path . '\' or path_identification_string like \'' . $path . '\\\_\\\_%\' ) and
-                      node_id != ' . $nodeID ;
+		}
 
+        $sql = 'SELECT path_identification_string
+                FROM ezcontentobject_tree
+                WHERE parent_node_id = ' . $parentNodeID . ' AND
+                      depth = ' . $depth . ' AND
+                      ( path_identification_string = \'' . $path . '\' OR path_identification_string like \'' . $path . '\\\_\\\_%\' ) AND
+                      node_id != ' . $nodeID ;
         $retNodes = $db->arrayQuery( $sql );
-        if( count( $retNodes ) > 0 )
+        if ( count( $retNodes ) > 0 )
         {
             $nodeNum = 0;
             $matchedArray = array();
