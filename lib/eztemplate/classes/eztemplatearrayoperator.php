@@ -361,7 +361,14 @@ class eZTemplateArrayOperator
                 // Extract a portion of the array:
                 case $this->ExtractName:
                 {
-                    $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
+                    if(empty($namedParameters['extract_length']) )
+  		    {
+	                $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'] ) ; 
+	            }
+		    else
+		    {
+		       $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
+	    	    }
                 }
                 break;
 
