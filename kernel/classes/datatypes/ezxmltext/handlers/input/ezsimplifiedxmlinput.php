@@ -900,13 +900,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $attrName = $attrbute->Name;
                     $existAttrNameArray[] = $attrName;
 
-                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) or $currentTag == "object" or $currentTag == "custom" )
+                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) or $currentTag == "object" or $currentTag == "custom" or $currentTag == "embed" )
                     {
                         if ( $currentTag == "object" )
                         {
                             if ( $attrName != "id" and $attrName != "class" and $attrName != "align" and $attrName != "size"
                                  and $attrName != "view" and $attrName != "ezurl_href"
                                  and $attrName != "ezurl_id" and $attrName != "ezurl_target" )
+                                $attrbute->setPrefix( "custom" );
+                        }
+
+                        if ( $currentTag == "embed" )
+                        {
+                            if ( $attrName != "href" and $attrName != "class" and $attrName != "align" and $attrName != "show_path"
+                                 and $attrName != "view" and $attrName != "size" and $attrName != "target" and $attrName != "id" )
                                 $attrbute->setPrefix( "custom" );
                         }
 
