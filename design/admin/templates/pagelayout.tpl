@@ -1,7 +1,9 @@
-{*?template charset=latin1?*}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+
+{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
+{* Cache header for each navigation part *}
 
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
@@ -14,12 +16,10 @@
 
 <body>
 
+
+
 {* Top box START *}
 
-
-{* Cache header for each navigation part *}
-
-{cache-block keys=array('navigation_tabs',$navigation_part.identifier)}
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #4272b4; background-image:url('{"bgimage.gif"|ezimage(no)}'); background-position: right top; background-repeat: no-repeat;">
 <tr>
@@ -193,14 +193,13 @@
 {/cache-block}
 
 {* Top box END *}
+{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td rowspan="2" width="120" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0px; background-image:url('{"bgtilelight.gif"|ezimage(no)}'); background-repeat: repeat;">
 
 {* Left menu START *}
-
-{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
 {include uri="design:parts/content/menu.tpl"}
@@ -226,9 +225,6 @@
 {include uri="design:parts/my/menu.tpl"}
 {/section}
 
-{/cache-block}
-
-{* {include uri="design:left_menu.tpl"} *}
 
 {* Left menu END *}
     <br />
@@ -242,6 +238,8 @@
 </tr>
 <tr>
     <td class="mainarea" width="99%" valign="top">
+
+{/cache-block}
 
 {* Main area START *}
 
