@@ -97,10 +97,11 @@
     <td width="20%" bgcolor="#ffffff" valign="top">
     {* Menu *}
 
+
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Installation & configuration"|i18n("manual")}</p>
+    <p class="menuhead">About eZ publish</p>
     </th>
 </tr>
 <tr>
@@ -108,7 +109,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/introduction"|ezurl}>{"Introduction"|i18n("manual")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/about/about"|ezurl}>About eZ publish 3</a></p>
     </td>
 </tr>
 <tr>
@@ -116,15 +117,76 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/freebsd"|ezurl}>FreeBSD</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/about/definitions"|ezurl}>eZ publish 3 definitions</a></p>
     </td>
 </tr>
+</table>
+
+
+<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <th class="menuheaddark" colspan="2">
+    <p class="menuhead">Installation & configuration</p>
+    </th>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/install"|ezurl}>Install eZ publish 3</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/without_installers"|ezurl}>Without installers</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/uninstall"|ezurl}>Uninstalling</a></p>
+    </td>
+</tr>
+</table>
+
+
+
+<table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
+<tr>
+    <th class="menuheaddark" colspan="2">
+    <p class="menuhead">Setup & design</p>
+    </th>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Page setup</a></p>
+    </td>
+</tr>
+
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Changing design</a></p>
+    </td>
+</tr>
+
 </table>
 
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Setup & design"|i18n("manual")}</p>
+    <p class="menuhead">Everyday functions</p>
     </th>
 </tr>
 <tr>
@@ -132,15 +194,49 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"List"|i18n("manual")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Premissions</a></p>
+    </td>
+</tr>
+
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>E-commerce functions and settings</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Workflows</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Tasks</a></p>
+    </td>
+</tr>
+<tr>
+    <td class="bullet" width="1">
+    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
+    </td>
+    <td class="menu" width="99%">
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>Information collector</a></p>
     </td>
 </tr>
 </table>
 
+
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"User manuals"|i18n("manual")}</p>
+    <p class="menuhead">SDK & Technical references</p>
     </th>
 </tr>
 <tr>
@@ -148,7 +244,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"List"|i18n("manual")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>eZ publish SDK</a></p>
     </td>
 </tr>
 </table>
