@@ -1,5 +1,5 @@
 {let
-childs=fetch('content', 'list', hash(
+children=fetch('content', 'list', hash(
 					parent_node_id, $#DesignKeys:used.node, 
 					sort_by, array(array(priority,true())), 
 					class_filter_type,include,
@@ -7,7 +7,6 @@ childs=fetch('content', 'list', hash(
 					)
 )
 }
-
 
 <h1>{$node.name}</h1>
 <p>{attribute_view_gui attribute=$node.data_map.description}</p>
@@ -19,7 +18,7 @@ childs=fetch('content', 'list', hash(
 {/case}
 {case}
 
-{section name=Child loop=$childs}
+{section name=Child loop=$children}
 <tr>
     <td>
     {node_view_gui view=line content_node=$Child:item}
