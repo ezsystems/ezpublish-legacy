@@ -114,50 +114,67 @@ class eZPreferences
 
     /*!
      \static
-     \return the session variable for the current user/session. If no variable is found
-     false is returned. The preferences variable is stored in session after fetching.
+     \param $user The user object to read preferences for, if \c false it will read using the current user.
+     \return The preference value for the specified user.
+             If no variable is found \c false is returned.
+     \note The preferences variable will be stored in session after fetching
+           if the specified user is the current user.
     */
-    function value( $name )
+    function value( $name, $user = false )
     {
+        if ( get_class( $user ) != 'ezuser' )
+            $user =& eZUser::currentUser();
+
         $value = false;
-        if ( eZPreferences::isStoredInSession( $name ) )
+        // If the user object is not the currently logged in user we cannot use the session values
+        $http =& eZHTTPTool::instance();
+        $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
+        if ( $useCache and eZPreferences::isStoredInSession( $name ) )
             return eZPreferences::storedSessionValue( $name );
 
         $db =& eZDB::instance();
         $name = $db->escapeString( $name );
-        $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $existingRes = $db->arrayQuery( "SELECT value FROM ezpreferences WHERE user_id = $userID AND name = '$name'" );
 
         if ( count( $existingRes ) == 1 )
         {
             $value = $existingRes[0]['value'];
-            eZPreferences::storeInSession( $name, $value );
+            if ( $useCache )
+                eZPreferences::storeInSession( $name, $value );
         }
         else
         {
-            eZPreferences::storeInSession( $name, false );
+            if ( $useCache )
+                eZPreferences::storeInSession( $name, false );
         }
         return $value;
     }
 
     /*!
      \static
-     \return the array with all the preferences for the current user. If no user is logged in,
-     the empty array will be returned.
+     \param $user The user object to read preferences for, if \c false it will read using the current user.
+     \return An array with all the preferences for the specified user.
+             If the user is not logged in the empty array will be returned.
     */
-    function values()
+    function values( $user = false )
     {
-        $user =& eZUser::currentUser();
+        if ( get_class( $user ) != 'ezuser' )
+            $user =& eZUser::currentUser();
         if ( $user->isLoggedIn() )
         {
+            // If the user object is not the currently logged in user we cannot use the session values
+            $http =& eZHTTPTool::instance();
+            $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
+
             $returnArray = array();
             $userID = $user->attribute( 'contentobject_id' );
             $db =& eZDB::instance();
             $values = $db->arrayQuery( "SELECT name,value FROM ezpreferences WHERE user_id=$userID ORDER BY id" );
             foreach ( $values as $item )
             {
-                eZPreferences::storeInSession( $item['name'], $item['value'] );
+                if ( $useCache )
+                    eZPreferences::storeInSession( $item['name'], $item['value'] );
                 $returnArray[$item['name']] = $item['value'];
             }
             return $returnArray;
