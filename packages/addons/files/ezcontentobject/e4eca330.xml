@@ -3,19 +3,21 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="120"
-            name=" Files"
+            name="Files"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
-            ezremote:published="Apr 21 2004 18:28:26"
-            ezremote:modified="Apr 21 2004 18:28:26"
+            ezremote:published="Wed, 21 Apr 2004 16:28:26 GMT"
+            ezremote:modified="Fri, 07 May 2004 07:34:57 GMT"
             remote_id="6ab0c4bb542ccb59166c03e665463091"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="1"
+      <version-list active_version="2"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="2"
+                          ezremote:status="1"
+                          ezremote:created="Fri, 07 May 2004 07:34:47 GMT"
+                          ezremote:modified="Fri, 07 May 2004 07:34:57 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="309"
                                 ezremote:identifier="name"
@@ -61,7 +63,7 @@
                              remote-id="6ab0c4bb542ccb59166c03e665463091"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="20" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -72,15 +74,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="12"
-            ezremote:published="Apr 21 2004 18:30:19"
-            ezremote:modified="Apr 21 2004 18:30:19"
+            ezremote:published="Wed, 21 Apr 2004 16:30:19 GMT"
+            ezremote:modified="Wed, 21 Apr 2004 16:30:19 GMT"
             remote_id="23d8e1846ab4d1e807d7e726d245d559"
             class_remote_id="637d58bfddf164627bdfd265733280a0"
             ezremote:class_identifier="file">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Wed, 21 Apr 2004 16:29:27 GMT"
+                          ezremote:modified="Wed, 21 Apr 2004 16:30:19 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="314"
                                 ezremote:identifier="name"
@@ -106,7 +110,7 @@
                            filename="phpB9YWj2.txt"
                            original-filename="secret.txt"
                            mime-type="text/plain"
-                           filekey="b7ad38d1b4a8a17fa279903d84c10888" />
+                           filekey="5f6c92c7eff1ca5fa1f4c099a147ff3e" />
             </ezobject:attribute>
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -128,15 +132,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="12"
-            ezremote:published="Apr 22 2004 09:06:34"
-            ezremote:modified="Apr 22 2004 09:06:34"
+            ezremote:published="Thu, 22 Apr 2004 07:06:34 GMT"
+            ezremote:modified="Thu, 22 Apr 2004 07:06:34 GMT"
             remote_id="52280afe9a3b3271eeca4dc65bd4e332"
             class_remote_id="637d58bfddf164627bdfd265733280a0"
             ezremote:class_identifier="file">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Thu, 22 Apr 2004 07:06:09 GMT"
+                          ezremote:modified="Thu, 22 Apr 2004 07:06:33 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="341"
                                 ezremote:identifier="name"
@@ -162,7 +168,7 @@
                            filename="phpAIgZTx.pdf"
                            original-filename="HelloWorld.pdf"
                            mime-type="application/pdf"
-                           filekey="e10c1bd721f0be032e297b1471c87c17" />
+                           filekey="d255410e7ff1b64c41fe988f1a1cde38" />
             </ezobject:attribute>
           </ezobject:object-translation>
           <ezobject:node-assignment-list>
@@ -427,6 +433,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="120"
-              remote-id="6ab0c4bb542ccb59166c03e665463091"> Files</top-node>
+              remote-id="6ab0c4bb542ccb59166c03e665463091">Files</top-node>
   </top-node-list>
 </content-object>

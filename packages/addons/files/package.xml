@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="3.4.0alpha1"
+<package version="3.4.0beta1"
          development="true"
          xmlns:ezpackage="http://ez.no/ezpackage"
          install_type="install">
@@ -8,12 +8,11 @@ The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name>files</name>
   <summary>Files</summary>
-  <description>Add this package to get a file database to your site.
-  </description>
+  <description>Adds a file database.</description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.4.0alpha3</version>
-    <named-version>3.4.0alpha3-alpha3</named-version>
+    <version>3.4.0beta1</version>
+    <named-version>3.4.0beta1-beta1</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
     <maintainer>
@@ -23,7 +22,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082622596</timestamp>
+    <timestamp>1083916194</timestamp>
     <host>trunk.ezpublish.drakhendvh1.ez.no</host>
   </packaging>
   <documents>
@@ -31,21 +30,21 @@ Upgrades to the development format will not be supported.</warning>
               name="LICENCE" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082622596"
+    <entry timestamp="1083916194"
            person="Administrator User"
            email="nospam@ez.no"
            release="1">
-      <change>Creation of package.</change>
+      <change>Created package for 3.4.0beta1.</change>
     </entry>
   </changelog>
   <simple-files>
-    <b7ad38d1b4a8a17fa279903d84c10888 original-path="var/storage/original/text/phpB9YWj2.txt"
-                                      package-path="simplefiles/2888d648.txt" />
-    <e10c1bd721f0be032e297b1471c87c17 original-path="var/storage/original/application/phpAIgZTx.pdf"
-                                      package-path="simplefiles/3343a885.pdf" />
+    <5f6c92c7eff1ca5fa1f4c099a147ff3e original-path="var/storage/original/text/phpB9YWj2.txt"
+                                      package-path="simplefiles/f6d59d05.txt" />
+    <d255410e7ff1b64c41fe988f1a1cde38 original-path="var/storage/original/application/phpAIgZTx.pdf"
+                                      package-path="simplefiles/62233bd8.pdf" />
   </simple-files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number>1.0</number>
+    <number>3.4.0beta1</number>
     <release>1</release>
   </version>
   <licence>GPL</licence>
@@ -71,7 +70,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-file"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="af64c4f2"
+          filename="e4eca330"
           sub-directory="ezcontentobject" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
@@ -82,7 +81,7 @@ Upgrades to the development format will not be supported.</warning>
           filename="class-file"
           sub-directory="ezcontentclass" />
     <item type="ezcontentobject"
-          filename="af64c4f2"
+          filename="e4eca330"
           sub-directory="ezcontentobject" />
   </uninstall>
 </package>
