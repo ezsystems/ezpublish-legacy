@@ -3,11 +3,7 @@
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
-<div class="imageright">
-    <a class="small" href={$node.url_alias|ezurl}>
-      {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=small}
-     </a>
-</div>
+{attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=small alignment=right href=$node.url_alias|ezurl}
 
 <h2>{attribute_view_gui attribute=$content_version.data_map.title}</h2>
 

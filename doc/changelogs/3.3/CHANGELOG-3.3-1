@@ -43,6 +43,9 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/notification_system_is_not_working
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/hard_parent_node_id46_in_setupmenuphp
 - Fixed setting role settings on PDF export. http://ez.no/developer/ez_publish_3/bug_reports/anomymous_user_can_create_a_pdf_export
+- Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/image_troubles_bugs_ez_33_beta_2
+  Added check for is_valid in ezimage.tpl
+- Fixed bogus html data when showing non-existent image datatypes. The parameters alignment and href should now be used to the attribute_view_gui function to specify alignment and link information on images.
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
