@@ -65,7 +65,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $tpl =& templateInit();
         $xml = new eZXML();
         $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
+        if ( $this->ContentObjectAttribute )
+        {
+            $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
+        }
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
