@@ -1,6 +1,7 @@
 Changes from 3.0-? to 3.1
 
 *Kernel :
+- Added cache admin page for cache status and manual clearing
 - eZPersistentObject class changed to support postgresql 7.3.x. Also all persistent classes definitions have been changed to support new syntax.
 Binary file:
 - Added support for resuming downloads.

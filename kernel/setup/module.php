@@ -45,4 +45,12 @@ $ViewList["init"] = array(
     'post_value_action_parameters' => array( 'ChangeStep' => array( 'Step' => 'StepButton' ) ),
     "params" => array() );
 
+$ViewList["cache"] = array(
+    "script" => "cache.php",
+    "default_navigation_part" => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'ClearContentCacheButton' => 'ClearContentCache',
+                                    'ClearINICacheButton' => 'ClearINICache',
+                                    'ClearTemplateCacheButton' => 'ClearTemplateCache' ),
+    "params" => array( ) );
+
 ?>

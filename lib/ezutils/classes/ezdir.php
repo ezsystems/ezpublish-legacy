@@ -260,6 +260,36 @@ class eZDir
             $path = substr( $path, 0, strlen( $path ) - 1 );
         return $path;
     }
+
+
+    /*!
+     \static
+     Removes the directory and all it's contents, recursive.
+    */
+    function recursiveDelete( $dir )
+    {
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $file = readdir( $handle ) ) !== false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) )
+                {
+                    continue;
+                }
+                if ( is_dir( $dir . '/' . $file ) )
+                {
+                    eZDir::recursiveDelete( $dir . '/' . $file );
+                }
+                else
+                {
+                    unlink( $dir . '/' . $file );
+                }
+            }
+            @closedir( $handle );
+            rmdir( $dir );
+        }
+    }
+
 }
 
 ?>
