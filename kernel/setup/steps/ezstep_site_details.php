@@ -60,8 +60,23 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function processPostData()
     {
-        //todo : check input values
 
+        include_once( 'lib/ezdb/classes/ezdbtool.php' );
+        $databaseMap = eZSetupDatabaseMap();
+
+        $password = $this->PersistenceList['database_info']['password'];
+
+        $databaseInfo = $this->PersistenceList['database_info'];
+        $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
+        $regionalInfo = $this->PersistenceList['regional_info'];
+
+        $dbStatus = array();
+        $dbDriver = $databaseInfo['info']['driver'];
+        $dbServer = $databaseInfo['server'];
+        $dbUser = $databaseInfo['user'];
+        $dbSocket = $databaseInfo['socket'];
+
+        //todo : check input values
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $this->PersistenceList['site_templates_'.$counter]['title'] =
@@ -75,14 +90,56 @@ class eZStepSiteDetails extends eZStepInstaller
             $this->PersistenceList['site_templates_'.$counter]['database'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
 
-            
+            // Check database connection
+            $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
+            $dbParameters = array( 'server' => $dbServer,
+                                   'user' => $dbUser,
+                                   'password' => $dbPwd,
+                                   'socket' => $dbSocket,
+                                   'database' => $dbName,
+                                   'charset' => $dbCharset );
+            $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+
+            $dbStatus['connected'] = $db->isConnected();
+
+            $dbError = false;
+            $demoDataResult = true;
+            if ( $dbStatus['connected'] )
+            {
+                $this->DBEmpty = eZDBTool::isEmpty( $db );
+
+                if ( $this->DBEmpty === false )
+                {
+                    if ( $this->Http->hasPostVariable( 'eZSetupDatabaseDataChoice' ) &&
+                         $this->Http->postVariable( 'eZSetupDatabaseDataChoice' ) != '4' )
+                    {
+                        $this->PersistenceList['database_info']['existing_database'] =
+                             $this->Http->postVariable( 'eZSetupDatabaseDataChoice' );
+                    }
+                    else
+                    {
+                        if ( $this->Error == 0 )
+                        {
+                            $this->Error = array();
+                        }
+                        $this->Error[] = array( $counter => EZ_SETUP_DB_ERROR_NOT_EMPTY );
+                    }
+                }
+
+            }
+            else
+            {
+                return 'DatabaseInit';
+            }
+
+            return ( $this->Error == 0 ); // Error == 0 , no errors.
+
         }
-        return true;
     }
 
     /*!
      \reimp
-     */
+    */
     function init()
     {
         return false; // Always show site details
@@ -121,6 +178,8 @@ class eZStepSiteDetails extends eZStepInstaller
                                         'url' => false ) );
         return $result;
     }
+
+    var $Error = 0;
 }
 
 ?>

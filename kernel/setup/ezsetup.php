@@ -110,7 +110,7 @@ $result = null;
 $previousStepClass = null;
 if ( $http->hasPostVariable( 'setup_previous_step' ) )
 {
-    $previousStep = &$stepData->step( $http->postVariable( 'setup_previous_step' ) );
+    $previousStep =& $stepData->step( $http->postVariable( 'setup_previous_step' ) );
 
     $includeFile = $baseDir .'steps/ezstep_'.$previousStep['file'].'.php';
     $result = array();
@@ -121,9 +121,15 @@ if ( $http->hasPostVariable( 'setup_previous_step' ) )
         $className = 'eZStep'.$previousStep['class'];
         $previousStepClass = new $className( $tpl, $http, $ini, $persistenceList );
 
-        if ( $previousStepClass->processPostData() == null ) // processing previous inout failed, step must be redone
+        $processPostDataResult = $previousStepClass->processPostData();
+
+        if ( $processPostDataResult === false ) // processing previous input failed, step must be redone
         {
             $step = $previousStep;
+        }
+        else if ( $processPostDataResult !== true ) // step to redo specified
+        {
+            $step =& $stepData->step( $processPostDataResult );
         }
     }
 }

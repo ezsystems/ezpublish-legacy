@@ -53,7 +53,7 @@
               {/case}
               {case/}
               {/switch}
-	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type|wash}" /></td>
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_value" value="{$:item.access_type_value|wash}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Database"|i18n("design/standard/setup/init")}: </td>

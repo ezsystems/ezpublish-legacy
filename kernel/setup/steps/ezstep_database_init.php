@@ -106,11 +106,6 @@ class eZStepDatabaseInit extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
         $regionalInfo = $this->PersistenceList['regional_info'];
 
-//        if ( strtolower( $databaseInfo['info']['name'] ) == 'postgresql' ) // user and password checks must be done when database is known
-//        {
-//            return true;
-//        }
-
         $demoDataResult = false;
 
         $dbStatus = array();

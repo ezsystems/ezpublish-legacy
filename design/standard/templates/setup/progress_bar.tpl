@@ -15,11 +15,10 @@
 	    <table cellpadding="0" cellspacing="0" border="0" width="758">
 	      <tr height="22">
 	        {section show=$progress|gt(0)}
-		  <td class="setup_progress_left" width="{$progress}%">
-	          </td>	  
+		  <td class="setup_progress_left" width="{$progress}%" /></td>
 		{/section}
 	        {section show=$progress|lt(100)}
-		  <td class="setup_progress_right" width="{sub( 100, $progress )}%">
+		  <td class="setup_progress_right" width="{sub( 100, $progress )}%"></td>
                 {/section}
 	        </td>
 	      </tr>
