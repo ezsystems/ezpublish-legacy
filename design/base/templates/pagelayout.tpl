@@ -8,15 +8,16 @@
     @import url({"stylesheets/core.css"|ezdesign});
     @import url({"stylesheets/classes.css"|ezdesign});
 {*    @import url({"stylesheets/site.css"|ezdesign}); *}
-    @import url({"stylesheets/t1.css"|ezdesign});
+    @import url({ezini('StylesheetSettings','MainCSS','design.ini')|ezdesign});
     @import url({"stylesheets/debug.css"|ezdesign});
+{*  @import url({"stylesheets/t1.css"|ezdesign}); *}
 
     {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
-    @import url({"stylesheets/noleftmenu.css"|ezdesign});
+    @import url({ezini('StylesheetSettings','NoLeftMenuCSS','design.ini')|ezdesign});
     {/section}
 
     {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|gt(0)|not()}
-    @import url({"stylesheets/norightmenu.css"|ezdesign});
+    @import url({ezini('StylesheetSettings','NoRightMenuCSS','design.ini')|ezdesign});
     {/section}
 
 </style>
