@@ -18,23 +18,18 @@
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
-<div class="box-header">
-<div class="box-tc"><div class="box-ml"><div class="box-mr">
-<div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level'|i18n(  'design/admin/node/view/full'  )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
 
-<div class="header-subline"></div>
+{* DESIGN: Subline *}<div class="header-subline"></div>
 
-</div></div>
-</div></div></div>
-</div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* If there are children: show list and buttons that belong to the list. *}
 {section show=$children}
 
-<div class="box-ml"><div class="box-mr">
-<div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -136,24 +131,25 @@
          item_limit=$number_of_items}
 </div>
 
-</div>
-</div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 {* Else: there are no children. *}
 {section-else}
-<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
 <div class="block">
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
-</div></div></div>
+
+{* DESIGN: Content END *}</div></div></div>
+
 {/section}
 
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-tc">
-<div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
     {* Remove button *}
@@ -254,9 +250,7 @@
 
 </div>
 
-</div></div>
-</div>
-</div></div></div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
 

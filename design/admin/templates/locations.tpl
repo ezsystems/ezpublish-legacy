@@ -10,20 +10,15 @@
 
 <div class="context-block">
 
-<div class="box-header">
-<div class="box-tc"><div class="box-ml"><div class="box-mr">
-<div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title">{'Locations'|i18n( 'design/admin/node/view/full' )}</h2>
 
-<div class="header-subline"></div>
+{* DESIGN: Subline *}<div class="header-subline"></div>
 
-</div></div>
-</div></div></div>
-</div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-<div class="box-ml"><div class="box-mr">
-<div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -50,8 +45,7 @@
 {/section}
 </table>
 
-</div>
-</div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 {* Required to get the main node selection to work,
    unchecked radiobuttons will not be sent by browser. *}
@@ -59,9 +53,7 @@
 
 <div class="controlbar">
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-tc">
-<div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
 <div class="button-left">
@@ -85,9 +77,7 @@
 <div class="break"></div>
 </div>
 
-</div></div>
-</div>
-</div></div></div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
 </div>
