@@ -49,7 +49,7 @@ class eZWordToImageOperator
     */
     function eZWordToImageOperator()
     {
-        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon" );
+        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon" );
     }
 
     /*!
@@ -86,6 +86,7 @@ class eZWordToImageOperator
 
             case 'mimetype_icon':
             case 'class_icon':
+            case 'classgroup_icon':
             {
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
@@ -126,7 +127,7 @@ class eZWordToImageOperator
 
                 if ( $operatorName == 'mimetype_icon' )
                 {
-                    $mimeType = $operatorValue;
+                    $mimeType = strtolower( $operatorValue );
                     $mimeMap = $ini->variable( 'MimeIcons', 'MimeMap' );
                     $icon = false;
                     if ( isset( $mimeMap[$mimeType] ) )
@@ -152,7 +153,7 @@ class eZWordToImageOperator
                 }
                 else if ( $operatorName == 'class_icon' )
                 {
-                    $class = $operatorValue;
+                    $class = strtolower( $operatorValue );
                     $classMap = $ini->variable( 'ClassIcons', 'ClassMap' );
                     $icon = false;
                     if ( isset( $classMap[$class] ) )
@@ -162,6 +163,20 @@ class eZWordToImageOperator
                     if ( $icon === false )
                     {
                         $icon = $ini->variable( 'ClassIcons', 'Default' );
+                    }
+                }
+                else if ( $operatorName == 'classgroup_icon' )
+                {
+                    $classGroup = strtolower( $operatorValue );
+                    $classGroupMap = $ini->variable( 'ClassGroupIcons', 'ClassGroupMap' );
+                    $icon = false;
+                    if ( isset( $classGroupMap[$classGroup] ) )
+                    {
+                        $icon = $classGroupMap[$classGroup];
+                    }
+                    if ( $icon === false )
+                    {
+                        $icon = $ini->variable( 'ClassGroupIcons', 'Default' );
                     }
                 }
 
