@@ -152,6 +152,7 @@ else
 {
     if ( $viewCacheEnabled )
     {
+        $cacheExpired = false;
         $user =& eZUser::currentUser();
 
         $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $Params['Language'], $ViewMode, $viewParameters );
@@ -169,11 +170,18 @@ else
             $Result = unserialize( $contents );
             fclose( $fp );
 
-            // set section id
-            include_once( 'kernel/classes/ezsection.php' );
-            eZSection::setGlobalID( $Result['section_id'] );
+            // Check if cache has expired when cache_ttl is set
+            $cacheTTL =$Result['cache_ttl'];;
+            if ( $cacheTTL > 0 )
+            {
+                $expiryTime = $stat['mtime'] + $cacheTTL;
+                if ( time() > $expiryTime )
+                {
+                    $cacheExpired = true;
+                }
+            }
 
-            if ( $Result )
+            if ( !$cacheExpired )
             {
                 $res =& eZTemplateDesignResource::instance();
 
@@ -197,10 +205,31 @@ else
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
 
+                // set section id
+                include_once( 'kernel/classes/ezsection.php' );
+                eZSection::setGlobalID( $Result['section_id'] );
+
+                if ( $Result )
+                {
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
+                                          array( 'node', $Result['content_info']['node_id'] ),
+                                          array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                          array( 'class', $Result['content_info']['class_id'] ),
+                                          array( 'view_offset', $Result['content_info']['offset'] ),
+                                          array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
+                                          array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                          array( 'depth', $Result['content_info']['node_depth'] ),
+                                          array( 'url_alias', $Result['content_info']['url_alias'] )
+                                          ) );
+                    if ( isset( $Result['content_info']['class_identifier'] ) )
+                        $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
+
+                    return $Result;
+                }
+
                 return $Result;
             }
-
-            return $Result;
         }
     }
     else

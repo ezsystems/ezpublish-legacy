@@ -170,7 +170,7 @@ class eZContentCache
         // Check if cache has expired
         if ( $cacheTTL > 0 )
         {
-            $expiryTime = $timestamp + $ttlTime;
+            $expiryTime = $timestamp + $cacheTTL;
             if ( time() > $expiryTime )
             {
                 return false;
