@@ -261,3 +261,15 @@ eZ log:
 - New library for dealing with files, directories, archives and compressed files.
 - Added create() function in eZFile which creates a file somewhere with some optional data.
 - Added support for recursive directory copy in eZDir.
+
+*eZ webdav:
+- New library. Implements basic WebDAV server framework/functionality. May be used to build WebDAV servers.
+- Fixed syntax of XML response on PROPFIND.
+- Fixed minor header return bugs.
+- Added ezwebdavfileserver which builds on ezwebdavserver. May be used to serve a part of a flat/local filesystem.
+- Fixed a lot of things in ezwebdavfileserver.
+- Added ezwebdavcontentserver which builds on ezwebdavserver. Provides webdav interface to the site content.
+- Fixed a lot of bugs and added new featured/functionality to ezwebdavcontentserver.
+- Fixed permission check bugs in ezwebdavcontentserver.
+- Fixed authentication bugs in ezcontentwebdavserver.
+
