@@ -76,6 +76,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Fixed security bug in which it was possible to add forbidden locations to an object you could edit.
 - Fixed security bug in which any object could be created using the related object functionality for
   an existing object edit.
+- Fixed showing images in shop package. http://ez.no/developer/ez_publish_3/bug_reports/shop_images_dont_show_when_uploaded
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.

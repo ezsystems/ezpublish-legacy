@@ -1,3 +1,4 @@
+<?php /* #?ini charset="iso-8859-1"?
 
 [frontpage]
 Source=node/view/full.tpl
@@ -118,3 +119,5 @@ Source=content/view/embed.tpl
 MatchFile=image.tpl
 Subdir=templates
 Match[class]=5
+
+*/ ?>

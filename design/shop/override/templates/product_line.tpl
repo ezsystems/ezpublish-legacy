@@ -2,9 +2,7 @@
 
 <h2><a href={$node.url_alias|ezurl}>{$node.name}</a></h2>
 
-<div class="listimage">
-<a href={$node.url_alias|ezurl}>{attribute_view_gui attribute=$node.object.data_map.image image_class=small}</a>
-</div>
+{attribute_view_gui attribute=$node.object.data_map.image image_class=small href=$node.url_alias|ezurl css_class="listimage"}
 
 {attribute_view_gui attribute=$node.object.data_map.description}
 
@@ -17,3 +15,5 @@
 </div>
 
 </div>
+
+<div class="break" />

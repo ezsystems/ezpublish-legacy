@@ -7,7 +7,6 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <h1>{$node.name}</h1>
-
 {*
 {let folder_list=fetch('content','list',hash( parent_node_id, $node.node_id,
                                           sort_by ,$node.sort_array,

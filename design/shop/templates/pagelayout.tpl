@@ -253,9 +253,9 @@ div#maincontent div.design { width: 100%; }
     </div>
     {/cache-block}    
     <div id="maincontent">
-        <div class="design">
+      <div class="design">
         
-    <div id="path">
+        <div id="path">
 
            <p>
            &gt; 
@@ -271,16 +271,18 @@ div#maincontent div.design { width: 100%; }
             {/section}
            </p>
 
-    </div>
-
-<div id="innercontent">
-            {$module_result.content}
-</div>        
-            <div class="break"></div>
         </div>
+
+        <div id="innercontent">
+           {$module_result.content}
+        </div>        
+            
+        <div class="break"></div>
+      </div>
     </div>
-            <div class="break"></div>
-</div>
+            
+    <div class="break"></div>
+    </div>
 
 {cache-block}
     <div id="footer">
