@@ -40,42 +40,41 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="1">
+<table class="forum" cellspacing="0">
 <tr>
-    <td class="forumhead">
+    <th class="topheader">
     Topics
-    </td>
-    <td class="forumhead">
+    </th>
+    <th class="topheader">
     Replies
-    </td>
-    <td class="forumhead">
+    </th>
+    <th class="topheader">
     Author
-    </td>
+    </th>
 </tr>
 
 {section name=Child loop=$child_list sequence=array(bglightforum,bgdarkforum)}
-<tr>
-    <td class="{$Child:sequence}" valign="top">
-    <p>
-    {section show=$Child:item.object.data_map.sticky.content}[STICKY-ICON-2DO]{/section}
+<tr class="{$Child:sequence}">
+    <td>
+    <p class="title">
+    {section show=$Child:item.object.data_map.sticky.content}<img src="/design/forum/images/sticky_icon-red.gif" height="20" width="20" align="middle" alt="" />{/section}
     <a href={$Child:item.url_alias|ezurl}>{$Child:item.object.name|wash}</a>
+    </p>
     {let last_reply=fetch('content','list',hash(parent_node_id,$Child:item.node_id,sort_by,array(array('published',false())),limit,1))}
     {section name=Reply loop=$Child:last_reply show=$Child:last_reply}
-
-    <br /><br />
-    Last reply:     <a href={concat($Child:Reply:item.parent.url_alias,'#msg',$Child:Reply:item.node_id)|ezurl}>{$Child:Reply:item.name|wash}</a><br />
-<span class="forumdate">({$Child:Reply:item.object.published|l10n(shortdatetime)}) by {$Child:Reply:item.object.owner.name|wash}</span>
-
+    <p class="lastreply">
+    Last reply: <a href={concat($Child:Reply:item.parent.url_alias,'#msg',$Child:Reply:item.node_id)|ezurl}>{$Child:Reply:item.name|wash}</a><br />
+    <span class="date">({$Child:Reply:item.object.published|l10n(shortdatetime)})</span> by <span class="author">{$Child:Reply:item.object.owner.name|wash}</span>
+    </p>
     {/section}
     {/let}
-    </p>
     </td>
-    <td class="{$Child:sequence}"  valign="top" align="center">
+    <td>
     <p>
     {fetch('content','tree_count',hash(parent_node_id,$Child:item.node_id))}
     </p>
     </td>
-    <td class="{$Child:sequence}" valign="top">
+    <td>
     <p>
     {$Child:item.object.owner.name|wash}<br />
     <span class="forumdate">({$Child:item.object.published|l10n(shortdatetime)})</span>
