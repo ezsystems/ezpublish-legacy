@@ -55,6 +55,6 @@ for the mysecond site.
 </p>
 
 <p class="important"><b>Important:</b> It is important that both the user and admin site has the same storage directory, or else
-if you e.g upload a new file using the admin site the user site wont be able to locate the file because it is looking for the file
-in a different directory.
+if you e.g upload a new file using the admin site the user site will not be able to locate the file because it is looking
+for the file in the wrong directory.
 </p>
