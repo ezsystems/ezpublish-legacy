@@ -51,8 +51,8 @@ $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
 $rootNodeIDList = $ini->variable( 'UnpublishSettings','RootNodeList' );
 
-print( 'classes:' );
-var_dump( $unpublishClasses );
+//print( 'classes:' );
+//var_dump( $unpublishClasses );
 
 include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 $currrentDate = eZDateTime::currentTimeStamp();
@@ -64,7 +64,7 @@ foreach( $rootNodeIDList as $nodeID )
     $articleNodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
                                                     'ClassFilterArray' => $unpublishClasses ) );
 
-    var_dump( $articleNodeArray );
+    //var_dump( $articleNodeArray );
 
     foreach ( array_keys( $articleNodeArray ) as $key )
     {
@@ -78,7 +78,7 @@ foreach( $rootNodeIDList as $nodeID )
 
         $date = $dateAttribute->content();
         $articleRetractDate = $date->attribute( 'timestamp' );
-        var_dump( $articleRetractDate );
+        //var_dump( $articleRetractDate );
         if ( $articleRetractDate > 0 && $articleRetractDate < $currrentDate )
         {
             $article->remove( $article->attribute( 'id' ), $articleNodeArray[$key]->attribute( 'node_id' ) );
