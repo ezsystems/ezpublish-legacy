@@ -775,7 +775,7 @@ CREATE TABLE ezpaymentobject (
   id int(11) NOT NULL auto_increment,
   workflowprocess_id int(11) NOT NULL default '0',
   order_id int(11) NOT NULL default '0',
-  payment_string varchar(255) default NULL,
+  payment_string varchar(255) NOT NULL DEFAULT '',
   status int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

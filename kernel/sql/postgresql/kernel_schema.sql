@@ -2668,7 +2668,7 @@ CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_op
 
 
 
-CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (productcollection_id);
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (contentobject_id);
 
 
 
@@ -2749,14 +2749,6 @@ CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action"
 
 
 CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
-
-
-
-
-
-
-
-CREATE INDEX ezsubtree_notification_rule_id ON ezsubtree_notification_rule USING btree (id);
 
 
 
