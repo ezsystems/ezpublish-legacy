@@ -88,43 +88,55 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         {
             $node =& eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' ) );
         }
-        $parentContentObject =& $node->attribute( 'object' );
 
-        if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+        if ( is_object( $node ) )
         {
-            $user =& eZUser::currentUser();
-            $userID =& $user->attribute( 'contentobject_id' );
-            $sectionID = $parentContentObject->attribute( 'section_id' );
-
-            if ( !is_object( $class ) )
-                $class =& eZContentClass::fetch( $contentClassID );
-            $contentObject =& $class->instantiate( $userID, $sectionID );
-            $nodeAssignment =& eZNodeAssignment::create( array(
-                                                             'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                             'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                             'parent_node' => $node->attribute( 'node_id' ),
-                                                             'is_main' => 1
-                                                             )
-                                                         );
-            if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
+            $parentContentObject =& $node->attribute( 'object' );
+            if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
             {
-                $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
-            }
-            $nodeAssignment->store();
+                $user =& eZUser::currentUser();
+                $userID =& $user->attribute( 'contentobject_id' );
+                $sectionID = $parentContentObject->attribute( 'section_id' );
 
-            if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+                if ( !is_object( $class ) )
+                    $class =& eZContentClass::fetch( $contentClassID );
+                if ( is_object( $class ) )
+                {
+                    $contentObject =& $class->instantiate( $userID, $sectionID );
+                    $nodeAssignment =& eZNodeAssignment::create( array(
+                                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                                     'parent_node' => $node->attribute( 'node_id' ),
+                                                                     'is_main' => 1
+                                                                     )
+                                                                 );
+                    if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
+                    {
+                        $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
+                    }
+                    $nodeAssignment->store();
+
+                    if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+                    {
+                        $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+                    }
+                    $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
+                    return;
+                }
+                else
+                {
+                    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                }
+            }
+            else
             {
-                $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
-            $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
-            return;
-
         }
         else
         {
-            return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-
     }
     else if ( $hasClassInformation )
     {
