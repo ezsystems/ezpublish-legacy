@@ -3,19 +3,21 @@
   <object-list>
     <object xmlns:ezremote="http://ez.no/ezobject"
             ezremote:id="128"
-            name=" Weblog"
+            name="Weblog"
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="1"
-            ezremote:published="Apr 22 2004 08:36:39"
-            ezremote:modified="Apr 22 2004 08:45:02"
+            ezremote:published="Thu, 22 Apr 2004 06:36:39 GMT"
+            ezremote:modified="Fri, 07 May 2004 07:34:37 GMT"
             remote_id="712e4b066aebe1431f8612bf67436d58"
             class_remote_id="a3d405b81be900468eb153d774f4f0d2"
             ezremote:class_identifier="folder">
-      <version-list active_version="2"
+      <version-list active_version="3"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="2"
-                          status="1">
+        <ezobject:version ezremote:version="3"
+                          ezremote:status="1"
+                          ezremote:created="Fri, 07 May 2004 07:34:29 GMT"
+                          ezremote:modified="Fri, 07 May 2004 07:34:37 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="327"
                                 ezremote:identifier="name"
@@ -64,7 +66,7 @@
                              remote-id="712e4b066aebe1431f8612bf67436d58"
                              sort-field="published"
                              sort-order="0"
-                             priority="0" />
+                             priority="30" />
           </ezobject:node-assignment-list>
         </ezobject:version>
       </version-list>
@@ -75,15 +77,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="24"
-            ezremote:published="Apr 22 2004 08:39:13"
-            ezremote:modified="Apr 22 2004 08:39:13"
+            ezremote:published="Thu, 22 Apr 2004 06:39:13 GMT"
+            ezremote:modified="Thu, 22 Apr 2004 06:39:13 GMT"
             remote_id="3c1244511dcb96d1a959cc2d4e4f59f3"
             class_remote_id="b3492bd3cb20be996408f5c16aa68c12"
             ezremote:class_identifier="weblog">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Thu, 22 Apr 2004 06:38:00 GMT"
+                          ezremote:modified="Thu, 22 Apr 2004 06:39:13 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="332"
                                 ezremote:identifier="title"
@@ -127,15 +131,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="24"
-            ezremote:published="Apr 22 2004 08:40:38"
-            ezremote:modified="Apr 22 2004 08:40:38"
+            ezremote:published="Thu, 22 Apr 2004 06:40:38 GMT"
+            ezremote:modified="Thu, 22 Apr 2004 06:40:38 GMT"
             remote_id="200f416b046371dfc98ff2347448528c"
             class_remote_id="b3492bd3cb20be996408f5c16aa68c12"
             ezremote:class_identifier="weblog">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Thu, 22 Apr 2004 06:40:17 GMT"
+                          ezremote:modified="Thu, 22 Apr 2004 06:40:38 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="335"
                                 ezremote:identifier="title"
@@ -179,15 +185,17 @@
             ezremote:section_id="1"
             ezremote:owner_id="14"
             ezremote:class_id="24"
-            ezremote:published="Apr 22 2004 08:41:22"
-            ezremote:modified="Apr 22 2004 08:41:22"
+            ezremote:published="Thu, 22 Apr 2004 06:41:22 GMT"
+            ezremote:modified="Thu, 22 Apr 2004 06:41:22 GMT"
             remote_id="7f5deee9367f46a5f7e8bf284504f812"
             class_remote_id="b3492bd3cb20be996408f5c16aa68c12"
             ezremote:class_identifier="weblog">
       <version-list active_version="1"
                     xmlns:ezobject="http://ez.no/object/">
-        <ezobject:version version="1"
-                          status="1">
+        <ezobject:version ezremote:version="1"
+                          ezremote:status="1"
+                          ezremote:created="Thu, 22 Apr 2004 06:40:49 GMT"
+                          ezremote:modified="Thu, 22 Apr 2004 06:41:22 GMT">
           <ezobject:object-translation language="eng-GB">
             <ezobject:attribute ezremote:id="338"
                                 ezremote:identifier="title"
@@ -458,6 +466,6 @@
   </site-access-list>
   <top-node-list>
     <top-node node-id="128"
-              remote-id="712e4b066aebe1431f8612bf67436d58"> Weblog</top-node>
+              remote-id="712e4b066aebe1431f8612bf67436d58">Weblog</top-node>
   </top-node-list>
 </content-object>
