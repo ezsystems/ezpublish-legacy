@@ -53,11 +53,16 @@
 </p><p>
 {"Some issues may be ignored by checking the <i>Ignore this test</i> checkbox(es); however, this is not recommended."|i18n("design/standard/setup/init")}
 </p>
+{section show=eq( $optional_test.result, 2 )}
+<p>
+{"It is also possible to do some finetuning of your system, click <i>Finetune</i> instead <i>Next</i> if you want to see the finetuning hints."|i18n("design/standard/setup/init")}
+</p>
+{/section}
 
 {*  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
   {"Each problem will give you instructions on how to fix the problem."|i18n("design/standard/setup/init")}
-  </p> 
+  </p>
   <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Next"|i18n("design/standard/setup/init"),"</i>")))}</p> *}
 
   <h1>{"Issues"|i18n("design/standard/setup/init")}</h1>
@@ -78,7 +83,7 @@
 
   {/section}
   </table>
-    {include uri='design:setup/init/navigation.tpl'}
+    {include uri='design:setup/init/navigation.tpl' finetune=eq( $optional_test.result, 2 )}
     {include uri='design:setup/persistence.tpl'}
   </form>
 

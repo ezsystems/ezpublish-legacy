@@ -161,6 +161,8 @@ class eZStepData
                                    'class' => 'Welcome' ),
                             array( 'file' => 'system_check',
                                    'class' => 'SystemCheck' ),
+                            array( 'file' => 'system_finetune',
+                                   'class' => 'SystemFinetune' ),
                             array( 'file' => 'email_settings',
                                    'class' => 'EmailSettings' ),
                             array( 'file' => 'database_choice',

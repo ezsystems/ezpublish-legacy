@@ -55,6 +55,7 @@ function eZSetupTestTable()
                   'safe_mode' => array( 'eZSetupTestSafeMode' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
+                  'texttoimage_functions' => array( 'eZSetupTestFunctionExists' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
                   'execution_time' => array( 'eZSetupTestExecutionTime' ));
@@ -228,6 +229,46 @@ function eZSetupTestPhpVersion( $type, &$arguments )
                   'warning_version' => $warningVersion );
 }
 
+function eZSetupTestFunctionExists( $type, &$arguments )
+{
+    $functionList = eZSetupConfigVariableArray( $type, 'Functions' );
+    $requireType = eZSetupConfigVariable( $type, 'Require' );
+    $foundFunctions = array();
+    $failedFunctions = array();
+    foreach ( $functionList as $function )
+    {
+        $function = strtolower( $function );
+        if ( function_exists( $function ) )
+        {
+            $foundFunctions[] = $function;
+        }
+        else
+        {
+            $failedFunctions[] = $function;
+        }
+    }
+    $result = true;
+    if ( $requireType == 'one' )
+    {
+        if ( count( $foundFunctions ) == 0 )
+            $result = false;
+    }
+    else if ( count( $foundFunctions ) < count( $functionList ) )
+        $result = false;
+
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ),
+                                              'found' => array( 'value' => $foundFunctions,
+                                                                'merge' => false,
+                                                                'unique' => true ),
+                                              'checked' => array( 'value' => $functionList,
+                                                                  'merge' => true,
+                                                                  'unique' => true ) ),
+                  'require_type' => $requireType,
+                  'extension_list' => $functionList,
+                  'failed_extensions' => $failedFunctions,
+                  'found_extensions' => $foundFunctions );
+}
 
 /*!
     Test if the extensios are loaded
