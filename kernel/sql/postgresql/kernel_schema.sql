@@ -321,6 +321,19 @@ CREATE SEQUENCE ezgeneral_digest_user_settings_s
 
 
 
+CREATE SEQUENCE ezimagefile_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezinfocollection_s
     START 1
     INCREMENT 1
@@ -490,6 +503,32 @@ CREATE SEQUENCE ezorder_item_s
 
 
 
+CREATE SEQUENCE ezpaymentobject_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezpdf_export_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezpolicy_s
     START 1
     INCREMENT 1
@@ -582,6 +621,45 @@ CREATE SEQUENCE ezproductcollection_item_opt_s
 
 
 CREATE SEQUENCE ezrole_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezrss_export_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezrss_export_item_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezrss_import_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -855,9 +933,9 @@ CREATE SEQUENCE ezworkflow_process_s
 
 
 CREATE TABLE ezapprove_items (
+    collaboration_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezapprove_items_s'::text) NOT NULL,
-    workflow_process_id integer DEFAULT 0 NOT NULL,
-    collaboration_id integer DEFAULT 0 NOT NULL
+    workflow_process_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -868,9 +946,9 @@ CREATE TABLE ezapprove_items (
 
 CREATE TABLE ezbasket (
     id integer DEFAULT nextval('ezbasket_s'::text) NOT NULL,
-    session_id character varying(255) DEFAULT ''::character varying NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
     productcollection_id integer DEFAULT 0 NOT NULL,
-    order_id integer DEFAULT 0 NOT NULL
+    session_id character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -881,11 +959,11 @@ CREATE TABLE ezbasket (
 
 CREATE TABLE ezbinaryfile (
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
+    download_count integer DEFAULT 0 NOT NULL,
     filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
     mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
-    download_count integer DEFAULT 0 NOT NULL
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -895,16 +973,16 @@ CREATE TABLE ezbinaryfile (
 
 
 CREATE TABLE ezcollab_group (
-    id integer DEFAULT nextval('ezcollab_group_s'::text) NOT NULL,
-    parent_group_id integer DEFAULT 0 NOT NULL,
-    depth integer DEFAULT 0 NOT NULL,
-    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
-    is_open integer DEFAULT 1 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    title character varying(255) DEFAULT ''::character varying NOT NULL,
-    priority integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    depth integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcollab_group_s'::text) NOT NULL,
+    is_open integer DEFAULT 1 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    parent_group_id integer DEFAULT 0 NOT NULL,
+    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    title character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -914,21 +992,21 @@ CREATE TABLE ezcollab_group (
 
 
 CREATE TABLE ezcollab_item (
-    id integer DEFAULT nextval('ezcollab_item_s'::text) NOT NULL,
-    type_identifier character varying(40) DEFAULT ''::character varying NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    status integer DEFAULT 1 NOT NULL,
-    data_text1 text NOT NULL,
-    data_text2 text NOT NULL,
-    data_text3 text NOT NULL,
-    data_int1 integer DEFAULT 0 NOT NULL,
-    data_int2 integer DEFAULT 0 NOT NULL,
-    data_int3 integer DEFAULT 0 NOT NULL,
     data_float1 double precision DEFAULT 0::double precision NOT NULL,
     data_float2 double precision DEFAULT 0::double precision NOT NULL,
     data_float3 double precision DEFAULT 0::double precision NOT NULL,
-    created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    data_int1 integer DEFAULT 0 NOT NULL,
+    data_int2 integer DEFAULT 0 NOT NULL,
+    data_int3 integer DEFAULT 0 NOT NULL,
+    data_text1 text NOT NULL,
+    data_text2 text NOT NULL,
+    data_text3 text NOT NULL,
+    id integer DEFAULT nextval('ezcollab_item_s'::text) NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    status integer DEFAULT 1 NOT NULL,
+    type_identifier character varying(40) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -939,13 +1017,13 @@ CREATE TABLE ezcollab_item (
 
 CREATE TABLE ezcollab_item_group_link (
     collaboration_id integer DEFAULT 0 NOT NULL,
-    group_id integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    is_read integer DEFAULT 0 NOT NULL,
-    is_active integer DEFAULT 1 NOT NULL,
-    last_read integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    group_id integer DEFAULT 0 NOT NULL,
+    is_active integer DEFAULT 1 NOT NULL,
+    is_read integer DEFAULT 0 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -955,13 +1033,13 @@ CREATE TABLE ezcollab_item_group_link (
 
 
 CREATE TABLE ezcollab_item_message_link (
-    id integer DEFAULT nextval('ezcollab_item_message_link_s'::text) NOT NULL,
     collaboration_id integer DEFAULT 0 NOT NULL,
-    participant_id integer DEFAULT 0 NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcollab_item_message_link_s'::text) NOT NULL,
     message_id integer DEFAULT 0 NOT NULL,
     message_type integer DEFAULT 0 NOT NULL,
-    created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    modified integer DEFAULT 0 NOT NULL,
+    participant_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -972,14 +1050,14 @@ CREATE TABLE ezcollab_item_message_link (
 
 CREATE TABLE ezcollab_item_participant_link (
     collaboration_id integer DEFAULT 0 NOT NULL,
-    participant_id integer DEFAULT 0 NOT NULL,
-    participant_type integer DEFAULT 1 NOT NULL,
-    participant_role integer DEFAULT 1 NOT NULL,
-    is_read integer DEFAULT 0 NOT NULL,
-    is_active integer DEFAULT 1 NOT NULL,
-    last_read integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    is_active integer DEFAULT 1 NOT NULL,
+    is_read integer DEFAULT 0 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    participant_id integer DEFAULT 0 NOT NULL,
+    participant_role integer DEFAULT 1 NOT NULL,
+    participant_type integer DEFAULT 1 NOT NULL
 );
 
 
@@ -990,10 +1068,10 @@ CREATE TABLE ezcollab_item_participant_link (
 
 CREATE TABLE ezcollab_item_status (
     collaboration_id integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    is_read integer DEFAULT 0 NOT NULL,
     is_active integer DEFAULT 1 NOT NULL,
-    last_read integer DEFAULT 0 NOT NULL
+    is_read integer DEFAULT 0 NOT NULL,
+    last_read integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1003,9 +1081,9 @@ CREATE TABLE ezcollab_item_status (
 
 
 CREATE TABLE ezcollab_notification_rule (
+    collab_identifier character varying(255) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezcollab_notification_rule_s'::text) NOT NULL,
-    user_id character varying(255) DEFAULT ''::character varying NOT NULL,
-    collab_identifier character varying(255) DEFAULT ''::character varying NOT NULL
+    user_id character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1015,12 +1093,12 @@ CREATE TABLE ezcollab_notification_rule (
 
 
 CREATE TABLE ezcollab_profile (
-    id integer DEFAULT nextval('ezcollab_profile_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    main_group integer DEFAULT 0 NOT NULL,
-    data_text1 text NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    data_text1 text NOT NULL,
+    id integer DEFAULT nextval('ezcollab_profile_s'::text) NOT NULL,
+    main_group integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1030,19 +1108,19 @@ CREATE TABLE ezcollab_profile (
 
 
 CREATE TABLE ezcollab_simple_message (
-    id integer DEFAULT nextval('ezcollab_simple_message_s'::text) NOT NULL,
-    message_type character varying(40) DEFAULT ''::character varying NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
-    data_text1 text NOT NULL,
-    data_text2 text NOT NULL,
-    data_text3 text NOT NULL,
-    data_int1 integer DEFAULT 0 NOT NULL,
-    data_int2 integer DEFAULT 0 NOT NULL,
-    data_int3 integer DEFAULT 0 NOT NULL,
     data_float1 double precision DEFAULT 0::double precision NOT NULL,
     data_float2 double precision DEFAULT 0::double precision NOT NULL,
     data_float3 double precision DEFAULT 0::double precision NOT NULL,
-    created integer DEFAULT 0 NOT NULL,
+    data_int1 integer DEFAULT 0 NOT NULL,
+    data_int2 integer DEFAULT 0 NOT NULL,
+    data_int3 integer DEFAULT 0 NOT NULL,
+    data_text1 text NOT NULL,
+    data_text2 text NOT NULL,
+    data_text3 text NOT NULL,
+    id integer DEFAULT nextval('ezcollab_simple_message_s'::text) NOT NULL,
+    message_type character varying(40) DEFAULT ''::character varying NOT NULL,
     modified integer DEFAULT 0 NOT NULL
 );
 
@@ -1054,8 +1132,8 @@ CREATE TABLE ezcollab_simple_message (
 
 CREATE TABLE ezcontent_translation (
     id integer DEFAULT nextval('ezcontent_translation_s'::text) NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
-    locale character varying(255) DEFAULT ''::character varying NOT NULL
+    locale character varying(255) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1066,9 +1144,9 @@ CREATE TABLE ezcontent_translation (
 
 CREATE TABLE ezcontentbrowsebookmark (
     id integer DEFAULT nextval('ezcontentbrowsebookmark_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
     node_id integer DEFAULT 0 NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1078,11 +1156,11 @@ CREATE TABLE ezcontentbrowsebookmark (
 
 
 CREATE TABLE ezcontentbrowserecent (
-    id integer DEFAULT nextval('ezcontentbrowserecent_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    node_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL
+    id integer DEFAULT nextval('ezcontentbrowserecent_s'::text) NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1092,17 +1170,17 @@ CREATE TABLE ezcontentbrowserecent (
 
 
 CREATE TABLE ezcontentclass (
-    id integer DEFAULT nextval('ezcontentclass_s'::text) NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    name character varying(255),
-    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
     contentobject_name character varying(255),
-    creator_id integer DEFAULT 0 NOT NULL,
-    modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentclass_s'::text) NOT NULL,
+    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
+    is_container integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
-    remote_id character varying(100) DEFAULT '' NOT NULL,
-    is_container integer DEFAULT 0 NOT NULL
+    modifier_id integer DEFAULT 0 NOT NULL,
+    name character varying(255),
+    remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1112,30 +1190,30 @@ CREATE TABLE ezcontentclass (
 
 
 CREATE TABLE ezcontentclass_attribute (
-    id integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
+    can_translate integer DEFAULT 1,
     contentclass_id integer DEFAULT 0 NOT NULL,
-    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
-    data_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
-    is_searchable integer DEFAULT 0 NOT NULL,
-    is_required integer DEFAULT 0 NOT NULL,
-    placement integer DEFAULT 0 NOT NULL,
-    data_int1 integer,
-    data_int2 integer,
-    data_int3 integer,
-    data_int4 integer,
     data_float1 double precision,
     data_float2 double precision,
     data_float3 double precision,
     data_float4 double precision,
+    data_int1 integer,
+    data_int2 integer,
+    data_int3 integer,
+    data_int4 integer,
     data_text1 character varying(50),
     data_text2 character varying(50),
     data_text3 character varying(50),
     data_text4 character varying(255),
     data_text5 text,
+    data_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
+    identifier character varying(50) DEFAULT ''::character varying NOT NULL,
     is_information_collector integer DEFAULT 0 NOT NULL,
-    can_translate integer DEFAULT 1
+    is_required integer DEFAULT 0 NOT NULL,
+    is_searchable integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    placement integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1158,12 +1236,12 @@ CREATE TABLE ezcontentclass_classgroup (
 
 
 CREATE TABLE ezcontentclassgroup (
-    id integer DEFAULT nextval('ezcontentclassgroup_s'::text) NOT NULL,
-    name character varying(255),
-    creator_id integer DEFAULT 0 NOT NULL,
-    modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    creator_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentclassgroup_s'::text) NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    name character varying(255)
 );
 
 
@@ -1173,17 +1251,17 @@ CREATE TABLE ezcontentclassgroup (
 
 
 CREATE TABLE ezcontentobject (
-    id integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
-    owner_id integer DEFAULT 0 NOT NULL,
-    section_id integer DEFAULT 0 NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
-    name character varying(255),
     current_version integer,
+    id integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
     is_published integer,
-    published integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
-    status integer DEFAULT 0,
-    remote_id character varying(100)
+    name character varying(255),
+    owner_id integer DEFAULT 0 NOT NULL,
+    published integer DEFAULT 0 NOT NULL,
+    remote_id character varying(100),
+    section_id integer DEFAULT 0 NOT NULL,
+    status integer DEFAULT 0
 );
 
 
@@ -1193,18 +1271,18 @@ CREATE TABLE ezcontentobject (
 
 
 CREATE TABLE ezcontentobject_attribute (
+    attribute_original_id integer DEFAULT 0,
+    contentclassattribute_id integer DEFAULT 0 NOT NULL,
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    data_float double precision,
+    data_int integer,
+    data_text text,
+    data_type_string character varying(50) DEFAULT ''::character varying,
     id integer DEFAULT nextval('ezcontentobject_attribute_s'::text) NOT NULL,
     language_code character varying(20) DEFAULT ''::character varying NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    contentobject_id integer DEFAULT 0 NOT NULL,
-    contentclassattribute_id integer DEFAULT 0 NOT NULL,
-    data_text text,
-    data_int integer,
-    data_float double precision,
-    attribute_original_id integer DEFAULT 0,
     sort_key_int integer DEFAULT 0 NOT NULL,
     sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL,
-    data_type_string character varying(50) DEFAULT ''
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1214,9 +1292,9 @@ CREATE TABLE ezcontentobject_attribute (
 
 
 CREATE TABLE ezcontentobject_link (
-    id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
     from_contentobject_id integer DEFAULT 0 NOT NULL,
     from_contentobject_version integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
     to_contentobject_id integer DEFAULT 0 NOT NULL
 );
 
@@ -1227,10 +1305,10 @@ CREATE TABLE ezcontentobject_link (
 
 
 CREATE TABLE ezcontentobject_name (
+    content_translation character varying(20) DEFAULT ''::character varying NOT NULL,
+    content_version integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
-    content_version integer DEFAULT 0 NOT NULL,
-    content_translation character varying(20) DEFAULT ''::character varying NOT NULL,
     real_translation character varying(20)
 );
 
@@ -1241,22 +1319,22 @@ CREATE TABLE ezcontentobject_name (
 
 
 CREATE TABLE ezcontentobject_tree (
-    node_id integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
-    parent_node_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer,
-    contentobject_version integer,
     contentobject_is_published integer,
+    contentobject_version integer,
     depth integer DEFAULT 0 NOT NULL,
-    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
-    sort_field integer DEFAULT 1,
-    sort_order integer DEFAULT 1,
-    priority integer DEFAULT 0 NOT NULL,
-    path_identification_string text,
+    is_hidden integer DEFAULT 0 NOT NULL,
+    is_invisible integer DEFAULT 0 NOT NULL,
     main_node_id integer,
     modified_subnode integer DEFAULT 0,
-    remote_id character varying(100) DEFAULT '' NOT NULL,
-    is_hidden integer DEFAULT 0 NOT NULL,
-    is_invisible integer DEFAULT 0 NOT NULL
+    node_id integer DEFAULT nextval('ezcontentobject_tree_s'::text) NOT NULL,
+    parent_node_id integer DEFAULT 0 NOT NULL,
+    path_identification_string text,
+    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1
 );
 
 
@@ -1266,14 +1344,14 @@ CREATE TABLE ezcontentobject_tree (
 
 
 CREATE TABLE ezcontentobject_version (
-    id integer DEFAULT nextval('ezcontentobject_version_s'::text) NOT NULL,
     contentobject_id integer,
-    creator_id integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentobject_version_s'::text) NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     status integer DEFAULT 0 NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
     workflow_event_pos integer DEFAULT 0
 );
 
@@ -1295,11 +1373,11 @@ CREATE TABLE ezdiscountrule (
 
 
 CREATE TABLE ezdiscountsubrule (
-    id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
-    discountrule_id integer DEFAULT 0 NOT NULL,
     discount_percent double precision,
-    limitation character(1)
+    discountrule_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezdiscountsubrule_s'::text) NOT NULL,
+    limitation character(1),
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1310,8 +1388,8 @@ CREATE TABLE ezdiscountsubrule (
 
 CREATE TABLE ezdiscountsubrule_value (
     discountsubrule_id integer DEFAULT 0 NOT NULL,
-    value integer DEFAULT 0 NOT NULL,
-    issection integer DEFAULT 0 NOT NULL
+    issection integer DEFAULT 0 NOT NULL,
+    value integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1323,8 +1401,8 @@ CREATE TABLE ezdiscountsubrule_value (
 CREATE TABLE ezenumobjectvalue (
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_version integer DEFAULT 0 NOT NULL,
-    enumid integer DEFAULT 0 NOT NULL,
     enumelement character varying(255) DEFAULT ''::character varying NOT NULL,
+    enumid integer DEFAULT 0 NOT NULL,
     enumvalue character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1335,11 +1413,11 @@ CREATE TABLE ezenumobjectvalue (
 
 
 CREATE TABLE ezenumvalue (
-    id integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentclass_attribute_version integer DEFAULT 0 NOT NULL,
     enumelement character varying(255) DEFAULT ''::character varying NOT NULL,
     enumvalue character varying(255) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezenumvalue_s'::text) NOT NULL,
     placement integer DEFAULT 0 NOT NULL
 );
 
@@ -1350,10 +1428,10 @@ CREATE TABLE ezenumvalue (
 
 
 CREATE TABLE ezforgot_password (
-    id integer DEFAULT nextval('ezforgot_password_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
     hash_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    "time" integer DEFAULT 0 NOT NULL
+    id integer DEFAULT nextval('ezforgot_password_s'::text) NOT NULL,
+    "time" integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1363,11 +1441,11 @@ CREATE TABLE ezforgot_password (
 
 
 CREATE TABLE ezgeneral_digest_user_settings (
-    id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
     address character varying(255) DEFAULT ''::character varying NOT NULL,
-    receive_digest integer DEFAULT 0 NOT NULL,
-    digest_type integer DEFAULT 0 NOT NULL,
     "day" character varying(255) DEFAULT ''::character varying NOT NULL,
+    digest_type integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezgeneral_digest_user_settings_s'::text) NOT NULL,
+    receive_digest integer DEFAULT 0 NOT NULL,
     "time" character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1378,12 +1456,24 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 
 CREATE TABLE ezimage (
+    alternative_text character varying(255) DEFAULT ''::character varying NOT NULL,
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
     filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
     mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
-    alternative_text character varying(255) DEFAULT ''::character varying NOT NULL
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezimagefile (
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    filepath text NOT NULL,
+    id integer DEFAULT nextval('ezimagefile_s'::text) NOT NULL
 );
 
 
@@ -1393,14 +1483,14 @@ CREATE TABLE ezimage (
 
 
 CREATE TABLE ezimagevariation (
-    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    filename character varying(255) DEFAULT ''::character varying NOT NULL,
     additional_path character varying(255),
-    requested_width integer DEFAULT 0 NOT NULL,
+    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    height integer DEFAULT 0 NOT NULL,
     requested_height integer DEFAULT 0 NOT NULL,
-    width integer DEFAULT 0 NOT NULL,
-    height integer DEFAULT 0 NOT NULL
+    requested_width integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    width integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1410,11 +1500,11 @@ CREATE TABLE ezimagevariation (
 
 
 CREATE TABLE ezinfocollection (
-    id integer DEFAULT nextval('ezinfocollection_s'::text) NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    user_identifier character varying(34),
-    modified integer DEFAULT 0
+    id integer DEFAULT nextval('ezinfocollection_s'::text) NOT NULL,
+    modified integer DEFAULT 0,
+    user_identifier character varying(34)
 );
 
 
@@ -1424,14 +1514,14 @@ CREATE TABLE ezinfocollection (
 
 
 CREATE TABLE ezinfocollection_attribute (
-    id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
-    informationcollection_id integer DEFAULT 0 NOT NULL,
-    data_text text,
-    data_int integer,
-    data_float double precision,
     contentclass_attribute_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_id integer,
-    contentobject_id integer
+    contentobject_id integer,
+    data_float double precision,
+    data_int integer,
+    data_text text,
+    id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
+    informationcollection_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1441,9 +1531,9 @@ CREATE TABLE ezinfocollection_attribute (
 
 
 CREATE TABLE ezkeyword (
+    class_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezkeyword_s'::text) NOT NULL,
-    keyword character varying(255),
-    class_id integer DEFAULT 0 NOT NULL
+    keyword character varying(255)
 );
 
 
@@ -1466,18 +1556,18 @@ CREATE TABLE ezkeyword_attribute_link (
 
 CREATE TABLE ezmedia (
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
+    controls character varying(50),
     filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
-    width integer,
+    has_controller integer DEFAULT 0,
     height integer,
+    is_autoplay integer DEFAULT 0,
+    is_loop integer DEFAULT 0,
+    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
+    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
     pluginspage character varying(255),
     quality character varying(50),
-    controls character varying(50),
-    has_controller integer DEFAULT '0',
-    is_autoplay integer DEFAULT '0',
-    is_loop integer DEFAULT '0'
+    "version" integer DEFAULT 0 NOT NULL,
+    width integer
 );
 
 
@@ -1487,14 +1577,14 @@ CREATE TABLE ezmedia (
 
 
 CREATE TABLE ezmessage (
-    id integer DEFAULT nextval('ezmessage_s'::text) NOT NULL,
-    send_method character varying(50) DEFAULT ''::character varying NOT NULL,
-    send_weekday character varying(50) DEFAULT ''::character varying NOT NULL,
-    send_time character varying(50) DEFAULT ''::character varying NOT NULL,
-    destination_address character varying(50) DEFAULT ''::character varying NOT NULL,
-    title character varying(255) DEFAULT ''::character varying NOT NULL,
     body text,
-    is_sent integer DEFAULT 0 NOT NULL
+    destination_address character varying(50) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezmessage_s'::text) NOT NULL,
+    is_sent integer DEFAULT 0 NOT NULL,
+    send_method character varying(50) DEFAULT ''::character varying NOT NULL,
+    send_time character varying(50) DEFAULT ''::character varying NOT NULL,
+    send_weekday character varying(50) DEFAULT ''::character varying NOT NULL,
+    title character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1504,11 +1594,11 @@ CREATE TABLE ezmessage (
 
 
 CREATE TABLE ezmodule_run (
-    id integer DEFAULT nextval('ezmodule_run_s'::text) NOT NULL,
-    workflow_process_id integer,
-    module_name character varying(255),
     function_name character varying(255),
-    module_data text
+    id integer DEFAULT nextval('ezmodule_run_s'::text) NOT NULL,
+    module_data text,
+    module_name character varying(255),
+    workflow_process_id integer
 );
 
 
@@ -1518,16 +1608,16 @@ CREATE TABLE ezmodule_run (
 
 
 CREATE TABLE eznode_assignment (
-    id integer DEFAULT nextval('eznode_assignment_s'::text) NOT NULL,
     contentobject_id integer,
     contentobject_version integer,
-    parent_node integer,
-    sort_field integer DEFAULT 1,
-    sort_order integer DEFAULT 1,
-    is_main integer DEFAULT 0 NOT NULL,
     from_node_id integer DEFAULT 0,
+    id integer DEFAULT nextval('eznode_assignment_s'::text) NOT NULL,
+    is_main integer DEFAULT 0 NOT NULL,
+    parent_node integer,
+    parent_remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     remote_id integer DEFAULT 0 NOT NULL,
-    parent_remote_id character varying(100) DEFAULT '' NOT NULL
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1
 );
 
 
@@ -1537,12 +1627,12 @@ CREATE TABLE eznode_assignment (
 
 
 CREATE TABLE eznotificationcollection (
-    id integer DEFAULT nextval('eznotificationcollection_s'::text) NOT NULL,
+    data_subject text NOT NULL,
+    data_text text NOT NULL,
     event_id integer DEFAULT 0 NOT NULL,
     "handler" character varying(255) DEFAULT ''::character varying NOT NULL,
-    transport character varying(255) DEFAULT ''::character varying NOT NULL,
-    data_subject text NOT NULL,
-    data_text text NOT NULL
+    id integer DEFAULT nextval('eznotificationcollection_s'::text) NOT NULL,
+    transport character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1552,10 +1642,10 @@ CREATE TABLE eznotificationcollection (
 
 
 CREATE TABLE eznotificationcollection_item (
-    id integer DEFAULT nextval('eznotificationcollection_item_s'::text) NOT NULL,
+    address character varying(255) DEFAULT ''::character varying NOT NULL,
     collection_id integer DEFAULT 0 NOT NULL,
     event_id integer DEFAULT 0 NOT NULL,
-    address character varying(255) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('eznotificationcollection_item_s'::text) NOT NULL,
     send_date integer DEFAULT 0 NOT NULL
 );
 
@@ -1566,9 +1656,6 @@ CREATE TABLE eznotificationcollection_item (
 
 
 CREATE TABLE eznotificationevent (
-    id integer DEFAULT nextval('eznotificationevent_s'::text) NOT NULL,
-    status integer DEFAULT 0 NOT NULL,
-    event_type_string character varying(255) DEFAULT ''::character varying NOT NULL,
     data_int1 integer DEFAULT 0 NOT NULL,
     data_int2 integer DEFAULT 0 NOT NULL,
     data_int3 integer DEFAULT 0 NOT NULL,
@@ -1576,7 +1663,10 @@ CREATE TABLE eznotificationevent (
     data_text1 text NOT NULL,
     data_text2 text NOT NULL,
     data_text3 text NOT NULL,
-    data_text4 text NOT NULL
+    data_text4 text NOT NULL,
+    event_type_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('eznotificationevent_s'::text) NOT NULL,
+    status integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1587,10 +1677,10 @@ CREATE TABLE eznotificationevent (
 
 CREATE TABLE ezoperation_memento (
     id integer DEFAULT nextval('ezoperation_memento_s'::text) NOT NULL,
-    memento_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    memento_data text NOT NULL,
     main integer DEFAULT 0 NOT NULL,
-    main_key character varying(32) DEFAULT ''::character varying NOT NULL
+    main_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    memento_data text NOT NULL,
+    memento_key character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1600,17 +1690,17 @@ CREATE TABLE ezoperation_memento (
 
 
 CREATE TABLE ezorder (
-    id integer DEFAULT nextval('ezorder_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    productcollection_id integer DEFAULT 0 NOT NULL,
+    account_identifier character varying(100) DEFAULT 'default'::character varying NOT NULL,
     created integer DEFAULT 0 NOT NULL,
+    data_text_1 text,
+    data_text_2 text,
+    email character varying(150) DEFAULT ''::character varying,
+    id integer DEFAULT nextval('ezorder_s'::text) NOT NULL,
+    ignore_vat integer DEFAULT 0 NOT NULL,
     is_temporary integer DEFAULT 1 NOT NULL,
     order_nr integer DEFAULT 0 NOT NULL,
-    data_text_2 text,
-    data_text_1 text,
-    account_identifier character varying(100) DEFAULT 'default'::character varying NOT NULL,
-    ignore_vat integer DEFAULT 0 NOT NULL,
-    email character varying(150) DEFAULT ''
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1620,9 +1710,9 @@ CREATE TABLE ezorder (
 
 
 CREATE TABLE ezorder_item (
+    description character varying(255),
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
-    description character varying(255),
     price double precision,
     vat_value integer DEFAULT 0 NOT NULL
 );
@@ -1633,11 +1723,60 @@ CREATE TABLE ezorder_item (
 
 
 
+CREATE TABLE ezpaymentobject (
+    id integer DEFAULT nextval('ezpaymentobject_s'::text) NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
+    payment_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    status integer DEFAULT 0 NOT NULL,
+    workflowprocess_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezpdf_export (
+    created integer,
+    creator_id integer,
+    export_classes character varying(255),
+    export_structure character varying(255),
+    id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL,
+    intro_text text,
+    modified integer,
+    modifier_id integer,
+    pdf_filename character varying(255),
+    show_frontpage integer,
+    site_access character varying(255),
+    source_node_id integer,
+    status integer,
+    sub_text text,
+    title character varying(255)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezpending_actions (
+    "action" character varying(64) DEFAULT ''::character varying NOT NULL,
+    param text
+);
+
+
+
+
+
+
+
 CREATE TABLE ezpolicy (
-    id integer DEFAULT nextval('ezpolicy_s'::text) NOT NULL,
-    role_id integer,
     function_name character varying(255),
-    module_name character varying(255)
+    id integer DEFAULT nextval('ezpolicy_s'::text) NOT NULL,
+    module_name character varying(255),
+    role_id integer
 );
 
 
@@ -1648,8 +1787,8 @@ CREATE TABLE ezpolicy (
 
 CREATE TABLE ezpolicy_limitation (
     id integer DEFAULT nextval('ezpolicy_limitation_s'::text) NOT NULL,
-    policy_id integer,
-    identifier character varying(255) DEFAULT ''::character varying NOT NULL
+    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
+    policy_id integer
 );
 
 
@@ -1672,8 +1811,8 @@ CREATE TABLE ezpolicy_limitation_value (
 
 CREATE TABLE ezpreferences (
     id integer DEFAULT nextval('ezpreferences_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
     name character varying(100),
+    user_id integer DEFAULT 0 NOT NULL,
     value character varying(100)
 );
 
@@ -1684,8 +1823,8 @@ CREATE TABLE ezpreferences (
 
 
 CREATE TABLE ezproductcollection (
-    id integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL,
-    created integer
+    created integer,
+    id integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL
 );
 
 
@@ -1695,14 +1834,14 @@ CREATE TABLE ezproductcollection (
 
 
 CREATE TABLE ezproductcollection_item (
-    id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
-    productcollection_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    item_count integer DEFAULT 0 NOT NULL,
-    is_vat_inc integer,
-    vat_value double precision,
     discount double precision,
-    price double precision DEFAULT '0'
+    id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
+    is_vat_inc integer,
+    item_count integer DEFAULT 0 NOT NULL,
+    price double precision DEFAULT 0::double precision,
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    vat_value double precision
 );
 
 
@@ -1714,11 +1853,11 @@ CREATE TABLE ezproductcollection_item (
 CREATE TABLE ezproductcollection_item_opt (
     id integer DEFAULT nextval('ezproductcollection_item_opt_s'::text) NOT NULL,
     item_id integer DEFAULT 0 NOT NULL,
-    option_item_id integer DEFAULT 0 NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
-    value character varying(255) DEFAULT ''::character varying NOT NULL,
+    object_attribute_id integer,
+    option_item_id integer DEFAULT 0 NOT NULL,
     price double precision DEFAULT 0::double precision NOT NULL,
-    object_attribute_id integer
+    value character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1729,10 +1868,72 @@ CREATE TABLE ezproductcollection_item_opt (
 
 CREATE TABLE ezrole (
     id integer DEFAULT nextval('ezrole_s'::text) NOT NULL,
-    "version" integer DEFAULT 0,
+    is_new integer DEFAULT 0 NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
     value character(1),
-    is_new integer DEFAULT 0 NOT NULL
+    "version" integer DEFAULT 0
+);
+
+
+
+
+
+
+
+CREATE TABLE ezrss_export (
+    access_url character varying(255),
+    active integer,
+    created integer,
+    creator_id integer,
+    description text,
+    id integer DEFAULT nextval('ezrss_export_s'::text) NOT NULL,
+    image_id integer,
+    modified integer,
+    modifier_id integer,
+    rss_version character varying(255),
+    site_access character varying(255),
+    status integer,
+    title character varying(255),
+    url character varying(255)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezrss_export_item (
+    class_id integer,
+    description character varying(255),
+    id integer DEFAULT nextval('ezrss_export_item_s'::text) NOT NULL,
+    rssexport_id integer,
+    source_node_id integer,
+    title character varying(255)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezrss_import (
+    active integer,
+    class_description character varying(255),
+    class_id integer,
+    class_title character varying(255),
+    class_url character varying(255),
+    created integer,
+    creator_id integer,
+    destination_node_id integer,
+    id integer DEFAULT nextval('ezrss_import_s'::text) NOT NULL,
+    modified integer,
+    modifier_id integer,
+    name character varying(255),
+    object_owner_id integer,
+    status integer,
+    url text
 );
 
 
@@ -1742,19 +1943,19 @@ CREATE TABLE ezrole (
 
 
 CREATE TABLE ezsearch_object_word_link (
-    id integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
-    word_id integer DEFAULT 0 NOT NULL,
     frequency double precision DEFAULT 0::double precision NOT NULL,
+    id integer DEFAULT nextval('ezsearch_object_word_link_s'::text) NOT NULL,
+    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
+    integer_value integer DEFAULT 0 NOT NULL,
+    next_word_id integer DEFAULT 0 NOT NULL,
     placement integer DEFAULT 0 NOT NULL,
     prev_word_id integer DEFAULT 0 NOT NULL,
-    next_word_id integer DEFAULT 0 NOT NULL,
-    contentclass_id integer DEFAULT 0 NOT NULL,
     published integer DEFAULT 0 NOT NULL,
     section_id integer DEFAULT 0 NOT NULL,
-    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
-    identifier character varying(255) DEFAULT ''::character varying NOT NULL,
-    integer_value integer DEFAULT 0 NOT NULL
+    word_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1764,10 +1965,10 @@ CREATE TABLE ezsearch_object_word_link (
 
 
 CREATE TABLE ezsearch_return_count (
+    count integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezsearch_return_count_s'::text) NOT NULL,
     phrase_id integer DEFAULT 0 NOT NULL,
-    "time" integer DEFAULT 0 NOT NULL,
-    count integer DEFAULT 0 NOT NULL
+    "time" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1789,8 +1990,8 @@ CREATE TABLE ezsearch_search_phrase (
 
 CREATE TABLE ezsearch_word (
     id integer DEFAULT nextval('ezsearch_word_s'::text) NOT NULL,
-    word character varying(150),
-    object_count integer DEFAULT 0 NOT NULL
+    object_count integer DEFAULT 0 NOT NULL,
+    word character varying(150)
 );
 
 
@@ -1801,8 +2002,8 @@ CREATE TABLE ezsearch_word (
 
 CREATE TABLE ezsection (
     id integer DEFAULT nextval('ezsection_s'::text) NOT NULL,
-    name character varying(255),
     locale character varying(255),
+    name character varying(255),
     navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'::character varying
 );
 
@@ -1813,9 +2014,9 @@ CREATE TABLE ezsection (
 
 
 CREATE TABLE ezsession (
-    session_key character varying(32) DEFAULT ''::character varying NOT NULL,
     data text NOT NULL,
     expiration_time integer DEFAULT 0 NOT NULL,
+    session_key character varying(32) DEFAULT ''::character varying NOT NULL,
     user_id integer DEFAULT 0 NOT NULL
 );
 
@@ -1825,12 +2026,58 @@ CREATE TABLE ezsession (
 
 
 
+CREATE TABLE ezsite_data (
+    name character varying(60) DEFAULT ''::character varying NOT NULL,
+    value text NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezsubtree_expiry (
+    cache_file character varying(255) DEFAULT ''::character varying NOT NULL,
+    subtree integer
+);
+
+
+
+
+
+
+
+CREATE TABLE ezsubtree_notification_rule (
+    id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    use_digest integer DEFAULT 0,
+    user_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE eztipafriend_counter (
+    count integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE eztrigger (
-    id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
-    name character varying(255),
-    module_name character varying(200) DEFAULT ''::character varying NOT NULL,
-    function_name character varying(200) DEFAULT ''::character varying NOT NULL,
     connect_type character(1) DEFAULT ''::bpchar NOT NULL,
+    function_name character varying(200) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('eztrigger_s'::text) NOT NULL,
+    module_name character varying(200) DEFAULT ''::character varying NOT NULL,
+    name character varying(255),
     workflow_id integer
 );
 
@@ -1841,13 +2088,13 @@ CREATE TABLE eztrigger (
 
 
 CREATE TABLE ezurl (
-    id integer DEFAULT nextval('ezurl_s'::text) NOT NULL,
-    url character varying(255),
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezurl_s'::text) NOT NULL,
     is_valid integer DEFAULT 1 NOT NULL,
     last_checked integer DEFAULT 0 NOT NULL,
-    original_url_md5 character varying(32) DEFAULT ''::character varying NOT NULL
+    modified integer DEFAULT 0 NOT NULL,
+    original_url_md5 character varying(32) DEFAULT ''::character varying NOT NULL,
+    url character varying(255)
 );
 
 
@@ -1857,9 +2104,9 @@ CREATE TABLE ezurl (
 
 
 CREATE TABLE ezurl_object_link (
-    url_id integer DEFAULT 0 NOT NULL,
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    contentobject_attribute_version integer DEFAULT 0 NOT NULL
+    contentobject_attribute_version integer DEFAULT 0 NOT NULL,
+    url_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1869,13 +2116,13 @@ CREATE TABLE ezurl_object_link (
 
 
 CREATE TABLE ezurlalias (
-    id integer DEFAULT nextval('ezurlalias_s'::text) NOT NULL,
-    source_url text NOT NULL,
-    source_md5 character varying(32),
     destination_url text NOT NULL,
-    is_internal integer DEFAULT 1 NOT NULL,
     forward_to_id integer DEFAULT 0 NOT NULL,
-    is_wildcard integer DEFAULT 0 NOT NULL
+    id integer DEFAULT nextval('ezurlalias_s'::text) NOT NULL,
+    is_internal integer DEFAULT 1 NOT NULL,
+    is_wildcard integer DEFAULT 0 NOT NULL,
+    source_md5 character varying(32),
+    source_url text NOT NULL
 );
 
 
@@ -1886,10 +2133,10 @@ CREATE TABLE ezurlalias (
 
 CREATE TABLE ezuser (
     contentobject_id integer DEFAULT 0 NOT NULL,
-    login character varying(150) DEFAULT ''::character varying NOT NULL,
     email character varying(150) DEFAULT ''::character varying NOT NULL,
-    password_hash_type integer DEFAULT 1 NOT NULL,
-    password_hash character varying(50)
+    login character varying(150) DEFAULT ''::character varying NOT NULL,
+    password_hash character varying(50),
+    password_hash_type integer DEFAULT 1 NOT NULL
 );
 
 
@@ -1899,10 +2146,10 @@ CREATE TABLE ezuser (
 
 
 CREATE TABLE ezuser_accountkey (
-    id integer DEFAULT nextval('ezuser_accountkey_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
     hash_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    "time" integer DEFAULT 0 NOT NULL
+    id integer DEFAULT nextval('ezuser_accountkey_s'::text) NOT NULL,
+    "time" integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1912,9 +2159,9 @@ CREATE TABLE ezuser_accountkey (
 
 
 CREATE TABLE ezuser_discountrule (
-    id integer DEFAULT nextval('ezuser_discountrule_s'::text) NOT NULL,
-    discountrule_id integer,
     contentobject_id integer,
+    discountrule_id integer,
+    id integer DEFAULT nextval('ezuser_discountrule_s'::text) NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1925,11 +2172,11 @@ CREATE TABLE ezuser_discountrule (
 
 
 CREATE TABLE ezuser_role (
-    id integer DEFAULT nextval('ezuser_role_s'::text) NOT NULL,
-    role_id integer,
     contentobject_id integer,
-    limit_identifier character varying(255) DEFAULT '',
-    limit_value character varying(255) DEFAULT ''
+    id integer DEFAULT nextval('ezuser_role_s'::text) NOT NULL,
+    limit_identifier character varying(255) DEFAULT ''::character varying,
+    limit_value character varying(255) DEFAULT ''::character varying,
+    role_id integer
 );
 
 
@@ -1939,9 +2186,21 @@ CREATE TABLE ezuser_role (
 
 
 CREATE TABLE ezuser_setting (
-    user_id integer DEFAULT 0 NOT NULL,
     is_enabled integer DEFAULT 0 NOT NULL,
-    max_login integer
+    max_login integer,
+    user_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezuservisit (
+    current_visit_timestamp integer DEFAULT 0 NOT NULL,
+    last_visit_timestamp integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1962,12 +2221,23 @@ CREATE TABLE ezvattype (
 
 
 
+CREATE TABLE ezview_counter (
+    count integer DEFAULT 0 NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE ezwaituntildatevalue (
+    contentclass_attribute_id integer DEFAULT 0 NOT NULL,
+    contentclass_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezwaituntildatevalue_s'::text) NOT NULL,
     workflow_event_id integer DEFAULT 0 NOT NULL,
-    workflow_event_version integer DEFAULT 0 NOT NULL,
-    contentclass_id integer DEFAULT 0 NOT NULL,
-    contentclass_attribute_id integer DEFAULT 0 NOT NULL
+    workflow_event_version integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1978,8 +2248,8 @@ CREATE TABLE ezwaituntildatevalue (
 
 CREATE TABLE ezwishlist (
     id integer DEFAULT nextval('ezwishlist_s'::text) NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    productcollection_id integer DEFAULT 0 NOT NULL
+    productcollection_id integer DEFAULT 0 NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1989,15 +2259,15 @@ CREATE TABLE ezwishlist (
 
 
 CREATE TABLE ezworkflow (
-    id integer DEFAULT nextval('ezworkflow_s'::text) NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    is_enabled integer DEFAULT 0 NOT NULL,
-    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
-    creator_id integer DEFAULT 0 NOT NULL,
-    modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    creator_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezworkflow_s'::text) NOT NULL,
+    is_enabled integer DEFAULT 0 NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2007,11 +2277,11 @@ CREATE TABLE ezworkflow (
 
 
 CREATE TABLE ezworkflow_assign (
-    id integer DEFAULT nextval('ezworkflow_assign_s'::text) NOT NULL,
-    workflow_id integer DEFAULT 0 NOT NULL,
-    node_id integer DEFAULT 0 NOT NULL,
     access_type integer DEFAULT 0 NOT NULL,
-    as_tree integer DEFAULT 0 NOT NULL
+    as_tree integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezworkflow_assign_s'::text) NOT NULL,
+    node_id integer DEFAULT 0 NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2021,11 +2291,6 @@ CREATE TABLE ezworkflow_assign (
 
 
 CREATE TABLE ezworkflow_event (
-    id integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    workflow_id integer DEFAULT 0 NOT NULL,
-    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
-    description character varying(50) DEFAULT ''::character varying NOT NULL,
     data_int1 integer,
     data_int2 integer,
     data_int3 integer,
@@ -2034,7 +2299,12 @@ CREATE TABLE ezworkflow_event (
     data_text2 character varying(50),
     data_text3 character varying(50),
     data_text4 character varying(50),
-    placement integer DEFAULT 0 NOT NULL
+    description character varying(50) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,
+    placement integer DEFAULT 0 NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL,
+    workflow_type_string character varying(50) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2044,12 +2314,12 @@ CREATE TABLE ezworkflow_event (
 
 
 CREATE TABLE ezworkflow_group (
-    id integer DEFAULT nextval('ezworkflow_group_s'::text) NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
-    creator_id integer DEFAULT 0 NOT NULL,
-    modifier_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
-    modified integer DEFAULT 0 NOT NULL
+    creator_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezworkflow_group_s'::text) NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2059,10 +2329,10 @@ CREATE TABLE ezworkflow_group (
 
 
 CREATE TABLE ezworkflow_group_link (
-    workflow_id integer DEFAULT 0 NOT NULL,
     group_id integer DEFAULT 0 NOT NULL,
-    workflow_version integer DEFAULT 0 NOT NULL,
-    group_name character varying(255)
+    group_name character varying(255),
+    workflow_id integer DEFAULT 0 NOT NULL,
+    workflow_version integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2072,383 +2342,28 @@ CREATE TABLE ezworkflow_group_link (
 
 
 CREATE TABLE ezworkflow_process (
-    id integer DEFAULT nextval('ezworkflow_process_s'::text) NOT NULL,
-    process_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    workflow_id integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
+    activation_date integer,
     content_id integer DEFAULT 0 NOT NULL,
     content_version integer DEFAULT 0 NOT NULL,
-    node_id integer DEFAULT 0 NOT NULL,
-    session_key character varying(32) DEFAULT '0'::character varying NOT NULL,
+    created integer DEFAULT 0 NOT NULL,
     event_id integer DEFAULT 0 NOT NULL,
     event_position integer DEFAULT 0 NOT NULL,
+    event_state integer,
+    event_status integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezworkflow_process_s'::text) NOT NULL,
     last_event_id integer DEFAULT 0 NOT NULL,
     last_event_position integer DEFAULT 0 NOT NULL,
     last_event_status integer DEFAULT 0 NOT NULL,
-    event_status integer DEFAULT 0 NOT NULL,
-    created integer DEFAULT 0 NOT NULL,
+    memento_key character varying(32),
     modified integer DEFAULT 0 NOT NULL,
-    activation_date integer,
-    event_state integer,
-    status integer,
+    node_id integer DEFAULT 0 NOT NULL,
     parameters text,
-    memento_key character varying(32)
-);
-
-
-
-
-
-
-
-CREATE TABLE ezsite_data (
-    name character varying(60) DEFAULT ''::character varying NOT NULL,
-    value text DEFAULT ''::text NOT NULL
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezpdf_export_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezpdf_export (
-    id integer DEFAULT nextval('ezpdf_export_s'::text) NOT NULL,
-    title character varying(255),
-    show_frontpage integer,
-    intro_text text,
-    sub_text text,
-    source_node_id integer,
-    export_structure character varying(255),
-    export_classes character varying(255),
-    site_access character varying(255),
-    pdf_filename character varying(255),
-    modifier_id integer,
-    modified integer,
-    created integer,
-    creator_id integer,
-    status integer
-);
-
-
-
-
-
-
-
-CREATE TABLE ezpending_actions (
-    "action" character varying(64) NOT NULL,
-    param text
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezrss_export_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezrss_export (
-    id integer DEFAULT nextval('ezrss_export_s'::text) NOT NULL,
-    title character varying(255),
-    modifier_id integer,
-    modified integer,
-    url character varying(255),
-    description text,
-    image_id integer,
-    active integer,
-    access_url character varying(255),
-    created integer,
-    creator_id integer,
+    process_key character varying(32) DEFAULT ''::character varying NOT NULL,
+    session_key character varying(32) DEFAULT '0'::character varying NOT NULL,
     status integer,
-    rss_version character varying(255),
-    site_access character varying(255)
+    user_id integer DEFAULT 0 NOT NULL,
+    workflow_id integer DEFAULT 0 NOT NULL
 );
-
-
-
-
-
-
-
-CREATE SEQUENCE ezrss_export_item_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezrss_export_item (
-    id integer DEFAULT nextval('ezrss_export_item_s'::text) NOT NULL,
-    rssexport_id integer,
-    source_node_id integer,
-    class_id integer,
-    title character varying(255),
-    description character varying(255)
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezrss_import_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezrss_import (
-    id integer DEFAULT nextval('ezrss_import_s'::text) NOT NULL,
-    name character varying(255),
-    url text,
-    destination_node_id integer,
-    class_id integer,
-    class_title character varying(255),
-    class_url character varying(255),
-    class_description character varying(255),
-    active integer,
-    creator_id integer,
-    created integer,
-    modifier_id integer,
-    modified integer,
-    status integer,
-    object_owner_id integer
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezimagefile_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezimagefile (
-    id integer DEFAULT nextval('ezimagefile_s'::text) NOT NULL,
-    contentobject_attribute_id integer NOT NULL,
-    filepath text NOT NULL
-);
-
-
-
-
-
-
-
-CREATE TABLE eztipafriend_counter (
-    node_id integer DEFAULT 0 NOT NULL,
-    count integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-CREATE TABLE ezview_counter (
-    node_id integer DEFAULT 0 NOT NULL,
-    count integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE tmp_notification_rule_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezsubtree_notification_rule (
-    id integer DEFAULT nextval('tmp_notification_rule_s'::text) NOT NULL,
-    use_digest integer DEFAULT 0,
-    node_id integer NOT NULL,
-    user_id integer NOT NULL
-);
-
-
-
-
-
-
-
-CREATE TABLE ezsubtree_expiry (
-    cache_file character varying(255) NOT NULL,
-    subtree integer
-);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezpaymentobject_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezpaymentobject (
-    id integer DEFAULT nextval('ezpaymentobject_s'::text) NOT NULL,
-    workflowprocess_id integer DEFAULT 0 NOT NULL,
-    order_id integer DEFAULT 0 NOT NULL,
-    payment_string character varying(255) DEFAULT ''::character varying NOT NULL,
-    status integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-CREATE TABLE ezuservisit (
-    user_id integer NOT NULL,
-    current_visit_timestamp integer NOT NULL,
-    last_visit_timestamp integer NOT NULL
-);
-
-
-
-
-
-
-
-CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
-
-
-
-
-
-
-
-CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
-
-
-
-
-
-
-
-CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
-
-
-
-
-
-
-
-CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
-
-
-
-
-
-
-
-CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item USING btree (productcollection_id);
-
-
-
-
-
-
-
-CREATE INDEX ezurlalias_source_url ON ezurlalias USING btree (source_url);
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
-
-
-
-
-
-
-
-CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_opt USING btree (item_id);
-
-
-
-
-
-
-
-CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (contentobject_id);
 
 
 
@@ -2457,134 +2372,6 @@ CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_it
 
 
 CREATE INDEX ezbasket_session_id ON ezbasket USING btree (session_id);
-
-
-
-
-
-
-
-CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
-
-
-
-
-
-
-
-CREATE INDEX eztrigger_fetch ON eztrigger USING btree (name, module_name, function_name);
-
-
-
-
-
-
-
-CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process USING btree (process_key);
-
-
-
-
-
-
-
-CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
-
-
-
-
-
-
-
-CREATE INDEX ezrss_export_rsseid ON ezrss_export_item USING btree (rssexport_id);
-
-
-
-
-
-
-
-CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribute_id);
-
-
-
-
-
-
-
-CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
-
-
-
-
-
-
-
-CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action");
-
-
-
-
-
-
-
-CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX ezpreferences_user_id_idx ON ezpreferences USING btree (user_id, name);
-
-
-
-
-
-
-
-CREATE INDEX ezsession_user_id ON ezsession USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
-
-
-
-
-
-
-
-CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
-
-
-
-
-
-
-
-CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree (path_identification_string);
-
-
-
-
-
-
-
-CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
-
-
-
-
-
-
-
-CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
 
 
 
@@ -2625,6 +2412,14 @@ CREATE INDEX ezcontentbrowserecent_user ON ezcontentbrowserecent USING btree (us
 
 
 CREATE INDEX ezcontentclass_version ON ezcontentclass USING btree ("version");
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
 
 
 
@@ -2696,7 +2491,23 @@ CREATE INDEX ezcontentobject_tree_path ON ezcontentobject_tree USING btree (path
 
 
 
+CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree USING btree (path_identification_string);
+
+
+
+
+
+
+
 CREATE INDEX modified_subnode ON ezcontentobject_tree USING btree (modified_subnode);
+
+
+
+
+
+
+
+CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
 
 
 
@@ -2720,6 +2531,22 @@ CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btr
 
 
 
+CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribute_id);
+
+
+
+
+
+
+
+CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
+
+
+
+
+
+
+
 CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btree (workflow_process_id);
 
 
@@ -2728,7 +2555,71 @@ CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btr
 
 
 
+CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action");
+
+
+
+
+
+
+
 CREATE INDEX ezpreferences_name ON ezpreferences USING btree (name);
+
+
+
+
+
+
+
+CREATE INDEX ezpreferences_user_id_idx ON ezpreferences USING btree (user_id, name);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (contentobject_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item USING btree (productcollection_id);
+
+
+
+
+
+
+
+CREATE INDEX ezproductcollection_item_opt_item_id ON ezproductcollection_item_opt USING btree (item_id);
+
+
+
+
+
+
+
+CREATE INDEX ezrss_export_rsseid ON ezrss_export_item USING btree (rssexport_id);
 
 
 
@@ -2776,7 +2667,39 @@ CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING b
 
 
 
+CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
+
+
+
+
+
+
+
 CREATE INDEX expiration_time ON ezsession USING btree (expiration_time);
+
+
+
+
+
+
+
+CREATE INDEX ezsession_user_id ON ezsession USING btree (user_id);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
+
+
+
+
+
+
+
+CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule USING btree (user_id);
 
 
 
@@ -2792,7 +2715,55 @@ CREATE UNIQUE INDEX eztrigger_def_id ON eztrigger USING btree (module_name, func
 
 
 
+CREATE INDEX eztrigger_fetch ON eztrigger USING btree (name, module_name, function_name);
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link USING btree (contentobject_attribute_version);
+
+
+
+
+
+
+
+CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
+
+
+
+
+
+
+
 CREATE INDEX ezurlalias_source_md5 ON ezurlalias USING btree (source_md5);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_source_url ON ezurlalias USING btree (source_url);
 
 
 
@@ -2808,6 +2779,14 @@ CREATE INDEX ezuser_role_contentobject_id ON ezuser_role USING btree (contentobj
 
 
 
+CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
+
+
+
+
+
+
+
 CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
 
 
@@ -2816,89 +2795,8 @@ CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver ON ezwaituntildatevalue USING
 
 
 
-ALTER TABLE ONLY ezsite_data
-    ADD CONSTRAINT ezsite_data_pkey PRIMARY KEY (name);
+CREATE INDEX ezworkflow_process_process_key ON ezworkflow_process USING btree (process_key);
 
-
-
-
-
-
-
-ALTER TABLE ONLY ezpdf_export
-    ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezrss_export
-    ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezrss_export_item
-    ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezrss_import
-    ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezimagefile
-    ADD CONSTRAINT ezimagefile_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY eztipafriend_counter
-    ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY (node_id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezview_counter
-    ADD CONSTRAINT ezview_counter_pkey PRIMARY KEY (node_id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezpaymentobject
-    ADD CONSTRAINT ezpaymentobject_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezuservisit
-    ADD CONSTRAINT ezuservisit_pkey PRIMARY KEY (user_id);
 
 
 
@@ -3203,6 +3101,15 @@ ALTER TABLE ONLY ezimage
 
 
 
+ALTER TABLE ONLY ezimagefile
+    ADD CONSTRAINT ezimagefile_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezimagevariation
     ADD CONSTRAINT ezimagevariation_pkey PRIMARY KEY (contentobject_attribute_id, "version", requested_width, requested_height);
 
@@ -3338,6 +3245,24 @@ ALTER TABLE ONLY ezorder_item
 
 
 
+ALTER TABLE ONLY ezpaymentobject
+    ADD CONSTRAINT ezpaymentobject_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpdf_export
+    ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezpolicy
     ADD CONSTRAINT ezpolicy_pkey PRIMARY KEY (id);
 
@@ -3410,6 +3335,33 @@ ALTER TABLE ONLY ezrole
 
 
 
+ALTER TABLE ONLY ezrss_export
+    ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezrss_export_item
+    ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezrss_import
+    ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezsearch_object_word_link
     ADD CONSTRAINT ezsearch_object_word_link_pkey PRIMARY KEY (id);
 
@@ -3464,8 +3416,26 @@ ALTER TABLE ONLY ezsession
 
 
 
+ALTER TABLE ONLY ezsite_data
+    ADD CONSTRAINT ezsite_data_pkey PRIMARY KEY (name);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezsubtree_notification_rule
     ADD CONSTRAINT ezsubtree_notification_rule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY eztipafriend_counter
+    ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY (node_id);
 
 
 
@@ -3545,8 +3515,26 @@ ALTER TABLE ONLY ezuser_setting
 
 
 
+ALTER TABLE ONLY ezuservisit
+    ADD CONSTRAINT ezuservisit_pkey PRIMARY KEY (user_id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezvattype
     ADD CONSTRAINT ezvattype_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezview_counter
+    ADD CONSTRAINT ezview_counter_pkey PRIMARY KEY (node_id);
 
 
 
@@ -3619,5 +3607,11 @@ ALTER TABLE ONLY ezworkflow_group_link
 
 ALTER TABLE ONLY ezworkflow_process
     ADD CONSTRAINT ezworkflow_process_pkey PRIMARY KEY (id);
+
+
+
+
+
+
 
 
