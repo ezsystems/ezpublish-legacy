@@ -125,6 +125,7 @@ table.list
 table.layoutlist td
 {
     padding-bottom: 4px;
+    padding-left: 4px;
 }
 
 table.list th, table.list td
@@ -233,6 +234,11 @@ label
 {
     font-weight: bold;
     padding-right: 1ex;
+}
+
+label.check
+{
+    font-weight: bold;
 }
 
 div.labelbreak
