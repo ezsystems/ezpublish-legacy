@@ -33,6 +33,8 @@ eZINI:
   http://ez.no/community/bug_reports/ezenum_does_not_remove_unselected_value
 - Fixed removing node assignment when deleting nodes.
   http://ez.no/community/bug_reports/critical_node_assignments_aren_t_deleted_properly
+- Fixed bug with user redirection in basket with default account handler
+  http://ez.no/community/bug_reports/redirectafteruserregister_set_by_ezdefaultshopaccounthandler_but_never_used
 
 *Library:
 
