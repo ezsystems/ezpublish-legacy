@@ -56,7 +56,7 @@ if ( ( $sortField != 'created' ) && ( $sortField!= 'user_name' ) )
 
 if( eZPreferences::value( 'admin_orderlist_sortorder' ) )
 {
-    $sortOrder = eZPreferences::value( 'admin_orderlist_sortfield' );
+    $sortOrder = eZPreferences::value( 'admin_orderlist_sortorder' );
 }
 
 if ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' ) )
