@@ -84,6 +84,9 @@ links to clickable links.
   the object is purged from the system.
 - Controlling the assignments for newly created related objects are not possible, see
   content.ini for more information.
+- User registration can now redirect to a specific url if the url is specified in the
+  the template.
+
 
 *SDK :
 

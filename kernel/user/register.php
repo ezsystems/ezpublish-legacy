@@ -160,7 +160,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
 
-            
             $mail->setReceiver( $receiver );
             $mail->setSubject( 'registration info' );
             $mail->setBody( $templateResult );
@@ -173,6 +172,10 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )
             {
                 $module->redirectTo( eZHTTPTool::sessionVariable( 'RedirectAfterUserRegister' ) );
+            }
+            else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
+            {
+                $module->redirectTo( $http->postVariable( 'RedirectAfterUserRegister' ) );
             }
             else
             {
