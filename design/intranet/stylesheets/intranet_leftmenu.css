@@ -9,16 +9,39 @@ body
     padding: 0px;
 }
 
-#container { 
+#container 
+{ 
   margin: 0px; 
 }
 
 #topbox
 { 
-  background: url("/design/intranet/images/06_intranet_background_repeat.png") repeat;
+  background-color: #eeeeee;
   width: 100%; 
   height: 100px; 
   min-width: 470px;
+}
+
+#topmenu
+{ 
+  background-color: #ddaaaa;
+  display: block;
+  clear: right;
+  padding: 6px;  
+  margin: 0px;
+}
+
+div.topmenu_item
+{ 
+  padding: 10px;  
+  display: inline;
+}
+
+div.topmenu_item_delimiter
+{ 
+  color: #eeeeee;
+  padding: 10px;  
+  display: inline;
 }
 
 #logo
@@ -53,9 +76,25 @@ body
 
 #mainpath
 { 
-   background-color: #ffffff;
+   color: #777777;
+   background-color: #ffffaa;
    width: 100%; 
-   height: 25px; 
+   padding: 4px;
+}
+
+#mainpath a
+{ 
+   color: #bb6666;
+}
+
+div.mainpath_item
+{ 
+  display: inline;
+}
+
+div.mainpath_delimiter
+{ 
+  display: inline;
 }
 
 #mainframe
@@ -67,25 +106,54 @@ body
 
 #mainmenu
 { 
+  background-color: #787878;	
   width: 20%;
+  height: 100%;
   float: left;
-  margin: 20px 15px 10px 10px; 
-  overflow: auto;
+  padding: 20px 15px 10px 10px; 
 }
 
-#mainarea
+div.mainmenu_item_selected
+{
+  color: #ffff00;
+}
+
+li.mainmenu_item_1
+{
+  margin-left: 5px;
+}
+
+li.mainmenu_item_2
+{
+  margin-left: 15px;
+}
+
+#mainmenu a
 { 
+   color: #eeffee;
+}
+
+
+#maincontent
+{ 
+   background-color: #eeeeee;	
    width: 75%;
    float: right;
-   margin: 20px 5px 10px 10px;
+   padding: 20px 5px 10px 10px;
    overflow: auto;
 }
 
 #footer
 { 
+   color: #eeeeee;
+   padding: 4px;
+   background-color: #555555;
    clear:both; 
-   margin-top: 20px;
-   background-color: #ffffff;
+}
+
+#footer a
+{ 
+   color: #ffeeee;
 }
 
 h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
@@ -100,11 +168,6 @@ h1
     font-weight: bold;
 }
 
-div.maincontentheader h1
-{
-    margin-top: 2px;
-}
-
 h2
 {
     font-size: 120%;
@@ -114,138 +177,3 @@ h3
 {
     font-size: 90%;
 }
-
-.topmenu
-{ 
-    color: #000000;
-}
-
-.topmenu a
-{ 
-    color: #ffffff;
-}
-
-table.menubox th, table.menubox td
-{
-    font-size: 80%;
-}
-
-img.toplogo
-{
-    margin-top: 8px;
-    margin-left: 9px;
-    margin-bottom: 8px;
-}
-
-/*
-td.topline
-{
-    background-repeat: repeat-x;
-}
-*/
-input.searchbox
-{
-    font-family: Arial, Helvetica, sans-serif;
-    width: 128px;
-    margin: 8px;
-    font-size: 80%;
-}
-
-input.searchbutton
-{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 70%;
-    font-weight: bold;
-    padding: 0px;
-    color: #333333;
-    background-color: #f5c2b1;
-    border: 1px solid #aa2a00;
-}
-
-div.path
-{
-    margin-top: 4px;
-    margin-left: 8px;
-}
-
-p.path a
-{
-    color: #d13400;
-    text-decoration: none;
-}
-
-p.path a:hover
-{
-    text-decoration: underline;
-}
-
-td.leftmenu, td.rightmenu
-{
-    vertical-align: top;
-    width: 120px;
-}
-
-td.leftmenu
-{
-    padding-left: 8px;
-}
-
-td.rightmenu
-{
-    padding-right: 8px;
-}
-
-td.maincontent
-{
-    width: 100%;
-}
-
-div.menubox
-{
-    border: 1px solid #df3902;
-    margin-top: 8px;
-    margin-bottom: 12px;
-    padding: 2px;
-}
-
-table.menubox
-{
-    border: 1px solid #ffffff;
-    width: 120px;
-}
-
-table.menubox th
-{
-    background-color: #df3902;
-    color: #ffffff;
-    font-weight: bold;
-    margin: 8px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 1px;
-    padding-bottom: 2px;
-}
-
-table.menubox th
-{
-    background-repeat: no-repeat;
-    background-position: top right;
-}
-
-table.menubox td
-{
-    padding: 4px;
-}
-
-td.menuchoice a
-{
-    color: #000000;
-    text-decoration: none;
-}
-
-td.menuchoice a:hover
-{
-    color: #000000;
-    text-decoration: underline;
-}
-

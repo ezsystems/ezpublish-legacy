@@ -6,10 +6,8 @@
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,intranet888))}
 
 <head>
-<link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-{*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} />*}
-<link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />
-{*<link rel="stylesheet" type="text/css" href="/var/intranet/storage/packages/intranet2/files/default/file/design/intranet/stylesheets/intranet_blue.css" />*}
+<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_leftmenu.css"|ezdesign} />
+{* <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" /> *}
 <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
 {* page header start *}
@@ -65,7 +63,7 @@
     <div id="topbox">
         <form action={"/content/search/"|ezurl} method="get">
 	<div id="logo">
-	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a>
+{*	    <a href="/"><img src={$pagedesign.data_map.image.content[original].full_path|ezroot} /></a> *}
 	</div>
 	<div id="searchbox">
 	<table width="100%" cellpadding="1" cellspacing="1" border="0">
@@ -93,8 +91,6 @@
 
     {* Top menu START *}
     <div id="topmenu">
-	<table class="layout" width="100%" cellpadding="5" cellspacing="0" border="0">
-	<tr>
 	{* Menubox start *}
 	{let  top_menu=fetch( content, list, hash( parent_node_id, 2, 
 				     limit, 6, 
@@ -103,35 +99,36 @@
 				     class_filter_array, array( 'folder' ) ) ) }
 
 	{section name=item loop=$top_menu}
-	    <td class="topmenu">
+	    <div class="topmenu_item">            
 	        <a href={concat("/content/view/full/",$:item.node_id,"/")|ezurl}>{$:item.name|wash}</a>
-	    </td>
+	    </div>
+            {delimiter}
+	    <div class="topmenu_item_delimiter">
+            |
+            </div> 
+            {/delimiter}
 	{/section}
 	{/let}
 	{* Menubox stop *}    
-	<tr/>
-	</table>
     </div>
     {* Top menu END *}
 
     {* Main path START *}
     <div id="mainpath">
-    {cache-block keys=array('path',$uri_string)}
-     <p class="path">
-	&nbsp;
 	{section name=Path loop=$module_result.path}
+            <div class="mainpath_item">  
 	    {section show=$Path:item.url}
-	    <a class="path" href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
+	    <a href={$Path:item.url|ezurl}>{$Path:item.text|shorten(18)|wash}</a>
 	    {section-else}
 	    {$Path:item.text|wash}
 	    {/section}
-
+            </div>   
 	    {delimiter}
-	    <span class="slash">/</span>
+            <div class="mainpath_delimiter">  
+	    /
+            </div>   
 	    {/delimiter}
 	{/section}
-	&nbsp;</p>
-    {/cache-block}
     </div>
     {* Main path END *}
 
@@ -140,71 +137,22 @@
 
     {* Main menu START *}
     <div id="mainmenu">
-    {*{$MainMenu|attribute(show)}*}
-    {switch match=$DesignKeys:used.section}
-    {case match=7}
-        {let MainMenu=fetch( content,list,
-                             hash( parent_node_id, 68,
-		             sort_by, array( 'priority', 1),
-		             class_filter_type, include,
-		             class_filter_array, array( 6 ) ) )}
-        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
-        {section name=Menu loop=$MainMenu}
-        <tr>
-            <td class="menuitem">
-            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.name}</a>
-            </td>
-	</tr>
-        {/section}
-        </table>
-        {/let}
-    {/case}
-    {case match=8}
-        {let MainMenu=fetch( content,list,
-                             hash( parent_node_id, 73,
-		             sort_by, array( 'priority', 1),
-		             class_filter_type, include,
-		             class_filter_array, array( 18 ) ) )}
-        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
-        {section name=Menu loop=$MainMenu}
-        <tr>
-            <td class="menuitem">
-            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.name}</a>
-            </td>
-	</tr>
-        {/section}
-        </table>
-        {/let}
-    {/case}
-    {case}
-        {let MainMenu=treemenu($module_result.path,$module_result.node_id)}
+    {let MainMenu=treemenu($module_result.path,$module_result.node_id,0)}
     
-        <table class="leftmenu" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <ul>
         {section name=Menu loop=$MainMenu}
-        <tr>
-            {switch match=$:item.level}
-
-            {case match=0}
-            <td class="menuitem">
-            <a href={$Menu:item.url_alias|ezurl}>{$Menu:item.text}</a>
-            </td>
-            {/case}
-            {case}
-	    <td class="submenuitem">
-	    {section show=eq( $:item.id, $module_result.node_id ) }
-	    <a class="submenuitem" href={$:item.url_alias|ezurl}>{$:item.text}</a>
-	    {section-else}
-            <a href={$:item.url_alias|ezurl}>{$:item.text}</a>
-	    {/section}
-            </td>
-            {/case}
-	    {/switch}
-	</tr>
+            <li class="mainmenu_item_{$:item.level}">
+	    {section show=$:item.is_selected}
+               <div class="mainmenu_item_selected">  
+               <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
+               </div>  
+            {section-else}
+                 <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
+            {/section}  
+            </li>
         {/section}
-        </table>
-        {/let}
-    {/case}
-    {/switch}
+        </ul>
+    {/let}
     
     </div>
 
@@ -212,9 +160,8 @@
 
     {* Main area START *}
 
-    <div id="mainarea">
-    {$module_result.content}
-    
+    <div id="maincontent">
+    {$module_result.content}    
     </div>
     
     </div>
