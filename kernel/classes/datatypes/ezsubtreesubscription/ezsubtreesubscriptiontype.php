@@ -67,7 +67,7 @@ class eZSubtreeSubscriptionType extends eZDataType
         $user =& eZUser::currentUser();
         $address = $user->attribute( 'email' );
 
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForAddress( $user->attribute( 'email' ), false );
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 
         if ( $attribute->attribute( 'data_int' ) == '1' )
         {
@@ -96,7 +96,7 @@ class eZSubtreeSubscriptionType extends eZDataType
                 $node =& $publishedNodes[$key];
                 if ( in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
-                    eZSubtreeNotificationRule::removeByNodeAndAddress( $address, $node->attribute( 'node_id' ) );
+                    eZSubtreeNotificationRule::removeByNodeAndAddress( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
                 }
             }
         }
