@@ -45,6 +45,8 @@ Changes from 3.3-6 to 3.3-7
   http://ez.no/community/bug_reports/class_identifier_and_override_problems
 - Added missing class and section override keys for the
   content_version_view_gui template function.
+- Fixed bug in archive handler in doWrite() method, the length parameter was
+  not checked for false and would in some cases not write any data at all.
 
 *Library:
 

@@ -977,7 +977,10 @@ class eZFileHandler
     */
     function doWrite( $data, $length = false )
     {
-        return @fwrite( $this->FileHandler, $data, $length );
+        if ( $length === false )
+            return @fwrite( $this->FileHandler, $data );
+        else
+            return @fwrite( $this->FileHandler, $data, $length );
     }
 
     /*!
