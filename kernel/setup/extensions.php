@@ -62,7 +62,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     }
 
     $siteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
-    $siteINI->save( "site.ini.append", false, false, false );
+    $siteINI->save( 'site.ini.append', '.php', false, false );
 }
 
 $extensionDir = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );

@@ -91,6 +91,8 @@ Changes from 3.2-3 to 3.2-4
   Refered to online installation guide and PDF version.
 - Fixed the autolink operator to better handle detection and management of urls.
   http://ez.no/developer/ez_publish_3/bug_reports/autolink_operator_messes_with_linked_urls_
+- Fixed some of the minor suggestions/corrections by Dariusz Zbikowski : http://ez.no/developer/ez_publish_3/bug_reports/bugs_in_kernel
+- Fixed file permissions when writing settings/override/*
 
 *Library :
 

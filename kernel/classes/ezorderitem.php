@@ -158,6 +158,7 @@ class eZOrderItem extends eZPersistentObject
 
     /// Cached value of the vat percentage
     var $VATValue = false;
+    var $IsVATIncluded = false;
 }
 
 ?>

@@ -243,7 +243,7 @@ class eZStringType extends eZDataType
     {
         if ( $classAttribute->attribute( 'is_information_collector' ) == true )
         {
-            return array( array( 'name' => 'Send',
+            return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Send' ),
                                  'action' => 'ActionCollectInformation'
                                  ) );
         }
