@@ -38,7 +38,17 @@
                 </div>
             {/section}
 
-            {section show=and( $previous_topic, $next_topic )}
+            {section show=$previous_topic}
+                <div class="content-navigator-separator">|</div>
+            {section-else}
+                <div class="content-navigator-separator-disabled">|</div>
+            {/section}
+
+            {let forum=$node.parent}
+                <div class="content-navigator-forum-link"><a href={$forum.url_alias|ezurl}>{$forum.name|wash}</a></div>
+            {/let}
+
+            {section show=$next_topic}
                 <div class="content-navigator-separator">|</div>
             {section-else}
                 <div class="content-navigator-separator-disabled">|</div>
@@ -57,10 +67,10 @@
 
         {section show=$node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button" type="submit" name="NewButton" value="New reply" />
+            <input class="button forum-new-reply" type="submit" name="NewButton" value="New reply" />
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
             <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-            <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
+            <input class="button forum-keep-me-updated" type="submit" name="ActionAddToNotification" value="Keep me updated" />
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             <input type="hidden" name="ClassIdentifier" value="forum_reply" />
         </form>
@@ -110,7 +120,7 @@
                   {section show=$node.object.can_edit}
                       <form method="post" action={"content/action/"|ezurl}>
                           <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-                          <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+                          <input class="button forum-account-edit" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
                       </form>
                   {/section}
                </td>
