@@ -12,4 +12,12 @@
 {include uri="design:buttons.tpl"}
 
 {* Show the children of this node: *}
-{include uri="design:children.tpl"}
+{section show=eq( ezpreference( 'viewmode' ), 'thumbnail' )}
+
+    {include uri="design:children_thumbnail.tpl"}
+
+    {section-else}
+
+    {include uri="design:children.tpl"}
+
+{/section}

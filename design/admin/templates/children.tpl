@@ -1,22 +1,8 @@
 {* Generic children list for admin interface. *}
-
-{let number_of_items=10}
-
-{switch match=ezpreference( 'items' )}
-{case match=2}
-    {set number_of_items=25}
-{/case}
-{case match=3}
-    {set number_of_items=50}
-{/case}
-{case}
-    {set number_of_items=10}
-{/case}
-{/switch}
-
-
 <form method="post" action={"content/action"|ezurl}>
-{let can_remove=false()
+{let item_type=ezpreference( 'items' )
+     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
+     can_remove=false()
      can_edit=false()
      can_create=false()
      can_copy=false()
@@ -31,11 +17,18 @@
 
 {* Items per page selector *}
     <p>
-        Items per page:
+        Items:
         <a href={'/user/preferences/set/items/1'|ezurl}>10</a>
         <a href={'/user/preferences/set/items/2'|ezurl}>25</a>
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a></p>
     </p>
+
+    <p>
+        View:
+        <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
+        <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
+    </p>
+
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
     {set can_copy=$node.object.can_create}
@@ -201,5 +194,4 @@
 </form>
 </div>
 
-{/let}
 {/let}
