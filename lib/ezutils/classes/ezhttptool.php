@@ -47,7 +47,6 @@
 */
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezsessioncache.php" );
 include_once( "lib/ezutils/classes/ezsession.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 

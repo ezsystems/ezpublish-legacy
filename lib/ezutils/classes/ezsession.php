@@ -53,15 +53,11 @@ function &eZSessionRead( $key )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
-    $sessionRes =& $db->arrayQuery( "SELECT data, cache_mask_1 FROM ezsession WHERE session_key='$key'" );
+    $sessionRes =& $db->arrayQuery( "SELECT data FROM ezsession WHERE session_key='$key'" );
 
     if ( count( $sessionRes ) == 1 )
     {
         $data =& $sessionRes[0]['data'];
-        $cacheMask =& $sessionRes[0]['cache_mask_1'];
-
-        global $eZSessionCacheMask;
-        $eZSessionCacheMask = decbin( $cacheMask );
 
         return $data;
     }
@@ -80,18 +76,16 @@ function eZSessionWrite( $key, $value )
     $db =& eZDB::instance();
     $ini =& eZIni::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
-    global $eZSessionCacheMask;
 
+    $value =& $db->escapeString( $value );
     // check if session already exists
 
     $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
 
-    $mask = bindec( $eZSessionCacheMask );
-
     if ( count( $sessionRes ) == 1 )
     {
         $updateQuery = "UPDATE ezsession
-                    SET expiration_time='$expirationTime', data='$value', cache_mask_1='$mask'
+                    SET expiration_time='$expirationTime', data='$value'
                     WHERE session_key='$key'";
 
         $ret = $db->query( $updateQuery );
@@ -99,8 +93,8 @@ function eZSessionWrite( $key, $value )
     else
     {
         $insertQuery = "INSERT INTO ezsession
-                    ( session_key, expiration_time, data, cache_mask_1 )
-                    VALUES ( '$key', '$expirationTime', '$value', '$mask' )";
+                    ( session_key, expiration_time, data )
+                    VALUES ( '$key', '$expirationTime', '$value' )";
 
         $ret = $db->query( $insertQuery );
     }
