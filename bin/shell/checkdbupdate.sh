@@ -64,9 +64,11 @@ DEST="/tmp/ez-$USER"
 if [ "$VERSION" == "$VERSION_ONLY"".0" ]; then
     to="$VERSION"
     from="$VERSION_STABLE"
+    has_setval="false"
 else
     to="$VERSION"
     from="$VERSION_PREVIOUS"
+    has_setval="true"
 fi
 
 SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$to"
@@ -161,11 +163,13 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 	echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with kernel_schema.sql"
 	exit 1
     fi
-    psql "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo
-	echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with setval.sql"
-	exit 1
+    if [ "$has_setval" == "true" ]; then
+	psql "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>/dev/null
+	if [ $? -ne 0 ]; then
+	    echo
+	    echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with setval.sql"
+	    exit 1
+	fi
     fi
     echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Initializing`$SETCOLOR_NORMAL`"
 
