@@ -5,5 +5,9 @@ Changes from 3.3-1 to 3.3-2
 - Fixed eZObjectRelationList::metaData
 - Fixed eZSelection::metaData
 
+*Bugs:
+- Fixed design class/datatype/view/ezselection.tpl
+  http://ez.no/developer/ez_publish_3/bug_reports/class_datatype_view_ezselection_tpl_bugs
+
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
