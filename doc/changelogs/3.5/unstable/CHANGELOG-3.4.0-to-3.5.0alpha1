@@ -16,6 +16,7 @@ eztc.php:
 *Bugs
 - Fixed assign limited on subtree bug, merged from stable/3.4 rev. 6789.
   http://ez.no/community/bug_reports/role_assignment_with_limitation_not_working
+- Fixed information collector for email datatype, from stable/3.4 rev. 6811.
 - Fixed bug in contentobject, can_create_class_list, merged from stable/3.4 rev. 6781.
 - Fixed missing class attribute in li tag in eZXML datatype, from stable/3.4 rev. 6806.
 - Fixed bug with non-required ContentObjectID for adding notifications

@@ -121,12 +121,16 @@ class eZEmailType extends eZDataType
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
-            include_once( "lib/ezutils/classes/ezmail.php" );
-            if ( !eZMail::validate( trim( $email ) ) )
+
+            if ( strlen( trim( $email ) ) != 0 )
             {
+                include_once( "lib/ezutils/classes/ezmail.php" );
+                if ( !eZMail::validate( trim( $email ) ) )
+                {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Email address is not valid.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
@@ -142,6 +146,8 @@ class eZEmailType extends eZDataType
         {
             $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $collectionAttribute->setAttribute( 'data_text', $dataText );
+
+            return true;
         }
 
         return false;
