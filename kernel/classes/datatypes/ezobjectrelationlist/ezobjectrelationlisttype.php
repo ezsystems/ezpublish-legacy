@@ -717,6 +717,22 @@ class eZObjectRelationListType extends eZDataType
             $objectID = $selectedObjectIDArray[0];
             foreach ( $selectedObjectIDArray as $objectID )
             {
+                /* Here we check if current object is already in the related objects list.
+                 * If so, we don't add it again.
+                 * FIXME: Stupid linear search. Maybe there's some better way?
+                 */
+                $found = false;
+                foreach ( $content['relation_list'] as $i )
+                {
+                    if ( $i['contentobject_id'] == $objectID )
+                    {
+                        $found = true;
+                        break;
+                    }
+                }
+                if ( $found )
+                    continue;
+
                 ++$priority;
                 $content['relation_list'][] =& $this->appendObject( $objectID, $priority, $contentObjectAttribute );
                 $contentObjectAttribute->setContent( $content );

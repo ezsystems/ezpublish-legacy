@@ -119,6 +119,11 @@ eZINI:
   http://ez.no/community/bug_reports/can_t_download_if_spaces_in_binary_file_names
 - Fixed typo in eZContentObject::checkAccess
   http://ez.no/community/bug_reports/typo_in_ezcontentobject_php
+- Workaround for bug in object relation list datatype: when user adds
+  objects using content/browse and then reloads page in browser then
+  previously selected objects are added again. We now just prevent objects
+  from being added to the list more than once doing appropriate check.
+  http://ez.no/community/bug_reports/objectrelationlist_repeats_adding_relatedobjects_when_page_reloads
 
 *Library:
 
