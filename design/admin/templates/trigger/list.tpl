@@ -36,6 +36,7 @@
 <div class="block">
 <input class="button" type="submit" name="StoreButton" value="{'Store changes'|i18n( 'design/admin/trigger/list' )}" />
 </div>
+</div>
 
 </form>
 
