@@ -251,10 +251,9 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $nodes =& $object->assignedNodes( false );
         foreach ( $nodes as $node )
         {
-            $clearNodeArray[] = $node['main_node_id'];
+            $clearNodeArray[] = $node['node_id'];
         }
     }
-
     if ( eZContentCache::cleanup( $clearNodeArray ) )
     {
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
