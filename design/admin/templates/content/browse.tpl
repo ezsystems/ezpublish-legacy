@@ -74,22 +74,22 @@
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={concat( '/user/preferences/set/admin_list_limit/1/content/browse/', $node_id ) |ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
         <span class="current">25</span>
-        <a href={concat( '/user/preferences/set/admin_list_limit/3/content/browse/', $node_id )|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl}>50</a>
 
         {/case}
 
         {case match=50}
-        <a href={concat( '/user/preferences/set/admin_list_limit/1/content/browse/', $node_id )|ezurl}>10</a>
-        <a href={concat( '/user/preferences/set/admin_list_limit/2/content/browse/', $node_id )|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl}>25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={concat( '/user/preferences/set/admin_list_limit/2/content/browse/', $node_id )|ezurl}>25</a>
-        <a href={concat( '/user/preferences/set/admin_list_limit/3/content/browse/', $node_id )|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl}>50</a>
         {/case}
 
         {/switch}
