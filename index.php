@@ -235,6 +235,11 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
+
+include( "lib/ezutils/classes/ezweb.php" );
+
+eZWeb::init();
+
 // Check for extension
 include_once( 'kernel/classes/ezextension.php' );
 eZExtension::activateExtensions();
@@ -252,6 +257,8 @@ $access = changeAccess( $access );
 //}
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 $check = eZHandlePreChecks( $siteBasics );
+
+include_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
     $dbRequired = true;
@@ -336,6 +343,7 @@ while ( $moduleRunRequired )
     $http =& eZHTTPTool::instance();
 
     $displayMissingModule = false;
+    $oldURI = $uri;
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
@@ -574,12 +582,18 @@ if ( $show_page_layout )
     $site = array(
         "title" => $ini->variable( 'SiteSettings', 'SiteName' ),
         "page_title" => $module->title(),
+        "uri" => $oldURI,
         "redirect" => false,
         "design" => "standard",
         "http_equiv" => $http_equiv,
         "meta" => $meta );
-
     $tpl->setVariable( "site", $site );
+
+    include_once( 'lib/version.php' );
+    $ezinfo = array( 'version' => eZPublishSDK::version( true ),
+                     'version_alias' => eZPublishSDK::version( true, true ) );
+
+    $tpl->setVariable( "ezinfo", $ezinfo );
     if ( isset( $tpl_vars ) and is_array( $tpl_vars ) )
     {
         foreach( $tpl_vars as $tpl_var_name => $tpl_var_value )

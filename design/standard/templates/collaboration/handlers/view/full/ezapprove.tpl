@@ -89,7 +89,7 @@ collab_item.data_int3='{$collab_item.data_int3}'
 
 {section show=$message_list}
 
-  <h1><a name="messages" ></a>Messages</h1>
+  <h1 id="messages">Messages</h1>
   <table width="100%" cellspacing="0" cellpadding="4" border="0">
   {section name=Message loop=$message_list sequence=array(bglight,bgdark)}
 
