@@ -38,6 +38,8 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 - Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
 - Added listing roles when browsing user groups.
 - Added member_of operator to fetch(user, ex: fetch(user, memeber_of, hash( id, 42 )).
+- Added fetch function user_role in user module ( ex: fetch(user, user_role, hash( user_id, 14 )).
+- Added decoding support in ldap login if the ldap server is utf-8 encoded.
 
 Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when

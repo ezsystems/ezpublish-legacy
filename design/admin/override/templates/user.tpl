@@ -7,7 +7,8 @@
          parent_nodes=$content_object.parent_nodes}
 {let data_map=$node.object.data_map
      user_attribute=$data_map.user_account
-     has_extra_groups=false()}
+     has_extra_groups=false()
+     policies=fetch( 'user', 'user_role', hash( user_id, $node.object.id ) ) }
 
 {section show=$is_standalone}
     <form method="post" action={"content/action"|ezurl}>
@@ -45,6 +46,40 @@
             <p>{node_view_gui view=text_linked content_node=fetch(content,node,hash(node_id,$:item))}</p>
         {/section}
     {/section}
+
+    <h3>{"Role list"|i18n("design/standard/role")}</h3>
+
+    <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <th>{"Module"|i18n("design/standard/role")}</th>
+        <th>{"Function"|i18n("design/standard/role")}</th>
+        <th>{"Limitation"|i18n("design/standard/role")}</th>
+    </tr>
+    {section var=Policy loop=$policies sequence=array(bglight,bgdark)}
+    <tr class="{$Policy.sequence}">
+        <td>
+            {$Policy.moduleName}
+        </td>
+        <td>
+            {$Policy.functionName}
+        </td>
+        <td>
+            {section show=eq($Policy.limitation,'*')}
+                {$Policy.limitation}
+            {section-else}
+                {section var=Limitation loop=$Policy.limitation}
+                  {$Limitation.identifier|wash}(
+                      {section var=LimitationValues loop=$Limitation.values_as_array_with_names}
+                          {$LimitationValues.Name|wash}
+                          {delimiter}, {/delimiter}
+                      {/section})
+                      {delimiter}, {/delimiter}
+                {/section}
+             {/section}
+        </td>
+    </tr>
+    {/section}
+    </table>
 
     <div class="buttonblock">
     {section show=and($is_editable,$content_object.can_edit)}

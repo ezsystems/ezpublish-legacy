@@ -101,6 +101,16 @@ $FunctionList['logged_in_users'] = array( 'name' => 'logged_in_users',
                                                                  array( 'name' => 'limit',
                                                                         'type' => 'integer',
                                                                         'required' => false ) ) );
+$FunctionList['user_role'] = array( 'name' => 'user_role',
+                                    'operation_types' => array( 'read' ),
+                                    'call_method' => array( 'include_file' => 'kernel/user/ezuserfunctioncollection.php',
+                                                            'class' => 'eZUserFunctionCollection',
+                                                            'method' => 'fetchUserRole' ),
+                                    'parameter_type' => 'standard',
+                                    'parameters' => array( array( 'name' => 'user_id',
+                                                                  'type' => 'integer',
+                                                                  'required' => true ) ) );
+
 
 $FunctionList['member_of'] = array( 'name' => 'member_of',
                                     'operation_types' => array( 'read' ),
@@ -111,5 +121,4 @@ $FunctionList['member_of'] = array( 'name' => 'member_of',
                                     'parameters' => array( array( 'name' => 'id',
                                                                   'type' => 'integer',
                                                                   'required' => true ) ) );
-
 ?>

@@ -216,7 +216,7 @@ class eZPolicy extends eZPersistentObject
             $limitArray = array_merge_recursive( $limitArray, $limitations[$limitKey]->limitArray() );
         }
 
-        return array( $this->attribute( 'module_name' ) => array ( $this->attribute( 'function_name' ) => array( $this->attribute( 'id' ) => $limitArray ) ) );
+        return array( $this->attribute( 'module_name' ) => array ( $this->attribute( 'function_name' ) => array( 'policy_limitation_' . $this->attribute( 'id' ) => $limitArray ) ) );
     }
 
     function &limitationList()

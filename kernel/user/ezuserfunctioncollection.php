@@ -99,6 +99,88 @@ class eZUserFunctionCollection
         return array( 'result' => $list );
     }
 
+    function fetchUserRole( $userID )
+    {
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        include_once( 'kernel/classes/ezrole.php' );
+        include_once( "kernel/classes/ezpolicylimitation.php" );
+        $userGroupObjects =& eZUser::groups( true, $userID );
+        $userGroupArray = array();
+        foreach ( $userGroupObjects as $userGroupObject )
+        {
+            $userGroupArray[] = $userGroupObject->attribute( 'id' );
+        }
+        $userGroupArray[] = $userID;
+        $roleList =& eZRole::fetchByUser( $userGroupArray );
+
+        $accessArray = array();
+        foreach ( array_keys ( $roleList ) as $roleKey )
+        {
+            $role = $roleList[$roleKey];
+            $accessArray = array_merge_recursive( $accessArray, $role->accessArray() );
+        }
+        $resultArray = array();
+        eZDebug::writeDebug( $accessArray, "accesssArray" );
+        foreach ( array_keys( $accessArray ) as $moduleKey )
+        {
+            $module =& $accessArray[$moduleKey];
+            $moduleName = $moduleKey;
+            if ( $moduleName != '*' )
+            {
+                foreach ( array_keys( $module ) as $functionKey )
+                {
+                    $function =& $module[$functionKey];
+                    $functionName = $functionKey;
+                    if ( $functionName != '*' )
+                    {
+                        $hasLimitation = true;
+                        foreach ( array_keys( $function ) as $limitationKey )
+                        {
+                            if ( $limitationKey == '*' )
+                            {
+                                $hasLimitation = false;
+                                $limitationValue = '*';
+                                $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
+                            }
+                        }
+                        if ( $hasLimitation )
+                        {
+                            foreach ( array_keys( $function ) as $limitationKey )
+                            {
+                                $limitation =& $module[$limitationKey];
+                                if ( $limitationKey != '*' )
+                                {
+                                    $policyID = str_replace( 'policy_limitation_', '', $limitationKey );
+                                    $limitationValue =& eZPolicyLimitation::fetchByPolicyID( $policyID );
+                                    $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
+                                }
+                                else
+                                {
+                                    $limitationValue = '*';
+                                    $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $limitationValue = '*';
+                        $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                $functionName = '*';
+                $resultArray[] = array( 'moduleName' => '*', 'functionName' => $functionName, 'limitation' => '*' );
+                break;
+            }
+        }
+        return array( 'result' => $resultArray );
+    }
+
     function &fetchMemberOf( $id )
     {
         include_once( 'kernel/classes/ezrole.php' );
