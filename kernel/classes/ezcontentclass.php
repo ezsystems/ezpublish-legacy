@@ -185,7 +185,7 @@ class eZContentClass extends eZPersistentObject
             {
                 // store cache
                 $http->setSessionVariable( 'canInstantiateClassesCachedForUser', $userID );
-                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
+//                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
             }
         }
         $user =& eZUser::currentUser();
@@ -225,7 +225,6 @@ class eZContentClass extends eZPersistentObject
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
-
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( 'canInstantiateClassList' ) )
@@ -240,7 +239,7 @@ class eZContentClass extends eZPersistentObject
             }
         }
 
-        //        eZDebugSetting::writeDebug( 'kernel-content-class', $this, "object in canCreateClass" );
+        //
         $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
