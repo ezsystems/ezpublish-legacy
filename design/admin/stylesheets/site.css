@@ -15,7 +15,6 @@ div#header
 
 div#header-design
 {
-    text-align: center;
 }
 
 div#header div#logo
@@ -47,6 +46,7 @@ div#search p
 {
     font-size: 0.8em;
     margin: 0;
+    text-align: right;
 }
 
 div#search label

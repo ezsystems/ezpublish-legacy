@@ -190,10 +190,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
                 {/section}
 -->
 
-<b>Logged in:</b><br />
+<h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
-<p><a href="">Change user info</p>
-<p><a href={"/user/logout"|ezurl}>Logout</a></p>
+<ul>
+    <li><a href={concat("/content/edit/",$current_user.contentobject_id,"/")|ezurl}>Change user info</a></li>
+    <li><a href={"/user/logout"|ezurl}>Logout</a></li>
+</ul>
 
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
