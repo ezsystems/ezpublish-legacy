@@ -104,6 +104,9 @@ eztc.php:
 - Fixed bug: users in Editors group were able to create new admin users.
   Merged from stable/3.4 rev. 6860.
   http://ez.no/community/bug_reports/users_in_edit_group_can_create_new_admin_users
+- Fixed bug: names for .ini.append* files were sometimes incorrectly chosen
+  when saving from admin interface (merged from stable/3.4 rev. 6868).
+  http://ez.no/community/bug_reports/admin_interface_writes_override_ini_append_rather_than_override_ini_append_php
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
