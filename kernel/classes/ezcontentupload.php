@@ -74,6 +74,8 @@ $upload->handleUpload( $result, 'UploadFile', 'auto', false );
 $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 */
 
+define( "EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED", 1 );
+
 class eZContentUpload
 {
     /*!
@@ -252,7 +254,8 @@ class eZContentUpload
         $result = array( 'errors' => array(),
                          'notices' => array(),
                          'result' => false,
-                         'redirect_url' => false );
+                         'redirect_url' => false,
+                         'status' => false );
         $errors =& $result['errors'];
         $notices =& $result['notices'];
 
@@ -367,6 +370,20 @@ class eZContentUpload
         }
         else
         {
+
+            $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $location );
+            $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
+
+            if ( $parentMainNodeObj->checkAccess( 'create',
+                                                  $class->attribute( 'id' ),
+                                                  $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
+                return false;
+            }
+
             $object =& $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();

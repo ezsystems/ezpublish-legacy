@@ -435,7 +435,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
             {
                 $this->appendLogEntry( "Notice: " . $notice['description'], 'CS: put' );
             }
-            return EZ_WEBDAV_FAILED_UNSUPPORTED;
+            if ( $result['status'] == EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED )
+            {
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
+            }
+            else
+                return EZ_WEBDAV_FAILED_UNSUPPORTED;
         }
 
         return EZ_WEBDAV_OK_CREATED;
@@ -1506,9 +1511,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Fetch the folder class.
         $class =& eZContentClass::fetch( $folderClassID );
 
+        $contentObject = $node->attribute( 'object' );
+        $contentClassID = $contentObject->attribute( 'contentclass_id' );
+
         // Check if the user has access to create a folder here
-        if ( $node->checkAccess( 'create', $folderClassID, $node->attribute( 'contentclass_id' ) ) != '1' )
+        if ( $node->checkAccess( 'create', $folderClassID, $contentClassID ) != '1' )
         {
+            $this->appendLogEntry( "Not allowed", 'CS:createFolder' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
