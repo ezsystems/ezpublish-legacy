@@ -39,6 +39,9 @@
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 
+define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
+define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
+
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
   \brief The class eZStepSiteDetails does
@@ -76,6 +79,8 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbUser = $databaseInfo['user'];
         $dbSocket = $databaseInfo['socket'];
 
+        $chosenDatabases = array();
+
         //todo : check input values
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
@@ -89,6 +94,11 @@ class eZStepSiteDetails extends eZStepInstaller
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
             $this->PersistenceList['site_templates_'.$counter]['database'] =
                  $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_database' );
+
+            if ( issst( $chosenDatabases[$this->PersistenceList['site_templates_'.$counter]['database']] ) )
+            {
+                $this->Error[$counter] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
+            }
 
             // Check database connection
             $dbName = $this->PersistenceList['site_templates_'.$counter]['database'];
@@ -118,23 +128,22 @@ class eZStepSiteDetails extends eZStepInstaller
                     }
                     else
                     {
-                        if ( $this->Error == 0 )
-                        {
-                            $this->Error = array();
-                        }
-                        $this->Error[] = array( $counter => EZ_SETUP_DB_ERROR_NOT_EMPTY );
+                        $this->Error[$counter] = EZ_SETUP_DB_ERROR_NOT_EMPTY ;
                     }
                 }
+
+                $this->DBEmpty = eZDBTool::isEmpty( $db );
+
+                
 
             }
             else
             {
                 return 'DatabaseInit';
             }
-
-            return ( $this->Error == 0 ); // Error == 0 , no errors.
-
         }
+
+        return ( count( $this->Error ) == 0 );
     }
 
     /*!
@@ -179,7 +188,7 @@ class eZStepSiteDetails extends eZStepInstaller
         return $result;
     }
 
-    var $Error = 0;
+    var $Error = array();
 }
 
 ?>
