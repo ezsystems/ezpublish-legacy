@@ -186,7 +186,6 @@ class eZImageVariation extends eZPersistentObject
                                                       "width" =>  $imgsize[0],
                                                       "height" =>  $imgsize[1]  ) );
 
-        var_dump( $imageVariation );
         $imageFullPath = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[1];
         $imageVariation->store();
 
