@@ -140,6 +140,9 @@ class eZStepCreateSites extends eZStepInstaller
         $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
+            $imageINI->setVariable( 'ImageMagick', 'ExecutablePath', $this->PersistenceList['imagemagick_program']['path'] );
+            $imageINI->setVariable( 'ImageMagick', 'Executable', $this->PersistenceList['imagemagick_program']['program'] );
+
             $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'true' );
         }
 
