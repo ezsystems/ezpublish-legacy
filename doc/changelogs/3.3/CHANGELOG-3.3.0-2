@@ -53,7 +53,8 @@
 - Fixed bug with long object names generating invalid SQL : ( merged from stable 4371 )
   http://www.ez.no/developer/ez_publish_3/bug_reports/too_long_textline_attribute_doesnt_give_an_error_message
 - Fixed eZContentBrowseRecent count SQL. ( merged from stable 4371 )
-
+- Fixed some translation typos in the templates.
+  http://ez.no/developer/ez_publish_3/bug_reports/typos_minor_translation_bugs
 
 
 *Kernel:

@@ -5,7 +5,7 @@
 <ul>
 {section name=Result loop=$DeleteResult}
     {section show=$Result:item.childCount|gt(0)}
-        <li>{"%nodename and it's %childcount children. %additionalwarning"
+        <li>{"%nodename and its %childcount children. %additionalwarning"
              |i18n( 'design/standard/node',,
                     hash( '%nodename', $Result:item.nodeName,
                           '%childcount', $Result:item.childCount,

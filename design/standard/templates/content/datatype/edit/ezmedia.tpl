@@ -206,7 +206,7 @@
 <p class="box">{$attribute.content.filename}</p>
 </div>
 <div class="element">
-<label>{"Existing orignal filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Existing original filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.original_filename}</p>
 </div>
 <div class="element">

@@ -31,7 +31,7 @@
     <h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name|wash}</h1>
     </div>
 
-    <p>{'To select objects, choose the appriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
+    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
     <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n("design/standard/content/view")}</p>
 {/section}
 
