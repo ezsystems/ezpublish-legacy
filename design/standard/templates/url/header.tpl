@@ -4,7 +4,6 @@
                      hash(id,'valid',url,"url/list/valid",name,"Valid"|i18n('design/standard/url')),
                      hash(id,'invalid',url,"url/list/invalid",name,"Invalid"|i18n('design/standard/url')))}
 
-
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
   <th colspan="{$view_list|count}">
