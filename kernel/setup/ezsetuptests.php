@@ -48,6 +48,7 @@ function eZSetupTestTable()
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
+                  'zlib_extension' => array( 'eZSetupTestExtension' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ) );

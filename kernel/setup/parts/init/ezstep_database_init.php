@@ -178,6 +178,9 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         if ( $dbStatus['connected'] )
         {
             $template = "design:setup/init/database_check.tpl";
+            $persistenceList['demo_data']['can_unpack'] = true;
+            if ( !extension_loaded( 'zlib' ) )
+                $persistenceList['demo_data']['can_unpack'] = false;
             if ( !isset( $persistenceList['demo_data']['use'] ) )
                 $persistenceList['demo_data']['use'] = false;
             if ( $http->hasPostVariable( 'eZSetupDemoData' ) )
@@ -221,7 +224,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
                     $file = $setupINI->variable( 'DemoSettings', 'DataFile' );
 
                     //require_once( "lib/ezsetup/classes/PEAR.php" );
-                    require_once( "lib/ezsetup/classes/Tar.php" );
+                    require_once( "kernel/setup/Tar.php" );
                     $tarObject = new Archive_Tar( $file, true );
                     $tarObject->setErrorHandling( PEAR_ERROR_PRINT );
 
