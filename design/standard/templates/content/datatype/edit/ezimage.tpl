@@ -14,7 +14,7 @@
 {section show=or($attribute.content,$attribute.content.filename)}
 
 <div class="block">
-<img src={$attribute.content.full_path|ezroot} alt="" />
+<img src={$attribute.content.small.full_path|ezroot} alt="" />
 </div>
 
 <div class="buttonblock">
