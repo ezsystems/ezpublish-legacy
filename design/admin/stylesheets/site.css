@@ -337,7 +337,10 @@ div#rightmenu div.box-content
 div#contentstructure
 {
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
+    overflow: -moz-scrollbars-horizontal;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 div#contentstructure
@@ -544,7 +547,7 @@ div.mainobject-window
     margin: 0 1px 0 1px;    
     padding: 0 0.5em 0 0.5em;
     border: 6px solid #ecece4;
-    overflow: scroll;
+    overflow: auto;
 }
 
 div.menu-block
