@@ -30,8 +30,8 @@
 <div class="warning">
 <h2>{"Unable to create new version"|i18n("design/standard/content/version")}</h2>
 <ul>
-    <li>{"Version history limit has been excessed and no archived version can be removed by the system."|i18n("design/standard/content/version")}</li>
-    <li>{"You can change your setting about version history in content.ini, remove draft versions or edit existing drafts."|i18n("design/standard/content/version")}</li>
+    <li>{"Version history limit has been exceeded and no archived version can be removed by the system."|i18n("design/standard/content/version")}</li>
+    <li>{"You can change your version history settings in content.ini, remove draft versions or edit existing drafts."|i18n("design/standard/content/version")}</li>
 </ul>
 </div>
 {/case}

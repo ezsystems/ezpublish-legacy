@@ -3,7 +3,7 @@
 <label>{"Default name"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" name="ContentClass_ezmatrix_default_name_{$class_attribute.id}" value="{$class_attribute.data_text1|wash}" size="30" maxlength="60" /><br/>
 
-<label>{"Default naumber of rows"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
+<label>{"Default number of rows"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 <input type="text" name="ContentClass_ezmatrix_default_num_rows_{$class_attribute.id}" value="{$class_attribute.data_int1|wash}"  size="8" maxlength="20" />
 
 </div>

@@ -312,12 +312,8 @@
         <translation>Foretrukket antall rader</translation>
     </message>
     <message>
-        <source>Default naumber of rows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Matrix Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Matrisekolonne</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -341,19 +337,23 @@
     </message>
     <message>
         <source>New objects will not be placed in the content tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Nye objekter blir ikke plassert i innholdstreet</translation>
     </message>
     <message>
         <source>Select placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg plassering</translation>
     </message>
     <message>
         <source>Disable placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke bruk plassering</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation type="unfinished"></translation>
+        <translation>Nye objekter blir plassert i %nodename</translation>
+    </message>
+    <message>
+        <source>Default number of rows</source>
+        <translation>Standard antall rader</translation>
     </message>
 </context>
 <context>
@@ -818,7 +818,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis du fjerner &apos;%1&apos;, blir denne oversettelsen og %2 oversatte versjoner fjernet!</translation>
     </message>
 </context>
 <context>
@@ -1653,12 +1653,12 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Kunne ikke lage ny versjon</translation>
     </message>
     <message>
-        <source>Version history limit has been excessed and no archived version can be removed by the system.</source>
-        <translation type="unfinished"></translation>
+        <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
+        <translation>Grensen for versjonshistorien er nådd, og ingen arkiverte versjoner kan bli fjernet av systemet.</translation>
     </message>
     <message>
-        <source>You can change your setting about version history in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation type="unfinished"></translation>
+        <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
+        <translation>Du kan endre instillingene for versjonshistorien i content.ini, fjerne utkastversjoner eller redigere eksisterende utkast.</translation>
     </message>
 </context>
 <context>
@@ -1756,7 +1756,10 @@ If you wish to send comments to the approver or view the status use the URL belo
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette er objektene du har laget bokmerker for. Klikk et objekt for å se på det, eller hvis du har rettigheter til det kan du redigere objektet ved å klikke rediger-knappen.
+Hvis du vil legge til flere objekter i denne listen, klikk %addbutton-knappen.
+
+Når du fjerner bokmerker blir ikke objektene de refererer til fjernet.</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
