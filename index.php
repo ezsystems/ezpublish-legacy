@@ -455,26 +455,6 @@ while ( $moduleRunRequired )
         }
     }
 
-    // Store the last URI for access history for login redirection
-    // Only if database is connected
-    if ( is_object( $db ) and $db->isConnected() )
-    {
-        $currentURI = $uri->uriString( true );
-        $lastAccessedURI = "";
-        $http =& eZHTTPTool::instance();
-        if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-            $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
-        if ( $currentURI != $lastAccessedURI )
-        {
-            // We remember the last URI unless it is content/action or user/preferences
-            if ( !preg_match( "#^(/content/action/.*|/user/preferences/.*)$#", $currentURI  ) or
-                 $currentURI === '/' )
-            {
-                $http->setSessionVariable( "LastAccessesURI", $currentURI );
-            }
-        }
-    }
-
     $moduleCheck = accessAllowed( $uri );
     if ( !$moduleCheck['result'] )
     {
@@ -797,6 +777,25 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
     eZExecution::cleanExit();
 }
+
+// Store the last URI for access history for login redirection
+// Only if database is connected and only if there was no error or no redirects happen
+if ( is_object( $db ) and $db->isConnected() and
+     $module->exitStatus() == EZ_MODULE_STATUS_OK )
+{
+    $currentURI = $uri->uriString( true );
+    $lastAccessedURI = "";
+    $http =& eZHTTPTool::instance();
+    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+    {
+        $lastAccessedURI = $http->sessionVariable( "LastAccessesURI" );
+    }
+    if ( $currentURI != $lastAccessedURI )
+    {
+        $http->setSessionVariable( "LastAccessesURI", $currentURI );
+    }
+}
+
 
 eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
 if ( !is_array( $moduleResult ) )
