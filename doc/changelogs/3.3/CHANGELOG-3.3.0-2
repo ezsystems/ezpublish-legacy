@@ -109,6 +109,9 @@ Changes from 3.3.0-1 to 3.3.0-2
 - Changed the caching of user information and user groups in sessions, the new method uses arrays
   and is easier to cleanup.
 
+*RSS:
+- Removed siteaccess from rss export.
+
 *Setup:
 - Added check for specific unstable PHP versions. ( merged from stable 4425 )
 

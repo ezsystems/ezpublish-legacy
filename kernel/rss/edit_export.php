@@ -137,11 +137,11 @@ else // New RSSExport
     $user_id = $user->attribute( "contentobject_id" );
 
     // Create default rssExport object to use
-    $rssExport =& eZRSSExport::create( $user_id );
+    $rssExport = eZRSSExport::create( $user_id );
     $rssExport->store();
     $rssExportID = $rssExport->attribute( 'id' );
 
-    // Create Obne empty export item
+    // Create One empty export item
     $rssExportItem = eZRSSExportItem::create( $rssExportID );
     $rssExportItem->store();
 }
@@ -150,7 +150,7 @@ $tpl =& templateInit();
 
 // Populate site access list
 $config =& eZINI::instance( 'site.ini' );
-$siteAccess = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+//$siteAccess = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );
 $rssDefaultVersion = $config->variable( 'RSSSettings', 'DefaultVersion' );
 
@@ -159,7 +159,7 @@ $classArray =& eZContentClass::fetchList();
 
 $tpl->setVariable( 'rss_version_array', $rssVersionArray );
 $tpl->setVariable( 'rss_version_default', $rssDefaultVersion );
-$tpl->setVariable( 'rss_site_access', $siteAccess );
+//$tpl->setVariable( 'rss_site_access', $siteAccess );
 $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_export', $rssExport );
 $tpl->setVariable( 'rss_export_id', $rssExportID );

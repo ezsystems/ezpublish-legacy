@@ -117,7 +117,7 @@ class eZRSSExport extends eZPersistentObject
                                          'access_url' => array( 'name' => 'AccessURL',
                                                                 'datatype' => 'string',
                                                                 'default' => 'rss_feed',
-                                                                'required' => true ) ),
+                                                                'required' => false ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "sort" => array( "title" => "asc" ),
@@ -146,7 +146,7 @@ class eZRSSExport extends eZPersistentObject
                       'creator_id' => $user_id,
                       'created' => $dateTime,
                       'status' => 0,
-                      'url' => 'http://'.$config->variable( 'SiteSettings', 'SiteURL' ),
+                      'url' => 'http://'. eZSys::hostname() . (eZSys::serverPort() != 80 ? ':'. eZSys::serverPort(): '' ) . eZSys::indexDir( false ),
                       'description' => '',
                       'image_id' => 0,
                       'active' => 0,
@@ -379,7 +379,7 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'.$this->attribute( 'site_access' ).'/';
+        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
@@ -496,7 +496,7 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'.$this->attribute( 'site_access' ).'/';
+        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
@@ -546,7 +546,7 @@ class eZRSSExport extends eZPersistentObject
 
                 $itemTitle =& $doc->createElementNode( 'title' );
                 $title =& $object->attribute( $rssItem->attribute( 'title' ) );
-                if ( $title != null ) // TODO : find out why title is NULL some times ... feed, kake
+                if ( $title != null ) // TODO : find out why title is NULL some times ... feed
                 {
                     $titleContent =& $title->attribute( 'content' );
                     if ( get_class( $titleContent ) == 'ezxmltext' )

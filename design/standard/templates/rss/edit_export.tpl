@@ -27,7 +27,7 @@
     <br/>
 
 
-    <label>{"Site Access"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
+{*    <label>{"Site Access"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     <select name="SiteAccess">
 
     {section name=SiteAccess loop=$rss_site_access }
@@ -36,9 +36,9 @@
       selected="selected"
     {/section} value="{$:item}">{$:item|wash}</option>
     {/section}
-    </select>
+    </select> 
 
-    <br/>
+    <br/> *}
 
     <label>{"RSS version"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
 

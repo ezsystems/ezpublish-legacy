@@ -50,7 +50,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
     $rssExport =& eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ) );
     $rssExport->setAttribute( 'title', $http->postVariable( 'title' ) );
     $rssExport->setAttribute( 'url', $http->postVariable( 'url' ) );
-    $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
+//    $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );
     $rssExport->setAttribute( 'description', $http->postVariable( 'Description' ) );
     $rssExport->setAttribute( 'rss_version', $http->postVariable( 'RSSVersion' ) );
     $rssExport->setAttribute( 'image_id', $http->postVariable( 'RSSImageID' ) );
