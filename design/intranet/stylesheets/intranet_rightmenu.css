@@ -17,60 +17,7 @@ body
 { 
   background-color: #0078a2;
   width: 100%; 
-  height: 100px; 
-}
-
-#topmenu
-{ 
-  background-color: #cccccc;
-  width: 100%; 
-  height: 30px; 
-  position: absolute;
-  top: 100px;
-  left: 0px;
-}
-
-#mainpath
-{ 
-  background-color: #ffffff;
-  width: 100%; 
-  height: 25px; 
-  position: absolute;
-  top: 130px;
-  left: 0px;
-}
-
-#mainframe
-{ 
-  background-color: #ffffff;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 155px;
-  left: 0px;
-}
-
-#mainmenu
-{ 
-  width: 20%;
-  float: right;
-  clear: right;
-  margin: 20px 15px 10px 10px; 
-}
-
-#mainarea
-{ 
-  width: 65%;
-  float: left;
-  clear: right;
-  margin: 20px 15px 10px 10px;
-}
-
-#copyright
-{ 
-  width: 100%;
-  position: absolute;
-  bottom: 15px;
+  height: 100px;
 }
 
 #logo
@@ -95,6 +42,51 @@ body
   float: left;
   background: transparent url("/design/intranet/images/06_intranet_logo.png") no-repeat;
 }
+
+#topmenu
+{ 
+  background-color: #cccccc;
+  width: 100%; 
+  min-height: 35px;  
+}
+
+#mainpath
+{ 
+  background-color: #ffffff;
+  width: 100%; 
+  height: 25px;
+}
+
+#mainframe
+{ 
+  background-color: #ffffff;	
+  min-height: 400px;
+  width: 100%;
+}
+
+#mainmenu
+{ 
+  width: 20%;
+  float: right;
+  clear: right;
+  margin: 20px 15px 10px 10px; 
+}
+
+#mainarea
+{ 
+  width: 65%;
+  float: left;
+  clear: right;
+  margin: 20px 15px 10px 10px;
+}
+
+#footer
+{ 
+   clear:both; 
+   margin-top: 20px;
+   background-color: #ffffff;
+}
+
 
 h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
 {

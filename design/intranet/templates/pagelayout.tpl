@@ -7,7 +7,7 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-{*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_red.css"|ezdesign} />*}
+{*<link rel="stylesheet" type="text/css" href={"stylesheets/intranet_rightmenu.css"|ezdesign} />*}
 <link rel="stylesheet" type="text/css" href="/{$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")}" />
 {*<link rel="stylesheet" type="text/css" href="/var/intranet/storage/packages/intranet2/files/default/file/design/intranet/stylesheets/intranet_blue.css" />*}
 <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
@@ -60,7 +60,6 @@
 </head>
 
 <body>
-
 <div id="container">
     {* Top box START *}
     <div id="topbox">
@@ -215,18 +214,21 @@
 
     <div id="mainarea">
     {$module_result.content}
+    
     </div>
     
-    <div id="copyright">
-<p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
-</div>
+    </div>
+    
     {* Main area END *}
-</div>
+
 {* Main part END *}
 
-<div id="copyright">
-<p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
+{* Footer START *}
+<div id="footer" align="center">
+    <p class="small"><a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a></p>
 </div>
+{* Footer END *}
+
 </div>
 <!--DEBUG_REPORT-->
 
