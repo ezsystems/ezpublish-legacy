@@ -1732,7 +1732,7 @@ class eZPDFTable extends Cezpdf
         {
             if ( $params['yOffset'] == -1 )
             {
-                $params['y'] += $this->getFontHeight( $this->fontSize() )/2;
+                $params['y'] += $this->getFontHeight( $this->fontSize() )/2 - $params['radius'];
             }
             else
             {
