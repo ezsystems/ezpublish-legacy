@@ -5,3 +5,5 @@ A: This is because our template engine treat the { and } characters as special
    characters and expects template specific code. You need to use the {literal}
    function to make sure the javascripts are parsed correctly. Place {literal}
    before the javascripts and {/literal} after.
+
+
