@@ -31,7 +31,7 @@
 <blockquote class="note">
 <p>
  <b>{"Note:"|i18n("design/standard/setup/init")}</b>
- {"Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation."|i18n("design/standard/setup/init")}
+ {"Sending out the email and generating your site will take about 10 to 30 seconds depending on your machine. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
 <br/>
