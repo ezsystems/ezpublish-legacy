@@ -89,6 +89,7 @@ selected="selected"
 &nbsp;
 
 {/section}
+
 <input class="smallbutton" type="submit" name="SelectClass" value="{'Update attributes'|i18n('design/standard/content/search')}"/>
 </div>
 
@@ -145,8 +146,6 @@ selected="selected"
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
-
-{section show=$search_text}
 <br/>
 {switch name=Sw match=$search_count}
   {case match=0}
@@ -164,7 +163,6 @@ selected="selected"
 {include name=Result
          uri='design:content/searchresult.tpl'
          search_result=$search_result}
-{/section}
 
 {include name=navigator
          uri='design:navigator/google.tpl'
