@@ -2919,23 +2919,18 @@ else
 
                 // This code is used a lot so we create a variable for it
                 $phpVar = "\$$variableAssignmentName";
-                $indexName = "'" . $variableDataItem[1][0][1] . "'";
+                $indexName = "'{$variableDataItem[1][0][1]}'";
 
                 // Add sanity checking
-                $code .= ( "if ( !is_array( \$$variableAssignmentName ) )\n" .
+                $code .= ( "if ( !isset( {$phpVar}[{$indexName}] ) )\n" .
                            "{\n" .
-                           "    \$tpl->error( \"PHP variable $phpVar is not array, cannot do array lookup\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
-                           "    $phpVar = null;\n" .
-                           "}\n" .
-                           "else if ( !array_key_exists( $indexName, $phpVar ) )\n" .
-                           "{\n" .
-                           "    \$tpl->error( \"PHP variable $phpVar does not contain index $indexName, cannot fetch the value.\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
+                           "    \$tpl->error( 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "', \"PHP variable \\$phpVar"."[{$indexName}] does not exist, cannot fetch the value.\" );\n" .
                            "    $phpVar = null;\n" .
                            "}\n" .
                            "else\n    " );
 
                 // Add the actual code
-                $code .= "$phpVar = $phpVar" . "[" . $indexName . "];\n";
+                $code .= "$phpVar = {$phpVar}[{$indexName}];\n";
 
                 $php->addCodePiece( $code );
             }
@@ -2944,9 +2939,13 @@ else
                 $code = ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/\n" ) : "" );
                 $code .= <<<END
 if ( !is_object( \${$variableAssignmentName} ) )
-{ \${$variableAssignmentName} = null; }
+{
+    \${$variableAssignmentName} = null;
+}
 else if ( \${$variableAssignmentName}->hasAttribute( "{$variableDataItem[1][0][1]}" ) )
-{ \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" ); }
+{
+    \${$variableAssignmentName} = \${$variableAssignmentName}->attribute( "{$variableDataItem[1][0][1]}" );
+}
 
 END;
                 $php->addCodePiece($code);
@@ -2962,14 +2961,14 @@ END;
                 // Add sanity checking
                 $code .= ( "if ( !is_object( $phpVar ) )\n" .
                            "{\n" .
-                           "    \$tpl->error( \"PHP variable $phpVar is not an object, cannot fetch content()\", 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "' );\n" .
+                           "    \$tpl->error( 'eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ) . "', \"PHP variable \\$phpVar is not an object, cannot fetch content()\" );\n" .
                            "    $phpVar = null;\n" .
                            "}\n" .
                            "else\n" .
                            "    " );
 
                 // Add the actual code
-                $code .= "$phpVar = $phpVar" . "->content();\n";
+                $code .= "$phpVar = {$phpVar}->content();\n";
 
                 $php->addCodePiece( $code );
             }
