@@ -57,6 +57,11 @@ div#toolbar-design
     margin: 0;
 }
 
+div#toolbar-top div.toolbar-item input.searchinput
+{
+    height: 20px;
+}
+
 div#toolbar-top div.toolbar-item
 {
     border-right: 1.5px solid #339999;
