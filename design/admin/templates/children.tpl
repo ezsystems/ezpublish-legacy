@@ -47,7 +47,7 @@ function toggleCheckboxes( formname, checkboxname )
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
 
-<h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level'|i18n( 'design/standard/node/view' )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
+<h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level'|i18n(  'design/admin/node/view/full'  )}" /><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
 
 
 {* If there are children: show list and buttons that belong to the list. *}
@@ -83,23 +83,23 @@ function toggleCheckboxes( formname, checkboxname )
 </div>
 <div class="right">
         <p>
-        {switch match=ezpreference( 'viewmode' )}
+        {switch match=ezpreference( 'admin_children_viewmode' )}
         {case match='thumbnail'}
-        <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>List</a>
         <span class="current">Thumbnail</span>
-        <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
 
         {case match='detailed'}
-        <a href={'/user/preferences/set/viewmode/list'|ezurl}>List</a>
-        <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl}>List</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>Thumbnail</a>
         <span class="current">Detailed</span>
         {/case}
 
         {case}
         <span class="current">List</span>
-        <a href={'/user/preferences/set/viewmode/thumbnail'|ezurl}>Thumbnail</a>
-        <a href={'/user/preferences/set/viewmode/detailed'|ezurl}>Detailed</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl}>Thumbnail</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl}>Detailed</a>
         {/case}
         {/switch}
         </p>
@@ -127,7 +127,7 @@ function toggleCheckboxes( formname, checkboxname )
 
 
 {* Display the actual list of nodes. *}
-{switch match=ezpreference( 'viewmode' )}
+{switch match=ezpreference( 'admin_children_viewmode' )}
 
 {case match='thumbnail'}
     {include uri='design:children_thumbnail.tpl'}
@@ -162,18 +162,18 @@ function toggleCheckboxes( formname, checkboxname )
     {* Remove button *}
     <div class="left">
     {section show=$can_remove}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/node/view/full')}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/node/view/full')}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
     </div>
 
     <div class="right">
     {* Update priorities button *}
     {section show=and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/admin/node/view/full')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/admin/node/view/full')}" title="{'You can not update the priorities because you do not have permissions to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You can not update the priorities because you do not have permissions to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
     </div>
 
