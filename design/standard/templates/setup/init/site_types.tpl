@@ -34,13 +34,8 @@
             {/section}
             </label>
       </td>
-    {delimiter modulo=4}
+      {delimiter modulo=4}
       </tr>
-      <tr>
-      </tr>
-	  <td colspan="4">
-	    &nbsp;
-	  </td>
       <tr>
       {section var=site2 loop=$site_types max=4}
 	  <td align="bottom" class="normal">
@@ -51,7 +46,12 @@
       {/section}
       </tr>
       <tr>
-    {/delimiter}
+	  <td colspan="4">
+	    &nbsp;
+	  </td>
+      </tr>
+      <tr>
+      {/delimiter}
     {/section}
     </tr>
 
