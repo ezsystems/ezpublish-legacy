@@ -44,6 +44,7 @@ $branches[] = '3.1';
 $branches[] = '3.2';
 $branches[] = '3.3';
 $branches[] = '3.4';
+$branches[] = '3.5';
 
 /********************************************************
 *** NOTE: The following arrays do not follow the
@@ -99,11 +100,20 @@ $versions34 = array( 'unstable' => array( array( '3.3-3', '3.4.0alpha1' )
 		                                ,array( '3.4.3', '3.4.4' )
 		                                ,array( '3.4.4', '3.4.5' )
                                         ) );
+$versions35 = array( 'unstable' => array( array( '3.4.2', '3.5.0alpha1' )
+                                          ,array( '3.5.0alpha1', '3.5.0beta1' )
+                                          ,array( '3.5.0beta1', '3.5.0rc1' )
+                                          ,array( '3.5.0rc1', '3.5.0rc2' )
+                                          ),
+                     'unstable_subdir' => 'unstable',
+                     'stable' => array( ) );
+
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
 $versions['3.2'] = $versions32;
 $versions['3.3'] = $versions33;
 $versions['3.4'] = $versions34;
+$versions['3.5'] = $versions35;
 
 $fileList = array();
 $missingFileList = array();
