@@ -145,7 +145,7 @@ class eZProductCollectionItem extends eZPersistentObject
         return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
                                                 null,
                                                 array( "id" => $id
-                                                      ),
+                                                       ),
                                                 $asObject );
     }
 
@@ -183,7 +183,6 @@ class eZProductCollectionItem extends eZPersistentObject
     function discountPercent()
     {
         $discount = false;
-
         return $discount;
     }
 
@@ -196,7 +195,6 @@ class eZProductCollectionItem extends eZPersistentObject
         {
             $this->ContentObject =& eZContentObject::fetch( $this->ContentObjectID );
         }
-
         return $this->ContentObject;
     }
 
@@ -218,30 +216,46 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function calculatePriceWithOptions()
     {
-         $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-         $contentObject =& $this->contentObject();
-         $contentObjectVersion =& $contentObject->attribute( 'current_version' );
-         $optionsPrice = 0.0;
-         foreach( $optionList as $option )
-         {
-             $objectAttribute =& eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
-             if ( $objectAttribute == null )
-             {
-                 $optionsPrice += 0.0;
-                 continue;
-             }
-             $optionContent = $objectAttribute->content();
-             $optionContentItems =& $optionContent->attribute( 'option_list' );
-             $optionFound = false;
-             foreach( $optionContentItems as $optionContentItem )
-             {
-                 if ( $optionContentItem['id'] == $option->attribute( 'option_item_id' ) &&
-                      $optionContent->name() == $option->attribute( 'name' ) &&
-                      $optionContentItem['value'] == $option->attribute( 'value' ) )
-                 {
-
-                     $optionFound = true;
-                     $optionsPrice += $optionContentItem['additional_price'];
+        $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+        $contentObject =& $this->contentObject();
+        $contentObjectVersion =& $contentObject->attribute( 'current_version' );
+        $optionsPrice = 0.0;
+        foreach( $optionList as $option )
+        {
+            $objectAttribute =& eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
+            if ( $objectAttribute == null )
+            {
+                $optionsPrice += 0.0;
+                continue;
+            }
+            $optionContent = $objectAttribute->content();
+            $optionContentItems =& $optionContent->attribute( 'option_list' );
+            $optionFound = false;
+            if( is_null( $optionContentItems ) )
+            {
+                $multioptionContentItems =& $optionContent->attribute( 'multioption_list' );
+                foreach( $multioptionContentItems as $multioptionContentItem )
+                {
+                    foreach( $multioptionContentItem['optionlist'] as $optionItem )
+                    {
+                        {
+                            if( $optionItem['option_id'] == $option->attribute( 'option_item_id' ) )
+                            {
+                                $optionsPrice += $optionItem['additional_price'];
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach( $optionContentItems as $optionContentItem )
+                {
+                    if ( $optionContentItem['id'] == $option->attribute( 'option_item_id' ) &&
+                         $optionContent->name() == $option->attribute( 'name' ) &&
+                         $optionContentItem['value'] == $optionList[0]->attribute( 'value' ) )
+                        $optionFound = true;
+                    $optionsPrice += $optionContentItem['additional_price'];
 
 /*                     if ( $optionContentItem[ 'additional_price' ] == $option->attribute( 'price' ) )
                      {
@@ -255,11 +269,10 @@ class eZProductCollectionItem extends eZPersistentObject
 
                      }
 */
-                 }
-
-             }
-         }
-         return $optionsPrice;
+                }
+            }
+        }
+        return $optionsPrice;
     }
 
     function verify()

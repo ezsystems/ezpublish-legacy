@@ -51,10 +51,14 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 $basket =& eZBasket::currentBasket();
 $basket->updatePrices();
 
+
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
+
     $optionList =& $http->postVariable( "eZOption" );
+    $multiOptionList =& $http->postVariable("eZMultiOption");
+
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );
     $http->setSessionVariable( "FromPage", "/content/view/full/" . $nodeID . "/" );
@@ -64,7 +68,6 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     foreach ( $attributes as $attribute )
     {
         $dataType =& $attribute->dataType();
-
         if ( $dataType->isA() == "ezprice" )
         {
             $priceObj =& $attribute->content();
@@ -74,9 +77,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 
     $basket =& eZBasket::currentBasket();
     $sessionID = $http->sessionID();
-
     $item =& eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
-
     $item->setAttribute( "contentobject_id", $objectID );
     $item->setAttribute( "item_count", 1 );
     $item->setAttribute( "price", $price );
@@ -92,33 +93,62 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
     $item->store();
     $priceWithoutOptions = $price;
-    eZDebug::writeDebug( $optionList, 'optionlist' );
-    foreach ( array_keys( $optionList ) as $key )
+    if(is_null($multiOptionList))
     {
-        $attributeID = $key;
-        $optionSelected = $optionList[$key];
-        $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-        $option =& $attribute->attribute( 'content' );
-        eZDebug::writeDebug( $option->attribute( 'option_list' ), "optionitems" );
-        foreach( $option->attribute( 'option_list' ) as $optionArray )
+        eZDebug::writeDebug( $optionList, 'optionlist' );
+        foreach ( array_keys( $optionList ) as $key )
         {
-            if( $optionArray['id'] == $optionSelected )
+            $attributeID = $key;
+            $optionSelected = $optionList[$key];
+            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+            $option =& $attribute->attribute( 'content' );
+            eZDebug::writeDebug( $option->attribute( 'option_list' ), "optionitems" );
+            foreach( $option->attribute( 'option_list' ) as $optionArray )
             {
-                $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
-                                                                      $optionArray['value'], $optionArray['additional_price'], $attributeID );
-                $optionItem->store();
-                $price += $optionArray['additional_price'];
-                break;
+                if( $optionArray['id'] == $optionSelected )
+                {
+                    $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
+                                                                          $optionArray['value'], $optionArray['additional_price'], $attributeID );
+                    $optionItem->store();
+                    $price += $optionArray['additional_price'];
+                    break;
+                }
             }
         }
+    }
+    else
+    {
+        eZDebug::writeDebug( $multiOptionList, 'multioptionlist' );
+        foreach( array_keys( $multiOptionList ) as $key )
+        {
+            list( $attributeID, $multioptionID ) = explode( '_', $key, 2 );
+            $optionID = $multiOptionList[$key];
+            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+            $multioption =& $attribute->attribute( 'content' );
+            eZDebug::writeDebug( $multioption->attribute( 'multioption_list' ), "optionitems" );
+            foreach( $multioption->attribute('multioption_list') as $multioptionElement )
+            {
+                if ( $multioptionElement['id'] == $multioptionID )
+                {
+                    foreach ( $multioptionElement['optionlist'] as $option )
+                    {
+                        if($option['id'] == $optionID )
+                        {
+                            $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $option['option_id'], $multioption->attribute( 'name' ),                                                                                 $option['value'], $option['additional_price'], $attributeID );
+                            $optionItem->store();
+                            $price += $option['additional_price'];
+                        }
+                    }
+                }
+            }
 
+        }
     }
     if ( $price != $priceWithoutOptions )
     {
         $item->setAttribute( "price", $price );
         $item->store();
     }
-
     $module->redirectTo( "/shop/basket/" );
     return;
 }
@@ -127,7 +157,6 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
-
     $i = 0;
     foreach ( $itemIDList as $id )
     {
@@ -137,7 +166,6 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
             $item->setAttribute( "item_count", $itemCountList[$i] );
             $item->store();
         }
-        
 
         $i++;
     }
@@ -282,13 +310,12 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         }
     }
 }
-
 $basket =& eZBasket::currentBasket();
+
 $tpl =& templateInit();
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 $tpl->setVariable( "module_name", 'shop' );
-
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,

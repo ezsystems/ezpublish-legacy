@@ -31,7 +31,9 @@
             <tr>
                 <td>
                     <input type="hidden" name="{$attribute_base}_data_option_id_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" />
-                    {section show=eq(sum($OptionList.index,1),$MultiOptionList.default_value)}
+             <input type="hidden" name="{$attribute_base}_data_option_option_id_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.option_id}" />
+
+                    {section show=eq(sum($OptionList.index,1),$MultiOptionList.default_option_id)}
                         <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" checked="checked" />
                     {section-else}
                         <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" />
