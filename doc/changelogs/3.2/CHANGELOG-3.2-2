@@ -47,6 +47,8 @@ eZURL:
 *Optimizations:
 
 *Bugfixes:
+- Added the missing include.
+  http://ez.no/developer/ez_publish_3/bug_reports/cant_remove_objects_undefined_class_name_ezurlalias
 
 *Files:
 - Made sure ezpublish.cron is included in the release (Was missing in 3.2-1).
