@@ -245,12 +245,53 @@ class eZSearchEngine
                 }
             }
 
+            $searchWordArray = $this->splitString( $searchText );
+            $tempTableCount = 1;
+            if( ( count( $searchWordArray )> 1 ) and ( count( $phraseTextArray ) == 0 ) )
+            {
+                foreach ( $searchWordArray as $searchWord )
+                {
+                    $tableName = "tmptable".$tempTableCount;
+                    $db->query( "CREATE TEMPORARY TABLE $tableName SELECT DISTINCT ezcontentobject.*,
+                                                                 ezsearch_object_word_link.frequency
+                                                 FROM ezcontentobject,ezsearch_object_word_link, ezsearch_word
+                                                 WHERE word='$searchWord'
+                                                      AND ezcontentobject.id=ezsearch_object_word_link.contentobject_id
+                                                      AND ezsearch_word.id=ezsearch_object_word_link.word_id
+                                                 ORDER BY ezsearch_object_word_link.frequency" );
+                    $tempTableCount++;
+                }
+                $table = "tmptable1, ";
+                $condition = "WHERE ";
+                for ( $i=2;$i<$tempTableCount;$i++ )
+                {
+                    if ( $i == ( $tempTableCount-1 ) )
+                    {
+                        $table .= "tmptable". $i ." ";
+                        $condition .= " tmptable". $i .".id = tmptable1.id";
+                    }else
+                    {
+                        $table .= "tmptable". $i .", ";
+                        $condition .= "tmptable". $i .".id = tmptable1.id AND";
+                    }
+                }
+                $searchCount = 0;
+                $finalRes =& $db->arrayQuery( "SELECT * FROM $table $condition" );
+                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT tmptable1.id ) as count FROM $table $condition" );
+                $searchCount = $countRes[0]['count'];
+                for ( $i=1;$i<$tempTableCount;$i++ )
+                {
+                    $tableName = "tmptable".$i;
+                    $db->query ("DROP TABLE $tableName ");
+                }
+                return array( "SearchResult" => $finalRes,
+                              "SearchCount" => $searchCount );
+            }
+
             // Get the total number of objects
             $objectCount = array();
             $objectCount =& $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
             $totalObjectCount = $objectCount[0]["count"];
-
-            $searchWordArray = $this->splitString( $searchText );
 
             // fetch the word id
             $i = 0;
