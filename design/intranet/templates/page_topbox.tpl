@@ -12,7 +12,7 @@
 	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
     </td>
     <td class="topline" align="right" width="40%" background={"06_intranet_background_repeat.png"|ezimage} >
-<img src="/design/intranet/images/06_intranet_logo.png" />
+<img src={"06_intranet_logo.png"|ezimage} />
     </td>
 </tr>
 </table>
