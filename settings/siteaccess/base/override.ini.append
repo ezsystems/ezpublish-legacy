@@ -98,4 +98,55 @@ Subdir=templates
 Match[class]=1
 Match[classification]=subtree
 
-# OTHER TEMPLATES
+# Forum templates
+
+[forum_full]
+Source=node/view/full.tpl
+MatchFile=full/forum.tpl
+Subdir=templates
+Match[class_identifier]=forum
+
+[forum_line]
+Source=node/view/line.tpl
+MatchFile=line/forum.tpl
+Subdir=templates
+Match[class_identifier]=forum
+
+[forum_topic_full]
+Source=node/view/full.tpl
+MatchFile=full/forum_topic.tpl
+Subdir=templates
+Match[class_identifier]=forum_topic
+
+[forum_topic_line]
+Source=node/view/line.tpl
+MatchFile=line/forum_topic.tpl
+Subdir=templates
+Match[class_identifier]=forum_topic
+
+[forum_reply_full]
+Source=node/view/full.tpl
+MatchFile=full/forum_reply.tpl
+Subdir=templates
+Match[class_identifier]=forum_reply
+
+[forum_reply_line]
+Source=node/view/line.tpl
+MatchFile=line/forum_reply.tpl
+Subdir=templates
+Match[class_identifier]=forum_reply
+
+
+# Weblog templates
+
+[weblog_full]
+Source=node/view/full.tpl
+MatchFile=full/weblog.tpl
+Subdir=templates
+Match[class_identifier]=weblog
+
+[weblog_line]
+Source=node/view/line.tpl
+MatchFile=line/weblog.tpl
+Subdir=templates
+Match[class_identifier]=weblog
