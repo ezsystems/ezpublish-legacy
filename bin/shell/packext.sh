@@ -17,6 +17,10 @@ function show_help
             echo "By default (i.e. without --svn option) extension is searched "
             echo "in extension/<EXTENSION-IDENTIFIER> directory."
             echo
+            echo "Make sure that the SVN-property ez:distribution is set to 'full'"
+            echo "for the files that are supposed to be included in the distribution,"
+            echo "if you use --svn"
+            echo 
             echo "Examples:"
             echo " $0 ezforum"
             echo " $0 --svn http://svn.server.com/projects/ezforum/"
