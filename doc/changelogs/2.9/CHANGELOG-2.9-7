@@ -61,6 +61,7 @@ Changes from 2.9-6 to 2.9-7
 - Added possibility to limit user to have acces to different siteaccesses
 - New object forward template functions, content_version_view_gui,
   collaboration_view_gui and collaboration_icon.
+- Added clearing of cache when object is deleted
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
