@@ -16,10 +16,14 @@
 </div>
 
 <div class="controlbar">
-    <div class="block">
-        <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" />
-        <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/workflow/workflowlist' )}" />
-    </div>
+<div class="block">
+<form action={'workflow/grouplist'|ezurl} method="post" name="GroupList">
+    <input type="hidden" name="ContentClass_id_checked[]" value="{$group.id}" />
+    <input type="hidden" name="EditGroupID" value="{$group.id}" />
+    <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" />
+    <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove'|i18n( 'design/admin/workflow/workflowlist' )}" />
+</form>
+</div>
 </div>
 
 </div>

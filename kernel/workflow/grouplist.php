@@ -87,6 +87,12 @@ $Module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
+if ( $http->hasPostVariable( "EditGroupButton" ) && $http->hasPostVariable( "EditGroupID" ) )
+{
+    $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $http->postVariable( "EditGroupID" ) );
+    return;
+}
+
 if ( $http->hasPostVariable( "NewGroupButton" ) )
 {
     $params = array();
