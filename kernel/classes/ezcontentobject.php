@@ -998,7 +998,7 @@ class eZContentObject extends eZPersistentObject
         {
             $contentActionList = array_merge( $attribute->contentActionList(), $contentActionList );
         }
-//        $contentActionList = array_unique( $contentActionList );
+        $contentActionList = array_unique( $contentActionList );
         return $contentActionList;
     }
 

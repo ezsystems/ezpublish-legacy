@@ -108,6 +108,8 @@ class eZTextType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+
+            print( $data );
             $contentObjectAttribute->setAttribute( "data_text", $data );
         }
     }
@@ -167,6 +169,21 @@ class eZTextType extends eZDataType
     function isInformationCollector()
     {
         return true;
+    }
+
+    /*!
+     \reuturn the collect information action if enabled
+    */
+    function contentActionList( &$classAttribute )
+    {
+        if ( $classAttribute->attribute( 'is_information_collector' ) == true )
+        {
+            return array( array( 'name' => 'Send',
+                                 'action' => 'ActionCollectInformation'
+                                 ) );
+        }
+        else
+            return array();
     }
 
     /*!

@@ -53,23 +53,28 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $unvalidatedAttributes = array();
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
-        $contentObjectAttribute =& $contentObjectAttributes[$key];
+        $contentObjectAttribute = $contentObjectAttributes[$key];
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
+//            print( "Storing info:<br/>" );
+
             // Collect the information for the current attribute
             if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
             {
-                print( "Storing info:<br/>" );
-                print( $contentObjectAttribute->content() . "<br/>" );
+                // \todo add abstraction for data types
+                $content =& $contentObjectAttribute->content();
+                //              print( $content  . "<br/>" );
 
                 $collectionAttribute =& eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
-                $collectionAttribute->setAttribute( 'data_text', $contentObjectAttribute->content() );
+                $collectionAttribute->setAttribute( 'data_text', $content );
                 $collectionAttribute->store();
             }
         }
     }
+    $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
 ?>
