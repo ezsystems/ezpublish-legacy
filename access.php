@@ -329,6 +329,8 @@ function changeAccess( $access )
     if ( $access['type'] == EZ_ACCESS_TYPE_URI )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
+        if ( $name == '' )
+            $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
         eZSys::addAccessPath( $name );
     }
     if ( file_exists( "settings/siteaccess/$name" ) )

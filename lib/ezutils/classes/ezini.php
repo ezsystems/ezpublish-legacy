@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1034245782 );
+define( "EZ_INI_CACHE_CODE_DATE", 1035973879 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
@@ -425,7 +425,11 @@ class eZINI
         }
         foreach ( $lines as $line )
         {
-            if ( preg_match( "/^#.*/", $line ) )
+            if ( preg_match( "/^#.*/", $line, $regs ) )
+                continue;
+            if ( preg_match( "/^(.+)##.*/", $line, $regs ) )
+                $line = $regs[1];
+            if ( trim( $line ) == '' )
                 continue;
             // check for new block
             if ( preg_match("#^\[(.+)\]\s*$#", $line, $newBlockNameArray ) )

@@ -1,8 +1,7 @@
-#?ini charset="utf8"?
+#?ini charset="iso-8859-1"?
 # eZ publish configuration file.
 
 [DesignSettings]
-StandardDesign=standard
 SiteDesign=standard
 
 [SiteSettings]

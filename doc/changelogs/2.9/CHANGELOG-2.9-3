@@ -42,3 +42,6 @@ _ Fixed bug for finding node
 eZ sys :
 - Added function for setting/getting server and environment variables. They are prefered over accessing variables directly,
   this also makes sure eZ publish works with register_globals off.
+
+eZ ini :
+- Comments are no longer required to start at the start of the line (requires double markers ##)
