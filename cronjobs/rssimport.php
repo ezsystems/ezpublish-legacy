@@ -1,7 +1,5 @@
 <?php
 //
-// Definition of Runcronworflows class
-//
 // Created on: <24-Sep-2003 16:09:21 sp>
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
@@ -137,6 +135,8 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 */
 function rssImport1( &$root, &$rssImport, &$cli )
 {
+    global $isQuiet;
+
     $addCount = 0;
 
     // Get all items in rss feed
@@ -166,6 +166,8 @@ function rssImport1( &$root, &$rssImport, &$cli )
 */
 function rssImport2( &$root, &$rssImport, &$cli )
 {
+    global $isQuiet;
+
     $addCount = 0;
 
     // Get all items in rss feed
@@ -195,6 +197,7 @@ function rssImport2( &$root, &$rssImport, &$cli )
 */
 function importRSSItem( &$item, &$rssImport, &$cli )
 {
+    global $isQuiet;
     $rssImportID =& $rssImport->attribute( 'id' );
     $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
     $parentContentObjectTreeNode =& eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
@@ -252,10 +255,11 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     // Get object attributes, and set their values and store them.
     $dataMap =& $contentObject->dataMap();
 
+    // set title
     $attributeTitle =& $dataMap[$rssImport->attribute( 'class_title' )];
     if ( $attributeTitle != null && $title != null )
     {
-        if ( get_class( $attributeTitle->attribute( 'content' ) ) == 'ezxmltext' )
+        if ( $attributeTitle->attribute( 'data_type_string' ) == 'ezxmltext' )
         {
             setEZXMLAttribute( $attributeTitle, $title->textContent() );
         }
@@ -270,28 +274,37 @@ function importRSSItem( &$item, &$rssImport, &$cli )
         $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find title map for : '.$rssImport->attribute( 'class_title' ) );
     }
 
+    // set url
     $attributeLink =& $dataMap[$rssImport->attribute( 'class_url' )];
     if ( $attributeLink != null && $link != null )
     {
-        if ( get_class( $attributeLink->attribute( 'content' ) ) == 'ezxmltext' )
+        $dataType = $attributeLink->attribute( 'data_type_string' );
+        if ( $dataType == 'ezxmltext' )
         {
             setEZXMLAttribute( $attributeLink, $link->textContent() );
         }
-        else
+        elseif ( $dataType == 'ezurl' )
         {
             $attributeLink->setContent( $link->textContent() );
         }
+        else
+        {
+            $attributeLink->setAttribute( 'data_text', $link->textContent() );
+        }
+
         $attributeLink->store();
+        unset( $dataType );
     }
     else if ( !$isQuiet )
     {
         $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find link map for : '.$rssImport->attribute( 'class_link' ) );
     }
 
+    // set description
     $attributeDescription =& $dataMap[$rssImport->attribute( 'class_description' )];
     if ( $attributeDescription != null && $description != null )
     {
-        if ( get_class( $attributeDescription->attribute( 'content' ) ) == 'ezxmltext' )
+        if ( $attributeDescription->attribute( 'data_type_string' ) == 'ezxmltext' )
         {
             setEZXMLAttribute( $attributeDescription, $description->textContent() );
         }
@@ -312,6 +325,15 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     //publish new object
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                  'version' => 1 ) );
+    if ( !isset( $operationResult['status'] ) || $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+    {
+        if ( isset( $operationResult['result'] ) && isset( $operationResult['result']['content'] ) )
+            $failReason = $operationResult['result']['content'];
+        else
+            $failReason = "unknown error";
+        $cli->error( "Publishing failed: $failReason" );
+        unset( $failReason );
+    }
 
     if ( !$isQuiet )
     {
