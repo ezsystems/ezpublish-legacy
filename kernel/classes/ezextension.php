@@ -163,7 +163,7 @@ function kernel_class( $name )
 */
 function kernel_include( $name )
 {
-    $include = "kernel/$name.php";
+    $include = "kernel/$name";
     return include_once( $include );
 }
 
