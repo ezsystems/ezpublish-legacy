@@ -276,7 +276,7 @@ class eZBinaryFileType extends eZDataType
             $mime = $mimeData['name'];
             */
 
-            $mimeData =& eZMimeType::findByFileContents( $binaryFile->attribute( "original_filename" );
+            $mimeData =& eZMimeType::findByFileContents( $binaryFile->attribute( "original_filename" ) );
             $mime = $mimeData['name'];
 
             if ( $mime == '' )
