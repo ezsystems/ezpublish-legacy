@@ -117,6 +117,8 @@ Changes from 3.1-1 to 3.2.0-1
   using the ExtensionAutoloadPath setting in site.ini.
 - Fixed wrong link in changepassword e-mail.
 - Removed unused parameter 'headers' from eZMail::extraHeaders() and updated description
+- Added ContentType setting in MailSettings in site.ini. If set, this will set the content type
+  of all mail sent from eZ publish. Default is text/plain.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.
