@@ -103,6 +103,10 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( !eZMail::validate( $receivers_email ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The email address of the receiver is not valid' );
 
+    include_once( "kernel/classes/eztipafriendrequest.php" );
+    if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
+        $error_strings[] = ezi18n( 'kernel/content', 'The receiver has allready got to many tipafriend mails during past couple of hours' );
+
     // no validation errors
     if ( count( $error_strings ) == 0 )
     {
@@ -130,6 +134,9 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         {
             $tpl->setVariable( 'action', 'confirm' );
 
+            $request =& eZTipafriendRequest::create( $receiversEmail );
+            $request->store();
+            
             // Increase tipafriend count for this node
             include_once( "kernel/classes/eztipafriendcounter.php" );
             $counter =& eZTipafriendCounter::fetch( $NodeID );

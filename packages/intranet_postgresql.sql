@@ -2301,6 +2301,17 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
+CREATE TABLE eztipafriend_request (
+    email_receiver character varying(100) NOT NULL,
+    created integer NOT NULL
+);
+
+
+
+
+
+
+
 
 
 
@@ -6456,6 +6467,13 @@ INSERT INTO ezimagefile VALUES (76, 103, 'var/storage/original/image/phpXz5esv.j
 
 
 
+
+
+
+
+
+
+
 CREATE INDEX ezcollab_group_path62 ON ezcollab_group USING btree (path_string);
 
 
@@ -6801,6 +6819,22 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 CREATE INDEX sort_key_string367 ON ezcontentobject_attribute USING btree (sort_key_string);
+
+
+
+
+
+
+
+CREATE INDEX eztipafriend_request_email_receiver ON eztipafriend_request USING btree (email_receiver);
+
+
+
+
+
+
+
+CREATE INDEX eztipafriend_request_created ON eztipafriend_request USING btree (created);
 
 
 

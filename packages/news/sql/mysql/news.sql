@@ -24,6 +24,7 @@ CREATE TABLE ezapprove_items (
 
 
 
+
 CREATE TABLE ezbasket (
   id int(11) NOT NULL auto_increment,
   session_id varchar(255) NOT NULL default '',
@@ -31,6 +32,7 @@ CREATE TABLE ezbasket (
   PRIMARY KEY  (id),
   KEY ezbasket_session_id (session_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -59,6 +61,7 @@ CREATE TABLE ezbinaryfile (
 
 
 
+
 CREATE TABLE ezcollab_group (
   id int(11) NOT NULL auto_increment,
   parent_group_id int(11) NOT NULL default '0',
@@ -74,6 +77,7 @@ CREATE TABLE ezcollab_group (
   KEY ezcollab_group_path (path_string),
   KEY ezcollab_group_depth (depth)
 ) TYPE=MyISAM;
+
 
 
 
@@ -112,6 +116,7 @@ CREATE TABLE ezcollab_item (
 
 
 
+
 CREATE TABLE ezcollab_item_group_link (
   collaboration_id int(11) NOT NULL default '0',
   group_id int(11) NOT NULL default '0',
@@ -133,6 +138,7 @@ CREATE TABLE ezcollab_item_group_link (
 
 
 
+
 CREATE TABLE ezcollab_item_message_link (
   id int(11) NOT NULL auto_increment,
   collaboration_id int(11) NOT NULL default '0',
@@ -143,6 +149,7 @@ CREATE TABLE ezcollab_item_message_link (
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -175,6 +182,7 @@ CREATE TABLE ezcollab_item_participant_link (
 
 
 
+
 CREATE TABLE ezcollab_item_status (
   collaboration_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
@@ -183,6 +191,7 @@ CREATE TABLE ezcollab_item_status (
   last_read int(11) NOT NULL default '0',
   PRIMARY KEY  (collaboration_id,user_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -209,6 +218,7 @@ CREATE TABLE ezcollab_notification_rule (
 
 
 
+
 CREATE TABLE ezcollab_profile (
   id int(11) NOT NULL auto_increment,
   user_id int(11) NOT NULL default '0',
@@ -218,6 +228,7 @@ CREATE TABLE ezcollab_profile (
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -255,12 +266,14 @@ CREATE TABLE ezcollab_simple_message (
 
 
 
+
 CREATE TABLE ezcontent_translation (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
   locale varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -290,6 +303,7 @@ CREATE TABLE ezcontentbrowsebookmark (
 
 
 
+
 CREATE TABLE ezcontentbrowserecent (
   id int(11) NOT NULL auto_increment,
   user_id int(11) NOT NULL default '0',
@@ -299,6 +313,7 @@ CREATE TABLE ezcontentbrowserecent (
   PRIMARY KEY  (id),
   KEY ezcontentbrowserecent_user (user_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -322,6 +337,7 @@ CREATE TABLE ezcontentclass (
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -370,6 +386,7 @@ CREATE TABLE ezcontentclass_attribute (
   can_translate int(11) default '1',
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -434,6 +451,7 @@ CREATE TABLE ezcontentclass_classgroup (
 
 
 
+
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (1,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (2,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (4,0,2,'Content');
@@ -477,6 +495,7 @@ CREATE TABLE ezcontentclassgroup (
 
 
 
+
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Content',1,14,1031216928,1033922106);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (2,'Users',1,14,1031216941,1033922113);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (3,'Media',8,14,1032009743,1033922120);
@@ -500,6 +519,7 @@ CREATE TABLE ezcontentobject (
   remote_id varchar(100) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -614,6 +634,7 @@ CREATE TABLE ezcontentobject_attribute (
   KEY sort_key_string (sort_key_string),
   KEY ezcontentobject_attribute_co_id_ver_lang_code (contentobject_id,version,language_code)
 ) TYPE=MyISAM;
+
 
 
 
@@ -870,6 +891,7 @@ CREATE TABLE ezcontentobject_link (
 
 
 
+
 INSERT INTO ezcontentobject_link (id, from_contentobject_id, from_contentobject_version, to_contentobject_id) VALUES (7,249,5,250);
 INSERT INTO ezcontentobject_link (id, from_contentobject_id, from_contentobject_version, to_contentobject_id) VALUES (6,249,5,261);
 
@@ -885,6 +907,7 @@ CREATE TABLE ezcontentobject_name (
   real_translation varchar(20) default NULL,
   PRIMARY KEY  (contentobject_id,content_version,content_translation)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1126,6 +1149,7 @@ CREATE TABLE ezcontentobject_tree (
 
 
 
+
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (2,1,1,7,1,1,'/1/2/',9,1,0,'',2);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5);
@@ -1193,6 +1217,7 @@ CREATE TABLE ezcontentobject_version (
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1274,6 +1299,7 @@ CREATE TABLE ezdiscountrule (
 
 
 
+
 CREATE TABLE ezdiscountsubrule (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
@@ -1282,6 +1308,7 @@ CREATE TABLE ezdiscountsubrule (
   limitation char(1) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1308,6 +1335,7 @@ CREATE TABLE ezdiscountsubrule_value (
 
 
 
+
 CREATE TABLE ezenumobjectvalue (
   contentobject_attribute_id int(11) NOT NULL default '0',
   contentobject_attribute_version int(11) NOT NULL default '0',
@@ -1317,6 +1345,7 @@ CREATE TABLE ezenumobjectvalue (
   PRIMARY KEY  (contentobject_attribute_id,contentobject_attribute_version,enumid),
   KEY ezenumobjectvalue_co_attr_id_co_attr_ver (contentobject_attribute_id,contentobject_attribute_version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1347,6 +1376,7 @@ CREATE TABLE ezenumvalue (
 
 
 
+
 CREATE TABLE ezforgot_password (
   id int(11) NOT NULL auto_increment,
   user_id int(11) NOT NULL default '0',
@@ -1354,6 +1384,7 @@ CREATE TABLE ezforgot_password (
   time int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1383,6 +1414,7 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 
 
+
 CREATE TABLE ezimage (
   contentobject_attribute_id int(11) NOT NULL default '0',
   version int(11) NOT NULL default '0',
@@ -1392,6 +1424,7 @@ CREATE TABLE ezimage (
   alternative_text varchar(255) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1441,6 +1474,7 @@ CREATE TABLE ezimagefile (
   KEY ezimagefile_coid (contentobject_attribute_id),
   KEY ezimagefile_file (filepath(200))
 ) TYPE=MyISAM;
+
 
 
 
@@ -1497,6 +1531,7 @@ CREATE TABLE ezimagevariation (
   height int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1566,6 +1601,7 @@ CREATE TABLE ezinfocollection (
 
 
 
+
 CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
   informationcollection_id int(11) NOT NULL default '0',
@@ -1577,6 +1613,7 @@ CREATE TABLE ezinfocollection_attribute (
   contentobject_id int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1603,12 +1640,14 @@ CREATE TABLE ezkeyword (
 
 
 
+
 CREATE TABLE ezkeyword_attribute_link (
   id int(11) NOT NULL auto_increment,
   keyword_id int(11) NOT NULL default '0',
   objectattribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1645,6 +1684,7 @@ CREATE TABLE ezmedia (
 
 
 
+
 CREATE TABLE ezmessage (
   id int(11) NOT NULL auto_increment,
   send_method varchar(50) NOT NULL default '',
@@ -1656,6 +1696,7 @@ CREATE TABLE ezmessage (
   is_sent int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1685,6 +1726,7 @@ CREATE TABLE ezmodule_run (
 
 
 
+
 CREATE TABLE eznode_assignment (
   id int(11) NOT NULL auto_increment,
   contentobject_id int(11) default NULL,
@@ -1697,6 +1739,7 @@ CREATE TABLE eznode_assignment (
   remote_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1785,6 +1828,7 @@ CREATE TABLE eznotificationcollection (
 
 
 
+
 CREATE TABLE eznotificationcollection_item (
   id int(11) NOT NULL auto_increment,
   collection_id int(11) NOT NULL default '0',
@@ -1793,6 +1837,7 @@ CREATE TABLE eznotificationcollection_item (
   send_date int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1827,6 +1872,7 @@ CREATE TABLE eznotificationevent (
 
 
 
+
 CREATE TABLE ezoperation_memento (
   id int(11) NOT NULL auto_increment,
   memento_key varchar(32) NOT NULL default '',
@@ -1836,6 +1882,7 @@ CREATE TABLE ezoperation_memento (
   PRIMARY KEY  (id,memento_key),
   KEY ezoperation_memento_memento_key_main (memento_key,main)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1869,6 +1916,7 @@ CREATE TABLE ezorder (
 
 
 
+
 CREATE TABLE ezorder_item (
   id int(11) NOT NULL auto_increment,
   order_id int(11) NOT NULL default '0',
@@ -1878,6 +1926,7 @@ CREATE TABLE ezorder_item (
   PRIMARY KEY  (id),
   KEY ezorder_item_order_id (order_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1916,6 +1965,7 @@ CREATE TABLE ezpdf_export (
 
 
 
+
 CREATE TABLE ezpolicy (
   id int(11) NOT NULL auto_increment,
   role_id int(11) default NULL,
@@ -1924,6 +1974,7 @@ CREATE TABLE ezpolicy (
   limitation char(1) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -1971,6 +2022,7 @@ CREATE TABLE ezpolicy_limitation (
 
 
 
+
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (327,402,'Class',0,'create','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (322,403,'Class',0,'create','content');
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (328,402,'Section',0,'create','content');
@@ -2013,6 +2065,7 @@ CREATE TABLE ezpolicy_limitation_value (
   value varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -2127,11 +2180,13 @@ CREATE TABLE ezpreferences (
 
 
 
+
 CREATE TABLE ezproductcollection (
   id int(11) NOT NULL auto_increment,
   created int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -2165,6 +2220,7 @@ CREATE TABLE ezproductcollection_item (
 
 
 
+
 CREATE TABLE ezproductcollection_item_opt (
   id int(11) NOT NULL auto_increment,
   item_id int(11) NOT NULL default '0',
@@ -2186,6 +2242,7 @@ CREATE TABLE ezproductcollection_item_opt (
 
 
 
+
 CREATE TABLE ezrole (
   id int(11) NOT NULL auto_increment,
   version int(11) default '0',
@@ -2193,6 +2250,7 @@ CREATE TABLE ezrole (
   value char(1) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -2229,6 +2287,7 @@ CREATE TABLE ezrss_export (
 
 
 
+
 INSERT INTO ezrss_export (id, title, modifier_id, modified, url, description, image_id, active, access_url, created, creator_id, status, site_access, rss_version) VALUES (2,'Latest news',14,1070978218,'http://example.com','Latest news from this site.',0,1,'latestnews',1070978074,14,1,'','2.0');
 
 
@@ -2245,6 +2304,7 @@ CREATE TABLE ezrss_export_item (
   PRIMARY KEY  (id),
   KEY ezrss_export_rsseid (rssexport_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -2284,6 +2344,7 @@ CREATE TABLE ezrss_import (
 
 
 
+
 CREATE TABLE ezsearch_object_word_link (
   id int(11) NOT NULL auto_increment,
   contentobject_id int(11) NOT NULL default '0',
@@ -2305,6 +2366,7 @@ CREATE TABLE ezsearch_object_word_link (
   KEY ezsearch_object_word_link_identifier (identifier),
   KEY ezsearch_object_word_link_integer_value (integer_value)
 ) TYPE=MyISAM;
+
 
 
 
@@ -5788,11 +5850,13 @@ CREATE TABLE ezsearch_return_count (
 
 
 
+
 CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
   phrase varchar(250) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -5810,6 +5874,7 @@ CREATE TABLE ezsearch_word (
   PRIMARY KEY  (id),
   KEY ezsearch_word (word)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6465,6 +6530,7 @@ CREATE TABLE ezsection (
 
 
 
+
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Content section','','ezcontentnavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
@@ -6491,6 +6557,7 @@ CREATE TABLE ezsession (
 
 
 
+
 CREATE TABLE ezsite_data (
   name varchar(60) NOT NULL default '',
   value text NOT NULL,
@@ -6501,8 +6568,9 @@ CREATE TABLE ezsite_data (
 
 
 
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.3');
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','7');
+
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.5');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','12');
 
 
 
@@ -6526,11 +6594,30 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
+
 CREATE TABLE eztipafriend_counter (
   node_id int(11) NOT NULL default '0',
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
 ) TYPE=MyISAM;
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE eztipafriend_request (
+  email_receiver varchar(100) NOT NULL default '',
+  created int(11) NOT NULL default '0',
+  KEY created (created),
+  KEY email_receiver (email_receiver)
+) TYPE=MyISAM;
+
 
 
 
@@ -6562,6 +6649,7 @@ CREATE TABLE eztrigger (
 
 
 
+
 CREATE TABLE ezurl (
   id int(11) NOT NULL auto_increment,
   url varchar(255) default NULL,
@@ -6572,6 +6660,7 @@ CREATE TABLE ezurl (
   original_url_md5 varchar(32) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6592,6 +6681,7 @@ CREATE TABLE ezurl_object_link (
   contentobject_attribute_version int(11) NOT NULL default '0',
   PRIMARY KEY  (url_id,contentobject_attribute_id,contentobject_attribute_version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6619,6 +6709,7 @@ CREATE TABLE ezurlalias (
   KEY ezurlalias_source_url (source_url(255)),
   KEY ezurlalias_desturl (destination_url(200))
 ) TYPE=MyISAM;
+
 
 
 
@@ -6770,6 +6861,7 @@ CREATE TABLE ezuser (
 
 
 
+
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (292,'editor','nospam@ez.no',2,'63451ebabfbacca0f584a0b8a422c95d');
@@ -6786,6 +6878,7 @@ CREATE TABLE ezuser_accountkey (
   time int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6816,6 +6909,7 @@ CREATE TABLE ezuser_discountrule (
 
 
 
+
 CREATE TABLE ezuser_role (
   id int(11) NOT NULL auto_increment,
   role_id int(11) default NULL,
@@ -6823,6 +6917,7 @@ CREATE TABLE ezuser_role (
   PRIMARY KEY  (id),
   KEY ezuser_role_contentobject_id (contentobject_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6846,6 +6941,7 @@ CREATE TABLE ezuser_setting (
   max_login int(11) default NULL,
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6886,6 +6982,7 @@ CREATE TABLE ezvattype (
 
 
 
+
 INSERT INTO ezvattype (id, name, percentage) VALUES (1,'Std',0);
 
 
@@ -6897,6 +6994,7 @@ CREATE TABLE ezview_counter (
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6926,12 +7024,14 @@ CREATE TABLE ezwaituntildatevalue (
 
 
 
+
 CREATE TABLE ezwishlist (
   id int(11) NOT NULL auto_increment,
   user_id int(11) NOT NULL default '0',
   productcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -6959,6 +7059,7 @@ CREATE TABLE ezworkflow (
 
 
 
+
 INSERT INTO ezworkflow (id, version, is_enabled, workflow_type_string, name, creator_id, modifier_id, created, modified) VALUES (1,0,1,'group_ezserial','Approval of content',14,14,1070976484,1072181189);
 
 
@@ -6973,6 +7074,7 @@ CREATE TABLE ezworkflow_assign (
   as_tree int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
 
 
 
@@ -7005,6 +7107,7 @@ CREATE TABLE ezworkflow_event (
 
 
 
+
 INSERT INTO ezworkflow_event (id, version, workflow_id, workflow_type_string, description, data_int1, data_int2, data_int3, data_int4, data_text1, data_text2, data_text3, data_text4, placement) VALUES (1,0,1,'event_ezapprove','Approval of all objects in content section.',292,0,0,0,'1','12,291,294','','',1);
 
 
@@ -7025,6 +7128,7 @@ CREATE TABLE ezworkflow_group (
 
 
 
+
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Standard',14,14,1024392098,1024392098);
 
 
@@ -7038,6 +7142,7 @@ CREATE TABLE ezworkflow_group_link (
   group_name varchar(255) default NULL,
   PRIMARY KEY  (workflow_id,group_id,workflow_version)
 ) TYPE=MyISAM;
+
 
 
 
@@ -7074,6 +7179,7 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
 ) TYPE=MyISAM;
+
 
 
 

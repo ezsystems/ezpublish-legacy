@@ -887,6 +887,13 @@ INSERT INTO ezsite_data VALUES ('ezpublish-release', '7');
 
 
 
+
+
+
+
+
+
+
 SELECT pg_catalog.setval ('ezapprove_items_s', 1, false);
 
 

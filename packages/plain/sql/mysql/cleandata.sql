@@ -83,6 +83,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (1,0,'Folder','folder','<name>',14,14,1024392098,1048494694);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (2,0,'Article','article','<title>',14,14,1024392098,1048494722);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743);
@@ -96,6 +112,7 @@ INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, c
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (11,0,'Link','link','<title>',14,14,1052385361,1052385453);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (12,0,'File','file','<name>',14,14,1052385472,1052385669);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified) VALUES (13,0,'Comment','comment','<subject>',14,14,1052385685,1052385756);
+
 
 
 
@@ -149,6 +166,7 @@ INSERT INTO ezcontentclass_attribute (id, version, contentclass_id, identifier, 
 
 
 
+
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (1,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (2,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, group_id, group_name) VALUES (4,0,2,'Content');
@@ -167,9 +185,11 @@ INSERT INTO ezcontentclass_classgroup (contentclass_id, contentclass_version, gr
 
 
 
+
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Content',1,14,1031216928,1033922106);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (2,'Users',1,14,1031216941,1033922113);
 INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, modified) VALUES (3,'Media',8,14,1032009743,1033922120);
+
 
 
 
@@ -185,6 +205,7 @@ INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, cu
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (40,14,2,4,'test test',1,0,1053613020,1053613020,1,'');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (41,14,3,1,'Media',1,0,1060695457,1060695457,1,'');
 INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status, remote_id) VALUES (42,14,2,3,'Anonymous Users',1,0,1072180330,1072180330,1,'');
+
 
 
 
@@ -223,6 +244,8 @@ INSERT INTO ezcontentobject_attribute (id, language_code, version, contentobject
 
 
 
+
+
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (1,'Root folder',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (4,'Users',1,'eng-GB','eng-GB');
 INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, content_translation, real_translation) VALUES (10,'Anonymous User',1,'eng-GB','eng-GB');
@@ -239,6 +262,7 @@ INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, conte
 
 
 
+
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (2,1,1,1,1,1,'/1/2/',1,1,0,'',2);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5);
@@ -250,6 +274,7 @@ INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, con
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (43,1,41,1,1,1,'/1/43/',9,1,0,'media',43);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (44,5,42,1,1,2,'/1/5/44/',9,1,0,'users/anonymous_users',44);
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id) VALUES (45,44,10,2,1,3,'/1/5/44/45/',9,1,0,'users/anonymous_users/anonymous_user',45);
+
 
 
 
@@ -290,9 +315,27 @@ INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, 
 
 
 
+
+
+
+
+
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (2,136,0,'Ok','3',2);
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (1,136,0,'Poor','2',1);
 INSERT INTO ezenumvalue (id, contentclass_attribute_id, contentclass_attribute_version, enumelement, enumvalue, placement) VALUES (3,136,0,'Good','5',3);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -408,6 +451,14 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 
 
 
+
+
+
+
+
+
+
+
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (317,3,'*','content','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (308,2,'*','*','*');
 INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUES (326,1,'read','content','');
@@ -418,7 +469,9 @@ INSERT INTO ezpolicy (id, role_id, function_name, module_name, limitation) VALUE
 
 
 
+
 INSERT INTO ezpolicy_limitation (id, policy_id, identifier, role_id, function_name, module_name) VALUES (249,326,'Class',0,'read','content');
+
 
 
 
@@ -470,9 +523,18 @@ INSERT INTO ezpolicy_limitation_value (id, limitation_id, value) VALUES (455,249
 
 
 
+
+
+
+
+
 INSERT INTO ezrole (id, version, name, value) VALUES (1,0,'Anonymous','');
 INSERT INTO ezrole (id, version, name, value) VALUES (2,0,'Administrator','*');
 INSERT INTO ezrole (id, version, name, value) VALUES (3,0,'Editor','');
+
+
+
+
 
 
 
@@ -558,6 +620,9 @@ INSERT INTO ezsearch_object_word_link (id, contentobject_id, word_id, frequency,
 
 
 
+
+
+
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (43,'guest',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (44,'accounts',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (45,'test',1);
@@ -577,6 +642,7 @@ INSERT INTO ezsearch_word (id, word, object_count) VALUES (56,'the',1);
 
 
 
+
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (1,'Standard section','nor-NO','ezcontentnavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (2,'Users','','ezusernavigationpart');
 INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'Media','','ezmedianavigationpart');
@@ -590,8 +656,22 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (3,'
 
 
 
+
+
 INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.3');
 INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','7');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -637,9 +717,13 @@ INSERT INTO ezurlalias (id, source_url, source_md5, destination_url, is_internal
 
 
 
+
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 INSERT INTO ezuser (contentobject_id, login, email, password_hash_type, password_hash) VALUES (40,'test','test@test.com',2,'be778b473235e210cc577056226536a4');
+
+
+
 
 
 
@@ -664,10 +748,12 @@ INSERT INTO ezuser_role (id, role_id, contentobject_id) VALUES (28,1,11);
 
 
 
+
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (10,1,1000);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (14,1,10);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (23,1,0);
 INSERT INTO ezuser_setting (user_id, is_enabled, max_login) VALUES (40,1,0);
+
 
 
 
@@ -709,13 +795,22 @@ INSERT INTO ezvattype (id, name, percentage) VALUES (1,'Std',0);
 
 
 
+
+
+
+
+
+
+
 INSERT INTO ezworkflow_group (id, name, creator_id, modifier_id, created, modified) VALUES (1,'Standard',14,14,1024392098,1024392098);
 
 
 
 
 
+
 INSERT INTO ezworkflow_group_link (workflow_id, group_id, workflow_version, group_name) VALUES (1,1,0,'Standard');
+
 
 
 
