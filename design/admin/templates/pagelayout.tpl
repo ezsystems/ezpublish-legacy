@@ -498,5 +498,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri='design:popupmenu/popup_menu.tpl'}
 
+{* This comment will be replaced with actual debug report (if debug is on). *}
+<!--DEBUG_REPORT-->
+
 </body>
 </html>

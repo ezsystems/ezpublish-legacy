@@ -119,5 +119,8 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <div class="break"></div>
 </div>
 
+{* This comment will be replaced with actual debug report (if debug is on). *}
+<!--DEBUG_REPORT-->
+
 </body>
 </html>
