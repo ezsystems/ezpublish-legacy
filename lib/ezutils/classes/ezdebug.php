@@ -792,13 +792,14 @@ class eZDebug
 
         if ( $newWindow == true )
         {
+            $wwwDir = eZSys::wwwDir();
             print( "
 <SCRIPT LANGUAGE='JavaScript'>
 <!-- hide this script from old browsers
 
 function showDebug( fileName, title )
 {
-  debugWindow = window.open( '/cache/debug.html', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
+  debugWindow = window.open( '$wwwDir/var/cache/debug.html', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
   debugWindow.document.close();
   debugWindow.location.reload();
 }
@@ -813,7 +814,8 @@ ezdebug.reload();
 " );
             $header = "<html><head><title>eZ debug</title></head><body>";
             $footer = "</body></html>";
-            $fp = fopen( "cache/debug.html", "w+");
+            $varDirectory = eZSys::varDirectory();
+            $fp = fopen( eZDir::path( array( $varDirectory, 'cache', 'debug.html' ) ), "w+" );
 
             fwrite( $fp, $header );
             fwrite( $fp, $report );

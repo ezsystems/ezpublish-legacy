@@ -106,3 +106,6 @@ eZ locale:
 eZ db:
 - The MySQL and PostgreSQL drivers will report if the extension is missing and
   will not initialize the DB.
+
+eZ debug:
+- The popup window was fixed to use the var directory and works on non-virtual hosts as well.
