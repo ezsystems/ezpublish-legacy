@@ -7,6 +7,7 @@ NAME="ezpublish"
 DEST_ROOT="/tmp"
 DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
 DEFAULT_SVN_RELEASE_PATH="releases"
+DEFAULT_SVN_VERSION_PATH="versions"
 DIST_SRC=`pwd`
 
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
@@ -247,3 +248,11 @@ echo "Created archives:"
 echo "$DEST_ROOT/$BASE.tar.gz"
 echo "$DEST_ROOT/$BASE.tar.bz2"
 echo "$DEST_ROOT/$BASE.zip"
+
+echo
+echo "Now remember to create releases with:"
+echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_RELEASE_PATH/$VERSION_NICK`$SETCOLOR_NORMAL`"
+echo "`$SETCOLOR_WARNING`svn cp $DEFAULT_SVN_SERVER/trunk $DEFAULT_SVN_SERVER/$DEFAULT_SVN_VERSION_PATH/$VERSION`$SETCOLOR_NORMAL`"
+echo "And undeltify current version:"
+echo "`$SETCOLOR_WARNING`svnadmin undeltify $DEFAULT_SVN_SERVER `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_WARNING` `$SETCOLOR_NORMAL`"
+echo "where `$SETCOLOR_SUCCESS`REVNUM`$SETCOLOR_NORMAL` is the revision number of the trunk."
