@@ -629,6 +629,7 @@ class eZTemplateArrayOperator
 
             case $this->ExplodeName:
             {
+                $values = array();
                 $inParam = null;
                 $isString = false;
                 $isArray = false;
