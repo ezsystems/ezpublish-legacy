@@ -5,6 +5,10 @@
 <form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
 <div class="step">
+<table cellspacing="0" cellpadding="4" border="0">
+<tr>
+  <td>
+
 <h2>{"Step 1"|i18n("design/standard/role")}</h2>
 <div class="block">
    	<div class="element">
@@ -20,9 +24,10 @@
 <div class="buttonblock">
   	<input class="button" type="submit" name="Step1" value="{'Go back to step 1'|i18n('design/standard/role')}" />
 </div>
-</div>
 
-<div class="step">
+  </td>
+  <td>
+
 <h2>{"Step 2"|i18n("design/standard/role")}</h2>
 <div class="block">
    	<div class="element">
@@ -38,6 +43,10 @@
 <div class="buttonblock">
   	<input class="button" type="submit" name="Step2" value="{'Go back to step 2'|i18n('design/standard/role')}" />
 </div>
+
+  </td>
+</tr>
+</table>
 </div>
 
 <h2>{"Step 3"|i18n("design/standard/role")}</h2>
@@ -47,10 +56,10 @@
      {section name=Limitations loop=$function_limitations}
 <div class="element">
     <label>{$Limitations:item.name}:</label><div class="labelbreak"></div>
-     <select name="{$Limitations:item.name}[]" size="5" multiple >
+     <select name="{$Limitations:item.name}[]" size="8" multiple >
      <option value="-1" selected >{"Any"|i18n("design/standard/role")}</option>
      {section name=LimitationValues loop=$Limitations:item.values}
-     <option value="{$Limitations:LimitationValues:item.value}">{$Limitations:LimitationValues:item.value}-{$Limitations:LimitationValues:item.Name}</option>
+     <option value="{$Limitations:LimitationValues:item.value}">{$Limitations:LimitationValues:item.Name}</option>
      {/section}   
      </select>
 </div>

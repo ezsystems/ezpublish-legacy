@@ -5,6 +5,8 @@
 <form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
 <div class="step">
+<table cellspacing="0" cellpadding="4" border="0">
+<tr><td>
 <h2>{"Step 1"|i18n("design/standard/role")}</h2>
 <div class="block">
    	<div class="element">
@@ -20,6 +22,8 @@
 <div class="buttonblock">
   	<input class="button" type="submit" name="Step1" value="{'Go back to step 1'|i18n('design/standard/role')}" />
 </div>
+</td></tr>
+</table>
 </div>
 
 {section show=$no_functions}
