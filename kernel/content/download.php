@@ -67,8 +67,9 @@ else
     eZDebug::writeError("No speciafied file exist.");
 }
 
-$ini =& eZINI::instance();
-$origDir = $ini->variable( "FileSettings", "StorageDir" ) . '/original';
+$sys =& eZSys::instance();
+$storage_dir = $sys->storageDirectory();
+$origDir = $storage_dir . '/original';
 
 $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
 if ( $binary->attribute( "filename" ) != "" and file_exists( $fileName ) )
