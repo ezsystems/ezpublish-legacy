@@ -1616,10 +1616,12 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject.* $versionNameTargets
 					     FROM
 					       ezcontentobject,
-                           ezcontentobject_link
+                           ezcontentobject_link,
+                           ezcontentclass
                            $versionNameTables
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+                           ezcontentclass.id=ezcontentobject.contentclass_id AND
 						   ezcontentclass.version=0 AND
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
