@@ -3,7 +3,7 @@
 <div class="view-full">
     <div class="class-article">
 
-        <h1>{$node.name}</h1>
+        <h1>{$node.object.data_map.title.content|wash()}</h1>
 
         {section}
             <div class="content-byline">
@@ -13,11 +13,19 @@
             </div>
         {/section}
 
+{content_view_gui view=embed content_object=$node.object.data_map.image.content}
+
+                {attribute_view_gui attribute=$node.object.data_map.image}
+
+
+
         {section show=$node.object.data_map.intro.content.is_empty|not}
             <div class="content-short">
                 {attribute_view_gui attribute=$node.object.data_map.intro}
             </div>
         {/section}
+
+
 
         {section show=$node.object.data_map.body.content.is_empty|not}
             <div class="content-long">
@@ -50,3 +58,5 @@
 
     </div>
 </div>
+
+
