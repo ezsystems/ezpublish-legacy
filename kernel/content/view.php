@@ -146,7 +146,7 @@ if ( $useTriggers == true )
 
     $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                                'user_id' => $user->id(),
-                                                                               'language_code' => $LanguageCode ), null, $useTriggers );
+                                                                               'language_code' => eZContentObject::defaultLanguage() ), null, $useTriggers );
 }
 else
 {
