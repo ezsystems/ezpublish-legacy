@@ -1,23 +1,25 @@
 {* Weblog - Full view *}
 
-{let previous_log=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
+{let sort_order=$node.parent.sort_array[0][1]
+     sort_column=$node.parent.sort_array[0][0]
+     previous_log=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
                                               class_filter_type, include,
                                               class_filter_array, array( 'weblog' ),
                                               limit, 1,
-                                              attribute_filter, array( and, array( 'published', '<', $node.object.published ) ),
-                                              sort_by, array( 'published', false() ) ) )
+                                              attribute_filter, array( and, array( $sort_column, $sort_order|choose( '>', '<' ), $node.object.published ) ),
+                                              sort_by, array( $sort_column, $sort_order|not ) ) )
      next_log=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
                                           class_filter_type, include,
                                           class_filter_array, array( 'weblog' ),
                                           limit, 1,
-                                          attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
-                                          sort_by, array( 'published', true() ) ) )}
-
+                                          attribute_filter, array( and, array( $sort_column, $sort_order|choose( '<', '>' ), $node.object.published ) ),
+                                          sort_by, array( $sort_column, $sort_order ) ) )}
 <div class="content-view-full">
     <div class="class-weblog">
 
         <h1>{$node.name|wash()}</h1>
 
+        {section show=is_unset( $versionview_mode )}
         <div class="content-navigator">
             {section show=$previous_log}
                 <div class="content-navigator-previous">
@@ -55,6 +57,7 @@
                 </div>
             {/section}
         </div>
+        {/section}
 
         <div class="attribute-byline">
            <p class="author">{$node.object.owner.name|wash(xhtml)}</p>

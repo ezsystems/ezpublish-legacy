@@ -53,6 +53,7 @@ class eZNodeAssignment extends eZPersistentObject
     function eZNodeAssignment( $row )
     {
         $this->TempNode = null;
+        $this->Name = false;
         $this->eZPersistentObject( $row );
     }
 
@@ -127,7 +128,18 @@ class eZNodeAssignment extends eZPersistentObject
                                                            $this->attribute( 'contentobject_version' ),
                                                            $this->attribute( 'sort_field' ),
                                                            $this->attribute( 'sort_order' ) );
+        $this->TempNode->setName( $this->Name );
         return $this->TempNode;
+    }
+
+    function setName( $name )
+    {
+        return $this->Name = $name;
+    }
+
+    function name()
+    {
+        return $this->Name;
     }
 
     function &create( $parameters = array() )

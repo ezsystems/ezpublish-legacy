@@ -13,13 +13,13 @@
                                                 class_filter_array, array( 'forum_topic' ),
                                                 limit, 1,
                                                 attribute_filter, array( and, array( 'published', '<', $node.object.published ) ),
-                                                sort_by, array( 'published', false() ) ) )
+                                                sort_by, array( array( 'published', false() ) ) ) )
      next_topic=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
                                             class_filter_type, include,
                                             class_filter_array, array( 'forum_topic' ),
                                             limit, 1,
                                             attribute_filter, array( and, array( 'published', '>', $node.object.published ) ),
-                                            sort_by, array( 'published', true() ) ) ) }
+                                            sort_by, array( array( 'published', true() ) ) ) ) }
 
 
 <div class="content-view-full">
@@ -27,6 +27,7 @@
 
         <h1>{$node.name|wash}</h1>
 
+        {section show=is_unset( $versionview_mode )}
         <div class="content-navigator">
             {section show=$previous_topic}
                 <div class="content-navigator-previous">
@@ -78,6 +79,7 @@
            <p>
             {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
            </p>
+        {/section}
         {/section}
 
         <div class="content-view-children">

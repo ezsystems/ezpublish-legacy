@@ -47,6 +47,7 @@
         </div>
 
         {* Should we allow comments? *}
+        {section show=is_unset( $versionview_mode )}
         {section show=$node.object.data_map.enable_comments.content}
             <h2>{"Comments"|i18n("design/base")}</h2>
                 <div class="content-view-children">
@@ -65,6 +66,7 @@
                 {section-else}
                     <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
                 {/section}
+        {/section}
         {/section}
 
     </div>

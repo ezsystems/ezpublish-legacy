@@ -14,6 +14,7 @@
     </div>
 
 
+    {section show=is_unset( $versionview_mode )}
     {section show=$node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
             <input class="button forum-new-topic" type="submit" name="NewButton" value="New topic" />
@@ -27,6 +28,7 @@
         <p>
         {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
         </p>
+    {/section}
     {/section}
 
 

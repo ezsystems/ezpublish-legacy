@@ -9,15 +9,16 @@
 {default content_object=$node.object}
 
 {section show=$assignment}
-  {node_view_gui view=full with_children=false() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
+  {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
 {/section}
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language|not|choose(array($language,"/"),""))|ezurl}>
 
+{section show=$allow_change_buttons}
 <div class="block">
-{section show=$version.language_list|gt(1)}
+{section show=$version.language_list|count|gt(1)}
 <div class="element">
 <label>{"Translation"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
-  
+
 <select name="SelectedLanguage" >
 {section name=Translation loop=$version.language_list}
 <option value="{$Translation:item.locale.locale_code}" {section show=eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/section}>{$Translation:item.locale.intl_language_name}</option>
@@ -27,7 +28,7 @@
 
 {/section}
 {let name=Placement node_assignment_list=$version.node_assignments}
-{section show=$Placement:node_assignment_list|gt(1)}
+{section show=$Placement:node_assignment_list|count|gt(1)}
 
 <div class="element">
 <label>{"Placement"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
@@ -44,7 +45,7 @@
 
 {let name=Sitedesign
    sitedesign_list=fetch('layout','sitedesign_list')}
-{section show=$Sitedesign:sitedesign_list|gt(1)}
+{section show=$Sitedesign:sitedesign_list|count|gt(1)}
 
 <div class="element">
 <label>{"Site Design"|i18n("design/standard/content/view")}</label><div class="labelbreak"></div>
@@ -64,6 +65,7 @@
 <div class="buttonblock">
 <input class="button" type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('design/standard/content/view')}" />
 </div>
+{/section}
 
 <input type="hidden" name="ContentObjectID" value="{$object.id}" />
 <input type="hidden" name="ContentObjectVersion" value="{$object_version}" />
@@ -76,7 +78,9 @@
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
 {/section}
 
+{section show=$allow_versions_button}
 <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('design/standard/content/view')}" />
+{/section}
 </div>
 
 {section show=eq($node.node_id,"")}

@@ -36,7 +36,7 @@
         {/let}
         </p>
 
-        {section show$node.object.can_edit}
+        {section show=$node.object.can_edit}
         <form method="post" action={"content/action/"|ezurl}>
 
         <br/>

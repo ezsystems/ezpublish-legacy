@@ -2,9 +2,10 @@
 {cache-block}
 {default limit=5}
 {section show=or($show_subtree|count_chars()|eq(0), $requested_uri_string|begins_with( $show_subtree ))}
+{section show=$sort_by|count|eq( 0 )}{set sort_by='published'}{/section}
 {let node_list=fetch( content, list, hash( parent_node_id, $parent_node,
                       limit, $limit,
-					  sort_by, array( published, false() ) ) )}
+					  sort_by, array( $sort_by, false() ) ) )}
 <div class="toollist">
     <div class="toollist-design">
     <h2>{$title}</h2>

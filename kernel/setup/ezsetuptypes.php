@@ -267,7 +267,8 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_2' => array( 'show_subtree' => false,
                                                                                   'title' => $nodeListTitle,
-                                                                                  'parent_node' => $nodeID ),
+                                                                                  'parent_node' => $nodeID,
+                                                                                  'sort_by' => 'modified_subnode' ),
                                                ) );
     }
     else if ( $siteType == 'gallery' )
@@ -1640,9 +1641,15 @@ function eZSetupImageINISettings( $siteType, $parameters )
 function eZSetupContentINISettings( $siteType, $parameters )
 {
     $designList = $parameters['design_list'];
+    $allowVersions = false;
+    if ( $parameters['is_admin'] )
+        $allowVersions = true;
     $image = array( 'name' => 'content.ini',
                     'reset_arrays' => true,
-                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList ) ) );
+                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList ),
+                                         'DefaultPreviewDesign' => $parameters['preview_design'],
+                                         'AllowChangeButtons' => 'disabled',
+                                         'AllowVersionsButton' => ( $allowVersions ? 'enbled' : 'disabled' ) ) );
 
     return $image;
 }
@@ -1749,6 +1756,8 @@ function eZSetupWeblogRoles( &$roles, $siteType, $parameters )
 
 function eZSetupINISettings( $siteType, $parameters )
 {
+    $parameters = array_merge( $parameters,
+                               array( 'is_admin' => false ) );
     $settings = array();
     $settings[] = eZSetupForumINISettings( $siteType, $parameters );
     $settings[] = eZSetupMenuINISettings( $siteType, $parameters );
@@ -1763,6 +1772,8 @@ function eZSetupINISettings( $siteType, $parameters )
 
 function eZSetupAdminINISettings( $siteType, $parameters )
 {
+    $parameters = array_merge( $parameters,
+                               array( 'is_admin' => true ) );
     $settings = array();
     $settings[] = eZSetupAdminToolbarINISettings( $siteType, $parameters );
     $settings[] = eZSetupAdminOverrideINISettings( $siteType, $parameters );

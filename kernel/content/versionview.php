@@ -200,6 +200,9 @@ if ( count( $sitedesignList ) == 1 )
     $hasCustomSitedesign = true;
 }
 
+$allowChangeButtons = $contentINI->variable( 'VersionView', 'AllowChangeButtons' ) == 'enabled';
+$allowVersionsButton = $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
+
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
     if ( $Module->hasActionParameter( 'Language' ) )
@@ -295,6 +298,8 @@ $class =& eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) 
 $objectName = $class->contentObjectName( $contentObject );
 $contentObject->setCachedName( $objectName );
 $contentObject->ContentObjectAttributeArray;
+if ( $assignment )
+    $assignment->setName( $objectName );
 
 $node = new eZContentObjectTreeNode();
 $node->setAttribute( 'contentobject_version', $EditVersion );
@@ -385,6 +390,8 @@ $tpl->setVariable( 'placement', $placementID );
 $tpl->setVariable( 'assignment', $assignment );
 $tpl->setVariable( 'sitedesign', $sitedesign );
 $tpl->setVariable( 'is_creator', $isCreator );
+$tpl->setVariable( 'allow_change_buttons', $allowChangeButtons );
+$tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
 
 $tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 $tpl->setVariable('view_parameters', $viewParameters );

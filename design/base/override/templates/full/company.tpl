@@ -9,8 +9,10 @@
 
     <h1><a href={$node.url_alias|ezurl}>{$node.name|wash}</a> ( {attribute_view_gui attribute=$node.object.data_map.company_number} )</h1>
 
+    {section show=$versionview_mode}
     {section show=$node.object.can_edit}
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+    {/section}
     {/section}
 
     {section show=$node.object.data_map.logo.content}

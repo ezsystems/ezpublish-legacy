@@ -3,7 +3,7 @@
 <div class="content-view-line">
     <div class="class-weblog">
 
-        <h2>{$node.name|wash()}</h2>
+        <h2><a href={$node.url_alias|ezurl}>{$node.name|wash()}</a></h2>
 
         <div class="attribute-byline">
             <p class="author">{$node.object.owner.name|wash(xhtml)}</p>

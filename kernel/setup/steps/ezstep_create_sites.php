@@ -460,6 +460,7 @@ class eZStepCreateSites extends eZStepInstaller
                                  'object_remote_map' => $objectRemoteMap,
                                  'class_remote_map' => $classRemoteMap,
                                  'extra_functionality' => $extraFunctionality,
+                                 'preview_design' => $userDesignName,
                                  'design_list' => array( $userDesignName, 'admin' ) );
 
             $siteINIStored = false;
