@@ -191,7 +191,6 @@ if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $customActionAttributeID = $matchArray[1];
     $customAction = $matchArray[2];
 }
-
 // Validate input
 $validation = array( 'processed' => false,
                      'attributes' => array() );
@@ -270,13 +269,11 @@ if ( $contentClassHasInput )
 // Fixup input
 if ( $requireFixup )
 {
-    reset( $attributes );
-    while ( ( $key = key( $attributes ) ) !== null )
+    foreach( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
         $dataType =& $attribute->dataType();
         $status = $dataType->fixupClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
-        next( $attributes );
     }
 }
 
@@ -291,11 +288,13 @@ if ( $contentClassHasInput )
     if ( $http->hasPostVariable( 'DataTypeString' ) )
         $cur_datatype = $http->postVariable( 'DataTypeString' );
 }
+
 $class->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
+
 // Fixed identifiers to only contain a-z0-9_
-for ( $i = 0; $i < count( $attributes ); ++$i )
+foreach( array_keys( $attributes ) as $key )
 {
-    $attribute =& $attributes[$i];
+    $attribute =& $attributes[$key];
     $attribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $identifier = $attribute->attribute( 'identifier' );
     if ( $identifier == '' )
@@ -312,6 +311,7 @@ for ( $i = 0; $i < count( $attributes ); ++$i )
     $dataType =& $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
 }
+
 // Fixed class identifier to only contain a-z0-9_
 $identifier = $class->attribute( 'identifier' );
 if ( $identifier == '' )
@@ -366,13 +366,11 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 // Fetch HTTP input
 if ( $contentClassHasInput )
 {
-    reset( $attributes );
-    while( ( $key = key( $attributes ) ) !== null )
+    foreach( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
         $dataType =& $attribute->dataType();
         $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
-        next( $attributes );
     }
 }
 
@@ -519,6 +517,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
     return;
 }
+
 // Store changes
 if ( $canStore )
     $class->store( $attributes );
@@ -560,7 +559,6 @@ if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
 // Template handling
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
-
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
 $tpl->setVariable( 'http', $http );
