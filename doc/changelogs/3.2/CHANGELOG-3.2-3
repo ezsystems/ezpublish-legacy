@@ -32,5 +32,6 @@ Changes from 3.2-2 to 3.2-3
 
 *Translations:
 - Updated Portuguese translation, thanks to Miguel Angelo Gouveia Saturnino.
+- Fixed correct HTTP content language to zh-CH for chinese.
 
 *Miscellaneous:
