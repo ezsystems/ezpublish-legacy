@@ -64,11 +64,11 @@ function eZSetupDatabaseMap()
                                     'name' => 'MySQL',
                                     'has_demo_data' => true,
                                     'supports_unicode' => false ),
-                  'postgresql' => array( 'type' => 'postgresql',
-                                         'driver' => 'ezpostgresql',
-                                         'name' => 'PostgreSQL',
-                                         'has_demo_data' => false,
-                                         'supports_unicode' => true ) );
+                  'pgsql' => array( 'type' => 'pgsql',
+                                    'driver' => 'ezpostgresql',
+                                    'name' => 'PostgreSQL',
+                                    'has_demo_data' => false,
+                                    'supports_unicode' => true ) );
 }
 
 function eZSetupFetchPersistenceList()
