@@ -6,6 +6,14 @@
 {"Derick Rethans"|shorten( 13 )}
 {"Derick Rethans"|shorten( 14 )}
 
+{"Dérick Rethåns"|shorten( 8 )}
+{"Dérick Rethåns"|shorten( 9 )}
+{"Dérick Rethåns"|shorten( 10 )}
+{"Dérick Rethåns"|shorten( 11 )}
+{"Dérick Rethåns"|shorten( 12 )}
+{"Dérick Rethåns"|shorten( 13 )}
+{"Dérick Rethåns"|shorten( 14 )}
+
 {let str="Derick Rethans"}
 {$str|shorten( 15 )}
 {$str|shorten( 16 )}
