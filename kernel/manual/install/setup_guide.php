@@ -70,13 +70,16 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it to something nice like 'ezpublish'</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C &lt;apache_document_root&gt;</pre> and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
 	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
 </ol>
+<p>
+	See the <a href="siteaccess">site access section</a> for more info on changing the way you access the user/admin site.
+</p>
 
-<p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
+<p class="important"> <b>Note:</b> The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
 
 
 <h2 id="Windows">Using the setup guide on Windows</h2>
@@ -102,7 +105,7 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot and rename it to something nice like 'ezpublish'</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumentRoot and rename it to something nice like 'ezpublish'</li>
     <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
 	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
@@ -112,4 +115,4 @@
 	See the <a href="siteaccess">site access section</a> for more info on changing the way you access the user/admin site.
 </p>
 
-<p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
+<p class="important"> <b>Note:</b> The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
