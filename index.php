@@ -594,7 +594,6 @@ else
     $templateResult =& $moduleResult['content'];
 }
 
-
 eZDebug::addTimingPoint( "End" );
 
 eZDisplayResult( $templateResult, eZDisplayDebug() );
