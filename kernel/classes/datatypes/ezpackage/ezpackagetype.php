@@ -157,7 +157,7 @@ class eZPackageType extends eZDataType
             $cacheDir =  eZSys::cacheDirectory();
         }
         $compiledTemplateDir = $cacheDir ."/template/compiled";
-        eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+        eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
 
         // Expire content/template cache. Actually we only need cache-block expiration.

@@ -376,7 +376,7 @@ function removeRelatedCache( $siteAccess )
         $cacheDir =  eZSys::cacheDirectory();
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
-    eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+    eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
     // Delete template cache.
     include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );

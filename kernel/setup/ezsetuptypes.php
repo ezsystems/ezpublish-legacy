@@ -165,10 +165,12 @@ function eZSetupSiteINISettings( $siteType, $parameters )
     if ( $siteType == 'intranet' )
     {
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'true' ) );
+        $settings['SiteSettings'] = array( 'LoginPage' => 'custom' );
     }
     else
     {
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'false' ) );
+        $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
