@@ -47,6 +47,9 @@ $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
 $user =& eZUser::currentUser();
+if ( !$user->isLoggedIn() )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 $userID = $user->id();
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )

@@ -153,6 +153,9 @@ class eZEnumValue extends eZPersistentObject
 
     function &fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
+        if ( is_null( $classAttributeID ) )
+            return array();
+
         return eZPersistentObject::fetchObjectList( eZEnumValue::definition(),
                                                     null,
                                                     array( "contentclass_attribute_id" => $classAttributeID,
