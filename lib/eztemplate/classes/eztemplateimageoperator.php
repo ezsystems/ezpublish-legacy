@@ -44,9 +44,6 @@
   Use setFontDir() and setCacheDir() to change where the font is located and where
   the cache file should be put.
   If fontDir() is an empty string the font will be looked for in the system.
-
-  \note This code is far from finished, in the future it will return an image type
-        which can be further modified with other image operators.
 */
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
