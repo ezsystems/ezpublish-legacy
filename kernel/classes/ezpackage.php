@@ -2468,7 +2468,7 @@ class eZPackage
                 $this->Parameters['simple-file-list'][$key] = $fileInfo;
             }
         }
-        $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $simpleFileList ) );
+        $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
 
         // Handle files
         $filesNode =& $dom->createElementNode( 'files' );
