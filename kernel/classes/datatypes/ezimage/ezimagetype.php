@@ -102,12 +102,18 @@ class eZImageType extends eZDataType
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if( $classAttribute->attribute( "is_required" ) == true )
         {
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-            $version = $contentObjectAttribute->attribute( "version" );
-            $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-            if ( !eZHTTPFile::canFetch( $httpFileName ) )
+            $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
+            $original =& $tmpImgObj->attribute( 'original' );
+
+            if ( !$original['is_valid'] )
             {
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+                $version = $contentObjectAttribute->attribute( "version" );
+                $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
+                if ( !eZHTTPFile::canFetch( $httpFileName ) )
+                {
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
