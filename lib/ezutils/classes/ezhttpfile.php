@@ -72,8 +72,8 @@ class eZHTTPFile
     */
     function storageDir( $sub_dir = false )
     {
-        $ini =& eZINI::instance();
-        $storage_dir = $ini->variable( "FileSettings", "StorageDir" );
+        $sys =& eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/" . $this->MimeCategory;
         else
@@ -96,7 +96,7 @@ class eZHTTPFile
         $this->IsTemporary = false;
 
         $ini =& eZINI::instance();
-        $storage_dir = $ini->variable( "FileSettings", "StorageDir" );
+        $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/";
         else
