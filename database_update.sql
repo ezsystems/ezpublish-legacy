@@ -202,3 +202,12 @@ alter table ezcontentobject_tree add column md5_path varchar(32);
 # remember to run scrap/updateniceurls.php to update path_identification strings
 update ezcontentobject_tree set md5_path = md5( path_identification_string );
 alter table ezcontentobject drop column parent_id;
+
+
+
+create table ezcontent_translation(
+    id int NOT NULL auto_increment,
+    name varchar(255) NOT NULL DEFAULT '',
+    locale varchar(255) NOT NULL,
+    PRIMARY KEY  (id)
+    );

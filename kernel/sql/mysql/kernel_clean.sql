@@ -1293,3 +1293,9 @@ CREATE TABLE ezworkflow_process (
 #
 
 
+create table ezcontent_translation(
+    id int NOT NULL auto_increment,
+    name varchar(255) NOT NULL DEFAULT '',
+    locale varchar(255) NOT NULL,
+    PRIMARY KEY  (id)
+    );
