@@ -151,7 +151,8 @@ class eZImageVariation extends eZPersistentObject
         include_once( "lib/ezutils/classes/ezdir.php" );
 
         $ini =& eZINI::instance();
-        $StoragePath = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings" , "StorageDir" );
+        $sys =& eZSys::instance();
+        $StoragePath = $sys->storageDirectory();
         $cat = $ezimageobj->attribute( "mime_type_category" );
 
         $referencePath = $StoragePath . '/' . $ini->variable( "ImageSettings", "ReferenceDir" ) . '/' . $cat;
