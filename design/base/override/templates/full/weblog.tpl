@@ -16,12 +16,27 @@
         </div>
 
         {section show=$node.object.data_map.enable_comments.content}
-            <h2>Comments</h2>
+            <h2>{"Comments"|i18n("design/weblog/layout")}</h2>
+
             <div class="view-children">
                {section var=comment loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}
                    {node_view_gui view='line' content_node=$comment}
                {/section}
             </div>
+
+            {section show=$node.object.can_create}
+            <div class="content-action">
+                <form method="post" action={"content/action"|ezurl}>
+                   <input type="hidden" name="ClassIdentifier" value="comment" />
+                   <input type="hidden" name="NodeID" value="{$node.node_id}" />
+                   <input class="button" type="submit" name="NewButton" value={"New comment"|i18n("design/weblog/layout")} />
+                </form>
+            </div>
+            {section-else}
+                <div class="message-warning">
+                    <h3>You are not allowed to create comments.</h3>
+                </div>
+            {/section}
         {/section}
    </div>
 </div>

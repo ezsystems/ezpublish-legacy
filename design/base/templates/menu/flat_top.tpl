@@ -10,7 +10,7 @@
             {section show=eq( $:item.object.content_class.identifier, "menu_link" )}
                 <li><div><a href="{$menuloop:item.object.data_map.link.content}">{$:item.object.data_map.link.data_text|wash}</a></div></li>
             {section-else}
-                <li><div><a href={concat( "/content/view/full/", $menuloop:item.node_id, "/")|ezurl}>{$:item.name|wash}</a></div></li>
+                <li><div><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></div></li>
             {/section}
     {/section}
     </ul>

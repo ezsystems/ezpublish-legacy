@@ -150,3 +150,25 @@ Source=node/view/line.tpl
 MatchFile=line/weblog.tpl
 Subdir=templates
 Match[class_identifier]=weblog
+
+[weblog_edit]
+Source=content/edit.tpl
+MatchFile=edit/weblog.tpl
+Subdir=templates
+Match[class_identifier]=weblog
+
+# Product templates
+
+[product_full]
+Source=node/view/full.tpl
+MatchFile=full/product.tpl
+Subdir=templates
+Match[class_identifier]=product
+
+[product_line]
+Source=node/view/line.tpl
+MatchFile=line/product.tpl
+Subdir=templates
+Match[class_identifier]=product
+
+
