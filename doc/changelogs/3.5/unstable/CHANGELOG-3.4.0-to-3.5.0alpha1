@@ -184,6 +184,8 @@ eztc.php:
   http://ez.no/community/bug_reports/problems_with_denied_objects_in_approval_and_drafts
 - Fixed bug
   http://ez.no/community/bug_reports/ini_settings_editing_causes_change_of_the_current_layout
+- Fixed bug
+  http://ez.no/community/bug_reports/metadataarray_description_problem
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

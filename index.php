@@ -773,17 +773,20 @@ if ( $show_page_layout )
 
     $meta = $ini->variable( 'SiteSettings', 'MetaDataArray' );
 
-    $metaDescription = "";
-    if ( isset( $moduleResult['path'] ) and
-         is_array( $moduleResult['path'] ) )
+    if ( !isset( $meta['description'] ) )
     {
-        foreach ( $moduleResult['path'] as $pathPart )
+        $metaDescription = "";
+        if ( isset( $moduleResult['path'] ) and
+             is_array( $moduleResult['path'] ) )
         {
-            if ( isset( $pathPart['text'] ) )
-                $metaDescription .= $pathPart['text'] . " ";
+            foreach ( $moduleResult['path'] as $pathPart )
+            {
+                if ( isset( $pathPart['text'] ) )
+                    $metaDescription .= $pathPart['text'] . " ";
+            }
         }
+        $meta['description'] = $metaDescription;
     }
-    $meta['description'] = $metaDescription;
 
     $http_equiv = array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
                          'Content-language' => $languageCode );
