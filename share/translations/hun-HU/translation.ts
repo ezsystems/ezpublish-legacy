@@ -10,7 +10,7 @@
     <name>&quot;design/standard/node/view&quot;</name>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritás</translation>
+        <translation>Prioritás</translation>
     </message>
 </context>
 <context>
@@ -19,7 +19,7 @@
     <message>
         <source>below.&apos;
 </source>
-        <translation type="obsolete">alább.&apos;
+        <translation>alább.&apos;
 </translation>
     </message>
 </context>
@@ -27,11 +27,11 @@
     <name>&apos;design/standard/node/view&apos;</name>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Szerkesztés</translation>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Másolás</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <source>Update</source>
@@ -43,7 +43,7 @@
     <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
-        <translation type="obsolete">Ha ezeket az értesítéseket nem kívánja fogadni,
+        <translation>Ha ezeket az értesítéseket nem kívánja fogadni,
 változtassa meg a beállításait itt:</translation>
     </message>
 </context>
@@ -53,15 +53,8 @@ változtassa meg a beállításait itt:</translation>
     <message>
         <source>system&quot;
 </source>
-        <translation type="obsolete">rendszer&quot;
+        <translation>rendszer&quot;
 </translation>
-    </message>
-</context>
-<context>
-    <name>content/pdf</name>
-    <message>
-        <source>PDF Export</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -132,7 +125,7 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>RAD</source>
-        <translation type="obsolete">RAD</translation>
+        <translation>RAD</translation>
     </message>
     <message>
         <source>Workflows</source>
@@ -213,21 +206,7 @@ változtassa meg a beállításait itt:</translation>
     <message>
         <source>RAD</source>
         <comment>Rapid Application Development</comment>
-        <translation>Gyors Alkalmazásfejlesztési (RAD)</translation>
-    </message>
-    <message>
-        <source>RSS</source>
-        <comment>Really Simple Syndication</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Advanced</source>
-        <translation type="unfinished">Részletes (haladó)</translation>
-    </message>
-    <message>
-        <source>PDF export</source>
-        <comment>PDF export</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Gyors Alkalmazásfejlesztési (RAD) Eszközök</translation>
     </message>
 </context>
 <context>
@@ -303,383 +282,10 @@ változtassa meg a beállításait itt:</translation>
     </message>
 </context>
 <context>
-    <name>design/blog/layout</name>
-    <message>
-        <source>Log entries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest blogs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Log Archive by Entry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comments disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Result</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Poll</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Recent links</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create new blog entry</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/corporate/layout</name>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation type="unfinished">Elküld</translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/forum/layout</name>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Subject</source>
-        <translation type="unfinished">Téma</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="unfinished">Üzenet</translation>
-    </message>
-    <message>
-        <source>Post</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Author</source>
-        <translation type="unfinished">Szerző</translation>
-    </message>
-    <message>
-        <source>Replies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Last reply</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of Topics:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of Posts:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notifications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout</source>
-        <translation type="unfinished">Kijelentkezés</translation>
-    </message>
-    <message>
-        <source>Latest posts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/gallery/layout</name>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Galleries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest comments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit gallery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create a new gallery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name of your album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Leírás</translation>
-    </message>
-    <message>
-        <source>Number of columns</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gallery list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout</source>
-        <translation type="unfinished">Kijelentkezés</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/intranet/layout</name>
-    <message>
-        <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contact information</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/content/poll</name>
-    <message>
-        <source>Results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;div id=&quot;poll_result&quot;&gt;
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-<byte value="x9"/>{let  attribute=$:item
-<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{section show=$error_existing_data}
-&lt;div class=&quot;warning&quot;&gt;
-    &lt;p&gt;{</name>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/news/layout</name>
-    <message>
-        <source>Related stories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tip a friend</source>
-        <translation type="unfinished">Javasolja egy barátjának</translation>
-    </message>
-    <message>
-        <source>Comments</source>
-        <translation type="unfinished">Megjegyzések</translation>
-    </message>
-    <message>
-        <source>Comment this article!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Result</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View all polls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>News</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Most popular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Poll</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
         <translation type="obsolete">Fizetéskor visszalépett. Ismételje meg a vásárlást.</translation>
-    </message>
-</context>
-<context>
-    <name>design/shop/layout</name>
-    <message>
-        <source>login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>logout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Read more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Write your own review</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Write a review and share your opinion. Please make sure your comments are devoted to the product.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>How do you rate the product?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title of your review:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your review:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Related products</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>People who bought this also bought</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reviews</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Write a review</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No rating</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Products</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest products</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your basket is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Best sellers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest news</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class</name>
-    <message>
-        <source>Class is locked</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -846,159 +452,7 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation>Az új objektumok ide fognak kerülni: %nodename</translation>
-    </message>
-    <message>
-        <source>Pretext</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Posttext</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (This value are the current identifier)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current temporary value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (This value is a copy of the original identifier)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Digits</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start value</source>
-        <translation type="unfinished">Kezdőérték</translation>
-    </message>
-    <message>
-        <source>Update identifier</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini Section</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini Parameter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini file location</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini setting type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="unfinished">Szöveg</translation>
-    </message>
-    <message>
-        <source>Enable/Disable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>True/False</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Integer</source>
-        <translation type="unfinished">Egész szám</translation>
-    </message>
-    <message>
-        <source>Float</source>
-        <translation type="unfinished">Lebegõ pontos szám</translation>
-    </message>
-    <message>
-        <source>Array</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Típus</translation>
-    </message>
-    <message>
-        <source>Create or browse objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New and existing objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Only new objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Only existing objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select which classes user can create</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unchecked</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Single choice</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warning, the ini file settings value and object value does not match.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The ini file has probably been modified manually since last time.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini File : </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini Value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Az új objektumok ide fognak kerülni: %nodename</translation>
     </message>
 </context>
 <context>
@@ -1145,51 +599,11 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>Last modified by %username on %time</source>
-        <translation>Utoljára %username módosította, ebben az idõpontban: %time</translation>
+        <translation>Utoljára %username módosította, ebben az időpontban: %time</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation>%username módosította, ebben az idõpontban: %time</translation>
-    </message>
-    <message>
-        <source>Class - %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Is required</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Is not required</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Is searchable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Is not searchable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Collects information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Does not collect information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Translation is disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Translation is enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>%username módosította, ebben az időpontban: %time</translation>
     </message>
 </context>
 <context>
@@ -1225,38 +639,6 @@ változtassa meg a beállításait itt:</translation>
     <message>
         <source>New group</source>
         <translation>Új csoport</translation>
-    </message>
-    <message>
-        <source>Last modified classes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PDF Exports</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Export</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>RSS Feeds</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>RSS Exports</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>RSS Imports</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>New Import</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Setup menu</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1303,12 +685,7 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>New class</source>
-        <translation>Ez az email azt közli, hogy a/az &quot;%objectname&quot; jóváhagyásra vár (%sitename helyen) mielõtt közzè lesz tève.
-Ha valamit szeretne közölni a jóváhagyóval vagy megnèzni a </translation>
-    </message>
-    <message>
-        <source>Click on the &apos;New&apos; button to create a class.</source>
-        <translation type="unfinished"></translation>
+        <translation>Új osztály</translation>
     </message>
 </context>
 <context>
@@ -1380,10 +757,6 @@ Ha valamit szeretne közölni a jóváhagyóval vagy megnèzni a </translation>
     <message>
         <source>Summary</source>
         <translation>Összefoglalás</translation>
-    </message>
-    <message>
-        <source>[more]</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1482,25 +855,25 @@ Ha valamit szeretne közölni a jóváhagyóval vagy megnèzni a </translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation>[%sitename] &quot;%objectname&quot; a maga figyelmére vár</translation>
+        <translation type="obsolete">[%sitename] &quot;%objectname&quot; a maga figyelmére vár</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation>Ez az email azt közli, hogy a/az &quot;%objectname&quot; (%sitename helyen) a maga figyelmére vár.
+        <translation type="obsolete">Ez az email azt közli, hogy a/az &quot;%objectname&quot; (%sitename helyen) a maga figyelmére vár.
 A közzétételi folyamat pillanatnyilag áll, a maga döntésére vár.
-A jóváhagyás a lenti URL-en keresztül elérhetõ.
+A jóváhagyás a lenti URL-en keresztül elérhető.
 </translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation>[%sitename] &quot;%objectname&quot; jóváhagyásra vár</translation>
+        <translation type="obsolete">[%sitename] &quot;%objectname&quot; jóváhagyásra vár</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation>Ez az email azt közli, hogy a/az &quot;%objectname&quot; jóváhagyásra vár (%sitename helyen) mielõtt közzé lesz téve.
+        <translation type="obsolete">Ez az email azt közli, hogy a/az &quot;%objectname&quot; jóváhagyásra vár (%sitename helyen) mielőtt közzé lesz téve.
 Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy csak ellenörizni szeretné a folyamat állapotát.</translation>
     </message>
 </context>
@@ -1592,7 +965,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation>A &apos;%1&apos; eltávolítása el fogja távolítani a fordítást és a %2 fordított verziókat!</translation>
+        <translation type="obsolete">A &apos;%1&apos; eltávolítása el fogja távolítani a fordítást és a %2 fordított verziókat!</translation>
     </message>
     <message>
         <source>URL translator</source>
@@ -1605,66 +978,6 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     <message>
         <source>Add</source>
         <translation>Hozzáad</translation>
-    </message>
-    <message>
-        <source>PDF Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation type="unfinished">Cím</translation>
-    </message>
-    <message>
-        <source>Intro text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sub text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Source node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation type="unfinished">Böngészés</translation>
-    </message>
-    <message>
-        <source>Export structure</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Node</source>
-        <translation type="unfinished">Csomópont</translation>
-    </message>
-    <message>
-        <source>Export classes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site access</source>
-        <translation type="unfinished">Webhelyelérés</translation>
-    </message>
-    <message>
-        <source>Export destination</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export to URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export for direct download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1684,13 +997,6 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     <message>
         <source>Remove objects</source>
         <translation type="obsolete">Objektumok eltávolítása</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/browse</name>
-    <message>
-        <source>Create new</source>
-        <translation type="unfinished">Újat</translation>
     </message>
 </context>
 <context>
@@ -1717,7 +1023,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Mègsem</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -1791,7 +1097,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Image filename</source>
-        <translation type="obsolete">Kép fájlneve</translation>
+        <translation>Kép fájlneve</translation>
     </message>
     <message>
         <source>Alternative image text</source>
@@ -1879,7 +1185,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Existing orignal filename</source>
-        <translation type="obsolete">Létező eredeti fájlnév</translation>
+        <translation>Létező eredeti fájlnév</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
@@ -1983,15 +1289,15 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation type="obsolete">Új %classname létrehozása</translation>
+        <translation>Új %classname létrehozása</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation type="obsolete">%classname Hozzáadása</translation>
+        <translation>%classname Hozzáadása</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation type="obsolete">Objektumok szerkesztése</translation>
+        <translation>Objektumok szerkesztése</translation>
     </message>
     <message>
         <source>Remove objects</source>
@@ -2000,46 +1306,6 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     <message>
         <source>MIME-Type</source>
         <translation>MIME-Típus</translation>
-    </message>
-    <message>
-        <source>View Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Local image file for upload</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Original filename for image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Existing original filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
-    </message>
-    <message>
-        <source>Open objects for edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Browse for objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="unfinished">Hozzáad</translation>
-    </message>
-    <message>
-        <source>Value (optional)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2206,7 +1472,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
-        <translation type="obsolete">Biztos, hogy elveti a piszkozatot?</translation>
+        <translation>Biztos, hogy elveti a piszkozatot?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -2215,266 +1481,6 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     <message>
         <source>Cancel</source>
         <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>Store</source>
-        <translation type="unfinished">Eltárolás</translation>
-    </message>
-    <message>
-        <source>Post</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feedback from %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following feedback was collected:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The currently published version is %version and was published at %time.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The last modification was done at %modified.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The object is owned by %owner.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This object is already being edited by someone else including you.
-    You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This object is already being edited by you.
-        You can either continue editing one of your drafts or you can create a new draft.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This object is already being edited by someone else.
-        You should either contact the person about the draft or create a new draft for personal editing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current drafts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="unfinished">Verzió</translation>
-    </message>
-    <message>
-        <source>Owner</source>
-        <translation type="unfinished">Tulajdonos</translation>
-    </message>
-    <message>
-        <source>Last modified</source>
-        <translation type="unfinished">Utoljára módosítva</translation>
-    </message>
-    <message>
-        <source>Input was partially stored</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard the draft %versionname?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/ezoption</name>
-    <message>
-        <source>No value chosen</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/feedback</name>
-    <message>
-        <source>Feedback for %feedbackname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thanks for your feedback, the following information was collected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Return to site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/feedback)}&lt;/p&gt;
-{/section}
-
-{section-else}
-
-&lt;p&gt;{</name>
-    <message>
-        <source>You have already submitted data to this feedback. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/form</name>
-    <message>
-        <source>Form %formname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Return to site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/form)}&lt;/p&gt;
-{/section}
-
-{/section}
-
-{section loop=$collection.attributes}
-
-&lt;h3&gt;{$:item.contentclass_attribute_name}&lt;/h3&gt;
-
-{attribute_result_gui view=info attribute=$:item}
-
-{/section}
-
-&lt;p/&gt;
-
-&lt;a href={$node.parent.url|ezurl}&gt;{</name>
-    <message>
-        <source>You have already submitted data to this form. The previously submitted data was the following.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/pdf</name>
-    <message>
-        <source>eZ publish PDF export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>#page of #total</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>#level1 - #level2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>#levelIndex1:#levelIndex2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Content</source>
-        <translation type="unfinished">Tartalom</translation>
-    </message>
-    <message>
-        <source>Versionview not supported in PDF yet</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll</name>
-    <message>
-        <source>Poll %pollname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%count total votes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Poll results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;div id=&quot;poll_result&quot;&gt;
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-<byte value="x9"/>{let  attribute=$:item
-<byte value="x9"/>      contentobject_attribute_id=cond($attribute|get_class|eq(</name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{/section}
-
-&lt;h2&gt;{$node.name}&lt;/h2&gt;
-
-{section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
-
-        &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
-        {attribute_result_gui view=count attribute=$:item}
-
-    {section-else}
-
-        {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
-            &lt;h3&gt;{$:item.contentclass_attribute.name}&lt;/h3&gt;
-            {attribute_view_gui attribute=$:item}
-        {/section}
-
-    {/section}
-
-{/section}
-
-&lt;br/&gt;
-
-{&quot;%count total votes&quot;|i18n( </name>
-    <message>
-        <source>You have already voted for this poll.</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/poll)}&lt;/p&gt;
-&lt;/div&gt;
-{/section}
-
-{section show=$error_existing_data}
-&lt;div class=&quot;warning&quot;&gt;
-    &lt;p&gt;{</name>
-    <message>
-        <source>Anonymous users are not allowed to vote on this poll, please login.</source>
-        <translation type="obsolete"></translation>
     </message>
 </context>
 <context>
@@ -2485,7 +1491,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">További lehetőségekhez próbálja: %1Részletes keresés%2</translation>
+        <translation>További lehetőségekhez próbálja: %1Részletes keresés%2</translation>
     </message>
     <message>
         <source>The following words were excluded from the search:</source>
@@ -2598,7 +1604,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation>További lehetőségekhez próbálja: %1Részletes keresés%2</translation>
+        <translation type="obsolete">További lehetőségekhez próbálja: %1Részletes keresés%2</translation>
     </message>
     <message>
         <source>Search tips</source>
@@ -2606,7 +1612,7 @@ Használja a lenti URL-t ha valamit közölni szeretne a jóváhagyóval vagy cs
     </message>
     <message>
         <source>Check spelling of keywords.</source>
-        <translation>Kulcsszavak helyesírási ellenõrzése.</translation>
+        <translation>Kulcsszavak helyesírási ellenőrzése.</translation>
     </message>
     <message>
         <source>Try changing some keywords eg. car instead of cars.</source>
@@ -3019,7 +2025,7 @@ Dönthet arról, hogy tovább szerkessze a piszkozatokat vagy eltávolítsa őke
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation>Válasszon kezdeti elhelyezést</translation>
+        <translation type="obsolete">Válasszon kezdeti elhelyezést</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -3027,10 +2033,10 @@ Dönthet arról, hogy tovább szerkessze a piszkozatokat vagy eltávolítsa őke
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Kérem válassza ki, hogy hová szeretné elhelyezni az új %classname -et.
+        <translation type="obsolete">Kérem válassza ki, hogy hová szeretné elhelyezni az új %classname -et.
 
 Válassza ki az elhelyezést és nyomja meg a %buttonname gombot.
-A friss-könyvjelzõket is lehet használni (gyors elhelyezésre).
+A friss-könyvjelzőket is lehet használni (gyors elhelyezésre).
 Nyomja meg az &quot;elhelyezési neveket&quot; a böngész lista változtatására.
 </translation>
     </message>
@@ -3042,16 +2048,16 @@ Nyomja meg az &quot;elhelyezési neveket&quot; a böngész lista változtatásá
         <translation type="obsolete">Ezek azok az objektumok amiket maga könyvjelzett. Kattintson rá egy objektumra, hogy lássa mi van benne. Ha van engedélye, akkor változtathatja ennek tartalmát (nyomja meg a változtató gombot).
 Ha több objektumot szeretne adni ehez a listához, nyomja meg a/az %addbutton gombot.
 
-Az objektumok csakis errõl a listáról lesznek eltávolítva.
+Az objektumok csakis erről a listáról lesznek eltávolítva.
 </translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation>A könyvjelzõket a %bookmarkname -en (%personalname rész) keresztül lehet igazítani.</translation>
+        <translation type="obsolete">A könyvjelzőket a %bookmarkname -en (%personalname rész) keresztül lehet igazítani.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation>Válasszon ki tételeket könyvjegyzésre</translation>
+        <translation type="obsolete">Válasszon ki tételeket könyvjegyzésre</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -3059,14 +2065,14 @@ Az objektumok csakis errõl a listáról lesznek eltávolítva.
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation>Válassza ki azokat a tételeket amiket a könyvjelzõ listához szeretne tenni.
-A friss ès könyvjelzett tételek is használhatók gyors válaszásra.
+        <translation type="obsolete">Válassza ki azokat a tételeket amiket a könyvjelző listához szeretne tenni.
+A friss és könyvjelzett tételek is használhatók gyors válaszásra.
 Válassza ki a tételeket és nyomja meg a %buttonname gombot.
-A böngészõ lista változtatható a tétel nevek rákattintásával.</translation>
+A böngésző lista változtatható a tétel nevek rákattintásával.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
-        <translation>Válasszon egy úl elhelyezést</translation>
+        <translation type="obsolete">Válasszon egy úl elhelyezést</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -3075,16 +2081,16 @@ A böngészõ lista változtatható a tétel nevek rákattintásával.</translat
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation>Válasszon ki egy új helyet a %name -nek.
+        <translation type="obsolete">Válasszon ki egy új helyet a %name -nek.
 Az elöbbi hely az ez volt: %placementname.
 
 Válassza ki a helyet és nyomja meg a %buttonname gombot.
-A friss ès könyvjelzett tételek is használhatók gyors válaszásra.
-A böngészõ lista változtatható a tétel nevek rákattintásával.</translation>
+A friss és könyvjelzett tételek is használhatók gyors válaszásra.
+A böngésző lista változtatható a tétel nevek rákattintásával.</translation>
     </message>
     <message>
         <source>Choose placements</source>
-        <translation>Válasszon elhelyezéseket</translation>
+        <translation type="obsolete">Válasszon elhelyezéseket</translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -3092,15 +2098,15 @@ A böngészõ lista változtatható a tétel nevek rákattintásával.</translat
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Kérem válassza ki, hogy hová szeretné elhelyezni a %name -et.
+        <translation type="obsolete">Kérem válassza ki, hogy hová szeretné elhelyezni a %name -et.
 Válassza ki a helyet és nyomja meg a %buttonname gombot.
-Gyors választás a friss/új kõnyvjelzõk használatával is lehetséges.
+Gyors választás a friss/új kőnyvjelzők használatával is lehetséges.
 A böngész-lista változtatható az hely-nevek megnyomásával.
 </translation>
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation>Válasszon kapcsolódó objektumokat</translation>
+        <translation type="obsolete">Válasszon kapcsolódó objektumokat</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -3108,10 +2114,10 @@ A böngész-lista változtatható az hely-nevek megnyomásával.
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Kèrem, válassza ki azokat az objektumokat amiket kapcsolni szeretne a %name -hez.
+        <translation type="obsolete">Kérem, válassza ki azokat az objektumokat amiket kapcsolni szeretne a %name -hez.
 
 Válassza ki az objektumokat és nyomja meg a %buttonname gombot.
-Gyors választás a friss/új kõnyvjelzõk használatával is lehetséges.
+Gyors választás a friss/új kőnyvjelzők használatával is lehetséges.
 A böngész-lista változtatható az objektum nevek megnyomásával.
 </translation>
     </message>
@@ -3121,26 +2127,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Deselect all</source>
-        <translation>Minden kiválasztás törlèse</translation>
-    </message>
-    <message>
-        <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
-      If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
-
-      Removing objects will only remove them from this list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To select objects, choose the appropriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Creator</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Created</source>
-        <translation type="obsolete">Létrehozva</translation>
+        <translation>Minden kiválasztás törlése</translation>
     </message>
 </context>
 <context>
@@ -3215,7 +2202,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="obsolete">Jelenleg ön nincs bejelentkezve a honlapra. Megfelelő jogosultság eléréséhez egy új felhasználót kell létrehozni, vagy bejelentkezni egy már meglévővel.</translation>
+        <translation>Jelenleg ön nincs bejelentkezve a honlapra. Megfelelő jogosultság eléréséhez egy új felhasználót kell létrehozni, vagy bejelentkezni egy már meglévővel.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
@@ -3303,11 +2290,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
-        <translation>Automatikusan àt lesz irányítva az új címre; ha nem: kattintson rá erre az URL-re: %url.</translation>
-    </message>
-    <message>
-        <source>You are currently not logged in to the site, to get proper access create a new user or login with an existing user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatikusan át lesz irányítva az új címre; ha nem: kattintson rá erre az URL-re: %url.</translation>
     </message>
 </context>
 <context>
@@ -3344,11 +2327,11 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Site:</source>
-        <translation>Honlap:</translation>
+        <translation type="obsolete">Honlap:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Verzió:</translation>
+        <translation type="obsolete">Verzió:</translation>
     </message>
     <message>
         <source>Login</source>
@@ -3478,7 +2461,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Are you sure you want to remove these nodes?</source>
-        <translation type="obsolete">Tényleg el szeretné távolítani ezeket az csomópontokat?</translation>
+        <translation>Tényleg el szeretné távolítani ezeket az csomópontokat?</translation>
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
@@ -3490,7 +2473,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation type="obsolete">A hozzárendelésnek a törlése törörni fogja a %1 leszármazottjait.</translation>
+        <translation>A hozzárendelésnek a törlése törörni fogja a %1 leszármazottjait.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
@@ -3498,39 +2481,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation type="obsolete">A %1 törlése törörni fogja a comópontot (%1) ès a %2 leszármazottjait. %3</translation>
-    </message>
-    <message>
-        <source>Removing this assignment will also remove its %1 children.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%nodename and its %childcount children. %additionalwarning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%nodename %additionalwarning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Move to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If %trashname is checked you will find the removed items in the trash afterwards.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/node/v
-iew</name>
-    <message>
-        <source>Create here</source>
-        <translation type="obsolete">Létrehoz itt</translation>
+        <translation>A %1 törlése törörni fogja a comópontot (%1) és a %2 leszármazottjait. %3</translation>
     </message>
 </context>
 <context>
@@ -3623,54 +2574,6 @@ iew</name>
         <source>Click to create a custom template</source>
         <translation>Kattintson ide ha saját sablont szeretne készíteni</translation>
     </message>
-    <message>
-        <source>New image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New gallery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New article</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New person</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New company</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input did not validate</source>
-        <translation type="unfinished">A bemenő adat nem lett jóváhagyva</translation>
-    </message>
-    <message>
-        <source>Default object view.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Node ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object ID</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/notification</name>
@@ -3705,7 +2608,7 @@ iew</name>
     <message>
         <source>%sitename.&quot;
 </source>
-        <translation type="obsolete">%sitename.&quot;
+        <translation>%sitename.&quot;
 </translation>
     </message>
     <message>
@@ -3717,13 +2620,13 @@ változtassa meg a beállításait itt:</translation>
     <message>
         <source>system&quot;
 </source>
-        <translation type="obsolete">rendszer&quot;
+        <translation>rendszer&quot;
 </translation>
     </message>
     <message>
         <source>below.&quot;
 </source>
-        <translation type="obsolete">alább.&quot;
+        <translation>alább.&quot;
 </translation>
     </message>
     <message>
@@ -3740,64 +2643,64 @@ változtassa meg a beállításait itt:</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation>%sitename èrtesìtèsi rendszer</translation>
+        <translation type="obsolete">%sitename értesítési rendszer</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation>[%sitename] Ùj eggyüttmûködési téma</translation>
+        <translation type="obsolete">[%sitename] Új együttműködési téma</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>Ez az email arròl èrtesìt, hogy egy ùj eggyüttmûködési téma kéri a maga figyelmét (hely: %sitename).
-A téma a lenti URL-en keresztül elérhetõ.</translation>
+        <translation type="obsolete">Ez az email arról értesít, hogy egy új együttműködési téma kéri a maga figyelmét (hely: %sitename).
+A téma a lenti URL-en keresztül elérhető.</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation>[%sitename] Digest (kivonat) %date</translation>
+        <translation type="obsolete">[%sitename] Digest (kivonat) %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation>Ez a kivonat (digest) email arròl èrtesìt, hogy ùj témák vannak itt: %sitename.</translation>
+        <translation type="obsolete">Ez a kivonat (digest) email arról értesít, hogy új témák vannak itt: %sitename.</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation>Ez az email arròl èrtesìt, hogy ùj hìrek vannak itt: %sitename.</translation>
+        <translation type="obsolete">Ez az email arról értesít, hogy új hírek vannak itt: %sitename.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation type="obsolete">[%sitename] %classname &quot;%itemname&quot; közre lett tève</translation>
+        <translation type="obsolete">[%sitename] %classname &quot;%itemname&quot; közre lett téve</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation type="obsolete">Ez az email arról értesít, hogy egy ùj tèma lett közre tève itt: %sitename.
-Ez a tèma elèrhetõ a lenti URL-en keresztül.
+        <translation type="obsolete">Ez az email arról értesít, hogy egy új téma lett közre téve itt: %sitename.
+Ez a téma elérhető a lenti URL-en keresztül.
 </translation>
     </message>
     <message>
         <source>Notification admin</source>
-        <translation>Èrtesìtèsi intèzõ</translation>
+        <translation>Èrtesítési intéző</translation>
     </message>
     <message>
         <source>Notification filter proccessed all available notification events</source>
-        <translation>Èrtesìtèsi szûrõ feldolgozta az összes èrtesìtèsi eseményt</translation>
+        <translation>Èrtesítési szűrő feldolgozta az összes értesítési eseményt</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
-        <translation>Idõ esemény eleresztve/elindítva</translation>
+        <translation>Idő esemény eleresztve/elindítva</translation>
     </message>
     <message>
         <source>Run notification filter</source>
-        <translation>Èrtesìtèsi szûrô futtatàsa</translation>
+        <translation>Èrtesítési szűrô futtatása</translation>
     </message>
     <message>
         <source>Run</source>
-        <translation>Futtatàs</translation>
+        <translation>Futtatás</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation>Idõ esemèny eleresztèse/indítása</translation>
+        <translation>Idő esemény eleresztése/indítása</translation>
     </message>
     <message>
         <source>Spawn</source>
@@ -3857,273 +2760,12 @@ Ez a tèma elèrhetõ a lenti URL-en keresztül.
         <source>Install package</source>
         <translation>Csomag telepítése</translation>
     </message>
-    <message>
-        <source>Please provide information on the changes.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-Mail</source>
-        <translation type="unfinished">E-Mail</translation>
-    </message>
-    <message>
-        <source>Changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start an entry with a marker ( %emstart-%emend (dash) or %emstart*%emend (asterix) ) at the beginning of the line.
-The change will continue to the next change marker.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please provide some basic information for your package.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Leírás</translation>
-    </message>
-    <message>
-        <source>Licence</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Packager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please provide information on the maintainer of the package.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>Maintainer name</comment>
-        <translation type="unfinished">Név</translation>
-    </message>
-    <message>
-        <source>Role</source>
-        <comment>Maintainer role</comment>
-        <translation type="unfinished">Szerep</translation>
-    </message>
-    <message>
-        <source>Please select a thumbnail file to be included in the package,
-if you do not wish to have a thumbnail simply click Next.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Available wizards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose one of the following wizards for creating a package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose the content classes you wish to be included in the package.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Class list</source>
-        <translation type="unfinished">Osztálylista</translation>
-    </message>
-    <message>
-        <source>Please select a CSS file to be included in the package.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select an image file to be included in the package and click Next.
-When you are done with adding images click Next without choosing an image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Currently added image files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package wizard: %wizardname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
-If you do not wish to install the package at this time you can do so later on the view page for the package.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Install items</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Skip installation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removal of packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you wish to remove the following packages?
-The packages will be lost forever.
-Note: The packages will not be uninstalled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Confirm removal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Keep packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package removal was cancelled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selection</source>
-        <translation type="unfinished">Választás</translation>
-    </message>
-    <message>
-        <source>Installed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Imported</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next %arrowright</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uninstall package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The package can be uninstalled from your system, uninstalling the package will remove any installed files, content classes etc. all depending on the package.
-If you do not wish to uninstall the package at this time you can do so later on the view page for the package.
-You may also remove the package without uninstalling it from the package list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uninstall items</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Skip uninstallation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Files [%collectionname]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="unfinished">Részletek</translation>
-    </message>
-    <message>
-        <source>Uninstall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export to file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>State</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Maintainers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Regarding eZ publish package &apos;%packagename&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send E-Mail to the maintainer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Changelog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File list</source>
-        <translation type="unfinished">Fàlj lista</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/pdf/list</name>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">Név</translation>
-    </message>
-    <message>
-        <source>Creator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Created</source>
-        <translation type="unfinished">Létrehozva</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Eltávolítás</translation>
-    </message>
-    <message>
-        <source>PDF Exports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Export</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/reference/ez</name>
     <message>
         <source>No generated documentation found</source>
-        <translation>Nem talàlhatò semilyen elõállított dokumentum</translation>
+        <translation>Nem található semilyen előállított dokumentum</translation>
     </message>
     <message>
         <source>To create the reference documentation you must do the following step</source>
@@ -4131,11 +2773,11 @@ You may also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Download and install doxygen</source>
-        <translation>Töltsd le ès rakd be a Doxygen-t</translation>
+        <translation>Töltsd le és rakd be a Doxygen-t</translation>
     </message>
     <message>
         <source>Generate the documentation by running the following command</source>
-        <translation>Állítsd elõ a dokumentációt ezzel a kommandó futtatásával</translation>
+        <translation>Állítsd elő a dokumentációt ezzel a kommandó futtatásával</translation>
     </message>
     <message>
         <source>Download doxygen from %doxygenurl.</source>
@@ -4159,7 +2801,7 @@ You may also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>File list</source>
-        <translation>Fàlj lista</translation>
+        <translation>Fálj lista</translation>
     </message>
     <message>
         <source>Compound members</source>
@@ -4167,11 +2809,11 @@ You may also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>File members</source>
-        <translation>Fájl részvevõk</translation>
+        <translation>Fájl részvevők</translation>
     </message>
     <message>
         <source>Related pages</source>
-        <translation>Összefüggõ oldalok</translation>
+        <translation>Összefüggő oldalok</translation>
     </message>
     <message>
         <source>Introduction</source>
@@ -4181,8 +2823,8 @@ You may also remove the package without uninstalling it from the package list.</
         <source>The Reference Documentation for eZ publish consists of multiple sections which
 each have a different view on the documentation. The sections can be accessed at
 menu on the top.</source>
-        <translation>Az eZ publish referencia dokumentáció több szekcióbol àll. A szekciók külömbözõ nézettel rendelkeznek.
-A szekciók elérhetõk a fenti menün keresztül.
+        <translation>Az eZ publish referencia dokumentáció több szekcióbol áll. A szekciók külömböző nézettel rendelkeznek.
+A szekciók elérhetők a fenti menün keresztül.
 </translation>
     </message>
     <message>
@@ -4366,11 +3008,11 @@ A szekciók elérhetõk a fenti menün keresztül.
     </message>
     <message>
         <source>User</source>
-        <translation>Felhasznàlò</translation>
+        <translation>Felhasználó</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Adja meg a korlàtokat a %functionname - funkciòhoz a %modulename modulban. &apos;Any&apos;/&apos;Bàrmely&apos; korlàtlant jelent</translation>
+        <translation type="obsolete">Adja meg a korlátokat a %functionname - funkcióhoz a %modulename modulban. &apos;Any&apos;/&apos;Bármely&apos; korlátlant jelent</translation>
     </message>
     <message>
         <source>Find</source>
@@ -4378,251 +3020,27 @@ A szekciók elérhetõk a fenti menün keresztül.
     </message>
     <message>
         <source>Remove selected policies</source>
-        <translation>Kivàlasztott iránylevelek eltávolítása</translation>
+        <translation>Kiválasztott iránylevelek eltávolítása</translation>
     </message>
     <message>
         <source>Edit role</source>
-        <translation>Szerep szerkesztès</translation>
+        <translation>Szerep szerkesztés</translation>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation>Felhasznàlò vagy csoport szerep kijelölése</translation>
+        <translation>Felhasználó vagy csoport szerep kijelölése</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
-        <translation>Kivàlasztott szerepek törlèse</translation>
+        <translation>Kiválasztott szerepek törlése</translation>
     </message>
     <message>
         <source>Edit current role</source>
-        <translation>Jelenlegi szerep szerkesztèse</translation>
+        <translation>Jelenlegi szerep szerkesztése</translation>
     </message>
     <message>
         <source>Remove selected assignments</source>
-        <translation>Kivàlasztott hozzàrendelèsek törlèse</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/rss</name>
-    <message>
-        <source>Choose export node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose where to export from.
-
-    Select your placements and click the %buttonname button.
-    Using the recent and bookmark items for quick placement is also possible.
-    Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="unfinished">Kiválaszt</translation>
-    </message>
-    <message>
-        <source>Choose import destination</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose where to store imported items.
-
-    Select your placements and click the %buttonname button.
-    Using the recent and bookmark items for quick placement is also possible.
-    Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose RSS image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose image to use in RSS export.
-
-    Select your placements and click the %buttonname button.
-    Using the recent and bookmark items for quick placement is also possible.
-    Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose export source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose owner of imported objects</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please select the owner of the objects to import
-
-    Select the user and click the %buttonname button.
-    Using the recent and bookmark items for quick selection is also possible.
-    Click on placement names to change the browse listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/rss/edit</name>
-    <message>
-        <source>Display frontpage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation type="unfinished">Cím</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Leírás</translation>
-    </message>
-    <message>
-        <source>Site URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <translation type="unfinished">Kép</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation type="unfinished">Böngészés</translation>
-    </message>
-    <message>
-        <source>Site Access</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note. Each source only fetch 5 objects from 1 level below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Source path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation type="unfinished">Osztály</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="unfinished">Frissítés</translation>
-    </message>
-    <message>
-        <source>Store</source>
-        <translation type="unfinished">Eltárolás</translation>
-    </message>
-    <message>
-        <source>Add Source</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Eltávolítás</translation>
-    </message>
-    <message>
-        <source>RSS Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation type="unfinished">URL</translation>
-    </message>
-    <message>
-        <source>Destination path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Imported objects owner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="unfinished">Kiválaszt</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/rss/list</name>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">Név</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="unfinished">Verzió</translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Modifier</source>
-        <translation type="unfinished">Módosító</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation type="unfinished">Módosítva</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Eltávolítás</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="unfinished">Igen</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="unfinished">Nem</translation>
-    </message>
-    <message>
-        <source>RSS Feeds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Exports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RSS Imports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/rss/view</name>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Eltávolítás</translation>
+        <translation>Kiválasztott hozzárendelések törlése</translation>
     </message>
 </context>
 <context>
@@ -4764,7 +3182,7 @@ A szekciók elérhetõk a fenti menün keresztül.
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation>Válasszon szekció hozzárendelést</translation>
+        <translation type="obsolete">Válasszon szekció hozzárendelést</translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -4772,11 +3190,11 @@ A szekciók elérhetõk a fenti menün keresztül.
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Válassza ki, hogy hol szeretné indítani a %section szekció hozzárendelését.
+        <translation type="obsolete">Válassza ki, hogy hol szeretné indítani a %section szekció hozzárendelését.
 
-Válassza ki a helyet ès kattintson rá a %buttonname gombra.
-Az új és kõnyvjel témákat is lehet használni (gyors elhelyezésre).
-A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
+Válassza ki a helyet és kattintson rá a %buttonname gombra.
+Az új és kőnyvjel témákat is lehet használni (gyors elhelyezésre).
+A hely-nevek kattintása megváltoztatja a böngésző listát.</translation>
     </message>
     <message>
         <source>Remove selected sections</source>
@@ -4831,11 +3249,11 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Verzió</translation>
+        <translation>Verzió</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="obsolete">Kiterjesztések</translation>
+        <translation>Kiterjesztések</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
@@ -4887,11 +3305,11 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="obsolete">Típus</translation>
+        <translation>Típus</translation>
     </message>
     <message>
         <source>Charset</source>
-        <translation type="obsolete">Karakterkészlet</translation>
+        <translation>Karakterkészlet</translation>
     </message>
     <message>
         <source>Rapid Application Development Tools</source>
@@ -4903,7 +3321,7 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Tools</source>
-        <translation type="obsolete">Eszközök</translation>
+        <translation>Eszközök</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
@@ -5123,7 +3541,7 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation type="obsolete">Start</translation>
+        <translation>Start</translation>
     </message>
     <message>
         <source>Basic information</source>
@@ -5131,35 +3549,35 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Name of operator</source>
-        <translation type="obsolete">Operátor neve</translation>
+        <translation>Operátor neve</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="obsolete">Beállítások</translation>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <source>One operator in class</source>
-        <translation type="obsolete">Egy operátor az osztályban</translation>
+        <translation>Egy operátor az osztályban</translation>
     </message>
     <message>
         <source>Handles operator input</source>
-        <translation type="obsolete">Kezeli az operátor-bemenetet</translation>
+        <translation>Kezeli az operátor-bemenetet</translation>
     </message>
     <message>
         <source>Generates operator output</source>
-        <translation type="obsolete">Operátor-kimenetet generál</translation>
+        <translation>Operátor-kimenetet generál</translation>
     </message>
     <message>
         <source>Parameter handling</source>
-        <translation type="obsolete">Paraméterkezelés</translation>
+        <translation>Paraméterkezelés</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="obsolete">Következő</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="obsolete">Újraindítás</translation>
+        <translation>Újraindítás</translation>
     </message>
     <message>
         <source>Optional information</source>
@@ -5167,43 +3585,43 @@ A hely-nevek kattintása megváltoztatja a böngészõ listát.</translation>
     </message>
     <message>
         <source>Name of class</source>
-        <translation type="obsolete">Osztály neve</translation>
+        <translation>Osztály neve</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
-        <translation type="obsolete">Az operátor létrehozója</translation>
+        <translation>Az operátor létrehozója</translation>
     </message>
     <message>
         <source>Description of your operator</source>
-        <translation type="obsolete">Az ön operátorának jellemzése</translation>
+        <translation>Az ön operátorának jellemzése</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
-        <translation type="obsolete">Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
+        <translation>Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
-        <translation type="obsolete">Kezeli a %operatorname sablon-operátort.
+        <translation>Kezeli a %operatorname sablon-operátort.
 Ezen %operatorname használatával lehetséges...</translation>
     </message>
     <message>
         <source>Example code</source>
-        <translation type="obsolete">Példa kód</translation>
+        <translation>Példa kód</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
-        <translation type="obsolete">Megadhat néhány példát, amiből jobban látható, hogy az ön által készített operátor hogyan működik.
+        <translation>Megadhat néhány példát, amiből jobban látható, hogy az ön által készített operátor hogyan működik.
 Az alapértelmezett kód elkészült az alapvető paraméterekből, amiket kiválasztott.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
-        <translation type="obsolete">Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
+        <translation>Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="obsolete">Letöltés</translation>
+        <translation>Letöltés</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -5251,7 +3669,7 @@ Az alapértelmezett kód elkészült az alapvető paraméterekből, amiket kivá
     </message>
     <message>
         <source>SVN revision</source>
-        <translation type="obsolete">SVN revízió</translation>
+        <translation>SVN revízió</translation>
     </message>
     <message>
         <source>Extension setup</source>
@@ -5271,41 +3689,41 @@ Az alapértelmezett kód elkészült az alapvető paraméterekből, amiket kivá
     </message>
     <message>
         <source>Name of datatype</source>
-        <translation type="obsolete">Az adattípus neve</translation>
+        <translation>Az adattípus neve</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
-        <translation type="obsolete">Az adattípus összefoglaló leírása</translation>
+        <translation>Az adattípus összefoglaló leírása</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
-        <translation type="obsolete">A bemenő adatokat osztály szinten kezelje</translation>
+        <translation>A bemenő adatokat osztály szinten kezelje</translation>
     </message>
     <message>
         <source>Constant name</source>
-        <translation type="obsolete">Állandó név</translation>
+        <translation>Állandó név</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
-        <translation type="obsolete">Az adattípus létrehozója</translation>
+        <translation>Az adattípus létrehozója</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
-        <translation type="obsolete">Az ön által létrehozott adattípus leírása</translation>
+        <translation>Az ön által létrehozott adattípus leírása</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
-        <translation type="obsolete">A %datatypename adattípus kezelése
+        <translation>A %datatypename adattípus kezelése
 A %datatype adattípus segítségével lehet ...</translation>
     </message>
     <message>
         <source>PHP Accelerator is enabled.</source>
-        <translation type="obsolete">PHP gyorsító bekapcsolva.</translation>
+        <translation>PHP gyorsító bekapcsolva.</translation>
     </message>
     <message>
         <source>PHP Accelerator is disabled.</source>
-        <translation type="obsolete">PHP gyorsító kikapcsolva.</translation>
+        <translation>PHP gyorsító kikapcsolva.</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
@@ -5354,299 +3772,250 @@ A %datatype adattípus segítségével lehet ...</translation>
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation>Start</translation>
+        <translation type="obsolete">Start</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation>Az adattípus neve</translation>
+        <translation type="obsolete">Az adattípus neve</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation>Az adattípus összefoglaló leírása</translation>
+        <translation type="obsolete">Az adattípus összefoglaló leírása</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation>Beállítások</translation>
+        <translation type="obsolete">Beállítások</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation>A bemenő adatokat osztály szinten kezelje</translation>
+        <translation type="obsolete">A bemenő adatokat osztály szinten kezelje</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation>Következő</translation>
+        <translation type="obsolete">Következő</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation>Újraindítás</translation>
+        <translation type="obsolete">Újraindítás</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation>Osztály neve</translation>
+        <translation type="obsolete">Osztály neve</translation>
     </message>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation>Állandó név</translation>
+        <translation type="obsolete">Állandó név</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation>Az adattípus létrehozója</translation>
+        <translation type="obsolete">Az adattípus létrehozója</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation>Az ön által létrehozott adattípus leírása</translation>
+        <translation type="obsolete">Az ön által létrehozott adattípus leírása</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation>Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
+        <translation type="obsolete">Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation>A %datatypename adattípus kezelése
+        <translation type="obsolete">A %datatypename adattípus kezelése
 A %datatype adattípus segítségével lehet ...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation>Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
+        <translation type="obsolete">Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation>Letöltés</translation>
+        <translation type="obsolete">Letöltés</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation>Verzió</translation>
+        <translation type="obsolete">Verzió</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation>SVN revízió</translation>
+        <translation type="obsolete">SVN revízió</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation>Kiterjesztések</translation>
+        <translation type="obsolete">Kiterjesztések</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation>Verzió</translation>
+        <translation type="obsolete">Verzió</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation>Kiterjesztések</translation>
+        <translation type="obsolete">Kiterjesztések</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation>Verzió</translation>
+        <translation type="obsolete">Verzió</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation>Típus</translation>
+        <translation type="obsolete">Típus</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation>Karakterkészlet</translation>
+        <translation type="obsolete">Karakterkészlet</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation>Eszközök</translation>
+        <translation type="obsolete">Eszközök</translation>
     </message>
     <message>
         <source>Image processing</source>
-        <translation type="obsolete">Kèp feldolgozás</translation>
+        <translation type="obsolete">Kép feldolgozás</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation>Start</translation>
+        <translation type="obsolete">Start</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation>Operátor neve</translation>
+        <translation type="obsolete">Operátor neve</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation>Beállítások</translation>
+        <translation type="obsolete">Beállítások</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation>Egy operátor az osztályban</translation>
+        <translation type="obsolete">Egy operátor az osztályban</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation>Kezeli az operátor-bemenetet</translation>
+        <translation type="obsolete">Kezeli az operátor-bemenetet</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation>Operátor-kimenetet generál</translation>
+        <translation type="obsolete">Operátor-kimenetet generál</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation>Paraméterkezelés</translation>
+        <translation type="obsolete">Paraméterkezelés</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation>Következő</translation>
+        <translation type="obsolete">Következő</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation>Újraindítás</translation>
+        <translation type="obsolete">Újraindítás</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation>Osztály neve</translation>
+        <translation type="obsolete">Osztály neve</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation>Az operátor létrehozója</translation>
+        <translation type="obsolete">Az operátor létrehozója</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation>Az ön operátorának jellemzése</translation>
+        <translation type="obsolete">Az ön operátorának jellemzése</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation>Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
+        <translation type="obsolete">Ez az első sor lesz a rövid leírás - a dokumentum további része szolgál az operátor bővebb dokumentációjára.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation>Kezeli a %operatorname sablon-operátort.
+        <translation type="obsolete">Kezeli a %operatorname sablon-operátort.
 Ezen %operatorname használatával lehetséges...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation>Példa program-kód</translation>
+        <translation type="obsolete">Példa program-kód</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation>Megadhat néhány példát, amiből jobban látható, hogy az ön által készített operátor hogyan működik.
+        <translation type="obsolete">Megadhat néhány példát, amiből jobban látható, hogy az ön által készített operátor hogyan működik.
 Az alapértelmezett kód elkészült az alapvető paraméterekből, amiket kiválasztott.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation>Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
+        <translation type="obsolete">Mihelyt megnyomja a letöltés gombot, a kód legenerálódik, majd a böngésző felajánlja, hogy mentse el az így keletkezett fájlt.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation>Letöltés</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>PHP Accelerator name</comment>
-        <translation type="unfinished">Név</translation>
-    </message>
-    <message>
-        <source>Could not detect version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The PHP Accelerator is enabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The PHP Accelerator is disabled.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server</source>
-        <comment>Database server</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Socket path</source>
-        <comment>Database socket path</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Database</source>
-        <comment>Database name</comment>
-        <translation type="unfinished">Adatbázis</translation>
-    </message>
-    <message>
-        <source>Connection retry count</source>
-        <comment>Database retry count</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Internal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Current read-only database (Slave)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Letöltés</translation>
     </message>
     <message>
         <source>System:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendszer:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Image system:</source>
-        <translation type="unfinished"></translation>
+        <translation>Képkezelő rendszer:</translation>
     </message>
     <message>
         <source>Mail:</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail:</translation>
     </message>
     <message>
         <source>Database:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adatbázis:</translation>
     </message>
     <message>
-        <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <source>Language(s):</source>
+        <translation>Nyelv(ek):</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation type="unfinished">Prioritás</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="unfinished">Frissítés</translation>
+        <source>Site(s):</source>
+        <translation>Webhely(ek):</translation>
     </message>
 </context>
 <context>
@@ -6435,13 +4804,13 @@ Az &quot;adminisztrátor e-mail&quot; lesz a feladója az &quot;eZ publish&quot;
     <message>
         <source>features.&quot;
 </source>
-        <translation type="obsolete">feature-ök.&quot;
+        <translation>feature-ök.&quot;
 </translation>
     </message>
     <message>
         <source>systems!&quot;
 </source>
-        <translation type="obsolete">rendszerek!&quot;
+        <translation>rendszerek!&quot;
 </translation>
     </message>
     <message>
@@ -6542,7 +4911,7 @@ Az &quot;adminisztrátor e-mail&quot; lesz a feladója az &quot;eZ publish&quot;
     </message>
     <message>
         <source>here</source>
-        <translation type="obsolete">itt</translation>
+        <translation>itt</translation>
     </message>
     <message>
         <source>Database initialization</source>
@@ -6630,7 +4999,7 @@ Az &quot;adminisztrátor e-mail&quot; lesz a feladója az &quot;eZ publish&quot;
     </message>
     <message>
         <source>eZ publish</source>
-        <translation type="obsolete">eZ publish</translation>
+        <translation>eZ publish</translation>
     </message>
     <message>
         <source>Language and country selection</source>
@@ -6680,7 +5049,7 @@ Ennek megoldásához a következőt teheti:</translation>
     </message>
     <message>
         <source>documentation</source>
-        <translation type="obsolete">dokumentáció</translation>
+        <translation>dokumentáció</translation>
     </message>
     <message>
         <source>Site registration</source>
@@ -6784,7 +5153,7 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>online documentation</source>
-        <translation type="obsolete">Online dokumentáció</translation>
+        <translation>online dokumentáció</translation>
     </message>
     <message>
         <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
@@ -6929,11 +5298,11 @@ Ha bizonytalan, válassza az URL-t.</translation>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation type="unfinished">itt</translation>
+        <translation type="obsolete">itt</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation type="unfinished"></translation>
+        <translation>amely el fogja küldeni az e-mail-eket. Ha bizonytalan, kérdezze meg a webszerver üzemeltetőjét. Néhány webszerveren nem támogatott</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
@@ -6947,50 +5316,50 @@ Ha bizonytalan, válassza az URL-t.</translation>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation type="unfinished">eZ publish</translation>
+        <translation type="obsolete">eZ publish</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation type="unfinished">dokumentáció</translation>
+        <translation type="obsolete">dokumentáció</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation type="unfinished">Következő</translation>
+        <translation type="obsolete">Következő</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">Online dokumentáció</translation>
+        <translation type="obsolete">Online dokumentáció</translation>
     </message>
     <message>
         <source>Fill out the details for each site.</source>
@@ -6998,12 +5367,12 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>For more information on how to configure site access, see the %1</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">A webhelyelérés konfigurálásának részleteiről olvashat itt: %1</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation type="unfinished">dokumentáció</translation>
+        <translation type="obsolete">dokumentáció</translation>
     </message>
     <message>
         <source>Use the refresh button to update database list.</source>
@@ -7011,7 +5380,7 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation type="unfinished"></translation>
+        <translation>A rendszerellenőrzés talált néhány problémát, amit a beállítások folytatása előtt meg kell oldani.</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
@@ -7035,317 +5404,358 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a rész tartalmaz információt/segítséget a beállítások lépéseiről.</translation>
     </message>
     <message>
         <source>The summary section below will contain information about configured settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az alábbi összegző rész mutatja az eddigi beállításokat.</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eZ publish kézi beállításáról itt található információ: %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation type="unfinished">itt</translation>
+        <translation type="obsolete">itt</translation>
     </message>
     <message>
-        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish supports both MySQL and PostgreSQL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please input database access information in the form below.</source>
-        <translation type="unfinished"></translation>
+        <source>Enter database system user information in the boxes below.</source>
+        <translation type="obsolete">Adja meg az adatbázisrendszer felhasználói adatait az alábbi szövegmezőkben.</translation>
     </message>
     <message>
         <source>Servername:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerver neve:</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói név:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jelszó:</translation>
     </message>
     <message>
         <source>Socket (optional):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Foglalat (socket; nem kötelező megadni):</translation>
     </message>
     <message>
         <source>Outgoing E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Kimenő e-mail</translation>
     </message>
     <message>
         <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az alábbiakban beállíthatja az eZ publish kimenő e-mail-kezelését.</translation>
     </message>
     <message>
-        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation type="unfinished"></translation>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (sendmail must be available on the server where eZ publish is installed)&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation type="obsolete">Két lehetőség közül választhat:&lt;br&gt;-A sendmail programon keresztül történő közvetlen kézbesítés (ez esetben a sendmail programnak elérhetőnek kell lennie a szerveren, ahova az eZ publish-t telepíti)&lt;br&gt;-Közvetett kézbesítés egy SMTP levelezőszerveren keresztül.</translation>
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az MS Windows felhasználók számára az SMTP a javasolt.</translation>
     </message>
     <message>
         <source>E-mail delivery</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail kézbesítés</translation>
     </message>
     <message>
         <source>Server name: </source>
-        <translation type="unfinished"></translation>
+        <translation>Szerver neve:</translation>
     </message>
     <message>
         <source>Username (optional): </source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói név (nem kötelező megadni):</translation>
     </message>
     <message>
         <source>Password (optional): </source>
-        <translation type="unfinished"></translation>
+        <translation>Jelszó (nem kötelező megadni):</translation>
     </message>
     <message>
         <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eZ publish rendszer e-mailt küld olyan esetekben, amikor egy felhasználó regisztrálni akarja magát, vagy amikor a tartalom közzétételéhez egy szerkesztő megerősítést kér. Linux/Unix rendszereken a sendmail ajánlott, Windows-on inkább egy SMTP szerver megadása.</translation>
     </message>
     <message>
         <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Az e-mailt közvetlenül a sendmail levelezőügyfél kézbesíti. A sendmail bináris fájl elérhető a legtöbb Linux/UNIX rendszeren. Ha mégsem ezt választja, akkor a SMTP-t kell használni.</translation>
     </message>
     <message>
         <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Az e-mail egy SMTP szerver közvetítésével kerül kézbesítésre. Legalább az SMTP szerver nevét meg kell adni. Tipp: ellenőrízze az SMTP beállításait egy e-mail kliensprogrammal.</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail olyan esetekben használatos, amikor egy felhasználó regisztrálni akarja magát, vagy amikor a tartalom közzétételéhez egy szerkesztő megerősítést kér.</translation>
     </message>
     <message>
         <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
-        <translation type="unfinished"></translation>
+        <translation>Linux/Unix rendszereken támogatott a sendmail, windows-os felhasználóknak viszont SMTP szervert kell megadni.</translation>
     </message>
     <message>
         <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;SMTP&lt;/b&gt;: Ha bizonytalan, nézze meg az e-mail kliensprogramjában a beállításokat.</translation>
     </message>
     <message>
-        <source>eZ publish has been installed with the following sites. You will find the username and password mentioned for each site.</source>
-        <translation type="unfinished"></translation>
+        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
+        <translation>Az eZ publish az alábbi webhely(ekk)el települt. Mindegyikhez tartozik egy felhasználói név és egy jelszó.</translation>
     </message>
     <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipp: Mentse el ezt az oldalt .html fájlként (a &quot;mentés másként&quot;-re kattintva a böngésző menüjében), vagy más módon rögzítse a webhelyekhez tartozó adatokat.</translation>
     </message>
     <message>
         <source>forums</source>
-        <comment>forum link</comment>
-        <translation type="unfinished"></translation>
+        <translation>fórumok</translation>
     </message>
     <message>
         <source>Language support</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyelvi támogatás</translation>
     </message>
     <message>
-        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="unfinished"></translation>
+        <source>Use the radio buttons to choose the primary language, and checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation type="obsolete">Használjon rádiógombokat az elsődleges nyelv kiválasztásához, és jelölőnégyzeteket a további nyelvekhez (többet is megadhat).</translation>
     </message>
     <message>
-        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
-        <translation type="unfinished"></translation>
+        <source>For more information about language customization, please refer to the online %1.</source>
+        <translation type="obsolete">A nyelvi beállításokhoz további információkhoz juthat az interneten: %1.</translation>
     </message>
     <message>
-        <source>For more information about language customization, please refer to the %1.</source>
-        <translation type="unfinished"></translation>
+        <source>Back</source>
+        <translation>Vissza</translation>
     </message>
     <message>
-        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
-        <translation type="unfinished"></translation>
+        <source>Refresh</source>
+        <translation>Frissítés</translation>
     </message>
     <message>
-        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Comments:</source>
-        <translation type="unfinished">Megjegyzések:</translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send registration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>System details (OS type, etc)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The test results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The database type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The site name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The url of the site</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Languages chosen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This data will help to improve future releases of eZ publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site security</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you have shell access, you can run the following commmands.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
-        <translation type="unfinished"></translation>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to only give access to certain files.</source>
+        <translation type="obsolete">Az ön honlaprendszere nem virtualhost módban fut, és így nem tekinthető biztonságosnak. Ajánlott az eZ publish-t virtualhost módban futtatni. Ha nincs meg erre a lehetősége, kövesse az utasításokat a .htaccess fájl installálására. Ez a fájl adja meg a webszerver számára, hogy mely fájlokhoz adjon hozzáférést.</translation>
     </message>
     <message>
         <source>This security tweak takes care of protecting configuration files and other important files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a biztonsági réteg felelős a konfigurációs fájlok és más fontos fájlok védelméért.</translation>
     </message>
     <message>
-        <source>Please choose the access method you wish to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation type="unfinished"></translation>
+        <source>Please choose the access method you wish to use for your site(s).The access method determines how the site can be accessed from within a web browser.
+If unsure: choose URL.</source>
+        <translation type="obsolete">Válassza ki, milyen módszer szerint szeretné használni a webhelye(i)t. Az elérési módok meghatározzák, hogy az emberek hogyan fogják látni a weboldalakat.
+Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>Port*</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapu [port]*</translation>
     </message>
     <message>
         <source>* Requires web server setup.</source>
-        <translation type="unfinished"></translation>
+        <translation>* Webszerver-beállítást igényel.</translation>
     </message>
     <message>
         <source>Hostname*</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói név*</translation>
     </message>
     <message>
         <source>* Requires DNS setup.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>* DNS-beállítást igényel.</translation>
     </message>
     <message>
         <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Itt még változtathat a telepítendő webhelyek adatain, és itt van lehetőség adatbázist választani az egyes webhelyekhez.</translation>
     </message>
     <message>
         <source>User path</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói elérési út</translation>
     </message>
     <message>
         <source>User port</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói kapu [port]</translation>
     </message>
     <message>
         <source>User hostname</source>
-        <translation type="unfinished"></translation>
+        <translation>Felhasználói gazgagépnév [hostname]</translation>
     </message>
     <message>
         <source>Admin path</source>
-        <translation type="unfinished"></translation>
+        <translation>Adminisztrátori elérési út</translation>
     </message>
     <message>
         <source>Admin port</source>
-        <translation type="unfinished"></translation>
+        <translation>Adminisztrátori kapu [port]</translation>
     </message>
     <message>
         <source>Admin hostname</source>
-        <translation type="unfinished"></translation>
+        <translation>Adminisztrátori gazgagépnév [hostname]</translation>
     </message>
     <message>
-        <source>Database not empty: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You may modify the details for each site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about how to configure site access, please refer to the %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update the database listing.</source>
-        <translation type="unfinished"></translation>
+        <source>Use the refresh button to update database listing(s).</source>
+        <translation type="obsolete">Használja a &quot;frissítés&quot; gombot az adatbázisok listázásához.</translation>
     </message>
     <message>
         <source>Site templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Webhely sablonok</translation>
+    </message>
+    <message>
+        <source>Use Plain if you would like to start from scratch.</source>
+        <translation type="obsolete">Válassza az &quot;egyszerű&quot;-t, ha üres fájlból szeretne kiindulni.</translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template requires a unique database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mivel minden webhely egyedi, minden webhelysablon egy saját adatbázist igényel.</translation>
     </message>
     <message>
         <source>Next &amp;gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Következő &amp;gt;</translation>
     </message>
     <message>
         <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alább olvasható néhány fontosabb probléma, amelyeket rendezni kellene. Mindegyikhez található megoldási javaslat.</translation>
     </message>
     <message>
         <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
-        <translation type="unfinished"></translation>
+        <translation>Miután kijavította a gondot okozó helyzeteket, kattintson a &lt;&gt;Next&lt;/i&gt; gombra, hogy újrainduljon a rendszerellenőrzés. Ha minden rendben, a beállítási folyamat a következő lépéssel folytatódik. Ha maradtak problémák, újra a rendszerellenőrzés oldala jelenik meg.</translation>
     </message>
     <message>
         <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bizonyos ellenőrzéseket elhagyhat, bejelölve a &lt;i&gt;Hagyjuk el ezt az ellenőrzést&lt;/i&gt; jelölőnégyzeteket. Ez azonban nem ajánlott.</translation>
     </message>
     <message>
         <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
-        <translation type="unfinished"></translation>
+        <translation>Újra a rendszerellenőrzés oldala látható. Eszerint maradtak még megoldatlan problémák.</translation>
     </message>
     <message>
         <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezeket a tételeket ki kell javítani, másként az eZ publish nem fog megfelelően működni.</translation>
     </message>
     <message>
         <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
-        <translation type="unfinished"></translation>
+        <translation>A problémák általában arra vonatkoznak, hogy a fájlrendszerben nem megfelelőek a jogosultságok. Ezeket egyszerűen meg lehet oldani az ajánlott parancsok kimásolásával/parancssorba ragasztásával.</translation>
     </message>
     <message>
         <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Üdvözöljük az eZ publish tartalomkezelő és fejlesztői rendszer telepítésénél. A telepítőrendszer segít elkészíteni a friss eZ publish webhelye(ke)t.&lt;br&gt; Kattintson a &lt;i&gt;Következő&lt;/i&gt; gombra  a folytatáshoz.</translation>
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the setup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az adatbázisban semmilyen adat nem kerül tárolásra a telepítés utolsó lépéséig.</translation>
+    </message>
+    <message>
+        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
+        <translation>MySQL és PostgreSQL is támogatott a rendszerén. Melyik adatbázisrendszert szeretné használni?</translation>
+    </message>
+    <message>
+        <source>eZ publish supports both MySQL and PostgreSQL.</source>
+        <translation>Az eZ publish támogatja a MySQL és a PostgreSQL használatát is.</translation>
+    </message>
+    <message>
+        <source>Please input database access information in the form below.</source>
+        <translation>Adja meg az adatbázis eléréséhez szükséges információkat az alábbi űrlapon.</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
+        <translation>Ha még nincs adatbázis-elérése, most szereznie kell a folytatáshoz. Az eZ publish képes több honlaprendszert is futtatni, és mindegyik saját adatbázist igényel. Így több honlaprendszer esetén több adatbázist is létre kell hoznia. Ha bizonytalan a létrehozás módjában, nézze meg az adatbázisrendszer kézikönyvét.</translation>
+    </message>
+    <message>
+        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
+        <translation>Két lehetőség közül választhat:&lt;br&gt;-A sendmail programon keresztül történő közvetlen kézbesítés (ez esetben a sendmail programnak elérhetőnek kell lennie a szerveren)&lt;br&gt;-Közvetett kézbesítés egy SMTP levelezőszerveren keresztül.</translation>
+    </message>
+    <message>
+        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation>Használjon rádiógombokat az elsődleges nyelv kiválasztásához, és jelölőnégyzeteket a további nyelvekhez (többet is megadhat).</translation>
+    </message>
+    <message>
+        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
+        <translation>A kiválasztott nyelvek segítségével határozza meg a rendszer a használt karakterkészletet, dátum- és számformátumot stb.</translation>
+    </message>
+    <message>
+        <source>For more information about language customization, please refer to the %1.</source>
+        <translation>A nyelvi testreszabás részleteiről olvassa el ezt: %1.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
+        <translation>Ha jónak látja, regisztrálhatja a telepített rendszerét azáltal, hogy az eZ publish számára elküld néhány információt. Bizalmas adatok nem kerülnek elküldésre, és az eZ systems nem fog visszaélni a részletek továbbadásával vagy az e-mail cím kiadásával.</translation>
+    </message>
+    <message>
+        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
+        <translation>Megjegyzéseket is fűzhet az e-mail-ben küldendő regisztrációhoz.</translation>
+    </message>
+    <message>
+        <source>Comments:</source>
+        <translation>Megjegyzések:</translation>
+    </message>
+    <message>
+        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
+        <translation>Az e-mail elküldése néhány másodpercig eltarthat; várjon a következő oldal betöltődéséig. A gomb újra történő megnyomása újabb e-mail elküldését indítja, és tönkreteheti a telepítést.</translation>
+    </message>
+    <message>
+        <source>Send registration</source>
+        <translation>Regisztráció elküldése</translation>
+    </message>
+    <message>
+        <source>System details (OS type, etc)</source>
+        <translation>Az operációs rendszer részletei (típus, verzió stb.)</translation>
+    </message>
+    <message>
+        <source>The test results</source>
+        <translation>Az ellenőrzés eredménye</translation>
+    </message>
+    <message>
+        <source>The database type</source>
+        <translation>Az adatbázis típusa</translation>
+    </message>
+    <message>
+        <source>The site name</source>
+        <translation>A honlaprendszer neve</translation>
+    </message>
+    <message>
+        <source>The url of the site</source>
+        <translation>A honlaprendszer internetcíme</translation>
+    </message>
+    <message>
+        <source>Languages chosen</source>
+        <translation>A kiválasztott nyelvek</translation>
+    </message>
+    <message>
+        <source>This data will help to improve future releases of eZ publish.</source>
+        <translation>Ezen adatok segítik az eZ publish további fejlesztését.</translation>
+    </message>
+    <message>
+        <source>Site security</source>
+        <translation>A webhely biztonsági szintje</translation>
+    </message>
+    <message>
+        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
+        <translation>Az ön honlaprendszere nem virtualhost módban fut, és így nem tekinthető biztonságosnak. Ajánlott az eZ publish-t virtualhost módban futtatni. Ha nincs meg erre a lehetősége, kövesse az utasításokat a .htaccess fájl installálására. Ez a fájl adja meg a webszerver számára, hogy mely fájlokhoz adjon hozzáférést.</translation>
+    </message>
+    <message>
+        <source>If you have shell access, you can run the following commmands.</source>
+        <translation>Ha van burok (shell) elérése a webhelyen, adja ki az alábbi parancsokat.</translation>
+    </message>
+    <message>
+        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
+        <translation>Ha nincs burok (shell) elérése, akkor ftp kliens segítségével kell felmásolnia a fájlt, vagy segítséget kérhet a webhely üzemeltetőjétől, hogy ezt tegye meg.</translation>
+    </message>
+    <message>
+        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
+        <translation>Válassza ki, milyen módszer szerint szeretné használni a webhelye(i)t. Az elérési módok meghatározzák, hogy az emberek hogyan fogják látni a weboldalakat. Ha bizonytalan, válassza az URL-t.</translation>
+    </message>
+    <message>
+        <source>For more detailed information on site access, please refer to the %1</source>
+        <translation>A webhelyelérés részleteiről olvashat itt: %1</translation>
+    </message>
+    <message>
+        <source>Database not empty: </source>
+        <translation>Az adatbázis nem üres:</translation>
+    </message>
+    <message>
+        <source>You may modify the details for each site.</source>
+        <translation>Az egyes webhelyelérések részleteit módosíthatja.</translation>
+    </message>
+    <message>
+        <source>For more information about how to configure site access, please refer to the %1</source>
+        <translation>A webhelyelérés konfigurálásának részleteiről olvashat itt: %1</translation>
+    </message>
+    <message>
+        <source>Use the refresh button to update the database listing(s).</source>
+        <translation>A &quot;frissít&quot; gombbal tudja frissíteni az adatbázis(ok) felsorolását.</translation>
     </message>
 </context>
 <context>
@@ -7559,7 +5969,7 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation type="obsolete">Ajánlatos kikapcsolni ezt az opciót. Ez úgy tehető meg, hogy %1 konfigurációt átszerkeszti, és átállítja %2 értékre, valamint %3 értéket %4 értékre.</translation>
+        <translation>Ajánlatos kikapcsolni ezt az opciót. Ez úgy tehető meg, hogy %1 konfigurációt átszerkeszti, és átállítja %2 értékre, valamint %3 értéket %4 értékre.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
@@ -7647,67 +6057,43 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>Insufficient execution time allowed to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem elegendő a végrehajtási időkorlát az eZ publish futtatásához</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eZ publish nem fog megfelelően működni %1 végrehajtási időkorláttal.</translation>
     </message>
     <message>
         <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erősen javasolt ennek kijavítása.</translation>
     </message>
     <message>
         <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keresse meg a php.ini beállítási fájlt, mely a PHP rendszeréhez tartozik. Unix rendszereken ez általában a /etc/php.ini, windows rendszeren meg kell nézni a PHP elérési útját.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyissa meg a php.ini fájlt, és változtassa meg a max_execution_time értékét legalább ennyire: %1, és nyomja meg: %2</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Következő</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha osztott környezetben futtatja az eZ publisht, kérje meg az intertnet szolgáltatóját a változtatások végrehajtására.</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem elegendő a memóriakorlát az eZ publish futtatásához</translation>
     </message>
     <message>
         <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eZ publish nem fog megfelelően működni %1 memóriakorláttal.</translation>
     </message>
     <message>
         <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It&apos;s recommended that the option is turned off. To turn it off edit your %phpini configuration and set %magic_quotes_gpc and %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish will not work properly with this option on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unstable PHP version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>, is known to be unstable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Another version of PHP can be download at</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyissa meg a php.ini fájlt, és változtassa meg a memory_limit értékét legalább ennyire: %1, és nyomja meg: %2</translation>
     </message>
 </context>
 <context>
@@ -7794,15 +6180,15 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="unfinished">Megrendelési összesítés:</translation>
+        <translation type="obsolete">Megrendelési összesítés:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="unfinished">Tételek mindösszesen:</translation>
+        <translation type="obsolete">Tételek mindösszesen:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="unfinished">Teljes megrendelés:</translation>
+        <translation type="obsolete">Teljes megrendelés:</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -7986,7 +6372,7 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>Remove item(s)</source>
-        <translation type="obsolete">Tétel(ek) eltávolítása</translation>
+        <translation>Tétel(ek) eltávolítása</translation>
     </message>
     <message>
         <source>Empty wish list</source>
@@ -8010,16 +6396,16 @@ Ha bizonytalan, válassza az URL-t.</translation>
     </message>
     <message>
         <source>Payment was cancelled for an unknown reason. Please try to buy again.</source>
-        <translation>A fizetés ismeretlen okok miatt nem sikerült. Kèrem, próbáljon újra vásárolni.</translation>
+        <translation>A fizetés ismeretlen okok miatt nem sikerült. Kérem, próbáljon újra vásárolni.</translation>
     </message>
     <message>
         <source>Order summary</source>
-        <translation>Rendelèsi összefoglaló</translation>
+        <translation>Rendelési összefoglaló</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Customer name</comment>
-        <translation>Név</translation>
+        <translation type="obsolete">Név</translation>
     </message>
     <message>
         <source>Sort Result by</source>
@@ -8065,20 +6451,12 @@ Ha bizonytalan, válassza az URL-t.</translation>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
         <translation>Az adott kulcs sajnos nem érvényes. Számla nem lett aktiválva.</translation>
     </message>
-    <message>
-        <source>ez.no: Orderconfirmation %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove items</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation>Kuncsaftok választása</translation>
+        <translation type="obsolete">Kuncsaftok választása</translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -8086,15 +6464,15 @@ Ha bizonytalan, válassza az URL-t.</translation>
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Kérem válassza ki azokat a kuncsaftokat akiket hozzá akar rakni az àrengedmény csoporthoz.
+        <translation type="obsolete">Kérem válassza ki azokat a kuncsaftokat akiket hozzá akar rakni az árengedmény csoporthoz.
 
-Vàlassza ki a kuncsaftokat ès kattintson rà a %buttonname gombra.
-Az ùj ès könyvjelzõ témák is használhatók (gyors kiválasztás).
-Ha listát akar vàltoztatni: kattintson rá az objektum nevekre.</translation>
+Válassza ki a kuncsaftokat és kattintson rá a %buttonname gombra.
+Az új és könyvjelző témák is használhatók (gyors kiválasztás).
+Ha listát akar változtatni: kattintson rá az objektum nevekre.</translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation> àrengedmény</translation>
+        <translation type="obsolete"> árengedmény</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -8102,22 +6480,11 @@ Ha listát akar vàltoztatni: kattintson rá az objektum nevekre.</translation>
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation>Kérem válassza ki azokat a termékeket amiket hozzá akar rakni az àrengedmény %discountname szabályhoz ebben az árengedmény csoportban: %groupname.
+        <translation type="obsolete">Kérem válassza ki azokat a termékeket amiket hozzá akar rakni az árengedmény %discountname szabályhoz ebben az árengedmény csoportban: %groupname.
 
-Vàlassza ki a termékeket ès kattintson rà a %buttonname gombra.
-Az ùj ès könyvjelzõ témák is használhatók (gyors kiválasztás).
-Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/templates/</name>
-    <message>
-        <source>Logout</source>
-        <translation type="unfinished">Kijelentkezés</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
+Válassza ki a termékeket és kattintson rá a %buttonname gombra.
+Az új és könyvjelző témák is használhatók (gyors kiválasztás).
+Ha listát akar változtatni: kattintson rá az termék nevekre.</translation>
     </message>
 </context>
 <context>
@@ -8219,7 +6586,7 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation>Szûrés</translation>
+        <translation>Szűrés</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -8271,11 +6638,7 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
     </message>
     <message>
         <source>No object available</source>
-        <translation>Nincs elérhetõ objektum</translation>
-    </message>
-    <message>
-        <source>version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs elérhető objektum</translation>
     </message>
 </context>
 <context>
@@ -8341,7 +6704,7 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation type="obsolete">Regisztrál</translation>
+        <translation>Regisztrál</translation>
     </message>
     <message>
         <source>Change password for user</source>
@@ -8426,12 +6789,12 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
     <message>
         <source>Login</source>
         <comment>Button</comment>
-        <translation>Belépés</translation>
+        <translation type="obsolete">Belépés</translation>
     </message>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation>Regisztrál</translation>
+        <translation type="obsolete">Regisztrál</translation>
     </message>
     <message>
         <source>Edit profile</source>
@@ -8461,12 +6824,8 @@ Ha listát akar vàltoztatni: kattintson rá az termék nevekre.</translation>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation>A maga számlája sikeresen elkészült. Egy e-mail el lesz küldve a megadott cìmre.
+        <translation>A maga számlája sikeresen elkészült. Egy e-mail el lesz küldve a megadott címre.
 A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az utasításokat.</translation>
-    </message>
-    <message>
-        <source>You need to log in to get access to the intranet.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8521,7 +6880,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>The key is invalid or has been used. </source>
-        <translation>A kulcs érvénytelen, vagy használatban van / màr el lett hasznàlva.</translation>
+        <translation>A kulcs érvénytelen, vagy használatban van / már el lett használva.</translation>
     </message>
     <message>
         <source>Password was successfully generated and sent to: %1</source>
@@ -8533,15 +6892,15 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>%siteurl new password</source>
-        <translation>%siteurl ùj jelszò</translation>
+        <translation>%siteurl új jelszó</translation>
     </message>
     <message>
         <source>Click here to get new password</source>
-        <translation>Kattintson ide egy ùj jelszòèr</translation>
+        <translation>Kattintson ide egy új jelszóér</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation>Ùj jelszò</translation>
+        <translation>Új jelszó</translation>
     </message>
 </context>
 <context>
@@ -8576,7 +6935,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Confirm user registration at %siteurl</source>
-        <translation>Felhasználó regisztráció megerõsítése, itt: %siteurl</translation>
+        <translation>Felhasználó regisztráció megerősítése, itt: %siteurl</translation>
     </message>
     <message>
         <source>Your user account at %siteurl has been created</source>
@@ -8596,11 +6955,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Click the following URL to confirm your account</source>
-        <translation>Kattintson rá a következõ URL-re, ez majd aktiválja a maga számláját</translation>
+        <translation>Kattintson rá a következő URL-re, ez majd aktiválja a maga számláját</translation>
     </message>
     <message>
         <source>New user registered at %siteurl</source>
-        <translation>Ùj felhasználó regisztrálva, itt: %siteurl</translation>
+        <translation>Új felhasználó regisztrálva, itt: %siteurl</translation>
     </message>
     <message>
         <source>A new user has registered.</source>
@@ -8613,11 +6972,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation>Belépés</translation>
+        <translation type="obsolete">Belépés</translation>
     </message>
     <message>
         <source>Link to user information</source>
-        <translation>Felhasználó informácìó link</translation>
+        <translation>Felhasználó informácíó link</translation>
     </message>
     <message>
         <source>Thank you for registering at %siteurl.</source>
@@ -8672,7 +7031,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Pos</source>
-        <translation>Poziciò</translation>
+        <translation>Pozíció</translation>
     </message>
     <message>
         <source>Description</source>
@@ -8808,7 +7167,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Workflows in %1</source>
-        <translation type="obsolete">%1-beli munkafolyamatok</translation>
+        <translation>%1-beli munkafolyamatok</translation>
     </message>
     <message>
         <source>Modifier</source>
@@ -8832,7 +7191,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation>Módosította %username ebben az idõpontban: %time</translation>
+        <translation>Módosította %username ebben az időpontban: %time</translation>
     </message>
     <message>
         <source>Edit workflow</source>
@@ -8849,38 +7208,38 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Workflows in %1</source>
         <comment>%1 is workflow group</comment>
-        <translation>%1-beli munkafolyamatok</translation>
+        <translation type="obsolete">%1-beli munkafolyamatok</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation type="obsolete">Kijelentkezés</translation>
+        <translation>Kijelentkezés</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="obsolete">Következő</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="obsolete">Csomagolás (wrapping)</translation>
+        <translation>Csomagolás (wrapping)</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation type="obsolete">Akar karácsonyi csomagolást?</translation>
+        <translation>Akar karácsonyi csomagolást?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="obsolete">Nem</translation>
+        <translation>Nem</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="obsolete">Igen</translation>
+        <translation>Igen</translation>
     </message>
     <message>
         <source>Hello</source>
-        <translation type="obsolete">Hello</translation>
+        <translation>Hello</translation>
     </message>
 </context>
 <context>
@@ -8903,11 +7262,11 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Checkout text</source>
-        <translation type="obsolete">Kijelentkezési szöveg</translation>
+        <translation>Kijelentkezési szöveg</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="obsolete">Üzenet</translation>
+        <translation>Üzenet</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
@@ -8923,23 +7282,23 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation type="obsolete">Közzétételtől visszavon objektumot</translation>
+        <translation>Közzétételtől visszavon objektumot</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation type="obsolete">Objektumot közzétesz</translation>
+        <translation>Objektumot közzétesz</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="obsolete">Napok</translation>
+        <translation>Napok</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="obsolete">Órák</translation>
+        <translation>Órák</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation type="obsolete">Percek</translation>
+        <translation>Percek</translation>
     </message>
     <message>
         <source>New Entry</source>
@@ -8963,7 +7322,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>New entry</source>
-        <translation>Ùj bejegyzés</translation>
+        <translation>Új bejegyzés</translation>
     </message>
     <message>
         <source>Remove selected</source>
@@ -8972,10 +7331,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Load attributes</source>
         <translation>Tulajdonságok betöltése</translation>
-    </message>
-    <message>
-        <source>Modify publish date</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9339,7 +7694,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>BinaryFile</source>
         <comment>Datatype name</comment>
-        <translation>Binàr fàjl</translation>
+        <translation>Binár fájl</translation>
     </message>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
@@ -9357,12 +7712,12 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation>Dátum mezõ</translation>
+        <translation>Dátum mező</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation>Dátum- és idõ mezõ</translation>
+        <translation>Dátum- és idő mező</translation>
     </message>
     <message>
         <source>Email</source>
@@ -9385,7 +7740,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Float</source>
         <comment>Datatype name</comment>
-        <translation>Lebegõ pontos szám</translation>
+        <translation>Lebegő pontos szám</translation>
     </message>
     <message>
         <source>Input is not float.</source>
@@ -9410,7 +7765,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation type="obsolete">Érvényes képet kell megadni.</translation>
+        <translation>Érvényes képet kell megadni.</translation>
     </message>
     <message>
         <source>Integer</source>
@@ -9515,12 +7870,12 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Subtree subscription</source>
         <comment>Datatype name</comment>
-        <translation>Leszàrmazottak elõfizetése/rendelése</translation>
+        <translation>Leszármazottak előfizetése/rendelése</translation>
     </message>
     <message>
         <source>Text field</source>
         <comment>Datatype name</comment>
-        <translation>Szöveg mezõ</translation>
+        <translation>Szöveg mező</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
@@ -9533,7 +7888,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation>Idõ mezõ</translation>
+        <translation>Idő mező</translation>
     </message>
     <message>
         <source>URL</source>
@@ -9543,7 +7898,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>User account</source>
         <comment>Datatype name</comment>
-        <translation>Felhasználó szàmla</translation>
+        <translation>Felhasználó számla</translation>
     </message>
     <message>
         <source>The login must be specified</source>
@@ -9568,44 +7923,15 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>XML Text field</source>
         <comment>Datatype name</comment>
-        <translation>XML szöveg mezõ</translation>
+        <translation>XML szöveg mező</translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation>Az %1 objektum nem lètezik.</translation>
+        <translation>Az %1 objektum nem létezik.</translation>
     </message>
     <message>
         <source>Link %1 does not exist.</source>
         <translation>A %1 link nem létezik.</translation>
-    </message>
-    <message>
-        <source>Identifier</source>
-        <comment>Datatype name</comment>
-        <translation type="unfinished">Azonosító</translation>
-    </message>
-    <message>
-        <source>image</source>
-        <comment>Default image name</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ini Setting</source>
-        <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Could not locate ini file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package</source>
-        <comment>Datatype name</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <comment>Datatype information collector action</comment>
-        <translation type="unfinished">Elküld</translation>
     </message>
 </context>
 <context>
@@ -9639,7 +7965,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Szerkesztés</translation>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -9709,14 +8035,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
         <source>URL translator</source>
         <translation>URL átalakító</translation>
     </message>
-    <message>
-        <source>Keywords</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>PDF Export</source>
-        <translation type="obsolete"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/content/removenode</name>
@@ -9740,19 +8058,19 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>child</source>
         <comment>1 child</comment>
-        <translation type="obsolete">leszármazott</translation>
+        <translation>leszármazott</translation>
     </message>
     <message>
         <source>children</source>
         <comment>several children</comment>
-        <translation type="obsolete">leszármazottak</translation>
+        <translation>leszármazottak</translation>
     </message>
 </context>
 <context>
     <name>kernel/contentclass</name>
     <message>
         <source>New %1</source>
-        <translation>Ùj %1</translation>
+        <translation>Új %1</translation>
     </message>
 </context>
 <context>
@@ -9801,145 +8119,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
         <source>Upload</source>
         <translation>Feltöltés</translation>
     </message>
-    <message>
-        <source>Package information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package maintainer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package changelog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package thumbnail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package name is missing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A package named %packagename already exists, please give another name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Summary</source>
-        <translation type="unfinished">Összefoglalás</translation>
-    </message>
-    <message>
-        <source>Summary is missing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="unfinished">Verzió</translation>
-    </message>
-    <message>
-        <source>The version must only contain numbers and must be delimited by dots (.), e.g. 1.0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished">Név</translation>
-    </message>
-    <message>
-        <source>You must enter a name for the changelog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-Mail</source>
-        <translation type="unfinished">E-Mail</translation>
-    </message>
-    <message>
-        <source>You must enter an e-mail for the changelog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Changelog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must supply some text for the changelog entry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must enter a name of the maintainer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must enter an e-mail address of the maintainer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Content classes to include</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Content class export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Class list</source>
-        <translation type="unfinished">Osztálylista</translation>
-    </message>
-    <message>
-        <source>You must select at least one class for inclusion</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>CSS file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must upload a CSS file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File did not have a .css suffix, this is most likely not a CSS file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Content class %classname (%classidentifier)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create package</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uninstall</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package %packagename already exists, cannot import the package</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>kernel/pdf</name>
-    <message>
-        <source>PDF Export</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/reference</name>
@@ -9969,13 +8148,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Editing policy</source>
         <translation>Irányelv (policy) szerkesztése</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/rss</name>
-    <message>
-        <source>Really Simple Syndication</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10037,10 +8209,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Activate extensions</source>
         <translation>Kiterjesztések bekapcsolása</translation>
-    </message>
-    <message>
-        <source>Setup menu</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10205,7 +8373,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Checkout</source>
-        <translation type="obsolete">Kijelentkezés</translation>
+        <translation>Kijelentkezés</translation>
     </message>
     <message>
         <source>Multiplexer</source>
@@ -10213,35 +8381,35 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Publish</source>
-        <translation type="obsolete">Közzététel</translation>
+        <translation>Közzététel</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation type="obsolete">Közzététel idõpontban</translation>
+        <translation>Közzététel időpontban</translation>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation>Egyszerû szállítás/póstázás</translation>
+        <translation>Egyszerű szállítás/postázás</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation type="obsolete">Idõzítés</translation>
+        <translation>Időzítés</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation type="obsolete">Visszahùz</translation>
+        <translation>Visszahúz</translation>
     </message>
     <message>
         <source>Wait until date</source>
-        <translation>Vàrakozàs adott dàtumig</translation>
+        <translation>Várakozás adott dátumig</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="obsolete">Csomagolás (wrapping)</translation>
+        <translation>Csomagolás (wrapping)</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation type="obsolete">Hello felhasználó</translation>
+        <translation>Hello felhasználó</translation>
     </message>
 </context>
 <context>
@@ -10252,20 +8420,7 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     </message>
     <message>
         <source>Serial</source>
-        <translation type="obsolete">Sor / sorozat</translation>
-    </message>
-</context>
-<context>
-    <name>lib/ezpdf/classes</name>
-    <message>
-        <source>Contents</source>
-        <comment>Table of contents</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Index</source>
-        <comment>Keyword index name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Sor / sorozat</translation>
     </message>
 </context>
 <context>
@@ -10273,13 +8428,6 @@ A számla aktiválását/bekapcsolását az email elmagyarázza. Kövesse az uta
     <message>
         <source>Some template errors occured, see debug for more information.</source>
         <translation>A sablon(ok)kal gond van, nézze át alább a debug információt.</translation>
-    </message>
-</context>
-<context>
-    <name>pdf/edit</name>
-    <message>
-        <source>PDF Export</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

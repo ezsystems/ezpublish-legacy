@@ -615,6 +615,58 @@
         <source>Latest news</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify me about updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Printerfriendly version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register new customer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shopping basket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View all details</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class</name>
@@ -7505,7 +7557,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template require a unique database.</source>
@@ -7873,11 +7925,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Site templates</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template requires a unique database.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Next &amp;gt;</source>
@@ -7913,6 +7965,22 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>No data will be stored in the database until the final step of the setup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Site packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each package will create a unique web site.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Since each web site is unique, each package requires a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8019,11 +8087,11 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Missing imagegd extension</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
@@ -8039,7 +8107,7 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
@@ -8299,6 +8367,18 @@ If you do not have the possibility to use virtualhost mode you should follow the
     </message>
     <message>
         <source>Another version of PHP can be download at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing imagegd2 extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The imagegd2 extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -3,48 +3,48 @@
     <name>&quot;design/standard/navigator&quot;</name>
     <message>
         <source>Next</source>
-        <translation type="obsolete">Següent</translation>
+        <translation type="obsolete">Siguiente</translation>
     </message>
 </context>
 <context>
     <name>&quot;design/standard/node/view&quot;</name>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritat</translation>
+        <translation type="obsolete">Prioridad</translation>
     </message>
 </context>
 <context>
     <name>&apos;design/standard/node/view&apos;</name>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Edita</translation>
+        <translation type="obsolete">Editar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Copia</translation>
+        <translation type="obsolete">Copiar</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="obsolete">Actualitza</translation>
+        <translation type="obsolete">Actualizar</translation>
     </message>
 </context>
 <context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
-        <translation>Contingut</translation>
+        <translation>Contenido</translation>
     </message>
     <message>
         <source>Shop</source>
-        <translation>Botiga</translation>
+        <translation>Tienda</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation>Usuaris</translation>
+        <translation>Usuarios</translation>
     </message>
     <message>
         <source>Set up</source>
-        <translation>Configuració</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -52,79 +52,79 @@
     </message>
     <message>
         <source>Frontpage</source>
-        <translation>Pàgina principal</translation>
+        <translation>Página de inicio</translation>
     </message>
     <message>
         <source>Sitemap</source>
-        <translation>Mapa del lloc</translation>
+        <translation>Mapa del sitio</translation>
     </message>
     <message>
         <source>Trash</source>
-        <translation>Paperera</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation>Els meus esborranys</translation>
+        <translation>Mis borradores</translation>
     </message>
     <message>
         <source>Collaboration</source>
-        <translation>Col·laboració</translation>
+        <translation>Colaboración</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation>Canvia la contrasenya</translation>
+        <translation>Cambiar contraseña</translation>
     </message>
     <message>
         <source>Classes</source>
-        <translation>Classes</translation>
+        <translation>Clases</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation>Seccions</translation>
+        <translation>Secciones</translation>
     </message>
     <message>
         <source>Workflows</source>
-        <translation>Fluxos de treball</translation>
+        <translation>Flujos de trabajo</translation>
     </message>
     <message>
         <source>Triggers</source>
-        <translation>Detonants</translation>
+        <translation>Disparadores</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Traduccions</translation>
+        <translation>Traducciones</translation>
     </message>
     <message>
         <source>Search stats</source>
-        <translation>Estadístiques de cerca</translation>
+        <translation>Estadísticas de la búsqueda</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation>Llista de comandes</translation>
+        <translation>Lista de pedidos</translation>
     </message>
     <message>
         <source>VAT types</source>
-        <translation>Tipus d&apos;IVA</translation>
+        <translation>Tipos de IVA</translation>
     </message>
     <message>
         <source>Discount</source>
-        <translation>Descompte</translation>
+        <translation>Descuentos</translation>
     </message>
     <message>
         <source>Roles</source>
-        <translation>Rols</translation>
+        <translation>Roles</translation>
     </message>
     <message>
         <source>My notification settings</source>
-        <translation>Les meves opcions de notificació</translation>
+        <translation>Mis configuraciones de notificación</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>Els meus preferits</translation>
+        <translation>Mis favoritos</translation>
     </message>
     <message>
         <source>Templates</source>
-        <translation>Plantilles</translation>
+        <translation>Plantillas</translation>
     </message>
     <message>
         <source>RAD</source>
@@ -132,15 +132,15 @@
     </message>
     <message>
         <source>Cache</source>
-        <translation>Memòria cau (cache)</translation>
+        <translation>Caché</translation>
     </message>
     <message>
         <source>Notification</source>
-        <translation>Notificació</translation>
+        <translation>Notificación</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation>Informació del sistema</translation>
+        <translation>Información del sistema</translation>
     </message>
     <message>
         <source>Media</source>
@@ -148,7 +148,7 @@
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation>Preferits</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>History</source>
@@ -156,15 +156,15 @@
     </message>
     <message>
         <source>My pending list</source>
-        <translation>La meva llista de tasques pendents</translation>
+        <translation>Mi lista de tareas pendientes</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation>Traductor d&apos;URL</translation>
+        <translation>Traductor de URL</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation>Gestió d&apos;URL</translation>
+        <translation>Gestión de URL</translation>
     </message>
     <message>
         <source>RAD</source>
@@ -173,30 +173,30 @@
     </message>
     <message>
         <source>Extension setup</source>
-        <translation>Configuració d&apos;extensions</translation>
+        <translation>Configuración de las extensiones</translation>
     </message>
     <message>
         <source>Packages</source>
-        <translation>Paquets</translation>
+        <translation>Paquetes</translation>
     </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
     <message>
         <source>Article</source>
-        <translation>Article</translation>
+        <translation>Artículo</translation>
     </message>
     <message>
         <source>Placed in</source>
-        <translation>Ubicat a</translation>
+        <translation>Situado en</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Comenta</translation>
+        <translation>Comentario</translation>
     </message>
     <message>
         <source>File</source>
-        <translation>Fitxer</translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <source>Folder</source>
@@ -204,57 +204,57 @@
     </message>
     <message>
         <source>Forum</source>
-        <translation>Fòrum</translation>
+        <translation>Foro</translation>
     </message>
     <message>
         <source>Forum message</source>
-        <translation>Missatge de fòrum</translation>
+        <translation>Mensaje de foro</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation>Imatge</translation>
+        <translation>Imagen</translation>
     </message>
     <message>
         <source>Info page</source>
-        <translation>Pàgina d&apos;informació</translation>
+        <translation>Página de información</translation>
     </message>
     <message>
         <source>Link</source>
-        <translation>Enllaç</translation>
+        <translation>enlace</translation>
     </message>
     <message>
         <source>Product</source>
-        <translation>Producte</translation>
+        <translation>Producto</translation>
     </message>
     <message>
         <source>Product review</source>
-        <translation>Ressenya de producte</translation>
+        <translation>Revisión de producto</translation>
     </message>
     <message>
         <source>User</source>
-        <translation>Usuari</translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <source>Also part of these groups</source>
-        <translation>També és part d&apos;aquests grups</translation>
+        <translation>También parte de esos grupos</translation>
     </message>
     <message>
         <source>User group</source>
-        <translation>Grup d&apos;usuari</translation>
+        <translation>Grupo de usuarios</translation>
     </message>
 </context>
 <context>
     <name>design/shop</name>
     <message>
         <source>Payment was canceled. Try to buy again.</source>
-        <translation type="obsolete">S&apos;ha cancel·lat el pagament. Prova de fer de nou la compra.</translation>
+        <translation type="obsolete">El pago ha sido cancelado. Prueba a comprar otra vez.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Empty</source>
-        <translation>Buit</translation>
+        <translation>Vacío</translation>
     </message>
     <message>
         <source>Current time</source>
@@ -262,23 +262,23 @@
     </message>
     <message>
         <source>Multiple choice</source>
-        <translation>Elecció múltiple</translation>
+        <translation>Elección múltiple</translation>
     </message>
     <message>
         <source>Option style</source>
-        <translation>Estil opció</translation>
+        <translation>Estilo &quot;opción&quot;</translation>
     </message>
     <message>
         <source>Checkbox style</source>
-        <translation>Estil quadre de verificació</translation>
+        <translation>Estilo &quot;checkbox&quot;</translation>
     </message>
     <message>
         <source>New Enum Element</source>
-        <translation>Nou element d&apos;enumeració</translation>
+        <translation>Nuevo elemento de enumeración</translation>
     </message>
     <message>
         <source>Remove Selected</source>
-        <translation>Esborrar la selecció</translation>
+        <translation>Borrar la selección</translation>
     </message>
     <message>
         <source>Flash</source>
@@ -294,83 +294,83 @@
     </message>
     <message>
         <source>Windows media player</source>
-        <translation>Windows Media player</translation>
+        <translation>Windows media player</translation>
     </message>
     <message>
         <source>Price inc. VAT</source>
-        <translation>Preu amb IVA</translation>
+        <translation>Precio con IVA </translation>
     </message>
     <message>
         <source>Price ex. VAT</source>
-        <translation>Preu sense IVA</translation>
+        <translation>Precio sin IVA</translation>
     </message>
     <message>
         <source>Max file size</source>
-        <translation>Mida màxima d&apos;arxiu</translation>
+        <translation>Tamaño máximo del archivo</translation>
     </message>
     <message>
         <source>Default value</source>
-        <translation>Valor per defecte</translation>
+        <translation>Valor predeterminado</translation>
     </message>
     <message>
         <source>Current date</source>
-        <translation>Data actual</translation>
+        <translation>Fecha actual</translation>
     </message>
     <message>
         <source>Current datetime</source>
-        <translation>Hora i data actual</translation>
+        <translation>Hora actual</translation>
     </message>
     <message>
         <source>Enum Element</source>
-        <translation>Element d&apos;enumeració</translation>
+        <translation>Elemento de enumeración</translation>
     </message>
     <message>
         <source>Enum Value</source>
-        <translation>Valor d&apos;enumeració</translation>
+        <translation>Valor de enumeración</translation>
     </message>
     <message>
         <source>Min float value</source>
-        <translation>Valor mínim del decimal</translation>
+        <translation>Valor mínimo del decimal</translation>
     </message>
     <message>
         <source>Max float value</source>
-        <translation>Valor màxim del decimal</translation>
+        <translation>Valor máximo del decimal</translation>
     </message>
     <message>
         <source>Min integer value</source>
-        <translation>Valor mínim íntegre</translation>
+        <translation>Valor mínimo del entero</translation>
     </message>
     <message>
         <source>Max integer value</source>
-        <translation>Valor màxim íntegre</translation>
+        <translation>Valor máximo del entero</translation>
     </message>
     <message>
         <source>Media player type</source>
-        <translation>Tipus de reproductor multimèdia</translation>
+        <translation>Tipo de reproductor media</translation>
     </message>
     <message>
         <source>Default name</source>
-        <translation>Nom per defecte</translation>
+        <translation>Nombre predeterminado</translation>
     </message>
     <message>
         <source>VAT type</source>
-        <translation>Tipus d&apos;IVA</translation>
+        <translation>Tipo de IVA</translation>
     </message>
     <message>
         <source>Max string length</source>
-        <translation>Llargària màxima de la adena </translation>
+        <translation>Máxima longitud de la cadena</translation>
     </message>
     <message>
         <source>Preferred number of rows</source>
-        <translation>Nombre preferit de files</translation>
+        <translation>Número de líneas preferido</translation>
     </message>
     <message>
         <source>Default number of rows</source>
-        <translation>Nombre predeterminat de files</translation>
+        <translation>Número de líneas predeterminado</translation>
     </message>
     <message>
         <source>Matrix Column</source>
-        <translation>Columna de la matriu</translation>
+        <translation>Columna de matriz</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -378,150 +378,150 @@
     </message>
     <message>
         <source>New Column</source>
-        <translation>Nova columna</translation>
+        <translation>Nueva columna</translation>
     </message>
     <message>
         <source>Allowed classes</source>
-        <translation>Classes permeses</translation>
+        <translation>Clases permitidas</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation>Qualsevol</translation>
+        <translation>Cualquiera</translation>
     </message>
     <message>
         <source>Default placement for objects</source>
-        <translation>Ubicació predeterminada per als objectes</translation>
+        <translation>Ubicación de los objetos predeterminado</translation>
     </message>
     <message>
         <source>New objects will be placed in %nodename</source>
-        <translation>Els nous objectes seran ubicats a %nodename</translation>
+        <translation>Los nuevos objetos serán ubicados en %nodename</translation>
     </message>
     <message>
         <source>New objects will not be placed in the content tree</source>
-        <translation>Els nous objectes no seran ubicats en l&apos;arbre de continguts</translation>
+        <translation>Los nuevos objetos no serán ubicados en el árbol de contenido</translation>
     </message>
     <message>
         <source>Select placement</source>
-        <translation>Selecciona ubicació</translation>
+        <translation>Seleccione ubicación</translation>
     </message>
     <message>
         <source>Disable placement</source>
-        <translation>Desactiva la ubicació</translation>
+        <translation>Desactivar ubicación</translation>
     </message>
     <message>
         <source>New option</source>
-        <translation>Nova opció</translation>
+        <translation>Nueva opción</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/edit</name>
     <message>
         <source>Editing class</source>
-        <translation type="obsolete">Editant una classe</translation>
+        <translation type="obsolete">Editando clases</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="obsolete">Creat per</translation>
+        <translation type="obsolete">Creado por</translation>
     </message>
     <message>
         <source>on</source>
-        <translation type="obsolete">a</translation>
+        <translation type="obsolete">en</translation>
     </message>
     <message>
         <source>Last modified by</source>
-        <translation type="obsolete">Última modificació per</translation>
+        <translation type="obsolete">Última modificación por</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation>L&apos;entrada no s&apos;ha validat</translation>
+        <translation>La entrada no fue validada</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
-        <translation>L&apos;entrada s&apos;ha emmagatzemat amb èxit</translation>
+        <translation>La entrada ha sido almacenada con éxito</translation>
     </message>
     <message>
         <source>Attributes</source>
-        <translation>Atributs</translation>
+        <translation>Atributos</translation>
     </message>
     <message>
         <source>Required</source>
-        <translation>Requerit</translation>
+        <translation>Obligatorio</translation>
     </message>
     <message>
         <source>Searchable</source>
-        <translation>Permet la cerca</translation>
+        <translation>Incluye en la búsqueda</translation>
     </message>
     <message>
         <source>Information collector</source>
-        <translation>Recol·lector d&apos;informació</translation>
+        <translation>Recolector de información</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation>Baixa</translation>
+        <translation>Bajar</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation>Puja</translation>
+        <translation>Subir</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Aplica</translation>
+        <translation>Aplicar</translation>
     </message>
     <message>
         <source>Discard Changes</source>
-        <translation>Descarta els canvis</translation>
+        <translation>Descartar cambios</translation>
     </message>
     <message>
         <source>Editing class group</source>
-        <translation type="obsolete">Edita grup de classes</translation>
+        <translation type="obsolete">Editando grupo de clases</translation>
     </message>
     <message>
         <source>Modified by</source>
-        <translation type="obsolete">Modificat per</translation>
+        <translation type="obsolete">Modificado por</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these classes?</source>
-        <translation>Estàs segur de voler esborrar aquestes classes?</translation>
+        <translation>¿Estás seguro de que quieres eliminar estas clases?</translation>
     </message>
     <message>
         <source>Removing class %1 will remove %2!</source>
-        <translation>Esborrant la classe %1 s&apos;esborrarà %2!</translation>
+        <translation>¡Eliminando la clase %1 eliminarás %2!</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these class groups?</source>
-        <translation>Estàs segur de voler esborrar aquests grups de classes?</translation>
+        <translation>¿Estas seguro de que quieres eliminar estos grupos de clases?</translation>
     </message>
     <message>
         <source>Removing class group %1 will remove the classes %2!</source>
-        <translation>Esborrant el grup de classes %1 s&apos;esborraran les classes %2!</translation>
+        <translation>¡Eliminando el grupo de clases %1 eliminarás las clases %2!</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -529,47 +529,47 @@
     </message>
     <message>
         <source>Object name pattern</source>
-        <translation>Nom del patró de l&apos;objecte</translation>
+        <translation>Patrón de nombre de objeto</translation>
     </message>
     <message>
         <source>Member of groups</source>
-        <translation>Membre dels grups</translation>
+        <translation>Miembro de los grupos</translation>
     </message>
     <message>
         <source>Add to group</source>
-        <translation>Afegeix al grup</translation>
+        <translation>Añadir al grupo</translation>
     </message>
     <message>
         <source>Remove from groups</source>
-        <translation>Esborra dels grups</translation>
+        <translation>Eliminar de los grupos</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipus</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Datatypes</source>
-        <translation>Tipus de dades</translation>
+        <translation>Tipo de dato</translation>
     </message>
     <message>
         <source>Editing class - %1</source>
-        <translation>Editant la classe - %1 </translation>
+        <translation>Editando clase - %1</translation>
     </message>
     <message>
         <source>Editing class group - %1</source>
-        <translation>Edita grup de classe - %1</translation>
+        <translation>Editando grupo de clase - %1</translation>
     </message>
     <message>
         <source>Last modified by %username on %time</source>
-        <translation>Ultima modificació feta per %username el %time</translation>
+        <translation>Última modificación por %username el %time</translation>
     </message>
     <message>
         <source>Disable translation</source>
-        <translation>Desactiva la traducció</translation>
+        <translation>Descativar la traducción</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation>Modificat per %username el %time</translation>
+        <translation>Modificado por %username el %time</translation>
     </message>
     <message>
         <source>URL</source>
@@ -580,15 +580,15 @@
     <name>design/standard/class/list</name>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Class groups</source>
-        <translation>Grups de classe</translation>
+        <translation>Grupos de clases</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Modifier</source>
@@ -596,34 +596,34 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modificat</translation>
+        <translation>Modificado</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>New group</source>
-        <translation>Nou grup</translation>
+        <translation>Nuevo grupo</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="obsolete">Ajuda</translation>
+        <translation>Ayuda</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/view</name>
     <message>
         <source>No classes in </source>
-        <translation>No hi ha classes a</translation>
+        <translation>No hay clases</translation>
     </message>
     <message>
         <source>Classes in</source>
-        <translation>Classes a</translation>
+        <translation>Clases incluidas en</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>ID</source>
@@ -631,7 +631,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -643,295 +643,294 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modificat</translation>
+        <translation>Modificado</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>New class</source>
-        <translation>Nova classe</translation>
+        <translation>Nueva clase</translation>
     </message>
 </context>
 <context>
     <name>design/standard/collaboration</name>
     <message>
         <source>Group list for &apos;%1&apos;</source>
-        <translation>Llista de grups per a &apos;%1&apos;</translation>
+        <translation>Lista de grupos para &apos;%1&apos;</translation>
     </message>
     <message>
         <source>No items in group.</source>
-        <translation>No hi ha elements en el grup.</translation>
+        <translation>No hay elementos en el grupo.</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation>Grups</translation>
+        <translation>Grupos</translation>
     </message>
     <message>
         <source>Approval</source>
-        <translation>Aprovació</translation>
+        <translation>Aprobación</translation>
     </message>
     <message>
         <source>%1 awaits approval by editor</source>
-        <translation>%1 espera l&apos;aprovació de l&apos;editor</translation>
+        <translation>%1 espera aprobación del editor</translation>
     </message>
     <message>
         <source>%1 was approved for publishing</source>
-        <translation>%1 ha estat aprovat per publicar</translation>
+        <translation>%1 fue aprobado para publicación</translation>
     </message>
     <message>
         <source>%1 was not approved for publishing</source>
-        <translation>%1 no ha estat aprovat per publicar</translation>
+        <translation>%1 no fue aprobado para publicación</translation>
     </message>
     <message>
         <source>%1 was deferred for reediting</source>
-        <translation type="obsolete">%1 ha estat ajornat per reeditar</translation>
+        <translation type="obsolete">%1 ha sido aplazado para reeditar</translation>
     </message>
     <message>
         <source>%1 awaits your approval</source>
-        <translation>%1 espera la teva aprovació</translation>
+        <translation>%1 espera tu aprobación</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation>Tema</translation>
+        <translation>Asunto</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>Data</translation>
+        <translation>Fecha</translation>
     </message>
     <message>
         <source>Read</source>
-        <translation>Llegit</translation>
+        <translation>Leído</translation>
     </message>
     <message>
         <source>Unread</source>
-        <translation>No llegit</translation>
+        <translation>No leído</translation>
     </message>
     <message>
         <source>Inactive</source>
-        <translation>Inactiu</translation>
+        <translation>Inactivo</translation>
     </message>
     <message>
         <source>Posted: %1</source>
-        <translation>Enviat: %1</translation>
+        <translation>Enviado %1</translation>
     </message>
     <message>
         <source>No new items to be handled.</source>
-        <translation>No hi ha nous elements per gestionar.</translation>
+        <translation>No hay nuevos datos que tratar.</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation>Sumari</translation>
+        <translation>Sumario</translation>
     </message>
 </context>
 <context>
     <name>design/standard/collaboration/approval</name>
     <message>
         <source>Approval</source>
-        <translation>Aprovació</translation>
+        <translation>Aprobación</translation>
     </message>
     <message>
         <source>The content object %1 awaits approval before it can be published.</source>
-        <translation>L&apos;objecte de contingut %1 espera aprovació abans que sigui publicat.</translation>
+        <translation>El objeto de contenido %1 espera aprobación antes de poder ser publicado.</translation>
     </message>
     <message>
         <source>If you wish you may send a message to the person approving it?</source>
-        <translation>Si vols pots enviar un missatge a la persona que l&apos;ha d&apos;aprovar?</translation>
+        <translation>¿Si quieres puedes enviar un mensaje a la persona que tiene que dar su aprobación?</translation>
     </message>
     <message>
         <source>The content object %1 needs your approval before it can be published.</source>
-        <translation>L&apos;objecte de contingut %1 necessita la teva aprovació abans de ser publicat.</translation>
+        <translation>El objeto de contenido %1 necesita tu aprobación antes de poder ser publicado.</translation>
     </message>
     <message>
         <source>Do you approve of the content object being published?</source>
-        <translation>Aproves que l&apos;objecte de contingut sigui publicat?</translation>
+        <translation>¿Apruebas que el objeto de contenido sea publicado?</translation>
     </message>
     <message>
         <source>The content object %1 was approved and will be published once the publishing workflow continues.</source>
-        <translation>L&apos;objecte de contingut %1 ha estat aprovat i serà publicat un cop el  flux de treball continuï.</translation>
+        <translation>El objeto de contenido %1 fue aprobado y será publicado cuando el flujo de trabajo de publicación continúe.</translation>
     </message>
     <message>
         <source>The content object %1 was not approved and will be archived.</source>
-        <translation type="obsolete">L&apos;objecte contingut %1 no ha estat aprovat i s&apos;arxivarà.</translation>
+        <translation type="obsolete">El objeto de contenido %1 no fue aprobado y será archivado</translation>
     </message>
     <message>
         <source>The content object %1 was deferred and is available as a draft.</source>
-        <translation type="obsolete">L&apos;objecte contingut %1 ha estat ajornat i és disponible com a esborrany.</translation>
+        <translation type="obsolete">El objeto de contenido %1 ha sido aplazado y está disponible como borrador.</translation>
     </message>
     <message>
         <source>You must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="obsolete">Has de reeditar l&apos;esborrany i tornar-lo a publicar perquè sigui aprovat abans de continuar.</translation>
+        <translation type="obsolete">Has de reesitar el borrador y volverlo a publicar para que sea aprobado antes de continuar.</translation>
     </message>
     <message>
         <source>If the approver finds the new changes satisfying the object will be accepted.</source>
-        <translation type="obsolete">Si qui l&apos;ha d&apos;aprovar troba que els nous canvis satisfan l&apos;objecte serà acceptat.</translation>
+        <translation type="obsolete">Si el aprobador encuentra los nuevos cambios satisfactorios el objeto será aceptado.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Edita</translation>
+        <translation type="obsolete">Editar</translation>
     </message>
     <message>
         <source>The content object %1 was deferred and will be available as a draft.</source>
-        <translation type="obsolete">L&apos;objecte contingut %1 ha estat ajornat i serà disponible com a esborrany.</translation>
+        <translation type="obsolete">El objeto de contenido %1 ha sido aplazado y estará disponible como borrador.</translation>
     </message>
     <message>
         <source>The author must reedit the draft and publish it again for the approval to continue.</source>
-        <translation type="obsolete">L&apos;autor ha de reeditar l&apos;esborrany i tornar-lo a publicar perquè sigui aprovat abans de continuar.</translation>
+        <translation type="obsolete">El autor ha de reeditar el borrador y publicarlo de nuevo para que sea aprobado antes de continuar.</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Comenta</translation>
+        <translation>Comentario</translation>
     </message>
     <message>
         <source>Add Comment</source>
-        <translation>Afegeix comentari</translation>
+        <translation>Añadir comentario</translation>
     </message>
     <message>
         <source>Approve</source>
-        <translation>Aprova</translation>
+        <translation>Aprobar</translation>
     </message>
     <message>
         <source>Deny</source>
-        <translation>Denega</translation>
+        <translation>Denegar</translation>
     </message>
     <message>
         <source>Defer</source>
-        <translation type="obsolete">Ajorna</translation>
+        <translation type="obsolete">Aplazar</translation>
     </message>
     <message>
         <source>Participants</source>
-        <translation>Participants</translation>
+        <translation>Participantes</translation>
     </message>
     <message>
         <source>Content object class - %1</source>
-        <translation type="obsolete">Classe de l&apos;objecte de contingut - %1</translation>
+        <translation type="obsolete">Clase de objeto de contenido %1</translation>
     </message>
     <message>
         <source>Messages</source>
-        <translation>Missatges</translation>
+        <translation>Mensajes</translation>
     </message>
     <message>
         <source>The content object %1 was not approved and will be archived. If you wish you may publish a new version of the object by clicking the edit link.</source>
-        <translation type="obsolete">L&apos;objecte de contingut %1 no ha estat aprovat i serà emmagatzemat. Si ho vols, pots publicar una nova versió de l&apos;objecte fent clic a l&apos;enllaç per editar.</translation>
+        <translation type="obsolete">El objeto de contenido %1 no ha sido aprovado y será archivado. Si quieres puedes publicar una nueva versión del objeto haciendo clic en el enlace de edición.</translation>
     </message>
     <message>
         <source>Edit the object</source>
-        <translation>Edita l&apos;objecte</translation>
+        <translation>Editar el objeto</translation>
     </message>
     <message>
         <source>The content object %1 was not accepted but is available as a draft again.</source>
-        <translation>L&apos;objecte de contingut %1 no ha estat acceptat, però torna a estar disponible com a esborrany.</translation>
+        <translation>El objeto de contenido %1 no fue aceptado pero está disponible de nuevo como borrador.</translation>
     </message>
     <message>
         <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
-        <translation>L&apos;objecte de contingut %1 no ha estat acceptat, però estarà disponible com a esborrany per a l&apos;autor.</translation>
+        <translation>El objeto de contenido %1 no fue aceptado pero estará disponible para el autor como borrador.</translation>
     </message>
     <message>
         <source>Pushback</source>
-        <translation type="obsolete">Rebuig</translation>
+        <translation type="obsolete">Rechazo</translation>
     </message>
     <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
-        <translation>Pots tornar a editar l&apos;esborrany i publicar-lo. En aquest cas, caldrà aprovar-lo de nou.</translation>
+        <translation>Puedes reeditar el borrador y publicarlo, en cuyo caso necesitarás de nuevo la aprobación.</translation>
     </message>
     <message>
         <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
-        <translation>L&apos;autor pot tornar a editar l&apos;esborrany i publicar-lo de nou. En aquest cas, es farà un nou ítem d&apos;aprovació.</translation>
+        <translation>El autor puede reeditar el borrador y publicarlo de nuevo, en cuyo caso se crea un nuevo item de aprobación.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
-        <translation>[%sitename] L&apos;aprovació de &quot;%objectname&quot; reclama la teva atenció</translation>
+        <translation>[%sitename] la aprobación del &quot;%objectname&quot; requiere tu atención</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation>Aquest correu és per informar-te que &quot;%objectname&quot; reclama la teva atenció a %sitename.
-El procés de publicació s&apos;ha interromput i tu has de decidir si ha de continuar o aturar-se.
-Pots veure el que cal aprovar en la URL de més a baix.
-</translation>
+        <translation>Este correo es para informarte de que &quot;%objectname&quot; requiere tu atención en %sitename.
+El proceso de publicación ha sido interrumpido y tu eres quien decide si debe continuar o parar.
+La aprobación puede ser vista usando la URL de abajo.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
-        <translation>[%sitename] &quot;%objectname&quot; espera aprovació</translation>
+        <translation>[%sitename] &quot;%objectname&quot; requiere aprobación</translation>
     </message>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation>Aquest correu és per informar-te que &quot;%objectname&quot; espera aprovació abans que sigui publicat a %sitename.
-Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat, fes click a la URL de més a baix.</translation>
+        <translation>Este correo es para informarte que &quot;%objectname&quot; espera aprobación en %sitename antes de ser publicado.
+Si quieres enviar comentarios al aprobador o ver el estado usa la URL de abajo.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content</name>
     <message>
         <source>Are you sure you want to remove this translation?</source>
-        <translation>Estàs segur que vols esborrar aquesta traducció?</translation>
+        <translation>¿Estás seguro de que quieres eliminar esta traducción?</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Change translation for content</source>
-        <translation>Canvia la traducció per a continguts</translation>
+        <translation>Cambiar traducción para contenido</translation>
     </message>
     <message>
         <source>Pick one of the translations from the list to change to or enter a new custom one in the input fields.</source>
-        <translation>Tria una de les traduccions de la llista per canviar o inserir un nou estil en els camps d&apos;entrada.</translation>
+        <translation>Escoje una de las traducciones de la lista para cambiarla o insertar una nueva en los campos de texto.</translation>
     </message>
     <message>
         <source>New translation for content</source>
-        <translation>Nova traducció per a continguts</translation>
+        <translation>Nueva traducción para contenido</translation>
     </message>
     <message>
         <source>Pick one of the translations from the list to add or enter a new custom one in the input fields.</source>
-        <translation>Tria una de les traduccions de la llista per afegir o inserir un nou estil en els camps d&apos;entrada.</translation>
+        <translation>Escoje una de las traducciones de la lista para añadirla o insertar una nueva en los campos de texto.</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Traduccions</translation>
+        <translation>Traducciones</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation>Estil</translation>
+        <translation>Nueva</translation>
     </message>
     <message>
         <source>Name of translation</source>
-        <translation>Nom de la traducció</translation>
+        <translation>Nombre de la traducción</translation>
     </message>
     <message>
         <source>Locale</source>
-        <translation>Llenguatge</translation>
+        <translation>Locale</translation>
     </message>
     <message>
         <source>Change</source>
-        <translation>Canvia</translation>
+        <translation>Cambiar</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Crea</translation>
+        <translation>Crear</translation>
     </message>
     <message>
         <source>Content translations</source>
-        <translation>Traduccions de contingut</translation>
+        <translation>Traducción de contenidos</translation>
     </message>
     <message>
         <source>Below you&apos;ll find a list of active translations which content objects may be translated into.</source>
-        <translation>A sota trobaràs una llista de les traduccions actives en què l&apos;objecte contingut pot ser traduït.</translation>
+        <translation>Debajo encontrarás una serie de traducciones activas en las que el objeto de contenido puede ser traducido.</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Idioma</translation>
+        <translation>Lenguaje</translation>
     </message>
     <message>
         <source>Country</source>
@@ -939,128 +938,128 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Esborra</translation>
+        <translation type="obsolete">Borrar</translation>
     </message>
     <message>
         <source>Removing &apos;%1&apos; will remove the translation itself and %2 translated versions!</source>
-        <translation>Si esborres &quot;%1&quot; també esborraràs, a més de la traducció mateixa, %2 versions traduïdes!</translation>
+        <translation>¡Eliminando &apos;%1&apos; eliminarás la propia traducción y %2 versiones traducidas!</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation>Traductor d&apos;URL</translation>
+        <translation>Traductor de URL</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Afegeix</translation>
+        <translation>Añadir</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/copy</name>
     <message>
         <source>Versions</source>
-        <translation type="obsolete">Versions</translation>
+        <translation type="obsolete">Versiones</translation>
     </message>
     <message>
         <source>Copy all versions</source>
-        <translation>Copia totes les versions</translation>
+        <translation>Copiar todas las versiones</translation>
     </message>
     <message>
         <source>Copy current version</source>
-        <translation>Copia la versió actual</translation>
+        <translation>Copiar la versión actual</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Copying %1</source>
-        <translation>Copiant %1</translation>
+        <translation>Copiando %1</translation>
     </message>
     <message>
         <source>Version count is %1, and current version is %2.</source>
-        <translation>El nombre de versions és %1 i la versió actual és la %2.</translation>
+        <translation>El total de versiones es %1, y la versión actual es %2.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/create</name>
     <message>
         <source>Create new</source>
-        <translation>Crea un de nou</translation>
+        <translation>Crear nuevo</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>cancelar</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>New author</source>
-        <translation>Nou autor</translation>
+        <translation>Nuevo autor</translation>
     </message>
     <message>
         <source>Remove Selected</source>
-        <translation>Esborra la selecció</translation>
+        <translation>Eliminar la selección</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Remove image</source>
-        <translation>Esborra la imatge</translation>
+        <translation>Eliminar imagen</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Alt</translation>
+        <translation>Alta</translation>
     </message>
     <message>
         <source>Best</source>
-        <translation>Millor</translation>
+        <translation>Mejor</translation>
     </message>
     <message>
         <source>Low</source>
-        <translation>Baix</translation>
+        <translation>Baja</translation>
     </message>
     <message>
         <source>Autohigh</source>
-        <translation>Alt automàtic</translation>
+        <translation>Engrandecimiento automático</translation>
     </message>
     <message>
         <source>Autolow</source>
-        <translation>Baix automàtic</translation>
+        <translation>Empequeñecimiento automático</translation>
     </message>
     <message>
         <source>Autoplay</source>
-        <translation>Arrencada automàtica</translation>
+        <translation>Arranque automático</translation>
     </message>
     <message>
         <source>Loop</source>
-        <translation>Continu</translation>
+        <translation>Bucle</translation>
     </message>
     <message>
         <source>Controller</source>
@@ -1068,71 +1067,72 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>ImageWindow</source>
-        <translation>Finestra d&apos;imatge</translation>
+        <translation>Ventana de imagen</translation>
     </message>
     <message>
         <source>All</source>
-        <translation>Tots</translation>
+        <translation>Todos</translation>
     </message>
     <message>
         <source>ControlPanel</source>
-        <translation>Tauler de control</translation>
+        <translation>Panel de control</translation>
     </message>
     <message>
         <source>InfoVolumePanel</source>
-        <translation>Tauler d&apos;informació de volum</translation>
+        <translation>Panel de información del volumen</translation>
     </message>
     <message>
         <source>InfoPanel</source>
-        <translation>Tauler d&apos;informació</translation>
+        <translation>Panel de información</translation>
     </message>
     <message>
         <source>Find object</source>
-        <translation>Troba un objecte</translation>
+        <translation>Buscar objeto</translation>
     </message>
     <message>
         <source>New option</source>
-        <translation>Nova opció</translation>
+        <translation>Nueva opción</translation>
     </message>
     <message>
         <source>Price:</source>
-        <translation>Preu:</translation>
+        <translation>Precio:</translation>
     </message>
     <message>
         <source>Your price:</source>
-        <translation>El teu preu:</translation>
+        <translation>Tu precio:</translation>
     </message>
     <message>
         <source>You save:</source>
-        <translation>T&apos;estalvies:</translation>
+        <translation>Ahorras:
+</translation>
     </message>
     <message>
         <source>User account information</source>
-        <translation>Informació del compte d&apos;usuari</translation>
+        <translation>Información de la cuenta del usuario</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>Correu electrònic</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Filename</source>
-        <translation>Nom de l&apos;arxiu</translation>
+        <translation>Nombre del fichero</translation>
     </message>
     <message>
         <source>MIME Type</source>
-        <translation type="obsolete">Tipus MIME</translation>
+        <translation type="obsolete">Tipo de MIME</translation>
     </message>
     <message>
         <source>Filesize</source>
-        <translation>Mida de l&apos;arxiu</translation>
+        <translation>Tamaño del fichero</translation>
     </message>
     <message>
         <source>Year</source>
-        <translation>Any</translation>
+        <translation>Año</translation>
     </message>
     <message>
         <source>Month</source>
@@ -1140,7 +1140,7 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Day</source>
-        <translation>Dia</translation>
+        <translation>Día</translation>
     </message>
     <message>
         <source>Hour</source>
@@ -1148,15 +1148,15 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Minute</source>
-        <translation>Minut</translation>
+        <translation>Minuto</translation>
     </message>
     <message>
         <source>Image filename</source>
-        <translation>Nom de l&apos;arxiu de la imatge</translation>
+        <translation>Nombre del fichero de imagen</translation>
     </message>
     <message>
         <source>Alternative image text</source>
-        <translation>Text alternatiu de la imatge</translation>
+        <translation>Texto alternativo de imagen</translation>
     </message>
     <message>
         <source>ISBN</source>
@@ -1164,51 +1164,51 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Width</source>
-        <translation>Amplada</translation>
+        <translation>Anchura</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation>Alçada</translation>
+        <translation>Altura</translation>
     </message>
     <message>
         <source>Quality</source>
-        <translation>Qualitat</translation>
+        <translation>Calidad</translation>
     </message>
     <message>
         <source>Controls</source>
-        <translation>Controls</translation>
+        <translation>Controles</translation>
     </message>
     <message>
         <source>Existing filename</source>
-        <translation>Nom del fitxer actual</translation>
+        <translation>Nombre del fichero existente</translation>
     </message>
     <message>
         <source>Existing orignal filename</source>
-        <translation>Nom del fitxer original</translation>
+        <translation>Nombre del fichero original existente</translation>
     </message>
     <message>
         <source>Existing mime/type</source>
-        <translation>Tipus MIME actual</translation>
+        <translation>mime/type existente</translation>
     </message>
     <message>
         <source>No relation</source>
-        <translation>No hi ha relació</translation>
+        <translation>No hay relación</translation>
     </message>
     <message>
         <source>Options</source>
-        <translation>Opcions</translation>
+        <translation>Opciones</translation>
     </message>
     <message>
         <source>Start value</source>
-        <translation>Valor d&apos;arrencada</translation>
+        <translation>Valor de comienzo</translation>
     </message>
     <message>
         <source>Stop value</source>
-        <translation>Valor d&apos;aturada</translation>
+        <translation>Valor de parada</translation>
     </message>
     <message>
         <source>Step value</source>
-        <translation>Valor de pas</translation>
+        <translation>Valor de paso</translation>
     </message>
     <message>
         <source>URL</source>
@@ -1216,23 +1216,23 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <source>User ID</source>
-        <translation>ID de l&apos;usuari</translation>
+        <translation>ID de usuari</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation>Connecta</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation>Confirma la contrasenya</translation>
+        <translation>Confirmar contraseña</translation>
     </message>
     <message>
         <source>No</source>
@@ -1244,78 +1244,78 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Price</source>
-        <translation>Preu</translation>
+        <translation>Precio</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation>Correu electrònic</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Replace object</source>
-        <translation>Canvia l&apos;objecte</translation>
+        <translation>Mover objeto</translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation>Esborra l&apos;objecte</translation>
+        <translation>Eliminar objeto</translation>
     </message>
     <message>
         <source>MIME-Type</source>
-        <translation>Tipus MIME</translation>
+        <translation>MIME-Type</translation>
     </message>
     <message>
         <source>New row</source>
-        <translation>Nova fila</translation>
+        <translation>Nueva línea</translation>
     </message>
     <message>
         <source>Create new %classname</source>
-        <translation>Crea un nou %classname</translation>
+        <translation>Crear un(a) nuevo(a) %classname</translation>
     </message>
     <message>
         <source>Add %classname</source>
-        <translation>Afegeix %classname</translation>
+        <translation>Añadir %classname</translation>
     </message>
     <message>
         <source>Edit objects</source>
-        <translation>Edita els objectes</translation>
+        <translation>Editar objetos</translation>
     </message>
     <message>
         <source>Remove objects</source>
-        <translation>Esborra els objectes</translation>
+        <translation>Eliminar objetos</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/edit</name>
     <message>
         <source>The following information was collected:</source>
-        <translation>S&apos;ha recollit la següent informació:</translation>
+        <translation>La información siguiente ha sido recogida:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Vista prèvia</translation>
+        <translation>Vista previa</translation>
     </message>
     <message>
         <source>Send for publishing</source>
-        <translation>Tramet per publicar</translation>
+        <translation>Enviar para su publicación</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation>Localització</translation>
+        <translation>Localización</translation>
     </message>
     <message>
         <source>Sort by</source>
-        <translation>Ordena per</translation>
+        <translation>Ordenado por</translation>
     </message>
     <message>
         <source>Ordering</source>
-        <translation>Ordre</translation>
+        <translation>Orden</translation>
     </message>
     <message>
         <source>Main</source>
@@ -1323,47 +1323,47 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Move</source>
-        <translation>Mou</translation>
+        <translation>Mover</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>Publicat</translation>
+        <translation>Publicado</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modificat</translation>
+        <translation>Modificado</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Depth</source>
-        <translation>Profunditat</translation>
+        <translation>Profundidad</translation>
     </message>
     <message>
         <source>Class Identifier</source>
-        <translation>Identificador de classe</translation>
+        <translation>Identificador de clase</translation>
     </message>
     <message>
         <source>Class Name</source>
-        <translation>Nom de classe</translation>
+        <translation>Nombre de clase</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioritat</translation>
+        <translation>Prioridad</translation>
     </message>
     <message>
         <source>Object info</source>
-        <translation>Informació d&apos;objecte</translation>
+        <translation>Información del objeto</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation>Encara sense publicar</translation>
+        <translation>Aún no publicado</translation>
     </message>
     <message>
         <source>Current</source>
@@ -1375,321 +1375,321 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Translations</source>
-        <translation>Traduccions</translation>
+        <translation>Traducciones</translation>
     </message>
     <message>
         <source>Related objects</source>
-        <translation>Objectes relacionats</translation>
+        <translation>Objetos relacionados</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Troba</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation>L&apos;entrada no s&apos;ha validat</translation>
+        <translation>La entrada no fue validada</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
-        <translation>L&apos;entrada s&apos;ha emmagatzemat amb èxit</translation>
+        <translation>La entrada fue almacenada con éxito</translation>
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
-        <translation>Estàs segur que vols descartar l&apos;esborrany?</translation>
+        <translation>¿Estás seguro de que quieres descartar el borrador?</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Collected information from %1</source>
-        <translation>Informació recollida de %1</translation>
+        <translation>Información recogida de %1</translation>
     </message>
     <message>
         <source>Store draft</source>
-        <translation>Emmagatzema l&apos;esborrany</translation>
+        <translation>Almacenar borrador</translation>
     </message>
     <message>
         <source>Add locations</source>
-        <translation>Afegeix localitzacions</translation>
+        <translation>Añadir localizaciones</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation>Creat</translation>
+        <translation>Creado</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation>Versions</translation>
+        <translation>Versiones</translation>
     </message>
     <message>
         <source>Editing</source>
-        <translation>En edició</translation>
+        <translation>Editando</translation>
     </message>
     <message>
         <source>%1 (No locale information available)</source>
-        <translation>%1 (No hi ha informació de llenguatge disponible)l</translation>
+        <translation>%1 (No hay información de &quot;locale&quot; disponible)</translation>
     </message>
     <message>
         <source>Validation failed</source>
-        <translation>La validació ha fallat</translation>
+        <translation>La validación ha fallado</translation>
     </message>
     <message>
         <source>Location did not validate</source>
-        <translation>La localització no s&apos;ha validat</translation>
+        <translation>La localización no ha sido validada</translation>
     </message>
     <message>
         <source>Edit %1 - %2</source>
-        <translation>Edita %1 - %2</translation>
+        <translation>Editar %1 - %2</translation>
     </message>
     <message>
         <source>New draft</source>
-        <translation>Nou esborrany</translation>
+        <translation>Nuevo borrador</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/search</name>
     <message>
         <source>Advanced search</source>
-        <translation>Cerca avançada</translation>
+        <translation>Búsqueda avanzada</translation>
     </message>
     <message>
         <source>Any class</source>
-        <translation>Qualsevol classe</translation>
+        <translation>Cualquier clase</translation>
     </message>
     <message>
         <source>Update attributes</source>
-        <translation>Actualitza atributs</translation>
+        <translation>Actualizar atributos</translation>
     </message>
     <message>
         <source>Any section</source>
-        <translation>Qualsevol secció</translation>
+        <translation>Cualquier sección</translation>
     </message>
     <message>
         <source>Any time</source>
-        <translation>Qualsevol moment</translation>
+        <translation>Cualquier momento</translation>
     </message>
     <message>
         <source>Last day</source>
-        <translation>Darrer dia</translation>
+        <translation>Último día</translation>
     </message>
     <message>
         <source>Last week</source>
-        <translation>Darrera setmana</translation>
+        <translation>Última semana</translation>
     </message>
     <message>
         <source>Last month</source>
-        <translation>Darrer mes</translation>
+        <translation>Último mes</translation>
     </message>
     <message>
         <source>Last three months</source>
-        <translation>Darrers tres mesos</translation>
+        <translation>Últimos tres meses</translation>
     </message>
     <message>
         <source>Last year</source>
-        <translation>Darrer any</translation>
+        <translation>Último año</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Cerca</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Search all the words</source>
-        <translation>Cerca totes les paraules</translation>
+        <translation>Buscar todas las palabras</translation>
     </message>
     <message>
         <source>Search the exact phrase</source>
-        <translation>Cerca la frase exacta</translation>
+        <translation>Buscar la frase exacta</translation>
     </message>
     <message>
         <source>Search with at least one of the words</source>
-        <translation>Cerca amb almenys una de les paraules</translation>
+        <translation>Buscar con al menos una de las palabras</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Class attribute</source>
-        <translation>Atribut de classe</translation>
+        <translation>Atributo de clase</translation>
     </message>
     <message>
         <source>In</source>
-        <translation>A</translation>
+        <translation>En</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>Publicat</translation>
+        <translation>Publicado</translation>
     </message>
     <message>
         <source>No results were found when searching for &quot;%1&quot;</source>
-        <translation>No s&apos;han trobat resultats per a la cerca de &quot;%1&quot;</translation>
+        <translation>No se han encontrado resultados al buscar por &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Search for &quot;%1&quot; returned %2 matches</source>
-        <translation>La cerca de &quot;%1&quot; ha trobat %2 coincidències</translation>
+        <translation>La búsqueda por &quot;%1&quot; devolvió %2 coincidencias</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>For more options try the %1Advanced search%2</source>
-        <translation type="obsolete">Si vols més opcions, prova la %1Cerca avançada%2</translation>
+        <translation type="obsolete">Para obtener más opciones intenta la %1Búsqueda avanzada%2</translation>
     </message>
     <message>
         <source>The following words were excluded from the search:</source>
-        <translation>S&apos;han exclòs de la cerca les paraules següents:</translation>
+        <translation>Las siguientes palabras fueron excluidas de la búsqueda:</translation>
     </message>
     <message>
         <source>Display per page</source>
-        <translation>Mostra per pàgina</translation>
+        <translation>Vista por página</translation>
     </message>
     <message>
         <source>5 items</source>
-        <translation>5 ítems</translation>
+        <translation>5 elementos</translation>
     </message>
     <message>
         <source>10 items</source>
-        <translation>10 ítems</translation>
+        <translation>10 elementos</translation>
     </message>
     <message>
         <source>20 items</source>
-        <translation>20 ítems</translation>
+        <translation>20 elementos</translation>
     </message>
     <message>
         <source>30 items</source>
-        <translation>30 ítems</translation>
+        <translation>30 elementos</translation>
     </message>
     <message>
         <source>50 items</source>
-        <translation>50 ítems</translation>
+        <translation>50 elementos</translation>
     </message>
     <message>
         <source>For more options try the %1Advanced search%2</source>
         <comment>The parameters are link start and end tags.</comment>
-        <translation>Si vols més opcions, prova la %1cerca avançada%2</translation>
+        <translation>Para obtener más opciones intenta la %1búsqueda avanzada%2</translation>
     </message>
     <message>
         <source>Search tips</source>
-        <translation>Consells per a la cerca</translation>
+        <translation>Trucos de búsqueda</translation>
     </message>
     <message>
         <source>Check spelling of keywords.</source>
-        <translation>Assegura&apos;t que has escrit correctament les paraules clau.</translation>
+        <translation>Comprobar la ortografía de las palabras clave.</translation>
     </message>
     <message>
         <source>Try changing some keywords eg. car instead of cars.</source>
-        <translation>Prova canviant algunes paraules clau (per exemple, atzucac en lloc d&apos;atzucacs).</translation>
+        <translation>Intenta cambiar algunas palabras clave. Por ejemplo: coche en lugar de coches.</translation>
     </message>
     <message>
         <source>Try more general keywords.</source>
-        <translation>Prova amb unes paraules clau més generals.</translation>
+        <translation>Intenta palabras clave más generales.</translation>
     </message>
     <message>
         <source>Fewer keywords gives more results, try reducing keywords until you get a result.</source>
-        <translation>Posant menys paraules clau obtindràs més resultats. Prova reduint paraules fins que aconsegueix algun resultat.</translation>
+        <translation>Menos palabras clave ofrecen más resultados. Intenta reducir las palabras clave hasta que obtengas un resultado.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/tipafriend</name>
     <message>
         <source>Tip a friend</source>
-        <translation>Recomana a un amic</translation>
+        <translation>Avisa a un amigo</translation>
     </message>
     <message>
         <source>The message was sent.</source>
-        <translation>S&apos;ha enviat el missatge.</translation>
+        <translation>El mensaje ha sido enviado.</translation>
     </message>
     <message>
         <source>Click here to return to the original page.</source>
-        <translation>Fes clic aquí per tornar a la pàgina original.</translation>
+        <translation>Clica aquí para volver a la página principal.</translation>
     </message>
     <message>
         <source>The message was not sent.</source>
-        <translation>No s&apos;ha enviat el missatge.</translation>
+        <translation>El mensaje no ha sido enviado.</translation>
     </message>
     <message>
         <source>The message was not sent due to an unknown error. Please notify the site administrator about this error.</source>
-        <translation>El missatge no s&apos;ha enviat a causa d&apos;un error desconegut. Si us plau, informa d&apos;aquest error a l&apos;administrador.</translation>
+        <translation>El mensaje no ha sido enviado debido a un error desconocido. Por favor, notifica este fallo al administrador del sitio.</translation>
     </message>
     <message>
         <source>Please correct the following errors:</source>
-        <translation>Si us plau, corregeix aquests errors:</translation>
+        <translation>Por favor, corrige los siguientes errores:</translation>
     </message>
     <message>
         <source>Your name</source>
-        <translation>El teu nom</translation>
+        <translation>Tu nombre</translation>
     </message>
     <message>
         <source>Your email address</source>
-        <translation>La teva adreça de correu</translation>
+        <translation>Tu dirección de e-mail</translation>
     </message>
     <message>
         <source>Receivers name</source>
-        <translation>Nom dels destinataris</translation>
+        <translation>Nombre del destinatario</translation>
     </message>
     <message>
         <source>Receivers email address</source>
-        <translation>Adreces de correu dels destinataris</translation>
+        <translation>Dirección de e-mail del destinatario</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation>Tema</translation>
+        <translation>Asunto</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Comenta</translation>
+        <translation>Comentario</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Tramet</translation>
+        <translation>Enviar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>This message was sent to you because &quot;%1 &lt;%2&gt;&quot; thought you might find the page &quot;%3&quot; at %4 interesting.</source>
-        <translation>Has rebut aquest missatge perquè &quot;%1 &lt;%2&gt;&quot; ha pensat que trobaries interessant la pàgina &quot;%3&quot; a %4.</translation>
+        <translation>Este mensaje te ha sido enviado porque &quot;%1 &lt;%2&gt;&quot; pensó que podrías encontrar la página &quot;%3&quot; en %4 interesante.</translation>
     </message>
     <message>
         <source>This is the link to the page:</source>
-        <translation>Aquest és l&apos;enllaç a la pàgina:</translation>
+        <translation>Este es el enlace a la página:</translation>
     </message>
     <message>
         <source>Comment by &quot;%1 &lt;%2&gt;&quot;:</source>
-        <translation>Comentari de &quot;%1 &lt;%2&gt;&quot;:</translation>
+        <translation>Comentario de &quot;%1 &lt;%2&gt;&quot;:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/translate</name>
     <message>
         <source>Translating</source>
-        <translation type="obsolete">Traduint</translation>
+        <translation type="obsolete">Traduciendo</translation>
     </message>
     <message>
         <source>Remove the following translations from</source>
-        <translation type="obsolete">Esborra les següents traduccions de</translation>
+        <translation type="obsolete">Eliminar las siguientes traducciones de</translation>
     </message>
     <message>
         <source>(No locale information available)</source>
-        <translation>(No hi ha informació de llenguatge disponible)</translation>
+        <translation>(No hay información de &quot;locale&quot; disponible)</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation>Sí</translation>
+        <translation>Si</translation>
     </message>
     <message>
         <source>No</source>
@@ -1697,314 +1697,314 @@ Si vols enviar cap comentari a qui l&apos;ha d&apos;aprovar o veure el seu estat
     </message>
     <message>
         <source>Add</source>
-        <translation>Afegeix</translation>
+        <translation>Añadir</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Traduccions</translation>
+        <translation>Traducciones</translation>
     </message>
     <message>
         <source>Translate</source>
-        <translation>Tradueix</translation>
+        <translation>Traducir</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>%1 input was stored successfully</source>
-        <translation>L&apos;entrada %1 s&apos;ha emmagatzemat amb èxit</translation>
+        <translation>%1 entrada ha sido almacenada con éxito</translation>
     </message>
     <message>
         <source>Locale</source>
-        <translation>Llenguatge</translation>
+        <translation>&quot;Locale&quot;</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation>Idioma</translation>
+        <translation>Lenguaje</translation>
     </message>
     <message>
         <source>Translate into</source>
-        <translation>Tradueix a</translation>
+        <translation>Traducir a</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Translating &apos;%1&apos;</source>
-        <translation>Traduint &apos;%1&apos;</translation>
+        <translation>Traduciendo &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Remove the following translations from &apos;%1&apos;</source>
-        <translation>Esborra les següents traduccions de &apos;%1&apos;</translation>
+        <translation>Eliminar las siguientes traducciones de &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/trash</name>
     <message>
         <source>Trash</source>
-        <translation>Paperera</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Trash is empty</source>
-        <translation>La paperera és buida</translation>
+        <translation>La papelera está vacía</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Current version</source>
-        <translation>Versió actual</translation>
+        <translation>Versión actual</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaura</translation>
+        <translation>Recuperar</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecciona-ho tot</translation>
+        <translation>Seleccionar todo</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation>Deselecciona-ho tot</translation>
+        <translation>Desseleccionar todo</translation>
     </message>
     <message>
         <source>Empty Trash</source>
-        <translation>Buida la paperera</translation>
+        <translation>Vaciar papelera</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/version</name>
     <message>
         <source>Versions for:</source>
-        <translation type="obsolete">Versions per:</translation>
+        <translation type="obsolete">Versiones para:</translation>
     </message>
     <message>
         <source>Version not a draft</source>
-        <translation>La versió no és un esborrany</translation>
+        <translation>Esta versión no es un borrador</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versió</translation>
+        <translation type="obsolete">Versión</translation>
     </message>
     <message>
         <source>is not available for editing anymore, only drafts can be edited.</source>
-        <translation type="obsolete">ja no serà disponible per editar, només els esborranys poden ser editats.</translation>
+        <translation type="obsolete">No está disponible para ser editado más, solo los borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>To edit this version create a copy of it.</source>
-        <translation>Per editar aquesta versió crea&apos;n una còpia.</translation>
+        <translation>Para editar esta versión, crea una copia de ella.</translation>
     </message>
     <message>
         <source>Version not yours</source>
-        <translation>La versió no és teva</translation>
+        <translation>La versión no es tuya</translation>
     </message>
     <message>
         <source>was not created by you, only your own drafts can be edited.</source>
-        <translation type="obsolete">no l&apos;has creada tu, només el teus esborranys poden ser editats.</translation>
+        <translation type="obsolete">No ha sido creada por tí, solo tus propios borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versió:</translation>
+        <translation>Versión:</translation>
     </message>
     <message>
         <source>Status:</source>
-        <translation>Estat:</translation>
+        <translation>Estado:</translation>
     </message>
     <message>
         <source>Translations:</source>
-        <translation>Traduccions:</translation>
+        <translation>Traducciones:</translation>
     </message>
     <message>
         <source>Creator:</source>
-        <translation>Creat per:</translation>
+        <translation>Creador:</translation>
     </message>
     <message>
         <source>Modified:</source>
-        <translation>Modificat:</translation>
+        <translation>Modificado:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>Copia i edita</translation>
+        <translation>Copiar y editar</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>Versions de: %1</translation>
+        <translation>Versiones para: %1</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
-        <translation>En endavant, la versió %1 ja no serà disponible per editar. Només es podran editar els esborranys.</translation>
+        <translation>La versión %1 no está disponible para ser editada nunca más. Solo los borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>Version %1 was not created by you, only your own drafts can be edited.</source>
-        <translation>No has creat la versió %1, només pots editar els teus propis esborranys.</translation>
+        <translation>La versión %1 no fue creada por ti. Solo tus propios borradores pueden ser editados.</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>Impossible de crear una nova versió</translation>
+        <translation>Incapaz para crear una nueva versión</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>S&apos;ha excedit el límit de l&apos;historial de versions i el sistema no pot esborrar cap versió arxivada.</translation>
+        <translation>El límite de historial de versiones ha sido excedido y las versiones no archivadas pueden ser eliminadas por el sistema.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>Pots canviar la configuració de l&apos;historial de versions, esborrar versions d&apos;esborrany o editar esborranys existents en el content.ini.</translation>
+        <translation>Puedes modificar tu configuración de historial de versiones en content.ini. También puedes eliminar borradores de versión o editar los borradores existentes.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/view</name>
     <message>
         <source>Browse</source>
-        <translation>Explora</translation>
+        <translation>Navegar</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Selecciona</translation>
+        <translation>Seleccionar</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation>Els meus esborranys</translation>
+        <translation>Mis borradores</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>You have no drafts</source>
-        <translation>No tens esborranys</translation>
+        <translation>No tienes borradores</translation>
     </message>
     <message>
         <source>Related objects</source>
-        <translation>Objectes relacionats</translation>
+        <translation>Objetos relacionados</translation>
     </message>
     <message>
         <source>None</source>
-        <translation>Cap</translation>
+        <translation>Ninguno</translation>
     </message>
     <message>
         <source>Change</source>
-        <translation>Canvia</translation>
+        <translation>Cambiar</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publica</translation>
+        <translation>Publicar</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation>Versions</translation>
+        <translation>Versiones</translation>
     </message>
     <message>
         <source>To select objects, choose the appriate radiobutton or checkbox(es), and click the &quot;Choose&quot; button.</source>
-        <translation>Per seleccionar objectes, tria l&apos;opció més adient, i fes clic al botó &quot;Tria&quot;.</translation>
+        <translation>Para seleccionar los objetos, elije el radiobutton o checkbox/es apropiado/s y clica el botón &quot;elegir&quot;.</translation>
     </message>
     <message>
         <source>To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.</source>
-        <translation>Per seleccionar un objecte que és fill d&apos;un dels objectes mostrats, fes clic en el nom de l&apos;objecte i obtindràs una llista de fills de l&apos;objecte.</translation>
+        <translation>Para seleccionar un objeto que es un hijo de uno de los objetos visualizados, clica el nombre del objeto y obtendrás la lista de los hijos del objeto.</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Versió</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>Current version</source>
-        <translation>Versió actual</translation>
+        <translation>Versión actual</translation>
     </message>
     <message>
         <source>Translation</source>
-        <translation>Traducció</translation>
+        <translation>Traducción</translation>
     </message>
     <message>
         <source>Placement</source>
-        <translation>Ubicació</translation>
+        <translation>Ubicación</translation>
     </message>
     <message>
         <source>Site Design</source>
-        <translation>Disseny del lloc</translation>
+        <translation>Diseño del sitio</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>Els meus preferits</translation>
+        <translation>Mis favoritos</translation>
     </message>
     <message>
         <source>Add bookmarks</source>
-        <translation>Afegeix preferits</translation>
+        <translation>Añadir favoritos</translation>
     </message>
     <message>
         <source>You have no bookmarks</source>
-        <translation>No tens preferits</translation>
+        <translation>No tienes favoritos</translation>
     </message>
     <message>
         <source>Up one level</source>
-        <translation>Puja un nivell</translation>
+        <translation>Subir un nivel</translation>
     </message>
     <message>
         <source>Top levels</source>
-        <translation>Nivells superiors</translation>
+        <translation>Niveles más altos</translation>
     </message>
     <message>
         <source>Switch top levels by clicking one of these items.</source>
-        <translation>Canvia a nivells superiors fent clic en un d&apos;aquests elements.</translation>
+        <translation>Cambia los niveles más altos clicando uno de estos items.</translation>
     </message>
     <message>
         <source>Bookmarks</source>
-        <translation>Preferits</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>Recent items</source>
-        <translation>Ítems recents</translation>
+        <translation>Elementos recientes</translation>
     </message>
     <message>
         <source>Recent items are added on publishing.</source>
-        <translation>Els elements recents s&apos;afegiran quan s&apos;hagin publicat.</translation>
+        <translation>Los elementos recientes son añadidos cuando publicas.</translation>
     </message>
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
-        <translation>Aquests són els objectes actuals amb què estàs treballant. Els esborranys són teus i només tu els pots veure.
-Els pots editar o esborrar-los si no els necessites més.</translation>
+        <translation>Estos son los objetos actuales sobre los que estás trabajando. Los borradores han sido creados por ti y solo pueden ser vistos por ti.
+Puedes editar los borradores o eliminarlos si no los vas a necesitar más.</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation>Última modificació</translation>
+        <translation>Última modificación</translation>
     </message>
     <message>
         <source>Choose initial placement</source>
-        <translation>Tria la ubicació inicial</translation>
+        <translation>Elige la ubicación inicial</translation>
     </message>
     <message>
         <source>Please choose where you want to place the new %classname.
@@ -2012,29 +2012,28 @@ Els pots editar o esborrar-los si no els necessites més.</translation>
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Tria, si us plau, on vols ubicar el nou %classname.
+        <translation>Por favor, elige dónde quieres ubicar el nuevo %classname.
 
-Selecciona la ubicació i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferits per fer ubicacions de forma ràpida.
-Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+Selecciona la ubicación y clica el botón %buttonname.
+Es posible usar los elementos de reciente y de favoritos para una ubicación rápida.
+Clica en los nombres de ubicación para cambiar la lista de navegación. </translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
       If you want to add more objects to this list click the %addbutton button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>Aquests són els objectes que tu has marcat com a preferits. Fes clic sobre un objecte per veure&apos;l o, si tens prou permisos, pots editar-lo fent clic en el botó corresponent.
-Si vols afegir més objectes a aquesta llista, fes clic al botó %addbutton.
+        <translation>Estos son los objetos que tienes como favoritos. Clica en un objeto para verlo o, si tienes permisos suficientes, puedes editar los objetos de la lista clicando el botón %addbutton.
 
-L&apos;esborrat d&apos;objectes només ho afectarà aquesta llista.</translation>
+Eliminando los objetos tan solo los eliminarás de esta lista.</translation>
     </message>
     <message>
         <source>Bookmark items are managed using %bookmarkname in the %personalname part.</source>
-        <translation>Els preferits es gestionen amb %bookmarkname a la part %personalname.</translation>
+        <translation>Los elementos de favoritos se gestionan usando %bookmarkname en la parte %personalname.</translation>
     </message>
     <message>
         <source>Choose items to bookmark</source>
-        <translation>Tria el que vulguis marcar com a Preferits</translation>
+        <translation>Elige el elemento para añadir a favoritos</translation>
     </message>
     <message>
         <source>Please choose the items you want to add to your bookmark list.
@@ -2042,15 +2041,15 @@ L&apos;esborrat d&apos;objectes només ho afectarà aquesta llista.</translation
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation>Tria el que vulguis afegir a la teva llista de preferits.
+        <translation>Por favor, escoge los elementos que quieres añadir a tu lista de favoritos.
 
-Selecciona els ítems i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferits per seleccionar de forma ràpida.
-Fes clic en els noms dels ítems per canviar la llista de navegació.</translation>
+Selecciona tus elementos y clica el botón %buttonname.
+Es posible también usar los elementos de reciente o favoritos para una selección rápida.
+Clica en los nombres de los elementos para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
-        <translation>Tria una nova ubicació</translation>
+        <translation>Elige una nueva ubicación</translation>
     </message>
     <message>
         <source>Please choose the new placement for %name.
@@ -2059,16 +2058,16 @@ Fes clic en els noms dels ítems per canviar la llista de navegació.</translati
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation>Tria la nova ubicació per a %name.
-La ubicació anterior era a %placementname.
+        <translation>Por favor, elige una nueva ubicación para %name.
+La anterior ubicación estaba en %placementname.
 
-Selecciona la ubicació i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
-Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+Selecciona la ubicación y clica el botón %buttonname.
+Es posible también usar los elementos de reciente o favoritos para una selección rápida.
+Clica en los nombres de las ubicaciones para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Choose placements</source>
-        <translation>Tria les ubicacions</translation>
+        <translation>Elige ubicaciones</translation>
     </message>
     <message>
         <source>Please choose where you want to place %name.
@@ -2076,15 +2075,14 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Tria on vols ubicar %name.
-
-Selecciona les teves ubicacions i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
-Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+        <translation>Por favor, elige dónde quieres ubicar %name.
+Selecciona tus ubicaciones y clica el botón %buttonname.
+Es posible también usar los elementos de reciente o favoritos para una selección rápida.
+Clica en los nombres de las ubicaciones para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Choose related objects</source>
-        <translation>Tria els objectes relacionats</translation>
+        <translation>Elige objetos relacionados</translation>
     </message>
     <message>
         <source>Please choose objects which you want to relate to %name.
@@ -2092,71 +2090,70 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Tria els objectes que vols relacionar a %name.
+        <translation>Por favor, elige los objetos que quieres relacionar con %name.
 
-Selecciona els objectes i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferit per fer seleccions de forma ràpida.
-Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
-</translation>
+Selecciona tus objetos y clica el botón %buttonname.
+Es posible también usar los elementos de reciente o favoritos para una selección rápida.
+Clica en los nombres de los objetos para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecciona-ho tot</translation>
+        <translation>Seleccionar todo</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation>Deselecciona-ho tot</translation>
+        <translation>Desseleccionar todo</translation>
     </message>
     <message>
         <source>Empty Draft</source>
-        <translation>Elimina els esborranys</translation>
+        <translation>Borrador vacío</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation>La meva llista de coses pendents</translation>
+        <translation>Mi lista de tareas pendientes</translation>
     </message>
     <message>
         <source>Your pending list is empty</source>
-        <translation>La teva llista de coses pendents és buida</translation>
+        <translation>Tu lista de tareas pendientes está vacía</translation>
     </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
     <message>
         <source>Access denied</source>
-        <translation>Accés denegat</translation>
+        <translation>Acceso denegado</translation>
     </message>
     <message>
         <source>You don&apos;t have permission to access this area.</source>
-        <translation>No tens prou permisos per accedir a aquest àrea.</translation>
+        <translation>No tienes permisos para acceder a este área.</translation>
     </message>
     <message>
         <source>Login to get proper permissions.</source>
-        <translation type="obsolete">Registre per aconseguir els permisos adients.</translation>
+        <translation type="obsolete">Regístrate para conseguir los permisos adecuados.</translation>
     </message>
     <message>
         <source>Click the Login button to login.</source>
-        <translation>Fes clic en el botó de Registre per accedir-hi.</translation>
+        <translation>Clica el botón de Login para conectar.</translation>
     </message>
     <message>
         <source>Not found</source>
-        <translation>No s&apos;ha trobat</translation>
+        <translation>No encontrado</translation>
     </message>
     <message>
         <source>Module not found</source>
-        <translation>El mòdul no s&apos;ha trobat</translation>
+        <translation>Módulo no encontrado</translation>
     </message>
     <message>
         <source>The requested module &apos;%1&apos; could not be found.</source>
-        <translation type="obsolete">El mòdul demanat &apos;%1&apos; no s&apos;ha trobat.</translation>
+        <translation type="obsolete">El módulo requerido &apos;%1&apos; no pudo ser encontrado.</translation>
     </message>
     <message>
         <source>View not found</source>
-        <translation>La vista no s&apos;ha trobat</translation>
+        <translation>Vista no encontrada</translation>
     </message>
     <message>
         <source>The requested view &apos;%1&apos; could not be found in module: &apos;%2&apos;</source>
-        <translation type="obsolete">La vista demanada &apos;%1&apos; no s&apos;ha trobat al mòdul &apos;%2&apos;</translation>
+        <translation type="obsolete">La vista requerida &apos;%1&apos; no pudo ser encontrada en el módulo &apos;%2&apos;</translation>
     </message>
     <message>
         <source>Unavailable</source>
@@ -2164,216 +2161,217 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>The object is not available.</source>
-        <translation type="obsolete">L&apos;objecte no és disponible.</translation>
+        <translation type="obsolete">El objeto no está disponible.</translation>
     </message>
     <message>
         <source>View is disabled</source>
-        <translation>La vista està desactivada</translation>
+        <translation>La vista está desactivada</translation>
     </message>
     <message>
         <source>The view %2/%1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">La vista %2/%1 està desactivada i no s&apos;hi pot accedir.</translation>
+        <translation type="obsolete">La vista %2/%1 está desactivada y no es accesible.</translation>
     </message>
     <message>
         <source>Module is disabled</source>
-        <translation>El mòdul està desactivat</translation>
+        <translation>El módulo está desactivado</translation>
     </message>
     <message>
         <source>The module %1 is disabled and cannot be accessed.</source>
-        <translation type="obsolete">El mòdul %1 està desactivat i no s&apos;hi pot accedir.</translation>
+        <translation type="obsolete">El módulo %1 está desactivado y no es accesible.</translation>
     </message>
     <message>
         <source>Possible reasons for this is.</source>
-        <translation>Les següents són possibles raons per això.</translation>
+        <translation>Las razones posibles para esto son.</translation>
     </message>
     <message>
         <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation>L&apos;usuari actual no disposa els privilegis adequats per accedir a aquesta pàgina.</translation>
+        <translation>Tu usuario actual no tiene los privilegios apropiados para acceder a esta página.</translation>
     </message>
     <message>
         <source>You&apos;re currently not logged in on the site, to get proper access create a new user or login with an existing user.</source>
-        <translation>En aquests moments no estàs identificat en aquest lloc. Per disposar de l&apos;accés adequat crea un nou usuari o connecta&apos;t amb un usuari existent.</translation>
+        <translation>Actualmente no estás conectado al sitio, para conseguir el acceso apropiado crea un nuevo usuario o conéctate con un usuario existente.</translation>
     </message>
     <message>
         <source>You misspelled some parts of your url, try changing it.</source>
-        <translation>No has escrit bé algunes parts de la URL. Prova canviant-la.</translation>
+        <translation>Te has equivocado al escribir parte de la url, inténta cambiarlo.</translation>
     </message>
     <message>
         <source>The resource you requested was not found.</source>
-        <translation>No s&apos;ha trobat el recurs que has demanat.</translation>
+        <translation>El recurso que has pedido no ha sido encontrado.</translation>
     </message>
     <message>
         <source>The the id or name of the resource was misspelled, try changing it.</source>
-        <translation>No has escrit bé l&apos;ID o el nom del recurs. Prova canviant-ho.</translation>
+        <translation>La id o el nombre del recurso está mal escrito, inténta cambiarlo.</translation>
     </message>
     <message>
         <source>The resource longer exists on the site.</source>
-        <translation>El recurs ja no existeix en aquest lloc.</translation>
+        <translation>El recurso no existe en el sitio.</translation>
     </message>
     <message>
         <source>The requested module %module could not be found.</source>
-        <translation>No s&apos;ha trobat el mòdul %module que has demanat.</translation>
+        <translation>El módulo requerido %module no ha podido ser encontrado.</translation>
     </message>
     <message>
         <source>The module name was misspelled, try changing the url.</source>
-        <translation>No has escrit bé el nom del mòdul. Prova canviant la URL.</translation>
+        <translation>El nombre del módulo se escribió mal, intenta cambiar la url.</translation>
     </message>
     <message>
         <source>The module does not exist on this site.</source>
-        <translation>El mòdul no existeix en aquest lloc.</translation>
+        <translation>El módulo no existe en este sitio.</translation>
     </message>
     <message>
         <source>This site uses siteaccess matching in the url and you didn&apos;t supply one, try inserting a siteaccess name before the module in the url .</source>
-        <translation>Aquest lloc fa servir coincidències en la URL per a l&apos;accés (&quot;siteaccess&quot;), i no n&apos;has proveït cap. Prova inserint un nom d&apos;accés al lloc abans del mòdul en la URL.</translation>
+        <translation>El sitio usa &quot;siteaccess&quot; que coinciden con la url y no has puesto uno. Intenta añadir un nombre de &quot;siteaccess&quot; antes del modulo en la url.</translation>
     </message>
     <message>
         <source>The requested view %view could not be found in module %module</source>
-        <translation>La vista %view que has demanat no s&apos;ha trobat al mòdul %module</translation>
+        <translation>La vista requerida %view no pudo ser encontrada en el módulo %module</translation>
     </message>
     <message>
         <source>The view name was misspelled, try changing the url.</source>
-        <translation>No has escrit bé el nom de la vista. Prova canviant la URL.</translation>
+        <translation>El nombre de la vista está mal escrito, intenta cambiar la url.</translation>
     </message>
     <message>
         <source>The view does not exist for the module %module.</source>
-        <translation>La vista no existeix per al mòdul %module.</translation>
+        <translation>La vista no existe para el módulo %module.</translation>
     </message>
     <message>
         <source>The view %module/%view is disabled and cannot be accessed.</source>
-        <translation>La vista %module/%view està desactivada i no s&apos;hi pot accedir.</translation>
+        <translation>La vista %module/%view está desactivada y no es accesible.</translation>
     </message>
     <message>
         <source>The module %module is disabled and cannot be accessed.</source>
-        <translation>El mòdul %module està desactivat i no s&apos;hi pot accedir.</translation>
+        <translation>El módulo %module está desactivado y no es accesible.</translation>
     </message>
     <message>
         <source>Object is unavailable</source>
-        <translation>L&apos;objecte no està disponible</translation>
+        <translation>El objeto no está disponible</translation>
     </message>
     <message>
         <source>The object you requested is not currently available.</source>
-        <translation>L&apos;objecte que has demanat no està disponible actualment.</translation>
+        <translation>El objeto pedido no está disponible actualmente.</translation>
     </message>
     <message>
         <source>The id or name of the object was misspelled, try changing it.</source>
-        <translation>L&apos;ID o el nom de l&apos;objecte no està ben escrit. Prova canviant-lo.</translation>
+        <translation>La id o el nombre del objeto está mal escrito, intenta cambiarlo.</translation>
     </message>
     <message>
         <source>The object is no longer available on the site.</source>
-        <translation>L&apos;objecte ja no està disponible en aquest lloc.</translation>
+        <translation>El objeto no estará disponible más en este sitio.</translation>
     </message>
     <message>
         <source>Object moved</source>
-        <translation>L&apos;objecte s&apos;ha mogut</translation>
+        <translation>Objeto movido</translation>
     </message>
     <message>
         <source>The object is no longer available at this URL.</source>
-        <translation>L&apos;objecte ja no està disponible en aquesta URL.</translation>
+        <translation>El objeto no estará disponible más en esta URL.</translation>
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
-        <translation>Estàs a punt de ser redireccionat cap a la nova ubicació. Si no funciona, fes clic a %url.</translation>
+        <translation>Serás redireccionado automáticamente a una nueva ubicación. Si no, clica %url.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/form</name>
     <message>
         <source>Thank you for your feedback</source>
-        <translation>Gràcies per la teva aportació</translation>
+        <translation>
+Gracias por tu feedback</translation>
     </message>
     <message>
         <source>Your information was successfully received.</source>
-        <translation>La teva informació s&apos;ha rebut amb èxit.</translation>
+        <translation>Tu información ha sido recibida con éxito.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/gui</name>
     <message>
         <source>Delete</source>
-        <translation>Esborra</translation>
+        <translation>Borrar</translation>
     </message>
 </context>
 <context>
     <name>design/standard/layout</name>
     <message>
         <source>%1 front page</source>
-        <translation type="obsolete">%1 pàgina principal</translation>
+        <translation type="obsolete">%1 página frontal</translation>
     </message>
     <message>
         <source>Search %1</source>
-        <translation type="obsolete">Cerca %1</translation>
+        <translation type="obsolete">Buscar %1</translation>
     </message>
     <message>
         <source>Printable version</source>
-        <translation>Versió per imprimir</translation>
+        <translation>Versión imprimible</translation>
     </message>
     <message>
         <source>Welcome to eZ publish administration</source>
-        <translation>Benvingut/da a l&apos;administració d&apos;eZ publish</translation>
+        <translation>Bienvenido a  la administración de eZ publish </translation>
     </message>
     <message>
         <source>To log in enter a valid login and password.</source>
-        <translation>Per registrar-t&apos;hi introdueix una clau vàlida i una contrasenya.</translation>
+        <translation>Para conectarte inserta un login válido y una contraseña.</translation>
     </message>
     <message>
         <source>Advanced search</source>
-        <translation>Cerca avançada</translation>
+        <translation>Búsqueda avanzada</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Cerca</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Frontpage</source>
-        <translation>Pàgina principal</translation>
+        <translation>Página frontal</translation>
     </message>
     <message>
         <source>Sitemap</source>
-        <translation>Mapa del lloc</translation>
+        <translation>Mapa del sitio</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation type="obsolete">Els meus esborranys</translation>
+        <translation type="obsolete">Mis borradores</translation>
     </message>
     <message>
         <source>Trash</source>
-        <translation>Paperera</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>Change Password</source>
-        <translation>Canvia la contrasenya</translation>
+        <translation>Cambiar la contraseña</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation>Connecta</translation>
+        <translation>Conectar</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation>Desconnecta</translation>
+        <translation>Desconectar</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation>Redirecciona</translation>
+        <translation>Redireccionar</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="obsolete">Reinicia</translation>
+        <translation type="obsolete">Reiniciar</translation>
     </message>
     <message>
         <source>Module load failed</source>
-        <translation>La càrrega del mòdul ha fallat</translation>
+        <translation>La carga del módulo ha fallado</translation>
     </message>
     <message>
         <source>Undefined module: </source>
-        <translation>Mòdul no definit:</translation>
+        <translation>Módulo indefinido:</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation>Lloc:</translation>
+        <translation type="obsolete">Sitio:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versió:</translation>
+        <translation type="obsolete">Versión:</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -2381,391 +2379,389 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.
     </message>
     <message>
         <source>Redirecting to %1</source>
-        <translation type="obsolete">S&apos;està redireccionant a %1</translation>
+        <translation type="obsolete">Redireccionando a %1</translation>
     </message>
     <message>
         <source>Revision:</source>
-        <translation type="obsolete">Revisió:</translation>
+        <translation type="obsolete">Revisión:</translation>
     </message>
     <message>
         <source>%sitetitle front page</source>
-        <translation>Portada de %sitetitle</translation>
+        <translation>Página de inicio de %sitetitle</translation>
     </message>
     <message>
         <source>Search %sitetitle</source>
-        <translation>Cerca a %sitetitle</translation>
+        <translation>Buscar %sitetitle</translation>
     </message>
     <message>
         <source>eZ publish redirection - %url</source>
-        <translation>Redirecció eZ publish - %url</translation>
+        <translation>Redirección eZ publish - %url</translation>
     </message>
     <message>
         <source>Redirecting to %url</source>
-        <translation>S&apos;esta redireccionant a %url</translation>
+        <translation>Redireccionando a %url</translation>
     </message>
 </context>
 <context>
     <name>design/standard/navigator</name>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Anteriór</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation>Siguiente</translation>
     </message>
 </context>
 <context>
     <name>design/standard/node</name>
     <message>
         <source>Are you sure you want to remove %1 from node %2?</source>
-        <translation>Estàs segur que vols esborrar %1 del node %2?</translation>
+        <translation>¿Estás seguro de que quieres eliminar %1 del nudo %2?</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1!</source>
-        <translation type="obsolete">En esborrar aquesta assignació també esborraràs el seu %1!</translation>
+        <translation type="obsolete">¡Eliminando esta asignación eliminarás también su %1!</translation>
     </message>
     <message>
         <source>Removing node assignment of</source>
-        <translation type="obsolete">Esborrant l&apos;assignació del node de</translation>
+        <translation type="obsolete">Eliminando la asignación del nudo de</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these nodes?</source>
-        <translation>Estàs segur que vols esborrar aquests nodes?</translation>
+        <translation>¿Estás seguro de que quieres eliminar estos nudos?</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation>Anotacions:</translation>
+        <translation>Note:</translation>
     </message>
     <message>
         <source>Removed nodes can be retrieved later. You will find them in the trash.</source>
-        <translation>Pots recuperar els nodes esborrats més tard. Els trobaràs a la paperera.</translation>
+        <translation>Los nudos eliminados pueden ser recuperados más tarde. Los podrás encontrar en la papelera.</translation>
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2! %3</source>
-        <translation type="obsolete">En esborrar %1 esborraràs aquest node i %2! %3</translation>
+        <translation type="obsolete">Eliminando %1 eliminarás ese mismo nudo y sus %2! %3</translation>
     </message>
     <message>
         <source>The following items were removed from your basket, because the products were changed</source>
-        <translation>Els ítems següents s&apos;esborraran de la teva cistella perquè els productes han canviat</translation>
+        <translation>Los siguientes productos fueron eliminados de tu cesta porque los productos han sido cambiados</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation>Si esborres aquesta assignació també esborraràs els seus %1 fills.</translation>
+        <translation>Eliminando la asignación eliminarás también sus %1 hijos.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
-        <translation>Esborrant l&apos;assignació del node de %1</translation>
+        <translation>Eliminando la asignación del nudo de %1</translation>
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation>Si esborres %1 esborraràs el mateix node i també els seus %2 fills. %3</translation>
+        <translation>Eliminando %1 eliminarás el propio nudo y sus %2 hijos. %3</translation>
     </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Actualitza</translation>
+        <translation>Actualizar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Document</source>
-        <translation>Document</translation>
+        <translation>Documento</translation>
     </message>
     <message>
         <source>Site map</source>
-        <translation>Mapa del lloc</translation>
+        <translation>Mapa del sitio</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioritat</translation>
+        <translation>Prioridad</translation>
     </message>
     <message>
         <source>User</source>
-        <translation>Usuari</translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <source>User group</source>
-        <translation>Grup d&apos;usuari</translation>
+        <translation>Grupo de usuarios</translation>
     </message>
     <message>
         <source>Create here</source>
-        <translation>Crea aquí</translation>
+        <translation>Crear aquí</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Bookmark</source>
-        <translation>Preferit</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>Keep me updated</source>
-        <translation>Mantén-me actualitzat</translation>
+        <translation>Mantenme informado</translation>
     </message>
     <message>
         <source>Add to Bookmarks</source>
-        <translation>Afegeix als preferits</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation>Informa&apos;m de les actualitzacions</translation>
+        <translation>Notifícame las actualizaciones</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Vista prèvia</translation>
+        <translation>Vista previa</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecciona-ho tot</translation>
+        <translation>Seleccionar todo</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation>Deselecciona-ho tot</translation>
+        <translation>Desseleccionar todo</translation>
     </message>
     <message>
         <source>Click to create a custom template</source>
-        <translation>Fes clic per crear una plantilla personalitzada</translation>
+        <translation>Clica para crear una nueva plantilla</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification</name>
     <message>
         <source>Do you want to receive messages combined in digest</source>
-        <translation>Vols rebre una compilació de missatges</translation>
+        <translation>Quieres recibir los mensajes en forma de recopilación</translation>
     </message>
     <message>
         <source>Digest settings</source>
-        <translation>Configuració de la compilació</translation>
+        <translation>Configuraciones de recopilación</translation>
     </message>
     <message>
         <source>Day the week</source>
-        <translation type="obsolete">Dia de la setmana</translation>
+        <translation type="obsolete">Día de la semana</translation>
     </message>
     <message>
         <source>%sitename.&quot;
 </source>
-        <translation type="obsolete">%nom del lloc
-</translation>
+        <translation type="obsolete">%nombre del sitio</translation>
     </message>
     <message>
         <source>If you do not wish to continue receiving these notifications,
 change your settings at:</source>
-        <translation>Si no vols continuar rebent aquestes notificacions,
-canvia la teva configuració a:</translation>
+        <translation>Si no quieres seguir recibiendo estas notificaciones, 
+cambia tus configuraciones en:</translation>
     </message>
     <message>
         <source>system&quot;
 </source>
-        <translation type="obsolete">sistema&quot;
-</translation>
+        <translation type="obsolete">sistema&quot;</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>below.&quot;
 </source>
-        <translation type="obsolete">a sota.&quot;</translation>
+        <translation type="obsolete">abajo&quot;</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation>Sistema de notificacions de %sitename</translation>
+        <translation>Sistema de notificación de %sitename</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
-        <translation>[%sitename] Nou objecte de col·laboració</translation>
+        <translation>[%sitename] Nuevo elemento de colaboración</translation>
     </message>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>Aquest correu és per informar-te que un nou objecte de col·laboració demana la teva atenció a %sitename.
-Pots veure l&apos;objecte en la URL de sota.</translation>
+        <translation>Este correo es para informarte de que un nuevo elemento de colaboración requiere tu atención en %sitename.
+El elemento puede verse usando la URL de abajo.</translation>
     </message>
     <message>
         <source>Receive all messages combined in one digest</source>
-        <translation>Rebre tots els missatges en una única recopilació</translation>
+        <translation>Recibir todos los mensajes combinados en una recopilación</translation>
     </message>
     <message>
         <source>Send out</source>
-        <translation>Envia</translation>
+        <translation>Enviar</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
-        <translation>[%sitename] Recopilació del %date</translation>
+        <translation>[%sitename] Recopilación de %date</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation>Aquest correu de recopilació és per informar-te de les novetats a %sitename.</translation>
+        <translation>Esta recopilación es para informarte de los nuevos elementos en %sitename.</translation>
     </message>
     <message>
         <source>Day of the week</source>
-        <translation>Dia de la setmana</translation>
+        <translation>Día de la semana</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
-        <translation>Aquest correu és per informar-te de les novetats a %sitename.</translation>
+        <translation>Este correo es para informarte de las noticias en %sitename.</translation>
     </message>
     <message>
         <source>[%sitename] %classname &quot;%itemname&quot; was published</source>
-        <translation>[%sitename] S&apos;ha publicat %classname &quot;%itemname&quot;</translation>
+        <translation>[%sitename] %classname &quot;%itemname&quot; ha sido publicado</translation>
     </message>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>Aquest correu és per informar-te que s&apos;ha publicat un nou objecte a %sitename.
-Pots veure l&apos;objecte en la URL de sota.</translation>
+        <translation>Este correo es para informarte de que un nuevo elemento ha sido publicado en %sitename.
+Puedes ver el elemento usando la URL de abajo.</translation>
     </message>
     <message>
         <source>Notification admin</source>
-        <translation>Administració de notificacions</translation>
+        <translation>Administrador de notificaciones</translation>
     </message>
     <message>
         <source>Notification filter proccessed all available notification events</source>
-        <translation>El filtre de notificacions ha processat tots els esdeveniments disponibles de notificació</translation>
+        <translation>El filtro de notificación ha procesado todos los eventos de notificación disponibles</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
-        <translation>L&apos;esdeveniment temporal ha estat generat</translation>
+        <translation>El evento de tiempo ha sido generado</translation>
     </message>
     <message>
         <source>Run notification filter</source>
-        <translation>Arrenca el filtre de notificacions</translation>
+        <translation>Arrancar filtro de notificación</translation>
     </message>
     <message>
         <source>Run</source>
-        <translation>Arrenca</translation>
+        <translation>Arrancar</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation>Genera l&apos;esdeveniment temporal</translation>
+        <translation>Generar evento de tiempo</translation>
     </message>
     <message>
         <source>Spawn</source>
-        <translation>Genera</translation>
+        <translation>Generar</translation>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation>Configuració de les notificacions</translation>
+        <translation>Configuraciones de notificación</translation>
     </message>
 </context>
 <context>
     <name>design/standard/notification/collaboration</name>
     <message>
         <source>Collaboration notification</source>
-        <translation>Notificació de col·laboració</translation>
+        <translation>Notificación de colaboración</translation>
     </message>
     <message>
         <source>Choose which collaboration items you wish to get notifications for.</source>
-        <translation>Tria els objectes de col·laboració dels quals vols rebre una notificació.</translation>
+        <translation>Elige a qué elementos de colaboración le enviarás notificación.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/package</name>
     <message>
         <source>Packages</source>
-        <translation>Paquets</translation>
+        <translation>Paquetes</translation>
     </message>
     <message>
         <source>The following packages are available on this system</source>
-        <translation>Els següents paquets estan disponibles en aquest sistema</translation>
+        <translation>Los paquetes siguientes están disponibles en el sistema</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Versió</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation>Sumari</translation>
+        <translation>Sumario</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Estat</translation>
+        <translation>Estado</translation>
     </message>
     <message>
         <source>Upload package</source>
-        <translation>Carrega el paquet</translation>
+        <translation>Subir paquete</translation>
     </message>
     <message>
         <source>Select the file containing your package and click the upload button</source>
-        <translation>Selecciona l&apos;arxiu que conté el teu paquet i fes clic al botó de càrrega</translation>
+        <translation>Selecciona el archivo que contiene tu paquete y clica el botón de subida</translation>
     </message>
     <message>
         <source>Install package</source>
-        <translation>Instal·la el paquet</translation>
+        <translation>Instalar paquete</translation>
     </message>
 </context>
 <context>
     <name>design/standard/reference/ez</name>
     <message>
         <source>No generated documentation found</source>
-        <translation>No s&apos;ha trobat la documentació generada</translation>
+        <translation>No se ha encontrado documentación generada</translation>
     </message>
     <message>
         <source>To create the reference documentation you must do the following step</source>
-        <translation>Per crear la documentació de referència cal que segueixis el següent pas</translation>
+        <translation>Para crear la documentación de referencia debes dar el siguiente paso</translation>
     </message>
     <message>
         <source>Download and install doxygen</source>
-        <translation>Descarrega i instal·la &quot;doxygen&quot;</translation>
+        <translation>Descargar e instalar doxygen</translation>
     </message>
     <message>
         <source>Generate the documentation by running the following command</source>
-        <translation>Genera la documentació arrencant el comandament següent</translation>
+        <translation>Generar la documentación arrancando el comando siguiente</translation>
     </message>
     <message>
         <source>Download doxygen from %doxygenurl.</source>
-        <translation>Descarrega &quot;doxygen&quot; de %doxygenurl.</translation>
+        <translation>Descargar doxygen de %doxygenurl.</translation>
     </message>
     <message>
         <source>Main</source>
@@ -2773,218 +2769,218 @@ Pots veure l&apos;objecte en la URL de sota.</translation>
     </message>
     <message>
         <source>Modules</source>
-        <translation>Mòduls</translation>
+        <translation>Módulos</translation>
     </message>
     <message>
         <source>Class hierarchy</source>
-        <translation>Jerarquia de classes</translation>
+        <translation>Jerarquía de clase</translation>
     </message>
     <message>
         <source>Compound list</source>
-        <translation>Llista composta</translation>
+        <translation>Lista compuesta</translation>
     </message>
     <message>
         <source>File list</source>
-        <translation>Llista de fitxers</translation>
+        <translation>Lista de archivos</translation>
     </message>
     <message>
         <source>Compound members</source>
-        <translation>Membres compostos</translation>
+        <translation>Miembros compuestos</translation>
     </message>
     <message>
         <source>File members</source>
-        <translation>Membres dels fitxers</translation>
+        <translation>Miembros de archivo</translation>
     </message>
     <message>
         <source>Related pages</source>
-        <translation>Pàgines relacionades</translation>
+        <translation>Páginas relacionadas</translation>
     </message>
     <message>
         <source>Introduction</source>
-        <translation>Introducció</translation>
+        <translation>Introducción</translation>
     </message>
     <message>
         <source>The Reference Documentation for eZ publish consists of multiple sections which
 each have a different view on the documentation. The sections can be accessed at
 menu on the top.</source>
-        <translation>La Documentació de Referència per a eZ publish consisteix de múltiples seccions,
-cadascuna de les quals té una vista diferent en la documentació. Es pot accedir a les seccions 
-en el menú superior.</translation>
+        <translation>La documentación de referencia para eZ publish consiste en múltiples secciones que
+tienen una vista diferente de la documentación cada una. Las secciones son accesibles en
+el menú superior.</translation>
     </message>
     <message>
         <source>The documentation will give an overview of the API of eZ publish.</source>
-        <translation>La documentació et donarà una visió general de l&apos;API d&apos;eZ publish.</translation>
+        <translation>La documentación ofrece un vistazo de la API de eZ publish.</translation>
     </message>
     <message>
         <source>All reference documentation has been made with %doxygenurl</source>
-        <translation>Tota la documentació de referència ha estat feta amb %doxygenurl</translation>
+        <translation>Toda la documentación de referencia ha sido hecha con %doxygenurl</translation>
     </message>
 </context>
 <context>
     <name>design/standard/role</name>
     <message>
         <source>Create policy for</source>
-        <translation>Crea una política per</translation>
+        <translation>Crear política para</translation>
     </message>
     <message>
         <source>Step 1</source>
-        <translation>Pas 1</translation>
+        <translation>Paso 1</translation>
     </message>
     <message>
         <source>Every module</source>
-        <translation>Tots els mòduls</translation>
+        <translation>Cada módulo</translation>
     </message>
     <message>
         <source>Allow all</source>
-        <translation>Permís total</translation>
+        <translation>Permiso total</translation>
     </message>
     <message>
         <source>Allow limited</source>
-        <translation>Permís limitat</translation>
+        <translation>Permiso limitado</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation>Restringit</translation>
+        <translation>Limitado</translation>
     </message>
     <message>
         <source>Go back to step 1</source>
-        <translation>Torna al pas 1</translation>
+        <translation>Volver al paso 1</translation>
     </message>
     <message>
         <source>You are not able to give access to limited functions of module</source>
-        <translation>No tens la capacitat de donar accés a funcions restringides del mòdul</translation>
+        <translation>No estás habilitado para dar acceso a las funciones limitadas del módulo</translation>
     </message>
     <message>
         <source>because function list for it is not defined.</source>
-        <translation>perquè la seva llista de funcions no està definida.</translation>
+        <translation>Porque la lista de funciones para él no está definida.</translation>
     </message>
     <message>
         <source>Step 2</source>
-        <translation>Pas 2</translation>
+        <translation>Paso 2</translation>
     </message>
     <message>
         <source>Specify function in module</source>
-        <translation>Especifica la funció en el mòdul</translation>
+        <translation>Especifica la función en el módulo</translation>
     </message>
     <message>
         <source>Go back to step 2</source>
-        <translation>Torna al pas 2</translation>
+        <translation>Volver al paso 2</translation>
     </message>
     <message>
         <source>Step 3</source>
-        <translation>Pas 3</translation>
+        <translation>Paso 3</translation>
     </message>
     <message>
         <source>Specify limitations in function</source>
-        <translation type="obsolete">Especifica les limitacions en la funció</translation>
+        <translation type="obsolete">Especifica las limitaciones en la función</translation>
     </message>
     <message>
         <source>in module</source>
-        <translation type="obsolete">en el mòdul</translation>
+        <translation type="obsolete">Dentro del módulo</translation>
     </message>
     <message>
         <source>&apos;Any&apos; means no limitation by this parameter.</source>
-        <translation type="obsolete">&apos;Qualsevol&apos; vol dir que amb aquest paràmetre no hi ha limitacions.</translation>
+        <translation type="obsolete">&apos;Cualquiera&apos; significa que en este parámetro no hay limitaciones.</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation>Qualsevol</translation>
+        <translation>Cualquiera</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>D&apos;acord</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Role edit</source>
-        <translation type="obsolete">Edita el rol</translation>
+        <translation type="obsolete">Editar rol</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Role list</source>
-        <translation>Llista de rols</translation>
+        <translation>Lista de roles</translation>
     </message>
     <message>
         <source>Role view</source>
-        <translation>Vista de rols</translation>
+        <translation>Vista de roles</translation>
     </message>
     <message>
         <source>Role policies</source>
-        <translation>Polítiques de rols</translation>
+        <translation>Políticas de roles</translation>
     </message>
     <message>
         <source>Users and groups assigned to this role</source>
-        <translation>Usuaris i grups assignats a aquest rol</translation>
+        <translation>Usuarios y grupos asignados a este rol</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigna</translation>
+        <translation>Asignar</translation>
     </message>
     <message>
         <source>Give access to module</source>
-        <translation>Dóna accés al mòdul</translation>
+        <translation>Dar acceso al módulo</translation>
     </message>
     <message>
         <source>Module</source>
-        <translation>Mòdul</translation>
+        <translation>Módulo</translation>
     </message>
     <message>
         <source>Access</source>
-        <translation>Accès</translation>
+        <translation>Acceso</translation>
     </message>
     <message>
         <source>Function</source>
-        <translation>Funció</translation>
+        <translation>Función</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Current policies</source>
-        <translation>Polítiques actuals</translation>
+        <translation>Políticas actuales</translation>
     </message>
     <message>
         <source>Limitations</source>
-        <translation>Limitacions</translation>
+        <translation>Limitaciones</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Discard changes</source>
-        <translation>Descarta els canvis</translation>
+        <translation>Descartar cambios</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Limitation</source>
-        <translation>Limitació</translation>
+        <translation>Limitación</translation>
     </message>
     <message>
         <source>User</source>
-        <translation>Usuari</translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <source>Role edit %1</source>
-        <translation>Edita el rol %1</translation>
+        <translation>Edita el Rol %1</translation>
     </message>
     <message>
         <source>Edit policy</source>
-        <translation>Edita la política</translation>
+        <translation>Editar política</translation>
     </message>
     <message>
         <source>Policy</source>
@@ -2992,19 +2988,19 @@ en el menú superior.</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation>Node</translation>
+        <translation>Nudo</translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation>No especificat.</translation>
+        <translation>No especificado.</translation>
     </message>
     <message>
         <source>Subtree</source>
-        <translation>Subarbre</translation>
+        <translation>Subárbol</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Actualitza</translation>
+        <translation>Actualización</translation>
     </message>
     <message>
         <source>Role</source>
@@ -3012,46 +3008,54 @@ en el menú superior.</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Especifica les limitación per a la funció %functionname en el mòdul %modulename. Amb el paràmetre &apos;Qualsevol&apos; no faràs cap limitació</translation>
+        <translation>Especificar limitaciones para la función %functionname en el módulo %modulename. &apos;Ninguna&apos; significa que no hay limitaciones para ese parámetro</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Troba</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Remove selected policies</source>
-        <translation>Esborra les polítiques seleccionades</translation>
+        <translation>Eliminar las políticas seleccionadas</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Help on roles</source>
+        <translation>Ayuda en los roles</translation>
     </message>
     <message>
         <source>Edit role</source>
-        <translation>Edita el rol</translation>
+        <translation>Editar rol</translation>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation>Assigna un rol a un usuari o grup</translation>
+        <translation>Asignar rol a un usuario o grupo</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
-        <translation>Esborra els rols seleccionats</translation>
+        <translation>Eliminar los roles seleccionados</translation>
     </message>
     <message>
         <source>Edit current role</source>
-        <translation>Edita el rol actual</translation>
+        <translation>Editar el rol actual</translation>
     </message>
     <message>
         <source>Remove selected assignments</source>
-        <translation>Esborra les assignacions seleccionades</translation>
+        <translation>Eliminar las asignaciones seleccionadas</translation>
     </message>
 </context>
 <context>
     <name>design/standard/search</name>
     <message>
         <source>Search statistics</source>
-        <translation>Estadístiques de cerca</translation>
+        <translation>Buscar estadísticas</translation>
     </message>
     <message>
         <source>Most frequent search phrases</source>
-        <translation>Frases més freqüents en la cerca</translation>
+        <translation>Frases más frecuentemente buscadas</translation>
     </message>
     <message>
         <source>Phrase</source>
@@ -3059,86 +3063,86 @@ en el menú superior.</translation>
     </message>
     <message>
         <source>Number of phrases</source>
-        <translation>Nombre de frases</translation>
+        <translation>Número de frases</translation>
     </message>
     <message>
         <source>Average result returned</source>
-        <translation>Mitjana de resultats retornats</translation>
+        <translation>Promedio de resultados devueltos</translation>
     </message>
     <message>
         <source>Reset statistics</source>
-        <translation>Reinicia les estadístiques</translation>
+        <translation>Vaciar estadisticas</translation>
     </message>
 </context>
 <context>
     <name>design/standard/section</name>
     <message>
         <source>Assign section</source>
-        <translation type="obsolete">Secció d&apos;assignació</translation>
+        <translation type="obsolete">Asignar sección</translation>
     </message>
     <message>
         <source>Assign section to node</source>
-        <translation>Assigna la secció al node</translation>
+        <translation>Asignar sección al nudo</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these sections?</source>
-        <translation>Estàs segur de voler esborrar aquestes seccions?</translation>
+        <translation>¿Estás seguro de que quieres eliminar estas secciones?</translation>
     </message>
     <message>
         <source>Removing these sections can corrupt permissions, sitedesigns, and other things in the system. Do not do this unless you know exactly what are you doing.</source>
-        <translation>Esborrant aquestes seccions pots fer malbé els permisos, els dissenys del lloc i unes altres coses del sistema. No ho facis fins que no sàpigues exactament el que acabarà succeint.</translation>
+        <translation>Eliminando estas secciones puedes corromper permisos, diseños del sitio y otros elementos del sistema. No lo hagas a menos que sepas exactamente lo que estás haciendo.</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Section edit</source>
-        <translation>Edita la secció</translation>
+        <translation>Editar sección</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Section list</source>
-        <translation>Llista de seccions</translation>
+        <translation>Lista de secciones</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Navigation Part</source>
-        <translation>Component de navegació</translation>
+        <translation>Zona de navegación</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation>Contingut</translation>
+        <translation>Contenido</translation>
     </message>
     <message>
         <source>Shop</source>
-        <translation>Botiga</translation>
+        <translation>Tienda</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation>Usuaris</translation>
+        <translation>Usuarios</translation>
     </message>
     <message>
         <source>Set up</source>
-        <translation>Configuració</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Personal</source>
@@ -3146,11 +3150,11 @@ en el menú superior.</translation>
     </message>
     <message>
         <source>About Navigation Parts</source>
-        <translation>Sobre els components de navegació</translation>
+        <translation>Sobre zonas de navegación</translation>
     </message>
     <message>
         <source>The eZ publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed.</source>
-        <translation>La interfície d&apos;administració d&apos;eZ publish està dividida en components de navegació. Aquesta és una manera d&apos;agrupar les diferents seccions de l&apos;administració del lloc. Selecciona el component de navegació que estarà actiu quan s&apos;explori aquesta secció.</translation>
+        <translation>La administración de eZ publish está dividida en zonas de navegación. Este es un medio de agrupar diferentes áreas del sitio de administración. Selecciona la zona de navegación que debe estar activa cuando estés mirando esta página.</translation>
     </message>
     <message>
         <source>ID</source>
@@ -3158,27 +3162,27 @@ en el menú superior.</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigna</translation>
+        <translation>Asignar</translation>
     </message>
     <message>
         <source>Node notification</source>
-        <translation>Notificació de node</translation>
+        <translation>Notificación de nudo</translation>
     </message>
     <message>
         <source>Notification settings</source>
-        <translation type="obsolete">Configuració de la notificació</translation>
+        <translation type="obsolete">Configuraciones de notificación</translation>
     </message>
     <message>
         <source>Assign section - %section</source>
-        <translation>Assigna la secció - %section</translation>
+        <translation>Asignar sección - %section</translation>
     </message>
     <message>
         <source>Choose section assignment</source>
-        <translation>Tria l&apos;assignació de la secció</translation>
+        <translation>Elige asignación de sección</translation>
     </message>
     <message>
         <source>Please choose where you want to start the section assignment for section %sectionname.
@@ -3186,34 +3190,42 @@ en el menú superior.</translation>
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Tria on vols començar l&apos;assignació de secció per a la secció %sectionname.
+        <translation>Por favor, elige dónde quieres comenzar la asignación de sección para la sección %sectionname.
 
-Selecciona les ubicacions i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferit per fer ubicacions de forma ràpida.
-Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</translation>
+Selecciona la ubicación y clica el botón %buttonname.
+Es posible usar los elementos de reciente o favoritos para una ubicación rápida.
+Clica en los nombres de ubicaciones para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Media</source>
         <translation>Media</translation>
     </message>
     <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Help on sections</source>
+        <translation>Ayuda en las secciones</translation>
+    </message>
+    <message>
         <source>Remove selected sections</source>
-        <translation>Esborra les seccions seleccionades</translation>
+        <translation>Eliminiar las secciones seleccionadas</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup</name>
     <message>
         <source>site registration</source>
-        <translation type="obsolete">registre del lloc</translation>
+        <translation type="obsolete">Registro del sitio</translation>
     </message>
     <message>
         <source>Site info:</source>
-        <translation type="obsolete">Informació del lloc:</translation>
+        <translation type="obsolete">Información del sitio:</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="obsolete">Títol</translation>
+        <translation type="obsolete">Título</translation>
     </message>
     <message>
         <source>URL</source>
@@ -3221,27 +3233,27 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>PHP info:</source>
-        <translation type="obsolete">Informació del PHP:</translation>
+        <translation type="obsolete">Información de PHP:</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versió</translation>
+        <translation type="obsolete">Versión</translation>
     </message>
     <message>
         <source>OS info:</source>
-        <translation type="obsolete">Informació del sistema operatiu:</translation>
+        <translation type="obsolete">Información OS:</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="obsolete">Nom</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
         <source>Database info:</source>
-        <translation type="obsolete">Informació de la base de dades:</translation>
+        <translation type="obsolete">Información de la base de datos:</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="obsolete">Tipus</translation>
+        <translation type="obsolete">Escribir</translation>
     </message>
     <message>
         <source>Driver</source>
@@ -3253,35 +3265,35 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>Supported</source>
-        <translation type="obsolete">Suportat</translation>
+        <translation type="obsolete">Soportado</translation>
     </message>
     <message>
         <source>Unsupported</source>
-        <translation type="obsolete">No suportat</translation>
+        <translation type="obsolete">No soportado</translation>
     </message>
     <message>
         <source>Demo data:</source>
-        <translation type="obsolete">Dades de demostració:</translation>
+        <translation type="obsolete">Datos de demostración:</translation>
     </message>
     <message>
         <source>Demo data was installed.</source>
-        <translation type="obsolete">S&apos;han instal·lat les dades de demostració.</translation>
+        <translation type="obsolete">Los datos de demostración fueron instalados.</translation>
     </message>
     <message>
         <source>Demo data was not installed.</source>
-        <translation type="obsolete">No s&apos;han instal·lat les dades de demostració.</translation>
+        <translation type="obsolete">Los datos de demostración no fueron instalados.</translation>
     </message>
     <message>
         <source>Email info:</source>
-        <translation type="obsolete">Informació de correu electrònic:</translation>
+        <translation type="obsolete">Información del Email:</translation>
     </message>
     <message>
         <source>Transport</source>
-        <translation type="obsolete">Transport</translation>
+        <translation type="obsolete">Transportar</translation>
     </message>
     <message>
         <source>sendmail</source>
-        <translation type="obsolete">Envia correu</translation>
+        <translation type="obsolete">Enviar correo</translation>
     </message>
     <message>
         <source>SMTP</source>
@@ -3289,11 +3301,11 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>Image conversion:</source>
-        <translation type="obsolete">Conversió d&apos;imatges:</translation>
+        <translation type="obsolete">Conversión de imagen:</translation>
     </message>
     <message>
         <source>ImageMagick was found and used.</source>
-        <translation type="obsolete">S&apos;ha trobat i usat l&apos;ImageMagick.</translation>
+        <translation type="obsolete">ImageMagick fue encontrado y usado.</translation>
     </message>
     <message>
         <source>Path</source>
@@ -3301,39 +3313,39 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>Executable</source>
-        <translation type="obsolete">Executable</translation>
+        <translation type="obsolete">Ejecutable</translation>
     </message>
     <message>
         <source>ImageGD extension was found and used.</source>
-        <translation type="obsolete">S&apos;ha trobat i usat l&apos;extensió ImageGD.</translation>
+        <translation type="obsolete">La extensión ImageGD fue encontrada y usada.</translation>
     </message>
     <message>
         <source>Regional info:</source>
-        <translation type="obsolete">Informació regional:</translation>
+        <translation type="obsolete">Información regional:</translation>
     </message>
     <message>
         <source>Monolingual</source>
-        <translation type="obsolete">Idioma únic</translation>
+        <translation type="obsolete">Monolingüe</translation>
     </message>
     <message>
         <source>Multilingual</source>
-        <translation type="obsolete">Diversos idiomes</translation>
+        <translation type="obsolete">Multilingüe</translation>
     </message>
     <message>
         <source>Primary</source>
-        <translation type="obsolete">Primari</translation>
+        <translation type="obsolete">Primario</translation>
     </message>
     <message>
         <source>Additional</source>
-        <translation type="obsolete">Addicional</translation>
+        <translation type="obsolete">Adicional</translation>
     </message>
     <message>
         <source>Critical tests:</source>
-        <translation type="obsolete">Proves crítiques:</translation>
+        <translation type="obsolete">Tests críticos:</translation>
     </message>
     <message>
         <source>Success</source>
-        <translation type="obsolete">Èxit</translation>
+        <translation type="obsolete">Éxito</translation>
     </message>
     <message>
         <source>Failure</source>
@@ -3341,199 +3353,199 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>Other tests:</source>
-        <translation type="obsolete">Altres proves:</translation>
+        <translation type="obsolete">Otros tests:</translation>
     </message>
     <message>
         <source>Comments:</source>
-        <translation type="obsolete">Comentaris:</translation>
+        <translation type="obsolete">Comentarios:</translation>
     </message>
     <message>
         <source>setup</source>
-        <translation type="obsolete">configuració</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Cache admin</source>
-        <translation>Administració de memòria cau (&quot;cache&quot;)</translation>
+        <translation>Administrador de caché</translation>
     </message>
     <message>
         <source>Content view cache was cleared.</source>
-        <translation>S&apos;ha netejat la memòria cau de la vista del contingut.</translation>
+        <translation>Se ha limpiado la caché de la vista de contenidos.</translation>
     </message>
     <message>
         <source>Ini file cache was cleared.</source>
-        <translation>S&apos;ha netejat la memòria cau del fitxer Ini.</translation>
+        <translation>Se ha limpiado la caché del archivo Ini.</translation>
     </message>
     <message>
         <source>Template cache was cleared.</source>
-        <translation>S&apos;ha netejat la memòria cau de les plantilles.</translation>
+        <translation>Se ha limpiado la caché de las plantillas.</translation>
     </message>
     <message>
         <source>View cache is enabled.</source>
-        <translation>S&apos;ha activat la memòria cau de la vista.</translation>
+        <translation>La vista de caché está activada.</translation>
     </message>
     <message>
         <source>View cache is disabled.</source>
-        <translation>S&apos;ha desactivat la memòria cau de la vista.</translation>
+        <translation>La vista de caché está desactivada.</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation>Neteja</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>Ini cache</source>
-        <translation>Memòria cau Ini</translation>
+        <translation>Caché de los Ini</translation>
     </message>
     <message>
         <source>Ini cache is always enabled.</source>
-        <translation>La memòria cau Ini sempre està desactivada.</translation>
+        <translation>La caché del Ini está siempre activada.</translation>
     </message>
     <message>
         <source>Template cache</source>
-        <translation>Memòria cau de les plantilles</translation>
+        <translation>Caché de las plantillas</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation>Informació del sistema</translation>
+        <translation>Información del sistema</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="obsolete">Extensions</translation>
+        <translation type="obsolete">Extensiones</translation>
     </message>
     <message>
         <source>Safe mode is on.</source>
-        <translation>La modalitat segura està activada.</translation>
+        <translation>El modo salvado está encendido.</translation>
     </message>
     <message>
         <source>Safe mode is off.</source>
-        <translation>La modalitat segura està desactivada.</translation>
+        <translation>El modo salvado está apagado.</translation>
     </message>
     <message>
         <source>Basedir restriction is on and set to %1.</source>
-        <translation>La restricció del directori base (&quot;basedir&quot;) està activada i posada a %1.</translation>
+        <translation>La restricción de basedir está encendida y fijada en %1.</translation>
     </message>
     <message>
         <source>Basedir restriction is off.</source>
-        <translation>La restricció del directori base (&quot;basedir&quot;) està desactivada.</translation>
+        <translation>La restricción de Basedir está apagada.</translation>
     </message>
     <message>
         <source>Global variable registration is on.</source>
-        <translation>El registre de la variable global està activat.</translation>
+        <translation>El registro de variable global está encendido.</translation>
     </message>
     <message>
         <source>Global variable registration is off.</source>
-        <translation>El registre de la variable global està desactivat.</translation>
+        <translation>El registro de variable global está apagado.</translation>
     </message>
     <message>
         <source>File uploading is enabled.</source>
-        <translation>La transferència de fitxers està activada.</translation>
+        <translation>La actualización de archivo está activada.</translation>
     </message>
     <message>
         <source>File uploading is disabled.</source>
-        <translation>La transferència de fitxers està desactivada.</translation>
+        <translation>La actualización de archivo está apagado.</translation>
     </message>
     <message>
         <source>Maximum size of post data (text and files) is %1.</source>
-        <translation>Mida màxima de dades per enviar (text i fitxers) és %1.</translation>
+        <translation>El tamaño máximo del post data (texto y archivos] es %1.</translation>
     </message>
     <message>
         <source>Script memory limit is %1.</source>
-        <translation>El límit de memòria d&apos;scripts és %1.</translation>
+        <translation>El límite de la memoria script es %1.</translation>
     </message>
     <message>
         <source>Maximum execution time is %1 seconds.</source>
-        <translation>El temps d&apos;execució màxim és %1 segons.</translation>
+        <translation>El tiempo máximo de ejecución es %1 segundos.</translation>
     </message>
     <message>
         <source>Database</source>
-        <translation>Base de dades</translation>
+        <translation>Base de datos</translation>
     </message>
     <message>
         <source>Charset</source>
-        <translation type="obsolete">Joc de caràcters</translation>
+        <translation type="obsolete">Juego de caracteres</translation>
     </message>
     <message>
         <source>Rapid Application Development Tools</source>
-        <translation>Eines de desenvolupament de ràpida aplicació (RAD)</translation>
+        <translation>Herramientas de Desarrollo de Aplicación Rápida</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
-        <translation>Les eines de desenvolupament de ràpida aplicació (RAD) et permet començar fàcilment amb la creació de noves funcionalitats per a eZ publish.</translation>
+        <translation>Las herramientas de desarrollo de aplicación rápida (RAD) te ayudarán a un arranque más fácil creando una nueva fiuncionalidad para eZ publish.</translation>
     </message>
     <message>
         <source>Tools</source>
-        <translation type="obsolete">Eines</translation>
+        <translation type="obsolete">Herramientas</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation>Assistent d&apos;operador de plantilles</translation>
+        <translation>Asistente del operador de plantillas</translation>
     </message>
     <message>
         <source>Create new template override for</source>
-        <translation>Crea una nova plantilla de substitució per</translation>
+        <translation>Crear una nueva plantilla sobreescrita para</translation>
     </message>
     <message>
         <source>Could not create template, permission denied.</source>
-        <translation>No es pot crear la plantilla. Permís denegat.</translation>
+        <translation>No puedes crear una plantilla. Permiso denegado.</translation>
     </message>
     <message>
         <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
-        <translation>Nom invàlid. Només pots fer servir els caràcters a-z, nombres i _.</translation>
+        <translation>Nombre no válido. Solo puedes utilizar caracteres de la a a la z, números y _.</translation>
     </message>
     <message>
         <source>Template will be placed in</source>
-        <translation>La plantilla s&apos;ubicarà a</translation>
+        <translation>La plantilla será ubicada en</translation>
     </message>
     <message>
         <source>Template name</source>
-        <translation>Nom de plantilla</translation>
+        <translation>Nombre de la plantilla</translation>
     </message>
     <message>
         <source>Override keys</source>
-        <translation>Tecles de substitució</translation>
+        <translation>Claves de sobreescritura</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation>Node</translation>
+        <translation>Nudo</translation>
     </message>
     <message>
         <source>Base template on</source>
-        <translation>Plantilla base a</translation>
+        <translation>Base de la plantilla en</translation>
     </message>
     <message>
         <source>Empty file</source>
-        <translation>Fitxer buit</translation>
+        <translation>Archivo vacío</translation>
     </message>
     <message>
         <source>Copy of default template</source>
-        <translation>Còpia de la plantilla predeterminada</translation>
+        <translation>Copia de plantilla defectuosa</translation>
     </message>
     <message>
         <source>Container ( with children )</source>
-        <translation>Contenidor (amb fills)</translation>
+        <translation>Contenedor (con hijos)</translation>
     </message>
     <message>
         <source>View ( without children )</source>
-        <translation>Vista (sense fills)</translation>
+        <translation>Vista (sin hijos)</translation>
     </message>
     <message>
         <source>Object</source>
-        <translation>Objecte</translation>
+        <translation>Objeto</translation>
     </message>
     <message>
         <source>Template list</source>
-        <translation>Llista de plantilles</translation>
+        <translation>Lista de plantilla</translation>
     </message>
     <message>
         <source>Most common templates</source>
-        <translation>Plantilles més comuns</translation>
+        <translation>La plantillas más comunes</translation>
     </message>
     <message>
         <source>Template</source>
@@ -3541,95 +3553,95 @@ Fes clic en els noms d&apos;ubicació per canviar la llista de navegació.</tran
     </message>
     <message>
         <source>Design Resource</source>
-        <translation>Recurs de disseny</translation>
+        <translation>Recurso de diseño</translation>
     </message>
     <message>
         <source>Complete template list</source>
-        <translation>Llista completa de plantilles</translation>
+        <translation>Lista completa de plantilla</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation type="obsolete">Comença</translation>
+        <translation type="obsolete">Empezar</translation>
     </message>
     <message>
         <source>Basic information</source>
-        <translation>Informació bàsica</translation>
+        <translation>Información básica</translation>
     </message>
     <message>
         <source>Name of operator</source>
-        <translation type="obsolete">Nom de l&apos;operador</translation>
+        <translation type="obsolete">Nombre del operador</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="obsolete">Opcions</translation>
+        <translation type="obsolete">Configuraciones</translation>
     </message>
     <message>
         <source>One operator in class</source>
-        <translation type="obsolete">Un operador en la classe</translation>
+        <translation type="obsolete">Un operador en la clase</translation>
     </message>
     <message>
         <source>Handles operator input</source>
-        <translation type="obsolete">Entrada d&apos;operador dels gestors</translation>
+        <translation type="obsolete">Gestiona la entrada del operador</translation>
     </message>
     <message>
         <source>Generates operator output</source>
-        <translation type="obsolete">Sortida d&apos;operador de gestors</translation>
+        <translation type="obsolete">Genera salida del operador</translation>
     </message>
     <message>
         <source>Parameter handling</source>
-        <translation type="obsolete">Paràmetres de gestió</translation>
+        <translation type="obsolete">Parametro gestionado</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="obsolete">Següent</translation>
+        <translation type="obsolete">Siguiente</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="obsolete">Reinicia</translation>
+        <translation type="obsolete">Reempezar</translation>
     </message>
     <message>
         <source>Optional information</source>
-        <translation>Informació opcional</translation>
+        <translation>Información opcional</translation>
     </message>
     <message>
         <source>Name of class</source>
-        <translation type="obsolete">Nom de la classe</translation>
+        <translation type="obsolete">Nombre de la clase</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
-        <translation type="obsolete">El creador de l&apos;operador</translation>
+        <translation type="obsolete">El creador del operador</translation>
     </message>
     <message>
         <source>Description of your operator</source>
-        <translation type="obsolete">Descripció del teru operador</translation>
+        <translation type="obsolete">Descripción de tu operador</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
-        <translation type="obsolete">La primera línia serà utilitzada com la descripció breu i la resta és documentació de l&apos;operador.</translation>
+        <translation type="obsolete">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
-        <translation type="obsolete">Operador del gestor de plantilles %operatorname
-Utilitzant %operatorname pots...</translation>
+        <translation type="obsolete">Gestiona el operador de plantillas %nombre del operador
+Usando %nombre del operador puedes...</translation>
     </message>
     <message>
         <source>Example code</source>
-        <translation type="obsolete">Codi d&apos;exemple</translation>
+        <translation type="obsolete">Código de ejemplo</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
-        <translation type="obsolete">Si ho vols, pots afegir nous codis d&apos;exemple per explicar com treballa el teu operador.
-El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas triar.</translation>
+        <translation type="obsolete">Si quieres puedes añadir algún código de ejemplo para explicar como puede funcionar tu operador.
+El código por defecto ha sido hecho con los parámetros básicos que has elegido.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
-        <translation type="obsolete">Un cop hagis fet clic en el botó de descàrrega, es generarà el codi i el navegador et demanarà per emmagatzemar el fitxer generat.</translation>
+        <translation type="obsolete">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="obsolete">Descarrega</translation>
+        <translation type="obsolete">Descarga</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -3637,345 +3649,341 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>Default template resource</source>
-        <translation>Recurs de plantilla predeterminada</translation>
+        <translation>Recursos de la plantilla por defecto</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation>Especifica</translation>
+        <translation>Fijar</translation>
     </message>
     <message>
         <source>Override</source>
-        <translation>Substitueix</translation>
+        <translation>Sobreescribir</translation>
     </message>
     <message>
         <source>File</source>
-        <translation>Fitxer</translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <source>Match conditions</source>
-        <translation>Condicions de coincidència</translation>
+        <translation>Condiciones de coincidencia</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation>Crea&apos;n un nou</translation>
+        <translation>Crear nuevo</translation>
     </message>
     <message>
         <source>SVN revision</source>
-        <translation type="obsolete">SVN revisió</translation>
+        <translation type="obsolete">SVN revisión</translation>
     </message>
     <message>
         <source>Datatype wizard</source>
-        <translation>Assistent de tipus de dades</translation>
+        <translation type="unfinished">Asistente de tipo de dato</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Datatype start</comment>
-        <translation>Comença</translation>
+        <translation type="unfinished">Empezar</translation>
     </message>
     <message>
         <source>Name of datatype</source>
         <comment>Datatype</comment>
-        <translation>Nom del tipus de dades</translation>
+        <translation type="unfinished">Nombre del tipo de dato</translation>
     </message>
     <message>
         <source>Descriptive name of datatype</source>
         <comment>Datatype</comment>
-        <translation>Nom descriptiu del tipus de dades</translation>
+        <translation type="unfinished">Nombre descriptivo del tipo de dato</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Datatype</comment>
-        <translation>Configuració</translation>
+        <translation type="unfinished">Configuraciones</translation>
     </message>
     <message>
         <source>Handle input on class level</source>
         <comment>Datatype</comment>
-        <translation>Gestió manual del nivell de classes</translation>
+        <translation type="unfinished">Gestionar entradas en nivel de clase</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Datatype next</comment>
-        <translation>Següent</translation>
+        <translation type="unfinished">Siguiente</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Datatype restart</comment>
-        <translation>Reinicia</translation>
+        <translation type="unfinished">Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation>Nom de la classe</translation>
+        <translation type="unfinished">Nombre de la clase</translation>
     </message>
     <message>
         <source>Constant name</source>
         <comment>Datatype</comment>
-        <translation>Nom de la constant</translation>
+        <translation type="unfinished">Nombre constante</translation>
     </message>
     <message>
         <source>The creator of the datatype</source>
         <comment>Datatype</comment>
-        <translation>Creador del tipus de dades</translation>
+        <translation type="unfinished">El creador del tipo de dato</translation>
     </message>
     <message>
         <source>Description of your datatype</source>
         <comment>Datatype</comment>
-        <translation>Descripció del teu tipus de dades</translation>
+        <translation type="unfinished">Descripción del tipo de dato</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Datatype</comment>
-        <translation>La primera línia serà utilitzada com la descripció breu i la resta és documentació de l&apos;operador.</translation>
+        <translation type="unfinished">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
     </message>
     <message>
         <source>Handles the datatype %datatypename
 By using %datatypename you can ...</source>
         <comment>Datatype default description</comment>
-        <translation>Gestiona el tipus de dades  %datatypename
-Fent servir  %datatypename pots...</translation>
+        <translation type="unfinished">Gestionar el tipo de dato %nombre del tipo de dato
+Usando el %nombre de tipo de dato puedes...</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Datatype</comment>
-        <translation>Un cop hagis fet clic en el botó de descàrrega, es generarà el codi i el navegador et demanarà per emmagatzemar el fitxer generat.</translation>
+        <translation type="unfinished">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Datatype download</comment>
-        <translation>Descarrega</translation>
+        <translation type="unfinished">Descarga</translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation>Configuració de l&apos;extensió</translation>
+        <translation type="unfinished">Configuración extendida</translation>
     </message>
     <message>
         <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
-        <translation>Aquí pots activar/desactivar les teves extensions. Només es poden activar les extensions globals del sistema. Per accedir a les extensions específiques del lloc, modifica aquests fitxers de configuració.</translation>
+        <translation type="unfinished">Aquí puedes activar o desactivar tus extensiones. Solo las extensiones anchas de sistema pueden ser activadas. Para las extensiones específicas de acceso al sitio, modifica estas configuraciones.</translation>
     </message>
     <message>
         <source>Available extensions</source>
-        <translation>Extensions disponibles</translation>
+        <translation type="unfinished">Extensiones disponibles</translation>
     </message>
     <message>
         <source>Site:</source>
-        <translation>Lloc:</translation>
+        <translation type="unfinished">Sitio:</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>eZ publish version</comment>
-        <translation>Versió d&apos;eZ publish</translation>
+        <translation type="unfinished">Versión</translation>
     </message>
     <message>
         <source>SVN revision</source>
         <comment>eZ publish version</comment>
-        <translation>Revisió SVN</translation>
+        <translation type="unfinished">SVN revisión</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>eZ publish extensions</comment>
-        <translation>Extensions d&apos;eZ publish</translation>
+        <translation type="unfinished">Extensiones</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP version</comment>
-        <translation>Versió de PHP</translation>
+        <translation type="unfinished">Versión</translation>
     </message>
     <message>
         <source>Extensions</source>
         <comment>PHP extensions</comment>
-        <translation>Extensions de PHP</translation>
+        <translation type="unfinished">Extensiones</translation>
     </message>
     <message>
         <source>Version</source>
         <comment>PHP Accelerator version</comment>
-        <translation>Versió</translation>
+        <translation type="unfinished">Versión</translation>
     </message>
     <message>
         <source>PHP Accelerator is enabled.</source>
-        <translation>L&apos;accelerador PHP està activat.</translation>
+        <translation type="unfinished">El acelerador PHP está habilitado.</translation>
     </message>
     <message>
         <source>PHP Accelerator is disabled.</source>
-        <translation>L&apos;accelerador PHP està desactivat.</translation>
+        <translation type="unfinished">El acelerador PHP está deshabilitado.</translation>
     </message>
     <message>
         <source>There is no known PHP accelerator active.</source>
-        <translation>No hi ha actiu cap accelerador PHP.</translation>
+        <translation type="unfinished">No se conoce ningúm acelerador PHP activo.</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Database type</comment>
-        <translation>Tipus</translation>
+        <translation type="unfinished">Tipo</translation>
     </message>
     <message>
         <source>Charset</source>
         <comment>Database charset</comment>
-        <translation>Joc de caràcters</translation>
+        <translation type="unfinished">Juego de caracteres</translation>
     </message>
     <message>
         <source>&amp;percent% completed</source>
-        <translation>&amp;percent% completat</translation>
+        <translation type="unfinished">&amp;porcentaje% completo</translation>
     </message>
     <message>
         <source>Tools</source>
         <comment>RAD Tools</comment>
-        <translation>Eines</translation>
+        <translation type="unfinished">Herramientas</translation>
     </message>
     <message>
-        <source>System:</source>
-        <translation>Sistema:</translation>
+        <source>System check</source>
+        <translation type="unfinished">Checkeo de sistema</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>D&apos;acord</translation>
+        <source>Ok</source>
+        <translation type="unfinished">Ok</translation>
     </message>
     <message>
-        <source>Image system:</source>
-        <translation>Sistema d&apos;imatges:</translation>
+        <source>Image processing</source>
+        <translation type="unfinished">Procesando imagen</translation>
     </message>
     <message>
-        <source>Mail:</source>
-        <translation>Correu:</translation>
+        <source>Languages</source>
+        <translation type="unfinished">Lenguajes</translation>
     </message>
     <message>
-        <source>Database:</source>
-        <translation>Base de dades:</translation>
+        <source>Mail server</source>
+        <translation type="unfinished">Servidor de correo</translation>
     </message>
     <message>
-        <source>Language(s):</source>
-        <translation>Idioma/es:</translation>
-    </message>
-    <message>
-        <source>Site(s):</source>
-        <translation>Lloc/s:</translation>
+        <source>Sitedesign</source>
+        <translation type="unfinished">Diseño del sitio</translation>
     </message>
     <message>
         <source>Start</source>
         <comment>Template operator start</comment>
-        <translation>Comença</translation>
+        <translation type="unfinished">Empezar</translation>
     </message>
     <message>
         <source>Name of operator</source>
         <comment>Template operator</comment>
-        <translation>Nom de l&apos;operador</translation>
+        <translation type="unfinished">Nombre del operador</translation>
     </message>
     <message>
         <source>Settings</source>
         <comment>Template operator</comment>
-        <translation>Opcions</translation>
+        <translation type="unfinished">Configuraciones</translation>
     </message>
     <message>
         <source>One operator in class</source>
         <comment>Template operator</comment>
-        <translation>Un operador en la classe</translation>
+        <translation type="unfinished">Un operador en la clase</translation>
     </message>
     <message>
         <source>Handles operator input</source>
         <comment>Template operator</comment>
-        <translation>Gestiona l&apos;entrada de l&apos;operador </translation>
+        <translation type="unfinished">Gestiona la entrada del operador</translation>
     </message>
     <message>
         <source>Generates operator output</source>
         <comment>Template operator</comment>
-        <translation>Genera la sortida de l&apos;operador </translation>
+        <translation type="unfinished">Genera salida del operador</translation>
     </message>
     <message>
         <source>Parameter handling</source>
         <comment>Template operator</comment>
-        <translation>Gestió de paràmetres</translation>
+        <translation type="unfinished">Parametro gestionado</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Template operator next</comment>
-        <translation>Següent</translation>
+        <translation type="unfinished">Siguiente</translation>
     </message>
     <message>
         <source>Restart</source>
         <comment>Template operator restart</comment>
-        <translation>Reinicia</translation>
+        <translation type="unfinished">Reiniciar</translation>
     </message>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation>Nom de la classe</translation>
+        <translation type="unfinished">Nombre de la clase</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
         <comment>Template operator</comment>
-        <translation>El creador de l&apos;operador</translation>
+        <translation type="unfinished">El creador del operador</translation>
     </message>
     <message>
         <source>Description of your operator</source>
         <comment>Template operator</comment>
-        <translation>Descripció del teu operador</translation>
+        <translation type="unfinished">Descripción de tu operador</translation>
     </message>
     <message>
         <source>The first line will be used as the brief description and the rest are operator documentation.</source>
         <comment>Template operator</comment>
-        <translation>La primera línia serà utilitzada com la descripció breu i la resta és documentació de l&apos;operador.</translation>
+        <translation type="unfinished">La primera línea será usada como breve descripción y el resto es documentación del operador.</translation>
     </message>
     <message>
         <source>Handles template operator %operatorname
 By using %operatorname you can ...</source>
         <comment>Template operator default description</comment>
-        <translation>Gestiona l&apos;operador de plantilles %operatorname
-Utilitzant %operatorname pots...</translation>
+        <translation type="unfinished">Gestiona el operador de plantillas %nombre del operador
+Usando %nombre del operador puedes...</translation>
     </message>
     <message>
         <source>Example code</source>
         <comment>Template operator</comment>
-        <translation>Codi d&apos;exemple</translation>
+        <translation type="unfinished">Código de ejemplo</translation>
     </message>
     <message>
         <source>If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.</source>
         <comment>Template operator</comment>
-        <translation>Si ho vols, pots afegir nous codis d&apos;exemple per explicar com treballa el teu operador.
-El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas triar.</translation>
+        <translation type="unfinished">Si quieres puedes añadir algún código de ejemplo para explicar como puede funcionar tu operador.
+El código por defecto ha sido hecho con los parámetros básicos que has elegido.</translation>
     </message>
     <message>
         <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
         <comment>Template operator</comment>
-        <translation>Un cop hagis fet clic en el botó de descàrrega, es generarà el codi i el navegador et demanarà per emmagatzemar el fitxer generat.</translation>
+        <translation type="unfinished">Una vez clicado el botón de descarga el código será generado y el browser preguntará si quieres almacenar el archivo generado.</translation>
     </message>
     <message>
         <source>Download</source>
         <comment>Template operator download</comment>
-        <translation>Descarrega</translation>
+        <translation type="unfinished">Descarga</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ajuda</translation>
+        <translation type="unfinished">Ayuda</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation>Sumari</translation>
+        <translation type="unfinished">Sumario</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/datatypecode</name>
     <message>
         <source>Constructor</source>
-        <translation>Constructor</translation>
+        <translation type="unfinished">Constructor</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/db</name>
     <message>
         <source>If you are having problems connecting to your database you should take a look at</source>
-        <translation>Si tens problemes amb la connexió amb la base de dades caldria que miressis a</translation>
+        <translation>Si tienes problemas con la conexión con tu base de datos tienes que mirar en</translation>
     </message>
     <message>
         <source>at</source>
-        <translation>a</translation>
+        <translation>en</translation>
     </message>
     <message>
         <source>MySQL</source>
@@ -3983,51 +3991,51 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>Introduction</source>
-        <translation>Introducció</translation>
+        <translation>Introducción</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
-        <translation>MySQL és un sistema gestor de bases de dades creat per MySQL AB.</translation>
+        <translation>MySQL es un sistema de gestión de base de datos creado por MySQLAB.</translation>
     </message>
     <message>
         <source>It&apos;s currently one of the most popular databases in the Open Source community and most often on by default in PHP.</source>
-        <translation>Actualment és una de les bases de dades més populars entre la comunitat Open Source (Codi Obert) i la majoria sovint funcionen sobre PHP.</translation>
+        <translation>Actualmente, es uno de las bases de datos más populares en las comunidades de código abierto.</translation>
     </message>
     <message>
         <source>From their homepage:</source>
-        <translation>De la seva pàgina d&apos;inici:</translation>
+        <translation>Desde sus páginas de inicio:</translation>
     </message>
     <message>
         <source>MySQL is the world&apos;s most popular Open Source Database, designed for speed, power and precision in mission critical, heavy load use.</source>
-        <translation>MySQL és la base de dades de codi obert més popular del món, dissenyada per oferir velocitat, potència i precisió en missions crítiques i amb molta càrrega en el seu ús.</translation>
+        <translation>MySQL es la base de datos de código abieerto más famosa del mundo, diseñada para ofercer velocidad, potencia y precisión en misiones críticas, y con mucha carga en su uso.</translation>
     </message>
     <message>
         <source>More information can be found on</source>
-        <translation>Pots trobar més informació a</translation>
+        <translation>Se puede encontrar más información en</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalls</translation>
+        <translation>Detalles</translation>
     </message>
     <message>
         <source>MySQL is a good choice for handling most western languages, however it&apos;s currently not the best choice for Unicode or non-western languages.</source>
-        <translation>MySQL és una bona elecció per gestionar la majoria d&apos;idiomes occidentals. Tot i així, actualment no ho és per a Unicode o idiomes no occidentals.</translation>
+        <translation>MySQL es una buena opción para manipular la mayoría de los lenguajes occidentales. Sin embargo, actualmente no lo es para Unicode o lenguajes no occidentales.</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation>Instal·lació</translation>
+        <translation>Instalación</translation>
     </message>
     <message>
         <source>By using the</source>
-        <translation>Amb l&apos;utilització de</translation>
+        <translation>A través del uso de </translation>
     </message>
     <message>
         <source>configuration option you enable PHP to access MySQL databases. If you use this option without specifying the path to MySQL, PHP will use the built-in MySQL client libraries.</source>
-        <translation>l&apos;opció de configuració pots permetre PHP perquè accedeixi a les bases de dades de MySQL. Si fas servir aquesta opció sense especificar la ruta de MySQL, PHP farà ús de les llibreries de clients pròpies de MySQL.</translation>
+        <translation>la opción de configuración puedes permitir PHP para que acceda a las bases de datos de MySQL. Si utilizas esta opción sin especificar la ruta de MySQL, PHP usará las librerías de clientes propia de MySQL.</translation>
     </message>
     <message>
         <source>More information on the MySQL extension can be found at</source>
-        <translation>Pots trobar més informació sobre l&apos;extensió de MySQL a</translation>
+        <translation>Se puede encontrar más información sobre la extensión MySQL en</translation>
     </message>
     <message>
         <source>PostgreSQL</source>
@@ -4035,86 +4043,86 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>PostgreSQL is a database management system developed at the University of California at Berkeley Computer Science Department.</source>
-        <translation>PostgreSQL és un sistema gestor de bases de dades desenvolupat al Departament de Ciències de la Informàtica de Berkeley de la Universitat de Califòrnia.</translation>
+        <translation>PostgreSQL es un sistema de gestión de bases de datos desarrollado por la Universidad de California en el Departamento de Ciencias Informáticas de Berkeley.</translation>
     </message>
     <message>
         <source>It&apos;s a very popular database in the Open Source community and provides highly advanced database functionality.</source>
-        <translation>És una base de dades molt popular entre la comunitat Open Source (Codi Obert) i ofereix funcionallitats molt avançades per a bases de dades.</translation>
+        <translation>Es una base de datos muy popular en la comunidad de código abierto y aporta funcionalidades de base de datos altamente avanzadas.</translation>
     </message>
     <message>
         <source>PostgreSQL is a sophisticated Object-Relational DBMS, supporting almost all SQL constructs, including subselects, transactions, and user-defined types and functions. It is the most advanced open-source database available anywhere.</source>
-        <translation>PostgreSQL és un sofisticat Object-Relational DBMS, que suporta gairebé totes les construccions SQL, incloses les subseleccions, transaccions i tipus i funcions definits per l&apos;usuari. És la base de dades de codi obert amb prestacions més avançades que pots trobar enlloc.</translation>
+        <translation>PostgreSQL es un sofisticado Object-Relational DBMS, que soporta casi todas las construcciones SQL, incluidas las subselecciones, transacciones i tipos i funciones definidas por el usuario. Es la base de datos de codigo abierto con prestaciones más avanzadas que puedes encontrar.</translation>
     </message>
     <message>
         <source>PostgreSQL is a good choice for handling most languages, including Unicode, but may require some configuration to get good speed.</source>
-        <translation>PostgreSQL és una bona elecció per gestionar la majoria d&apos;idiomes, inclòs l&apos;Unicode, però potser requereix configurar-lo per obtenir una bona velocitat.</translation>
+        <translation>PostgreSQL es uan buena opción para acomodar muchos lenguajes, incluido en Unicode, pero requiere algunas configuraciones para alcanzar una buena velocidad.</translation>
     </message>
     <message>
         <source>In order to enable PostgreSQL support,</source>
-        <translation>Per tal de permetre el suport de PostgreSQL,</translation>
+        <translation>Con tal de permitir el soporte de PostgreSQL</translation>
     </message>
     <message>
         <source>is required when you compile PHP.</source>
-        <translation>es requereix quan compilis PHP.</translation>
+        <translation>se requiere cuando compiles PHP.</translation>
     </message>
     <message>
         <source>More information on the PostgreSQL extension can be found at</source>
-        <translation>Pots trobar més informació sobre l&apos;extensió PostgreSQL a</translation>
+        <translation>Se puede encontrar más información sobre la extensión PostgreSQL en</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/init</name>
     <message>
         <source>The database is ready for initialization, click the</source>
-        <translation type="obsolete">La base de dades està enllestida per carregar-la per primer cop, fes clic al</translation>
+        <translation type="obsolete">La base de datos está lista para su inicialización, clica el</translation>
     </message>
     <message>
         <source>Create Database</source>
-        <translation type="obsolete">Crea la base de dades</translation>
+        <translation type="obsolete">Crear base de datos</translation>
     </message>
     <message>
         <source>button when ready.</source>
-        <translation type="obsolete">botó quan estigui tot preparat.</translation>
+        <translation type="obsolete">botón cuando esté listo.</translation>
     </message>
     <message>
         <source>If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilites of eZ publish</source>
-        <translation>Si ho vols, pots deixar que la configuració afegeix dades de demostració a la teva base de dades. Aquestes dades t&apos;ajudaran a veure algunes de les possibilitats d&apos;eZ publish</translation>
+        <translation>Si quieres puedes permitir a la configuración añadir alguna demostración de datos a tu base de datos, esta demostración de datos puede ser una buena demostración de las capacidades de eZ publish</translation>
     </message>
     <message>
         <source>First time users are adviced to install the demo data.</source>
-        <translation>És aconsellable que instal·lis les dades de demostració si ets un usuari novell.</translation>
+        <translation>Los usuarios neófitos están advertidos de instalar la demostración de datos.</translation>
     </message>
     <message>
         <source>Install demo data?</source>
-        <translation>Instal·lar les dades de demostració?</translation>
+        <translation>¿Instalar demostración de datos?</translation>
     </message>
     <message>
         <source>Cannot install demo data, the zlib extension is missing from your PHP installation.</source>
-        <translation>No s&apos;hi ha pogut instal·lar les dades de demostració. No hi és l&apos;extensió zlib a la teva instal·lació PHP.</translation>
+        <translation>No se han podido instalar los datos de la demostración. No hay extensión zlib en tu instalación PHP.</translation>
     </message>
     <message>
         <source>does not support installing demo data at this point.</source>
-        <translation>no suporta la instal·lació de dades de demostració en aquest punt.</translation>
+        <translation>no soporta la instalación de datos de demostración en este punto.</translation>
     </message>
     <message>
         <source>Demo data failure</source>
-        <translation>Error amb les dades de demostració</translation>
+        <translation>Error con los datos de demostración</translation>
     </message>
     <message>
         <source>Could not unpack the demo data.</source>
-        <translation>No es poden descomprimir les dades de demostració.</translation>
+        <translation>No se puede desempaquetar la demostración de datos.</translation>
     </message>
     <message>
         <source>You should try to install without demo data.</source>
-        <translation>Caldrà que provis d&apos;instal·lar sense les dades de demostració.</translation>
+        <translation>Deberías tratar de instalar sin demostración de datos.</translation>
     </message>
     <message>
         <source>Initialization failed</source>
-        <translation>Error en la primera càrrega</translation>
+        <translation>Inicialización fallida</translation>
     </message>
     <message>
         <source>The database could not be properly initialized.</source>
-        <translation>La base de dades podria no estar carregada adequadament.</translation>
+        <translation>La base de datos podría no estar cargada debidamente.</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -4122,55 +4130,56 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>Your database already contains data.</source>
-        <translation>La teva base de dades ja conté informació.</translation>
+        <translation>Tu base de datos ya contiene información.</translation>
     </message>
     <message>
         <source>The setup can continue with the initialization but may damage the present data.</source>
-        <translation>La configuració pot continuar amb la primera càrrega però les dades existents es podrien fer malbé.</translation>
+        <translation>La configuración puede continuar la inicialización pero prodría dañar los presentes datos.</translation>
     </message>
     <message>
         <source>What do you want the setup to do?</source>
-        <translation>Què vols que faci la configuració?</translation>
+        <translation>Qué quieres que haga la configuración?</translation>
     </message>
     <message>
         <source>Continue but leave the data as it is.</source>
-        <translation>Continua, però deixa les dades tal com estan.</translation>
+        <translation>Continuar y eliminar los datos.</translation>
     </message>
     <message>
         <source>Continue and remove the data.</source>
-        <translation type="obsolete">Continua i esborra les dades.</translation>
+        <translation type="obsolete">Continúa y elemina los datos.</translation>
     </message>
     <message>
         <source>Continue and skip database initialization.</source>
-        <translation type="obsolete">Continua i evita la càrrega de la base de dades.</translation>
+        <translation type="obsolete">Continúa y evita la carga de bases de datos.</translation>
     </message>
     <message>
         <source>Let me choose a new database.</source>
-        <translation>Deixa&apos;m escollir una nova base de dades.</translation>
+        <translation>Dejarme elegir una nueva base de datos.</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation>Anotacions:</translation>
+        <translation>Note:</translation>
     </message>
     <message>
         <source>It can take some time creating the database so please be patient and wait until the new page is finished.</source>
-        <translation type="obsolete">La creació de la base de dades es pot perllongar durant un temps. Tingues paciència i espera fins que la nova pàgina s&apos;hagi acabat.</translation>
+        <translation type="obsolete">Ella puede tomarse algún tiempo creando la base de datos, así que se paciente y espera hasta que finalice la nueva página.</translation>
     </message>
     <message>
         <source>It&apos;s time to choose your database, the choice will determine the language support. Once you are done click</source>
-        <translation type="obsolete">És el moment d&apos;escollir la teva base de dades. La elecció determinarà el suport d&apos;idioma. Un cop ho hagis fet, fes clic</translation>
+        <translation type="obsolete">Es hora de elegir tu base de datos, la opción determinará el soporte de lenguaje. Una vez hayas hecho clic</translation>
     </message>
     <message>
         <source>Language Options</source>
-        <translation>Opcions d&apos;idioma</translation>
+        <translation>Opciones de lenguaje
+</translation>
     </message>
     <message>
         <source>to continue the setup.</source>
-        <translation type="obsolete">per continuar la configuració.</translation>
+        <translation type="obsolete">Continuar la configuración.</translation>
     </message>
     <message>
         <source>Your system has support for one database only, it is</source>
-        <translation type="obsolete">El teu sistema té suport per a una única base de dades, és</translation>
+        <translation type="obsolete">Tu sistema tiene soporte para una sola base de datos, esta es</translation>
     </message>
     <message>
         <source>, click</source>
@@ -4178,167 +4187,167 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>no</source>
-        <translation>no</translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>yes</source>
-        <translation>sí</translation>
+        <translation>Sí</translation>
     </message>
     <message>
         <source>The database was succesfully initialized, you are now ready for some post configuration of the site. Click the</source>
-        <translation type="obsolete">La base de dades s&apos;ha carregat amb èxit.  Ara pots continuar amb la configuració del lloc. Fes clic al</translation>
+        <translation type="obsolete">La base de datos se ha iniciado con éxito, ahora estás preparadom para alguna configuración posterior del site. Clica el</translation>
     </message>
     <message>
         <source>Configure</source>
-        <translation>Configura</translation>
+        <translation>Configurar</translation>
     </message>
     <message>
         <source>button to start the configuration process.</source>
-        <translation type="obsolete">botó per començar el procés de configuració.</translation>
+        <translation type="obsolete">botón para comenzar el proceso de configuración.</translation>
     </message>
     <message>
         <source>No database connection</source>
-        <translation type="obsolete">No hi ha connexió amb la base de dades</translation>
+        <translation type="obsolete">No hay conexión a base de datos</translation>
     </message>
     <message>
         <source>Could not connect to database.</source>
-        <translation type="obsolete">No s&apos;ha pogut connectar amb la base de dades.</translation>
+        <translation type="obsolete">No se puede conectar con la base de datos.</translation>
     </message>
     <message>
         <source>The database would not accept the connection , please review your settings and try again.</source>
-        <translation type="obsolete">La base de dades no accepta la connexió. Si us plau, revisa la teva configuració i torna-ho a provar.</translation>
+        <translation type="obsolete">La base de datos no acepta la conexión. Por favor, revisa tus preferencias y prueba otra vez.</translation>
     </message>
     <message>
         <source>We&apos;re now ready to initialize the database. The basic structure will be initialized. To start the initialization, please enter the relevant information in the boxes below, and the password you want on the database and click the</source>
-        <translation type="obsolete">Tot està preparat per carregar per primera vegada la base de dades. S&apos;inicialitzarà l&apos;estructura bàsica. Per començar amb aquest procés, introdueix la informació important en les capses de sota i la contrasenya que desitgis tenir sobre la base de dades i fes clic al</translation>
+        <translation type="obsolete">Estamos listos para inicializar la base de datos. La estructura básica será inicializada. Para empezar la inicialización, por favor mete la información relevante en las cajas de abajo, y la contraseña que quieres en la base de datos y clica el</translation>
     </message>
     <message>
         <source>Connect To Database</source>
-        <translation type="obsolete">Connecta amb la base de dades</translation>
+        <translation type="obsolete">Conectar con la base de datos</translation>
     </message>
     <message>
         <source>button.</source>
-        <translation>botó.</translation>
+        <translation>botón.</translation>
     </message>
     <message>
         <source>If you have an already existing eZ publish database enter the information and the setup will use that as database.</source>
-        <translation type="obsolete">Si ja disposes d&apos;una base de dades eZ publish, introdueix la informació perquè la configuració en faci ús.</translation>
+        <translation type="obsolete">Si tienes alguna otra base de datos eZ publish existente, mete la información y la configuración la utilizará como base de datos.</translation>
     </message>
     <message>
         <source>Empty password</source>
-        <translation type="obsolete">Contrasenya buida</translation>
+        <translation type="obsolete">Contraseña vacía</translation>
     </message>
     <message>
         <source>You must supply a password for the database.</source>
-        <translation type="obsolete">Cal que posis una contrasenya per a la base de dades.</translation>
+        <translation type="obsolete">Has de suministrar una contraseña para la base de datos.</translation>
     </message>
     <message>
         <source>Password does not match</source>
-        <translation type="obsolete">La contrasenya no coincideix</translation>
+        <translation type="obsolete">La contraseña no coincide</translation>
     </message>
     <message>
         <source>The password and confirmation password must match.</source>
-        <translation type="obsolete">La contrasenya i la seva confirmació cal que coincideixin.</translation>
+        <translation type="obsolete">La contraseña y la confirmación han de coincidir.</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="obsolete">Error desconegut</translation>
+        <translation type="obsolete">Error desconocido</translation>
     </message>
     <message>
         <source>No finetuning is required on your system, you can continue by clicking the</source>
-        <translation>No cal un ajust més precís per al teu sistema. Pots continuar fent clic al</translation>
+        <translation>Tu sistema no requiere ajustes, puedes continuar clicando el</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>The system check found some issues that, when resolved, may give improved performance or more features. Please have a look through the results below for more information on what might be done. Each issue will give you instructions on how to do the finetuning.</source>
-        <translation>La comprovació del sistema ha trobat algunes qüestions que, quan estiguin resoltes, podrien millorar l&apos;execució o aportar més característiques. Fes un cop d&apos;ull en els resultats de sota per obtenir més informació sobre el que s&apos;hi podria fer. Cada tema et donarà instruccions perquè sàpigues què fer per aconseguir un ajust més precís.</translation>
+        <translation>La comprobación del sistema ha encontrado algunas cuestiones que, una vez resueltas, podrían mejorar la ejecución o aportar más características. Mira en los resultados de abajo para obtener más información sobre lo que sei podría hacer. Cada tema te dará instrucciones para que sepas qué hacer para conseguir un ajuste más preciso.</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the</source>
-        <translation>Un cop hagis solucionat els problemes, fes clic al</translation>
+        <translation>Una vez hayas solucionado los problemas, haz clic en</translation>
     </message>
     <message>
         <source>Rerun System Check</source>
-        <translation>Torna a fer una comprovació del sistema</translation>
+        <translation>Vuelve a hacer una comprobación del sistema</translation>
     </message>
     <message>
         <source>button to re-run the system checking. This is recommended after system changes to check for critical failures. You can also click the</source>
-        <translation>botó per tonar a fer una comprovació del sistema. És recomanable que ho facis després de fer modificicacions en el sistema per comprovar errors crítics. També pots fer clic al</translation>
+        <translation>botón para volver a hacer una comprovación del sistema. Es recomendable que lo hagas después de hacer modificicaciones en el sistema para comprobar errores críticos. También puedes hacer clic al</translation>
     </message>
     <message>
         <source>Check Again</source>
-        <translation>Torna a comprovar</translation>
+        <translation>Vuelve a comprobar</translation>
     </message>
     <message>
         <source>button to rerun the finetuning checks. However if you wish you can skip straight to the next step by clicking the</source>
-        <translation>botó per tornar a comprovar els ajustos més precisos. Tot i així, si ho vols, pots anar directament al següent pas fent clic al</translation>
+        <translation>botón para volver a comprobar los ajustes más precisos. No obstante, si quieres, puedes ir directamente al siguiente paso haciendo clic al</translation>
     </message>
     <message>
         <source>Issues</source>
-        <translation>Qüestions</translation>
+        <translation>Cuestiones</translation>
     </message>
     <message>
         <source>Failed writing</source>
-        <translation>Error d&apos;escriptura</translation>
+        <translation>Fallo en la escritura</translation>
     </message>
     <message>
         <source>The setup could not write to the file.</source>
-        <translation>La configuració no ha pogut escriure en un fitxer.</translation>
+        <translation>La configuración no ha podido escribir en un fichero.</translation>
     </message>
     <message>
         <source>The setup could not get write access to the</source>
-        <translation>La configuració no ha pogut tenir access d&apos;escriptura al</translation>
+        <translation>La configuración no ha podido tener acceso de escritura al</translation>
     </message>
     <message>
         <source>directory. This is required to disable the initialization. Following the instructions found in</source>
-        <translation>directori. És una tasca requerida per desactivar la inicialització. Seguint les instruccions que es troben a</translation>
+        <translation>directorio. Esta es una tarea requerida para desactivar la inicialización. Siguiendo las instrucciones que se encuentran en</translation>
     </message>
     <message>
         <source>to enable write access and click the</source>
-        <translation>per habilitar l&apos;accés d&apos;escriptura i fes clic al</translation>
+        <translation>para habilitar el acceso de escritura y haz clic en el</translation>
     </message>
     <message>
         <source>Try Again</source>
-        <translation>Torna a provar</translation>
+        <translation>Prueba de nuevo</translation>
     </message>
     <message>
         <source>Optionally you may disable this manually, edit the &lt;i&gt;settings/site.ini&lt;/i&gt; file and look for a line that says:</source>
-        <translation>De manera opcional, ho pots desactivar manualment. Edita el fitxer &lt;i&gt;settings/site.ini&lt;/i&gt; i busca una línia que diu:</translation>
+        <translation>De manera opcional, lo puede desactivar manualmente. Edita el fichero &lt;i&gt;settings/site.ini&lt;/i&gt; y busca la linea que dice: </translation>
     </message>
     <message>
         <source>Change the second line from</source>
-        <translation>Canvia la segona línia de</translation>
+        <translation>Cambia la segunda línea desde </translation>
     </message>
     <message>
         <source>to</source>
-        <translation>a</translation>
+        <translation>hasta</translation>
     </message>
     <message>
         <source>The setup is now disabled, click</source>
-        <translation>La configuració no està desactivada, fes clic</translation>
+        <translation>La configuración no está desactivada, haz clic en</translation>
     </message>
     <message>
         <source>to get back to the site.</source>
-        <translation>per tornar al lloc.</translation>
+        <translation>para volver al sitio.</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval, and is used to send the site registration.</source>
-        <translation type="obsolete">El correu electrònic s&apos;usa per trametre notícies importants com el registre d&apos;usuari i l&apos;aprovació de continguts, i també es fa servir per trametre el registre al lloc.</translation>
+        <translation type="obsolete">El correo electrónico se utiliza para transmitir noticias importantes, como el registro de usuarios y la aprobación del contenido, así como para tramitar el registro al sitio.</translation>
     </message>
     <message>
         <source>You can choose from either</source>
-        <translation>Pots escollir entre qualsevol</translation>
+        <translation>Puedes escoger entre cualquiera</translation>
     </message>
     <message>
         <source>sendmail</source>
-        <translation>tramet el correu</translation>
+        <translation>Enviar mail</translation>
     </message>
     <message>
         <source>which must available on the server or</source>
-        <translation type="obsolete">que serà disponible al servidor o</translation>
+        <translation type="obsolete">que será disponible al servidor o</translation>
     </message>
     <message>
         <source>SMTP</source>
@@ -4346,251 +4355,251 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use ask your webhost, some webhosts do not support</source>
-        <translation type="obsolete">que transmetrà els correus electrònics. Si no saps què fer servir, demana informació al teu proveïdor d&apos;allotjament web. Alguns no tenen suport</translation>
+        <translation type="obsolete">que transmitirá los correos electrónicos. Si no sabes qué utilizar, pide información a tu proveedor de alojamiento web. Algunos no tienen soporte</translation>
     </message>
     <message>
         <source>Configuration of sendmail is done on the server, consult your webhost.</source>
-        <translation type="obsolete">La configuració de la tramesa de correu electrònic és al servidor. Consulta al teu proveïdor d&apos;allotjament web.</translation>
+        <translation type="obsolete">La configuración del trámite de correo electrónico está en el servidor. Consulta con tu proveedor de alojamiento web.</translation>
     </message>
     <message>
         <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a username and password as well.</source>
-        <translation type="obsolete">La tramesa de correus electrònics per SMTP requereix un nom de servidor. Si el servidor requereix autentificació, caldrà que introdueixis també un nom d&apos;usuari i una contrasenya.</translation>
+        <translation type="obsolete">La tramitación de correos electrónicos por SMTP requiere un nombre de servidor. Si el servidor requiere autentificación, hará falta que introduzcas también un nombre de usuario y una contraseña.</translation>
     </message>
     <message>
         <source>Server name</source>
-        <translation type="obsolete">Nom del servidor</translation>
+        <translation>Nombre del servidor</translation>
     </message>
     <message>
         <source>User name</source>
-        <translation type="obsolete">Nom d&apos;usuari</translation>
+        <translation>Nombre del usuario</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <source>Site Details</source>
-        <translation type="obsolete">Detalls del lloc</translation>
+        <translation type="obsolete">Detalles del sitio</translation>
     </message>
     <message>
         <source>Email sending failed</source>
-        <translation>Error en la tramesa del correu electrònic</translation>
+        <translation>Envio de email fallido</translation>
     </message>
     <message>
         <source>Failed sending registration email using</source>
-        <translation>Error en la tramesa del registre del correu electrònic en usar</translation>
+        <translation>Error de la tramitación del registro de correo electrónico al usar</translation>
     </message>
     <message>
         <source>Congratulations, eZ publish should now run on your system.</source>
-        <translation>Felicitats, eZ publish s&apos;iniciarà en el teu sistema.</translation>
+        <translation>Felicidades, eZ publish puede funcionar ahora en tu sistema.</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to the</source>
-        <translation type="obsolete">Si et cal ajuda amb eZ publish, pots anar al</translation>
+        <translation type="obsolete">Si necesitas ayuda sobre aZ publish, puedes ir al</translation>
     </message>
     <message>
         <source>eZ publish website</source>
-        <translation>lloc web d&apos;eZ publish</translation>
+        <translation>sitio web de eZ publish</translation>
     </message>
     <message>
         <source>If you find a bug (error), please go to</source>
-        <translation type="obsolete">Si hi trobes cap error, ves al</translation>
+        <translation type="obsolete">Si encuentras un error (bug), por favor ve al</translation>
     </message>
     <message>
         <source>eZ publish bug reports</source>
-        <translation>notificador d&apos;errors d&apos;eZ publish</translation>
+        <translation>aviso de fallos de eZ publish</translation>
     </message>
     <message>
         <source>and report it.</source>
-        <translation type="obsolete">i tramet un avís.</translation>
+        <translation type="obsolete">y reportalo.</translation>
     </message>
     <message>
         <source>With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation type="obsolete">Amb el teu ajut nosaltres podrem solucionar els errors que pugui tenir eZ publish i afeguir noves funcionalitats.</translation>
+        <translation type="obsolete">Con tu ayuda podemos solucionar los errores que pueda tener eZ publish y añadir nuevas funcionalidades.</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file</source>
-        <translation type="obsolete">Si vols tornar a iniciar aquesta configuració, edita el fitxer</translation>
+        <translation type="obsolete">Si alguna vez quieres reiniciar esta configuración, edita el archivo</translation>
     </message>
     <message>
         <source>and look for a line that says:</source>
-        <translation type="obsolete">i busca la línia que diu:</translation>
+        <translation type="obsolete">y busca la línea que dice:</translation>
     </message>
     <message>
         <source>Click on the URL to access your new</source>
-        <translation type="obsolete">Fes clic en la URL per accedir al teu nou</translation>
+        <translation type="obsolete">Clica en la URL para acceder a tu nuevo</translation>
     </message>
     <message>
         <source>or click the</source>
-        <translation type="obsolete">o fes clic al</translation>
+        <translation type="obsolete">o clica el</translation>
     </message>
     <message>
         <source>Done</source>
-        <translation>Fet</translation>
+        <translation>Hecho</translation>
     </message>
     <message>
         <source>button. Enjoy one of the most successful web content management systems!</source>
-        <translation type="obsolete">botó. Gaudeix d&apos;un dels sistemes de gestió de continguts web amb més èxit!</translation>
+        <translation type="obsolete">botón. ¡Disfruta de uno de los sistemas de gestión de contenidos wen de más éxito!</translation>
     </message>
     <message>
         <source>It&apos;s time to select the language this site should support.</source>
-        <translation>És moment de seleccionar l&apos;idioma que el lloc suportarà.</translation>
+        <translation>Es hora de elegir el lenguaje que ha de soportar este sitio.</translation>
     </message>
     <message>
         <source>Select your language and click the</source>
-        <translation>Selecciona el teu idioma i fes clic al</translation>
+        <translation>Selecciona tu lenguaje y clica el</translation>
     </message>
     <message>
         <source>Summary</source>
-        <translation>Sumari</translation>
+        <translation>Sumario</translation>
     </message>
     <message>
         <source>button, or the</source>
-        <translation>botó, o al</translation>
+        <translation>botón, o el</translation>
     </message>
     <message>
         <source>Language Details</source>
-        <translation>Detalls d&apos;idioma</translation>
+        <translation>Detalles de lenguaje</translation>
     </message>
     <message>
         <source>button to select language variations.</source>
-        <translation>botó per seleccionar els ajustos d&apos;idioma.</translation>
+        <translation>botón para seleccionar las variedades de lenguajes.</translation>
     </message>
     <message>
         <source>It&apos;s time to select the languages this site should support. Select your primary language and check any additional languages.</source>
-        <translation>És moment de seleccionar l&apos;idioma que el lloc suportarà. Selecciona el teu idioma principal i comprova els idiomes addicionals.</translation>
+        <translation>Es hora de elegir el mensaje que ha de soportar este sitio. Selecciona el lenguaje principal y activa algunos lenguajes adicionales.</translation>
     </message>
     <message>
         <source>Once you&apos;re done click the</source>
-        <translation>Un cop ho hagis fet, fes clic al</translation>
+        <translation>Una vez hecho clica el</translation>
     </message>
     <message>
         <source>The languages you choose will help determine the charset to use on the site.</source>
-        <translation>L&apos;idioma que hagis escollit determinarà la configuració de caràcters que usarà el lloc.</translation>
+        <translation>El lenguaje que escoja determinará la configuración de caracteres que usará el sitio.</translation>
     </message>
     <message>
         <source>Language name</source>
-        <translation>Nom d&apos;idioma</translation>
+        <translation>Nombre del lenguaje</translation>
     </message>
     <message>
         <source>Selection</source>
-        <translation>Selecció</translation>
+        <translation>Selección</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your&apos;re done click the</source>
-        <translation>Ara pots seleccionar una variació de l&apos;idioma que has escollit. Una variació fa petits ajustos a l&apos;idioma, com afegir el suport a l&apos;euro o els canvis en el format de data. L&apos;ús d&apos;aquestes variacions és opcional, així que pots estalviar-te, si vols, aquest pas. Un cop fet, fes clic al</translation>
+        <translation>Ahora puedes seleccionar una variación del idioma que has escogido. Una variación hace pequeños ajustes en el idioma, como añadir el soporte al euro o los cambios en el formato de fecha. El uso de estas variaciones es opcional, así que puedes ahorrarte, si quieres, este paso. Una vez hecho, haz clic en el</translation>
     </message>
     <message>
         <source>It&apos;s now possible to select variations for your languages. Variations do small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once you are done click the</source>
-        <translation>Ara pots seleccionar variacions dels idiomes que has escollit. Una variació fa petits ajustos a l&apos;idioma, com afegir el suport a l&apos;euro o els canvis en el format de data. L&apos;ús d&apos;aquestes variacions és opcional, així que pots estalviar-te, si vols, aquest pas. Un cop fet, fes clic al</translation>
+        <translation>Ahora puedes seleccionar una variación del idioma que has escogido. Una variación hace pequeños ajustes en el idioma, como añadir el soporte al euro o los cambios en el formato de fecha. El uso de estas variaciones es opcional, así que puedes ahorrarte, si quieres, este paso. Una vez hecho, haz clic en el</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation>Predeterminat</translation>
+        <translation>Predeterminado</translation>
     </message>
     <message>
         <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails. This data will help to improve eZ publish for future releases.</source>
-        <translation type="obsolete">Si ho vols, pots registrar la teva instal·lació trametent algunes dades a eZ systems. Cap dada confidencial serà transmesa i eZ systems no s&apos;usarà o comercialitzarà les teves dades personals per a correus no sol·licitats. Aquesta informació ens ajudarà a millorar properes actualitzacions d&apos;eZ publish.</translation>
+        <translation type="obsolete">Si quieres puedes registrar tu instalación enviando información a eZ systems. Ningún dato confidencial será trasmitido y eZ systems no usará o venderá tus detalles personales para emails no solicitados. Estos datos ayudan a eZ publish para mejorar próximas ediciones.</translation>
     </message>
     <message>
         <source>The following data will be sent to eZ systems:</source>
-        <translation type="obsolete">Les dades següents es transmetran a eZ systems:</translation>
+        <translation type="obsolete">Los siguientes datos serán enviados a eZ system:</translation>
     </message>
     <message>
         <source>Details of your system, like OS type etc.</source>
-        <translation type="obsolete">Informació sobre el teu sistema, com el sistema operatiu, etc.</translation>
+        <translation>Detalles de tu sistema, como el tipo de OS, etc.</translation>
     </message>
     <message>
         <source>The test results for your system</source>
-        <translation type="obsolete">Els resultats del test del teu sistema</translation>
+        <translation>Resultados del test para tu sistema</translation>
     </message>
     <message>
         <source>The database type you are using</source>
-        <translation type="obsolete">El tipus de base de dades que estàs fent servir</translation>
+        <translation>El tipo de base de datos que estás usando</translation>
     </message>
     <message>
         <source>The name of your site</source>
-        <translation type="obsolete">El nom del teu lloc</translation>
+        <translation>El nombre de tu sitio</translation>
     </message>
     <message>
         <source>The url of your site</source>
-        <translation type="obsolete">La URL del teu lloc</translation>
+        <translation>La url de tu sitio</translation>
     </message>
     <message>
         <source>The languages you chose</source>
-        <translation type="obsolete">Els idiomes que has escollit</translation>
+        <translation>Los lenguajes que eliges</translation>
     </message>
     <message>
         <source>If you wish you can also add some comments which will be included in the registration.</source>
-        <translation type="obsolete">Si  ho desitges, pots afegir-hi comentaris que seran inclosos en el registre.</translation>
+        <translation>Si quieres, puedes añadir algunos comentarios que se incluirán en el registro. </translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="obsolete">Comentaris</translation>
+        <translation>Comentarios</translation>
     </message>
     <message>
         <source>Send Registration</source>
-        <translation>Tramet el registre</translation>
+        <translation>Enviar registro</translation>
     </message>
     <message>
         <source>Skip Registration</source>
-        <translation>Salta&apos;t el registre</translation>
+        <translation>Saltarse el registro</translation>
     </message>
     <message>
         <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.</source>
-        <translation type="obsolete">Ara especifica el títol i la URL del teu lloc. Aquestes dades es faran servir en el títol de la pàgina web i trametre el correu electrònic amb la URL del lloc web.</translation>
+        <translation type="obsolete">Es hora de especificar el título y la url de tu sitio, esta será usada como el título de la página web y para enviar fuera el email con la url del sitio.</translation>
     </message>
     <message>
         <source>Register Site</source>
-        <translation type="obsolete">Lloc de registre</translation>
+        <translation type="obsolete">Registrar el sitio</translation>
     </message>
     <message>
         <source>What kind of language support should this site have. The type of support determines the language selection and charset.</source>
-        <translation>Quin tipus de suport d&apos;idioma tindrà aquest lloc. El tipus de suport determina la selecció d&apos;idiomes i la configuració dels caràcters.</translation>
+        <translation>¿Qué tipo de soporte de lenguaje ha de tener este sitio? El tipo de soporte determina la selección del lenguaje y los caracteres.</translation>
     </message>
     <message>
         <source>Monolingual (one language)</source>
-        <translation>Idioma únic</translation>
+        <translation>Monolingüe (un solo lenguaje)</translation>
     </message>
     <message>
         <source>Multilingual (multiple languages with one charset)</source>
-        <translation>Multiidioma (diversos idiomes amb una única configuració de caràcters)</translation>
+        <translation>Multilingüe (muchos lenguajes con un solo tipo de carateres)</translation>
     </message>
     <message>
         <source>Multilingual (Unicode, no limit)</source>
-        <translation>Multiidioma (Unicode, sense límit)</translation>
+        <translation>Multilingüe (Unicode, sin límites)</translation>
     </message>
     <message>
         <source>Regional Options</source>
-        <translation>Opcions regionals</translation>
+        <translation>Opciones regionales</translation>
     </message>
     <message>
         <source>Here you will see a summary of the basic settings for your site. If you are satisfied with the settings you can click the</source>
-        <translation>Aquí veuràs un resum de les configuracions bàsiques del teu lloc. Si estàs satisfet amb aquesta configuració fes clic al</translation>
+        <translation>Aquí verás un sumario con las preferencias básicas para ti sitio. Si estás satisfecho con ellas puedes clicar el</translation>
     </message>
     <message>
         <source>Setup Database</source>
-        <translation>Configuració de la base de dades</translation>
+        <translation>Configurar base de datos</translation>
     </message>
     <message>
         <source>However if you want to change your settings click the</source>
-        <translation>Si, pel contrari, vols canviar la teva configuració clic al</translation>
+        <translation>Sin embargo, si tu quieres cambiar tus preferencias clica el</translation>
     </message>
     <message>
         <source>Start Over</source>
-        <translation>Comença</translation>
+        <translation>Arrancar</translation>
     </message>
     <message>
         <source>button which will restart the collecting of information (Existing settings are kept).</source>
-        <translation>botó que reiniciarà la recollida d&apos;informació (la configuració existent es mantindrà).</translation>
+        <translation>botón que reiniciará la recogida de información (la configuración existente se mantendrá).</translation>
     </message>
     <message>
         <source>Database settings</source>
-        <translation>Configuració de la base de dades</translation>
+        <translation>Preferencias de la base de datos</translation>
     </message>
     <message>
         <source>Database</source>
-        <translation>Base de dades</translation>
+        <translation>Base de datos</translation>
     </message>
     <message>
         <source>Driver</source>
@@ -4598,152 +4607,156 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     </message>
     <message>
         <source>Unicode support</source>
-        <translation>Suport Unicode</translation>
+        <translation>Soporte Unicode</translation>
     </message>
     <message>
         <source>Language settings</source>
-        <translation>Configuració d&apos;idioma</translation>
+        <translation>Preferencias de lenguaje</translation>
     </message>
     <message>
         <source>Language type</source>
-        <translation>Tipus d&apos;idioma</translation>
+        <translation>Tipo de lenguaje</translation>
     </message>
     <message>
         <source>Monolingual</source>
-        <translation>Idioma únic</translation>
+        <translation>Monolingüe</translation>
     </message>
     <message>
         <source>Multilingual</source>
-        <translation>Multiidioma</translation>
+        <translation>Multilingüe</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation>Idiomes</translation>
+        <translation>Lenguajes</translation>
     </message>
     <message>
         <source>No problems was found with your system, you can continue by clicking the</source>
-        <translation>No s&apos;han trobat problemes en el teu sistema, pots continuar fent clic al</translation>
+        <translation>No se han encontrado problemas en tu sistema, puedes continuar clicando el</translation>
     </message>
     <message>
         <source>However if you wish to finetune your system you should click the</source>
-        <translation type="obsolete">Tot i així, si vols fer ajustos més precisos en el teu sistema, fes clic al</translation>
+        <translation>Sin embargo, si quieres hacer ajustes más precisos en tu sistema, haz clic en el</translation>
     </message>
     <message>
         <source>Finetune System</source>
-        <translation>Sistema d&apos;ajust precís</translation>
+        <translation>Sistema de ajuste preciso</translation>
     </message>
     <message>
         <source>The system check found some issues that needs to be resolve before the setup can continue.</source>
-        <translation type="obsolete">La comprovació del sistema ha trobat algunes qüestions que han de ser resoltes abans que contingui el procés de configuració.</translation>
+        <translation type="obsolete">La comprobación del sistema ha encontrado algunas cuestiones que han de ser resualetas antes de que continúe el proceso de configuración.</translation>
     </message>
     <message>
         <source>Please have a look through the results below for more information on what the problems are.</source>
-        <translation>Mira en els resultats de sota per saber quins són els problemes.</translation>
+        <translation>Por favor, mira los resultados de abajo para más información sobre qué problemas hay.</translation>
     </message>
     <message>
         <source>Each problem will give you instructions on how to fix the problem.</source>
-        <translation>Cada problema et donarà instruccions per solucionar-lo.</translation>
+        <translation>Cada problema te dará las instrucciones para solucionarlo.</translation>
     </message>
     <message>
         <source>button to re-run the system checking.</source>
-        <translation type="obsolete">botó per tornar a arrencar la comprovació del sistema.</translation>
+        <translation type="obsolete">botón para volver a arrancar la comprobación del sistema.</translation>
     </message>
     <message>
         <source>Welcome to the setup program for eZ publish</source>
-        <translation type="obsolete">Benvingut/da al programa de configuració d&apos;eZ publish</translation>
+        <translation type="obsolete">Bienvenido al programa de configuración  de eZ publish</translation>
     </message>
     <message>
         <source>This part of the setup system will guide you trough the necessary steps to make sure eZ publish is properly initialized</source>
-        <translation type="obsolete">Aquesta part del sistema de configuració et guiarà amb els passos necessaris per assegurar que eZ publish s&apos;ha inicialitzat correctament</translation>
+        <translation type="obsolete">Esta parte del sistema de configuración te guiará con los pasos necesarios para asegurar que eZ publish se ha inicializado correctamente</translation>
     </message>
     <message>
         <source>Click the button below to proceed to the next step which will start the system check.</source>
-        <translation type="obsolete">Fes clic al butó de sota per començar amb el següent pas que iniciarà la comprovació del sistema.</translation>
+        <translation type="obsolete">Haz clic en el botón de abajo para comenzar con el siguiente paso, que iniciará la comprobación del sistema.</translation>
     </message>
     <message>
         <source>However if you wish to setup the site manually press the</source>
-        <translation type="obsolete">Tot i així, si vols configurar manualment el lloc pressiona el</translation>
+        <translation type="obsolete">Sin embargo, si quieres configurar manualmente el sitio presiona el</translation>
     </message>
     <message>
         <source>Disable Setup</source>
-        <translation type="obsolete">Deshabilita la configuració</translation>
+        <translation type="obsolete">Deshabilitar la configuración</translation>
     </message>
     <message>
         <source>System Check</source>
-        <translation type="obsolete">Comprovació del sistema</translation>
+        <translation type="obsolete">Comprovación del sistema</translation>
+    </message>
+    <message>
+        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="obsolete">La configuración no actualizará desde versiones anteriores de eZ publish (tales como la 2.2.7) si dejas los datos tal cual están. Esto solo sirve para la gente que ya tiene datos que no quieren perder. Si ya tienes datos de eZ publish 3 (como por ejemplo de las versiones RC) tendrías que saltarte la inicialización de la base de datos. Sin embargo, luego tendrás que actualizar manualmente.</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipus</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Servername</source>
-        <translation type="obsolete">Nom del servidor</translation>
+        <translation>Nombre del servidor</translation>
     </message>
     <message>
         <source>Socket</source>
-        <translation type="obsolete">Sòcol</translation>
+        <translation type="obsolete">Enchufe</translation>
     </message>
     <message>
         <source>Databasename</source>
-        <translation type="obsolete">Nom de la base de dades</translation>
+        <translation type="obsolete">Nombre de la base de datos</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Nom d&apos;usuari</translation>
+        <translation>Nombre de usuario</translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation type="obsolete">Confirma la contrasenya</translation>
+        <translation type="obsolete">Comfirmar contraseña</translation>
     </message>
     <message>
         <source>Title of your site</source>
-        <translation type="obsolete">Nom del lloc web</translation>
+        <translation type="obsolete">Título de tu sitio</translation>
     </message>
     <message>
         <source>URL to your site</source>
-        <translation type="obsolete">URL del lloc web</translation>
+        <translation type="obsolete">URL de tu sitio</translation>
     </message>
     <message>
         <source>The database is ready for initialization, click the %1 button when ready.</source>
-        <translation>La base de dades està preparada per inicialitzar-se. Fes clic al botó %1 quan estiguis preparat.</translation>
+        <translation>La base de datos está lista para la inicialización, clica el botón %1 cuando estés listo.</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Continua</translation>
+        <translation>Continúa</translation>
     </message>
     <message>
         <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
-        <translation>La configuració no farà una actualització de versions anteriors d&apos;eZ publish (com ara la 2.2.7) si deixes les dades tal com estan. Això només serveix per als que hi tenen dades que no volen perder. Si tens dades d&apos;eZ publish 3.0 (com ara una versió RC) cal que et saltis la inicialització de la base de dades. Tot i així, necessitaràs fer-ne una actualització manual.</translation>
+        <translation>La configuración no hace actualizaciones desde otras versiones antiguas de eZ publish (como 2.2.7) si se deja tal como está. Esto solo le importa a la gente que tiene datos existentes que no quiere perder. Si tienes datos de eZ publish 3.0 existentes (tales como una versión RC) has de saltarte la inicialización de la base de datos. No obstante, puedes hacer una actualización manual.</translation>
     </message>
     <message>
         <source>Continue but remove the data first.</source>
-        <translation>Continua, però abans esborra les dades.</translation>
+        <translation>Continúa pero elimina primero el dato.</translation>
     </message>
     <message>
         <source>Keep data and skip database initialization.</source>
-        <translation>Mantén les dades i salta&apos;t la inicialització de la base de dades.</translation>
+        <translation>Mantén el dato y sáltate la inicialización de la base de datos.</translation>
     </message>
     <message>
         <source>It can take some time initializing the database so please be patient and wait until the new page is finished.</source>
-        <translation>La inicialització de la base de dades pot trigar una estona. Sigues pacient i espera fins que la nova pàgina s&apos;hagi acabat.</translation>
+        <translation>Puede que la inicialización de la base de datos tome algo de tiempo, así que por favor, se paciente y espera hasta que la nueva página haya finalizado.</translation>
     </message>
     <message>
         <source>The database was succesfully initialized. You are now ready for some post configuration of the site.</source>
-        <translation>La base de dades s&apos;ha inicialitzat amb èxit. Tot està preparat per a la següent fase de configuració del lloc web.</translation>
+        <translation>La base de datos se inicializó con éxito. Ahora estás listo para algunas configuraciones posteriores del sitio.</translation>
     </message>
     <message>
         <source>Click the %1 button to start the configuration process.</source>
-        <translation>Fes clic en el botó %1 per començar el procés de configuració.</translation>
+        <translation>Clica el botón %1 para comenzar el proceso de configuración.</translation>
     </message>
     <message>
         <source>which must be available on the server or</source>
-        <translation>que ha d&apos;estar disponible al servidor o</translation>
+        <translation>el cual está disponible en el servidor o</translation>
     </message>
     <message>
         <source>features.&quot;
 </source>
-        <translation type="obsolete">característiques.&quot;
+        <translation type="obsolete">características.&quot;
 </translation>
     </message>
     <message>
@@ -4753,818 +4766,737 @@ El codi predeterminat s&apos;ha fet a partir dels paràmetres bàsics que tu vas
     <message>
         <source>systems!&quot;
 </source>
-        <translation type="obsolete">sistemes!&quot;
-</translation>
+        <translation type="obsolete">sistemas!&quot;</translation>
     </message>
     <message>
         <source>The default username for the administrator is %1 and the default password is %2.</source>
-        <translation>El nom d&apos;usuari per defecte per a l&apos;administrador és %1 i la contrasenya per defecte és %2.</translation>
+        <translation>El nombre para el administrador por defecto es %1 y la contraseña por defecto es %2.</translation>
     </message>
     <message>
         <source>Sending out the email might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails.</source>
-        <translation type="obsolete">La tramesa del correu pot trigar uns segons. Espera fins que la nova pàgina estigui carregada. Si tornes a fer clic en el botó, el correu s&apos;enviarà per duplicat.</translation>
+        <translation type="obsolete">Mandar el correo electrónico puede tardar algunos segundos, así que por favor espera a que se cargue la próxima página. Clicar de nuevo el botón solo servirá para enviar los correos por duplicado.</translation>
     </message>
     <message>
         <source>You&apos;re site is running in virtualhost mode and is considered secure. You may safely continue.</source>
-        <translation type="obsolete">El lloc web està corrent en la modalitat de servidor virtual i és considerat segur. Pots continuar amb seguretat.</translation>
+        <translation type="obsolete">Tu sitio está funcionando en modo de alojamiento virtual y se considera seguro. Puedes continuar de forma segura.</translation>
     </message>
     <message>
         <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
 If you do not have the possiblity to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="obsolete">El lloc web no corre en la modalitat de servidor virtual i és considerat insegur. Es recomana fer anar eZ publish en modalitat de servidor virtual.
-Si no tens la possibilitat d&apos;usar-lo, segueix les instruccions de més a baix sobre com instal·lar un fitxer .htaccess. </translation>
+        <translation type="obsolete">Tu sitio está funcionando en modo de no alojamiento virtual y se considera inseguro. Se recomienda que eZ publish funcione en modo de alojamiento virtual.
+Si no tienes la posibilidad de usar un modo de alojamiento virtual, puedes seguir las instrucciones de abajo sobre cómo instalar un archivo .htaccess. Este archivo le dice al servidor web que solo acceda a archivos seguros.</translation>
     </message>
     <message>
         <source>It&apos;s time to specify the title and url of your site, this will be used in the title of the webpage and for sending out email with the site url.
        The administrator email is used as sender email from all emails sent from eZ publish, it&apos;s adviced to set this correctly.</source>
-        <translation type="obsolete">És ara el moment d&apos;especificar el nom i la URL del lloc web. Seran usats en el títol de la pàgina web i per trametre un correu electrònic amb la URL del lloc.
-El correu de l&apos;administrador es fa servir com a remitent de tots els correus tramesos des d&apos;eZ publish. Es recomana que ho defineixis correctament.</translation>
+        <translation type="obsolete">Es el momento de especificar el título y la url de tu sitio, que será usado en elñ título del web y para enviar correos electrónicos con tu dirección web.
+El administrador de correos electrónicos es usado como enviador de correo para toods los correos enviados desde eZ publish, por lo que se aconseja fijarlo correctamente.</translation>
     </message>
     <message>
         <source>Administator E-Mail</source>
-        <translation type="obsolete">Correu electrònic de l&apos;administrador</translation>
+        <translation type="obsolete">Administrador de correo electrónico</translation>
     </message>
     <message>
         <source>Securing Site</source>
-        <translation type="obsolete">Lloc segur</translation>
+        <translation type="obsolete">Sitio seguro</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the checkboxes.</source>
-        <translation type="obsolete">Quan hagis solucionat els problemes, fes clic al botó %1 per tornar a arrencar la comprovació del sistema. Pots ignorar aquestes proves específiques fent clic en els quadres de verificació.</translation>
+        <translation type="obsolete">Después de que hayas fijado los problemas clica el botón %1 para reiniciar el chequeo del sistema. También puedes ignorar los test específicos clicando los checkboxes.</translation>
     </message>
     <message>
         <source>Welcome to the setup program for eZ publish %1.</source>
-        <translation type="obsolete">Benvingut/da al programa de configuració d&apos;eZ publish %1.</translation>
+        <translation type="obsolete">Bienvenido al programa de configuración para eZ publish %1.</translation>
     </message>
     <message>
         <source>Database choice</source>
-        <translation>Elecció de base de dades</translation>
+        <translation type="unfinished">Opción de base de datos</translation>
     </message>
     <message>
         <source>The database would not accept the connection, please review your settings and try again.</source>
-        <translation>La base de dades no accepta la connexió. Revisa la teva configuració i torna-ho a provar.</translation>
+        <translation type="unfinished">La base de datos no acepta la conexión. Por favor, revisa tus configuraciones e inténtalo de nuevo.</translation>
     </message>
     <message>
         <source>Password entries did not match.</source>
-        <translation>Les contrasenyas introduïdes no coincideixen.</translation>
+        <translation type="unfinished">La contraseña introducida no coincide</translation>
     </message>
     <message>
         <source>The selected database was not empty, please choose from the alternatives below.</source>
-        <translation>La base de dades escollida no està buida. Tria d&apos;entre les següents alternatives.</translation>
+        <translation type="unfinished">La base de datos seleccinada no está vacía. Por favor, elige una de las alternativas de abajo.</translation>
     </message>
     <message>
         <source>The selected selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation>L&apos;usuari seleccionat no disposa d&apos;accés a cap base de dades. Canvia l&apos;usuari o crea una base de dades per a l&apos;usuari.</translation>
+        <translation type="unfinished">El &quot;usuario seleccionado&quot; que has seleccionado no tiene acceso a ninguna base de datos. Cambia el usuario o crea una base de datos para el usuario.</translation>
     </message>
     <message>
         <source>Database initalization</source>
-        <translation>Inicialització de la base de dades</translation>
+        <translation type="unfinished">Inicialización de la base de datos</translation>
     </message>
     <message>
         <source>Email settings</source>
-        <translation>Configuració del correu electrònic</translation>
+        <translation type="unfinished">Configuraciones de correo</translation>
     </message>
     <message>
         <source>Finished</source>
-        <translation>Acabat</translation>
+        <translation type="unfinished">Ternimado</translation>
     </message>
     <message>
         <source>Language options</source>
-        <translation>Opcions d&apos;idioma</translation>
+        <translation type="unfinished">Opciones de lenguaje</translation>
     </message>
     <message>
         <source>Registration</source>
-        <translation>Registre</translation>
+        <translation type="unfinished">Registro</translation>
     </message>
     <message>
         <source>Securing site</source>
-        <translation>Lloc segur</translation>
+        <translation type="unfinished">Asegurando el sitio</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation>Accés al lloc</translation>
+        <translation type="unfinished">Acceso del sitio</translation>
     </message>
     <message>
         <source>Site details</source>
-        <translation>Detalls del lloc</translation>
+        <translation type="unfinished">Detalles del sitio</translation>
     </message>
     <message>
         <source>No templates choosen.</source>
-        <translation>No s&apos;ha escollit cap plantilla.</translation>
+        <translation type="unfinished">No se han encontrado plantillas.</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation>Selecció de plantilla del lloc</translation>
+        <translation type="unfinished">Selección de plantillas del sitio</translation>
     </message>
     <message>
         <source>System check</source>
-        <translation>Comprovació del sistema</translation>
+        <translation type="unfinished">Chequeo del sistema</translation>
     </message>
     <message>
         <source>Welcome to eZ publish</source>
-        <translation>Benvingut/da a eZ publish</translation>
+        <translation type="unfinished">Bienvenido a eZ publish</translation>
     </message>
     <message>
         <source>Choose database system</source>
-        <translation>Tria el sistema de base de dades</translation>
+        <translation type="unfinished">Elige sistema de base de datos</translation>
     </message>
     <message>
-        <source>Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use.</source>
-        <translation>S&apos;ha detectat suport a MySQL i PostgreSQL en el teu sistema. Tria quin tipus de base de dades vols fer servir.</translation>
+        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
+        <translation type="unfinished">Hemos detectado soporte MySQL y PostgreSQL en tu sistema. ¿Qué sistema de base de datos quieres usar?</translation>
     </message>
     <message>
-        <source>eZ publish supports both MySQL and PostgreSQL.</source>
-        <translation>eZ publish té suport per a MySQL i PostgreSQL.</translation>
+        <source>eZ publish support both MySQL and PostgreSQL.</source>
+        <translation type="unfinished">eZ pblish soporta tanto MySQL como PostgreSQL.</translation>
     </message>
     <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
-        <translation>PostgreSQL o MySQL &gt;= 4.1 són requerits per al suport d&apos;Unicode a eZ publish.</translation>
+        <translation type="unfinished">Para el soporte unicode en eZ publish se requiere una versión igual o mayor que PostgreSQL o MySQL 4.1.</translation>
     </message>
     <message>
         <source>More information about eZ publish and unicode support can be found %1.</source>
-        <translation>Pots trobar més informació sobre eZ publish i suport a Unicode a %1.</translation>
+        <translation type="unfinished">Puedes encontrar más información sobre eZ publish y el soporte unicode en %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>link to unicode info</comment>
-        <translation>aquí</translation>
+        <translation type="unfinished">aquí</translation>
     </message>
     <message>
         <source>Database initialization</source>
-        <translation>Inicialització de la base de dades</translation>
+        <translation type="unfinished">Inicialización de la base de datos</translation>
     </message>
     <message>
-        <source>Please input database access information in the form below.</source>
-        <translation>Introdueix la informació d&apos;accés a la base de dades en el formulari de sota.</translation>
+        <source>Enter database system user information in the boxes below</source>
+        <translation type="unfinished">Introduce la información de usuario del sistema de base de datos en las cajas de abajo.</translation>
     </message>
     <message>
-        <source>Servername:</source>
-        <translation>Nom del servidor:</translation>
+        <source>Socket (optional)</source>
+        <translation type="unfinished">Toma de corriente (opcional)</translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>Nom d&apos;usuari:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Contrasenya:</translation>
-    </message>
-    <message>
-        <source>Socket (optional):</source>
-        <translation>Sòcol (opcional):</translation>
-    </message>
-    <message>
-        <source>If you don&apos;t have access to a database, you should obtain access now. eZ publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you&apos;re unsure about how to create a database.</source>
-        <translation>Si no tens accés a la base de dades, el pots obtenir ara. eZ publish és capaç de fer anar diferents llocs. Cada lloc ncessita la seva pròpia base de dades. Això vol dir que necessites crear diverses bases de dades si tens pensat arrencar diferents llocs. Consulta el manual d&apos;usuari de la base de dades si no estàs segur com crear una base de dades.</translation>
+        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
+        <translation type="unfinished">Se recomienda la creación de las bases de datos para eZ publish ahora. Si no estás seguro de cómo hacerlo, consulta el manual de usuario de sistema de base de datos.</translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
-        <translation>El nom d&apos;usuari i la contrasenya de PostgreSQL no es comproven fins que els noms de la base de dades se seleccionen.</translation>
+        <translation type="unfinished">El nombre de usuario y la contraseña PostgreSQL no se testea hasta que los nombres de base de datos son seleccionados.</translation>
     </message>
     <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
-        <translation>Si estàs usant MySQL i no saps que posar en el camp de sòcol, deixa&apos;l buit</translation>
+        <translation type="unfinished">Si estás usando MySQL y no sabes como entrar en el campo de toma de corriente, dejalo en blanco</translation>
     </message>
     <message>
-        <source>Outgoing E-mail</source>
-        <translation>Correu sortint</translation>
+        <source>E-mail settings</source>
+        <translation type="unfinished">configuraciones de correo</translation>
     </message>
     <message>
-        <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
-        <translation>Aquesta secció serveix per configurar com eZ publish lliura el correu sortint.</translation>
-    </message>
-    <message>
-        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (must be available on the server).&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation>Hi ha dues opcions: &lt;br&gt;- Lliura directament a través del &quot;sendmail&quot; (ha d&apos;estar disponible en el servidor).&lt;br&gt;- El lliurament indirecte fa servir el servidor retardat SMTP.</translation>
+        <source>Specify email settings for eZ publish</source>
+        <translation type="unfinished">Configuraciones de correo específicas para eZ publish</translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
-        <translation>que farà retardar els correus. Si no estàs segur quin usar, demana-ho al teu servidor web. N&apos;hi ha alguns que no hi donen suport</translation>
+        <translation type="unfinished">El cual transmitirá los correos. Si nos estás seguro de qué usar, pregunta a tu webhost. Algunos webhost no dan soporte</translation>
     </message>
     <message>
-        <source>SMTP is recommended for MS Windows users.</source>
-        <translation>Per als usuaris de Windows és recomanable l&apos;ús d&apos;SMTP.</translation>
+        <source>SMTP is recommended for MS Windows users</source>
+        <translation type="unfinished">Se recomienda SMTP para usuarios de MS Windows</translation>
     </message>
     <message>
-        <source>E-mail delivery</source>
-        <translation>Lliurament de correu</translation>
+        <source>Mail system</source>
+        <translation type="unfinished">Sistema de correo</translation>
     </message>
     <message>
-        <source>Server name: </source>
-        <translation>Nom del servidor:</translation>
+        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
+        <translation type="unfinished">El correo se utiliza para enviar fuera noticias importantes como el registro de usuario o la aprovación de contenidos. También se usa para enviar el registro del sitio.</translation>
     </message>
     <message>
-        <source>Username (optional): </source>
-        <translation>Nom d&apos;usuari (opcional):</translation>
+        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
+        <translation type="unfinished">La transmisión de correos con SMTP requiere un nombre de servidor. Si el servidor requiere autentificación, debes introducir el nombre de usuario y la contraseña correctos.</translation>
     </message>
     <message>
-        <source>Password (optional): </source>
-        <translation>Contrasenya (opcional):</translation>
+        <source>Finished!</source>
+        <translation type="unfinished">¡Finalizado!</translation>
     </message>
     <message>
-        <source>The eZ publish system uses E-mail to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
-        <translation>eZ publish fa servir el correu electrònic per enviar notificacions importants com ara el registre d&apos;usuari i l&apos;aprovació de continguts. Sobre Linux/UNIX: prova usant el &quot;sendmail&quot;. Sobre Windows: usa el servidor SMTP.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;Mail is delivered directly using the sendmail transfer agent. The sendmail binary is usually available on most Linux/UNIX systems. If sendmail is not available then SMTP should be used.</source>
-        <translation>&lt;b&gt;Sendmail:&lt;/b&gt;&lt;br&gt;El correu es lliura directament fent ús de l&apos;agent de transferència &quot;sendmail&quot;. El &quot;sendmail&quot; binari normalment està disponible en la majoria de sistemes Linux/UNIX. Si no tens disponible el &quot;sendmail&quot;, aleshores s&apos;usarà l&apos;SMTP.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SMTP:&lt;/b&gt;&lt;br&gt;Mail is delivered through an SMTP server. At the minimum, the hostname of the SMTP server must be specified. Hint: check the SMTP settings in your E-mail application.</source>
-        <translation>&lt;b&gt;SMTP&lt;/b&gt;&lt;br&gt;El correu se serveix a través d&apos;un servidor SMTP. Cal especificar, almenys, el nom del servidor SMTP. Una pista: comprova la configuració STMP en la teva aplicació de correu electrònic.</translation>
-    </message>
-    <message>
-        <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation>El correu electrònic es fa servir per trametre notificacions importants, com ara el registre i l&apos;aprovació de continguts.</translation>
-    </message>
-    <message>
-        <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
-        <translation>La majoria de sistemes UNIX tenen suport per al &quot;sendmail&quot;. En canvi, els usuaris de Windows han de trial l&apos;SMTP.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SMTP&lt;/b&gt;: If you&apos;re unsure what to enter, take a look at the settings in your e-mail application.</source>
-        <translation>&lt;b&gt;SMTP&lt;/b&gt;: Si no estàs segur del que has d&apos;introduir-hi, fes una ullada a la configuració de la teva aplicació de correu.</translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s). You will find the username and password mentioned for each site.</source>
-        <translation>eZ publish s&apos;ha instal·lat amb el/s següent/s lloc/s. Hi trobaràs el nom d&apos;usuari i la contrasenya per a cada lloc.</translation>
+        <source>eZ publish has been installed with the following site(s)</source>
+        <translation type="unfinished">eZ publish ha sido instalado con los siguientes sitio(s)</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation>Títol</translation>
+        <translation type="unfinished">Título</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation type="unfinished">URL</translation>
     </message>
     <message>
         <source>User site</source>
-        <translation>Lloc de l&apos;usuari</translation>
+        <translation type="unfinished">Sitio de usuario</translation>
     </message>
     <message>
         <source>Admin site</source>
-        <translation>Lloc de l&apos;administrador</translation>
+        <translation type="unfinished">Administrar sitio</translation>
     </message>
     <message>
         <source>Admin e-mail</source>
-        <translation>Correu d&apos;administració</translation>
+        <translation type="unfinished">Administrar correo</translation>
     </message>
     <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the urls for your sites.</source>
-        <translation>Consell: Emmagatzema aquesta pàgina com un fitxer HTML fent clic a l&apos;opció &quot;Desa com&quot; (&quot;Save as&quot;) del menú del teu navegador.</translation>
+        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
-        <translation>Assegura&apos;t de visitar els llocs web %1 i %2.</translation>
+        <translation type="unfinished">Asegúrate de visitar los web sites %1 y %2.</translation>
     </message>
     <message>
-        <source>forums</source>
+        <source>forum</source>
         <comment>forum link</comment>
-        <translation>Fòrums</translation>
+        <translation type="unfinished">Foro</translation>
     </message>
     <message>
         <source>eZ publish</source>
         <comment>eZ publish 3 link</comment>
-        <translation>eZ publish</translation>
+        <translation type="unfinished">eZ publish</translation>
     </message>
     <message>
         <source>If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ publish might have and implement new features.</source>
-        <translation>Si et cal ajuda amb eZ publish, pots anar a %ezlink i obtenir ajuda dels fòrums.
-Si trobes cap error, si us plau, notifica&apos;l a %buglink.
-Amb la teva ajuda podem solucionar els errors que pugui tenir eZ publish i implementar-hi noves funcionalitats.</translation>
+        <translation type="unfinished">Si necesitas ayuda con eZ publish, puedes ir a %enlace a ez y obtenerla en los foros.
+Si encuentras algún error, por favor, ve a %enlace de error y repórtalo.
+Con tu ayuda podemos solucionar los errores en eZ publish e implementar nuevas funcionalidades.</translation>
     </message>
     <message>
         <source>Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!</source>
-        <translation>Fes clic en la URL per accedir al teu nou %ezlink o fes  clic al botó %donebutton. Gaudeix d&apos;un dels sistemes web de gestió de continguts de més èxit!</translation>
+        <translation type="unfinished">Clica en la URL para acceder a tu nuevo %enlace ez o clica en el botón %botón de hecho. ¡Disfruta de una de los más existosos sistemas web de gestión de contenidos!</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says:</source>
-        <translation>Si mai vols tornar a arrencar aquesta configuració, edita el fitxer %filename i busca una línia que diu:</translation>
+        <translation type="unfinished">Si alguna vez quieres reiniciar la configuración, edita el archivo %nombre de archivo y busca la línea que dice:</translation>
     </message>
     <message>
         <source>Change the second line from %false to %true.</source>
-        <translation>Canvia la segona línia de %false a %true.</translation>
+        <translation type="unfinished">Cambia la segunda línea de %falso a %verdadero.</translation>
     </message>
     <message>
-        <source>Language support</source>
-        <translation>Suport d&apos;idioma</translation>
+        <source>Language and country selection</source>
+        <translation type="unfinished">Selección de lengua y país</translation>
     </message>
     <message>
-        <source>Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation>Fes servir els botons radials per triar l&apos;idioma principal, i els quadres de verificació per escollir idiomes addicionals. Pots escollir més d&apos;un idioma addicional.</translation>
+        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
+        <translation type="unfinished">Usa el botón de selección para elegir el lenguaje primario, y los check boxes para para elegir lenguajes adicionales. Puedes elegir más de un lenguaje adicional. </translation>
     </message>
     <message>
         <source>No Unicode support</source>
-        <translation>No hi ha suport a Unicode</translation>
+        <translation type="unfinished">No hay soporte unicode</translation>
     </message>
     <message>
         <source>The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
 To fix this problem you must do one of the following:</source>
-        <translation>El servidor de base de dades a què et connectes no té suport Unicode, per la qual cosa no pots triar tots els idiomes que has escollit.
-Per solucionar aquest problema cal que facis el següent:</translation>
+        <translation type="unfinished">El servidor de base de datos al que estás conectado no soporta Unicode, lo que significa que no puedes elegir las lenguas como querías.
+Para solucionar estos problemas tienes que hacer algo de lo que sigue:</translation>
     </message>
     <message>
         <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won&apos;t work.</source>
-        <translation>Tria només els idiomes que usen caràcters similars, per exemple: l&apos;anglès i el noruec funcionarien plegats, mentre que l&apos;anglès i el rus no ho farien.</translation>
+        <translation type="unfinished">Elige tan solo lenguas que usen caracteres similares, por ejemplo: el inglés y el noruego pueden trabajar juntos donde el inglés y el ruso no pueden.</translation>
     </message>
     <message>
         <source>Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode.</source>
-        <translation>Assegura&apos;t que el servidor de base de dades està configurat per fer servir Unicode o que disposa del programari més actualitzat que doni suport a Unicode.</translation>
+        <translation type="unfinished">Asegúrate de que el servidor de base de datos está configurado para usar Unicode que tiene el último software que soporta Unicode.</translation>
     </message>
     <message>
         <source>Primary/Additional</source>
-        <translation>Principal/Addicional</translation>
+        <translation type="unfinished">Primario/Adicional</translation>
     </message>
     <message>
         <source>eZ publish supports multiple languages.</source>
-        <translation>eZ publish dóna suport a múltiples idiomes.</translation>
+        <translation type="unfinished">eZ publish soporta múltiples lenguajes.</translation>
     </message>
     <message>
-        <source>The selected languages are used to determine character sets, date / number formats, etc.</source>
-        <translation>Els idiomes seleccionats són usats per determinar el joc de caràcters, formats de dates, etc.</translation>
+        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
+        <translation type="unfinished">Los lenguajes seleccionados se usan para determinados grupos de caracteres, formato de datos, formato de números, etc.</translation>
     </message>
     <message>
         <source>These and other additional languages can also be installed later.</source>
-        <translation>Aquests i altres idiomes addicionals també es poden instal·lar més tard.</translation>
+        <translation type="unfinished">Este y otros lenguajes adicionales pueden también instalarse luego.</translation>
     </message>
     <message>
-        <source>For more information about language customization, please refer to the %1.</source>
-        <translation>Si vols més informació sobre la personalització del llenguatge, adreçat a %1.</translation>
+        <source>For more information about language customization, see the %1.</source>
+        <translation type="unfinished">Para más información sobre la personalización de idiomas, mira el %1.</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>language information link</comment>
-        <translation>documentació</translation>
+        <translation type="unfinished">Documentación</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>back button in installation</comment>
-        <translation>Enrere</translation>
+        <translation type="unfinished">Atrás</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Refresh button in installation</comment>
-        <translation>Actualitza</translation>
+        <translation type="unfinished">Actualizar</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>next button in installation</comment>
-        <translation>Següent</translation>
+        <translation type="unfinished">Siguiente</translation>
     </message>
     <message>
         <source>Site registration</source>
-        <translation>Registre del lloc</translation>
+        <translation type="unfinished">Registro del sitio</translation>
     </message>
     <message>
-        <source>If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails.</source>
-        <translation>Si ho vols, pots registrar aquesta instal·lació enviant algunes dades a eZ systems. Cap informació confidencial serà transmesa i eZ systems no la farà servir o en vendrà cap detall per a correus no sol·licitats.</translation>
+        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
+        <translation type="unfinished">Si quieres puedes registrar tu instalación enviando alguna información a eZ systems. No hay que transmitir datos confidenciales y eZ systems no usará o los venderá tus detalles personales para correos no deseados.</translation>
     </message>
     <message>
         <source>The registration email:</source>
-        <translation>El correu de registre:</translation>
+        <translation type="unfinished">El correo de registro:</translation>
     </message>
     <message>
-        <source>If you wish, you can also add some comments, which will be included in the registration E-mail.</source>
-        <translation>Si ho vols, també pots afegir-hi comentaris, que seran inclosos en el correu de registre.</translation>
-    </message>
-    <message>
-        <source>Comments:</source>
-        <translation>Comentaris:</translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation.</source>
-        <translation>La tramesa d&apos;aquest correu i la generació del teu lloc pot trigar uns segons. Si us plau, espera fins que la pàgina següent es carregui. Si tornes a fer clic en el butó, es duplicaran els correus i pot fer malbé la instal·lació.</translation>
-    </message>
-    <message>
-        <source>Send registration</source>
-        <translation>Envia el registre</translation>
+        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
+        <translation type="unfinished">Enviar el correo y generar el sitio puede tardar algunos segundos. Asi que, por favor, espera a que la página se cargue. Clicando el botón de nuevo tan solo enviarás el correo duplicado y, además, podrías corromper la instalación.</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
-        <translation>En enviar el registre, es trametran les següents dades a eZ systems</translation>
+        <translation type="unfinished">Enviando el registro los siguientes datos serán enviados a eZ systems</translation>
     </message>
     <message>
-        <source>System details (OS type, etc)</source>
-        <translation>Detalls del sistema (sistema operatiu, etc.)</translation>
+        <source>This data will help to improve eZ publish for future releases.</source>
+        <translation type="unfinished">Estos datos te ayudarán a mejorar eZ publish para futuras versiones.</translation>
     </message>
     <message>
-        <source>The test results</source>
-        <translation>Els resultats del test</translation>
+        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
+If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
+        <translation type="unfinished">Tu sitio está funcionando en modo de no alojamiento virtual y se considera inseguro. Se recomienda que eZ publish funcione en modo de alojamiento virtual.
+Si no tienes la posibilidad de usar un modo de alojamiento virtual, puedes seguir las instrucciones de abajo sobre cómo instalar un archivo .htaccess. Este archivo le dice al servidor web que solo acceda a archivos seguros.</translation>
     </message>
     <message>
-        <source>The database type</source>
-        <translation>El tipus de base de dades</translation>
+        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
+        <translation type="unfinished">Si tienes acceso shell al sitio puedes arrancar el siguiente comando para instalar el archivo.</translation>
     </message>
     <message>
-        <source>The site name</source>
-        <translation>El nom del lloc</translation>
+        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
+        <translation type="unfinished">Si no tienes acceso shell puedes copiar el archivo usando el cliente ftp o pedir a tu proveedor de alojamiento que lo haga por ti.</translation>
     </message>
     <message>
-        <source>The url of the site</source>
-        <translation>La URL del lloc</translation>
-    </message>
-    <message>
-        <source>Languages chosen</source>
-        <translation>Els idiomes escollits</translation>
-    </message>
-    <message>
-        <source>This data will help to improve future releases of eZ publish.</source>
-        <translation>Aquesta informació ens ajudarà a millorar noves versions d&apos;eZ publish.</translation>
-    </message>
-    <message>
-        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to restrict the access to certain files.</source>
-        <translation>El teu lloc no està funcionant en mode de servidor virtual. Aquest és un mode insegur. És recomanable fer anar eZ publish en mode de servidor virtual. Si no tens la possibilitat d&apos;usar aquest mode, segueix les instruccions de més a baix per saber com instal·lar un fitxer .htacces. Un fitxer .htacces demana al servidor web que restringeixi l&apos;accés a determinats fitxers.</translation>
-    </message>
-    <message>
-        <source>If you have shell access, you can run the following commmands.</source>
-        <translation>Si tens accés a l&apos;intèrpret d&apos;ordres, pots fer anar els comandaments següents.</translation>
-    </message>
-    <message>
-        <source>If you do not have shell access, you will have to copy the file using an FTP client or ask your hosting provider to do this for you.</source>
-        <translation>Si no tens accés a l&apos;interpret d&apos;ordres, hauràs de copiar el fitxer fent servir un client d&apos;FTP o demanar al teu proveïdor d&apos;espai web que ho faci per tu.</translation>
-    </message>
-    <message>
-        <source>This security tweak takes care of protecting configuration files and other important files.</source>
-        <translation>Aquest petit canvi de seguretat s&apos;encarrega de protegir els fitxers de configuració i altres fitxers importants.</translation>
+        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
+        <translation type="unfinished">Esta medida de seguridad es para asegurarse de que tus configuraciones no son accesibles para otros usuarios.</translation>
     </message>
     <message>
         <source>Site access configuration</source>
-        <translation>Configuració d&apos;accés al lloc</translation>
+        <translation type="unfinished">Configuración del acceso al sitio</translation>
     </message>
     <message>
-        <source>Please choose the access method you wish to use for your site(s). The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation>Tria quin dels mètodes d&apos;accés vols fer servir per al teu lloc/s. El mètode d&apos;accés determina com s&apos;accedirà al teu lloc des d&apos;un navegador web. Si no n&apos;estàs segur, tria una URL.</translation>
+        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
+ If unsure choose URL.</source>
+        <translation type="unfinished">Elige que método de acceso quieres usar para tu sitio(s). El método de acceso determinará cómo la gente podrá acceder a tu sitio.
+Si no estás seguro elige URL.</translation>
     </message>
     <message>
         <source>URL (recommended)</source>
-        <translation>URL (recomanat)</translation>
+        <translation type="unfinished">URL (recomendado)</translation>
     </message>
     <message>
         <source>Port. Note: Requires web server configuration </source>
-        <translation>Port. Nota: requereix la configuració del servidor web</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation>Port</translation>
+        <translation type="unfinished">Puerto. Nota: requiere la configuración de un servidor web</translation>
     </message>
     <message>
         <source>Hostname. Note: Requires DNS setup.</source>
-        <translation>Nom del servidor. Nota: cal configurar el DNS.</translation>
-    </message>
-    <message>
-        <source>Hostname</source>
-        <translation>Nom del servidor</translation>
+        <translation type="unfinished">Nombre de alojamineto (Hostname). Nota: requiere configuración DSN.</translation>
     </message>
     <message>
         <source>The path determines access.</source>
-        <translation>La ruta determina l&apos;accés.</translation>
+        <translation type="unfinished">La ruta determina el acceso.</translation>
     </message>
     <message>
         <source>e.g. %adminsite and %usersite</source>
-        <translation>P.e., %adminsite i %usersite</translation>
+        <translation type="unfinished">p. ej.: %sitio del administrador y %sitio del usuario</translation>
     </message>
     <message>
-        <source>Port*</source>
-        <translation>Port*</translation>
+        <source>Port</source>
+        <translation type="unfinished">Puerto</translation>
     </message>
     <message>
         <source>The port number determines access.*</source>
-        <translation>El número de port determina l&apos;accés.*</translation>
+        <translation type="unfinished">El número de puerto determina el acceso.*</translation>
     </message>
     <message>
-        <source>* Requires web server setup.</source>
-        <translation>*Cal que configuris el servidor web.</translation>
+        <source>* This requires that your web server is setup to handle the port numbers.</source>
+        <translation type="unfinished">* Esto requiere que tu servidor web esté configurado para gestionar los números de puerto.</translation>
     </message>
     <message>
-        <source>Hostname*</source>
-        <translation>Nom del servidor*</translation>
+        <source>Hostname</source>
+        <translation type="unfinished">Nombre de alojamiento (hostname)</translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
-        <translation>El nom del servidor determina l&apos;accés.*</translation>
+        <translation type="unfinished">El nombre de alojamiento (hostname) determina el acceso.*</translation>
     </message>
     <message>
-        <source>* Requires DNS setup.</source>
-        <translation>*Cal que configuris el DNS.</translation>
+        <source>* This requires that you have a DNS setup for your hostname.</source>
+        <translation type="unfinished">* Esto requiere que tengas una configuración DNS para tu nombre de alojamiento (hostname).</translation>
     </message>
     <message>
-        <source>For more detailed information on site access, please refer to the %1</source>
-        <translation>Si vols més informació sobre l&apos;accés al lloc, adreçat a %1</translation>
+        <source>For more detailed information on site access see the %1</source>
+        <translation type="unfinished">Para más detalles sobre el acceso al sitio mira el %1</translation>
     </message>
     <message>
         <source>online documentation</source>
         <comment>site access documentation link</comment>
-        <translation>Documentació en línia</translation>
+        <translation type="unfinished">Documentación on line</translation>
     </message>
     <message>
-        <source>This page lets you modify information about the sites you&apos;ve chosen to install. In addition, it also lets you choose a database for each site.</source>
-        <translation>Aquesta pàgina et permet modificiar informació sobre els llocs que has escollit instal·lar. També et permet escollir una base de dades per a cada lloc.</translation>
+        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
+        <translation type="unfinished">Necesitas especificar alguna información sobre cada sitio que trates de instalar.</translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
-        <translation>No facis servir &apos;admin&apos;, &apos;user&apos; o valors similars d&apos;accés al lloc. Canvia els valors d&apos;accés no permès al lloc allà on s&apos;indica amb *</translation>
+        <translation type="unfinished">No uses &apos;admin&apos;, &apos;user&apos; o valores de acceso al sitio iguales. Por favor, los valores de acceso al sitio ilegales en los sitios indicados con *</translation>
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation>Has escollit la mateixa base de dades per a dues o més plantilles del lloc. Fes els canvis allà on està marcat amb un *</translation>
+        <translation type="unfinished">Has elegido la misma base de datos para dos o más plantillas. Por favor, cámbialas donde esté indicado con *</translation>
     </message>
     <message>
         <source>One or more of your databases already contain data.</source>
-        <translation>Una o més de les teves bases de dades ja contenen informació.</translation>
+        <translation type="unfinished">Una o más de tus bases de datos todavía contienen datos.</translation>
     </message>
     <message>
         <source>Select what to do from the drop down box(es).</source>
-        <translation>Selecciona què vols fer del menú/s desplegable/s.</translation>
+        <translation type="unfinished">Selecciona qué hacer en las drop down box(es).</translation>
     </message>
     <message>
         <source>Site url</source>
-        <translation>URL del lloc</translation>
+        <translation type="unfinished">Url del sitio</translation>
     </message>
     <message>
-        <source>User path</source>
-        <translation>Ruta de l&apos;usuari</translation>
+        <source>URL for access</source>
+        <translation type="unfinished">URL de acceso</translation>
     </message>
     <message>
-        <source>User port</source>
-        <translation>Port de l&apos;usuari</translation>
+        <source>Port for access</source>
+        <translation type="unfinished">Puerto de acceso</translation>
     </message>
     <message>
-        <source>User hostname</source>
-        <translation>Nom del servidor de l&apos;usuari</translation>
+        <source>Hostname for access</source>
+        <translation type="unfinished">Nombre de alojamiento (hostname) de acceso</translation>
     </message>
     <message>
-        <source>Admin path</source>
-        <translation>Ruta de l&apos;administració</translation>
+        <source>URL for admin access</source>
+        <translation type="unfinished">URL para el acceso del administrador</translation>
     </message>
     <message>
-        <source>Admin port</source>
-        <translation>Port de l&apos;administració</translation>
+        <source>Port for admin access</source>
+        <translation type="unfinished">Puerto para el acceso del administrador</translation>
     </message>
     <message>
-        <source>Admin hostname</source>
-        <translation>Nom del servidor de l &apos;administració</translation>
+        <source>Hostname for admin access</source>
+        <translation type="unfinished">Nombre de alojamiento (hostname) para el acceso del administrador</translation>
     </message>
     <message>
-        <source>Database not empty: </source>
-        <translation>La base de dades no és buida:</translation>
+        <source>Database not empty</source>
+        <translation type="unfinished">Base de datos no vacía</translation>
     </message>
     <message>
         <source>Leave the data and add new</source>
-        <translation>Deixa la informació i afegeix-ne de nova</translation>
+        <translation type="unfinished">Dejar los datos y añade nuevos</translation>
     </message>
     <message>
         <source>Remove existing data</source>
-        <translation>Esborra la informació existent</translation>
+        <translation type="unfinished">Eliminar los datos existentes</translation>
     </message>
     <message>
         <source>Leave the data and do nothing</source>
-        <translation>Deixa la informació i no facis res</translation>
+        <translation type="unfinished">Dejar los datos y no hacer nada</translation>
     </message>
     <message>
         <source>I&apos;ve chosen a new database</source>
-        <translation>He escollit una nova base de dades</translation>
+        <translation type="unfinished">Escogeré una nueva base de datos</translation>
     </message>
     <message>
-        <source>You may modify the details for each site.</source>
-        <translation>Pots modificar els detalls per a cada lloc.</translation>
+        <source>Fill out the details for each site.</source>
+        <translation type="unfinished">Rellena los detalles para cada sitio</translation>
     </message>
     <message>
-        <source>For more information about how to configure site access, please refer to the %1</source>
-        <translation>Si vols més informació sobre la configuració de l&apos;accés al lloc (&quot;site access&quot;), adreçat a %1</translation>
+        <source>For more information on how to configure site access, see the %1</source>
+        <translation type="unfinished">Para más información sobre cómo configurar el acceso del sitio, mira el %1</translation>
     </message>
     <message>
         <source>documentation</source>
         <comment>site access documentation link</comment>
-        <translation>documentació</translation>
+        <translation type="unfinished">documentación</translation>
     </message>
     <message>
-        <source>Use the refresh button to update the database listing(s).</source>
-        <translation>Fes servir el botó per actualizar per posar al dia el/s llistat/s de la base de dades.</translation>
+        <source>Use the refresh button to update database list.</source>
+        <translation type="unfinished">Utiliza el botón de actualización para actualizar la lista de base de datos.</translation>
     </message>
     <message>
-        <source>Site templates</source>
-        <translation>Plantilles del lloc</translation>
+        <source>Choose site templates</source>
+        <translation type="unfinished">Elegir plantillas del sitio</translation>
+    </message>
+    <message>
+        <source>Choose one or more site templates for your site</source>
+        <translation type="unfinished">Elige una o más plantillas de sitio para tu sitio</translation>
     </message>
     <message>
         <source>Select which sites you would like to install on your system.</source>
-        <translation>Selecciona quins llocs vols instal·lar en el teu sistema.</translation>
+        <translation type="unfinished">Selecciona qué sitios te gustaría instalar en tu sistema.</translation>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation>Cada plantilla del lloc crearà un lloc web únic.</translation>
+        <translation type="unfinished">Cada plantilla de sitio creará un único sitio web.</translation>
     </message>
     <message>
-        <source>Since each web site is unique, each site template requires a unique database.</source>
-        <translation>Ja que cada lloc web és únic, cada plantilla del lloc requereix una base de dades única.</translation>
-    </message>
-    <message>
-        <source>Next &amp;gt;</source>
-        <translation>Següent &amp;gt;</translation>
-    </message>
-    <message>
-        <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
-        <translation>Hi ha alguns temes importants que s&apos;han de resoldre. La llista es presenta a baix. Cada secció conté una descripció i una solució recomanada o suggerida.</translation>
-    </message>
-    <message>
-        <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
-        <translation>Un cop els problemes/qüestions s&apos;hagin solucionat, pots fer clic al botó &lt;i&gt;Següent&lt;/i&gt; per continuar. La comprovació de sistema arrencarà de nou. Si tot és correcte, la configuració seguirà fins al següent estadi. Si hi ha cap problema, tornarà a aparèixer la pàgina de comprovació de sistema.</translation>
-    </message>
-    <message>
-        <source>Some issues may be ignored by checking the &lt;i&gt;Ignore this test&lt;/i&gt; checkbox(es); however, this is not recommended.</source>
-        <translation>Algunes qüestions s&apos;ignoraran en marcar la/es casella/es &lt;i&gt;Ignora aquesta prova&lt;/i&gt;: tot i així, no és recomanable.</translation>
+        <source>Since each web site is unique, each site template require a unique database.</source>
+        <translation type="unfinished">Como que cada sitio web es único, cada plantilla de sitio requiere un única base de datos.</translation>
     </message>
     <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
-        <translation>El comprovador del sistem ha trobat algunes qüestions que s&apos;han de solucionar abans que continuï la configuració.</translation>
+        <translation type="unfinished">El chequeo de sistema encontró algunos temas que deben ser resueltos antes de que la configuración pueda continuar.</translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
-        <translation>Un cop hagis solucionat els problemes, fes clic al botó %1 per tornar a arrencar la comprovació del sistema. Pots ignorar aquest test específic marcant les caselles de comprovació.</translation>
+        <translation type="unfinished">Una vez resuelvas los problemas clica el botón %1 para volver a arrancar el chequeo de sistema. También puedes ignorar los test específicos clicando las check boxes.</translation>
     </message>
     <message>
         <source>Ignore this test</source>
-        <translation>Ignora aquesta prova</translation>
+        <translation type="unfinished">Ignorar este test</translation>
     </message>
     <message>
-        <source>The system check page is being displayed. This means that there are some problems/issues present.</source>
-        <translation>S&apos;està mostrant la pàgina del comprovador del sistema.Això vol dir que hi ha alguns problemes o quëstions.</translation>
+        <source>The setup has detected some system settings which must be changed.</source>
+        <translation type="unfinished">La configuración ha detectado algunas configuraciones de sistema que han de ser cambiadas.</translation>
     </message>
     <message>
-        <source>These issues have to be resolved/fixed, or else, eZ publish will not function properly.</source>
-        <translation>Aquestes temes s&apos;han de resoldre o solucionar. Si no, eZ publish no funcionarà correctament.</translation>
-    </message>
-    <message>
-        <source>The problems are usually file-system related and can be easily fixed by copy / paste / run-ing the suggested commands in a system shell.</source>
-        <translation>Els problemes són normalment relacionats amb el sistema d&apos;arxius, i es poden solucionar-se ràpidament amb copia/enganxa els comandaments suggerits en el sistema d&apos;intèrpret de comandaments.</translation>
+        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
+        <translation type="unfinished">Si esto no está correcto, eZ publish probablemente no podrá instalarse  correctamente y funcionar adecuadamente.</translation>
     </message>
     <message>
         <source>Welcome to eZ publish %1</source>
-        <translation>Benvingut/da a eZ publish %1</translation>
+        <translation type="unfinished">Bienvenido a eZ publish %1</translation>
     </message>
     <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
-        <translation>Benvingut/da al sistema de gestió de continguts i marc de desenvolupament eZ publish. Aquest assistent t&apos;ajudarà a configurar eZ publish.&lt;br&gt;Fes clic a &lt;i&gt;Següent&lt;/i&gt; per continuar.</translation>
+        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
+        <translation type="unfinished">Bienvenido a el sistema de mantenimiento de contenidos y framework de desarrollo de eZ publish. Este asistente te ayudará a configurar eZ publish. Por favor, lee la sección de requerimientos de abajo y clica siguiente para proceder.</translation>
+    </message>
+    <message>
+        <source>Requirements</source>
+        <translation type="unfinished">Requerimientos</translation>
+    </message>
+    <message>
+        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
+        <translation type="unfinished">Necesitarás obtener información sobre a qué servidor de base de datos puede conectarse eZ publish. Los siguientes servidores de bases de datos son soportados (ambos son libres):</translation>
+    </message>
+    <message>
+        <source>recommended</source>
+        <translation type="unfinished">recomendado</translation>
+    </message>
+    <message>
+        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
+        <translation type="unfinished">Clica &quot;siguiente&quot; para comenzar la configuración de eZ publish.</translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
-        <translation>Aquesta secció contindrà determinada informació i ajuda per a cada pas de l&apos;assistent de configuració.</translation>
+        <translation type="unfinished">Esta sección contendrá informaión/ayuda sobre cada paso en el asistente de configuración.</translation>
     </message>
     <message>
         <source>The summary section below will contain information about configured settings.</source>
-        <translation>La secció de sumari de sota contindrà informació sobre les opcions configurades.</translation>
+        <translation type="unfinished">La sección sumario de abajo contendrá información sobre las opciones de configuración.</translation>
     </message>
     <message>
-        <source>No data will be stored in the database until the final step of the setup.</source>
-        <translation>No s&apos;emmagatzemarà cap informació en la base de dades fins l&apos;últim pas de la configuració.</translation>
+        <source>No data will be stored in the database until the final step of the installation.</source>
+        <translation type="unfinished">No se podrán almacenar datos en la base de datos hasta el último paso de la instalación.</translation>
     </message>
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
-        <translation>Pots trobar informació sobre com configurar eZ publish manualment a %1.</translation>
+        <translation type="unfinished">La información sobre como configurar manualmente eZ publish está disponible en %1.</translation>
     </message>
     <message>
         <source>here</source>
         <comment>manual installation link</comment>
-        <translation>aquí</translation>
+        <translation type="unfinished">aquí</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/operatorcode</name>
     <message>
         <source>Example</source>
-        <translation>Exemple</translation>
+        <translation>Ejemplo</translation>
     </message>
     <message>
         <source>Constructor, does nothing by default.</source>
-        <translation>Constructor, per defecte no fa res.</translation>
+        <translation>Constructor, no hace nada por defecto.</translation>
     </message>
     <message>
         <source>\return an array with the template operator name.</source>
-        <translation>\retorna una tabla amb el nom de l&apos;operador de plantilles.</translation>
+        <translation>\retornar una tabla con el nombre de operador de plantillas.</translation>
     </message>
     <message>
         <source>Executes the PHP function for the operator cleanup and modifies \a $operatorValue.</source>
-        <translation>Execita la funció PHP per a la neteja de l&apos;operador i modifica \ $operatorValue.</translation>
+        <translation>Ejecuta la función PHP para la limpieza del operador y modifica \a $operatorValue.</translation>
     </message>
     <message>
         <source>Example code, this code must be modified to do what the operator should do, currently it only trims text.</source>
-        <translation>Codi d&apos;exemple. Aquest codi ha de ser modificat perquè faci el que l&apos;operador demani, actualment només neteja les cadenes de text.</translation>
+        <translation>Código de ejemplo. Este código debe ser modificado para hacer lo que el operador debe hacer. Actualmente solo limpia texto.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/setup/tests</name>
     <message>
         <source>Missing database handlers</source>
-        <translation>Els gestors de la base de dades són absents</translation>
+        <translation>Se han perdido los procesadores de la base de datos</translation>
     </message>
     <message>
         <source>Your PHP does not have support for all databases that eZ publish support.</source>
-        <translation>El teu PHP no suporta totes les bases de dades que eZ publish suporta.</translation>
+        <translation>Tu PHP no tiene soporte para todas las bases de datos que soporta eZ publish.</translation>
     </message>
     <message>
         <source>Allthough eZ publish will work without it, it might be that you want to have support for this database.</source>
-        <translation>Tot i que eZ publish funcionarà sense això, potser t&apos;interessa tenir suport per a aquesta base de dades.</translation>
+        <translation>Aunque eZ publish funcionará si esto, quizá te interesa tener soporte para esta base de datos.</translation>
     </message>
     <message>
         <source>Also some databases has more advanced features, such as charset, than others.</source>
-        <translation>També algunes bases de dades tenen més funcionalitats avançades, com el joc de caràcters, que d&apos;altres.</translation>
+        <translation>También algunas bases de datos tienen  más características avanzadas, tales como caracteres, entre otros.</translation>
     </message>
     <message>
         <source>To obtain more database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation>Per aconseguir suport a d&apos;altres bases de dades cal que tornis a compilar el PHP. Les opcions exactes de recompilació estan especificades a sota.</translation>
+        <translation>Para obtener mayor soporte de base de datos necesitas recompilar PHP, el extracto de opciones de recompilación esta especificado debajo.</translation>
     </message>
     <message>
         <source>Missing database handler</source>
-        <translation>Els gestors de la base de dades són absents</translation>
+        <translation>Se ha perdido el procesador de la base de datos</translation>
     </message>
     <message>
         <source>No supported database handlers were found. eZ publish requires a database to store it&apos;s data, without one the system will fail.</source>
-        <translation>No s&apos;han trobat gestors de bases de dades suportats. eZ publish necessita una base de dades per emmagatzemar les seves dades. Si no n&apos;hi ha, el sistema podria fallar.</translation>
+        <translation>No se encontraron los procesadores de las base de datos soportada. eZ publish requiere una base de datos para almacenar sus datos, sin la cula el sistema fallará.</translation>
     </message>
     <message>
         <source>To obtain database support you need to recompile PHP, the exact recompile options are specified below.</source>
-        <translation>Per aconseguir suport per a la bases de dades cal que tornis a compilar el PHP. Les opcions exactes de recompilació estan especificades a sota.</translation>
+        <translation>Para obtener soporte de la base de datos necesitas recompilar PHP, el extracto de las opciones de recompolación está especificado debaje.</translation>
     </message>
     <message>
         <source>Insufficient directory permissions</source>
-        <translation>No hi ha permisos suficients per al directori</translation>
+        <translation>Permisos de directorio insuficientes</translation>
     </message>
     <message>
         <source>eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail.</source>
-        <translation>eZ publish no pot escriure en alguns directoris importants. sense això aquesta configuració finalitzarà i algunes parts d&apos;eZ publish fallaran.</translation>
+        <translation>eZ publish no puede escribir algunos directorios importantes, sin ellos, la configuración no puede finalizarse y partes del eZ publish podrían fallar.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that you fix this by running the commands below.</source>
-        <translation>És recomanable que ho solucionis amb els comandament de sota.</translation>
+        <translation>Es recomendable que lo soluciones con los comandos de abajo.</translation>
     </message>
     <message>
         <source>Shell commands</source>
-        <translation>Comandaments de l&apos;intèrpret d&apos;ordres</translation>
+        <translation>Comandos de Shell</translation>
     </message>
     <message>
         <source>File uploading is disabled</source>
-        <translation>La càrrega de fitxers està deshabilitada</translation>
+        <translation>La carga de ficheros está deshabilitada</translation>
     </message>
     <message>
         <source>File uploading is not enabled which means that it&apos;s impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it&apos;s recommended to enable file uploads.</source>
-        <translation>La càrrega de fitxers no està habilitada, per la qual cosa eZ publish no pot gestionar-la. La resta de parts d&apos;eZ publish funcionarà correctament, però és recomanable que activis la càrrega de fitxers.</translation>
+        <translation>La carga de ficheros no está habilitada, por lo que eZ publish no puede manipularla. El resto de partes de eZ publish funcionará correctamente, pero es recomendable que actives la carga de ficheros.</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation>Configuració</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Enabling file uploads is done by setting %1 in php.ini. Refer to the PHP manual for how to set configuration switches</source>
-        <translation>L&apos;activació de la càrrega de fitxers es fa mitjançant %1 al php.ini. Consulta el manual de PHP per saber com fer canvis en la configuració</translation>
+        <translation>La activación de la carga de ficheros se hace mediante %1 al php.ini. Consulta el manual de PHP para saber cómo hacer cambios en la configuración</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found by reading %1 and %2</source>
-        <translation>Pots trobar més informació sobre l&apos;activació de l&apos;extensió llegint %1 i %2</translation>
+        <translation>Puedes encontrar más información sobre la activación de la aplicación leyendo %1 y %2</translation>
     </message>
     <message>
         <source>Missing image conversion support</source>
-        <translation>El suport a la conversió d&apos;imatges és absent</translation>
+        <translation>El soporte a la conversión de imágenes está ausente</translation>
     </message>
     <message>
         <source>No image conversion capabilities was detected, this means that eZ publish cannot scale any images or detect their type. This is vital functionality in eZ publish and must be supported.</source>
-        <translation>S&apos;ha detectat que no hi ha la capacitat per convertir imatges. Això vol dir que eZ publish no ppot escalar imatges o coneixer el seu tipus. Aquesta és una funcionalitat vitat d&apos;eZ publish i cal que sigui suportada.</translation>
+        <translation>No se han detectado capacidades de conversión de imágenes, lo que significa que eZ publish no puede escalarlas o detectar su tipo. Esta es una funcionalidad vital en eZ publish y debe de ser soportada.</translation>
     </message>
     <message>
         <source>Missing imagegd extension</source>
-        <translation>L&apos;extensió d&apos;imatges GD és absent.</translation>
+        <translation>La extensión de imágenes está ausente</translation>
     </message>
     <message>
         <source>The imagegd extension is not available to eZ publish. Without it eZ publish will only be able to do conversion using ImageMagick and the</source>
-        <translation>L&apos;extensió d&apos;imatges GD no és disponible a eZ publish. Sense això eZ publish només podrà fer conversions usant l&apos;ImageMagick i el</translation>
+        <translation>La extensión de imágenes GD no está disponible en eZ publish. Sin esto, eZ publish tan solo podrá hacer conversiones usando el ImageMagick y el</translation>
     </message>
     <message>
         <source>template operator will not be available.</source>
-        <translation>l&apos;operador de plantilles no és disponible.</translation>
+        <translation>El operador de la plantilla no estará disponible.</translation>
     </message>
     <message>
         <source>Note:</source>
-        <translation>Anotacions:</translation>
+        <translation>Nota:</translation>
     </message>
     <message>
         <source>Future releases of eZ publish will have more advanced image support by using the imagegd extension.</source>
-        <translation>Les properes versions d&apos;eZ publish tindran més suport avançat per a imatges amb l&apos;ús d&apos;extensions d&apos;imatges GD.</translation>
+        <translation>Las próximas versiones de eZ publish tendrán más soporte avanzado para imágenes con el uso de la extensión de imágenes GD.</translation>
     </message>
     <message>
         <source>To enable imagegd you need to recompile PHP with support for it, more information on that subject is available at</source>
-        <translation>Per activar les imatges GD cal que tornis a compilar PHP amb suport per a això. Pots obtenir més informació sobre el tema a</translation>
+        <translation>Para activar las imágenes GD hace falta que vuelvas a compilar PHP con soporte para esto. Puedes obtener más información sobre el tema en</translation>
     </message>
     <message>
         <source>Missing ImageMagick program</source>
-        <translation>El programa ImageMagick és absent</translation>
+        <translation>Programa ImageMagik perdido</translation>
     </message>
     <message>
         <source>The ImageMagick program is not available to eZ publish. Without it eZ publish will not be able to do image conversion unless the imagegd extension is available.</source>
-        <translation>El programa ImageMagick no està disponible a eZ publish. Sense ell, eZ publish no podrà convertir imatges fins que l&apos;extensió d&apos;imatges GD estigui disponible.</translation>
+        <translation>El programa ImageMagick no está disponible en eZ publish. Sin ella, eZ publish no podrá convertir imágenes hasta que la extensión de imágenes GD esté disponible.</translation>
     </message>
     <message>
         <source>If you known where the program is installed (the executable is called</source>
-        <translation>Si saps on està instal·lat el programa (l&apos;executable es diu</translation>
+        <translation>Si sabes dónde está instalado el programa (el ejecutable se llama</translation>
     </message>
     <message>
         <source>or</source>
@@ -5572,83 +5504,83 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>)then enter the directory in the input field below and do a recheck (Separate multiple directories with a</source>
-        <translation>), introdueix aleshores el directori en el camp d&apos;entrada de sota i torna a fer una comprovació (separa directoris múltiples amb un</translation>
+        <translation>), introduce entonces el directorio en el campo de entrada inferior y vuelve a hacer una comprobación (separa directorios múltiples con un</translation>
     </message>
     <message>
         <source>colon</source>
-        <translation>dos punts</translation>
+        <translation>dos puntos</translation>
     </message>
     <message>
         <source>semicolon</source>
-        <translation>punt i coma</translation>
+        <translation>punto y coma</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation>Instal·lació</translation>
+        <translation>Instalación</translation>
     </message>
     <message>
         <source>ImageMagick may be downloaded from</source>
-        <translation>Pots descarregar ImageMagick de</translation>
+        <translation>ImageMagick puede ser descargado desde</translation>
     </message>
     <message>
         <source>Missing MBString extension</source>
-        <translation>L&apos;extensió MBString és absent</translation>
+        <translation>Extensión MBString perdida</translation>
     </message>
     <message>
         <source>eZ publish comes with a good list of supported charsets by default, however they can be a bit slow due to being made in pure PHP code. Luckily eZ publish supports the mbstring extension for handling some of the charsets.</source>
-        <translation>eZ publish inclou una bona llista de jocs de caràcters suportats. Tot i així, poden ser una mica lents ja que estan fets en PHP pur. Afortunadament, eZ publish suporta l&apos;extensió MBStrings per gestionar alguns dels jocs de caràcters.</translation>
+        <translation>eZ publish incluye una buena lista de codificación de caracteres soportados. Aún así, pueden ser un poco lentos, ya que están hechos en PHP puro. Afortunadamente, eZ publish soporta la extensión MBStrings para manipular alguna de las codificaciones de caracteres.</translation>
     </message>
     <message>
         <source>By enabling the mbstring extension eZ publish will have access to more charsets and also be able to process some of them faster, such as Unicode and iso-8859-*. This is recommended for multilingual sites and sites with more exotic charsets.</source>
-        <translation>En activar l&apos;extensió MBString eZ publish tindrà accés a més jocs de caràcters i també podrà processar alguns d&apos;aquest més ràpidament, com l&apos;Unicode o l&apos;ISO-8859·* Això està recomanat per a llocs multiidiomes i llocs amb jocs de caràcters més exòtics.</translation>
+        <translation>Activando la extensión MBString, eZ publish tendrá acceso a más codificación de caracteres y también podrá procesar algunos de ellos más rápidamente, como el Unicode o el ISO-8859·* Esto está recomendado para sitios multiidiomas y sitios con codificaciones más exóticas.</translation>
     </message>
     <message>
         <source>The complete list of charsets mbstring supports are:</source>
-        <translation>La llista completa de jocs de caràcters és:</translation>
+        <translation>La lista completa de caracteres que soporta mbstring es:</translation>
     </message>
     <message>
         <source>Installation of the mbstring extension is done by compiling PHP with the</source>
-        <translation>La instal·lació de l&apos;extensió MBString s&apos;ha fet en compilar OHO amb el</translation>
+        <translation>La instalación de las extensiones mbstring está hecha a través de la compilación PHP con el</translation>
     </message>
     <message>
         <source>option.</source>
-        <translation>opció.</translation>
+        <translation>opción.</translation>
     </message>
     <message>
         <source>More information on enabling the extension can be found at</source>
-        <translation>Pots trobar més informació sobre l&apos;activació de l&apos;extensió a</translation>
+        <translation>Puedes encontrar más información sobre la activación de la extensión en</translation>
     </message>
     <message>
         <source>Do not enable mbstring function overloading, eZ publish will only use the extension whenever it&apos;s needed.</source>
-        <translation>No activis la sobrecàrrega de l&apos;extensió MBString. eZ publish només farà servir l&apos;extensió quan la necessiti.</translation>
+        <translation>No actives la sobrecarga de la extensión MBString. eZ publish solo utilizará la extensión cuando la necesite.</translation>
     </message>
     <message>
         <source>PHP option</source>
-        <translation>L&apos;opció PHP</translation>
+        <translation>Opción PHP</translation>
     </message>
     <message>
         <source>is enabled</source>
-        <translation>és activa</translation>
+        <translation>está permitida</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables need to be be converted back to</source>
-        <translation>eZ publish treballarà amb aquesta opció activada. Tot i així, comportarà un menor rendiment fins que totes les variables d&apos;entrada necessitin de tornar a convertir-se a</translation>
+        <translation>eZ publish trabajará con esta opción activada. Aún así, comportará un menor rendimiento hasta que todas las variables de entrada necesiten volver a convertirse en</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation>normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your</source>
-        <translation type="obsolete">És recomanable que l&apos;opció estigui inhabilitada. Per fer-ho, edita la teva</translation>
+        <translation type="obsolete">Es recomandable que la opción esté apagada. Para apagarla edita tu</translation>
     </message>
     <message>
         <source>configuration and set</source>
-        <translation type="obsolete">configuració i posa</translation>
+        <translation type="obsolete">configuración y equipo</translation>
     </message>
     <message>
         <source>and</source>
-        <translation type="obsolete">i</translation>
+        <translation type="obsolete">y</translation>
     </message>
     <message>
         <source>to</source>
@@ -5656,258 +5588,218 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>More information on the subject can be found at</source>
-        <translation type="obsolete">Pots trobar més informació sobre el tema a</translation>
+        <translation type="obsolete">Puedes encontrar más información sobre el objeto en</translation>
     </message>
     <message>
         <source>Configuration example:</source>
-        <translation type="obsolete">Exemple de configuració:</translation>
+        <translation type="obsolete">Ejemplo de configuración:</translation>
     </message>
     <message>
         <source>Insufficient PHP version</source>
-        <translation>Versió de PHP insuficient</translation>
+        <translation>Versión PHP insuficiente</translation>
     </message>
     <message>
         <source>Your PHP version, which is </source>
-        <translation>La teva versió de PHP, que és</translation>
+        <translation>Tu versión PHP, tal cuál está,</translation>
     </message>
     <message>
         <source>, does not meet the minimum requirements of</source>
-        <translation>, no reuneix els reuqueriments mínims de</translation>
+        <translation>,no reune los requerimientos mínimos</translation>
     </message>
     <message>
         <source>A newer version of PHP can be download at</source>
-        <translation>Pots descarregar una versió més nova de PHP a</translation>
+        <translation>Puedes descargarte una versión PHP más nueva en</translation>
     </message>
     <message>
         <source>You must upgrade to at least version </source>
-        <translation>Cal que actualitzis almenys a la versió</translation>
+        <translation>Debes actualizar al menos la versión</translation>
     </message>
     <message>
         <source>, but an even newer version, such as 4.2.3, is highly recommended.</source>
-        <translation>, però una versió més nova, com ara la 4.2.3, és molt recomanable.</translation>
+        <translation>, pero cualquier versión más nueva, como la 4.2.3, es altamente recomendable.</translation>
     </message>
     <message>
         <source>eZ publish cannot write to the</source>
-        <translation>eZ publish no ha pogut escriure al</translation>
+        <translation>eZ publish no puede escribir en el</translation>
     </message>
     <message>
         <source>directory, without this the setup cannot disable itself.</source>
-        <translation>directori. Sense això la configuració no es podrà desactivar per ella mateixa.</translation>
+        <translation>directorio. Sin esto la configuración no podrá desactivarse por ella misma.</translation>
     </message>
     <message>
         <source>Missing zlib extension</source>
-        <translation>L&apos;extensió zlib és absent</translation>
+        <translation>La extensión zlib está ausente</translation>
     </message>
     <message>
         <source>The zlib extension is not available to eZ publish. Without it eZ publish will not be able to install the demo data, however if you do not wish the demo data you can safely ignore this.</source>
-        <translation>L&apos;extensió zlib no està disponible a eZ publish. Sense aquesta extensió eZ publish no podrà instal·lar les dades de demostració. Tot i així, si tu no vols aquestes dades de demostració, pots ignora tranquil·lament aquest fet.</translation>
+        <translation>La extensión alib no está disponible en eZ publish. Sin esta extensión eZ publish no podrá instalar los datos de demostración. Sin embargo, si tu no quieres estos datos de demostración, puedes ignorar tranquilamente este hecho.</translation>
     </message>
     <message>
         <source>To enable zlib you need to recompile PHP with support for it. You will need to configure PHP with</source>
-        <translation>Per activar zlib, cal que tornis a compilar PHP amb suport per a aquesta extensió. Necessitaràs configurar PHP amb</translation>
+        <translation>Para activar zlib, hace falta que vuelvas a compilar PHP con soporte para esta extensión. Necesitarás configurar PHP con</translation>
     </message>
     <message>
         <source>More information on that subject is available at</source>
-        <translation>Pots trobar més informació sobre aquest tema a</translation>
+        <translation>Hay más información disponible sobre este objeto en</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 and %3 to %4.</source>
-        <translation>Es recomana que l&apos;opció estigui desactivada. Per fer-ho edita la teva configuració de %1 i posa-la a %2 i %3 a %4.</translation>
+        <translation>Se recomienda que la opción esté apagada. Para apagarla edita tu configuración %1 y fija %2 y %3 a %4.</translation>
     </message>
     <message>
         <source>More information on the subject can be found at %1.</source>
-        <translation>Pots trobar més informació sobre aquest tema a %1.</translation>
+        <translation>Más información sobre el sujeto puede encontrarse en %1.</translation>
     </message>
     <message>
         <source>php.ini example:</source>
-        <translation>Exemple de php.ini:</translation>
+        <translation>ejemplo php.ini:</translation>
     </message>
     <message>
         <source>Alternatively you may create a file called %1 in your eZ publish root folder and add the following:</source>
-        <translation>Com a alternativa, pots crear un fitxer anomenat %1 en la carpeta arrel d&apos;eZ publish i afegeix el següent:</translation>
+        <translation>Alternativamente puedes crear un archivo llamado %1 en tu carpeta raíz de eZ publish y añadir lo siguiente:</translation>
     </message>
     <message>
         <source>.htaccess example:</source>
-        <translation>Exemple de .htaccess:</translation>
+        <translation>ejemplo .htaccess:</translation>
     </message>
     <message>
         <source>PHP option %1 is enabled</source>
-        <translation>L&apos;opció de PHP %1 està activada</translation>
+        <translation>La opción PHP %1 está habilitada</translation>
     </message>
     <message>
         <source>eZ publish will work with this option on however it will lead to some minor performance issues since all input variables will be made global on each script execution.</source>
-        <translation>eZ publish treballarà amb aquesta opció activada, però comportarà una reproducció una mica inferior fins que totes les variables d&apos;entrada siguin globals per a cada execució de seqüències (scripts).</translation>
+        <translation>eZ publish puede trabajar con esta opción encendida, sin embargo te comportará una reproducción inferior hasta que todas las variables de entrada se conviertan en generales para cada ejecución de script.</translation>
     </message>
     <message>
         <source>It&apos;s recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3.</source>
-        <translation>Es recomana que l&apos;opció estigui desactivada. Per fer-ho edita la teva configuració de %1 i posa-la %2 a %3.</translation>
+        <translation>Se recomienda que la opción esté apagada. Para apagarla edita tu configuración %1 y fija %2 a %3.</translation>
     </message>
     <message>
         <source>PHP safe mode is enabled</source>
-        <translation>La modalitat segura de PHP està activada</translation>
+        <translation>El modo seguro PHP está activado</translation>
     </message>
     <message>
         <source>eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:</source>
-        <translation>eZ publish pot treballar amb la modalitat segura activada, però hi haurà diverses característiques que no seran disponibles. Algunes de les coses que pot passar són:</translation>
-    </message>
-    <message>
-        <source>Insufficient execution time allowed to install eZ publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish will not work correctly with a execution time limit of %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It&apos;s highly recommended that you fix this.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Locate the php.ini settings file for your PHP installation. On unix systems, this is normally located at /etc/php.ini, on windows systems check the PHP installation path.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the php.ini file and change the max_execution_time value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished">Següent</translation>
-    </message>
-    <message>
-        <source>If you are running eZ publish in a shared host environment, contant your ISP to perform the changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Insufficient memory allocated to install eZ publish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>eZ publish will not work correctly with a memory limit of %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open the php.ini file and change the memory_limit value to at least %1, and press %2</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ publish puede trabajar con el modo seguro encendido. Sin embargo, pueden haber algunas características que esté indisponibles. Algunas de las cosas que pueden ocurrir son:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop</name>
     <message>
         <source>Basket</source>
-        <translation>Cistella</translation>
+        <translation>Cesta</translation>
     </message>
     <message>
         <source>Subtotal Ex. VAT:</source>
-        <translation>Subtotal sense IVA:</translation>
+        <translation>Subtotal sin IVA:</translation>
     </message>
     <message>
         <source>Subtotal Inc. VAT:</source>
-        <translation>Subtotal amb IVA:</translation>
+        <translation>Subtotal con IVA:</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Continue shopping</source>
-        <translation>Continua amb la compra</translation>
+        <translation>Continuar comprando</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation>Caja</translation>
     </message>
     <message>
         <source>You have no products in your basket</source>
-        <translation>No tens productes en la cistella</translation>
+        <translation>No tienes productos en tu cesta</translation>
     </message>
     <message>
         <source>Confirm order</source>
-        <translation>Confirma la comanda</translation>
+        <translation>Confirmar el pedido</translation>
     </message>
     <message>
         <source>Product items</source>
-        <translation>Articles</translation>
+        <translation>Productos</translation>
     </message>
     <message>
         <source>Order summary:</source>
-        <translation type="obsolete">Resum de comanda:</translation>
+        <translation type="obsolete">Resumen del pedido:</translation>
     </message>
     <message>
         <source>Subtotal of items:</source>
-        <translation type="obsolete">Subtotal d&apos;articles:</translation>
+        <translation type="obsolete">Subtotal de entradas:</translation>
     </message>
     <message>
         <source>Order total:</source>
-        <translation type="obsolete">Total comanda:</translation>
+        <translation type="obsolete">Total del pedido:</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation>Confirma</translation>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <source>Group view</source>
-        <translation>Vista de grup</translation>
+        <translation>Vista de grupo</translation>
     </message>
     <message>
         <source>Percent</source>
-        <translation>Percentatge</translation>
+        <translation>Porcentaje</translation>
     </message>
     <message>
         <source>Add Rule</source>
-        <translation>Afegeix una norma</translation>
+        <translation>Añadir regla</translation>
     </message>
     <message>
         <source>Remove Rule</source>
-        <translation>Esborra una norma</translation>
+        <translation>Eliminar regla</translation>
     </message>
     <message>
         <source>Customers</source>
-        <translation>Clients</translation>
+        <translation>Clientes</translation>
     </message>
     <message>
         <source>Add customer</source>
-        <translation>Afegeix un client</translation>
+        <translation>Añadir clientes</translation>
     </message>
     <message>
         <source>Remove customer</source>
-        <translation>Esborra un client</translation>
+        <translation>Eliminar clientes</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation>Edita una norma</translation>
+        <translation>Editando regla</translation>
     </message>
     <message>
         <source>Choose which classes or sections applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation type="obsolete">Escull quines classes o seccions s&apos;apliquen a aquesta subregla. &apos;Qualsevol&apos; significa que la regla s&apos;aplicarà a totes.</translation>
+        <translation type="obsolete">Elige qué clases o secciones se aplican a esta subregla. &apos;Cualquiera? significa que la regla se aplicará a todas.</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation>Qualsevol</translation>
+        <translation>Cualquiera</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation>Llista de comandes</translation>
+        <translation>Lista de pedidos</translation>
     </message>
     <message>
         <source>ID</source>
@@ -5915,51 +5807,51 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>Data</translation>
+        <translation>Fecha</translation>
     </message>
     <message>
         <source>Customer</source>
-        <translation>Client</translation>
+        <translation>Cliente</translation>
     </message>
     <message>
         <source>Total ex. VAT</source>
-        <translation>Total sense IVA</translation>
+        <translation>Total sin IVA</translation>
     </message>
     <message>
         <source>Total inc. VAT</source>
-        <translation>Total amb IVA</translation>
+        <translation>Total con IVA</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation>Comanda</translation>
+        <translation>Pedido</translation>
     </message>
     <message>
         <source>Customer:</source>
-        <translation type="obsolete">Client:</translation>
+        <translation type="obsolete">Cliente:</translation>
     </message>
     <message>
         <source>VAT Types</source>
-        <translation>Tipus d&apos;IVA</translation>
+        <translation>Tipos de iva</translation>
     </message>
     <message>
         <source>Wish list</source>
-        <translation>Llista de desitjos</translation>
+        <translation>Lista de deseos</translation>
     </message>
     <message>
         <source>Remove item(s)</source>
-        <translation>Esborra el(s) article(s)</translation>
+        <translation>Eliminar entrada(s)</translation>
     </message>
     <message>
         <source>Empty wish list</source>
-        <translation>Llista desitjada buida</translation>
+        <translation>Lista de deseos vacía</translation>
     </message>
     <message>
         <source>Product</source>
-        <translation>Producte</translation>
+        <translation>Producto</translation>
     </message>
     <message>
         <source>Count</source>
-        <translation>Comptador</translation>
+        <translation>Cuenta</translation>
     </message>
     <message>
         <source>VAT</source>
@@ -5967,195 +5859,199 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     </message>
     <message>
         <source>Price ex. VAT</source>
-        <translation>Preu sense IVA</translation>
+        <translation>Precio sin IVA</translation>
     </message>
     <message>
         <source>Price inc. VAT</source>
-        <translation>Preu amb IVA</translation>
+        <translation>Precio con IVA</translation>
     </message>
     <message>
         <source>Discount</source>
-        <translation>Descompte</translation>
+        <translation>Descuentos</translation>
     </message>
     <message>
         <source>Total Price ex. VAT</source>
-        <translation>Preu total sense IVA</translation>
+        <translation>Precio total sin IVA</translation>
     </message>
     <message>
         <source>Total Price inc. VAT</source>
-        <translation>Preu total amb IVA</translation>
+        <translation>Precio total con IVA</translation>
     </message>
     <message>
         <source>Discount groups</source>
-        <translation>Grups de descompte</translation>
+        <translation>Grupos de descuento</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Edit discount group - %1</source>
-        <translation>Edita el grup de descomptes - %1</translation>
+        <translation>Editar grupos de descuento - %1</translation>
     </message>
     <message>
         <source>Group Name</source>
-        <translation>Nom del grup</translation>
+        <translation>Nombre de grupo</translation>
     </message>
     <message>
         <source>Defined rules</source>
-        <translation>Normes definides</translation>
+        <translation>Reglas definidas</translation>
     </message>
     <message>
         <source>Apply to</source>
-        <translation>Aplica a</translation>
+        <translation>Aplicar a </translation>
     </message>
     <message>
         <source>Discount percent</source>
-        <translation>Percentatge de descompte</translation>
+        <translation>Porcentaje de descuento</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Section</source>
-        <translation>Secció</translation>
+        <translation>Sección</translation>
     </message>
     <message>
         <source>Order:</source>
-        <translation type="obsolete">Comanda:</translation>
+        <translation type="obsolete">Orden:</translation>
     </message>
     <message>
         <source>Subtotal of items</source>
-        <translation>Subtotal d&apos;articles</translation>
+        <translation>Subtotal de entradas</translation>
     </message>
     <message>
         <source>The order list is empty</source>
-        <translation>La llista de comandes és buida</translation>
+        <translation>La lista de la compra está vacía</translation>
     </message>
     <message>
         <source>Order total</source>
-        <translation>Total de comandes</translation>
+        <translation>Total del pedido</translation>
     </message>
     <message>
         <source>Register account information</source>
-        <translation>Informació de registre de compte</translation>
+        <translation>Registrar información de cuenta</translation>
     </message>
     <message>
         <source>Input did not validate, fill in all fields</source>
-        <translation>L&apos;entrada no s&apos;ha validat. Emplena tots els camps</translation>
+        <translation>La entrada no ha sido validada, rellenar todos los campos</translation>
     </message>
     <message>
         <source>Percentage</source>
-        <translation>Percentatge</translation>
+        <translation>Porcentaje</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Troba</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Attributes</source>
-        <translation>Atributs</translation>
+        <translation>Atributos</translation>
     </message>
     <message>
         <source>Rule settings</source>
-        <translation>Configuració de normes</translation>
+        <translation>Configuraciones de regla</translation>
     </message>
     <message>
         <source>Choose which classes, sections or objects ( products ) applied to this sub rule, &apos;Any&apos; means the rule will applied to all.</source>
-        <translation>Tria a quines classes, seccions o objectes (productes) s&apos;han d&apos;aplicar aquesta subnorma. Si tries &apos;Qualsevol&apos;, la norma s&apos;aplicarà a tots.</translation>
+        <translation>Elige qué clases, secciones u objetos (productos) a los que hay que aplicar esta sub regla. &apos;Ninguna&apos; significa que la regla será aplicada a todos.</translation>
     </message>
     <message>
         <source>Object</source>
-        <translation>Objecte</translation>
+        <translation>Objeto</translation>
     </message>
     <message>
         <source>Not specified.</source>
-        <translation>No especificat.</translation>
+        <translation>No especificado.</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation>Ordena</translation>
+        <translation>Ordenar</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation>Cognom</translation>
+        <translation>Apellido</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation>Correu electrònic</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>Adreça</translation>
+        <translation>Dirección</translation>
     </message>
     <message>
         <source>Payment was cancelled for an unknown reason. Please try to buy again.</source>
-        <translation>S&apos;ha cancel·lat el pagament per motius desconeguts. Torna a provar-ho.</translation>
+        <translation>El pago fué cancelado por una razón desconocida. Por favor, intenta comprar de nuevo.</translation>
     </message>
     <message>
         <source>Order summary</source>
-        <translation>Sumari de comandes</translation>
+        <translation>Sumario del pedido</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Customer name</comment>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Sort Result by</source>
-        <translation>Ordre dels resultats per</translation>
+        <translation>Ordenar los resultados por</translation>
     </message>
     <message>
         <source>Order Time</source>
-        <translation>Data de comanda</translation>
+        <translation>Fecha del pedido</translation>
     </message>
     <message>
         <source>User Name</source>
-        <translation>Nom d&apos;usuari</translation>
+        <translation>Nombre de usuario</translation>
     </message>
     <message>
         <source>Order ID</source>
-        <translation>Núm. de comanda</translation>
+        <translation>ID del pedido</translation>
     </message>
     <message>
         <source>Ascending</source>
-        <translation>Ascendent</translation>
+        <translation>Ascendente</translation>
     </message>
     <message>
         <source>Sort ascending</source>
-        <translation>Ordre ascendent</translation>
+        <translation>Orden ascendente</translation>
     </message>
     <message>
         <source>Descending</source>
-        <translation>Descendent</translation>
+        <translation>Descendente</translation>
     </message>
     <message>
         <source>Sort descending</source>
-        <translation>Ordre descendent</translation>
+        <translation>Orden descendente</translation>
     </message>
     <message>
         <source>Order %1</source>
-        <translation>Comanda %1</translation>
+        <translation>Pedido %1</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation>El teu compte ja està activat.</translation>
+        <translation>Tu cuenta está ahora activada.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>La clau enviada no és vàlida. El compte no ha estat activat.</translation>
+        <translation>Perdón, la clave enviada no es válida. La cuenta no ha sido activada.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/shop/view</name>
     <message>
         <source>Choose customers</source>
-        <translation>Tria els clients</translation>
+        <translation>Elegir clientes</translation>
     </message>
     <message>
         <source>Please choose the customers you want to add to discount group %groupname.
@@ -6163,15 +6059,15 @@ Per solucionar aquest problema cal que facis el següent:</translation>
     Select your customers and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Tria els clients que vols afegir al grup de descompte %groupname.
+        <translation>Por favor, elige los clientes que quieras añadir al grupo de descuento %groupname.
 
-Selecciona els clients i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferits per fer les seleccions de forma ràpida.
-Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</translation>
+Selecciona los clientes y clica el botón %buttonname.
+También es posible usar los elementos de reciente o favoritos para una selección rápida.
+Clica en nombres de objeto para cambiar la lista de navegación.</translation>
     </message>
     <message>
         <source>Choose product for discount</source>
-        <translation>Tria els productes amb descompte</translation>
+        <translation>Elige producto para descuento</translation>
     </message>
     <message>
         <source>Please choose the products you want to add to discount rule %discountname in discount group %groupname.
@@ -6179,77 +6075,81 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     Select your products and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation>Tria els productes que vols afegir al descompte %discountname en el grup de descomptes %groupname.
+        <translation>Por favor, elige los productos que quieras añadir a la regla de descuento %discountname en el grupo de descuento %groupname.
 
-Selecciona els productes i fes clic al botó %buttonname.
-També pots fer servir les opcions de Recents i Preferits per fer les seleccions de forma ràpida.
-Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</translation>
+Selecciona los productos y clica el botón %buttonname.
+También es posible usar los elementos de reciente o favoritos para una selección rápida.
+Clica en nombres de producto para cambiar la lista de navegación.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/trigger</name>
     <message>
         <source>Module Name</source>
-        <translation type="obsolete">Nom del mòdul</translation>
+        <translation type="obsolete">Nombre del módulo</translation>
     </message>
     <message>
         <source>Function Name</source>
-        <translation type="obsolete">Nom de la funció</translation>
+        <translation type="obsolete">Nombre de la función</translation>
     </message>
     <message>
         <source>Connect Type</source>
-        <translation type="obsolete">Tipus de connexió</translation>
+        <translation type="obsolete">Tipo de contacto</translation>
     </message>
     <message>
         <source>No workflow</source>
-        <translation>No hi ha flux de treball</translation>
+        <translation>No hay flujo de trabajo</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Trigger list</source>
-        <translation>Llista de detonants</translation>
+        <translation>Lista de disparadores</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation>Flux de treball</translation>
+        <translation>Flujo de trabajo</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Module name</source>
-        <translation>Nom de mòdul</translation>
+        <translation>Nombre de módulo</translation>
     </message>
     <message>
         <source>Function name</source>
-        <translation>Nom de funció</translation>
+        <translation>Nombre de función</translation>
     </message>
     <message>
         <source>Connect type</source>
-        <translation>Tipus de connexió</translation>
+        <translation>Tipo de conexión</translation>
     </message>
 </context>
 <context>
     <name>design/standard/url</name>
     <message>
         <source>All</source>
-        <translation>Tot</translation>
+        <translation>Todo</translation>
     </message>
     <message>
         <source>Valid</source>
-        <translation>Vàlid</translation>
+        <translation>Válido</translation>
     </message>
     <message>
         <source>Invalid</source>
-        <translation>Invàlid</translation>
+        <translation>Inválido</translation>
     </message>
     <message>
         <source>The URL is not considered valid anymore.</source>
-        <translation>La URL ja no estarà considerada com a vàlida.</translation>
+        <translation>La URL no se considera más válida.</translation>
     </message>
     <message>
         <source>This means that the url is no longer available or has been moved.</source>
-        <translation>Això vol dir que la URL ja no està disponible o s&apos;ha mogut.</translation>
+        <translation>Esto significa que la URL no está disponible más o que ha sido trasladada.</translation>
     </message>
     <message>
         <source>The URL points to %1.</source>
@@ -6257,35 +6157,35 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     </message>
     <message>
         <source>Last modified at %1</source>
-        <translation>Última modificació a %1</translation>
+        <translation>Última modificación en %1</translation>
     </message>
     <message>
         <source>URL has no modification date</source>
-        <translation>La URL no té data de modificació</translation>
+        <translation>La URL no tiene fecha de modificación</translation>
     </message>
     <message>
         <source>Last checked at %1</source>
-        <translation>Última comprovació a %1</translation>
+        <translation>Último chequeo en %1</translation>
     </message>
     <message>
         <source>URL has not been checked</source>
-        <translation>La URL no ha estat comprovada</translation>
+        <translation>La URL no ha sido chequeado</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>cancelar</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation>Filtre</translation>
+        <translation>Filtrar</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>URL</source>
@@ -6293,569 +6193,583 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
     </message>
     <message>
         <source>Last checked</source>
-        <translation>Última comprovació</translation>
+        <translation>Último chequeo</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modificat</translation>
+        <translation>Modificado</translation>
     </message>
     <message>
         <source>Popup</source>
-        <translation>Emergent</translation>
+        <translation>Popup</translation>
     </message>
     <message>
         <source>Never</source>
-        <translation>Mai</translation>
+        <translation>Nunca</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Desconegut</translation>
+        <translation>Desconocido</translation>
     </message>
     <message>
         <source>All URLs</source>
-        <translation>Totes les URL</translation>
+        <translation>Todas las URL</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation>URL invàlida</translation>
+        <translation>URL inválidas</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation>URL vàlida</translation>
+        <translation>URL válidas</translation>
     </message>
     <message>
         <source>Information on URL</source>
-        <translation>Informació d&apos;aquesta URL</translation>
+        <translation>Información en la URL</translation>
     </message>
     <message>
         <source>Objects which use this link</source>
-        <translation>Objectes que usen aquest enllaç</translation>
+        <translation>Objetos que usan este enlace</translation>
     </message>
     <message>
         <source>No object available</source>
-        <translation>No hi ha objectes disponibles</translation>
+        <translation>No hay objeto disponible</translation>
     </message>
 </context>
 <context>
     <name>design/standard/url/edit</name>
     <message>
         <source>Editing URL - %1</source>
-        <translation>Editant la URL - %1</translation>
+        <translation>Editar URL - %1</translation>
     </message>
 </context>
 <context>
     <name>design/standard/user</name>
     <message>
         <source>Login</source>
-        <translation>Nom de registre</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Activate account</source>
-        <translation>Activa el compte</translation>
+        <translation>Activar cuenta</translation>
     </message>
     <message>
         <source>Registed user profile</source>
-        <translation type="obsolete">Perfil d&apos;usuari registrat</translation>
+        <translation type="obsolete">Registrar perfil de usuario</translation>
     </message>
     <message>
         <source>Update Profile</source>
-        <translation type="obsolete">Actualitza el pefil</translation>
+        <translation type="obsolete">Actualizar perfil</translation>
     </message>
     <message>
         <source>Change Password</source>
-        <translation type="obsolete">Canvia la contrasenya</translation>
+        <translation type="obsolete">Cambiar contraseña</translation>
     </message>
     <message>
         <source>Change Setting</source>
-        <translation type="obsolete">Canvia la configuració</translation>
+        <translation type="obsolete">Cambiar preferencias</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Could not login</source>
-        <translation>No s&apos;ha pogut connectar</translation>
+        <translation>No se puede conectar</translation>
     </message>
     <message>
         <source>A valid username and password is required to login.</source>
-        <translation>Per connectar cal un nom d&apos;usuari i una contrasenya vàlids.</translation>
+        <translation>Para conectar se requiere un nombre de usuario válido y una contraseña.</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation type="obsolete">Subscriu-m&apos;hi</translation>
+        <translation type="obsolete">
+Inscribir</translation>
     </message>
     <message>
         <source>Change password for user</source>
-        <translation>Canvia la contrasenya per l&apos;usuari</translation>
+        <translation>Cambiar contraseña para el usuario</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>D&apos;acord</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Register user</source>
-        <translation>Registra l&apos;usuari</translation>
+        <translation>Registrar usuario</translation>
     </message>
     <message>
         <source>Input did not validate</source>
-        <translation>L&apos;entrada no s&apos;ha validat</translation>
+        <translation>La entrada no fue validada</translation>
     </message>
     <message>
         <source>Input was stored successfully</source>
-        <translation>L&apos;entrada s&apos;ha emmagatzemat amb èxit</translation>
+        <translation>La entrada se almacenó con éxito</translation>
     </message>
     <message>
         <source>Register</source>
-        <translation>Registra</translation>
+        <translation>Registrarse</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <source>User setting</source>
-        <translation>Configuració d&apos;usuari</translation>
+        <translation>Preferencias del usuario</translation>
     </message>
     <message>
         <source>Maximum login</source>
-        <translation>Nombre màxim de connexions simultànies</translation>
+        <translation>Login máximo</translation>
     </message>
     <message>
         <source>Is enabled</source>
-        <translation>S&apos;ha activat</translation>
+        <translation>Está activado</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Actualitza</translation>
+        <translation>Actualizar</translation>
     </message>
     <message>
         <source>User registered</source>
-        <translation>L&apos;usuari s&apos;ha registrat</translation>
+        <translation>Usuario registrado</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
-        <translation>El teu compte s&apos;ha emmagatzemat amb èxit.</translation>
+        <translation>Tu cuenta se ha creado con éxito.</translation>
     </message>
     <message>
         <source>E-Mail</source>
-        <translation>Correu electrònic</translation>
+        <translation>E-mail</translation>
+    </message>
+    <message>
+        <source>Generate</source>
+        <translation type="obsolete">Generar</translation>
     </message>
     <message>
         <source>Access not allowed</source>
-        <translation>Accés no permès</translation>
+        <translation>Acceso no permitido</translation>
     </message>
     <message>
         <source>You are not allowed to access %1.</source>
-        <translation>No tens permís per accedir a %1.</translation>
+        <translation>No tienes permisos para acceder a %1.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <source>Old Password</source>
-        <translation type="obsolete">Contrasenya antiga</translation>
+        <translation type="obsolete">Antigua contraseña</translation>
     </message>
     <message>
         <source>New Password</source>
-        <translation type="obsolete">Nova contrasenya</translation>
+        <translation type="obsolete">Nueva contraseña</translation>
     </message>
     <message>
         <source>Retype Password</source>
-        <translation type="obsolete">Torna a escriure la contrasenya</translation>
+        <translation type="obsolete">Reescribir contraseña</translation>
     </message>
     <message>
         <source>User profile</source>
-        <translation>Perfil d&apos;usuari</translation>
+        <translation>Usar perfil</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Edit Profile</source>
-        <translation type="obsolete">Edita el perfil</translation>
+        <translation type="obsolete">Editar perfil</translation>
     </message>
     <message>
         <source>Please retype your old password.</source>
-        <translation>Torna a escriure la teva antiga contrasenya.</translation>
+        <translation>Por favor, reescribe tu antigua contraseña.</translation>
     </message>
     <message>
         <source>Password didn&apos;t match, please retype your new password.</source>
-        <translation>La contrasenya no coincideix. Torna a escriure la teva nova contrasenya.</translation>
+        <translation>La contraseña no coincidió. Por favor, reescribe tu nueva contraseña.</translation>
     </message>
     <message>
         <source>Password successfully updated.</source>
-        <translation>La contrasenya s&apos;ha actualitzat correctament.</translation>
+        <translation>La contraseña se actualizó con éxito.</translation>
     </message>
     <message>
         <source>Login</source>
         <comment>Button</comment>
-        <translation>Connecta</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Sign Up</source>
         <comment>Button</comment>
-        <translation>Subscriu-m&apos;hi</translation>
+        <translation>
+Inscribir</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation>Edita el perfil</translation>
+        <translation>Editar perfil</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation>Canvia la contrasenya</translation>
+        <translation>Cambiar contraseña</translation>
     </message>
     <message>
         <source>Change setting</source>
-        <translation>Canvia la configuració</translation>
+        <translation>Cambiar configuración</translation>
     </message>
     <message>
         <source>Old password</source>
-        <translation>Contrasenya antiga</translation>
+        <translation>Antigua contraseña</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation>Nova contrasenya</translation>
+        <translation>Nueva contraseña</translation>
     </message>
     <message>
         <source>Retype password</source>
-        <translation>Torna a escriure la contrasenya</translation>
+        <translation>Escribir la contraseña de nuevo</translation>
     </message>
     <message>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation>El teu compte s&apos;ha creat amb èxit. S&apos;enviarà un missatge al compte de correu
-especificat. Cal que segueixis les instruccions d&apos;aquest missatge
-per activar el teu compte.</translation>
+        <translation>Tu cuenta ha sido creada con éxito. Se enviará un correo a la especificada
+dirección de correo. Necesitas seguir las instrucciones especificadas en ese correo para activar
+tu cuenta.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/user/forgotpassword</name>
     <message>
         <source>A mail has been send to the following e-mail address: %1. This e-mail contains a link you need to click so that we can confirm that the correct user is getting the new password.</source>
-        <translation>S&apos;ha tramès un correu a la següent adreça de correu: %1. Aquest correu conté un enllaç  que caldrà que facis clic per confirmar que l&apos;usuari correcte hagi rebut la nova contrasenya.</translation>
+        <translation>El correo electrónico ha sido enviado a la siguiente dirección: %1. Este correo contiene un enlace que necesitas clicar para que podamos confirmar que el usuario correcto está recibiendo la nueva contraseña.</translation>
     </message>
     <message>
         <source>There is no registered user with that e-mail address.</source>
-        <translation>No hi ha cap usuari registrat amb aquesta adreça de correu.</translation>
+        <translation>No hay ningún usuario registrado con esta dirección de correo.</translation>
     </message>
     <message>
         <source>Password was successfully generated and sent to:</source>
-        <translation type="obsolete">La contrasenya s&apos;ha generat i tramès correctament a:</translation>
+        <translation type="obsolete">La contraseña ha sido generada con éxito y enviada a :</translation>
     </message>
     <message>
         <source>Have you forgotten your password?</source>
-        <translation>Has oblidat la teva contrasenya?</translation>
+        <translation>¿Has olvidado tu contraseña?</translation>
     </message>
     <message>
         <source>If you have forgotten your password we can generate a new one for you. All you need to do is to enter your e-mail address and we will create a new password for you.</source>
-        <translation>Si has oblidat la teva contrasenya, podem generar-ne una de nova. Només cal que introdueixis la teva adreça de correu i et crearem una nova contrasenya.</translation>
+        <translation>Si has olvidado tu contraseña podemos generar otra para ti. Todo lo que tienes que hacer es introducir tu dirección de correo electrónico y se creará una nueva contraseña para ti.</translation>
     </message>
     <message>
         <source>E-mail:</source>
-        <translation type="obsolete">Correu electrònic:</translation>
+        <translation type="obsolete">Correo elctrónico:</translation>
     </message>
     <message>
         <source>Generate new password</source>
-        <translation>Genera una nova contrasenya</translation>
+        <translation>Generar una nueva contraseña</translation>
     </message>
     <message>
         <source>%1 new password</source>
-        <translation type="obsolete">%1 nova contrasenya</translation>
+        <translation type="obsolete">%1 nueva contraseña</translation>
     </message>
     <message>
         <source>Your account information</source>
-        <translation>La informació del teu compte</translation>
+        <translation>Tu información de cuenta</translation>
     </message>
     <message>
         <source>Email:</source>
-        <translation type="obsolete">Correu electrònic:</translation>
+        <translation type="obsolete">Correo electrónico:</translation>
     </message>
     <message>
         <source>Click here to get new password:</source>
-        <translation type="obsolete">Fes clic aquí per tenir la teva nova contrasenya:</translation>
+        <translation type="obsolete">Clica aquí para obtener una nueva contraseña:</translation>
     </message>
     <message>
         <source>New password:</source>
-        <translation type="obsolete">Nova contrasenya:</translation>
+        <translation type="obsolete">Nueva contraseña:</translation>
     </message>
     <message>
         <source>Password was successfully generated and sent to: %1</source>
-        <translation>S&apos;ha generat amb èxit la nova contrasenya, i s&apos;ha enviat a: %1</translation>
+        <translation>La contraseña ha sido generada con éxito y enviada a: %1</translation>
     </message>
     <message>
         <source>The key is invalid or has been used. </source>
-        <translation>La clau és invàlida o ja ha estat usada.</translation>
+        <translation>La clave no es válida o ya ha sido usada.</translation>
     </message>
     <message>
         <source>E-mail</source>
-        <translation>Correu electrònic</translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>%siteurl new password</source>
-        <translation>Nova contrasenya de %siteurl</translation>
+        <translation>Nueva contraseña de %siteurl</translation>
     </message>
     <message>
         <source>Click here to get new password</source>
-        <translation>Fes clic aquí per fer una nova contrasenya</translation>
+        <translation>Clica aquí para obtener una nueva contraseña</translation>
     </message>
     <message>
         <source>New password</source>
-        <translation>Nova contrasenya</translation>
+        <translation>Nueva contraseña</translation>
     </message>
 </context>
 <context>
     <name>design/standard/user/register</name>
     <message>
         <source>Confirm user registration at %1</source>
-        <translation type="obsolete">Confirma el registre d&apos;usuari a %1</translation>
+        <translation type="obsolete">Confirmar el registro del usuario en %1</translation>
+    </message>
+    <message>
+        <source>%1 new password</source>
+        <translation type="obsolete">%1 nueva contraseña</translation>
+    </message>
+    <message>
+        <source>Click here to get new password:</source>
+        <translation type="obsolete">Clica aquí para obtener una nueva contraseña:</translation>
     </message>
     <message>
         <source>New user registered at %1</source>
-        <translation type="obsolete">Nou usuari registrat a %1</translation>
+        <translation type="obsolete">Nuevo usuario registrado en %1</translation>
     </message>
     <message>
         <source>%1 registration info</source>
-        <translation>Informació de registre de %1</translation>
+        <translation>%1 Información del registro</translation>
     </message>
     <message>
         <source>Confirm user registration at %siteurl</source>
-        <translation>Confirma el registre d&apos;usuari a %siteurl</translation>
+        <translation>Confirma el registro de usuario en %siteurl</translation>
     </message>
     <message>
         <source>Your user account at %siteurl has been created</source>
-        <translation>S&apos;ha creat el teu compte d&apos;usuari a %siteurl</translation>
+        <translation>Tu cuenta de usuario en %siteurl ha sido creada</translation>
     </message>
     <message>
         <source>Account information</source>
-        <translation>Informació del compte</translation>
+        <translation>Información de cuenta</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation>Nom de registre</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation>Correu electrònic</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>Click the following URL to confirm your account</source>
-        <translation>Fes clic en la següent URL per confirmar el teu compte</translation>
+        <translation>Clica la siguiente URL para confirmar tu cuenta</translation>
     </message>
     <message>
         <source>New user registered at %siteurl</source>
-        <translation>Nou usuari registrat a %siteurl</translation>
+        <translation>Nuevo usuario registrado en %siteurl</translation>
     </message>
     <message>
         <source>A new user has registered.</source>
-        <translation>S&apos;ha registrat un nou usuari.</translation>
+        <translation>Se ha registrado un nuevo usuario.</translation>
     </message>
     <message>
         <source>Account information.</source>
-        <translation>Informació del compte.</translation>
+        <translation>Información de la cuenta.</translation>
     </message>
     <message>
         <source>Login</source>
         <comment>Login name</comment>
-        <translation>Nom de registre</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Link to user information</source>
-        <translation>Enllaç a la informació de l&apos;usuari</translation>
+        <translation>Enlace a la información de usuario</translation>
     </message>
     <message>
         <source>Thank you for registering at %siteurl.</source>
-        <translation>Gràcies per registrar-te a %siteurl.</translation>
+        <translation>Gracias por registrarte en %siteurl.</translation>
     </message>
     <message>
         <source>Your account information</source>
-        <translation>La informació del teu compte</translation>
+        <translation>Tu información de cuenta</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Connecta**</translation>
+        <translation>Contraseña</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow</name>
     <message>
         <source>Editing workflow</source>
-        <translation>Edita el flux de treball</translation>
+        <translation>Editando flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow stored</source>
-        <translation>El flux de treball s&apos;ha emmagatzemat</translation>
+        <translation>Flujo de trabajo almacenado</translation>
     </message>
     <message>
         <source>Data requires fixup</source>
-        <translation>Cal proveir les dades</translation>
+        <translation>Los datos se deben arreglar</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation>Grups</translation>
+        <translation>Grupos</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation>Esdeveniments</translation>
+        <translation>Eventos</translation>
     </message>
     <message>
         <source>New</source>
-        <translation>Nou</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Store</source>
-        <translation>Emmagatzema</translation>
+        <translation>Almacenar</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <source>Editing workflow group</source>
-        <translation type="obsolete">Edita grup de Work Flow</translation>
+        <translation type="obsolete">Editando grupo de flujo de trabajo</translation>
     </message>
     <message>
         <source>on</source>
-        <translation>a</translation>
+        <translation>en</translation>
     </message>
     <message>
         <source>Modified by</source>
-        <translation>Modificat per</translation>
+        <translation>Modificado por</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Workflow process</source>
-        <translation>Procés de flux de treball</translation>
+        <translation>Proceso de flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow process was created at</source>
-        <translation>El procés de flux de treball ha estat creat per</translation>
+        <translation>El proceso de flujos de trabajo fue creado en</translation>
     </message>
     <message>
         <source>and modified at</source>
-        <translation>i modificat per</translation>
+        <translation>y modificado en</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation>Flux de treball</translation>
+        <translation>Flujo de trabajo</translation>
     </message>
     <message>
         <source>Using workflow</source>
-        <translation>Usant el flux de treball</translation>
+        <translation>Usando flujo de trabajo</translation>
     </message>
     <message>
         <source>for processing.</source>
-        <translation>per processar.</translation>
+        <translation>por procesar.</translation>
     </message>
     <message>
         <source>User</source>
-        <translation>Usuari</translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <source>This workflow is running for user</source>
-        <translation>Aquest Work Flow està sent usat per l&apos;usuari</translation>
+        <translation>Este flujo de trabajo está funcionando para el usuario</translation>
     </message>
     <message>
         <source>Content object</source>
-        <translation>Objecte de contingut</translation>
+        <translation>Objeto de contenido</translation>
     </message>
     <message>
         <source>Workflow was created for content</source>
-        <translation>S&apos;ha creat el flux de treball  per al contingut</translation>
+        <translation>El flujo de trabajo fue creado para contenido</translation>
     </message>
     <message>
         <source>using version</source>
-        <translation>usant la versió</translation>
+        <translation>usando la versión</translation>
     </message>
     <message>
         <source>in parent</source>
-        <translation>emparentat</translation>
+        <translation>en padre</translation>
     </message>
     <message>
         <source>Workflow event</source>
-        <translation>Esdeveniment de flux de treball</translation>
+        <translation>Evento de flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow has not started yet, number of main events in workflow is</source>
-        <translation>El flux de treball encara no ha començat. El nombre dels esdeveniments principals al flux de treball és</translation>
+        <translation>El flujo de trabajo no ha sido empezado aún, el número de eventos en el flujo de trabajo es</translation>
     </message>
     <message>
         <source>Current event position is</source>
-        <translation>La posició de l&apos;esdeveniment actual és</translation>
+        <translation>La posición del evento actual es</translation>
     </message>
     <message>
         <source>Event to be run is</source>
-        <translation>L&apos;esdeveniment que arrencarà és</translation>
+        <translation>El evento que arrancará es</translation>
     </message>
     <message>
         <source>event</source>
-        <translation>esdeveniment</translation>
+        <translation>Evento</translation>
     </message>
     <message>
         <source>Last event returned status</source>
-        <translation>Estat retornat del darrer esdeveniment</translation>
+        <translation>El último evento ha devuelto el estado</translation>
     </message>
     <message>
         <source>Workflow event list</source>
-        <translation>Llista d&apos;esdeveniments de flux de treball</translation>
+        <translation>Lista de eventos de flujo de trabajo</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation>Reinicia</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <source>Next step</source>
-        <translation>Pas següent</translation>
+        <translation>Próximo paso</translation>
     </message>
     <message>
         <source>Workflow event log</source>
-        <translation>Fitxer de registre dels esdeveniments del flux de treball</translation>
+        <translation>Log del evento de flujo de trabajo</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Descripció</translation>
+        <translation>Descripción</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Estat</translation>
+        <translation>Estado</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation>Informació</translation>
+        <translation>Información</translation>
     </message>
     <message>
         <source>Pos</source>
-        <translation>Posició</translation>
+        <translation>Pos</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipus</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Workflow groups</source>
-        <translation>Grups de flux de treball</translation>
+        <translation>Grupos de flujos de trabajo</translation>
     </message>
     <message>
         <source>New group</source>
-        <translation>Nou grup</translation>
+        <translation>Nuevo grupo</translation>
     </message>
     <message>
         <source>Workflows in %1</source>
-        <translation type="obsolete">Works Flow a %1</translation>
+        <translation type="obsolete">Flujos de trabajo en %1</translation>
     </message>
     <message>
         <source>Modifier</source>
@@ -6863,59 +6777,67 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modificat</translation>
+        <translation>Modificado</translation>
     </message>
     <message>
         <source>New workflow</source>
-        <translation>Nou flux de treball</translation>
+        <translation>Nuevo flujo de trabajo</translation>
     </message>
     <message>
         <source>Add group</source>
-        <translation>Afegeix grup</translation>
+        <translation>Añadir grupo</translation>
     </message>
     <message>
         <source>Editing workflow group - %1</source>
-        <translation>Editant el grup de flux de treball - %1</translation>
+        <translation>Editando grupo de flujo de trabajo - %1</translation>
     </message>
     <message>
         <source>Modified by %username on %time</source>
-        <translation>Modificat per %username el %time</translation>
+        <translation>Modificado por %username en %time</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <source>Help on workflows</source>
+        <translation>Ayuda en flujos de trabajo</translation>
     </message>
     <message>
         <source>Edit workflow</source>
-        <translation>Edita el flux de treball</translation>
+        <translation>Editar flujo de trabajo</translation>
     </message>
     <message>
         <source>Remove selected workflows</source>
-        <translation>Esborra els fluxos de treball seleccionats</translation>
+        <translation>Eliminar los flujos de trabajo seleccionados</translation>
     </message>
     <message>
         <source>Workflow process was created at %creation and modified at %modification.</source>
-        <translation>S&apos;ha creat el procés de flux de treball el %creation i s&apos;ha modificat el %modification.</translation>
+        <translation>El flujo de trabajo fue creado en %creation y modificado en %modification.</translation>
     </message>
     <message>
         <source>Workflows in %1</source>
         <comment>%1 is workflow group</comment>
-        <translation>Flux de treball a %1</translation>
+        <translation>Flujos de trabajo en %1</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/event</name>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation>Caja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Següent</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation>Envolviendo</translation>
     </message>
     <message>
         <source>Do you want wrapping in Christmas paper?</source>
-        <translation>El vols embolicar en paper de regal?</translation>
+        <translation>¿Lo quieres envuelto en papel de regalo?</translation>
     </message>
     <message>
         <source>No</source>
@@ -6934,31 +6856,31 @@ per activar el teu compte.</translation>
     <name>design/standard/workflow/eventtype/edit</name>
     <message>
         <source>Any</source>
-        <translation>Qualsevol</translation>
+        <translation>Cualquiera</translation>
     </message>
     <message>
         <source>Unpublish object</source>
-        <translation>No publiquis l&apos;objecte</translation>
+        <translation>No publicar objeto</translation>
     </message>
     <message>
         <source>Publish object</source>
-        <translation>Publica l&apos;objecte</translation>
+        <translation>Publicar objeto</translation>
     </message>
     <message>
         <source>New Entry</source>
-        <translation type="obsolete">Nova entrada</translation>
+        <translation type="obsolete">Nueva entrada</translation>
     </message>
     <message>
         <source>Remove Selected</source>
-        <translation type="obsolete">Esborra la selecció</translation>
+        <translation type="obsolete">Eliminar la selección</translation>
     </message>
     <message>
         <source>Load Attributes</source>
-        <translation type="obsolete">Carrega els atributs</translation>
+        <translation type="obsolete">Cargar atributos</translation>
     </message>
     <message>
         <source>Class Attributes:</source>
-        <translation>Atributs de classe:</translation>
+        <translation>Atributos de clase:</translation>
     </message>
     <message>
         <source>Editor</source>
@@ -6966,74 +6888,78 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation>Seccions</translation>
+        <translation>Secciones</translation>
     </message>
     <message>
         <source>Users without approval</source>
-        <translation>Usuaris sense aprovació</translation>
+        <translation>Usuarios sin aprovación</translation>
     </message>
     <message>
         <source>Checkout text</source>
-        <translation>Text de caixa</translation>
+        <translation>Texto de caja</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Missatge</translation>
+        <translation>Mensaje</translation>
+    </message>
+    <message>
+        <source>Section IDs</source>
+        <translation type="obsolete">Seccion de IDs</translation>
     </message>
     <message>
         <source>Users without workflow IDs</source>
-        <translation>Usuaris sense ID de flux de treball</translation>
+        <translation>Usuarios sin flujo de trabajo de IDs</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation>Dies</translation>
+        <translation>Días</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation>Hores</translation>
+        <translation>Horas</translation>
     </message>
     <message>
         <source>Minutes</source>
-        <translation>Minuts</translation>
+        <translation>Minutos</translation>
     </message>
     <message>
         <source>Class</source>
-        <translation>Classe</translation>
+        <translation>Clase</translation>
     </message>
     <message>
         <source>Classes to run workflow</source>
-        <translation>Classes per fer anar el Work Flow</translation>
+        <translation>Clases por las cuales se aplica el flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow to run</source>
-        <translation>Flux de treball per iniciar</translation>
+        <translation>Flujo de trabajo para funcionar</translation>
     </message>
     <message>
         <source>New entry</source>
-        <translation>Nova entrada</translation>
+        <translation>Nueva entrada</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation>Esborra els seleccionats</translation>
+        <translation>Eliminar la selección</translation>
     </message>
     <message>
         <source>Load attributes</source>
-        <translation>Carrega els atributs</translation>
+        <translation>Cargar atributos</translation>
     </message>
 </context>
 <context>
     <name>design/standard/workflow/eventtype/result</name>
     <message>
         <source>Checkout</source>
-        <translation type="obsolete">Caixa</translation>
+        <translation type="obsolete">Verificar</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="obsolete">Següent</translation>
+        <translation type="obsolete">Siguiente</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation type="obsolete">Ajustar</translation>
+        <translation type="obsolete">Envolviendo</translation>
     </message>
     <message>
         <source>Hello</source>
@@ -7044,58 +6970,58 @@ per activar el teu compte.</translation>
     <name>kernel/class</name>
     <message>
         <source>Class list of group</source>
-        <translation>Llista de classes del grup</translation>
+        <translation>Lista de clase de grupo</translation>
     </message>
     <message>
         <source>Class group list</source>
-        <translation>Llista de grups de classes</translation>
+        <translation>Lista de grupo de clase</translation>
     </message>
     <message>
         <source>Class list</source>
-        <translation>Llista de classes</translation>
+        <translation>Lista de clase</translation>
     </message>
     <message>
         <source> object</source>
-        <translation>objecte</translation>
+        <translation>Objeto</translation>
     </message>
     <message>
         <source> objects</source>
-        <translation>objectes</translation>
+        <translation>Objetos</translation>
     </message>
     <message>
         <source>Remove classes</source>
-        <translation>Esborra les classes</translation>
+        <translation>Eliminar clases</translation>
     </message>
     <message>
         <source>(no classes)</source>
-        <translation>(no hi ha classes)</translation>
+        <translation>(No hay clases)</translation>
     </message>
     <message>
         <source>Remove class groups</source>
-        <translation>Esborra els grups de classes</translation>
+        <translation>Eliminar grupo de clase</translation>
     </message>
     <message>
         <source>Remove class</source>
-        <translation>Esborra la classe</translation>
+        <translation>Eliminar clase</translation>
     </message>
     <message>
         <source>Class edit</source>
-        <translation>Edició de classe</translation>
+        <translation>Editar clase</translation>
     </message>
     <message>
         <source>Classes</source>
-        <translation>Classes</translation>
+        <translation>Clases</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes</name>
     <message>
         <source>Approval</source>
-        <translation>Aprovació</translation>
+        <translation>Aprobación</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Estàndar</translation>
+        <translation>Standar</translation>
     </message>
     <message>
         <source>Observer</source>
@@ -7103,11 +7029,11 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Owner</source>
-        <translation>Propietari</translation>
+        <translation>Propietario</translation>
     </message>
     <message>
         <source>Approver</source>
-        <translation>Aprovador</translation>
+        <translation>Aprobador</translation>
     </message>
     <message>
         <source>Author</source>
@@ -7115,74 +7041,74 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Inbox</source>
-        <translation>Safata d&apos;entrada</translation>
+        <translation>Bandeja de entrada</translation>
     </message>
     <message>
         <source>No state yet</source>
-        <translation>Encara no té estat</translation>
+        <translation>Sin estado aún</translation>
     </message>
     <message>
         <source>Workflow running</source>
-        <translation>El flux de treball està en funcionament</translation>
+        <translation>Flujo de trabajo funcionando</translation>
     </message>
     <message>
         <source>Workflow done</source>
-        <translation>El flux de treball està fet</translation>
+        <translation>Flujo de trabajo hecho</translation>
     </message>
     <message>
         <source>Workflow failed an event</source>
-        <translation>Ha fallat un esdeveniment en el flux de treball</translation>
+        <translation>El flujo de trabajo ha fallado un evento</translation>
     </message>
     <message>
         <source>Workflow event deferred to cron job</source>
-        <translation>L&apos;esdeveniment de flux de treball s&apos;ha ajornat com a tasca programada (cron)</translation>
+        <translation>Evento del flujo de trabajo ha sido prorrogado a una tarea programada (cron job)</translation>
     </message>
     <message>
         <source>Workflow was cancelled</source>
-        <translation>El flux de treball ha estat cancel·lat</translation>
+        <translation>El flujo de trabajo ha sido cancelado</translation>
     </message>
     <message>
         <source>Workflow was reset for reuse</source>
-        <translation>El flux de treball s&apos;ha reiniciat per tornar-lo a usar</translation>
+        <translation>El flujo de trabajo ha sido reiniciado para su reutilización</translation>
     </message>
     <message>
         <source>Accepted event</source>
-        <translation>Esdeveniment acceptat</translation>
+        <translation>Evento aceptado</translation>
     </message>
     <message>
         <source>Rejected event</source>
-        <translation>Esdeveniment rebutjat</translation>
+        <translation>Evento rechazado</translation>
     </message>
     <message>
         <source>Event deferred to cron job</source>
-        <translation>L&apos;esdeveniment s&apos;ha ajornat com a tasca programada (cron)</translation>
+        <translation>Evento prorrogado a cron job</translation>
     </message>
     <message>
         <source>Event deferred to cron job, event will be rerun</source>
-        <translation>L&apos;esdeveniment s&apos;ha ajornat com a tasca programada (cron). L&apos;esdeveniment tornarà a arrencar-se</translation>
+        <translation>Evento prorrogado a cron job. El evento volverá a ser ejecutado</translation>
     </message>
     <message>
         <source>Event runs a sub event</source>
-        <translation>L&apos;esdeveniment fa anar un subesdeveniment</translation>
+        <translation>El evento ejecuta un subevento</translation>
     </message>
     <message>
         <source>Cancelled whole workflow</source>
-        <translation>S&apos;ha cancel·lat el flux de treball complet</translation>
+        <translation>Cancelado todo el flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow fetches template</source>
-        <translation>El flux de treball recull la plantilla</translation>
+        <translation>El flujo de trabajo recoge una plantilla</translation>
     </message>
     <message>
         <source>Workflow redirects user view</source>
-        <translation>El flux de treball redirecciona a una vista d&apos;usuari</translation>
+        <translation>El flujo de trabajo redirecciona la vista de usuario</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatype/ezbinaryfiletype</name>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation type="obsolete">La transferència de fitxer no està activada. No es pot realitzar cap gestió de fitxers.</translation>
+        <translation type="obsolete">La actualización del archivo no está permitida, ningún fichero manejado puede ser ejecutado.</translation>
     </message>
 </context>
 <context>
@@ -7190,177 +7116,177 @@ per activar el teu compte.</translation>
     <message>
         <source>Author name should be provided.</source>
         <comment>eZAuthorType</comment>
-        <translation type="obsolete">S&apos;ha de donar el nom de l&apos;autor.</translation>
+        <translation type="obsolete">Hay que proporcionar un nombre de autor.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZAuthorType</comment>
-        <translation type="obsolete">L&apos;adreça de correu electrònic no és vàlida.</translation>
+        <translation type="obsolete">La dirección de correo no es válida.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZBinaryFileType</comment>
-        <translation type="obsolete">Cal un fitxer vàlid.</translation>
+        <translation type="obsolete">Se requiere un fichero válido.</translation>
     </message>
     <message>
         <source>A valid email account is required.</source>
         <comment>eZEmailType</comment>
-        <translation type="obsolete">Cal un compte de correu electrònic vàlid.</translation>
+        <translation type="obsolete">Se requiere ua cuenta válida de e-mail.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
         <comment>eZEmailType</comment>
-        <translation type="obsolete">L&apos;adreça de correu electrònic no és vàlida.</translation>
+        <translation type="obsolete">La dirección de e-mail no es válida.</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
         <comment>eZEnumType</comment>
-        <translation type="obsolete">Cal escollir almenys un camp.</translation>
+        <translation type="obsolete">Al menos hay que elegir un campo.</translation>
     </message>
     <message>
         <source>Input is not float.</source>
         <comment>eZFloatType</comment>
-        <translation type="obsolete">L&apos;entrada no és flotant.</translation>
+        <translation type="obsolete">La entrada no es flotante.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="obsolete">L&apos;entrada ha de ser més gran que %1</translation>
+        <translation type="obsolete">La entrada ha de ser mayor de %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZFloatType</comment>
-        <translation type="obsolete">L&apos;entrada ha de ser menys que %1</translation>
+        <translation type="obsolete">La entrada ha de ser menor que %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZFloatType</comment>
-        <translation type="obsolete">L&apos;entrada no està en el rang definit %1 - %2</translation>
+        <translation type="obsolete">La entrada no está en el rango definido %1 - %2</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
         <comment>eZImageType</comment>
-        <translation type="obsolete">Cal una imatge vàlida.</translation>
+        <translation type="obsolete">Se requiere una imagen válida.</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
         <comment>eZIntegerType</comment>
-        <translation type="obsolete">L&apos;entrada no és entera.</translation>
+        <translation type="obsolete">La entrada no está integrada.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="obsolete">L&apos;entrada ha de ser més gran que %1</translation>
+        <translation type="obsolete">La entrada ha de ser mayor de %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
         <comment>eZIntegerType</comment>
-        <translation type="obsolete">L&apos;entrada ha de ser menys que %1</translation>
+        <translation type="obsolete">La entrada ha de ser menor que %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
         <comment>eZIntegerType</comment>
-        <translation type="obsolete">L&apos;entrada no està en el rang definit %1 - %2</translation>
+        <translation type="obsolete">La entrada no está en el rango definido %1 - %2</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
         <comment>eZISBNType</comment>
-        <translation type="obsolete">El número d&apos;ISBN no és correcte. Torna a comprovar l&apos;entrada</translation>
+        <translation type="obsolete">El número ISBN no es correcto. Por favor revise la entrada</translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
         <comment>eZISBNType</comment>
-        <translation type="obsolete">El format del ISBN no és vàlid.</translation>
+        <translation type="obsolete">El formato ISBN no es válido.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
         <comment>eZMediaType</comment>
-        <translation type="obsolete">Cal un fitxer vàlid.</translation>
+        <translation type="obsolete">Se requiere un fichero válido.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
         <comment>eZOptionType</comment>
-        <translation type="obsolete">Cal donar el valor de l&apos;opció.</translation>
+        <translation type="obsolete">Ha de ser introducido el valor de la opción.</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="obsolete">La línia de text és buida. Cal introduir contingut.</translation>
+        <translation type="obsolete">La línea de texto está vacía, se requiere contenido.</translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
         <comment>eZStringType</comment>
-        <translation type="obsolete">La línia de text és massa llarga. El màxim permès és %1.</translation>
+        <translation type="obsolete">El texto es demasiado largo, lo máximo permitido es %1.</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
         <comment>eZStringType</comment>
-        <translation type="obsolete">El camp de text és buit. Cal emplenar-lo.</translation>
+        <translation type="obsolete">El campo de texto está vacía, se requiere contenido.</translation>
     </message>
     <message>
         <source>Object </source>
-        <translation type="obsolete">Objecte</translation>
+        <translation type="obsolete">Objeto</translation>
     </message>
     <message>
         <source>Link </source>
-        <translation type="obsolete">Enllaç</translation>
+        <translation type="obsolete">Link</translation>
     </message>
     <message>
         <source>At least one author is required.</source>
         <comment>eZAuthorType</comment>
-        <translation type="obsolete">Cal almenys un autor.</translation>
+        <translation type="obsolete">Se requiere al menos un autor.</translation>
     </message>
     <message>
         <source>Missing date input.</source>
-        <translation>No es troba el dia d&apos;entrada.</translation>
+        <translation>Falta entrada de fecha.</translation>
     </message>
     <message>
         <source>Missing datetime input.</source>
-        <translation>No es troba la data i l&apos;hora d&apos;entrada.</translation>
+        <translation>Falta entrada de hora.</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
         <comment>eZOptionType</comment>
-        <translation type="obsolete">Cal almenys una opció.</translation>
+        <translation type="obsolete">Al menos se requiere una opción.</translation>
     </message>
     <message>
         <source>Additional price for option value is invalid.</source>
         <comment>eZOptionType</comment>
-        <translation type="obsolete">El preu addicional per al valor opció és invàlid.</translation>
+        <translation type="obsolete">Es inválido cualquier precio adicional para  un valor de opción.</translation>
     </message>
     <message>
         <source>Missing time input.</source>
-        <translation>No es troba l&apos;hora d&apos;entrada.</translation>
+        <translation>Falta entrada de tiempo.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
         <comment>eZUserType</comment>
-        <translation type="obsolete">Cal especificar el registre d&apos;entrada</translation>
+        <translation type="obsolete">El login ha de ser especificado</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
         <comment>eZUserType</comment>
-        <translation type="obsolete">El nom de registre ja existeix. Tria&apos;n un altre.</translation>
+        <translation type="obsolete">El nombre de login ya existe. Por favor, elige otro nombre.</translation>
     </message>
     <message>
         <source>The E-Mail address is not valid.</source>
         <comment>eZUserType</comment>
-        <translation type="obsolete">L&apos;adreça de correu no és vàlida.</translation>
+        <translation type="obsolete">La dirección de e-mailno es válida.</translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
         <comment>eZUserType</comment>
-        <translation type="obsolete">Ja existeix un usuari amb aquesta adreça.</translation>
+        <translation type="obsolete">Ya existe un usuario con este e-mail.</translation>
     </message>
     <message>
         <source>The confirmation password did not match.</source>
         <comment>eZUserType</comment>
-        <translation>No coincideix la contranseya de confirmació.</translation>
+        <translation>La contraseña de confirmación no ha coincidido.</translation>
     </message>
     <message>
         <source>The password must be at least 3 characters.</source>
         <comment>eZUserType</comment>
-        <translation type="obsolete">La contrasenya ha de tenir almenys 3 caràcters.</translation>
+        <translation type="obsolete">La contraseña debe tener al menos tres caracteres.</translation>
     </message>
     <message>
         <source>Author</source>
@@ -7369,61 +7295,61 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>At least one author is required.</source>
-        <translation>Cal almenys un autor.</translation>
+        <translation>Se requiere al menos un autor.</translation>
     </message>
     <message>
         <source>Author name should be provided.</source>
-        <translation>S&apos;ha de donar el nom de l&apos;autor.</translation>
+        <translation>Hay que proporcionar un nombre de autor.</translation>
     </message>
     <message>
         <source>Email address is not valid.</source>
-        <translation>L&apos;adreça de correu electrònic no és vàlida.</translation>
+        <translation>La dirección de correo no es válida.</translation>
     </message>
     <message>
         <source>BinaryFile</source>
         <comment>Datatype name</comment>
-        <translation>Fitxer binari</translation>
+        <translation>Archivo binario</translation>
     </message>
     <message>
         <source>File uploading is not enabled, no file handling can be performed.</source>
-        <translation>La transferència de fitxer no està activada. No es pot realitzar cap gestió de fitxers.</translation>
+        <translation>La subida de archivo no está permitida, ningúna gestión de fichero puede ser realizada.</translation>
     </message>
     <message>
         <source>A valid file is required.</source>
-        <translation>Cal un fitxer vàlid.</translation>
+        <translation>Se requiere un fichero válido.</translation>
     </message>
     <message>
         <source>Checkbox</source>
         <comment>Datatype name</comment>
-        <translation>Quadre de verificació</translation>
+        <translation>Checkbox</translation>
     </message>
     <message>
         <source>Date field</source>
         <comment>Datatype name</comment>
-        <translation>Camp de data</translation>
+        <translation>Campo de fecha</translation>
     </message>
     <message>
         <source>Datetime field</source>
         <comment>Datatype name</comment>
-        <translation>Camp de data i hora</translation>
+        <translation>Campo de hora y fecha</translation>
     </message>
     <message>
         <source>Email</source>
         <comment>Datatype name</comment>
-        <translation>Correu electrònic</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <source>A valid email account is required.</source>
-        <translation>Cal un compte de correu electrònic vàlid.</translation>
+        <translation>Se requiere un e-mail válido.</translation>
     </message>
     <message>
         <source>Enum</source>
         <comment>Datatype name</comment>
-        <translation>Enumeració</translation>
+        <translation>Enumeración</translation>
     </message>
     <message>
         <source>At least one field should be chosen.</source>
-        <translation>Cal escollir almenys un camp.</translation>
+        <translation>Al menos hay que elegir un campo.</translation>
     </message>
     <message>
         <source>Float</source>
@@ -7432,37 +7358,37 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Input is not float.</source>
-        <translation>L&apos;entrada no és decimal.</translation>
+        <translation>La entrada no es un decimal.</translation>
     </message>
     <message>
         <source>Input must be greater than %1</source>
-        <translation>L&apos;entrada ha de ser més gran que %1</translation>
+        <translation>La entrada ha de ser mayor de %1</translation>
     </message>
     <message>
         <source>Input must be less than %1</source>
-        <translation>L&apos;entrada ha de ser menys que %1</translation>
+        <translation>La entrada ha de ser menor que %1</translation>
     </message>
     <message>
         <source>Input is not in defined range %1 - %2</source>
-        <translation>L&apos;entrada no està en el rang definit %1 - %2</translation>
+        <translation>La entrada no está en el rango definido %1 - %2</translation>
     </message>
     <message>
         <source>Image</source>
         <comment>Datatype name</comment>
-        <translation>Imatge</translation>
+        <translation>Imagen</translation>
     </message>
     <message>
         <source>A valid image is required.</source>
-        <translation>Cal una imatge vàlida.</translation>
+        <translation>Se requiere una imagen válida.</translation>
     </message>
     <message>
         <source>Integer</source>
         <comment>Datatype name</comment>
-        <translation>Integre</translation>
+        <translation>Número entero</translation>
     </message>
     <message>
         <source>Input is not integer.</source>
-        <translation>L&apos;entrada no és entera.</translation>
+        <translation>La entrada no es un entero.</translation>
     </message>
     <message>
         <source>ISBN</source>
@@ -7471,21 +7397,21 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>The ISBN number is not correct. Please recheck the input</source>
-        <translation>El número d&apos;ISBN no és correcte. Torna a comprovar l&apos;entrada</translation>
+        <translation>El número ISBN no es correcto. Por favor revise la entrada</translation>
     </message>
     <message>
         <source>The ISBN format is not valid.</source>
-        <translation>El format del ISBN no és vàlid.</translation>
+        <translation>El formato ISBN no es válido.</translation>
     </message>
     <message>
         <source>Keyword</source>
         <comment>Datatype name</comment>
-        <translation>Paraula clau</translation>
+        <translation>Palabra clave</translation>
     </message>
     <message>
         <source>Matrix</source>
         <comment>Datatype name</comment>
-        <translation>Matriu</translation>
+        <translation>Matriz</translation>
     </message>
     <message>
         <source>Media</source>
@@ -7495,88 +7421,88 @@ per activar el teu compte.</translation>
     <message>
         <source>Object relation</source>
         <comment>Datatype name</comment>
-        <translation>Relació d&apos;objecte</translation>
+        <translation>Relación de objeto</translation>
     </message>
     <message>
         <source>Object relation list</source>
         <comment>Datatype name</comment>
-        <translation>Llista de relacions d&apos;objecte</translation>
+        <translation>Lista de relaciones de objeto</translation>
     </message>
     <message>
         <source>Option</source>
         <comment>Datatype name</comment>
-        <translation>Opció</translation>
+        <translation>Opción</translation>
     </message>
     <message>
         <source>At least one option is required.</source>
-        <translation>Cal almenys una opció.</translation>
+        <translation>Al menos se requiere una opción.</translation>
     </message>
     <message>
         <source>Option value should be provided.</source>
-        <translation>Cal donar el valor de l&apos;opció.</translation>
+        <translation>Ha de ser introducido el valor de la opción.</translation>
     </message>
     <message>
         <source>Additional price for option value is invalid.</source>
-        <translation>El preu addicional per al valor de l&apos;opció és invàlid.</translation>
+        <translation>Precio adicional para una opción de valor es inválido.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Datatype name</comment>
-        <translation>Preu</translation>
+        <translation>Precio</translation>
     </message>
     <message>
         <source>Add to basket</source>
-        <translation>Afegeix a la cistella</translation>
+        <translation>Añadir a la cesta</translation>
     </message>
     <message>
         <source>Add to wish list</source>
-        <translation>Afegeix a la meva llista de desitjos</translation>
+        <translation>Añadir a la lista de deseos</translation>
     </message>
     <message>
         <source>Range option</source>
         <comment>Datatype name</comment>
-        <translation>Opció de rang</translation>
+        <translation>Opción de rango</translation>
     </message>
     <message>
         <source>Selection</source>
         <comment>Datatype name</comment>
-        <translation>Selecció</translation>
+        <translation>Selección</translation>
     </message>
     <message>
         <source>Text line</source>
         <comment>Datatype name</comment>
-        <translation>Línia de text</translation>
+        <translation>Línea de texto</translation>
     </message>
     <message>
         <source>Text line is empty, content required.</source>
-        <translation>La línia de text és buida. Cal introduir-hi contingut.</translation>
+        <translation>La línea de texto está vacía, se requiere contenido.</translation>
     </message>
     <message>
         <source>Text line too long, maximum allowed is %1.</source>
-        <translation>La línia de text és massa llarga. El màxim permès és %1.</translation>
+        <translation>El texto es demasiado largo, lo máximo permitido es %1.</translation>
     </message>
     <message>
         <source>Subtree subscription</source>
         <comment>Datatype name</comment>
-        <translation>Subscripció al subàrbre</translation>
+        <translation>Suscripción de subárbol</translation>
     </message>
     <message>
         <source>Text field</source>
         <comment>Datatype name</comment>
-        <translation>Camp de text</translation>
+        <translation>Campo de texto</translation>
     </message>
     <message>
         <source>Text field is empty, content required.</source>
-        <translation>El camp de text és buit. Cal emplenar-lo.</translation>
+        <translation>El campo de texto está vacía, se requiere contenido.</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation>Tramet</translation>
+        <translation>Enviar</translation>
     </message>
     <message>
         <source>Time field</source>
         <comment>Datatype name</comment>
-        <translation>Camp d&apos;hora</translation>
+        <translation>Campo de hora</translation>
     </message>
     <message>
         <source>URL</source>
@@ -7586,142 +7512,142 @@ per activar el teu compte.</translation>
     <message>
         <source>User account</source>
         <comment>Datatype name</comment>
-        <translation>Compte d&apos;usuari</translation>
+        <translation>Cuenta de usuario</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>Cal especificar el registre</translation>
+        <translation>El login ha de ser especificado</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
-        <translation>El nom de registre ja existeix. Tria&apos;n un altre.</translation>
+        <translation>El nombre de login ya existe. Por favor, elige otro nombre.</translation>
     </message>
     <message>
         <source>The E-Mail address is not valid.</source>
-        <translation>L&apos;adreça de correu no és vàlida.</translation>
+        <translation>La dirección de e-mail no es válida.</translation>
     </message>
     <message>
         <source>A user with this email already exists.</source>
-        <translation>Ja existeix un usuari amb aquest compte de correu.</translation>
+        <translation>Ya existe un usuario con este e-mail.</translation>
     </message>
     <message>
         <source>The password must be at least 3 characters.</source>
-        <translation>La contrasenya ha de tenir almenys 3 caràcters.</translation>
+        <translation>La contraseña debe tener al menos tres caracteres.</translation>
     </message>
     <message>
         <source>XML Text field</source>
         <comment>Datatype name</comment>
-        <translation>Camp de text XML</translation>
+        <translation>Campo de texto XML</translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation>L&apos;objecte %1 no existeix.</translation>
+        <translation>El objeto %1 no existe.</translation>
     </message>
     <message>
         <source>Link %1 does not exist.</source>
-        <translation>L&apos;enllaç %1 no existeix.</translation>
+        <translation>El enlace %1 no existe.</translation>
     </message>
 </context>
 <context>
     <name>kernel/collaboration</name>
     <message>
         <source>Collaboration custom action</source>
-        <translation>Acció personalitzada de col·laboració</translation>
+        <translation>Acción de colaboración personalizada</translation>
     </message>
     <message>
         <source>Collaboration</source>
-        <translation>Col·laboració</translation>
+        <translation>Colaboración</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Remove</source>
-        <translation>Esborra</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation>Esborra l&apos;objecte</translation>
+        <translation>Eliminar objeto</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Cerca</translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation>Avançada</translation>
+        <translation>Avanzada</translation>
     </message>
     <message>
         <source>No main node selected, please select one.</source>
-        <translation>No s&apos;ha triat un node principal. Tria&apos;n un.</translation>
+        <translation>No hay seleccionado ningún nudo principal. por favor, seleccione uno.</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation>Contingut</translation>
+        <translation>Contenido</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>My drafts</source>
-        <translation>Els meus esborranys</translation>
+        <translation>Mis borradores</translation>
     </message>
     <message>
         <source>Remove editing version</source>
-        <translation>Esborra la versió en edició</translation>
+        <translation>Eliminar la versión editada</translation>
     </message>
     <message>
         <source>Tip from %1: %2</source>
-        <translation>Recomanació de %1: %2</translation>
+        <translation>Volcar desde %1: %2</translation>
     </message>
     <message>
         <source>The email address of the sender is not valid</source>
-        <translation>L&apos;adreça de correu del remitent no és vàlida</translation>
+        <translation>La dirección de e-mail del emisor no es válida</translation>
     </message>
     <message>
         <source>The email address of the receiver is not valid</source>
-        <translation>L&apos;adreça de correu del destinatari no és vàlida</translation>
+        <translation>La dirección de e-mail del receptor no es válida</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation>Recomana a un amic</translation>
+        <translation>Avisa a un amigo</translation>
     </message>
     <message>
         <source>Translate</source>
-        <translation>Tradueix</translation>
+        <translation>Traducir</translation>
     </message>
     <message>
         <source>Translation</source>
-        <translation>Traducció</translation>
+        <translation>Traducción</translation>
     </message>
     <message>
         <source>Content translations</source>
-        <translation>Traduccions de contingut</translation>
+        <translation>Traducciones de contenidos</translation>
     </message>
     <message>
         <source>Trash</source>
-        <translation>Paperera</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation>Versions</translation>
+        <translation>Versiones</translation>
     </message>
     <message>
         <source>My bookmarks</source>
-        <translation>Els meus preferits</translation>
+        <translation>Mis favoritos</translation>
     </message>
     <message>
         <source>My pending list</source>
-        <translation>La meva llista de tasques pendents</translation>
+        <translation>Mi lista de tareas pendientes</translation>
     </message>
     <message>
         <source>URL translator</source>
-        <translation>Traductor d&apos;URL</translation>
+        <translation>Traductor de URL</translation>
     </message>
 </context>
 <context>
@@ -7729,36 +7655,36 @@ per activar el teu compte.</translation>
     <message>
         <source>child</source>
         <comment>1 child</comment>
-        <translation>fill</translation>
+        <translation>Hijo</translation>
     </message>
     <message>
         <source>children</source>
         <comment>several children</comment>
-        <translation>fills</translation>
+        <translation>Hijos</translation>
     </message>
 </context>
 <context>
     <name>kernel/content/removeobject</name>
     <message>
         <source>And also it will remove the nodes:</source>
-        <translation>I també s&apos;esborraran els nodes:</translation>
+        <translation>También va a eliminar los nudos:</translation>
     </message>
     <message>
         <source>child</source>
         <comment>1 child</comment>
-        <translation>fill</translation>
+        <translation>Hijo</translation>
     </message>
     <message>
         <source>children</source>
         <comment>several children</comment>
-        <translation>fills</translation>
+        <translation>Hijos</translation>
     </message>
 </context>
 <context>
     <name>kernel/contentclass</name>
     <message>
         <source>New %1</source>
-        <translation>Nou %1</translation>
+        <translation>Nuevo %1</translation>
     </message>
 </context>
 <context>
@@ -7772,11 +7698,11 @@ per activar el teu compte.</translation>
     <name>kernel/ezinfo</name>
     <message>
         <source>Info</source>
-        <translation>Informació</translation>
+        <translation>Información</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Quant a</translation>
+        <translation>Sobre</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -7787,92 +7713,92 @@ per activar el teu compte.</translation>
     <name>kernel/form</name>
     <message>
         <source>Form processing</source>
-        <translation>Procés de formulari</translation>
+        <translation>Procesando el formulario</translation>
     </message>
 </context>
 <context>
     <name>kernel/notification</name>
     <message>
         <source>Notification settings</source>
-        <translation>Configuració de notificacions</translation>
+        <translation>Configuraciones de notificación</translation>
     </message>
 </context>
 <context>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
-        <translation>Paquets</translation>
+        <translation>Paquetes</translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation>Càrrega</translation>
+        <translation>Subir</translation>
     </message>
 </context>
 <context>
     <name>kernel/reference</name>
     <message>
         <source>Reference documentation</source>
-        <translation>Documentació de referència</translation>
+        <translation>Documentación de referencia</translation>
     </message>
 </context>
 <context>
     <name>kernel/role</name>
     <message>
         <source>Create policy - step 2 - Specify function</source>
-        <translation>Crea una política - pas 2 - Especifica una funció</translation>
+        <translation>Crear política - segundo paso - especificar función</translation>
     </message>
     <message>
         <source>Create policy - step 3 - Specify limitations</source>
-        <translation>Crea una política - pas 3 - Especifica les limitacions</translation>
+        <translation>Crear política - tercer paso - especificar limitaciones</translation>
     </message>
     <message>
         <source>Create policy - step 1 - Specify module</source>
-        <translation>Crea una política - pas 1 - Especifica un mòdul</translation>
+        <translation>Crear política - primer paso - especificar módulo</translation>
     </message>
     <message>
         <source>Role list</source>
-        <translation>Llista de rols</translation>
+        <translation>Lista de roles</translation>
     </message>
     <message>
         <source>Editing policy</source>
-        <translation>Polítiques en edició</translation>
+        <translation>Editando política</translation>
     </message>
 </context>
 <context>
     <name>kernel/search</name>
     <message>
         <source>Search stats</source>
-        <translation>Estadístiques de cerca</translation>
+        <translation>Estadísticas de la búsqueda</translation>
     </message>
 </context>
 <context>
     <name>kernel/section</name>
     <message>
         <source>Edit Section</source>
-        <translation>Edita la secció</translation>
+        <translation>Editar sección</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation>Seccions</translation>
+        <translation>Secciones</translation>
     </message>
 </context>
 <context>
     <name>kernel/setup</name>
     <message>
         <source>Cache admin</source>
-        <translation>Administració de memòria cau</translation>
+        <translation>Administrador de Caché</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation>Informació de sistema</translation>
+        <translation>Información de sistema</translation>
     </message>
     <message>
         <source>Rapid Application Development</source>
-        <translation>Desenvolupament Ràpid d&apos;Aplicació (RAD)</translation>
+        <translation>Desarrollo de Aplicación Rápida (RAD)</translation>
     </message>
     <message>
         <source>Template list</source>
-        <translation>Llista de plantilles</translation>
+        <translation>Lista de plantillas</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -7880,77 +7806,77 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>Create new template</source>
-        <translation>Crea una nova plantilla</translation>
+        <translation>Crear nueva plantilla</translation>
     </message>
     <message>
         <source>Template edit</source>
-        <translation>Edició de plantilla</translation>
+        <translation>Editar plantilla</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation>Assistent d&apos;operador de plantilles</translation>
+        <translation>Asistente de operador de plantilla</translation>
     </message>
     <message>
         <source>Extension configuration</source>
-        <translation>Configuració de l&apos;extensió</translation>
+        <translation>Configuración de extensión</translation>
     </message>
     <message>
         <source>Activate extensions</source>
-        <translation>Activa extensions</translation>
+        <translation>Activar extensiones</translation>
     </message>
 </context>
 <context>
     <name>kernel/shop</name>
     <message>
         <source>Basket</source>
-        <translation>Cistella</translation>
+        <translation>Cesta</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation>Verificar</translation>
     </message>
     <message>
         <source>Confirm order</source>
-        <translation>Confirma la comanda</translation>
+        <translation>Confirmar pedido</translation>
     </message>
     <message>
         <source>Discount group</source>
-        <translation>Grup de descompte</translation>
+        <translation>Grupo de descuento</translation>
     </message>
     <message>
         <source>Group view of discount rule</source>
-        <translation>Vista de grup de normes de descompte</translation>
+        <translation>Vista de grupo de la regla de descuento</translation>
     </message>
     <message>
         <source>Editing rule</source>
-        <translation>Norma en edició</translation>
+        <translation>Editando regla</translation>
     </message>
     <message>
         <source>Order list</source>
-        <translation>Llista de comandes</translation>
+        <translation>Lista de pedido</translation>
     </message>
     <message>
         <source>Order view</source>
-        <translation>Vista de comanda</translation>
+        <translation>Vista del pedido</translation>
     </message>
     <message>
         <source>Enter account information</source>
-        <translation>Introdueix informació de compte</translation>
+        <translation>Insertar información de cuenta</translation>
     </message>
     <message>
         <source>VAT types</source>
-        <translation>Tipus d&apos;IVA</translation>
+        <translation>Tipos de IVA</translation>
     </message>
 </context>
 <context>
     <name>kernel/trigger</name>
     <message>
         <source>Trigger</source>
-        <translation>Detonant</translation>
+        <translation>Disparador</translation>
     </message>
     <message>
         <source>List</source>
-        <translation>Llista</translation>
+        <translation>Lista</translation>
     </message>
 </context>
 <context>
@@ -7961,7 +7887,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>List</source>
-        <translation>Llista</translation>
+        <translation>Lista</translation>
     </message>
     <message>
         <source>View</source>
@@ -7969,168 +7895,168 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>URL edit</source>
-        <translation>Edició d&apos;URL</translation>
+        <translation>Editar URL</translation>
     </message>
 </context>
 <context>
     <name>kernel/user</name>
     <message>
         <source>User</source>
-        <translation>Usuari</translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <source>Register</source>
-        <translation>Registra</translation>
+        <translation>Registrar</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation>Nom de registre</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation>Canvia la contrasenya</translation>
+        <translation>Cambiar contraseña</translation>
     </message>
     <message>
         <source>Forgot password</source>
-        <translation>He oblidat la contrasenya</translation>
+        <translation>Contraseña olvidada</translation>
     </message>
 </context>
 <context>
     <name>kernel/user/register</name>
     <message>
         <source>Registration info</source>
-        <translation>Informació de registre</translation>
+        <translation>Información de registro</translation>
     </message>
     <message>
         <source>New user registered</source>
-        <translation>Nou usuari registrat</translation>
+        <translation>Nuevo usuario registrado</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow</name>
     <message>
         <source>Edit workflow</source>
-        <translation>Edita el flux de treball</translation>
+        <translation>Editar flujo de trabajo</translation>
     </message>
     <message>
         <source>Workflow</source>
-        <translation>Flux de treball</translation>
+        <translation>Flujo de trabajo</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edita</translation>
+        <translation>Editar </translation>
     </message>
     <message>
         <source>Edit workflow group</source>
-        <translation>Edita el grup de flux de treball</translation>
+        <translation>Editar grupo de flujo de trabajo</translation>
     </message>
     <message>
         <source>Group edit</source>
-        <translation>Edita el grup</translation>
+        <translation>Editar grupo</translation>
     </message>
     <message>
         <source>Workflow group list</source>
-        <translation>Llista de grups de flux de treball</translation>
+        <translation>Lista de grupos de flujo de trabajo</translation>
     </message>
     <message>
         <source>Group list</source>
-        <translation>Llista de grups</translation>
+        <translation>Lista de grupos</translation>
     </message>
     <message>
         <source>Workflow list of group</source>
-        <translation>Llista de grups de flux de treball</translation>
+        <translation>Lista de flujos de trabajo de un grupo</translation>
     </message>
     <message>
         <source>List</source>
-        <translation>Llista</translation>
+        <translation>Lista</translation>
     </message>
     <message>
         <source>Workflow list</source>
-        <translation>Llista de flux de treball</translation>
+        <translation>Lista de flujo de trabajo</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/event</name>
     <message>
         <source>Event</source>
-        <translation>Esdeveniment</translation>
+        <translation>Evento</translation>
     </message>
     <message>
         <source>Approve</source>
-        <translation>Aprova</translation>
+        <translation>Aprobar</translation>
     </message>
     <message>
         <source>Checkout</source>
-        <translation>Caixa</translation>
+        <translation>Caja</translation>
     </message>
     <message>
         <source>Multiplexer</source>
-        <translation>Multiplexer</translation>
+        <translation>Multiplexador</translation>
     </message>
     <message>
         <source>Publish</source>
-        <translation>Publica</translation>
+        <translation>Publicar</translation>
     </message>
     <message>
         <source>Publish on time</source>
-        <translation>Publica en data</translation>
+        <translation>Publicar en una fecha</translation>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation>Tramesa senzilla</translation>
+        <translation>Compra sencilla</translation>
     </message>
     <message>
         <source>Timing</source>
-        <translation>Temporalització</translation>
+        <translation>Timing</translation>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>No el publiquis</translation>
+        <translation>Quitar la publicación</translation>
     </message>
     <message>
         <source>Wait until date</source>
-        <translation>Espera fins a la data</translation>
+        <translation>Espera hasta fecha</translation>
     </message>
     <message>
         <source>Wrapping</source>
-        <translation>Embolicar</translation>
+        <translation>Envolviendo</translation>
     </message>
     <message>
         <source>Hello User</source>
-        <translation>Hola usuari</translation>
+        <translation>Hola usuario</translation>
     </message>
 </context>
 <context>
     <name>kernel/workflow/group</name>
     <message>
         <source>Group</source>
-        <translation>Grup</translation>
+        <translation>Grupo</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation>Sèrie</translation>
+        <translation>Serie</translation>
     </message>
 </context>
 <context>
     <name>lib/eztemplate</name>
     <message>
         <source>Some template errors occured, see debug for more information.</source>
-        <translation>Hi ha hagut alguns errors de plantilla. Per a més informació mira el depurador.</translation>
+        <translation>Han ocurrido algunos errores de plantilla. Para más información, mirar el depurador.</translation>
     </message>
 </context>
 <context>
     <name>setup/templateadmin</name>
     <message>
         <source>Template edit</source>
-        <translation>Edició de plantilla</translation>
+        <translation>Editar plantilla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Desa</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descarta</translation>
+        <translation>Descartar</translation>
     </message>
 </context>
 </TS>

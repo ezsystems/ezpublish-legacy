@@ -598,58 +598,6 @@ change your settings at:</source>
         <source>Latest news</source>
         <translation>Aktuelles</translation>
     </message>
-    <message>
-        <source>Add to basket</source>
-        <translation type="unfinished">Zum Warenkorb hinzufügen</translation>
-    </message>
-    <message>
-        <source>Notify me about updates</source>
-        <translation type="unfinished">Benachrichtigen über Updates </translation>
-    </message>
-    <message>
-        <source>Printerfriendly version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Main menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notifications</source>
-        <translation type="unfinished">Benachrichtigungen</translation>
-    </message>
-    <message>
-        <source>Edit account</source>
-        <translation type="unfinished">Ändere Benutzer Konto</translation>
-    </message>
-    <message>
-        <source>View basket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Register new customer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished">Login</translation>
-    </message>
-    <message>
-        <source>Shopping basket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View all details</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/class</name>
@@ -3583,7 +3531,7 @@ if you do not wish to have a thumbnail simply click Next.</source>
     </message>
     <message>
         <source>Create package</source>
-        <translation type="unfinished">Erstelle Paket</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Available wizards</source>
@@ -5688,7 +5636,7 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished">Seiten Zugang</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Site details</source>
@@ -5881,7 +5829,7 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
@@ -6041,11 +5989,11 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Site templates</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template requires a unique database.</source>
-        <translation type="obsolete"></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next &amp;gt;</source>
@@ -6273,22 +6221,6 @@ To fix this problem you must do one of the following:</source>
     </message>
     <message>
         <source>Use the refresh button to update the database listing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the %documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Site packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Each package will create a unique web site.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each package requires a unique database.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
