@@ -54,10 +54,6 @@
         <translation>Roller</translation>
     </message>
     <message>
-        <source>My Notifications</source>
-        <translation>Mine meldinger</translation>
-    </message>
-    <message>
         <source>Collaboration</source>
         <translation>Samarbeid</translation>
     </message>
@@ -354,10 +350,6 @@
 <context>
     <name>design/standard/class/list</name>
     <message>
-        <source>New</source>
-        <translation>Ny</translation>
-    </message>
-    <message>
         <source>Name</source>
         <translation>Navn</translation>
     </message>
@@ -381,13 +373,13 @@
         <source>Class groups</source>
         <translation>Klassegrupper</translation>
     </message>
+    <message>
+        <source>New group</source>
+        <translation>Ny gruppe</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/view</name>
-    <message>
-        <source>New</source>
-        <translation>Ny</translation>
-    </message>
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
@@ -427,6 +419,10 @@
     <message>
         <source>Copy</source>
         <translation>Kopier</translation>
+    </message>
+    <message>
+        <source>New class</source>
+        <translation>Ny klasse</translation>
     </message>
 </context>
 <context>
@@ -998,10 +994,6 @@
         <translation>Forhåndsvis</translation>
     </message>
     <message>
-        <source>Store Draft</source>
-        <translation>Lagre utkast</translation>
-    </message>
-    <message>
         <source>Send for publishing</source>
         <translation>Send til publisering</translation>
     </message>
@@ -1112,6 +1104,10 @@
     <message>
         <source>Versions</source>
         <translation>Versjoner</translation>
+    </message>
+    <message>
+        <source>Store draft</source>
+        <translation>Lagre utkast</translation>
     </message>
 </context>
 <context>
@@ -1765,148 +1761,6 @@
     <message>
         <source>Create here</source>
         <translation>Lag her</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/notification</name>
-    <message>
-        <source>Notification registration form</source>
-        <translation>Registrering av meldingsregel</translation>
-    </message>
-    <message>
-        <source>Email</source>
-        <translation>E-post</translation>
-    </message>
-    <message>
-        <source>SMS</source>
-        <translation>SMS</translation>
-    </message>
-    <message>
-        <source>Internal message</source>
-        <translation>Intern melding</translation>
-    </message>
-    <message>
-        <source>Immediately</source>
-        <translation>Med en gang</translation>
-    </message>
-    <message>
-        <source>Monday</source>
-        <translation>Mandag</translation>
-    </message>
-    <message>
-        <source>Tuesday</source>
-        <translation>Tirsdag</translation>
-    </message>
-    <message>
-        <source>Wednesday</source>
-        <translation>Onsdag</translation>
-    </message>
-    <message>
-        <source>Thursday</source>
-        <translation>Torsdag</translation>
-    </message>
-    <message>
-        <source>Friday</source>
-        <translation>Fredag</translation>
-    </message>
-    <message>
-        <source>Saturday</source>
-        <translation>Lørdag</translation>
-    </message>
-    <message>
-        <source>Sunday</source>
-        <translation>Søndag</translation>
-    </message>
-    <message>
-        <source>Register</source>
-        <translation>Registrer</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Forkast</translation>
-    </message>
-    <message>
-        <source>New Rule</source>
-        <translation>Ny regel</translation>
-    </message>
-    <message>
-        <source>Send Message</source>
-        <translation>Send Melding</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Rediger</translation>
-    </message>
-    <message>
-        <source>Send Method</source>
-        <translation>Transportmetode</translation>
-    </message>
-    <message>
-        <source>Send day</source>
-        <translation>Dag</translation>
-    </message>
-    <message>
-        <source>Send time</source>
-        <translation>Time</translation>
-    </message>
-    <message>
-        <source>ID</source>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <source>Rule Type</source>
-        <translation>Regeltype</translation>
-    </message>
-    <message>
-        <source>Class Name</source>
-        <translation>Klassenavn</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>Sti</translation>
-    </message>
-    <message>
-        <source>Keyword</source>
-        <translation>Nøkkelord</translation>
-    </message>
-    <message>
-        <source>Additional constraint</source>
-        <translation>Tilleggsberensning</translation>
-    </message>
-    <message>
-        <source>Update on %1</source>
-        <translation>Oppdatering på %1</translation>
-    </message>
-    <message>
-        <source>The following pages have been updated</source>
-        <translation>Følgende sider er oppdatert</translation>
-    </message>
-    <message>
-        <source>The following page has been updated</source>
-        <translation>Den følgende siden er oppdatert</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/notification/rules</name>
-    <message>
-        <source>All</source>
-        <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Content Class Name</source>
-        <translation>Navn på innholdsklasse</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>Sti</translation>
-    </message>
-    <message>
-        <source>Keyword</source>
-        <translation>Nøkkelord</translation>
     </message>
 </context>
 <context>
@@ -3074,6 +2928,10 @@
         <source>URL to your site</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don&apos;t want to loose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/setup/tests</name>
@@ -3373,10 +3231,6 @@
         <translation>Ordretotal:</translation>
     </message>
     <message>
-        <source>Defined discount groups</source>
-        <translation>Definerte tilbudsgrupper</translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation>Rediger</translation>
     </message>
@@ -3387,14 +3241,6 @@
     <message>
         <source>Remove</source>
         <translation>Fjern</translation>
-    </message>
-    <message>
-        <source>Editing discount group</source>
-        <translation>Redigerer tilbudsgrupper</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation>Aktiver</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -3595,6 +3441,14 @@
     <message>
         <source>Percentage</source>
         <translation>Prosent</translation>
+    </message>
+    <message>
+        <source>Discount groups</source>
+        <translation>Tilbudsgrupper</translation>
+    </message>
+    <message>
+        <source>Edit discount group - %1</source>
+        <translation>Rediger tilbudsgruppe - %1</translation>
     </message>
 </context>
 <context>
@@ -4002,6 +3856,14 @@
     <message>
         <source>Workflows in %1</source>
         <translation>Arbeidsflyt i %1</translation>
+    </message>
+    <message>
+        <source>New group</source>
+        <translation>Ny gruppe</translation>
+    </message>
+    <message>
+        <source>New workflow</source>
+        <translation>Ny arbeidsflyt</translation>
     </message>
 </context>
 <context>
@@ -4553,17 +4415,6 @@
     <message>
         <source>Copyright</source>
         <translation>Copyright</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/notification</name>
-    <message>
-        <source>Notification edit</source>
-        <translation>Meldingsredigering</translation>
-    </message>
-    <message>
-        <source>Notification rule list</source>
-        <translation>Meldingsregler</translation>
     </message>
 </context>
 <context>
