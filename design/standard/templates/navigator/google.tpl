@@ -5,16 +5,17 @@
          page_uri_suffix=false()
          left_max=$left_max
          right_max=$right_max}
- {let item_previous=sub( $view_parameters.offset,
+{let  page_count=int( ceil( div( $item_count,$item_limit ) ) )
+      current_page=min($:page_count,
+                       int( ceil( div( $view_parameters.offset,
+                                       $item_limit ) ) ) )
+      item_previous=sub( mul( $:current_page, $item_limit ),
                          $item_limit )
-      item_next=sum( $view_parameters.offset,
+      item_next=sum( mul( $:current_page, $item_limit ),
                      $item_limit )
-      page_count=int( ceil( div( $item_count,$item_limit ) ) )
-      current_page=int( ceil( div( $view_parameters.offset,
-                                   $item_limit ) ) )
 
       left_length=min($ViewParameter:current_page,$:left_max)
-      right_length=min(sub($ViewParameter:page_count,$ViewParameter:current_page,1),$:right_max)
+      right_length=max(min(sub($ViewParameter:page_count,$ViewParameter:current_page,1),$:right_max),0)
       view_parameter_text=""}
 
 {* Create view parameter text with the exception of offset *}
