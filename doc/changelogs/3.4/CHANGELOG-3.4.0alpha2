@@ -84,6 +84,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/eztextcodec_php_missing_includes
 - Fixed bug in shorten template operator.
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
+- Fixed bug with pre and post text for the 'text' tag in the simpletags operator.
+  http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
 
 *Update
 - Added script addorderemail.php which will add email field content to table ezorder.

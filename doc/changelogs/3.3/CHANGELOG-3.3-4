@@ -108,6 +108,8 @@ Changes from 3.3-3 to 3.3-4
   http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
 - Fixed bug in shorten template operator.
   http://ez.no/community/bug_reports/bug_in_template_operator_shorten
+- Fixed bug with pre and post text for the 'text' tag in the simpletags operator.
+  http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
   
 *Library:
 
