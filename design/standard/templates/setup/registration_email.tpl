@@ -18,6 +18,13 @@ Site info:
 
 {/section}
 
+
+{section show=$webserver}
+Webserver info:
+Version - {$webserver.version}
+{/section}
+
+
 PHP info:
 Version - {$phpversion.found}
 

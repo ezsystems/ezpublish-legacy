@@ -13,6 +13,7 @@ Class:
 - Storing a class will now jump to the class view instead of the group/class listing.
 
 *Setup:
+- Added information on Apache webserver to registration email (if Apache is used).
 
 *Design:
 edit_placement.tpl:
