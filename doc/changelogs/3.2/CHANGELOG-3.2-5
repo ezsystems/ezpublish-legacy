@@ -1,6 +1,7 @@
 Changes from 3.2-4 to 3.2-5
 
 *Kernel:
+- Specifying language in url ( laguage/eng-GB ) will det default language to specified language for all objects fetched.
 
 *Bugfixes:
 - Fixed bug with publish date when the first published version of an object were not 1,
