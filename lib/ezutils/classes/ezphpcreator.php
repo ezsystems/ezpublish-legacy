@@ -728,7 +728,8 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
             if ( $this->isAtomic )
             {
-                rename( $this->tmpFilename, $this->requestedFilename );
+                include_once( 'lib/ezfile/classes/ezfile.php' );
+                eZFile::rename( $this->tmpFilename, $this->requestedFilename );
             }
             $this->FileResource = false;
         }
