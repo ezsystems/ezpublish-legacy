@@ -49,7 +49,7 @@
 </div>
 
 {*
-	<h2>{"Object list"|i18n('content/object')}</h2>
+	<h2>{"Object list"|i18n("design/standard/task")}</h2>
 
 	<table width="100%" cellspacing="0">
 	{section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}

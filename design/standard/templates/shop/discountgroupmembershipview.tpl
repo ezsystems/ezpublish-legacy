@@ -1,4 +1,4 @@
-<h1>{"Group view"|i18n('shop/discountgroupview')}</h1>
+<h1>{"Group view"|i18n("design/standard/shop")}</h1>
 
 <form action={concat($module.functions.discountgroupview.uri,"/",$discountgroup.id)|ezurl} method="post" name="DiscountGroupView">
 
