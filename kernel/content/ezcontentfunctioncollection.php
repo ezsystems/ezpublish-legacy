@@ -64,46 +64,19 @@ class eZContentFunctionCollection
         return array( 'result' => &$object );
     }
 
-    function &fetchObjectList( $parentNodeID, $sortBy, $offset, $limit, $class_filter_type, $class_filter_array )
+    function &fetchObjectTree( $parentNodeID, $offset, $limit, $depth, $sortBy, $classID, $class_filter_type, $class_filter_array   )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $children =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
-                                                              'Offset' => $offset,
-                                                              'Limit' => $limit,
-                                                              'SortBy' => $sortBy,
-                                                              'Limitation' => null,
-                                                              'ClassFilterType' => $class_filter_type,
-                                                              'ClassFilterArray' => $class_filter_array ),
-                                                       $parentNodeID );
-        if ( $children === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
-    }
-
-    function &fetchObjectListCount( $parentNodeID, $class_filter_type, $class_filter_array  )
-    {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
-        $childrenCount =& $node->subTreeCount( array( 'Depth' => 1,
-                                                      'Limitation' => null ) );
-        if ( $childrenCount === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$childrenCount );
-    }
-
-    function &fetchObjectTree( $parentNodeID, $offset, $limit, $sortBy, $classID, $class_filter_type, $class_filter_array   )
-    {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $children =& eZContentObjectTreeNode::subTree( array( 'Offset' => $offset,
-                                                              'Limit' => $limit,
-                                                              'Limitation' => null,
-                                                              'sort_by' => $sortBy,
-                                                              'class_id' => $classID,
-                                                              'ClassFilterType' => $class_filter_type,
-                                                              'ClassFilterArray' => $class_filter_array
-                                                              ),
+        $treeParameters = array( 'Offset' => $offset,
+                                 'Limit' => $limit,
+                                 'Limitation' => null,
+                                 'sort_by' => $sortBy,
+                                 'class_id' => $classID,
+                                 'ClassFilterType' => $class_filter_type,
+                                 'ClassFilterArray' => $class_filter_array );
+        if ( $depth !== false )
+            $treeParameters['Depth'] = $depth;
+        $children =& eZContentObjectTreeNode::subTree( $treeParameters,
                                                        $parentNodeID );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',

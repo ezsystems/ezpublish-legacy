@@ -354,6 +354,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sortingFields = " path_string ASC";
         }
 
+        $classCondition = '';
         if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
         {
@@ -1058,7 +1059,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( array_key_exists( 'class_name', $node ) )
                 {
                     $contentObject =& new eZContentObject( $node );
-                    
+
 /*                    if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
                     {
                         $permissions['can_read'] = $node['can_read'];
@@ -1081,7 +1082,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     $contentObject =& new eZContentObject( array());
                 }
-                
+
                 $object->setContentObject( $contentObject );
             }
             $retNodes[] =& $object;
