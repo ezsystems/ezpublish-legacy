@@ -3,7 +3,7 @@
 <h2>{"Module not found"|i18n("design/standard/error/kernel")}</h2>
 <p>{"The requested module %module could not be found."|i18n("design/standard/error/kernel",,
                                                             hash('%module',$parameters.module|wash))}</p>
-<p>{"Possible reasons for this is."|i18n("design/standard/error/kernel")}</p>
+<p>{"Possible reasons for this are:"|i18n("design/standard/error/kernel")}</p>
 <ul>
     <li>{"The module name was misspelled, try changing the URL."|i18n("design/standard/error/kernel")}</li>
     <li>{"The module does not exist on this site."|i18n("design/standard/error/kernel")}</li>
