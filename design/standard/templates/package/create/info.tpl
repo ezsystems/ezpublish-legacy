@@ -18,22 +18,22 @@
             <label>{'Package name'|i18n('design/standard/package')}</label>
             <input class="textline" type="text" name="PackageName" value="{$persistent_data.name|wash}" />
         </div>
-    
+
         <div class="summary">
             <label>{'Summary'|i18n('design/standard/package')}</label>
             <input class="textline" type="text" name="PackageSummary" value="{$persistent_data.summary|wash}" />
         </div>
-    
+
         <div class="description">
             <label>{'Description'|i18n('design/standard/package')}</label>
             <textarea class="description" name="PackageDescription">{$persistent_data.description|wash}</textarea>
         </div>
-    
+
         <div class="version">
             <label>{'Version'|i18n('design/standard/package')}</label>
             <input class="shorttextline" type="text" name="PackageVersion" value="{$persistent_data.version|wash}" />
         </div>
-    
+
         <div class="licence">
             <label>{'Licence'|i18n('design/standard/package')}</label>
             <input type="hidden" name="PackageLicence" value="{$persistent_data.licence|wash}" />
@@ -46,13 +46,13 @@
             <label>{'Package host'|i18n('design/standard/package')}</label>
             <input class="textline" type="text" name="PackageHost" value="{$persistent_data.host|wash}" />
         </div>
-    
+
         <div class="summary">
             <label>{'Packager'|i18n('design/standard/package')}</label>
             <input class="textline" type="text" name="PackagePackager" value="{$persistent_data.packager|wash}" />
         </div>
     </td>
-    
+
     </tr>
     </table>
 
