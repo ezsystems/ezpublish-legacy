@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 //
 // Created on: <18-Mar-2003 17:06:45 amos>
@@ -53,6 +54,20 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     if ( strlen( $arg ) > 0 and
          $arg[0] == '-' )
     {
+        if ( strlen( $arg ) > 1 and
+             $arg[1] == '-' )
+        {
+            $flag = substr( $arg, 2 );
+        }
+        else
+        {
+            $flag = substr( $arg, 1 );
+            if ( $flag == 'h' )
+            {
+                print( "Usage: " . $argv[0] . " [cronpart]\n" );
+                exit();
+            }
+        }
     }
     else
     {

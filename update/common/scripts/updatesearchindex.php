@@ -1,4 +1,4 @@
-#!/usr/local/php/bin/php
+#!/usr/bin/env php
 <?php
 //
 // Created on: <28-Nov-2002 12:45:40 bf>

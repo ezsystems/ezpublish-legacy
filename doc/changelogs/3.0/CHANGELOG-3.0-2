@@ -51,6 +51,12 @@ eZ mail:
 
 *New files :
 
+*Changed files :
+- runcronjobs.php was made executable which means it can be run from
+  shell script with ./runcronjobs.php
+- Script in update/common/scripts were made executable which means it can be
+  run from shell script with update/common/scripts/nameofscript.php
+
 *New documentation :
 
 *Changed documentation :
