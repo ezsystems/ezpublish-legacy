@@ -79,4 +79,3 @@ Live demo of eZ publish 3
 http://beta.ezpublish.no
 http://admin.beta.ezpublish.no
 Login with 'admin' as username and 'publish' as password
-
