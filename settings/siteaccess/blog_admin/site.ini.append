@@ -9,6 +9,10 @@ Password=mofser
 Database=blog
 
 
+[SiteAccessSettings]
+RequireUserLogin=true
+
+
 [DesignSettings]
 StandardDesign=standard
 SiteDesign=admin

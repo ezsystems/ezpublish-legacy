@@ -1,4 +1,6 @@
 
+[SiteAccessSettings]
+RequireUserLogin=true
 
 [DatabaseSettings]
 DatabasePluginPath=
