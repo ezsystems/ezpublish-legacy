@@ -152,6 +152,14 @@ class eZXMLInputHandler
 
         $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
+        $text =& preg_replace( "#<bold>#", "<strong>", $text );
+        $text =& preg_replace( "#</bold>#", "</strong>", $text );
+
+        $text =& preg_replace( "#<em>#", "<emphasize>", $text );
+        $text =& preg_replace( "#</em>#", "</emphasize>", $text );
+
+        $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
+
         // Convert headers
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
         $sectionData = "<section>";
@@ -489,6 +497,13 @@ class eZXMLInputHandler
     {
         $output = "";
         $tagName = $tag->name();
+        $childTagText = "";
+        // render children tags
+        $tagChildren = $tag->children();
+        foreach ( $tagChildren as $childTag )
+        {
+            $childTagText .= $this->inputTagXML( $childTag );
+        }
 
         switch ( $tagName )
         {
@@ -555,7 +570,7 @@ class eZXMLInputHandler
             case 'emphasize' :
             case 'strong' :
             {
-                $output .= "<$tagName>" . $childTagText . $tag->textContent() . "</$tagName>";
+                $output .= "<$tagName>" . $childTagText . "</$tagName>";
             }break;
 
             // Custom tags
@@ -563,7 +578,7 @@ class eZXMLInputHandler
             {
                 $name = $tag->attributeValue( 'name' );
 
-                $output .= "<$tagName name='$name'>" . $childTagText . $tag->textContent() . "</$tagName>";
+                $output .= "<$tagName name='$name' ff>" . $childTagText . "</$tagName>";
             }break;
 
             case 'link' :
@@ -573,7 +588,7 @@ class eZXMLInputHandler
                     $href =& eZURL::url( $linkID );
                 else
                     $href = $tag->attributeValue( 'href' );
-                $output .= "<$tagName href='$href'>" . $childTagText . $tag->textContent() . "</$tagName>";
+                $output .= "<$tagName href='$href'>" . $childTagText . "</$tagName>";
             }break;
 
             default :

@@ -100,7 +100,7 @@ text&lt;/link&gt; </li>where id is an existing eZ url id.
 <li> &lt;object id="id" view="view type" /&gt;</li> where 'id' should be an existing eZ
 object id and 'view type' could be 'embed', 'text_linked' or not specified.
 <li> &lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt;</li> where
-attribute 'border' and 'width' could be not presented. Table content should be written as
+attribute 'border' and 'width' could be not presented. Table content should be written according to
 normal table syntax with &lt;tr&gt; and &lt;td&gt; tag.
 
 </ul>
