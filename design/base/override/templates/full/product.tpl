@@ -3,7 +3,7 @@
 <div class="view-full">
     <div class="class-product">
 
-        <h2>{$node.name|wash()}</h2>
+        <h1>{$node.name|wash()}</h1>
 
         <div class="content-short">
            {attribute_view_gui attribute=$node.object.data_map.intro}
@@ -26,6 +26,26 @@
             <input class="button" type="submit" name="ActionAddToNotification" value="{"Notify me about updates"|i18n("design/shop/layout")}{*to {$node.name|wash}*}" />
         </form>
         </div>
+
+        <h2>Product reviews</h2>
+        <div class="view-children">
+            {section var=review loop=fetch_alias( reviews, hash( parent_node_id, $node.node_id ) )}
+                {node_view_gui view='line' content_node=$review}
+            {/section}
+        </div>
+
+        {* Are we allowed to create new object under this node? *}
+        {section show=$node.object.can_create}
+            <form method="post" action={"content/action"|ezurl}>
+                <input type="hidden" name="ClassIdentifier" value="review" />
+                <input type="hidden" name="NodeID" value="{$node.node_id}" />
+                <input class="button" type="submit" name="NewButton" value="New review" />
+            </form>
+        {section-else}
+            <div class="message-warning">
+               <h3>You are not allowed to create comments.</h3>
+            </div>
+        {/section}
 
         {let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
                                                                limit, 10 ) )}

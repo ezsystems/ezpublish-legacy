@@ -33,3 +33,12 @@ Constant[sort_by]=priority;0
 Parameter[parent_node_id]=parent_node_id
 Parameter[offset]=offset
 Parameter[limit]=limit
+
+# Fetch product reviews
+[reviews]
+Module=content
+FunctionName=list
+Constant[sort_by]=published;0
+Parameter[parent_node_id]=parent_node_id
+Constant[class_filter_type]=include
+Constant[class_filter_array]=review
