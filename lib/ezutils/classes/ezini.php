@@ -641,7 +641,7 @@ class eZINI
     }
 
     /*!
-     \removes the cache file if it exists.
+      Removes the cache file if it exists.
     */
     function resetCache()
     {
