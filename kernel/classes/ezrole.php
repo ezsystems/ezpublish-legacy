@@ -349,7 +349,10 @@ class eZRole extends eZPersistentObject
             if( $valueCount == 0 )
             {
                 $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
-                $policy->remove();
+                if ( is_object ( $policy ) )
+                {
+                    $policy->remove();
+                }
                 eZContentObject::expireAllCache();
                 eZRole::expireCache();
             }
