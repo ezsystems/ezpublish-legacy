@@ -294,7 +294,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
             }
         }
 
-        $packageInformation['name'] = 'Cutsom object package';
+        $packageInformation['name'] = 'Custom object package';
         $packageInformation['summary'] = 'Export of ' . $nodeCount . ' nodes.';
         $packageInformation['description'] = $description;
     }
