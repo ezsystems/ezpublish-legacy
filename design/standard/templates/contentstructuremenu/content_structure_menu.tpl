@@ -72,7 +72,7 @@
     {/section}
 
     {* create menu *}
-    {cache-block keys=array($:itemClickAction) subtree_expire="$:parentNode.object.name/"}
+    {cache-block keys=array($:itemClickAction, $:rootNodeID) subtree_expire="$:parentNode.object.name/"}
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID,
                                                             $:classFilter,
