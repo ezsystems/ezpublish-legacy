@@ -150,6 +150,11 @@ th.wide
 {
 }
 
+td.nowrap 
+{
+    white-space: nowrap;
+}
+
 /* ORDERED AND UNORDERED LISTS */
 
 ul, ol

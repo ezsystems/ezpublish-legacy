@@ -2,35 +2,35 @@
     <table class="list" cellspacing="0">
     <tr>
         {* Remove column *}
-        <th class="remove"> &nbsp; </th>
+        <th class="remove">&nbsp;</th>
 
         {* Name column *}
-        <th class="name">{'Name'|i18n( 'design/admin/layout ')}</th>
+        <th class="name">{'Name'|i18n( 'design/admin/layout ')}:</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
+        <th class="class">{'Type'|i18n( 'design/admin/layout ')}:</th>
 
         {* Modifier column *}
-        <th class="creator">{'Last modifier'|i18n( 'design/admin/layout' )}</th>
+        <th class="creator">{'Last modifier'|i18n( 'design/admin/layout' )}:</th>
 
         {* Modified column *}
-        <th class="creator">{'Last modified'|i18n( 'design/admin/layout' )}</th>
+        <th class="creator">{'Last modified'|i18n( 'design/admin/layout' )}:</th>
 
         {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/layout ')}</th>
+        <th class="section">{'Section'|i18n( 'design/admin/layout ')}:</th>
 
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
-            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
+            <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}:</th>
         {/section}
 
         {* Copy column *}
         {* section show=$can_copy *}
-            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}</th>
+            <th class="copy">&nbsp;</th>
         {* /section *}
 
         {* Edit column *}
-        <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}</th>
+        <th class="edit">&nbsp;</th>
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}

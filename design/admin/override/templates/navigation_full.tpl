@@ -32,6 +32,7 @@ Type: {$node.object.class_name}<br />
 <h2 class="title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
 
 <div class="mainobject-vindow" title="{$node_name|wash} [{'Folder'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}">
+
 {* Show the actual contents of the object. *}
 {node_view_gui content_node=$node view=navigation}
 
@@ -41,6 +42,8 @@ Type: {$node.object.class_name}<br />
 
 </div>
 
+
+{include uri="design:locations.tpl"}
 
 {* Show related objects. *}
 {* include uri="design:related_objects.tpl" *}
