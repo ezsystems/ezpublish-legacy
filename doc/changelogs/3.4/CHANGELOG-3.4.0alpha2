@@ -8,9 +8,6 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Changed content view to not use operations if read workflows are disabled. Saved approx 500KB of memory on every view page.
 - Added menu config admin page which can edit the settings for which menu to use. This will only work with pagelayouts which uses this setup.
 - Added toolbar config admin page which could edit the settings of toolbar in page layuout.
-- Added support for or (|) logic in object name pattern, you can now specify <firstname|lastname> 
-  this will then set the object name to the value of lastname attribute if firstname is empty.
-- Optimized eZPersitentObject::fill it now uses much less function calls it reduces approx 600+ function calls on a simple view page.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.
@@ -45,6 +42,9 @@ eZ ini:
 eZ template:
 - New class eZTemplateToolbarFunction which support template syntac {tool_bar name=$toolbar_name view=$viewmode}.
 
+eZ file:
+- Added function to remove files match a given pattern in class eZDir.
+
 eZ PHP creator:
 
 *Bugs:
@@ -58,14 +58,6 @@ eZ PHP creator:
   the assignment is applied in compiled template code.
 - Made sure the same repository is not scanned multiple times.
   http://ez.no/community/bug_reports/ezdatatype_php_latest_trunk
-- Fixed bug, mondayfirst does not take effect. (merged from 3.3 stable rev. 5464)
-  http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
-- Fixed bug, removed dependency on eZDateTime for currentTimeStamp().
-  http://ez.no/community/bug_reports/missing_include_ezdatetime_php
-- Fixed small bugs in clearing the cache files. (merged from 3.3 stable rev. 5478)
-  http://ez.no/community/bug_reports/kernel_classes_ezcache_php_fatal_error_missing_includes_more
-- Fixed bug when the email list was empty in a custom webshop list.
-  http://ez.no/community/bug_reports/shop_customlist_sql_error
 
-  *Update
+*Update
 - Added script addorderemail.php which will add email field content to table ezorder.

@@ -389,6 +389,80 @@ class eZDir
 
     /*!
      \static
+      Unlink files match the given pattern in the given directory.
+    */
+    function unlinkWildcard( $dir, $pattern )
+    {
+        $availableFiles = array();
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $file = readdir( $handle ) ) !== false )
+            {
+                if ( $file != "." && $file != ".." )
+                {
+                    $availableFiles[] = $file;
+                }
+            }
+            @closedir( $handle );
+
+            if( strpos( $pattern, "." ) )
+            {
+                $baseexp = substr( $pattern, 0, strpos( $pattern, "." ) );
+                $typeexp = substr( $pattern, ( strpos( $pattern, "." ) + 1 ), strlen( $pattern ) );
+            }
+            else
+            {
+                $baseexp = $pattern;
+                $typeexp = "";
+            }
+
+            $baseexp=preg_quote( $baseexp );
+            $typeexp=preg_quote( $typeexp );
+
+            $baseexp = str_replace( array( "\*", "\?" ), array( ".*", "." ), $baseexp );
+            $typeexp = str_replace(array( "\*", "\?" ), array( ".*", "." ), $typeexp );
+
+            $i=0;
+            $matchedFileArray = array();
+            foreach( $availableFiles as $file )
+            {
+                $fileName = basename( $file );
+
+                if( strpos( $fileName, "." ) )
+                {
+                    $base = substr( $fileName, 0, strpos( $fileName, "."));
+                    $type = substr( $fileName, ( strpos( $fileName,"." ) + 1 ), strlen( $fileName ) );
+                }
+                else
+                {
+                    $base = $fileName;
+                    $type = "";
+                }
+
+                if( preg_match( "/^".$baseexp."$/i", $base ) && preg_match( "/^".$typeexp."$/i", $type ) )
+                {
+                    $matchedFileArray[$i] = $file;
+                    $i++;
+                }
+            }
+
+            foreach ( array_keys( $matchedFileArray ) as $key )
+            {
+                $matchedFile =& $matchedFileArray[$key];
+                if ( substr( $dir,-1 ) == "/")
+                {
+                    unlink( $dir.$matchedFile );
+                }
+                else
+                {
+                    unlink( $dir."/".$matchedFile );
+                }
+            }
+        }
+    }
+
+    /*!
+     \static
      Recurses through the directory and returns the files that matches the given suffix.
      This function will store the relative path from the given base only.
      Note: this function will not traverse . (hidden) folders

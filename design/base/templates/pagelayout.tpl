@@ -33,7 +33,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 </div>
 
 <div>
-{tool_bar name=Toolbar_top view=line}
+{tool_bar name=top view=line}
 </div>
 
 <hr class="hide" />
@@ -84,7 +84,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
     <li>Ten</li>
 </ul>*}
 
-{tool_bar name=Toolbar_right view=full}
+{tool_bar name=right view=full}
 
 </div>
 </div>

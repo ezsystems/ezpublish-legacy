@@ -103,9 +103,9 @@ class eZTemplateToolbarFunction
                         }
                         next( $params );
                     }
-                    $toolbarName = $tpl->elementValue( $functionParameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+                    $toolbarPosition = $tpl->elementValue( $functionParameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
                     $definedVariables = array();
-                    $toolbarPosition = str_replace( "Toolbar_", "", $toolbarName );
+                    $toolbarName = "Toolbar_" . $toolbarPosition;
                     $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
                     foreach ( array_keys( $toolArray ) as $toolKey )
                     {

@@ -38,7 +38,9 @@ $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( "kernel/common/template.php" );
+
 
 $ini =& eZINI::instance();
 $tpl =& templateInit();
@@ -76,8 +78,40 @@ if ( $module->isCurrentAction( 'Store' ) )
     $menuINI->setVariable( 'SelectedMenu', 'LeftMenu', $menuINI->variable( $menuType, "LeftMenu" ) );
 
     $menuINI->save( "siteaccess/$siteAccess/menu.ini.append" );
-}
 
+    // Delete compiled template
+    $iniPath = "settings/siteaccess/$siteAccess";
+    $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
+    if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
+    {
+        $cacheDir = $siteINI->variable( 'FileSettings', 'CacheDir' );
+        if ( $cacheDir[0] == "/" )
+        {
+            $cacheDir = eZDir::path( array( $cacheDir ) );
+        }
+        else
+        {
+            if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+            {
+                $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+                $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+            }
+        }
+    }
+    else if ( $siteINI->hasVariable( 'FileSettings', 'VarDir' ) )
+    {
+         $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
+         $cacheDir = eZDir::path( array( $varDir, $cacheDir ) );
+    }
+    else
+    {
+        $cacheDir =  eZSys::cacheDirectory();
+    }
+    $compiledTemplateDir = $cacheDir ."/template/compiled";
+    print( $compiledTemplateDir );
+    eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+}
 
 $availableMenuArray = $menuINI->variable( 'MenuSettings', 'AvailableMenuArray' );
 
