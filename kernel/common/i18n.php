@@ -9,6 +9,15 @@ function ezcurrentLanguage()
     return $language;
 }
 
+function &ezinsertarguments( $text, $arguments )
+{
+    if ( is_array( $arguments ) )
+    {
+        $text = strtr( $text, $arguments );
+    }
+    return $text;
+}
+
 /*!
  Translates the source \a $source with context \a $context and optional comment \a $comment
  and returns the translation.
@@ -24,21 +33,21 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
     include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
-    function &ezi18n( $context, $source, $comment = null )
+    function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( false, $context, $source, $comment );
+        return eZTranslateText( false, $context, $source, $comment, $arguments );
     }
 
-    function &ezx18n( $extension, $context, $source, $comment = null )
+    function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( $extension, $context, $source, $comment );
+        return eZTranslateText( $extension, $context, $source, $comment, $arguments );
     }
 
-    function &eZTranslateText( $extension, $context, $source, $comment = null )
+    function &eZTranslateText( $extension, $context, $source, $comment = null, $arguments = null )
     {
         $language =& ezcurrentLanguage();
         if ( $language == "eng-GB" ) // eng-GB does not need translation
-            return $source;
+            return ezinsertarguments( $source, $arguments );
 
         $file = 'translation.ts';
         $root = false;
@@ -64,22 +73,22 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         $man =& eZTranslatorManager::instance();
         $trans =& $man->translate( $context, $source, $comment );
         if ( $trans !== null )
-            return $trans;
+            return ezinsertarguments( $trans, $arguments );
 
         eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
-        return $source;
+        return ezinsertarguments( $source, $arguments );
     }
 }
 else
 {
-    function &ezi18n( $context, $source, $comment = null )
+    function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        return $source;
+        return ezinsertarguments( $source, $arguments );
     }
 
-    function &ezx18n( $extension, $context, $source, $comment = null )
+    function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        return $source;
+        return ezinsertarguments( $source, $arguments );
     }
 }
 

@@ -84,7 +84,10 @@ class eZi18nOperator
                                                                 'default' => false ),
                                             'comment' => array( 'type' => 'string',
                                                                 'required' => false,
-                                                                'default' => '' ) ),
+                                                                'default' => '' ),
+                                            'arguments' => array( 'type' => 'hash',
+                                                                  'required' => false,
+                                                                  'default' => false ) ),
                       $this->ExtensionName => array( 'extension' => array( 'type' => 'string',
                                                                            'required' => true,
                                                                            'default' => false ),
@@ -93,7 +96,10 @@ class eZi18nOperator
                                                                          'default' => false ),
                                                      'comment' => array( 'type' => 'string',
                                                                          'required' => false,
-                                                                         'default' => '' ) ) );
+                                                                         'default' => '' ),
+                                                     'arguments' => array( 'type' => 'hash',
+                                                                           'required' => false,
+                                                                           'default' => false ) ) );
     }
 
     /*!
@@ -101,20 +107,23 @@ class eZi18nOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
+
         switch ( $operatorName )
         {
             case $this->Name:
             {
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
-                $value = ezi18n( $context, $value, $comment );
+                $arguments = $namedParameters['arguments'];
+                $value = ezi18n( $context, $value, $comment, $arguments );
             } break;
             case $this->ExtensionName:
             {
                 $extension = $namedParameters['extension'];
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
-                $value = ezx18n( $extension, $context, $value, $comment );
+                $arguments = $namedParameters['arguments'];
+                $value = ezx18n( $extension, $context, $value, $comment, $arguments );
             } break;
         }
     }
