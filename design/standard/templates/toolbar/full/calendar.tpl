@@ -39,7 +39,9 @@
 {/case}
 {/switch}
 
-{*{cache-block keys=$cache_keys}*}
+{* Expire the content cache twice a day,
+   This is required because of the current day marking *}
+{*{cache-block keys=$cache_keys expiry=mul( 60, 60, 12 ) subtree_expiry=$show_subtree}*}
 
 <div class="toolbox">
     <div class="toolbox-design">

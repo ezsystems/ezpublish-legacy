@@ -62,7 +62,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 {section show=ezini('Toolbar_top','Tool','toolbar.ini')|count}
 <div id="toolbar-top">
-    <div id="toolbar-design">
+    <div class="toolbar-design">
         {tool_bar name=top view=line}
     </div>
 </div>
@@ -100,7 +100,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <h3 class="hide">Right menu</h3>
 
 <div id="toolbar-right">
-    <div id="toolbar-design">
+    <div class="toolbar-design">
        {tool_bar name=right view=full}
     </div>
 </div>
@@ -127,7 +127,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 {section show=ezini('Toolbar_bottom','Tool','toolbar.ini')|count}
 <div id="toolbar-bottom">
-    <div id="toolbar-design">
+    <div class="toolbar-design">
        {tool_bar name=bottom view=line}
     </div>
 </div>

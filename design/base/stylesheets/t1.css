@@ -41,7 +41,7 @@ div#toolbar-top
     text-align: right;
 }
 
-div#toolbar-design
+div.toolbar-design
 {
     padding: 0;
     margin: 0;
@@ -1160,12 +1160,6 @@ div.calendar tr.calendar-navigator table.calendar-navigator div
     display: inline;
 }
 
-
-/* div.calendar tr.calendar-navigator div */
-/* { */
-/*     display: inline; */
-/* } */
-
 div.calendar tr.calendar-navigator div.calendar-previous
 {
     float: left;
@@ -1176,7 +1170,19 @@ div.calendar tr.calendar-navigator div.calendar-next
     float: right;
 }
 
-div.calendar tr.calendar-navigator div.calendar-month th
+div.calendar tr.calendar-navigator span.calendar-arrow
+{
+    color: #f80;
+    font-size: 150%;
+}
+
+
+div.calendar tr.calendar-navigator div.calendar-date span
+{
+    font-size: 130%;
+}
+
+div.calendar tr.calendar-navigator div.calendar-date span.calendar-month
 {
     text-transform: lowercase;
     text-align: left;
@@ -1196,6 +1202,11 @@ div.calendar th
     color: #666;
     text-transform: lowercase;
     text-align: center;
+}
+
+div.calendar tr.calendar-day-names th
+{
+    font-size: 70%;
 }
 
 div.calendar tr.calendar-day-names th.calendar-day-sun, div.calendar tr.calendar-day-names th.calendar-day-sat

@@ -28,11 +28,11 @@
 
         {section show=$node.object.data_map.enable_comments.content}
         <div class="attribute-link">
-            <p><a href={$node.url_alias|ezurl}>{'Comments'|i18n( 'design/base/weblog' )}</a><p>
+            <p><a href={$node.url_alias|ezurl}>{'Comments'|i18n( 'design/base/weblog' )}</a></p>
         </div>
         {section-else}
         <div class="attribute-link-disabled">
-            <p><a href={$node.url_alias|ezurl}>{'Comments off'|i18n( 'design/base/weblog' )}</a><p>
+            <p><a href={$node.url_alias|ezurl}>{'Comments off'|i18n( 'design/base/weblog' )}</a></p>
         </div>
         {/section}
    </div>
