@@ -71,6 +71,8 @@ Changes from 3.2-2 to 3.2-3
   Removed invalid form tag.
 - http://ez.no/developer/ez_publish_3/bug_reports/eztemplatenl2broperatorphp_missing_comma_line_77_and_class_named_wrongly_line_46
   Fixed wrong class name.
+- http://ez.no/developer/ez_publish_3/bug_reports/typo_in_ezcontentobjecttreenodephp
+  Fixed correct section sort field.
 
 *Setup:
 
