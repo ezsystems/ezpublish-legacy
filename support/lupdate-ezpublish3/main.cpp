@@ -83,115 +83,147 @@ int main( int argc, char **argv )
     QString ezdirectory;
     bool newTSfile = TRUE;;
 
-    for ( int i = 1; i < argc; i++ ) {
-	if ( qstrcmp(argv[i], "-help") == 0 || qstrcmp(argv[i], "-h") == 0 ) {
-	    printUsage();
-	    return 0;
-	} else if ( qstrcmp(argv[i], "-noobsolete") == 0 || qstrcmp(argv[i], "-no") == 0 ) {
-	    noObsolete = TRUE;
-	    continue;
-	} else if ( qstrcmp(argv[i], "-verbose") == 0 || qstrcmp(argv[i], "-V") == 0 ) {
-	    verbose = TRUE;
-	    continue;
-	} else if ( qstrcmp(argv[i], "-version") == 0 || qstrcmp(argv[i], "-v") == 0 ) {
-	    qWarning( QString( "lupdate version %1 with eZ publish patch %2-2" )
-                  .arg( QT_VERSION_STR ).arg( QT_VERSION_STR ) );
-	    return 0;
-	} else if ( qstrcmp(argv[i], "-ezpublish") == 0 || qstrcmp(argv[i], "-e") == 0 ) {
-        ezpublish = TRUE;
-        if ( i+1 < argc ) {
-            i++;
-            ezlanguage = argv[i];
-            if ( i+1 < argc ) {
-                QString arg( argv[i+1] );
-                if ( !arg.startsWith( "-" ) ) {
-                    i++;
-                    ezdirectory = arg;
-                }
-            }
-        } else {
+    // Argument handling
+    for ( int i = 1; i < argc; i++ )
+    {
+        if ( qstrcmp(argv[i], "-help") == 0 || qstrcmp(argv[i], "-h") == 0 )
+        {
             printUsage();
-            return 1;
+            return 0;
         }
-	}
-
-
-    // Traditional Qt translation mode
-    if ( !ezpublish ) {
-	numProFiles++;
-	QFile f( argv[i] );
-	if ( !f.open(IO_ReadOnly) ) {
-	    qWarning( "lupdate error: Cannot open project file '%s': %s",
-		      argv[i], strerror(errno) );
-	    return 1;
-	}
-
-	QTextStream t( &f );
-	QString fullText = t.read();
-	f.close();
-
-	MetaTranslator fetchedTor;
-	QString defaultContext = "@default";
-	QCString codec;
-	QStringList translatorFiles;
-	QStringList::Iterator tf;
-
-	QMap<QString, QString> tagMap = proFileTagMap( fullText );
-	QMap<QString, QString>::Iterator it;
-
-	for ( it = tagMap.begin(); it != tagMap.end(); ++it ) {
-            QStringList toks = QStringList::split( QChar(' '), it.data() );
-	    QStringList::Iterator t;
-
-            for ( t = toks.begin(); t != toks.end(); ++t ) {
-                if ( it.key() == QString("HEADERS") ||
-                     it.key() == QString("SOURCES") ) {
-                    fetchtr_cpp( *t, &fetchedTor, defaultContext, TRUE );
-                    metSomething = TRUE;
-                } else if ( it.key() == QString("INTERFACES") ||
-			    it.key() == QString("FORMS") ) {
-                    fetchtr_ui( *t, &fetchedTor, defaultContext, TRUE );
-		    fetchtr_cpp( *t + QString(".h"), &fetchedTor,
-				 defaultContext, FALSE );
-                    metSomething = TRUE;
-                } else if ( it.key() == QString("TRANSLATIONS") ) {
-                    translatorFiles.append( *t );
-                    metSomething = TRUE;
-                } else if ( it.key() == QString("CODEC") ) {
-                    codec = (*t).latin1();
+        else if ( qstrcmp(argv[i], "-noobsolete") == 0 || qstrcmp(argv[i], "-no") == 0 )
+        {
+            noObsolete = TRUE;
+            continue;
+        }
+        else if ( qstrcmp(argv[i], "-verbose") == 0 || qstrcmp(argv[i], "-V") == 0 )
+        {
+            verbose = TRUE;
+            continue;
+        }
+        else if ( qstrcmp(argv[i], "-version") == 0 || qstrcmp(argv[i], "-v") == 0 )
+        {
+            qWarning( QString( "lupdate version %1 with eZ publish patch %2-nextgen-1" )
+                      .arg( QT_VERSION_STR ).arg( QT_VERSION_STR ) );
+            return 0;
+        }
+        else if ( qstrcmp(argv[i], "-ezpublish") == 0 || qstrcmp(argv[i], "-e") == 0 )
+        {
+            ezpublish = TRUE;
+            if ( i+1 < argc )
+            {
+                i++;
+                ezlanguage = argv[i];
+                if ( i+1 < argc ) {
+                    QString arg( argv[i+1] );
+                    if ( !arg.startsWith( "-" ) )
+                    {
+                        i++;
+                        ezdirectory = arg;
+                    }
                 }
+            }
+            else
+            {
+                printUsage();
+                return 1;
             }
         }
 
-	for ( tf = translatorFiles.begin(); tf != translatorFiles.end(); ++tf ) {
-	    MetaTranslator tor;
-	    tor.load( *tf );
-	    if ( !codec.isEmpty() )
-		tor.setCodec( codec );
-	    if ( verbose )
-		qWarning( "Updating '%s'...", (*tf).latin1() );
-	    merge( &tor, &fetchedTor, verbose );
-	    if ( noObsolete )
-		tor.stripObsoleteMessages();
-	    tor.stripEmptyContexts();
-	    if ( !tor.save(*tf) )
-		qWarning( "lupdate error: Cannot save '%s': %s", (*tf).latin1(),
-			  strerror(errno) );
-	}
-	if ( !metSomething ) {
-	    qWarning( "lupdate warning: File '%s' does not look like a project"
-		      " file", argv[i] );
-	} else if ( translatorFiles.isEmpty() ) {
-	    qWarning( "lupdate warning: Met no 'TRANSLATIONS' entry in project"
-		      " file '%s'", argv[i] );
-	}
-    }
+
+        // Traditional Qt translation mode
+        if ( !ezpublish )
+        {
+            numProFiles++;
+            QFile f( argv[i] );
+            if ( !f.open(IO_ReadOnly) )
+            {
+                qWarning( "lupdate error: Cannot open project file '%s': %s",
+                          argv[i], strerror(errno) );
+                return 1;
+            }
+
+            QTextStream t( &f );
+            QString fullText = t.read();
+            f.close();
+
+            MetaTranslator fetchedTor;
+            QString defaultContext = "@default";
+            QCString codec;
+            QStringList translatorFiles;
+            QStringList::Iterator tf;
+
+            QMap<QString, QString> tagMap = proFileTagMap( fullText );
+            QMap<QString, QString>::Iterator it;
+
+            for ( it = tagMap.begin(); it != tagMap.end(); ++it )
+            {
+                QStringList toks = QStringList::split( QChar(' '), it.data() );
+                QStringList::Iterator t;
+
+                for ( t = toks.begin(); t != toks.end(); ++t )
+                {
+                    if ( it.key() == QString("HEADERS") ||
+                         it.key() == QString("SOURCES") )
+                    {
+                        fetchtr_cpp( *t, &fetchedTor, defaultContext, TRUE );
+                        metSomething = TRUE;
+                    }
+                    else if ( it.key() == QString("INTERFACES") ||
+                              it.key() == QString("FORMS") )
+                    {
+                        fetchtr_ui( *t, &fetchedTor, defaultContext, TRUE );
+                        fetchtr_cpp( *t + QString(".h"), &fetchedTor,
+                                     defaultContext, FALSE );
+                        metSomething = TRUE;
+                    }
+                    else if ( it.key() == QString("TRANSLATIONS") )
+                    {
+                        translatorFiles.append( *t );
+                        metSomething = TRUE;
+                    }
+                    else if ( it.key() == QString("CODEC") )
+                    {
+                        codec = (*t).latin1();
+                    }
+                }
+            }
+
+            for ( tf = translatorFiles.begin(); tf != translatorFiles.end(); ++tf )
+            {
+                MetaTranslator tor;
+                tor.load( *tf );
+                if ( !codec.isEmpty() )
+                    tor.setCodec( codec );
+                if ( verbose )
+                    qWarning( "Updating '%s'...", (*tf).latin1() );
+                merge( &tor, &fetchedTor, verbose );
+                if ( noObsolete )
+                    tor.stripObsoleteMessages();
+                tor.stripEmptyContexts();
+                if ( !tor.save(*tf) )
+                    qWarning( "lupdate error: Cannot save '%s': %s", (*tf).latin1(),
+                              strerror(errno) );
+            }
+            if ( !metSomething )
+            {
+                qWarning( "lupdate warning: File '%s' does not look like a project"
+                          " file", argv[i] );
+            }
+            else if ( translatorFiles.isEmpty() )
+            {
+                qWarning( "lupdate warning: Met no 'TRANSLATIONS' entry in project"
+                          " file '%s'", argv[i] );
+            }
+        }
     }
 
-    if ( numProFiles == 0 && !ezpublish ) {
-	printUsage();
-	return 1;
+    if ( numProFiles == 0 && !ezpublish )
+    {
+        printUsage();
+        return 1;
     }
+
 
     // eZ publish translation mode
     if ( ezpublish )
@@ -206,81 +238,96 @@ int main( int argc, char **argv )
             }
         }
 
-        QString tfdirname = "translations";
-        QDir tfdir( tfdirname );
+        QDir tfdir( "share/translations" );
         if ( !tfdir.exists() )
         {
-            if ( QDir::current().mkdir( tfdirname ) )
+            if ( QDir::current().mkdir( tfdir.path() ) )
             {
-                qWarning( "eZ publish translations directory created." );
-                tfdir.setPath( tfdirname );
+                qWarning( "eZ publish translations directory created: " + tfdir.path() );
             }
             else
             {
-                qWarning( "lupdate error: eZ publish translations directory could not be created." );
+                qWarning( "ERROR - "
+                          "eZ publish translations directory could not be created: " + tfdir.path() );
                 return 1;
             }
         }
-        QFileInfo fi( tfdir.dirName() + "/tt2_" + ezlanguage + ".ts" );
+
+        tfdir.setPath( tfdir.path() + QDir::separator() + ezlanguage );
+        if ( !tfdir.exists() )
+        {
+            if ( QDir::current().mkdir( tfdir.path() ) )
+            {
+                qWarning( "eZ publish translations directory created: " + tfdir.path() );
+            }
+            else
+            {
+                qWarning( "ERROR - "
+                          "eZ publish translations directory could not be created: " + tfdir.path() );
+                return 1;
+            }
+        }
+
+        QFileInfo fi( tfdir.dirName() + "/translation.ts" );
         if ( fi.exists() )
-            newTSfile = FALSE;
+            newTSfile = false;
 
         MetaTranslator fetchedTor;
         QDir dir;
         if ( verbose )
             qWarning( "Checking eZ publish directory: '%s'...", dir.absPath().latin1() );
-        checkLocale( fetchedTor );
-        traverse( dir, fetchedTor );
+//         checkLocale( fetchedTor );
+//         traverse( dir, fetchedTor );
 
- 	    MetaTranslator tor;
+//  	    MetaTranslator tor;
 
-        // Try to find codec from locale file
-        QString codec;
-        QFileInfo localefi( dir.absPath() + "/classes/locale/" + ezlanguage + ".ini" );
-        if ( localefi.exists() )
-        {
-            QFile locale( localefi.filePath() );
-            if ( locale.open( IO_ReadOnly ) )
-            {
-                QTextStream localeStream( &locale );
-                QString line, liso = "LanguageISO";
-                while ( !localeStream.atEnd() )
-                {
-                    line = localeStream.readLine();
-                    if ( line.startsWith( liso ) )
-                    {
-                        codec = line.right( line.length() - liso.length() - 1 );
-                        break;
-                    }
-                }
-                locale.close();
-            }
-        }
-        if ( !codec.isNull() )
-        {
-            tor.setCodec( codec.latin1() );
-            if ( verbose )
-                qWarning( "Setting codec for .ts file to: %s", codec.latin1() );
-        }
-        else
-            qWarning( "Warning: No codec found, setting codec for .ts file to default: iso-8859-1" );
+//         // Try to find codec from locale file
+//         QString codec;
+//         QFileInfo localefi( dir.absPath() + "/classes/locale/" + ezlanguage + ".ini" );
+//         if ( localefi.exists() )
+//         {
+//             QFile locale( localefi.filePath() );
+//             if ( locale.open( IO_ReadOnly ) )
+//             {
+//                 QTextStream localeStream( &locale );
+//                 QString line, liso = "LanguageISO";
+//                 while ( !localeStream.atEnd() )
+//                 {
+//                     line = localeStream.readLine();
+//                     if ( line.startsWith( liso ) )
+//                     {
+//                         codec = line.right( line.length() - liso.length() - 1 );
+//                         break;
+//                     }
+//                 }
+//                 locale.close();
+//             }
+//         }
+//         if ( !codec.isNull() )
+//         {
+//             tor.setCodec( codec.latin1() );
+//             if ( verbose )
+//                 qWarning( "Setting codec for .ts file to: %s", codec.latin1() );
+//         }
+//         else
+//             qWarning( "Warning: No codec found, setting codec for .ts file to default: iso-8859-1" );
 
-	    tor.load( fi.filePath() );
-	    if ( verbose )
-            qWarning( "Updating '%s'...", fi.filePath().latin1() );
-	    merge( &tor, &fetchedTor, verbose );
-	    if ( noObsolete )
-            tor.stripObsoleteMessages();
-	    tor.stripEmptyContexts();
+// 	    tor.load( fi.filePath() );
+// 	    if ( verbose )
+//             qWarning( "Updating '%s'...", fi.filePath().latin1() );
+// 	    merge( &tor, &fetchedTor, verbose );
+// 	    if ( noObsolete )
+//             tor.stripObsoleteMessages();
+// 	    tor.stripEmptyContexts();
 
-	    if ( !tor.save( fi.filePath() ) )
-            qWarning( "lupdate error: Cannot save '%s': %s", fi.filePath().latin1(), strerror( errno ) );
+// 	    if ( !tor.save( fi.filePath() ) )
+//             qWarning( "lupdate error: Cannot save '%s': %s", fi.filePath().latin1(), strerror( errno ) );
 
-        // Language has not been translated with qt linguist before,
-        // so we must get strings from translated .ini files.
-        if ( newTSfile )
-            importTranslation( tor, fi.filePath() );
-	}
+//         // Language has not been translated with qt linguist before,
+//         // so we must get strings from translated .ini files.
+//         if ( newTSfile )
+//             importTranslation( tor, fi.filePath() );
+ 	}
 
     return 0;
 }
