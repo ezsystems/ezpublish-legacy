@@ -664,12 +664,15 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
     $moduleRedirectUri = $module->redirectURI();
     $translatedModuleRedirectUri = $moduleRedirectUri;
-    if ( eZURLAlias::translate( $translatedModuleRedirectUri, true ) )
+    if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
-        $moduleRedirectUri = $translatedModuleRedirectUri;
-        if ( strlen( $moduleRedirectUri ) > 0 and
-             $moduleRedirectUri[0] != '/' )
-            $moduleRedirectUri = '/' . $moduleRedirectUri;
+        if ( eZURLAlias::translate( $translatedModuleRedirectUri, true ) )
+        {
+            $moduleRedirectUri = $translatedModuleRedirectUri;
+            if ( strlen( $moduleRedirectUri ) > 0 and
+                 $moduleRedirectUri[0] != '/' )
+                $moduleRedirectUri = '/' . $moduleRedirectUri;
+        }
     }
 
     if ( preg_match( '#^(\w+:)|^//#', $moduleRedirectUri ) )
