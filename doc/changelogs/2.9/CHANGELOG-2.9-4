@@ -75,3 +75,7 @@ eZ uri:
 eZ sys:
 - Improved the attribute support.
 - Fixed nVH detection and setup, it no longer modifies server variables.
+- Added support for debug output which is off by default.
+
+eZ session:
+- Added checked for DB connection.

@@ -18,6 +18,5 @@
 </div>
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
-RedirectURI="{$User:redirect_uri}"<br/>
 
 </form>

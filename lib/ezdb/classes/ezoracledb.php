@@ -74,7 +74,6 @@ class eZOracleDB extends eZDBInterface
             $this->DBConnection = OCILogon( $user, $password);//, $db );
 //            OCIInternalDebug(1);
 
-//            print( $user . ' ' . $password . '<br/>' ) ;
             if ( $this->DBConnection === false )
                 $this->IsConnected = false;
             else

@@ -58,4 +58,10 @@ define( 'EZ_ERROR_KERNEL_MODULE_NOT_FOUND', 20 );
 */
 define( 'EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND', 21 );
 
+
+/*!
+ No database connection
+*/
+define( 'EZ_ERROR_KERNEL_NO_DB_CONNECTION', 50 );
+
 ?>

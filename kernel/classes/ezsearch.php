@@ -108,8 +108,6 @@ class eZSearch
             $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
         }
 
-//        print( "Using searchengine: " . $searchEngineString . "<br>" );
-
         include( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
         $searchEngine = new $searchEngineString;
 

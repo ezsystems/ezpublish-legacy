@@ -234,9 +234,6 @@ class eZContentObjectVersion extends eZPersistentObject
     */
 /*    function contentObjectAtributes( $language = false, $as_object = true )
     {
-        print( "inside attributes<br>" );
-        flush();
-
         if ( $language === false )
         {
             $language = eZContentObject::defaultLanguage();

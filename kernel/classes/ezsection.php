@@ -106,7 +106,6 @@ class eZSection extends eZPersistentObject
             $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
         if ( !isset( $sectionArray['id'] ) )
         {
-//             print( "no section id<br/>" );
             return false;
         }
         $sectionID = $sectionArray['id'];

@@ -126,7 +126,6 @@ class eZModuleRun extends eZPersistentObject
         $module->setCurrentAction( $moduleData['CurrentAction'] );
         $module->ViewActionParameters[ $moduleData['ViewName'] ] == $moduleData['ActionParameters'];
 //        var_dump($moduleData);
-//        print("fooo <br>");
         $module->run( $moduleData['ViewName'], $moduleData['ViewParams'] );
 
     }

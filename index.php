@@ -5,6 +5,8 @@ error_reporting ( E_ALL );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
+$warningList = array();
+
 // Enable this line to get eZINI debug output
 // eZINI::setIsDebugEnabled( true );
 
@@ -89,10 +91,7 @@ eZDebug::addTimingPoint( "Script start" );
 
 include_once( "lib/ezutils/classes/ezuri.php" );
 
-eZDebug::writeDebug( eZSys::serverVariable( 'REQUEST_URI' ), 'REQUEST_URI' );
-eZDebug::writeDebug( eZSys::requestURI(), 'eZSys::requestURI()' );
 $uri =& eZURI::instance( eZSys::requestURI() );
-eZDebug::writeDebug( $uri->uriString(), '$uri' );
 $GLOBALS['eZRequestedURI'] =& $uri;
 
 include_once( "pre_check.php" );
@@ -100,6 +99,16 @@ include_once( "pre_check.php" );
 // Shall we start the eZ setup module?
 if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
     include_once( "lib/ezsetup/classes/ezsetup.php" );
+
+include_once( 'kernel/error/errors.php' );
+
+include_once( 'lib/ezdb/classes/ezdb.php' );
+
+$db =& eZDB::instance();
+if ( !$db->isConnected() )
+    $warningList[] = array( 'error' => array( 'type' => 'kernel',
+                                              'number' => EZ_ERROR_KERNEL_NO_DB_CONNECTION ),
+                            'text' => 'No database connection could be made, the system might not behave properly.' );
 
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
@@ -153,7 +162,6 @@ while ( $moduleRunRequired )
     $check = eZHandlePreChecks();
 
     include_once( "lib/ezutils/classes/ezmodule.php" );
-    include_once( 'kernel/error/errors.php' );
 
     eZModule::setGlobalPathList( array( "kernel", "extension/xmleditor" ) );
 
@@ -354,6 +362,10 @@ if ( $show_page_layout )
         $tpl->setVariable( "execution_entries", $execStack->entries() );
 
         $tpl->setVariable( "access_type", $access );
+
+        if ( count( $warningList ) == 0 )
+            $warningList = false;
+        $tpl->setVariable( 'warning_list', $warningList );
 
         $resource = "design:";
         if ( is_string( $show_page_layout ) )

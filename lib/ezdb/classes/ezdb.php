@@ -138,7 +138,7 @@ class eZDB
             $pluginPathArray = array_merge( array( 'lib/ezdb/classes/' ),
                                             $extraPluginPathArray );
 //             eZDebug::writeDebug( $pluginPathArray, 'pluginPath' );
-            $imp = null;
+            $impl = null;
             foreach( $pluginPathArray as $pluginPath )
             {
                 $dbFile = $pluginPath . $databaseImplementation . 'db.php';

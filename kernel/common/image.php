@@ -76,9 +76,6 @@ function &imageInit()
         eZDebug::writeError( "No conversion types available", 'imageInit' );
     }
 
-//     print( "Convert is " . ( $useConvert ? "supported" : "not supported" ) . "<br/>" );
-//     print( "GD is " . ( $useGD ? "supported" : "not supported" ) . "<br/>" );
-
     // Register convertors
     if ( $useConvert )
     {
@@ -117,7 +114,6 @@ function &imageInit()
             if ( $type == 'convert' or
                  $type == 'gd' )
             {
-//                 print( "\$img->createRule( '$sourceMIME', '$destMIME', '$type', true, true )<br/>" );
                 $rules[] = $img->createRule( $sourceMIME, $destMIME, $type, true, true );
             }
         }
@@ -128,7 +124,6 @@ function &imageInit()
             if ( $type == 'convert' or
                  $type == 'gd' )
             {
-//                 print( "DefaultRule=\$img->createRule( '*', '$destMIME', '$type', true, true )<br/>" );
                 $defaultRule = $img->createRule( '*', $destMIME, $type, true, true );
             }
         }
@@ -152,7 +147,6 @@ function &imageInit()
         $mimeType = $items[0];
         $regexp = $items[1];
         $suffix = $items[2];
-//         print( "\$img->createMIMEType( '$mimeType', '$regexp', '$suffix' )<br/>" );
         $mime_rules[] = $img->createMIMEType( $mimeType, $regexp, $suffix );
     }
 

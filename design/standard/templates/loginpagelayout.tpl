@@ -72,9 +72,29 @@
 <tr>
 	<td>
 <table width="100%"  cellspacing="0" cellpadding="4">
+{section show=$warning_list}
+<tr>
+  <td colspan="3">
+    <table width="100%" cellspacing="0" cellpadding="0">
+  {section name=Warning loop=$warning_list}
+    <tr>
+      <td>
+        <div class="error">
+        <h3 class="error">{$Warning:item.error.type} ({$Warning:item.error.number})</h3>
+        <ul class="error">
+          <li>{$Warning:item.text}</li>
+        </ul>
+        </div>
+      </td>
+    </tr>
+  {/section}
+    </table>
+  </td>
+</tr>
+{/section}
 <tr>
     {* This is the main content *}
-    <td width="20%" bgcolor="#ffffff">
+    <td width="20%" bgcolor="#ffffff" valign="top">
     </td>
     <td width="30%" bgcolor="#ffffff">
     {$module_result.content}

@@ -1255,8 +1255,6 @@ class eZTemplate
             }
             if ( $pos == $end_pos )
             {
-//             print( substr( $text, $pos ) );
-//             exit();
                 break;
             }
             $pos = $end_pos;
@@ -1288,8 +1286,6 @@ class eZTemplate
             case "variable":
             {
                 $value =& $this->variableElementValue( $data, $nspace );
-//                 print( "<p>value got is ($nspace)</p>" );
-//                 var_dump( $value );
             } break;
             default:
             {
@@ -1338,8 +1334,6 @@ class eZTemplate
             return null;
         }
         $value =& $this->variable( $name, $nspace );
-//         print( "<p>value was ($nspace)</p>" );
-//         var_dump( $value );
         $return_value =& $value;
         $attrs =& $data["attributes"];
         if ( count( $attrs ) > 0 )
@@ -1380,8 +1374,6 @@ class eZTemplate
                                 $return_attribute_value =& $return_value->attribute( $attr_value );
                                 unset( $return_value );
                                 $return_value =& $return_attribute_value;
-//                                 print( "<p>value becomes ($nspace, $attr_value)</p>" );
-//                                 var_dump( $return_value );
                             }
                             else
                             {
@@ -1410,10 +1402,6 @@ class eZTemplate
                 next( $attrs );
             }
         }
-//         print( "<p>value returning is ($nspace)</p>" );
-//         var_dump( $return_value );
-//         print( "<p>original value is ($nspace)</p>" );
-//         var_dump( $value );
         return $return_value;
     }
 

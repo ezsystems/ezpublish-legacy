@@ -657,8 +657,6 @@ class eZContentObject extends eZPersistentObject
         }
         $nodes = $this->attribute( 'assigned_nodes' );
         //  $retNodes = array();
-        var_dump($retNodes);
-        print("<br/>");
         if ( $asObject )
         {
             foreach ( $nodes as $node )

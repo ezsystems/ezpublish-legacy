@@ -205,7 +205,6 @@ TODO: add encoding checks with schema validation.
 
 
                         $returnValue[$childNode->name()] =& $this->decodeDataTypes( $childNode );
-//                        print( $childNode->name() . "$dataType <br>" );
                     }
 
                 } break;

@@ -79,7 +79,6 @@ else
     $requestedURI =& $GLOBALS['eZRequestedURI'];
     if ( get_class( $requestedURI ) == 'ezuri' )
     {
-        print( $requestedURI->uriString() . "<br/>" );
         $requestedModule = $requestedURI->element( 0, false );
         $requestedView = $requestedURI->element( 1, false );
         if ( $requestedModule != 'user' or
