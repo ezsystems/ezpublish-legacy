@@ -1,0 +1,14 @@
+
+
+[DatabaseSettings]
+DatabasePluginPath=
+# Use either ezmysql or ezpostgresql
+DatabaseImplementation=ezmysql
+Server=localhost
+User=root
+Password=
+Database=corporate
+
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
