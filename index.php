@@ -428,11 +428,7 @@ while ( $moduleRunRequired )
     $userParameters = $uri->userParameters();
 
     // Generate a URI which also includes the user parameters
-    $completeRequestedURI = $actualRequestedURI;
-    foreach ( $userParameters as $name => $value )
-    {
-        $completeRequestedURI .= '/(' . $name . ')/' . $value;
-    }
+    $completeRequestedURI = $uri->originalURIString();
 
     // Check for URL translation
     if ( $urlTranslatorAllowed and

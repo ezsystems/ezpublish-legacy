@@ -70,6 +70,7 @@ class eZURI
              $uri[0] == '/' )
             $uri = substr( $uri, 1 );
         $this->URI = $uri;
+        $this->OriginalURI = $uri;
         $this->URIArray = explode( '/', $uri );
         $this->Index = 0;
 
@@ -84,6 +85,8 @@ class eZURI
                 unset( $this->URIArray[$key+1] );
             }
         }
+        // Remake the URI without any user parameters
+        $this->URI = implode( '/', $this->URIArray );
 
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance( 'template.ini' );
@@ -101,6 +104,18 @@ class eZURI
     function &uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
+        if ( $withLeadingSlash )
+            $uri = "/$uri";
+        return $uri;
+    }
+
+    /*!
+     \return the URI passed to the object with user parameters (if any).
+     \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
+    */
+    function &originalURIString( $withLeadingSlash = false )
+    {
+        $uri = $this->OriginalURI;
         if ( $withLeadingSlash )
             $uri = "/$uri";
         return $uri;
@@ -185,6 +200,12 @@ class eZURI
         $elements = array_slice( $this->URIArray, $this->Index );
         $this->URIArray = $elements;
         $this->URI = implode( '/', $this->URIArray );
+        $uri = $this->URI;
+        foreach ( $this->UserArray as $name => $value )
+        {
+            $uri .= '/(' . $name . ')/' . $value;
+        }
+        $this->OriginalURI = $uri;
         $this->Index = 0;
     }
 
@@ -264,6 +285,8 @@ class eZURI
                 return $this->index();
             case 'uri':
                 return $this->uriString();
+            case 'original_uri':
+                return $this->originalURIString();
         }
         return null;
     }
