@@ -35,7 +35,7 @@ SETDIST="./bin/shell/setdistribution.sh"
 COMMON_BIN_FILES="bin bin/modfix.sh bin/shell bin/shell/makedoc.sh"
 COMMON_DOC_FILES="doc doc/design doc/design/uml doc/design/uml/class_old.png doc/design/uml/class.png doc/design/uml/contentclass_db.png doc/design/uml/database.png doc/design/uml/ezsoap.png doc/design/uml/eztask_db.png doc/design/uml/eztask.png doc/design/uml/eztranslator.png doc/design/uml/ezxml.png doc/images doc/images/basket_state.png doc/images/charset.png doc/images/ezpublish_overview.png doc/images/module.png doc/images/notification_database.png doc/images/notification_state.png doc/images/permission_overview.png doc/images/role.png doc/images/shopping_overview.png doc/images/tree_overview.png doc/images/wish_list_state.png doc/images/xml_processing.png"
 COMMON_SETTINGS_FILES="settings settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess"
-COMMON_DESIGN_FILES="design"
+COMMON_DESIGN_FILES="design var.tgz"
 COMMON_FILES="$COMMON_BIN_FILES $COMMON_DOC_FILES $COMMON_SETTINGS_FILES $COMMON_DESIGN_FILES index.php pre_check.php access.php"
 
 COMMON_DOC_DIRS="doc/changelogs doc/standards doc/doxygen"

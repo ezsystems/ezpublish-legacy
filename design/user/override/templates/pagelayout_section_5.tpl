@@ -43,32 +43,29 @@
 
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
-    <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",62)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a></td>
+    <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",62)|ezurl}><img src={"booklogo-green.gif"|ezimage} width="700" border="0"></a></td>
 </tr>
 <tr>
-    <td bgcolor="#333333">
-    <div class="small" align="center"><font color="#FFFFFF">&quot;Wear the old coat and buy the new book&quot; (Austin Phelps)</font></div>
+    <td bgcolor="#dddddd">
+    <div class="small" align="center"><font color="#000000">&quot;Wear the old coat and buy the new book&quot; (Austin Phelps)</font></div>
     </td>
 </tr>
 <tr>
     <td valign="top">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000">
     <tr> 
-        <td width="120" valign="top" bgcolor="#E2DCC0"> 
+        <td width="120" valign="top" bgcolor="#999999"> 
 
-        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
-        <tr> 
-            <td>&nbsp;&nbsp;</td>
-        </tr>
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
         {section name=Folder loop=$folder_list}
         <tr> 
-            <td>
+            <td bgcolor="#C0C0C0">
             &nbsp;<a class="small" href={concat("/content/view/full/",$Folder:item.node_id,"/")|ezurl}>{$Folder:item.name}</a>
             </td>
         </tr>
         {/section}
         <tr> 
-            <td bgcolor="#E2DCC0"> 
+            <td bgcolor="#999999"> 
             <form action={"/content/search/"|ezurl} method="get">
             <input type="hidden" name="SectionID" value="5" />
 	    &nbsp;<input  type="text" size="10" name="SearchText" id="Search" value="" />
@@ -96,8 +93,8 @@
 	</tr>
 	</table>
         </td>
-        <td width="20" valign="top" bgcolor="#333333">&nbsp;</td><td>
-        <td width="130" valign="top" bgcolor="#333333">
+        <td width="20" valign="top" bgcolor="#999999">&nbsp;</td><td>
+        <td width="130" valign="top" bgcolor="#999999">
         <h2><font color="#ffffff">New books</font></h2>
 
         {section name=Product loop=$product_list}
