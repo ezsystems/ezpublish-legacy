@@ -564,6 +564,33 @@ class eZPostgreSQLDB extends eZDBInterface
         return true;
     }
 
+     /*!
+     \reimp
+    */
+    function databaseServerVersion()
+    {
+        if ( $this->isConnected() )
+        {
+            $sql = "SELECT version()";
+            $result = @pg_exec( $this->DBConnection, $sql );
+            if ( !$result )
+            {
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
+            }
+
+            if ( $result )
+            {
+                $array = pg_fetch_row( $result, 0 );
+                $versionText = $array[0];
+            }
+            list ( $dbType, $versionInfo ) = split( " ", $versionText );
+            $versionArray = explode( '.', $versionInfo );
+            return array( 'string' => $versionInfo,
+                          'values' => $versionArray );
+        }
+        return $versionInfo;
+    }
+
     /// \privatesection
 
 }
