@@ -1710,6 +1710,29 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Creates a new node assignment that will place the object as child of node \a $nodeID.
+     \return The eZNodeAssignment object it created
+     \param $nodeID The node ID of the parent node
+     \param $isMain \c true if the created node is the main node of the object
+     \param $remoteID A string denoting the unique remote ID of the assignment or \c false for no remote id.
+     \note The return assignment will already be stored in the database
+    */
+    function &createNodeAssignment( $nodeID, $isMain, $remoteID = false )
+    {
+        $data = array( 'contentobject_id' => $this->attribute( 'id' ),
+                       'contentobject_version' => $this->attribute( 'current_version' ),
+                       'parent_node' => $nodeID,
+                       'is_main' => $isMain ? 1 : 0 );
+        $nodeAssignment =& eZNodeAssignment::create( $data );
+        if ( $remoteID !== false )
+        {
+            $nodeAssignment->setAttribute( 'remote_id', $remoteID );
+        }
+        $nodeAssignment->store();
+        return $nodeAssignment;
+    }
+
+    /*!
      Returns the node assignments for the current object.
     */
     function &assignedNodes( $asObject = true)

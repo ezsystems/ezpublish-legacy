@@ -35,10 +35,12 @@
 // you.
 //
 
-//!! eZKernel
-//! The class eZContentClass does
 /*!
+  \class eZContentClass ezcontentclass.php
+  \ingroup eZKernel
+  \brief Handles eZ publish content classes
 
+  \sa eZContentObject
 */
 
 include_once( "lib/ezdb/classes/ezdb.php" );
