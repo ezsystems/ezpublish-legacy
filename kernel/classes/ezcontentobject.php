@@ -520,6 +520,18 @@ class eZContentObject extends eZPersistentObject
         return $versions[0]["next_id"];
 
     }
+
+    /*!
+	 Returns number of exist versions.
+    */
+    function getVersionCount()
+    {
+        $db =& eZDB::instance();
+        $versionCount =& $db->arrayQuery( "SELECT ( COUNT( version ) ) AS version_count FROM ezcontentobject_version
+				       WHERE contentobject_id='$this->ID'" );
+        return $versionCount[0]["version_count"];
+
+    }
     function setCurrentLanguage( $lang )
     {
         $this->CurrentLanguage = $lang;

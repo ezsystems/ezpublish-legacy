@@ -90,6 +90,28 @@ if ( !function_exists ( 'checkContentActions'  ) )
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
+        if ( $module->isCurrentAction( 'Cancel' ) )
+        {
+            $module->redirectTo( '/content/view/full/2/' );
+
+            $versionCount= $object->getVersionCount();
+            $version->remove();
+            foreach ( $contentObjectAttributes as $contentObjectAttribute )
+            {
+                $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
+                $version = $contentObjectAttribute->attribute( 'version' );
+                if ( $version == $EditVersion )
+                {
+                    $contentObjectAttribute->remove( $objectAttributeID, $version );
+                }
+            }
+            if ( $versionCount == 1 )
+            {
+                $object->remove();
+            }
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
         if ( $module->isCurrentAction( 'Publish' ) )
         {
 
@@ -210,21 +232,8 @@ if ( !function_exists ( 'checkContentActions'  ) )
                             $body .= "\n\n\neZ System AS";
                             $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime, $destinationAddress, $title, $body );
                             $message->store();
-
-                            //include_once( "lib/ezutils/classes/ezmail.php" );
-                            /* if( $sendMethod == "email" )
-                    {
-                        $email = new eZMail();
-                        $email->setReceiver( "wy@ez.no" );
-                        $email->setSender( "admin@ez.no" );
-                        $email->setFromName( "Administrator" );
-                        $email->setSubject( $title );
-                        $email->setBody( $body );
-                        $email->send();
-                    }*/
                         }
                     }
-
                 }
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }

@@ -42,6 +42,7 @@ $ViewList["edit"] = array(
                                     'TranslateButton' => 'Translate',
                                     'VersionsButton' => 'VersionEdit',
                                     'PublishButton' => 'Publish',
+                                    'CancelButton' => 'Cancel',
                                     'BrowseNodeButton' => 'BrowseForNodes',
                                     'DeleteNodeButton' => 'DeleteNode',
                                     'BrowseObjectButton' => 'BrowseForObjects',
@@ -95,6 +96,7 @@ $ViewList["versions"] = array(
     "functions" => array( 'read', 'edit' ),
     "script" => "versions.php",
     "params" => array( "ObjectID" ) );
+
 $ViewList["sitemap"] = array(
     "functions" => array( 'read' ),
     "script" => "sitemap.php",

@@ -111,6 +111,15 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         unset( $contentObject );
     }
+    if ( $http->hasPostVariable( 'ContentObjectID' ) )
+    {
+        $objectID =& $http->postVariable( 'ContentObjectID' );
+        $contentObject = eZContentObject::fetch( $objectID );
+        if ( $contentObject->attribute( 'can_remove' ) )
+        {
+            $contentObject->remove();
+        }
+    }
     if( $http->hasPostVariable( 'ViewMode' ) )
     {
         $viewMode = $http->postVariable( 'ViewMode' );

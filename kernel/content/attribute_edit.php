@@ -94,9 +94,19 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     $customActionString = key( $customActionArray );
 
     $customActionAttributeID = preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray );
-
     $customActionAttributeID = $matchArray[1];
     $customAction = $matchArray[2];
+    foreach( array_keys( $contentObjectAttributes ) as $key )
+    {
+        $contentObjectAttribute =& $contentObjectAttributes[$key];
+/********** Custom Action Code Start ***************/
+        if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
+        {
+            $contentObjectAttribute->customHTTPAction( $http, $customAction );
+        }
+/********** Custom Action Code End ***************/
+
+    }
 }
 /********** Custom Action Code End ***************/
 
@@ -153,7 +163,6 @@ if ( $storingAllowed )
         {
             $requreStoreAction= true;
         }
-
 /********** Custom Action Code Start ***************/
         if ( $customActionAttributeID == $contentObjectAttribute->attribute( "id" ) )
         {

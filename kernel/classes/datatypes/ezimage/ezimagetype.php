@@ -100,8 +100,12 @@ class eZImageType extends eZDataType
                 $fileName = $image->attribute( "filename" );
                 $variationFileName = preg_replace('/\.(.*)$/', "", $fileName ) ;
                 $additionalPath = eZDir::getPathFromFilename( $fileName );
+                if( file_exists( $orig_dir . "/" . $variationFileName ) )
+                    unlink( $orig_dir . "/" . $variationFileName );
                 if( file_exists( $orig_dir . "/" .$fileName ) )
                     unlink( $orig_dir . "/" . $fileName );
+                if( file_exists( $ref_dir . "/" . $variationFileName ) )
+                    unlink( $ref_dir . "/" . $variationFileName );
                 if( file_exists( $ref_dir . "/" . $fileName ) )
                     unlink( $ref_dir . "/" . $fileName );
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
@@ -116,7 +120,8 @@ class eZImageType extends eZDataType
         {
             $count = 0;
             $currentImage =& eZImage::fetch( $contentObjectAttributeID, $version );
-            $currentFileName = $currentImage->attribute( "filename" );
+            if ( $currentImage !== null )
+                $currentFileName = $currentImage->attribute( "filename" );
             foreach ( $images as $image )
             {
                 $fileName = $image->attribute( "filename" );
@@ -126,13 +131,15 @@ class eZImageType extends eZDataType
             if( $count == 1 )
             {
                 $variationFileName = preg_replace('/\.(.*)$/', "", $currentFileName ) ;
-
-                eZDebug::writeError("qqqqqqqqqqqqqqqqqqq  " .  $variationFileName );
                 $additionalPath = eZDir::getPathFromFilename( $currentFileName );
                 if( file_exists( $orig_dir . "/" . $currentFileName ) )
                     unlink( $orig_dir . "/" .  $currentFileName );
+                if( file_exists( $orig_dir . "/" . $variationFileName ) )
+                    unlink( $orig_dir . "/" . $variationFileName );
                 if( file_exists( $ref_dir . "/" .  $currentFileName ) )
                     unlink( $ref_dir . "/" .  $currentFileName );
+                if( file_exists( $ref_dir . "/" . $variationFileName ) )
+                    unlink( $ref_dir . "/" . $variationFileName );
                 $dir = opendir(  $vari_dir . "/" . $additionalPath );
                 while ( $file = readdir($dir))
                 {
