@@ -37,6 +37,10 @@ Changes from 3.4.4 to 3.4.5
   http://ez.no/community/bug_reports/nno_no_translation_is_empty
 - Fixed bug of unserializing ezcontentobjecttreenode get an extra attribute.
   http://ez.no/community/bug_reports/ezcontentobjecttreenode_unserialize_passes_unneeded_array_key
+- Fixed bug in eZIniSettingType: removing setting of type array causes removing
+  whole section.
+  (Manually merged from stable/3.3 rev. 9785)
+  http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
 
 *Library:
 
