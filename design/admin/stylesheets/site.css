@@ -1243,6 +1243,11 @@ table.list th.icon, table.list td.icon, table.list th.class, table.list td.class
     width: 1%;
 }
 
+table.list td.class
+{
+    white-space: nowrap;
+}
+
 table.list td.modifier, table.list td.modified
 {
     white-space: nowrap;

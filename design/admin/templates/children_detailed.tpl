@@ -59,7 +59,7 @@
         <td class="nowrap">{$Nodes.item.hidden_status_string}</td>
 
         {* Class type *}
-        <td>{$Nodes.item.class_name|wash}</td>
+        <td class="class">{$Nodes.item.class_name|wash}</td>
 
         {* Modifier *}
         <td class="modifier"><a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
