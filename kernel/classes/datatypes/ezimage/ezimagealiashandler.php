@@ -40,7 +40,7 @@
   \brief The class eZImage handles images
 
 */
-
+include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
@@ -844,7 +844,6 @@ class eZImageAliasHandler
 
                 if ( $newFilePath != $filePath )
                 {
-                    include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                     if ( !file_exists( $newDirPath ) )
                     {
                         include_once( 'lib/ezfile/classes/ezdir.php' );
@@ -961,8 +960,14 @@ class eZImageAliasHandler
         $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
 
         eZMimeType::changeBaseName( $mimeData, $objectName );
+        eZDebug::writeDebug( $mimeData, 'mimeData' );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
-
+        eZDebug::writeDebug( $mimeData, 'mimeData' );
+        if ( !file_exists( $mimeData['dirpath'] ) )
+        {
+            eZDir::mkdir( $mimeData['dirpath'], false, true );
+        }
+        eZFileHandler::copy( $filename, $mimeData['url'] );
         $this->removeAliases();
 
         return $this->initialize( $mimeData, $filename, $imageAltText );
