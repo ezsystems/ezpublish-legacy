@@ -37,7 +37,7 @@
 {/section}
 
 {section show=$test.result|eq(1)}
-  <p>{"No problems was found with your system, you can continue by clicking the"|i18n("design/standard/setup/init")} <i>{"Next"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
+  <p>{"No problems was found with your system, you can continue by clicking the"|i18n("design/standard/setup/init")} <i>{"Next &gt;"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
   <p>{"However if you wish to finetune your system you should click the"|i18n("design/standard/setup/init")} <i>{"Finetune System"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
 
 {*  <form method="post" action="{$script}"> *}

@@ -534,6 +534,26 @@ function eZSetupTestOpenBasedir( $type, &$arguments )
     return $returnData;
 }
 
+/*!
+ Check if setup is installed using windows or linux installer
+
+ \return 'linux' if using linux installer,
+         'windows' if using windows installer,
+         false if not using any installer
+*/
+function eZSetupTestInstaller()
+{
+    if ( file_exists( '.linux' ) )
+    {
+        return 'linux';
+    }
+    else if ( file_exists( '.windows' ) )
+    {
+        return 'windows';
+    }
+    return false;
+}
+
 function eZSetupTestSafeMode( $type, &$arguments )
 {
     $safeMode = ini_get( 'safe_mode' );

@@ -168,11 +168,30 @@ a:visited
   color: #d6ecff;
 }
 
+div.setup_help
+{ 
+  color: #e0efff;
+  font-size: small;
+}
+
 div.setup_progress_bar_text
 { 
   color: #ffffff;
   font-size: x-small;
 }
+
+div.setup_summary_ok
+{ 
+  color: #edf2fa;
+  font-size: small;
+}
+
+div.setup_summary_empty
+{ 
+  color: #c0d0f0;
+  font-size: small;
+}
+
 
 div.setup_help
 { 
@@ -198,6 +217,7 @@ div.setup_summary
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
+  font-size: small;
   color: #edf2fa;
 }
 

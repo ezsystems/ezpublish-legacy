@@ -62,7 +62,7 @@
           <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
 	      <td>{"Title"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_title" value="{$:item.name|wash}" /></td>
+	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_title" value="{$:item.title|wash}" /></td>
 	    </tr>
 	    <tr>
 	      <td>{"Site url"|i18n("design/standard/setup/init")}: </td>

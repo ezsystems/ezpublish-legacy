@@ -38,6 +38,7 @@
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php',
                                     'class' => 'eZURLOperator',
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl',
@@ -84,6 +85,7 @@ $eZTemplateFunctionArray = array();
 $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
                                     'function_names' => array( 'attribute_edit_gui',
                                                                'attribute_view_gui',
+                                                               'attribute_pdf_gui',
                                                                'node_view_gui',
                                                                'content_view_gui',
                                                                'shop_account_view_gui',
@@ -128,6 +130,13 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                'namespace' => '',
                                                'attribute_access' => array( array( 'edit_template' ) ),
                                                'use_views' => false ),
+
+                'attribute_pdf_gui' => array( 'template_root' => 'content/datatype/pdf',
+                                              'input_name' => 'attribute',
+                                              'output_name' => 'attribute',
+                                              'namespace' => '',
+                                              'attribute_access' => array( array( 'view_template' ) ),
+                                              'use_views' => false ),
 
                 'attribute_view_gui' => array( 'template_root' => array( 'type' => 'multi_match',
                                                                          'attributes' => array( 'contentclass_attribute',

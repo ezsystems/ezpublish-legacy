@@ -217,6 +217,8 @@ class eZStepSiteDetails extends eZStepInstaller
         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
         {
             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
+            if ( !isset( $templates[$counter]['title'] ) )
+                $templates[$counter]['title'] = $templates[$counter]['name'];
             if ( !isset( $templates[$counter]['url'] ) )
                 $templates[$counter]['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
             if ( !isset( $templates[$counter]['email'] ) )

@@ -33,6 +33,8 @@ Changes from 3.2.0-2 to 3.2-1
 - Made sure gallery files are placed in the var/gallery directory instead of var.
 - The database dropdown in site details will now recognize databasenames that match the package name,
   if no match is found it assigns one unique database to each package.
+- Updated setup texts
+- Added .windows and .linux detection to recognize use of windows or linux installers (apache, mysql, etc)
 
 *Package system:
 

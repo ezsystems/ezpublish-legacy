@@ -35,10 +35,11 @@
 /*! \file eztemplateautoload.php
 */
 
-include_once( 'lib/ezpdf/classes/class.ezpdf.php' );
+include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
 include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
+include_once( "lib/ezutils/classes/eztexttool.php" );
 
 /*!
   \class eZPDF ezpdf.php
@@ -72,9 +73,6 @@ class eZPDF
     {
         return array( 'operation' => array( 'type' => 'string',
                                             'required' => true,
-                                            'default' => '' ),
-                      'text' => array( 'type' => 'string',
-                                            'required' => false,
                                             'default' => '' ) );
     }
 
@@ -87,11 +85,11 @@ class eZPDF
         {
             case 'table':
             {
-            }
+            } break;
 
             case 'create':
             {
-                $this->PDF = new Cezpdf();
+                $this->PDF = new eZPDFTable();
                 $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica.afm' );
                 eZDebug::writeNotice( 'PDF file created' );
             } break;
@@ -99,6 +97,15 @@ class eZPDF
             case 'newpage':
             {
                 $this->PDF->ezNewPage();
+            } break;
+
+            case 'image':
+            {
+                $width = isset( $namedParameters['width'] ) ? $namedParameters['width']: 100;
+                $height = isset( $namedParameters['height'] ) ? $namedParameters['height']: 100;
+
+                $this->PDF->addJpegFromFile($namedParameters['src'],0,$this->PDF->offsetY(),$width,$height);
+                eZDebug::writeNotice( 'Added Image '.$namedParameters['src'].' to PDF file' );
             } break;
 
             case 'close':
@@ -111,7 +118,16 @@ class eZPDF
 
             case 'text':
             {
-                $text = $namedParameters['text'];
+                $operands = array();
+                $op1 = $operatorParameters[1];
+                for ( $i = 1; $i < count( $operatorParameters ); ++$i )
+                {
+                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    if ( !is_object( $operand ) )
+                        $operands[] = $operand;
+                }
+                $text = eZTextTool::concat( $operands );
+
                 $this->PDF->ezText( $text );
                 eZDebug::writeNotice( '"'.$text.'" added to pdf file.' );
             } break;
@@ -132,7 +148,6 @@ class eZPDF
     /// The array of operators, used for registering operators
     var $Operators;
     var $PDF;
-
 }
 
 

@@ -68,6 +68,10 @@ class eZStepSecurity extends eZStepInstaller
      */
     function init()
     {
+        if ( file_exists( '.htaccess' ) )
+        {
+            return true;
+        }
         include_once( 'lib/ezutils/classes/ezsys.php' );
         return eZSys::indexFileName() == '' ; // If in virtual host mode, continue (return true)
     }
