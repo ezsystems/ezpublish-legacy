@@ -462,3 +462,8 @@ div.object div.buttonblock
 {
     margin-top: 1em;
 }
+
+.price, .rating
+{
+    font-weight: bold;
+}
