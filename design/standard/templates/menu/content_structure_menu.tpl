@@ -22,25 +22,23 @@
                                                             $:fetchHidden ) }
     
         {* Show menu tree. All container nodes are unfolded. *}
-        <ul id={$:menuID}>
+        <ul id="{$:menuID}" style="display: none">
             {include uri="design:menu/show_content_structure.tpl" contentStructureTree=$contentStructureTree}                                                
         </ul>
 
     {/cache-block}        
     
     <script language="JavaScript"><!--
-
+        
         {* get path to current node which consists of nodes ids *}
         var nodesList = new Array();
         
         {section var=path loop=$module_result.path}
             nodesList.push( "n{$:path.node_id}" );
         {/section}
-
-         //alert( nodesList );
+        
         nodesList.pop(); // remove current node;
         
-         //alert( nodesList );
         ezcst_initializeMenuState( nodesList, "{$:menuID}" );            
     // -->
     </script>

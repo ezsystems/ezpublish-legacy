@@ -8,16 +8,13 @@
                                                       
         {* Fold/Unfold/Empty *}                                                                          
             {section show=$:haveChildren}
-               <a class="openclose" href="#" title={"Fold/Unfold"|i18n("menu/show_content_structure")} onclick="ezcst_onFoldClicked( this.parentNode ); return false;">[-]</a>
+               <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('menu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
             {section-else}
-                <span class="openclose">[ ]</span>
+                <span class="openclose"></span>
             {/section}
             
         {* Icon *}
-            {*
-            <a  href={$:parentNode.path_id_string|ezurl}>
-            *}
-            <a  href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+            <a href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
         
         {* Label *}
             {section show=$:showToolTips|eq('enabled')}
