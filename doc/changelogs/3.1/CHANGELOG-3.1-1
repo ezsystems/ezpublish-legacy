@@ -1,6 +1,8 @@
 Changes from 3.1.0-2 to 3.1-1
 
 *Kernel:
+- Fixed broken GD image scaling
+- Fixed correct aspect ratio scaling when using GD
 - Fixed typo in eZContentObjectTreeNode::createObject()
 - Fixed problem with preview not showing the correct translation
 - Fixed template defined block/inline namespace for embeded objects.

@@ -155,14 +155,28 @@ class eZImageGD
             eZDebug::writeWarning( "eZImageGD: Output Mime-type " . $to["mime-type"] . " not supported" );
             return false;
         }
+
         $src = "";
         $dst = "";
-        $to_dst = $from;
+        $to_dst = $to;
         $to_dst["suffix"] = $to["suffix"];
         $src .= $this->convertFileName( $from, $this->FromType );
         $dst .= $this->convertFileName( $to_dst, $this->ToType );
         $create_func = $this->InputMIMETypes[$from["mime-type"]];
+
+        // fix duplicate slash
+        $src = str_replace( "//", "/", $src );
+        $dst = str_replace( "//", "/", $dst );
+
+
+        if ( !function_exists( $create_func ) )
+        {
+            eZDebug::writeError( "GD function: $create_func does not exist, check PHP compile settings", "eZImageGD" );
+            return false;
+        }
+
         $im = $create_func( $src );
+
         if ( $im )
         {
             if ( $scale !== false )
@@ -173,17 +187,43 @@ class eZImageGD
                 $dstx = $dsty = 0;
                 $dstw = $scale["width"];
                 $dsth = $scale["height"];
-                $im2 = ImageCreateTrueColor( $dstw, $dsth );
-                ImageCopyResampled( $im2, $im,
-                                    $dstx, $dsty, $srcx, $srcy,
-                                    $dstw, $dsth, $srcw, $srch );
-                unset( $im );
-                $im =& $im2;
+
+                if ( !function_exists( "ImageCreateTrueColor" ) )
+                {
+                    eZDebug::writeError( "Cannot scale images. GD function: ImageCreateTrueColor does not exist, check PHP compile settings", "eZImageGD" );
+                }
+                else
+                {
+                    // Scale the image and keep aspect ratio
+                    $heightScale = $srch / $scale["height"];
+                    $widthtScale = $srcw / $scale["width"];
+
+                    $scale = $heightScale;
+                    if ( $heightScale != $widthtScale )
+                        $scale = max( $heightScale, $widthtScale );
+
+                    $dstw = (int) ( $srcw / $scale );
+                    $dsth = (int) ( $srch / $scale );
+
+                    $im2 = ImageCreateTrueColor( $dstw, $dsth );
+
+                    ImageCopyResampled( $im2, $im,
+                                        $dstx, $dsty, $srcx, $srcy,
+                                        $dstw, $dsth, $srcw, $srch );
+                    unset( $im );
+                    $im =& $im2;
+                }
             }
             $store_func = $this->OutputMIMETypes[$to["mime-type"]];
             $store_func( $im, $dst );
             $to_dir = $to["dir"];
             $to_file = $to["basename"] . "." . $to["suffix"];
+
+            $to_dir = str_replace( "//", "/", $to_dir );
+
+            // prepend suffix
+            $to_file = $to['suffix'] . ':' . $to_file;
+
             return true;
         }
         else
@@ -193,7 +233,7 @@ class eZImageGD
     /*!
      Calls convert() with the $filters and $scale param.
     */
-    function scale( &$from, &$to, &$to_file, &$filters, $scale )
+    function scale( &$from, &$to, &$to_dir, &$to_file, &$filters, $scale )
     {
         $this->convert( $from, $to, $to_dir, $to_file, $filters, $scale );
     }
