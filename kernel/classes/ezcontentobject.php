@@ -1786,7 +1786,7 @@ class eZContentObject extends eZPersistentObject
                         }
                         elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
                         {
-                            if ( $this->attribute( 'owner_id' ) == $userID )
+                            if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                             {
                                 $access = 'allowed';
                             }

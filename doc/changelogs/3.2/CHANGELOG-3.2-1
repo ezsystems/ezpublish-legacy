@@ -10,6 +10,7 @@ Changes from 3.2.0-2 to 3.2-1
   http://ez.no/developer/ez_publish_3/bug_reports/cronjobslinkcheckphp
 - Fixed problem with attribute filtering when attribute sorting weren't used.
   http://ez.no/developer/ez_publish_3/bug_reports/filtering_and_sorting_problems
+- Fixed bug of user can't read own account information using policy read Class( User ), Owner( Self ).
 
 *Setup:
 
