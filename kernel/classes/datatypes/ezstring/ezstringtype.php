@@ -152,12 +152,10 @@ class eZStringType extends eZDataType
 
     function storeClassAttribute( &$attribute, $version )
     {
-        eZDebug::writeWarning( "Storing ezstring with version $version" );
     }
 
     function storeDefinedClassAttribute( &$attribute )
     {
-        eZDebug::writeWarning( "Storing defined ezstring" );
     }
 
     /*!
