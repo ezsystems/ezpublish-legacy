@@ -966,6 +966,7 @@ fi
 
 if [ -f $DEST/support/lupdate-ezpublish3/Makefile ]; then
     (cd "$DEST/support/lupdate-ezpublish3" && \
+	qmake &>/dev/null && \
 	make clean &>/dev/null && \
 	rm -rf Makefile moc obj)
     if [ $? -ne 0 ]; then
