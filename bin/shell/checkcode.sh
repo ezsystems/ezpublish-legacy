@@ -53,3 +53,7 @@ find . -name \*.php -exec ./bin/shell/checkcalltimeref.sh {} \;
 
 # # echo "Check for bad prints"
 # # rgrep -R '*.php' -n -i 'print' .
+
+
+echo "Checking copyright dates"
+rgrep -R '*' -n -i '1999-200[012]' .
