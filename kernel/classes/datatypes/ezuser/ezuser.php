@@ -821,25 +821,13 @@ class eZUser extends eZPersistentObject
         $table =& $GLOBALS['eZUserPasswordCharacterTable'];
         if ( isset( $table ) )
             return $table;
-        $table = array();
-        for ( $i = ord( 'a' ); $i <= ord( 'z' ); ++$i )
-        {
-            $char = chr( $i );
-            $table[] = $char;
-            $table[] = strtoupper( $char );
-        }
-        for ( $i = 0; $i <= 9; ++$i )
-        {
-            $table[] = "$i";
-        }
+        $table = array_merge( range( 'a', 'z' ), range( 'A', 'Z' ), range( 0, 9 ) );
+
         $ini =& eZINI::instance();
         if ( $ini->variable( 'UserSettings', 'UseSpecialCharacters' ) == 'true' )
         {
             $specialCharacters = '!#%&{[]}+?;:*';
-            for ( $i = 0; $i < strlen( $specialCharacters ); ++$i )
-            {
-                $table[] = $specialCharacters[$i];
-            }
+            $table = array_merge( $table, preg_split( '//', $specialCharacters, -1, PREG_SPLIT_NO_EMPTY ) );
         }
         // Remove some characters that are too similar visually
         $table = array_diff( $table, array( 'I', 'l', 'o', 'O', '0' ) );
