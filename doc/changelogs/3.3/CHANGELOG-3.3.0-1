@@ -21,6 +21,7 @@ Changes from 3.2-1 to 3.3.0-1
   should be moved to trash or deleted. Move to trash is the default.
 - Improved the text on the removeeditversion page.
 - Added support for class filter in treemenu operator.
+- Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
 
 *DataType:
 
@@ -75,3 +76,6 @@ eZ utils:
   MIME type based on url, contents or buffer. Currently only url is implemented fully.
   The system will be able to returned detailed information on the file in a MIME structure.
   The new MIME system is used in conjunction with the new image system.
+
+eZ soap:
+- Added support for arrays and boolean in ezsoapresponse return values
