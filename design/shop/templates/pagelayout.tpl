@@ -132,9 +132,17 @@
     </div>
     <div id="infobox">
         <div class="design">
-
-               {let bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, 2,
+            {let bestseller_list=false()}
+            {switch match=$module_result.content_info.class_id}
+                {case match=23}
+                    {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.parent_node,
                                                           limit, 5 ) )}
+                {/case}
+	        {case}
+                    {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.node,
+                                                          limit, 5 ) )}
+                {/case}
+            {/switch}
             <h3>Best sellers</h3>
             <ul>
                    {section name=Products loop=$bestseller_list}
@@ -143,7 +151,7 @@
                        </li>
                     {/section}
             </ul>
-               {/let}
+            {/let}
         
                {let news_list=fetch( content, tree, hash( parent_node_id, 2,
                                                           limit, 5,
