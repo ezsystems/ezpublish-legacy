@@ -2289,10 +2289,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $border = $tag->attributeValue( 'border' );
                 $width = $tag->attributeValue( 'width' );
                 $tableClass = $tag->attributeValue( 'class' );
-                if ( $width == null )
-                    $width = "100%";
-                if ( $border == null )
-                    $border = 1;
+
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -2332,10 +2329,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     $tableRows .= "<tr>\n$tableData</tr>\n";
                 }
+
+                $attributes = "";
                 if ( $tableClass != null )
-                    $output .= "<table class='$tableClass' border='$border' width='$width'>\n$tableRows</table>\n";
-                else
-                    $output .= "<table border='$border' width='$width'>\n$tableRows</table>\n";
+                    $attributes .= " class='$tableClass'";
+                if ( $border != null )
+                    $attributes .= " border='$border'";
+                if ( $width != null )
+                    $attributes .= " width='$width'";
+
+                $output .= "<table$attributes>\n$tableRows</table>\n";
             }break;
 
             case 'literal' :

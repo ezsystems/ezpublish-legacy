@@ -138,6 +138,8 @@ eZ Xmltext:
 - Fixed: Creation of an unneeded workflow process parameter led to multiple
   workflow processes.
   (Merged from stable/3.5 (3.5.1) rev. 10823)
+- Fixed bug #6192: Unwanted XML field behavior in <table> tag.
+  (Merged from stable/3.5 (3.5.1) rev. 10854)
 
 *Library:
 PDF:
