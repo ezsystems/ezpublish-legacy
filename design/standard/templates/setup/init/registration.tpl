@@ -12,7 +12,7 @@
 
 <p>
 {"The registration email:"|i18n("design/standard/setup/init")}
-<textarea class="box" disabled="disabled" cols="60" rows="6">{$email_body}</textarea>
+<textarea class="box" readonly="readonly" cols="60" rows="6">{$email_body}</textarea>
 <p>
 
 <p>

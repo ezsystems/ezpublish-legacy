@@ -158,6 +158,16 @@ p.disabled
 	color: #cccccc;
 }
 
+a:link
+{ 
+  color: #ff9900;
+}
+
+a:visited
+{  
+  color: #f08c00;
+}
+
 div.setup_progress_bar_text
 { 
   color: #ffffff;
