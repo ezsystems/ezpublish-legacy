@@ -277,7 +277,7 @@ class eZDBInterface
         $sqlFileHandler = fopen( $sqlFileName, 'rb' );
         $buffer = '';
         $done = false;
-        while(  count( ( $sqlArray = $this->prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )
+        while ( count( ( $sqlArray = $this->prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )
         {
             // Turn unneccessary SQL debug output off
             $oldOutputSQL = $this->OutputSQL;
@@ -295,9 +295,11 @@ class eZDBInterface
                     if ( trim( $singleQuery ) != "" )
                     {
 //                    eZDebug::writeDebug( $singleQuery );
-                        $this->query( $singleQuery );
-                        if ( $this->errorNumber() != 0 )
+                        $this->query( trim( $singleQuery ) );
+                        if ( $this->errorNumber() )
+                        {
                             return false;
+                        }
                     }
                 }
 
