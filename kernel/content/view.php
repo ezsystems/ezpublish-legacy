@@ -76,6 +76,10 @@ if ( trim( $LanguageCode ) != '' )
 {
     eZContentObject::setDefaultLanguage( $LanguageCode );
 }
+else
+{
+    $LanguageCode = eZContentObject::defaultLanguage();
+}
 
 if ( $NodeID < 2 )
     $NodeID = 2;
@@ -146,7 +150,7 @@ if ( $useTriggers == true )
 
     $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                                'user_id' => $user->id(),
-                                                                               'language_code' => eZContentObject::defaultLanguage() ), null, $useTriggers );
+                                                                               'language_code' => $LanguageCode ), null, $useTriggers );
 }
 else
 {
@@ -155,7 +159,7 @@ else
         $cacheExpired = false;
         $user =& eZUser::currentUser();
 
-        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $Params['Language'], $ViewMode, $viewParameters );
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters );
 
         // Read Cache file
         $fp = @fopen( $cacheFileArray['cache_path'], 'r' );
@@ -237,9 +241,9 @@ else
         $cacheFileArray = array( 'cache_dir' => false, 'cache_path' => false );
     }
 
-    if ( $Params['Language'] != '' )
+    if ( $LanguageCode != '' )
     {
-        $node =& eZContentObjectTreeNode::fetch( $NodeID, $Params['Language'] );
+        $node =& eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
     }
     else
     {
@@ -254,9 +258,9 @@ else
     if ( !is_object( $object ) )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    if ( $Params['Language'] != '' )
+    if ( $LanguageCode != '' )
     {
-        $object->setCurrentLanguage( $Params['Language'] );
+        $object->setCurrentLanguage( $LanguageCode );
     }
 
     if ( !get_class( $object ) == 'ezcontentobject' )
@@ -274,7 +278,7 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
     }
 
-    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset,
+    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
                                                      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                      $collectionAttributes, $validation );
     return $Result;
