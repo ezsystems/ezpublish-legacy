@@ -114,6 +114,7 @@ Changes from 3.2-3 to 3.2-4
   http://ez.no/developer/ez_publish_3/bug_reports/datatype_ezbinaryfile_returns_cryptic_filenames_as_default_content_object_titles
 - Fixed several bugs reported in bugreport : http://ez.no/developer/ez_publish_3/bug_reports/kernel_errors
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/search_sorting_error_typo_in_ezsearchenginephp
+- Fixed Apache 2 problem when redirecting to url with two or more / at end of url.
 
 *Setup:
 - Added check for specific unstable PHP versions.
