@@ -34,6 +34,12 @@
         </form>
         </div>
 
+        <div class="attribute-pdf">
+          <p>
+             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{"Download PDF"|i18n("design/news/layout")}</a>
+          </p>
+        </div>
+
         <h2>Product reviews</h2>
         <div class="content-view-children">
             {section var=review loop=fetch_alias( reviews, hash( parent_node_id, $node.node_id ) )}
