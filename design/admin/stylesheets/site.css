@@ -380,18 +380,6 @@ div.content-edit table.list td.filesize
     white-space: nowrap;
 }
 
-div.image-thumbnail-item
-{
-    width: 130px;
-    margin: 0 1em 1em 0;
-    float: left;
-}
-
-div.content-navigation-childlist div.element
-{
-    border: 1px solid black;
-}
-
 table.list-thumbnails
 {
     width: 100%;
@@ -399,6 +387,7 @@ table.list-thumbnails
 
 table.list-thumbnails td
 {
+    padding: 0.5em;
     text-align: center;
     vertical-align: middle;
 }

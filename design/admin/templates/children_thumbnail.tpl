@@ -7,7 +7,7 @@
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
     {let quoted_child=concat( '&quot;', $Nodes.item.name|wash(), '&quot;' )
          quoted_node=concat( '&quot;', $node.name|wash(), '&quot;'  )}
-<td>
+<td width="25%">
         {node_view_gui view=thumbnail content_node=$Nodes.item}
 
         <div class="controls">
@@ -17,9 +17,9 @@
             {section-else}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permissions to mark this item for removal.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
         {/section}
-
+        <a href={$Nodes.url_alias|ezurl}>{$Nodes.name|wash}</a>
         {* Priority *}
-        {section show=eq( $node.sort_array[0][0], 'priority' )}
+{*        {section show=eq( $node.sort_array[0][0], 'priority' )}
 
             {section show=$node.object.can_edit}
                 <input type="text" name="Priority[]" size="2" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/layout')|wash()}" />
@@ -29,7 +29,7 @@
             {/section}
 
         {/section}
-
+*}
         {* Edit button *}
         {section show=$Nodes.item.object.can_edit}
             <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout')}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/layout',, hash( '%quoted_child', $quoted_child ) )}" /></a>
