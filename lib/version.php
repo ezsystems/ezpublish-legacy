@@ -40,7 +40,7 @@
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 0 );
 define( "EZ_SDK_VERSION_RELEASE", 2 );
-define( "EZ_SDK_VERSION_ALIAS", '3.0 2nd release' );
+define( "EZ_SDK_VERSION_ALIAS", '3.0 release 2' );
 
 class eZPublishSDK
 {

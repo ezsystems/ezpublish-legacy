@@ -51,6 +51,7 @@ function eZSetupStep_security( &$tpl, &$http, &$ini, &$persistenceList )
     $security = array( 'virtualhost_mode' => eZSys::indexFileName() == '' );
 
     $tpl->setVariable( 'security', $security );
+    $tpl->setVariable( 'path', realpath( '.' ) );
 
     $result = array();
     // Display template
