@@ -177,6 +177,16 @@ td.bgdark
 	background-color: #f0faff;
 }
 
+th.bglight
+{
+	background-color: #f8fdff;
+}
+
+th.bgdark
+{
+	background-color: #f0faff;
+}
+
 div.selectbar
 {
     align: center;
