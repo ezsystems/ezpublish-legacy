@@ -1,3 +1,15 @@
+Static optimization tests:
+expr5.1:or( false(), 5 )='5'
+expr1:and( false(), $value )=''
+expr2:and( $value, false() )=''
+expr3:and( true(), true() )='1'
+expr4:and( true(), $value )=''
+expr5:or( true(), $value )='1'
+expr6:or( false(), true(), $value )='1'
+expr7:or( $value, false() )=''
+expr8:or( false(), $value )=''
+expr9:or( false(), false() )=''
+
 1|lt( 0 )=''
 0|lt( 0 )=''
 0|lt( 1 )='1'

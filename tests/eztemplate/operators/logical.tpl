@@ -1,4 +1,16 @@
 {let value=false()}
+Static optimization tests:
+expr5.1:or( false(), 5 )='{or( false(), 5 )}'
+expr1:and( false(), $value )='{and( false(), $value )}'
+expr2:and( $value, false() )='{and( $value, false() )}'
+expr3:and( true(), true() )='{and( true(), true() )}'
+expr4:and( true(), $value )='{and( true(), $value )}'
+expr5:or( true(), $value )='{or( true(), $value )}'
+expr6:or( false(), true(), $value )='{or( false(), true(), $value )}'
+expr7:or( $value, false() )='{or( $value, false() )}'
+expr8:or( false(), $value )='{or( false(), $value )}'
+expr9:or( false(), false() )='{or( false(), false() )}'
+
 1|lt( 0 )='{1|lt( 0 )}'
 0|lt( 0 )='{0|lt( 0 )}'
 0|lt( 1 )='{0|lt( 1 )}'

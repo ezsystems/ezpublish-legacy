@@ -394,6 +394,8 @@ eZ Template:
   (Merged from stable/3.4 rev. 7239)
 - Created function for doing validation on a given template file.
   (Merged from stable/3.4 rev. 7239)
+- Optimized the logical operators, eq, ne, lt, le, gt, ge, and, or
+  when static values are used.
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.

@@ -305,9 +305,52 @@ class eZTemplateLogicOperator
 
         if ( $operatorName == 'or' )
         {
+            $staticResult = false;
+            $staticValue = null;
+            $dynamicParameters = array();
+            $addDynamic = false;
+            $lastValue = null;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $addDynamic )
+                {
+                    $dynamicParameters[] = $parameter;
+                    continue;
+                }
+                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
+                {
+                    $parameterValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    if ( $staticValue === null )
+                    {
+                        $staticValue = $parameterValue;
+                    }
+                    else
+                    {
+                        $staticValue = ( $staticValue or $parameterValue );
+                    }
+                    $lastValue = $parameterValue;
+                    if ( $parameterValue )
+                    {
+                        $staticResult = true;
+                        break;
+                    }
+                    continue;
+                }
+                $addDynamic = true;
+                $dynamicParameters[] = $parameter;
+                $staticValue = null;
+            }
+            if ( count( $dynamicParameters ) == 0 )
+            {
+                if ( !$staticResult )
+                    $lastValue = false;
+                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                return $newElements;
+            }
+
             $code = '';
             $counter = 0;
-            foreach ( $parameters as $parameter )
+            foreach ( $dynamicParameters as $parameter )
             {
                 if ( $counter++ )
                 {
@@ -322,9 +365,51 @@ class eZTemplateLogicOperator
         }
         else if ( $operatorName == 'and' )
         {
+            $staticResult = false;
+            $staticValue = null;
+            $dynamicParameters = array();
+            $addDynamic = false;
+            $lastValue = null;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $addDynamic )
+                {
+                    $dynamicParameters[] = $parameter;
+                    continue;
+                }
+                if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
+                {
+                    $parameterValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    if ( $staticValue === null )
+                    {
+                        $staticValue = $parameterValue;
+                    }
+                    else
+                    {
+                        $staticValue = ( $staticValue and $parameterValue );
+                    }
+                    $lastValue = $parameterValue;
+                    if ( !$parameterValue )
+                    {
+                        $lastValue = false;
+                        $staticResult = true;
+                        break;
+                    }
+                    continue;
+                }
+                $addDynamic = true;
+                $dynamicParameters[] = $parameter;
+                $staticValue = null;
+            }
+            if ( count( $dynamicParameters ) == 0 )
+            {
+                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                return $newElements;
+            }
+
             $code = '';
             $counter = 0;
-            foreach ( $parameters as $parameter )
+            foreach ( $dynamicParameters as $parameter )
             {
                 if ( $counter++ )
                 {
@@ -341,8 +426,71 @@ class eZTemplateLogicOperator
         {
             $code = '%output% = (';
             $counter = 0;
+            $allStatic = true;
             foreach ( $parameters as $parameter )
             {
+                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                    $allStatic = false;
+            }
+            if ( $allStatic )
+            {
+                switch ( $operatorName )
+                {
+                    case 'lt':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'le':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <=
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'gt':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'ge':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >=
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'eq':
+                    {
+                        $staticParameters = array();
+                        foreach ( $parameters as $parameter )
+                        {
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                                                                              0, 0, false );
+                        }
+                        eval( '$evalStatus = ( ' . implode( ' == ', $staticParameters ) . ' );' );
+                    } break;
+
+                    case 'ne':
+                    {
+                        $staticParameters = array();
+                        foreach ( $parameters as $parameter )
+                        {
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                                                                              0, 0, false );
+                        }
+                        eval( '$evalStatus = ( ' . implode( ' != ', $staticParameters ) . ' );' );
+                    } break;
+                    break;
+                }
+                $newElements[] = eZTemplateNodeTool::createBooleanElement( $evalStatus );
+                return $newElements;
+            }
+
+            foreach ( $parameters as $parameter )
+            {
+                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                    $allStatic = false;
                 if ( $counter++ )
                 {
                     $code .= " $operator";
