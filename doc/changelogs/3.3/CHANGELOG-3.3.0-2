@@ -47,6 +47,8 @@
 - Removed unneeded template user variable instantiation in kernel/notification/runfilter.php
 - Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug ( merged from stable 4361 )
   http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
+- Fixed bug eZContentObjectTreeNode::findMainNodeArray when $objectIDArray is empty ( merged from stable 4367 )
+  http://www.ez.no/developer/ez_publish_3/bug_reports/related_objects_error_2
 
 
 *Kernel:

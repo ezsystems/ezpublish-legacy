@@ -1796,19 +1796,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id";
+
+            $db =& eZDB::instance();
+            $nodeListArray =& $db->arrayQuery( $query );
+            if ( $asObject )
+            {
+                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                return $retNodeArray;
+            }
+            else
+            {
+                return $nodeListArray;
+            }
         }
 
-        $db =& eZDB::instance();
-        $nodeListArray =& $db->arrayQuery( $query );
-        if ( $asObject )
-        {
-            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-            return $retNodeArray;
-        }
-        else
-        {
-            return $nodeListArray;
-        }
         return null;
     }
 

@@ -66,8 +66,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/typo_in_custom_tag_removes_all_content_in_xml_text_field
 - Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
   http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
-- Fixed missing argument 1 for ezuser() in kernel\classes\datatypes\ezuser\ezuser.php bug 
-  http://www.ez.no/developer/ez_publish_3/bug_reports/ezuserloginhandler_php_warning
+- Fixed bug eZContentObjectTreeNode::findMainNodeArray when $objectIDArray is empty
+  http://www.ez.no/developer/ez_publish_3/bug_reports/related_objects_error_2
 - Fixed problem with related object datatype and lost POST data. (Fix taken from 3.3)
   http://ez.no/developer/ez_publish_3/bug_reports/admin_interface_objectrelationattributes_wipe_out_other_attribute_settings
 
