@@ -604,6 +604,9 @@ Workflow:
   (Merged from stable/3.3 rev. 8318, also in stable/3.4 rev. 8319)
   http://ez.no/community/bug_reports/repost_crash_rss
   http://ez.no/community/bug_reports/repost_crash_rss__1
+- Fixed bug: fatal error occurs when user removes a translation and then reloads the page.
+  (Merged from stable/3.3 rev. 8321, also in stable/3.4 rev. 8322)
+  http://ez.no/community/bug_reports/repost_crash_translations
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
