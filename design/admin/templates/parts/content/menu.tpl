@@ -43,9 +43,3 @@
  <a href={"/user/preferences/set/history_menu/on"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a>
 </div>
 {/section}
-
-
-
-
-
-
