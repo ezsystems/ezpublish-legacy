@@ -165,7 +165,7 @@ class eZXMLTextType extends eZDataType
         }
         $sectionData .= "</section>";
 
-        print( nl2br( htmlspecialchars( $sectionData ) ). "<br>" );
+//        print( nl2br( htmlspecialchars( $sectionData ) ). "<br>" );
 
         $data  = '<?xml version="1.0" encoding="utf-8" ?>' . $sectionData;
 
