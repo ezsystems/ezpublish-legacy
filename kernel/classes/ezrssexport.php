@@ -532,6 +532,7 @@ class eZRSSExport extends eZPersistentObject
             foreach ( $nodeArray as $node )
             {
                 $object =& $node->attribute( 'object' );
+                $dataMap =& $object->dataMap();
                 if ( $useURLAlias === true )
                 {
                     $nodeURL = $baseItemURL.$node->urlAlias();
@@ -544,43 +545,29 @@ class eZRSSExport extends eZPersistentObject
                 $rdfSeq->appendChild( $doc->createElementNode( 'rdf:li', array( 'rdf:resource' => $nodeURL ) ) );
 
                 $itemTitle =& $doc->createElementNode( 'title' );
-                $title =& $object->attribute( $rssItem->attribute( 'title' ) );
-                if ( is_string( $title ) )
+                $title =& $dataMap[$rssItem->attribute( 'title' )];
+                $titleContent =& $title->attribute( 'content' );
+                if ( get_class( $titleContent ) == 'ezxmltext' )
                 {
-                    $itemTitle->appendChild( $doc->createTextNode( $title ) );
+                    $outputHandler =& $titleContent->attribute( 'output' );
+                    $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
                 }
-                else if ( $title != null )
+                else
                 {
-                    $titleContent =& $title->attribute( 'content' );
-                    if ( get_class( $titleContent ) == 'ezxmltext' )
-                    {
-                        $outputHandler =& $titleContent->attribute( 'output' );
-                        $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
-                    }
-                    else
-                    {
-                        $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
-                    }
+                    $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
                 }
 
                 $itemDescription =& $doc->createElementNode( 'description' );
-                $description =& $object->attribute( $rssItem->attribute( 'description' ) );
-                if ( is_string( $description ) )
+                $description =& $dataMap[$rssItem->attribute( 'description' )];
+                $descriptionContent =& $description->attribute( 'content' );
+                if ( get_class( $descriptionContent ) == 'ezxmltext' )
                 {
-                    $itemDescription->appendChild( $doc->createTextNode( $description ) );
+                    $outputHandler =& $descriptionContent->attribute( 'output' );
+                    $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
                 }
-                else if ( $description != null )
+                else
                 {
-                    $descriptionContent =& $description->attribute( 'content' );
-                    if ( get_class( $descriptionContent ) == 'ezxmltext' )
-                    {
-                        $outputHandler =& $descriptionContent->attribute( 'output' );
-                        $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
-                    }
-                    else
-                    {
-                        $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
-                    }
+                    $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
                 }
 
                 $itemLink =& $doc->createElementNode( 'link' );
