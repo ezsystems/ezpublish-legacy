@@ -273,6 +273,8 @@ edit_placement.tpl:
 - Changed default PostgreSQL user from 'root' to 'postgres' in bin/shell/redumpall.sh since
   there's no user called root in default PostgreSQL installation.
   (Merged from stable/3.3 rev. 8108)
+- Fixed bug: While deleting the class, all objects of that class in trash will also be deleted.
+  http://ez.no/community/bug_reports/removing_class_does_not_remove_objects_in_trash
 
 *Lib:
 
