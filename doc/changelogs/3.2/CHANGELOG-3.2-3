@@ -42,6 +42,7 @@ Changes from 3.2-2 to 3.2-3
 - Made sure all attributes for new languages in objects are properly initialized (eg. for images)
 - http://ez.no/developer/ez_publish_3/bug_reports/div_should_be_div_
   Fixed typo in HTML.
+- Fixed problem with proxy slowdown by sending correct header information.
 
 *Setup:
 

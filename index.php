@@ -238,13 +238,6 @@ function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, 
     return true;
 }
 
-// send header information
-header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . 'GMT' );
-header( 'Cache-Control: no-cache, must-revalidate' );
-header( 'Pragma: no-cache' );
-header( 'X-Powered-By: eZ publish' );
-
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 $httpCharset = eZTextCodec::httpCharset();
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
@@ -253,12 +246,6 @@ if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
     eZLocale::setIsDebugEnabled( true );
 $locale =& eZLocale::instance();
 $languageCode =& $locale->httpLocaleCode();
-
-header( 'Content-Type: text/html; charset=' . $httpCharset );
-header( 'Content-language: ' . $languageCode );
-
-// print( 'Content-Type: text/html; charset=' . $httpCharset . "<br/>" );
-// print( 'Content-language: ' . $languageCode . "<br/>" );
 
 include_once( "lib/ezutils/classes/ezsys.php" );
 
@@ -356,6 +343,17 @@ if ( $dbRequired or
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
 
+
+// send header information
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . 'GMT' );
+header( 'Cache-Control: no-cache, must-revalidate' );
+header( 'Pragma: no-cache' );
+header( 'X-Powered-By: eZ publish' );
+
+header( 'Content-Type: text/html; charset=' . $httpCharset );
+header( 'Content-language: ' . $languageCode );
+
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();
 
@@ -396,7 +394,6 @@ $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositorie
 eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/eznavigationpart.php' );
-
 
 // Start the module loop
 while ( $moduleRunRequired )
