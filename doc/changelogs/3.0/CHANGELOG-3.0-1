@@ -120,6 +120,7 @@ links to clickable links.
 - Added script for probing if server is alive. /ezinfo/is_alive
 - Added next/previous navigation to advanced search template
 - Texttoimage operator can now set absolute size for the resulting image in texttoimage.ini.
+- Fixed bug with getting correct GroupID on workflows creation.
 
 *SDK :
 
@@ -133,7 +134,7 @@ eZ XML:
 - Added eZTextCodec conversion, it will now return text in UTF-8 encoding
   by default and will decode the input xml from the specified charset in
   the XML file, UTF-8 is default.
-- Added function to remove DOM nodes by name 
+- Added function to remove DOM nodes by name
 - Added function to remove the last appended DOM node
 - Added function to return the last appended child of a DOM node.
 

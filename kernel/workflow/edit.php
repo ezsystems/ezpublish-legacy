@@ -46,7 +46,14 @@ else
     $WorkflowID = false;
 
 if ( isset( $Params["GroupID"] ) )
+{
+    eZDebug::writeDebug( $GroupID, "GroupID" );
     $GroupID = $Params["GroupID"];
+}
+else
+{
+    eZDebug::writeDebug( $GroupID, "unknown GroupID" );
+}
 if ( isset( $Params["GroupName"] ) )
     $GroupName = $Params["GroupName"];
 

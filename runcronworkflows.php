@@ -51,6 +51,13 @@ include_once( "lib/ezutils/classes/ezoperationmemento.php" );
 include_once( "lib/ezutils/classes/ezoperationhandler.php" );
 include_once( "lib/ezutils/classes/ezsession.php" );
 
+include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+
+$debugINI =& eZINI::instance( 'debug.ini' );
+eZDebugSetting::setDebugINI( $debugINI );
+$GLOBALS['eZDebugEnabled'] = true;
 // eZDebug::setHandleType( $runInBrowser ? EZ_HANDLE_FROM_PHP : EZ_HANDLE_TO_PHP );
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 // eZDebug::setMessageOutput( EZ_OUTPUT_MESSAGE_SCREEN );
