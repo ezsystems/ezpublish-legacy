@@ -125,4 +125,9 @@ Source=shop/confirmorder.tpl
 MatchFile=confirmorder.tpl
 Subdir=templates/shop
 
+[orderview]
+Source=shop/orderview.tpl
+MatchFile=orderview.tpl
+Subdir=templates/shop
+
 */ ?>
