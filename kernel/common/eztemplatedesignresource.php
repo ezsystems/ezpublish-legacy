@@ -335,9 +335,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $overrideKeys = eZTemplateDesignResource::overrideKeys();
-        $overrideKey = md5( implode( ',', $overrideKeys ) );
+
+        $overrideKey = md5( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) ;
         $cacheDir = eZSys::cacheDirectory();
         $overrideCacheFile = "$cacheDir/override/override_$overrideKey.php";
+
         // Build matching cache only of it does not already exists,
         // or override file has been updated
         if ( !file_exists( $overrideCacheFile ) )
@@ -495,17 +497,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
             $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             $overrideINI->loadCache();
+
+            $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
+            if ( !$onlyStandard )
+                $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
         }
         else
         {
             $ini =& eZINI::instance();
             $overrideINI =& eZINI::instance( 'override.ini' );
+
+            $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
+            if ( !$onlyStandard )
+                $siteBase = eZTemplateDesignResource::designSetting( 'site' );
         }
-
-
-        $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
-        if ( !$onlyStandard )
-            $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
 
         $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 

@@ -1,6 +1,7 @@
 Changes from 3.1.0-2 to 3.1-1
 
 *Kernel:
+- Fixed problem with object preview not showing the correct design.
 - Fixed bug in eZXMLText datatype validation where required fields where always validated.
 - Fixed bug in template admin where default template was not copyed from the selected sitedesign.
 - Fixed bug in related object when fetching a non-existing translation. Now the default translation is returned if the requested translation does not exist.
