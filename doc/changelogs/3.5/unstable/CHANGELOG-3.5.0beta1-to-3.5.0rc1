@@ -67,6 +67,8 @@ Datatype:
   the "Appearance" thumbnails and radiobuttons disappears from the page. The bug also causes
   a database corruption. To fix it, edit the "Template look" class and store it without
   changing anything.
+- Fixed bug of no warning messages shows when xml data are not valid.
+  http://ez.no/community/bug_reports/xml_field_validation_trouble
 
 *Library:
 
