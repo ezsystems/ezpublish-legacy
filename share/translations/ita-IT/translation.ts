@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Recent links</source>
-        <translation>Links recenti</translation>
+        <translation>Links Recenti</translation>
     </message>
     <message>
         <source>Create new blog entry</source>
@@ -271,7 +271,7 @@
     <name>design/corporate/layout</name>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Send</source>
@@ -286,7 +286,7 @@
     <name>design/forum/layout</name>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Subject</source>
@@ -349,7 +349,7 @@
     <name>design/gallery/layout</name>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Galleries</source>
@@ -412,7 +412,7 @@
     </message>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Latest news</source>
@@ -458,7 +458,7 @@
     </message>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Latest news</source>
@@ -497,7 +497,7 @@
     </message>
     <message>
         <source>Read more</source>
-        <translation>Continua a leggere</translation>
+        <translation>Leggi</translation>
     </message>
     <message>
         <source>Write your own review</source>
@@ -561,55 +561,55 @@
     </message>
     <message>
         <source>Add to basket</source>
-        <translation type="unfinished">Aggiungi al carrello</translation>
+        <translation>Aggiungi al carrello</translation>
     </message>
     <message>
         <source>Notify me about updates</source>
-        <translation type="unfinished">Notificami gli aggiornamenti</translation>
+        <translation>Notificami gli aggiornamenti</translation>
     </message>
     <message>
         <source>Printerfriendly version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Stampabile</translation>
     </message>
     <message>
         <source>Main menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu Principale</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished">Cerca</translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished">Notifiche</translation>
+        <translation>Notifiche</translation>
     </message>
     <message>
         <source>Edit account</source>
-        <translation type="unfinished">Modifica Account</translation>
+        <translation>Modifica Account</translation>
     </message>
     <message>
         <source>View basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza il carrello</translation>
     </message>
     <message>
         <source>Logout</source>
-        <translation type="unfinished">Logout</translation>
+        <translation>Logout</translation>
     </message>
     <message>
         <source>Register new customer</source>
-        <translation type="unfinished"></translation>
+        <translation>Registra un nuovo utente</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished">Login</translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Shopping basket</source>
-        <translation type="unfinished"></translation>
+        <translation>Carrello Acquisti</translation>
     </message>
     <message>
         <source>View all details</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza tutti i Dettagli</translation>
     </message>
 </context>
 <context>
@@ -3862,7 +3862,7 @@ dal menu in alto.</translation>
     </message>
     <message>
         <source>Role policies</source>
-        <translation>Politicies ruolo</translation>
+        <translation>Policies ruolo</translation>
     </message>
     <message>
         <source>Users and groups assigned to this role</source>
@@ -3890,7 +3890,7 @@ dal menu in alto.</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. &apos;Any&apos; means no limitation by this parameter</source>
-        <translation>Specifica limitazioni nella funzione %functionmane nel modulo %modulename. &apos;Qualsisasi&apos; significa nessuna limitazione per questo parametro</translation>
+        <translation>Specifica limitazioni nella funzione %functionname nel modulo %modulename. &apos;Qualsiasi&apos; significa nessuna limitazione per questo parametro</translation>
     </message>
     <message>
         <source>Limitations</source>
@@ -4923,6 +4923,90 @@ Il codice di default è stato fatto dai parametri di base che hai scelto.</trans
     <message>
         <source>Update</source>
         <translation>Aggiorna</translation>
+    </message>
+    <message>
+        <source>All caches were cleared.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cache collections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click a button to clear a collection of caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content views and template blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content caches is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template overrides and template compiling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Template caches are disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI caches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>INI cache is disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nome</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation type="unfinished">Selezione</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished">Disabilitato</translation>
+    </message>
+    <message>
+        <source>Clear selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content view cache</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6440,6 +6524,22 @@ To fix this problem you must do one of the following:</source>
         <source>To enable imagegd2 you need to recompile PHP with support for it, more information on that subject is available at</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>AcceptPathInfo disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You need enable AcceptPathInfo in your Apache config file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enter the following into your httpd.conf file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to restart your web server afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/shop</name>
@@ -7887,7 +7987,7 @@ your account.</source>
     </message>
     <message>
         <source>Send</source>
-        <translation>Invia</translation>
+        <translation type="obsolete">Invia</translation>
     </message>
     <message>
         <source>Time field</source>
