@@ -111,6 +111,8 @@ eZINI:
 - The main settings/*.ini dir is now used only if it exists, this means
   that ini files can exists in extensions.
 - Variable names can now have _ and - in them.
+- Made sure data is reset when files are (re)parsed, this fixes the duplicate
+  variable item problem.
 
 eZModuleFunctionInfo:
 - Added support for extension definitions.

@@ -76,14 +76,14 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1039545462 );
+define( "EZ_INI_CACHE_CODE_DATE", 1043316722 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
 {
     /*!
       Initialization of object;
-     */
+    */
     function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null )
     {
         $this->Charset = "utf8";
@@ -215,15 +215,13 @@ class eZINI
     */
     function load( $reset = true )
     {
-        if ( $reset )
-            $this->reset();
         if ( $this->UseCache )
         {
-            $this->loadCache();
+            $this->loadCache( $reset );
         }
         else
         {
-            $this->parse();
+            $this->parse( $reset );
         }
     }
 
@@ -266,8 +264,10 @@ class eZINI
       Will load a cached version of the ini file if it exists,
       if not it will parse the original file and create the cache file.
     */
-    function loadCache()
+    function loadCache( $reset = true )
     {
+        if ( $reset )
+            $this->reset();
         $cachedDir = "var/cache/ini/";
         if ( !file_exists( $cachedDir ) )
         {
@@ -344,7 +344,7 @@ class eZINI
         }
         if ( !$useCache )
         {
-            $this->parse( $inputFiles, $iniFile );
+            $this->parse( $inputFiles, $iniFile, false );
             $this->saveCache( $cachedFile );
         }
     }
@@ -411,8 +411,10 @@ class eZINI
       Parses either the override ini file or the standard file and then the append
       override file if it exists.
      */
-    function &parse( $inputFiles = false, $iniFile = false )
+    function &parse( $inputFiles = false, $iniFile = false, $reset = true )
     {
+        if ( $reset )
+            $this->reset();
         if ( $inputFiles === false or
              $iniFile === false )
             $this->findInputFiles( $inputFiles, $iniFile );
