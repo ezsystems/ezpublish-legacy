@@ -672,7 +672,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectLanguage = $object->attribute( 'default_language' );
         $dataType =& $this->dataType();
         return $dataType->insertHTTPFile( $object, $objectVersion, $objectLanguage,
-                                          $this, $httpFile, $mimeData );
+                                          $this, $httpFile, $mimeData,
+                                          $result );
     }
 
     /*!
@@ -696,7 +697,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectLanguage = $object->attribute( 'default_language' );
         $dataType =& $this->dataType();
         return $dataType->insertRegularFile( $object, $objectVersion, $objectLanguage,
-                                             $this, $filePath, $mimeData );
+                                             $this, $filePath, $mimeData,
+                                             $result );
     }
 
     /*!
@@ -720,7 +722,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectLanguage = $object->attribute( 'default_language' );
         $dataType =& $this->dataType();
         return $dataType->insertSimpleString( $object, $objectVersion, $objectLanguage,
-                                              $this, $string, $result );
+                                              $this, $string,
+                                              $result );
     }
 
     /*!
