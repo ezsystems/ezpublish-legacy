@@ -487,7 +487,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &subTree( $params = false ,$nodeID = 0 )
     {
-        if ( !is_numeric( $nodeID ) )
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
             return array();
         }
@@ -631,7 +631,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $sortKey = 'sort_key_int';
                             }
-
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
                             $attributeWereSQL .= "
@@ -641,7 +640,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                    a$attributeJoinCount.language_code = ezcontentobject_name.real_translation AND ";
 
                             $attributeJoinCount++;
-
                         }break;
 
                         default:
