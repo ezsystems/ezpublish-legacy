@@ -548,6 +548,10 @@ class eZOrder extends eZPersistentObject
         }
 
         $emailString = implode( ", ", $customEmailArray );
+		if ( !strlen( $emailstring ) )
+		{
+			$emailString = "''";
+		}
 
         $productItemArray = $db->arrayQuery(  "SELECT ezorder.id as order_id, user_id, email, ignore_vat, ezproductcollection_item.*
                                                  FROM ezorder, ezproductcollection_item

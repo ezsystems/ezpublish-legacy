@@ -58,12 +58,14 @@ eZ PHP creator:
   the assignment is applied in compiled template code.
 - Made sure the same repository is not scanned multiple times.
   http://ez.no/community/bug_reports/ezdatatype_php_latest_trunk
-- Fixed bug, mondayfirst does not take effect (merged from 3.3 stable rev. 5464)
+- Fixed bug, mondayfirst does not take effect. (merged from 3.3 stable rev. 5464)
   http://ez.no/community/bug_reports/mondayfirst_does_not_take_effect
 - Fixed bug, removed dependency on eZDateTime for currentTimeStamp().
   http://ez.no/community/bug_reports/missing_include_ezdatetime_php
-- Fixed small bugs in clearing the cache files (merged from 3.3 stable rev. 5478)
+- Fixed small bugs in clearing the cache files. (merged from 3.3 stable rev. 5478)
   http://ez.no/community/bug_reports/kernel_classes_ezcache_php_fatal_error_missing_includes_more
+- Fixed bug when the email list was empty in a custom webshop list.
+  http://ez.no/community/bug_reports/shop_customlist_sql_error
 
   *Update
 - Added script addorderemail.php which will add email field content to table ezorder.
