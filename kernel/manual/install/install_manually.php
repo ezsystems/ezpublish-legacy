@@ -191,6 +191,10 @@ MatchOrder=uri
 	This is the same way the eZ publish Windows installer is configured.
 </p>
 
+<p>
+	For more indepth information on site access go to the <a href="siteaccess">site access section</a>
+</p>
+
 <h2 id="Windows_Installation">Installation on Windows</h2>
 <ol>
 	<li>Unpack ezpublish-xxx.tar.gz into the &lt;httproot&gt; folder. Use a program that supports .tar.gz files, like WinZip.</li>
@@ -206,7 +210,7 @@ MatchOrder=uri
 </p>
 
 <ol>
-	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the windows version)</li>
+	<li>Open a console window (start->run->cmd.exe or start->run->command.exe depending on the Windows version)</li>
 	<li>Go to your the location of mysql and find the mysql.exe file (should be under bin\)</li>
 	<li>Run <pre class="example">mysql.exe -u root -p &lt;your_mysql_password&gt;</pre></li>
 	<li>You should now have have a mysql&gt; prompt. Type these mysql statements <pre class="example">mysql&gt; create database &lt;name_of_database&gt;;</pre></li>
@@ -279,6 +283,8 @@ AddModule mod_rewrite.c</pre>
 &lt;/VirtualHost&gt;
 </pre>
 
+<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and we must use '/' (slash) not '\' (backslash)</p>
+
 <h3 id="Windows_SiteAccess">Siteaccess settings</h3>
 <p>
 	The site access defines how eZ publish will recognize which site you're accessing.
@@ -328,5 +334,9 @@ MatchOrder=uri
 	This is the same way the eZ publish Windows installer is configured.
 </p>
 
+<p>
+	For more indepth information on site access goto the <a href="siteaccess">site access section</a>
+</p>
 
-<p class="important"> <b>Note:</b>The rewrite rule is releative to the http root and we must use '/' (slash) not '\' (backslash)</p>
+
+

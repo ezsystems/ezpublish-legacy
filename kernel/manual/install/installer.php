@@ -23,6 +23,11 @@
 	install the software for you. You can also buy a ready hosted eZ publish 3 solution.
 </p>
 
+<p>
+	The installers are meant as a quick way to get eZ publish up and running for testing purposes. If you plan on
+	using eZ publish for more than just testing, we recommend you to install it manually either by letting the setup guide do the configuration
+	or by configure eZ publish by hand.
+</p>
 
 
 <h2 id="Installers">Install eZ publish 3 using installers</h2>
@@ -41,7 +46,7 @@
 	<li>Download the installer to your hard drive</li>
 	<li>Dobbel click on the downloaded file and follow the instructions*</li>
 	<li>Now the installation will start. This can take a few minutes</li>
-	<li>When the installation is done you need to start eZ publish by clicking on the eZ publish icon 
+	<li>When the installation is done you need to start eZ publish by clicking on the eZ publish icon
 	on the desktop. This will open eZ publish in your default browser. eZ publish will open at the User site.
 	To start the Admin site simply write /admin after the rest in the address. Log in with <i>admin</i>
 	and <i>publish</i>.</li>
@@ -52,12 +57,14 @@
 	*Choose demo data in the installation if you want to use that as an example on how to use eZ publish.
 </p>
 
+<p class="important"><b>Note:</b> If you have anything listening on the same port as Apache (80) or as MySQL (3306) you need to shut those services down because Apache and MySQL won't start if port 80 or 3306 is in use.</p>
+
 <h3 id="Linux">Linux installer</h3>
 
 <ol>
 	<li>Open your web browser and go to <a href="http://ez.no/download">http://ez.no/download</a></li>
 	<li>Find the Linux installer matching your distribution. These installers are tested on Linux Redhat, but might as well work fine on other distributions.</li>
-	<li>Become root by running <pre class="example"> $ su - </pre> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for the root user</p></pre></li>
+	<li>Become root by running <pre class="example"> $ su - </pre></li> <p class="important"> <b>Note:</b> it is important that you run "su -", and not "su". The installer needs to have system variables for the root user</p></pre></li>
 	<li>Unpack the downloaded file <pre class="example"> # tar xvfz ezpublish-3.0-xxx-x-Linux-xxx.i386.tar.gz</pre> Replace ezpublish-3.0-xxx-x-Linux-xxx.i386.tar.gz with your current version.</li>
 	<li>Enter the extracted directory <pre class="example"> # cd ezpublish-3.0-xxx-x-Linux-xxx.i386 </pre></li>
 	<li>Run the installation program <pre class="example"> # ./install.sh</pre></li>
