@@ -120,5 +120,9 @@ MatchFile=confirmorder.tpl
 Subdir=templates/shop
 Match[class]=25
 
+[basket]
+Source=shop/confirmorder.tpl
+MatchFile=confirmorder.tpl
+Subdir=templates/shop
 
 */ ?>
