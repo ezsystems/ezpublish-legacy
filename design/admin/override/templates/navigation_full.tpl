@@ -60,14 +60,14 @@
     {include uri='design:information.tpl'}
 {/section}
 
-{* Related objects and reverse related objects *}
-{section show=ezpreference( 'admin_navigation_relations'  )}
-    {include uri='design:related_objects.tpl'}
-{/section}
-
 {* Locations *}
 {section show=ezpreference( 'admin_navigation_locations'  )}
     {include uri='design:locations.tpl'}
+{/section}
+
+{* Related objects and reverse related objects *}
+{section show=ezpreference( 'admin_navigation_relations'  )}
+    {include uri='design:related_objects.tpl'}
 {/section}
 
 {* Children *}
