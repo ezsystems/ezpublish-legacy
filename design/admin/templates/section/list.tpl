@@ -1,7 +1,7 @@
 <form method="post" action={'/section/list/'|ezurl}>
 
 <div class="context-block">
-<h2 class="context-title">{'Sections'|i18n( 'design/admin/section/list' )}&nbsp;[{$section_array|count}]</h2>
+<h2 class="context-title">{'Sections'|i18n( 'design/admin/section/list' )}&nbsp;[{$section_count}]</h2>
 
 {* Section table. *}
 <table class="list" cellspacing="0">
