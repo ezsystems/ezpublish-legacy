@@ -96,6 +96,7 @@ links to clickable links.
 - Fixed problem with multiple word search
 - Added stopword support in search engine for searching large ammounts of data
 - Fixed rendering of custom tag as a block tag
+- Added next/prev to search template
 
 *SDK :
 
