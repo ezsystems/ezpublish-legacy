@@ -33,14 +33,20 @@
 //
 
 ?>
+
+<h1>Fetching variables</h1>
+
 <p>
 Fetching post, get and session variables are normally done by accessing the
 global HTTP_POST_VARS, _GET and HTTP_SESSION_VARS variables.
 </p>
-<h1>Fetching get/post variables</h1>
-<p>The first thing you do when you want to fetch variables is fetch a unique instance.
+
+<h2>Fetching get/post variables</h2>
+<p>
+The first thing you do when you want to fetch variables is fetch a unique instance.
 Then we check if the variable exists and fetch it.
 </p>
+
 <pre class="example">
 $http =& eZHTTPTool::instance();
 // Fetching a post variable
@@ -50,9 +56,12 @@ if ( $http->hasPostVariable( "variableA" ) )
 if ( $http->hasVariable( "variableB" ) )
     $variableB =& $http->variable( "variableB" );
 </pre>
-<h1>Fetching session variables</h1>
-<p>Session variables can be both fetched and set and uses a similar syntax as post/get variables.
+
+<h2>Fetching session variables</h2>
+<p>
+Session variables can be both fetched and set and uses a syntax similar to post/get variables.
 </p>
+
 <pre class="example">
 // Is the variable set?
 if ( $http->hasSessionVariable( "variableC" ) )
@@ -60,4 +69,3 @@ if ( $http->hasSessionVariable( "variableC" ) )
 else // If not we set it
     $http->setSessionVariable( "variableC", "data" );
 </pre>
-

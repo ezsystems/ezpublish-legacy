@@ -33,6 +33,8 @@
 //
 
 ?>
+<h1>URI management</h1>
+
 <p>
 To provide a unified access to the request URI the class eZURI can be used. It makes
 sure that single elements can be accessed and iterated over in an easy way.
@@ -42,17 +44,19 @@ sees that the print mode should be enabled, increases the index and passes the u
 to the underlying object system, no need for the object system to detect print mode by
 itself.
 </p>
-<h1>Accessing elements</h1>
+
+<h2>Accessing elements</h2>
 <p>The class allows us to concentrate on each element one at a time. We then increase
-the index to work on the next value. Base end tail elements are also available.
+the index to work on the next value. Base and tail elements are also available.
 </p>
+
 <pre class="example">
 // Create the object
 $uri =&amp; eZURI::instance( "/test/of/uri" );
 
 // Print the first element
 print( $uri->element() ); // Prints "test"
-// and the nxt
+// and the next
 $uri->increase();
 print( $uri->element() ); // Prints "of"
 
@@ -61,8 +65,11 @@ $uri->increase();
 print( $uri->base() ); // Prints "/test/of"
 print( $uri->elements() ); // Prints "uri"
 </pre>
-<p>The usual way to use this class is to put the $REQUEST_URI to it.
+
+<p>
+The common way to use this class is to pass it the $REQUEST_URI.
 </p>
+
 <pre class="example">
 // Remove uri parameters
 ereg( "([^?]+)", $REQUEST_URI, $regs );

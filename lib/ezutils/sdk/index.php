@@ -5,14 +5,15 @@ $infoArray["name"] = "eZ utils";
 $infoArray["description"] = "
 <h1>eZ utils&trade;</h1>
 <p>
-eZ utils&trade; is a collection of small utility classes which are very handy when doing
-PHP development. The utils handles debug information, ini file access, system information
+eZ utils&trade; is a collection of small utility classes that are very useful when doing
+PHP development. The utils handle debug information, ini file access, system information
 and http tools.
 </p>
 
-<p>eZ ini&trade; provided functionality to access and write .ini style configuration files. The
-files are compiled to PHP files so the library is very fast.
+<p>eZ ini&trade; provides functionality to access and write .ini style configuration files. The
+files are compiled to PHP files, so the library is very fast.
 </p>
+
 <p>eZ debug&trade; is used to handle debug information.</p>
 <ul>
 <li>It can display information on screen and/or write it to log files.</li>
@@ -20,17 +21,21 @@ files are compiled to PHP files so the library is very fast.
 <li>Timing points can be placed in the code to time the different sections of code.</li>
 <li>PHP errors can be captured and handled by eZ debug.</li>
 </ul>
+
 <p>
 eZ sys&trade; analyzes the system for various settings.
 The system is checked to see whether a virtualhost-less setup is used
 and sets the appropriate variables which can be easily fetched.
-It also detects file and enviroment separators</p>
+It also detects file and environment separators.
+</p>
+
 <p>
 eZ module&trade; is interface for doing separated module/view handling. Each module is a separate
-group of views and functions. Each view is linked to a URL in the webpage but may also be reused
+group of views and functions. Each view is linked to a URL in the web page, but may also be reused
 by other modules/views. The class makes sure that the code doesn't have to read any URLs or HTTP
 variables. Instead it relies on having more abstract ways of doing this, such as actions.
 </p>
+
 <p>
 eZ httptool&trade; has various classes for HTTP access. It can read post, get and session variables,
 make objects persist between page views, fetch posted files and elegantly handle URIs.
@@ -41,12 +46,12 @@ $exampleArray = array();
 $exampleArray[] = array( "uri" => "ini_introduction",
                          "name" => "Introduction to INI files" );
 $exampleArray[] = array( "uri" => "ini_read",
-                         "name" => "Reading from INI file" );
+                         "name" => "Reading from INI files" );
 $exampleArray[] = array( "uri" => "debug_settings",
                          "level" => 0,
                          "name" => "Debugging" );
 $exampleArray[] = array( "uri" => "sys_settings",
-                         "name" => "Detected settings" );
+                         "name" => "System settings" );
 $exampleArray[] = array( "uri" => "module_handling",
                          "name" => "Module handling" );
 
@@ -54,7 +59,7 @@ $exampleArray[] = array( "level" => 0,
                          "name" => "HTTP" );
 $exampleArray[] = array( "uri" => "http_variables",
                          "level" => 0,
-                         "name" => "Handling variables" );
+                         "name" => "Fetching variables" );
 $exampleArray[] = array( "uri" => "http_files",
                          "level" => 0,
                          "name" => "Fetching files" );

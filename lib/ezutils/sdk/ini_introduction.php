@@ -35,32 +35,36 @@
 $Result = array( "title" => "INI files" );
 ?>
 
-<h1>What are INI files?</h1>
+<h1>Introduction to INI files</h1>
 <p>
-INI files are a collection of configuration switches which can be used to control
-a programs behaviour. They are used in eZ publish to control everything from site title,
-database host, access control to site design.
+INI files are a collection of configuration switches that can be used to control
+the behaviour of a program. They are used in eZ publish to control everything from
+access control to site design.
 </p>
+
 <h2>How they work</h2>
 <p>
 Each switch or key consists of a key name and a key value.
 Each key is placed in a group to avoid name conflicts and to make the file more
-structured. The INI file is line based which means that a group name and a key
+structured. The INI file is line based, which means that a group name and a key
 entry exists on a single line. Empty lines are ignored as well as lines beginning
-with a <b>#</b> which starts a single line comment.
+with a <b>#</b> (hash) which start a single line comment.
 </p>
+
 <p>
-A group is entered by placing the brackets <b>[</b> and <b>]</b> around the group name.
+A group is entered by placing square brackets <b>[</b> and <b>]</b> around the group name.
+</p>
 <pre class="example">
 [MyGroup]
 </pre>
-</p>
+
 <p>
-A key is entered by adding a <b>=</b> between the key name and the key value.
-<pre class="example">
+A key is entered by adding a <b>=</b> (equal sign) between the key name and the key value.
 </p>
+<pre class="example">
 MyKey=my value
 </pre>
+
 <p>
 Keys are generally seen as strings, however it's possible to create simple lists by separating
 items in the value with a semi-colon <b>;</b>. The value will still be read as a
@@ -71,42 +75,44 @@ MyKey=item1;item2;item3
 </pre>
 
 <p>
-Group names and keynames are case sensitive and can have any characters*.
-Group names and keynames will have their whitespace trimmed infront and after
-the name while keyvalues will keep all their whitespaces.
+Group names and key names are case sensitive and may contain any characters except the equal sign. *
+Group names and key names will have their whitespace trimmed before and after
+the name while key values will keep all their whitespace.
 </p>
 
 <p class="footnote">
-* We recommend only using the characters a-z, A-Z, 0-9 and _.
+* We recommend using only the characters a-z, A-Z, 0-9 and _.
 </p>
 
 <h2>Charsets</h2>
 <p>
 All INI files are read as they were written using the utf8 (Unicode) charset,
 if however you want the file to be in another charset format you can specify
-it at the beginning of the file with a special comment syntax which defines
+it at the beginning of the file with a special comment syntax that defines
 INI attributes.
 </p>
 <pre class="example">
 #?ini charset=iso-8859-1?
 </pre>
+
 <p>
 All text within the <b>?ini</b> and the ending <b>?</b> is seen as a list of key/value
-pairs and is separated with spaces, the key and value is separated with a <b>=</b>.
+pairs and is separated with spaces, the key and value is separated with a <b>=</b> (equal sign).
 For now only the attribute <b>charset</b> is used.
 </p>
 
 <h2>Overrides</h2>
 <p>
-In eZ publish all INI files can be overriden, this means that it's possible to
+In eZ publish all INI files can be overridden, this means that it's possible to
 change configuration without modifying the original files. Two types of override is possible,
 the first is overriding the whole file and second is append mode where you can override
 existing keys or add new ones. The latter is probably the most useful one.
 </p>
+
 <p>
-The override file is placed in the override directory which usually is <b>override</b>
-which mirrors the original ini directory. This means that an override for the file <b>site.ini</b>
-would be either <b>override/site.ini</b> or <b>override/site.ini.append</b>.
+The override file is placed in the override directory which usually is <b>override</b>.
+It mirrors the original ini directory. This means that an override for the file <b>site.ini</b>
+would be called either <b>override/site.ini</b> or <b>override/site.ini.append</b>.
 </p>
 
 <h2>Example</h2>

@@ -34,17 +34,55 @@
 
 
 ?>
+
+<h1>Debugging</h1>
+
 <p>
-The eZ debug&trade; library has some settings which can be edited in the file <b>settings/site.ini</b>.
+The eZ debug&trade; utility is very useful when developing PHP code. The most frequently used functions
+are <b>writeDebug</b>, <b>writeNotice</b>, <b>writeWarning</b> and <b>writeError</b>. These print a debug
+message in different ways depending on the role of the message. For timing, use <b>addTimingPoint</b> before
+and after time-consuming code. To print the debug results on screen, use <b>printReport</b>.
+</p>
+
+<p>Some examples:</p>
+<pre class="example">
+include_once( "lib/ezutils/classes/ezdebug.php" );
+
+// write a temporary debug message
+// (writeDebug messages should not be present in packaged code.)
+eZDebug::writeDebug( "Test: " . $myVar );
+
+// write a notice
+eZDebug::writeNotice( "Image found" );
+
+// write a warning
+eZDebug::writeWarning( "Image not found, using default" );
+
+// write an error
+eZDebug::writeError( "Object not found, bailing.." );
+
+// add a timing point
+eZDebug::addTimingPoint( "Module Found" );
+// insert some time-consuming code here....
+eZDebug::addTimingPoint( "Module loading" );
+
+// Print the results on screen.
+// (In many cases you don't need this as it is called elsewhere.)
+eZDebug::printReport();
+</pre>
+
+<h2>Settings</h2>
+<p>
+The eZ debug&trade; library has some settings that can be edited in the file <b>settings/site.ini</b>.
 </p>
 
 <p>
-You can enable debug information for one specific host, which is useful for debugging live systems.
-You can choose to show the debug information inline in the browser or in a popup winodow. There is also a
+You can enable debug information for one specific host, this is useful for debugging live systems.
+You can choose to show the debug information inline in the browser or in a popup window. There is also a
 setting to enable automatic or manual redirecting when jumping from a process page to a result page.
 </p>
 
-<p>Sample settings for site.ini</p>
+<p>Sample settings for site.ini:</p>
 <pre class="example">
 [DebugSettings]
 # IP addresses which will get debug information

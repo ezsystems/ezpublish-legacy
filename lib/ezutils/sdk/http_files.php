@@ -33,32 +33,36 @@
 //
 
 ?>
+
+<h1>Fetching files</h1>
+
 <p>
-Posted files by clients are normally accessed by using the global _FILE variable.
+Files that are posted by clients are normally accessed by using the global _FILE variable.
+Each posted file has a name which is defined in the HTML form, you access the file
+with that name, and get a eZHTTPFile object if the file exists.
 </p>
-<h1>Fetching the file</h1>
-<p>Each posted file has a name which is defined in the HTML form, you then access the file
-with that name and get a eZHTTPFile object if the file exists.
-</p>
+
 <h2>The HTML form</h2>
 <pre class="example">
 &lt;form type="post"&gt;
 &lt;input type="file" name="MyFile" /&gt;
 &lt;/form&gt;
 </pre>
+
 <h2>The code</h2>
 <pre class="example">
 if ( eZHTTPFile::canFetch( "MyFile" ) )
     $file =& eZHTTPFile::fetch( "MyFile" );
 </pre>
-<h1>Storing the file</h1>
-<p>If we want to keep the file we must store, or else the file will be removed when the script ends.
-We store by calling the store() function on the object.
+
+<h2>Storing the file</h2>
+<p>If we want to keep the file we must store it, or else the file will be removed when the script ends.
+We store it by calling the store() function on the object.
 </p>
+
 <pre class="example">
 // Store file in storage
 $file->store();
 // or in a subdir
-$file->stor( "myfiles" );
+$file->store( "myfiles" );
 </pre>
-

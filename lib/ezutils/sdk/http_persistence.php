@@ -33,16 +33,19 @@
 //
 
 ?>
+
+<h1>Object persistence</h1>
+
 <p>
-Getting objects to persiste between page views are cumbersome since you have the input alle
-elements as HTTP form types and read them on the next view. By using the eZHTTPPersistence
+Getting objects to persist between page views is cumbersome since you have to input all
+elements as HTTP form types and read them on the next view. By using eZHTTPPersistence
 it's possible to fetch these data automatically. The class can also be used to split
 selected items from unselected ones.
 </p>
-<h1>Filling data from forms</h1>
-<p>
-</p>
-<h2>The HTML form</h2>
+
+<h2>Filling in data from forms</h2>
+
+<h3>The HTML form</h3>
 <p>The HTML form is created by inputting the data elements as hidden inputs.</p>
 <pre class="example">
 &lt;form type="post"&gt;
@@ -51,30 +54,34 @@ selected items from unselected ones.
 &lt;input type="hidden" name="MyData_title[]" value="title3" /&gt;
 &lt;/form&gt;
 </pre>
-<h2>The definition</h2>
+
+<h3>The definition</h3>
 <p>We then create a definition so that data is properly input.
 <i>Fields</i> define the mapping from attributes to member variables and <i>keys</i>
 contain an array of attributes which are defined as keys (keys are not overridden).
 </p>
+
 <pre class="example">
 $my_def = array( "fields" =&gt; array( "id" => "ID",
                                     "title" => "Title" ),
                  "keys" =&gt; array( "id" ) );
 </pre>
-<h2>The code</h2>
-<p>Last we fetch the original objects from the DB and override the data with the form data</p>
+
+<h3>The code</h3>
+<p>Finally we fetch the original objects from the DB and override the data with the form data</p>
+
 <pre class="example">
-// Fetches the objects from the DB
+// Fetch the objects from the DB
 $objects =&ampt; fetch_objects();
 // Fetch the HTTP data with "MyData" as the base
 eZHTTPPersitence::fetch( "MyData", $my_def, $objects, eZHTTPTool::instance(), true );
 </pre>
 
-<h1>Splitting data</h1>
-<p>
-</p>
-<h2>The HTML form</h2>
-<p>The HTML form consist of a number of checkboxes with a specific name.</p>
+<h2>Splitting data</h2>
+
+<h3>The HTML form</h3>
+<p>The HTML form consists of a number of checkboxes with a specific name.</p>
+
 <pre class="example">
 &lt;form type="post"&gt;
 &lt;input type="checkbox" name="MyData_id_checked[]" value="1" /&gt;
@@ -82,11 +89,13 @@ eZHTTPPersitence::fetch( "MyData", $my_def, $objects, eZHTTPTool::instance(), tr
 &lt;input type="checkbox" name="MyData_id_checked[]" value="42" /&gt;
 &lt;/form&gt;
 </pre>
-<h2>The code</h2>
+
+<h3>The code</h3>
 <p>In the code we fetch all the existing objects and split them into two arrays,
-the objects in the last array is then removed.</p>
+the objects in the last array are then removed.</p>
+
 <pre class="example">
-// Fetches the objects from the DB
+// Fetch the objects from the DB
 $objects =&ampt; fetch_objects();
 // Fetch the HTTP data with "MyData" as the base
 eZHTTPPersitence::splitSelected( "MyData", $objects, eZHTTPTool::instance(), "id",
