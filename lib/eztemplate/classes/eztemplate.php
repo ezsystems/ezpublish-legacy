@@ -452,7 +452,14 @@ class eZTemplate
                 $root =& $resourceData['root-node'];
         }
         eZDebug::accumulatorStop( 'template_load' );
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
+        {
+            $savedLocale = setlocale( LC_CTYPE, null );
+            setlocale( LC_CTYPE, $resourceData['locales'] );
+        }
+        
         $text = "";
+
         if ( $root !== null or
              $resourceData['compiled-template'] )
         {
@@ -479,7 +486,13 @@ class eZTemplate
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process done" );
         }
+
         eZDebug::accumulatorStop( 'template_total' );
+
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
+        {
+            setlocale( LC_CTYPE, $savedLocale );
+        }
         return $text;
     }
 
@@ -698,7 +711,7 @@ class eZTemplate
             return;
         $templateCompilationUsed = false;
 
-        if ( $resourcedata['locales'] && count( $resourcedata['locales'] ) )
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $savedLocale = setlocale( LC_CTYPE, null );
             setlocale( LC_CTYPE, $resourceData['locales'] );
@@ -718,7 +731,7 @@ class eZTemplate
             $textElements[] = $text;
         }
 
-        if ( $resourcedata['locales'] && count( $resourcedata['locales'] ) )
+        if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             setlocale( LC_CTYPE, $savedLocale );
         }

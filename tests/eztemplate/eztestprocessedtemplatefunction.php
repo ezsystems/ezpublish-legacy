@@ -84,6 +84,8 @@ class eZTestProcessedTemplateFunction extends eZTestCase
         $tpl->reset();
 
         $tpl->setIsDebugEnabled( false );
+        $tpl->setIsCachingAllowed( false );
+
         eZTemplateCompiler::setSettings( array( 'compile' => false,
                                                 'comments' => false,
                                                 'accumulators' => false,
