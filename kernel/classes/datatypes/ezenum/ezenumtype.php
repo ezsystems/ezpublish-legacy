@@ -399,6 +399,21 @@ class eZEnumType extends eZDataType
 
     /*!
      \reimp
+     Sets \c grouped_input to \c true when checkboxes or radiobuttons are used.
+    */
+    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    {
+        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $isOption = $classAttribute->attribute( 'data_int2' );
+
+        $editGrouped = ( $isOption == false );
+        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+                       'collection' => array( 'grouped_input' => $editGrouped ) );
+        return eZDataType::objectDisplayInformation( $objectAttribute, $info );
+    }
+
+    /*!
+     \reimp
     */
     function isIndexable()
     {

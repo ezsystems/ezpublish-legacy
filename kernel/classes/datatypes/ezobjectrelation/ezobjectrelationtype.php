@@ -313,6 +313,23 @@ class eZObjectRelationType extends eZDataType
 
     /*!
      \reimp
+     Sets \c grouped_input to \c true when browse mode is active or
+     a dropdown with a fuzzy match is used.
+    */
+    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    {
+        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $content =& eZObjectRelationType::classAttributeContent( $classAttribute );
+        $editGrouped = ( $content['selection_type'] == 0 or
+                         ( $content['selection_type'] == 1 and $content['fuzzy_match'] ) );
+
+        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+                       'collection' => array( 'grouped_input' => $editGrouped ) );
+        return eZDataType::objectDisplayInformation( $objectAttribute, $info );
+    }
+
+    /*!
+     \reimp
     */
     function &sortKey( &$contentObjectAttribute )
     {

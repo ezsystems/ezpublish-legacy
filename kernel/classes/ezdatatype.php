@@ -468,7 +468,8 @@ class eZDataType
                 - \c grouped_input - If \c true then the datatype has lots of input elements
                                      that should be grouped. (e.g. in a fieldset)
                                      CollectionSettings/GroupedInput in datatype.ini is used to
-                                     automatically determine this field
+                                     automatically determine this field and will override
+                                     the default and datatype setting if used.
                 .
               - \c result
     */
@@ -479,10 +480,15 @@ class eZDataType
         $editGrouped = in_array( $datatype, $ini->variable( 'EditSettings', 'GroupedInput' ) );
         $collectionGrouped = in_array( $datatype, $ini->variable( 'CollectionSettings', 'GroupedInput' ) );
 
-        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+        $info = array( 'edit' => array( 'grouped_input' => false ),
                        'view' => array(),
-                       'collection' => array( 'grouped_input' => $collectionGrouped ),
+                       'collection' => array( 'grouped_input' => false ),
                        'result' => array() );
+        $override = array();
+        if ( $editGrouped )
+            $override['edit']['grouped_input'] = true;
+        if ( $collectionGrouped )
+            $override['collection']['grouped_input'] = true;
 
         if ( $mergeInfo )
         {
@@ -491,6 +497,8 @@ class eZDataType
             {
                 if ( isset( $mergeInfo[$view] ) )
                     $info[$view] = array_merge( $info[$view], $mergeInfo[$view] );
+                if ( isset( $override[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $override[$view] );
             }
         }
         return $info;
@@ -512,7 +520,8 @@ class eZDataType
                 - \c grouped_input - If \c true then the datatype has lots of input elements
                                      that should be grouped. (e.g. in a fieldset)
                                      ClassEditSettings/GroupedInput in datatype.ini is used to
-                                     automatically determine this field
+                                     automatically determine this field and will override
+                                     the default and datatype setting if used.
                 .
               - \c view
     */
@@ -522,8 +531,11 @@ class eZDataType
         $ini =& eZINI::instance( 'datatype.ini' );
         $editGrouped = in_array( $datatype, $ini->variable( 'ClassEditSettings', 'GroupedInput' ) );
 
-        $info = array( 'edit' => array( 'grouped_input' => $editGrouped ),
+        $info = array( 'edit' => array( 'grouped_input' => false ),
                        'view' => array() );
+        $override = array();
+        if ( $editGrouped )
+            $override['edit']['grouped_input'] = true;
 
         if ( $mergeInfo )
         {
@@ -532,6 +544,8 @@ class eZDataType
             {
                 if ( isset( $mergeInfo[$view] ) )
                     $info[$view] = array_merge( $info[$view], $mergeInfo[$view] );
+                if ( isset( $override[$view] ) )
+                    $info[$view] = array_merge( $info[$view], $override[$view] );
             }
         }
         return $info;
