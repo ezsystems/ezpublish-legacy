@@ -169,8 +169,9 @@ eZInformationCollection:
 - Fixed bug when modulo variable in delimiter contains whitespace, and template compile is disabled.
   (Merged from stable/3.5 (3.5.2) rev. 10984)
 - Fixed bug with incorrect current_version when copying eZContentObject.
-  ( Merged from stable/3.5 ( 3.5.1 ) rev. 10992 )
-
+  ( Merged from stable/3.5 ( 3.5.2 ) rev. 10992 )
+- Fixed bug #6265: show children always "yes" in preview.
+  ( Merged from stable/3.5 rev. 10969 )
 *Library:
 PDF:
 - Added support for GIF images.
