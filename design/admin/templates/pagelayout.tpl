@@ -192,78 +192,78 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {* Content menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) tooltip='Manage the main content structure of the site.'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) ) menu_item_order='selected-first'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) tooltip='Manage the main content structure of the site.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('content') menu_item_order='selected-first'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) tooltip='Manage the main content structure of the site.'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) ) menu_item_order='first'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) tooltip='Manage the main content structure of the site.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('content') menu_item_order='first'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=concat('/content/view/full/',ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )  menu_item_order='first'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('content')  menu_item_order='first'}
     {/section}
 
     {* Media menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) tooltip='Manage images, files, documents, etc.'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )  menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) tooltip='Manage images, files, documents, etc.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('media')  menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) tooltip='Manage images, files, documents, etc.'|i18n( 'design/admin/pagelayout' ) menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ) menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' ) tooltip='Manage images, files, documents, etc.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('media') menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' )  menu_url=concat( '/content/view/full/', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ) menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n( 'design/admin/pagelayout' )  menu_url=topmenu_url('media') menu_item_order='middle'}
     {/section}
 
     {* Users menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezusernavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) tooltip='Manage users, user groups and permission settings.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/' menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) tooltip='Manage users, user groups and permission settings.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('users') menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) tooltip='Manage users, user groups and permission settings.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) tooltip='Manage users, user groups and permission settings.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('users') menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url='/content/view/full/5/' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('users') menu_item_order='middle'}
     {/section}
 
     {* Shop menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) tooltip='Manage customers, orders, discounts and VAT types; view sales statistics.'|i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/' menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) tooltip='Manage customers, orders, discounts and VAT types; view sales statistics.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('shop') menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) tooltip='Manage customers, orders, discounts and VAT types; view sales statistics.'i18n( 'design/admin/pagelayout' ) menu_url='/shop/orderlist/' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' ) tooltip='Manage customers, orders, discounts and VAT types; view sales statistics.'i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('shop') menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' )  menu_url='/shop/orderlist/' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/pagelayout' )  menu_url=topmenu_url('users') menu_item_order='middle'}
     {/section}
 
     {* Design menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezvisualnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('design') menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) tooltip='Manage templates, menus, toolbars and other things related to appearence.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('design') menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url='/visual/menuconfig' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Design'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('design') menu_item_order='middle'}
     {/section}
 
     {* Set up menu *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) tooltip='Configure settings and manage advanced functionality.'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='selected-middle'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) tooltip='Configure settings and manage advanced functionality.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('setup') menu_item_order='selected-middle'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) tooltip='Configure settings and manage advanced functionality.'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='middle'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) tooltip='Configure settings and manage advanced functionality.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('setup') menu_item_order='middle'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url='/setup/cache' menu_item_order='middle'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('setup') menu_item_order='middle'}
     {/section}
 
     {* Personal *}
     {section show=ne( $ui_context, 'edit' )}
         {section show=eq($navigation_part.identifier,'ezmynavigationpart')}
-        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='selected-last'}
+        {include uri='design:page_menuheadselected.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('my_account') menu_item_order='selected-last'}
         {section-else}
-        {include uri='design:page_menuheadenabled.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url='/content/draft/' menu_item_order='last'}
+        {include uri='design:page_menuheadenabled.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' ) tooltip='Manage items and settings that belong to your account.'|i18n( 'design/admin/pagelayout' ) menu_url=topmenu_url('my_account') menu_item_order='last'}
         {/section}
     {section-else}
-        {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' )  menu_url='/content/draft/' menu_item_order='last'}
+        {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/pagelayout' )  menu_url=topmenu_url('my_account') menu_item_order='last'}
     {/section}
 
 </ul>

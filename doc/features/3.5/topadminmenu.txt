@@ -1,0 +1,15 @@
+*Title: INI setting for top admin menu url's
+
+Incentive:
+Add a new aection and setting to the menu.ini
+- TopAdminMenu
+- MenuItemList[item_name]
+
+*Documentation:
+1.
+MenuItemList[item_name] - Array of top admin menu item urls.
+
+item_name is one of the top menu items (content,media,users,shop,design,setup,my_account)
+the value is the url for this item to point to.
+
+
