@@ -97,7 +97,7 @@ class eZSubtreeSubscriptionType extends eZDataType
                 $node =& $publishedNodes[$key];
                 if ( in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
-                    eZSubtreeNotificationRule::removeByNodeAndAddress( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
+                    eZSubtreeNotificationRule::removeByNodeAndUserID( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
                 }
             }
         }

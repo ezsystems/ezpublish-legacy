@@ -277,6 +277,8 @@ Changes from 3.2-4 to 3.3-1
 - Added us-ascii to codepages to accept theregister rdf feed. http://ez.no/developer/ez_publish_3/bug_reports/rss_cron_and_admin_bugs
 - Fixed bug with publish date when the first published version of an object were not 1,
   now the published date is updated if it is found to be 0.
+- Fixed problem with eZSubTree datatype, it used the method call
+  eZSubtreeNotificationRule::removeByNodeAndAddress which did not exist.
 
 *ezlupdate:
 - Added check for newlines in the context field for templates, usually this means a missing quote.
