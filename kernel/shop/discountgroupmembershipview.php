@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     {
         eZDiscountSubRule::remove( $discountRuleID );
     }
-    $module->redirectTo( $module->functionURI( "discountgroupmembershipview" ) . "/" . $discountGroupID );
+    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
 }
 
@@ -173,4 +173,6 @@ $tpl->setVariable( "rule_list", $ruleArray );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountgroupmembershipview.tpl" );
+$Result['path'] = array( array( 'url' => '/shop/discoutgroupview/',
+                                'text' => 'Group view of discard rule' ) );
 ?>

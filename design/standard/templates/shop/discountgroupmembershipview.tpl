@@ -1,6 +1,6 @@
-<h1>{"Group view"|i18n('shop/discountgroupmembershipview')}</h1>
+<h1>{"Group view"|i18n('shop/discountgroupview')}</h1>
 
-<form action={concat($module.functions.discountgroupmembershipview.uri,"/",$discountgroup.id)|ezurl} method="post"  name="DiscountGroupMembershipView">
+<form action={concat($module.functions.discountgroupview.uri,"/",$discountgroup.id)|ezurl} method="post"  name="DiscountGroupView">
 
 <h3>Group Name:</h3>
 {$discountgroup.name}<a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}>[edit]</a><br/>

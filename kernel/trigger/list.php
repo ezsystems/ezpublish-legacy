@@ -222,6 +222,8 @@ $tpl->setVariable( 'triggers', $triggers );
 $tpl->setVariable( 'module', $Module );
 
 $Result['content'] =& $tpl->fetch( 'design:trigger/list.tpl' );
+$Result['path'] = array( array( 'url' => '/trigger/list/',
+                                'text' => 'Triggers list' ) );
 
 
 ?>

@@ -91,7 +91,7 @@ if ( $storedSectionValues != null )
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     //eZDiscountSubRule::remove( $discountRuleID );
-    $module->redirectTo( $module->functionURI( "discountgroupmembershipview" ) . "/" . $discountGroupID );
+    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
 }
 if ( $http->hasPostVariable( "StoreButton" ) )
@@ -161,7 +161,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         }
     }
     $discountRule->store();
-    $module->redirectTo( $module->functionURI( "discountgroupmembershipview" ) . "/". $discountGroupID );
+    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/". $discountGroupID );
     return;
 }
 
@@ -223,4 +223,6 @@ else
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountruleedit.tpl" );
+$Result['path'] = array( array( 'url' => false,
+                                'text' => 'Editing rule' ) );
 ?>

@@ -70,7 +70,7 @@ $ViewList["discountgroupedit"] = array(
 $ViewList["discountruleedit"] = array(
     "script" => "discountruleedit.php",
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
-$ViewList["discountgroupmembershipview"] = array(
+$ViewList["discountgroupview"] = array(
     "script" => "discountgroupmembershipview.php",
     "params" => array( 'DiscountGroupID' ) );
 ?>
