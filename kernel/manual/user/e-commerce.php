@@ -59,22 +59,25 @@ Test ut på http://admin.bf.dvh1.ez.no/content/view/full/200
 
 <h2 id ="Shipping">Shipping</h2>
 <p>
-Bård
+eZ publish comes with a default workflow for adding shipping to the order. This is however
+a plugin system so you can add any shipping calculation to this checkout process. Visit <a href="http://sdk.ez.no">sdk.ez.no</a>
+To get more information about how you can set up a custom shipping calculation.
 </p>
 
-<h2 id ="Currency">Currency</h2>
+<h3 id ="Currency">Currency</h3>
 <p>
-Bård
+Currencies are handles by the locale system in eZ publish. All you need to do is to tell eZ publish
+to use the correct locale. This is set in RegionalSettings in the configuration files site.ini.
 </p>
+<pre class="example">
+[RegionalSettings]
+Locale=eng-GB
+</pre>
 
-<h2 id ="Wishlist">Wishlist</h2>
+<h3 id ="Wishlist">Wishlist</h3>
 <p>
-Bård
-</p>
-
-<h2 id ="Vouchers">Vouchers</h2>
-<p>
-Hvordan skal vi sette opp denne? Tar vi kun med de enkle som blir med i std pakka? Og hvor forklarer vi dem i såfall hvor de lager nye funksjoner
+Wish lists in eZ publish is a function which the user of the site can use to save a
+product for later shopping.
 </p>
 
 

@@ -255,7 +255,7 @@
 
     {$module_result.content}
     </td>
-    <td width="10%" bgcolor="#ffffff" valign="top">
+    <td width="1%" bgcolor="#ffffff" valign="top">
     </td>
 </tr>
 </table>
