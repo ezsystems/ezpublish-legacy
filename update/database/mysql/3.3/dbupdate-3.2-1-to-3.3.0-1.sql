@@ -54,3 +54,24 @@ CREATE TABLE ezrss_import (
   object_owner_id integer default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
+
+--
+-- 
+create table ezcontent_attribute_tmp as select ezcontentobject_attribute.*, ezcontentclass_attribute.data_type_string from ezcontentobject_attribute, ezcontentclass_attribute where  ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id;
+
+delete from ezcontentobject_attribute;
+
+alter table ezcontentobject_attribute add data_type_string varchar(50) not null;
+
+insert into ezcontentobject_attribute select * from ezcontent_attribute_tmp;
+drop table ezcontent_attribute_tmp;
+
+
+-- MySQL 4.1 upgrade
+--
+-- alter table ezcontentobject_attribute add data_type_string varchar(50) not null;
+--
+-- update ezcontentobject_attribute, ezcontentclass_attribute 
+-- set ezcontentobject_attribute.data_type_string=ezcontentclass_attribute.data_type_string 
+-- where ezcontentobject_attribute.contentclassattribute_id=ezcontentclass_attribute.id;
