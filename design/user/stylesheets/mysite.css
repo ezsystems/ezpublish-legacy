@@ -118,4 +118,10 @@ td.maincontent, td.extracontent
 td.rightcolumn
 {
     border-left: solid 1px #585858;
-}                  
+}
+
+p.readmore a
+{
+    text-decoration: underline;
+}
+

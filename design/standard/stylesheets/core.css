@@ -497,6 +497,11 @@ div.highlight
     border-color: #000000;
 }
 
+div.error h2, div.warning h2, div.feedback h2, div.highlight h2
+{
+    padding-top: 0.5ex;
+}
+
 /* OTHER OBJECTS */
 
 hr
