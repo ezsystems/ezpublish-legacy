@@ -203,7 +203,7 @@ class eZTemplateLogicOperator
                                                   'parameters' => true,
                                                   'element-transformation' => true,
                                                   'transform-parameters' => true,
-                                                  'input-as-parameter' => true,
+                                                  'input-as-parameter' => 'always',
                                                   'element-transformation-func' => 'chooseTransformation'),
                       $this->TrueName => array( 'input' => false,
                                                 'output' => true,
@@ -387,19 +387,16 @@ class eZTemplateLogicOperator
 
         $tmpValues = false;
         $newElements = array();
-        /* This is an optimization step, but a worthwhile one if you need to
-         * pick from a large array */
-        if ( $parameters[0][0][0] == EZ_TEMPLATE_TYPE_NUMERIC )
+        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            $selected = $parameters[0][0][1];
+            $selected = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-            if ( $selected > ( count( $parameters ) - 1 ) )
+            if ( $selected < 0 or $selected > ( count( $parameters ) - 1 ) )
             {
                 return false;
             }
 
-            $values[] = $parameters[$selected + 1];
-            $code = "%output% = %1%;\n";
+            return $parameters[$selected + 1];
         }
         else
         {
@@ -407,19 +404,37 @@ class eZTemplateLogicOperator
             $array = $parameters;
             unset( $array[0] );
 
-            $code = "%tmp1% = array( ";
-            $counter = 2;
-            foreach ($array as $element)
+            $count = count( $parameters ) - 1;
+            $operatorNameText = eZPHPCreator::variableText( $operatorName );
+            $code = ( "if ( %1% < 0 and\n" .
+                      "     %1% >= $count )\n" .
+                      "{\n" .
+                      "    \$tpl->error( $operatorNameText, \"Index \" . %input% . \" out of range\" );\n" .
+                      "}\n" );
+            $code .= "else switch ( %1% )\n{\n";
+            for ( $i = 0; $i < $count; ++$i )
             {
-                $values[] = $element;
-                $code .= "%$counter%, ";
-                $counter++;
+                $valueNumber = $i + 2;
+                $parameterNumber = $i + 1;
+                $code .= "    case $i:";
+                if ( eZTemplateNodeTool::isStaticElement( $parameters[$parameterNumber] ) )
+                {
+                    $value = eZTemplateNodeTool::elementStaticValue( $parameters[$parameterNumber] );
+                    $valueText = eZPHPCreator::variableText( $value, 0, 0, false );
+                    $code .= " %output% = $valueText; break;\n";
+                }
+                else
+                {
+                    $code .= "\n    {\n";
+                    $code .= "%code$valueNumber%\n";
+                    $code .= "%output% = %$valueNumber%;\n";
+                    $code .= "    } break;\n";
+                    $values[] = $parameters[$parameterNumber];
+                }
             }
-            $code .= ");\n";
-            $code .= "%output% = %tmp1%[%1%];\n";
-            $tmpValues = 1;
+            $code .= "}\n";
         }
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpValues );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, eZTemplateNodeTool::extractVariableNodePlacement( $node ), false );
         return $newElements;
     }
 

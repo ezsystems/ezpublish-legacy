@@ -2598,7 +2598,7 @@ else
                 $replaceMap = array( '$' . $variableAssignmentName, '$' . $variableAssignmentName );
                 $unsetList = array();
                 $counter = 1;
-                if ( isset( $variableDataItem[3] ) )
+                if ( is_array( $variableDataItem[3] ) )
                 {
                     $newParameters = $parameters;
                     $values = $variableDataItem[3];
@@ -2612,12 +2612,24 @@ else
                         $matchMap[] = '%' . $counter . '%';
                         $replaceMap[] = '$' . $newVariableAssignmentName;
                         $unsetList[] = $newVariableAssignmentName;
-                        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
-                                                                      $persistence, $newParameters );
+                        if ( preg_match( "/%code$counter%/", $code ) )
+                        {
+                            $tmpPHP = new eZPHPCreator();
+                            eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $dataInspection,
+                                                                          $persistence, $newParameters );
+                            $newCode = $tmpPHP->fetch( false );
+                            $matchMap[] = '%code' . $counter . '%';
+                            $replaceMap[] = $newCode;
+                        }
+                        else
+                        {
+                            eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                                                                          $persistence, $newParameters );
+                        }
                         ++$counter;
                     }
                 }
-                if ( isset( $variableDataItem[4] ) )
+                if ( $variableDataItem[4] !== false )
                 {
                     $values = $variableDataItem[4];
 

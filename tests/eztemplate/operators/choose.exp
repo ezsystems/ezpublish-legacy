@@ -1,2 +1,5 @@
-d
-eb
+3|choose( 'a', 'b', 'c', 'd', 'e' )='d'
+
+$select|choose( 'a', 'b', 'c', 'd', 'e' )='e'
+
+$select|choose( $first, $second, 'c', 'd', 'e' )='b'

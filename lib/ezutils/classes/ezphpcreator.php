@@ -781,11 +781,13 @@ print( $values['MyValue'] );
      Creates a text string out of all elements and returns it.
      \note Calling this multiple times will resulting text processing each time.
     */
-    function fetch()
+    function fetch( $addPHPMarkers = true )
     {
-        $this->write( "<?php\n" );
+        if ( $addPHPMarkers )
+            $this->write( "<?php\n" );
         $this->writeElements();
-        $this->write( "?>\n" );
+        if ( $addPHPMarkers )
+            $this->write( "?>\n" );
 
         $text = implode( '', $this->TextChunks );
 

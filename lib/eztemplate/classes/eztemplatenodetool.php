@@ -91,6 +91,25 @@ class eZTemplateNodeTool
 
     /*!
      \static
+     Creates an element which represents the static value and returns it,
+     the type of the variable determines the type of the element.
+    */
+    function createStaticElement( $static, $variablePlacement = false )
+    {
+        if ( is_array( $static ) )
+            return eZTemplateNodeTool::createArrayElement( $static, $variablePlacement );
+        else if ( is_string( $static ) )
+            return eZTemplateNodeTool::createStringElement( $static, $variablePlacement );
+        else if ( is_boolean( $static ) )
+            return eZTemplateNodeTool::createBooleanElement( $static, $variablePlacement );
+        else if ( is_numeric( $static ) )
+            return eZTemplateNodeTool::createNumericElement( $static, $variablePlacement );
+        else
+            return eZTemplateNodeTool::createVoidElement();
+    }
+
+    /*!
+     \static
      Creates an element which represents a string and returns it.
     */
     function createStringElement( $string, $variablePlacement = false )
@@ -366,15 +385,12 @@ class eZTemplateNodeTool
         return $node;
     }
 
-    function createCodePieceElement( $codePiece, $values = false, $placement = false, $tmp_values = false )
+    function createCodePieceElement( $codePiece, $values = false, $placement = false, $tmpValues = false )
     {
         $element = array( EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE,
                           $codePiece,
-                          $placement );
-        if ( $values )
-            $element[] = $values;
-        if ( $tmp_values )
-            $element[] = $tmp_values;
+                          $placement,
+                          $values, $tmpValues );
         return $element;
     }
 
