@@ -277,6 +277,8 @@ class eZObjectRelationListType extends eZDataType
                     $nodeAssignment->store();
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                                  'version' => $object->attribute( 'current_version' ) ) );
+                    $objectNodeID = $object->attribute( 'main_node_id' );
+                    $content['relation_list'][$i]['node_id'] = $objectNodeID;
                 }
                 else
                 {
@@ -288,7 +290,6 @@ class eZObjectRelationListType extends eZDataType
                                                                         'is_main' => 1 ) );
                     $nodeAssignment->store();
                 }
-
                 $content['relation_list'][$i]['is_modified'] = false;
             }
         }
@@ -569,7 +570,7 @@ class eZObjectRelationListType extends eZDataType
                                                                           $nodePlacement );
                 if ( $class_content['default_placement'] )
                 {
-                    $relationItem['node_id'] = $class_content['default_placement']['node_id'];
+                    $relationItem['parent_node_id'] = $class_content['default_placement']['node_id'];
                 }
 
                 $content['relation_list'][] = $relationItem;
