@@ -4,22 +4,22 @@
 <tr>
 	<th>&nbsp;</th>
 	<th>
-	{"Name"|i18n("design/standard/content/datatype")}
+	{"Name"|i18n("design/standard/content/datatype")}:
 	</th>
 	<th>
-	{"E-Mail"|i18n("design/standard/content/datatype")}
+	{"E-Mail"|i18n("design/standard/content/datatype")}:
 	</th>
 </tr>
 {section name=Author loop=$attribute.content.author_list sequence=array(bglight,bgdark) }
-<tr>
-	<td class="{$Author:sequence}" width="1">
+<tr class="{$Author:sequence}">
+	<td width="1">
 	<input type="checkbox" name="{$attribute_base}_data_author_remove_{$attribute.id}[]" value="{$Author:item.id}" >
 	</td>
-	<td class="{$Author:sequence}">
+	<td>
 	<input type="hidden" name="{$attribute_base}_data_author_id_{$attribute.id}[]" value="{$Author:item.id}">
 	<input type="text" name="{$attribute_base}_data_author_name_{$attribute.id}[]" value="{$Author:item.name|wash}">
 	</td>
-	<td class="{$Author:sequence}">
+	<td>
 	<input type="text" name="{$attribute_base}_data_author_email_{$attribute.id}[]" value="{$Author:item.email|wash}">
 	</td>
 </tr>

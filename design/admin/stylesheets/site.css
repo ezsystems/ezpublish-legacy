@@ -2,7 +2,7 @@
 
 body
 {
-    background-color: #e8e8e8;
+    background-color: #f0f0f0;
 }
 
 div#allcontent
@@ -249,9 +249,10 @@ div#header-design, div#topmenu-design, div#path-design, div#leftmenu-design, div
 {
     margin: 0.5em 0 0 0;
     padding: 0.5em;
+    background-color: #f0f0f0;
     border: 1px solid #d0d0d0;
-    border-bottom-color: #f8f8f8;
-    border-right-color: #f8f8f8;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
     overflow: visible;
 }
 
@@ -261,8 +262,8 @@ div#maincontent-design
     margin: 0.5em 0 0 0;
     padding: 0.5em;
     border: 1px solid #d0d0d0;
-    border-bottom-color: #f8f8f8;
-    border-right-color: #f8f8f8;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
     overflow: visible;
 }
 
@@ -378,6 +379,11 @@ div.content-navigation-childlist table.list img, div.content-edit table.list img
 div.content-edit table.list td.filesize
 {
     white-space: nowrap;
+}
+
+table.list th.icon, table.list td.icon, table.list th.class, table.list td.class, table.list th.checkbox, table.list td.checkbox
+{
+    width: 1%;
 }
 
 table.list-thumbnails

@@ -6,32 +6,32 @@
 
     {section show=$grouped_related_contentobjects.images|count|gt( 0 )}
 
-        <div class="image-thumbnail-list">
-            <h3>{'Images'|i18n( 'design/standard/content/edit' )}</h3>
+    <table class="list-thumbnails" cellspacing="0">
+    <tr>
+        {section var=related loop=$grouped_related_contentobjects.images}
+        <td>
+        {related_view_gui view=thumbnail related_object=$related}
+        </td>
+        {delimiter modulo=4}
+        </tr><tr>
+        {/delimiter}
+        {/section}
 
-            {section var=related loop=$grouped_related_contentobjects.images sequence=array( bglight, bgdark )}
-
-                {related_view_gui view=thumbnail related_object=$related}
-
-            {/section}
-
-                <div class="break"></div>
-        </div>
+    </tr>
+    </table>
 
     {/section}
 
     {section show=$grouped_related_contentobjects.files|count|gt( 0 )}
         <div class="file-detail-list">
-            <h3>{'Files'|i18n( 'design/standard/content/edit' )}</h3>
 
             <table class="list" cellspacing="0">
             <tr>
                 <th class="checkbox"></th>
-                <th class="icon"></th>
-                <th class="name">{'Name'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="filesize">{'Size'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="name" colspan="2">{'Attached files'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="filesize">{'Size'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}:</th>
             </tr>
 
             {section var=related loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
@@ -44,14 +44,13 @@
 
     {section show=$grouped_related_contentobjects.objects|count|gt( 0 )}
         <div class="related-detail-list">
-            <h3>{'Content'|i18n( 'design/standard/content/edit' )}</h3>
+
             <table class="list" cellspacing="0">
             <tr>
                 <th class="checkbox"></th>
-                <th class="icon"></th>
-                <th class="name">{'Name'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}</th>
-                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}</th>
+                <th class="name" colspan="2">{'Related content'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="class">{'Type'|i18n( 'design/standard/content/edit' )}:</th>
+                <th class="code">{'XML code'|i18n( 'design/standard/content/edit' )}:</th>
             </tr>
 
             {section var=related loop=$grouped_related_contentobjects.objects sequence=array( bglight, bgdark )}

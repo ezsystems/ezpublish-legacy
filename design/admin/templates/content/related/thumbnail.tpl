@@ -4,7 +4,7 @@
 
     {attribute_view_gui attribute=$related_object.data_map.image image_class=small}
 
-    <p><input type="checkbox" name="DeleteRelationIDArray[]" value="{$related_object.id}" />{$related_object.name|wash}</p>
+    <p><input type="checkbox" name="DeleteRelationIDArray[]" value="{$related_object.id}" />&nbsp;{$related_object.name|wash}</p>
 
     <input class="linkbox" type="text" value="&lt;object id={$related_object.id} /&gt;">
 
