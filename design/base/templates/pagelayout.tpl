@@ -42,14 +42,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 <div id="header">
     <div id="header-design">
     {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
-    {*{let imageContent=$pagedesign.data_map.image.content}
-        {section show=$imageContent.is_empty}
-            <h1>{ezini('SiteSettings','SiteName')}</h1>
-        {section-else}
-            <a href={"/"|ezurl}><img src={$imageContent[logo].full_path|ezroot} alt="Company logo" /></a>
-        {/section}
-    {/let}*}
-    {section show=$pagedesign.data_map.image.content.is_empty}
+    {section show=$pagedesign.data_map.image.content.is_valid|not()}
         <h1>{ezini('SiteSettings','SiteName')}</h1>
     {section-else}
         <a href={"/"|ezurl}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="Company logo" /></a>
