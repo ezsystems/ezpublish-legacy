@@ -167,7 +167,7 @@ td.bglight, td.bgdark
 	border-top: solid 1px #e0f4ff;
 }
 
-table.list
+table.list, table.layoutlist
 {
 	border-bottom: solid 1px #e0f4ff;
 }

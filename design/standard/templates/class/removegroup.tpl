@@ -1,18 +1,17 @@
-<div class="warning">
-<h2 class="warning">Are you sure you will remove {$GroupName}?</h2>
-<ul class="warning">
-	<li>Remove group "{$GroupName}" will remove {$ClassCount}!</li>
-</ul>
+<form action={concat($module.functions.removegroup.uri,"/",$GroupID)|ezurl} method="post" name="GroupRemove">
+
+<div class="maincontentheader">
+<h1>Remove group - {$GroupName}</h1>
 </div>
 
-<form action={concat($module.functions.removegroup.uri,"/",$GroupID)|ezurl} method="post" name="GroupRemove">
-<h1>Remove group - {$GroupName}</h1>
+<div class="important">
+<p>Are you sure you will remove {$GroupName}?</p>
+<p>Remove group "{$GroupName}" will remove {$ClassCount}!</p>
+</div>
 
-<table width="100%">
-<tr>
-<td>{include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value=Confirm}</td>
-<td>{include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value=Cancel}</td>
-<td width="99%"></td>
-</tr>
-</table>
+<div class="buttonblock">
+{include uri="design:gui/button.tpl" name=Store id_name=ConfirmButton value=Confirm}
+{include uri="design:gui/button.tpl" name=Discard id_name=CancelButton value=Cancel}
+</div>
+
 </form>

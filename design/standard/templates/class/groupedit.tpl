@@ -1,23 +1,22 @@
 <form action={concat($module.functions.groupedit.uri,"/",$classgroup.id)|ezurl} method="post" name="GroupEdit">
 
+<div class="maincontentheader">
 <h1>Editing class group - {$classgroup.name}</h1>
-<p>Created by {$classgroup.creator_id} on {$classgroup.created|l10n(shortdatetime)}</p>
-<p>Modified by {$classgroup.modifier_id} on {$classgroup.modified|l10n(shortdatetime)}</p>
+<div>
 
-<table>
-<tr><td>Name:</td></tr>
-<tr><td>{include uri="design:gui/lineedit.tpl" name=Name id_name=Group_name value=$classgroup.name}</td></tr>
-</table>
-<br />
-<table width="100%">
-<tr>
-<td>{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}</td>
-<td>{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value=Discard}</td>
-<td width="99%"></td>
-</tr>
-</table>
+<div class="byline">
+<p class="created">Created by {$classgroup.creator_id} on {$classgroup.created|l10n(shortdatetime)}</p>
+<p class="modified">Modified by {$classgroup.modifier_id} on {$classgroup.modified|l10n(shortdatetime)}</p>
+</div>
 
-</td></tr>
-</table>
+<div class="block">
+<label>Name:</label><div class="labelbreak"></div>
+{include uri="design:gui/lineedit.tpl" name=Name id_name=Group_name value=$classgroup.name}
+</div>
+
+<div class="buttonblock">
+{include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}
+{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value=Discard}
+</div>
 
 </form>

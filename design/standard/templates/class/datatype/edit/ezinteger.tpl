@@ -1,78 +1,67 @@
-<table>
-<tr>
-  <td width="100" align="left">
-  Default value
-  </td>
-  <td align="left">  
-  <input type="text" name="ContentClass_ezinteger_default_value_{$class_attribute.id}" value="{$class_attribute.data_int3}" size="8" maxlength="20" />
-  </td>
-  <td colspan="2">  
-  </td>
-</tr>
+<div class="block">
+<label>Default value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_default_value_{$class_attribute.id}" value="{$class_attribute.data_int3}" size="8" maxlength="20" />
+</div>
+
 {switch name=input_state match=$class_attribute.data_int4}
   {case match=1}
-  <tr>
-    <td  width="100">
-    Min integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="20" />
-    </td> 
-    <td align="left"  width="110">
-    Max integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
-    </td> 
-  </tr>  
+
+<div class="block">
+<div class="element">
+<label>Min integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="20" />
+</div>
+<div class="element">
+<label>Max integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
+</div>
+<div class="break"></div>
+</div>
+
   {/case}
   {case match=2}
-  <tr>
-    <td  width="100">
-    Min integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
-    </td> 
-    <td align="left"  width="110">
-    Max integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int2}" size="8" maxlength="20" />
-    </td> 
-  </tr> 
+
+<div class="block">
+<div class="element">
+<label>Min integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
+</div>
+<div class="element">
+<label>Max integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int2}" size="8" maxlength="20" />
+</div>
+<div class="break"></div>
+</div>
+
   {/case}
   {case match=3}
-  <tr>
-    <td  width="100">
-    Min integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="20" />
-    </td> 
-    <td align="left"  width="110">
-    Max integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int2}" size="8" maxlength="20" />
-    </td> 
-  </tr>  
+
+<div class="block">
+<div class="element">
+<label>Min integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" size="8" maxlength="20" />
+</div>
+<div class="element">
+<label>Max integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="{$class_attribute.data_int2}" size="8" maxlength="20" />
+</div>
+<div class="break"></div>
+</div>
+
   {/case}
   {case}
-  <tr>
-    <td  width="100">
-    Min integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
-    </td> 
-    <td align="left"  width="110">
-    Max integer value
-    </td> 
-    <td align="left">
-    <input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
-    </td> 
-  </tr>
+
+<div class="block">
+<div class="element">
+<label>Min integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_min_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
+</div>
+<div class="element">
+<label>Max integer value:</label><div class="labelbreak"></div>
+<input type="text" name="ContentClass_ezinteger_max_integer_value_{$class_attribute.id}" value="" size="8" maxlength="20" />
+</div>
+<div class="break"></div>
+</div>
+
   {/case}
 {/switch}
-</table>

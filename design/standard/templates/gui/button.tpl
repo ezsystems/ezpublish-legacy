@@ -1,1 +1,1 @@
-<input class="stdbutton" type="submit" Name="{$id_name}" value="{$value}">
+<input class="button" type="submit" name="{$id_name}" value="{$value}" />

@@ -3,7 +3,7 @@
 /* formatting methods in the system depends on it for proper display.   */
 /* Just modify and/or override styles where necessary.                  */
 
-/* Main vindow */
+/* MAIN WINDOW */
 
 body
 {
@@ -12,14 +12,15 @@ body
     padding: 8px;
 }
 
-/* Global setting of font types */
+/* GLOBAL SETTING OF FONT TYPES */
 
 h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-/* Global setting of font sizes */
+/* GLOBAL SETTING OF FONT SIZES */
+
 h1
 {
     font-size: 160%;
@@ -27,7 +28,7 @@ h1
 
 h2
 {
-    font-size: 130%;
+    font-size: 120%;
 }
 
 h3
@@ -50,7 +51,7 @@ td.bglight .small, td.bgdark .small
     font-size: 80%;
 }
 
-/* Headings */
+/* HEADINGS */
 
 h1, h2, h3
 {
@@ -77,7 +78,7 @@ h3
     font-weight: bold;
 }
 
-/* Regular text */
+/* REGULAR TEXT */
 
 p
 {
@@ -96,6 +97,7 @@ a:hover
 {
     color: #0000c0;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 /* NOT USED
@@ -106,7 +108,7 @@ a:visited
 }
 */
 
-/* Tables */
+/* TABLES */
 
 table
 {
@@ -118,6 +120,11 @@ table.list
 {
     margin-top: 0.5ex;
     margin-bottom: 1ex;
+}
+
+table.layoutlist td
+{
+    padding-bottom: 4px;
 }
 
 table.list th, table.list td
@@ -154,7 +161,7 @@ td.tight
     font-size: 1px;
 }
 
-/* Lists */
+/* LISTS */
 
 ul, ol
 {
@@ -204,7 +211,7 @@ dd
     margin-right: 2ex;
 }
 
-/* Forms */
+/* FORMS */
 
 form
 {
@@ -236,6 +243,18 @@ div.labelbreak
 input.button
 {
     font-weight: bold;
+    margin-right: 5px;
+}
+
+img.button
+{
+    border: 0px;
+}
+
+input.button:hover
+{
+    background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 p.box
@@ -243,7 +262,30 @@ p.box
     padding-top: 0.25ex;
 }
 
-/* Page dividers */
+optgroup
+{
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* PAGE DIVIDERS */
+
+div.left
+{
+    float: left;
+    display: block;
+    width: 50%;
+    clear: right;
+}
+
+div.right
+{
+    float: left;
+    text-align: right;
+    display: block;
+    width: 50%;
+    clear: right;
+}
 
 div.bodyblock
 {
@@ -288,11 +330,26 @@ div.element
     clear: right;
 }
 
-/* Article formatting */
+/* ARTICLE FORMATTING */
+
+div.maincontentheader
+{
+    /* No special formatting yet! */
+}
+
+div.maincontentheader h1
+{
+    padding-top: 0px;
+}
+
+div.byline
+{
+    margin-bottom: 8px;
+}
 
 div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject, div.rightobject
 {
-    padding-top: 8px;
+    padding-top: 4px;
     padding-bottom: 4px;
     display: inline;
     clear: both;
@@ -301,7 +358,7 @@ div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject
 div.imagecenter, div.factboxcenter, div.centerobject
 {
     width: 100%;
-    padding-top: 8px;
+    padding-top: 4px;
     padding-bottom: 4px;
     display: block;
 }
@@ -349,7 +406,7 @@ div.bodyblock p.body
     display: inline;
 }
 
-/* Messages to the user */
+/* MESSAGES TO THE USER */
 
 .description
 {
@@ -358,7 +415,6 @@ div.bodyblock p.body
 
 div.error, div.warning, div.feedback
 {
-    width: 100%;
     margin-top: 1ex;
     margin-bottom: 1ex;
     padding: 0.5ex;
@@ -384,7 +440,7 @@ div.feedback
     border-color: #00a000;
 }
 
-/* Other objects */
+/* OTHER OBJECTS */
 
 hr
 {
@@ -400,19 +456,17 @@ hr
     display: none;
 }
 
-/* Special stuff */
-
-h1.top
-{
-    padding-top: 0px;
-    padding-bottom: 1ex;
-}
+/* SPECIAL FEATURES */
 
 div.listicon
 {
     padding-right: 4px;
 }
 
+div.listbutton
+{
+    padding-right: 4px;
+}
 
 /* eZSetup stuff */
 .ezsetup_fatal
