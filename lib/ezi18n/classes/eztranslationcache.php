@@ -196,6 +196,10 @@ class eZTranslationCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
+        if ( file_exists( eZTranslationCache::cacheDirectory() ) )
+        {
+            eZDir::mkdir( eZTranslationCache::cacheDirectory(), eZDir::directoryPermission(), true );
+        }
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
         $php->addVariable( 'eZTranslationCacheCodeDate', EZ_TRANSLATION_CACHE_CODE_DATE );
         $php->addSpace();
