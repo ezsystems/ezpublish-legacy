@@ -6,7 +6,7 @@
 {case match=1}
 {section name=Package loop=$:package_list}
       <div class="block">
-      <img src="/{$:item|ezpackage(filepath,"thumbnail")}" />
+      <img src={$:item|ezpackage(filepath,"thumbnail")|ezroot} />
       </div>
       <div class="block">
       <input type="radio" name="ContentObjectAttribute_ezpackage_data_text_{$attribute.id}" value="{$:item.name}" 
