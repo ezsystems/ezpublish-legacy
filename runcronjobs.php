@@ -56,6 +56,7 @@ $cronPart = false;
 $siteaccess = false;
 $debugOutput = false;
 $useColors = false;
+$isQuiet = false;
 
 $colors = array( 'warning' => "\033[1;35m",
                  'error' => "\033[1;31m",
@@ -71,6 +72,7 @@ function help()
     print( "Usage: " . $argv[0] . " [OPTION]... [cronpart]\n" .
            "Executes eZ publish cronjobs.\n\n" .
            "  -h,--help          display this help and exit \n" .
+           "  -q,--quiet         do not give any output except errors occur\n" .
            "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
            "  -d,--debug         display debug output at end of execution\n" .
            "  -c,--colors        display output using ANSI colors\n" .
@@ -118,6 +120,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 $debugOutput = true;
             }
+            else if ( $flag == 'quiet' )
+            {
+                $isQuiet = true;
+            }
             else if ( $flag == 'colors' )
             {
                 $useColors = true;
@@ -147,6 +153,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 help();
                 exit();
+            }
+            else if ( $flag == 'q' )
+            {
+                $isQuiet = true;
             }
             else if ( $flag == 'c' )
             {
@@ -190,7 +200,10 @@ else
 }
 
 if ( $cronPart )
-    print( "Running cronjob part '$cronPart'$endl" );
+{
+    if ( !$isQuiet )
+        print( "Running cronjob part '$cronPart'$endl" );
+}
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
@@ -328,7 +341,8 @@ foreach ( $scripts as $script )
     }
     if ( file_exists( $scriptFile ) )
     {
-        print( "Running $emphasizeText$scriptFile$normalText$endl" );
+        if ( !$isQuiet )
+            print( "Running $emphasizeText$scriptFile$normalText$endl" );
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
         include( $scriptFile );
         eZDebug::addTimingPoint( "Script $scriptFile done" );

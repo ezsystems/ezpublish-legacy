@@ -60,7 +60,8 @@ $workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_D
 //var_dump( $workflowProcessList  );
 $user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );
-print( "Checking for workflow processes$endl"  );
+if ( !$isQuiet )
+    print( "Checking for workflow processes$endl"  );
 foreach( array_keys( $workflowProcessList ) as $key )
 {
     $process =& $workflowProcessList[ $key ];
@@ -91,7 +92,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $bodyMemento =& eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
         if ( is_null( $bodyMemento ) )
         {
-            printReport();
+            eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
         }
         $bodyMementoData = $bodyMemento->data();
         $mainMemento =& $bodyMemento->attribute( 'main_memento' );
@@ -111,8 +112,8 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $process->remove();
     }
 
-    print( "\n" . $process->attribute( 'status' ) . " workflow process status\n"  );
-    flush();
+    if ( !$isQuiet )
+        print( "\n" . $process->attribute( 'status' ) . " workflow process status\n"  );
 }
 
 ?>

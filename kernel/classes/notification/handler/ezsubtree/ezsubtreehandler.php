@@ -94,8 +94,11 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezpublish' )
         {
-            $this->handlePublishEvent( $event );
-            $this->sendMessage( $event );
+            $status = $this->handlePublishEvent( $event );
+            if ( $status == EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
+                $this->sendMessage( $event );
+            else
+                return false;
         }
         return true;
     }
@@ -103,7 +106,11 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     function handlePublishEvent( &$event )
     {
         $versionObject =& $event->attribute( 'content' );
+        if ( !$versionObject )
+            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         $contentObject = $versionObject->attribute( 'contentobject' );
+        if ( !$contentObject )
+            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         if ( // $versionObject->attribute( 'version' ) != 1 ||
              $versionObject->attribute( 'version' ) != $contentObject->attribute( 'current_version' ) )
         {

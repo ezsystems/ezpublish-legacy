@@ -30,12 +30,16 @@
 /*!
   \class eZMail ezmail.php
   \ingroup eZUtils
-  \brief Mail object
+  \brief Mail handler
 
   Class for storing the details about en email and providing
   text serialization.
+
+ \note It's important to note that most methods that return values do an automatic conversion if not specified.
+
 */
 
+include_once( 'lib/i18n/classes/eztextcodec.php' );
 
 // The line separator as defined by RFC 2045
 // Using \n as a separator is not correct
@@ -56,35 +60,42 @@ class eZMail
         $this->Subject = false;
         $this->BodyText = false;
         $this->ExtraHeaders = array();
+        $this->TextCodec = false;
 
-        // Add mailer header
+        // Sets some default values
         include_once( 'lib/version.php' );
         $version =& eZPublishSDK::version();
-        $this->addExtraHeader( 'X-Mailer', "eZ publish $version" );
+
+        $this->MIMEVersion = '1.0';
+        $this->ContentType = array( 'type' => 'text/plain',
+                                    'charset' => eZTextCodec::internalCharset(),
+                                    'transfer-encoding' => '8bit',
+                                    'disposition' => 'inline' );
+        $this->UserAgent = "eZ publish, Version $version";
+    }
+
+    /*!
+      Returns the receiver addresses as text with only the email address.
+    */
+    function receiverEmailText( $convert = true )
+    {
+        return $this->composeEmailItems( $this->ReceiverElements, true, 'email', $convert );
     }
 
     /*!
       Returns the receiver addresses as text.
     */
-    function receiverEmailText()
+    function receiverText( $convert = true )
     {
-        return $this->composeEmailItems( $this->ReceiverElements, true, 'email' );
-    }
-
-    /*!
-      Returns the receiver addresses as text.
-    */
-    function receiverText()
-    {
-        return $this->composeEmailItems( $this->ReceiverElements );
+        return $this->composeEmailItems( $this->ReceiverElements, true, false, $convert );
     }
 
     /*!
       Returns the receiver addresses as an array with texts.
     */
-    function receiverTextList()
+    function receiverTextList( $convert = true )
     {
-        return $this->composeEmailItems( $this->ReceiverElements, false );
+        return $this->composeEmailItems( $this->ReceiverElements, false, false, $convert );
     }
 
     /*!
@@ -115,25 +126,117 @@ class eZMail
     /*!
       Returns the receiver address.
     */
-    function replyTo()
+    function replyTo( $convert = true )
     {
-        return $this->ReplyTo;
+        if ( !$convert )
+            return $this->ReplyTo;
+        return $this->convertHeaderText( $this->ReplyTo );
     }
 
     /*!
       Returns the sender address.
     */
-    function sender()
+    function sender( $convert = true )
     {
-        return $this->From;
+        if ( !$convert )
+            return $this->From;
+        return $this->convertHeaderText( $this->From );
     }
 
     /*!
       Returns the sender address as text.
     */
-    function senderText()
+    function senderText( $convert = true )
     {
-        return eZMail::composeEmailName( $this->From );
+        $text = eZMail::composeEmailName( $this->From );
+        if ( !$convert )
+            return $text;
+        return $this->convertHeaderText( $text );
+    }
+
+    /*!
+     \return the MIME version for this email, normally this is 1.0.
+     \note The value is returned as a string.
+    */
+    function mimeVersion()
+    {
+        return $this->MIMEVersion;
+    }
+
+    /*!
+     \return the content type for this email, this is normally text/plain.
+    */
+    function contentType()
+    {
+        return $this->ContentType['type'];
+    }
+
+    /*!
+     \return the charset for this email, this is normally taken from the internal charset.
+     \sa usedCharset
+    */
+    function contentCharset()
+    {
+        return $this->ContentType['charset'];
+    }
+
+    /*!
+     \return the content transfer encoding, normally this is 8bit.
+    */
+    function contentTransferEncoding()
+    {
+        return $this->ContentType['transfer-encoding'];
+    }
+
+    /*!
+     \return the content disposition, normally this is inline.
+    */
+    function contentDisposition()
+    {
+        return $this->ContentType['disposition'];
+    }
+
+    /*!
+     \return the user agent for this email, the user agent is automatically created if not specfied.
+    */
+   function userAgent( $convert = true )
+    {
+        if ( !$convert )
+            return $this->UserAgent;
+        return $this->convertHeaderText( $this->UserAgent );
+    }
+
+    /*!
+     Sets the MIME version to \a $version.
+    */
+    function setMIMEVersion( $version )
+    {
+        $this->MIMEVersion = $version;
+    }
+
+    /*!
+     Sets the various content variables, any parameter which is set to something other than \c false
+     will overwrite the old value.
+    */
+    function setContentType( $type = false, $charset = false,
+                             $transferEncoding = false, $disposition = false )
+    {
+        if ( $type )
+            $this->ContentType['type'] = $type;
+        if ( $charset )
+            $this->ContentType['charset'] = $charset;
+        if ( $transferEncoding )
+            $this->ContentType['transfer-encoding'] = $transferEncoding;
+        if ( $disposition )
+            $this->ContentType['disposition'] = $disposition;
+    }
+
+    /*!
+     Sets the user agent for the email to \a $agent.
+    */
+    function setUserAgent( $agent )
+    {
+        $this->UserAgent = $agent;
     }
 
     /*!
@@ -293,8 +396,8 @@ class eZMail
     }
 
     /*!
-      Sets the message ID. This is a server setting only so BE CAREFULL WITH THIS.
-     */
+      Sets the message ID. This is a server setting only so BE CAREFUL WITH THIS.
+    */
     function setMessageID( $newMessageID )
     {
         $this->MessageID = $newMessageID;
@@ -302,7 +405,7 @@ class eZMail
 
     /*!
       Returns the messageID that this message is a reply to.
-     */
+    */
     function references()
     {
         return $this->References;
@@ -310,7 +413,7 @@ class eZMail
 
     /*!
       Sets the messageID that this message is a reply to.
-     */
+    */
     function setReferences( $newReference )
     {
         $this->References = $newReference;
@@ -319,9 +422,11 @@ class eZMail
     /*!
       Returns the subject.
     */
-    function subject()
+    function subject( $convert = true )
     {
-        return $this->Subject;
+        if ( !$convert )
+            return $this->Subject;
+        return $this->convertHeaderText( $this->Subject );
     }
 
     /*!
@@ -335,9 +440,11 @@ class eZMail
     /*!
       returns the body.
     */
-    function body()
+    function body( $convert = true )
     {
-        return $this->BodyText;
+        if ( !$convert )
+            return $this->BodyText;
+        return $this->convertText( $this->BodyText );
     }
 
     /*!
@@ -399,11 +506,25 @@ class eZMail
     }
 
     /*!
+     \static
      \returns a text which does not contain newlines, newlines are converted to spaces.
     */
     function blankNewlines( $text )
     {
         return preg_replace( "/\r\n|\r|\n/", ' ', $text );
+    }
+
+    /*!
+     \static
+     \returns the header content as a simple string, will deflate arrays.
+     \sa blankNewLines
+    */
+    function contentString( $content )
+    {
+        if ( is_array( $content ) )
+            return implode( '; ', $content );
+        else
+            return (string)$content;
     }
 
     /*!
@@ -429,7 +550,7 @@ class eZMail
      Composes an email text out of all items in \a $items and returns it.
      All items are comma separated.
     */
-    function composeEmailItems( $items, $join = true, $key = false )
+    function composeEmailItems( $items, $join = true, $key = false, $convert = true )
     {
         $textElements = array();
         foreach ( $items as $item )
@@ -437,16 +558,21 @@ class eZMail
             $textElements[] = eZMail::composeEmailName( $item, $key );
         }
         if ( $join )
-            return implode( ', ', $textElements );
+            $text = implode( ', ', $textElements );
         else
-            return $textElements;
+            $text = $textElements;
+        if ( !$convert )
+            return $text;
+        return $this->convertHeaderText( $text );
     }
 
     /*!
      \return an array with headers, each header item is an associative array with the keys \c name and \c content.
+             \c content will either be a string or an array with strings.
 
      The parameter \a $parameters contains optional parameters, they can be:
      - exclude-headers - \c Array of header names which will not be included in the result array.
+     \sa contentString, blankNewLines
     */
     function headers( $parameters = array() )
     {
@@ -468,6 +594,20 @@ class eZMail
                                 'content' => $this->composeEmailItems( $this->ReceiverElements ) );
             $headerNames[] = 'to';
         }
+        if ( $this->Subject !== false and
+             !in_array( 'subject', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'Subject',
+                                'content' => $this->Subject );
+            $headerNames[] = 'subject';
+        }
+        if ( $this->From !== false and
+             !in_array( 'from', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'From',
+                                'content' => $this->composeEmailName( $this->From ) );
+            $headerNames[] = 'from';
+        }
         if ( count( $this->CcElements ) > 0 and
              !in_array( 'cc', $excludeHeaders ) )
         {
@@ -482,13 +622,6 @@ class eZMail
                                 'content' => $this->composeEmailItems( $this->BccElements ) );
             $headerNames[] = 'bcc';
         }
-        if ( $this->From !== false and
-             !in_array( 'from', $excludeHeaders ) )
-        {
-            $headers[] = array( 'name' => 'From',
-                                'content' => $this->composeEmailName( $this->From ) );
-            $headerNames[] = 'from';
-        }
         if ( $this->ReplyTo !== false and
              !in_array( 'reply-to', $excludeHeaders ) )
         {
@@ -496,13 +629,38 @@ class eZMail
                                 'content' => $this->composeEmailName( $this->ReplyTo ) );
             $headerNames[] = 'reply-to';
         }
-        if ( $this->Subject !== false and
-             !in_array( 'subject', $excludeHeaders ) )
+        if ( !in_array( 'mime-version', $excludeHeaders ) )
         {
-            $headers[] = array( 'name' => 'Subject',
-                                'content' => $this->Subject );
-            $headerNames[] = 'subject';
+            $headers[] = array( 'name' => 'MIME-Version',
+                                'content' => $this->MIMEVersion );
+            $headerNames[] = 'mime-version';
         }
+        if ( !in_array( 'content-type', $excludeHeaders ) )
+        {
+            $charset = $this->usedCharset();
+            $headers[] = array( 'name' => 'Content-Type',
+                                'content' => array( $this->ContentType['type'], "charset=\"$charset\"" ) );
+            $headerNames[] = 'content-type';
+        }
+        if ( !in_array( 'content-transfer-encoding', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'Content-Transfer-Encoding',
+                                'content' => $this->ContentType['transfer-encoding'] );
+            $headerNames[] = 'content-transfer-encoding';
+        }
+        if ( !in_array( 'content-disposition', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'Content-Disposition',
+                                'content' => $this->ContentType['disposition'] );
+            $headerNames[] = 'content-disposition';
+        }
+        if ( !in_array( 'user-agent', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'User-Agent',
+                                'content' => $this->UserAgent );
+            $headerNames[] = 'user-agent';
+        }
+
         $extraHeaders = $this->ExtraHeaders;
         foreach ( $extraHeaders as $extraHeader )
         {
@@ -519,11 +677,20 @@ class eZMail
     */
     function headerTextList( $parameters = array() )
     {
+        $convert = true;
+        if ( isset( $parameters['convert'] ) )
+            $convert = $parameters['convert'];
         $textElements = array();
         $headers = $this->headers( $parameters );
         foreach ( $headers as $header )
         {
-            $textElements[] = $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] );
+            $headerText = $this->blankNewlines( $header['name'] ) . ': ';
+            $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
+            if ( $convert )
+                $headerText .= $this->convertHeaderText( $contentText );
+            else
+                $headerText .= $contentText;
+            $textElements[] = $headerText;
         }
         return $textElements;
     }
@@ -534,113 +701,117 @@ class eZMail
     */
     function headerText( $parameters = array() )
     {
+        $convert = true;
+        if ( isset( $parameters['convert'] ) )
+            $convert = $parameters['convert'];
         $text = '';
         $headers = $this->headers( $parameters );
         foreach ( $headers as $header )
         {
-            $text .= $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] ) . EZ_MAIL_LINE_SEPARATOR;
+            $text .= $this->blankNewlines( $header['name'] ) . ': ';
+            $contenText = $this->blankNewlines( $this->contentString( $header['content'] ) );
+            if ( $convert )
+                $text .= $this->convertHeaderText( $contentText );
+            else
+                $text .= $contentText;
+            $text .= EZ_MAIL_LINE_SEPARATOR;
         }
         return $text;
     }
 
+    /*!
+     Calls convertText with \a $isHeader set to \c true.
+    */
+    function convertHeaderText( $text )
+    {
+        return $this->convertText( $text, true );
+    }
+
+    /*!
+     Converts the text \a $text to a suitable output format.
+     \note Header conversion is not supported yet, for now it will only return original text when \a $isHeader is set to \c true.
+    */
+    function convertText( $text, $isHeader = false )
+    {
+        if ( $isHeader )
+            return $text;
+        $charset = $this->contentCharset();
+        if ( $this->isAllowedCharset( $charset ) )
+            return $text;
+        $outputCharset = $this->outputCharset();
+        if ( !$this->TextCodec )
+        {
+            $this->TextCodec = eZTextCodec::instance( $charset, $outputCharset );
+        }
+        $newText = $this->TextCodec->convertString( $text );
+        return $newText;
+    }
+
+    /*!
+     \return \c true if the charset \a $charset is allowed as output charset.
+     \sa allowedCharsets.
+    */
+    function isAllowedCharset( $charset )
+    {
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $realCharset = eZCharsetInfo::realCharsetCode( $charset );
+        $charsets = $this->allowedCharsets();
+        foreach ( $charsets as $charsetName )
+        {
+            $realName = eZCharsetInfo::realCharsetCode( $charsetName );
+            if ( $realName == $realCharset )
+                return true;
+        }
+        return false;
+    }
+
+    /*!
+     \return an array with charsets that can be used directly as output charsets.
+    */
+    function allowedCharsets()
+    {
+        $ini =& eZINI::instance();
+        $charsets = $ini->variable( 'MailSettings', 'AllowedCharsets' );
+        return $charsets;
+    }
+
+    /*!
+     \return the charset which will be used for output.
+    */
+    function usedCharset()
+    {
+        $charset = $this->contentCharset();
+        if ( $this->isAllowedCharset( $charset ) )
+            return $charset;
+        return $this->outputCharset();
+    }
+
+    /*!
+     \return the default output charset.
+    */
+    function outputCharset()
+    {
+        $ini =& eZINI::instance();
+        $outputCharset = $ini->variable( 'MailSettings', 'OutputCharset' );
+        return $outputCharset;
+    }
+
 /*
-    function send()
-    {
-        if ( $this->FilesAttached == true )
-        {
-            $files = $this->files();
-            if( count( $files ) )
-            {
-                foreach ( $files as $file )
-                {
-                    echo "Added attachment";
-                    $filename = "ezfilemanager/files/" . $file->fileName();
-                    $attachment = fread( eZFile::fopen( $filename, "r" ), eZFile::filesize( $filename ) );
-                    $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
-                }
-            }
-        }
-
-        $mime = "";
-        if ( !empty( $this->From ) )
-        {
-            $mime .= "From: "  . $this->From . "\n";
-        }
-        if ( !empty( $this->CcElements ) )
-            $mime .= "Cc: " . $this->CcElements . "\n";
-        if ( !empty( $this->BccElements ) )
-            $mime .= "Bcc: " . $this->BccElements . "\n";
-        if ( !empty( $this->ReplyTo ) )
-            $mime .= "Reply-To: " . $this->ReplyTo . "\n";
-        if ( !empty( $this->BodyText ) )
-        {
-            $body = preg_replace( "/(?<![\r])\n(?![\r])/", "\r\n", $this->BodyText );
-            $this->add_attachment( $body, "", "text/plain");
-        }
-
-        $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
-        mail( $this->ReceiverElements, $this->Subject, "", $mime );
-        $this->parts = array();
-    }
-
-    function add_attachment( $message, $name = "", $ctype = "application/octet-stream" )
-    {
-        $this->parts[] = array (
-            "ctype" => $ctype,
-            "message" => $message,
-            "encode" => $encode,
-            "name" => $name
-            );
-    }
-
-    function build_message( $part )
-    {
-        $message = $part["message"];
-        $message = chunk_split( base64_encode( $message ) );
-        $encoding = "base64";
-    //EP - different charsets for the MIME mail ---------------
-//        global $GlobalSectionID;
-//
-//        include_once("ezsitemanager/classes/ezsection.php");
-//        $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
-//        $Locale = new eZLocale( $sectionObject->language() );
-//        $iso =& $Locale->languageISO();
-
-//        $subj = $this->subject();
 //        $subj = "=?$iso?B?" . trim( chunk_split( base64_encode( $subj ))) . "?=";
-//        $this->setSubject ( $subj );
-
-//        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
-//            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
-    //EP    ---------------------------------------------------
-        return "Content-Type: " . $part["ctype"] .
-            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
-    }
-
-    function build_multipart()
-    {
-        $boundary = "b" . md5( uniqid( time() ) );
-        $multipart = "Content-Type: multipart/mixed;\n   boundary=$boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
-        for ( $i = count( $this->parts ) - 1; $i >= 0; $i-- )
-        {
-            $multipart .= "\n" . $this->build_message( $this->parts[$i] ) . "--$boundary";
-        }
-        return $multipart .= "--\n";
-    }
 */
-
 
     /// \privatesection
     var $ReceiverElements;
     var $From;
     var $CcElements;
     var $BccElements;
+    var $ContentType;
+    var $UserAgent;
     var $ReplyTo;
     var $Subject;
     var $BodyText;
     var $ExtraHeaders;
+    var $TextCodec;
 }
 
 ?>
