@@ -4,34 +4,34 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1071062440">gallery</name>
-  <summary modified="1071062472">Gallery</summary>
+  <name modified="1072166692">gallery</name>
+  <summary modified="1072166727">Gallery</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3.0-2</version>
-    <named-version>3.3 beta 2</named-version>
+    <version>3.3-1</version>
+    <named-version>3.3</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1071062440">
+    <maintainer modified="1072166692">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1071062440</timestamp>
+    <timestamp>1072166692</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1071062440" />
+              modified="1072166692" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1071062440"
+    <entry timestamp="1072166692"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1071062440">
+           modified="1072166692">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -39,7 +39,7 @@
     <collection name="default">
       <file-list type="design"
                  design="gallery"
-                 modified="1071062440" />
+                 modified="1072166693" />
       <file-list type="ini"
                  role="siteaccess"
                  role-value="gallery_user"
@@ -47,19 +47,19 @@
         <file name="override.ini.append"
               path="settings/siteaccess/gallery_user/override.ini.append"
               md5sum="f13eeca95ec5380058a7b73a56eefa69"
-              modified="1071062440" />
+              modified="1072166693" />
         <file name="site.ini.append"
               path="settings/siteaccess/gallery_user/site.ini.append"
               md5sum="6629bb6e09b66edd55acd14f1b69f65b"
-              modified="1071062441" />
+              modified="1072166693" />
         <file name="content.ini.append"
               path="settings/siteaccess/gallery_user/content.ini.append"
               md5sum="523b4ae86d827f3bb510d1186a3cfe56"
-              modified="1071062441" />
+              modified="1072166693" />
         <file name="image.ini.append"
               path="settings/siteaccess/gallery_user/image.ini.append"
               md5sum="a34c604cfa0ada8a7d764f7e048d6425"
-              modified="1071062441" />
+              modified="1072166694" />
       </file-list>
       <file-list type="ini"
                  role="siteaccess"
@@ -68,254 +68,254 @@
         <file name="override.ini.append"
               path="settings/siteaccess/gallery_admin/override.ini.append"
               md5sum="dcb504af1e981c59a7a532d7c3708f46"
-              modified="1071062441" />
+              modified="1072166694" />
         <file name="site.ini.append"
               path="settings/siteaccess/gallery_admin/site.ini.append"
               md5sum="60633bf5c8a1c914820654f9eb91e4aa"
-              modified="1071062442" />
+              modified="1072166694" />
       </file-list>
       <file-list type="file">
         <file name="package.xml"
               sub-directory="var/gallery/storage/packages/gallery_gray"
               path="var/gallery/storage/packages/gallery_gray/package.xml"
-              md5sum="939703e8dc477295a93ed27a76686844"
-              modified="1071062443" />
+              md5sum="bab0aeea78b72c9a65817f8726b87116"
+              modified="1072166695" />
         <file name="gallery_gray.css"
               sub-directory="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/stylesheets"
               path="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/stylesheets/gallery_gray.css"
               md5sum="019d7f5a8d8ab7894f9a045e570fe4cb"
-              modified="1071062443" />
+              modified="1072166696" />
         <file name="thumbnail.jpg"
               sub-directory="var/gallery/storage/packages/gallery_gray/files/default/thumbnail"
               path="var/gallery/storage/packages/gallery_gray/files/default/thumbnail/thumbnail.jpg"
               md5sum="b3fc402e36b33052f077e6b7f8f2e5d4"
-              modified="1071062443" />
+              modified="1072166696" />
         <file name="gray_info.png"
               sub-directory="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/images"
               path="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/images/gray_info.png"
               md5sum="31ca574d4b95e815a242f3a3cc5896cf"
-              modified="1071062444" />
+              modified="1072166697" />
         <file name="gray_header.png"
               sub-directory="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/images"
               path="var/gallery/storage/packages/gallery_gray/files/default/file/design/gallery/images/gray_header.png"
               md5sum="52ef105df1fd9153d96af8f5403fe01e"
-              modified="1071062444" />
+              modified="1072166697" />
         <file name="README"
               sub-directory="var/gallery/storage/packages/gallery_gray/documents"
               path="var/gallery/storage/packages/gallery_gray/documents/README"
               md5sum="10ff739e4beac88f4b21a4f01beecadf"
-              modified="1071062445" />
+              modified="1072166698" />
         <file name="package.xml"
               sub-directory="var/gallery/storage/packages/gallery_blue"
               path="var/gallery/storage/packages/gallery_blue/package.xml"
-              md5sum="2b25ecdb611327bbf7249f58a95657c5"
-              modified="1071062445" />
+              md5sum="2916c402e4dcb56a70ee0d5e6da6a927"
+              modified="1072166698" />
         <file name="gallery_blue.css"
               sub-directory="var/gallery/storage/packages/gallery_blue/files/default/file/design/gallery/stylesheets"
               path="var/gallery/storage/packages/gallery_blue/files/default/file/design/gallery/stylesheets/gallery_blue.css"
               md5sum="54217b9b1fd60108a985023646ab166a"
-              modified="1071062446" />
+              modified="1072166699" />
         <file name="thumbnail.jpg"
               sub-directory="var/gallery/storage/packages/gallery_blue/files/default/thumbnail"
               path="var/gallery/storage/packages/gallery_blue/files/default/thumbnail/thumbnail.jpg"
               md5sum="bb8140dc9574f5082c369a5e4506b7cd"
-              modified="1071062446" />
+              modified="1072166699" />
         <file name="README"
               sub-directory="var/gallery/storage/packages/gallery_blue/documents"
               path="var/gallery/storage/packages/gallery_blue/documents/README"
               md5sum="52d4306de7eecd70197aa5b9642ffd97"
-              modified="1071062447" />
+              modified="1072166700" />
         <file name="classes.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB/classes.png"
               md5sum="c68c9fb92d6b2fc8ca1ecf133b55d5cc"
-              modified="1071062447" />
+              modified="1072166700" />
         <file name="classes_large.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB/classes_large.png"
               md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
-              modified="1071062448" />
+              modified="1072166701" />
         <file name="classes_reference.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/classes/103-11-eng-GB/classes_reference.png"
               md5sum="fe6cd61554e8f2ed2c65a84d3082f6da"
-              modified="1071062448" />
+              modified="1072166701" />
         <file name="cache.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB/cache.png"
               md5sum="57f62f207f87dcfba03b5e5f15d7277c"
-              modified="1071062449" />
+              modified="1072166702" />
         <file name="cache_large.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB/cache_large.png"
               md5sum="b840d73d7f1ff0a37307ecdeacc2d390"
-              modified="1071062450" />
+              modified="1072166702" />
         <file name="cache_reference.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/cache/324-6-eng-GB/cache_reference.png"
               md5sum="b50f25f8204789e505c23462353d21e7"
-              modified="1071062450" />
+              modified="1072166703" />
         <file name="look_and_feel.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB/look_and_feel.png"
               md5sum="7b7ebf63af7a8684f2c0bb5549d3f862"
-              modified="1071062451" />
+              modified="1072166704" />
         <file name="look_and_feel_large.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB/look_and_feel_large.png"
               md5sum="4806200d6836ca805dc6369a63fc22bc"
-              modified="1071062451" />
+              modified="1072166704" />
         <file name="look_and_feel_reference.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/look_and_feel/109-12-eng-GB/look_and_feel_reference.png"
               md5sum="7db9d692bde53cb63369368ace09982d"
-              modified="1071062452" />
+              modified="1072166705" />
         <file name="url_translator.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB/url_translator.png"
               md5sum="d0cdb239ef0f52369c5a36d931ae0fcc"
-              modified="1071062453" />
+              modified="1072166706" />
         <file name="url_translator_large.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB/url_translator_large.png"
               md5sum="c94ef5183dae2a53a6efed8649c27a84"
-              modified="1071062454" />
+              modified="1072166706" />
         <file name="url_translator_reference.png"
               sub-directory="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB"
               path="var/gallery/storage/images/setup/setup_links/url_translator/328-5-eng-GB/url_translator_reference.png"
               md5sum="c94ef5183dae2a53a6efed8649c27a84"
-              modified="1071062454" />
+              modified="1072166707" />
         <file name="my_gallery_logo.gif"
               sub-directory="var/gallery/storage/images/setup/look_and_feel/my_gallery/152-61-eng-GB"
               path="var/gallery/storage/images/setup/look_and_feel/my_gallery/152-61-eng-GB/my_gallery_logo.gif"
               md5sum="e11ccbbbb38d1760f732558401a46d22"
-              modified="1071062455" />
+              modified="1072166708" />
         <file name="my_gallery.gif"
               sub-directory="var/gallery/storage/images/setup/look_and_feel/my_gallery/152-61-eng-GB"
               path="var/gallery/storage/images/setup/look_and_feel/my_gallery/152-61-eng-GB/my_gallery.gif"
               md5sum="c6a3586e1aa9523cf936272c8531fb3e"
-              modified="1071062456" />
+              modified="1072166709" />
         <file name="cvs_branching.jpg"
               sub-directory="var/gallery/storage/images/abstract/misc/cvs_branching/1139-1-eng-GB"
               path="var/gallery/storage/images/abstract/misc/cvs_branching/1139-1-eng-GB/cvs_branching.jpg"
               md5sum="65ebbebff60c1597ce96ee99cc18a4cd"
-              modified="1071062458" />
+              modified="1072166711" />
         <file name="gear_wheel.jpg"
               sub-directory="var/gallery/storage/images/abstract/misc/gear_wheel/1142-1-eng-GB"
               path="var/gallery/storage/images/abstract/misc/gear_wheel/1142-1-eng-GB/gear_wheel.jpg"
               md5sum="8eed4fb9d3e93ec3ea89203649d965a6"
-              modified="1071062459" />
+              modified="1072166712" />
         <file name="green_clover.jpg"
               sub-directory="var/gallery/storage/images/abstract/misc/green_clover/1145-1-eng-GB"
               path="var/gallery/storage/images/abstract/misc/green_clover/1145-1-eng-GB/green_clover.jpg"
               md5sum="d61b7acb278d23fafadf66b6dabda4b5"
-              modified="1071062460" />
+              modified="1072166713" />
         <file name="mjaurits.jpg"
               sub-directory="var/gallery/storage/images/abstract/misc/mjaurits/1148-1-eng-GB"
               path="var/gallery/storage/images/abstract/misc/mjaurits/1148-1-eng-GB/mjaurits.jpg"
               md5sum="c81c239d27681508217f3e56b0a02412"
-              modified="1071062461" />
+              modified="1072166714" />
         <file name="speeding.jpg"
               sub-directory="var/gallery/storage/images/abstract/misc/speeding/1151-1-eng-GB"
               path="var/gallery/storage/images/abstract/misc/speeding/1151-1-eng-GB/speeding.jpg"
               md5sum="4425d3f1fa82a9747e7ad77b772407d2"
-              modified="1071062462" />
+              modified="1072166715" />
         <file name="blue_flower.jpg"
               sub-directory="var/gallery/storage/images/nature/flowers/blue_flower/1107-1-eng-GB"
               path="var/gallery/storage/images/nature/flowers/blue_flower/1107-1-eng-GB/blue_flower.jpg"
               md5sum="778f3e106281b17a6955c94860bb8d8c"
-              modified="1071062463" />
+              modified="1072166717" />
         <file name="purple_haze.jpg"
               sub-directory="var/gallery/storage/images/nature/flowers/purple_haze/1110-1-eng-GB"
               path="var/gallery/storage/images/nature/flowers/purple_haze/1110-1-eng-GB/purple_haze.jpg"
               md5sum="b00fe0ec0657867a289f5003a30399de"
-              modified="1071062464" />
+              modified="1072166718" />
         <file name="yellow_flower.jpg"
               sub-directory="var/gallery/storage/images/nature/flowers/yellow_flower/1113-1-eng-GB"
               path="var/gallery/storage/images/nature/flowers/yellow_flower/1113-1-eng-GB/yellow_flower.jpg"
               md5sum="23d5bbcc086db8ccb715af234ea51db7"
-              modified="1071062465" />
+              modified="1072166719" />
         <file name="foggy_trees.jpg"
               sub-directory="var/gallery/storage/images/nature/landscape/foggy_trees/1126-1-eng-GB"
               path="var/gallery/storage/images/nature/landscape/foggy_trees/1126-1-eng-GB/foggy_trees.jpg"
               md5sum="58d361ffb53e876cf988a25b6bcee2b8"
-              modified="1071062466" />
+              modified="1072166720" />
         <file name="ormevika_skyline.jpg"
               sub-directory="var/gallery/storage/images/nature/landscape/ormevika_skyline/1123-1-eng-GB"
               path="var/gallery/storage/images/nature/landscape/ormevika_skyline/1123-1-eng-GB/ormevika_skyline.jpg"
               md5sum="c34cb77961bd2577a7e055d9dfc42eb1"
-              modified="1071062467" />
+              modified="1072166721" />
         <file name="pond_reflection.jpg"
               sub-directory="var/gallery/storage/images/nature/landscape/pond_reflection/1120-1-eng-GB"
               path="var/gallery/storage/images/nature/landscape/pond_reflection/1120-1-eng-GB/pond_reflection.jpg"
               md5sum="fbf3397c5ffb53be6f887b6cc9d80542"
-              modified="1071062468" />
+              modified="1072166722" />
         <file name="pond_reflection.jpg"
               sub-directory="var/gallery/storage/images/nature/landscape/pond_reflection/1120-1-eng-GB"
               path="var/gallery/storage/images/nature/landscape/pond_reflection/1120-1-eng-GB/pond_reflection.jpg"
               md5sum="fbf3397c5ffb53be6f887b6cc9d80542"
-              modified="1071062469" />
+              modified="1072166723" />
         <file name="water_reflection.jpg"
               sub-directory="var/gallery/storage/images/nature/landscape/water_reflection/1129-1-eng-GB"
               path="var/gallery/storage/images/nature/landscape/water_reflection/1129-1-eng-GB/water_reflection.jpg"
               md5sum="f3f8f3a43220e19ddffcf97302df7ef0"
-              modified="1071062470" />
+              modified="1072166724" />
         <file name="expiry.php"
               sub-directory="var/gallery/cache"
               path="var/gallery/cache/expiry.php"
               md5sum="92f0a36e7e93eccc6de884de311bb044"
-              modified="1071062471" />
+              modified="1072166725" />
       </file-list>
       <file-list type="thumbnail">
         <file name="thumbnail.jpg"
               path="design/gallery/images/gallery_blue.jpg"
               md5sum="bb8140dc9574f5082c369a5e4506b7cd"
-              modified="1071062457" />
+              modified="1072166710" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1071062440">1.0</number>
-    <release modified="1071062440">1</release>
+    <number modified="1072166692">1.0</number>
+    <release modified="1072166692">1</release>
   </version>
-  <licence modified="1071062440">GPL</licence>
-  <state modified="1071062440">alpha</state>
+  <licence modified="1072166692">GPL</licence>
+  <state modified="1072166692">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1071062440" />
+               modified="1072166693" />
     </provides>
     <requires>
       <require type="ezdb"
                name="mysql"
-               modified="1071062442" />
+               modified="1072166694" />
       <require type="ezdb"
                name="postgresql"
-               modified="1071062442" />
+               modified="1072166695" />
     </requires>
     <obsoletes />
     <conflicts />
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062440"
+          modified="1072166693"
           collection="default" />
     <item type="sql"
-          modified="1071062442"
+          modified="1072166694"
           filename="gallery.sql"
           original-path="packages/gallery.sql"
           database-type="mysql" />
     <item type="sql"
-          modified="1071062442"
+          modified="1072166695"
           filename="gallery_postgresql.sql"
           original-path="packages/gallery_postgresql.sql"
           database-type="postgresql" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062440"
+          modified="1072166693"
           collection="default" />
   </uninstall>
 </package>

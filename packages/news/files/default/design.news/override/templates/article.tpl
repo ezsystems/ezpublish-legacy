@@ -17,9 +17,7 @@
   </p>
 </div>
 
-<div class="imageright">
-    {attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium}
-</div>
+{attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium alignment=right}
 
 <div class="intro">
 {attribute_view_gui attribute=$content_version.data_map.intro}

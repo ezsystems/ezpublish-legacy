@@ -1,7 +1,7 @@
 {let today_info=$view_parameters
      cache_keys=array( $today_info.year, $today_info.month, $today_info.day )}
 
-{section show=or( $today_info.year|not, $today_info.month|not, $today_info.day|not )}
+{section show=or( $today_info|not, $today_info.year|not, $today_info.month|not, $today_info.day|not )}
     {set today_info=currentdate()|gettime}
     {set cache_keys=false()}
 {/section}

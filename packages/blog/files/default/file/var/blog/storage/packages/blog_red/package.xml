@@ -4,34 +4,34 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1071062367">blog_red</name>
-  <summary modified="1071062367">Blue CSS design for blog--</summary>
+  <name modified="1072166606">blog_red</name>
+  <summary modified="1072166606">Blue CSS design for blog--</summary>
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3.0-2</version>
-    <named-version>3.3 beta 2</named-version>
+    <version>3.3-1</version>
+    <named-version>3.3</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1071062367">
+    <maintainer modified="1072166606">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1071062367</timestamp>
+    <timestamp>1072166606</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1071062367" />
+              modified="1072166606" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1071062367"
+    <entry timestamp="1072166606"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1071062367">
+           modified="1072166606">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -42,30 +42,30 @@
         <file name="blog_red.css"
               sub-directory="design/blog/stylesheets"
               path="design/blog/stylesheets/blog_red.css"
-              md5sum="28a444286aebb5d00f4c56786af8492e"
-              modified="1071062368" />
+              md5sum="6e43fae7fd4c8ea9a79616212e9b58d4"
+              modified="1072166606" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.png"
               path="design/blog/images/blog-red.png"
               md5sum="521f74e07c6ce59769f019952e283363"
-              modified="1071062368" />
+              modified="1072166606" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1071062367">set</number>
-    <release modified="1071062367">1</release>
+    <number modified="1072166606">set</number>
+    <release modified="1072166606">1</release>
   </version>
-  <licence modified="1071062367">GPL</licence>
-  <state modified="1071062367">alpha</state>
+  <licence modified="1072166606">GPL</licence>
+  <state modified="1072166606">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1071062368" />
+               modified="1072166606" />
     </provides>
     <requires />
     <obsoletes />
@@ -73,12 +73,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062368"
+          modified="1072166606"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062368"
+          modified="1072166606"
           collection="default" />
   </uninstall>
 </package>

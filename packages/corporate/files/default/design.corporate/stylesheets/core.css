@@ -1,4 +1,4 @@
-/* eZ publish 3 core CSS - th[eZ] 20031105                              */
+/* eZ publish 3 core CSS - th[eZ] 20031210                              */
 
 /* Do not remove or delete this stylesheet, because some basic          */
 /* formatting methods in the system depends on it for proper display.   */
@@ -7,7 +7,7 @@
 
 /* MAIN WINDOW SETTINGS */
 
-body
+body, textarea
 {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #ffffff;
@@ -243,17 +243,17 @@ form
 
 input.box, textarea.box
 {
-    width: 468px;
+    width: 100%;
 }
 
 input.halfbox, textarea.halfbox
 {
-    width: 230;
+    width: 48%;
 }
 
 input.quarterbox, textarea.quarterbox
 {
-    width: 110;
+    width: 20%;
 }
 
 input.shortbox
@@ -261,6 +261,11 @@ input.shortbox
     width: 4em;
 }
 
+/*div.element input
+{
+    width: 3em;
+}
+*/
 fieldset
 {
     margin-top: 0.5em;
@@ -342,17 +347,6 @@ div.block
     padding: 0em;
     margin-top: 0.25em;
     margin-bottom: 0.25em;
-}
-
-div.step
-{
-    display: block;
-    clear: both;
-    margin: 0;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
-    background-color: #f0f0f0;
-	border-bottom: dashed 2px #808080;
 }
 
 div.buttonblock
@@ -522,3 +516,10 @@ hr
 {
     display: none;
 }
+
+div#innercontent
+{
+    display: table; /* This style is needed as a fix for an Opera "bug" */
+    width: 100%;
+}
+

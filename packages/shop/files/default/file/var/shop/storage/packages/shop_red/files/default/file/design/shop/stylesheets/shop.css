@@ -37,6 +37,12 @@ div#subheader
 {
     background-color: #000000;
     border-bottom: 1px solid #000000; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
+    clear: both;
+}
+
+div#topmenubackground
+{
+    background-color: #cc0000;
 }
 
 div#mainmenu
@@ -46,12 +52,17 @@ div#mainmenu
     background-color: #cc0000;
 }
 
+div#mainmenu div.design
+{
+    background-color: #00ff00;
+}
+
 div#mainmenu ul
 {
     white-space: nowrap;
 }
 
-div#mainmenu ul, div#mainmenu li
+div#mainmenu li
 {
     display: inline; /* This makes the vertical display of this menu */
 }
@@ -59,11 +70,18 @@ div#mainmenu ul, div#mainmenu li
 div#mainmenu ul
 {
     margin: 0;
+    clear: both;
+    float: right;
 }
 
 div#mainmenu li
 {
     margin: 0;
+    padding: 0;
+}
+
+div#mainmenu span.corner
+{
     background-image: url(../images/tab_corner-top_right.gif);
     background-position: top right;
     background-repeat: no-repeat;
@@ -132,6 +150,7 @@ div#searchbox
     float: left;
     background-color: #000000;
     padding: 0.2em 0.2em 0.2em 1em;
+    width: 250px;
 }
 
 div#searchbox input.searchtext
@@ -280,7 +299,7 @@ div#maincontent
 
 div#maincontent div.design
 {
-    position: relative;
+    margin: 0;
     padding: 0 1.5em 1em 1.5em;
     border-right: 2px dotted #cdcdcd;
 }

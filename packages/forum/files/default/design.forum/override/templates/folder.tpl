@@ -59,8 +59,7 @@
               <option value="{$:item.id}">{$:item.name|wash}</option>
               {/section}
          </select>
-         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/v
-iew')}" />
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
 {/section}
 </div>
 

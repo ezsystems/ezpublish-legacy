@@ -13,8 +13,6 @@
     </form>
 </div>
 
-{section show=$node.depth|le(6)}
-
 <form method="post" action={"content/action/"|ezurl}>
 
 {switch match=$node.object.can_create}
@@ -38,31 +36,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <input type="hidden" name="ClassID" value="22" />
 
 </form>
-{/section}
-
-{section show=$node.depth|eq(7)}
-<form method="post" action={"content/action/"|ezurl}>
-
-{switch match=$node.object.can_create}
-{case match=1}
-<div class="buttonblock">
-    <input class="button" type="submit" name="NewButton" value="New reply" />
-
-    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
-    <input class="button" type="submit" name="ActionAddToNotification" value="Keep me updated" />
-</div>
-{/case}
-{case match=0}
-<p>
-You need to be logged in to get access to the forums. You can do so <a href={"/user/login/"|ezurl}>here</a></p>
-{/case}
-{case/}
-{/switch}
-<input type="hidden" name="NodeID" value="{$node.parent_node_id}" />
-<input type="hidden" name="ClassID" value="22" />
-</form>
-{/section}
 
 <div class="forum_level4">
 <table class="forum" cellspacing="0">
@@ -177,7 +150,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 </table>
 </div>
 
- {section show=$node.depth|le(6)}
 <form method="post" action={"content/action/"|ezurl}>
 
 {switch match=$node.object.can_create}
@@ -197,9 +169,6 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <input type="hidden" name="ClassID" value="22" />
 
 </form>
-
-{/section}
-
 
 {include name=navigator
          uri='design:navigator/google.tpl'

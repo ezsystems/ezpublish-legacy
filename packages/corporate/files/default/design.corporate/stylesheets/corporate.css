@@ -6,36 +6,35 @@ body
 
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
-    background-color: #c9bca2;
-    background-image: url(../images/sidebar-background.gif);
-    background-position: top right;
-    background-repeat: repeat-y;
+    background-color: #ffffff;
     height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
 div#header
 {
-    background-color: #849352
+    background-image: url(../images/header_image-repeat.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
 }
 
 div#header div.design
 {
-    background-image: url(../images/header_image-green.jpg);
-    background-position: top right;
+    background-image: url(../images/header_image.gif);
+    background-position: top left;
     background-repeat: no-repeat;
-    height: 120px;
+    height: 68px;
 }
 
 div#logo
 {
-    float: left;
+    float: right;
     margin-top: 0.3em;
     margin-right: 0.1em;
 }
 
 div#subheader
 {
-    background-color: #333333;
+    background-color: #e4eaf3;
     padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
 }
 
@@ -66,7 +65,7 @@ div#mainmenu li a
 
 div#mainmenu a
 {
-    color: #d8ceba;
+    color: #202020;
     font-weight: bold;
     text-decoration: none;
 }
@@ -78,15 +77,14 @@ div#mainmenu a:hover
 
 div#searchbox
 {
-    position: absolute;
-    right: 210px;
-    top: 85px;
+    float: right;
+    clear: right;
 }
 
 div#searchbox input.searchtext
 {
     font-size: 80%;
-    width: 12em;
+    width: 8em;
 }
 
 div#searchbox input.searchbutton
@@ -104,19 +102,17 @@ div#path
 div#path p
 {
     margin: 0;
-    color: #ffffff;
 }
 
 div#path a
 {
-    color: #ffffff;
+    color: #000000;
 }
 
 div#submenu
 {
-    float: right;
-    clear: right;
-    width: 200px;
+    float: left;
+    clear: both;
 }
 
 div#submenu div.design
@@ -124,10 +120,14 @@ div#submenu div.design
     padding: 0.1em;
 }
 
+div#submenu ul, div#submenu li
+{
+    display: inline; /* This makes the vertical display of this menu */
+}
+
 div#submenu ul
 {
-    list-style-type: circle;
-    padding-left: 1.7em;
+    list-style-type: none;
     margin-left: 1em;
     margin-top: 2em;
 }
@@ -153,7 +153,7 @@ div#submenu a:hover
 div#infobox
 {
     margin-top: 0;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     float: right;
     clear: right;
     width: 200px;
@@ -161,22 +161,24 @@ div#infobox
 
 div#infobox div.design
 {
+    border: 1px solid #e4eaf3;
+    background-image: url(../images/infobox_image.gif);
     background-position: top left;
     background-repeat: no-repeat;
 }
 
 div#infobox h3
 {
-    margin-top: 0em;
+    margin-top: 116px;
     padding: 0.2em;
     padding-left: 1.2em;
+    background-color: #e4eaf3;
 }
 
 div#infobox ul
 {
     list-style-type: none;
     margin-bottom: 1.5em;
-    padding-right: 1em;
 }
 
 div#infobox li
@@ -193,7 +195,7 @@ div#infobox a
 div#maincontent
 {
     margin-bottom: 2em;
-    margin-left: 2em;
+    margin-left: 8em;
     margin-right: 220px;
     clear: none;
 }
@@ -205,11 +207,12 @@ div#footer
 
 div#footer div.design
 {
-    background-color: #849352;
+    background-color: #e4eaf3;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     padding-left: 1em;
     padding-right: 1em;
+    text-align: center;
 }
 
 div#footer a

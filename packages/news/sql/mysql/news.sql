@@ -1817,12 +1817,6 @@ CREATE TABLE eztrigger (
 -- Dumping data for table 'eztrigger'
 --
 
-/*!40000 ALTER TABLE eztrigger DISABLE KEYS */;
-LOCK TABLES eztrigger WRITE;
-INSERT INTO eztrigger VALUES (1,'pre_publish','content','publish','b',1);
-UNLOCK TABLES;
-/*!40000 ALTER TABLE eztrigger ENABLE KEYS */;
-
 --
 -- Table structure for table 'ezurl'
 --

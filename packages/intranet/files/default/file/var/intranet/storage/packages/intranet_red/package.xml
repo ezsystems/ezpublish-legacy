@@ -4,36 +4,36 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1071062376">intranet_red</name>
-  <summary modified="1071062376">Red CSS design for intranet</summary>
+  <name modified="1072166614">intranet_red</name>
+  <summary modified="1072166614">Red CSS design for intranet</summary>
   <type value="sitestyle"
-        modified="1071062376" />
+        modified="1072166615" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3.0-2</version>
-    <named-version>3.3 beta 2</named-version>
+    <version>3.3-1</version>
+    <named-version>3.3</named-version>
   </ezpublish>
   <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1071062376">
+    <maintainer modified="1072166614">
       <name>Anonymous User</name>
       <email>nospam@ez.no</email>
       <role>lead</role>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1071062376</timestamp>
+    <timestamp>1072166614</timestamp>
     <host>bf.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1071062376" />
+              modified="1072166614" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1071062376"
+    <entry timestamp="1072166614"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1"
-           modified="1071062376">
+           modified="1072166614">
       <change>Creation of package</change>
     </entry>
   </changelog>
@@ -44,15 +44,15 @@
         <file name="intranet_red.css"
               sub-directory="design/intranet/stylesheets"
               path="design/intranet/stylesheets/intranet_red.css"
-              md5sum="618f53349ae9148e525870dd178f0561"
-              modified="1071062376" />
+              md5sum="3e8d25b53bc885a9b2b50b9ec4d4a440"
+              modified="1072166615" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.png"
               path="design/intranet/images/intranet_red.png"
               md5sum="d8c83a41a5344752f799569d9c6f62a8"
-              modified="1071062377" />
+              modified="1072166615" />
       </file-list>
       <file-list type="file"
                  variable-name="image">
@@ -60,22 +60,22 @@
               sub-directory="design/intranet/images"
               path="design/intranet/images/green_logo.png"
               md5sum="2d085abce3dec88d01a9b34fc02c4a66"
-              modified="1071062377" />
+              modified="1072166615" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1071062376">1.0</number>
-    <release modified="1071062376">1</release>
+    <number modified="1072166614">1.0</number>
+    <release modified="1072166614">1</release>
   </version>
-  <licence modified="1071062376">GPL</licence>
-  <state modified="1071062376">alpha</state>
+  <licence modified="1072166614">GPL</licence>
+  <state modified="1072166614">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1071062376" />
+               modified="1072166615" />
     </provides>
     <requires />
     <obsoletes />
@@ -83,12 +83,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062376"
+          modified="1072166615"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1071062376"
+          modified="1072166615"
           collection="default" />
   </uninstall>
 </package>
