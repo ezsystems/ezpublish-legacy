@@ -25,7 +25,6 @@
   {section-else}
    <input type="hidden" name="eZSetupDatabaseType" value="{$:item.type}" />
   {/section}
-  {include uri="design:setup/init/steps.tpl"}
   </td>
 </tr>
 <tr>
@@ -44,5 +43,6 @@
     <div class="buttonblock">
       <input class="defaultbutton" type="submit" name="StepButton" value="{'Language Options'|i18n('design/standard/setup/init')} &gt;&gt;" />
     </div>
+    {include uri="design:setup/init/steps.tpl"}
     {include uri='design:setup/persistence.tpl'}
   </form>
