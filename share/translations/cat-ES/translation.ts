@@ -8069,7 +8069,7 @@ per activar el teu compte.</translation>
     </message>
     <message>
         <source>The login must be specified</source>
-        <translation>Cal especificar el registre</translation>
+        <translation type="obsolete">Cal especificar el registre</translation>
     </message>
     <message>
         <source>Login name already exists, please choose another one.</source>
@@ -8140,6 +8140,10 @@ per activar el teu compte.</translation>
     <message>
         <source>Missing objectrelation input.</source>
         <translation>No es troba l&apos;entrada de relació d&apos;objectes.</translation>
+    </message>
+    <message>
+        <source>The username must be specified.</source>
+        <translation>Cal que especifiquis el nom d&apos;usuari.</translation>
     </message>
 </context>
 <context>
@@ -8242,6 +8246,11 @@ per activar el teu compte.</translation>
     <message>
         <source>Keywords</source>
         <translation>Paraules clau</translation>
+    </message>
+    <message>
+        <source>The receiver has allready got to many tipafriend mails during past couple of hours</source>
+        <translation>El destinatari ja ha rebut massa correus de recomanació en les darreres 
+dues hores</translation>
     </message>
 </context>
 <context>
@@ -8448,6 +8457,11 @@ per activar el teu compte.</translation>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
         <translation>El paquet %packagename ja existeix. El paquet no es pot importar</translation>
+    </message>
+    <message>
+        <source>The package name %packagename is not valid, it can only contain characters in the range a-z, A-Z, 0-9 and underscore.</source>
+        <translation>El paquet denominat %packagename no és vàlid, ja que només incloure 
+caràcters de l&apos;estil a-z, A-Z, 0-9 i guions baixos.</translation>
     </message>
 </context>
 <context>
