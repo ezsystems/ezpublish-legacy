@@ -186,15 +186,6 @@ class eZIdentifierType extends eZDataType
     }
 
 
-    
-    /*!
-     Returns the content.
-    */
-    function &objectAttributeContent( &$contentObjectAttribute )
-    {
-        return $contentObjectAttribute->attribute( "data_text" );
-    }
-
     /*!
      Returns the meta data used for storing search indices.
     */
