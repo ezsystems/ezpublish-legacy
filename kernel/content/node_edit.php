@@ -84,6 +84,8 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $canCreate = $newNodeObject->attribute( 'can_create' );
                 if ( !$canCreate )
                     $isPermitted = false;
+                else if ( $newNodeObject->attribute( 'id' ) == $object->attribute( 'id' ) )
+                    $isPermitted = false;
                 else
                 {
                     $canCreateClassList = $newNodeObject->attribute( 'can_create_class_list' );
@@ -309,7 +311,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
     {
 
-        $nodeID = $http->postVariable( 'RemoveNodeID' ) ;
+        $nodeID = $http->postVariable( 'RemoveNodeID' );
         $version->removeAssignment( $nodeID );
     }
 
