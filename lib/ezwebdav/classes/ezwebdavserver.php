@@ -101,51 +101,32 @@ if ( !file_exists( EZ_WEBDAV_ROOT_DIRECTORY ) )
 
 
 /*!
- \return \c true if logging is enabled.
+  \return \c true if logging is enabled.
+  \deprecated Use eZWebDAVServer::isLoggingEnabled() instead.
 */
 function eZWebDavCheckLogSetting()
 {
-    $useLogging =& $GLOBALS['eZWebDavLogging'];
-    if ( !isset( $useLogging ) )
-    {
-        $ini =& eZINI::instance( 'webdav.ini' );
-        $useLogging = $ini->variable( 'GeneralSettings', 'Logging' ) == 'enabled';
-    }
-    return $useLogging;
-}
-
-/*!
- Convencience function for calling eZWebDavAppendToLog()
-*/
-function append_to_log( $logString )
-{
-    eZWebDavAppendToLog( $logString );
+    return eZWebDAVServer::isLoggingEnabled();
 }
 
 /*!
   Logs the string \a $logString to the logfile /tmp/webdavlog.txt
   if logging is enabled.
+  \deprecated Appending to log file is now done through appendLogEntry in the webdav server class.
+*/
+function append_to_log( $logString )
+{
+    return eZWebDAVServer::appendLogEntry( $logString );
+}
+
+/*!
+  Logs the string \a $logString to the logfile /tmp/webdavlog.txt
+  if logging is enabled.
+  \deprecated Appending to log file is now done through appendLogEntry in the webdav server class.
 */
 function eZWebDavAppendToLog( $logString )
 {
-    if ( !eZWebDavCheckLogSetting() )
-        return false;
-
-    $varDir = eZSys::varDirectory();
-
-    $logDir = 'log';
-    $logName = 'webdav.log';
-    $fileName = $varDir . '/' . $logDir . '/' . $logName;
-    if ( !file_exists( $varDir . '/' . $logDir ) )
-    {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
-    }
-
-    $logFile = fopen( $fileName, 'a' );
-    $nowTime = date( "Y-m-d H:i:s : " );
-    fwrite( $logFile, $nowTime . $logString . "\n" );
-    fclose( $logFile );
+    return eZWebDAVServer::appendLogEntry( $logString );
 }
 
 class eZWebDAVServer
@@ -715,6 +696,52 @@ class eZWebDAVServer
                 header( "HTTP/1.1 500 Internal Server Error" );
             } break;
         }
+    }
+
+    /*!
+      Logs the string \a $logString to the logfile webdav.log
+      in the current log directory (usually var/log).
+      If logging is disabled, nothing is done.
+    */
+    function appendLogEntry( $logString, $label = false )
+    {
+        if ( !eZWebDAVServer::isLoggingEnabled() )
+            return false;
+
+        $varDir = eZSys::varDirectory();
+
+        $logDir = 'log';
+        $logName = 'webdav.log';
+        $fileName = $varDir . '/' . $logDir . '/' . $logName;
+        if ( !file_exists( $varDir . '/' . $logDir ) )
+        {
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
+        }
+
+        $logFile = fopen( $fileName, 'a' );
+        $nowTime = date( "Y-m-d H:i:s : " );
+        $text = $nowTime;
+        if ( $label )
+            $text .= '[' . $label . '] ';
+        $text .= $logString;
+        fwrite( $logFile, $text . "\n" );
+        fclose( $logFile );
+    }
+
+    /*!
+      \static
+      \return \c true if WebDAV logging is enabled.
+    */
+    function isLoggingEnabled()
+    {
+        $useLogging =& $GLOBALS['eZWebDavLogging'];
+        if ( !isset( $useLogging ) )
+        {
+            $ini =& eZINI::instance( 'webdav.ini' );
+            $useLogging = $ini->variable( 'GeneralSettings', 'Logging' ) == 'enabled';
+        }
+        return $useLogging;
     }
 
     /// \privatesection
