@@ -1,6 +1,7 @@
 <?php
 
 $indexes = array();
+
 $indexes[] = array( "identifier" => "view/module_system",
                     "name" => "Module system" );
 $indexes[] = array( "identifier" => "view/content_classes",

@@ -7,7 +7,5 @@ $indexes[] = array( "identifier" => "view/overview",
                     "name" => "Diagrams" );
 $indexes[] = array( "identifier" => "view/php_coding_standard",
                     "name" => "Coding standards" );
-$indexes[] = array( "identifier" => "view/kernel",
-                    "name" => "eZ publish kernel" );
 
 ?>

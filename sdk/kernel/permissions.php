@@ -59,7 +59,7 @@ gives access to reading content and another role
 </p>
 
 <p>
-A role can be assigned to any user or user group ( combinations may be used ).
+A role can be assigned to any user or user group (combinations may be used).
 </p>
 
 <h2>Policy</h2>

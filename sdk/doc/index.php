@@ -121,71 +121,71 @@ $featureArray[] = array( "uri" => "subversion_standard",
 
 
 
-$featureArray[] = array( "level" => 0,
-                         "name" => "eZ publish kernel" );
+// $featureArray[] = array( "level" => 0,
+//                          "name" => "eZ publish kernel" );
 
-$featureArray[] = array( "level" => 1,
-                         "name" => "Content" );
-$featureArray[] = array( "uri" => "tree_concept",
-                         "level" => 2,
-                         "name" => "Tree concept" );
-$featureArray[] = array( "uri" => "xml_handling",
-                         "level" => 2,
-                         "name" => "XML handling" );
-$featureArray[] = array( "uri" => "content_classes",
-                         "level" => 2,
-                         "name" => "Content classes" );
-$featureArray[] = array( "uri" => "information_collector",
-                         "level" => 2,
-                         "name" => "Information collector" );
-$featureArray[] = array( "uri" => "content_objects",
-                         "level" => 2,
-                         "name" => "Content objects" );
-$featureArray[] = array( "uri" => "site_access",
-                         "level" => 2,
-                         "name" => "Site access" );
-$featureArray[] = array( "uri" => "search",
-                         "level" => 2,
-                         "name" => "Search" );
-$featureArray[] = array( "uri" => "permissions",
-                         "level" => 2,
-                         "name" => "Permissions" );
-$featureArray[] = array( "uri" => "workflows",
-                         "level" => 2,
-                         "name" => "Workflows" );
-$featureArray[] = array( "uri" => "tasks",
-                         "level" => 2,
-                         "name" => "Tasks" );
-$featureArray[] = array( "uri" => "notification_system",
-                         "level" => 2,
-                         "name" => "Notification system" );
+// $featureArray[] = array( "level" => 1,
+//                          "name" => "Content" );
+// $featureArray[] = array( "uri" => "tree_concept",
+//                          "level" => 2,
+//                          "name" => "Tree concept" );
+// $featureArray[] = array( "uri" => "xml_handling",
+//                          "level" => 2,
+//                          "name" => "XML handling" );
+// $featureArray[] = array( "uri" => "content_classes",
+//                          "level" => 2,
+//                          "name" => "Content classes" );
+// $featureArray[] = array( "uri" => "information_collector",
+//                          "level" => 2,
+//                          "name" => "Information collector" );
+// $featureArray[] = array( "uri" => "content_objects",
+//                          "level" => 2,
+//                          "name" => "Content objects" );
+// $featureArray[] = array( "uri" => "site_access",
+//                          "level" => 2,
+//                          "name" => "Site access" );
+// $featureArray[] = array( "uri" => "search",
+//                          "level" => 2,
+//                          "name" => "Search" );
+// $featureArray[] = array( "uri" => "permissions",
+//                          "level" => 2,
+//                          "name" => "Permissions" );
+// $featureArray[] = array( "uri" => "workflows",
+//                          "level" => 2,
+//                          "name" => "Workflows" );
+// $featureArray[] = array( "uri" => "tasks",
+//                          "level" => 2,
+//                          "name" => "Tasks" );
+// $featureArray[] = array( "uri" => "notification_system",
+//                          "level" => 2,
+//                          "name" => "Notification system" );
 
-$featureArray[] = array( "level" => 1,
-                         "name" => "Shopping" );
-$featureArray[] = array( "uri" => "shopping_intro",
-                         "level" => 2,
-                         "name" => "Intro" );
-$featureArray[] = array( "uri" => "shopping_products",
-                         "level" => 2,
-                         "name" => "Products" );
-$featureArray[] = array( "uri" => "shopping_basket",
-                         "level" => 2,
-                         "name" => "Basket" );
-$featureArray[] = array( "uri" => "shopping_wish_list",
-                         "level" => 2,
-                         "name" => "Wish list" );
-$featureArray[] = array( "uri" => "shopping_checkout",
-                         "level" => 2,
-                         "name" => "Checkout" );
-$featureArray[] = array( "uri" => "shopping_orders",
-                         "level" => 2,
-                         "name" => "Orders" );
-$featureArray[] = array( "uri" => "shopping_calculations",
-                         "level" => 2,
-                         "name" => "Calculations" );
-$featureArray[] = array( "uri" => "shopping_admin",
-                         "level" => 2,
-                         "name" => "Admin" );
+// $featureArray[] = array( "level" => 1,
+//                          "name" => "Shopping" );
+// $featureArray[] = array( "uri" => "shopping_intro",
+//                          "level" => 2,
+//                          "name" => "Intro" );
+// $featureArray[] = array( "uri" => "shopping_products",
+//                          "level" => 2,
+//                          "name" => "Products" );
+// $featureArray[] = array( "uri" => "shopping_basket",
+//                          "level" => 2,
+//                          "name" => "Basket" );
+// $featureArray[] = array( "uri" => "shopping_wish_list",
+//                          "level" => 2,
+//                          "name" => "Wish list" );
+// $featureArray[] = array( "uri" => "shopping_checkout",
+//                          "level" => 2,
+//                          "name" => "Checkout" );
+// $featureArray[] = array( "uri" => "shopping_orders",
+//                          "level" => 2,
+//                          "name" => "Orders" );
+// $featureArray[] = array( "uri" => "shopping_calculations",
+//                          "level" => 2,
+//                          "name" => "Calculations" );
+// $featureArray[] = array( "uri" => "shopping_admin",
+//                          "level" => 2,
+//                          "name" => "Admin" );
 
 $infoArray["features"] =& $featureArray;
 
