@@ -1792,6 +1792,14 @@ class eZTemplate
     }
 
     /*!
+     Resets all template variables.
+    */
+    function resetVariables()
+    {
+        $this->Variables = array();
+    }
+
+    /*!
      Returns the globale template instance, creating it if it does not exist.
     */
     function &instance()

@@ -86,6 +86,8 @@ links to clickable links.
   content.ini for more information.
 - User registration can now redirect to a specific url if the url is specified in the
   the template.
+- It is possible to send out a feedback email to site owners when a new user registers.
+  Controlled by a site.ini setting.
 
 
 *SDK :

@@ -154,6 +154,7 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $tpl =& templateInit();
             $tpl->setVariable( 'user', $user );
+            $tpl->setVariable( 'object', $object );
             $password = $http->sessionVariable( "GeneratedPassword" );
 
             $tpl->setVariable( 'password', $password );
@@ -161,9 +162,47 @@ if ( !function_exists( 'checkContentActions' ) )
             $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
 
             $mail->setReceiver( $receiver );
-            $mail->setSubject( 'registration info' );
+            $subject = ezi18n( 'kernel/user/register', 'Registration info' );
+            if ( $tpl->hasVariable( 'subject' ) )
+                $subject = $tpl->variable( 'subject' );
+            $mail->setSubject( $subject );
             $mail->setBody( $templateResult );
             $mailResult = eZMailTransport::send( $mail );
+
+            $ini =& eZINI::instance();
+            $feedbackTypes = $ini->variableArray( 'UserSettings', 'RegistrationFeedback' );
+            foreach ( $feedbackTypes as $feedbackType )
+            {
+                switch ( $feedbackType )
+                {
+                    case 'email':
+                    {
+                        $mail = new eZMail();
+                        $tpl->resetVariables();
+                        $tpl->setVariable( 'user', $user );
+                        $tpl->setVariable( 'object', $object );
+
+                        $templateResult =& $tpl->fetch( 'design:user/registrationfeedback.tpl' );
+
+                        $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
+
+                        $subject = ezi18n( 'kernel/user/register', 'New user registered' );
+                        if ( $tpl->hasVariable( 'subject' ) )
+                            $subject =& $tpl->variable( 'subject' );
+                        if ( $tpl->hasVariable( 'email_receiver' ) )
+                            $feedbackReceiver =& $tpl->variable( 'email_receiver' );
+
+                        $mail->setReceiver( $feedbackReceiver );
+                        $mail->setSubject( $subject );
+                        $mail->setBody( $templateResult );
+                        $mailResult = eZMailTransport::send( $mail );
+                    } break;
+                    default:
+                    {
+                        eZDebug::writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
+                    }
+                }
+            }
 
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
