@@ -59,6 +59,8 @@ Changes from 3.2-3 to 3.2-4
 - Fixed update attribute filter script bug : http://ez.no/developer/ez_publish_3/bug_reports/incorrect_searched_field_in_script_updateattributefilterphp
 - Fixed missing parameter bug in kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php:443 ,
   http://ez.no/developer/ez_publish_3/bug_reports/renderxhtmltag_in_ol_or_ul
+- Fixed bug in kernel/role/edit.php. Made sure policy variable is checked before usage :
+  http://ez.no/developer/ez_publish_3/bug_reports/php_error_in_admin_role_edition
 
 *Library :
 
