@@ -244,6 +244,8 @@ eZInformationCollection:
 - Fixed bug #6359: Fatal error (and PHP warning) when adding source to an
   RSS export.
   (Merged from stable/3.5 (3.5.2) rev. 11224)
+- Fixed bug #6074: Major crash because of typo in site.ini.
+  (Merged from stable/3.5 (3.5.2) rev. 11232)
   
 *Library:
 PDF:
