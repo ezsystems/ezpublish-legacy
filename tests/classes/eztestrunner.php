@@ -116,7 +116,7 @@ class eZTestRunner
      Tries to run all tests defined in unit \a $unit and creates a result
      list and result value. Use resultList() and isSuccessful() to get the status.
     */
-    function run( &$unit, $display = false )
+    function run( &$unit, $display = false, $testsToRun = true )
     {
         $this->Results = array();
         $this->CurrentResult = false;
@@ -127,6 +127,9 @@ class eZTestRunner
             $testList = $unit->testList();
             foreach ( $testList as $test )
             {
+                if ( is_array( $testsToRun ) and
+                     !in_array( strtolower( $test['name'] ), $testsToRun ) )
+                    continue;
                 $type = $this->testEntryType( $unit, $test );
                 if ( $type )
                 {

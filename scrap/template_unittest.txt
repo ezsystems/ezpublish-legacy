@@ -21,14 +21,14 @@ currentdate
 null
 
 *is_*
-get_*
+*get_*
 
-first_set
+*first_set
 
 texttoimage, image, imagefile
 
-count_words
-count_chars
+*count_words
+*count_chars
 break
 
 crc32

@@ -102,6 +102,9 @@ eZ DB Schema:
 
 eZ PHP creator:
 
+*Unit tests:
+- Added support for selecting a specific subtest to run for testunits.php.
+
 *Bugs:
 - Made sure eZRoleIDList session variable is cleaned up in eZUser::cleanup().
   http://ez.no/community/bug_reports/security_risk_caching_problems_session_problems

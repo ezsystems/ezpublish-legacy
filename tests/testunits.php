@@ -58,7 +58,14 @@ $suiteList = array();
 foreach ( $options['arguments'] as $suiteName )
 {
     $suiteTestName = false;
-    if ( preg_match( "/^([a-zA-Z0-9]+):([a-zA-Z0-9]+)/", $suiteName, $matches ) )
+    $suiteTestEntryName = false;
+    if ( preg_match( "/^([a-zA-Z0-9_]+):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)/", $suiteName, $matches ) )
+    {
+        $suiteName = $matches[1];
+        $suiteTestName = $matches[2];
+        $suiteTestEntryName = strtolower( $suiteTestName . '::' . $matches[3] );
+    }
+    else if ( preg_match( "/^([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)/", $suiteName, $matches ) )
     {
         $suiteName = $matches[1];
         $suiteTestName = $matches[2];
@@ -68,7 +75,17 @@ foreach ( $options['arguments'] as $suiteName )
     {
         if ( !isset( $suiteTestMap[$suiteName] ) )
             $suiteTestMap[$suiteName] = array();
-        $suiteTestMap[$suiteName][$suiteTestName] = true;
+        if ( $suiteTestEntryName )
+        {
+            if ( !isset( $suiteTestMap[$suiteName][$suiteTestName] ) or
+                 !is_array( $suiteTestMap[$suiteName][$suiteTestName] ) )
+                $suiteTestMap[$suiteName][$suiteTestName] = array();
+            $suiteTestMap[$suiteName][$suiteTestName][] = $suiteTestEntryName;
+        }
+        else
+        {
+            $suiteTestMap[$suiteName][$suiteTestName] = true;
+        }
     }
 }
 
@@ -97,6 +114,7 @@ foreach ( $suiteList as $suiteName )
         if ( isset( $SuiteDefinition ) )
         {
             $suite = new eZTestSuite( $SuiteDefinition['name'] );
+            $testsToRun = array();
             foreach ( $SuiteDefinition['tests'] as $testDefinition )
             {
                 $testUnitName = $testDefinition['name'];
@@ -104,6 +122,7 @@ foreach ( $suiteList as $suiteName )
                 {
                     if ( !isset( $suiteTestMap[$suiteName][$testUnitName] ) )
                         continue;
+                    $testsToRun = array_merge( $testsToRun, $suiteTestMap[$suiteName][$testUnitName] );
                 }
                 $testUnitFile = $testDefinition['file'];
                 $testUnitPath = $suitePath . '/' . $testUnitFile;
@@ -130,7 +149,9 @@ foreach ( $suiteList as $suiteName )
             }
             $cli->output( "Test results from suite " . $cli->stylize( 'emphasize', $suiteName ) );
             $runner = new eZTestCLIRunner();
-            $runner->run( $suite, true );
+            if ( count( $testsToRun ) == 0 )
+                $testsToRun = true;
+            $runner->run( $suite, true, $testsToRun );
 
             if ( !$runner->isSuccessful() )
                 $success = false;

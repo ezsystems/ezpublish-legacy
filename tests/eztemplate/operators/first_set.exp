@@ -1,0 +1,5 @@
+first_set( $arr[2], false() )='3'
+first_set( $arr[10], false() )=''
+first_set( $hash1[2], $hash2[2], false() )='b'
+first_set( $hash1[3], $hash2[3], false() )='B'
+first_set( $arr[6], $hash1[6], $hash2[6], false() )='d'

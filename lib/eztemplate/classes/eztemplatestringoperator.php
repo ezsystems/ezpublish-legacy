@@ -51,7 +51,7 @@ class eZTemplateStringOperator
     function eZTemplateStringOperator()
     {
         $this->Operators = array( 'upcase', 'downcase',
-                                  'countwords', 'countchars',
+                                  'count_words', 'count_chars',
                                   'trim', 'break', 'wrap', 'shorten', 'pad',
                                   'upfirst', 'upword',
                                   'simplify', 'wash',
@@ -68,9 +68,9 @@ class eZTemplateStringOperator
                                'break' => 'nl2br',
                                'upfirst' => 'ucfirst',
                                'upword' => 'ucwords',
-                               'countchars' => 'strlen');
+                               'count_chars' => 'strlen');
 
-        $this->customMap = array ( 'countwords' => array( 'return' => 'int',
+        $this->customMap = array ( 'count_words' => array( 'return' => 'int',
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
                                                         ),
                                    'chr' => array( 'return' => 'string',
@@ -146,13 +146,13 @@ class eZTemplateStringOperator
     {
         $hints = array(
             $this->BreakName        => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
-            $this->CountcharsName   => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
+            $this->Count_charsName   => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->DowncaseName     => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->UpcaseName       => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->UpfirstName      => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->UpwordName       => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
 
-            $this->CountwordsName   => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
+            $this->Count_wordsName   => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->ChrName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->OrdName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->PadName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
@@ -449,13 +449,13 @@ class eZTemplateStringOperator
             } break;
 
             // Count and return the number of words in operatorvalue.
-            case $this->CountwordsName:
+            case $this->Count_wordsName:
             {
                 $operatorValue = preg_match_all( "#(\w+)#", $operatorValue, $dummy_match );
             }break;
 
             // Count and return the number of chars in operatorvalue.
-            case $this->CountcharsName:
+            case $this->Count_charsName:
             {
                 $operatorValue = strlen( $operatorValue );
             }break;
