@@ -208,10 +208,20 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     if ( $endPos === false )
                     {
                         // Unterminated tag
-                        $tpl->warning( "parse()", "Unterminated tag at pos $tagPos" );
                         unset( $data );
                         $data =& substr( $sourceText, $sourcePosition );
                         $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
+                        $textBefore = substr( $sourceText, $sourcePosition, $tagPos - $sourcePosition );
+                        $textPortion = substr( $sourceText, $tagPos );
+                        $this->gotoEndPosition( $textBefore, $currentLine, $currentColumn, $tagStartLine, $tagStartColumn );
+                        $this->gotoEndPosition( $textPortion, $tagStartLine, $tagStartColumn, $tagEndLine, $tagEndColumn );
+//                         $textPortion = substr( $data, 0, 10 );
+//                         if ( strlen( $data ) > strlen( $textPortion ) )
+//                             $textPortion .= '...';
+                        $tpl->warning( "", "Unterminated tag, needs a $rightDelimiter to end the tag.\n" . $leftDelimiter . $textPortion,
+                                       array( array( $tagStartLine, $tagStartColumn, $tagPosition ),
+                                              array( $tagEndLine, $tagEndColumn, $sourceLength - 1 ),
+                                              $relatedTemplateName ) );
                         $textElements[] = array( "text" => $data,
                                                  "type" => EZ_ELEMENT_TEXT,
                                                  'placement' => array( 'templatefile' => $relatedTemplateName,
@@ -492,7 +502,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $this->appendChild( $currentRoot, $node );
                     if ( $var_end < $text_len )
                     {
-                        $tpl->warning( "", "Junk at variable end: '" . substr( $text, $var_end, $text_len - $var_end ) . "' (" . substr( $text, 0, $var_end ) . ")" );
+                        $tpl->warning( "", "Junk at variable end: '" . substr( $text, $var_end, $text_len - $var_end ) . "' (" . substr( $text, 0, $var_end ) . ")",
+                                       $placement );
                     }
                 } break;
                 case EZ_ELEMENT_SINGLE_TAG:
@@ -565,7 +576,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                     if ( $type == EZ_ELEMENT_END_TAG and count( $args ) > 0 )
                     {
-                        $tpl->warning( "", "End tag \"$tag\" cannot have attributes" );
+                        $tpl->warning( "", "End tag \"$tag\" cannot have attributes\n$leftDelimiter/" . $text . $rightDelimiter,
+                                       $element['placement'] );
                         $args = array();
                     }
 
@@ -623,7 +635,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         }
                         if ( !$has_children )
                         {
-                            $tpl->warning( "", "End tag \"$tag\" for function which does not accept children, ignoring tag" );
+                            $tpl->warning( "", "End tag \"$tag\" for function which does not accept children, ignoring tag",
+                                           $element['placement'] );
                         }
                         else
                         {
@@ -638,7 +651,10 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $currentRoot =& $oldTag["Root"];
 
                             if ( $oldTagName != $tag )
-                                $tpl->warning( "", "Unterminated tag \"$oldTagName\" does not match tag \"$tag\" at $blockStart" );
+                            {
+                                $tpl->warning( "", "Unterminated tag \"$oldTagName\" does not match tag \"$tag\"",
+                                               $element['placement'] );
+                            }
                         }
                     }
                     else // EZ_ELEMENT_SINGLE_TAG

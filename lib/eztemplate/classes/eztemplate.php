@@ -1799,14 +1799,30 @@ class eZTemplate
         $this->error( "", "Undefined function: $func_name" );
     }
 
+    /*!
+     Creates a string for the placement information and returns it.
+     \note The placement information can either be in indexed or associative
+    */
     function placementText( $placement = false )
     {
         $placementText = false;
         if ( $placement !== false )
         {
-            $line = $placement[0][0];
-            $column = $placement[0][1];
-            $templateFile = $placement[2];
+            if ( isset( $placement['start'] ) and
+                 isset( $placement['stop'] ) and
+                 isset( $placement['templatefile'] ) )
+            {
+                $line = $placement['start']['line'];
+                $column = $placement['start']['column'];
+                $templateFile = $placement['templatefile'];
+            }
+            else
+            {
+                $line = $placement[0][0];
+                $column = $placement[0][1];
+                $templateFile = $placement[2];
+            }
+
             $placementText = " @ $templateFile:$line" . "[$column]";
         }
         return $placementText;
