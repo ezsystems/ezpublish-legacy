@@ -87,7 +87,7 @@ U+044f = "ya"
 
 U+0451 = "io"
 
-latin1_transliterate_ascii:
+latin_transliterate_ascii:
 U+00E6 = "ae" # æ => ae
 U+00C6 = "AE" # Æ => AE
 U+00E5 = "aa" # å => aa
