@@ -21,6 +21,8 @@ Changes from 3.5.0rc2 to 3.5.0
   http://ez.no/community/bug_reports/delayed_indexing
 - Fixed incorrect display of requirements for package name.
   (Merged from trunk rev. 10348)
+- Fixed problem with & being escaped inside attributes
+  http://ez.no/community/bug_reports/xml_and_broken_link_with
 
 *Library:
 
