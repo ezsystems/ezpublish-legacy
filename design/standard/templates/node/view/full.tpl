@@ -48,6 +48,9 @@
 {/section}
    	<input class="button" type="submit" value="Preview" />
     <input class="button" type="submit" value="Remove" />
+    <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
+
 </div>
 
 </div>
@@ -82,12 +85,6 @@
       </div>
       {/section}
     {/section}
-      <div class="block">
-      <input type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
-      </div>
-      <div class="block">
-      <input type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
-      </div>
 
 <div class="buttonblock">
 
@@ -106,9 +103,7 @@
 {/switch}
 </div>
 
-    </td>
-</tr>
-</table>
+
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
@@ -121,8 +116,6 @@
      can_remove=false() can_edit=false() can_create=false() can_copy=false()}
 
 {section show=$:children}
-
-<h2>Children</h2>
 
 {section loop=$:children}
   {section show=$:item.object.can_remove}
@@ -137,7 +130,6 @@
 {/section}
 
 {set can_copy=$content_object.can_create}
-
 
 
 
@@ -209,7 +201,7 @@
         {/section}
         {section show=$:can_copy}
         <td>
-          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.png"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
+          <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
         </td>
         {/section}
 
@@ -228,7 +220,7 @@
     {/section}
     {section show=$:can_remove}
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-      {include uri="design:gui/trash.tpl"}
+                <input type="submit" name="RemoveButton" value="Remove" />
     {/section}
     {/section}
 

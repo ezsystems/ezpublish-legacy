@@ -39,6 +39,9 @@
     {/section}
     <input class="button" type="submit" value="Preview" />
     <input class="button" type="submit" value="Remove" />
+    <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
+
     </div>
 </div>
 
@@ -58,8 +61,6 @@
         </div>
     {/section}
 {/section}
-
-<h2>Children</h2>
 
 <div class="buttonblock">
     {switch match=$content_object.can_create}

@@ -37,6 +37,8 @@
         {/section}
    	<input class="button" type="submit" value="Preview" />
         <input class="button" type="submit" value="Remove" />
+    <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
     </div>
 </div>
 
@@ -57,34 +59,6 @@
     {/section}
 {/section}
 
-{section show=$with_children}
-    {let name=Child
-         children=fetch( content, list, hash( parent_node_id, $node.node_id,
-                                              sort_by, $node.sort_array, 
-                                              limit, $page_limit,
-                                              offset, $view_parameters.offset ) )
-         can_remove=false() 
-         can_edit=false() 
-	 can_create=false() 
-	 can_copy=false()}
-
-    {section show=$:children}
-        <h2>Children</h2>
-
-        {section loop=$:children}
-            {section show=$:item.object.can_remove}
-                {set can_remove=true()}
-            {/section} 
-            {section show=$:item.object.can_edit}
-                {set can_edit=true()}
-            {/section} 
-            {section show=$:item.object.can_create}
-                {set can_create=true()}
-            {/section} 
-        {/section}
-
-        {set can_copy=$content_object.can_create}
-
         <div class="buttonblock">
             {switch match=$content_object.can_create}
             {case match=1}
@@ -104,6 +78,34 @@
             <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
             <input type="hidden" name="ViewMode" value="full" />
         </div>
+
+{section show=$with_children}
+    {let name=Child
+         children=fetch( content, list, hash( parent_node_id, $node.node_id,
+                                              sort_by, $node.sort_array, 
+                                              limit, $page_limit,
+                                              offset, $view_parameters.offset ) )
+         can_remove=false() 
+         can_edit=false() 
+	 can_create=false() 
+	 can_copy=false()}
+
+    {section show=$:children}
+
+        {section loop=$:children}
+            {section show=$:item.object.can_remove}
+                {set can_remove=true()}
+            {/section} 
+            {section show=$:item.object.can_edit}
+                {set can_edit=true()}
+            {/section} 
+            {section show=$:item.object.can_create}
+                {set can_create=true()}
+            {/section} 
+        {/section}
+
+        {set can_copy=$content_object.can_create}
+
 
 
         <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
