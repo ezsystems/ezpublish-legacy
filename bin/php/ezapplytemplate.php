@@ -70,16 +70,16 @@ $tpl = new eZCodeTemplate();
 foreach ( $options['arguments'] as $file )
 {
     $status = $tpl->apply( $file );
-    if ( $status == EZ_CLASS_TEMPLATE_STATUS_OK )
+    if ( $status == EZ_CODE_TEMPLATE_STATUS_OK )
     {
         $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
         $hasModified = true;
     }
-    else if ( $status == EZ_CLASS_TEMPLATE_STATUS_NO_CHANGE )
+    else if ( $status == EZ_CODE_TEMPLATE_STATUS_NO_CHANGE )
     {
         $cli->output( "No change in " . $cli->stylize( 'file', $file ) );
     }
-    else if ( $status == EZ_CLASS_TEMPLATE_STATUS_FAILED )
+    else if ( $status == EZ_CODE_TEMPLATE_STATUS_FAILED )
     {
         $cli->output( "Template errors for " . $cli->stylize( 'file', $file ) );
         $hasErrors = true;
