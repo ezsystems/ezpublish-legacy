@@ -91,12 +91,13 @@ class eZPDF
             {
                 $this->PDF = new eZPDFTable();
                 $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica.afm' );
-                eZDebug::writeNotice( 'PDF file created' );
+                eZDebug::writeNotice( 'PDF: File created' );
             } break;
 
             case 'newpage':
             {
                 $this->PDF->ezNewPage();
+                eZDebug::writeNotice( 'PDF: New page' );
             } break;
 
             case 'image':

@@ -196,16 +196,14 @@ class eZImageShell
         else
             $str = $this->Exec;
 
-        $str = escapeshellcmd( $str );
-
         // Check if convert string contains spaces
-//        if ( strstr( $str, " " ) !== false )
-//            $str = "\"".$str."\"";
+        if ( strstr( $str, " " ) !== false )
+            $str = "\"".$str."\"";
 
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
         {
-            $str .= " $param";
+            $str .= ' '.$param;
         }
         $from_str =& $this->convertFileName( $from, $this->FromType );
         $to_str =& $this->convertFileName( $to, $this->ToType );
@@ -216,7 +214,7 @@ class eZImageShell
         $params = array_merge( $this->PostParams, $post );
         foreach ( $params as $param )
         {
-            $str .= ' '.escapeshellarg( $param );
+            $str .= ' '.$param;
         }
 
         return $str;
