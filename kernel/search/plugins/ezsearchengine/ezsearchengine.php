@@ -755,8 +755,7 @@ class eZSearchEngine
                 $versionNameTables = ', ezcontentobject_name ';
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-                $ini =& eZINI::instance();
-                $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                $lang = eZContentObject::defaultLanguage();
 
                 $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and

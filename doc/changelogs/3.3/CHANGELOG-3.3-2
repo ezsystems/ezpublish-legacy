@@ -1,5 +1,8 @@
 Changes from 3.3-1 to 3.3-2
 
+*Kernel:
+- Specifying language in url ( ex: laguage/eng-GB ) will set default language to specified language for all objects fetched. ( merged from 3.2 stable rev. 4666 )
+
 *Bugfixes:
 - Fixed creating new classes using postgresql database. http://ez.no/developer/ez_publish_3/bug_reports/incorrect_work_in_classes
 - Fixed showing users in approve event when creating workflow. http://ez.no/developer/ez_publish_3/bug_reports/no_users_in_editor_list_in_new_workflow
@@ -7,5 +10,7 @@ Changes from 3.3-1 to 3.3-2
 - Fixed mysql server and client version information. ( merged from 3.2 stable rev. 4658 ) http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class
 - Fixed showing class in tabletes when using xml and table, th and td elements. ( merged from 3.2 stable rev. 4662 )
   http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
+- Fixed fetching objects using attribute_filter when fetching objects with multiple translations. ( merged from 3.2 stable rev. 4666 )
+  http://ez.no/developer/ez_publish_3/bug_reports/fetching_children_with_attribute_filter_ignores_translations
 - Fixed bug of wrong encoding for chi-CN locale file.
   http://ez.no/developer/ez_publish_3/bug_reports/wrong_encoding_for_chi_cn_locale_file

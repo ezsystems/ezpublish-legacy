@@ -677,6 +677,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $params['AttributeFilter'] ) && $params['AttributeFilter'] !== false )
         {
             $filterArray = $params['AttributeFilter'];
+            $language = eZContentObject::defaultLanguage();
 
             // Check if first value of array is a string.
             // To check for and/or filtering
@@ -763,17 +764,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $attributeFilterFromSQL .= ", ezcontentobject_attribute as a$filterCount ";
                             $attributeFilterWhereSQL .= "
-                            a$filterCount.contentobject_id = ezcontentobject.id AND
+                               a$filterCount.contentobject_id = ezcontentobject.id AND
                                a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                               a$filterCount.version = ezcontentobject_name.content_version AND ";
+                               a$filterCount.version = ezcontentobject_name.content_version AND
+                               a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
 
                         }
                         else
                         {
                             $attributeFilterWhereSQL .= "
-                            a$filterCount.contentobject_id = ezcontentobject.id AND
+                              a$filterCount.contentobject_id = ezcontentobject.id AND
                               a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                              a$filterCount.version = ezcontentobject_name.content_version AND ";
+                              a$filterCount.version = ezcontentobject_name.content_version AND
+                              a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
                         }
 
                         // Check datatype for filtering
@@ -957,18 +960,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
+
+        $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            $lang = eZContentObject::defaultLanguage();
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
-        }
+
         if ( count( $limitationList) > 0 )
         {
             $sqlParts = array();
@@ -1421,24 +1422,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $filterCount > 0 )
                 $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
         }
-
-//        $useVersionName = true;
+        
         $versionNameTables = '';
         $versionNameTargets = '';
         $versionNameJoins = '';
-          $useVersionName = false;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
-        }
 
         if ( count( $limitationList ) > 0 )
         {
@@ -1699,8 +1686,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            $lang = eZContentObject::defaultLanguage();
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
@@ -1843,10 +1829,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $ini =& eZINI::instance();
-            if ( $lang == false )
+            if ( $lang === false )
             {
-                 $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                $lang = eZContentObject::defaultLanguage();
             }
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
@@ -1956,8 +1941,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-            $ini =& eZINI::instance();
-            $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            $lang = eZContentObject::defaultLanguage();
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
