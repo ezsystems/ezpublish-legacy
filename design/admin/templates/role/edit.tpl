@@ -1,8 +1,10 @@
-<form name="roleedit" action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl} method="post" >
+<form name="roleedit" method="post" action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl}>
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( '/design/admin/role/edit' ) )}&nbsp;{'Edit <%role_name> [Role]'|i18n( 'design/admin/role/edit',, hash( '%role_name', $role.name ) )|wash}</h1>
+
+<h1 class="context-title">{'role'|icon( 'normal', 'Role'|i18n( 'design/admin/role/edit' ) )}&nbsp;{'Edit <%role_name> [Role]'|i18n( 'design/admin/role/edit',, hash( '%role_name', $role.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -12,14 +14,15 @@
 
 <div class="context-attributes">
 
+{* Name. *}
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/role/edit' )}</label><div class="labelbreak"></div>
+    <label>{'Name'|i18n( 'design/admin/role/edit' )}</label>
     <input class="box" type="edit" name="NewName" value="{$role.name|wash}" />
 </div>
 
+{* Policies. *}
 <div class="block">
-<label>{'Policies'|i18n( 'design/admin/role/edit' )}</label><div class="labelbreak" />
-
+<label>{'Policies'|i18n( 'design/admin/role/edit' )}</label>
 {section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
@@ -29,59 +32,75 @@
     <th>{'Limitations'|i18n( 'design/admin/role/edit' )}</th>
     <th>&nbsp;</th>
 </tr>
-
 {section var=Policies loop=$policies sequence=array( bglight, bgdark )}
 <tr class="{$Policies.sequence}">
+
+    {* Remove. *}
     <td>
         <input type="checkbox" name="DeleteIDArray[]" value="{$Policies.item.id}" />
     </td>
+
+    {* Module. *}
     <td>
-         {section show=eq( $Policies.item.module_name, '*' )}
-             <i>{'all modules'|i18n( 'design/admin/role/edit' )} </i>
-             {section-else}
-             {$Policies.item.module_name}
+        {section show=eq( $Policies.item.module_name, '*' )}
+        <i>{'all modules'|i18n( 'design/admin/role/edit' )} </i>
+        {section-else}
+        {$Policies.item.module_name}
         {/section}
     </td>
+
+    {* Function. *}
     <td>
-         {section show=eq( $Policies.item.function_name, '*' )}
-             <i>{'all functions'|i18n( 'design/admin/role/edit' )} </i>
-             {section-else}
-             {$Policies.item.function_name}
+        {section show=eq( $Policies.item.function_name, '*' )}
+        <i>{'all functions'|i18n( 'design/admin/role/edit' )} </i>
+        {section-else}
+        {$Policies.item.function_name}
         {/section}
     </td>
+
+    {* Limitations. *}
     <td>
         {section show=$Policies.item.limitations}
-          {section var=Limitations loop=$Policies.item.limitations}
-              {$Limitations.item.identifier}(
-              {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
-                  {$LimitationValues.item.Name}
-                  {delimiter}, {/delimiter}
-              {/section})
-              {delimiter}, {/delimiter}
-          {/section}
+            {section var=Limitations loop=$Policies.item.limitations}
+                {$Limitations.item.identifier}(
+                    {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
+                        {$LimitationValues.item.Name}
+                        {delimiter}, {/delimiter}
+                    {/section})
+                   {delimiter}, {/delimiter}
+            {/section}
         {section-else}
-          <i>{'No limitations'|i18n( 'design/admin/role/edit' )}</i>
+            <i>{'No limitations'|i18n( 'design/admin/role/edit' )}</i>
         {/section}
     </td>
+
+    {* Edit. *}
     <td>
-        <a href={concat( 'role/policyedit/', $Policies.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/role/edit' )}" title="{"Edit the policy's function limitations"|i18n( 'design/admin/role/edit' )}" /></a>
+        <a href={concat( 'role/policyedit/', $Policies.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/role/edit' )}" title="{"Edit the policy's function limitations."|i18n( 'design/admin/role/edit' )}" /></a>
     </td>
 </tr>
 {/section}
 </table>
 {section-else}
-<p>{'There are no policies within this role.'|i18n( 'design/admin/role/edit' )}</p>
+<p>{'There are no policies set up for this role.'|i18n( 'design/admin/role/edit' )}</p>
 {/section}
 
-<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" {section show=$policies|not}disabled="disabled"{/section} />
+{* Policy manipulation buttons. *}
+{section show=$policies}
+<input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies'|i18n( 'design/admin/role/edit' )}" disabled="disabled" />
+{/section}
+
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" />
 
 </div>
-</div>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
 
+{* Buttons. *}
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
@@ -92,5 +111,5 @@
 </div>
 
 </div>
-</form>
 
+</form>
