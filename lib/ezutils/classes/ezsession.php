@@ -56,12 +56,18 @@ function &eZSessionRead( $key )
 
     $key =& $db->escapeString( $key );
 
-    $sessionRes =& $db->arrayQuery( "SELECT data, user_id FROM ezsession WHERE session_key='$key'" );
+    $sessionRes =& $db->arrayQuery( "SELECT data, user_id, expiration_time FROM ezsession WHERE session_key='$key'" );
 
     if ( count( $sessionRes ) == 1 )
     {
+        $ini =& eZINI::instance();
+
+        $sessionUpdatesTime = $sessionRes[0]['expiration_time'] - $ini->variable( 'Session', 'SessionTimeout' );
+        $sessionIdle = time() - $sessionUpdatesTime;
+
         $data =& $sessionRes[0]['data'];
         $GLOBALS['eZSessionUserID'] = $sessionRes[0]['user_id'];
+        $GLOBALS['eZSessionIdleTime'] = $sessionIdle;
 
         return $data;
     }
