@@ -1,5 +1,10 @@
 <?php /* #?ini charset="iso-8859-1"?
 
+[search]
+Source=content/search.tpl
+MatchFile=search.tpl
+Subdir=templates
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
