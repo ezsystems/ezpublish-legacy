@@ -546,7 +546,11 @@ class eZRSSExport extends eZPersistentObject
 
                 $itemTitle =& $doc->createElementNode( 'title' );
                 $title =& $object->attribute( $rssItem->attribute( 'title' ) );
-                if ( $title != null ) // TODO : find out why title is NULL some times ... feed
+                if ( is_string( $title ) )
+                {
+                    $itemTitle->appendChild( $doc->createTextNode( $title ) );
+                }
+                else if ( $title != null )
                 {
                     $titleContent =& $title->attribute( 'content' );
                     if ( get_class( $titleContent ) == 'ezxmltext' )
@@ -562,7 +566,11 @@ class eZRSSExport extends eZPersistentObject
 
                 $itemDescription =& $doc->createElementNode( 'description' );
                 $description =& $object->attribute( $rssItem->attribute( 'description' ) );
-                if ( $description != null )
+                if ( is_string( $description ) )
+                {
+                    $itemDescription->appendChild( $doc->createTextNode( $description ) );
+                }
+                else if ( $description != null )
                 {
                     $descriptionContent =& $description->attribute( 'content' );
                     if ( get_class( $descriptionContent ) == 'ezxmltext' )
