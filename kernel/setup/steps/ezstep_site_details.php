@@ -249,7 +249,7 @@ class eZStepSiteDetails extends eZStepInstaller
             }
             $this->storeSiteTypes( $siteTypes );
 
-            return true;
+            return $this->kickstartContinueNextStep();
         }
 
         include_once( 'lib/ezdb/classes/ezdbtool.php' );

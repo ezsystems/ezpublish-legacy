@@ -148,7 +148,7 @@ class eZStepSiteAccess extends eZStepInstaller
                 }
                 $this->storeSiteTypes( $siteTypes );
 
-                return true;
+                return $this->kickstartContinueNextStep();
             }
         }
 
@@ -183,8 +183,8 @@ class eZStepSiteAccess extends eZStepInstaller
     */
     function &display()
     {
-//         $siteTypes = $this->chosenSiteTypes();
-//         $this->Tpl->setVariable( 'site_types', $siteTypes );
+        $siteTypes = $this->chosenSiteTypes();
+        $this->Tpl->setVariable( 'site_types', $siteTypes );
 //         $this->Tpl->setVariable( 'error', $this->Error );
 
         // Return template and data to be shown

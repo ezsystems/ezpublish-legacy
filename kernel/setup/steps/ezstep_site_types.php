@@ -91,7 +91,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $chosenSiteTypes = $data['Sites'];
             if ( $this->selectSiteTypes( $chosenSiteTypes ) )
             {
-                return true;
+                return $this->kickstartContinueNextStep();
             }
         }
 
@@ -105,8 +105,10 @@ class eZStepSiteTypes extends eZStepInstaller
     function &display()
     {
         $siteTypes = $this->availableSiteTypes();
+        $chosenSiteTypes = $this->chosenSiteTypes();
 
         $this->Tpl->setVariable( 'site_types', $siteTypes );
+        $this->Tpl->setVariable( 'chosen_types', $chosenSiteTypes );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
 
         // Return template and data to be shown

@@ -74,10 +74,7 @@ class eZStepSecurity extends eZStepInstaller
         {
             $data = $this->kickstartData();
 
-            if ( $data['Skip'] == 'true' )
-            {
-                return true;
-            }
+            return $this->kickstartContinueNextStep();
         }
 
         if ( file_exists( '.htaccess' ) )

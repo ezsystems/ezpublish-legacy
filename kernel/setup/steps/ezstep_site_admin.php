@@ -134,7 +134,7 @@ class eZStepSiteAdmin extends eZStepInstaller
                 $adminUser['password'] = $data['Password'];
 
             $this->PersistenceList['admin'] = $adminUser;
-            return true;
+            return $this->kickstartContinueNextStep();
         }
 
         // Set default values for admin user

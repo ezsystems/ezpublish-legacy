@@ -218,7 +218,7 @@ class eZStepDatabaseInit extends eZStepInstaller
                 $this->PersistenceList['database_info']['use_unicode'] = true;
             }
 
-            return true;
+            return $this->kickstartContinueNextStep();
         }
 
         // If using windows installer, set standard values, and continue

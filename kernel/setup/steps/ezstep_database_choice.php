@@ -87,7 +87,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
             if ( isset( $databaseMap[$extension] ) )
             {
                 $this->PersistenceList['database_info'] = $databaseMap[$extension];
-                return true;
+                return $this->kickstartContinueNextStep();
             }
         }
 
@@ -142,7 +142,12 @@ class eZStepDatabaseChoice extends eZStepInstaller
             }
         }
 
+        $databaseInfo = $databaseList[0];
+        if ( isset( $this->PersistenceList['database_info'] ) )
+            $databaseInfo = $this->PersistenceList['database_info'];
+
         $this->Tpl->setVariable( 'database_list', $databaseList );
+        $this->Tpl->setVariable( 'database_info', $databaseInfo );
 
         $result = array();
         // Display template

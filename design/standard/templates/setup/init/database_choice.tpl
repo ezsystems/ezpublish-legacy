@@ -20,7 +20,7 @@
   <td class="normal">{$:item.name}</td>
   <td rowspan="1" class="normal">&nbsp;&nbsp;</td>
   <td class="normal" rowspan="1" valign="top">
-  <input type="radio" name="eZSetupDatabaseType" value="{$:item.type}" {section show=eq($:number,1)}checked="checked" {/section}/>
+  <input type="radio" name="eZSetupDatabaseType" value="{$:item.type}" {section show=eq( $:item.type, $database_info.type )}checked="checked" {/section}/>
   </td>
 </tr>
 {/section}

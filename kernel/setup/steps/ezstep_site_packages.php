@@ -113,7 +113,7 @@ class eZStepSitePackages extends eZStepInstaller
 
             if ( ( count( $requiredPackages ) + count( $additionalPackages ) ) > 0 )
             {
-                return true;
+                return $this->kickstartContinueNextStep();
             }
         }
 
@@ -161,6 +161,10 @@ class eZStepSitePackages extends eZStepInstaller
         $recommended = array();
         if ( isset( $typeFunctionality['recommended'] ) )
             $recommended = $typeFunctionality['recommended'];
+
+        if ( isset( $this->PersistenceList['additional_packages'] ) )
+            $recommended = array_unique( array_merge( $recommended,
+                                                      $this->PersistenceList['additional_packages'] ) );
 
         $this->Tpl->setVariable( 'site_types', $siteTypes );
         $this->Tpl->setVariable( 'recommended_package_array', $recommended );

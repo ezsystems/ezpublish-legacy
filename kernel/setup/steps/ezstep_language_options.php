@@ -141,7 +141,7 @@ class eZStepLanguageOptions extends eZStepInstaller
             $regionalInfo['languages'] = $data['Languages'];
             $this->PersistenceList['regional_info'] = $regionalInfo;
 
-            return true;
+            return $this->kickstartContinueNextStep();
         }
 
         return false;
@@ -181,6 +181,13 @@ class eZStepLanguageOptions extends eZStepInstaller
             unset( $this->PersistenceList['database_info']['use_unicode'] );
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
+
+        $regionalInfo = array( 'primary_language' => 'eng-GB',
+                               'languages' => array() );
+        if ( isset( $this->PersistenceList['regional_info'] ) )
+            $regionalInfo = $this->PersistenceList['regional_info'];
+
+        $this->Tpl->setVariable( 'regional_info', $regionalInfo );
 
         $result = array();
         // Display template

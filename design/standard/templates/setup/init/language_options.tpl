@@ -31,10 +31,10 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
   </tr>
 
   {section name=Language loop=$language_list}
-    <tr>    
+    <tr>
       <td class="normal">
-	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq('eng-GB')}checked="checked" {/section}/>
-        <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" />
+	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq( $regional_info.primary_language )}checked="checked" {/section}/>
+        <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {section show=$regional_info.languages|contains( $Language:item.locale_code )}{section show=$Language:item.locale_code|ne( $regional_info.primary_language )}checked="checked"{/section}{/section}/>
 	{$:item.intl_language_name}
       </td>
     </tr>

@@ -297,6 +297,17 @@ class eZStepInstaller
     }
 
     /*!
+     \return \c true if the kickstart functionality should continue to the next step.
+    */
+    function kickstartContinueNextStep()
+    {
+        if ( isset( $this->KickstartData['Continue'] ) and
+             $this->KickstartData['Continue'] == 'true' )
+            return true;
+        return false;
+    }
+
+    /*!
      Sets whether kickstart data can be checked or not.
     */
     function setAllowKickstart( $allow )

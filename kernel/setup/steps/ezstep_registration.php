@@ -230,7 +230,7 @@ class eZStepRegistration extends eZStepInstaller
                 $this->PersistenceList['email_info']['sent'] = false;
                 $this->PersistenceList['email_info']['result'] = false;
             }
-            return true;
+            return $this->kickstartContinueNextStep();
         }
 
         return false; // Always display registration information

@@ -98,7 +98,7 @@ class eZStepEmailSettings extends eZStepInstaller
                 $this->PersistenceList['email_info']['user'] = $data['User'];
                 $this->PersistenceList['email_info']['password'] = $data['Password'];
             }
-            return true;
+            return $this->kickstartContinueNextStep();
         }
         return false; // Always display email settings
     }
@@ -108,7 +108,7 @@ class eZStepEmailSettings extends eZStepInstaller
      */
     function &display()
     {
-        $emailInfo = array( 'type' => false,
+        $emailInfo = array( 'type' => 1,
                             'server' => false,
                             'user' => false,
                             'password' => false,
@@ -116,11 +116,14 @@ class eZStepEmailSettings extends eZStepInstaller
                             'result' => false );
         if ( isset( $this->PersistenceList['email_info'] ) )
             $emailInfo = $this->PersistenceList['email_info'];
-        if ( $this->Ini->variable( 'MailSettings', 'TransportServer' ) )
+        if ( $emailInfo['server'] and
+             $this->Ini->variable( 'MailSettings', 'TransportServer' ) )
             $emailInfo['server'] = $this->Ini->variable( 'MailSettings', 'TransportServer' );
-        if ( $this->Ini->variable( 'MailSettings', 'TransportUser' ) )
+        if ( $emailInfo['user'] and
+             $this->Ini->variable( 'MailSettings', 'TransportUser' ) )
             $emailInfo['user'] = $this->Ini->variable( 'MailSettings', 'TransportUser' );
-        if ( $this->Ini->variable( 'MailSettings', 'TransportPassword' ) )
+        if ( $emailInfo['password'] and
+             $this->Ini->variable( 'MailSettings', 'TransportPassword' ) )
             $emailInfo['password'] = $this->Ini->variable( 'MailSettings', 'TransportPassword' );
 
         $this->Tpl->setVariable( 'email_info', $emailInfo );

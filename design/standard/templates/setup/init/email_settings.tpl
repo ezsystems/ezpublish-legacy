@@ -30,7 +30,7 @@
 {section show=eq($system.type,"unix")}
 <tr>
   <td class="normal">
-    <input type="radio" name="eZSetupEmailTransport" value="1" checked="checked" /></td>
+    <input type="radio" name="eZSetupEmailTransport" value="1" {section show=eq( $email_info.type, 1 )}checked="checked"{/section} /></td>
     <td class="normal">{"sendmail"|i18n("design/standard/setup/init")}
   </td>
 </tr>
@@ -38,7 +38,7 @@
 <tr>
   <td class="normal">
     {section show=eq($system.type,"unix")}
-      <input type="radio" name="eZSetupEmailTransport" value="2" /></td>
+      <input type="radio" name="eZSetupEmailTransport" value="2" {section show=eq( $email_info.type, 2 )}checked="checked"{/section} /></td>
     {section-else}
       <input type="hidden" name="eZSetupEmailTransport" value="2" /></td>
     {/section}
@@ -47,15 +47,15 @@
 </tr>
 <tr>
   <td></td><td class="normal">{"Server name: "|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" size="25" name="eZSetupSMTPServer" value="{$email_info.server}"></td>
+  <td class="normal"><input type="text" size="25" name="eZSetupSMTPServer" value="{$email_info.server|wash}"></td>
 </tr>
 <tr>
   <td></td><td class="normal">{"Username (optional): "|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" size="25" name="eZSetupSMTPUser" value="{$email_info.user}"></td>
+  <td class="normal"><input type="text" size="25" name="eZSetupSMTPUser" value="{$email_info.user|wash}"></td>
 </tr>
 <tr>
   <td></td><td class="normal">{"Password (optional): "|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="password" size="25" name="eZSetupSMTPPassword" value="{$email_info.password}"></td>
+  <td class="normal"><input type="password" size="25" name="eZSetupSMTPPassword" value="{$email_info.password|wash}"></td>
 </tr>
 </table>
 </div>

@@ -28,12 +28,15 @@
 # modify their settings
 
 # [email_settings]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Type=<email-type>
 # # Type of email handler
 # # <email-type>:
 # # - mta - Use Sendmail/MTA
 # # - smtp - Use SMTP
-# Type=1
+# Type=mta
 # # Server=<hostname>
 # # Which server to use for SMTP
 # Server=
@@ -42,9 +45,12 @@
 # User=
 # # Password=<hostname>
 # # Which password to use for SMTP
-# Server=
+# Password=
 
 # [database_choice]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Type=<database-system>
 # # Which database system to use
 # # <database-system>:
@@ -54,6 +60,9 @@
 # Type=mysql
 
 # [database_init]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Server=<hostname>
 # # Which hostname has the database server
 # Server=localhost
@@ -71,6 +80,9 @@
 # Socket=
 
 # [language_options]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Primary=<locale>
 # # The primary language for the site
 # Primary=eng-GB
@@ -79,18 +91,27 @@
 # Languages[]
 
 # [site_types]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Sites[]=<identifier>
 # # Which site to install, identifier is taken from site package (ezpkg)
 # Sites[]
 # Sites[]=news
 
 # [site_packages]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Packages[]=<identifier>
 # # Which additional package to install, identifier is taken from addon package (ezpkg)
 # Packages[]
 # Packages[]=gallery
 
 # [site_access]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Access=<access-type>
 # # <access-type>:
 # # - url - Use url/path for matching
@@ -99,6 +120,9 @@
 # Access=url
 
 # [site_details]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Title[<site-identifier>]=<string>
 # # The title to use for a given site-identifier
 # # if not supplied it uses the site type name
@@ -141,6 +165,9 @@
 # DatabaseAction[news]=remove
 
 # [site_admin]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # FirstName=[string]
 # # The first name of the administrator user
 # FirstName=God
@@ -155,11 +182,14 @@
 # Password=publish
 
 # [security]
-# # Skip=<boolean>
-# # Whether to check for security or not
-# Skip=true
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 
 # [registration]
+# # Continue=<true|false>
+# Whether this step should continue after reading the data
+# Continue=true
 # # Comments=<string>
 # # Comment string to add to registration email
 # Comments=
