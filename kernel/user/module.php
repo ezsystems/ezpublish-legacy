@@ -88,6 +88,7 @@ $ViewList["forgotpassword"] = array(
     "params" => array( "HashKey" ) );
 
 $ViewList["edit"] = array(
+    "function" => array( 'login' ),
     "script" => "edit.php",
     'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
                                     'ChangeSettingButton' => 'ChangeSetting',
@@ -100,7 +101,9 @@ $ViewList["register"] = array(
     "params" => array( ),
     "default_navigation_part" => 'ezmynavigationpart',
     'single_post_actions' => array( 'PublishButton' => 'Publish',
-                                    'CancelButton' => 'Cancel' ) );
+                                    'CancelButton' => 'Cancel',
+                                    'CustomActionButton' => 'CustomAction'
+                                    ) );
 $ViewList["activate"] = array(
     "script" => "activate.php",
     "params" => array( "Hash" ) );
