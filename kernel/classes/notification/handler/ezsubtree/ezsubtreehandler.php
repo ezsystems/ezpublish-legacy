@@ -94,16 +94,17 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezpublish' )
         {
-            $status = $this->handlePublishEvent( $event );
+            $parameters = array();
+            $status = $this->handlePublishEvent( $event, $parameters );
             if ( $status == EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
-                $this->sendMessage( $event );
+                $this->sendMessage( $event, $parameters );
             else
                 return false;
         }
         return true;
     }
 
-    function handlePublishEvent( &$event )
+    function handlePublishEvent( &$event, &$parameters )
     {
         $versionObject =& $event->attribute( 'content' );
         if ( !$versionObject )
@@ -139,6 +140,14 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $result = $tpl->fetch( 'design:notification/handler/ezsubtree/view/plain.tpl' );
         $subject = $tpl->variable( 'subject' );
+        if ( $tpl->hasVariable( 'message_id' ) )
+            $parameters['message_id'] = $tpl->variable( 'message_id' );
+        if ( $tpl->hasVariable( 'references' ) )
+            $parameters['references'] = $tpl->variable( 'references' );
+        if ( $tpl->hasVariable( 'reply_to' ) )
+            $parameters['reply_to'] = $tpl->variable( 'reply_to' );
+        if ( $tpl->hasVariable( 'from' ) )
+            $parameters['from'] = $tpl->variable( 'from' );
 
         $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                         EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
@@ -195,7 +204,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
     }
 
-    function sendMessage( &$event )
+    function sendMessage( &$event, $parameters )
     {
         $collection =& eZNotificationCollection::fetchForHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
                                                                   $event->attribute( 'id' ),
@@ -210,7 +219,8 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $items[$key]->remove();
         }
         $transport =& eZNotificationTransport::instance( 'ezmail' );
-        $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ) );
+        $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ), null,
+                          $parameters );
         if ( $collection->attribute( 'item_count' ) == 0 )
         {
             $collection->remove();

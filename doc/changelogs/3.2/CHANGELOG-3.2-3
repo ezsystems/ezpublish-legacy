@@ -7,6 +7,8 @@ Changes from 3.2-2 to 3.2-3
   you don't need to clear the cache for new templates until you enable the cache again.
 - Added a $cli initialisation where a function could be called on a non-object in eZScript::initialize()
 - Fixed case where the ezsearch_tmp_0 table could be created twice in ezsearchenginge.php
+- Added support for setting the From, Message-ID, In-Reply-To and References
+  message headers from the notification templates.
 
 *DataType:
 
