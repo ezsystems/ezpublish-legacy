@@ -483,12 +483,12 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         $text = $this->IndexFile;
+
         if ( $withAccessList and count( $this->AccessPath ) > 0 )
         {
-//             if ( $text != "" )
-                $text .= "/";
-            $text .= implode( '/', $this->AccessPath );
+            $text .= '/' . implode( '/', $this->AccessPath );
         }
+
         return $text;
     }
 
