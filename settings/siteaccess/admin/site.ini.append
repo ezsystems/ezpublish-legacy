@@ -4,12 +4,12 @@
 [DatabaseSettings]
 DatabaseImplementation=ezmysql
 Server=localhost
-User=publish
-Password=secret
-Database=publish
+User=nextgen
+Password=nextgen
+Database=nextgen
 Charset=iso-8859-1
 UseBuiltinEncoding=true
-Socket=/opt/ezpublish/mysql.sock
+Socket=disabled
 SQLOutput=enabled
 UsePersistentConnection=disabled
 

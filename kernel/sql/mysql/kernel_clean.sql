@@ -350,6 +350,7 @@ CREATE TABLE ezenumobjectvalue (
 #
 
 
+
 #
 # Table structure for table 'ezenumvalue'
 #
@@ -386,6 +387,13 @@ CREATE TABLE ezimage (
 # Dumping data for table 'ezimage'
 #
 
+# eZURLType
+
+drop table if exists ezurl;
+CREATE TABLE ezurl (
+id int auto_increment not null,
+url varchar(255),
+primary key( id ) );
 
 #
 # Table structure for table 'ezimagevariation'

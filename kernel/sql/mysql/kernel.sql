@@ -494,6 +494,14 @@ enumelement varchar(50) not null,
 enumvalue varchar(50) not null,
 primary key( contentobject_attribute_id,contentobject_attribute_version,enumid ) );
 
+# eZURLType
+
+drop table if exists ezurl;
+CREATE TABLE ezurl (
+id int auto_increment not null,
+url varchar(255),
+primary key( id ) );
+
 
 # Contentclassgroup:
 drop table if exists ezcontentclassgroup;
