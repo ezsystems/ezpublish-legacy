@@ -200,6 +200,7 @@
 {section name=Persistent show=$browse.persistent_data loop=$browse.persistent_data}
     <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
 {/section}
+</form>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
