@@ -129,13 +129,13 @@ Method:
 <h2>Creating workflows</h2>
 
 <p>
-Workflow consists of workflow-events, executed one after another. It means that before you create workflow you need to create workflow event type or you can use
+Workflow consists of a sequence of workflow events which will be executed one by one. Therefore, the first step is to create workflow event types. Alternatively, you can use
 events that already exist.
 </p>
 <h3>Creating new workflow event</h3>
 <p>
-For example you want o create workflow event which will show "hello user" to users when workflow runs. The name of that event for example will be <i>hellouser</i>
-To create new workflow event you need to do some steps:
+Suppose that you want to create a workflow event which will show "hello user" message to users after the workflow has run. We use <i>hellouser</i> as the name of the event.
+To create this new workflow event, you need to complete following steps:
 <ol>
 <li>modify site.ini settings to add the new worklow event type. You should add "event_hellouser" to the AvailableEventTypes parameter</li>
 <li>create directory kernel/classes/workflowtypes/event/hellouser/</li>
@@ -167,7 +167,9 @@ eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_HELLO_USER_ID, "hellousertyp
 </pre>
 
 <p>
-That is the simplest workflow event type. To create workflow event type we need to create a class that extends eZWorkflowEventType and  register it in system with eZWorkflowEventType::registerType(). That classs should have at least one method except constructor. Method <i>execute</i> is called when workflow event is executed. Behaviour of running workflow depends of return value of execute function.
+This is a very simple workflow event type. To create workflow event type we need to create a class inherited from eZWorkflowEventType
+and then register it into the system using method eZWorkflowEventType::registerType().
+That classs should have at least one method as well as the class constructor. Method <i>execute</i> is called when workflow event is executed. Behaviour of running workflow depends on return value of this function.
 <br/>
 
 <table border="1">
@@ -175,7 +177,7 @@ That is the simplest workflow event type. To create workflow event type we need 
 <th>Value</th><th>Description</th>
 <tr>
 <td>
-EZ_WORKFLOW_TYPE_STATUS_ACCEPTED 
+EZ_WORKFLOW_TYPE_STATUS_ACCEPTED
 </td>
 <td>
 Workflow accepts that event, and run next event in workflow
