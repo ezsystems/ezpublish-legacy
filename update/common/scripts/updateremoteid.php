@@ -113,7 +113,8 @@ while ( $index < $objectCount )
         $object =& $objectList[$objectKey];
         $object->remoteID();
         $script->iterate( $cli, true, "Generated remote ID for object " . $object->attribute( 'name' ) .
-                          "(" . $object->attribute( 'id' ) . ")" );
+                          "(" . $object->attribute( 'id' ) . ")\n" .
+                          "Status: (" . $object->attribute( 'status' ) . ")" );
     }
     $index += count( $objectList );
 }

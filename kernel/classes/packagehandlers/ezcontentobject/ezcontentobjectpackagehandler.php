@@ -273,7 +273,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         $fetchAliasListDOMNode = eZDOMDocument::createElementNode( 'fetch-alias-list' );
 
-        foreach( array_keys( $templateFileArray ) as $siteAccess )
+        foreach( array_keys( $this->TemplateFileArray ) as $siteAccess )
         {
             $aliasINI = eZINI::instance( 'fetchalias.ini', 'settings', null, null, true );
             $aliasINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
@@ -281,7 +281,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             foreach ( $this->TemplateFileArray[$siteAccess] as $filename )
             {
-                $fp = fopen( $filename );
+                $fp = fopen( $filename, 'r' );
                 if ( !$fp )
                 {
                     eZDebug::writeError( 'Could not open ' . $filename . ' during content object export.',
@@ -298,7 +298,32 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 {
                     $fetchAliasDOMNode = eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
                                                                                                  'site-access' => $siteAccess ) );
-                    $fetchAliasDOMNode-appendChild( $fetchAlias, $aliasINI->group( $fetchAlias ) );
+
+                    $fetchBlock =& $aliasINI->group( $fetchAlias );
+                    foreach ( $fetchBlock['Constant'] as $matchKey => $value )
+                    {
+                        if ( strpos( $matchKey, 'class_' ) === 0 )
+                        {
+                            $contentClass = eZContentClass::fetch( $value );
+                            $fetchBlock['Constant']['class_remote_id'] = $contentClass->attribute( 'remote_id' );
+                        }
+                        if ( strpos( $matchKey, 'node_' ) === 0 )
+                        {
+                            $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
+                            $fetchBlock['Constant']['node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
+                        }
+                        if ( strpos( $matchKey, 'parent_node_' ) === 0 )
+                        {
+                            $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
+                            $fetchBlock['Constant']['parent_node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
+                        }
+                        if ( strpos( $matchKey, 'object_' ) === 0 )
+                        {
+                            $contentObject = eZContentObject::fetch( $value );
+                            $fetchBlock['Constant']['object_remote_id'] = $contentObject->attribute( 'remote_id' );
+                        }
+                    }
+                    $fetchAliasDOMNode->appendChild( eZDOMDocument::createElementNodeFromArray( $fetchAlias,  $fetchBlock ) );
                     $fetchAliasListDOMNode->appendChild( $fetchAliasDOMNode );
                 }
             }
@@ -417,7 +442,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                 else
                                 {
                                     $contentObject = $contentNode->attribute( 'object' );
-                                    $matchValue['content_object_remote_id'] = $contentObject->attribute( 'remote_id' );
+                                    $matchValue[$this->OverrideObjectRemoteID] = $contentObject->attribute( 'remote_id' );
                                 }
                             } break;
 
@@ -429,7 +454,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                 }
                                 else
                                 {
-                                    $matchValue['content_node_remote_id'] = $contentNode->attribute( 'remote_id' );
+                                    $matchValue[$this->OverrideNodeRemoteID] = $contentNode->attribute( 'remote_id' );
                                 }
                             } break;
 
@@ -442,7 +467,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                 else
                                 {
                                     $parentNode = $contentNode->attribute( 'parent' );
-                                    $matchValue['parent_content_node_remote_id'] = $parentNode->attribute( 'remote_id' );
+                                    $matchValue[$this->OverrideParentNodeRemoteID] = $parentNode->attribute( 'remote_id' );
                                 }
                             } break;
 
@@ -456,7 +481,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                 else
                                 {
                                     $contentClass = $contentObject->attribute( 'content_class' );
-                                    $matchValue['content_class_remote_id'] = $contentClass->attribute( 'remote_id' );
+                                    $matchValue[$this->OverrideClassRemoteID] = $contentClass->attribute( 'remote_id' );
                                 }
                             } break;
 
@@ -566,6 +591,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         $this->installOverrides( $content->elementByName( 'override-list' ),
                                  $installParameters );
+
+        $this->installFetchAliases( $content->elementByName( 'fetch-alias-list' ),
+                                    $installParameters );
     }
 
     /*!
@@ -621,7 +649,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $sourcePath = $templateRootPath . $fileNode->elementTextContentByName('path');
             $destinationPath = $siteAccessDesignPathArray[$newSiteAccess] . $fileNode->elementTextContentByName('path');
 
-            eZDir::mkdir( eZDir::dirpath( $destinationPath ) );
+            eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
             eZFileHandler::copy( $sourcePath, $destinationPath );
 
             eZDebug::writeNotice( 'Copied: "' . $sourcePath . '" to: "' . $destinationPath . '"',
@@ -657,20 +685,122 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $overrideINIArray[$newSiteAccess] ) )
             {
-                $overrideINIArray[$newSiteAccess] = eZINI::instance( 'override.ini', 'settings', null, null, true );
-                $overrideINIArray[$newSiteAccess]->prependOverrideDir( "siteaccess/$newSiteAccess", false, 'siteaccess' );
-                $overrideINIArray[$newSiteAccess]->loadCache();
+                $overrideINIArray[$newSiteAccess] = eZINI::instance( 'override.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
             }
 
             $blockArray = array();
             $blockName = $blockNode->attributeValue( 'name' );
             $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
+            if ( isset( $blockArray[$blockName][$this->OverrideObjectRemoteID] ) )
+            {
+                $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
+                $blockArray[$blockName]['Match']['object'] = $contentObject->attribute( 'id' );
+                unset( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
+                eZDebug::writeNotice( 'Found object id: "' . $blockArray[$blockName]['Match']['object'] . '" for matchblock "[' . $blockName . '][Match][object]"',
+                                      'eZContentObjectPackageHandler::installOverrides()' );
+            }
+            if ( isset( $blockArray[$blockName][$this->OverrideNodeRemoteID] ) )
+            {
+                $contentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
+                $blockArray[$blockName]['Match']['node'] = $contentNode->attribute( 'node_id' );
+                unset( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
+                eZDebug::writeNotice( 'Found node id: "' . $blockArray[$blockName]['Match']['node'] . '" for matchblock "[' . $blockName . '][Match][node]"',
+                                      'eZContentObjectPackageHandler::installOverrides()' );
+            }
+            if ( isset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] ) )
+            {
+                $parentContentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
+                $blockArray[$blockName]['Match']['parent_node'] = $parentContentNode->attribute( 'node_id' );
+                unset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
+                eZDebug::writeNotice( 'Found parent node id: "' . $blockArray[$blockName]['Match']['parent_node'] . '" for matchblock "[' . $blockName . '][Match][parent_node]"',
+                                      'eZContentObjectPackageHandler::installOverrides()' );
+            }
+            if ( isset( $blockArray[$blockName][$this->OverrideClassRemoteID] ) )
+            {
+                $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName][$this->OverrideClassRemoteID] );
+                if ( !$contentClass )
+                {
+                    eZDebug::writeError( 'No content class found for RemoteID: ' . $blockArray[$blockName][$this->OverrideClassRemoteID],
+                                         'eZContentObjectPackageHandler::installOverrides()' );
+                    continue;
+                }
+                $blockArray[$blockName]['Match']['class'] = $contentClass->attribute( 'id' );
+                unset( $blockArray[$blockName][$this->OverrideClassRemoteID] );
+                eZDebug::writeNotice( 'Found class id: "' . $blockArray[$blockName]['Match']['class'] . '" for matchblock "[' . $blockName . '][Match][class]"',
+                                      'eZContentObjectPackageHandler::installOverrides()' );
+            }
+
             $overrideINIArray[$newSiteAccess]->setVariables( $blockArray );
         }
 
         foreach( $overrideINIArray as $siteAccess => $iniArray )
         {
             $overrideINIArray[$siteAccess]->save();
+        }
+    }
+
+    /*!
+     \private
+
+     Install fetch alias overrides
+
+     \param fetch alias  list
+     \param install parameters
+    */
+    function installFetchAliases( $fetchAliasListNode, $parameters )
+    {
+        if ( !$fetchAliasListNode )
+        {
+            return;
+        }
+
+        $fetchAliasINIArray = array();
+        foreach( $fetchAliasListNode->elementsByName( 'fetch-alies' ) as $blockNode )
+        {
+            $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+            if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
+            {
+                $fetchAliasINIArray[$newSiteAccess] = eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
+            }
+
+            $blockArray = array();
+            $blockName = $blockNode->attributeValue( 'name' );
+            $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
+
+            foreach( $blockArray[$blockName]['Constant'] as $matchKey => $value )
+            {
+                if ( strpos( $matchKey, 'class_' ) === 0 )
+                {
+                    $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName]['Constant']['class_remote_id'] );
+                    $blockArray[$blockName]['Constant'][$matchKey] = $contentClass->attribute( 'id' );
+                    unset( $blockArray[$blockName]['Constant']['class_remote_id'] );
+                }
+                if( strpos( $matchKey, 'node_' ) === 0 )
+                {
+                    $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['node_remote_id'] );
+                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
+                    unset( $blockArray[$blockName]['Constant']['node_remote_id'] );
+                }
+                if( strpos( $matchKey, 'parent_node_' ) === 0 )
+                {
+                    $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
+                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
+                    unset( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
+                }
+                if( strpos( $matchKey, 'object_' ) === 0 )
+                {
+                    $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                    $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'id' );
+                    unset( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                }
+            }
+
+            $fetchAliasINIArray[$newSiteAccess]->setVariables( $blockArray );
+        }
+
+        foreach( $fetchAliasINIArray as $siteAccess => $iniFetchAlias )
+        {
+            $fetchAliasINIArray[$siteAccess]->save();
         }
     }
 
@@ -743,6 +873,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     var $OverrideSettingsArray = array();
     var $TemplateFileArray = array();
     var $Package = null;
+
+    // Static class variables - replacing match values in override.ini
+    var $OverrideObjectRemoteID = 'content_object_remote_id';
+    var $OverrideNodeRemoteID = 'content_node_remote_id';
+    var $OverrideParentNodeRemoteID = 'parent_content_node_remote_id';
+    var $OverrideClassRemoteID = 'content_class_remote_id';
 }
 
 ?>

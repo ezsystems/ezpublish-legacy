@@ -2364,6 +2364,7 @@ class eZContentObject extends eZPersistentObject
             $ownerID =& $domNode->attributeValue( 'owner_id' );
         }
         $remoteID =& $domNode->attributeValue( 'remote_id' );
+        $name =& $domNode->attributeValue( 'name' );
         $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
         $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
 
@@ -2406,8 +2407,11 @@ class eZContentObject extends eZPersistentObject
                 $activeVersion = $contentObjectVersion->attribute( 'version' );
             }
         }
+
         $contentObject->setAttribute( 'remote_id', $remoteID );
         $contentObject->setAttribute( 'current_version', $activeVersion );
+        $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
+        $contentObject->setAttribute( 'name', $name );
         $contentObject->store();
 
         include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
@@ -2441,6 +2445,7 @@ class eZContentObject extends eZPersistentObject
         $objectNode->setName( 'object' );
         $objectNode->setPrefix( 'ez' );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
+        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->Name, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );

@@ -142,6 +142,11 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     foreach ( $deleteIDArray as $deleteID )
     {
         $node =& eZContentObjectTreeNode::fetch( $deleteID );
+        if ( !$node )
+        {
+            eZDebug::writeError( 'Could not fetch node for deletion : ' . $deleteID );
+            continue;
+        }
         $object = $node->attribute( 'object' );
         if ( $node != null )
         {

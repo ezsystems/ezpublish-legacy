@@ -279,12 +279,6 @@ class eZContentOperationCollection
             $existingNode->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
         }
 
-/*
-        if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )
-        {
-            $object->setAttribute( 'main_node_id', $existingNode->attribute( 'node_id' ) );
-        }
-*/
         $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
         $version->store();
 
