@@ -42,7 +42,10 @@
 {* Content window. *}
 <div class="context-block">
 <h2 class="context-title">{$node.object.content_class.identifier|class_icon( normal, $node.object.content_class.name )} {$node.name} [{$node.object.class_name}]</h2>
-<i>{'Last modified:'|i18n( 'design/admin/content/view' )} {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</i>
+
+<div class="context-information">
+<p>{'Last modified:'|i18n( 'design/admin/content/view' )} {$node.object.modified|l10n(shortdatetime)}, {$node.object.current.creator.name}</p>
+</div>
 
 {* Content preview in content window. *}
 {section show=ezpreference( 'admin_navigation_content'  )}

@@ -90,7 +90,7 @@ div#topmenu li
 div#topmenu li a, div#topmenu span.disabled
 {
     font-weight: bold;
-    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
+    padding: 0 0.5em 0 0.5em; /* Must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
 }
 
@@ -124,7 +124,7 @@ div#path span.disabled
 
 div#columns
 {
-    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+    height: 100%; /* Set to avoid bug in IE 5.5 */
 }
 
 div#leftmenu ul, div#rightmenu ul
@@ -251,14 +251,14 @@ div#maincontent
 {
     margin-left: 13.5em;
     margin-right: 13.5em;
-    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+    height: 100%; /* Set to avoid bug in IE 5.5 */
 }
 
 div#maincontent-design
 {
 }
 
-div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
+div#fix /* Breaks unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
 {
     float: left;
     width: 100%;
@@ -308,7 +308,7 @@ div.viewbar, div.controlbar
 
 div.controlbar div.block
 {
-    border-bottom: 1px solid #606060;
+    border-bottom: 1px solid #606060; /* Set to avoid Mozilla bug */
 }
 
 div.controlbar input.button
@@ -600,7 +600,7 @@ h2.context-title
     margin: 0;
 }
 
-div.context-block h2.title img
+div.context-block h2.context-title img
 {
     vertical-align: middle;
 }
@@ -621,7 +621,11 @@ div.context-toolbar div.block
     margin: 0;
 }
 
-div.context-toolbar p
+div.context-information p
+{
+    background-color: #d0d0d0;
+}
+div.context-toolbar p, div.context-information p
 {
     font-size: 0.85em;
     margin: 0;
