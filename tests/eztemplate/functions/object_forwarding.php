@@ -302,6 +302,8 @@ if ( !isset( $GLOBALS['TestTemplateOverride'] ) )
 {
     $GLOBALS['TestTemplateOverride'] = true;
     eZTemplateDesignResource::addGlobalOverride( 'folder', 'node/view/line.tpl', 'folder.tpl', 'templates', array( 'class' => 2 ) );
+//    eZTemplateDesignResource::addGlobalOverride( 'folder3', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array( 'class' => 5 ) );
+    eZTemplateDesignResource::addGlobalOverride( 'folder2', 'node/view/listitem.tpl', 'folder2.tpl', 'templates', array() );
 }
 
 
