@@ -2498,6 +2498,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function checkPath( $path )
     {
+        $moduleINI =& eZINI::instance( 'module.ini' );
+        $reserved = $moduleINI->variable( 'ModuleSettings', 'ModuleList' );
+        $reservedReg = implode( '|', $reserved );
+        $uniqueNumber = 0;
+        if ( preg_match( "#^($reservedReg)$#", $path ) )
+        {
+            ++$uniqueNumber;
+        }
+
         $nodeID       =  $this->attribute( 'node_id' );
         $parentNodeID =  $this->attribute( 'parent_node_id' );
         $depth        =  $this->attribute( 'depth' );
@@ -2522,16 +2531,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $rows[0]['path_identification_string'];
         unset( $rows );
 
-        /* Else if there are no other nodes having path equal to $path
-         * then return $path.
-         */
-        $sql = 'SELECT COUNT(*) AS cnt
-                FROM ezcontentobject_tree
-                WHERE path_identification_string = \'' . $path . '\' AND node_id <> ' . $nodeID;
-        $rows = $db->arrayQuery( $sql );
-        if ( $rows[0]['cnt'] == 0 )
-            return $path;
-        unset( $rows );
+        // If the path matches a module ($uniqueNumber > 0 ) we should not check for existing path
+        if ( $uniqueNumber == 0 )
+        {
+            /* Else if there are no other nodes having path equal to $path
+             * then return $path.
+             */
+            $sql = 'SELECT COUNT(*) AS cnt
+                    FROM ezcontentobject_tree
+                    WHERE path_identification_string = \'' . $path . '\' AND node_id <> ' . $nodeID;
+            $rows = $db->arrayQuery( $sql );
+            if ( $rows[0]['cnt'] == 0 )
+                return $path;
+            unset( $rows );
+        }
 
         /* Else if there are other nodes having path like "<$path>__<number>"
          * then return computed unique path.
@@ -2544,16 +2557,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 FROM ezcontentobject_tree
                 WHERE ' . $depthCheck . ' AND ' . $pathLikeCheck . ' AND node_id <> ' . $nodeID;
         $rows = $db->arrayQuery( $sql );
-        $uniqueNumber = 0;
         foreach ( $rows as $row )
         {
             $pathString =& $row['path_identification_string'];
             if ( !preg_match( "#^${path}__(\d+)$#", $pathString, $matches ) )
                 continue;
-            if ( $matches[1] > $uniqueNumber )
-                $uniqueNumber = $matches[1];
+            if ( $matches[1] >= $uniqueNumber )
+                $uniqueNumber = $matches[1] + 1;
         }
-        $uniqueNumber++;
+        // If we have not found a number yet we set it to 1
+        if ( $uniqueNumber == 0 )
+            $uniqueNumber = 1;
         return $path . '__' . $uniqueNumber;
     }
 
