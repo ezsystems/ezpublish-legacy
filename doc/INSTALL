@@ -69,7 +69,7 @@ insert a database.
    $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/mysql/kernel_clean.sql
 
    If you do want demodata:
-   $ mysql -u <user> -p<password> <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/mysql/demokernel.sql
+   $ mysql -u<user> -p<password> <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/mysql/demokernel.sql
 
 2.1.2 PosgreSQL
 We need to login, create a new database, grant permissions to a user and
@@ -79,7 +79,7 @@ insert a database.
 2. $ createuser <user>
 3. $ createdb <name_of_database>
 4. If you don't want demodata:
-4. $ psql -U <ezpublish  user>  <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/postgresql/kernel_clean.sql
+4. $ psql -U<ezpublish  user>  <name_of_database> < <httproot>/ezpublish-2.9-4/kernel/sql/postgresql/kernel_clean.sql
 
    If you do want demodata:
    Demodata is not available for PostgreSQL at the moment.
@@ -160,9 +160,9 @@ and insert a database.
    mysql> create database <name_of_database>;
 4. mysql> grant all on <name_of_database>.* to <user>@localhost identified by '<password>';
 5. If you don't want demodata:
-   $ mysql.exe -u <user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql\mysql\kernel_clean.sql
+   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql\mysql\kernel_clean.sql
    If you do want demodata:
-   $ mysql.exe -u <user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql/mysql\demokernel.sql
+   $ mysql.exe -u<user> -p<password> <name_of_database> < <httproot>\ezpublish-2.9-4\kernel\sql/mysql\demokernel.sql
 
 
 3.2 Demo data
