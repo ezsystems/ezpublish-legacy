@@ -132,6 +132,10 @@ class eZDBSchemaInterface
     */
     function data( $schema = false, $tableNameList = false, $params = array() )
     {
+        $params = array_merge( array( 'meta_data' => false,
+                                      'format' => 'generic' ),
+                               $params );
+
         if ( $this->Data === false )
         {
             if ( $schema === false )
@@ -151,10 +155,13 @@ class eZDBSchemaInterface
                 if ( count( $tableEntry['rows'] ) > 0 )
                     $data[$tableName] = $tableEntry;
             }
+            $this->transformData( $data, $params['format'] == 'local' );
+            ksort( $data );
             $this->Data = $data;
         }
         else
         {
+            $this->transformData( $this->Data, $params['format'] == 'local' );
             $data = $this->Data;
         }
 
@@ -280,6 +287,7 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
+                $this->transformData( $data, true );
                 fputs( $fp, $this->generateDataFile( $schema, $this->data( $schema ), $params ) );
             }
 			fclose( $fp );
@@ -428,7 +436,9 @@ class eZDBSchemaInterface
                     continue;
 
                 if ( !isset( $data[$tableName] ) )
+                {
                     continue;
+                }
 
                 $sqlList = $this->generateTableInsertSQLList( $tableName, $table, $data[$tableName], $params, false );
                 foreach ( $sqlList as $sql )
@@ -1268,6 +1278,67 @@ class eZDBSchemaInterface
 
         }
 
+
+        return true;
+    }
+
+    /*!
+    \protected
+    \virtual
+    \return true on success, false otherwise
+
+    Transforms database data to the given direction, applying the transformation rules.
+    */
+    function transformData( &$data, /* bool */ $toLocal )
+    {
+        // Check if it is already in correct format
+        if ( isset( $data['_info']['format'] ) )
+        {
+            if ( $data['_info']['format'] == ( $toLocal ? 'local' : 'generic' ) )
+                return true;
+        }
+
+        // Set the new format it will get
+        $data['_info']['format'] = $toLocal ? 'local' : 'generic';
+
+        // load the schema transformation rules
+        $schemaType = $this->schemaType();
+        $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
+        if ( $schemaTransformationRules === false )
+            return false;
+
+        // transform column names
+        foreach ( $schemaTransformationRules['column-name'] as $key => $val )
+        {
+            list( $tableName, $genericColName ) = explode( '.', $key );
+            $localColName = $val;
+
+            if ( $toLocal )
+            {
+                $searchColName =& $genericColName;
+                $replacementColName =& $localColName;
+            }
+            else
+            {
+                $searchColName =& $localColName;
+                $replacementColName =& $genericColName;
+            }
+
+            if ( !isset( $data[$tableName] ) )
+                continue;
+
+            // transform column names in tables
+            $fieldsData =& $data[$tableName]['fields'];
+            foreach ( $fieldsData as $key => $fieldName )
+            {
+                if ( $searchColName == $fieldName )
+                {
+                    $data[$tableName]['fields'][$key] = $replacementColName;
+                    eZDebugSetting::writeDebug( 'lib-dbschema-data-transformation', '',
+                                                "transformed table column name $tableName.$searchColName to $replacementColName" );
+                }
+            }
+        }
 
         return true;
     }
