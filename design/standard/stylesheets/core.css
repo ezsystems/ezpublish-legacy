@@ -299,11 +299,13 @@ input.defaultbutton
     margin-right: 8px;
 }
 
+/* Disabled for now, causes some issues in Opera */
+/*
 input.button:hover
 {
     background-color: #f0f0f0;
     cursor: pointer;
-}
+}*/
 
 p.box
 /* Used on text (i.e. data other than form elements) shown under a label. */
