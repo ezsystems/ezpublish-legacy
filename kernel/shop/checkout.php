@@ -45,8 +45,8 @@ $order = eZOrder::fetch( $orderID );
 
 if ( get_class( $order ) == 'ezorder' )
 {
-//    if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
-//    {
+   if ( $order->attribute( 'is_temporary' ) == '0' )
+   {
         $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
         switch( $operationResult['status'] )
         {
@@ -87,9 +87,10 @@ if ( get_class( $order ) == 'ezorder' )
             }
 
         }
-        $module->redirectTo( '/shop/orderview/' . $orderID );
-        return;
-//    }
+   }
+   $module->redirectTo( '/shop/orderview/' . $orderID );
+   return;
+
 }
 
 
