@@ -17,6 +17,12 @@ Changes from 3.4.0 to 3.5.0alpha1
 - Fixed bug with unused EmailSender ini setting in eZSMTPTransport
   (merged from 3.3 rev. 6765, also in 3.4 rev. 6766).
   http://ez.no/community/bug_reports/email_sender
+- Fixed all the places where limitations returned by eZUser::hasAccessTo()
+  were treated as objects to handle limitations as hashes  
+  (since hasAccessTo() now returnes hashes instead of objects).
+  Merged from 3.4 rev. 6772.
+  By the way the following bug fixed:                              
+  http://ez.no/community/bug_reports/not_able_to_fetch_keyword_list
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

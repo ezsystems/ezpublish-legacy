@@ -402,9 +402,9 @@ class eZContentObjectVersion extends eZPersistentObject
 //             eZDebug::writeDebug( $policies, 'policies' );
             foreach ( array_keys( $policies ) as $key  )
             {
-                $policy =& $policies[$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
+                $limitationList[] =& $policies[$key];
             }
+
             if ( count( $limitationList ) > 0 )
             {
                 $access = 'denied';
@@ -416,55 +416,44 @@ class eZContentObjectVersion extends eZPersistentObject
                     {
                         break;
                     }
-                    foreach ( array_keys( $limitationArray ) as $key  )
-//                    foreach ( $limitationArray as $limitation )
+
+                    foreach ( $limitationArray as $key => $limitation )
                     {
-                        $limitation =& $limitationArray[$key];
+                        eZDebug::writeDebug( $key, '$key' );
                         eZDebug::writeDebug($limitation,"goes here 4");
 //                        if ( $functionName == 'remove' )
 //                        {
 //                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
 //                        }
 
-                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                        if ( $key == 'Class' )
                         {
-                            if ( $functionName == 'create' and
-                                 !$originalClassID )
-                            {
+                            if ( $functionName == 'create' and !$originalClassID )
                                 $access = 'allowed';
-                            }
-                            else if ( $functionName == 'create' and
-                                 in_array( $classID, $limitation->attribute( 'values_as_array' ) ) )
-                            {
+                            else if ( $functionName == 'create' and in_array( $classID, $limitation ) )
                                 $access = 'allowed';
-                            }
-                            elseif ( in_array( $objectClassID, $limitation->attribute( 'values_as_array' )  )  )
-                            {
+                            elseif ( in_array( $objectClassID, $limitation ) )
                                 $access = 'allowed';
-                            }
                             else
                             {
                                 $access = 'denied';
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Status' )
+                        elseif ( $key == 'Status' )
                         {
-
-                            if (  in_array( $this->attribute( 'status' ), $limitation->attribute( 'values_as_array' )  ) )
-                            {
+                            if (  in_array( $this->attribute( 'status' ), $limitation ) )
                                 $access = 'allowed';
-                            }
                             else
                             {
                                 $access = 'denied';
                                 break;
                             }
                         }
-//                         elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
+//                         elseif ( $key == 'ParentClass' )
 //                         {
 
-//                             if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+//                             if (  in_array( $this->attribute( 'contentclass_id' ), $limitation ) )
 //                             {
 //                                 $access = 'allowed';
 //                             }
@@ -474,34 +463,30 @@ class eZContentObjectVersion extends eZPersistentObject
 //                                 break;
 //                             }
 //                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                        elseif ( $key == 'Section' )
                         {
-                            if (  in_array( $object->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
-                            {
+                            if (  in_array( $object->attribute( 'section_id' ), $limitation ) )
                                 $access = 'allowed';
-                            }
                             else
                             {
                                 $access = 'denied';
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
+                        elseif ( $key == 'Owner' )
                         {
                             if ( $this->attribute( 'creator_id' ) == $userID )
-                            {
                                 $access = 'allowed';
-                            }
                             else
                             {
                                 $access = 'denied';
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
+                        elseif ( $key == 'Node' )
                         {
                             $contentObjectID = $this->attribute( 'contentobject_id' );
-                            foreach ( $limitation->attribute( 'values_as_array' ) as $nodeID )
+                            foreach ( $limitation as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                                 $limitationObjectID = $node->attribute( 'contentobject_id' );
@@ -520,14 +505,14 @@ class eZContentObjectVersion extends eZPersistentObject
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                        elseif ( $key == 'Subtree' )
                         {
                             $contentObject = $this->attribute( 'contentobject' );
                             $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
                             foreach (  $assignedNodes as  $assignedNode )
                             {
                                 $path =  $assignedNode->attribute( 'path_string' );
-                                $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                $subtreeArray =& $limitation;
                                 foreach ( $subtreeArray as $subtreeString )
                                 {
                                     if (  strstr( $path, $subtreeString ) )
@@ -548,6 +533,7 @@ class eZContentObjectVersion extends eZPersistentObject
                         }
                     }
                 }
+
                 if ( $access == 'denied' )
                 {
                     return 0;

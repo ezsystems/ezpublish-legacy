@@ -458,21 +458,20 @@ class eZPackage
 			{
 				$allRoles = array();
 			    $limitation =& $accessResult['policies'];
-			    foreach ( array_keys( $limitation ) as $key )
+			    foreach ( $limitation as $dummyKey => $val )
 			    {
-			        $policy =& $limitation[$key];
-			        $limitationList[] =& $policy->attribute( 'limitations' );
+			        $limitationList[] =& $val;
 			    }
 				$typeList = false;
 	            foreach( $limitationList as $limitationArray )
 	            {
-	                foreach ( $limitationArray as $limitation )
+	                foreach ( $limitationArray as $key => $limitation )
 	                {
-	                    if ( $limitation->attribute( 'identifier' ) == 'Type' )
+	                    if ( $key == 'Type' )
 	                    {
 	                        if ( !is_array( $typeList ) )
 	                            $typeList = array();
-	                        $typeList = array_merge( $typeList, $limitation->attribute( 'values_as_array' ) );
+	                        $typeList = array_merge( $typeList, $limitation );
 	                    }
 					}
 				}
@@ -502,24 +501,23 @@ class eZPackage
 			{
 				$allRoles = array();
 			    $limitation =& $accessResult['policies'];
-			    foreach ( array_keys( $limitation ) as $key )
+			    foreach ( $limitation as $key => $val )
 			    {
-			        $policy =& $limitation[$key];
-			        $limitationList[] =& $policy->attribute( 'limitations' );
+			        $limitationList[] =& $val;
 			    }
 	            foreach( $limitationList as $limitationArray )
 	            {
 					$allowedType = true;
 					$allowedRoles = false;
-	                foreach ( $limitationArray as $limitation )
+	                foreach ( $limitationArray as $key => $limitation )
 	                {
-	                    if ( $limitation->attribute( 'identifier' ) == 'Role' )
+	                    if ( $key == 'Role' )
 	                    {
-	                        $allowedRoles = $limitation->attribute( 'values_as_array' );
+	                        $allowedRoles = $limitation;
 	                    }
-	                    else if ( $limitation->attribute( 'identifier' ) == 'Type' )
+	                    else if ( $key == 'Type' )
 	                    {
-	                        $typeList = $limitation->attribute( 'values_as_array' );
+	                        $typeList = $limitation;
 							if ( $packageType === false )
 							{
 								$allowedType = in_array( $packageType, $typeList );

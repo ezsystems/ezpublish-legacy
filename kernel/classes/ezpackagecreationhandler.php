@@ -324,15 +324,15 @@ class eZPackageCreationHandler
 		if ( $accessResult['accessWord'] == 'limited' )
 		{
 		    $limitationList =& $accessResult['policies'];
-            foreach( $limitationList as $limitationArray ) // TODO : fix this
+            foreach( $limitationList as $dummyKey => $limitationArray ) // TODO : fix this
             {
-                foreach ( $limitationArray as $limitation )
+                foreach ( $limitationArray as $key => $limitation )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'CreatorType' )
+                    if ( $key == 'CreatorType' )
                     {
                         if ( !is_array( $allowedCreators ) )
                             $allowedCreators = array();
-                        $list = $limitation->attribute( 'values_as_array' );
+                        $list = $limitation;
                         $allowedCreators = array_merge( $allowedCreators, $list );
                     }
 				}
