@@ -654,9 +654,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      \return an array of all the current templates and overrides for them.
              The current siteaccess is used if none is specified.
     */
-    function &overrideArray( $siteAccess = false )
+    function &overrideArray( $siteAccess = false, $onlyStandard = null )
     {
-        $onlyStandard = $this->OnlyStandard;
+        if ( $onlyStandard === null and
+             isset( $this ) and
+             get_class( $this ) == 'eztemplatedesignresource' )
+            $onlyStandard = $this->OnlyStandard;
 
         // fetch the override array from a specific siteacces
         if ( $siteAccess )

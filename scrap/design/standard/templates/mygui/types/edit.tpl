@@ -1,0 +1,2 @@
+Types:
+Edit {$obj.name}

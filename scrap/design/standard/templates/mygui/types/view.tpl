@@ -1,0 +1,2 @@
+Types:
+Viewing {$obj.name}

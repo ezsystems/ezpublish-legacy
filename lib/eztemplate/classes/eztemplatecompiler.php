@@ -1836,23 +1836,31 @@ $rbracket
                 {
                     $warningText = $php->variableText( $node[1], 23, 0, false );
                     $warningLabel = false;
+                    $warningLabelText = '';
                     if ( isset( $node[2] ) )
-                        $warningLabelText = ", " . $php->variableText( $node[2], 0, 0, false );
+                        $warningLabelText = $php->variableText( $node[2], 0, 0, false );
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[3]['spacing'] ) )
                         $spacing += $node[3]['spacing'];
-                    $php->addCodePiece( "eZDebug::writeWarning( " . $warningText . $warningLabelText . " )\n", array( 'spacing' => $spacing ) );
+                    $placementText = 'false';
+                    if ( isset( $node[4] ) )
+                        $placementText = $php->variableText( $node[4], 0, 0, false );
+                    $php->addCodePiece( "\$tpl->warning( " . $warningLabelText . ", " . $warningText . ", " . $placementText . " );\n", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_ERROR )
                 {
                     $errorText = $php->variableText( $node[1], 21, 0, false );
                     $errorLabel = false;
+                    $errorLabelText = '';
                     if ( isset( $node[2] ) )
-                        $errorLabelText = ", " . $php->variableText( $node[2], 0, 0, false );
+                        $errorLabelText = $php->variableText( $node[2], 0, 0, false );
                     $spacing = $currentParameters['spacing'];
                     if ( isset( $node[3]['spacing'] ) )
                         $spacing += $node[3]['spacing'];
-                    $php->addCodePiece( "eZDebug::writeError( " . $errorText . $errorLabelText . " )\n", array( 'spacing' => $spacing ) );
+                    $placementText = 'false';
+                    if ( isset( $node[4] ) )
+                        $placementText = $php->variableText( $node[4], 0, 0, false );
+                    $php->addCodePiece( "\$tpl->error( " . $errorLabelText . ", " . $errorText . ", " . $placementText . " );\n", array( 'spacing' => $spacing ) );
                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET )
                 {
@@ -1871,24 +1879,24 @@ $rbracket
                         $spacing += $node[2]['spacing'];
                     $php->addVariableUnset( $variableName, array( 'spacing' => $spacing ) );
                 }
-                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_BIND_VARIABLE )
-                {
-                    $variableID = $node[1];
-                    $variableType = $node[2];
-                    $variableValue = $node[3];
-                    $variableName = eZTemplateCompiler::boundVariableName( $variableID );
-                    if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_COMPILE_VARIABLE )
-                    {
-                    }
-                    else if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_VARIABLE )
-                    {
-                        $php->addCodePiece( "\$$variableName = \$$variableValue\n" );
-                    }
-                    else if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_VALUE )
-                    {
-                        $php->addVariable( $variableName, $variableValue );
-                    }
-                }
+//                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_BIND_VARIABLE )
+//                 {
+//                     $variableID = $node[1];
+//                     $variableType = $node[2];
+//                     $variableValue = $node[3];
+//                     $variableName = eZTemplateCompiler::boundVariableName( $variableID );
+//                     if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_COMPILE_VARIABLE )
+//                     {
+//                     }
+//                     else if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_VARIABLE )
+//                     {
+//                         $php->addCodePiece( "\$$variableName = \$$variableValue\n" );
+//                     }
+//                     else if ( $variableType == EZ_TEMPLATE_BIND_VARIABLE_TYPE_VALUE )
+//                     {
+//                         $php->addVariable( $variableName, $variableValue );
+//                     }
+//                 }
                 else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION )
                 {
                     $resource = $node[1];
@@ -1971,16 +1979,16 @@ $rbracket
                         $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
                         $phpScriptText = $php->variableText( $phpScript, 0 );
                         $keyText = $php->variableText( $key, 0 );
-                        $php->addCodePiece( "\$includeFound = false;\nif ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                        $php->addCodePiece( "\$resourceFound = false;\nif ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
 //                         $php->addCodePiece( "compiledAcquireResource( $phpScriptText, $keyText,
 //                          \$$textName, \$tpl, \$rootNamespace, \$currentNamespace );\n", array( 'spacing' => $spacing + 4 ) );
-                        $php->addCodePiece( "\$includeFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );
+                        $php->addCodePiece( "\$resourceFound = true;\narray_push( \$namespaceStack, array( \$rootNamespace, \$currentNamespace ) );
 \$currentNamespace = \$rootNamespace;
 include( $phpScriptText );
 list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n", array( 'spacing' => $spacing + 4 ) );
                         if ( $useFallbackCode )
-                            $php->addCodePiece( "}\nelse\n{\n    \$includeFound = true;\n", array( 'spacing' => $spacing ) );
+                            $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
                         else
                             $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                         $subSpacing = 4;

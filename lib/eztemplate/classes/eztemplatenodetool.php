@@ -375,6 +375,22 @@ class eZTemplateNodeTool
         return $element;
     }
 
+    function createWarningNode( $text, $label, $placement = false, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_WARNING,
+                       $text, $label,
+                       $parameters, $placement );
+        return $node;
+    }
+
+    function createErrorNode( $text, $label, $placement = false, $parameters = array() )
+    {
+        $node = array( EZ_TEMPLATE_NODE_INTERNAL_ERROR,
+                       $text, $label,
+                       $parameters, $placement );
+        return $node;
+    }
+
     function createCodePieceNode( $codePiece, $parameters = array() )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE,

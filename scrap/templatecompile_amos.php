@@ -10,6 +10,10 @@ $tpl->setAutoloadPathList( array( 'lib/eztemplate/classes',
 include_once( 'kernel/common/eztemplatedesignresource.php' );
 $tpl->registerResource( eZTemplateDesignResource::instance() );
 $tpl->registerResource( eZTemplateDesignResource::standardInstance() );
+$designResource =& eZTemplateDesignResource::instance();
+eZTemplateDesignResource::setDesignStartPath( "scrap/design" );
+
+error_reporting ( E_ALL );
 
 $tpl->autoload();
 
@@ -22,19 +26,21 @@ class MyObject
 
     function hasAttribute( $name )
     {
-        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'sub' ) );
+        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'sub', 'is_information_collector' ) );
     }
 
     function attribute( $name )
     {
         if ( $name == 'edit_template' )
-            return 'blah';
+            return 'edit';
         else if ( $name == 'view_template' )
-            return 'first';
+            return 'view';
         else if ( $name == 'name' )
             return 'MyObject';
         else if ( $name == 'sub' )
             return $this->Sub;
+        else if ( $name == 'is_information_collector' )
+            return false;
         return null;
     }
 }
@@ -43,26 +49,29 @@ class MySubObject
 {
     function hasAttribute( $name )
     {
-        return in_array( array( 'edit_template', 'view_template', 'name' ), $name );
+        return in_array( $name, array( 'edit_template', 'view_template', 'name', 'is_information_collector' ) );
     }
 
     function attribute( $name )
     {
         if ( $name == 'edit_template' )
-            return 'blah2';
+            return 'edit_sub';
         else if ( $name == 'view_template' )
-            return 'blah';
+            return 'view_sub';
         else if ( $name == 'name' )
             return 'MySubObject';
+        else if ( $name == 'is_information_collector' )
+            return true;
         return null;
     }
 }
 
 $myobj = new MyObject();
+$myobj2 = new MySubObject();
 
 $tpl->setVariable( 'obj', $myobj );
+$tpl->setVariable( 'obj2', $myobj2 );
 
-$designResource =& eZTemplateDesignResource::instance();
 $designResource->setKeys( array( array( 'section', 2 ),
                                  array( 'node' , 42 ) ) );
 
