@@ -62,20 +62,21 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->subTagArray['anchor'] = $this->inlineTagArray;
         $this->subTagArray['line'] = $this->inlineTagArray;
         $this->tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
-                                             'border' => array( 'required' => false ) );
+                                                   'border' => array( 'required' => false ) );
 
         $this->tagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
-                                            'id' => array( 'required' => false ) );
+                                                  'id' => array( 'required' => false ) );
 
         $this->tagAttributeArray['anchor'] = array( 'name' => array( 'required' => true ) );
 
         $this->tagAttributeArray['object'] = array( 'id' => array( 'required' => true ),
-                                              'size' => array( 'required' => false ),
-                                              'align' => array( 'required' => false ) );
+                                                    'size' => array( 'required' => false ),
+                                                    'align' => array( 'required' => false ) );
 
         $this->tagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
-        $this->tagAttributeArray['header'] = array( 'level' => array( 'required' => false ) );
+        $this->tagAttributeArray['header'] = array( 'level' => array( 'required' => false ),
+                                                    'anchor_name' => array( 'required' => false ));
 
         $this->isInputValid = true;
         $this->originalInput = "";
@@ -113,7 +114,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $errorMessage = null;
                 foreach ( $message as $line )
                 {
-                    $errorMessage .= $line;
+                    $errorMessage .= $line .";";
                 }
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      $errorMessage,
@@ -218,6 +219,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         if ( in_array( $tagName, $this->tagAliasArray['emphasize'] ) )
         {
             $convertedTagName = "emphasize";
+        }
+        if ( in_array( $tagName, $this->tagAliasArray['link'] ) )
+        {
+            $convertedTagName = "link";
         }
         return $convertedTagName;
     }
@@ -1077,7 +1082,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $output = "";
         foreach ( $paragraph->children() as $paragraphNode )
         {
-            $output .= $this->inputTagXML( $paragraphNode, $currentSectionLevel );
+            $output .= trim( $this->inputTagXML( $paragraphNode, $currentSectionLevel ) );
         }
         return $output;
     }
@@ -1256,7 +1261,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line' );
 
-    var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ) );
+    var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) );
 
     // Contains all supported tag for xml parse
     var $supportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );

@@ -252,8 +252,16 @@ class eZImageType extends eZDataType
                 $perm = $ini->variable( "ImageSettings", "NewDirPermissions" );
                 eZDir::mkdir( $ref_dir, octdec( $perm ), true );
             }
-            $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
+
+            $ini =& eZINI::instance();
+            $width = $ini->variable( "ImageSettings", "ReferenceSizeWidth" );
+            $height = $ini->variable( "ImageSettings", "ReferenceSizeHeight" );
+            /*$ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
                                             $ref_dir, array( "width" => 400, "height" => 300 ),
+                                            false, $mime );*/
+
+            $ref_imagename = $img->convert( $imageFile->attribute( "filename" ),
+                                            $ref_dir, array( "width" => $width, "height" => $height ),
                                             false, $mime );
 
             $contentObjectAttribute->setContent( $image );

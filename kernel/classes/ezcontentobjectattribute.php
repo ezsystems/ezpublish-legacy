@@ -455,7 +455,20 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     function setValidationLog( $text )
     {
-        $this->ValidationLog = $text;
+        if ( is_string( $text ) )
+        {
+            $logMessage = array();
+            $logMessage[] = $text;
+            $this->ValidationLog = $logMessage;
+        }
+        elseif ( is_array( $text ) )
+        {
+            $this->ValidationLog = $text;
+        }
+        else
+        {
+            $this->ValidationLog = null;
+        }
     }
 
     function validationError()
