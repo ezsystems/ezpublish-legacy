@@ -92,6 +92,8 @@ eZTime:
   http://ez.no/community/bug_reports/wrong_link_in_discount_system
 - Removed old and unnecessary filename showing in edit/ezimage.tpl.
   http://ez.no/community/bug_reports/imagealias_error_and_image_tpl_error
+- Fixed removing subtree notification when deleting user.
+  http://ez.no/community/bug_reports/if_a_user_is_deleted_notification_rules_stays_in_db
 
 *Library:
 
