@@ -1741,7 +1741,6 @@ PRIMARY KEY(id) );
 --                      VALUES(1,  16,      24,               1031214781, 1);
 
 create sequence "ezapprovetasks_s";
-
 create table ezapprovetasks(
     id int default nextval( 'ezapprovetasks_s' ),
     workflow_process_id int,
