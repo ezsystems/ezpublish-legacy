@@ -1613,7 +1613,7 @@ INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','9');
 
 
 INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (1,'http://ez.no/ez_publish/documentation',1082368571,1082368571,1,0,'1c4c1d746fbd23350bcfa5e978841f23');
-INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (2,'http://ez.no/ez_publish/documentation/eZ_publish_basics',1082368571,1082368571,1,0,'5ca92fe4817cc195283779360ddc308b');
+INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (2,'http://ez.no/ez_publish/documentation/ez_publish_basics',1082368571,1082368571,1,0,'5ca92fe4817cc195283779360ddc308b');
 INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (3,'http://ez.no/ez_publish/documentation/day_to_day_use',1082368571,1082368571,1,0,'9aa3c35e22c69315d8557424af40f760');
 INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (4,'http://ez.no/community/forum',1082368571,1082368571,1,0,'41caff1d7f5ad51e70ad46abbcf28fb7');
 INSERT INTO ezurl (id, url, created, modified, is_valid, last_checked, original_url_md5) VALUES (5,'http://ez.no/services/support',1082368571,1082368571,1,0,'7f0bed2dad9e69cc2c573d0868fe1a00');
