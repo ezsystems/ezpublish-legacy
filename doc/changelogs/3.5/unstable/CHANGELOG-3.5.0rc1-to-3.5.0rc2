@@ -1,6 +1,10 @@
 Changes from 3.5.0rc1 to 3.5.0rc2
 
 *Kernel:
+- New class eZRedirectManager which takes care of figuring the current redirect
+  URI to use for a given module.
+- Improved storage of the LastAccessesURI session variable to only happen when
+  a view UI context is used.
 
 *Bugfixes:
 - Fixed bug with non-static parameters to the i18n operator with use of the
@@ -18,5 +22,7 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/delete_view_cache_problem
 - Fixed bug: Move in detailed children list doesn't work.
   http://ez.no/community/bug_reports/move_in_detailed_children_list_doesn_t_work
+- Fixed bug: Wrong redirection after content/draft.
+  http://ez.no/community/bug_reports/wrong_redirecting_in_admin_area
 
 *Library:
