@@ -740,12 +740,12 @@ class eZDBSchemaInterface
 
         $transformationRules = array();
 
-        if ( $ini->hasVariable( $schemaType, 'NameTranslation' ) )
-            $transformationRules['column-name'] =& $ini->variable( $schemaType, 'NameTranslation' );
+        if ( $ini->hasVariable( $schemaType, 'ColumnNameTranslation' ) )
+            $transformationRules['column-name'] =& $ini->variable( $schemaType, 'ColumnNameTranslation' );
 
-        if ( $ini->hasVariable( $schemaType, 'TypeTranslation' ) )
+        if ( $ini->hasVariable( $schemaType, 'ColumnTypeTranslation' ) )
         {
-            $transformationRules['column-type'] =& $ini->variable( $schemaType, 'TypeTranslation' );
+            $transformationRules['column-type'] =& $ini->variable( $schemaType, 'ColumnTypeTranslation' );
 
             // substitute values like "type1;type2" with an appropriate arrays
             if ( is_array( $transformationRules['column-type'] ) )
@@ -809,6 +809,39 @@ class eZDBSchemaInterface
         if ( $ini->hasVariable( $schemaType, 'FieldsWithoutDefaultValue' ) )
             $transformationRules['column-empty-default'] =& $ini->variable( $schemaType, 'FieldsWithoutDefaultValue' );
 
+        if ( $ini->hasVariable( $schemaType, 'IndexNameTranslation' ) )
+        {
+            //$transformationRules['index-name'] =& $ini->variable( $schemaType, 'IndexNameTranslation' );
+            $tmpIdxNameTranslations =& $ini->variable( $schemaType, 'IndexNameTranslation' );
+
+            if ( is_array( $tmpIdxNameTranslations ) )
+            {
+                foreach ( $tmpIdxNameTranslations as $key => $val )
+                {
+                    list( $tableName, $genericIdxName ) = explode( '.', $key );
+                    $localIdxName = $val;
+                    if ( !$tableName || !$genericIdxName || !$localIdxName )
+                    {
+                        eZDebug::writeWarning( "Malformed index name translation rule: $key => $val" );
+                        continue;
+                    }
+                    /*$transformationRules['index-name'][] = array( 'table-name' => $tableName,
+                                                                  'generic-idx-name' => $genericIdxName,
+                                                                  'local-idx-name' => $localIdxName );*/
+                    $transformationRules['index-name'][] = array( $tableName, $genericIdxName, $localIdxName );
+
+                }
+            }
+            unset( $tmpIdxNameTranslations );
+        }
+
+        // prevent PHP warnings when cycling through the rules
+        foreach ( array( 'column-name', 'column-type', 'column-empty-default', 'index-name' ) as $rulesType )
+        {
+            if( !isset( $transformationRules[$rulesType] ) )
+                $transformationRules[$rulesType] = array();
+        }
+
         return $transformationRules;
     }
 
@@ -870,13 +903,6 @@ class eZDBSchemaInterface
         $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
         if ( $schemaTransformationRules === false )
             return false;
-
-        // prevent PHP warnings in foreach cycles below
-        foreach ( array( 'column-name', 'column-type', 'column-empty-default' ) as $rulesType )
-        {
-            if( !isset( $schemaTransformationRules[$rulesType] ) )
-                $schemaTransformationRules[$rulesType] = array();
-        }
 
         // transform column names
         foreach ( $schemaTransformationRules['column-name'] as $key => $val )
@@ -1050,6 +1076,34 @@ class eZDBSchemaInterface
                     }
                 }
             }
+        }
+
+        // Transform index names
+        foreach ( $schemaTransformationRules['index-name'] as $idxTransRule )
+        {
+            list( $tableName, $genericIdxName, $localIdxName ) = $idxTransRule;
+
+            if ( $toLocal )
+            {
+                $searchIdxName      =& $genericIdxName;
+                $replacementIdxName =& $localIdxName;
+            }
+            else
+            {
+                $searchIdxName      =& $localIdxName;
+                $replacementIdxName =& $genericIdxName;
+            }
+
+            if ( !isset( $schema[$tableName] ) )
+                continue;
+
+            $fieldsSchema =& $schema[$tableName]['indexes'];
+            if ( isset( $fieldsSchema[$searchIdxName] )  )
+            {
+                //eZDebug::writeDebug( "replaced $tableName.$searchIdxName => $replacementIdxName" );
+                arrayReplaceKey( $schema[$tableName]['indexes'], $searchIdxName, $replacementIdxName );
+            }
+
         }
 
         return true;
