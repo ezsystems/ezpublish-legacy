@@ -2,14 +2,14 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 {cache-block keys=$uri_string}
-{let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,news_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    {* @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
-    @import url({"stylesheets/news.css"|ezdesign});
+    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    {*@import url({"stylesheets/news.css"|ezdesign});*}
 </style>
 
 </head>
@@ -50,15 +50,9 @@
   							     class_filter_type, exclude, 
 							     class_filter_array, array( 'gallery' ) ) )}
                 {section var=Folder loop=$folder_list}
-		    {section show=eq($Folder.item.node_id,173)}
-		        {let poll_list=fetch( content, list, hash(  parent_node_id, $Folder.item.node_id, sort_by, array( array( priority ) ), limit, 1 ) ) }
-		        {section var=Poll loop=$poll_list}
-		            <li><a href={concat( "/content/view/full/", $Poll.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
-		        {/section}
-		        {/let}
-		    {section-else}
-		    <li><a href={concat( "/content/view/full/", $Folder.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
-		    {/section}                
+		    {section show=ne($Folder.item.node_id,173)}
+                        <li><a href={concat( "/content/view/full/", $Folder.item.node_id, "/" )|ezurl}>{$Folder.item.name|wash}</a></li>
+		    {/section}        
 		{/section}
                 {/let}
                 </ul>
@@ -129,6 +123,15 @@
                    {/section}
             </ul>
             </div>
+               {/let}
+
+	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+            <h3>Poll</h3>
+            <p>
+            {section name=poll loop=$poll_list}
+                {node_view_gui view=full content_node=$poll:item}
+	    {/section}
+            </p>   
                {/let}
         </div>
     </div>
