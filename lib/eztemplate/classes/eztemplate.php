@@ -865,6 +865,8 @@ class eZTemplate
                 case EZ_TEMPLATE_TYPE_STRING:
                 case EZ_TEMPLATE_TYPE_NUMERIC:
                 case EZ_TEMPLATE_TYPE_IDENTIFIER:
+                case EZ_TEMPLATE_TYPE_BOOLEAN:
+                case EZ_TEMPLATE_TYPE_ARRAY:
                 {
                     $value = $dataElement[1];
                 } break;
