@@ -41,5 +41,7 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 - Fixed problem with versionview not displaying objects in trash.
   http://ez.no/community/bug_reports/view_in_trash
   (Merged from stable/3.4 (3.4.3) rev. 9270)
-
+- Fixed bug in matrix datatype. now it will remove all selected columns from ezmatrix datatype after clicking on remove selected button.
+  http://ez.no/community/bug_reports/matrix_datatype_odd_behavior_in_class_edit_mode
+  (merged from stable/3.4/rev. 9278)
 

@@ -151,7 +151,7 @@ class eZMatrixDefinition
         }
         else
         {
-            array_splice ( $this->ColumnNames, $index, 1 );
+            unset( $this->ColumnNames[$index] );
         }
     }
 
