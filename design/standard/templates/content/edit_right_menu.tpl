@@ -16,6 +16,14 @@
 	    {"Not yet published"|i18n("design/standard/content/edit")}
 	    </p>
 	    {/section}
+	    <p class="menufieldlabel">{"Last Modified"|i18n("design/standard/content/edit")}</p>
+	    {section show=$object.modified}
+	    <p class="menufield">{$object.modified|l10n(date)}</p>
+	    {section-else}
+	    <p class="menufield">
+	    {"Not yet published"|i18n("design/standard/content/edit")}
+	    </p>
+	    {/section}
         </td>
     </tr>
     <tr>
