@@ -59,14 +59,6 @@ if ( $Module->isCurrentAction( 'EditObject' ) )
                           'unordered_parameters' => null );
 }
 
-if ( $Module->isCurrentAction( 'EditArray' ) )
-{
-    $redirection = array( 'view' => 'edit',
-                          'parameters' => array( $ObjectID, $EditVersion, $EditLanguage ),
-                          'unordered_parameters' => null );
-}
-
-
 $translateToLanguage = false;
 $activeTranslation = false;
 $activeTranslationLocale = false;
@@ -218,7 +210,7 @@ if ( $activeTranslation )
     }
     // Custom Action Code End
 
-    $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage', 'EditArray', 'TranslateArray' );
+    $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage' );
 
     $inputValidated = true;
     $storeRequired = in_array( $Module->currentAction(), $storeActions );
