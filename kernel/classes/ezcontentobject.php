@@ -166,7 +166,8 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_remove" or
              $attr == "data_map" or
              $attr == "default_language" or
-             $attr == "content_action_list"
+             $attr == "content_action_list" or
+             $attr == "class_identifier"
              )
         {
             if ( $attr == "current" )
@@ -203,6 +204,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->contentActionList();
             else if ( $attr == "default_language" )
                 return $this->defaultLanguage();
+            else if ( $attr == "class_identifier" )
+                return $this->contentClassIdentifier();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
