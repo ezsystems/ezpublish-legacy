@@ -1,0 +1,16 @@
+Release notes for 3.3.0-2
+This release is a beta release and should not be used for a production site.
+
+- RSS import and export functionality 
+- Extended information collection, now supporting polls and input validation
+- Made new packages with more ready to use functionality
+- Added setup page in admin with possibility to change stylesheets and 
+important .ini file configurations
+- Added new datatypes for editing .ini settings and selecting packages (used 
+for changing .css files)
+- Added PDF export
+- Redesign of image system which simplifies image handling. Added possibility 
+to add filters to the image conversion. Note: New format for the image.ini 
+file.
+- Added admin interface for simplified package creation and installation.
+
