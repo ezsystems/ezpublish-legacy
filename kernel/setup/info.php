@@ -74,11 +74,11 @@ if ( extension_loaded( "apc" ) )
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
 }
-if ( extension_loaded( "Zend Optimizer" ) )
+if ( extension_loaded( "Zend Performance Suite" ) )
 {
     $phpAcceleratorInfo = array();
-    $phpAcceleratorInfo['name'] = "Zend Optimizer";
-    $phpAcceleratorInfo['url'] = "http://www.zend.com/store/products/zend-optimizer.php";
+    $phpAcceleratorInfo['name'] = "Zend WinEnabler (Zend Performance Suite)";
+    $phpAcceleratorInfo['url'] = "http://www.zend.com/store/products/zend-win-enabler.php";
     $phpAcceleratorInfo['enabled'] = true;
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
