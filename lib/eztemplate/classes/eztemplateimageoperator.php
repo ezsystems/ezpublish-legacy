@@ -112,15 +112,15 @@ class eZTemplateImageOperator
     {
         return array( 'texttoimage' => array( 'input' => true,
                                               'output' => true,
-                                              'output-type' => array( 'object', 'keep' ),
+                                              'output-type' => array( 'objectproxy', 'keep' ),
                                               'parameters' => true ),
                       'image' => array( 'input' => false,
                                         'output' => true,
-                                        'output-type' => array( 'object', 'keep' ),
+                                        'output-type' => array( 'objectproxy', 'keep' ),
                                         'parameters' => true ),
                       'imagefile' => array( 'input' => false,
                                             'output' => true,
-                                            'output-type' => 'object',
+                                            'output-type' => 'objectproxy',
                                             'parameters' => true ) );
     }
 

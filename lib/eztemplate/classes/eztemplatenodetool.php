@@ -440,7 +440,7 @@ class eZTemplateNodeTool
     */
     function createVariableNode( $originalNode = false, $variableData = false, $variablePlacement = false,
                                  $parameters = array(), $variableAssignmentName = false, $onlyExisting = false,
-                                 $overWrite = true, $assignFromVariable = false, $skipObjectElement = false )
+                                 $overWrite = true, $assignFromVariable = false )
     {
         $node = array();
         if ( $originalNode )
@@ -476,7 +476,6 @@ class eZTemplateNodeTool
         $node[4] = $parameters;
         $node[5] = $onlyExisting;
         $node[6] = $overWrite;
-        $node[7] = $skipObjectElement;
         return $node;
     }
 

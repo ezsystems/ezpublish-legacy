@@ -445,7 +445,6 @@ class eZObjectForwarder
             }
             $templateCounter = 0;
 
-            $matchPart = $viewFileMatch['match_part'];
             $basedir = $viewFileMatch['base_dir'];
             $template = $viewFileMatch['template'];
             $file = $basedir . $template;

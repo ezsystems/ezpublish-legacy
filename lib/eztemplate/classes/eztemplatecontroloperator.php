@@ -100,55 +100,51 @@ class eZTemplateControlOperator
             {
                 $paramCount = count( $parameters );
                 $clauseCount = floor( $paramCount / 2 );
+                $hasDefaultClause = ( $paramCount % 2 ) != 0;
+
+                if ( $paramCount == 1 )
+                {
+                    return $parameters[0];
+                }
 
                 $values = array();
                 $code = '';
                 for ( $i = 0; $i < $clauseCount; ++$i )
                 {
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2] ) )
+                    if ( $i > 0 )
                     {
-                        if ( $i != 0 )
-                        {
-                            $code .= 'else ';
-                        }
-
-                        $values[] = $parameters[$i*2];
-                        $code .= 'if ( %' . count( $values ) . '% )' . "\n";
+                        $code .= "else\n{\n";
                     }
-                    else
+
+                    $values[] = $parameters[$i*2];
+                    if ( $i > 0 )
                     {
-                        if ( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] ) )
-                        {
-                            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
-                            {
-                                return array( $parameters[$i*2 + 1] );
-                            }
-                            else
-                            {
-                                if ( $i != 0 )
-                                {
-                                    $code .= 'else ';
-                                }
-
-                                $values[] = $parameters[$i*2 + 1];
-                                $code .= '%output% = %' . count( $values ) . '%;';
-                                break;
-                            }
-                        }
-
-                        continue;
+                        $code .= "%code" . count( $values ) . "%\n";
                     }
+                    $code .= 'if ( %' . count( $values ) . "% )\n{\n";
 
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
                     {
                         $values[] = $parameters[$i*2 + 1];
-                        $code .= '%output% = %' . count( $values ) . '%;' . "\n";
+                        $code .= "    %code" . count( $values ) . "%\n    %output% = %" . count( $values ) . "%;\n";
                     }
                     else
                     {
-                        $code .= '%output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                        $code .= '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
                     }
+                    $code .= "}\n";
                 }
+                if ( $hasDefaultClause )
+                {
+                    $values[] = $parameters[$paramCount - 1];
+                    if ( $clauseCount > 0 )
+                    {
+                        $code .= "else\n{\n    %code" . count( $values ) . "%\n    ";
+                    }
+
+                    $code .= '%output% = %' . count( $values ) . "%;\n";
+                }
+                $code .= str_repeat( "}\n", $clauseCount );
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;

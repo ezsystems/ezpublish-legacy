@@ -115,7 +115,9 @@ class eZTemplateExecuteOperator
                                      'eZFunctionHandler::execute' );
                 return array();
             }
-            $fetchParameters =  $parameters[2];
+            $fetchParameters = array();
+            if ( isset( $parameters[2] ) )
+                $fetchParameters =  $parameters[2];
         }
         else if ( $operatorName == $this->FetchAlias )
         {
@@ -157,7 +159,9 @@ class eZTemplateExecuteOperator
                     }
                 }
             }
-            $fetchParameters = $parameters[1];
+            $fetchParameters = array();
+            if ( isset( $parameters[1] ) )
+                $fetchParameters = $parameters[1];
         }
         else
         {
