@@ -147,10 +147,10 @@ class eZScript
 
         include_once( "lib/ezutils/classes/ezini.php" );
         $ini =& eZINI::instance();
-        $phpLocale = $ini->variable( 'RegionalSettings', 'SystemLocale' );
-        if ( trim( $phpLocale ) != '' )
+        $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
+        if ( $phpLocale != '' )
         {
-            setlocale( LC_ALL, $phpLocale );
+            setlocale( LC_ALL, explode( ',', $phpLocale ) );
         }
     }
 

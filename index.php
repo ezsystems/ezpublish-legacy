@@ -346,10 +346,10 @@ if ( $dbRequired )
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 $locale =& eZLocale::instance();
 $languageCode =& $locale->httpLocaleCode();
-$phpLocale = $ini->variable( 'RegionalSettings', 'SystemLocale' );
-if ( trim( $phpLocale ) != '' )
+$phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
+if ( $phpLocale != '' )
 {
-    setlocale( LC_ALL, $phpLocale );
+    setlocale( LC_ALL, explode( ',', $phpLocale ) );
 }
 
 // send header information

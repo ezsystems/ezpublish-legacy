@@ -285,9 +285,11 @@ class eZTemplateFileResource
 
                 /* Setting locale to allow standard PHP functions to handle
                  * strtoupper/lower() */
-                $defaultLocale = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateLocale' );
-                $locales[] = $defaultLocale;
-                setlocale( LC_CTYPE, $locales );
+                $defaultLocale = trim( $tplINI->variable( 'CharsetSettings', 'DefaultTemplateLocale' ) );
+                if ( $defaultLocale != '' )
+                {
+                    $locales = array_merge( $locales, explode( ',', $defaultLocale ) );
+                }
                 $localeData = $locales;
                 
                 if ( eZTemplate::isDebugEnabled() )
