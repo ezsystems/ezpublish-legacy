@@ -7,3 +7,8 @@ CREATE TABLE eztipafriend_request (
   KEY email_receiver (email_receiver)
 ) TYPE=MyISAM;
 
+
+ALTER TABLE ezsearch_word DROP KEY ezsearch_word;
+ALTER TABLE ezsearch_word CHANGE word word blob;
+ALTER TABLE ezsearch_word ADD KEY ezsearch_word (word(50));
+
