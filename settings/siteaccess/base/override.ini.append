@@ -252,7 +252,7 @@ Match[class_identifier]=real_video
 Source=node/view/line.tpl
 MatchFile=line/real_video.tpl
 Subdir=templates
-Match[class_identifier]=real_vide
+Match[class_identifier]=real_video
 
 [embed_real_video]
 Source=content/view/embed.tpl
