@@ -45,6 +45,7 @@ eZ XML:
 eZ utils:
 - Removed cyclic dependecy between eZDebugSetting and eZINI
 - Fixed automatic removal of magick quotes for _GET variables, if magickquotes is enabled
+- Removed unneded global definitino of $_ENV and $_SERVER
 
 eZ template:
 - imagelabel was removed and image, imagefile and texttoimage was improved
