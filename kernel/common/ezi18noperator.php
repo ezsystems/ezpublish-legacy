@@ -117,7 +117,7 @@ class eZi18nOperator
     {
         foreach ( $parameters as $parameter )
         {
-            if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
+            if ( eZTemplateNodeTool::isStaticElement( $parameter ) )
             {
                 return false;
             }
