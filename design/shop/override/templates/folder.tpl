@@ -1,4 +1,4 @@
-<div id="folder">
+<div class="folder">
 
 <form method="post" action={"content/action"|ezurl}>
 
@@ -12,6 +12,10 @@
                                           sort_by ,$node.sort_array,
                                           class_filter_type, 'include',
                                           class_filter_array, array( 'folder' ) ))}
+{section show=$folder_list|eq(is_set)}
+test
+{/section}
+
 <div class="subfolders">
 {section name=folders loop=$folder_list sequence=array(bglight,bgdark)}
 <div class="{$folders:sequence}">
@@ -38,9 +42,7 @@
     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 {section name=Child loop=$children sequence=array(bglight,bgdark)}
-    <div class="child">
        {node_view_gui view=line content_node=$Child:item}
-    </div>
 {/section}
 
 {include name=navigator

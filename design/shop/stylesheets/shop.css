@@ -191,12 +191,11 @@ div#rightmenu
     float: right;
     clear: right;
     width: 8em;
-    border-left: 1px dotted #808080;
 }
 
 div#cart div.design, div#infobox div.design, div#latestnews div.design
 {
-    margin: 0 1em 2em 1em;
+    margin: 0 1em 2em 0.3em;
 }
 
 div#cart ul, div#infobox ul, div#latestnews ul
@@ -223,9 +222,10 @@ div#maincontent
     margin-left: 160px;
     margin-right: 9em;
     padding-left: 1em;
-    padding-right: 1em;
+    padding-right: 1.5em;
     clear: none;
     position: relative;
+    border-right: 1px dotted #808080;
 }
 
 div#maincontent div.design
@@ -252,95 +252,11 @@ div#footer a
     color: #ffffff;
 }
 
-/* General child "line view" object settings */
-
-#folder div.child h2
-{ 
-    color: #444444;
-    margin: 0px;
-    padding: 0px;
-    padding-top: 5px;
-}
-
-#folder div.child div.byline
-{ 
-    margin: 0px;
-    padding: 0px;
-}
-
-#folder div.child div.byline p
-{ 
-    color: #888888;
-    font-size: small;
-    margin: 0px;
-    padding: 0px;
-}
-
-#folder div.child div.object_brief p
-{ 
-    margin: 0px;
-    padding: 0px;
-}
-
-#folder div.child div.readmore
-{ 
-}
-
-#folder div.child div.readmore a
-{ 
-    color: #304b82;
-}
-
-#folder div.child div.readmore p
-{ 
-    padding: 0px;
-    margin: 0px;
-}
-
-/* article styles */
-
-#article div.byline p
-{ 
-    color: #888888;
-    font-size: small;
-    margin: 0px;
-    padding: 0px;
-}
-
-#article div.intro p
-{ 
-    font-weight: bold;
-    margin: 0px;
-    padding: 0px;
-}
-
-/* Search */
-
-div.advancedsearchbox
-{ 
-   display: none;
-}
-
-/* General */
-
-h1
-{ 
-    margin-bottom: 5px;
-
-}
 
 div.editbutton
 { 
    float: right;
 }
-
-div.editbutton input
-{ 
-   font-size: small;
-   background-color: #304b82;
-   color: #ffffff;
-}
-
 
 /* Listmenu items */
 
@@ -400,21 +316,26 @@ div.editbutton input
   font-weight: bold;
 }
 
-div.block, div.buttonblock
-{
-    clear: none;
-}
-
 /*--------------------*/
 
-div.bglight
+/* Folders */
+
+div.bglight, tr.bglight, td.bglight
 {
     background-color: #fffcf0;
 }
 
-div.bgdark
+div.bgdark, tr.bgdark, td.bgdark
 {
     background-color: #fffae6;
+}
+
+div.subfolders
+{
+/*
+    border-top: 2px solid #ffcc00;
+    border-bottom: 2px solid #ffcc00;
+*/
 }
 
 div.subfolders p
@@ -426,6 +347,7 @@ div.subfolders p
 div.subfolders a
 {
     color: #000000;
+    font-weight: bold;
 }
 
 div.folderdescription
@@ -434,7 +356,33 @@ div.folderdescription
     margin-bottom: 0.5em;
 }
 
-div.product h2 a
+div.readmore a
+{
+    color: #000000;
+    font-weight: bold;
+}
+
+/* Articles */
+
+div.articleline
+{
+    clear: both;
+}
+
+div.articleline h2 a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+div.article div.intro
+{
+    font-weight: bold;
+}
+
+/* Product */
+
+div.productline h2 a
 {
     color: #000000;
     text-decoration: none;
@@ -446,11 +394,7 @@ div.listimage
     margin: 0.2em 0.2em 0.2em 0;
 }
 
-div.child
-{
-}
-
-div.child div.product
+div.productline
 {
     clear: both;
 }
@@ -489,7 +433,7 @@ div.relatedorders div.product p a
     color: #000000;
 }
 
-div.review
+div.product div.review
 {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -510,7 +454,7 @@ div.rating
     margin-top: 0.5em;
 }
 
-div.rating p
+div.product div.rating p
 {
     font-weight: bold;
 }

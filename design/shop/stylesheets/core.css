@@ -7,7 +7,7 @@
 
 /* MAIN WINDOW SETTINGS */
 
-body
+body, textarea
 {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #ffffff;
@@ -243,17 +243,17 @@ form
 
 input.box, textarea.box
 {
-    width: 468px;
+    width: 100%;
 }
 
 input.halfbox, textarea.halfbox
 {
-    width: 230;
+    width: 48%;
 }
 
 input.quarterbox, textarea.quarterbox
 {
-    width: 110;
+    width: 20%;
 }
 
 input.shortbox

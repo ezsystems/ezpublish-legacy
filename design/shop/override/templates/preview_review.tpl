@@ -2,11 +2,12 @@
 
 <div class="product">
     <h1>{$product_node.name}</h1>
-    Product number: {attribute_view_gui attribute=$product_node.data_map.product_number}
+    <div class="productnumber">
+    <p>{attribute_view_gui attribute=$product_node.data_map.product_number}</p>
+    </div>
+    
 
     {attribute_view_gui attribute=$product_node.object.data_map.image}
-
-</div>
 
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language|not|choose(array($language,"/"),""))|ezurl}>
 
@@ -25,3 +26,5 @@
 </div>
 
 </form>
+</div>
+

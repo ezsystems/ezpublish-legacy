@@ -1,6 +1,6 @@
-<div class="article_line">
+<div class="articleline">
 
-<h2>{$node.name}</h2>
+<h2><a href={$node.url_alias|ezurl}>{$node.name}</a></h2>
 
 <div class="byline">
   <p>

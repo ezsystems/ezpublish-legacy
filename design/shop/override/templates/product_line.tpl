@@ -1,4 +1,4 @@
-<div class="product">
+<div class="productline">
 
 <h2><a href={$node.url_alias|ezurl}>{$node.name}</a></h2>
 
@@ -9,7 +9,11 @@
 {attribute_view_gui attribute=$node.object.data_map.description}
 
 <div class="price">
-<p>{attribute_view_gui attribute=$node.object.data_map.price}</p>
+    <p>{attribute_view_gui attribute=$node.object.data_map.price}</p>
+</div>
+
+<div class="readmore">
+    <p><a href={$node.url_alias|ezurl}>Read more</a></p>
 </div>
 
 </div>

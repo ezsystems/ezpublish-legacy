@@ -1,4 +1,4 @@
-<div id="article">
+<div class="article">
 
 <form method="post" action={"content/action"|ezurl}>
 
@@ -9,9 +9,9 @@
 <h1>{$node.name}</h1>
 
 <div class="byline">
-  <p>
-   ({$node.object.published|l10n( datetime )})
-  </p>
+    <p class="date">
+    ({$node.object.published|l10n( datetime )})
+    </p>
 </div>
 
 {*
