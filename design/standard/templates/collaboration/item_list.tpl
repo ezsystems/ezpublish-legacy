@@ -31,7 +31,7 @@
     {/section}
   </td>
   <td class="{$:sequence}">
-    <p><nobr><a href={concat("collaboration/item/full/",$:item.id)|ezurl}>[more]</a></nobr></p>
+    <p><nobr><a href={concat("collaboration/item/full/",$:item.id)|ezurl}>{"[more]"|i18n('design/standard/collaboration')}</a></nobr></p>
   </td>
   <td class="{$:sequence}" width="1">
     <p><nobr>{$:item.created|l10n(shortdatetime)}</nobr></p>

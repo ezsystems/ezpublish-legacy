@@ -16,37 +16,37 @@
 
 <div class="object">
 <p>
-The currently published version is {$object.current_version} and was published at {$object.published|l10n(datetime)}.
+{"The currently published version is %version and was published at %time."|i18n('design/standard/content/edit',,hash('%version',$object.current_version,'%time',$object.published|l10n(datetime) ))}
 </p>
 <p>
-The last modification was done at {$object.modified|l10n(datetime)}.
+{"The last modification was done at %modified."|i18n('design/standard/content/edit',,hash('%modified',$object.modified|l10n(datetime)))}
 </p>
 <p>
-The object is owned by {content_view_gui view=text_linked content_object=$object.owner}.
+{"The object is owned by %owner."|i18n('design/standard/content/edit',,hash('%owner',$object.owner.name))}
 </p>
 </div>
 
 {section show=and($has_own_drafts,$has_other_drafts)}
 <p>
-    This object is already being edited by someone else including you.
-    You can either continue editing one of your drafts or you can create a new draft.
+   {"This object is already being edited by someone else including you.
+    You can either continue editing one of your drafts or you can create a new draft."|i18n('design/standard/content/edit')}    
 </p>
 {section-else}
     {section show=$has_own_drafts}
     <p>
-        This object is already being edited by you.
-        You can either continue editing one of your drafts or you can create a new draft.
+      {"This object is already being edited by you.
+        You can either continue editing one of your drafts or you can create a new draft."|i18n('design/standard/content/edit')}        
     </p>
     {/section}
     {section show=$has_other_drafts}
     <p>
-        This object is already being edited by someone else.
-        You should either contact the person about the draft or create a new draft for personal editing.
+      {"This object is already being edited by someone else.
+        You should either contact the person about the draft or create a new draft for personal editing."|i18n('design/standard/content/edit')}
     </p>
     {/section}
 {/section}
 
-<h2>{'Current drafts'}</h2>
+<h2>{'Current drafts'|i18n('design/standard/content/edit')}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0">
 <tr>
@@ -56,19 +56,19 @@ The object is owned by {content_view_gui view=text_linked content_object=$object
         </th>
     {/section}
     <th>
-        {'Version'}
+        {'Version'|i18n('design/standard/content/edit')}
     </th>
     <th>
-        {'Name'}
+        {'Name'|i18n('design/standard/content/edit')}
     </th>
     <th>
-        {'Owner'}
+        {'Owner'|i18n('design/standard/content/edit')}
     </th>
     <th>
-        {'Created'}
+        {'Created'|i18n('design/standard/content/edit')}
     </th>
     <th>
-        {'Last modified'}
+        {'Last modified'|i18n('design/standard/content/edit')}
     </th>
 </tr>
 {section name=Draft loop=$draft_versions sequence=array(bglight,bgdark)}

@@ -6,7 +6,7 @@
   {case match=0}
     <div class="feedback">
     <h2>{"No classes in "|i18n("design/standard/class/view")}{$group_name|wash}.</h2>
-    <p>{"Click on the 'New' button to create a class."}</p>
+    <p>{"Click on the 'New' button to create a class."|i18n("design/standard/class/view")}</p>
     </div>
   {/case}
   {case}
