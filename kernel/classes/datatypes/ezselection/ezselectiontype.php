@@ -265,11 +265,15 @@ class eZSelectionType extends eZDataType
         $count = 0;
         foreach ( $selected as $id )
         {
-            if ( $id == 0 ) // first object gets id==0, while rest of objects get id with offset from 1
+            /*if ( $id == 0 ) // first object gets id==0, while rest of objects get id with offset from 1
                 $id++;
             if ( $count++ != 0 )
                 $return .= ', ';
-            $return .= $classContent['options'][$id-1]['name'];
+            $return .= $classContent['options'][$id-1]['name'];*/
+            if ( $count != 0 )
+                $return .= ', ';
+            $return .= $classContent['options'][$id]['name'];
+            $count++;
         }
         return $return;
     }
