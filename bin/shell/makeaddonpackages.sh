@@ -85,7 +85,7 @@ if [[ -z $ADDON || $ADDON = 'contacts' ]]; then
 	create $site "Contacts" "$VERSION" -- \
 	set $site description "Adds a simple contact database, it contains companies and persons." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'contacts/*' \
+	add $site contentobject --siteaccess=base 'contacts/*' \
 	|| exit 1
 fi
 
@@ -97,7 +97,7 @@ if [[ -z $ADDON || $ADDON = 'contact_us' ]]; then
 	create $site "Contact us" "$VERSION" -- \
 	set $site description "Adds feedback form functionality." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'contact_us' \
+	add $site contentobject --siteaccess=base 'contact_us' \
 	|| exit 1
 fi
 
@@ -109,7 +109,7 @@ if [[ -z $ADDON || $ADDON = 'files' ]]; then
 	create $site "Files" "$VERSION" -- \
 	set $site description "Adds a file database." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'files/*' \
+	add $site contentobject --siteaccess=base 'files/*' \
 	|| exit 1
 fi
 
@@ -121,7 +121,7 @@ if [[ -z $ADDON || $ADDON = 'forum' ]]; then
 	create $site "Forum" "$VERSION" -- \
 	set $site description "Adds forum functionality. You can add multiple forums which can have multiple topics with replies." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'forums/*' \
+	add $site contentobject --siteaccess=base 'forums/*' \
 	|| exit 1
 fi
 
@@ -133,7 +133,7 @@ if [[ -z $ADDON || $ADDON = 'gallery' ]]; then
 	create $site "Image gallery" "$VERSION" -- \
 	set $site description "Adds image gallery functionality. Allows for creation of multiple galleries which can show images either as thumbnails or slideshow." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'galleries/*' \
+	add $site contentobject --siteaccess=base 'galleries/*' \
 	|| exit 1
 fi
 
@@ -145,7 +145,7 @@ if [[ -z $ADDON || $ADDON = 'links' ]]; then
 	create $site "Links" "$VERSION" -- \
 	set $site description "Adds a link database." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'links/*' \
+	add $site contentobject --siteaccess=base 'links/*' \
 	|| exit 1
 fi
 
@@ -157,7 +157,7 @@ if [[ -z $ADDON || $ADDON = 'media' ]]; then
 	create $site "Media types" "$VERSION" -- \
 	set $site description "Adds media functionality. Allows for publishing of Flash, Quicktime, Real video and Windows media files." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'media/*' \
+	add $site contentobject --siteaccess=base 'media/*' \
 	|| exit 1
 fi
 
@@ -169,7 +169,7 @@ if [[ -z $ADDON || $ADDON = 'news' ]]; then
 	create $site "News" "$VERSION" -- \
 	set $site description "Adds article/news functionality to your site." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'news/*' \
+	add $site contentobject --siteaccess=base 'news/*' \
 	|| exit 1
 fi
 
@@ -181,7 +181,7 @@ if [[ -z $ADDON || $ADDON = 'poll' ]]; then
 	create $site "Polls" "$VERSION" -- \
 	set $site description "dds functionality for handling simple user-surveys/polls." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'polls/*' \
+	add $site contentobject --siteaccess=base 'polls/*' \
 	|| exit 1
 fi
 
@@ -193,7 +193,7 @@ if [[ -z $ADDON || $ADDON = 'products' ]]; then
 	create $site "Products" "$VERSION" -- \
 	set $site description "Adds products with shopping functionality." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'products/*' \
+	add $site contentobject --siteaccess=base 'products/*' \
 	|| exit 1
 fi
 
@@ -205,7 +205,7 @@ if [[ -z $ADDON || $ADDON = 'weblog' ]]; then
 	create $site "Weblog" "$VERSION" -- \
 	set $site description "Adds blogging/weblog functionality." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject 'products/*' \
+	add $site contentobject --siteaccess=base 'products/*' \
 	|| exit 1
 fi
 
