@@ -101,7 +101,7 @@ $matchType = $options['match-type'] ? $options['match-type'] : $options['type'];
 $matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];
 $matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];
 $matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];
-$matchDB = count( $options['arguments'] ) > 2 ? $options['arguments'][1] : '';
+$matchDB = count( $options['arguments'] ) == 2 ? $options['arguments'][1] : '';
 
 if ( !is_string( $matchDBPassword ) )
     $matchDBPassword = '';
