@@ -408,12 +408,12 @@ function accessExtraDebugEnabled()
 function changeAccess( $access )
 {
     $ini =& eZINI::instance();
-    $name='';
+    $name = '';
     if ( $access !== null )
         $name = $access['name'];
 
     // Check for a valid siteaccess
-    if ( !file_exists( "settings/siteaccess/$name" ) )
+    if ( !file_exists( "settings/siteaccess/$name" ) or $name == '' )
     {
         $name = $ini->variable( 'SiteSettings', 'DefaultAccess' );
         if ( is_numeric( $access['type'] ) )
