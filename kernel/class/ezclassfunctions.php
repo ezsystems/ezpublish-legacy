@@ -66,7 +66,6 @@ class eZClassFunctions
 
         if ( count( $groups ) == 0 )
         {
-            $validation['error'] = true;
             return false;
         }
         else
