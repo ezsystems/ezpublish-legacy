@@ -76,6 +76,7 @@
 - Fixed the content/translations list to show the internal name of the languages instead of the local name.
 - Changed a lot of the default templates to use url_alias instead of content/view/full links, this allows
   them to seamlessly work with URL translation on or off.
+- Changed the minimum required version check in Setup Wizard to 4.2.3 (was 4.1.0). ( merged in from 3.2 3485)
 
 *DataTypes:
 
