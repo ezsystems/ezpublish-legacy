@@ -352,6 +352,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             // normal content tags
             case 'emphasize' :
             case 'strong' :
+            case 'line' :
             {
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
