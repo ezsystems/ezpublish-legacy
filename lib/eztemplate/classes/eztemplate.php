@@ -289,6 +289,8 @@ define( "EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE", 3 );
 
 define( "EZ_TEMPLATE_DEBUG_INTERNALS", false );
 
+define( 'EZ_ERROR_TEMPLATE_FILE_ERRORS', 1 );
+
 class eZTemplate
 {
     /*!
@@ -1700,9 +1702,23 @@ class eZTemplate
         else
             $placementText = $placement;
         if ( $name != "" )
-            eZDebug::writeError( $txt, "eZTemplate:$name" . $placementText );
+            $nameText = "eZTemplate:$name";
         else
-            eZDebug::writeError( $txt, "eZTemplate" . $placementText );
+            $nameText = "eZTemplate";
+        eZDebug::writeError( $txt, $nameText . $placementText );
+        $hasAppendWarning =& $GLOBALS['eZTemplateHasAppendWarning'];
+        $ini =& $this->ini();
+        if ( $ini->variable( 'ControlSettings', 'DisplayWarnings' ) == 'enabled' )
+        {
+            if ( !isset( $hasAppendWarning ) or
+                 !$hasAppendWarning )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
+                                                              'number' => EZ_ERROR_TEMPLATE_FILE_ERRORS ),
+                                            'text' => ezi18n( 'lib/eztemplate', 'Some template errors occured, see debug for more information.' ) ) );
+                $hasAppendWarning = true;
+            }
+        }
     }
 
     /*!

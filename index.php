@@ -115,6 +115,22 @@ eZUpdateDebugSettings();
 
 $warningList = array();
 
+/*!
+ Appends a new warning item to the warning list.
+ \a $parameters must contain a \c error and \c text key.
+*/
+function eZAppendWarningItem( $parameters = array() )
+{
+    global $warningList;
+    $parameters = array_merge( array( 'error' => false,
+                                      'text' => false ),
+                               $parameters );
+    $error = $parameters['error'];
+    $text = $parameters['text'];
+    $warningList[] = array( 'error' => $error,
+                            'text' => $text );
+}
+
 include_once( 'lib/ezutils/classes/ezexecution.php' );
 
 function eZDBCleanup()
