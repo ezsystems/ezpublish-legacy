@@ -88,12 +88,12 @@ class eZStepDatabaseChoice extends eZStepInstaller
             }
         }
 
-        $this->PersistenceList['database_info'] = $database;
-
         if( $databaseCount != 1 )
         {
             return false;
         }
+
+        $this->PersistenceList['database_info'] = $database;
 
         return true;
     }
