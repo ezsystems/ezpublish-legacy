@@ -19,6 +19,7 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   returns true in default.
 - Added/reimplemented function canRemovable() in datatype ezuser, disallowed deletion of this 
   datatype if it belongs to the class of login user.
+- Improved handling for lower-case input of ISBN Datatype.
 
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the

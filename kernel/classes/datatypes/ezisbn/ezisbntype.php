@@ -65,6 +65,7 @@ class eZISBNType extends eZDataType
         $field3 = $http->postVariable( $base . "_isbn_field3_" . $contentObjectAttribute->attribute( "id" ) );
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
         $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
+        $isbn = strtoupper( $isbn );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if( ( $classAttribute->attribute( "is_required" ) == false ) &&  ( $isbn == "---" ) )
         {
@@ -119,6 +120,7 @@ class eZISBNType extends eZDataType
         $field3 = $http->postVariable( $base . "_isbn_field3_" . $contentObjectAttribute->attribute( "id" ) );
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
         $isbn = $field1.'-'.$field2.'-'.$field3.'-'.$field4;
+        $isbn = strtoupper( $isbn );
         $contentObjectAttribute->setAttribute( "data_text", $isbn );
         return true;
     }
