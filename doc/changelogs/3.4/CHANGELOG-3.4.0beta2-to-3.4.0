@@ -24,7 +24,8 @@ Changes from 3.4.0beta2 to 3.4.0
   http://ez.no/community/bug_reports/unable_to_create_related_object_without_very_relaxing_privileges
 - Fixed broken pdf export: applied the suggested solution.
   http://ez.no/community/bug_reports/pdf_export_fails
-- Fixed bug related to inability of selecting source node for RSS export.
+- Fixed bug related to inability of selecting source node for RSS export
+  (fixes also in stable/3.3 Rev. 6609).
   http://ez.no/community/bug_reports/rss_export_source_1_selection_fails
 
 *Library:
