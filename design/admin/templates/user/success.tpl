@@ -27,6 +27,10 @@ your account.'|i18n('design/admin/user')}
 </div>
 {/section}
 
+<form action={"/user/register"|ezurl} method="post">
+    <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user/success' )}" />
+</form>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
