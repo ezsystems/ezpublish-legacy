@@ -283,6 +283,26 @@ class eZTemplateNodeTool
     }
 
     /*!
+     \return \c true if the element list \a $elements is considered to be an internal code piece.
+    */
+    function isInternalCodePiece( $elements )
+    {
+        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE )
+            return true;
+        return false;
+    }
+
+    /*!
+     \return \c true if the element list \a $elements is considered to be a variable element.
+    */
+    function isVariableElement( $elements )
+    {
+        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_VARIABLE )
+            return true;
+        return false;
+    }
+
+    /*!
      \return \c true if the element list \a $elements is considered to have a PHP variable element.
              The following must be true.
              - The start value is PHP variable
