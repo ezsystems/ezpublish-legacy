@@ -37,16 +37,15 @@ div#header h1
 
 div#toolbar-top
 { 
-    /*border: 1px solid #333;*/
     padding: 13px 0 8px 8px;
     text-align: right;
+    float: right;
 }
 
 div#toolbar-design
 {
     padding: 0;
     margin: 0;
-    float: right;
 }
 
 div#toolbar-top ul
@@ -59,13 +58,19 @@ div#toolbar-top li.toolbar-item
     font-size: 0.9em;
     display: inline;
     color: #339999;
-    padding: 0 8px 0 8px;
+    padding: 0 6px 0 6px;
 }
 
 div#toolbar-top div.search-line
 {
     display: inline;
     vertical-align: middle;
+}
+
+div#toolbar-top div.label
+{
+    display: inline;
+    text-align: left;
 }
 
 div#toolbar-top div.search-line form
@@ -84,12 +89,12 @@ div#toolbar-top li.toolbar-item a
     color: #339999;
 }
 
-div#toolbar-top li.toolbar-item /*.first*/
+div#toolbar-top li.toolbar-item.first
 {
     display: inline;
 }
 
-div#toolbar-top li.toolbar-item /*.last*/
+div#toolbar-top li.toolbar-item.last
 {
     border-right: none;
     display: inline;
@@ -103,27 +108,56 @@ div#toolbar-bottom
     text-align: center;
 }
 
-div#toolbar-bottom div.toolbar-item
+div#toolbar-bottom ul
 {
-    border-right: 1.5px solid #003366;
-    font-size: 9pt;
+    padding-top: 2px;
+    margin: 0;
+}
+
+div#toolbar-bottom li.toolbar-item
+{
+    border-right: 1px solid #003366;
+    font-size: 0.9em;
     display: inline;
     color: #003366;
     font-weight: bold;
-    padding: 0 12px 0 8px;
+    padding: 0 8px 0 6px;
 }
 
-div#toolbar-bottom div.toolbar-item a
+div#toolbar-bottom div.search-line
+{
+    display: inline;
+    vertical-align: middle;
+}
+
+div#toolbar-bottom div.label
+{
+    display: inline;
+    text-align: left;
+}
+
+div#toolbar-bottom div.search-line form
+{
+    display: inline;
+}
+
+div#toolbar-bottom input.searchinput
+{
+    height: 1.4em;
+    width: 7em;
+}
+
+div#toolbar-bottom li.toolbar-item a
 { 
     color: #003399;
 }
 
-div#toolbar-bottom div.toolbar-item /*.first */
+div#toolbar-top li.toolbar-item.first
 {
     display: inline;
 }
 
-div#toolbar-bottom div.toolbar-item /*.last*/
+div#toolbar-bottom li.toolbar-item.last
 {
     border-right: none;
     display: inline;
@@ -224,10 +258,11 @@ div#submenu-design
 {
     height: 22px;
     background-color: #7b92bc;
-    padding: 0;
     margin: 0;
+    padding: 0;
     text-align: left;
     vertical-align: middle;
+    position: relative;
 }
 
 div#submenu ul
@@ -241,7 +276,7 @@ div#submenu li
     margin: 0;
     display: block;
     float: left;
-    padding-left: 10px;
+    padding-left: 16px;
 }
 
 div#submenu li.first

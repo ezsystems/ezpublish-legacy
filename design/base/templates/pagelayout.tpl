@@ -42,12 +42,17 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 <div id="header">
     <div id="header-design">
     {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
-    {section show=$pagedesign.data_map.image.content.is_empty|not()}
+    {*{let imageContent=$pagedesign.data_map.image.content}
+        {section show=$imageContent.is_empty}
+            <h1>{ezini('SiteSettings','SiteName')}</h1>
+        {section-else}
+            <a href={"/"|ezurl}><img src={$imageContent[logo].full_path|ezroot} alt="Company logo" /></a>
+        {/section}
+    {/let}*}
+    {section show=$pagedesign.data_map.image.content.is_empty}
         <h1>{ezini('SiteSettings','SiteName')}</h1>
     {section-else}
-        {let content=$pagedesign.data_map.image.content}
-            <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} alt="Company logo" /></a>
-        {/let}
+        <a href={"/"|ezurl}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="Company logo" /></a>
     {/section}
     </div>
 </div>
@@ -120,7 +125,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <hr class="hide" />
 
-{section show=ezini('Toolbar_right','Tool','toolbar.ini')|count}
+{section show=ezini('Toolbar_bottom','Tool','toolbar.ini')|count}
 <div id="toolbar-bottom">
     <div id="toolbar-design">
        {tool_bar name=bottom view=line}
