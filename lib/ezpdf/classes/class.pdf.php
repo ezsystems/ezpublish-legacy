@@ -1577,6 +1577,7 @@ class Cpdf
 	}
 	$content.="\nxref\n0 ".(count($xref)+1)."\n0000000000 65535 f \n";
 	foreach($xref as $p){
+        ++$p;
 	    $content.=substr('0000000000',0,10-strlen($p)).$p." 00000 n \n";
 	}
 	$content.="\ntrailer\n  << /Size ".(count($xref)+1)."\n     /Root 1 0 R\n     /Info ".$this->infoObject." 0 R\n";
@@ -1587,7 +1588,7 @@ class Cpdf
 	if (strlen($this->fileIdentifier)){
 	    $content .= "/ID[<".$this->fileIdentifier."><".$this->fileIdentifier.">]\n";
 	}
-	$content .= "  >>\nstartxref\n".$pos."\n%%EOF\n";
+	$content .= "  >>\nstartxref\n".($pos+1)."\n%%EOF\n";
 	return $content;
     }
 
