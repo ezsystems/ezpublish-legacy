@@ -68,7 +68,7 @@ if ( is_numeric( $ClassID ) )
     $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
-    if ( $class->attribute( 'id' ) == null )
+    if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
         $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
         $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
