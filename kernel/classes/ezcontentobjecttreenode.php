@@ -616,7 +616,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $sortKey = 'sort_key_int';
                             }
                             $sortingFields .= "a$attributeJoinCount.$sortKey";
-                            $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
+                            $attributeFromSQL .= ", ezcontentobject_attribute a$attributeJoinCount";
                             $attributeWhereSQL .= "
                                    a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                    a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
