@@ -1,1 +1,1 @@
-<a href="{$attribute.content}">{$attribute.content}</a>
+<a href="{$attribute.content}">{$attribute.data_text}</a>

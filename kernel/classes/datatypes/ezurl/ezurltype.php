@@ -97,11 +97,16 @@ class eZURLType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . '_ezurl_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        if ( $http->hasPostVariable( $base . '_ezurl_url_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             $http->hasPostVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) )
+             )
         {
-            $data =& $http->postVariable( $base . '_ezurl_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $url =& $http->postVariable( $base . '_ezurl_url_' . $contentObjectAttribute->attribute( 'id' ) );
+            $text =& $http->postVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            $contentObjectAttribute->setContent( $data );
+            $contentObjectAttribute->setAttribute( 'data_text', $text );
+
+            $contentObjectAttribute->setContent( $url );
             return true;
         }
         return false;

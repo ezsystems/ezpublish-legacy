@@ -66,7 +66,7 @@
 	{node_view_gui view=line content_node=$Child:item}
 	</a>
 
-	<a href={concat('content/view/full/',$Child:item.object.id)|ezurl}>[ edit ]</a>
+	<a href={concat('content/edit/',$Child:item.object.id)|ezurl}>[ edit ]</a>
         - {$Child:item.object.class_name}
     </span>
 	</td>
