@@ -41,6 +41,7 @@ define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 1 );
 define( "EZ_SDK_VERSION_DEVELOPMENT", false );
 define( "EZ_SDK_VERSION_RELEASE", 1 );
+define( "EZ_SDK_VERSION_REVISION", '$Rev$' );
 define( "EZ_SDK_VERSION_ALIAS", '3.1' );
 
 class eZPublishSDK
@@ -94,6 +95,14 @@ class eZPublishSDK
     function release()
     {
         return EZ_SDK_VERSION_RELEASE;
+    }
+
+    /*!
+     \return the SVN revision number
+    */
+    function revision()
+    {
+        return EZ_SDK_VERSION_REVISION;
     }
 
     /*!
