@@ -1386,7 +1386,7 @@ CREATE TABLE ezworkflow (
 -- Dumping data for table 'ezworkflow'
 --
 
-INSERT INTO ezworkflow VALUES (1,0,1,'group_ezserial','Sp\'s forkflow',8,24,1031927869,1032856662);
+INSERT INTO ezworkflow VALUES (1,0,0,'group_ezserial','Sp\'s forkflow',8,24,1031927869,1032856662);
 
 --
 -- Table structure for table 'ezworkflow_assign'
