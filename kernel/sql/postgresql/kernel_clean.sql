@@ -1018,6 +1018,9 @@ CREATE TABLE ezuser_setting (
   PRIMARY KEY  (user_id)
 );
 
+INSERT INTO ezuser_setting VALUES (10,1,1000);
+INSERT INTO ezuser_setting VALUES (14,1,10);
+
 
 --
 -- TOC Entry ID 46 (OID 360524)
