@@ -382,7 +382,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {/section}
 
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}
-{section show=$node.node_id|is_set}
+{section show=is_set($node.node_id)}
 <form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark item'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your bookmarks.'|i18n( '/design/admin/pagelayout' )}" />
@@ -414,7 +414,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <div class="box-content">
 
 {* Show "Add to notification" button if we're viewing an actual node. *}
-{section show=$node.node_id|is_set}
+{section show=is_set($node.node_id)}
 <form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n( 'design/admin/pagelayout' )}" title="{'Add the current item to your personal notification list.'|i18n( 'design/admin/pagelayout' )}" />

@@ -15,13 +15,14 @@
      contentStructureTree   = false
      menuID                 = "content_tree_menu" }
 
+      
     {* check custom_root_node *}
-    {section show=$custom_root_node_id|is_set()}
+    {section show=is_set( $custom_root_node_id )}
         {set rootNodeID=$custom_root_node_id}
     {/section}
-
+    
     {* check custom action when clicking on menu item *}
-    {section show=$csm_menu_item_click_action|is_set()}
+    {section show=is_set( $csm_menu_item_click_action )}
         {set itemClickAction=$csm_menu_item_click_action}
     {/section}
     
@@ -54,7 +55,9 @@
         var nodesList = new Array();
         
         {section var=path loop=$module_result.path}
-            nodesList.push( "n{$:path.node_id}" );
+            {section show=is_set($:path.node_id)}
+                nodesList.push( "n{$:path.node_id}" );
+            {/section}
         {/section}
         
         ezcst_initializeMenuState( nodesList, "{$:menuID}",  "{$:itemClickAction}" );            
