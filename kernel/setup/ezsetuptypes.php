@@ -173,7 +173,7 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
         $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'RequireUserLogin' => 'false' ) );
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
-    $settings['ContentSettings'] = array( 'ViewPreferences' => array( 'full' => 'admin_navigation_content=0;admin_navigation_information=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;' ) );
+    $settings['ContentSettings'] = array( 'CachedViewPreferences' => array( 'full' => 'admin_navigation_content=0;admin_navigation_information=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;' ) );
     // ViewPreferences[full]=admin_navigation_content=0;admin_navigation_information=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
