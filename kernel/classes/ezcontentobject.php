@@ -660,18 +660,18 @@ class eZContentObject extends eZPersistentObject
                     }
                     foreach ( $limitationArray as $limitation )
                     {
-                        if( $functionName == 'remove' )
+                        if ( $functionName == 'remove' )
                         {
                             eZDebug::writeNotice( $limitation, 'limitation in check access' );
                         }
 
                         if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
                         {
-                            if( $functionName == 'create' )
+                            if ( $functionName == 'create' )
                             {
                                 $access = 'allowed';
                             }
-                            if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
+                            elseif ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
                                 eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
                                 eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
@@ -782,6 +782,7 @@ class eZContentObject extends eZPersistentObject
     function &canCreateClassList()
     {
 
+        eZDebug::writeNotice( $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
