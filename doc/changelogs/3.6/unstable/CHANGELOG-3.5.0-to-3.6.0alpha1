@@ -40,6 +40,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Optimized memory usage in site creation step by logging SQL statements only
   to file.
 
+*Search:
+- Added/Completed support for allowing empty search.
+
 *Scripts:
 - Added cronjob for hiding objects. The hide cronjob is configured in settings/content.ini.
 - Added: convertxmllinks.php script to convert old-style <link> tags in

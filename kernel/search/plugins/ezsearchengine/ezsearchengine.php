@@ -936,6 +936,31 @@ class eZSearchEngine
                 }
             }
 
+            if ( $searchPartsArray == null )
+            {
+                 $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                 $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                                     FROM ezcontentobject,
+                                          ezsearch_object_word_link
+                                          $subTreeTable,
+                                          ezcontentclass,
+                                          ezcontentobject_tree
+                                     WHERE
+                                          $searchDateQuery
+                                          $sectionQuery
+                                          $classQuery
+                                          $classAttributeQuery
+                                          $subTreeSQL
+                                          ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                                          ezcontentobject.contentclass_id = ezcontentclass.id and
+                                          ezcontentclass.version = '0' and
+                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                          $sqlPermissionCheckingString" );
+                 $this->TempTablesCount = 1;
+                 $i = $this->TempTablesCount;
+            }
+
             $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash ) - $wildCardCount;
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 

@@ -152,8 +152,7 @@ selected="selected"
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
-
-{section show=$search_text}
+{section show=or($search_text,eq(ezini('SearchSettings','AllowEmptySearch','site.ini'),'enabled') )}
 <br/>
 {switch name=Sw match=$search_count}
   {case match=0}

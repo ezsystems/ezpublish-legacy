@@ -140,8 +140,7 @@ selected="selected"
 
 <div class="break"></div>
 </div>
-
-{section show=$search_text}
+{section show=or($search_text,eq(ezini('SearchSettings','AllowEmptySearch','site.ini'),'enabled') )}
 <br/>
 {switch name=Sw match=$search_count}
   {case match=0}
