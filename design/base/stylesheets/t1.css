@@ -25,8 +25,7 @@ div#header-design
 {
     height: 70px;
     width: 400px;
-    background-repeat: no-repeat;
-    background-image: url(../images/t1/t1-logo-placeholder.gif);
+    float: left;
 }
 
 div#header h1
@@ -46,22 +45,30 @@ div#toolbar-design
 {
     padding: 0;
     margin: 0;
+    float: right;
 }
 
 div#toolbar-top div.toolbar-item input.searchinput
 {
-    height: 20px;
 }
 
-div#toolbar-top div.toolbar-item
+div#toolbar-top ul
 {
-    border-right: 1.5px solid #339999;
+}
+
+div#toolbar-top li.toolbar-item
+{
+    border-right: 1px solid #339999;
     font-size: 0.9em;
     display: inline;
-    float: left;
     color: #339999;
     font-weight: bold;
     padding: 0 8px 0 8px;
+}
+
+div#toolbar-top div.search-line
+{
+    display: inline;
 }
 
 div#toolbar-top div.search-line form
@@ -69,17 +76,17 @@ div#toolbar-top div.search-line form
     display: inline;
 }
 
-div#toolbar-top div.toolbar-item a
+div#toolbar-top li.toolbar-item a
 { 
     color: #339999;
 }
 
-div#toolbar-top div.toolbar-item /*.first*/
+div#toolbar-top li.toolbar-item /*.first*/
 {
     display: inline;
 }
 
-div#toolbar-top div.toolbar-item /*.last*/
+div#toolbar-top li.toolbar-item /*.last*/
 {
     border-right: none;
     display: inline;
@@ -108,12 +115,12 @@ div#toolbar-bottom div.toolbar-item a
     color: #003399;
 }
 
-div#toolbar-bottom div.toolbar-item.first
+div#toolbar-bottom div.toolbar-item /*.first */
 {
     display: inline;
 }
 
-div#toolbar-bottom div.toolbar-item.last
+div#toolbar-bottom div.toolbar-item /*.last*/
 {
     border-right: none;
     display: inline;
@@ -162,7 +169,7 @@ div#topmenu li
 
 div#topmenu li.selected
 {
-/*    background-image: url(../images/t1/t1-tab-selected-left.gif); */
+    background-image: url(../images/t1/t1-tab-selected-left.gif);
     background-repeat: no-repeat;
     background-position: top left;
     background-color: #7b92bc;
@@ -185,7 +192,7 @@ div#topmenu li a
 
 div#topmenu li.selected div.spacing
 {
-/*    background-image: url(../images/t1/t1-tab-selected-right.gif); */
+    background-image: url(../images/t1/t1-tab-selected-right.gif);
     background-repeat: no-repeat;
     background-position: top right;
 }

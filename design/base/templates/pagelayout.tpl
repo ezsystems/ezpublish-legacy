@@ -37,7 +37,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <div id="header">
     <div id="header-design">
-    <h1>Overskrift</h1>
+    <img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />
     </div>
 </div>
 
