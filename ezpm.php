@@ -950,17 +950,8 @@ foreach ( $commandList as $commandItem )
         $package->setAttribute( 'install_type', $commandItem['installtype'] );
         if ( $userObject )
             $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-        $package->appendDocument( 'README', false, false, false, true,
-                                  $commandItem['name'] . " README" .
-                                  "\n" .
-                                  "\n" .
-                                  "What is " . $commandItem['name'] . "?\n" .
-                                  "--------" . str_repeat( '-', strlen( $commandItem['name'] ) ) . "-\n" .
-                                  $commandItem['name'] . " is a ...\n" .
-                                  "\n" .
-                                  "Licence\n" .
-                                  "-------\n" .
-                                  "Insert licence here...\n" );
+        include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+        eZPackageCreationHandler::appendLicence( $package );
         if ( $userObject )
             $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
 
