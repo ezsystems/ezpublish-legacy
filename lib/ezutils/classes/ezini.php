@@ -550,6 +550,19 @@ class eZINI
     }
 
     /*!
+      Reads a variable from the ini file and puts it in the parameter \a $variable.
+      \note \a $variable is not modified if the variable does not exist
+    */
+    function &assign( $blockName, $varName, &$variable )
+    {
+        if ( $this->hasVariable( $blockName, $varName ) )
+            $variable = $this->variable( $blockName, $varName );
+        else
+            return false;
+        return true;
+    }
+
+    /*!
       Reads a variable from the ini file.
       false is returned if the variable was not found.
     */
