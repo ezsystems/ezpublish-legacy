@@ -29,6 +29,7 @@ Datatypes:
 eZ utils:
 - Created operation system which will help with creating code to execute triggers and workflows.
 - Fixed problem with creating recursive directory sctructures on windows.
+- Fixed bug with copying files on windows from temporary version
 
 eZ template:
 - Added site.ini setting which turn template debug information on/off.
