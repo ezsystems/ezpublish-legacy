@@ -14,11 +14,13 @@ div#allcontent
 {
     background-color: #fff;
     width: 750px;
-   margin: 0 auto 0 auto;
+    margin: 0 auto 0 auto;
 }
 
 div#header
 {
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 div#header-design

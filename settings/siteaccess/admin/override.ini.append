@@ -180,4 +180,18 @@ Source=node/view/plain.tpl
 MatchFile=image_plain.tpl
 Subdir=templates
 Match[class]=5
+
+[edit_common_ini_settings]
+Source=content/edit.tpl
+MatchFile=edit_common_ini_settings.tpl
+Subdir=templates
+Match[class_identifier]=common_ini_settings
+
+[edit_template_look]
+Source=content/edit.tpl
+MatchFile=edit_template_look.tpl
+Subdir=templates
+Match[class_identifier]=template_look
+
+
 */ ?>

@@ -87,6 +87,41 @@ class eZPackageType extends eZDataType
         {
             $data =& $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $data );
+
+            // Save in ini files if the package type is sitestyle.
+            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
+            {
+                $package =& eZPackage::fetch( $data );
+                if ( $package )
+                {
+                    $fileList = $package->fileList( 'default' );
+                    foreach ( array_keys( $fileList ) as $key )
+                    {
+                        $file =& $fileList[$key];
+                        $fileIdentifier = $file["variable-name"];
+                        if ( $fileIdentifier == 'maincss' )
+                        {
+                            $mainCSS = $package->fileItemPath( $file, 'default' );
+                        }
+                        else if ( $fileIdentifier == 'noleftmenucss' )
+                        {
+                            $noLeftMenuCSS = $package->fileItemPath( $file, 'default' );
+                        }
+                        else if ( $fileIdentifier == 'norightmenucss' )
+                        {
+                            $noRightMenuCSS = $package->fileItemPath( $file, 'default' );
+                        }
+                    }
+
+                    $iniPath = 'settings/override';
+                    $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
+                    $designINI->setVariable( 'StylesheetSettings', 'MainCSS', $mainCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'NoLeftMenuCSS', $noLeftMenuCSS );
+                    $designINI->setVariable( 'StylesheetSettings', 'NoRightMenuCSS', $noRightMenuCSS );
+                    $designINI->save();
+                }
+            }
         }
         return true;
     }

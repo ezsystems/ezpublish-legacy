@@ -33,11 +33,16 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <div id="allcontent">
 
+{let pagedesign=fetch_alias(by_identifier,hash(attr_id,sitestyle_identifier))}
 <div id="header">
     <div id="header-design">
-    <img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />
+    {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
+    {let content=$pagedesign.data_map.image.content}
+        <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} alt="Company logo" /></a>
+    {/let}
     </div>
 </div>
+{/let}
 
 {section show=ezini('Toolbar_top','Tool','toolbar.ini')|count}
 <div id="toolbar-top">
