@@ -642,7 +642,7 @@ class eZTemplate
         $uri = $resourceData['uri'];
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
-        eZDebug::writeDebug( 'Generating process cache', 'eztemplate' );
+//         eZDebug::writeDebug( 'Generating process cache', 'eztemplate' );
         $resourceObject->generateProcessCache( $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
     }
 
@@ -1286,9 +1286,10 @@ class eZTemplate
                         $templateText = '';
                         include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                         $this->setVariableRef( $templateVariableName, $item, $name );
-                        eZTemplateIncludeFunction::handleInclude( $templateText, $templateURI, $this, $nspace, $name );
+                        eZTemplateIncludeFunction::handleInclude( $textElements, $templateURI, $this, $nspace, $name );
 //                         $this->appendElement( $text, $templateText, $nspace, $name );
-                        $this->appendElementText( $textElements, $templateText, $nspace, $name );
+//                         eZDebug::writeDebug( $templateText, 'appendElementText' );
+//                         $this->appendElementText( $textElements, $templateText, $nspace, $name );
                         $hasTemplateData = true;
                     }
                 }

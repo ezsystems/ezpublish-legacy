@@ -15,6 +15,11 @@ if [ ! -d ../var/cache/ini ]; then
     mkdir ../var/cache/ini
 fi
 
+if [ ! -d ../var/cache/texttoimage ]; then
+    mkdir ../var/cache/texttoimage
+fi
+chmod $DIR_MODE ../var/cache/texttoimage
+
 chmod $DIR_MODE ../var/cache/ini
 chmod -R $DIR_MODE ../var/storage
 

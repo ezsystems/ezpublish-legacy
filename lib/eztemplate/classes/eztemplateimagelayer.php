@@ -225,12 +225,14 @@ class eZTemplateImageObject
         {
             case 'png':
             {
+                include_once( 'lib/ezutils/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    include_once( 'lib/ezutils/classes/ezdir.php' );
-                    eZDir::mkdir( $filePath, true );
+                    $ini =& eZINI::instance();
+                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+                    eZDir::mkdir( $filePath, true, octdec( $perm ) );
                 }
-                ImagePNG( $this->ImageObject, $filePath . '/' . $fileName );
+                ImagePNG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
                 $this->StoredPath = $filePath;
                 $this->StoredFile = $fileName;
                 $this->StoredType = $type;
@@ -578,7 +580,14 @@ class eZTemplateImageLayer
         {
             case 'png':
             {
-                ImagePNG( $this->ImageObject, $filePath . '/' . $fileName );
+                include_once( 'lib/ezutils/classes/ezdir.php' );
+                if ( !file_exists( $filePath ) )
+                {
+                    $ini =& eZINI::instance();
+                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+                    eZDir::mkdir( $filePath, true, octdec( $perm ) );
+                }
+                ImagePNG( $this->ImageObject, eZDir::path( array( $filePath, $fileName ) ) );
                 $this->StoredPath = $filePath;
                 $this->StoredFile = $fileName;
                 $this->StoredType = $type;
