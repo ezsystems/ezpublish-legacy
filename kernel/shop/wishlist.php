@@ -44,11 +44,13 @@ if ( !$user->isLoggedIn() )
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
-    $objectID = $http->postVariable( "ContentObjectID" );
 
+    $objectID = $http->postVariable( "ContentObjectID" );
     $object = eZContentObject::fetch( $objectID );
+    $optionList =& $http->postVariable( "eZOption" );
 
     $price = 0.0;
+    $isVATIncluded = true;
     $attributes = $object->contentObjectAttributes();
     foreach ( $attributes as $attribute )
     {
@@ -58,6 +60,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
         {
             $content =& $attribute->content();
             $price += $content->attribute( 'price' );
+            $priceObj =& $content;
         }
     }
 
@@ -68,8 +71,46 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     $item->setAttribute( "contentobject_id", $objectID );
     $item->setAttribute( "item_count", 1 );
     $item->setAttribute( "price", $price );
-
     $item->store();
+
+    if ( $priceObj->attribute( 'is_vat_included' ) )
+    {
+        $item->setAttribute( "is_vat_inc", '1' );
+    }
+    else
+    {
+        $item->setAttribute( "is_vat_inc", '0' );
+    }
+    $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+    $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
+    $item->store();
+    $priceWithoutOptions = $price;
+    eZDebug::writeDebug( $optionList, 'optionlist' );
+    foreach ( array_keys( $optionList ) as $key )
+    {
+        $attributeID = $key;
+        $optionSelected = $optionList[$key];
+        $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+        $option =& $attribute->attribute( 'content' );
+        eZDebug::writeDebug( $option->attribute( 'option_list' ), "optionitems" );
+        foreach( $option->attribute( 'option_list' ) as $optionArray )
+        {
+            if( $optionArray['id'] == $optionSelected )
+            {
+                $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
+                                                                      $optionArray['value'], $optionArray['additional_price'], $attributeID );
+                $optionItem->store();
+                $price += $optionArray['additional_price'];
+                break;
+            }
+        }
+
+    }
+    if ( $price != $priceWithoutOptions )
+    {
+        $item->setAttribute( "price", $price );
+        $item->store();
+    }
 
     $module->redirectTo( $module->functionURI( "wishlist" ) . "/" );
     return;
