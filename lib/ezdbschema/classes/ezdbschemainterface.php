@@ -240,8 +240,15 @@ class eZDBSchemaInterface
                 $sql .= $this->generateTableSchema( $table, $table_def );
             }
         }
-		return $sql;
-	}
+        if ( isset( $differences['removed_tables'] ) )
+        {
+            foreach ( $differences['removed_tables'] as $table => $table_def )
+            {
+                $sql .= $this->generateDropTable( $table );
+            }
+        }
+        return $sql;
+    }
 
     /*!
      \pure

@@ -333,5 +333,13 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
 		return $sql;
 	}
+
+    /*!
+     * \private
+     */
+    function generateDropTable( $table )
+    {
+        return "DROP TABLE $table;\n";
+    }
 }
 ?>
