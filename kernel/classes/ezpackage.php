@@ -1427,7 +1427,7 @@ class eZPackage
                           look in all repositories.
      \return \c false if no package could be found.
     */
-    function &fetch( $packageName, $packagePath = false, $repositoryID = true )
+    function &fetch( $packageName, $packagePath = false, $repositoryID = false )
     {
         $packageRepositories = eZPackage::packageRepositories( array( 'path' => $packagePath ) );
 
