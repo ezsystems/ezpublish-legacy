@@ -517,7 +517,7 @@ table.forum div.attribute-byline p.author, table.forum div.attribute-byline p.da
     display: block;
 }
 
-table.forum p.date
+table.forum td.message p.date
 {
     font-size: 0.8em;
     border-bottom: 1px solid #aaa;
@@ -543,7 +543,7 @@ div.content-view-children table.forum th.author
     width: 25%;
 }
 
-table.forum td.author p.author
+table.forum p.author
 {
     font-weight: bold;
 }

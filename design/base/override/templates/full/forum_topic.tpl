@@ -1,6 +1,11 @@
-{let reply_list=fetch('content','list', hash( parent_node_id, $node.node_id,
-                                              limit, 20,
-                                              offset, $view_parameters.offset,
+{let page_limit=20
+     reply_limit=cond( $view_parameters.offset|gt( 0 ), 20,
+                       19 )
+     reply_offset=cond( $view_parameters.offset|gt( 0 ), sub( $view_parameters.offset, 1 ),
+                        $view_parameters.offset )
+     reply_list=fetch('content','list', hash( parent_node_id, $node.node_id,
+                                              limit, $reply_limit,
+                                              offset, $reply_offset,
                                               sort_by, array( array( published, true() ) ) ) )
      reply_count=fetch('content','list_count', hash( parent_node_id, $node.node_id ) )
      previous_topic=fetch_alias( subtree, hash( parent_node_id, $node.parent_node_id,
@@ -75,6 +80,7 @@
                     {"Message"|i18n("design/base")}
                  </th>
             </tr>
+            {section show=$view_parameters.offset|lt( 1 )}
             <tr>
                <td class="author">
                {let owner=$node.object.owner owner_map=$owner.data_map}
@@ -108,7 +114,7 @@
                       </form>
                   {/section}
                </td>
-               <td>
+               <td class="message">
                    <p class="date">{$node.object.published|l10n(datetime)}</p>
                    <h2>{$node.name|wash}</h2>
                    <p>
@@ -120,6 +126,7 @@
                </td>
                {/let}
            </tr>
+           {/section}
 
            {section var=reply loop=$reply_list sequence=array( bgdark, bglight )}
            <tr class="{$reply.sequence}">
@@ -190,6 +197,6 @@
          page_uri=$node.url_alias
          item_count=$reply_count
          view_parameters=$view_parameters
-         item_limit=20}
+         item_limit=$page_limit}
 
 

@@ -35,44 +35,71 @@
         <table class="list forum" cellspacing="0">
         <tr>
             <th class="topic">
-                {"Topic"|i18n("design/base")}
+                {"Topic"|i18n( "design/base" )}
             </th>
             <th class="replies">
-                {"Replies"|i18n("design/base")}
+                {"Replies"|i18n( "design/base" )}
+            </th>
+            <th class="author">
+                {"Author"|i18n( "design/base" )}
             </th>
             <th class="lastreply">
-                {"Last reply"|i18n("design/base")}
+                {"Last reply"|i18n( "design/base" )}
             </th>
         </tr>
 
-        {section var=topic loop=$topic_list sequence=array(bglight,bgdark)}
+        {section var=topic loop=$topic_list sequence=array( bglight, bgdark )}
+        {let topic_reply_count=fetch( 'content', 'tree_count', hash( parent_node_id, $topic.node_id ) )
+             topic_reply_pages=sum( int( div( sum( $topic_reply_count, 1 ), 20 ) ), cond( mod( sum( topic_reply_count, 1 ), 20 )|gt( 0 ), 1, 0 ) )}
         <tr class="{$topic.sequence}">
             <td class="topic">
                 <p>{section show=$topic.object.data_map.sticky.content}<img src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/section}
                 <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a></p>
-                <div class="attribute-byline">
-                   <p class="author">{$topic.object.owner.name|wash}</p>
-                   <p class="date">{$topic.object.published|l10n(shortdatetime)}</p>
-                </div>
+                {section show=$topic_reply_count|gt( sub( 20, 1 ) )}
+                    <p>
+                    {'Pages'|i18n( 'design/base' )}:
+                    {section show=$topic_reply_pages|gt( 5 )}
+                        <a href={$topic.url_alias|ezurl}>1</a>...
+                        {section var=reply_page loop=$topic_reply_pages offset=sub( $topic_reply_pages, sub( 5, 1 ) )}
+                            <a href={concat( $topic.url_alias, '/(offset)/', mul( sub( $reply_page, 1 ), 20 ) )|ezurl}>{$reply_page}</a>
+                        {/section}
+                    {section-else}
+                        <a href={$topic.url_alias|ezurl}>1</a>
+                        {section var=reply_page loop=$topic_reply_pages offset=1}
+                            <a href={concat( $topic.url_alias, '/(offset)/', mul( sub( $reply_page, 1 ), 20 ) )|ezurl}>{$reply_page}</a>
+                        {/section}
+                    {/section}
+                    </p>
+                {/section}
             </td>
             <td class="replies">
-                <p>{fetch('content','tree_count',hash(parent_node_id,$topic.node_id))}</p>
+                <p>{$topic_reply_count}</p>
+            </td>
+            <td class="author">
+                <div class="attribute-byline">
+                   <p class="date">{$topic.object.published|l10n(shortdatetime)}</p>
+                   <p class="author">{$topic.object.owner.name|wash}</p>
+                </div>
             </td>
             <td class="lastreply">
             {let last_reply=fetch('content','list',hash( parent_node_id, $topic.node_id,
                                                          sort_by, array( array( 'published', false() ) ),
-                                                         limit, 1 ) ) }
+                                                         limit, 1 ) )}
                 {section var=reply loop=$last_reply show=$last_reply}
-                <p><a href={concat($reply.parent.url_alias,'#msg',$reply.node_id)|ezurl}>{$reply.name|wash}</a></p>
-
                 <div class="attribute-byline">
-                   <p class="author">{$reply.object.owner.name|wash}</p>
                    <p class="date">{$reply.object.published|l10n(shortdatetime)}</p>
+                   <p class="author">{$reply.object.owner.name|wash}</p>
                 </div>
+                {section show=$topic_reply_count|gt( 19 )}
+                    <p><a href={concat( $reply.parent.url_alias, '/(offset)/', sub( $topic_reply_count, mod( $topic_reply_count, 20 ) ) , '#msg', $reply.node_id )|ezurl}>{$reply.name|wash}</a></p>
+                {section-else}
+                    <p><a href={concat( $reply.parent.url_alias, '#msg', $reply.node_id )|ezurl}>{$reply.name|wash}</a></p>
+                {/section}
                 {/section}
            {/let}
            </td>
         </tr>
+        {/let}
         {/section}
         </table>
 
