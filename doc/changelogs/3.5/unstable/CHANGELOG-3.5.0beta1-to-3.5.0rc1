@@ -145,6 +145,9 @@ Datatype:
 - Fixed bug of potential fatal error may occur in ezcontentcachemanager.php.
   http://ez.no/community/bug_reports/3_5_deleting_objects_fatal_error_in_kernel_classes_ezcontentcachemanager_php
   (Merged from stable/3.4 (3.4.5) rev. 9756)
+- Fixed bug of fatal error may occur in ezrole.php.
+  http://ez.no/community/bug_reports/3_5_deleting_objects_fatal_error_in_kernel_classes_ezrole_php
+  (Merged from stable/3.4 (3.4.5) rev. 9759)
 
 *Library:
 - Added eZWizardBase for creating web based wizards. The class contain a framework for wizards, 
