@@ -202,6 +202,7 @@ function helpHelp()
 
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
+    global $isQuiet;
     $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {

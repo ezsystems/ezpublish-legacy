@@ -12,6 +12,7 @@
     <th>{'System URL'}</th>
     <th>{'Virtual URL'}</th>
     <th>{'Type'}</th>
+    <th>{'Remove'}</th>
 </tr>
 {section name=Alias loop=$alias_list show=$alias_list}
 <tr>
@@ -19,7 +20,11 @@
     {section show=$Alias:item.forward_to_id|eq(0)}
         <input type="text" name="URLAliasDestinationValue[{$Alias:item.id}]" value="{$Alias:item.destination_url|wash}" />
     {section-else}
-        Forwards to <a href={$Alias:item.forward_url.destination_url|ezurl}>{$Alias:item.forward_url.source_url|wash}</a><br/>
+        {section show=$Alias:item.forward_to_id|eq( -1 )}
+            Forwards to <a href={$Alias:item.destination_url|ezurl}>{$Alias:item.destination_url|wash}</a><br/>
+        {section-else}
+            Forwards to <a href={$Alias:item.forward_url.destination_url|ezurl}>{$Alias:item.forward_url.source_url|wash}</a><br/>
+        {/section}
     {/section}
     </td>
     <td>
@@ -36,11 +41,19 @@
         {/section}
     {/section}
     </td>
-    <td>
+    <td align="right">
         <input type="checkbox" name="URLAliasSelection[{$Alias:item.id}]" value="{$Alias:item.id}" />
     </td>
 </tr>
 {/section}
+<tr>
+    <td colspan="3">
+        <input type="submit" name="StoreURLAliasButton" value="{'Store'|i18n('design/standard/content')}" />
+    </td>
+    <td align="right">
+         <input type="image" name="RemoveURLAliasButton" value="{'Remove'}" src={"trash.png"|ezimage} />
+    </td>
+</tr>
 </table>
 
 {include name=navigator
@@ -51,8 +64,6 @@
          item_limit=$alias_limit}
 
 
-<input type="submit" name="StoreURLAliasButton" value="{'Store'|i18n('design/standard/content')}" />
-<input type="submit" name="RemoveURLAliasButton" value="{'Remove'}" />
 </div>
 
 <p/>
@@ -140,7 +151,7 @@
         {'Old virtual URL'}
     </td>
     <td>
-        {'New virtual URL'}
+        {'Existing virtual URL'}
     </td>
 </tr>
 <tr>
@@ -176,7 +187,7 @@
         {'Old virtual URL'}
     </td>
     <td>
-        {'New virtual URL'}
+        {'Existing virtual URL'}
     </td>
 </tr>
 <tr>
