@@ -29,6 +29,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Added support for setting global overrides in eZTemplateDesignResource.
 - Added support for inherited roles from top to bottom.
 - Added operator mimetype_icon() which will take a mimetype string as an argument and return an icon for that mimetype.
+- Added is_empty attribute to ezauthor datatype to have simple checking for an empty author list in the template.
 
 eZPersistentObject:
 - Redone the attributes, hasAttribute, attribute and setAttribute functions to

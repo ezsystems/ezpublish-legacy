@@ -110,7 +110,7 @@ class eZAuthor
 
     function hasAttribute( $name )
     {
-        if ( ( $name == "author_list" ) || ( $name == "name" ) )
+        if ( ( $name == "author_list" ) || ( $name == "name" ) || ( $name == "is_empty" ) )
             return true;
         else
             return false;
@@ -123,6 +123,10 @@ class eZAuthor
             case "name" :
             {
                 return $this->Name;
+            }break;
+            case "is_empty" :
+            {
+                return count( $this->Authors ) == 0 ;
             }break;
             case "author_list" :
             {
