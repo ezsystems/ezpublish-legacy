@@ -114,17 +114,21 @@
 {section show=$version_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
+    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Translations'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
+	<th>{'Modified'|i18n( 'design/admin/content/versions' )}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
 {section var=Versions loop=$version_list sequence=array( bglight, bgdark )}
 <tr class="{$Versions.sequence}">
+
+    {* Remove. *}
 	<td>
 	    {section show=and( or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ), $can_remove )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Mark version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
@@ -133,28 +137,30 @@
         {/section}
     </td>
 
-	<td>
-	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'Preview the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}">{$Versions.item.version}</a>
-	</td>
+    {* Preview. *}
+	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'Preview the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}">{$Versions.item.version}</a></td>
 
-	<td>
-	{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ) )}
-	</td>
+    {* Version. *}
+	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ) )}</td>
 
+    {* Status. *}
 	<td>
-	{section var=Languages loop=$Versions.item.language_list}
+	    {section var=Languages loop=$Versions.item.language_list}
         {delimiter}<br />{/delimiter}
-	<img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'Preview the %translation translation of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>{/section}
+	    <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'Preview the %translation translation of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
+        {/section}
 	</td>
 
-    <td>
-	{$Versions.item.creator.name|wash}
-	</td>
+    {* Creator. *}
+    <td>{$Versions.item.creator.name|wash}</td>
 
-    <td>
-	{$Versions.item.modified|l10n( shortdatetime )}
-	</td>
+    {* Created. *}
+    <td>{$Versions.item.created|l10n( shortdatetime )}</td>
 
+    {* Modified. *}
+    <td>{$Versions.item.modified|l10n( shortdatetime )}</td>
+
+    {* Copy button. *}
     <td>
         {section show=$can_edit}
         <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
@@ -162,13 +168,16 @@
         <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
     </td>
+
+    {* Edit button. *}
     <td>
-        {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ), $can_edit ) }
+        {section show=and( $Versions.item.status|eq( 0 ), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
         <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
+
 </tr>
 {/section}
 </table>
@@ -177,7 +186,6 @@
 <p>{'This object does not have any versions.'|i18n( 'design/admin/content/versions' )}</p>
 </div>
 {/section}
-
 
 <div class="context-toolbar">
 {include name=navigator
