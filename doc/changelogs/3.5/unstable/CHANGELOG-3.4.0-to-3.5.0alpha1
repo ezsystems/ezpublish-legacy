@@ -299,6 +299,8 @@ eZ Template:
 - Fixed problem with array/hash creation in template compiler.
 - Fixed bug in switch function when using in parameter and no subkey.
   (Merged from stable/3.4 rev. 7191)
+- Fixed bug with let not cleaning up its variables in compiled mode.
+  (Merged from stable/3.4 rev. 7214)
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.

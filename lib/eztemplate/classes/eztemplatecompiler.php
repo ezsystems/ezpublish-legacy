@@ -2104,7 +2104,7 @@ $rbracket
                         if ( !is_string( $namespaceText ) )
                             $namespaceText = "\$namespace";
                         $variableNameText = $php->variableText( $variableName, 0, 0, false );
-                        if ( isset( $node[2]['remember_set'] ) )
+                        if ( isset( $node[2]['remember_set'] ) and $node[2]['remember_set'] )
                         {
                             $php->addCodePiece( "if ( isset( \$setArray[$namespaceText][$variableNameText] ) )\n".
                                                 "{\n" );
@@ -2112,7 +2112,7 @@ $rbracket
                         }
                         $php->addCodePiece( "unset( \$vars[$namespaceText][$variableNameText] );",
                                             array( 'spacing' => $spacing ) );
-                        if ( isset( $node[2]['remember_set'] ) )
+                        if ( isset( $node[2]['remember_set'] ) and $node[2]['remember_set'] )
                         {
                             $php->addCodePiece( "\n}\n" );
                             $spacing -= 4;
