@@ -15,7 +15,5 @@ New password: {$password}
 
 {section}
 
-Link to user information:
-http://{$site_url}{concat("content/view/full/",$object.main_node_id)|ezurl(no)}
 
 {/let}
