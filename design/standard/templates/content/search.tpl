@@ -8,6 +8,18 @@
 {/let}
 </div>
 
+{section show=$stop_word_array}
+<p>
+{"The following words were excluded from the search:"|i18n("design/standard/content/search")}
+{section name=StopWord loop=$stop_word_array}
+{$StopWord:item.word}
+{delimiter}, {/delimiter}
+
+{/section}
+</p>
+
+{/section}
+
 {switch name=Sw match=$search_count}
   {case match=0}
   <div class="warning">
