@@ -33,27 +33,14 @@
 
 <body>
 
-<table width="700" border="0" cellspacing="0" cellpadding="0" style="border-style: solid; border-width: 1px; border-color: black;" bgcolor="#cccccc">
-<tr>
-   <th>
-   Quick links
-   </th>
-</tr>
-<tr>
-    <td >
-    <a href="/content/view/full/31/">Crossroads Forum</a>
-    </td>
-    <td >
-    <a href="/content/view/news/26">News 24</a>
-    </td>
-    <td >
-    <a href="/content/view/thumbnail/18/">Whitebox art gallery</a>
-    </td>
-    <td >
-    <a href="/content/view/full/65/">the Book corner</a>
-    </td>
-</tr>
-</table>
+<img src={"toppmeny.gif"|ezimage} alt="" border="" USEMAP="#map" />
+
+<map name="map">
+<area shape="RECT" coords="0,2,72,23" href={"content/view/full/32/"|ezurl}>
+<area shape="RECT" coords="75,2,142,25" href={"content/view/full/26/"|ezurl}>
+<area shape="RECT" coords="145,2,217,23" href={"content/view/full/82/"|ezurl}>
+<area shape="RECT" coords="221,1,283,23" href={"content/view/full/62/"|ezurl}>
+</map>
 
 <h2>Unfinished design</h2>
 <p>eZ publish will default to this design when loosing section information

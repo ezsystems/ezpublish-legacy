@@ -11,7 +11,7 @@ Database=bf##!
 SiteDesign=user
 
 [SiteSettings]
-IndexPage=/content/view/news/26
+IndexPage=/content/view/full/26
 LoginPage=embedded
 
 
