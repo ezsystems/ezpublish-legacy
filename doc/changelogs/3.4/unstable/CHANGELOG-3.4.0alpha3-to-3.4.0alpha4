@@ -3,6 +3,9 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
 *Kernel:
 - Fixed extension of view cache files. They were named .php which is obsolete and broke the clearing of view cache.
 
+*Design:
+- Fixed wrong forum color in theme 8
+
 *DataType:
 
 *Shop:

@@ -313,7 +313,7 @@ table.renderedtable
 table.forum th
 {
     color: #ffffff;
-    background-color: #7b92bc;
+    background-color: #99ccff;
 }
 
 table.forum tr.bglight, table.forum tr.bgdark
@@ -323,7 +323,7 @@ table.forum tr.bglight, table.forum tr.bgdark
 
 table.forum tr.bglight td, table.forum tr.bgdark td
 {
-    border-color: #7b92bc;
+    border-color: #99ccff;
 }
 
 
