@@ -207,6 +207,10 @@ class eZFile
             header( 'Content-Length: ' . filesize( $file ) );
             header( 'Content-Type: ' . $mimeinfo['name'] );
 
+            // Fixes problems with IE when opening a file directly
+            header( 'Cache-Control: no-store, no-cache, must-revalidate' ); // HTTP/1.1
+            header( 'Cache-Control: pre-check=0, post-check=0, max-age=0' ); // HTTP/1.1
+
             if ( $isAttachedDownload )
             {
                 header( 'Content-Disposition: attachment; filename='.$mimeinfo['filename'] );
