@@ -456,7 +456,16 @@ class eZImageInterface
     */
     function hasGD2()
     {
-        return true;
+        $testGD = get_extension_funcs( "gd" ); // Grab function list
+        if ( !$testGD )
+        {
+//             echo "GD not even installed.";
+            return false;
+        }
+        if ( in_array( "imagegd2",
+                       $testGD ) )
+            return true;
+        return false;
     }
 
     /*!
@@ -467,7 +476,10 @@ class eZImageInterface
     function createImage( $width, $height, &$useTruecolor )
     {
         if ( $useTruecolor === null )
+        {
+//             print( "has GD2='" . eZImageInterface::hasGD2() . "'<br/>" );
             $useTruecolor = eZImageInterface::hasGD2();
+        }
         if ( $useTruecolor and
              !function_exists( 'ImageCreateTrueColor' ) )
         {

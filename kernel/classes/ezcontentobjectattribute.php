@@ -413,7 +413,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        return $dataType->metaData( $this );
+        if ( $dataType )
+            return $dataType->metaData( $this );
+        else
+            return false;
     }
 
 

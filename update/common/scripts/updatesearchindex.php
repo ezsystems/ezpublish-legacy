@@ -1,4 +1,3 @@
-#!/usr/local/php/bin/php
 <?php
 //
 // Created on: <28-Nov-2002 12:45:40 bf>
@@ -35,7 +34,40 @@
 
 set_time_limit( 0 );
 
-print( "Starting Rotary import\n" );
+$ezpublishRoot = realpath( "." );
+$i = 1;
+
+$startNode = 1;
+
+while ( $i < count( $argv ) )
+{
+    $arg =& $argv[$i];
+    $increase = true;
+    if ( $arg == '--root' )
+    {
+        if ( isset( $arg[$i+1] ) )
+        {
+            $ezpublishRoot = $argv[$i+1];
+            chdir( $ezpublishRoot );
+            $increase = false;
+            $i += 2;
+        }
+        else
+            print( "Missing --root path\n" );
+    }
+    else if ( $arg == '--node' )
+    {
+        if ( isset( $argv[$i+1] ) )
+        {
+            $startNode = $argv[$i+1];
+        }
+        else
+            print( "Missing --node id\n" );
+    }
+    if ( $increase )
+        ++$i;
+}
+print( realpath( "." ) . "\n" );
 
 //eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
@@ -65,7 +97,7 @@ function eZFatalError()
 {
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     print( "Fatal error: eZ publish did not finish it's request\n" );
-    print( "The execution of eZ publish was abruptly ended." );
+    print( "The execution of eZ publish was abruptly ended.\n" );
 }
 
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
@@ -76,7 +108,7 @@ $db->setIsSQLOutputEnabled( false );
 
 
 // Get top node
-$node =& eZContentObjectTreeNode::fetch( 5082 );
+$node =& eZContentObjectTreeNode::fetch( $startNode );
 
 $endl = "\n";
 // $endl = "<br/>";
@@ -89,22 +121,39 @@ $updateCount = $subTreeCount / 100;
 if ( $updateCount < 1 )
     $updateCount = 1;
 
-$i = 0;
+$columnSize = 50;
+
+$nodeCount = 0;
 $updateCounter = 0;
+$columnCounter = 0;
 foreach ( $subTree as $node )
 {
     $object = $node->attribute( 'object' );
     eZSearch::removeObject( $object );
     eZSearch::addObject( $object );
-    ++$i;
+    ++$nodeCount;
     ++$updateCounter;
-    if ( $updateCounter > $updateCount )
+    print( "." );
+    ++$columnCounter;
+    if ( $columnCounter > $columnSize )
     {
-        $updateCounter = 0;
-        $percent = ($i*100.0) / $subTreeCount;
-        print( $percent . "%" . $endl );
+        $percent = ($nodeCount*100.0) / $subTreeCount;
+        $percentText = number_format( $percent, 2 );
+        print( " " . $percentText . "%\n" );
+        $columnCounter = 0;
+        ob_end_flush();
     }
-    ob_end_flush();
+//     if ( $updateCounter > $updateCount )
+//     {
+//         $updateCounter = 0;
+//         $percent = ($nodeCount*100.0) / $subTreeCount;
+//         print( $percent . "%" . $endl );
+//     }
+}
+if ( $columnCounter < $columnSize )
+{
+    print( str_repeat( ' ', $columnSize - $columnCounter + 1 ) );
+    print( " 100.00%\n" );
 }
 
 print( $endl . "done" . $endl );
