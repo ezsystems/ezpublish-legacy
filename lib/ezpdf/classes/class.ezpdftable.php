@@ -70,8 +70,8 @@ class eZPDFTable extends Cezpdf
         $this->ez['textStack'] = array();
 
         $this->PreStack = array();
-        $this->initPreStack();
         $this->DocSpecification = array();
+        $this->pushStack();
         $this->FrontpageID = null;
     }
 
@@ -117,6 +117,11 @@ class eZPDFTable extends Cezpdf
             $xOffset = $this->leftMargin();
         }
         return $xOffset;
+    }
+
+    function setYOffset( $yOffset )
+    {
+        $this->y = $yOffset;
     }
 
     function setXOffset( $xOffset )
@@ -973,7 +978,7 @@ class eZPDFTable extends Cezpdf
         $leftMargin = false;
         $rightMargin = false;
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $filename = rawurldecode( $params['src'] );
 
@@ -1157,7 +1162,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $sizes = isset( $params['size'] ) ? explode( ',', $params['size'] ) : '';
         $indents = isset( $params['indent'] ) ? explode( ',', $params['indent'] ) : '';
@@ -1324,7 +1329,7 @@ class eZPDFTable extends Cezpdf
      */
     function ezText( $text, $size=0, $options=array(), $test=0)
     {
-        $text = $this->fixWhitespace( $text );
+        $text = eZPDFTable::fixWhitespace( $text );
 
         $textLen = strlen( $text );
         $newText = '';
@@ -1350,7 +1355,7 @@ class eZPDFTable extends Cezpdf
                     $params = array();
                     $funcName = '';
 
-                    $offSet = $this->extractFunction( $text, $offSet, $funcName, $params, 'ezCall' );
+                    $offSet = eZPDFTable::extractFunction( $text, $offSet, $funcName, $params, 'ezCall' );
 
                     $newText .= $this->$funcName( $params );
 
@@ -1382,10 +1387,11 @@ class eZPDFTable extends Cezpdf
                     $params = array();
                     $funcName = '';
 
-                    $offSet = $this->extractFunction( $text, $offSet, $funcName, $params, 'ezGroup' );
+                    $offSet = eZPDFTable::extractFunction( $text, $offSet, $funcName, $params, 'ezGroup' );
                     $offSet++;
                     $endGroup = strpos( $text, '</ezGroup:', $offSet );
                     $groupText = substr( $text, $offSet, $endGroup - $offSet );
+                    $groupText = urldecode( $groupText );
 
                     $this->$funcName( $params, $groupText );
 
@@ -1400,7 +1406,8 @@ class eZPDFTable extends Cezpdf
             $this->addDocSpecification( $newText );
         }
 
-        return $this->outputDocSpecification();
+        $this->outputDocSpecification();
+
     }
 
     /*!
@@ -1412,7 +1419,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $keyArray = array ( 'c', 'm', 'y', 'k' );
         $cmykColor = explode( ',', $params['cmyk'] );
@@ -1494,7 +1501,7 @@ class eZPDFTable extends Cezpdf
     {
         $options = array();
 
-        $this->extractParameters( $info['p'], 0, $options, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $options, true );
 
         if ( isset( $options['left'] ) )
         {
@@ -1535,7 +1542,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $keyArray = array ( 'c', 'm', 'y', 'k' );
         $cmykColor = explode( ',', $params['cmyk'] );
@@ -1598,7 +1605,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $keyArray = array ( 'c', 'm', 'y', 'k' );
         $cmykTop = explode( ',', $params['cmykTop'] );
@@ -1643,7 +1650,7 @@ class eZPDFTable extends Cezpdf
     function callDrawLine( $info )
     {
         $params = array();
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $this->setLineStyle( $params['thickness'] );
         $this->line( $params['x1'], $params['y1'], $params['x2'], $params['y2'] );
@@ -1657,7 +1664,7 @@ class eZPDFTable extends Cezpdf
     function callFrameMargins( $info )
     {
         $params = array();
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         if( isset( $this->ezFrame[$params['identifier']] ) )
         {
@@ -1946,7 +1953,7 @@ class eZPDFTable extends Cezpdf
                     $tdParams = array();
                     $offSet++;
                     $offSet += strlen( 'td' );
-                    $offSet = $this->extractParameters( $text, $offSet, $tdParams );
+                    $offSet = eZPDFTable::extractParameters( $text, $offSet, $tdParams );
 
                     if ( count( $tdParams ) > 0 )
                     {
@@ -1967,7 +1974,7 @@ class eZPDFTable extends Cezpdf
                     $thParams = array();
                     $offSet++;
                     $offSet += strlen( 'th' );
-                    $offSet = $this->extractParameters( $text, $offSet, $thParams );
+                    $offSet = eZPDFTable::extractParameters( $text, $offSet, $thParams );
 
                     $cellData[$columnCount. ',' .$rowCount] = array();
                     $cellData[$columnCount.','.$rowCount]['title'] = true;
@@ -2045,7 +2052,7 @@ class eZPDFTable extends Cezpdf
         }
         $functionName = substr( $text, $offSet, $funcEnd - $offSet );
 
-        return $this->extractParameters( $text, $funcEnd, $parameters );
+        return eZPDFTable::extractParameters( $text, $funcEnd, $parameters );
     }
 
     /**
@@ -2089,7 +2096,7 @@ class eZPDFTable extends Cezpdf
       Loop through all document specification settings and print specified text
 
       \return new Y offset
-     */
+    */
     function outputDocSpecification()
     {
         foreach( array_keys( $this->DocSpecification ) as $key )
@@ -2134,35 +2141,31 @@ class eZPDFTable extends Cezpdf
     /*!
      Insert text at specified position
     */
-    function callTextBox( $info )
+    function callTextBox( $params, $text )
     {
-        $params = array();
-        $this->extractParameters( $info['p'], 0, $params, true );
+        $this->addDocSpecFunction( 'insertTextBox', array( $params, $text ) );
+    }
 
-        foreach( array_keys( $params ) as $key )
-        {
-            $params[$key] = $this->fixWhitespace( urldecode( $params[$key] ) );
-        }
+    function insertTextBox( $params, $text )
+    {
+        $this->pushStack();
 
-        $text = $params['text'];
-        $y = $params['y'];
-        $x = $params['x'];
-        $width = $params['width'];
+        $this->setYOffset( $params['y'] );
+        $this->setXOffset( $params['x'] );
+        $this->ez['leftMargin'] = $params['x'];
+        $this->ez['rightMargin'] = $this->ez['pageWidth'] - $params['width'] - $params['x'];
 
-        $align = isset( $params['align'] ) ? $params['align'] : 'left';
-        $size = isset( $params['size'] ) ? $params['size'] : $this->fontSize();
+        $this->setJustification( isset( $params['align'] ) ? $params['align'] : 'left' );
+        $this->setFontSize( isset( $params['size'] ) ? $params['size'] : $this->fontSize() );
 
-        while( strlen( $text ) != 0 )
-        {
-            $retArray = $this->addTextWrap( $x, $y, $width, $size, $text, $align );
-            $text = $retArray['text'];
-            $y -= $this->getFontHeight( $size );
-        }
+        $this->ezText( urldecode( $text ) );
+
+        $this->popStack();
     }
 
     /*!
      Callback function for adding text frame.
-     */
+    */
     function callTextFrame( $params, $text )
     {
         $this->addDocSpecFunction( 'insertTextFrame', array( $params, $text ) );
@@ -2170,7 +2173,7 @@ class eZPDFTable extends Cezpdf
 
     /*!
      Callback function for adding text frame.
-     */
+    */
     function insertTextFrame( $params, $text )
     {
         $prevColor = $this->currentColour;
@@ -2324,16 +2327,62 @@ class eZPDFTable extends Cezpdf
         return '';
     }
 
-    /**
-     * Initialize PreStack
+    /*!
+     * Add and build Stack for function calls and document specification Stack
+
+      \param countinues text, set to false to insert independent frames. DEfault true
      */
-    function initPreStack()
+    function pushStack( $continous = true)
     {
         include_once( 'lib/ezutils/classes/ezmath.php' );
-        $this->PreStack[] = array( 'justification' => $this->justification(),
-                                   'fontSize' => $this->fontSize(),
-                                   'fontName' => 'lib/ezpdf/classes/fonts/Helvetica',
-                                   'cmyk' => eZMath::rgbToCMYK2( 0, 0, 0 ) );
+        $docSpecArray = array( 'DocSpec' => $this->DocSpecification,
+                               'PreStack' => $this->PreStack,
+                               'LeftMarginArray' => $this->LeftMarginArray,
+                               'RightMarginArray' => $this->RightMarginArray,
+                               'LeftMargin' => $this->ez['leftMargin'],
+                               'RightMargin' => $this->ez['rightMargin'],
+                               'TopMargin' => $this->ez['topMargin'],
+                               'BottomMargin' => $this->ez['BottomMargin'],
+                               'Continous' => $continous,
+                               'FontSize' => $this->fontSize(),
+                               'Justification' => $this->justification() );
+        if ( $continous )
+        {
+            $docSpecArray['YPos'] = $this->yOffset();
+            $docSpecArray['XPos'] = $this->xOffset();
+        }
+
+        $this->DocSpecStack[] = $docSpecArray;
+
+        $this->PreStack = array( array( 'justification' => $this->justification(),
+                                        'fontSize' => $this->fontSize(),
+                                        'fontName' => 'lib/ezpdf/classes/fonts/Helvetica',
+                                        'cmyk' => eZMath:: rgbToCMYK2( 0, 0, 0 ) ) );
+        $this->DocSpecification = array();
+    }
+
+    /*!
+     Pop Specification stack.
+    */
+    function popStack()
+    {
+        $stackArray = array_pop( $this->DocSpecStack );
+        $this->DocSpecification = $stackArray['DocSpec'];
+        $this->PreStack = $stackArray['PreStack'];
+        $this->LeftMarginArray = $stackArray['LeftMarginArray'];
+        $this->RightMarginArray = $stackArray['RightMarginArray'];
+        $this->ez['leftMargin'] = $stackArray['LeftMargin'];
+        $this->ez['rightMargin'] = $stackArray['RightMargin'];
+        $this->ez['topMargin'] = $stackArray['TopMargin'];
+        $this->ez['bottomMargin'] = $stackArray['BottomMargin'];
+        $this->setFontSize( $stackArray['FontSize'] );
+        $this->setJustification( $stackArray['justification'] );
+
+        if ( $stackArray['continous'] )
+        {
+            $this->setYOffset( $stackArray['YPos'] );
+            $this->setXOffset( $stackArray['XPos'] );
+        }
     }
 
     /**
@@ -2425,7 +2474,7 @@ class eZPDFTable extends Cezpdf
     function callFrameLine( $info )
     {
         $parameters = array();
-        $this->extractParameters( $info['p'], 0, $parameters, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $parameters, true );
 
         $location = $parameters['location'];
         $yOffset = $parameters['margin'];
@@ -2475,7 +2524,7 @@ class eZPDFTable extends Cezpdf
     {
         $params = array();
 
-        $this->extractParameters( $info['p'], 0, $params, true );
+        eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
         $identifier = 'main';
         if ( isset( $params['identifier'] ) )
@@ -2588,6 +2637,9 @@ class eZPDFTable extends Cezpdf
     /* Stack and array used for preprocessing document */
     var $PreStack;
     var $DocSpecification;
+
+    /* Stack array for recursive ezText calls */
+    var $DocSpecStack = array();
 }
 
 

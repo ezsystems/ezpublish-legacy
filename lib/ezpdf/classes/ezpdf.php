@@ -204,9 +204,9 @@ class eZPDF
 
                 $rows = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $operatorValue .= str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                $operatorValue .= urlencode( str_replace( array( ' ', "\t", "\r\n", "\n" ),
                                                '',
-                                               $rows );
+                                               $rows ) );
 
                 $operatorValue .= '</ezGroup:callTable><C:callNewLine>';
 
@@ -483,7 +483,7 @@ class eZPDF
 
                 if ( isset( $frameDesc['text'] ) )
                 {
-                    $operatorValue .= $frameDesc['text'];
+                    $operatorValue .= urlencode( $frameDesc['text'] );
                 }
 
                 $operatorValue .= '</ezGroup:callFrame>';
@@ -626,7 +626,7 @@ class eZPDF
                                      '',
                                      $text );
 
-                $operatorValue .= '>'. $text .'</ezGroup:callFrontpage>';
+                $operatorValue .= '>'. urlencode( $text ) .'</ezGroup:callFrontpage>';
 
                 eZDebug::writeNotice( 'Added content to frontpage: '. $operatorValue, 'eZPDF::modify' );
             } break;
@@ -980,14 +980,19 @@ class eZPDF
             {
                 $parameters = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $operatorValue = '<C:callTextBox';
+                $operatorValue = '<ezGroup:callTextBox';
 
                 foreach( array_keys( $parameters ) as $key )
                 {
-                    $operatorValue .= ':' . $key . ':' . urlencode( $parameters[$key] );
+                    if ( $key != 'text' )
+                    {
+                        $operatorValue .= ':' . $key . ':' . urlencode( $parameters[$key] );
+                    }
                 }
 
                 $operatorValue .= '>';
+                $operatorValue .= urlencode( $parameters['text'] );
+                $operatorValue .= '</ezGroup:callTextBox>';
 
                 return $operatorValue;
             } break;
@@ -1036,7 +1041,7 @@ class eZPDF
                             }
                         }
 
-                        $operatorValue .= '>' . $text . '</ezGroup::callTextFrame>';
+                        $operatorValue .= '>' . urlencode( $text ) . '</ezGroup::callTextFrame>';
 
                     }
                 }
