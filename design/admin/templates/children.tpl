@@ -38,22 +38,22 @@
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/pagelayout' )}">10</a>
+        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/pagelayout' )}">50</a>
+        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
 
         {/case}
 
         {case match=50}
-        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/pagelayout' )}">10</a>
-        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/pagelayout' )}">25</a>
+        <a href={'/user/preferences/set/items/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/pagelayout' )}">25</a>
-        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/pagelayout' )}">50</a>
+        <a href={'/user/preferences/set/items/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+        <a href={'/user/preferences/set/items/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
         {/case}
 
         {/switch}
@@ -63,21 +63,21 @@
         <p>
         {switch match=ezpreference( 'admin_children_viewmode' )}
         {case match='thumbnail'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/pagelayout' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
         <span class="current">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/pagelayout' )}">{'Detailed'|i18n( 'design/admin/pagelayout' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
 
         {case match='detailed'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/pagelayout' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/pagelayout' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
         <span class="current">{'Detailed'|i18n( 'design/admin/node/view/full' )}</span>
         {/case}
 
         {case}
         <span class="current">{'List'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Disaply sub items as thumbnails.'|i18n( 'design/admin/pagelayout' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Disaply sub items using a detailed list.'|i18n( 'design/admin/pagelayout' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Disaply sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Disaply sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
         {/switch}
         </p>

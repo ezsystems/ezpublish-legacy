@@ -3,7 +3,7 @@
 
 {* Only show edit GUI if we can edit, oterwise: show view GUI. *}
 {section show=and( eq( $attributes.item.can_translate, 0 ), ne( $object.default_language, $attributes.item.language_code ) )}
-    <label>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.can_translate|not}<span class="nontranslatable">({'not translatable'|i18n( 'admin/content/edit_attribute' )})</span>{/section}:</label>
+    <label>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.can_translate|not}<span class="nontranslatable">({'not translatable'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}:</label>
 
     {section show=$is_translating_content}
     <div class="translation">
@@ -18,7 +18,7 @@
 
 {section-else}
 
-    <label{section show=$attributes.item.has_validation_error} class="message-error"{/section}>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.is_required}<span class="required">({'required'|i18n( 'admin/content/edit_attribute' )})</span>{/section}{section show=$attributes.item.is_information_collector}<span class="collector">({'information collector'|i18n( 'admin/content/edit_attribute' )})</span>{/section}:</label>
+    <label{section show=$attributes.item.has_validation_error} class="message-error"{/section}>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.is_required}<span class="required">({'required'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}{section show=$attributes.item.is_information_collector}<span class="collector">({'information collector'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}:</label>
 
     {section show=$is_translating_content}
     <div class="original">

@@ -1,8 +1,8 @@
 <table class="list" cellspacing="0">
 <tr>
   <th class="tight"></th>
-  <th colspan="2">{"Subject"|i18n('design/standard/collaboration/item_list')}</th>
-  <th>{"Date"|i18n('design/standard/collaboration/item_list')}</th>
+  <th colspan="2">{"Subject"|i18n('design/admin/collaboration/item_list')}</th>
+  <th>{"Date"|i18n('design/admin/collaboration/item_list')}</th>
 </tr>
 {section name=Item loop=$item_list sequence=array(bglight,bgdark)}
 {let item_class="status_read"}
@@ -10,14 +10,14 @@
   <td class="tight">
     {section show=$:item.user_status.is_active}
       {section show=$:item.user_status.is_read}
-      <img src={"collaboration/status_read.png"|ezimage} alt="{'Read'|i18n('design/standard/collaboration')}" />
+      <img src={"collaboration/status_read.png"|ezimage} alt="{'Read'|i18n('design/admin/collaboration/item_list')}" />
       {section-else}
       {set item_class="status_unread"}
-      <img src={"collaboration/status_unread.png"|ezimage} alt="{'Unread'|i18n('design/standard/collaboration')}" />
+      <img src={"collaboration/status_unread.png"|ezimage} alt="{'Unread'|i18n('design/admin/collaboration/item_list')}" />
       {/section}
     {section-else}
     {set item_class="status_inactive"}
-    <img src={"collaboration/status_inactive.png"|ezimage} alt="{'Inactive'|i18n('design/standard/collaboration')}" />
+    <img src={"collaboration/status_inactive.png"|ezimage} alt="{'Inactive'|i18n('design/admin/collaboration/item_list')}" />
     {/section}
   </td>
   <td class="tight">

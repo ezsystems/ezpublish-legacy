@@ -32,7 +32,7 @@
 
 {section-else}
 <div class="block">
-<p>{"No items in group."|i18n('design/standard/collaboration')}</p>
+<p>{"No items in group."|i18n('design/admin/collaboration/group/view/list')}</p>
 </div>
 {/section}
 

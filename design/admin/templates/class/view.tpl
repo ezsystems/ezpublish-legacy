@@ -168,7 +168,7 @@
 </tr>
 {section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
 <tr class="{$Groups.sequence}">
-    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/list' )}" /></td>
+    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/view' )}" /></td>
     <td class="wide">{$Groups.item.group_name|classgroup_icon( small, $Groups.item.group_name )}&nbsp;<a href={concat( '/class/classlist/', $Groups.item.group_id )|ezurl}>{$Groups.item.group_name|wash}</a></td>
 </tr>
 {/section}

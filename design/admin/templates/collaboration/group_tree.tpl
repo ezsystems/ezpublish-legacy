@@ -5,7 +5,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-  <th>{"Groups"|i18n('design/standard/collaboration/group_tree')}</th>
+  <th>{"Groups"|i18n('design/admin/collaboration/group_tree')}</th>
 </tr>
 {section name=Group loop=$group_tree sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">

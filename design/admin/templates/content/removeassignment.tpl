@@ -5,7 +5,7 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h4>{'Object information'|i18n( 'design/admin/content/upload' )}</h4>
+<h4>{'Object information'|i18n( 'design/admin/content/removeassignment' )}</h4>
 
 </div></div></div></div></div></div>
 
@@ -43,7 +43,7 @@
 {section show=$content_object.published}
 {$content_object.current.version}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/removeassignment ' )}
+{'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
 {/section}
 </p>
 
