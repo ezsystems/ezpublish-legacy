@@ -116,7 +116,7 @@ class eZPublishSDK
 
     /*!
       \return the version of the database.
-      \param withRelease If true the release version is appended
+      \param withRelease If true the release version is appended.
     */
     function databaseVersion( $withRelease = true )
     {
