@@ -55,15 +55,7 @@ class eZSelectionType extends eZDataType
     */
     function eZSelectionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, "Single and multiple selections" );
-    }
-
-    /*!
-     Sets the default value.
-    */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
-    {
-
+        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, "Selection" );
     }
 
     /*!
@@ -98,6 +90,7 @@ class eZSelectionType extends eZDataType
                                        'name' => '' );
         }
 
+        $hasPostData = false;
         if ( $http->hasPostVariable( $base . "_ezselection_option_name_array_" . $classAttributeID ) )
         {
             $nameArray = $http->postVariable( $base . "_ezselection_option_name_array_" . $classAttributeID );
@@ -108,32 +101,35 @@ class eZSelectionType extends eZDataType
             }
         }
 
-        // Serialize XML
-        $doc = new eZDOMDocument( "selection" );
-        $root =& $doc->createElementNode( "ezselection" );
-        $doc->setRoot( $root );
-
-        $options =& $doc->createElementNode( "options" );
-
-        $root->appendChild( $options );
-        foreach ( $currentOptions as $optionArray )
+        if ( $hasPostData )
         {
-            $optionNode =& $doc->createElementNode( "option" );
-            $optionNode->appendAttribute( $doc->createAttributeNode( "id", $optionArray['id'] ) );
-            $optionNode->appendAttribute( $doc->createAttributeNode( 'name', $optionArray['name'] ) );
 
-            $options->appendChild( $optionNode );
+            // Serialize XML
+            $doc = new eZDOMDocument( "selection" );
+            $root =& $doc->createElementNode( "ezselection" );
+            $doc->setRoot( $root );
+
+            $options =& $doc->createElementNode( "options" );
+
+            $root->appendChild( $options );
+            foreach ( $currentOptions as $optionArray )
+            {
+                $optionNode =& $doc->createElementNode( "option" );
+                $optionNode->appendAttribute( $doc->createAttributeNode( "id", $optionArray['id'] ) );
+                $optionNode->appendAttribute( $doc->createAttributeNode( 'name', $optionArray['name'] ) );
+
+                $options->appendChild( $optionNode );
+            }
+
+            $xml =& $doc->toString();
+
+            $classAttribute->setAttribute( "data_text5", $xml );
+
+            if ( $isMultipleSelection == true )
+                $classAttribute->setAttribute( "data_int1", 1 );
+            else
+                $classAttribute->setAttribute( "data_int1", 0 );
         }
-
-        $xml =& $doc->toString();
-
-        $classAttribute->setAttribute( "data_text5", $xml );
-
-        if ( $isMultipleSelection == true )
-            $classAttribute->setAttribute( "data_int1", 1 );
-        else
-            $classAttribute->setAttribute( "data_int1", 0 );
-
         return true;
     }
     /*!
