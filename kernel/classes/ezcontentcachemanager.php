@@ -252,7 +252,7 @@ class eZContentCacheManager
 
                 $step = 0;
                 $maxParents = $dependentClassInfo['max_parents'];
-                $dependentClassIdentifier = $dependentClassInfo['dependent_class_identifier'];
+                $dependentClassIdentifiers = $dependentClassInfo['dependent_class_identifier'];
                 $smartClearType = $dependentClassInfo['clear_cache_type'];
 
                 if ( $maxParents > 0 )
@@ -264,11 +264,11 @@ class eZContentCacheManager
                     $nodeInfoList = array_reverse( $nodeInfoList );
                 }
 
-                // for each node in $nodeInfoList determine if this node belongs to $dependentClassIdentifier. If
+                // for each node in $nodeInfoList determine if this node belongs to $dependentClassIdentifiers. If
                 // so then clear cache for this node.
                 foreach ( $nodeInfoList as $item )
                 {
-                    if ( $item['class_identifier'] == $dependentClassIdentifier )
+                    if ( in_array( $item['class_identifier'], $dependentClassIdentifiers ) )
                     {
                         $node =& eZContentObjectTreeNode::fetch( $item['node_id'] );
                         $object =& $node->attribute( 'object' );
