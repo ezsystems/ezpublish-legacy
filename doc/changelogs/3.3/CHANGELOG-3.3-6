@@ -113,6 +113,8 @@ eZINI:
   o Fetching from non-published objects was posssible.
 - Fixed inability of storing GMT midnight in eztime.
   http://ez.no/community/bug_reports/eztime_data_type_can_t_store_midnight
+- Fixed incorrect sorting of time fields.
+  http://ez.no/community/bug_reports/incorrect_sorting_of_time_fields
 
 *Library:
 
