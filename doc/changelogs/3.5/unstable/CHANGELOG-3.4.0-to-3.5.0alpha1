@@ -56,6 +56,9 @@ eztc.php:
 - Fixed bug: files having names containing spaces could not be downloaded with some browsers
   (merged from 3.4 rev. 6798, also in 3.3 rev. 6797).
   http://ez.no/community/bug_reports/can_t_download_if_spaces_in_binary_file_names
+- Fixed typo in eZContentObject::checkAccess
+  (merged from 3.3 rev. 6808, also in 3.4 rev. 6809).
+  http://ez.no/community/bug_reports/typo_in_ezcontentobject_php
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that
