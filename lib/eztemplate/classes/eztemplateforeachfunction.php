@@ -293,55 +293,53 @@ class eZTemplateForeachFunction
             Otherwise they are not considered.
         */
 
-        $arrayKeys =& array_keys( $array );
-        $nItems    =  count( $arrayKeys );
+        $arrayKeys       =& array_keys( $array );
+        $nItems          =  count( $arrayKeys );
+        $nItemsProcessed =  0;
 
+        // do nothing in case of empty array
         if ( !$nItems )
             return;
 
+        // fix definitely incorrect offset
         if ( is_null( $offset ) )
+            $offset = 0;
+        elseif ( $offset < 0 || $offset >= $nItems )
         {
-            if ( $offset < 0 )
-                $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'offset' parameter specified." );
+            $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'offset' parameter specified." );
             $offset = 0;
         }
 
-        if ( !is_null( $max ) )
+        // fix definitely incorrect max
+        if ( is_null( $max ) )
+            $max = $nItems - $offset;
+        elseif ( $max < 0 || $offset+$max > $nItems )
         {
-            if ( $max < 0 || $offset+$max > $nItems )
-            {
-                $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'max' parameter specified." );
-                $max = null;
-            }
+            $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'max' parameter specified." );
+            $max = $nItems - $offset;
         }
 
-        $firstVal = $offset;
-        $lastVal  = $nItems - 1;
-
-        if ( !is_null( $max ) )
-        {
-            if ( $max )
-                $lastVal = $max + $offset - 1;
-            else
-                return;
-        }
-
+        // process 'reverse' parameter
+        if ( is_null( $reverse ) )
+            $reverse = false;
         if ( $reverse )
         {
-            // toggle direction of traversal by swapping $firstVal and $lastVal
-            $tmp = $firstVal;
-            $firstVal = $lastVal;
-            $lastVal = $tmp;
+            $firstVal = $nItems - 1 - $offset;
+            $lastVal  = 0;
+        }
+        else
+        {
+            $firstVal = $offset;
+            $lastVal  = $nItems - 1;
         }
 
-        for ( $i = $firstVal; $firstVal < $lastVal ? $i <= $lastVal : $i >= $lastVal; )
+        for ( $i = $firstVal; $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal ); )
         {
             $key =& $arrayKeys[$i];
             $val =& $array[$key];
 
             if ( $keyVarName )
                 $tpl->setVariable( $keyVarName, $key );
-
             $tpl->setVariable( $itemVarName, $val );
 
             $loop->resetIteration();
@@ -354,14 +352,15 @@ class eZTemplateForeachFunction
                 break;
 
             // increment loop counter here for delimiter to be processed correctly
-            $firstVal < $lastVal ? $i++ : $i--;
+            $reverse ? $i-- : $i++;
 
             // evaluate the loop condition again
-            $loopCond = $firstVal < $lastVal ? $i <= $lastVal : $i >= $lastVal;
+            $loopCond = $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal );
             if ( $loop->processDelimiter( $loopCond ) )
                 break;
 
             $loop->incrementSequence();
+            $nItemsProcessed++;
         }
 
         // destroy the loop variable(s)
