@@ -172,8 +172,7 @@ class eZMySQLDB extends eZDBInterface
             eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             $orig_sql = $sql;
             // The converted sql should not be output
-            if ( $this->UseBuiltinEncoding and
-                 $this->InputTextCodec->conversionRequired() )
+            if ( $this->InputTextCodec )
             {
                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                 $sql =& $this->InputTextCodec->convertString( $sql );
@@ -291,8 +290,7 @@ class eZMySQLDB extends eZDBInterface
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
                     for ( $i=0; $i < $numRows; $i++ )
                     {
-                        if ( $this->UseBuiltinEncoding and
-                             $this->InputTextCodec->conversionRequired() )
+                        if ( $this->InputTextCodec )
                         {
                             $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
                             unset( $conv_row );
@@ -319,8 +317,7 @@ class eZMySQLDB extends eZDBInterface
                     for ( $i=0; $i < $numRows; $i++ )
                     {
                         $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
-                        if ( $this->UseBuiltinEncoding and
-                             $this->InputTextCodec->conversionRequired() )
+                        if ( $this->InputTextCodec )
                         {
                             eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                             $retArray[$i + $offset] =& $this->OutputTextCodec->convertString( $tmp_row[$column] );

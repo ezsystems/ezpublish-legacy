@@ -102,11 +102,13 @@ class eZDBInterface
         $this->DBWriteConnection = false;
         $this->TransactionCounter = 0;
 
+        $this->OutputTextCodec = null;
+        $this->InputTextCodec = null;
         if ( $this->UseBuiltinEncoding )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec =& eZTextCodec::instance( $charset );
-            $this->InputTextCodec =& eZTextCodec::instance( eZTextCodec::internalCharset(), $charset );
+            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
+            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
         }
 
         $ini =& eZINI::instance();

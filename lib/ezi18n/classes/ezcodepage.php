@@ -863,4 +863,11 @@ $str
     var $SubstituteChar;
 }
 
+// Checks if index.php or any other script has set any codepage permissions
+if ( isset( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) and
+     $GLOBALS['EZCODEPAGEPERMISSIONS'] !== false )
+{
+    eZCodepage::flushCacheObject();
+}
+
 ?>

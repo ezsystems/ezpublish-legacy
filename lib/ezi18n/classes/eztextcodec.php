@@ -43,30 +43,41 @@
 
 */
 
-include_once( "lib/ezi18n/classes/ezcodepagemapper.php" );
-include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
-include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
-
 class eZTextCodec
 {
     /*!
     */
-    function eZTextCodec( $inputCharsetCode, $outputCharsetCode )
+    function eZTextCodec( $inputCharsetCode, $outputCharsetCode,
+                          $realInputCharsetCode, $realOutputCharsetCode,
+                          $inputEncoding, $outputEncoding )
     {
+        include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
         $this->RequestedInputCharsetCode = $inputCharsetCode;
         $this->RequestedOutputCharsetCode = $outputCharsetCode;
-        $this->InputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
-        $this->OutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
-        $this->InputCharacterEncodingScheme = eZCharsetInfo::characterEncodingScheme( $this->InputCharsetCode );
-        $this->OutputCharacterEncodingScheme = eZCharsetInfo::characterEncodingScheme( $this->OutputCharsetCode );
+        $this->InputCharsetCode = $realInputCharsetCode;
+        $this->OutputCharsetCode = $realOutputCharsetCode;
+        $this->InputCharacterEncodingScheme = $inputEncoding;
+        $this->OutputCharacterEncodingScheme = $outputEncoding;
 
         $useMBStringExtension = false;
         if ( isset( $GLOBALS['eZTextCodecMBStringExtension'] ) )
             $useMBStringExtension = $GLOBALS['eZTextCodecMBStringExtension'];
 
+        // NOTE:
+        // The method eZMBStringMapper::hasMBStringExtension() has been copied and inlined here
+        // Any modification must be reflected in the method
+        $hasMBString = ( function_exists( "mb_convert_encoding" ) and
+                         function_exists( "mb_substitute_character" ) and
+                         function_exists( "mb_strcut" ) and
+                         function_exists( "mb_strlen" ) and
+                         function_exists( "mb_strpos" ) and
+                         function_exists( "mb_strrpos" ) and
+                         function_exists( "mb_strwidth" ) and
+                         function_exists( "mb_substr" ) );
+
         $useMBString = ( $useMBStringExtension and
                          eZTextCodec::useMBString() and
-                         eZMBStringMapper::hasMBStringExtension() );
+                         $hasMBString );
 
         // Map for conversion functions using encoding functions
         $encodingConvertMap = array();
@@ -118,41 +129,58 @@ class eZTextCodec
         $encodingConvertInitMap['doublebyte']['singlebyte'] = 'initializeCodepageMapper';
         $encodingConvertInitMap['doublebyte']['doublebyte'] = 'convertCodepageMapper';
 
+
         $noneConversionFunction = 'convertNone';
         $noneStrlenFunction = 'strlenNone';
         $conversionFunction = null;
         $strlenFunction = null;
         $encodingConvertInitFunction = null;
 
-//         $unicodeConversionFunction = 'convertNoneToUnicode';
-//         $useMapper = false;
+        // NOTE:
+        // The method eZMBStringMapper::charsetList() hash been copied and inlined here
+        // Any modification must be reflected in the method
+        $mbStringCharsets =& $GLOBALS["eZMBCharsetList"];
+        if ( $useMBString and
+             !is_array( $mbStringCharsets ) )
+        {
+            $charsetList = array( "ucs-4", "ucs-4be", "ucs-4le", "ucs-2", "ucs-2be", "ucs-2le", "utf-32", "utf-32be", "utf-32le", "utf-16",
+                                  "utf-16be", "utf-16le", "utf-8", "utf-7", "ascii", "euc-jp", "sjis", "eucjp-win", "sjis-win", "iso-2022-jp", "jis",
+                                  "iso-8859-1", "iso-8859-2", "iso-8859-3", "iso-8859-4", "iso-8859-5", "iso-8859-6", "iso-8859-7", "iso-8859-8",
+                                  "iso-8859-9", "iso-8859-10", "iso-8859-13", "iso-8859-14", "iso-8859-15", "byte2be", "byte2le", "byte4be",
+                                  "byte4le", "base64", "7bit", "8bit", "utf7-imap" );
+            $mbStringCharsets = array();
+            foreach ( $charsetList as $charset )
+            {
+                $mbStringCharsets[$charset] = $charset;
+            }
+        }
 
-//         print( "inp=" . $this->InputCharsetCode . ", out=" . $this->OutputCharsetCode .
-//                ", ienc=" . $this->InputCharacterEncodingScheme . ", oenc=" . $this->OutputCharacterEncodingScheme . "<br/>" );
+        // Is to true if the charsets are the same and they have singlebyte encoding
+        $isSinglebyteSame = false;
 
         // First detect conversion type
         if ( $this->InputCharsetCode == $this->OutputCharsetCode ) // Direct match, no conversion
         {
-//             print( "Similar<br/>" );
             $conversionFunction = $noneConversionFunction;
             $encodingConvertInitFunction = 'initializeInputCodepage';
-//             eZDebug::writeNotice( "none " . $this->InputCharsetCode . "/" . $this->OutputCharsetCode, "eZTextCodec" );
+            $inpenc = $this->InputCharacterEncodingScheme;
+            if ( $inpenc == 'singlebyte' )
+                $isSinglebyteSame = true;
         }
         else if ( $useMBString and
-                  eZMBStringMapper::isCharsetSupported( $this->InputCharsetCode ) and
-                  eZMBStringMapper::isCharsetSupported( $this->OutputCharsetCode ) ) // Use MBString for converting if charsets supported
+                  isset( $mbStringCharsets[$this->InputCharsetCode] ) and
+                  isset( $mbStringCharsets[$this->OutputCharsetCode] ) ) // Use MBString for converting if charsets supported
         {
-//             print( "MBString<br/>" );
-            $this->MBStringMapper = eZMBStringMapper::instance( $this->InputCharsetCode,
-                                                                $this->OutputCharsetCode );
+            // NOTE:
+            // The mbstringmapper object is no longer needed since all functionality is inlined
+//             $this->MBStringMapper = eZMBStringMapper::instance( $this->InputCharsetCode,
+//                                                                 $this->OutputCharsetCode );
             $conversionFunction = "convertMBString";
             $strlenFunction = "strlenMBString";
             $encodingConvertInitFunction = false;
-//             eZDebug::writeNotice( "mbstring " . $this->InputCharsetCode . "/" . $this->OutputCharsetCode, "eZTextCodec" );
         }
         else // See if we support encoding scheme and codepage
         {
-//             print( "else<br/>" );
             $inpenc = $this->InputCharacterEncodingScheme;
             $outenc = $this->OutputCharacterEncodingScheme;
             if ( isset( $encodingConvertMap[$inpenc][$outenc] ) )
@@ -164,127 +192,16 @@ class eZTextCodec
         if ( $strlenFunction === null )
         {
             $inpenc = $this->InputCharacterEncodingScheme;
-            if ( isset( $encodingStrlenMap[$inpenc] ) )
+            if ( $isSinglebyteSame )
+                $strlenFunction = 'strlenNone';
+            else if ( isset( $encodingStrlenMap[$inpenc] ) )
             {
                 $strlenFunction = $encodingStrlenMap[$inpenc];
             }
         }
 
-//         {
-//             if ( $this->InputCharacterEncodingScheme == $this->OutputCharacterEncodingScheme ) // If they match use direct mappers
-//             {
-//                 if ( $this->InputCharacterEncodingScheme == "singlebyte" or
-//                      $this->InputCharacterEncodingScheme == "doublebyte" )
-//                 {
-//                     $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
-//                                                                          $this->OutputCharsetCode );
-//                     if ( $this->CodepageMapper->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageMapper";
-//                         $strlenFunction = "strlenCodepageMapper";
-//                         $useMapper = true;
-// //                         eZDebug::writeNotice( "codepagemapper", "eZTextCodec" );
-//                     }
-//                     else
-//                         unset( $this->CodepageMapper );
-//                 }
-//             }
-//             else if ( $this->OutputCharacterEncodingScheme == "utf-8" )
-//             {
-//                 if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepage";
-//                         $strlenFunction = "strlenCodepage";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->InputCharacterEncodingScheme == "utf-8" )
-//             {
-//                 if ( eZCodePage::exists( $this->OutputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageRev";
-//                         $strlenFunction = "strlenCodepageRev";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->OutputCharacterEncodingScheme == "unicode" )
-//             {
-//                 if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageToUnicode";
-//                         $strlenFunction = "strlenCodepage";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//             else if ( $this->InputCharacterEncodingScheme == "unicode" )
-//             {
-//                 if ( eZCodePage::exists( $this->OutputCharsetCode ) )
-//                 {
-//                     $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
-//                     if ( $this->Codepage->isValid() )
-//                     {
-//                         $conversionFunction = "convertCodepageRev";
-//                         $strlenFunction = "strlenCodepageRev";
-//                         $useMapper = false;
-// //                         eZDebug::writeNotice( "codepage", "eZTextCodec" );
-//                     }
-//                     else
-//                     {
-//                         unset( $this->Codepage );
-//                     }
-//                 }
-//             }
-//         }
-//         if ( $this->InputCharacterEncodingScheme == "utf-8" )
-//         {
-//             $unicodeConversionFunction = 'convertUTF8ToUnicode';
-//         }
-//         else
-//         {
-//             if ( eZCodePage::exists( $this->InputCharsetCode ) )
-//             {
-//                 $this->UnicodeCodepage =& eZCodepage::instance( $this->InputCharsetCode );
-//                 if ( $this->UnicodeCodepage->isValid() )
-//                 {
-//                     $unicodeConversionFunction = 'convertCodepageToUnicode';
-//                 }
-//                 else
-//                 {
-//                     unset( $this->UnicodeCodepage );
-//                 }
-//             }
-//         }
-//         print( "$conversionFunction<br/>" );
-//         print( "$strlenFunction<br/>" );
-
-        if ( $conversionFunction and
+        if ( !$isSinglebyteSame and
+             $conversionFunction and
              $strlenFunction )
             $this->initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction );
         if ( !$conversionFunction or
@@ -302,6 +219,7 @@ class eZTextCodec
         $this->ConversionFunction = $conversionFunction;
         $this->StrlenFunction = $strlenFunction;
         $this->RequireConversion = $conversionFunction != $noneConversionFunction;
+//         print( "inp=$inputCharsetCode ($realInputCharsetCode), out=$outputCharsetCode ($realOutputCharsetCode), conv=$conversionFunction, strlen=$strlenFunction, req=" . $this->RequireConversion . "<br/>" );
     }
 
     function initializeConversionFunction( $encodingConvertInitMap, $encodingConvertInitFunction )
@@ -320,24 +238,27 @@ class eZTextCodec
         }
         if ( $initFunction )
         {
-//             print( "$initFunction<br/>" );
+//             print( "init=$initFunction, " );
             $this->$initFunction();
         }
     }
 
     function initializeCodepageMapper()
     {
+        include_once( 'lib/ezi18n/classes/ezcodepagemapper.php' );
         $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
                                                              $this->OutputCharsetCode );
     }
 
     function initializeInputCodepage()
     {
+        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
     }
 
     function initializeOutputCodepage()
     {
+        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
     }
 
@@ -391,30 +312,11 @@ class eZTextCodec
         return $tmp;
     }
 
-//     function &convertStringToUnicode( $str )
-//     {
-//         eZDebug::accumulatorStart( 'textcodec_unicode_conversion', false, 'String conversion to Unicode' );
-//         $conversionFunction = $this->UnicodeConversionFunction;
-//         $tmp =& $this->$conversionFunction( $str );
-//         eZDebug::accumulatorStop( 'textcodec_unicode_conversion' );
-//         return $tmp;
-//     }
-
     function strlen( $str )
     {
         $strlenFunction = $this->StrlenFunction;
         return $this->$strlenFunction( $str );
     }
-
-
-//         'convertNone';
-//         'convertUTF8ToUnicode';
-//         'convertCodepageToUnicode';
-//         'convertCodepage';
-//         'convertCodepageMapper';
-//         'convertCodepageRev';
-//         'convertUnicodeToUTF8';
-//         'convertUnicodeToCodepage';
 
     /*!
      \return an empty array since no conversion is possible.
@@ -488,7 +390,10 @@ class eZTextCodec
     function &convertMBString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
-        $tmp =& $this->MBStringMapper->convertString( $str );
+//        $tmp =& $this->MBStringMapper->convertString( $str );
+        // NOTE:
+        // Uses the mbstring function directly instead of going trough the class
+        $tmp =& mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
         eZDebug::accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         return $tmp;
     }
@@ -520,21 +425,56 @@ class eZTextCodec
 
     function strlenMBString( $str )
     {
-        return $this->MBStringMapper->strlen( $str );
+//        return $this->MBStringMapper->strlen( $str );
+        // NOTE:
+        // Uses the mbstring function directly instead of going trough the class
+        return mb_strlen( $str, $this->InputCharsetCode );
     }
 
-    function &instance( $inputCharsetCode, $outputCharsetCode = false )
+    /*!
+     \static
+     \return a text codec instance which can be used to convert from input charset \a $inputCharsetCode
+             and into output charset \a $outputCharsetCode.
+     \param $inputCharsetCode If \c false the internal charset it used, otherwise it is used directly
+     \param $outputCharsetCode If \c false the internal charset it used, otherwise it is used directly
+     \param $alwaysReturn If \c false it will only return a textcodec instance if it is required for the input and output charset.
+                          In which case it returns \c null.
+    */
+    function &instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
+        if ( $inputCharsetCode === false or $outputCharsetCode === false )
+            $internalCharset = eZTextCodec::internalCharset();
+        $realInputCharsetCode = $realOutputCharsetCode = false;
         if ( $inputCharsetCode === false )
-            $inputCharsetCode = eZTextCodec::internalCharset();
+            $realInputCharsetCode = $inputCharsetCode = $internalCharset;
         if ( $outputCharsetCode === false )
-            $outputCharsetCode = eZTextCodec::internalCharset();
-        $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
-        $realOutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
+            $realOutputCharsetCode = $outputCharsetCode = $internalCharset;
+        if ( !$realInputCharsetCode )
+        {
+            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
+        }
+        if ( !$realOutputCharsetCode )
+        {
+            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            $realOutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
+        }
+        $inputEncoding = eZCharsetInfo::characterEncodingScheme( $realInputCharsetCode, true );
+        $outputEncoding = eZCharsetInfo::characterEncodingScheme( $realOutputCharsetCode, true );
+        if ( !$alwaysReturn and
+             $inputEncoding == 'singlebyte' and
+             $inputEncoding == $outputEncoding and
+             $realInputCharsetCode == $realOutputCharsetCode )
+        {
+            $codec = null;
+            return $codec;
+        }
         $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
         if ( get_class( $codec ) != "eztextcodec" )
         {
-            $codec = new eZTextCodec( $inputCharsetCode, $outputCharsetCode );
+            $codec = new eZTextCodec( $inputCharsetCode, $outputCharsetCode,
+                                      $realInputCharsetCode, $realOutputCharsetCode,
+                                      $inputEncoding, $outputEncoding );
         }
         return $codec;
     }
@@ -546,6 +486,8 @@ class eZTextCodec
     */
     function updateSettings( $settings )
     {
+        unset( $GLOBALS['eZTextCodecInternalCharsetReal'] );
+        unset( $GLOBALS['eZTextCodecHTTPCharsetReal'] );
         $GLOBALS['eZTextCodecInternalCharset'] = $settings['internal-charset'];
         $GLOBALS['eZTextCodecHTTPCharset'] = $settings['http-charset'];
         $GLOBALS['eZTextCodecMBStringExtension'] = $settings['mbstring-extension'];
@@ -559,12 +501,17 @@ class eZTextCodec
     */
     function internalCharset()
     {
-        if ( !isset( $GLOBALS['eZTextCodecInternalCharset'] ) )
-            $charsetCode = 'iso-8859-1';
-        else
-            $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
-        $charset = eZCharsetInfo::realCharsetCode( $charsetCode );
-        return $charset;
+        $realCharset =& $GLOBALS['eZTextCodecInternalCharsetReal'];
+        if ( !isset( $realCharset ) )
+        {
+            if ( !isset( $GLOBALS['eZTextCodecInternalCharset'] ) )
+                $charsetCode = 'iso-8859-1';
+            else
+                $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
+            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            $realCharset = eZCharsetInfo::realCharsetCode( $charsetCode );
+        }
+        return $realCharset;
     }
 
     /*!
@@ -574,14 +521,26 @@ class eZTextCodec
     */
     function httpCharset()
     {
-        $charset = '';
-        if ( isset( $GLOBALS['eZTextCodecHTTPCharset'] ) )
-            $charset = $GLOBALS['eZTextCodecHTTPCharset'];
-        if ( $charset == '' )
-            $charset = eZTextCodec::internalCharset();
-        else
-            $charset = eZCharsetInfo::realCharsetCode( $charset );
-        return $charset;
+        $realCharset =& $GLOBALS['eZTextCodecHTTPCharsetReal'];
+        if ( !isset( $realCharset ) )
+        {
+            $charset = '';
+            if ( isset( $GLOBALS['eZTextCodecHTTPCharset'] ) )
+                $charset = $GLOBALS['eZTextCodecHTTPCharset'];
+            if ( $charset == '' )
+            {
+                if ( isset( $GLOBALS['eZTextCodecInternalCharsetReal'] ) )
+                    $realCharset = $GLOBALS['eZTextCodecInternalCharsetReal'];
+                else
+                    $realCharset = eZTextCodec::internalCharset();
+            }
+            else
+            {
+                include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+                $realCharset = eZCharsetInfo::realCharsetCode( $charset );
+            }
+        }
+        return $realCharset;
     }
 }
 

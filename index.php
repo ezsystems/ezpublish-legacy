@@ -29,7 +29,11 @@
 // you.
 //
 
-//xdebug_start_profiling();
+// if ( file_exists( 'ezp.xt' ) )
+// {
+//     $fd = fopen( 'ezp.xt', 'w' ); fclose( $fd );
+// }
+// xdebug_start_trace( 'ezp' );
 
 $scriptStartTime = microtime();
 ob_start();
@@ -123,9 +127,11 @@ list( $iniFilePermission, $iniDirPermission ) =
 
 $iniVarDirectory = eZSys::cacheDirectory() ;
 
-eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
-                                         'dir_permission'  => octdec( $iniDirPermission ),
-                                         'var_directory'   => $iniVarDirectory ) );
+// OPTIMIZATION:
+// Sets permission array as global variable, this avoids the eZCodePage include
+$GLOBALS['EZCODEPAGEPERMISSIONS'] = array( 'file_permission' => octdec( $iniFilePermission ),
+                                           'dir_permission'  => octdec( $iniDirPermission ),
+                                           'var_directory'   => $iniVarDirectory );
 
 //
 $warningList = array();
