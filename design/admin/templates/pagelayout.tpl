@@ -247,27 +247,28 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 <h4>Current user</h4>
 <p>{$current_user.contentobject.name|wash}</p>
 <ul>
+{let basket=fetch( shop, basket )}
 {section show=ne( $ui_context, 'edit' )}
     <li><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl}>Change information</a></li>
     <li><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl}>Change password</a></li>
 
-{let basket=fetch( shop, basket )}
 {section show=$basket.is_empty|not}
 <li><a href={'shop/basket'|ezurl}>Webshop basket ({$basket.items|count})</a></li>
-{/let}
 {/section}
+
     <li><a href={'/user/logout'|ezurl}>Logout</a></li>
 {section-else}
     <li><span class="disabled">Change user info</span></li>
     <li><span class="disabled">Logout</span></li>
 {/section}
+{/let}
 </ul>
 
 {* --- Bookmarks --- *}
 <div id="bookmarks">
-{section show=ezpreference( 'admin_bookmark_menu' ) )}
+{section show=ezpreference( 'admin_bookmark_menu' )}
     {section show=ne( $ui_context, 'edit' )}
-     <h4><a href={'/content/bookmark/'|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl}>[-]</a></h4> 
+     <h4><a href={'/content/bookmark/'|ezurl} title="{'Manage your personal bookmarks.'|i18n( '/design/admin/pagelayout' )}">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</a> <a class="showhide" href={'/user/preferences/set/admin_bookmark_menu/0'|ezurl}>[-]</a></h4> 
     {section-else}
      <h4><span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span> <span class="disabled openclose">[-]</span></h4> 
     {/section}
