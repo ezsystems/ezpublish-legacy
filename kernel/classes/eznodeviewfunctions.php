@@ -223,18 +223,15 @@ class eZNodeviewfunctions
             $pString = "";
             // Fetch preferences for the specified user
             $preferences =& eZPreferences::values( $user );
-            if ( $preferences )
+            foreach( $depPreferences as $pref )
             {
-                foreach( $depPreferences as $pref )
+                $pref = explode( '=', $pref );
+                if ( isset( $pref[0] ) )
                 {
-                    $pref = explode( '=', $pref );
-                    if ( isset( $pref[0] ) )
-                    {
-                        if ( isset( $preferences[$pref[0]] ) )
-                            $pString .= 'p:' . $pref[0] . '='. $preferences[$pref[0]]. ';';
-                        else if ( isset( $pref[1] ) )
-                            $pString .= 'p:' . $pref[0] . '='. $pref[1]. ';';
-                    }
+                    if ( isset( $preferences[$pref[0]] ) )
+                        $pString .= 'p:' . $pref[0] . '='. $preferences[$pref[0]]. ';';
+                    else if ( isset( $pref[1] ) )
+                        $pString .= 'p:' . $pref[0] . '='. $pref[1]. ';';
                 }
             }
             $cacheHashArray[] = $pString;
