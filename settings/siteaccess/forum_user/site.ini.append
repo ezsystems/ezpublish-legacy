@@ -21,3 +21,8 @@ SiteDesign=forum
 
 [FileSettings]
 VarDir=var/forum
+
+[ContentSettings]
+# What to do when editing an object that has draft versions newer than the current version.
+# Use 'showversions' to select which version to edit, or 'usecurrent' to always edit the current version.
+EditDirtyObjectAction=usecurrent
