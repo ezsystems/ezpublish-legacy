@@ -43,7 +43,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezsys', 'ezdesign', 'ezimage', 'exturl' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.php',
                                     'class' => 'eZI18NOperator',
-                                    'operator_names' => array( 'i18n' ) );
+                                    'operator_names' => array( 'i18n', 'x18n' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'class' => 'eZTemplatePHPOperator',
                                     'class_parameter' => array( 'upcase' => 'strtoupper',

@@ -318,6 +318,11 @@ class eZPersistentObject
                             }
                             $where_text .= ' ) ';
                         }
+                        else if ( is_array( $cond[1] ) )
+                        {
+                            $range = $cond[1];
+                            $where_text .= "$id BETWEEN '" . $range[0] . "' AND '" . $range[1] . "'";
+                        }
                         else
                             $where_text .= $id . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
                     }

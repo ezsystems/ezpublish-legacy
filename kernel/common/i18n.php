@@ -24,6 +24,16 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     function &ezi18n( $context, $source, $comment = null )
         {
+            return eZTranslateText( false, $context, $source, $comment );
+        }
+
+    function &ezx18n( $extension, $context, $source, $comment = null )
+        {
+            return eZTranslateText( $extension, $context, $source, $comment );
+        }
+
+    function &eZTranslateText( $extension, $context, $source, $comment = null )
+        {
             $language =& ezcurrentLanguage();
             if ( $language == "eng-GB" ) // eng-GB does not need translation
                 return $source;
@@ -38,7 +48,16 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 //             $man->registerHandler( $borktr );
             // END bork translation
 
-            eZTSTranslator::initialize( $language . '/translation.ts' );
+            $file = 'translation.ts';
+            $root = false;
+            if ( $extension !== false )
+            {
+                $baseDir = eZExtension::baseDirectory();
+                $extensionDir = $baseDir . '/' . $extension . '/translations';
+                if ( file_exists( $extensionDir ) )
+                    $root = $extensionDir;
+            }
+            eZTSTranslator::initialize( $language . '/' . $file, $root );
             $trans =& $man->translate( $context, $source, $comment );
             if ( $trans !== null )
                 return $trans;
@@ -49,6 +68,11 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 else
 {
     function &ezi18n( $context, $source, $comment = null )
+        {
+            return $source;
+        }
+
+    function &ezx18n( $extension, $context, $source, $comment = null )
         {
             return $source;
         }

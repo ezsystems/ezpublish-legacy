@@ -98,7 +98,8 @@ class eZTSTranslator extends eZTranslatorHandler
     {
         $root = $this->rootDir();
         $override = eZTSTranslator::overrideDir();
-        $path = "$root/$file";
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        $path = eZDir::path( array( $root, '/', $file ) );
         if ( !file_exists( $path ) )
         {
             eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator" );
@@ -411,8 +412,8 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /// \privatesection
     /// Contains the hash table with message translations
     var $Messages;
-
     var $File;
+    var $RootDir;
 }
 
 ?>

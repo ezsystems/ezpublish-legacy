@@ -40,7 +40,7 @@
 
 */
 
-include_once( "kernel/common/i18n.php" );
+include_once( 'kernel/common/i18n.php' );
 
 function make_seed() {
     list($usec, $sec) = explode(' ', microtime());
@@ -51,10 +51,12 @@ class eZi18nOperator
 {
     /*!
     */
-    function eZi18nOperator( $name = "i18n" )
+    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n' )
     {
-        $this->Operators = array( $name );
+        $this->Operators = array( $name, $extensionName );
         $this->TranslatorManager =& eZTranslatorManager::instance();
+        $this->Name = $name;
+        $this->ExtensionName = $extensionName;
     }
 
     /*!
@@ -66,80 +68,63 @@ class eZi18nOperator
     }
 
     /*!
+     \return true to tell the template engine that the parameter list exists per operator type.
+    */
+    function namedParameterPerOperator()
+    {
+        return true;
+    }
+
+    /*!
      See eZTemplateOperator::namedParameterList()
     */
     function namedParameterList()
     {
-        return array( "context" => array( "type" => "string",
-                                          "required" => false,
-                                          "default" => false ),
-                      "comment" => array( "type" => "string",
-                                          "required" => false,
-                                          "default" => "" ) );
+        return array( $this->Name => array( 'context' => array( 'type' => 'string',
+                                                                'required' => false,
+                                                                'default' => false ),
+                                            'comment' => array( 'type' => 'string',
+                                                                'required' => false,
+                                                                'default' => '' ) ),
+                      $this->ExtensionName => array( 'extension' => array( 'type' => 'string',
+                                                                           'required' => true,
+                                                                           'default' => false ),
+                                                     'context' => array( 'type' => 'string',
+                                                                         'required' => false,
+                                                                         'default' => false ),
+                                                     'comment' => array( 'type' => 'string',
+                                                                         'required' => false,
+                                                                         'default' => '' ) ) );
     }
 
     /*!
-     */
+     \reimp
+    */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
-        $context = $namedParameters["context"];
-        $comment = $namedParameters["comment"];
-//         if ( $context == "" )
-//         {
-//             $context = $element->templateNameRelation();
-//             if ( preg_match( "/^(.+)(\.tpl)$/", $context, $regs ) )
-//                 $context = $regs[1];
-//         }
-        $value = ezi18n( $context, $value, $comment );
-        /*
-        srand(make_seed());
-        $num = rand( 0, 1 );
-        if ( $num == 0 )
+        switch ( $operatorName )
         {
-            $num = rand( 0, 3 );
-            for ( $i = 0; $i < $num; ++$i )
+            case $this->Name:
             {
-                $len = strlen( $value );
-                $offs = rand( 0, $len - 1 );
-                if ( $offs == 0 )
-                {
-                    $tmp = $value[$offs];
-                    $value[$offs] = $value[$len - 1];
-                    $value[$len] = $tmp;
-                }
-                else
-                {
-                    $delta = -1;
-                    if ( $value[$offs+$delta] == " " and
-                         $offs + 1 < $len )
-                        $delta = 1;
-                    $tmp = $value[$offs];
-                    $value[$offs] = $value[$offs+$delta];
-                    $value[$offs+$delta] = $tmp;
-                }
-            }
+                $context = $namedParameters['context'];
+                $comment = $namedParameters['comment'];
+                $value = ezi18n( $context, $value, $comment );
+            } break;
+            case $this->ExtensionName:
+            {
+                $extension = $namedParameters['extension'];
+                $context = $namedParameters['context'];
+                $comment = $namedParameters['comment'];
+                $value = ezx18n( $extension, $context, $value, $comment );
+            } break;
         }
-        else
-        {
-            $value = preg_replace( "/to/", "2", $value );
-            $value = preg_replace( "/for/", "4", $value );
-            $value = preg_replace( "/ate/", "8", $value );
-            $value = preg_replace( array( "/l/",
-                                          "/e/",
-                                          "/o/",
-                                          "/a/",
-                                          "/t/" ),
-                                   array( "1",
-                                          "3",
-                                          "0",
-                                          "4",
-                                          "7" ), $value );
-        }
-        */
     }
 
+    /// \privatesection
     var $Operators;
     var $TranslatorManager;
+    var $Name;
+    var $ExtensionName;
 };
 
 ?>
