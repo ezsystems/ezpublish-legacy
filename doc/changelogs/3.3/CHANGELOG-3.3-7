@@ -3,5 +3,6 @@ Changes from 3.3-6 to 3.3-7
 *Kernel:
 
 *Bugfixes:
+- Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
 
 *Library:

@@ -418,7 +418,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 unset( $dataType );
                 $datatype =& eZDataType::create( $key );
 
-                $dataTypeArray[$key] = $datatype->sortKeyType();
+                if ( $datatype )
+                {
+                    $dataTypeArray[$key] = $datatype->sortKeyType();
+                }
             }
             unset( $dataType );
 
