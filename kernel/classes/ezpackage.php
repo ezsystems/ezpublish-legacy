@@ -219,6 +219,8 @@ class eZPackage
         if ( $repositoryID === false )
             $repositoryID = 'local';
         $repositoryInformation = $handler->repositoryInformation( $repositoryID );
+	if ( $repositoryPath !== false )
+            $repositoryInformation['path'] = $repositoryPath;
         $handler->setCurrentRepositoryInformation( $repositoryInformation );
         return $handler;
     }
