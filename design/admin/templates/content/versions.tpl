@@ -12,6 +12,11 @@
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <p>
+<label>{'ID'|i18n( 'design/admin/content/edit_draft' )}:</label>
+{$object.id}
+</p>
+
+<p>
 <label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
@@ -111,6 +116,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$version_list}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;"/></th>    <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
@@ -134,7 +140,6 @@
 
 	<td>
 	<a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version, '/', $edit_language|not|choose( array( $edit_language, '/' ), '' ) )|ezurl}>{$Versions.item.version}</a>
-        {section show=eq( $Versions.item.version, $object.current_version )}*{/section}
 	</td>
 
 	<td>
@@ -168,8 +173,13 @@
     </td>
 </tr>
 {/section}
-
 </table>
+{section-else}
+<div class="block">
+<p>{'This object does not have any versions.'|i18n( 'design/admin/content/versions' )}</p>
+</div>
+{/section}
+
 
 <div class="context-toolbar">
 {include name=navigator
