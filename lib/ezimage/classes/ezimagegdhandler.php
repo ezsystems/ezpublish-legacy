@@ -136,7 +136,8 @@ class eZImageGDHandler extends eZImageHandler
         {
             $filters[] = array( 'name' => $filterName );
         }
-        $this->eZImageHandler( $handlerName, $outputRewriteType,
+        $this->eZImageHandler( $handlerName, $isEnabled,
+                               $outputRewriteType,
                                $supportedInputMIMETypes, $supportedOutputMIMETypes,
                                $conversionRules, $filters );
     }

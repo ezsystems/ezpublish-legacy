@@ -255,7 +255,7 @@ echo "`$SETCOLOR_COMMENT`Checking `$SETCOLOR_EMPHASIZE`SQL`$SETCOLOR_COMMENT` fi
 function scan_sql_file()
 {
     sqlfile=$1
-    grep -n -H -i -E -q '(^--.*$)|(^#.*$)' $sqlfile
+    grep -n -H -i -E -q '(^--.*$)|(^#.*$)|(^/\*.*\*/$)' $sqlfile
     if [ $? -eq 0 ]; then
 	return 1
     else
@@ -266,7 +266,7 @@ function scan_sql_file()
 function cleanup_sql_file()
 {
     sqlfile=$1
-    perl -pi -e "s/(^--.*$)|(^#.*$)//g" $sqlfile
+    perl -pi -e "s%(^--.*$)|(^#.*$)|(^/\*.*\*/$)%%g" $sqlfile
 }
 
 MAJOR_VERSIONS="3.0"

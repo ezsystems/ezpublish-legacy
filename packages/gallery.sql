@@ -14,7 +14,7 @@ CREATE TABLE ezapprove_items (
   workflow_process_id int(11) NOT NULL default '0',
   collaboration_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezapprove_items'
@@ -36,7 +36,7 @@ CREATE TABLE ezbasket (
   productcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezbasket_session_id (session_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezbasket'
@@ -59,7 +59,7 @@ CREATE TABLE ezbinaryfile (
   original_filename varchar(255) NOT NULL default '',
   mime_type varchar(50) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezbinaryfile'
@@ -89,7 +89,7 @@ CREATE TABLE ezcollab_group (
   PRIMARY KEY  (id),
   KEY ezcollab_group_path (path_string),
   KEY ezcollab_group_depth (depth)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_group'
@@ -122,7 +122,7 @@ CREATE TABLE ezcollab_item (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_item'
@@ -148,7 +148,7 @@ CREATE TABLE ezcollab_item_group_link (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (collaboration_id,group_id,user_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_item_group_link'
@@ -173,7 +173,7 @@ CREATE TABLE ezcollab_item_message_link (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_item_message_link'
@@ -200,7 +200,7 @@ CREATE TABLE ezcollab_item_participant_link (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (collaboration_id,participant_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_item_participant_link'
@@ -223,7 +223,7 @@ CREATE TABLE ezcollab_item_status (
   is_active int(11) NOT NULL default '1',
   last_read int(11) NOT NULL default '0',
   PRIMARY KEY  (collaboration_id,user_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_item_status'
@@ -244,7 +244,7 @@ CREATE TABLE ezcollab_notification_rule (
   user_id varchar(255) NOT NULL default '',
   collab_identifier varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_notification_rule'
@@ -268,7 +268,7 @@ CREATE TABLE ezcollab_profile (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_profile'
@@ -300,7 +300,7 @@ CREATE TABLE ezcollab_simple_message (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcollab_simple_message'
@@ -321,7 +321,7 @@ CREATE TABLE ezcontent_translation (
   name varchar(255) NOT NULL default '',
   locale varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontent_translation'
@@ -345,7 +345,7 @@ CREATE TABLE ezcontentbrowsebookmark (
   name varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
   KEY ezcontentbrowsebookmark_user (user_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentbrowsebookmark'
@@ -369,7 +369,7 @@ CREATE TABLE ezcontentbrowserecent (
   name varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
   KEY ezcontentbrowserecent_user (user_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentbrowserecent'
@@ -398,7 +398,7 @@ CREATE TABLE ezcontentclass (
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentclass'
@@ -441,7 +441,7 @@ CREATE TABLE ezcontentclass_attribute (
   is_information_collector int(11) NOT NULL default '0',
   can_translate int(11) default '1',
   PRIMARY KEY  (id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentclass_attribute'
@@ -464,7 +464,7 @@ CREATE TABLE ezcontentclass_classgroup (
   group_id int(11) NOT NULL default '0',
   group_name varchar(255) default NULL,
   PRIMARY KEY  (contentclass_id,contentclass_version,group_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentclass_classgroup'
@@ -489,7 +489,7 @@ CREATE TABLE ezcontentclassgroup (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentclassgroup'
@@ -519,7 +519,7 @@ CREATE TABLE ezcontentobject (
   status int(11) default '0',
   remote_id varchar(100) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject'
@@ -555,7 +555,7 @@ CREATE TABLE ezcontentobject_attribute (
   KEY sort_key_int (sort_key_int),
   KEY sort_key_string (sort_key_string),
   KEY ezcontentobject_attribute_co_id_ver_lang_code (contentobject_id,version,language_code)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject_attribute'
@@ -578,7 +578,7 @@ CREATE TABLE ezcontentobject_link (
   from_contentobject_version int(11) NOT NULL default '0',
   to_contentobject_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject_link'
@@ -601,7 +601,7 @@ CREATE TABLE ezcontentobject_name (
   content_translation varchar(20) NOT NULL default '',
   real_translation varchar(20) default NULL,
   PRIMARY KEY  (contentobject_id,content_version,content_translation)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject_name'
@@ -636,7 +636,7 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
   KEY ezcontentobject_tree_depth (depth)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject_tree'
@@ -664,7 +664,7 @@ CREATE TABLE ezcontentobject_version (
   workflow_event_pos int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezcontentobject_version'
@@ -685,7 +685,7 @@ CREATE TABLE ezdiscountrule (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezdiscountrule'
@@ -708,7 +708,7 @@ CREATE TABLE ezdiscountsubrule (
   discount_percent float default NULL,
   limitation char(1) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezdiscountsubrule'
@@ -729,7 +729,7 @@ CREATE TABLE ezdiscountsubrule_value (
   value int(11) NOT NULL default '0',
   issection int(1) NOT NULL default '0',
   PRIMARY KEY  (discountsubrule_id,value,issection)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezdiscountsubrule_value'
@@ -753,7 +753,7 @@ CREATE TABLE ezenumobjectvalue (
   enumvalue varchar(255) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,contentobject_attribute_version,enumid),
   KEY ezenumobjectvalue_co_attr_id_co_attr_ver (contentobject_attribute_id,contentobject_attribute_version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezenumobjectvalue'
@@ -778,7 +778,7 @@ CREATE TABLE ezenumvalue (
   placement int(11) NOT NULL default '0',
   PRIMARY KEY  (id,contentclass_attribute_id,contentclass_attribute_version),
   KEY ezenumvalue_co_cl_attr_id_co_class_att_ver (contentclass_attribute_id,contentclass_attribute_version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezenumvalue'
@@ -800,7 +800,7 @@ CREATE TABLE ezforgot_password (
   hash_key varchar(32) NOT NULL default '',
   time int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezforgot_password'
@@ -824,7 +824,7 @@ CREATE TABLE ezgeneral_digest_user_settings (
   day varchar(255) NOT NULL default '',
   time varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezgeneral_digest_user_settings'
@@ -832,7 +832,7 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 /*!40000 ALTER TABLE ezgeneral_digest_user_settings DISABLE KEYS */;
 LOCK TABLES ezgeneral_digest_user_settings WRITE;
-INSERT INTO ezgeneral_digest_user_settings VALUES (1,'bf@ez.no',0,0,'',''),(2,'wy@ez.no',0,0,'','');
+INSERT INTO ezgeneral_digest_user_settings VALUES (1,'nospam@ez.no',0,0,'',''),(2,'wy@ez.no',0,0,'','');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezgeneral_digest_user_settings ENABLE KEYS */;
 
@@ -849,7 +849,7 @@ CREATE TABLE ezimage (
   mime_type varchar(50) NOT NULL default '',
   alternative_text varchar(255) NOT NULL default '',
   PRIMARY KEY  (contentobject_attribute_id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezimage'
@@ -873,7 +873,7 @@ CREATE TABLE ezimagefile (
   PRIMARY KEY  (id),
   KEY ezimagefile_coid (contentobject_attribute_id),
   KEY ezimagefile_file (filepath(200))
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezimagefile'
@@ -900,7 +900,7 @@ CREATE TABLE ezimagevariation (
   width int(11) NOT NULL default '0',
   height int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezimagevariation'
@@ -924,7 +924,7 @@ CREATE TABLE ezinfocollection (
   user_identifier varchar(34) default NULL,
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezinfocollection'
@@ -951,7 +951,7 @@ CREATE TABLE ezinfocollection_attribute (
   contentobject_attribute_id int(11) default NULL,
   contentobject_id int(11) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezinfocollection_attribute'
@@ -959,7 +959,7 @@ CREATE TABLE ezinfocollection_attribute (
 
 /*!40000 ALTER TABLE ezinfocollection_attribute DISABLE KEYS */;
 LOCK TABLES ezinfocollection_attribute WRITE;
-INSERT INTO ezinfocollection_attribute VALUES (1,1,'',0,0,183,443,137),(2,1,'',0,0,185,445,137),(3,1,'',0,0,184,444,137),(4,2,'FOo bar ',0,0,183,443,137),(5,2,'bf@ez.no',0,0,185,445,137),(6,2,'This is my feedback.',0,0,184,444,137),(7,3,'',0,0,208,789,227),(8,4,'',2,0,208,789,227),(9,5,'',2,0,208,789,227),(10,6,'',3,0,208,789,227),(11,7,'',4,0,208,789,227),(12,8,'',1,0,208,789,227),(13,9,'',1,0,208,789,227),(14,10,'',1,0,208,789,227),(15,11,'',3,0,208,789,227),(16,12,'',3,0,208,789,227),(17,13,'',3,0,208,789,227),(18,14,'',0,0,208,789,227),(19,15,'',1,0,208,789,227),(20,16,'',2,0,208,789,227),(21,17,'',2,0,208,789,227),(22,18,'',0,0,208,789,227),(23,19,'',0,0,208,789,227),(24,20,'',0,0,208,789,227),(25,21,'',0,0,208,789,227),(26,22,'',0,0,208,789,227),(27,23,'',1,0,208,789,227),(28,24,'',1,0,208,789,227),(29,25,'',2,0,208,789,227);
+INSERT INTO ezinfocollection_attribute VALUES (1,1,'',0,0,183,443,137),(2,1,'',0,0,185,445,137),(3,1,'',0,0,184,444,137),(4,2,'FOo bar ',0,0,183,443,137),(5,2,'nospam@ez.no',0,0,185,445,137),(6,2,'This is my feedback.',0,0,184,444,137),(7,3,'',0,0,208,789,227),(8,4,'',2,0,208,789,227),(9,5,'',2,0,208,789,227),(10,6,'',3,0,208,789,227),(11,7,'',4,0,208,789,227),(12,8,'',1,0,208,789,227),(13,9,'',1,0,208,789,227),(14,10,'',1,0,208,789,227),(15,11,'',3,0,208,789,227),(16,12,'',3,0,208,789,227),(17,13,'',3,0,208,789,227),(18,14,'',0,0,208,789,227),(19,15,'',1,0,208,789,227),(20,16,'',2,0,208,789,227),(21,17,'',2,0,208,789,227),(22,18,'',0,0,208,789,227),(23,19,'',0,0,208,789,227),(24,20,'',0,0,208,789,227),(25,21,'',0,0,208,789,227),(26,22,'',0,0,208,789,227),(27,23,'',1,0,208,789,227),(28,24,'',1,0,208,789,227),(29,25,'',2,0,208,789,227);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezinfocollection_attribute ENABLE KEYS */;
 
@@ -973,7 +973,7 @@ CREATE TABLE ezkeyword (
   keyword varchar(255) default NULL,
   class_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezkeyword'
@@ -994,7 +994,7 @@ CREATE TABLE ezkeyword_attribute_link (
   keyword_id int(11) NOT NULL default '0',
   objectattribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezkeyword_attribute_link'
@@ -1025,7 +1025,7 @@ CREATE TABLE ezmedia (
   controls varchar(50) default NULL,
   is_loop int(1) default NULL,
   PRIMARY KEY  (contentobject_attribute_id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezmedia'
@@ -1051,7 +1051,7 @@ CREATE TABLE ezmessage (
   body text,
   is_sent int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezmessage'
@@ -1075,7 +1075,7 @@ CREATE TABLE ezmodule_run (
   module_data text,
   PRIMARY KEY  (id),
   UNIQUE KEY ezmodule_run_workflow_process_id_s (workflow_process_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezmodule_run'
@@ -1102,7 +1102,7 @@ CREATE TABLE eznode_assignment (
   from_node_id int(11) default '0',
   remote_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eznode_assignment'
@@ -1127,7 +1127,7 @@ CREATE TABLE eznotificationcollection (
   data_subject text NOT NULL,
   data_text text NOT NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eznotificationcollection'
@@ -1150,7 +1150,7 @@ CREATE TABLE eznotificationcollection_item (
   address varchar(255) NOT NULL default '',
   send_date int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eznotificationcollection_item'
@@ -1179,7 +1179,7 @@ CREATE TABLE eznotificationevent (
   data_text3 text NOT NULL,
   data_text4 text NOT NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eznotificationevent'
@@ -1204,7 +1204,7 @@ CREATE TABLE ezoperation_memento (
   main_key varchar(32) NOT NULL default '',
   PRIMARY KEY  (id,memento_key),
   KEY ezoperation_memento_memento_key_main (memento_key,main)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezoperation_memento'
@@ -1232,7 +1232,7 @@ CREATE TABLE ezorder (
   account_identifier varchar(100) NOT NULL default 'default',
   ignore_vat int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezorder'
@@ -1256,7 +1256,7 @@ CREATE TABLE ezorder_item (
   vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezorder_item_order_id (order_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezorder_item'
@@ -1289,7 +1289,7 @@ CREATE TABLE ezpdf_export (
   creator_id int(11) default NULL,
   status int(11) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezpdf_export'
@@ -1312,7 +1312,7 @@ CREATE TABLE ezpolicy (
   module_name varchar(255) default NULL,
   limitation char(1) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezpolicy'
@@ -1337,7 +1337,7 @@ CREATE TABLE ezpolicy_limitation (
   function_name varchar(255) default NULL,
   module_name varchar(255) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezpolicy_limitation'
@@ -1359,7 +1359,7 @@ CREATE TABLE ezpolicy_limitation_value (
   limitation_id int(11) default NULL,
   value varchar(255) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezpolicy_limitation_value'
@@ -1383,7 +1383,7 @@ CREATE TABLE ezpreferences (
   value varchar(100) default NULL,
   PRIMARY KEY  (id),
   KEY ezpreferences_name (name)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezpreferences'
@@ -1404,7 +1404,7 @@ CREATE TABLE ezproductcollection (
   id int(11) NOT NULL auto_increment,
   created int(11) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezproductcollection'
@@ -1432,7 +1432,7 @@ CREATE TABLE ezproductcollection_item (
   PRIMARY KEY  (id),
   KEY ezproductcollection_item_productcollection_id (productcollection_id),
   KEY ezproductcollection_item_contentobject_id (productcollection_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezproductcollection_item'
@@ -1458,7 +1458,7 @@ CREATE TABLE ezproductcollection_item_opt (
   object_attribute_id int(11) default NULL,
   PRIMARY KEY  (id),
   KEY ezproductcollection_item_opt_item_id (item_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezproductcollection_item_opt'
@@ -1480,7 +1480,7 @@ CREATE TABLE ezrole (
   name varchar(255) NOT NULL default '',
   value char(1) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezrole'
@@ -1512,7 +1512,7 @@ CREATE TABLE ezrss_export (
   status int(11) default NULL,
   site_access varchar(255) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezrss_export'
@@ -1537,7 +1537,7 @@ CREATE TABLE ezrss_export_item (
   description varchar(255) default NULL,
   PRIMARY KEY  (id),
   KEY ezrss_export_rsseid (rssexport_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezrss_export_item'
@@ -1570,7 +1570,7 @@ CREATE TABLE ezrss_import (
   status int(11) default NULL,
   object_owner_id int(11) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezrss_import'
@@ -1606,7 +1606,7 @@ CREATE TABLE ezsearch_object_word_link (
   KEY ezsearch_object_word_link_frequency (frequency),
   KEY ezsearch_object_word_link_identifier (identifier),
   KEY ezsearch_object_word_link_integer_value (integer_value)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsearch_object_word_link'
@@ -1629,7 +1629,7 @@ CREATE TABLE ezsearch_return_count (
   time int(11) NOT NULL default '0',
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsearch_return_count'
@@ -1649,7 +1649,7 @@ CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
   phrase varchar(250) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsearch_search_phrase'
@@ -1671,7 +1671,7 @@ CREATE TABLE ezsearch_word (
   object_count int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezsearch_word (word)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsearch_word'
@@ -1694,7 +1694,7 @@ CREATE TABLE ezsection (
   locale varchar(255) default NULL,
   navigation_part_identifier varchar(100) default 'ezcontentnavigationpart',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsection'
@@ -1717,7 +1717,7 @@ CREATE TABLE ezsession (
   data text NOT NULL,
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsession'
@@ -1737,7 +1737,7 @@ CREATE TABLE ezsite_data (
   name varchar(60) NOT NULL default '',
   value text NOT NULL,
   PRIMARY KEY  (name)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsite_data'
@@ -1760,7 +1760,7 @@ CREATE TABLE ezsubtree_notification_rule (
   use_digest int(11) NOT NULL default '0',
   node_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezsubtree_notification_rule'
@@ -1768,7 +1768,7 @@ CREATE TABLE ezsubtree_notification_rule (
 
 /*!40000 ALTER TABLE ezsubtree_notification_rule DISABLE KEYS */;
 LOCK TABLES ezsubtree_notification_rule WRITE;
-INSERT INTO ezsubtree_notification_rule VALUES (1,'nospam@ez.no',0,112),(2,'wy@ez.no',0,112),(3,'nospam@ez.no',0,123),(4,'bf@ez.no',0,124),(5,'bf@ez.no',0,135),(6,'wy@ez.no',0,114);
+INSERT INTO ezsubtree_notification_rule VALUES (1,'nospam@ez.no',0,112),(2,'wy@ez.no',0,112),(3,'nospam@ez.no',0,123),(4,'nospam@ez.no',0,124),(5,'nospam@ez.no',0,135),(6,'wy@ez.no',0,114);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezsubtree_notification_rule ENABLE KEYS */;
 
@@ -1781,7 +1781,7 @@ CREATE TABLE eztipafriend_counter (
   node_id int(11) NOT NULL default '0',
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eztipafriend_counter'
@@ -1807,7 +1807,7 @@ CREATE TABLE eztrigger (
   PRIMARY KEY  (id),
   UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type),
   KEY eztrigger_fetch (name(25),module_name(50),function_name(50))
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'eztrigger'
@@ -1832,7 +1832,7 @@ CREATE TABLE ezurl (
   last_checked int(11) NOT NULL default '0',
   original_url_md5 varchar(32) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezurl'
@@ -1854,7 +1854,7 @@ CREATE TABLE ezurl_object_link (
   contentobject_attribute_id int(11) NOT NULL default '0',
   contentobject_attribute_version int(11) NOT NULL default '0',
   PRIMARY KEY  (url_id,contentobject_attribute_id,contentobject_attribute_version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezurl_object_link'
@@ -1883,7 +1883,7 @@ CREATE TABLE ezurlalias (
   KEY ezurlalias_source_md5 (source_md5),
   KEY ezurlalias_source_url (source_url(255)),
   KEY ezurlalias_desturl (destination_url(200))
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezurlalias'
@@ -1907,7 +1907,7 @@ CREATE TABLE ezuser (
   password_hash_type int(11) NOT NULL default '1',
   password_hash varchar(50) default NULL,
   PRIMARY KEY  (contentobject_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezuser'
@@ -1915,7 +1915,7 @@ CREATE TABLE ezuser (
 
 /*!40000 ALTER TABLE ezuser DISABLE KEYS */;
 LOCK TABLES ezuser WRITE;
-INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363'),(14,'admin','bf@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9'),(108,'','',2,'b909d5bf76b64b7a6fac03f7eda11ee3'),(109,'','',2,'e4ab2f05e418842bb3abf148f9d06c1c'),(130,'','',2,'4ccb7125baf19de015388c99893fbb4d'),(187,'','',1,''),(189,'','',1,''),(336,'','',2,'cb2f6b2b2c106a1d0aa0c30f1829b40a'),(337,'gallery','galleryeditor@example.com',2,'4bef7c4a5ea969ec7204e5357e1ff565');
+INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f8233d72a0363'),(14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9'),(108,'','',2,'b909d5bf76b64b7a6fac03f7eda11ee3'),(109,'','',2,'e4ab2f05e418842bb3abf148f9d06c1c'),(130,'','',2,'4ccb7125baf19de015388c99893fbb4d'),(187,'','',1,''),(189,'','',1,''),(336,'','',2,'cb2f6b2b2c106a1d0aa0c30f1829b40a'),(337,'gallery','galleryeditor@example.com',2,'4bef7c4a5ea969ec7204e5357e1ff565');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezuser ENABLE KEYS */;
 
@@ -1930,7 +1930,7 @@ CREATE TABLE ezuser_accountkey (
   hash_key varchar(32) NOT NULL default '',
   time int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezuser_accountkey'
@@ -1953,7 +1953,7 @@ CREATE TABLE ezuser_discountrule (
   contentobject_id int(11) default NULL,
   name varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezuser_discountrule'
@@ -1975,7 +1975,7 @@ CREATE TABLE ezuser_role (
   contentobject_id int(11) default NULL,
   PRIMARY KEY  (id),
   KEY ezuser_role_contentobject_id (contentobject_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezuser_role'
@@ -1997,7 +1997,7 @@ CREATE TABLE ezuser_setting (
   is_enabled int(1) NOT NULL default '0',
   max_login int(11) default NULL,
   PRIMARY KEY  (user_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezuser_setting'
@@ -2019,7 +2019,7 @@ CREATE TABLE ezvattype (
   name varchar(255) NOT NULL default '',
   percentage float default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezvattype'
@@ -2040,7 +2040,7 @@ CREATE TABLE ezview_counter (
   node_id int(11) NOT NULL default '0',
   count int(11) NOT NULL default '0',
   PRIMARY KEY  (node_id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezview_counter'
@@ -2064,7 +2064,7 @@ CREATE TABLE ezwaituntildatevalue (
   contentclass_attribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
   KEY ezwaituntildateevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezwaituntildatevalue'
@@ -2085,7 +2085,7 @@ CREATE TABLE ezwishlist (
   user_id int(11) NOT NULL default '0',
   productcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezwishlist'
@@ -2112,7 +2112,7 @@ CREATE TABLE ezworkflow (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow'
@@ -2135,7 +2135,7 @@ CREATE TABLE ezworkflow_assign (
   access_type int(11) NOT NULL default '0',
   as_tree int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow_assign'
@@ -2167,7 +2167,7 @@ CREATE TABLE ezworkflow_event (
   data_text4 varchar(50) default NULL,
   placement int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow_event'
@@ -2191,7 +2191,7 @@ CREATE TABLE ezworkflow_group (
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow_group'
@@ -2214,7 +2214,7 @@ CREATE TABLE ezworkflow_group_link (
   workflow_version int(11) NOT NULL default '0',
   group_name varchar(255) default NULL,
   PRIMARY KEY  (workflow_id,group_id,workflow_version)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow_group_link'
@@ -2255,7 +2255,7 @@ CREATE TABLE ezworkflow_process (
   memento_key varchar(32) default NULL,
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM;
 
 --
 -- Dumping data for table 'ezworkflow_process'

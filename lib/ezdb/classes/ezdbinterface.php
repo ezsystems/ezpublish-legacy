@@ -144,7 +144,7 @@ class eZDBInterface
 
     /*!
 	 \return the available attributes for this database handler.
-	*/	
+	*/
 	function attributes()
 	{
 		return array_keys( $this->AttributeVariableMap );
@@ -152,7 +152,7 @@ class eZDBInterface
 
     /*!
 	 \return \c true if the attribute \a $name exists for this database handler.
-	*/	
+	*/
 	function hasAttribute( $name )
 	{
 		if ( isset( $this->AttributeVariableMap[$name] ) )
@@ -161,10 +161,10 @@ class eZDBInterface
 		}
 		return false;
 	}
-	
+
     /*!
 	 \return the value of the attribute \a $name if it exists, otherwise \c null.
-	*/	
+	*/
 	function &attribute( $name )
 	{
 		if ( isset( $this->AttributeVariableMap[$name] ) )
@@ -193,9 +193,11 @@ class eZDBInterface
                 // Fix SQL file by deleting all comments and newlines
 //            eZDebug::writeDebug( $buffer, "read data" );
                 $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
+                                                 "#^/\*.*\*/\n" . "#m",
                                                  "/^--.*\n" . "/m",
                                                  "/\n|\r\n|\r/m" ),
                                           array( "",
+                                                 "",
                                                  "",
                                                  "\n" ),
                                           $buffer );
