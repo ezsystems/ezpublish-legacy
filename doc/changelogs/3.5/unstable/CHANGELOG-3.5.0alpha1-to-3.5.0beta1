@@ -1,4 +1,4 @@
-Changes from 3.5.0alpha1 to 3.5.0alpha2
+Changes from 3.5.0alpha1 to 3.5.0beta1
 
 *Kernel:
 - Added permission check for updating priority of sorting.
