@@ -55,11 +55,7 @@ if ( count( $deleteIDArray ) <= 0 )
 
 if ( array_key_exists( 'Limitation', $Params ) )
 {
-    $Limitation =& $Params['Limitation'];
-    foreach ( $Limitation as $policy )
-    {
-        $limitationList[] = $policy->attribute( 'limitations' );
-    }
+    $limitationList =& $Params['Limitation'];
 }
 
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );

@@ -1851,7 +1851,7 @@ class eZContentObject extends eZPersistentObject
         $userID = $user->attribute( 'contentobject_id' );
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
-        if ( ! $classID )
+        if ( $classID === false )
         {
             $classID = $this->attribute( 'contentclass_id' );
         }
@@ -1859,7 +1859,7 @@ class eZContentObject extends eZPersistentObject
         {
             return 1;
         }
-        elseif ( $accessWord == 'no' )
+        else if ( $accessWord == 'no' )
         {
             return 0;
         }
@@ -1876,7 +1876,6 @@ class eZContentObject extends eZPersistentObject
                 }
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
-
                     switch( $key )
                     {
                         case 'Class':
