@@ -1243,35 +1243,31 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         $access = 'no';
+        $functionArray = array();
         if ( isset( $accessArray['*'] ) )
         {
-            $moduleArray =& $accessArray['*'];
+            if ( isset( $accessArray['*']['*'] ) )
+            {
+                $functionArray = $accessArray['*']['*'];
+            }
+            if ( isset( $accessArray['*'][$function] ) )
+            {
+                $functionArray = array_merge_recursive( $functionArray, $accessArray['*'][$function] );
+            }
         }
-        else if ( isset( $accessArray[$module] ) )
+        if ( isset( $accessArray[$module] ) )
         {
-            $moduleArray =& $accessArray[$module];
-        }
-        else
-        {
-            $accessList = array(
-                'FunctionRequired' => array ( 'Module' => $module,
-                                              'Function' => $function,
-                                              'ClassID' => '',
-                                              'MainNodeID' => '' ),
-                'PolicyList' => array() );
-            return array( 'accessWord' => 'no',
-                          'accessList' => $accessList );
+            if ( isset( $accessArray[$module]['*'] ) )
+            {
+                $functionArray = array_merge_recursive( $functionArray, $accessArray[$module]['*'] );
+            }
+            if ( isset( $accessArray[$module][$function] ) )
+            {
+                $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$function] );
+            }
         }
 
-        if ( isset( $moduleArray['*'] ) )
-        {
-            $functionArray =& $moduleArray['*'];
-        }
-        else if ( isset( $moduleArray[$function] ) )
-        {
-            $functionArray =& $moduleArray[$function];
-        }
-        else
+        if ( !$functionArray )
         {
             $accessList = array(
                 'FunctionRequired' => array ( 'Module' => $module,
