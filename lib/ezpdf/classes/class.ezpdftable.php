@@ -252,7 +252,7 @@ class eZPDFTable extends Cezpdf
             }
         }
         $options['gap']=2*$options['colGap'];
-        $middle = ($this->ez['pageWidth']-$this->rightMargin())/2+($this->leftMargin)/2;
+        $middle = ($this->ez['pageWidth']- $this->rightMargin() - $this->leftMargin() )/2+$this->leftMargin();
         // figure out the maximum widths of the text within each column
         $maxWidth = array();
 
@@ -728,7 +728,7 @@ class eZPDFTable extends Cezpdf
 
                             $rowHeight = $mx - $height + $decender;
                             $realColumnCount = 0;
-                            for ( $columnCount = 0; $columnCount < $maxRowCount; $columnCount++ )
+                            for ( $columnCount = 0; $realColumnCount < $maxRowCount; $columnCount++ )
                             {
                                 if ( isset( $options['cellData'][$realColumnCount.','.$rowCount]['size'] ) )
                                 {
@@ -993,7 +993,11 @@ class eZPDFTable extends Cezpdf
 
             $newWidth = (int)( $params['width'] * ( (int)$params['dpi'] / 72 ) );
             $newHeight = (int)( $params['height'] * ( (int)$params['dpi'] / 72 ) );
-            $newFilename =  '/tmp/' . md5( mt_rand() ) . '.jpg';
+            $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
+            while( file_exists( $newFilename ) )
+            {
+                $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
+            }
             $img =& imageInit();
             $newImg = $img->convert( $filename,
                                      $newFilename,

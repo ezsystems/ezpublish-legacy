@@ -1808,7 +1808,7 @@ class Cpdf
                 // if this is a '.afm' font, and there is a '.pfa' file to go with it ( as there
                 // should be for all non-basic fonts), then load it into an object and put the
                 // references into the font object
-                $basefile = substr($fontName,0,strlen($fontName)-4);
+                $basefile = substr($fontName,0,strlen($fontName));
                 if (file_exists($basefile.'.pfb')){
                     $fbtype = 'pfb';
                 } else if (file_exists($basefile.'.ttf')){
@@ -1821,7 +1821,7 @@ class Cpdf
 //      $pfbfile = substr($fontName,0,strlen($fontName)-4).'.pfb';
 //      $ttffile = substr($fontName,0,strlen($fontName)-4).'.ttf';
                 $this->addMessage('selectFont: checking for - '.$fbfile);
-                if (substr($fontName,-4)=='.afm' && strlen($fbtype) ){
+                if ( strlen( $fbtype ) ){
                     $adobeFontName = $this->fonts[$fontName]['FontName'];
 //        $fontObj = $this->numObj;
                     $this->addMessage('selectFont: adding font file - '.$fbfile.' - '.$adobeFontName);
@@ -2812,20 +2812,21 @@ class Cpdf
 	for ($i=0;$i<$len;$i++){
 	    $f=1;
         $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
-	    $directive = $directiveArray['directive'];
+        $deltaDirective = $directiveArray['directive'];
+        $directive += $deltaDirective;
         if ( $directiveArray['y'] != 0 )
         {
             $y -= $directiveArray['y'];
             $returnArray['height'] = $directiveArray['y'];
         }
-	    if ($directive)
+	    if ($deltaDirective)
         {
             if ($f)
             {
                 $this->setCurrentFont();
                 $cf = $this->currentFont;
             }
-            $i=$i+$directive-1;
+            $i=$i+$deltaDirective-1;
 	    } else {
 		$cOrd = ord($text[$i]);
 		if (isset($this->fonts[$cf]['differences'][$cOrd])){
