@@ -37,6 +37,9 @@ eZPersistentObject:
   eZPersistentObject will handle the function call.
 - Made sure the dirty flag is only set when an attribute is actually changed,
   that means either the type or content is changed.
+- Fixed storeObject() to not do any updates when the number of keys is 0.
+- Fixed a bug in storeObject() which could cause definitions with 1 key to not
+  insert into the database but just do an update.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.

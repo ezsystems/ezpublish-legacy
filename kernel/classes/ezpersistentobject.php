@@ -271,7 +271,11 @@ class eZPersistentObject
                     $important_keys[] = $relation;
             }
         }
-        if ( !$insert_object and count( $important_keys ) != 1  )
+        if ( count( $important_keys ) == 0 )
+        {
+            $insert_object = true;
+        }
+        else if ( !$insert_object )
         {
             $rows =& eZPersistentObject::fetchObjectList( $def, $keys, $key_conds,
                                                           array(), null, false,
