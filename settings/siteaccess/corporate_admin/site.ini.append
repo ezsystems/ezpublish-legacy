@@ -12,3 +12,6 @@ Database=corporate
 [DesignSettings]
 StandardDesign=standard
 SiteDesign=admin
+
+[FileSettings]
+VarDir=var/corporate
