@@ -73,10 +73,12 @@ Every registered and logged in user can create their own notification rules.
 <h2>Notification rules</h2>
 
 <p>
-Notification rules are created by the user. A user could make his general rule for notification by filling a advanced
-form where he could specify exactly what he want and when he want. It is also possible to associate the rule with class type
-and sub directories. For example, when a user is viewing an article, a message in a forum, a product, he could
-register notifications for related staff which either is the child or the parent of what he is viewing.
+Notification rules are created by the user, but which kind of rules he can make is depended upon available
+rule types of the publish system. For example, one system may only defined a general rule which user could
+choose which types of publishing he is interested, sport, music, image etc., another system may also provides
+keyword specifications for register new rule. New rule types can be added to exist system which makes
+notification system extensible. By defining complex rules, it is possible for a user to specify exactly
+what he want and when he want by filling a advanced form.
 </p>
 
 
@@ -121,4 +123,12 @@ website.
 <img src="/doc/images/notification_state.png" alt="Notification databse diagram" />
 
 <h2>Database diagrams</h2>
+
+<p>
+Database diagram illustrates the framwork of the notification system. Most general rules can be saved in
+the same table: eznotification_rule. If special needs required, some new tables should be used. Using table
+eznotification_constraint and eznotification_constraint_value is one way to store special notification rules.
+Messages which will be sent to users stored in the table ezmessage.
+</p>
+
 <img src="/doc/images/notification_database.png" alt="Notification databse diagram" />
