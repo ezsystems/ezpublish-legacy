@@ -13,7 +13,7 @@
 {section show=$vattype_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" onclick="ezjs_toggleCheckboxes( document.VatType, 'vatTypeIDList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/vattype' )}</th>
     <th>{'Percentage'|i18n( 'design/admin/shop/vattype' )}</th>
 </tr>
@@ -21,7 +21,7 @@
 {section var=Vattypes loop=$vattype_array sequence=array( bglight, bgdark )}
 <tr class="{$Vattypes.sequence}">
     <td><input type="checkbox" name="vatTypeIDList[]" value="{$Vattypes.item.id}" /></td>
-    <td><input type="text" name="vattype_name_{$Vattypes.item.id}" value="{$Vattypes.item.name}" size="15"></td>
+    <td><input type="text" name="vattype_name_{$Vattypes.item.id}" value="{$Vattypes.item.name}" size="24"></td>
     <td><input type="text" name="vattype_percentage_{$Vattypes.item.id}" value="{$Vattypes.item.percentage}" size="4">&nbsp;%</td>
 </tr>
 {/section}

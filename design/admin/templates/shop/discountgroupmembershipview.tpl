@@ -1,4 +1,5 @@
 <form action={'shop/discountgroup'|ezurl} method="post">
+
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
@@ -53,7 +54,7 @@
 {section show=$rule_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'removeRuleList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Percent'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Apply to'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
@@ -104,7 +105,7 @@
 {section show=$customers}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'CustomerIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
 </tr>
 {section var=Customers loop=$customers sequence=array( bglight, bgdark )}
