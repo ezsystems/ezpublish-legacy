@@ -23,6 +23,9 @@ eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.
 - postgresql driver changed to set up correct errorMesage variables
 
+eZUtils:
+-Added memory usage to debug timing points.
+
 *Settings :
 site.ini:
 - Fixed wrong spelling of NodeTranslation in site.ini.
