@@ -197,7 +197,8 @@ class eZUser extends eZPersistentObject
         $this->setAttribute( "contentobject_id", $id );
         $this->setAttribute( "email", $email );
         $this->setAttribute( "login", $login );
-        if ( $password !== null and
+        if ( $password !== false and
+             $password !== null and
              $password == $passwordConfirm and
              strlen( $password ) >= 3 ) // Cannot change login or password_hash without login and password
         {

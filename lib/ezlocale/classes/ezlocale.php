@@ -146,10 +146,10 @@ class eZLocale
     function eZLocale( $localeString )
     {
         $this->IsValid = false;
-        $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'l', 'I', 'L', 't' );
+        $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
-                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'l', 'I', 'L', 't' );
+                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->TimeArray = preg_replace( '/.+/', '%$0', $this->TimePHPArray );
         $this->DateArray = preg_replace( '/.+/', '%$0', $this->DatePHPArray );
         $this->DateTimeArray = preg_replace( '/.+/', '%$0', $this->DateTimePHPArray );
@@ -852,6 +852,8 @@ class eZLocale
         $fmt =& str_replace( $dateArray, $datePHPArray, $fmt );
         $fmt =& str_replace( '%', "%\\", $fmt );
         $text =& date( $fmt, $date );
+        $longDay = $this->longDayName( date( 'w', $date ) );
+        print( $longDay . "<br/>" );
         $text =& str_replace( array( '%D', '%l', '%M', '%F' ),
                               array( $this->shortDayName( date( 'w', $date ) ),
                                      $this->longDayName( date( 'w', $date ) ),

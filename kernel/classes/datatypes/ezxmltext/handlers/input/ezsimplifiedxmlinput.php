@@ -141,8 +141,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if (  $currentObject == null )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Object '. $objectID .' does not exist.',
-                                                                             'ezXMLTextType' ) );
+                                                                             'Object %1 does not exist.',
+                                                                             'ezXMLTextType',
+                                                                             array( $objectID ) ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                     else
@@ -172,8 +173,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if (  $url == null )
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'Link '. $linkID .' does not exist.',
-                                                                                 'ezXMLTextType' ) );
+                                                                                 'Link %1 does not exist.',
+                                                                                 'ezXMLTextType',
+                                                                                 array( $linkID ) ) );
                             return EZ_INPUT_VALIDATOR_STATE_INVALID;
                         }
                     }
@@ -692,7 +694,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $lastInsertedChildTag = array( "tr" );
                                 unset( $currentNode );
                                 $currentNode =& $lastNode;
-                                $message .= "<li>Tag '" . $justName . "' does not has end tag '" . $originalTagName ."' (fixed).</li>";
+                                $message .= "<li>Tag '" . $justName . "' does not have an end tag '" . $originalTagName ."' (fixed).</li>";
                             }
 
                             if ( in_array( $justName, $lastInsertedChildTag ) )
@@ -1596,7 +1598,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }break;
                         default :
                         {
-                            $message .= "<li>Tag '" . $justName . "' does not support (removed).</li>";
+                            $message .= "<li>Tag '" . $justName . "' is not supported (removed).</li>";
                         }break;
                     }
                 }

@@ -186,14 +186,15 @@ class eZUserType extends eZDataType
         eZDebugSetting::writeDebug( 'kernel-user', $password, "password" );
         eZDebugSetting::writeDebug( 'kernel-user', $passwordConfirm, "passwordConfirm" );
         eZDebugSetting::writeDebug( 'kernel-user', $login, "login" );
+        eZDebugSetting::writeDebug( 'kernel-user', $email, "email" );
         eZDebugSetting::writeDebug( 'kernel-user', $contentObjectID, "contentObjectID" );
-        if ( $password != "password" )
+        if ( $password == "password" )
         {
-            eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
-            $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
+            $password = false;
+            $passwordConfirm = false;
         }
-        else
-            eZDebugSetting::writeDebug( 'kernel-user', "setInformation not run", "ezusertype" );
+        eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
+        $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
         $contentObjectAttribute->setContent( $user );
     }
 
