@@ -15,7 +15,7 @@ Charset=iso-8859-1
 UseBuiltinEncoding=true
 Socket=disabled
 #Socket=/opt/ezpublish/mysql.sock
-SQLOutput=enabled
+SQLOutput=disabled
 UsePersistentConnection=disabled
 
 [DesignSettings]

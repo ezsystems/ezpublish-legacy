@@ -82,7 +82,16 @@ if ( $http->hasPostVariable( 'EditButton' )  )
 {
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
-        $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $http->postVariable( 'ContentObjectID' ) . '/' );
+        $parameters = array( $http->postVariable( 'ContentObjectID' ) );
+        if ( $http->hasPostVariable( 'ContentObjectVersion' ) )
+        {
+            $parameters[] = $http->postVariable( 'ContentObjectVersion' );
+            if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+            {
+                $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
+            }
+        }
+        $module->redirectToView( 'edit', $parameters );
         return;
     }
 }

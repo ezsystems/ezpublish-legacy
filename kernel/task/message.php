@@ -71,8 +71,7 @@ if ( get_class( $message ) != 'eztaskmessage' or
 
 if ( $message->attribute( 'is_published' ) )
 {
-    $Result =& $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-    return;
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $Params['ObjectID'] = $message->attribute( 'contentobject_id' );

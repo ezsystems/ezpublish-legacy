@@ -109,7 +109,7 @@ $path[] = array( "text" => $object->attribute( "name" ),
                  "url" => false );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/view/$ViewMode.tpl" );
+$Result['content'] =& $tpl->fetch( "design:node/view/$ViewMode.tpl" );
 $Result['view_parameters'] =& $viewParameters;
 $Result['path'] =& $path;
 ?>

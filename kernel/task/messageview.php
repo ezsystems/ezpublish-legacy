@@ -86,6 +86,9 @@ $tpl = templateInit();
 $tpl->setVariable( 'message', $message );
 $tpl->setVariable( 'module', $Module );
 
-$Result =& $tpl->fetch( "design:task/messageview.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( "design:task/messageview.tpl" );
+$Result['path'] = array( array( 'text' => 'Task message',
+                                'url' => false ) );
 
 ?>

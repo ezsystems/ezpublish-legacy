@@ -32,78 +32,64 @@
 // you.
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 
 $tpl =& templateInit();
-$ObjectID = $Params["ObjectID"];
+$ObjectID = $Params['ObjectID'];
 $Module =& $Params['Module'];
 $LanguageCode = $Params['LanguageCode'];
-$EditVersion = $Params["EditVersion"];
+$EditVersion = $Params['EditVersion'];
 
 $contentObject =& eZContentObject::fetch( $ObjectID );
 $versionObject =& $contentObject->version( $EditVersion );
-$versionAttributes = $versionObject->attributes();
+$versionAttributes = $versionObject->contentobjectAttributes();
 
-$NodeID = $contentObject->attribute( "main_node_id");
-$Offset = $Params['Offset'];
-$node =& eZContentObjectTreeNode::fetch( $NodeID );
-$object = $node->attribute( 'contentobject' );
+if ( $contentObject === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
 
-if ( $LanguageCode != "" )
+if ( $LanguageCode != '' )
 {
-    $object->setCurrentLanguage( $LanguageCode );
+    $contentObject->setCurrentLanguage( $LanguageCode );
+}
+else
+{
+    $LanguageCode = $contentObject->defaultLanguage();
 }
 
-$children =& $node->subTree( array( 'FromNode' => $NodeID,
-                                          'Depth' => 1,
-                                          'Offset' => $Offset,
-                                          'Limit' => 25 ) );
+$relatedObjectArray =& $contentObject->relatedContentObjectArray( $contentObject->attribute( 'current_version' ) );
 
-$childrenCount = $node->subTreeCount( array( 'NodeID' => $NodeID,
-                                          'Depth' => 1
-                                        ) );
-
-$relatedObjectArray =& $object->relatedContentObjectArray( $object->attribute( 'current_version' ) );
-
-$classID = $object->attribute( "contentclass_id" );
+$classID = $contentObject->attribute( 'contentclass_id' );
 
 $class =& eZContentClass::fetch( $classID );
 
-$parents =& $node->attribute( 'path' );
-
 $classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
-                                       array("name"=>"name"), $fields = null );
+                                       array( 'name' => 'name' ), $fields = null );
 
-$Module->setTitle( "View " . $class->attribute( "name" ) . " - " . $object->attribute( "name" ) );
+$Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-                      array( "class", $class->attribute( "id" ) ), // Class ID
-                      array( "section", 0 ) ) ); // Section ID, 0 so far
+$res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
+                      array( 'class', $class->attribute( 'id' ) ), // Class ID
+//                       array( 'section', $contentObject->attribute( 'section_id' ) ),
+                      array( 'viewmode', 'full' ) ) ); // Section ID
 
-$tpl->setVariable( "nodeID", $NodeID );
-$tpl->setVariable( "previous", $Offset - 25);
-$tpl->setVariable( "next", $Offset + 25);
+$tpl->setVariable( 'object', $contentObject );
+$tpl->setVariable( 'version_attributes', $versionAttributes );
+$tpl->setVariable( 'class', $class );
+$tpl->setVariable( 'object_version', $EditVersion );
+$tpl->setVariable( 'object_languagecode', $LanguageCode );
 
-$tpl->setVariable( "parents", $parents );
-$tpl->setVariable( "object", $object );
-$tpl->setVariable( "versionAttributes", $versionAttributes );
-$tpl->setVariable( "class", $class );
-$tpl->setVariable( "children", $children );
-$tpl->setVariable( "children_count", $childrenCount );
+$tpl->setVariable( 'related_contentobject_array', $relatedObjectArray );
 
-$tpl->setVariable( "related_contentobject_array", $relatedObjectArray );
-
-
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( 'classes', $classes );
-
-$Result =& $tpl->fetch( "design:content/view/versionview.tpl" );
+$Result = array();
+$Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
+$Result['path'] = array( array( 'text' => $contentObject->attribute( 'name' ),
+                                'url' => false ) );
 
 ?>

@@ -759,7 +759,9 @@ CREATE TABLE eztask_message (
   id int(11) NOT NULL auto_increment,
   task_id int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
+  is_published int(1) NOT NULL default '0',
   created int(11) NOT NULL default '0',
+  creator_id int(11) NOT NULL default '0',
   creator_type int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

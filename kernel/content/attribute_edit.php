@@ -54,7 +54,8 @@ include_once( 'kernel/common/template.php' );
 if ( isset( $Module ) )
     $Module =& $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
-$EditVersion =& $Params['EditVersion'];
+if ( !isset( $EditVersion ) )
+    $EditVersion =& $Params['EditVersion'];
 //print_r($Params );
 
 //eZDebug::writeNotice( $Module, "Module" );
@@ -221,7 +222,8 @@ $res =& eZTemplateDesignResource::instance();
 
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'class', $class->attribute( 'id' ) ), // Class ID
-                      array( 'section', $object->attribute( 'section_id' ) ) ) ); // Section ID
+                      array( 'section', $object->attribute( 'section_id' ) )
+                      ) ); // Section ID
 
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'http', $http );
@@ -239,6 +241,9 @@ if ( isset( $Params['TemplateName'] ) )
     $templateName = $Params['TemplateName'];
 
 
-$Result =& $tpl->fetch( $templateName );
+$Result = array();
+$Result['content'] =& $tpl->fetch( $templateName );
+$Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
+                                'url' => false ) );
 
 ?>
