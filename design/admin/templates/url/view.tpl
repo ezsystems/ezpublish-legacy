@@ -71,10 +71,11 @@
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 
 <tr class="{$Objects.sequence}">
-    <td>{$Objects.item.name}</td>
+    <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;{$Objects.item.name}</td>
     <td>{$Objects.item.version}</td>
     <td><a href={concat( 'content/edit/', $Objects.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/view' )}"></a></td>
 </tr>
+
 {/section}
 
 </table>
