@@ -271,19 +271,10 @@ class eZTemplate
         $this->Text = null;
 
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
-//         $IncludeText ;
-//     var $IncludeOutput;
-//     var $TimeStamp;
-//     var $LDelim;
-//     var $RDelim;
-
-//     var $Tree;
         $this->Variables = array();
-//     var $Operators;
         $this->Functions = array();
         $this->FunctionAttributes = array();
-//     var $Literals;
-//     var $ShowDetails = false;
+        eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
     }
 
     /*!
@@ -1572,20 +1563,20 @@ class eZTemplate
     */
     function &fetch( $template = false, $extraParameters = false )
     {
-        eZDebug::accumulatorStart( 'Template [Total]' );
-        eZDebug::accumulatorStart( 'Template load' );
+        eZDebug::accumulatorStart( 'template_total' );
+        eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
         if ( is_string( $template ) )
             $this->load( $template, $extraParameters );
-        eZDebug::accumulatorStop( 'Template load' );
+        eZDebug::accumulatorStop( 'template_load' );
         $text = "";
         if ( $this->ShowDetails )
             eZDebug::addTimingPoint( "Process" );
-        eZDebug::accumulatorStart( 'Template processing' );
+        eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
         $this->Tree->process( $this, $text, "", "" );
-        eZDebug::accumulatorStop( 'Template processing' );
+        eZDebug::accumulatorStop( 'template_processing' );
         if ( $this->ShowDetails )
             eZDebug::addTimingPoint( "Process done" );
-        eZDebug::accumulatorStop( 'Template [Total]' );
+        eZDebug::accumulatorStop( 'template_total' );
         return $text;
     }
 
@@ -1825,7 +1816,7 @@ class eZTemplate
 
     function loadAndRegisterFunctions( $functionDefinition )
     {
-        eZDebug::accumulatorStart( 'Template load and register function' );
+        eZDebug::accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
 //         if ( is_object( $this->Functions[$functionName] ) )
 //             return true;
 //         $functionDefinition =& $this->Functions[$functionName];
@@ -1846,7 +1837,7 @@ class eZTemplate
             if ( class_exists( $class ) )
                 $functionObject = new $class();
         }
-        eZDebug::accumulatorStop( 'Template load and register function' );
+        eZDebug::accumulatorStop( 'template_register_function' );
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );

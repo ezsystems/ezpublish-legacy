@@ -84,6 +84,7 @@ class eZMySQLDB extends eZDBInterface
                 $this->IsConnected = false;
             }
         }
+        eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
     }
 
     /*!
@@ -105,15 +106,15 @@ class eZMySQLDB extends eZDBInterface
             // The converted sql should not be output
             if ( $this->UseBuiltinEncoding )
             {
-                eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
+                eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                 $sql = $this->InputTextCodec->convertString( $sql );
-                eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
+                eZDebug::accumulatorStop( 'mysql_conversion' );
             }
 
             if ( $this->OutputSQL )
             {
                 $this->startTimer();
-                eZDebug::accumulatorStart( 'Mysql_queries' );
+                eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
             }
             $result =& mysql_query( $sql, $this->DBConnection );
             if ( $this->RecordError )
@@ -122,7 +123,7 @@ class eZMySQLDB extends eZDBInterface
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
-                eZDebug::accumulatorStop( 'Mysql_queries' );
+                eZDebug::accumulatorStop( 'mysql_query' );
 
                 $num_rows = mysql_affected_rows( $this->DBConnection );
                 $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
@@ -199,9 +200,9 @@ class eZMySQLDB extends eZDBInterface
                             reset( $tmp_row );
                             while( ( $key = key( $tmp_row ) ) !== null )
                             {
-                                eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
+                                eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                                 $conv_row[$key] =& $this->OutputTextCodec->convertString( $tmp_row[$key] );
-                                eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
+                                eZDebug::accumulatorStop( 'mysql_conversion' );
                                 next( $tmp_row );
                             }
                             $retArray[$i + $offset] =& $conv_row;
@@ -217,9 +218,9 @@ class eZMySQLDB extends eZDBInterface
                         $tmp_row =& mysql_fetch_array( $result );
                         if ( $this->UseBuiltinEncoding )
                         {
-                            eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
+                            eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
                             $retArray[$i + $offset] =& $this->OutputTextCodec->convertString( $tmp_row[$column] );
-                            eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
+                            eZDebug::accumulatorStop( 'mysql_conversion' );
                         }
                         else
                             $retArray[$i + $offset] =& $tmp_row[$column];

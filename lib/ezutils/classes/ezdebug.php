@@ -133,6 +133,8 @@ class eZDebug
         $this->UseCSS = false;
         $this->MessageOutput = EZ_OUTPUT_MESSAGE_STORE;
         $this->ScriptStart = eZDebug::timeToFloat( microtime() );
+        $this->TimeAccumulatorList = array();
+        $this->TimeAccumulatorGroupList = array();
     }
 
     function reset()
@@ -142,7 +144,8 @@ class eZDebug
                                       EZ_LEVEL_WARNING => array(),
                                       EZ_LEVEL_ERROR => array(),
                                       EZ_LEVEL_DEBUG => array() );
-        $debug->TimeAccumulatorList = array();
+        $this->TimeAccumulatorList = array();
+        $this->TimeAccumulatorGroupList = array();
     }
 
     /*!
@@ -631,6 +634,11 @@ ezdebug.reload();
         return $time;
     }
 
+    /*!
+     Sets the time of the start of the script ot \a $mtime.
+     If \a $mtime is not supplied it gets the current \c microtime().
+     This is used to calculate total execution time and percentages.
+    */
     function setScriptStart( $mtime = false )
     {
         if ( $mtime == false )
@@ -640,30 +648,74 @@ ezdebug.reload();
         $debug->ScriptStart = $time;
     }
 
-    function createAccumulator( $key, $name = '' )
+    /*!
+      Creates an accumulator group with key \a $key and group name \a $name.
+      If \a $name is not supplied name is taken from \a $key.
+    */
+    function createAccumulatorGroup( $key, $name = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
-        if ( $name == '' )
+        if ( $name == '' or
+             $name === false )
             $name = $key;
         $debug =& eZDebug::instance();
-        $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0 );
+        if ( !array_key_exists( $key, $debug->TimeAccumulatorList ) )
+            $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0, 'is_group' => true, 'in_group' => false );
+        if ( !array_key_exists( $key, $debug->TimeAccumulatorGroupList ) )
+            $debug->TimeAccumulatorGroupList[$key] = array();
     }
 
-    function accumulatorStart( $key )
+    /*!
+     Creates a new accumulator entry if one does not already exist and initializes with default data.
+     If \a $name is not supplied name is taken from \a $key.
+     If \a $inGroup is supplied it will place the accumulator under the specified group.
+    */
+    function createAccumulator( $key, $inGroup = false, $name = false )
+    {
+        if ( !eZDebug::isDebugEnabled() )
+            return;
+        if ( $name == '' or
+             $name === false )
+            $name = $key;
+        $debug =& eZDebug::instance();
+        $isGroup = false;
+        if ( array_key_exists( $key, $debug->TimeAccumulatorList ) and
+             array_key_exists( $key, $debug->TimeAccumulatorGroupList ) )
+            $isGroup = true;
+        $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0, 'is_group' => $isGroup, 'in_group' => $inGroup );
+        if ( $inGroup !== false )
+        {
+            $groupKeys = array();
+            if ( array_key_exists( $inGroup, $debug->TimeAccumulatorGroupList ) )
+                $groupKeys = $debug->TimeAccumulatorGroupList[$inGroup];
+            $debug->TimeAccumulatorGroupList[$inGroup] = array_unique( array_merge( $groupKeys, array( $key ) ) );
+            if ( array_key_exists( $inGroup, $debug->TimeAccumulatorList ) )
+                $debug->TimeAccumulatorList[$inGroup]['is_group'] = true;
+        }
+    }
+
+    /*!
+     Starts an time count for the accumulator \a $key.
+     You can also specify a name which will be displayed.
+    */
+    function accumulatorStart( $key, $inGroup = false, $name = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
         $debug =& eZDebug::instance();
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
-            $debug->createAccumulator( $key );
+            $debug->createAccumulator( $key, $inGroup, $name );
         }
 
         $accumulator =& $debug->TimeAccumulatorList[$key];
-        $accumulator['temp_time'] = $debug->timeToFloat(  microtime() );
+        $accumulator['temp_time'] = $debug->timeToFloat( microtime() );
     }
 
+    /*!
+     Stops a previous time count and adds the total time to the accumulator \a $key.
+    */
     function accumulatorStop( $key )
     {
         if ( !eZDebug::isDebugEnabled() )
@@ -672,7 +724,8 @@ ezdebug.reload();
         $stopTime = $debug->timeToFloat( microtime() );
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
-            $debug->createAccumulator( $key );
+            eZDebug::writeWarning( 'Accumulator $key does not exists, run eZDebug::accumulatorStart first', 'eZDebug::accumulatorStop' );
+            return;
         }
         $accumulator =& $debug->TimeAccumulatorList[$key];
         $diffTime = $stopTime - $accumulator['temp_time'];
@@ -839,26 +892,107 @@ td.timingpoint2
 
         $scriptEndTime = eZDebug::timeToFloat( microtime() );
         $totalElapsed = $scriptEndTime - $this->ScriptStart;
-        foreach ( $this->TimeAccumulatorList as $accumulator )
+        $timeList = $this->TimeAccumulatorList;
+        $groups = $this->TimeAccumulatorGroupList;
+        $groupList = array();
+        foreach ( $groups as $groupKey => $keyList )
         {
-            if ( $as_html )
+            if ( count( $keyList ) == 0 and
+                 !array_key_exists( $groupKey, $timeList ) )
+                continue;
+            $groupList[$groupKey] = array( 'name' => $groupKey );
+            if ( array_key_exists( $groupKey, $timeList ) )
             {
-                if ( $i % 2 == 0 )
-                     $class = "timingpoint1";
-                else
-                     $class = "timingpoint2";
-                ++$i;
-
-                $returnText .= "<tr><td class='$class'>" . $accumulator['name'] . "</td><td class='$class'>" .
-                               number_format( ( $accumulator['time'] ), $this->TimingAccuracy ) . " sec</td> <td class='$class' align='right'> " .
-                               number_format( ( $accumulator['time'] * 100.0 ) / $totalElapsed, 1 ) . "%</td> <td class='$class' align='right'>" .
-                               $accumulator['count'] . "</td> <td class='$class' align='right'> " . number_format( ( $accumulator['time'] / $accumulator['count'] ), $this->TimingAccuracy ) . " sec</td> "
-                               . "</tr>";
+                if ( $timeList[$groupKey]['time'] != 0 )
+                    $groupList[$groupKey]['time_data'] = $timeList[$groupKey];
+                $groupList[$groupKey]['name'] = $timeList[$groupKey]['name'];
+                unset( $timeList[$groupKey] );
             }
-            else
+            $groupChildren = array();
+            foreach ( $keyList as $timeKey )
             {
-                $returnText .= $accumulator['name'] .
-                               number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec". "\n";
+                if ( array_key_exists( $timeKey, $timeList ) )
+                {
+                    $groupChildren[] = $timeList[$timeKey];
+                    unset( $timeList[$timeKey] );
+                }
+            }
+            $groupList[$groupKey]['children'] = $groupChildren;
+        }
+        if ( count( $timeList ) > 0 )
+        {
+            $groupList['general'] = array( 'name' => 'General',
+                                           'children' => $timeList );
+        }
+
+        foreach ( $groupList as $group )
+        {
+            $groupName = $group['name'];
+            if ( $as_html )
+                $returnText .= "<tr><td class='$class'><b>$groupName</b></td>";
+            else
+                $returnText .= "Group $groupName: ";
+            if ( array_key_exists( 'time_data', $group ) )
+            {
+                $groupData = $group['time_data'];
+                $groupElapsed = number_format( ( $groupData['time'] ), $this->TimingAccuracy );
+                $groupPercent = number_format( ( $groupData['time'] * 100.0 ) / $totalElapsed, 1 );
+                $groupCount = $groupData['count'];
+                $groupAverage = number_format( ( $groupData['time'] / $groupData['count'] ), $this->TimingAccuracy );
+                if ( $as_html )
+                {
+                    $returnText .= ( "<td class=\"$class\">$groupElapsed sec</td>".
+                                     "<td class=\"$class\" align=\"right\"> $groupPercent%</td>".
+                                     "<td class=\"$class\" align=\"right\"> $groupCount</td>".
+                                     "<td class=\"$class\" align=\"right\"> $groupAverage sec</td>" );
+                }
+                else
+                {
+                    $returnText .= "$groupElapsed sec ($groupPercent%), $groupAverage avg sec ($groupCount)";
+                }
+            }
+            else if ( $as_html )
+            {
+                    $returnText .= ( "<td class=\"$class\"></td>".
+                                     "<td class=\"$class\"></td>".
+                                     "<td class=\"$class\"></td>".
+                                     "<td class=\"$class\"></td>" );
+            }
+            if ( $as_html )
+                $returnText .= "</tr>";
+            else
+                $returnText .= "\n";
+
+            $groupChildren = $group['children'];
+            $i = 0;
+            foreach ( $groupChildren as $child )
+            {
+                $childName = $child['name'];
+                $childElapsed = number_format( ( $child['time'] ), $this->TimingAccuracy );
+                $childPercent = number_format( ( $child['time'] * 100.0 ) / $totalElapsed, 1 );
+                $childCount = $child['count'];
+                $childAverage = number_format( ( $child['time'] / $child['count'] ), $this->TimingAccuracy );
+
+                if ( $as_html )
+                {
+                    if ( $i % 2 == 0 )
+                        $class = "timingpoint1";
+                    else
+                        $class = "timingpoint2";
+                    ++$i;
+
+                    $returnText .= ( "<tr>" .
+                                     "<td class=\"$class\">$childName</td>" .
+                                     "<td class=\"$class\">$childElapsed sec</td>" .
+                                     "<td class=\"$class\" align=\"right\">$childPercent%</td>" .
+                                     "<td class=\"$class\" align=\"right\">$childCount</td>" .
+                                     "<td class=\"$class\" align=\"right\">$childAverage sec</td>" .
+                                     "</tr>" );
+                }
+                else
+                {
+                    $returnText .= "$childName: $childElapsed sec ($childPercent%), $childAverage avg sec ($childCount)";
+                }
             }
         }
         if ( $as_html )
@@ -874,6 +1008,7 @@ td.timingpoint2
             $returnText .= "</table>";
             $returnText .= "</td></tr></table>";
         }
+
         return $returnText;
     }
 

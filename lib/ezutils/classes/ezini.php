@@ -472,9 +472,9 @@ class eZINI
                  $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
-                    eZDebug::accumulatorStart( 'INI string conversion' );
+                    eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
                     $varValue = $codec->convertString( $valueArray[2] );
-                    eZDebug::accumulatorStop( 'INI string conversion' );
+                    eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
                 }
                 else
                 {

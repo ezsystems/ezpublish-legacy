@@ -195,10 +195,10 @@ class eZTextCodec
 
     function &convertString( &$str )
     {
-        eZDebug::accumulatorStart( 'String conversion' );
+        eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
         $tmp =& $this->$conversionFunction( $str );
-        eZDebug::accumulatorStop( 'String conversion' );
+        eZDebug::accumulatorStop( 'textcodec_conversion', false, 'String conversion' );
         return $tmp;
     }
 
@@ -216,33 +216,33 @@ class eZTextCodec
 
     function &convertCodepage( &$str )
     {
-        eZDebug::accumulatorStart( 'String conversion w/ codepage' );
+        eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         $tmp =& $this->Codepage->convertString( $str );
-        eZDebug::accumulatorStop( 'String conversion w/ codepage' );
+        eZDebug::accumulatorStop( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         return $tmp;
     }
 
     function &convertCodepageRev( &$str )
     {
-        eZDebug::accumulatorStart( 'String conversion w/ codepage reverse' );
+        eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         $tmp =& $this->Codepage->convertStringFromUTF8( $str );
-        eZDebug::accumulatorStop( 'String conversion w/ codepage reverse' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         return $tmp;
     }
 
     function &convertCodepageMapper( &$str )
     {
-        eZDebug::accumulatorStart( 'String conversion w/ codepage mapper' );
+        eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         $tmp =& $this->CodepageMapper->convertString( $str );
-        eZDebug::accumulatorStop( 'String conversion w/ codepage mapper' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         return $tmp;
     }
 
     function &convertMBString( &$str )
     {
-        eZDebug::accumulatorStart( 'String conversion w/ mbstring' );
+        eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         $tmp =& $this->MBStringMapper->convertString( $str );
-        eZDebug::accumulatorStop( 'String conversion w/ mbstring' );
+        eZDebug::accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         return $tmp;
     }
 
