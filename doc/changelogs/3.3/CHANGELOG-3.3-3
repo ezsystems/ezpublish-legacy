@@ -47,3 +47,6 @@ eZ template:
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
+
+*Translations:
+- Added Finnish locale

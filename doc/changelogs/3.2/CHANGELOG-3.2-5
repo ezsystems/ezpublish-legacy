@@ -34,3 +34,4 @@ eZ template:
   Use clearcache --clear-tpl after upgrading to be 100% sure they are recreated.
 
 *Translations:
+- Added Finnish locale
