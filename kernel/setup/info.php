@@ -39,6 +39,7 @@ $module =& $Params["Module"];
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezextension.php' );
+include_once( 'lib/ezutils/classes/ezsysinfo.php' );
 include_once( 'lib/version.php' );
 
 $ini =& eZINI::instance( );
@@ -94,6 +95,9 @@ if ( function_exists( 'apache_get_version' ) )
         $webserverInfo['modules'] = apache_get_modules();
 }
 
+$systemInfo =& new eZSysInfo();
+$systemInfo->scan();
+
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
@@ -105,6 +109,7 @@ $tpl->setVariable( 'database_info', $db->databaseName() );
 $tpl->setVariable( 'database_charset', $db->charset() );
 $tpl->setVariable( 'database_object', $db );
 $tpl->setVariable( 'php_loaded_extensions', get_loaded_extensions() );
+$tpl->setVariable( 'system_info', $systemInfo );
 $phpINI = array();
 foreach ( array( 'safe_mode', 'register_globals', 'open_basedir', 'file_uploads', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )
 {

@@ -169,6 +169,18 @@
     {$database_charset|wash}{section show=$database_object.is_internal_charset} ({'Internal'|i18n( 'design/admin/setup/info' )}){/section}
 </div>
 
+<h2>{'Operating system'|i18n( 'design/admin/setup/info' )}</h2>
+
+<div class="block">
+    <label>{'CPU'|i18n( 'design/admin/setup/info', 'CPU info' )}</label>
+    {$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}
+</div>
+
+<div class="block">
+    <label>{'Memory'|i18n( 'design/admin/setup/info', 'Memory info' )}</label>
+    {$system_info.memory_size|si( byte )}
+</div>
+
 <h2>{'Slave database (read only)'|i18n( 'design/admin/setup/info' )}</h2>
 
 {section show=$database_object.use_slave_server}

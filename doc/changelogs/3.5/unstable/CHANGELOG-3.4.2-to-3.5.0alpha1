@@ -708,6 +708,13 @@ eZXML:
 - Added support for PHP 4's libxml DOM parser to improve performance. This is
   now used for translation files and the image alias handler.
 
+eZSys:
+- Added detection of OS name which can be read with osName().
+  This can be used together with osType() to figure out the current system.
+
+eZSysInfo:
+- New class which takes care of scanning the system for CPU and memory information.
+
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
 

@@ -163,6 +163,26 @@
     </table>
 </div>
 
+<div class="objectheader">
+    <h2>{'Operating System'|i18n('design/standard/setup')}</h2>
+</div>
+<div class="object">
+    {section show=$system_info.is_valid}
+    <table width="500">
+    <tr>
+        <td width="1"><p><b>{'CPU'|i18n('design/standard/setup','Database type')}</b></p></td>
+		<td><p>{$system_info.cpu_type} {$system_info.cpu_speed} {$system_info.cpu_unit}</p></td>
+    </tr>
+    <tr>
+        <td width="1"><p><b>{'Memory'|i18n('design/standard/setup','Database server')}</b></p></td>
+		<td><p>{$system_info.memory_size|si( byte )}</p></td>
+    </tr>
+    </table>
+    {section-else}
+        <p>{'No information on the operating system could be determined.'|i18n( 'design/standard/setup' )}</p>
+    {/section}
+</div>
+
 {section show=$database_object.use_slave_server}
 <div class="objectheader">
     <h2>{'Current read-only database (Slave)'|i18n('design/standard/setup')}</h2>

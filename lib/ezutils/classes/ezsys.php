@@ -72,9 +72,11 @@ class eZSys
         $this->Attributes = array( "magickQuotes" => true,
                                    "hostname" => true );
         // Determine OS specific settings
-        if ( substr( php_uname(), 0, 7 ) == "Windows" )
+        $uname = php_uname();
+        if ( substr( $uname, 0, 7 ) == "Windows" )
         {
             $this->OSType = "win32";
+            $this->OS = "windows";
             $this->FileSystemType = "win32";
             $this->FileSeparator = "\\";
             $this->LineSeparator= "\r\n";
@@ -82,9 +84,10 @@ class eZSys
             $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
-        else if ( substr( php_uname(), 0, 3 ) == "Mac" )
+        else if ( substr( $uname, 0, 3 ) == "Mac" )
         {
             $this->OSType = "mac";
+            $this->OS = "mac";
             $this->FileSystemType = "unix";
             $this->FileSeparator = "/";
             $this->LineSeparator= "\r";
@@ -95,6 +98,18 @@ class eZSys
         else
         {
             $this->OSType = "unix";
+            if ( strtolower( substr( $uname, 0, 5 ) ) == 'linux' )
+            {
+                $this->OS = 'linux';
+            }
+            else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
+            {
+                $this->OS = 'freebsd';
+            }
+            else
+            {
+                $this->OS = false;
+            }
             $this->FileSystemType = "unix";
             $this->FileSeparator = "/";
             $this->LineSeparator= "\n";
@@ -135,6 +150,22 @@ class eZSys
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
         return $this->OSType;
+    }
+
+    /*!
+     \static
+     \return the name of the specific os or \c false if it could not be determined.
+     Currently detects:
+     - windows (win32)
+     - mac (mac)
+     - linux (unix)
+     - freebsd (unix)
+    */
+    function osName()
+    {
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+        return $this->OS;
     }
 
     /*!
