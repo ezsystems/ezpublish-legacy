@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
 
 {include uri="design:page_head.tpl" enable_print=false()}
+</head>
 
 <body>
 
