@@ -51,6 +51,7 @@
 /// to invalidate existing cache files.
 define( 'EZ_CHARTRANSFORM_CODEDATE', 1101288452 );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
 
 class eZCharTransform
 {
