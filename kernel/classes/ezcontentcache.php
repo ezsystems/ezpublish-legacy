@@ -330,25 +330,49 @@ class eZContentCache
 
     /*!
      \static
-     Removes all cache files for the node aliases in the list \a $nodeAliasList.
-     An alias entry consists of a path to the node using node IDs.
+     Removes all cache files for the path string list \a $pathStringList.
     */
-    function subtreeCleanup( $nodeAliasList )
+    function subtreeCleanup( $pathStringList )
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
 
-        foreach ( $nodeAliasList as $node )
+        $selectSQL = '';
+        foreach( $pathStringList as $pathString )
         {
-            $branch = preg_replace( '@/[^/]+$@', '', $node );
-            $alias = $db->escapeString( $branch );
+            if ( is_array( $pathString ) )
+            {
+                $nodeIDarray = explode( '/', $pathString['path_string'] );
+            }
+            else
+            {
+                $nodeIDarray = explode( '/', $pathString );
+            }
 
-            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'" );
+            array_shift( $nodeIDarray );
+            array_pop( $nodeIDarray );
+
+            foreach( $nodeIDarray as $nodeID )
+            {
+                if ( $selectSQL != '' )
+                {
+                    $selectSQL .= ', ';
+                }
+                $selectSQL .= '\'' . $db->escapeString( $nodeID ) . '\'';
+            }
+        }
+
+        if ( $selectSQL != '' )
+        {
+            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree IN( $selectSQL )" );
             foreach ( $entries as $entry )
             {
                 @unlink( $entry['cache_file'] );
             }
-            $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree LIKE '$alias/%'" );
+            if ( count( $entries ) > 0 )
+            {
+                $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree IN( $selectSQL )" );
+            }
         }
     }
 
@@ -370,6 +394,15 @@ class eZContentCache
         {
             $siteDesigns = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
         }
+
+        // Cleanup subtree cache blocks
+        $pathStringArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                                array( 'path_string' ),
+                                                                array( 'node_id' => array( $nodeList ) ),
+                                                                null,
+                                                                null,
+                                                                false );
+        eZContentCache::subtreeCleanup( $pathStringArray );
 
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
 //         eZDebug::writeDebug( $siteDesigns, 'siteDesigns' );

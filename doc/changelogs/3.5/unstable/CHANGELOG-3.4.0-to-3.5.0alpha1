@@ -73,6 +73,10 @@ Changes from 3.4.0 to 3.5.0alpha1
   http://ez.no/community/bug_reports/hard_coded_redirect_path_unpossible_to_change_from_a_template
 - Changed the recent list order in ascending and also now it works according to MaximumRecentItems setting in browse.ini
 
+Database:
+- Added index on ezcontentobject_tree( path_identification_string ),
+  merged from stable/3.4 rev. 7853.
+
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
   the old code in basket and wishlist which were hardcoded against ezoption.
@@ -428,6 +432,10 @@ Workflow:
   http://ez.no/community/bug_reports/php_warning_eztemplatedesignresource_php
 - Fixed a couple of warnings about the navigationPartIdentifier (Merged from stable/3.4, rev 7833)
   http://ez.no/community/bug_reports/with_debug_enabled_i_am_getting_the_following_error
+- Fixed bug in cache block with subtree expiry. Subtree expiry partly rewritten, 
+  merged from stable/3.4 rev. 7853.
+  http://ez.no/community/bug_reports/cache_block_subtree_expiry_after_deleting
+
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

@@ -317,7 +317,6 @@ class eZContentOperationCollection
 
             include_once( 'kernel/classes/ezcontentcache.php' );
             $nodeList = array();
-            $nodeAliasList = array();
 
             $parentNodes =& $object->parentNodes( $versionNum );
             foreach ( array_keys( $parentNodes ) as $parentNodeKey )
@@ -331,7 +330,6 @@ class eZContentOperationCollection
             {
                 $assignedNode =& $assignedNodes[$assignedNodeKey];
                 $nodeList[] = $assignedNode->attribute( 'node_id' );
-                $nodeAliasList[] = $assignedNode->attribute( 'url_alias' );
 
                 if ( $oldObjectName != $newObjectName )
                 {
@@ -357,7 +355,6 @@ class eZContentOperationCollection
             eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList " );
             eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
             eZContentObject::expireComplexViewModeCache();
-            eZContentCache::subtreeCleanup( $nodeAliasList );
             $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
             if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
             {

@@ -2517,10 +2517,6 @@ WHERE
             $urlObject->cleanup();
         }
 
-        // Clean up subtree expiry blocks
-        include_once( 'kernel/classes/ezcontentcache.php' );
-        eZContentCache::subtreeCleanup( array ( $urlAlias ) );
-
         $ini =& eZINI::instance();
         // Clean up template cache bocks
         $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
@@ -2533,6 +2529,7 @@ WHERE
         $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
         if ( $viewCacheEnabled )
         {
+            include_once( 'kernel/classes/ezcontentcache.php' );
             eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
         }
 
@@ -2591,11 +2588,6 @@ WHERE
         {
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
         }
-
-        // Clean up subtree expiry blocks
-        include_once( 'kernel/classes/ezcontentcache.php' );
-        $urlAlias = $node->attribute( 'url_alias' );
-        eZContentCache::subtreeCleanup( array ( $urlAlias ) );
 
         $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
         $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];

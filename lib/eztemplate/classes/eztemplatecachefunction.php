@@ -181,15 +181,29 @@ class eZTemplateCacheFunction
                                    "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
                                    "    \$db =& eZDB::instance();\n" .
                                    "\n" .
-                                   "    if ( substr( \$subtreeExpiry, -1 ) != '/'  )\n" .
+                                   "    if ( substr( \$subtreeExpiry, -1 ) == '/'  )\n" .
                                    "    {\n" .
-                                   "        \$subtreeExpiry .= '/';\n" .
+                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 0, -1 );\n" .
                                    "    }\n" .
                                    "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
+                                   "    \$nonAliasPath = 'content/view/full/';\n" .
+                                   "    if ( strpos( \$subtreeExpiry, \$nonAliasPath ) === 0 )\n" .
+                                   "    {\n" .
+                                   "        \$subtreeNodeID = substr( \$subtree, strlen( \$nonAliasPath ) );\n" .
+                                   "    }\n" .
+                                   "    else\n" .
+                                   "    {\n" .
+                                   "        \$subtreeNodeIDSQL = \"SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='\$subtree'\";\n" .
+                                   "        \$subtreeNodeID =& \$db->arrayQuery( \$subtreeNodeIDSQL );\n" .
+                                   "        if ( count( \$subtreeNodeID ) == 1 )\n" .
+                                   "        {\n" .
+                                   "            \$subtreeNodeID = \$subtreeNodeID[0]['node_id'];\n" .
+                                   "        }\n" .
+                                   "    }\n" .
                                    "    \$cacheKey =& \$db->escapeString( \$cachePath );\n" .
                                    "\n" .
                                    "    \$insertQuery = \"INSERT INTO ezsubtree_expiry ( subtree, cache_file )\n" .
-                                   "                VALUES ( '\$subtree', '\$cacheKey' )\";\n" .
+                                   "                VALUES ( '\$subtreeNodeID', '\$cacheKey' )\";\n" .
                                    "    \$db->query( \$insertQuery );\n" .
                                    "}" );
         }
@@ -210,11 +224,34 @@ class eZTemplateCacheFunction
                 include_once( 'lib/ezdb/classes/ezdb.php' );
                 $db =& eZDB::instance();
 
+                if ( substr( $subtreeValue, -1 ) == '/' )
+                {
+                    $subtreeValue = substr( $subtreeValue, 0, -1 );
+                }
                 $subtree =& $db->escapeString( $subtreeValue );
+                $nonAliasPath = 'content/view/full/';
+                if ( strpos( $subtree, $nonAliasPath ) === 0 )
+                {
+                    $subtreeNodeID = substr( $subtree, strlen( $nonAliasPath ) );
+                }
+                else
+                {
+                    $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
+                    $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
+                    if ( count( $subtreeNodeID ) != 1 )
+                    {
+                        eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
+                        break;
+                    }
+                    else
+                    {
+                        $subtreeNodeID = $subtreeNodeID[0]['node_id'];
+                    }
+                }
                 $cacheKey =& $db->escapeString( $keyString );
 
                 $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                            VALUES ( '$subtree', '$cacheKey' )";
+                            VALUES ( '$subtreeNodeID', '$cacheKey' )";
 
                 $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
                                        "\$db =& eZDB::instance();\n" .
@@ -428,11 +465,36 @@ ENDADDCODE;
                             $db =& eZDB::instance();
 
                             $subtreeExpiry = $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement );
+                            $subtreeValue =& $db->escapeString( $subtreeExpiry );
+                            if ( substr( $subtreeExpiry, -1 ) == '/' )
+                            {
+                                $subtreeExpiry = substr( $subtreeExpiry, 0, -1 );
+                            }
                             $subtree =& $db->escapeString( $subtreeExpiry );
+                            $nonAliasPath = 'content/view/full/';
+                            if ( strpos( $subtree, $nonAliasPath ) === 0 )
+                            {
+                                $subtreeNodeID = substr( $subtree, strlen( $nonAliasPath ) );
+                            }
+                            else
+                            {
+                                $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
+                                $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
+                                if ( count( $subtreeNodeID ) != 1 )
+                                {
+                                    eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
+                                    break;
+                                }
+                                else
+                                {
+                                    $subtreeNodeID = $subtreeNodeID[0]['node_id'];
+                                }
+                            }
+
                             $cacheKey =& $db->escapeString( $phpPath );
 
                             $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                                        VALUES ( '$subtree', '$cacheKey' )";
+                                        VALUES ( '$subtreeNodeID', '$cacheKey' )";
                             $db->query( $insertQuery );
                         }
                     }
