@@ -1,3 +1,3 @@
-<table border="1">
+<table border="{$border}">
 {$rows}
 </table>

@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( "OKButton" ) )
 
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
-    $Module->redirectTo( '/content/sitemap/5/' );
+    $Module->redirectTo( '/content/view/sitemap/2/' );
     return;
 }
 

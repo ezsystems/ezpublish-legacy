@@ -313,6 +313,9 @@ class eZXMLTextType extends eZDataType
             case 'table' :
             {
                 $tableRows = "";
+                $border = $tag->attributeValue( 'border' );
+                if ($border === null )
+                    $border = 1;
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -335,6 +338,7 @@ class eZXMLTextType extends eZDataType
                     $tableRows .= $text;
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
+                $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
                 $tagText .= $text;

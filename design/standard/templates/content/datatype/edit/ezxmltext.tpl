@@ -5,7 +5,7 @@
   {$attribute.input_xml}
   </textarea>
   <script language="javascript">
-  var Editor = new eZEditor( 'ContentObjectAttribute_data_text_{$attribute.id}', '/extension/xmleditor/dhtml/images/', '', '{$attribute.contentobject_id}', '{$attribute.version}');
+  var Editor = new eZEditor( 'ContentObjectAttribute_data_text_{$attribute.id}', {'/extension/xmleditor/dhtml/images/'|ezroot}, '', '{$attribute.contentobject_id}', '{$attribute.version}', {ezsys('indexdir')} );
   Editor.startEditor();
   </script>
   <!-- End editor -->
