@@ -19,3 +19,6 @@ DebugIP=disabled##!
 Debug=inline##!
 DebugRedirection=disabled##!
 
+
+[DesignSettings]
+SiteDesign=admin

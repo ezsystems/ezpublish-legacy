@@ -1,8 +1,6 @@
 #?ini charset="iso-8859-1"?
 # eZ publish configuration file.
 
-[DesignSettings]
-SiteDesign=demo
 
 [SiteSettings]
 IndexPage=/content/view/full/26
@@ -22,3 +20,6 @@ Rules[]=Module;sdk
 DebugIP=disabled##!
 Debug=inline##!
 DebugRedirection=disabled##!
+
+[DesignSettings]
+SiteDesign=user
