@@ -2,6 +2,8 @@ Changes from 3.2.0-1 to 3.2.0-2
 
 *Kernel:
 - Added support for turning debug includes on and off in eZScript and ezpm.php.
+- Integrated the eZScript and eZCLI classes into the php scripts runcronjobs.php, updateezxmltext.php,
+  updateniceurls.php and updatesearchindex.php.
 - Made sure the bork translator didn't translate words that start with a % (percent).
 - Added master control switch for template cache, if disabled all template based caches will be turned off.
 - Added maximum limit value for the fetched page limit values in search and avancedsearch.
@@ -10,13 +12,13 @@ Changes from 3.2.0-1 to 3.2.0-2
   that it's possible to change all email adresses by changing this if the other ones are empty.
 - Added setting for control whether unique email addresses are required when registering a new user,
   default is to require it.
-- Integrated the eZScript and eZCLI classes into the php scripts runcronjobs.php, updateezxmltext.php,
-  updateniceurls.php and updatesearchindex.php.
 - Added back the API reference viewer, it is now a separate module which can be used to view
   the generated reference as well as other references (in the future). The url is reference/view/ez/
 - Added a site list to site.ini under SiteSettings, this is a list of sites which this installation
   has. Each item on the list is a siteaccess, often this is the user siteaccess for an installed
   package.
+
+*Bugfixes:
 - Fixed bug for copy object function.
 - Fixed bug for role edit function which can't remove * if limitation changed from "allow all" to "allow limited".
 - Add i18n(translation) support when create a new content object. The default name of the object could be translated. 
@@ -57,4 +59,4 @@ eZ i18n:
 
 eZ webdav:
 - Fixed file up/download bug in windows + some other small/annoying bugs.
-- Fixed file/image up-load bug by inclugin ezi18n + some other issues.
+- Fixed file/image up-load bug by including ezi18n + some other issues.
