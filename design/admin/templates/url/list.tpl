@@ -2,20 +2,27 @@
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {switch match=$view_mode}
 {case match='valid'}
-    <h2 class="context-title">{'Valid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h2>
+    <h1 class="context-title">{'Valid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case match='invalid'}
-    <h2 class="context-title">{'Invalid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h2>
+    <h1 class="context-title">{'Invalid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case}
-    <h2 class="context-title">{'All URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h2>
+    <h1 class="context-title">{'All URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 {/switch}
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -140,6 +147,8 @@
 <p>{'The list is empty.'|i18n( 'design/admin/url/list' )}</p>
 
 {/section}
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
 

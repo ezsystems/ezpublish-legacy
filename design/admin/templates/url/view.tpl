@@ -1,5 +1,12 @@
 <div class="context-block">
-<h2 class="context-title">{'url'|icon( 'normal', 'URL'|i18n( 'design/admin/url/list' ) )}&nbsp;{'URL #%url_id'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'url'|icon( 'normal', 'URL'|i18n( 'design/admin/url/view' ) )}&nbsp;{'URL #%url_id'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* Last modified. *}
 <div class="context-information">
@@ -43,13 +50,18 @@
 
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
+
 {* Buttons. *}
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <form action={concat( 'url/edit/', $url_object.id )|ezurl} method="post">
     <input class="button "type="submit" name="" value="{'Edit'|i18n( 'design/admin/url/view' )}" />
 </form>
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
@@ -57,7 +69,14 @@
 <form action={concat( 'url/view/', $url_object.id )|ezurl} method="post">
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Objects using URL #%url_id [%url_count]'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id, '%url_count', $object_list|count ) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {section show=$object_list}
 
@@ -83,6 +102,8 @@
 {section-else}
 <p>{'URL #%url_id is not in use by any objects.'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</p>
 {/section}
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
 
