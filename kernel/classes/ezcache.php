@@ -88,6 +88,18 @@ class eZCache
                                        'tag' => array( 'content', 'template' ),
                                        'enabled' => true,
                                        'path' => 'expiry.php' ),
+                                array( 'name' => 'Class identifier cache',
+                                       'id' => 'classid',
+                                       'tag' => array( 'content' ),
+                                       'enabled' => true,
+                                       'path' => false,
+                                       'function' => 'eZCacheClearClassID'),
+                                array( 'name' => 'Sort key cache',
+                                       'id' => 'sortkey',
+                                       'tag' => array( 'content' ),
+                                       'enabled' => true,
+                                       'path' => false,
+                                       'function' => 'eZCacheClearSortKey' ),
                                 array( 'name' => 'URL alias cache',
                                        'id' => 'urlalias',
                                        'tag' => array( 'content' ),
@@ -213,6 +225,59 @@ class eZCache
         $expiryHandler->setTimestamp( 'image-manager-alias', eZDateTime::currentTimeStamp() );
         $expiryHandler->store();
     }
+
+    /*!
+    */
+    function clearClassID( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory();
+
+        $files[] = array();
+        if ( $dh = opendir( $cachePath ) )
+        {
+            while ( false !== ( $file = readdir( $dh ) ) )
+            {
+                if ( $file != "." && $file != ".." )
+                {
+                    $files[] = $file;
+                }
+            }
+            closedir( $dh );
+        }
+
+        foreach ( $files as $file )
+        {
+            if ( strpos( $file, 'classidentifiers_' ) === 0 )
+                unlink( $file );
+        }
+    }
+
+    /*!
+    */
+    function clearSortKey( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory();
+
+        $files[] = array();
+        if ( $dh = opendir( $cachePath ) )
+        {
+            while ( false !== ( $file = readdir( $dh ) ) )
+            {
+                if ( $file != "." && $file != ".." )
+                {
+                    $files[] = $file;
+                }
+            }
+            closedir( $dh );
+        }
+
+        foreach ( $files as $file )
+        {
+            if ( strpos( $file, 'sortkey_' ) === 0 )
+                unlink( $file );
+        }
+    }
+
 }
 
 /*!
@@ -221,6 +286,20 @@ class eZCache
 function eZCacheClearImageAlias( $cacheItem )
 {
     eZCache::clearImageAlias( $cacheItem );
+}
+
+/*!
+ */
+function eZCacheClearClassID( $cacheItem )
+{
+    eZCache::clearClassID( $cacheItem );
+}
+
+/*!
+ */
+function eZCacheClearSortKey( $cacheItem )
+{
+    eZCache::clearSortKey( $cacheItem );
 }
 
 ?>

@@ -12,6 +12,8 @@ CLEAR_TEMPLATE_OVERRIDE="0"
 CLEAR_TRANSLATION="0"
 CLEAR_EXPIRY="0"
 CLEAR_URLALIAS="0"
+CLEAR_SORTKEY="0"
+CLEAR_CLASSIDENTIFIER="0"
 
 # Check parameters
 for arg in $*; do
@@ -31,7 +33,9 @@ for arg in $*; do
 	    echo "         --clear-ts                 Remove translation cache"
 	    echo "         --clear-expiry             Remove expiry cache"
 	    echo "         --clear-urlalias           Remove url alias cache"
-	    echo "         --clear-all                Remove all above caches"
+	    echo "         --clear-sortkey            Remove sort key cache"
+            echo "         --clear-classidentifiers   Remove class identifier cache"
+            echo "         --clear-all                Remove all above caches"
             echo
             echo "Example:"
             echo "$0 --clear-image --clear-tpl"
@@ -71,6 +75,13 @@ for arg in $*; do
 	--clear-urlalias)
 	    CLEAR_URLALIAS="1"
 	    ;;
+       --clear-sortkey)
+            CLEAR_SORTKEY="1"
+            ;;
+       --clear-classidentifiers)
+            CLEAR_CLASSIDENTIFIER="1"
+            ;;
+
 	--clear-all)
 	    CLEAR_CONTENT="1"
 	    CLEAR_IMAGE="1"
@@ -81,6 +92,8 @@ for arg in $*; do
 	    CLEAR_TRANSLATION="1"
 	    CLEAR_EXPIRY="1"
 	    CLEAR_URLALIAS="1"
+            CLEAR_SORTKEY="1"
+            CLEAR_CLASSIDENTIFIER="1"
 	    ;;
 	*)
 	    echo "$arg: unkown option specified"
@@ -131,6 +144,9 @@ for DIR in $VAR_DIRS; do
 	TRANSLATION_CACHEDIR="$DIR/cache/translation"
 	EXPIRY_CACHEFILE="$DIR/cache/expiry.php"
 	URLALIAS_CACHEDIR="$DIR/cache/wildcard"
+ 	SORTKEY_CACHEFILE="$DIR/cache/sortkey_"
+        CLASSIDENTIFIER_CACHEFILE="$DIR/cache/classidentifiers_"
+   
 
 	if [ "$CLEAR_CONTENT" -eq 1 ]; then
 	    if [ -d "$CONTENT_CACHEDIR" ]; then
@@ -194,5 +210,15 @@ for DIR in $VAR_DIRS; do
 		rm -rf "$URLALIAS_CACHEDIR"
 	    fi
 	fi
+
+        if [ "$CLEAR_SORTKEY" -eq 1 ]; then
+            echo "Removing sortkey cache files in $SORTKEY_CACHEFILE"
+            rm -f "$SORTKEY_CACHEFILE"*.php
+        fi
+
+        if [ "$CLEAR_CLASSIDENTIFIER" -eq 1 ]; then
+            echo "Removing class identifier cache files in $CLASSIDENTIFIER_CACHEFILE"
+            rm -f "$CLASSIDENTIFIER_CACHEFILE"*.php
+        fi
     fi
 done
