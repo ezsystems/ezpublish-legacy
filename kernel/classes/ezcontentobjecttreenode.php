@@ -298,7 +298,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'class_identifier':
                         {
-                            $sortingFields .= 'ezcontententclass.identifier';
+                            $sortingFields .= 'ezcontentclass.identifier';
                         } break;
                         case 'class_name':
                         {
