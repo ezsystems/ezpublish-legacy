@@ -37,7 +37,7 @@
 <h1>Translation and i18n</h1>
 
 <p>
-eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems will provide binaries for Windows and Mac OS X. The linguist is unmodified from the Qt original, so you also can get this from other sources, such as RPMs. ezlupdate is modified to make it understand eZ publish files.
+eZ publish 3 requires two programs to create and maintain translations, <b>ezlupdate</b> and <b>linguist</b>. These programs are based on the same tools from the Qt toolkit by <a href="http://www.trolltech.com">Trolltech</a>. The unix version of this toolkit is released under the GPL. eZ systems will provide binaries for Windows and Mac OS X. The linguist is unmodified from the Qt original, so you can also get it from other sources, such as RPMs. ezlupdate is modified to make it understand eZ publish files.
 </p>
 
 

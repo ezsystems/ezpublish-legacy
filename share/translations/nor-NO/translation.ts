@@ -341,10 +341,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Year:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,6 +494,10 @@
     </message>
     <message>
         <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3868,6 +3868,13 @@
     </message>
     <message>
         <source>Link </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>workflow/eventtype/result/event_ezcheckout</name>
+    <message>
+        <source>Wrapping</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
