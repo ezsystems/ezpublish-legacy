@@ -176,7 +176,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         $limitArray = null;
         if ( $offset and $limit )
-            $limitArray = array( $offset, $limit );
+            $limitArray = array( 'offset' => $offset, 'length' => $limit );
         $linkList = eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
                                                          null,
                                                          array( "collaboration_id" => $itemID ),

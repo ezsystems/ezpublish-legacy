@@ -34,6 +34,8 @@ Changes from 3.2-5 to 3.2-6
   increase exponentially.
 - Added default setting for UserSettings: UseSpecialCharacters to site.ini
   http://ez.no/community/bug_reports/site_ini_missing_entry
+- Fixed a bug with eZPersistentObject and limit/offset parameters
+  http://ez.no/community/bug_reports/ezdebug_trigger_error
 
 *Setup:
 
