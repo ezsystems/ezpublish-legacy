@@ -673,7 +673,6 @@ class eZDataType
         $types =& $GLOBALS["eZDataTypes"];
         if ( isset( $types[$type] ) )
         {
-            eZDebug::writeError( "Datatype already registered: $type", "eZDataType::loadAndRegisterType" );
             return false;
         }
 

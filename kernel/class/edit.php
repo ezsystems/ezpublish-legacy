@@ -176,6 +176,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) )
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
 include_once( 'kernel/classes/ezdatatype.php' );
+eZDataType::loadAndRegisterAllTypes();
 $datatypes =& eZDataType::registeredDataTypes();
 
 $customAction = false;
