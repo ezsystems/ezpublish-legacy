@@ -96,7 +96,7 @@ $ViewList['forgotpassword'] = array(
     'params' => array( 'HashKey' ) );
 
 $ViewList['edit'] = array(
-    'function' => array( 'login' ),
+    'functions' => array( 'login' ),
     'script' => 'edit.php',
     'ui_context' => 'edit',
     'single_post_actions' => array( 'ChangePasswordButton' => 'ChangePassword',
