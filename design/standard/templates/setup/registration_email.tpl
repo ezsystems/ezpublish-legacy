@@ -42,14 +42,6 @@ Database info:
 Type - {$database_info.info.name}
 Driver - {$database_info.info.driver}
 
-Demo data:
-
-{section show=$demo_data.use}
-Demo data was installed.
-{section-else}
-Demo data was not installed.
-{/section}
-
 
 Email info:
 Transport - {section show=eq($email_info.type,1)}sendmail{section-else}SMTP{/section}
