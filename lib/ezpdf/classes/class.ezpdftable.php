@@ -56,6 +56,7 @@ class eZPDFTable extends Cezpdf
     {
         $this->Cezpdf();
         $this->TOC = array();
+        $this->KeywordArray = array();
 
         $this->ez['textStack'] = array();
 
@@ -828,6 +829,31 @@ class eZPDFTable extends Cezpdf
                                 $params['height'] );
     }
 
+
+    /**
+     * function for inserting keyword
+     */
+    function callKeyword( $info )
+    {
+        $keyWord = $this->fixWhitespace( rawurldecode( $info['p'] ) );
+        $page = $this->ezWhatPageNumber($this->ezGetCurrentPageNumber());
+
+        if ( !isset( $this->KeywordArray[$keyWord] ) )
+        {
+            $this->KeywordArray[$keyWord] = array();
+        }
+
+        if ( !isset( $this->KeywordArray[$keyWord][(string)$page] ) )
+        {
+            $label = $info['p'] .':'. $page;
+            $this->KeywordArray[$keyWord][(string)$page] = array( 'label' => $label );
+
+            $this->addDestination( 'keyword:'.$label,
+                                   'FitH',
+                                   $this->offsetY() + $this->getFontHeight( $this->fontSize() ) );
+        }
+    }
+
     /**
      * function for inserting TOC
      */
@@ -842,7 +868,9 @@ class eZPDFTable extends Cezpdf
         $this->TOC[] = array( $this->fixWhitespace( rawurldecode( $label ) ),
                               $this->ezWhatPageNumber($this->ezGetCurrentPageNumber()),
                               $level );
-        $this->addDestination( 'toc'. $tocCount, 'FitH', $this->offsetY() );
+        $this->addDestination( 'toc'. $tocCount,
+                               'FitH',
+                               $this->offsetY() + $this->getFontHeight( $this->fontSize() ) );
     }
 
     /**
@@ -859,6 +887,39 @@ class eZPDFTable extends Cezpdf
     function callNewPage( $info )
     {
         $this->ezNewPage();
+    }
+
+    function callIndex( $info )
+    {
+        $this->ezNewPage();
+        $fontSize = $this->fontSize();
+        Cezpdf::ezText("Index<C:callInsertTOC:Index,1>\n", 26, array('justification'=>'centre'));
+
+        if ( count( $this->KeywordArray ) == 0 )
+            return;
+
+        ksort( $this->KeywordArray );
+        reset( $this->KeywordArray );
+
+        $this->ezColumnsStart( array( 'num' => 2 ) );
+
+        foreach( array_keys( $this->KeywordArray ) as $keyWord )
+        {
+            Cezpdf::ezText( $keyWord,
+                            $fontSize,
+                            array( 'justification' => 'left' ) );
+
+            foreach( array_keys( $this->KeywordArray[$keyWord] ) as $page )
+            {
+                Cezpdf::ezText( '<c:ilink:keyword:'. $this->KeywordArray[$keyWord][$page]['label'] .'>'. $page .'</c:ilink>',
+                                $fontSize,
+                                array( 'justification' => 'right' ) );
+            }
+        }
+
+        $this->ezColumnsStop();
+        $this->setFontSize( $fontSize );
+
     }
 
     /*!
@@ -1317,7 +1378,8 @@ class eZPDFTable extends Cezpdf
 
     /* --- Private --- */
 
-    var $TOC;
+    var $TOC; // Table of content array
+    var $KeywordArray; // keyword array
 
     /* Stack and array used for preprocessing document */
     var $PreStack;

@@ -226,6 +226,24 @@ class eZPDF
                 eZDebug::writeNotice( 'Execute text in PDF: "'. $text .'"', 'eZPDF::modify' );
             } break;
 
+            /* add keyword to pdf document */
+            case 'keyword':
+            {
+                $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
+
+                $operatorValue = '<C:callKeyword:'. rawurlencode( $text ) .'>';
+            } break;
+
+            /* add Keyword index to pdf document */
+            case 'createIndex':
+            {
+                $operatorValue = '<C:callIndex>';
+
+                eZDebug::writeNotice( 'Adding Keyword index to PDF', 'eZPDF::modify' );
+            } break;
+
             /* usage : pdf(text, <text>, array( 'font' => <fontname>, 'size' => <fontsize> )) */
             case 'text':
             {
