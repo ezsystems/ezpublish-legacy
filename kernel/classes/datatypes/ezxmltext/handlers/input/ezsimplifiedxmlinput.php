@@ -158,7 +158,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $inputData .= $data;
             $inputData .= "</paragraph>";
             $inputData .= "</section>";
-
             $data =& $this->convertInput( $inputData );
             $message = $data[1];
             if ( $this->IsInputValid == false )
@@ -399,7 +398,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
                 $domString = eZXMLTextType::domString( $tmpDom );
 
-//                 eZDebug::writeDebug($domString, "stored xml");
+//                eZDebug::writeDebug($domString, "stored xml");
                 $contentObjectAttribute->setAttribute( "data_text", $domString );
                 $contentObjectAttribute->setValidationLog( $message );
 
@@ -963,7 +962,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
                             $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
 
-                            if ( $convertedTag == 'custom' and $lastInsertedNodeTag != 'custom' )
+                            if ( $convertedTag == 'custom' and $lastInsertedNodeTag != 'custom' and $lastInsertedNodeTag != 'section' )
                             {
                                 array_push( $TagStack,
                                              array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
