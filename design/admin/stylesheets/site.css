@@ -983,6 +983,7 @@ input#searchbutton, input.menubutton
     font-weight: normal;
     color: #ffffff;
     background-color: #2d537a;
+    margin-right: 0;
 }
 
 div.content-navigation-childlist table.list th
@@ -1049,10 +1050,10 @@ div.popupmenu
   margin: 0px;
   padding: 4px;
   cursor: default;
-  background-color: #e8e8e8;
+  background-color: #ecece4;
   border: 2px solid #ffffff;
-  border-bottom-color: #808080;
-  border-right-color: #808080;
+  border-bottom-color: #bfbeb6;
+  border-right-color: #bfbeb6;
   z-index: +1; 
 
   /* These two are essential */
@@ -1063,10 +1064,10 @@ div.popupmenu
 div.popupmenu div.popupmenuheader
 {
     margin: -2px -2px 0.5em -2px;
-    background-color: #c0c0c0;
+    background-color: #d5d5cb;
     border: 1px solid #ffffff;
-    border-bottom-color: #808080;
-    border-right-color: #808080;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
 }
 
 div.popupmenu h3
@@ -1086,12 +1087,12 @@ div.popupmenu div.window-close p
 {
     font-weight: bold;
     color: #000000;
-    background-color: #e0e0e0;
+    background-color: #ecece4;
     margin: 0;
     padding: 0.1em 0.3em 0.1em 0.3em;
-    border: 1px solid #f8f8f8;
-    border-bottom-color: #202020;
-    border-right-color: #606060;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
 }
 
 div.popupmenu a
@@ -1106,7 +1107,7 @@ div.popupmenu a
 div.popupmenu a:hover
 {
     color: #ffffff;
-    background-color: #08246b;
+    background-color: #2d537a;
     text-decoration: none;
     cursor: default;
 }
