@@ -262,6 +262,7 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )
             {
                 $module->redirectTo( eZHTTPTool::sessionVariable( 'RedirectAfterUserRegister' ) );
+                eZHTTPTool::removeSessionVariable( 'RedirectAfterUserRegister' );
             }
             else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
             {
