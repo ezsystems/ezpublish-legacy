@@ -1185,7 +1185,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $class =& eZContentClass::fetch( $contentClassID );
         $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
         $parentContentObject =& $parentNode->attribute( 'contentobject' );
-        $sectionID = $parentContentObject->attribute( 'section_is' );
+        $sectionID = $parentContentObject->attribute( 'section_id' );
         $object =& $class->instantiate( $userID, $sectionID );
 
 //        $parentContentObject = $parentNode->attribute( 'contentobject' );
