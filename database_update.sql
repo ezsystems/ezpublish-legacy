@@ -118,6 +118,7 @@ create table ezinformationcollection_attribute (
 alter table ezcontentobject_tree  drop md5_path;
 alter table ezcontentobject_tree  drop left_margin;
 alter table ezcontentobject_tree  drop right_margin;
+
 # For postgresql
 #create table temp_tree as select * from ezcontentobject_tree;
 #drop table ezcontentobject_tree;
@@ -138,7 +139,11 @@ alter table ezcontentobject_tree  drop right_margin;
 #);
 #insert into ezcontentobject_tree select node_id, parent_node_id, contentobject_id, contentobject_version,  contentobject_is_published,crc32_path, depth, path_string, path_identification_string,sort_field,sort_order,priority from temp_tree;
 #drop table temp_tree;
-alter table eznode_assignment rename column main to is_main;
+
+alter table eznode_assignment change main is_main int not null;
+# PostgreSQL
+# alter table eznode_assignment rename column main to is_main;
+
 alter table ezcontentobject drop main_node_id;
 alter table ezcontentobject drop permission_id;
 alter table ezcontentobject_tree add column main_node_id integer;
@@ -150,6 +155,9 @@ CREATE TABLE ezdiscountrule (
  );
 
 alter table ezorder add is_temporary int not null default 1;
+
+alter table ezinformationcollection_attribute add contentclass_attribute_id int not null;
+
 create table ezorder_item(
     id int primary key NOT NULL auto_increment,
     order_id int not null,
