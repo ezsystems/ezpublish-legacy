@@ -180,7 +180,8 @@ class eZDebug
         $this->TimeAccumulatorList = array();
         $this->TimeAccumulatorGroupList = array();
         $this->OverrideList = array();
-        $this->TemplatesUsageStatistics = array();
+        $this->topReportsList = array();
+        $this->bottomReportsList = array();
     }
 
     function reset()
@@ -192,7 +193,8 @@ class eZDebug
                                       EZ_LEVEL_DEBUG => array() );
         $this->TimeAccumulatorList = array();
         $this->TimeAccumulatorGroupList = array();
-        $this->TemplatesUsageStatistics = array();
+        $this->topReportsList = array();
+        $this->bottomReportsList = array();
     }
 
     /*!
@@ -1254,12 +1256,6 @@ ezdebug.reload();
             echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\">";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
 
-            if ( is_array( $this->htmlBlocksTop ) )
-            {
-                foreach( $this->htmlBlocksTop as $block )
-                    echo "<tr><td>$block</td></tr>";
-            }
-
             echo "<tr><td>";
 
             if ( !$this->UseCSS )
@@ -1301,6 +1297,8 @@ td.timingpoint2
             }
             echo "<table style='border: 1px light gray;' cellspacing='0'>";
         }
+
+        $this->printTopReportsList();
 
         $hasLevel = array( EZ_LEVEL_NOTICE => false,
                            EZ_LEVEL_WARNING => false,
@@ -1619,7 +1617,7 @@ td.timingpoint2
             echo "</table>";
         }
 
-        $this->printTemplateUsageStatistic( $as_html );
+        $this->printBottomReportsList();
 
         if ( $as_html )
         {
@@ -1639,131 +1637,49 @@ td.timingpoint2
     }
 
     /*!
+     Appends report to 'top' reports list.
     */
-    function printTemplateUsageStatistic( $as_html = true )
+    function appendTopReport( $reportName, &$reportContent )
     {
-        include_once( 'lib/eztemplate/classes/eztemplate.php' );
-        if( !eZTemplate::isTemplatesUsageStatisticsEnabled() )
-            return '';
-
-        if ( $as_html )
-        {
-            echo "<h2>Templates usage statistics:</h2>";
-            echo ( "<table style='border: 1px dashed black;' cellspacing='0'>" .
-                   "<tr><th>&nbsp;Template</th>" .
-                   "<th>&nbsp;Requested template</th>" .
-                   "<th>&nbsp;Full filename</th>" .
-                   "<th>&nbsp;Edit</th>" .
-                   "<th>&nbsp;Override</th></tr>" );
-        }
-        else
-        {
-            $formatString = "%-40s%-40s%-40s\n";
-            echo "Templates usage statistics\n";
-            echo ( sprintf( $formatString, 'Templates', 'Requested template', 'Full filename' ) );
-        }
-
-        if ( $as_html )
-        {
-            $iconSizeX = 16;
-            $iconSizeY = 16;
-            $siteURI = 'http://' . eZSys::hostname();
-            $templateViewFunction = $siteURI . eZSys::indexDir() . '/visual/templateview/';
-            $templateEditFunction = $siteURI . eZSys::indexDir() . '/visual/templateedit/';
-            $templateOverrideFunction = $siteURI . eZSys::indexDir() . '/visual/templatecreate/';
-
-            $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-            $editIconFile = $siteURI . "/design/$std_base/images/edit.gif";
-            $overrideIconFile = $siteURI . "/design/$std_base/images/override-template.gif";
-
-            $tdClass = "timingpoint1";
-            $j = 0;
-
-            $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
-            //echo "$currentSiteAccess<br>";
-            //$http =& eZHTTPTool::instance();
-            //$http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $currentSiteAccess );
-        }
-
-        foreach( $this->TemplatesUsageStatistics as $templateInfo )
-        {
-            $actualTemplateName =& $templateInfo['actual-template-name'];
-            $requestedTemplateName =& $templateInfo['requested-template-name'];
-            $templateFileName =& $templateInfo['template-filename'];
-
-            if ( $as_html )
-            {
-                $tdClass = ( $j % 2 == 0 ) ? "timingpoint1" : "timingpoint2";
-
-                $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
-                $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
-
-                $templateEditURI = $templateEditFunction . $templateFileName;
-                $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
-
-                echo ( "<tr><td class=\"$tdClass\"><a href=\"$actualTemplateViewURI\">&nbsp;$actualTemplateName</a></td>" .
-                       "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">&nbsp;$requestedTemplateName</a></td>" .
-                       "<td class=\"$tdClass\">&nbsp;$templateFileName</td>" .
-                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
-                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td></tr>" );
-
-                $j++;
-            }
-            else
-            {
-                echo ( sprintf( $formatString, $actualTemplateName, $requestedTemplateName, $templateFileName ) );
-            }
-        }
-
-        $totalTemplatesCount = count( $this->TemplatesUsageStatistics );
-
-        if ( $as_html )
-        {
-            echo ( "<tr><td class=\"$tdClass\">&nbsp;</td>" .
-                   "<td class=\"$tdClass\">&nbsp;</td>" .
-                   "<td class=\"$tdClass\">&nbsp;</td>".
-                   "<td class=\"$tdClass\">&nbsp;</td>".
-                   "<td class=\"$tdClass\">&nbsp;</td></tr>" );
-            echo "<tr><td><b>&nbsp;Total templates count: $totalTemplatesCount</b></td><tr>";
-            echo "</table>";
-        }
-        else
-        {
-            echo "\nTotal templates count: " . $totalTemplatesCount . "\n";
-        }
-    }
-
-    /*!
-    */
-    function appendTemplateToStatistics( $templateName, $templateFileName )
-    {
-        if ( !eZDebug::isDebugEnabled() )
-            return;
-
-        $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
-        $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );
-
-        $templateInfo = array( 'actual-template-name' => $actualTemplateName,
-                               'requested-template-name' => $requestedTemplateName,
-                               'template-filename' => $templateFileName );
-
         $debug =& eZDebug::instance();
-        //$debug->TemplatesUsageStatistics[$templateName] = $templateInfo;
-        $debug->TemplatesUsageStatistics[] = $templateInfo;
+        $debug->topReportsList[$reportName] =& $reportContent;
     }
-    
+
     /*!
+     Prints all 'top' reports
     */
-    function addHtmlBlockTop( &$htmlBlock )
+    function printTopReportsList()
     {
-        if ( !isset( $this ) or
-              get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
+        $debug =& eZDebug::instance();
+        $reportNames = array_keys( $debug->topReportsList );
+        foreach ( $reportNames as $reportName )
+        {
+            $reportContent =& $debug->topReportsList[$reportName];
+            echo $reportContent;
+        }
+    }
 
-        if ( !is_array( $this->htmlBlocksTop ) )
-            $this->htmlBlocksTop = array();
+    /*!
+     Appends report to 'bottom' reports list.
+    */
+    function appendBottomReport( $reportName, &$reportContent )
+    {
+        $debug =& eZDebug::instance();
+        $debug->bottomReportsList[$reportName] =& $reportContent;
+    }
 
-        $this->htmlBlocksTop[] =& $htmlBlock;
+    /*!
+     Prints all 'bottom' reports
+    */
+    function printBottomReportsList()
+    {
+        $debug =& eZDebug::instance();
+        $reportNames = array_keys( $debug->bottomReportsList );
+        foreach ( $reportNames as $reportName )
+        {
+            $reportContent =& $debug->bottomReportsList[$reportName];
+            echo $reportContent;
+        }
     }
 
     /// \privatesection
@@ -1818,11 +1734,11 @@ td.timingpoint2
     /// A list of override directories
     var $OverrideList;
 
-    /// A list of templates used by a rendered page
-    var $TemplatesUsageStatistics;
+    /// A list of debug reports that appears at the bottom of debug output
+    var $bottomReportsList;
 
-    /// An array of extra html blocks to append at the top of debug output
-    var $htmlBlocksTop;
+    /// A list of debug reports that appears at the top of debug output
+    var $topReportsList;
 }
 
 /*!

@@ -117,7 +117,7 @@ function eZUpdateDebugSettings()
 
     $settings = array();
     list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['log-only'], $settings['debug-ip-list'], $logList ) =
-        $ini->variableMulti( 'DebugSettings', 
+        $ini->variableMulti( 'DebugSettings',
                              array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugIPList', 'AlwaysLog' ),
                              array( 'enabled', 'enabled', 'disabled' ) );
     $logList = explode( ';', $logList );
@@ -230,13 +230,19 @@ function &eZDisplayDebug()
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
     {
-        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' )
+        $as_html = true;
+
+        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true)
         {
             $tpl =& templateInit();
-            $result = $tpl->fetch( 'design:setup/debug_toolbar.tpl' );
-            eZDebug::addHtmlBlockTop( $result );
+            $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
+            eZDebug::appendTopReport( "Debug toolbar", $result );
         }
-        return eZDebug::printReport( $type == "popup", true, false );
+
+        include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
+        eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
+
+        return eZDebug::printReport( $type == "popup", $as_html, false );
     }
     return null;
 }

@@ -377,6 +377,8 @@ class eZTemplate
         $this->MaxLevelWarning = ezi18n( 'lib/template',
                                          'Thee maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
+
+        $this->TemplatesUsageStatistics = array();
     }
 
     /*!
@@ -721,10 +723,7 @@ class eZTemplate
         if ( !$resourceData )
             return null;
 
-        if ( eZTemplate::isTemplatesUsageStatisticsEnabled() )
-        {
-            eZDebug::appendTemplateToStatistics( $resourceData['template-name'], $resourceData['template-filename'] );
-        }
+        eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
 
         if ( !$resourceData['compiled-template'] and
              $resourceData['root-node'] === null )
@@ -2277,6 +2276,8 @@ class eZTemplate
 
         $this->ErrorCount = 0;
         $this->WarningCount = 0;
+
+        $this->TemplatesUsageStatistics = array();
     }
 
     /*!
@@ -2441,6 +2442,43 @@ class eZTemplate
         return $wasEnabled;
     }
 
+    /*!
+     \static
+     Checks settings and if 'ShowTemplatesUsageStatistics' is enabled appends template info to stats.
+    */
+    function appendTemplateToStatisticsIfNeeded( &$templateName, &$templateFileName )
+    {
+        if ( eZTemplate::isTemplatesUsageStatisticsEnabled() )
+            eZTemplate::appendTemplateToStatistics( $templateName, $templateFileName );
+    }
+
+    /*!
+     \static
+     Appends template info to stats.
+    */
+    function appendTemplateToStatistics( &$templateName, &$templateFileName )
+    {
+        $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
+        $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );
+
+        $templateInfo = array( 'actual-template-name' => $actualTemplateName,
+                               'requested-template-name' => $requestedTemplateName,
+                               'template-filename' => $templateFileName );
+
+        $tpl =& eZTemplate::instance();
+        $tpl->TemplatesUsageStatistics[] =& $templateInfo;
+    }
+
+    /*!
+     \static
+     Returns template usage statistics
+    */
+    function &templatesUsageStatistics()
+    {
+        $tpl =& eZTemplate::instance();
+        return $tpl->TemplatesUsageStatistics;
+    }
+
     /// \privatesection
     /// Associative array of resource objects
     var $Resources;
@@ -2485,6 +2523,9 @@ class eZTemplate
     /// include level
     var $Level = 0;
     var $MaxLevel = 40;
+
+    /// A list of templates used by a rendered page
+    var $TemplatesUsageStatistics;
 
 //     var $CurrentRelatedResource;
 //     var $CurrentRelatedTemplateName;
