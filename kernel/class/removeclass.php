@@ -80,6 +80,26 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
         if ( $tempDeleteClass != null )
             $tempDeleteClass->remove( true, 1 );
+
+        //Remove all object from thrash
+        $db =& eZDB::instance();
+        $count = $db->arrayQuery( "SELECT count( * ) AS count FROM ezcontentobject WHERE  ezcontentobject.contentclass_id='$deleteID'" );
+
+        $offset = 0;
+        $limit = 50;
+
+        while ( $offset < $count[0]['count'] )
+        {
+            $query = "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID' LIMIT $offset, $limit";
+            $resArray =& $db->arrayQuery( $query );
+            foreach( $resArray as $row )
+            {
+                $objectID = $row['id'];
+                $object =& eZContentObject::fetch( $objectID );
+                $object->purge();
+            }
+            $offset += count( $resArray );
+        }
     }
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
@@ -90,7 +110,6 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 $Module->setTitle( ezi18n( 'kernel/class', 'Remove classes' ) . ' ' . $ClassID );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
-
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "GroupID", $GroupID );
