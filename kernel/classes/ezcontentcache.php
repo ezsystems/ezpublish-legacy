@@ -133,11 +133,15 @@ class eZContentCache
 
     function cleanup( $nodeList )
     {
+        print( "cleanup" );
         $ini =& eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
         $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
-        $siteDesigns = $ini->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+
+        $contentINI =& eZINI::instance( "content.ini" );
+        $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
+
 //         eZDebug::writeDebug( $viewModes, 'viewmodes' );
 //         eZDebug::writeDebug( $languages, 'languages' );
 //         eZDebug::writeDebug( $nodeList, 'nodeList' );
