@@ -4,7 +4,7 @@
 <form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
 <div class="block">
 <label>{"Name:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
-<p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[{"edit"|i18n("design/standard/role")}]</a></p>
+<p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}><img alt="{'Edit'|i18n('design/standard/role')}" src={"edit.png"|ezimage} /></a></p>
 </div>
 
 <h2>{"Role policies"|i18n("design/standard/role")}</h2>
@@ -60,11 +60,14 @@
 	</td>
 </tr>
 {/section}
+<tr>
+  <td>
+    <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n('design/standard/role')}" />
+  </td>
+  <td align="right" width="1">
+    <input type="image" name="RemoveRoleAssignmentButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+  </td>
+</tr>
 </table>
-
-<div class="buttonblock">
-<input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n('design/standard/role')}" />
-<input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove'|i18n('design/standard/role')}" />
-</div>
 
 </form>

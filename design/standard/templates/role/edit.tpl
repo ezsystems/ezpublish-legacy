@@ -15,11 +15,11 @@
 <tr>
     <th width="10%">{"Module:"|i18n("design/standard/role")}</th>
     <th width="10%">{"Function:"|i18n("design/standard/role")}</th>
-    <th width="79%">{"Limitation list:"|i18n("design/standard/role")}</th>
-    <th width="1%">{"Remove:"|i18n("design/standard/role")}</th>
+    <th width="79%">{"Limitations:"|i18n("design/standard/role")}</th>
+    <th>{"Remove:"|i18n("design/standard/role")}</th>
 </tr>
 {section name=Policy loop=$policies sequence=array(bglight,bgdark) }
-   <tr>
+<tr>
     <td class="{$Policy:sequence}">
      {$Policy:item.module_name}
     </td>
@@ -39,22 +39,25 @@
 	   {delimiter},{/delimiter}
         {/section}  
     </td>
-    <td class="{$Policy:sequence}">
+    <td class="{$Policy:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$Policy:item.id}" />
-	{* <img src={"editdelete.png"|ezimage} alt="" /> *}
-
     </td>
-   </tr>
+</tr>
 {/section}  
+<tr>
+  <td colspan="3">
+    <input class="button" type="submit" name="CreatePolicy" value="{'New'|i18n('design/standard/role')}" />
+  </td>
+  <td align="right" width="1">
+{*<input class="button" type="submit" name="RemovePolicies" value="{'Remove'|i18n('design/standard/role')}" />*}
+    <input type="image" name="RemovePolicies" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+  </td>
+</tr>
 </table>
-<div class="buttonblock">
-<input class="button" type="submit" name="CreatePolicy" value="{'New'|i18n('design/standard/role')}" />
-<input class="button" type="submit" name="RemovePolicies"  value="{'Remove'|i18n('design/standard/role')}" />
-</div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="Apply" value="{'Apply'|i18n('design/standard/role')}" />
-<input class="button" type="submit" name="Discard" value="{'Discard'|i18n('design/standard/role')}" />
+<input class="defaultbutton" type="submit" name="Apply" value="{'Store'|i18n('design/standard/role')}" />
+<input class="button" type="submit" name="Discard" value="{'Discard changes'|i18n('design/standard/role')}" />
 </div>
 
 

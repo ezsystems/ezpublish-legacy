@@ -11,7 +11,7 @@
     <th width="97%">{"Name:"|i18n("design/standard/role")}</th>
     <th width="1%">{"Assign:"|i18n("design/standard/role")}</th>
     <th width="1%">{"Edit:"|i18n("design/standard/role")}</th>
-    <th width="1%">{"Remove:"|i18n("design/standard/role")}</th>
+    <th>{"Remove:"|i18n("design/standard/role")}</th>
 </tr>
 
 {section name=All loop=$roles sequence=array(bglight,bgdark)}
@@ -25,16 +25,19 @@
     <td class="{$All:sequence}">
 	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="" /></a>
     </td>
-    <td class="{$All:sequence}">
-	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" /><img src={"editdelete.png"|ezimage} alt="" />
+    <td class="{$All:sequence}" align="right" width="1">
+	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" />
     </td>
 </tr>
 {/section}
+<tr>
+  <td colspan="3">
+    <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/role')}" />
+  </td>
+  <td align="right" width="1">
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+  </td>
+</tr>
 </table>
-
-<div class="buttonblock">
-<input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/role')}" />
-<input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/role')}" />
-</div>
 
 </form>

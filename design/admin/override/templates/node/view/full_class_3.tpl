@@ -89,7 +89,7 @@
     <th>
     {"Copy:"|i18n("design/standard/node/view")}
     </th>
-    <th colspan="2" align="right">
+    <th colspan="2" align="right" width="1">
     {"Remove:"|i18n("design/standard/node/view")}
     </th>
 </tr>
@@ -139,7 +139,7 @@
 
 	{switch name=sw match=$Child:item.object.can_remove}
         {case match=1}
-	<td class="{$Child:sequence}" align="right" width="1%">
+	<td class="{$Child:sequence}" align="right" width="1">
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
 	</td>
 	{/case}
@@ -173,9 +173,9 @@
     </td>
     <td>
     </td>
-    <td>
+    <td align="right" width="1">
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" src={"trash.png"|ezimage} />
     {/section}
     </td>
 </tr>
