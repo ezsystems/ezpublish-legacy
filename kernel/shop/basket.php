@@ -51,8 +51,6 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
     $optionList =& $http->postVariable( "eZOption" );
-
-    
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );
     $http->setSessionVariable( "FromPage", "/content/view/full/" . $nodeID . "/" );
@@ -276,7 +274,8 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     }
 }
 
-$basket = eZBasket::currentBasket();
+$basket =& eZBasket::currentBasket();
+$basket->updatePrices();
 $tpl =& templateInit();
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );

@@ -169,6 +169,11 @@ class eZProductCollectionItem extends eZPersistentObject
          foreach( $optionList as $option )
          {
              $objectAttribute =& eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
+             if ( $objectAttribute == null )
+             {
+                 $optionsPrice += 0.0;
+                 continue;
+             }
              $optionContent = $objectAttribute->content();
              $optionContentItems =& $optionContent->attribute( 'option_list' );
              $optionFound = false;
@@ -178,7 +183,11 @@ class eZProductCollectionItem extends eZPersistentObject
                       $optionContent->name() == $option->attribute( 'name' ) &&
                       $optionContentItem['value'] == $option->attribute( 'value' ) )
                  {
-                     if ( $optionContentItem[ 'additional_price' ] == $option->attribute( 'price' ) )
+
+                     $optionFound = true;
+                     $optionsPrice += $optionContentItem['additional_price'];
+
+/*                     if ( $optionContentItem[ 'additional_price' ] == $option->attribute( 'price' ) )
                      {
                          $optionFound = true;
                          $optionsPrice += $optionContentItem['additional_price'];
@@ -189,6 +198,7 @@ class eZProductCollectionItem extends eZPersistentObject
                          return false;
 
                      }
+*/
                  }
 
              }
@@ -203,12 +213,12 @@ class eZProductCollectionItem extends eZPersistentObject
         {
             $attributes = $contentObject->contentObjectAttributes();
             $optionsPrice = $this->calculatePriceWithOptions();
-            if (  $optionsPrice === false )
+/*            if (  $optionsPrice === false )
             {
                 eZDebug::writeDebug( $optionPrice , "Option price is not the same" );
 
                 return false;
-            }
+            } */
             foreach ( $attributes as $attribute )
             {
                 $dataType =& $attribute->dataType();

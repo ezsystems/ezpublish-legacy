@@ -102,7 +102,7 @@ class eZBasket extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function &items( $asObject=true )
+    function &items( $asObject = true )
     {
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
@@ -311,6 +311,48 @@ class eZBasket extends eZPersistentObject
         $order->store();
 
         return $order;
+    }
+
+    function updatePrices()
+    {
+        $items =& $this->items();
+        foreach( array_keys( $items ) as $key )
+        {
+            $itemArray =& $items[ $key ];
+            $item =& $itemArray['item_object'];
+            $productContentObject =& $item->attribute( 'contentobject' );
+            $priceObj = null;
+            $price = 0.0;
+            $attributes =&  $productContentObject->contentObjectAttributes();
+            foreach ( $attributes as $attribute )
+            {
+                $dataType =& $attribute->dataType();
+                if ( $dataType->isA() == "ezprice" )
+                {
+                    $priceObj =& $attribute->content();
+                    $price += $priceObj->attribute( 'price' );
+                    eZDebug::writeDebug( $price, "price" );
+                    break;
+                }
+            }
+            $optionsPrice = $item->calculatePriceWithOptions();
+            eZDebug::writeDebug( $optionsPrice, "price 1" );
+
+            $price += $optionsPrice;
+            eZDebug::writeDebug( $price, "price 2" );
+            $item->setAttribute( "price", $price );
+            if ( $priceObj->attribute( 'is_vat_included' ) )
+            {
+                $item->setAttribute( "is_vat_inc", '1' );
+            }
+            else
+            {
+                $item->setAttribute( "is_vat_inc", '0' );
+            }
+            $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+            $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
+            $item->store();
+        }
     }
 }
 
