@@ -52,7 +52,6 @@ else
 if ( $http->hasPostVariable( 'RSSExport_ID' ) )
     $RSSExportID = $http->postVariable( 'RSSExport_ID' );
 
-
 if ( $Module->isCurrentAction( 'Store' ) )
 {
     return storeRSSExport( $Module, $http, true );
@@ -82,7 +81,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
         {
             storeRSSExport( $Module, $http );
             include_once( 'kernel/classes/ezcontentbrowse.php' );
-            eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
+            eZContentBrowse::browse( array( 'action_name' => 'RSSObjectBrowse',
                                             'description_template' => 'design:rss/browse_source.tpl',
                                             'from_page' => '/rss/edit_export/'.$RSSExportID.'/'.$http->postVariable( 'Item_ID_'.$itemCount ) ),
                                      $Module );

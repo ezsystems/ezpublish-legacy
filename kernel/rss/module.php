@@ -41,6 +41,7 @@ $ViewList['list'] = array(
     'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
     'unordered_params' => array( 'language' => 'Language' ) );
+
 $ViewList['edit_export'] = array(
     'script' => 'edit_export.php',
     'functions' => array( 'edit' ),
@@ -50,6 +51,19 @@ $ViewList['edit_export'] = array(
                                     'AddSourceButton' => 'AddItem',
                                     'RemoveButton' => 'Remove' ),
     'params' => array( 'RSSExportID', 'RSSExportItemID' ) );
+
+$ViewList['edit_import'] = array(
+    'script' => 'edit_import.php',
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'single_post_actions' => array( 'StoreButton' => 'Store',
+                                    'RemoveButton' => 'Remove',
+                                    'Update_Class' => 'UpdateClass',
+                                    'DestinationBrowse' => 'BrowseDestination',
+                                    'UserBrowse' => 'BrowseUser' ),
+    'params' => array( 'RSSImportID', 'BrowseType' ) );
+
+
 $ViewList['feed'] = array(
     'script' => 'feed.php',
     'functions' => array( 'feed' ),

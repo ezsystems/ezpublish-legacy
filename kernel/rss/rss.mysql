@@ -24,3 +24,22 @@ CREATE TABLE ezrss_export_item (
   description varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
+
+CREATE TABLE ezrss_import (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) default NULL,
+  url text,
+  destination_node_id int(11) default NULL,
+  class_id int(11) default NULL,
+  class_title varchar(255) default NULL,
+  class_url varchar(255) default NULL,
+  class_description varchar(255) default NULL,
+  active int(11) default NULL,
+  creator_id int(11) default NULL,
+  created int(11) default NULL,
+  modifier_id int(11) default NULL,
+  modified int(11) default NULL,
+  status int(11) default NULL,
+  object_owner_id int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
