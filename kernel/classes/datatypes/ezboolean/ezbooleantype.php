@@ -98,6 +98,21 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
+   /*!
+    \reimp
+    Fetches the http post variables for collected information
+   */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $collectionAttribute->setAttribute( 'data_int', 1 );
+            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            return true;
+        }
+        return false;
+    }
+
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
         if ( $http->hasPostVariable( $base . "_ezboolean_default_value_" . $classAttribute->attribute( "id" ) ))

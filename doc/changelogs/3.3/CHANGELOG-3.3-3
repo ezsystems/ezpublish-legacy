@@ -22,6 +22,8 @@ Changes from 3.3-1 to 3.3-2
 - Fixed using html special chars in texttoimage operator.
   http://ez.no/developer/ez_publish_3/bug_reports/when_character_is_used_in_texttoimage_page_does_not_validate
   http://ez.no/developer/ez_publish_3/bug_reports/when_character_is_used_in_texttoimage_page_does_not_validate_reposted
+- Fixed storing data from ezboolean information collection
+  http://ez.no/developer/ez_publish_3/bug_reports/collect_ezboolean_tpl_input_not_stored_in_db
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
