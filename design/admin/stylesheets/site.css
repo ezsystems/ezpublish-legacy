@@ -381,6 +381,11 @@ div.box-content div.block
     padding: 0.5em;
 }
 
+div.box-content div.block div.block
+{
+    padding: 0;
+}
+
 div.box-content div.context-toolbar div.block
 {
     padding: 0;
@@ -393,7 +398,12 @@ div.box-content div p
 
 div#leftmenu div.box-content
 {
-    padding: 0.1em 0.3em 0.5em 0.3em;  
+    padding: 0.1em 0.5em 0.5em 0.5em;  
+}
+
+div#leftmenu div.box-content div.block
+{
+    padding: 0;  
 }
 
 div#rightmenu div.box-content

@@ -255,7 +255,7 @@ input.button
     border-right: 2px solid #2f475f;
     background-color: #8a9fb6;
     font-weight: normal;
-    margin: 0 0.5em 0 0;
+    margin: 0.25em 0.5em 0 0;
 }
 
 input.button[disabled="disabled"]
