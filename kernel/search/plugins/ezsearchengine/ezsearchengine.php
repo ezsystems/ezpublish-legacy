@@ -215,6 +215,16 @@ class eZSearchEngine
 
             $nonExistingWordArray = array();
 
+            if ( isset( $params['SearchOffset'] ) )
+                $searchOffset = $params['SearchOffset'];
+            else
+                $searchOffset = 0;
+
+            if ( isset( $params['SearchLimit'] ) )
+                $searchLimit = $params['SearchLimit'];
+            else
+                $searchLimit = 10;
+
             if ( isset( $params['SearchContentClassID'] ) )
                 $searchContentClassID = $params['SearchContentClassID'];
             else
@@ -552,7 +562,7 @@ class eZSearchEngine
             }
 
 
-            if( count( $limitationList ) > 0 )
+            if ( count( $limitationList ) > 0 )
             {
                 $sqlParts = array();
                 foreach( $limitationList as $limitationArray )
@@ -595,7 +605,7 @@ class eZSearchEngine
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id
                     $sqlPermissionCheckingString
-                    ORDER BY ezsearch_object_word_link.frequency limit 10";
+                    ORDER BY ezsearch_object_word_link.frequency";
 
             $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
                     FROM
@@ -619,7 +629,7 @@ class eZSearchEngine
             if ( count( $nonExistingWordArray ) == 0 )
             {
                 // execute search query
-                $objectResArray =& $db->arrayQuery( $searchQuery );
+                $objectResArray =& $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
                 // execute search count query
                 $objectCountRes =& $db->arrayQuery( $searchCountQuery );
 

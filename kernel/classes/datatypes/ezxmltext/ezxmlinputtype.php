@@ -69,6 +69,13 @@ class eZXMLInputType
             }
         }
 
+        $disableExtension = false;
+        $http =& eZHTTPTool::instance();
+        if ( $http->hasSessionVariable( 'DisableEditorExtension' ) )
+        {
+            $disableExtension = true;
+        }
+
         if ( $inputHandler == "standard" )
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
@@ -79,10 +86,12 @@ class eZXMLInputType
         }
         elseif ( $inputHandler == "dhtml" )
         {
-            if ( $isMSIE and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" ) ) )
+            if ( $isMSIE
+                 and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezdhtmlinputhandler.php" ) )
+                 and ( $disableExtension == false ) )
             {
-                include_once( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" );
-                $impl = new eZXMLInputHandler();
+                include_once( "extension/xmleditor/" . $inputHandler . "/ezdhtmlinputhandler.php" );
+                $impl = new eZDHTMLInputHandler();
             }
             else
             {
@@ -105,6 +114,8 @@ class eZXMLInputType
         $ini =& eZINI::instance();
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
 
+        $disableExtension = false;
+
         $isMSIE = false;
         $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
         if ( eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
@@ -116,6 +127,12 @@ class eZXMLInputType
             }
         }
 
+        $http =& eZHTTPTool::instance();
+        if ( $http->hasSessionVariable( 'DisableEditorExtension' ) )
+        {
+            $disableExtension = true;
+        }
+
         if ( $inputHandler == "standard" )
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
@@ -125,7 +142,9 @@ class eZXMLInputType
         }
         elseif ( $inputHandler == "dhtml" )
         {
-            if ( $isMSIE and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezxmlinputhandler.php" ) ) )
+            if ( $isMSIE
+                 and ( file_exists( "extension/xmleditor/" . $inputHandler . "/ezdhtmlinputhandler.php" ) )
+                 and ( $disableExtension == false ) )
             {
                 $editorName = "dhtml";
             }
@@ -139,7 +158,7 @@ class eZXMLInputType
         }
         else
         {
-            eZDebug::writeError("No XML editor available." );
+            eZDebug::writeError( "No XML editor available." );
         }
         return $editorName;
     }
