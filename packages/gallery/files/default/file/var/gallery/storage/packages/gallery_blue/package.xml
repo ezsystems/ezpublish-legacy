@@ -4,39 +4,23 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072188028">gallery_blue</name>
-  <summary modified="1072188028">Blue CSS design for gallery</summary>
+  <name modified="1074070906">gallery_blue</name>
+  <summary modified="1074070906">Blue CSS design for gallery</summary>
   <type value="sitestyle"
-        modified="1072188028" />
+        modified="1074070906" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3-1</version>
+    <version>3.3-2</version>
     <named-version>3.3</named-version>
   </ezpublish>
-  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072188028">
-      <name>Anonymous User</name>
-      <email>nospam@ez.no</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072188028</timestamp>
-    <host>bf.ez.no</host>
+    <timestamp>1074070906</timestamp>
+    <host>kk.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072188028" />
+              modified="1074070906" />
   </documents>
-  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072188028"
-           person="Anonymous User"
-           email="nospam@ez.no"
-           release="1"
-           modified="1072188028">
-      <change>Creation of package</change>
-    </entry>
-  </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="file"
@@ -45,29 +29,29 @@
               sub-directory="design/gallery/stylesheets"
               path="design/gallery/stylesheets/gallery_blue.css"
               md5sum="54217b9b1fd60108a985023646ab166a"
-              modified="1072188029" />
+              modified="1074070906" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.jpg"
               path="design/gallery/images/gallery_blue.jpg"
               md5sum="bb8140dc9574f5082c369a5e4506b7cd"
-              modified="1072188029" />
+              modified="1074070906" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072188028">1.0</number>
-    <release modified="1072188028">1</release>
+    <number modified="1074070906">1.0</number>
+    <release modified="1074070906">1</release>
   </version>
-  <licence modified="1072188028">GPL</licence>
-  <state modified="1072188028">alpha</state>
+  <licence modified="1074070906">GPL</licence>
+  <state modified="1074070906">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072188029" />
+               modified="1074070906" />
     </provides>
     <requires />
     <obsoletes />
@@ -75,12 +59,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188029"
+          modified="1074070906"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188029"
+          modified="1074070906"
           collection="default" />
   </uninstall>
 </package>

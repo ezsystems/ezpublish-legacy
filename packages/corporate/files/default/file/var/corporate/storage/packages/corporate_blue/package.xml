@@ -4,39 +4,23 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072188035">corporate_blue</name>
-  <summary modified="1072188035">Blue CSS design for corporate</summary>
+  <name modified="1074070909">corporate_blue</name>
+  <summary modified="1074070909">Blue CSS design for corporate</summary>
   <type value="sitestyle"
-        modified="1072188036" />
+        modified="1074070909" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3-1</version>
+    <version>3.3-2</version>
     <named-version>3.3</named-version>
   </ezpublish>
-  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072188035">
-      <name>Anonymous User</name>
-      <email>nospam@ez.no</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072188035</timestamp>
-    <host>bf.ez.no</host>
+    <timestamp>1074070909</timestamp>
+    <host>kk.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072188035" />
+              modified="1074070909" />
   </documents>
-  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072188035"
-           person="Anonymous User"
-           email="nospam@ez.no"
-           release="1"
-           modified="1072188035">
-      <change>Creation of package</change>
-    </entry>
-  </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="file"
@@ -45,7 +29,7 @@
               sub-directory="design/corporate/stylesheets"
               path="design/corporate/stylesheets/corporate-blue.css"
               md5sum="d5ac00f8cc705a7d1b573fc007ac3131"
-              modified="1072188036" />
+              modified="1074070909" />
       </file-list>
       <file-list type="file"
                  variable-name="image">
@@ -53,39 +37,39 @@
               sub-directory="design/corporate/images"
               path="design/corporate/images/header_image.gif"
               md5sum="70937ac530143162903dda503637af54"
-              modified="1072188036" />
+              modified="1074070909" />
         <file name="infobox_image.gif"
               sub-directory="design/corporate/images"
               path="design/corporate/images/infobox_image.gif"
               md5sum="a9857d5ce12c57e6b1d888806c58cb49"
-              modified="1072188036" />
+              modified="1074070909" />
         <file name="header_image-repeat.gif"
               sub-directory="design/corporate/images"
               path="design/corporate/images/header_image-repeat.gif"
               md5sum="8396d5f3a3ae6b6ed420e968eea955dc"
-              modified="1072188037" />
+              modified="1074070909" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.png"
               path="design/corporate/images/corporate-blue.png"
               md5sum="f7c59dd8399055542ce224fb87680be0"
-              modified="1072188037" />
+              modified="1074070909" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072188035">1.0</number>
-    <release modified="1072188035">1</release>
+    <number modified="1074070909">1.0</number>
+    <release modified="1074070909">1</release>
   </version>
-  <licence modified="1072188035">GPL</licence>
-  <state modified="1072188035">alpha</state>
+  <licence modified="1074070909">GPL</licence>
+  <state modified="1074070909">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072188036" />
+               modified="1074070909" />
     </provides>
     <requires />
     <obsoletes />
@@ -93,12 +77,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188036"
+          modified="1074070909"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188036"
+          modified="1074070909"
           collection="default" />
   </uninstall>
 </package>

@@ -4,39 +4,23 @@
          xmlns:ezpackage="http://ez.no/ezpackage"
          is_active="true"
          install_type="install">
-  <name modified="1072188039">corporate_green</name>
-  <summary modified="1072188039">Green design for corporate</summary>
+  <name modified="1074070909">corporate_green</name>
+  <summary modified="1074070909">Green design for corporate</summary>
   <type value="sitestyle"
-        modified="1072188039" />
+        modified="1074070909" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
-    <version>3.3-1</version>
+    <version>3.3-2</version>
     <named-version>3.3</named-version>
   </ezpublish>
-  <maintainers xmlns:ezmaintainer="http://ez.no/ezpackage">
-    <maintainer modified="1072188039">
-      <name>Anonymous User</name>
-      <email>nospam@ez.no</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1072188039</timestamp>
-    <host>bf.ez.no</host>
+    <timestamp>1074070909</timestamp>
+    <host>kk.ez.no</host>
   </packaging>
   <documents>
     <document mime-type="text/plain"
               name="README"
-              modified="1072188039" />
+              modified="1074070909" />
   </documents>
-  <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1072188039"
-           person="Anonymous User"
-           email="nospam@ez.no"
-           release="1"
-           modified="1072188039">
-      <change>Creation of package</change>
-    </entry>
-  </changelog>
   <files xmlns:ezfile="http://ez.no/ezpackage">
     <collection name="default">
       <file-list type="file"
@@ -45,7 +29,7 @@
               sub-directory="design/corporate/stylesheets"
               path="design/corporate/stylesheets/corporate-green.css"
               md5sum="82025d10016b59db7f3597086cb99a10"
-              modified="1072188039" />
+              modified="1074070909" />
       </file-list>
       <file-list type="file"
                  variable-name="image">
@@ -53,34 +37,34 @@
               sub-directory="design/corporate/images"
               path="design/corporate/images/sidebar-background.gif"
               md5sum="ee3bc2992eb5f2058baad88259ad3acb"
-              modified="1072188040" />
+              modified="1074070909" />
         <file name="header_image-green.jpg"
               sub-directory="design/corporate/images"
               path="design/corporate/images/header_image-green.jpg"
               md5sum="b93149b27cd885031e6c3ef9b2d3e549"
-              modified="1072188040" />
+              modified="1074070909" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">
         <file name="thumbnail.png"
               path="design/corporate/images/corporate-green.png"
               md5sum="df523c84220c42c50dba770b938ee5d4"
-              modified="1072188040" />
+              modified="1074070910" />
       </file-list>
     </collection>
   </files>
   <version xmlns:ezversion="http://ez.no/ezpackage">
-    <number modified="1072188039">1.0</number>
-    <release modified="1072188039">1</release>
+    <number modified="1074070909">1.0</number>
+    <release modified="1074070909">1</release>
   </version>
-  <licence modified="1072188039">GPL</licence>
-  <state modified="1072188039">alpha</state>
+  <licence modified="1074070909">GPL</licence>
+  <state modified="1074070909">alpha</state>
   <dependencies xmlns:ezdependency="http://ez.no/ezpackage">
     <provides>
       <provide type="ezfile"
                name="collection"
                value="default"
-               modified="1072188039" />
+               modified="1074070909" />
     </provides>
     <requires />
     <obsoletes />
@@ -88,12 +72,12 @@
   </dependencies>
   <install xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188039"
+          modified="1074070909"
           collection="default" />
   </install>
   <uninstall xmlns:ezinstall="http://ez.no/ezpackage">
     <item type="ezfile"
-          modified="1072188039"
+          modified="1074070909"
           collection="default" />
   </uninstall>
 </package>
