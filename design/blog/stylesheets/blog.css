@@ -1,0 +1,305 @@
+body
+{
+    padding: 0;
+    margin: 0;
+}
+
+div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
+{
+    background-color: #ffffff;
+    height: 1%; /* Needed for IE5.5 to stop background color bug */
+}
+
+div#header
+{
+    background-image: url(../images/forum_header-red.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-color: #003366;
+    height: 39px;
+    position: relative;
+}
+
+div#header div.design
+{
+}
+
+div#logo
+{
+    float: left;
+    margin-top: 0.3em;
+    margin-right: 0.1em;
+}
+
+div#subheader
+{
+    background-color: #092846;
+    padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
+}
+
+div#mainmenu
+{
+    float: right;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+div#navigationbar
+{
+    max-width: 200px;
+    width: 200px;
+    float: right;
+}
+
+div#mainmenu ul, div#mainmenu li, div#usermenu ul, div#usermenu li
+{
+    display: inline; /* This makes the vertical display of this menu */
+}
+
+div#mainmenu ul, div#usermenu ul
+{
+    margin-left: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: #ffffff;
+}
+
+div#mainmenu li a, div#usermenu li a
+{
+    padding-left: 1em;
+    padding-right: 3em;
+}
+
+div#mainmenu a, div#usermenu a
+{
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#mainmenu a:hover, div#usermenu a:hover
+{
+    text-decoration: underline;
+}
+
+div#searchbox
+{
+    float: left;
+    clear: left;
+    margin-left: 2em;
+}
+
+div#searchbox input.searchtext
+{
+    font-size: 80%;
+    width: 8em;
+}
+
+div#searchbox input.searchbutton
+{
+    font-size: 80%;
+    margin-right: 1em;
+}
+
+div#path
+{
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+div#path p
+{
+    margin: 0;
+    color: #777777;
+}
+
+div#path a
+{
+    color: #cc0000;
+}
+
+div#maincontent
+{
+    border-left: 1px solid #ccc;
+    background-color: #ffffff;
+    max-width: 200px:
+    width: 200px:
+    margin-bottom: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
+    clear: none;
+   
+}
+
+div#path
+{
+    padding-left: 20px;
+}
+
+div#footer
+{
+    clear: both;
+}
+
+div#footer div.design
+{
+    background-color: #092846;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: center;
+}
+
+div#footer address, div#footer a
+{
+    color: #ffffff;
+}
+
+
+/* General child "line view" object settings */
+
+#folder div.child h2
+{ 
+    color: #444444;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#folder div.child div.byline
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.object_brief p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#folder div.child div.readmore
+{ 
+    font-size: small;
+}
+
+#folder div.child div.readmore a
+{ 
+    color: #304b82;
+}
+
+#folder div.child div.readmore p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
+/* article styles */
+
+#article div.byline p
+{ 
+    color: #888888;
+    font-size: small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#article div.intro p
+{ 
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* log styles */
+
+div.logline h2
+{ 
+    border-top:1px dotted #ccc; 
+    font: bold 110% Georgia,Serif;
+    color: #ffa113;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+div.logline h3
+{ 
+    border-bottom:1px solid #ccc; 
+    font: 100% Georgia,Serif;
+    color: #6699cc;
+}
+
+div.logentry
+{ 
+  padding-left: 20px;
+}
+/* Search */
+
+div.advancedsearchbox
+{ 
+   display: none;
+}
+
+/* General */
+
+#header h1
+{ 
+    font: italic 130%/1.6em Georgia,Serif;
+    color: #ffffff;
+    padding-left: 25px;
+} 
+
+h1
+{ 
+    padding-left: 20px;
+    margin-bottom: 5px;
+    font: italic 120%/1.6em Georgia,Serif;
+    color: #999999;
+}
+
+div.editbutton
+{ 
+   float: right;
+}
+
+div.editbutton input
+{ 
+   font-size: small;
+   background-color: #304b82;
+   color: #ffffff;
+}
+
+/* Extra */
+
+th.maintopics
+{
+    font-size: 80%;
+    color: #ffffff;
+    background-color: #ff3300;
+    padding: 0.5em;
+    font-weight: bold;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+
+div.selectedsearch input.searchtext
+{
+    font-size: 80%;
+    width: 8em;
+}
+
+div.selectedsearch input.searchbutton
+{
+    font-size: 80%;
+    margin-right: 1em;
+}
