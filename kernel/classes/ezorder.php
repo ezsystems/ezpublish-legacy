@@ -107,6 +107,34 @@ class eZOrder extends eZPersistentObject
                       "name" => "ezorder" );
     }
 
+    /*!
+     Makes a copy of the product collection it currently points to
+     and sets the copied collection as the current collection.
+     \note This will store the order with the new product collection.
+     \return the new collection or \c false if something failed.
+    */
+    function &detachProductCollection()
+    {
+        $collection =& $this->productCollection();
+        if ( !$collection )
+            return false;
+        $newCollection =& $collection->copy();
+        if ( !$newCollection )
+            return false;
+        $this->setAttribute( 'productcollection_id', $newCollection->attribute( 'id' ) );
+        $this->store();
+        return $newCollection;
+    }
+
+    /*!
+     \return the product collection which this order uses.
+    */
+    function &productCollection()
+    {
+        $collection =& eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+        return $collection;
+    }
+
     function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrder::definition(),
@@ -449,9 +477,30 @@ class eZOrder extends eZPersistentObject
         return $this->productTotalExVAT() + $this->orderTotalExVAT();
     }
 
+    /*!
+     Removes the order and the product collection it uses.
+    */
+    function purge()
+    {
+        $this->removeCollection();
+        $this->remove();
+    }
+
+    /*!
+     Removes the product collection this order uses.
+    */
+    function removeCollection()
+    {
+        $collection =& eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+        $collection->remove();
+    }
+
+    /*!
+     Removes the product collection item \a $itemID.
+    */
     function removeItem( $itemID )
     {
-        $item = eZProductCollectionItem::fetch( $itemID );
+        $item =& eZProductCollectionItem::fetch( $itemID );
         $item->remove();
     }
 

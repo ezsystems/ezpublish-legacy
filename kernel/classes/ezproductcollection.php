@@ -66,10 +66,66 @@ class eZProductCollection extends eZPersistentObject
                       "name" => "ezproductcollection" );
     }
 
+    /*!
+     Creates a new empty collection and returns it.
+    */
     function &create( )
     {
         $row = array( "created" => eZDateTime::currentTimeStamp() );
         return new eZProductCollection( $row );
+    }
+
+    /*!
+     Clones the collection object and returns it. The ID of the clone is erased.
+    */
+    function &clone()
+    {
+        $collection = $this;
+        $collection->setAttribute( 'id', null );
+        return $collection;
+    }
+
+    /*!
+     Copies the collection object, the collection items and options.
+     \return the new collection object.
+     \note The new collection will already be present in the database.
+    */
+    function &copy()
+    {
+        $collection =& $this->clone();
+        $collection->store();
+
+        $oldItems =& $this->itemList();
+        foreach ( array_keys( $oldItems ) as $oldItemKey )
+        {
+            $oldItem =& $oldItems[$oldItemKey];
+            $item =& $oldItem->copy( $collection->attribute( 'id' ) );
+        }
+        return $collection;
+    }
+
+    /*!
+     \return the product collection with ID \a $productCollectionID.
+    */
+    function &fetch( $productCollectionID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZProductCollection::definition(),
+                                                null,
+                                                array( 'id' => $productCollectionID ),
+                                                $asObject );
+    }
+
+    /*!
+     \return all production collection items as an array.
+    */
+    function &itemList( $asObject = true )
+    {
+        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                              null, array( "productcollection_id" => $this->ID ),
+                                                              null,
+                                                              null,
+                                                              $asObject );
+        return $productItems;
     }
 
     function &verify( $id )
