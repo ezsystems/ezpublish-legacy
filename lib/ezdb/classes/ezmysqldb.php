@@ -339,7 +339,7 @@ class eZMySQLDB extends eZDBInterface
             }
             else if ( $offset !== false and is_numeric( $offset ) and $offset > 0 )
             {
-                $sql .= "\nLIMIT $offset, -1 ";
+                $sql .= "\nLIMIT $offset, 18446744073709551615"; // 2^64-1
             }
             $result =& $this->query( $sql );
 
