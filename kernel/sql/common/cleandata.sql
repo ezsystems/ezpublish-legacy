@@ -307,7 +307,7 @@ INSERT INTO ezcontentobject_name (contentobject_id, name, content_version, conte
 
 
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (1,1,0,1,1,0,'/1/',1,1,0,'',1,1082368572,'629709ba256fe317c3ddcee35453a96a');
-INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (2,1,1,2,1,1,'/1/2/',8,0,0,'',2,1082368572,'f3e90596361e31d496d4026eb624c983');
+INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (2,1,1,2,1,1,'/1/2/',8,1,0,'',2,1082368572,'f3e90596361e31d496d4026eb624c983');
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (5,1,4,1,0,1,'/1/5/',1,1,0,'users',5,1081860719,'3f6d92f8044aed134f32153517850f5a');
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (12,5,11,1,1,2,'/1/5/12/',1,1,0,'users/guest_accounts',12,1081860719,'602dcf84765e56b7f999eaafd3821dd3');
 INSERT INTO ezcontentobject_tree (node_id, parent_node_id, contentobject_id, contentobject_version, contentobject_is_published, depth, path_string, sort_field, sort_order, priority, path_identification_string, main_node_id, modified_subnode, remote_id) VALUES (13,5,12,1,1,2,'/1/5/13/',1,1,0,'users/administrator_users',13,1081860719,'769380b7aa94541679167eab817ca893');
@@ -450,7 +450,7 @@ INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, pare
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (29,51,1,43,9,1,1,0,0,'');
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (30,52,1,48,1,1,1,0,0,'');
 INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (31,54,1,48,1,1,1,0,0,'');
-INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (32,1,2,1,2,1,1,0,0,'');
+INSERT INTO eznode_assignment (id, contentobject_id, contentobject_version, parent_node, sort_field, sort_order, is_main, from_node_id, remote_id, parent_remote_id) VALUES (32,1,2,1,8,1,1,0,0,'');
 
 
 
