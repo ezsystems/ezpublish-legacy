@@ -108,6 +108,7 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZImageManager
 {
@@ -260,9 +261,25 @@ class eZImageManager
             $aliasInfo = $this->AliasList[$aliasName];
             $checkKey = $aliasInfo['alias_key'];
             $isValid = ( $aliasKey == $checkKey );
+            if ( $isValid )
+            {
+                $aliasTimestamp = $alias['timestamp'];
+                $isValid = $this->isImageTimestampValid( $aliasTimestamp );
+            }
             return $isValid;
         }
         return false;
+    }
+    
+    function isImageTimestampValid( $timestamp )
+    {
+        $expiryHandler = eZExpiryHandler::instance();
+        if ( $expiryHandler->hasTimestamp( 'image-manager-alias' ) )
+        {
+            $aliasTimestamp = $expiryHandler->timestamp( 'image-manager-alias' );
+            return ( $timestamp > $aliasTimestamp );
+        }
+        return true;
     }
 
     function readImageAliasesFromINI( $iniFile = false )
@@ -709,6 +726,7 @@ class eZImageManager
                                            'alternative_text' => $aliasInfo['alternative_text'],
                                            'name' => $aliasName,
                                            'sub_type' => false,
+                                           'timestamp' => eZDateTime::currentTimeStamp(),
                                            'alias_key' => $aliasKey,
                                            'mime_type' => $destinationMimeData['name'],
                                            'override_mime_type' => false,

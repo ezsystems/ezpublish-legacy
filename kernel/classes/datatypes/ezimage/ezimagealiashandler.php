@@ -42,6 +42,7 @@
 */
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 include_once( "lib/ezxml/classes/ezxml.php" );
+include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
 class eZImageAliasHandler
@@ -347,6 +348,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $alternativeText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', false ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', false ) );
 
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $doc;
         unset( $contentObjectAttribute->DataTypeCustom['alias_list'] );
@@ -485,6 +487,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $aliasList[$aliasName]['height'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $aliasList[$aliasName]['alternative_text'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( $aliasName ) ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', $aliasList[$aliasName]['timestamp'] ) );
 
         $filename = $aliasList[$aliasName]['filename'];
         if ( $filename )
@@ -627,6 +630,7 @@ class eZImageAliasHandler
         $aliasEntry['original_filename'] = $originalFilename;
         $aliasEntry['url'] = $imageNodeArray[0]->attributeValue( 'url' );
         $aliasEntry['alias_key'] = $imageNodeArray[0]->attributeValue( 'alias_key' );
+        $aliasEntry['timestamp'] = $imageNodeArray[0]->attributeValue( 'timestamp' );
         $aliasEntry['full_path'] =& $aliasEntry['url'];
         $aliasEntry['is_valid'] = $imageNodeArray[0]->attributeValue( 'is_valid' );
         $aliasEntry['is_new'] = false;
@@ -658,6 +662,7 @@ class eZImageAliasHandler
                 $aliasEntry['suffix'] = $imageVariation->attributeValue( 'suffix' );
                 $aliasEntry['dirpath'] = $imageVariation->attributeValue( 'dirpath' );
                 $aliasEntry['alias_key'] = $imageVariation->attributeValue( 'alias_key' );
+                $aliasEntry['timestamp'] = $imageVariation->attributeValue( 'timestamp' );
                 $aliasEntry['basename'] = $basename;
                 $aliasEntry['alternative_text'] = $alternativeText;
                 $aliasEntry['text'] = $displayText;
@@ -964,6 +969,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $altText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
@@ -1096,6 +1102,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'height', $height ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alternative_text', $imageAltText ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) ) );
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', eZDateTime::currentTimeStamp() ) );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
@@ -1220,6 +1227,7 @@ class eZImageAliasHandler
             $imageNode->removeNamedAttribute( 'width' );
             $imageNode->removeNamedAttribute( 'height' );
             $imageNode->removeNamedAttribute( 'alias_key' );
+            $imageNode->removeNamedAttribute( 'timestamp' );
             $imageNode->removeNamedAttribute( 'is_valid' );
         }
         $imageNode->appendAttribute( $domTree->createAttributeNode( 'name', $imageAlias['name']) );
@@ -1231,6 +1239,7 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $domTree->createAttributeNode( 'width', $imageAlias['width'] ) );
         $imageNode->appendAttribute( $domTree->createAttributeNode( 'height', $imageAlias['height'] ) );
         $imageNode->appendAttribute( $domTree->createAttributeNode( 'alias_key', $imageAlias['alias_key']) );
+        $imageNode->appendAttribute( $domTree->createAttributeNode( 'timestamp', $imageAlias['timestamp']) );
         $imageNode->appendAttribute( $domTree->createAttributeNode( 'is_valid', $imageAlias['is_valid']) );
     }
 

@@ -109,6 +109,13 @@ class eZImageHandler
         else
             return false;
     }
+    
+    function escapeShellArgument( $argument )
+    {
+        $argument = str_replace( '"', '\"', $argument );
+        $argument = "\"" . $argument . "\"";
+        return $argument;
+    }
 
     /*!
      \return an array with the names of the filters this handler can work with.
@@ -149,16 +156,123 @@ class eZImageHandler
             $counter = 1;
             foreach ( $filterData['data'] as $data )
             {
-                if ( $data == '' )
-                    $dataText = "''";
-                else
-                    $dataText = escapeshellarg( $data );
-                $replaceList['%' . $counter] = $dataText;
+                $replaceList['%' . $counter] = $data;
                 ++$counter;
             }
         }
-        $text = strtr( $filterDefinition['text'], $replaceList );
+        $argumentText = $filterDefinition['text'];
+        $text = $this->createShellArgument( $argumentText, $replaceList );
         return $text;
+    }
+
+    function createShellArgument( $argumentText, $replaceList )
+    {
+        $elements = $this->splitArgumentIntoElements( $argumentText );
+        $replacedElements = array();
+        foreach ( $elements as $element )
+        {
+            if ( is_string( $element ) )
+            {
+                $replacedElements[] = strtr( $element, $replaceList );
+                continue;
+            }
+            $replacedElements[] = $element;
+        }
+        $text = $this->mergeArgumentElements( $replacedElements );
+        return $text;
+    }
+
+    function splitArgumentIntoElements( $argumentText )
+    {
+        $argumentElements = array();
+        $pos = 0;
+
+        while ( $pos < strlen( $argumentText ) )
+        {
+            if ( $argumentText[$pos] == '"' )
+            {
+                $quoteStartPos = $pos + 1;
+                $quoteEndPos = $pos + 1;
+                while ( $quoteEndPos < strlen( $argumentText ) )
+                {
+                    $tmpPos = strpos( $argumentText, '"', $quoteEndPos );
+                    if ( $tmpPos !== false and
+                         $argumentText[$tmpPos - 1] != "\\" );
+                    {
+                        $quoteEndPos = $tmpPos;
+                        break;
+                    }
+                    if ( $tmpPos === false )
+                    {
+                        $quoteEndPos = strlen( $argumentText );
+                        break;
+                    }
+                    $quoteEndPos = $tmpPos + 1;
+                }
+                $argumentElements[] = substr( $argumentText, $quoteStartPos, $quoteEndPos - $quoteStartPos );
+                $pos = $quoteEndPos + 1;
+            }
+            else if ( $argumentText[$pos] == ' ' )
+            {
+                $spacePos = $pos;
+                $spaceEndPos = $pos;
+                while ( $spaceEndPos < strlen( $argumentText ) )
+                {
+                    if ( $argumentText[$spaceEndPos] != ' ' )
+                        break;
+                    ++$spaceEndPos;
+                }
+                $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
+                $spaceCount = strlen( $spaceText );
+                if ( $spaceCount > 0 )
+                    $argumentElements[] = $spaceCount;
+                $pos = $spaceEndPos;
+            }
+            else
+            {
+                $spacePos = strpos( $argumentText, ' ', $pos );
+                if ( $spacePos !== false )
+                {
+                    $argumentElements[] = substr( $argumentText, $pos, $spacePos - $pos );
+                    $spaceEndPos = $spacePos + 1;
+                    while ( $spaceEndPos < strlen( $argumentText ) )
+                    {
+                        if ( $argumentText[$spaceEndPos] != ' ' )
+                            break;
+                        ++$spaceEndPos;
+                    die ( "3" );
+                    }
+                    $spaceText = substr( $argumentText, $spacePos, $spaceEndPos - $spacePos );
+                    $spaceCount = strlen( $spaceText );
+                    if ( $spaceCount > 0 )
+                        $argumentElements[] = $spaceCount;
+                    $pos = $spaceEndPos;
+                }
+                else
+                {
+                    $argumentElements[] = substr( $argumentText, $pos );
+                    $pos = strlen( $argumentText );
+                }
+            }
+        }
+        return $argumentElements;
+    }
+    
+    function mergeArgumentElements( $argumentElements )
+    {
+        $argumentText = '';
+        foreach ( $argumentElements as $element )
+        {
+            if ( is_int( $element ) )
+            {
+                $argumentText .= str_repeat( ' ', $element );
+            }
+            else if ( is_string( $element ) )
+            {
+                $argumentText .= $this->escapeShellArgument( $element );
+            }
+        }
+        return $argumentText;
     }
 
     /*!

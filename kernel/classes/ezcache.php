@@ -93,6 +93,12 @@ class eZCache
                                        'tag' => array( 'content' ),
                                        'enabled' => true,
                                        'path' => 'wildcard' ),
+                                array( 'name' => 'Image alias',
+                                       'id' => 'imagealias',
+                                       'tag' => array( 'image' ),
+                                       'path' => false,
+                                       'enabled' => true,
+                                       'function' => 'eZCacheClearImageAlias' ),
                                 array( 'name' => 'Template cache',
                                        'id' => 'template',
                                        'tag' => array( 'template' ),
@@ -177,17 +183,41 @@ class eZCache
     */
     function clearItem( $cacheItem )
     {
-        $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
-        if ( is_file( $cachePath ) )
+        if ( isset( $cacheItem['function'] ) )
         {
-            $handler =& eZFileHandler::instance( false );
-            $handler->unlink( $cachePath );
+            $function= $cacheItem['function'];
+            $function( $cacheItem );
         }
         else
         {
-            eZDir::recursiveDelete( $cachePath );
+            $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
+            if ( is_file( $cachePath ) )
+            {
+                $handler =& eZFileHandler::instance( false );
+                $handler->unlink( $cachePath );
+            }
+            else
+            {
+                eZDir::recursiveDelete( $cachePath );
+            }
         }
     }
+    
+    /*!
+     Sets the image alias timestamp to the current timestamp,
+     this causes all image aliases to be recreated on viewing.
+    */
+    function clearImageAlias( $cacheItem )
+    {
+        $expiryHandler = eZExpiryHandler::instance();
+        $expiryHandler->setTimestamp( 'image-manager-alias', eZDateTime::currentTimeStamp() );
+        $expiryHandler->store();
+    }
+}
+
+function eZCacheClearImageAlias( $cacheItem )
+{
+    eZCache::clearImageAlias( $cacheItem );
 }
 
 ?>

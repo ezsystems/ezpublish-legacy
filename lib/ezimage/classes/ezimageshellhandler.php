@@ -84,17 +84,18 @@ class eZImageShellHandler extends eZImageHandler
             }
         }
 
-        $argumentList[] = escapeshellarg( $sourceMimeData['url'] );
+        $argumentList[] = $this->escapeShellArgument( $sourceMimeData['url'] );
 
         $destinationURL = $destinationMimeData['url'];
         if ( $this->UseTypeTag )
             $destinationURL = $this->tagForMIMEType( $destinationMimeData ) . $this->UseTypeTag . $destinationURL;
-        $argumentList[] = escapeshellarg( $destinationURL );
+        $argumentList[] = $this->escapeShellArgument( $destinationURL );
 
         if ( $this->PostParameters )
             $argumentList[] = $this->PostParameters;
 
         $systemString = implode( ' ', $argumentList );
+        print( $systemString . "<br/>" );
         $error = system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
