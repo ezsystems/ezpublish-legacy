@@ -16,7 +16,9 @@
                                           offset, $view_parameters.offset,
                                           class_filter_type, 'exclude',
                                           class_filter_array, array( 'folder', 'info_page' ) ))
-    list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
+    list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id,
+                                                 class_filter_type, 'exclude',
+						 class_filter_array, array( 'folder', 'info_page' )))}
 
 {section name=Child loop=$children sequence=array(bglight,bgdark)}
 <div class="child">

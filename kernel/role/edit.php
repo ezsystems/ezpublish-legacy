@@ -289,9 +289,9 @@ if ( $http->hasPostVariable( 'DiscardFunction' ) )
 if ( $http->hasPostVariable( 'Limitation' ) or
      $http->hasPostVariable( 'SelectedNodeIDArray' ) or
      $http->hasPostVariable( 'BrowseLimitationNodeButton' ) or
-     $http->postVariable( 'DeleteNodeButton' ) or
+     $http->hasPostVariable( 'DeleteNodeButton' ) or
      $http->hasPostVariable( 'BrowseLimitationSubtreeButton' ) or
-     $http->postVariable( 'DeleteSubtreeButton' ) )
+     $http->hasPostVariable( 'DeleteSubtreeButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteNodeButton' ) )
     {
