@@ -434,6 +434,22 @@ class eZDBInterface
     }
 
     /*!
+      Create a new temporary table
+    */
+    function createTempTable( $createTableQuery = '' )
+    {
+        $this->query( $createTableQuery );
+    }
+
+    /*!
+      Drop temporary table
+    */
+    function dropTempTable( $dropTableQuery = '' )
+    {
+        $this->query( $dropTableQuery );
+    }
+
+    /*!
       \pure
       Sets the error message and error message number
     */
@@ -495,7 +511,7 @@ class eZDBInterface
     /// The database error message of the last executed function
     var $ErrorMessage;
     /// The database error message number of the last executed function
-    var $ErrorNumber;
+    var $ErrorNumber = 0;
     /// If true then ErrorMessage and ErrorNumber get filled
     var $RecordError = true;
     /// If true then the database connection should be persistent

@@ -38,6 +38,9 @@ Shop:
 - Fixed problem with updating prices in basket after user login and if user has discounts.
 - Fixed bug with missing include in wrapping workflow event type.
 
+Setup tool:
+- Fixed problem with correct separating for queries.
+
 Browser:
 - Made sure children are indented one level to it's parent in the list.
 - Added section information to list.
@@ -65,6 +68,9 @@ eZ mail:
 - Made sure that the sendmail transport don't generate duplicate To and Subject headers.
 - Added a sendmail commandline parameter when sending mail to ensure ctladdr and Return-Path get set correctly.
   An Authentication-Warning will be sent with the mail if the web server user is not in sendmail trusted users list.
+
+eZ DB:
+- Fixed bug in postresql driver which coused problems with detection of existing data in database during set up.
 
 *Missing files :
 - runcronjobs.php, required for running cronjob scripts, missing in 3.0-1 release.

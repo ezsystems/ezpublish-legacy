@@ -131,7 +131,6 @@ class eZPostgreSQLDB extends eZDBInterface
 
             }
             $result = @pg_exec( $this->DBConnection, $sql );
-
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
@@ -142,6 +141,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( !$result )
             {
                 eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage ( $this->DBConnection ), "eZPostgreSQLDB" );
+                $this->setError();
             }
         }
         return $result;
@@ -304,13 +304,13 @@ class eZPostgreSQLDB extends eZDBInterface
         foreach ( $relationKinds as $relationKind )
         {
             if ( $i > 0 )
-                $relkindText .= ' AND ';
+                $relkindText .= ' OR ';
             $relkindText .= "relkind='$relationKind'";
             $i++;
         }
         if ( $this->isConnected() )
         {
-            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE $relkindText AND NOT relname~'pg_.*'";
+            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE ( $relkindText ) AND NOT relname~'pg_.*'";
             $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
             $count = $array[0];
         }
@@ -453,6 +453,27 @@ class eZPostgreSQLDB extends eZDBInterface
             }
         }
         return $id;
+    }
+
+    /*!
+     \reimp
+    */
+    function setError( )
+    {
+        if ( $this->DBConnection )
+        {
+
+            $this->ErrorMessage = pg_errormessage ( $this->DBConnection );
+            if ( $this->ErrorMessage != '' )
+            {
+                $this->ErrorNumber = 1;
+            }
+            else
+            {
+                $this->ErrorNumber = 0;
+            }
+
+        }
     }
 
     /*!

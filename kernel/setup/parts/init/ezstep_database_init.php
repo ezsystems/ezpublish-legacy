@@ -58,9 +58,9 @@ function prepareSqlQuery( &$file, &$buffer )
 //            eZDebug::writeDebug( $sqlQuery, "read data" );
 
             // Split the query into an array
-            $sqlQueryArray = preg_split( '/;$/m', $sqlQuery );
+            $sqlQueryArray = preg_split( '/;\n/m', $sqlQuery );
 
-            if ( preg_match( '/;$/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
+            if ( preg_match( '/;\n/m', $sqlQueryArray[ count( $sqlQueryArray ) -1 ] ) )
             {
                 $buffer = '';
             }
@@ -253,10 +253,15 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
             {
                 set_time_limit( 0 );
                 $setupINI =& eZINI::instance( 'setup.ini' );
-                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQL' );
+                $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
+//                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQL' );
                 if ( $demoData['use'] )
-                    $sqlFile = $setupINI->variable( 'DatabaseSettings', 'DemoSQL' );
-                $result = doQuery( $db, 'kernel/sql/', $sqlFile );
+                    $sqlFile = $setupINI->variable( 'DatabaseSettings', 'DemoSQLData' );
+                else
+                    $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
+
+                $result = doQuery( $db, 'kernel/sql/', $sqlSchemaFile );
+                $result = $result && doQuery( $db, 'kernel/sql/', $sqlFile );
 
                 $demoDataResult = true;
                 if ( $result and

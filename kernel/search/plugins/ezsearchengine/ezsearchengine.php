@@ -678,7 +678,7 @@ class eZSearchEngine
 
                         if ( $i == 0 )
                         {
-                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
                             $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
@@ -704,7 +704,7 @@ class eZSearchEngine
                         }
                         else
                         {
-                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
                             $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
@@ -839,7 +839,7 @@ class eZSearchEngine
             // Drop tmp tables
             for ( $i = 0; $i < $tmpTableCount; $i++ )
             {
-                $db->query( "DROP TABLE ezsearch_tmp_$i" );
+                $db->dropTempTable( "DROP TABLE ezsearch_tmp_$i" );
             }
 
 
@@ -853,6 +853,8 @@ class eZSearchEngine
                           "SearchCount" => 0,
                           "StopWordArray" => array() );
         }
+        ini_set(  "OCI_COMMIT_ON_SUCCESS", 1 );
+
     }
 
     /*!
