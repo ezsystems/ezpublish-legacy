@@ -297,7 +297,7 @@ $classDataTypeList = array();
 $simpleTypes = array( array( 'field' => 'data_int',
                              'sort_field' => 'sort_key_int',
                              'datatypes' => array( 'ezinteger', 'ezboolean', 'ezdate', 'eztime', 'ezdatetime' ) ),
-                      array( 'field' => 'data_string',
+                      array( 'field' => 'data_text',
                              'sort_field' => 'sort_key_string',
                              'datatypes' => array( 'ezstring' ) ) );
 
