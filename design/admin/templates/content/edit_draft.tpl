@@ -62,7 +62,8 @@
 
 {let has_own_drafts=false()
      has_other_drafts=false()
-     current_creator=fetch( user, current_user )}
+     current_creator=fetch( user, current_user )
+     draft_checked=false()}
 
 {section loop=$draft_versions}
     {section show=eq( $item.creator_id, $current_creator.contentobject_id )}
@@ -124,6 +125,12 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section var=Drafts loop=$draft_versions}
+{section show=eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
+{set draft_checked=$Drafts.item.id}
+{/section}
+{/section}
+
 <table class="list" cellspacing="0">
 <tr>
    <th class="tight">&nbsp;</th>
@@ -133,13 +140,14 @@
     <th>{'Created'|i18n( 'design/admin/content/edit_draft' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/edit_draft' )}</th>
 </tr>
+
 {section var=Drafts loop=$draft_versions sequence=array( bglight, bgdark )}
 <tr class="{$Drafts.sequence}">
 
     {* Edit. *}
     <td>
         {section show=eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
-            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" {run-once}checked="checked"{/run-once} title="{'Select draft version #%version for editing.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
+            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" {section show=eq( $Drafts.item.id, $draft_checked )}checked="checked"{/section} title="{'Select draft version #%version for editing.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
         {section-else}
             <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" disabled="disabled" title="{'You can not select draft version #%version for editing because it belongs to another user. Please select a draft that belongs to you or create a new draft and then edit it.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
         {/section}
