@@ -48,7 +48,7 @@ include_once( "lib/ezfile/classes/ezdir.php" );
 
 // The timestamp for the cache format, will expire
 // cache which differs from this.
-define( 'EZ_CONTENT_CACHE_CODE_DATE', 1054816011 );
+define( 'EZ_CONTENT_CACHE_CODE_DATE', 1064816011 );
 
 class eZContentCache
 {
@@ -155,21 +155,23 @@ class eZContentCache
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $php = new eZPHPCreator( $cacheDir, $cacheFile );
 
-        $values =& $php->restore( array( 'content_info' => 'contentInfo',
-                                         'content_path' => 'contentPath',
-                                         'content_data' => 'contentData',
-                                         'node_id' => 'nodeID',
-                                         'section_id' => 'sectionID',
-                                         'cache_ttl' => array( 'name' => 'cache_ttl',
-                                                               'required' => false ),
-                                         'cache_code_date' => array( 'name' => 'eZContentCacheCodeDate',
-                                                                     'required' => false,
-                                                                     'default' => false ),
-                                         'navigation_part_identifier' => 'navigationPartIdentifier'
-                                         ) );
+        $fileName = $cacheDir . "/" . $cacheFile;
+        $fp = fopen( $cacheDir . "/" . $cacheFile, 'r' );
+
+        $contents = fread( $fp, filesize( $cacheDir . "/" . $cacheFile ) );
+        $cachedArray = unserialize( $contents );
+        fclose( $fp );
+
+        $values = array( 'content_info' => $cachedArray['content_info'],
+                         'content_path' => $cachedArray['path'],
+                         'content_data' => $cachedArray['content'],
+                         'node_id' => $cachedArray['node_id'],
+                         'section_id' => $cachedArray['section_id'],
+                         'cache_ttl' => $cachedArray['cache_ttl'],
+                         'cache_code_date' => $cachedArray['cache_code_date'],
+                         'navigation_part_identifier' => $cachedArray['navigation_part_identifier']
+                         );
 
         // Check if ttl is expired
         if ( isset( $values['cache_ttl'] ) )
@@ -216,8 +218,12 @@ class eZContentCache
 
         if ( isset( $values['navigation_part_identifier'] ) )
         {
-            $result['navigation_part'] = $values['navigation_part_identifier'];
+            $result['navigation_part_identifier'] = $values['navigation_part_identifier'];
         }
+
+        // set section id
+        include_once( 'kernel/classes/ezsection.php' );
+        eZSection::setGlobalID( $values['node_id'] );
 
         return $result;
     }
@@ -233,8 +239,8 @@ class eZContentCache
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
 
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $php = new eZPHPCreator( $cacheDir, $cacheFile );
+        $serializeArray = array();
+
         if ( isset( $parameters['view_parameters']['offset'] ) )
             $offset = $parameters['view_parameters']['offset'];
         $viewParameters = false;
@@ -256,45 +262,66 @@ class eZContentCache
                               'role_list' => $roleList,
                               'discount_list' => $discountList,
                               'section_id' => $result['section_id'] );
-        $php->addVariable( 'contentInfo', $contentInfo );
+
+        $serializeArray['content_info'] = $contentInfo;
         if ( isset( $result['path'] ) )
         {
-            $php->addVariable( 'contentPath', $result['path'] );
+            $serializeArray['path'] = $result['path'];
         }
 
         if ( isset( $result['node_id'] ) )
         {
-            $php->addVariable( 'nodeID', $result['node_id'] );
+            $serializeArray['node_id'] = $result['node_id'];
         }
 
         if ( isset( $result['section_id'] ) )
         {
-            $php->addVariable( 'sectionID', $result['section_id'] );
+            $serializeArray['section_id'] = $result['section_id'];
         }
 
         if ( isset( $result['navigation_part'] ) )
         {
-            $php->addVariable( 'navigationPartIdentifier', $result['navigation_part'] );
+            $serializeArray['navigation_part'] = $result['navigation_part'];
         }
 
         if ( isset( $cacheTTL ) and ( $cacheTTL !=  -1 ) )
         {
-            $php->addVariable( 'cache_ttl', $cacheTTL );
+            $serializeArray['cache_ttl'] = $cacheTTL;
         }
 
-        $php->addComment( 'Timestamp for the cache format' );
-        $php->addVariable( 'eZContentCacheCodeDate', EZ_CONTENT_CACHE_CODE_DATE );
+        $serializeArray['cache_code_date'] = EZ_CONTENT_CACHE_CODE_DATE;
 
-        $php->addSpace();
-        $php->addCodePiece( "ob_start();\n" );
-        $php->addText( $result['content'] );
-        $php->addCodePiece( "\$contentData = ob_get_contents();\n" );
-        $php->addCodePiece( "ob_end_clean();\n" );
-        $php->addSpace();
-        $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
-                            "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
+        $serializeArray['content'] = $result['content'];
 
-        return $php->store();
+        $serializeString = serialize( $serializeArray );
+
+        if ( !file_exists( $cacheDir ) )
+        {
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            $ini =& eZINI::instance();
+            $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+            eZDir::mkdir( $cacheDir, $perm, true );
+        }
+        $path = $cacheDir . '/' . $cacheFile;
+        $oldumask = umask( 0 );
+        $pathExisted = file_exists( $path );
+        $ini =& eZINI::instance();
+        $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
+        $fp = @fopen( $path, "w" );
+        if ( !$fp )
+            eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
+        if ( $fp and
+             !$pathExisted )
+            chmod( $path, $perm );
+        umask( $oldumask );
+
+        if ( $fp )
+        {
+            fwrite( $fp, $serializeString );
+            fclose( $fp );
+        }
+
+        return $fp;
     }
 
     function calculateCleanupValue( $nodeCount )
