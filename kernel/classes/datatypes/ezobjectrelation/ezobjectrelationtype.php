@@ -206,7 +206,18 @@ class eZObjectRelationType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
+        $object = $this->objectAttributeContent( $contentObjectAttribute );
+        if ( $object )
+        {
+            $attributes =& $object->contentObjectAttributes();
+            return eZContentObjectAttribute::metaDataArray( $attributes );
+        }
         return false;
+    }
+
+    function isIndexable()
+    {
+        return true;
     }
 
     /*!
