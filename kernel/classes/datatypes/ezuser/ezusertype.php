@@ -95,7 +95,7 @@ class eZUserType extends eZDataType
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
-            if ( trim( $loginName ) != "" )
+            else
             {
                 $existUser =& eZUser::fetchByName( $loginName );
                 if ( $existUser != null )
