@@ -110,6 +110,7 @@ $storeActions = array( 'Preview',
                        'CustomAction',
                        'EditLanguage',
                        'BrowseForObjects',
+                       'NewObject',
                        'BrowseForNodes',
                        'DeleteRelation',
                        'DeleteNode' );

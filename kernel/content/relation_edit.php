@@ -109,6 +109,47 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         }
 
     }
+    if ( $module->isCurrentAction( 'NewObject' ) )
+    {
+        if ( $http->hasPostVariable( 'ClassID' ) )
+        {
+            $ini =& eZINI::instance();
+            $node =& eZContentObjectTreeNode::fetch( $ini->variable( "ContentSettings", "SurplusNode" ) );
+            $parentContentObject =& $node->attribute( 'object' );
+
+            if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+            {
+                $user =& eZUser::currentUser();
+                $userID =& $user->attribute( 'contentobject_id' );
+                $sectionID = $parentContentObject->attribute( 'section_id' );
+                $contentClassID = $http->postVariable( 'ClassID' );
+                $class =& eZContentClass::fetch( $contentClassID );
+                $editVersion = $object->attribute( 'current_version' );
+                $language = $object->attribute( 'current_language' );
+                $parentObjectID = $object->attribute( 'id' );
+
+                $contentObject =& $class->instantiate( $userID, $sectionID );
+                $nodeAssignment =& eZNodeAssignment::create( array(
+                                                                 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                                 'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                                 'parent_node' => $node->attribute( 'node_id' ),
+                                                                 'main' => 1
+                                                                 )
+                                                             );
+                $nodeAssignment->store();
+
+                $http->setSessionVariable( 'ParentObject', array( $parentObjectID, $editVersion, $language ) );
+                $http->setSessionVariable( 'NewObjectID', $contentObject->attribute( 'id' ) );
+                $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) );
+                return;
+            }
+            else
+            {
+                $Module->redirectTo( '/error/403' );
+                return;
+            }
+        }
+    }
 }
 
 function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )

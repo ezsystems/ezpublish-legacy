@@ -48,6 +48,7 @@ $ViewList["edit"] = array(
 //                                    'MoveNodeButton' => 'MoveNode',
                                     'EditLanguageButton' => 'EditLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
+                                    'NewButton' => 'NewObject',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
                                     'CustomActionButton' => 'CustomAction',

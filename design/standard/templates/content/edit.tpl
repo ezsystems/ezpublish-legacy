@@ -1,3 +1,6 @@
+{default content_object=$node.object
+         content_version=$node.contentobject_version_object
+         node_name=$node.name}
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -195,7 +198,6 @@
 {/section}
         </td>
     </tr>
-
 {/section}
 
 {/let}
@@ -222,6 +224,17 @@
           <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('content/object')}" />
           <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('content/object')}" />
         </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="right">
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('content/object')}" />
+	<select	name="ClassID">
+	    {section name=Classes loop=$object.can_create_class_list}
+	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
+	    {/section}
+	</select>
+	<input type="hidden" name="NodeID" value="{$surplus_node}" />
+	</td>
     </tr>
     </table>
     

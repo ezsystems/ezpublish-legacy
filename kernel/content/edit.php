@@ -33,7 +33,6 @@
 //
 
 include_once( 'kernel/classes/eztrigger.php' );
-
 $Module =& $Params["Module"];
 include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
@@ -154,6 +153,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
+            $http =& eZHttpTool::instance();
             $module->redirectTo( '/content/view/full/2/' );
 
             $objectID = $object->attribute( 'id' );
@@ -177,6 +177,14 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $object->remove();
             }
+            if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
+            {
+                $parentArray = $http->sessionVariable( 'ParentObject' );
+                $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
+                $http->removeSessionVariable( 'ParentObject' );
+                $http->removeSessionVariable( 'NewObjectID' );
+                $module->redirectTo( $parentURL );
+            }
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
@@ -189,12 +197,25 @@ if ( !function_exists( 'checkContentActions' ) )
             $user =& eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $version->attribute( 'version') ) );
+                                                                                         'version' => $version->attribute( 'version' ) ) );
 
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
             if ( $object->attribute( 'main_node_id' ) > 0 )
             {
-                $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+                if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
+                {
+                    $parentArray = $http->sessionVariable( 'ParentObject' );
+                    $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
+                    $parentObject = eZContentObject::fetch( $parentArray[0] );
+                    $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
+                    $http->removeSessionVariable( 'ParentObject' );
+                    $http->removeSessionVariable( 'NewObjectID' );
+                    $module->redirectTo( $parentURL );
+                }
+                else
+                {
+                    $module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
+                }
             }
             else
             {
@@ -205,6 +226,7 @@ if ( !function_exists( 'checkContentActions' ) )
 }
 $Module->addHook( 'action_check', 'checkContentActions' );
 $includeResult = include( 'kernel/content/attribute_edit.php' );
+
 if ( $includeResult != 1 )
     return $includeResult;
 
