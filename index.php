@@ -44,7 +44,7 @@ $noCacheAdviced = false;
 
 $siteDesignOverride = false;
 
-$useHIOCode = true;
+$useHIOCode = false;
 
 // List of module names which will skip policy checking
 $policyCheckOmitList = array();
