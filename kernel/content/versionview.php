@@ -141,6 +141,17 @@ if ( is_array( $nodeAssignments )and
      count( $nodeAssignments ) == 1 )
 {
     $placementID = $nodeAssignments[0]->attribute( 'id' );
+}else if ( !$placementID && count( $nodeAssignments ) )
+{
+    foreach ( array_keys( $nodeAssignments ) as $key )
+    {
+        $nodeAssignment =& $nodeAssignments[$key];
+        if ( $nodeAssignment->attribute( 'is_main' ) )
+        {
+           $placementID = $nodeAssignment->attribute( 'id' );
+           break;
+        }
+    }
 }
 
 $contentINI =& eZINI::instance( 'content.ini' );
