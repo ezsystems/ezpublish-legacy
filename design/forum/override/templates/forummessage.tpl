@@ -26,7 +26,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {/case}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input type="hidden" name="ClassID" value="14" />
+<input type="hidden" name="ClassID" value="21" />
 
 </form>
 {/section}
@@ -50,7 +50,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {case/}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.parent_node_id}" />
-<input type="hidden" name="ClassID" value="14" />
+<input type="hidden" name="ClassID" value="21" />
 
 {/section}
 
@@ -60,16 +60,14 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     <form action="/content/advancedsearch/" method="get">
     <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
     <input class="button" name="SearchButton" type="submit" value="Search forum" />
-    <input type="hidden" name="SearchContentClassID" value="14" />
+    <input type="hidden" name="SearchContentClassID" value="21" />
     </form>
     </td>
 </tr>
 </table>
 
 
-
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
     <td class="forumhead" width="80%">
     Topic: {$node.name|wash}
@@ -209,7 +207,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 {/case}
 {/switch}
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<input type="hidden" name="ClassID" value="14" />
+<input type="hidden" name="ClassID" value="21" />
 
 </form>
 
