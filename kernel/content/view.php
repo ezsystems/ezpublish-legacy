@@ -64,6 +64,33 @@ if ( array_key_exists( 'Limitation', $Params ) )
     }
 }
 
+include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+// eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $NodeID,
+//                                                           'version' => 1 ),
+//                              array( 'name' => 'pre_publish',
+//                                     'parameters' => array( 'object_id' => 5,
+//                                                            'version' => 1,
+//                                                            'parent_node_id' => 12 ),
+//                                     'loop_run' => array( "loop-nodes" => 1,
+//                                                          "set-version-pending" => 1,
+//                                                          "pre_publish" => 2,
+//                                                          "set-version-archived" => 1,
+//                                                          "publish-node" => 2,
+//                                                          "set-version-published" => 1,
+//                                                          "post_publish" => 2 ),
+//                                     'loop_data' => array( 'name' => 'loop-nodes',
+//                                                           'count' => 3,
+//                                                           'index' => 1 ) ) );
+// if ( !eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $NodeID,
+//                                                                'version' => 1 ) ) )
+//     return;
+$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID ) );
+if ( !$operationResult['status'] )
+{
+    $Result = $operationResult['result'];
+    return;
+}
+
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
 if ( $node === null )
