@@ -134,7 +134,7 @@ for arg in $*; do
 	    echo "         --skip-version-check       Do not check version numbers*"
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
-	    echo "         --skip-transation          Do not run translation chech"
+	    echo "         --skip-translation         Do not run translation check"
 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
             echo "         --db-user=user             Mysql DB user ( default: root )"
             echo "         --db-name=databasename     Mysql DB name ( default: ez_tmp_makedist )"
