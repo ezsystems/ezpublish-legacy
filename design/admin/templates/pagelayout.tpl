@@ -297,13 +297,14 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
-
+<!-- Maincontent START -->
 {* Main area START *}
 
 {include uri="design:page_mainarea.tpl"}
 
 {* Main area END *}
 
+<!-- Maincontent END -->
 </div>
 <div class="break"></div>
 </div></div>

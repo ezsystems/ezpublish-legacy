@@ -25,6 +25,7 @@ function togglestuff( formname, checkboxname )
 //-->
 </script>
 {/literal}
+<!-- Children START -->
 
 <div class="context-block">
 
@@ -48,7 +49,7 @@ function togglestuff( formname, checkboxname )
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block"">
+<div class="block">
 <div class="left">
     <p>
     {switch match=$number_of_items}
@@ -153,22 +154,25 @@ function togglestuff( formname, checkboxname )
 <div class="controlbar">
 <div class="block">
     {* Remove button *}
+    <div class="left">
     {section show=$can_remove}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove checked/marked items from the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
+    </div>
 
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
-    <div class="button-right">
+    <div class="right">
         {section show=$node.can_edit}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
-    {section-else}
+        {section-else}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
-    {/section}
+        {/section}
     </div>
     {/section}
+    <div class="break"></div>
 </div>
 
 {* Else: there are no children, but we still need to start the controlbar div. *}
@@ -178,26 +182,27 @@ function togglestuff( formname, checkboxname )
 
 {* The "Create new here" thing: *}
 <div class="block">
-{section show=$node.can_create}
-<div class="left">
-<input type="hidden" name="NodeID" value="{$node.node_id}" />
-<select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
-{section var=CanCreateClasses loop=$node.object.can_create_class_list}
-<option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
-{/section}
-</select>
-<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/layout' )}" />
-<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-<input type="hidden" name="ViewMode" value="full" />
-</div>
-{section-else}
-<select name="ClassID" disabled="disabled">
-<option value="">Not available</option>
-</select>
-<input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
-</div>
-{/section}
+    {section show=$node.can_create}
+    <div class="left">
+    <input type="hidden" name="NodeID" value="{$node.node_id}" />
+    <select name="ClassID" title="{'Use this menu to select the type of item you wish to create. Click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/layout' )|wash()}">
+        {section var=CanCreateClasses loop=$node.object.can_create_class_list}
+        <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
+        {/section}
+    </select>
+    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'Click here to create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/layout' )}" />
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
+    <input type="hidden" name="ViewMode" value="full" />
+    </div>
+    {section-else}
+    <div class="left">
+    <select name="ClassID" disabled="disabled">
+    <option value="">Not available</option>
+    </select>
+    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
+    </div>
+    {/section}
 <div class="right">
 <label>Sorting:</label>
 <select>
@@ -211,8 +216,17 @@ function togglestuff( formname, checkboxname )
 </select>
 <input class="button" type="submit" value="Set" />
 </div>
+
 <div class="break"></div>
+
 </div>
+
+</div>
+
 </form>
+
 </div>
+
+<!-- Children END -->
+
 {/let}

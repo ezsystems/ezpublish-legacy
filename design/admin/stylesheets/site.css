@@ -308,6 +308,7 @@ div.viewbar, div.controlbar
 
 div.controlbar div.block
 {
+    border-bottom: 1px solid #606060;
 }
 
 div.controlbar input.button
