@@ -160,6 +160,12 @@ eztc.php:
   Merged from stable/3.3 rev. 6950, stable/3.4 rev. 6951
 - Fixed bug in ezorder.php with incorrect rounding in product item price.
   Merged from stable/3.4 rev. 6959.
+- Fixed bug in setup wizard: when checking directory permissions we now
+  check permissions of files within that directory as well.
+  Manually merged from stable/3.3 rev. 6964, also in stable/3.4 rev. 6965.
+
+*Library:
+- Added eZDir::isWriteable() and eZFile::isWriteable() methods.
 
 eZ Template
 - Added a new setting (site.ini/TemplateSettings/TemplateCompression) that

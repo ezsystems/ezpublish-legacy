@@ -144,6 +144,31 @@ class eZFile
     {
         return array_pop( explode( '.', $filename) );
     }
+
+    /*!
+    \static
+    Check if a given file is writeable
+
+    \return TRUE/FALSE
+    */
+    function isWriteable( $filename )
+    {
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+
+        if ( eZSys::osType() != 'win32' )
+            return is_writable( $filename );
+
+        /* PHP function is_writable() doesn't work correctly on Windows NT descendants.
+         * So we have to use the following hack on those OSes.
+         * FIXME: maybe on win9x we shouldn't do this?
+         */
+        if ( !( $fd = @fopen( $filename, 'a' ) ) )
+            return FALSE;
+
+        fclose( $fd );
+
+        return TRUE;
+    }
 }
 
 ?>
