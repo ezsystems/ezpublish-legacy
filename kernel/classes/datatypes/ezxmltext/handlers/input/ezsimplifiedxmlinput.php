@@ -1341,7 +1341,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     $listContent .= "  <li>$listItemContent</li>\n";
                 }
-                $output .= "<$tagName>\n$listContent</$tagName>";
+                $output .= "<$tagName>\n$listContent</$tagName>" .  "\n";
             }break;
 
             case 'table' :
@@ -1406,7 +1406,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $customTagContent .= $this->inputTdXML( $tagChild );
                 }
-                $output .= "<$tagName name='$name'>" .   trim( $customTagContent ) . "</$tagName>";
+                $output .= "<$tagName name='$name'>\n" .   trim( $customTagContent ) . "\n</$tagName>";
             }break;
 
             case 'link' :
