@@ -74,41 +74,49 @@ function eZSetupFunctionality( $siteType )
     if ( $siteType == 'blog' )
     {
         return array( 'required' => array( 'weblog' ),
+                      'recommended' => array(),
                       'theme' => 't3' );
     }
     else if ( $siteType == 'news' )
     {
         return array( 'required' => array( 'news' ),
+                      'recommended' => array( 'media', 'galler' ),
                       'theme' => 't1' );
     }
     else if ( $siteType == 'corporate' )
     {
         return array( 'required' => array( 'news' ),
+                      'recommended' => array( 'contact_us' ),
                       'theme' => 't1' );
     }
     else if ( $siteType == 'forum' )
     {
         return array( 'required' => array( 'forum' ),
+                      'recommended' => array(),
                       'theme' => 't8' );
     }
     else if ( $siteType == 'gallery' )
     {
         return array( 'required' => array( 'gallery' ),
+                      'recommended' => array(),
                       'theme' => 't17' );
     }
     else if ( $siteType == 'intranet' )
     {
         return array( 'required' => array(),
+                      'recommended' => array( 'news', 'contacts', 'files', 'media' ),
                       'theme' => 't19' );
     }
     else if ( $siteType == 'shop' )
     {
         return array( 'required' => array( 'products' ),
+                      'recommended' => array( 'contact_us' ),
                       'theme' => 't4' );
     }
     else
     {
         return array( 'required' => array(),
+                      'recommended' => array(),
                       'theme' => 't2' );
     }
 }

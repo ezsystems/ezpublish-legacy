@@ -127,7 +127,12 @@ class eZStepSitePackages extends eZStepInstaller
             }
         }
 
+        $recommended = array();
+        if ( isset( $typeFunctionality['recommended'] ) )
+            $recommended = $typeFunctionality['recommended'];
+
         $this->Tpl->setVariable( 'site_types', $siteTypes );
+        $this->Tpl->setVariable( 'recommended_package_array', $recommended );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
         $this->Tpl->setVariable( 'required_package_array', $requiredPackageInfoArray );
         $this->Tpl->setVariable( 'package_array', $packageInfoArray );
