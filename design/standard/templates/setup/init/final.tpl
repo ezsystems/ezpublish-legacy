@@ -17,7 +17,7 @@
 
       <td class="setup_site_templates">
         <div align="top">
-          <a href="{$:item.url|wash}" target="_other">{section show=$:item.thumbnail}<img class="site-type" src={concat( "design/standard/images/setup/", $:item.thumbnail )|ezroot} alt="{$:item.name|wash}" />{section-else}<img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
+          <a href="{$:item.url|wash}" target="_other">{section show=$:item.thumbnail}<img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $:item.thumbnail )|ezroot} alt="{$:item.name|wash}" />{section-else}<img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">

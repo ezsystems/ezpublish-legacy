@@ -15,7 +15,7 @@
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
-            {"Do not use 'admin', 'user' or equal site access values. Please change site illegal access values on sites indicated by *"|i18n("design/standard/setup/init")}
+            {"The access values must not be named 'admin' or 'user' and each values must be unique. Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
         </p>
     </blockquote>
 {/section}
@@ -42,42 +42,6 @@ The setup can continue with the initialization but may damage the present data."
     </blockquote>
 {/section}
 
-{section show=eq( $password_missmatch, 1 )}
-    <blockquote class="error">
-        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
-        <p>
-            {"Your passwords do not match."|i18n("design/standard/setup/init")}
-        </p>
-    </blockquote>
-{/section}
-
-<p>
-    {"Admin user settings"|i18n("design/standard/setup/init")}
-    <table border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td>{"First name"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="text" size="15" name="eZSetup_site_templates_first_name" value="{$admin.first_name|wash}" /></td>
-    </tr>
-    <tr>
-        <td>{"Last name"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="text" size="15" name="eZSetup_site_templates_last_name" value="{$admin.last_name|wash}" /></td>
-    </tr>
-    <tr>
-        <td>{"Email"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="text" size="30" name="eZSetup_site_templates_email" value="{$admin.email|wash}" /></td>
-    </tr>
-    <tr>
-        <td>{"Password"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="password" size="15" name="eZSetup_site_templates_password1" value="{$admin.password|wash}" /></td>
-    </tr>
-    <tr>
-        <td>{"Password"|i18n("design/standard/setup/init")}:&nbsp;</td>
-        <td><input type="password" size="15" name="eZSetup_site_templates_password2" value="{$admin.password|wash}" /></td>
-    </tr>
-
-    </table>
-</p>
-
 <p>
     <table border="0" cellspacing="0" cellpadding="0">
 
@@ -88,14 +52,14 @@ The setup can continue with the initialization but may damage the present data."
             <div align="top">
                 {section show=eq( $site.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
                 {section show=$site.thumbnail}
-                    <img class="site-type" src={concat( "design/standard/images/setup/", $site.thumbnail )|ezroot}>
+                    <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot}>
                     {section-else}
                     <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
                 {/section}
             </div>
 
             <div align="bottom">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <table border="0" cellspacing="2" cellpadding="0">
                 <tr>
                     <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_title" value="{$site.title|wash}" /></td>
@@ -107,13 +71,13 @@ The setup can continue with the initialization but may damage the present data."
                 <tr>
                     {switch match=$site.access_type}
                     {case match='url'}
-                        <td>{"User path"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User path"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='port'}
-                        <td>{"User port"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User port"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}
@@ -122,13 +86,13 @@ The setup can continue with the initialization but may damage the present data."
                 <tr>
                     {switch match=$site.access_type}
                     {case match='url'}
-                        <td>{"Admin path"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin path"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='port'}
-                        <td>{"Admin port"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin port"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}
@@ -136,7 +100,7 @@ The setup can continue with the initialization but may damage the present data."
                 </tr>
 
                 <tr>
-                    <td>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+                    <td{section show=eq( $db_not_empty, 1 )} class="invalid"{/section}>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
                     <td>
                     {section show=$database_available|count|gt( 0 )}
                         <select name="eZSetup_site_templates_{$site.index}_database">
@@ -151,7 +115,7 @@ The setup can continue with the initialization but may damage the present data."
                 </tr>
                 {section show=eq( $site.db_not_empty, 1 )}
                     <tr>
-                        <td>{"Database not empty: "|i18n("design/standard/setup/init")}</td>
+                        <td class="invalid">{"Action: "|i18n("design/standard/setup/init")}</td>
                         <td>
                         <select name="eZSetup_site_templates_{$site.index}_existing_database">
                         <option value="1">{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>

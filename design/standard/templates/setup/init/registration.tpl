@@ -11,7 +11,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr><th class="normal">{"The registration email:"|i18n("design/standard/setup/init")}</th></tr>
-<tr><td class="normal"><textarea class="box" readonly="readonly" cols="60" rows="6">{$email_body}</textarea></td></tr>
+<tr><td class="normal"><textarea class="box" readonly="readonly" cols="60" rows="10">{$email_body}</textarea></td></tr>
 </table>
 
 <p>

@@ -8,12 +8,13 @@ Comments:
 Site info:
 {section name=SiteTemplate loop=$site_templates}
 
-  Template     - {$:item.name}
-  Title        - {$:item.title}
-  URL          - {$:item.url}
-  Admin URL    - {$:item.admin_url}
-  Access type  - {$:item.access_type}
-  Access value - {$:item.access_type_value}
+  Template      - {$:item.name}
+  Title         - {$:item.title}
+  URL           - {$:item.url}
+  Admin URL     - {$:item.admin_url}
+  Access type   - {$:item.access_type}
+  Access value  - {$:item.access_type_value}
+  Functionality - {$:item.extra_functionality|implode( ', ' )}
 
 {/section}
 

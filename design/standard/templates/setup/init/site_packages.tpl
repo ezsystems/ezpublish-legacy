@@ -24,7 +24,7 @@
     <h2>{$site_types[0].name|wash}</h2>
 
     <p>{section show=$site_type.thumbnail}
-        <img align="left" class="site-type" src={concat( "design/standard/images/setup/", $site_type.thumbnail )|ezroot} alt="{$site_type.name|wash}" />
+        <img align="left" class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site_type.thumbnail )|ezroot} alt="{$site_type.name|wash}" />
     {section-else}
         <img align="left" class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.name|wash}" />
     {/section}

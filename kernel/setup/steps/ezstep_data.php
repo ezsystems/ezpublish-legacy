@@ -179,6 +179,8 @@ class eZStepData
                                    'class' => 'SiteAccess'),
                             array( 'file' => 'site_details',
                                    'class' => 'SiteDetails'),
+                            array( 'file' => 'site_admin',
+                                   'class' => 'SiteAdmin'),
                             array( 'file' => 'security',
                                    'class' => 'Security' ),
                             array( 'file' => 'registration',

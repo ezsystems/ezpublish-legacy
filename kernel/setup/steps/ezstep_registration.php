@@ -79,14 +79,11 @@ class eZStepRegistration extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
-//         $siteCount = $this->PersistenceList['site_templates']['count'];
         $siteTypes = $this->chosenSiteTypes();
-//         for ( $counter = 0; $counter < $siteCount; $counter++)
         $counter = 0;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
             $siteType =& $siteTypes[$siteTypeKey];
-//             $siteTemplates[$counter] = $this->PersistenceList['site_templates_'.$counter];
             $siteTemplates[$counter] = $siteType;
             $url = $siteTemplates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
@@ -202,15 +199,18 @@ class eZStepRegistration extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
-//         $siteCount = $this->PersistenceList['site_templates']['count'];
         $siteTypes = $this->chosenSiteTypes();
-//         for ( $counter = 0; $counter < $siteCount; $counter++)
         $counter = 0;
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
             $siteType =& $siteTypes[$siteTypeKey];
-//             $siteTemplates[$counter] = $this->PersistenceList['site_templates_'.$counter];
             $siteTemplates[$counter] = $siteType;
+
+            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
+            $extraFunctionality = array_merge( $this->PersistenceList['additional_packages'],
+                                               $typeFunctionality['required'] );
+            $extraFunctionality = array_unique( $extraFunctionality );
+
             $url = $siteTemplates[$counter]['url'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
             {
@@ -235,6 +235,7 @@ class eZStepRegistration extends eZStepInstaller
             }
             $siteTemplates[$counter]['url'] = $url;
             $siteTemplates[$counter]['admin_url'] = $adminURL;
+            $siteTemplates[$counter]['extra_functionality'] = $extraFunctionality;
             ++$counter;
         }
 
