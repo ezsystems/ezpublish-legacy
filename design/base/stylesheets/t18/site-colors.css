@@ -5,7 +5,7 @@
 body
 {
     background-color: #dddddd;
-    background-image: url(../../images/t10/background.png);
+    background-image: url(../../images/t18/background.png);
     background-attachment: fixed;
 }
 
@@ -18,7 +18,7 @@ div#allcontent
 div#topcontent
 {
     background-color: #527ccc;
-    background-image: url(../../images/t10/background-top.png);
+    background-image: url(../../images/t18/background-top.png);
     color: #ffffff;
 }
 
@@ -26,7 +26,7 @@ div#maincontent
 {
     padding-right: 10px;
     margin-bottom: 10px;
-    background-image: url(../../images/t10/vline.gif);
+    background-image: url(../../images/t18/vline.gif);
     background-repeat: repeat-y;
     background-position: right top;
 }
@@ -65,7 +65,7 @@ div#toolbar-bottom li.toolbar-item a
 
 div#topmenu
 {
-    background-image: url(../../images/t10/background-menu.png);
+    background-image: url(../../images/t18/background-menu.png);
     background-repeat: repeat-x;
     background-position: top left;
     background-color: #cccccc;
@@ -86,7 +86,7 @@ div#topmenu li
 div#topmenu li.selected
 {
 color: #ff0000;
-    background-image: url(../../images/t10/background-menu.png);
+    background-image: url(../../images/t18/background-menu.png);
     background-repeat: repeat-x;
     background-position: top left;
     background-color: #cccccc;
