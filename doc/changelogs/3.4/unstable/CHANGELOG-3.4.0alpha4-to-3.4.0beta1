@@ -25,6 +25,10 @@ eZ template:
 
 eZ locale:
 - Made the number and currency settings availabe as methods and attributes.
+- New class eZDateUtils which has some static member functions for
+  handling dates.
+- Added rfc 1123 and rfc 850 date creation to eZDateUtils.
+- Added function for turning a date string into a timestamp.
 
 *Unit tests:
 
