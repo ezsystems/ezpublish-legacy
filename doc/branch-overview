@@ -20,6 +20,10 @@ stable/3.4:
 - Revision=6744
 - Date 02-June-2004
 
+stable/3.5: (currently used for 3.5.0 final release)
+- Revision=10325
+- Date 10-Dec-2004
+
 Various development branches:
 
 unstable/datatype-development-20030530:
