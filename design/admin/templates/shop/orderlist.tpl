@@ -1,8 +1,11 @@
-<form action={concat( '/shop/orderlist' )|ezurl} method="post" name="orderlist">
+<form name="orderlist" method="post" action={concat( '/shop/orderlist' )|ezurl}>
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h1 class="context-title">{'Orders [%count]'|i18n( 'design/admin/shop/orderlist',, hash( '%count', $order_list|count ) )}</h1>
+
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
@@ -15,22 +18,22 @@
 <div class="left">
 <p>
 {section show=eq( ezpreference( 'admin_orderlist_sortfield' ), 'user_name' )}
-    <a href={'/user/preferences/set/admin_orderlist_sortfield/time'|ezurl}>{'Time'|i18n( 'design/admin/shop/orderlist' )}</a>
+    <a href={'/user/preferences/set/admin_orderlist_sortfield/time/shop/orderlist/'|ezurl}>{'Time'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</span>
 {section-else}
     <span class="current">{'Time'|i18n( 'design/admin/shop/orderlist' )}</span>
-    <a href={'/user/preferences/set/admin_orderlist_sortfield/user_name'|ezurl}>{'Customer'|i18n( 'design/admin/shop/orderlist' )}</a>
+    <a href={'/user/preferences/set/admin_orderlist_sortfield/user_name/shop/orderlist/'|ezurl}>{'Customer'|i18n( 'design/admin/shop/orderlist' )}</a>
 {/section}
 </p>
 </div>
 <div class="right">
 <p>
 {section show=eq( ezpreference( 'admin_orderlist_sortorder' ), 'desc' )}
-    <a href={'/user/preferences/set/admin_orderlist_sortorder/asc'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</a>
+    <a href={'/user/preferences/set/admin_orderlist_sortorder/asc/shop/orderlist/'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Descending'|i18n( 'design/admin/shop/orderlist' )}</span>
 {section-else}
     <span class="current">{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</span>
-    <a href={'/user/preferences/set/admin_orderlist_sortorder/desc'|ezurl}>{'Descending'|i18n( 'design/admin/shop/orderlist' )}</a>
+    <a href={'/user/preferences/set/admin_orderlist_sortorder/desc/shop/orderlist/'|ezurl}>{'Descending'|i18n( 'design/admin/shop/orderlist' )}</a>
 {/section}
 </p>
 </div>
