@@ -36,6 +36,9 @@
 */
 
 include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
+include_once( 'kernel/classes/notification/eznotificationevent.php' );
+$event =& eZNotificationEvent::create( 'ezcurrenttime', array() );
+$event->store();
 if ( !$isQuiet )
     $cli->output( "Starting notification event processing" );
 eZNotificationEventFilter::process();

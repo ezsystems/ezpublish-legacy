@@ -190,16 +190,6 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
-        //// needs to be rebuilt
-        $locale =& eZLocale::instance();
-        $weekDayNames = $locale->attribute( 'weekday_list' );
-        $weekDays = $locale->attribute( 'weekday_name_list' );
-        $weekDaysByName = array();
-        foreach ( $weekDays as $weekDay )
-        {
-            $weekDaysByName[$weekDayNames[$weekDay]] = $weekDay;
-        }
-
         foreach( $userList  as $subscriber )
         {
             $item =& $collection->addItem( $subscriber['address'] );
@@ -211,7 +201,6 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                     $hours = $settings->attribute( 'time' );
                     $hoursArray = explode( ':', $hours );
                     $hours = $hoursArray[0];
-                    $weekday = $weekDaysByName[ $settings->attribute( 'day' ) ];
                     eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week', 'day' => $weekday, 'time' => $hours ) );
                     $item->store();
                 }

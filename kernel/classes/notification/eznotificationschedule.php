@@ -60,30 +60,23 @@ class eZNotificationSchedule
             return false;
         if ( $settings['frequency'] == 'week' )
         {
-            $dayNum = $settings['day'];
-            $time = $settings['time'];
-            $date = new eZDate( );
-            $stamp = mktime();
-            $currentDate = getdate();
-            $date->setTimeStamp( $stamp );
+            $hour = $settings['time'];
+            $days = array( 0 => 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
+            $day = $days[$settings['day']];
+            $sendDate = strtotime( "first $day" ) + $hour * 3600;
 
-            $weekday = $currentDate['wday'];
-
-            $dayDiff = $dayNum - $weekday;
-            if( $dayDiff <= 0 )
+            /* Ugly hack to work around a bug in PHP =< 4.3.6. strtotime() will
+             * return a time one hour too late if DST is in effect when using
+             * "first *". */
+            if ( version_compare( phpversion(), "4.3.6", "<=" ) )
             {
-                $dayDiff += 7;
+                $lt = localtime( $sendDate, true );
+                if ( $lt['tm_isdst'] )
+                {
+                    $sendDate -= 3600;
+                }
             }
 
-            $hoursDiff = $time - $currentDate['hours'];
-            if ( $hoursDiff < 0 )
-            {
-//                if (
-//                $hoursDiff += 24;
-            }
-
-            $secondsDiff = 3600 * ( $dayDiff * 24  + $hoursDiff ) - $currentDate['seconds'] - 60 * $currentDate['minutes'];
-            $sendDate = $stamp + $secondsDiff;
             eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
             $item->setAttribute( 'send_date', $sendDate );
             return $sendDate;

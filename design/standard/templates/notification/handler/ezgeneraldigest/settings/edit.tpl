@@ -8,7 +8,7 @@
 
     <select name="Weekday_{$handler.id_string}">
     {section name=WeekDays loop=$handler.all_week_days}
-        <option value="{$WeekDays:item}" {section show=eq($WeekDays:item,$settings.day)}selected="selected"{/section}>{$WeekDays:item}</option>
+        <option value="{$WeekDays:key}" {section show=eq($WeekDays:key,$settings.day)}selected="selected"{/section}>{$WeekDays:item}</option>
     {/section}
     </select>
 
