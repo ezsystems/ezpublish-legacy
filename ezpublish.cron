@@ -5,4 +5,4 @@ EZPUBLISHROOT=/path/to/the/ez/publish/directory
 PHP=/usr/local/bin/php
 
 # Executes the runcronjobs.php script every 15th minute.
-0,15,30,45 * * * *	cd $EZPUBLISHROOT; $PHP -C runcronjobs.php -q 2>&1
+0,15,30,45 * * * *	cd $EZPUBLISHROOT; $PHP runcronjobs.php -q 2>&1
