@@ -1145,3 +1145,6 @@ CREATE TABLE ezurl_object_link (
 
 alter table ezcontentobject_attribute add sort_key varchar(255);
 alter table ezcontentobject_attribute add index ( sort_key );
+
+alter table ezcontentclass_attribute add can_translate int default 1;
+alter table ezcontentobject_attribute add attribute_original_id int default 0;

@@ -93,14 +93,13 @@ if ( count( $assignments ) < 1 && $Module->isCurrentAction( 'Publish' ) )
 {
     $Module->setCurrentAction( 'BrowseForNodes' );
 }
-//----------
 
 
 $validation = array( 'processed' => false,
                      'attributes' => array(),
                      'placement' => array() );
 
-/********** Custom Action Code Start ***************/
+// Custom Action Code Start
 $customAction = false;
 $customActionAttributeArray = array();
 // Check for custom actions
@@ -120,7 +119,7 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
         }
     }
 }
-/********** Custom Action Code End ***************/
+
 $storeActions = array( 'Preview',
                        'Translate',
                        'VersionEdit',

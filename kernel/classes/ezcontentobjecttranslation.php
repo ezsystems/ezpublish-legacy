@@ -103,6 +103,5 @@ class eZContentObjectTranslation
 
     /// Contains the language code for the current translation
     var $LanguageCode;
-
 }
 ?>

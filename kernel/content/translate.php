@@ -183,43 +183,86 @@ if ( $activeTranslation )
 
     if ( $storeRequired )
     {
+        $defaultLanguage = $object->defaultLanguage();
         $unvalidatedAttributes = array();
         foreach ( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
         {
             $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-            $dataType =& $contentClassAttribute->dataType();
-            $dataProperties = $dataType->attribute( 'properties' );
-            if ( $dataProperties['translation_allowed'] )
+
+            // Check if this is a translation
+            $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+            $isTranslation = false;
+            if ( $currentLanguage != $defaultLanguage )
+                $isTranslation = true;
+
+            // If current attribute is a translation
+            // Check if this attribute can be translated
+            // If not do not validate, since the input will be copyed from the original
+            $doNotValidate = false;
+            if ( $isTranslation )
             {
-                if ( $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' ) == false )
+                if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                    $doNotValidate = true;
+            }
+
+            if ( $doNotValidate == false )
+            {
+                $dataType =& $contentClassAttribute->dataType();
+                $dataProperties = $dataType->attribute( 'properties' );
+                if ( $dataProperties['translation_allowed'] )
                 {
-                    eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' failed' );
-                    $inputValidated = false;
-                    $unvalidatedAttributes[] = array( 'identifier' => $contentClassAttribute->attribute( 'identifier' ),
-                                                      'name' => $contentClassAttribute->attribute( 'name' ),
-                                                      'description' => $contentObjectAttribute->attribute( 'validation_log' ),
-                                                      'id' => $contentObjectAttribute->attribute( 'id' ) );
+                    if ( $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' ) == false )
+                    {
+                        eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' failed' );
+                        $inputValidated = false;
+                        $unvalidatedAttributes[] = array( 'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                          'name' => $contentClassAttribute->attribute( 'name' ),
+                                                          'description' => $contentObjectAttribute->attribute( 'validation_log' ),
+                                                          'id' => $contentObjectAttribute->attribute( 'id' ) );
+                    }
+                    else
+                    {
+                        eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' success' );
+                    }
+                    $contentObjectAttribute->fetchInput( $http, 'ContentObjectAttribute' );
                 }
-                else
-                {
-                    eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' success' );
-                }
-                $contentObjectAttribute->fetchInput( $http, 'ContentObjectAttribute' );
             }
         }
 
         if ( $inputValidated )
         {
-            foreach( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
+            foreach ( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
             {
                 $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
                 $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-                $dataType =& $contentClassAttribute->dataType();
-                $dataProperties = $dataType->attribute( 'properties' );
-                if ( $dataProperties['translation_allowed'] )
+
+                // Check if this is a translation
+                $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+                $isTranslation = false;
+                if ( $currentLanguage != $defaultLanguage )
+                    $isTranslation = true;
+
+                // If current attribute is a translation
+                // Check if this attribute can be translated
+                // If not do not store, since the input will be copyed from the original
+                $doNotStore = false;
+                if ( $isTranslation )
                 {
-                    $contentObjectAttribute->store();
+                    if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                        $doNotStore = true;
+                }
+
+                if ( $doNotStore == false )
+                {
+                    $dataType =& $contentClassAttribute->dataType();
+                    $dataProperties = $dataType->attribute( 'properties' );
+                    if ( $dataProperties['translation_allowed'] )
+                    {
+                        $contentObjectAttribute->store();
+                    }
                 }
             }
             $object->store();

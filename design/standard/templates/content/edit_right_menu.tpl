@@ -60,6 +60,7 @@
      default_translation=$content_version.translation
      other_translation_list=$content_version.translation_list
      translation_list=array_prepend($Translation:other_translation_list,$Translation:default_translation)}
+
 {section show=$Translation:translation_list}
     <tr>
         <th class="menuheaddark" colspan="2">

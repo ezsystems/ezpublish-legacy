@@ -164,7 +164,13 @@
 
     {let translation=$content_attribute_map[$ContentAttribute:item.contentclassattribute_id]}
         {section show=$ContentAttribute:translation}
-            {attribute_edit_gui attribute=$ContentAttribute:translation}
+            {* Only show edit GUI if the attribute is translateable *}
+            {section show=and(eq($ContentAttribute:translation.contentclass_attribute.can_translate,0),
+                              ne($object.default_language,$ContentAttribute:translation.language_code) ) }
+               {attribute_view_gui attribute=$ContentAttribute:translation}
+            {section-else}
+               {attribute_edit_gui attribute=$ContentAttribute:translation}
+            {/section}
         {/section}
     {/let}
 

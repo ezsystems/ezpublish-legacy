@@ -214,15 +214,19 @@ if ( $contentClassHasInput )
         $requireVariable = 'ContentAttribute_is_required_checked';
         $searchableVariable = 'ContentAttribute_is_searchable_checked';
         $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
+        $canTranslateVariable = 'ContentAttribute_can_translate_checked';
         $requireCheckedArray = array();
         $searchableCheckedArray = array();
         $informationCollectorCheckedArray = array();
+        $canTranslateCheckedArray = array();
         if ( $http->hasPostVariable( $requireVariable ) )
             $requireCheckedArray = $http->postVariable( $requireVariable );
         if ( $http->hasPostVariable( $searchableVariable ) )
             $searchableCheckedArray = $http->postVariable( $searchableVariable );
         if ( $http->hasPostVariable( $informationCollectorVariable ) )
             $informationCollectorCheckedArray = $http->postVariable( $informationCollectorVariable );
+        if ( $http->hasPostVariable( $canTranslateVariable ) )
+            $canTranslateCheckedArray = $http->postVariable( $canTranslateVariable );
         foreach ( array_keys( $attributes ) as $key )
         {
             $attribute =& $attributes[$key];
@@ -230,6 +234,8 @@ if ( $contentClassHasInput )
             $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
             $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
             $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
+            // Set can_translate to 0 if user has clicked Disable translation in GUI
+            $attribute->setAttribute( 'can_translate', !in_array( $attributeID, $canTranslateCheckedArray ) );
         }
     }
 }

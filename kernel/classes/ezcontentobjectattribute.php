@@ -168,6 +168,21 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                     $asObject);
     }
 
+    /*!
+     \return the attributes with alternative translations for the current attribute version and class attribute id
+    */
+    function &fetchAttributeTranslations( $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                    null,
+                                                    array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                           "contentobject_id" => $this->ContentObjectID,
+                                                           "version" => $this->Version ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
+    }
+
     function &create( $contentclassAttributeID, $contentobjectID, $version = 1 )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );

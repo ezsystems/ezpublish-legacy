@@ -136,6 +136,7 @@ class eZContentObject extends eZPersistentObject
                                                       "parent_nodes" => "parentNodes",
                                                       "main_node_id" => "mainNodeID",
                                                       "main_node" => "mainNode",
+                                                      "default_language" => "defaultLanguage",
                                                       "content_action_list" => "contentActionList",
                                                       "name" => "Name" ),
                       "increment_key" => "id",
@@ -160,6 +161,7 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_edit" or
              $attr == "can_remove" or
              $attr == "data_map" or
+             $attr == "default_language" or
              $attr == "content_action_list"
              )
         {
@@ -191,6 +193,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->relatedContentObjectCount();
             else if ( $attr == "content_action_list" )
                 return $this->contentActionList();
+            else if ( $attr == "default_language" )
+                return $this->defaultLanguage();
             else if ( $attr == "data_map" )
             {
                 return $this->dataMap();
@@ -1138,13 +1142,38 @@ class eZContentObject extends eZPersistentObject
         $inputValidated =& $result['input-validated'];
         $http =& eZHTTPTool::instance();
 
+        $defaultLanguage = $this->defaultLanguage();
         foreach( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-            $status = $contentObjectAttribute->validateInput( $http, $attributeDataBaseName,
-                                                              $inputParameters, $parameters );
+            // Check if this is a translation
+            $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+            $isTranslation = false;
+            if ( $currentLanguage != $defaultLanguage )
+                $isTranslation = true;
+
+            // If current attribute is a translation
+            // Check if this attribute can be translated
+            // If not do not validate, since the input will be copyed from the original
+            $doNotValidate = false;
+            if ( $isTranslation )
+            {
+                if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                    $doNotValidate = true;
+            }
+
+            if ( $doNotValidate == true )
+            {
+                $status = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                $status = $contentObjectAttribute->validateInput( $http, $attributeDataBaseName,
+                                                                  $inputParameters, $parameters );
+            }
             $statusMap[$contentObjectAttribute->attribute( 'id' )] = array( 'value' => $status,
                                                                             'attribute' => &$contentObjectAttribute );
 
@@ -1213,26 +1242,53 @@ class eZContentObject extends eZPersistentObject
         $attributeInputMap =& $result['attribute-input-map'];
         $http =& eZHTTPTool::instance();
 
+        $defaultLanguage = $this->defaultLanguage();
+
         $dataMap =& $this->attribute( 'data_map' );
         foreach ( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
-            if ( $contentObjectAttribute->fetchInput( $http, $attributeDataBaseName ) )
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            // Check if this is a translation
+            $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+            $isTranslation = false;
+            if ( $currentLanguage != $defaultLanguage )
+                $isTranslation = true;
+
+            // If current attribute is an un-translateable translation, input should not be fetched
+            $fetchInput = true;
+            if ( $isTranslation == true )
             {
-                $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
-                $attributeInputMap[$contentObjectAttribute->attribute('id')] = true;
+                if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                {
+                    $fetchInput = false;
+                }
             }
-/********** Custom Action Code Start ***************/
-            $customActionParameters['base_name'] = $attributeDataBaseName;
-            if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+
+            // Do not handle input for non-translateable attributes.
+            // Input will be copyed from the std. translation on storage
+            if ( $fetchInput )
             {
-                $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
-                $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
-                $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+                if ( $contentObjectAttribute->fetchInput( $http, $attributeDataBaseName ) )
+                {
+                    $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
+                    $attributeInputMap[$contentObjectAttribute->attribute('id')] = true;
+                }
+
+                // Custom Action Code
+                $customActionParameters['base_name'] = $attributeDataBaseName;
+                if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
+                {
+                    $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
+                    $customAction = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['value'];
+                    $contentObjectAttribute->customHTTPAction( $http, $customAction, $customActionParameters );
+                }
+
+                $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
+                                                                  $customActionAttributeArray, $customActionParameters );
             }
-/********** Custom Action Code End ***************/
-            $contentObjectAttribute->handleCustomHTTPActions( $http, $attributeDataBaseName,
-                                                              $customActionAttributeArray, $customActionParameters );
 
         }
         return $result;
@@ -1241,11 +1297,60 @@ class eZContentObject extends eZPersistentObject
     function storeInput( &$contentObjectAttributes,
                          $attributeInputMap )
     {
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        $defaultLanguage = $this->defaultLanguage();
+
+        foreach ( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            // Check if this is a translation
+            $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+            $isTranslation = false;
+            if ( $currentLanguage != $defaultLanguage )
+                $isTranslation = true;
+
+            // Check if current attribute is the original language
+            // If so, update the non-translateable attributes
+            $updateTranslations = false;
+            if ( $isTranslation == false )
+            {
+                if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                {
+                    $updateTranslations = true;
+                }
+            }
+
             if ( isset( $attributeInputMap[$contentObjectAttribute->attribute('id')] ) )
+            {
                 $contentObjectAttribute->store();
+                if ( $updateTranslations )
+                {
+                    $translations =& $contentObjectAttribute->fetchAttributeTranslations();
+                    foreach ( $translations as $translationAttribute )
+                    {
+                        if ( $translationAttribute->attribute( 'language_code' ) != $currentLanguage )
+                        {
+                            $translationVersion = $translationAttribute->attribute( 'version' );
+                            $translationID = $translationAttribute->attribute( 'id' );
+                            $translationLanguage = $translationAttribute->attribute( 'language_code' );
+
+                            // Copy attribute
+                            unset( $tmp );
+                            $tmp = $translationAttribute;
+                            $tmp->initialize( $translationVersion, $contentObjectAttribute );
+
+                            $tmp->setAttribute( 'id', $translationID );
+                            $tmp->setAttribute( 'language_code', $translationLanguage );
+
+                            // Set reference ID
+                            $tmp->setAttribute( 'attribute_original_id', $contentObjectAttribute->attribute( 'id' ) );
+                            $tmp->store();
+                        }
+                    }
+                }
+            }
         }
     }
 
