@@ -49,7 +49,9 @@
                 <ul>
                 {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
                 {section name=Folder loop=$folder_list}
-                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+		    {section show=ne($Folder:item.node_id,173)}
+                        <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+		    {/section}
                 {/section}
                 {/let}
                 </ul>
@@ -65,6 +67,13 @@
     <div id="navigationbar">
         <div class="design">
             {include uri="design:navigationbar.tpl"}
+         <h3>Poll</h3>
+         <p>
+	 {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+	 {section name=poll loop=$poll_list}
+	     {node_view_gui view=full content_node=$poll:item}
+	 {/let}
+	 </p>   
         </div>
     </div>
 
