@@ -89,6 +89,10 @@ eZURL:
 
 *Library :
 
+eZ utils:
+- Fixed sending mail to addresses in Cc field using the SMTP protocol.
+- Fixed sending mail to addresses in Bcc field using the SMTP protocol.
+
 eZ template:
 - Fixed the 'shorten' operator to only shorten the text if the text length is longer
   than the specified maximum length.

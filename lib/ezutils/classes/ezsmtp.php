@@ -15,6 +15,7 @@
         var $connection;
         var $recipients;
         var $CcRecipients;
+        var $BccRecipients;
         var $headers;
         var $timeout;
         var $errors;
@@ -139,6 +140,12 @@
                         $this->rcpt($value);
                 else
                     $this->rcpt($this->CcRecipients);
+
+                if(is_array($this->BccRecipients))
+                    foreach($this->BccRecipients as $value)
+                        $this->rcpt($value);
+                else
+                    $this->rcpt($this->BccRecipients);
 
                 if(!$this->data())
                     return FALSE;

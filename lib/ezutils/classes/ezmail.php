@@ -98,6 +98,11 @@ class eZMail
         return $this->composeEmailItems( $this->CcElements, false, false, $convert );
     }
 
+    function bccReceiverTextList( $convert = true )
+    {
+        return $this->composeEmailItems( $this->BccElements, false, false, $convert );
+    }
+
     /*!
       Returns the receiver addresses as an array with texts.
     */
