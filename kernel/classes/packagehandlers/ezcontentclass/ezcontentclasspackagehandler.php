@@ -138,7 +138,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIsContainer = $content->attributeValue( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
-        print( "name=$className, classIsContainer='$classIsContainer'<br/>" );
 
         $classRemoteNode = $content->elementByName( 'remote' );
         $classID = $classRemoteNode->elementTextContentByName( 'id' );
