@@ -35,8 +35,16 @@
 
 <tr class="{$assignment.sequence}">
 
-    {* Location. *}
-    <td><input type="checkbox" name="AssignmentIDSelection[]" {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}disabled="disabled"{/section} value="{$assignment.id}" /></td>
+    {* Remove. *}
+    <td>
+    {section show=or( $assignment_node.can_remove|not, eq( $assignment.parent_node, $node.parent_node_id ) )}
+    <input type="checkbox" name="AssignmentIDSelection[] value="{$assignment.id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+    {section-else}
+    <input type="checkbox" name="AssignmentIDSelection[] value="{$assignment.id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
+    {/section}
+    </td>
+
+    {* Location.  *}
     {section show=and( eq( $assignment.node.path_string, $node.path_string ), $assigned_nodes|count|gt(1))}
     <td><b>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</b></td>
     {section-else}
@@ -69,8 +77,23 @@
     </td>
 
     {* Main node. *}
-    <td><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=or( $assignment_node.can_edit|not, $assignment_count|le( 1 ) )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
+    <td>
 
+    {section show=$assignment_node.can_edit}
+
+    {section show=$assignment_count|gt( 1 ) }
+    <input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
+    {section-else}
+    <input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location and thus it does not make sense to set it.'|i18n( 'design/admin/node/view/full' )}" />
+    {/section}
+
+    {section-else}
+
+    <input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'You can not set the main location because you do not have permissions to edit the item being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+
+    {/section}
+
+    </td>
 </tr>
 {/let}
 {/section}
@@ -90,18 +113,24 @@
 <div class="button-left">
 {section show=$node.can_edit}
     <input class="button{section show=$assignment_count|le( 1 )}-disabled{/section}" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
-    <input class="button{section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}-disabled{/section}" type="submit" name="AddAssignmentButton" value="{'New location'|i18n( 'design/admin/node/view/full' )}" title="{'Add new location(s).'|i18n( 'design/admin/node/view/full' )}" {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}disabled="disabled"{/section} />
+    <input class="button{section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}-disabled{/section}" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'Add one or more new locations.'|i18n( 'design/admin/node/view/full' )}" {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}disabled="disabled"{/section} />
 {section-else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} disabled="disabled" />
-    <input class="button-disabled" type="submit" name="" value="{'New location'|i18n( 'design/admin/node/view/full' )}" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} disabled="disabled" />
+    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
+    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
 {/section}
 </div>
 
 <div class="button-right">
 {section show=$node.can_edit}
-    <input class="button{section show=$assignment_count|le( 1 )}-disabled{/section}" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title=""{section show=$assignment_count|le( 1 )}title="{'You can not set the main location because there is only one existing location for the current item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled"{/section} />
+
+{section show=$assignment_count|gt( 1 )}
+    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above and click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
 {section-else}
-    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'You can not set the main location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
+{/section}
+
+{section-else}
+    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/section}
 </div>
 
