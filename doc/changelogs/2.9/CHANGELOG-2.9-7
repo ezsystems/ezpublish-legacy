@@ -44,6 +44,11 @@ Changes from 2.9-6 to 2.9-7
 - Added session cache on current user
 - Fixed crash with ' character in object name translation
 - Added session cache for current user group assignments
+- The admin left menu can have parts of it disabled by setting some variables when including it.
+- Added nodetree searching to advancedsearch which is similar to the one in normal search.
+- Fixed user registration to read some default values from site.ini, such as class id,
+  section id and creator id. It also made sure the registration session variable was removed
+  when cancelling.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

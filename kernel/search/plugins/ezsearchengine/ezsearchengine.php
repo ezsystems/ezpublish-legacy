@@ -501,13 +501,15 @@ class eZSearchEngine
                 // Fetch path_string value to use when searching subtrees
                 $i = 0;
                 $doSubTreeSearch = false;
+                $subTreeNodeSQL = '';
                 foreach ( $subTreeArray as $nodeID )
                 {
                     if ( is_numeric( $nodeID ) and ( $nodeID > 0 ) )
                     {
                         $subTreeNodeSQL .= " $nodeID";
 
-                        if ( is_numeric( $subTreeArray[$i + 1] ) )
+                        if ( isset( $subTreeArray[$i + 1] ) and
+                             is_numeric( $subTreeArray[$i + 1] ) )
                             $subTreeNodeSQL .= ", ";
 
                         $doSubTreeSearch = true;
@@ -546,6 +548,7 @@ class eZSearchEngine
             }
 
 
+            $limitationList = array();
             if ( isset( $params['Limitation'] ) )
             {
                 $limitationList =& $params['Limitation'];
@@ -561,7 +564,7 @@ class eZSearchEngine
                 }
             }
 
-
+            $sqlPermissionCheckingString = '';
             if ( count( $limitationList ) > 0 )
             {
                 $sqlParts = array();

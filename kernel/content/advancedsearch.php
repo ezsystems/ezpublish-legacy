@@ -97,6 +97,20 @@ if ( $http->hasVariable( "SearchSectionID" ) and
     $searchSectionID = $http->variable( "SearchSectionID" );
 }
 
+$subTreeArray = array();
+if ( $http->hasVariable( "SubTreeArray" ) )
+{
+    if ( is_array( $http->variable( "SubTreeArray" ) ) )
+        $subTreeList =& $http->variable( "SubTreeArray" );
+    else
+        $subTreeList = array( $http->variable( "SubTreeArray" ) );
+    foreach ( $subTreeList as $subTreeItem )
+    {
+        if ( $subTreeItem > 0 )
+            $subTreeArray[] = $subTreeItem;
+    }
+}
+
 $Module->setTitle( "Search for: $searchText" );
 
 $classArray =& eZContentClass::fetchList();
@@ -106,11 +120,13 @@ $sectionArray =& eZSection::fetchList();
 $searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $searchSectionID,
                                                        "SearchContentClassID" => $searchContentClassID,
                                                        "SearchContentClassAttributeID" => $searchContentClassAttributeID,
+                                                       "SearchSubTreeArray" => $subTreeArray,
                                                        "SearchDate" => $searchDate ) );
 
 $tpl->setVariable( "search_contentclass_id", $searchContentClassID );
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_date", $searchDate );
+$tpl->setVariable( "search_sub_tree", $subTreeArray );
 
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_count", $searchResult["SearchCount"] );

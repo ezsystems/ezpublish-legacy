@@ -1,3 +1,9 @@
+{default menu_enable_content=true()
+         menu_enable_setup=true()
+         menu_enable_shop=true()
+         menu_enable_users=true()}
+
+{section show=$:menu_enable_content}
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
@@ -30,7 +36,9 @@
     </td>
 </tr>
 </table>
+{/section}
 
+{section show=$:menu_enable_setup}
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
@@ -78,7 +86,9 @@
     </td>
 </tr>
 </table>
+{/section}
 
+{section show=$:menu_enable_shop}
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
@@ -110,7 +120,9 @@
     </td>
 </tr>
 </table>
+{/section}
 
+{section show=$:menu_enable_users}
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
@@ -150,6 +162,7 @@
     </td>
 </tr>
 </table>
+{/section}
 
 {*
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
@@ -185,3 +198,5 @@
 </table>
 
 *}
+
+{/default}

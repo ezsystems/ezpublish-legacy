@@ -66,7 +66,14 @@ $subTreeArray = array();
 if ( $http->hasVariable( "SubTreeArray" ) )
 {
     if ( is_array( $http->variable( "SubTreeArray" ) ) )
-        $subTreeArray =& $http->variable( "SubTreeArray" );
+        $subTreeList =& $http->variable( "SubTreeArray" );
+    else
+        $subTreeList = array( $http->variable( "SubTreeArray" ) );
+    foreach ( $subTreeList as $subTreeItem )
+    {
+        if ( $subTreeItem > 0 )
+            $subTreeArray[] = $subTreeItem;
+    }
 }
 
 $Module->setTitle( "Search for: $searchText" );

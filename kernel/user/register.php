@@ -48,6 +48,8 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $Params['TemplateObject'] =& $tpl;
 
+// $http->removeSessionVariable( "RegisterUserID" );
+
 // Create new user object if user is not logged in
 $user =& eZUser::currentUser();
 if ( !$user->isLoggedIn() and !$http->hasSessionVariable( "RegisterUserID" ) )
@@ -56,10 +58,13 @@ if ( !$user->isLoggedIn() and !$http->hasSessionVariable( "RegisterUserID" ) )
 
     $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
 
-    $class =& eZContentClass::fetch( 4 );
+    $userClassID = $ini->variable( "UserSettings", "UserClassID" );
+    $class =& eZContentClass::fetch( $userClassID );
 
+    $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
+    $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
     // Create object by user 14 in section 1
-    $contentObject =& $class->instantiate( 14, 1 );
+    $contentObject =& $class->instantiate( $userCreatorID, $defaultSectionID );
     $objectID = $contentObject->attribute( 'id' );
 
     // Store the ID in session variable
@@ -119,6 +124,8 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $object->remove();
             }
+            $http =& eZHTTPTool::instance();
+            $http->removeSessionVariable( "RegisterUserID" );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
