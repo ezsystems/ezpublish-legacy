@@ -85,6 +85,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
         }
         else
         {
+            $this->transformSchema( $this->Schema, $params['format'] == 'local' );
             $schema = $this->Schema;
         }
         return $schema;
