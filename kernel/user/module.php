@@ -113,6 +113,7 @@ $SiteAccess = array(
     );
 
 $FunctionList['login'] = array( 'SiteAccess' => $SiteAccess );
+$FunctionList['selfedit'] = array();
 
 
 ?>
