@@ -51,9 +51,10 @@
                 <select name="siteCharset">
                 {* this should be the first item so people use it as a default *}
                 <option value="iso-8859-1">iso-8859-1 (Default)</option>
-                {section name=charsets loop=$charsetArray}
+                {* TODO: This has to be fixed in easy publish first! It crashes if something different than iso-8859-1 is chosen.
+                {* {section name=charsets loop=$charsetArray}
                 <option value="{$charsets:item}">{$charsets:item}</option>
-                {/section}
+                {/section} *}
                 </select>
             </td>
         </tr>

@@ -22,10 +22,12 @@
             <td class="normal">{$unpackDemo_msg}</td>
         </tr>
         {/section}
+        {section name=connectDb show=$connectDb}
         <tr>
             <td class="normal">Trying to connect to database:</td>
             <td class="normal">{$dbConnect}</td>
         </tr>
+        {/section}
         {section name=createDb show=$createDb}
         <tr>
             <td class="normal">Trying to create the database "{$dbName}":</td>
