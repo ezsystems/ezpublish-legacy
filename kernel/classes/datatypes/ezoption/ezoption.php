@@ -85,11 +85,12 @@ class eZOption
     /*!
      Adds an option
     */
-    function addOption( $value )
+    function addOption( $valueArray )
     {
         $this->Options[] = array( "id" => $this->OptionCount,
-                                  "value" => $value,
-                             "is_default" => false );
+                                  "value" => $valueArray['value'],
+                                  'additional_price' => $valueArray['additional_price'],
+                                  "is_default" => false );
 
         $this->OptionCount += 1;
     }
@@ -151,7 +152,9 @@ class eZOption
 
             foreach ( $optionArray as $option )
             {
-                $this->addOption( $option->textContent() );
+                eZDebug::writeDebug( $option->attributeValue( 'additional_price' ), "attributeValue" );
+                $this->addOption( array( 'value' => $option->textContent(),
+                                         'additional_price' => $option->attributeValue( 'additional_price' ) ) );
             }
         }
         else
@@ -187,6 +190,7 @@ class eZOption
         {
             $optionNode =& $doc->createElementNode( "option" );
             $optionNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
+            $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
             $optionValueNode =& $doc->createTextNode( $option["value"] );
             $optionNode->appendChild( $optionValueNode );
 

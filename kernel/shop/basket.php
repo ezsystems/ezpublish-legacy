@@ -43,6 +43,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 include_once( "kernel/classes/ezproductcollection.php" );
 include_once( "kernel/classes/ezproductcollectionitem.php" );
+include_once( "kernel/classes/ezproductcollectionitemoption.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
@@ -64,8 +65,8 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 
         if ( $dataType->isA() == "ezprice" )
         {
-            $content =& $attribute->content();
-            $price += $content->attribute( 'price' );
+            $priceObj =& $attribute->content();
+            $price += $priceObj->attribute( 'price' );
         }
     }
 
@@ -77,7 +78,44 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $item->setAttribute( "contentobject_id", $objectID );
     $item->setAttribute( "item_count", 1 );
     $item->setAttribute( "price", $price );
+    if ( $priceObj->attribute( 'is_vat_included' ) )
+    {
+        $item->setAttribute( "is_vat_inc", '1' );
+    }
+    else
+    {
+        $item->setAttribute( "is_vat_inc", '0' );
+    }
+    $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+    $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
     $item->store();
+    $priceWithoutOptions = $price;
+
+    foreach ( array_keys( $optionList ) as $key )
+    {
+        $attributeID = $key;
+        $optionSelected = $optionList[$key];
+        $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+        $option =& $attribute->attribute( 'content' );
+        foreach( $option->attribute( 'option_list' ) as $optionArray )
+        {
+            if( $optionArray['id'] == $optionSelected )
+            {
+                $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionArray['id'], $option->attribute( 'name' ),
+                                                                      $optionArray['value'], $optionArray['additional_price'] );
+                $optionItem->store();
+                $price += $optionArray['additional_price'];
+                break;
+            }
+        }
+
+    }
+    if ( $price != $priceWthoutOptions )
+    {
+        $item->setAttribute( "price", $price );
+        $item->store();
+    }
+
     $module->redirectTo( "/shop/basket/" );
     return;
 }

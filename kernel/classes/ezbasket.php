@@ -125,6 +125,12 @@ class eZBasket extends eZPersistentObject
                     $dataType =& $attribute->dataType();
                     if ( $dataType->isA() == "ezprice" )
                     {
+                        $priceObj =& $attribute->content();
+                        $discountPercent = $priceObj->discount();
+                        $vatValue = $priceObj->attribute( 'vat_percent' );
+                        $isVATIncluded = $priceObj->attribute( 'is_vat_included' );
+                        eZDebug::writeDebug( $vatValue, 'VAT Value' . $contentObject->attribute( 'name' ) );
+/*
                         $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
                         $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
                         $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
@@ -135,24 +141,26 @@ class eZBasket extends eZPersistentObject
                         $vatType =& eZVatType::fetch( $VATID );
                         if ( get_class( $vatType ) == 'ezvattype' )
                         {
-                            $VATValue = $vatType->attribute( 'percentage' );
+                            $vatValue = $vatType->attribute( 'percentage' );
                         }
                         else
                         {
-                            $VATValue = 0.0;
+                            $vatValue = 0.0;
                         }
+*/
+                        break;
 
-                        $priceObj =& $attribute->content();
-                        $discountPercent = $priceObj->discount();
                     }
                 }
                 $nodeID = $contentObject->attribute( 'main_node_id' );
                 $objectName = $contentObject->attribute( 'name' );
                 $count = $productItem->attribute( 'item_count' );
                 $price = $productItem->attribute( 'price' );
+
+
                 if ( $isVATIncluded )
                 {
-                    $priceExVAT = $price / ( 100 + $VATValue ) * 100;
+                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                     $priceIncVAT = $price;
                     $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
@@ -160,12 +168,13 @@ class eZBasket extends eZPersistentObject
                 else
                 {
                     $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $VATValue ) / 100;
+                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
                     $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                     $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
+
                 $addedProduct = array( "id" => $id,
-                                       "vat_value" => $VATValue,
+                                       "vat_value" => $vatValue,
                                        "item_count" => $count,
                                        "node_id" => $nodeID,
                                        "object_name" => $objectName,

@@ -5,6 +5,7 @@
 {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
 <input type="hidden" name="ContentObjectAttribute_data_option_id_{$attribute.id}[]" value="{$OptionList:item.id}" />
 <input type="text" name="ContentObjectAttribute_data_option_value_{$attribute.id}[]" value="{$OptionList:item.value}" />
+<input type="text" name="ContentObjectAttribute_data_option_additional_price_{$attribute.id}[]" value="{$OptionList:item.additional_price}" />
 <input type="checkbox" name="ContentObjectAttribute_data_option_remove_{$attribute.id}[]" value="{$OptionList:item.id}" /><br />
 {/section}
 </div>

@@ -73,6 +73,7 @@ class eZPrice
     {
         if ( $attr == "vat_type" or
              $attr == "current_user" or
+             $attr == "is_vat_included" or
              $attr == "vat_percent" or
              $attr == "inc_vat_price" or
              $attr == "ex_vat_price" or
@@ -104,6 +105,10 @@ class eZPrice
                     return $this->VATType->attribute( 'percentage' );
                 else
                     return 0;
+            }break;
+            case "is_vat_included":
+            {
+                return $this->IsVATIncluded;
             }break;
             case "inc_vat_price" :
             {

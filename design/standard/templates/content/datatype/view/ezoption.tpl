@@ -2,7 +2,7 @@
 
 <select name="eZOption[{$attribute.id}]">
 {section name=Option loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
-<option value="{$Option:item.value}">{$Option:item.value}</option>
+<option value="{$Option:item.id}">{$Option:item.value} - {$Option:item.additional_price}</option>
 
 {/section}
 </select>

@@ -65,6 +65,8 @@ class eZOptionType extends eZDataType
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
+
             if ( $classAttribute->attribute( "is_required" ) == true )
             {
                 if ( trim( $valueList[0] ) == "" )
@@ -88,6 +90,14 @@ class eZOptionType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
 
                     }
+                    if ( !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'Additional price for option value is invalid.',
+                                                                             'eZOptionType' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
+
                 }
             }
         }
@@ -133,13 +143,15 @@ class eZOptionType extends eZDataType
         $optionName =& $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
         $optionIDArray =& $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
         $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
 
         $option = new eZOption( $optionName );
 
         $i = 0;
         foreach ( $optionIDArray as $id )
         {
-            $option->addOption( $optionValueArray[$i]  );
+            $option->addOption( array( 'value' => $optionValueArray[$i],
+                                       'additional_price' => $optionAdditionalPriceArray[$i] ) );
             $i++;
         }
         $contentObjectAttribute->setContent( $option );

@@ -7,7 +7,7 @@
 {section name=Basket show=$basket.items|gt(0)}
 
 
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list"  width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
 	{"Product:"|i18n("design/standard/shop")}
@@ -41,7 +41,7 @@
 <tr>
 	<td class="{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
-	{$Basket:ProductItem:item.id} - 
+	{*{$Basket:ProductItem:item.id}-*} 
 	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name}</a>
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
@@ -67,10 +67,32 @@
 	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.total_price_inc_vat|l10n(currency)}
 	</td>
-	<td>
+	<td class="{$Basket:ProductItem:sequence}">
 	<input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Basket:ProductItem:item.id}" />
 	</td>
 </tr>
+{section show=$Basket:ProductItem:item.item_object.option_list}
+<tr>
+  <td class="{$Basket:ProductItem:sequence}" colspan='4'>
+     <table width="100%"  border="0">
+<tr>
+<td colspan='3'>
+Selected options
+</td> 
+</tr>
+     {section name=Options loop=$Basket:ProductItem:item.item_object.option_list}
+      <tr> 
+        <td width="33%">{$Basket:ProductItem:Options:item.name}</td>
+        <td width="33%">{$Basket:ProductItem:Options:item.value}</td>
+        <td width="33%">{$Basket:ProductItem:Options:item.price}</td>
+      </tr>
+    {/section}
+     </table>
+   </td>
+  <td class="{$Basket:ProductItem:sequence}" colspan='5'>
+  </td>
+</tr>
+{/section}
 {/section}
 <tr>
      <td colspan='8'>

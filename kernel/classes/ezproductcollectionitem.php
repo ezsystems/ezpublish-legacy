@@ -43,6 +43,8 @@
 
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
+include_once( "kernel/classes/ezproductcollectionitemoption.php" );
+
 
 class eZProductCollectionItem extends eZPersistentObject
 {
@@ -57,8 +59,13 @@ class eZProductCollectionItem extends eZPersistentObject
                                          "productcollection_id" => "ProductCollectionID",
                                          "contentobject_id" => "ContentObjectID",
                                          "item_count" => "ItemCount",
-                                         "price" => "Price"
+                                         "price" => "Price",
+                                         'is_vat_inc' => "IsVATIncluded",
+                                         'vat_value' => "VATValue",
+                                         'discount' => "DiscountValue"
                                          ),
+                      'function_attributes' => array( 'contentobject' => 'ContentObject',
+                                                      'option_list' => 'OptionList' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "relations" => array( "contentobject_id" => array( "class" => "ezcontentobject",
@@ -87,13 +94,17 @@ class eZProductCollectionItem extends eZPersistentObject
                                                 $asObject );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch ( $attr )
         {
             case "contentobject" :
             {
                 return $this->contentObject(  );
+            }break;
+            case "option_list" :
+            {
+                return $this->optionList(  );
             }break;
 
             default :
@@ -105,7 +116,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        if ( $attr == "contentobject" )
+        if ( $attr == "contentobject" || $attr == 'option_list' )
             return true;
         else
             return eZPersistentObject::hasAttribute( $attr );
@@ -132,6 +143,20 @@ class eZProductCollectionItem extends eZPersistentObject
         }
 
         return $this->ContentObject;
+    }
+    function &optionList()
+    {
+        return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+    }
+    function remove()
+    {
+        $itemOptionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+        foreach( array_keys( $itemOptionList ) as $key )
+        {
+            $itemOption =& $itemOptionList[$key];
+            $itemOption->remove();
+        }
+        eZPersistentObject::remove();
     }
 
     /// Stores the content object
