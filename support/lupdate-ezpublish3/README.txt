@@ -1,5 +1,5 @@
-Translation of eZ publish 3
----------------------------
+Translation/Internationalization (i18n) of eZ publish 3
+-------------------------------------------------------
 
 0. Introduction
 
@@ -7,11 +7,6 @@ Translation of eZ publish 3
 
 2. Making translations
 
-3. Installing translations
-
-4. Making your PHP-code translation-friendly
-
-5. Making your templates translation-friendly
 
 
 0. Introduction
@@ -60,3 +55,52 @@ eZ publish directory.
 
 2. Making translations
 ----------------------
+
+First of all, you must decide the locale code of your language. eZ publish 3
+uses locale codes on the form aaa-AA, where the 3 first lowercase letters
+describe the language, while the last two uppercase letter describe the country
+in which the language is spoken. For instance, English as it is spoken in Great
+Britain would be eng-GB, while US English is eng-US.
+
+Countries are specified by the ISO 3166 Country Code
+http://www.iso.ch/iso/en/prods-services/iso3166ma/index.html
+
+Language is specified by the ISO 639 Language Code
+http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+
+You can also create a variation of a locale, you will for instance find two
+variations of nor-NO, nor-NO@intl and nor-NO@spraakraad, that are slight modofications of the original.
+
+For the rest of this part, I assume you are translating nor-NO.
+
+Copy share/locale/eng-GB.ini to share/locale/nor-NO.ini. Edit this file with a
+text editor. Here you set locale details such as time formats, currency and the
+names of the week days.
+
+Now, enter the main eZ publish directory in a terminal and type
+bin/linux/ezlupdate -v nor-NO
+(Provided that nor-NO is your locale, of course. -v is for verbose, showing
+messages about what happens. You can also use -vv for extra verbose output, or
+omit it for silent behavior. Run bin/linux/ezlupdate -h for an explanation of
+the arguments.
+
+You will now find a translation in share/translations/nor-NO/translation.ts or
+similar for other locales. Open this file in linguist and do the translation.
+
+You will find documentation for linguist on Trolltechs page:
+http://doc.trolltech.com/3.0/linguist-manual-3.html
+
+When you are done translating in linguist, open settings/site.ini. Go to the
+section [RegionalSettings] and set Locale=nor-NO to translate the interface,
+and ContentObjectLocale=nor-NO if you want to set the language of content
+objects. Finally, set TextTranslation=enabled, or the default (eng-GB) will be
+used.
+
+To distribute your translation, create a compressed archive, for instance .zip
+or tar.gz, of these two files:
+share/locale/nor-NO.ini
+share/translations/nor-NO/translation.ts
+
+
+
+Please see the translation tutorial on http://sdk.ez.no for more information.

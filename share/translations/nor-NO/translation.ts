@@ -1,161 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>content/datatypes</name>
-    <message>
-        <source>At least one author is requied.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Author name should be provided.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZAuthorType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZBinaryFileType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A valid email account is required.</source>
-        <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZEmailType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>At least one field should be chosen.</source>
-        <comment>eZEnumType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input is not float.</source>
-        <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZFloatType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A valid image is required.</source>
-        <comment>eZImageType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input is not integer.</source>
-        <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input must be greater than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input must be less than %1</source>
-        <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input is not in defined range %1 - %2</source>
-        <comment>eZIntegerType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The ISBN number is not correct. Please recheck the input</source>
-        <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The ISBN format is not valid.</source>
-        <comment>eZISBNType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A valid file is required.</source>
-        <comment>eZMediaType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>At least one option is requied.</source>
-        <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Option value should be provided.</source>
-        <comment>eZOptionType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text line is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text line too long, maximum allowed is %1.</source>
-        <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text field is empty, content required.</source>
-        <comment>eZStringType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An user account must be filled up</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Login name exist, please choose another one.</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Email address is not valid.</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please confirm your password.</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The minimum length of password should be 3.</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Link </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Max file size:</source>
@@ -3868,6 +3712,162 @@
     </message>
     <message>
         <source>Hello</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>At least one author is requied.</source>
+        <comment>eZAuthorType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author name should be provided.</source>
+        <comment>eZAuthorType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email address is not valid.</source>
+        <comment>eZAuthorType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid file is required.</source>
+        <comment>eZBinaryFileType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid email account is required.</source>
+        <comment>eZEmailType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email address is not valid.</source>
+        <comment>eZEmailType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one field should be chosen.</source>
+        <comment>eZEnumType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not float.</source>
+        <comment>eZFloatType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be greater than %1</source>
+        <comment>eZFloatType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be less than %1</source>
+        <comment>eZFloatType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not in defined range %1 - %2</source>
+        <comment>eZFloatType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid image is required.</source>
+        <comment>eZImageType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not integer.</source>
+        <comment>eZIntegerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be greater than %1</source>
+        <comment>eZIntegerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input must be less than %1</source>
+        <comment>eZIntegerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input is not in defined range %1 - %2</source>
+        <comment>eZIntegerType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ISBN number is not correct. Please recheck the input</source>
+        <comment>eZISBNType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ISBN format is not valid.</source>
+        <comment>eZISBNType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A valid file is required.</source>
+        <comment>eZMediaType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one option is requied.</source>
+        <comment>eZOptionType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Option value should be provided.</source>
+        <comment>eZOptionType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text line is empty, content required.</source>
+        <comment>eZStringType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text line too long, maximum allowed is %1.</source>
+        <comment>eZStringType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text field is empty, content required.</source>
+        <comment>eZStringType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An user account must be filled up</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login name exist, please choose another one.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email address is not valid.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please confirm your password.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The minimum length of password should be 3.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Link </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
