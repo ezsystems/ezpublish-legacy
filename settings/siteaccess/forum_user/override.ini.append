@@ -71,4 +71,16 @@ Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
 
+[edit_forum_topic]
+Source=content/edit.tpl
+MatchFile=edit_forum_topic.tpl
+Subdir=templates
+Match[class]=21
+
+[edit_forum_reply]
+Source=content/edit.tpl
+MatchFile=edit_forum_reply.tpl
+Subdir=templates
+Match[class]=22
+
 */ ?>
