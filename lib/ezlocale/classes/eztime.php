@@ -138,8 +138,7 @@ class eZTime
     function &attribute( $name )
     {
         if ( $name == 'timestamp'  )
-            // this one for return attribute.content.timestamp as local time
-            return ( $this->timeStamp() + date( 'Z' ) );
+            return $this->timeStamp();
         else if ( $name == 'hour' )
             return $this->hour();
         else if ( $name == 'minute'  )

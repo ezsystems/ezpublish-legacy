@@ -290,6 +290,51 @@ class eZTimeType extends eZDataType
             } break;
         }
     }
+
+    /*!
+     \param package
+     \param content attribute
+
+     \return a DOM representation of the content object attribute
+    */
+    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = new eZDOMNode();
+
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+
+        $stamp = $objectAttribute->attribute( 'data_int' );
+
+        if ( !is_null( $stamp ) )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'time', eZDateUtils::rfc1123Date( $stamp ) ) );
+        }
+        return $node;
+    }
+
+    /*!
+     \reimp
+     \param package
+     \param contentobject attribute object
+     \param ezdomnode object
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $timeNode = $attributeNode->elementByName( 'time' );
+        if ( is_object( $timeNode ) )
+            $timestampNode = $timeNode->firstChild();
+        if ( is_object( $timestampNode ) )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $objectAttribute->setAttribute( 'data_int', eZDateUtils::textToDate( $timestampNode->content() ) );
+        }
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_TIME, "eztimetype" );
