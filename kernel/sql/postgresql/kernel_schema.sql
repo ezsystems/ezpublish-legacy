@@ -1522,7 +1522,7 @@ CREATE TABLE eznode_assignment (
     is_main integer DEFAULT 0 NOT NULL,
     from_node_id integer DEFAULT 0,
     remote_id integer DEFAULT 0 NOT NULL,
-    parent_remote_id character varying(100) DEFAULT ''
+    parent_remote_id character varying(100) DEFAULT '' NOT NULL
 );
 
 
