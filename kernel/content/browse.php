@@ -78,6 +78,7 @@ if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
 }
 
 $res =& eZTemplateDesignResource::instance();
+
 $keyArray = array();
 $attributeKeys = $browse->attribute( 'keys' );
 if ( is_array( $attributeKeys ) )
@@ -88,7 +89,6 @@ if ( is_array( $attributeKeys ) )
     }
 }
 $res->setKeys( $keyArray );
-
 
 $parents =& $node->attribute( 'path' );
 
@@ -106,8 +106,6 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'path', false );
 
 
-
-
 $Result = array();
 
 // Fetch the navigation part from the section information
@@ -121,6 +119,12 @@ $res =& eZTemplateDesignResource::instance();
 
 $object = $node->attribute( 'object' );
 
+if (isset( $GLOBALS['eZDesignKeys']['section'] ))
+{
+    $globalSectionID = $GLOBALS['eZDesignKeys']['section'];
+    unset($GLOBALS['eZDesignKeys']['section']);
+}
+
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'node', $node->attribute( 'node_id' ) ), // Node ID
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
@@ -128,12 +132,18 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'view_offset', $Offset ),
                       array( 'navigation_part_identifier', $Result['navigation_part'] ),
                       array( 'depth', $node->attribute( 'depth' ) ),
-                      array( 'url_alias', $node->attribute( 'url_alias' ) )
+                      array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                      array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
+                      array( 'section', $object->attribute('section_id') )
                       ) );
-
 
 $Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
+
+if (isset( $globalSectionID ))
+{
+    $GLOBALS['eZDesignKeys']['section'] = $globalSectionID;
+}
 
 $templatePath = $tpl->variable( 'path' );
 if ( $templatePath )
