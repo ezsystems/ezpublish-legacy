@@ -283,7 +283,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    function &orderStatistic( $year = false, $month = false )
+    function &orderStatistics( $year = false, $month = false )
     {
         if ( $year == false and $month == false )
         {

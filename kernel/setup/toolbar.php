@@ -344,6 +344,7 @@ $Result['path'] = array( array( 'url' => 'setup/toolbarlist',
 
 function removeRelatedCache( $siteAccess )
 {
+    // Delete compiled template
     $ini =& eZINI::instance();
     $iniPath = "settings/siteaccess/$siteAccess";
     $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
@@ -375,6 +376,12 @@ function removeRelatedCache( $siteAccess )
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+
+    // Delete template cache.
+    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+    $handler =& eZExpiryHandler::instance();
+    $handler->setTimestamp( 'content-cache', mktime() );
+    $handler->store();
 }
 
 ?>

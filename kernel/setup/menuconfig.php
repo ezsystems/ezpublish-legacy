@@ -117,6 +117,12 @@ if ( $module->isCurrentAction( 'Store' ) )
     }
     $compiledTemplateDir = $cacheDir ."/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/","pagelayout*.*" );
+
+    // Delete template cache.
+    include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+    $handler =& eZExpiryHandler::instance();
+    $handler->setTimestamp( 'content-cache', mktime() );
+    $handler->store();
 }
 
 $availableMenuArray = $menuINI->variable( 'MenuSettings', 'AvailableMenuArray' );
