@@ -61,6 +61,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed bug #6066: Error when remove node from subtree notification.
 - Fixed bug #6117: Unable to change any states of view mode when ViewCaching is disabled.
 - Fixed bug #6124: Subtree_expiry when template compiler disabled.
+- Fixed bug #6092: Extra whitespace is added after link.
+  ( Merged from stable/3.5 rev. 10611 )
+
 *Library:
 PDF:
 - Added support for GIF images.
