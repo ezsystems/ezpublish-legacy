@@ -142,6 +142,9 @@ function eZSetupStep( &$tpl, &$http, &$ini )
 				$body .= "false";
 			$body .= "\n";
 		}
+		$body .= "\n\n";
+		$body .= "Comments:\n";
+		$body .= "\"" . $http->postVariable( "comment" ) . "\"\n";
 		
 		$email->setBody( $body );
 		$email->send();
