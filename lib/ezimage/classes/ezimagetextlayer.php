@@ -173,8 +173,13 @@ class eZImageTextLayer extends eZImageLayer
         if ( !$bbox )
             return false;
 
-        $width = $bbox[4] - $bbox[6];
-        $height = $bbox[1] - $bbox[7];
+        $xmin = min( $bbox[0], $bbox[2], $bbox[4], $bbox[6] );
+        $xmax = max( $bbox[0], $bbox[2], $bbox[4], $bbox[6] );
+        $ymin = min( $bbox[1], $bbox[3], $bbox[5], $bbox[7] );
+        $ymax = max( $bbox[1], $bbox[3], $bbox[5], $bbox[7] );
+
+        $width = abs( $xmax - $xmin );
+        $height = abs( $ymax - $ymin );
         $width += $widthAdjustment;
         $height += $heightAdjustment;
 

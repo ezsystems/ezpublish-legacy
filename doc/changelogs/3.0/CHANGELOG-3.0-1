@@ -88,6 +88,7 @@ links to clickable links.
   the template.
 - It is possible to send out a feedback email to site owners when a new user registers.
   Controlled by a site.ini setting.
+- Improved clearcache to be able to handle more cache types.
 
 
 *SDK :
@@ -152,6 +153,8 @@ eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image
   since they are not specific to the template engine but rather the
   the image library. Each class now has a separate file and new names.
+- Fixed calculation of width and height from return value of BBox function,
+  now angled text should work properly.
 
 eZ locale:
 - Made sure %l was converted using locale translations instead of PHP names.
