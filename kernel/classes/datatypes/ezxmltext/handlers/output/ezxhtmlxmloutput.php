@@ -529,6 +529,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 $textElements = array();
+                include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
                 $tagText = trim( $tagText );
