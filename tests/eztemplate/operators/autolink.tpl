@@ -6,5 +6,6 @@ of our sites push tens of http://ez.no thousands of page views a month without p
 Latest svn link http://pubsvn.ez.no/websvn/listing.php?repname=nextgen&;;path=/trunk/kernel/paypal/&rev=0&sc=1
 http://www.derickrethans.nl/?c=200403132325#200403132325"|autolink}
 
-
 {"http://pubsvn.ez.no/websvn/listing.php?repname=nextgen&;path=%2Ftrunk%2Fkernel%2Fclasses%2Fdatatypes%2Fezmultioption%2F&rev=0&sc=1"|autolink}
+{"http://pubsvn.ez.no/viewcvs/*checkout*/community/trunk/extension/ezsvn/doc/screenshot_1.jpg"|autolink}
+{"http://example.com/this%20is%20right!"|autolink}

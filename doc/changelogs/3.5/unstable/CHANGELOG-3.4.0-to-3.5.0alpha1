@@ -455,7 +455,9 @@ Workflow:
 - Added missing sender and reply to when sending informationcollector mail
   (Merged from stable/3.4 rev. 7883)
   http://www.ez.no/community/bug_reports/information_collection_mail_sender_is_empty
-
+- Added all RFC 2396 allowed characters to the autolink operator. (Merged from
+  stable/3.4 rev. 7900)
+  http://www.ez.no/community/bug_reports/autolink_operator__2
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
