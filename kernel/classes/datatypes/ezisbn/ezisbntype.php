@@ -94,14 +94,14 @@ class eZISBNType extends eZDataType
     function validateISBNChecksum ( $isbnNr )
     {
         $result=0;
-        for ( $i=10;$i>0;$i-- )
+        for ( $i = 10; $i > 0; $i-- )
         {
             if ( ( $i == 1 ) and ( $isbnNr{9} == 'X' ) )
                 $result += 10 * $i;
             else
                 $result += $isbnNr{10-$i} * $i;
         }
-        if (  $result%11 == 0 )
+        if (  $result % 11 == 0 )
             return true;
         else
             return false;
