@@ -489,7 +489,7 @@ class eZINI
 
         fwrite( $fp, "#?ini charset=\"" . $this->Charset . "\"?$sep$sep" );
         $i = 0;
-        foreach( $this->OrderedBlockValues as $blockName => $orderedBlockValues )
+        /* foreach( $this->OrderedBlockValues as $blockName => $orderedBlockValues )
         {
             if ( $i > 0 )
                 fwrite( $fp, "$sep" );
@@ -501,8 +501,22 @@ class eZINI
                 fwrite( $fp, "$varKey=$varValue$sep" );
             }
             ++$i;
-        }
+        } */
 
+		foreach( array_keys( $this->BlockValues ) as $blockName )
+		{
+            if ( $i > 0 )
+                fwrite( $fp, "$sep" );
+            fwrite( $fp, "[$blockName]$sep" );
+			foreach( array_keys( $this->BlockValues[$blockName] ) as $blockVariable )
+			{
+				$varKey = $blockVariable;
+				$varValue = $this->BlockValues[$blockName][$blockVariable];
+                fwrite( $fp, "$varKey=$varValue$sep" );				
+			}
+			++$i;
+		}		
+		
         @fclose( $fp );
         return true;
     }

@@ -97,6 +97,10 @@ $GLOBALS['eZRequestedURI'] =& $uri;
 
 include_once( "pre_check.php" );
 
+// Shall we start the eZ setup module?
+if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
+    include_once( "lib/ezsetup/classes/ezsetup.php" );
+
 // include ezsession override implementation
 include( "lib/ezutils/classes/ezsession.php" );
 ob_start();
