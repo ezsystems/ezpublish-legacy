@@ -1,1 +1,1 @@
-{$attribute.content}
+{$attribute.content.output.xhtml}

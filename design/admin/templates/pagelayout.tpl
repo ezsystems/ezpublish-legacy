@@ -18,7 +18,7 @@
 
 {/section}
 
-<!-- Meta information START -->
+{* Meta information start *}
 
 {section name=meta loop=$site.meta}
 <meta name="{$meta:key}" content="{$meta:item}" />
@@ -29,13 +29,14 @@
 
 <meta name="generator" content="eZ publish" />
 
-<!-- Meta information END -->
+{* Meta information end *}
 
 </head>
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
 
-<!-- Top box START -->
+
+{* Top box START *}
 
 <form action={"/content/search/"|ezurl} method="get">
 
@@ -58,7 +59,7 @@
 
 </form>
 
-<!-- Top box END -->
+{* Top box END *}
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
