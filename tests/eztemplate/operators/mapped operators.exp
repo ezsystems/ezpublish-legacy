@@ -1,4 +1,1 @@
-foo<br />
-bar
-foo<br />
-bar
+foo%0Abar%2Cfoo-bar%2Cfoo+bar%2Cfoo%3Dbar

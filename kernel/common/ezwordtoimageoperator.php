@@ -119,7 +119,7 @@ class eZWordToImageOperator
                 if ( strlen( eZSys::wwwDir() ) > 0 )
                     $wwwDirPrefix = eZSys::wwwDir() . "/";
 
-                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '" width="32" height="32" alt="$operatorValue" />';
+                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '" width="32" height="32" alt="' .  htmlspecialchars( $operatorValue ) . '" />';
             }break;
 
             default:

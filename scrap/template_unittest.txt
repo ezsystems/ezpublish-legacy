@@ -11,12 +11,12 @@
 *unique
 *array_sum
 
-attribute
+attribute, hard to test
 
-fetch
-fetch_alias
+fetch, hard to test
+fetch_alias, hard to test
 
-currentdate
+currentdate, not possible to test
 
 null
 
@@ -25,47 +25,47 @@ null
 
 *first_set
 
-texttoimage, image, imagefile
+texttoimage, image, imagefile: hard to test
 
 *count_words
 *count_chars
-break
+*break
 
-crc32
+*crc32
 
-ezurl
-ezroot
-ezdesign
-ezimage
-exturl
+*ezurl
+*ezroot
+*ezdesign
+*ezimage
+exturl, requires database, should not be used either
 
-ezsys
-ezhttp
-ezini
+*ezsys
+*ezhttp
+*ezini
 
-i18n
-x18n
+i18n, hard to test
+x18n, hard to test
 
-month_overview
-autolink
+month_overview, hard to test
+*autolink
 
-wordtoimage
-mimetype_icon
+*wordtoimage
+*mimetype_icon
 
-ezpreference
+ezpreference, hard to test, requires database
 
-eZPHPOperator
+*eZPHPOperator
 
-module_params
+module_params, hard to test, requires running module
 
-ezpackage
+ezpackage, hard to test, requires a package
 
 *Functions without unit tests*
 
-default
+*default
 
-set-block
-append-block
-run-once
+*set-block
+*append-block
+run-once, hard to test
 
-tool_bar
+tool_bar, hard to test

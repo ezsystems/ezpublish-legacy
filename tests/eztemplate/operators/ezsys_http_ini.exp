@@ -1,0 +1,15 @@
+eZSys:
+wwwdir='/ezpublish-3.4'
+sitedir='/var/www/html'
+indexfile='/index.php/blog'
+indexdir='/ezpublish-3.4/index.php/blog'
+
+eZHTTP:
+ezhttp='1'
+ezhttp( 'SearchText' )='content management system'
+ezhttp( 'SearchText', 'post' )='content management system'
+ezhttp( 'SearchText', 'get' )='content management framework'
+
+eZINI:
+ezini( 'ExtensionSettings', 'ExtensionDirectory' )='extension'
+ezini( 'Base', 'meter', 'units.ini' )='m'

@@ -87,7 +87,7 @@ class eZTemplatePHPOperator
                                    'parameters' => false,
                                    'element-transformation' => true,
                                    'transform-parameters' => true,
-                                   'input-as-parameter' => true,
+                                   'input-as-parameter' => 'always',
                                    'element-transformation-func' => 'phpOperatorTransformation');
         }
         return $hints;

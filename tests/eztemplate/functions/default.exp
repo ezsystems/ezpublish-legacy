@@ -1,0 +1,4 @@
+
+$a should contain "some value"
+
+$b should contain "another value"

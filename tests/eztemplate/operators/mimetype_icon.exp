@@ -1,0 +1,3 @@
+text=<img src="/ezpublish-3.4//share/icons/crystal/mimetypes/32x32/ascii.png" width="32" height="32" alt="text/plain" />
+image=<img src="/ezpublish-3.4//share/icons/crystal/mimetypes/32x32/image.png" width="32" height="32" alt="image/jpeg" />
+default=<img src="/ezpublish-3.4//share/icons/crystal/mimetypes/32x32/document.png" width="32" height="32" alt="something/somewhere" />

@@ -1,4 +1,2 @@
 {"foo
-bar"|nl2br}
-{nl2br("foo
-bar")}
+bar,foo-bar,foo bar,foo=bar"|urlencode}

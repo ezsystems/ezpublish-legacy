@@ -78,28 +78,28 @@ class eZTemplateDigestOperator
                                                  'parameters' => false,
                                                  'element-transformation' => true,
                                                  'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
+                                                 'input-as-parameter' => 'always',
                                                  'element-transformation-func' => 'hashTransformation'),
                       $this->Md5Name => array( 'input' => true,
                                                'output' => true,
                                                'parameters' => true,
                                                'element-transformation' => true,
                                                'transform-parameters' => true,
-                                               'input-as-parameter' => true,
+                                               'input-as-parameter' => 'always',
                                                'element-transformation-func' => 'hashTransformation'),
                       $this->Sha1Name => array( 'input' => true,
                                                 'output' => true,
                                                 'parameters' => true,
                                                 'element-transformation' => true,
                                                 'transform-parameters' => true,
-                                                'input-as-parameter' => true,
+                                                'input-as-parameter' => 'always',
                                                 'element-transformation-func' => 'hashTransformation'),
                       $this->Rot13Name => array( 'input' => true,
                                                  'output' => true,
                                                  'parameters' => true,
                                                  'element-transformation' => true,
                                                  'transform-parameters' => true,
-                                                 'input-as-parameter' => true,
+                                                 'input-as-parameter' => 'always',
                                                  'element-transformation-func' => 'hashTransformation') );
     }
 
@@ -144,9 +144,6 @@ class eZTemplateDigestOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $digestData = $operatorValue;
-        if ( $digestData === null and
-             count( $operatorParameters ) > 0 )
-            $digestData = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
         switch ( $operatorName )
         {
             // Calculate and return crc32 polynomial.

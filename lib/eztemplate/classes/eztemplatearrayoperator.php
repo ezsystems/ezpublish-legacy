@@ -1507,7 +1507,7 @@ class eZTemplateArrayOperator
                                                                                  "required"  => true,
                                                                                  "default"   => false ),
                                                    'extract_length'    => array( "type"      => "integer",
-                                                                                 "required"  => true,
+                                                                                 "required"  => false,
                                                                                  "default"   => false ) ),
                       $this->ExtractLeftName  => array( 'length'       => array( "type"      => "integer",
                                                                                  "required"  => true,
@@ -1709,7 +1709,10 @@ class eZTemplateArrayOperator
                 // Extract a portion of the array:
                 case $this->ExtractName:
                 {
-                    $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
+                    if ( $namedParameters['extract_length'] === false )
+                        $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'] );
+                    else
+                        $operatorValue = array_slice( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
                 }
                 break;
 
@@ -1834,7 +1837,19 @@ class eZTemplateArrayOperator
                 // Replace a portion of the array:
                 case $this->ReplaceName:
                 {
-                }break;
+                    $array_one = array_slice( $operatorValue, 0, $namedParameters['offset'] );
+                    $array_two = array_slice( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
+                    $array_mid = array();
+
+                    for ( $i = 2; $i < count( $operatorParameters ); ++ $i )
+                    {
+                        $array_mid[] =& $tpl->elementValue( $operatorParameters[$i],
+                                                            $rootNamespace,
+                                                            $currentNamespace );
+                    }
+
+                    $operatorValue = array_merge( $array_one, $array_mid, $array_two );
+                } break;
 
                 // Removes duplicate values from array:
                 case $this->UniqueName:
@@ -1915,7 +1930,10 @@ class eZTemplateArrayOperator
                 // Extract a portion from/of a string:
                 case $this->ExtractName:
                 {
-                    $operatorValue = substr( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
+                    if ( $namedParameters['extract_length'] === false )
+                        $operatorValue = substr( $operatorValue, $namedParameters['extract_start'] );
+                    else
+                        $operatorValue = substr( $operatorValue, $namedParameters['extract_start'], $namedParameters['extract_length'] );
                 }
                 break;
 
@@ -1987,7 +2005,7 @@ class eZTemplateArrayOperator
                 {
                     $first  = substr( $operatorValue, 0, $namedParameters['insert_position'] );
                     $second = substr( $operatorValue, $namedParameters['insert_position'] );
-                    $operatorValue = $first.$namedParameters['insert_string'].$second;
+                    $operatorValue = $first . $namedParameters['insert_string'] . $second;
                 }break;
 
                 // Remove a portion from a string:
@@ -1995,13 +2013,24 @@ class eZTemplateArrayOperator
                 {
                     $first  = substr( $operatorValue, 0, $namedParameters['offset'] );
                     $second = substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
-                    $operatorValue = $first.$second;
+                    $operatorValue = $first . $second;
                 }break;
 
                 // Replace a portion of a string:
                 case $this->ReplaceName:
                 {
-                    // __FIX_ME__
+                    $first  = substr( $operatorValue, 0, $namedParameters['offset'] );
+                    $second = substr( $operatorValue, $namedParameters['offset'] + $namedParameters['length'] );
+                    $mid = '';
+
+                    for ( $i = 2; $i < count( $operatorParameters ); ++ $i )
+                    {
+                        $mid .= $tpl->elementValue( $operatorParameters[$i],
+                                                    $rootNamespace,
+                                                    $currentNamespace );
+                    }
+
+                    $operatorValue = $first . $mid . $second;
                 }break;
 
                 // Not implemented.

@@ -1,5 +1,4 @@
 {let arr=array( 1, 2, 3, 4, 5, 6 )}
-
 {$arr|extract( 2 )|implode( ',' )}
 {$arr|extract( 2, 2 )|implode( ',' )}
 {$arr|extract( 4, 4 )|implode( ',' )}

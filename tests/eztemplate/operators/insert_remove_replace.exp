@@ -1,13 +1,13 @@
-1,2,3,4,5,6
--2,-1,0,1,2,3
-1,2
-3
-1,2,4,5,6
--1,-2,3
+$arr|insert( 3, 4, 5, 6 )|implode( ',' )='1,2,3,4,5,6'
+$arr|insert( 0, -2, -1, 0 )|implode( ',' )='-2,-1,0,1,2,3'
+$arr|remove( 2 )|implode( ',' )='1,2'
+$arr|remove( 0, 2 )|implode( ',' )='3'
+$arr|replace( 2, 1, 4, 5, 6 )|implode( ',' )='1,2,4,5,6'
+$arr|replace( 0, 2, -1, -2 )|implode( ',' )='-1,-2,3'
 
-123456
--2-10123
-12
-3
-12456
--1-23
+$string|insert( 3, "456" )='123456'
+$string|insert( 0, "-2-10" )='-2-10123'
+$string|remove( 2 )='12'
+$string|remove( 0, 2 )='3'
+$string|replace( 2, 1, "456" )='12456'
+$string|replace( 0, 2, "-1-2" )='-1-23'
