@@ -205,7 +205,7 @@ function checkAll()
 	</td>
         {/section} 
 	<td>
-        <a href={concat('content/view/full/',$:item.node_id)|ezurl}>{node_view_gui view=line content_node=$:item}</a>
+        <a href={concat($:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
 
 {*        {node_view_gui view=line content_node=$:item} *}
 	</td>
