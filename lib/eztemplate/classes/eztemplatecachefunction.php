@@ -197,12 +197,19 @@ class eZTemplateCacheFunction
                                    "    }\n" .
                                    "    else\n" .
                                    "    {\n" .
-                                   "        \$subtreeNodeIDSQL = \"SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='\$subtree'\";\n" .
-                                   "        \$subtreeNodeID =& \$db->arrayQuery( \$subtreeNodeIDSQL );\n" .
-                                   "        if ( count( \$subtreeNodeID ) == 1 )\n" .
-                                   "        {\n" .
-                                   "            \$subtreeNodeID = \$subtreeNodeID[0]['node_id'];\n" .
-                                   "        }\n" .
+                                   "         if ( \$subtree == '' )\n" .
+                                   "         {\n" .
+                                   "              \$subtreeNodeID = 2;\n" .
+                                   "         }\n" .
+                                   "         else\n" .
+                                   "         {\n" .
+                                   "              \$subtreeNodeIDSQL = \"SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='\$subtree'\";\n" .
+                                   "              \$subtreeNodeID =& \$db->arrayQuery( \$subtreeNodeIDSQL );\n" .
+                                   "              if ( count( \$subtreeNodeID ) == 1 )\n" .
+                                   "              {\n" .
+                                   "                   \$subtreeNodeID = \$subtreeNodeID[0]['node_id'];\n" .
+                                   "              }\n" .
+                                   "         }\n" .
                                    "    }\n" .
                                    "    \$cacheKey =& \$db->escapeString( \$cachePath );\n" .
                                    "\n" .
@@ -444,7 +451,7 @@ ENDADDCODE;
                          filemtime( $phpPath ) >= $expiryTime )
                     {
                         $fp = fopen( $phpPath, 'r' );
-                        $textElements[] = fread( $fp, filesize( $phpPath ) );;
+                        $textElements[] = fread( $fp, filesize( $phpPath ) );
                         fclose( $fp );
                     }
                     else
@@ -494,16 +501,23 @@ ENDADDCODE;
                             }
                             else
                             {
-                                $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
-                                $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
-                                if ( count( $subtreeNodeID ) != 1 )
+                                if ( $subtree == '' )
                                 {
-                                    eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
-                                    break;
+                                    $subtreeNodeID = 2;
                                 }
                                 else
                                 {
-                                    $subtreeNodeID = $subtreeNodeID[0]['node_id'];
+                                    $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
+                                    $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
+                                    if ( count( $subtreeNodeID ) != 1 )
+                                    {
+                                        eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        $subtreeNodeID = $subtreeNodeID[0]['node_id'];
+                                    }
                                 }
                             }
 
