@@ -14,7 +14,7 @@ body
 
 /* Global setting of font types */
 
-h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input
+h1, h2, h3, p, a, th, td, ul, ol, li, dl, dd, dt, label, div, span, input, textarea
 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
 }
@@ -27,12 +27,12 @@ h1
 
 h2
 {
-    font-size: 130%;
+    font-size: 120%;
 }
 
 h3
 {
-    font-size: 100%;
+    font-size: 80%;
 }
 
 p, li, dl, label, input, .normal
@@ -54,7 +54,6 @@ h1, h2, h3
     padding-left: 0;
     padding-right: 0;
     margin: 0;
-    font-weight: normal;
     clear: left;
 }
 
@@ -62,6 +61,17 @@ h1
 {
     padding-top: 0.5ex;
     padding-bottom: 1ex;
+    font-weight: normal;
+}
+
+h2
+{
+    font-weight: normal;
+}
+
+h3
+{
+    font-weight: bold;
 }
 
 /* Regular text */
@@ -225,7 +235,7 @@ div.break
     margin-bottom: 1ex;
 }
 
-div.block, div.buttons
+div.block
 {
     clear: both;
     padding: 0;
@@ -235,8 +245,8 @@ div.block, div.buttons
 
 div.buttonblock
 {
-    margin-top: 2ex;
-    margin-bottom: 2ex;
+    margin-top: 1ex;
+    margin-bottom: 1ex;
 }
 
 div.element

@@ -49,9 +49,9 @@
     <td class="topbox" valign="bottom" width="20%">
 {*    <p class="menuitem"><a class="menuitem" href="/user/logout/">Log out</a></p> *}
 
-    <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label>
-    <p class="topline"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/password/{$current_user.contentobject_id}">Change Password</a></p>
-    <p class="topline">
+    <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
+    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href="/user/password/{$current_user.contentobject_id}">Change Password</a></p>
+    <p style="padding: 0;">
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
     {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
     <a class="topline" href="/user/login/">Login</a>
@@ -67,9 +67,9 @@
 
 <!-- Top box END -->
 
-<table class="layout" width="100%" cellpadding="1" cellspacing="0" border="0">
+<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="pathline" colspan="3">
+    <td class="pathline" colspan="2">
 
 <!-- Main path START -->
 
@@ -91,7 +91,7 @@
         <span class="slash">/</span>
         {/delimiter}
     {/section}
-    </p>
+    &nbsp;</p>
     </td>
 </tr>
 </table>

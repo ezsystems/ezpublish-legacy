@@ -1,4 +1,4 @@
-<table width="100%" cellpadding="2" cellspacing="0">
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
 {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
 {case match=flash}
 <tr>

@@ -162,7 +162,12 @@ td.mainarea
 	padding: 12px;
 }
 
-table.list th, td.bglight, td.bgdark
+td.bglight, td.bgdark
+{
+	border-top: solid 1px #e0f4ff;
+}
+
+table.list
 {
 	border-bottom: solid 1px #e0f4ff;
 }
@@ -216,4 +221,10 @@ a.selectbar:hover, td.selected
     color: #ffffff;
     text-decoration: none;
 }
-                                                                                                                                                                                                                                                             
+
+input.menubutton
+{
+    font-weight: bold;
+    font-size: 70%;
+    margin: 4px;
+}                                                                                                                                                                                                                                 
