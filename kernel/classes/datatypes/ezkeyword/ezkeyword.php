@@ -90,7 +90,8 @@ class eZKeyword
     */
     function initializeKeyword( $keywordString )
     {
-        $keywordArray =& explode( ",", $keywordString );
+	if ( !is_array( $keywordString ) )
+            $keywordArray =& explode( ",", $keywordString );
         foreach ( array_keys( $keywordArray ) as $key )
         {
             if ( trim( $keywordArray[$key] ) != "" )
