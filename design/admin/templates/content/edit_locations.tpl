@@ -73,7 +73,11 @@
 
     {* Sub items. *}
     <td>
+    {section show=$Node:item.node|not}
+    0
+    {section-else}
     {$Node:item.node.children_count}
+    {/section}
     </td>
 
     {* Sorting. *}
