@@ -428,13 +428,15 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
                     $objectVersions =& $object->versions();
                     foreach ( $objectVersions as $objectVersion )
                     {
-                        //$version = $objectVersion->attribute( "version" );
-                        //$objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
-                        //$objectAttribute->storeNewRow();
+                        $translations = $objectVersion->translations( false );
                         $version = $objectVersion->attribute( "version" );
-                        $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
-                        $objectAttribute->initialize();
-                        $objectAttribute->store();
+                        foreach ( $translations as $translation )
+                        {
+                            $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                            $objectAttribute->setAttribute( 'language_code', $translation );
+                            $objectAttribute->initialize();
+                            $objectAttribute->store();
+                        }
                     }
                 }
             }

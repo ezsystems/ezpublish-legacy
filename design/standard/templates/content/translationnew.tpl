@@ -17,8 +17,8 @@
 <select name="LocaleID">
   <option value="-1">{"Custom"|i18n("design/standard/content")}</option>
   {section loop=fetch("content","locale_list")}
-  <option value="{$:item.locale_full_code}">
-  {$:item.language_name}{section show=$:item.country_variation} [{$:item.language_comment}]{/section}
+  <option value="{$:item.locale_full_code|wash}">
+  {$:item.intl_language_name|wash}{section show=$:item.country_variation} [{$:item.language_comment|wash}]{/section}
   </option>
   {/section}
 </select>
