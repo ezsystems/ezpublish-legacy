@@ -1,4 +1,4 @@
-{let item_type=ezpreference( 'items' )
+{let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      list_count=fetch( content, pending_count )
      pending_list=fetch( content, pending_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) )}
@@ -21,22 +21,22 @@
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/items/1/content/pendinglist'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/content/pendinglist'|ezurl}>10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/items/3/content/pendinglist'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/content/pendinglist'|ezurl}>50</a>
 
         {/case}
 
         {case match=50}
-        <a href={'/user/preferences/set/items/1/content/pendinglist'|ezurl}>10</a>
-        <a href={'/user/preferences/set/items/2/content/pendinglist'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/content/pendinglist'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/content/pendinglist'|ezurl}>25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/items/2/content/pendinglist'|ezurl}>25</a>
-        <a href={'/user/preferences/set/items/3/content/pendinglist'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/content/pendinglist'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/content/pendinglist'|ezurl}>50</a>
         {/case}
 
         {/switch}

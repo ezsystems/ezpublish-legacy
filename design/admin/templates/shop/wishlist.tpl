@@ -1,4 +1,4 @@
-{let item_type=ezpreference( 'items' )
+{let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      wish_list_items=fetch( 'shop', 'wish_list', hash( 'production_id', $wish_list.productcollection_id, 'offset', $view_parameters.offset, 'limit', number_of_items ) )
      wish_list_count=fetch( 'shop', 'wish_list_count', hash( 'production_id', $wish_list.productcollection_id ) )}
@@ -24,21 +24,21 @@
 <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/items/1/shop/wishlist'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/shop/wishlist'|ezurl}>10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/items/3/shop/wishlist'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/shop/wishlist'|ezurl}>50</a>
     {/case}
 
     {case match=50}
-        <a href={'/user/preferences/set/items/1/shop/wishlist'|ezurl}>10</a>
-        <a href={'/user/preferences/set/items/2/shop/wishlist'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/shop/wishlist'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/shop/wishlist'|ezurl}>25</a>
         <span class="current">50</span>
     {/case}
 
     {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/items/2/shop/wishlist'|ezurl}>25</a>
-        <a href={'/user/preferences/set/items/3/shop/wishlist'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/shop/wishlist'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/shop/wishlist'|ezurl}>50</a>
     {/case}
     {/switch}
 </p>

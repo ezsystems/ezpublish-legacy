@@ -141,7 +141,7 @@
 
 
 {* Objects window. *}
-{let item_type=ezpreference( 'items' )
+{let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      objects=fetch( section, object_list, hash( section_id, $section.id, limit,$number_of_items, offset, $view_parameters.offset ) )
      objects_count=fetch( 'section', 'object_list_count', hash( section_id, $section.id ) )}

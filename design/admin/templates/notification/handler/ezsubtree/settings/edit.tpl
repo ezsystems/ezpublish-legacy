@@ -1,4 +1,4 @@
-{let item_type=ezpreference( 'items' )
+{let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      subscribed_nodes=fetch( 'notification', 'subscribed_nodes', hash( 'limit', $number_of_items, 'offset', $view_parameters.offset ) )
      subscribed_nodes_count=fetch( 'notification', 'subscribed_nodes_count')}
@@ -20,21 +20,21 @@
 <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/items/1/notification/settings'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/notification/settings'|ezurl}>10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/items/3/notification/settings'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/notification/settings'|ezurl}>50</a>
     {/case}
 
     {case match=50}
-        <a href={'/user/preferences/set/items/1/notification/settings'|ezurl}>10</a>
-        <a href={'/user/preferences/set/items/2/notification/settings'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/1/notification/settings'|ezurl}>10</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/notification/settings'|ezurl}>25</a>
         <span class="current">50</span>
     {/case}
 
     {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/items/2/notification/settings'|ezurl}>25</a>
-        <a href={'/user/preferences/set/items/3/notification/settings'|ezurl}>50</a>
+        <a href={'/user/preferences/set/admin_list_limit/2/notification/settings'|ezurl}>25</a>
+        <a href={'/user/preferences/set/admin_list_limit/3/notification/settings'|ezurl}>50</a>
     {/case}
     {/switch}
 </p>
