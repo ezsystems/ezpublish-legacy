@@ -5745,7 +5745,7 @@ Klikk navnene til objektene for å gå igjennom treet.</translation>
         <source>Your account was successfully created. An e-mail will be sent to the specified
 e-mail address. You need to follow the instructions in that mail to activate
 your account.</source>
-        <translation>Kontoen ble laget. En e-post vil bli sent til den spesifiserte
+        <translation>Kontoen ble laget. En e-post vil bli sendt til den spesifiserte
 e-post adressen. Du må da følge instruksjonene i e-posten for
 å aktivere kontoen.</translation>
     </message>
