@@ -289,7 +289,17 @@ div#maincontent-design h1
     margin-bottom: 0px;
 }
 
-div#maincontent-design div.content-short p
+/*
+div#maincontent-design h2
+{ 
+    font: 13pt bold;
+    color: #099;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+*/
+
+div#maincontent-design div.class-article div.content-short p
 { 
     padding-top: 0px;
     margin-top: 0px;
