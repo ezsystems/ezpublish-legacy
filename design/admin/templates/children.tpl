@@ -68,7 +68,7 @@ Items:
         <a href={'/user/preferences/set/items/3'|ezurl}>50</a>
         {/case}
 
-        {/swtich}
+        {/switch}
 
 </div>
 <div class="right">
@@ -110,6 +110,10 @@ Items:
             {set can_create=true()}
         {/section}
     {/section}
+
+{section show=$node.parent}
+<a href={$node.parent.url_alias|ezurl}>[Up one level]</a>
+{/section}
 
 {* Display the actual list of nodes. *}
 {section show=eq( ezpreference( 'viewmode' ), 'thumbnail' )}
