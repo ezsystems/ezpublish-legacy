@@ -159,7 +159,7 @@ class eZImageAliasHandler
     function isImageOwner()
     {
         $originalData = $this->originalAttributeData();
-        return !$originalData['attribute_id'];
+        return ( $originalData['attribute_id'] === false );
     }
 
 //     function hasFileCopy()
