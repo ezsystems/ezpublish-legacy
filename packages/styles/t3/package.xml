@@ -21,7 +21,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082670825</timestamp>
+    <timestamp>1082677274</timestamp>
     <host>amos.ez.no</host>
   </packaging>
   <documents>
@@ -29,7 +29,7 @@ Upgrades to the development format will not be supported.</warning>
               name="README" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082670825"
+    <entry timestamp="1082677274"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1">
@@ -49,7 +49,7 @@ Upgrades to the development format will not be supported.</warning>
                  variable-name="classescssfile">
         <file name="classes-colors.css"
               sub-directory="design/base/stylesheets/t3"
-              md5sum="a96cc5666fd54667ee0dc6e06ba6d128" />
+              md5sum="d3579484358f80c5394ab8f7c8480b6f" />
       </file-list>
       <file-list type="thumbnail"
                  variable-name="thumbnail">

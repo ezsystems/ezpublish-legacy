@@ -21,7 +21,7 @@ Upgrades to the development format will not be supported.</warning>
     </maintainer>
   </maintainers>
   <packaging xmlns:ezpackaging="http://ez.no/ezpackage">
-    <timestamp>1082670838</timestamp>
+    <timestamp>1082677287</timestamp>
     <host>amos.ez.no</host>
   </packaging>
   <documents>
@@ -29,7 +29,7 @@ Upgrades to the development format will not be supported.</warning>
               name="README" />
   </documents>
   <changelog xmlns:ezchangelog="http://ez.no/ezpackage">
-    <entry timestamp="1082670838"
+    <entry timestamp="1082677287"
            person="Anonymous User"
            email="nospam@ez.no"
            release="1">
