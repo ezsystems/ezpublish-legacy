@@ -51,9 +51,19 @@ $featureArray = array();
 $featureArray[] = array( "level" => 0,
                          "name" => "Key concepts" );
 
-$featureArray[] = array( "uri" => "module_system",
+$featureArray[] = array( "uri" => "main_concepts",
                          "level" => 0,
-                         "name" => "Module system" );
+                         "name" => "Main concepts" );
+$featureArray[] = array( "uri" => "content_classes",
+                         "level" => 0,
+                         "name" => "Custom content" );
+$featureArray[] = array( "uri" => "workflows",
+                         "level" => 0,
+                         "name" => "Custom workflow" );
+$featureArray[] = array( "uri" => "datatypes",
+                         "level" => 0,
+                         "name" => "Datatypes" );
+
 
 $infoArray["features"] =& $featureArray;
 

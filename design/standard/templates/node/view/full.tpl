@@ -84,7 +84,7 @@
 
 {section show=$with_children}
 
-{let children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
+{let children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
 
 {section show=$children}
 
@@ -105,7 +105,7 @@
     Remove:
     </th>
 </tr>
-{section name=Child loop=$children}
+{section name=Child loop=$children  sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Child:sequence}">
         <a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>{node_view_gui view=line content_node=$Child:item}</a>
@@ -182,12 +182,12 @@
 {switch match=$content_object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <input class="button" type="submit" name="NewButton" value="New" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
+         <input class="button" type="submit" name="NewButton" value="New" />
 {/case}
 {case match=0}
 

@@ -94,7 +94,7 @@
 </tr>
 {/section}
 <tr>
-    <td width="20%" bgcolor="#ffffff" valign="top">
+    <td width="150" bgcolor="#ffffff" valign="top">
     {* Menu *}
 
 
@@ -259,7 +259,7 @@
 
     {* end menu *}
     </td>
-    <td width="80%" bgcolor="#ffffff">
+    <td width="90%" bgcolor="#ffffff" valign="top">
     {* This is the main content *}
 
     {$module_result.content}

@@ -34,7 +34,7 @@
 	<th>Class:</th>
 	<th>Edit:</th>
 	<th align="right">
-	<input class="button" type="submit" name="RemoveButton" value="Remove" />
+	Remove:
 	</th>
 </tr>
 
@@ -73,6 +73,15 @@
         </td>
 </tr>
 {/section}
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td align="right">
+	<input class="button" type="submit" name="RemoveButton" value="Remove" />
+	</td>
+</tr>
 </table>
 
 {include name=navigator
@@ -86,12 +95,12 @@
 {switch match=$content_object.can_create}
 {case match=1}
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
-         <input class="button" type="submit" name="NewButton" value="New" />
          <select name="ClassID">
 	      {section name=Classes loop=$content_object.can_create_class_list}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
+         <input class="button" type="submit" name="NewButton" value="New" />
 {/case}
 {case match=0}
 <div class="warning">

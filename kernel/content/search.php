@@ -71,6 +71,9 @@ if ( $http->hasVariable( "SubTreeArray" ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
+$searchText = eZSearch::normalizeText( $searchText );
+
+
 
 $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
                                                        "SearchSectionID" => $searchSectionID,
@@ -88,5 +91,6 @@ $Result['path'] = array( array( 'text' => 'Search',
                          array( 'text' => 'Normal',
                                 'url' => false ) );
 
-eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
+if ( trim( $searchText ) != "" )
+    eZSearchLog::addPhrase( $searchText, $searchResult["SearchCount"] );
 ?>

@@ -108,12 +108,30 @@ class eZSearch
             $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
         }
 
-        include( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
         $searchEngine = new $searchEngineString;
 
         return $searchEngine->search( $searchText, $params );
     }
 
+    /*!
+     \static
+    */
+    function &normalizeText( $text )
+    {
+        $ini =& eZINI::instance();
+
+        $searchEngineString = "ezsearch";
+        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        {
+            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+        }
+
+        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        $searchEngine = new $searchEngineString;
+
+        return $searchEngine->normalizeText( $text );
+    }
 }
 
 ?>

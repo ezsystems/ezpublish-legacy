@@ -98,7 +98,7 @@ class eZSearchLog
                     ezsearch_search_phrase.id = ezsearch_return_count.phrase_id
                   GROUP BY
                     ezsearch_return_count.phrase_id
-                  ORDER BY count DESC';
+                  ORDER BY phrase_count DESC LIMIT 50';
 
         $phraseArray =& $db->arrayQuery( $query );
 

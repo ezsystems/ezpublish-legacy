@@ -23,6 +23,7 @@ Changes from 2.9-5 to 2.9-6
 - Supported more tags in xml input such as <bold>, <em> and table width specification
 - Changed the return url when editing or creating a class, the new return url will be the class list page
   where the class belongs to.
+- Addeed limit to search stats page.
 
 shop:
 - Added more information to order list
