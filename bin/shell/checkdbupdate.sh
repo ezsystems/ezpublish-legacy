@@ -61,7 +61,7 @@ fi
 
 DEST="/tmp/ez-$USER"
 
-if [ "$VERSION" == "$VERSION_ONLY"".0" ]; then
+if [ -z "$VERSION_PREVIOUS" ]; then
     to="$VERSION"
     from="$VERSION_STABLE"
     has_setval="false"
@@ -79,28 +79,28 @@ PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$from"
 if [ "$DB_TYPE" == "mysql" ]; then
     mysqladmin -uroot -f drop "$DATABASE_NAME" &>/dev/null
     echo -n "MySQL:"
-    echo -n " `$POSITION_STORE`Creating"
+    echo -n " `$POSITION_STORE`Creating($DATABASE_NAME)"
     mysqladmin -uroot create "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`Creating(`$SETCOLOR_FAILURE`$DATABASE_NAME`$SETCOLOR_NORMAL`)"
 	echo "Failed to create MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`($DATABASE_NAME)"
 
     mysql_schema_url="$PREVIOUS_SCHEMA_URL/kernel/sql/mysql/"
     rm -rf "$DEST/mysql"
-    echo -n " `$POSITION_STORE`Exporting"
+    echo -n " `$POSITION_STORE`Exporting($from)"
     svn export "$mysql_schema_url" "$DEST/mysql" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`Exporting(`$SETCOLOR_FAILURE`$from`$SETCOLOR_NORMAL`)"
 	echo "Failed checking out MySQL database schema `$SETCOLOR_EMPHASIZE`$mysql_schema_url`$SETCOLOR_NORMAL` from version `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`($from)"
 
     echo -n " `$POSITION_STORE`Initializing"
-    mysql -uroot "$DATABASE_NAME" < "$DEST/mysql/kernel_schema.sql"
+    mysql -uroot "$DATABASE_NAME" < "$DEST/mysql/kernel_schema.sql" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo
 	echo "Failed to initialize MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with kernel_schema.sql"
@@ -111,14 +111,20 @@ if [ "$DB_TYPE" == "mysql" ]; then
     rm -rf "$DEST/mysql"
 
     dbupdatefile="update/database/mysql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
-    echo -n " `$POSITION_STORE`Updating"
-    mysql -uroot "$DATABASE_NAME" < "$dbupdatefile"
+    echo -n " `$POSITION_STORE`Updating""($from""=>""$VERSION)"
+    if [ ! -f "$dbupdatefile" ]; then
+	echo "`$POSITION_RESTORE`Updating(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
+	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
+	echo "Update file `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` does not exist"
+	exit 1
+    fi
+    mysql -uroot "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`Updating(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
 	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`""($from""=>""$VERSION)"
 
     echo -n " `$POSITION_STORE`Validating"
     ./bin/php/ezsqldiff.php --type=mysql "$DATABASE_NAME" share/db_mysql_schema.dat &>/dev/null
@@ -136,25 +142,25 @@ if [ "$DB_TYPE" == "mysql" ]; then
 elif [ "$DB_TYPE" == "postgresql" ]; then
     dropdb "$DATABASE_NAME" &>/dev/null
     echo -n "PostgreSQL:"
-    echo -n " `$POSITION_STORE`Creating"
+    echo -n " `$POSITION_STORE`Creating($DATABASE_NAME)"
     createdb "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`Creating(`$SETCOLOR_FAILURE`$DATABASE_NAME`$SETCOLOR_NORMAL`)"
 	echo "Failed to create PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`($DATABASE_NAME)"
 
     postgresql_schema_url="$PREVIOUS_SCHEMA_URL/kernel/sql/postgresql/"
     rm -rf "$DEST/postgresql"
-    echo -n " `$POSITION_STORE`Exporting"
+    echo -n " `$POSITION_STORE`Exporting($from)"
     svn export "$postgresql_schema_url" "$DEST/postgresql" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`Exporting(`$SETCOLOR_FAILURE`$from`$SETCOLOR_NORMAL`)"
 	echo "Failed checking out PostgreSQL database schema `$SETCOLOR_EMPHASIZE`$postgresql_schema_url`$SETCOLOR_NORMAL` from version `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Exporting`$SETCOLOR_NORMAL`($from)"
 
     echo -n " `$POSITION_STORE`Initializing"
     psql "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>/dev/null
@@ -176,14 +182,14 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
     rm -rf "$DEST/postgresql"
 
     dbupdatefile="update/database/postgresql/""$VERSION_BRANCH""/""$SUBPATH""dbupdate-""$from""-to-""$VERSION"".sql"
-    echo -n " `$POSITION_STORE`Updating"
+    echo -n " `$POSITION_STORE`Updating""($from""=>""$VERSION)"
     psql "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo
+	echo "`$POSITION_RESTORE`""(`$SETCOLOR_FAILURE`$from""=>""$VERSION`$SETCOLOR_NORMAL`)"
 	echo "Failed to run database update `$SETCOLOR_EMPHASIZE`$dbupdatefile`$SETCOLOR_NORMAL` for PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
 	exit 1
     fi
-    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`"
+    echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Updating`$SETCOLOR_NORMAL`""($from""=>""$VERSION)"
 
     echo -n " `$POSITION_STORE`Validating"
     ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_postgresql_schema.dat &>/dev/null
