@@ -7,3 +7,5 @@ Changes from 3.3-1 to 3.3-2
 - Fixed mysql server and client version information. ( merged from 3.2 stable rev. 4658 ) http://ez.no/developer/ez_publish_3/bug_reports/mysqldb_class
 - Fixed showing class in tabletes when using xml and table, th and td elements. ( merged from 3.2 stable rev. 4662 )
   http://ez.no/developer/ez_publish_3/bug_reports/classification_var_is_missing_in_ezxmltags_templates
+- Fixed bug of wrong encoding for chi-CN locale file.
+  http://ez.no/developer/ez_publish_3/bug_reports/wrong_encoding_for_chi_cn_locale_file
