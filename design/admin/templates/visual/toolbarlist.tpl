@@ -18,7 +18,7 @@
     {section show=$current_siteaccess}
 {*        <p>{'Current siteaccess'|i18n( 'design/admin/visual/toolbar' )}: <strong>{$current_siteaccess}</strong></p> *}
     {/section}
-{*        <label>{'Select siteaccess'|i18n( 'design/admin/visual/toolbar' )}</label><div class="labelbreak"></div> *}
+{*        <label>{'Select siteaccess'|i18n( 'design/admin/visual/toolbar' )}:</label> *}
 
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}

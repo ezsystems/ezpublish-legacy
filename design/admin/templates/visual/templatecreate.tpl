@@ -27,7 +27,7 @@
 <p>{'The newly created template file will be placed in'|i18n( 'design/admin/visual/templatecreate' )} design/{$site_design}/override/templates/.</p>
 
 <div class="block">
-    <label>{'Filename'|i18n( 'design/admin/visual/templatecreate' )}</label>
+    <label>{'Filename'|i18n( 'design/admin/visual/templatecreate' )}:</label>
     <input class="halfbox" type="text" name="TemplateName" value="{$template_name}" />.tpl
 </div>
 
@@ -35,7 +35,7 @@
 {switch match=$template_type}
 {case match='node_view'}
 <div class="block">
-<label>{'Override keys'|i18n( 'design/admin/visual/templatecreate' )}</label>
+<label>{'Override keys'|i18n( 'design/admin/visual/templatecreate' )}:</label>
 
 <table>
 <tr>
@@ -69,7 +69,7 @@
 
 
 <div class="block">
-<label>{'Base template on'|i18n( 'design/admin/visual/templatecreate' )}</label>
+<label>{'Base template on'|i18n( 'design/admin/visual/templatecreate' )}:</label>
 <input type="radio" name="TemplateContent" value="EmptyFile" checked="checked"/>{'Empty file'|i18n( 'design/admin/visual/templatecreate' )}<br />
 <input type="radio" name="TemplateContent" value="DefaultCopy" />{'Copy of default template'|i18n( 'design/admin/visual/templatecreate' )}<br />
 <input type="radio" name="TemplateContent" value="ContainerTemplate" />{'Container (with children)'|i18n( 'design/admin/visual/templatecreate' )}<br />

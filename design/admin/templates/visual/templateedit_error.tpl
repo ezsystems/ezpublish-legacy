@@ -38,18 +38,18 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Requested template'|i18n( 'design/admin/visual/templateedit' )}</label>
+<label>{'Requested template'|i18n( 'design/admin/visual/templateedit' )}:</label>
 {$template|wash}
 </div>
 
 <div class="block">
-<label>{'Siteaccess'|i18n( 'design/admin/visual/templateedit' )}</label>
+<label>{'Siteaccess'|i18n( 'design/admin/visual/templateedit' )}:</label>
 {$site_access|wash}
 </div>
 
 {section show=$original_template}
 <div class="block">
-<label>{'Overrides template'|i18n( 'design/admin/visual/templateedit' )}</label>
+<label>{'Overrides template'|i18n( 'design/admin/visual/templateedit' )}:</label>
 <a href={concat( 'visual/templateview', $original_template )|ezurl}>{$original_template|wash}</a>
 </div>
 {/section}
