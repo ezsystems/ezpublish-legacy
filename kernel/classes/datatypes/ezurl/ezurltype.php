@@ -252,6 +252,9 @@ class eZURLType extends eZDataType
             $node->appendChild( $urlNode );
         }
 
+        if ( $objectAttribute->attribute( 'data_text' ) )
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'text', $objectAttribute->attribute( 'data_text' ) ) );
+
         return $node;
     }
 
@@ -264,7 +267,8 @@ class eZURLType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $urlNode = $attributeNode->elementByName( 'url' );
-        $urlTextNode = $urlNode->firstChild();
+        if ( is_object( $urlNode ) )
+            $urlTextNode = $urlNode->firstChild();
         if ( is_object( $urlTextNode ) )
         {
             unset( $url );
@@ -283,9 +287,10 @@ class eZURLType extends eZDataType
                 $urlObject->store();
 
                 $objectAttribute->setAttribute( 'data_int', $urlID );
-                $objectAttribute->store();
             }
         }
+        if ( $attributeNode->elementTextContentByName( 'text' ) )
+            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'text' ) );
     }
 }
 
