@@ -418,7 +418,6 @@ class eZTemplateSetFunction
         $php->addVariable( $prefix . 'FunctionParameters', $functionParameters );
         if ( isset( $functionParameters['name'] ) )
         {
-//             $code1 .= $nameVar . ' = $this->elementValue( ' . $parameterVar . '[\'name\'], $rootNamespace, $currentNamespace, ' . $placementVar . ' );' . "\n";
             eZTemplateProcessCache::processVariable( $php, $tpl, $resourceData, $functionParameters['name'], $functionPlacement,
                                                      0, $prefix . 'Name', EZ_PHPCREATOR_VARIABLE_ASSIGNMENT );
         }
@@ -486,35 +485,6 @@ class eZTemplateSetFunction
     }
 }
 ';
-        }
-        else
-        {
-//             foreach ( array_keys( $functionParameters ) as $key )
-//             {
-//                 $item =& $functionParameters[$key];
-//                 switch ( $key )
-//                 {
-//                     case 'name':
-//                         break;
-
-//                     default:
-//                     {
-//                         if ( !$tpl->hasVariable( $key, $name ) )
-//                         {
-//                             $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
-//                             $tpl->setVariableRef( $key, $itemValue, $name );
-//                             $definedVariables[] = $key;
-//                         }
-//                         else
-//                         {
-//                             $varname = $key;
-//                             if ( $name != '' )
-//                                 $varname = "$name:$varname";
-//                             $tpl->warning( $functionName, "Variable '$varname' already exists, cannot define" );
-//                         }
-//                     } break;
-//                 }
-//             }
         }
 
         if ( $functionName == $this->LetName or

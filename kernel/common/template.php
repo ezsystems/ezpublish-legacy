@@ -45,7 +45,6 @@ function &templateInit( $name = false )
 
     include_once( 'kernel/common/eztemplatedesignresource.php' );
 
-// Init template
     $tpl = eZTemplate::instance();
 
     include_once( 'lib/ezutils/classes/ezini.php' );

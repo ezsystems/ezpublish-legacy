@@ -211,7 +211,7 @@ class eZTemplateUnitOperator
                 if ( $output )
                 {
                     $val = pow( $prefix_base, (int)$prefix_var[0] );
-                    $output = number_format( $output / $val, 2 ); // TODO
+                    $output = number_format( $output / $val, 2 );
                     $prefix_var = $prefix_var[1];
                 }
                 else

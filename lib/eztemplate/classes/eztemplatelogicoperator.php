@@ -669,6 +669,7 @@ class eZTemplateLogicOperator
         }
     }
 
+    /// \privatesection
     /// The array of operators
     var $Operators;
     /// The "less than" name

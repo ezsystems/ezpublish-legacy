@@ -626,10 +626,6 @@ class eZTemplateSectionFunction
                 $code .= ", \$sequence";
             $code .= " );";
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-
-//             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse if ( is_numeric( \$loopItem ) )\n{\n" );
-//             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse if ( is_string( \$loopItem ) )\n{\n" );
-//             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
         }
         else
         {
@@ -995,14 +991,6 @@ class eZTemplateSectionFunction
             if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
                 $last = $tpl->variable( $variableIterator, $name );
             $variableValue->setIteratorValues( $item, $key, $index, $index + 1, false, $last );
-//             $variableValue = array( 'key' => $key,
-//                                     'item' => $item,
-//                                     'index' => $index,
-//                                     'number' => $index + 1,
-//                                     'sequence' => false,
-//                                     'last' => false );
-//             if ( !$noLastValue and $tpl->hasVariable( $variableIterator, $name ) )
-//                 $variableValue['last'] =& $tpl->variable( $variableIterator, $name );
             $tpl->setVariableRef( $variableIterator, $variableValue, $name );
         }
         else
@@ -1067,7 +1055,6 @@ class eZTemplateSectionFunction
             if ( $variableIterator !== null )
             {
                 $variableValue->setSequence( $sequenceValue );
-//                 $variableValue['sequence'] = $sequenceValue;
             }
             else
             {
@@ -1075,10 +1062,6 @@ class eZTemplateSectionFunction
             }
             $sequenceStructure[] = $sequenceValue;
         }
-//         if ( $variableIterator !== null )
-//         {
-//             $tpl->setVariable( $variableIterator, $variableValue, $name );
-//         }
         foreach ( array_keys( $children ) as $childKey )
         {
             $child =& $children[$childKey];

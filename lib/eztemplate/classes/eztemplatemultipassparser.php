@@ -68,9 +68,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $relatedResource = $relation['resource'];
         $relatedTemplateName = $relation['template-filename'];
 
-//         $tpl->setRelation( $rootElement, $relatedResource, $relatedTemplateName );
-//         $tpl->CurrentRelatedResource = $relatedResource;
-//         $tpl->CurrentRelatedTemplateName = $relatedTemplateName;
         $currentRoot =& $rootElement;
         $leftDelimiter = $tpl->LDelim;
         $rightDelimiter = $tpl->RDelim;
@@ -215,9 +212,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $textPortion = substr( $sourceText, $tagPos );
                         $this->gotoEndPosition( $textBefore, $currentLine, $currentColumn, $tagStartLine, $tagStartColumn );
                         $this->gotoEndPosition( $textPortion, $tagStartLine, $tagStartColumn, $tagEndLine, $tagEndColumn );
-//                         $textPortion = substr( $data, 0, 10 );
-//                         if ( strlen( $data ) > strlen( $textPortion ) )
-//                             $textPortion .= '...';
                         $tpl->warning( "", "Unterminated tag, needs a $rightDelimiter to end the tag.\n" . $leftDelimiter . $textPortion,
                                        array( array( $tagStartLine, $tagStartColumn, $tagPosition ),
                                               array( $tagEndLine, $tagEndColumn, $sourceLength - 1 ),
@@ -482,9 +476,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                    false,
                                    $element['text'],
                                    $placement );
-//                     $node = new eZTemplateTextElement( $element["text"] );
-//                     $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-//                     $currentRoot->appendChild( $node );
                     $this->appendChild( $currentRoot, $node );
                 } break;
                 case EZ_ELEMENT_VARIABLE:
@@ -498,9 +489,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                    false,
                                    $var_data,
                                    $placement );
-//                     $node =& new eZTemplateVariableElement( $var_data );
-//                     $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-//                     $currentRoot->appendChild( $node );
                     $this->appendChild( $currentRoot, $node );
                     if ( $var_end < $text_len )
                     {
@@ -555,8 +543,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $args[$attr_name] = $var_data;
                             $attr_pos = $attr_name_pos;
                             continue;
-//                             $tpl->error( "", "Unterminated parameter in function '$tag' ($text)" );
-//                             break;
                         }
                         if ( $text[$attr_name_pos] != "=" )
                         {
@@ -591,21 +577,16 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                        $tag,
                                        $args,
                                        $placement );
-//                         $node =& new eZTemplateFunctionElement( $tag, $args );
-//                         $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-//                         $currentRoot->appendChild( $node );
                         $this->appendChild( $currentRoot, $node );
                         $has_children = true;
                         if ( isset( $tpl->FunctionAttributes[$tag] ) )
                         {
-//                             eZDebug::writeDebug( $tpl->FunctionAttributes[$tag], "\$tpl->FunctionAttributes[$tag] #1" );
                             if ( is_array( $tpl->FunctionAttributes[$tag] ) )
                                 $tpl->loadAndRegisterFunctions( $tpl->FunctionAttributes[$tag] );
                             $has_children = $tpl->FunctionAttributes[$tag];
                         }
                         else if ( isset( $tpl->Functions[$tag] ) )
                         {
-//                             eZDebug::writeDebug( $tpl->Functions[$tag], "\$tpl->Functions[$tag] #1" );
                             if ( is_array( $tpl->Functions[$tag] ) )
                                 $tpl->loadAndRegisterFunctions( $tpl->Functions[$tag] );
                             $has_children = $tpl->hasChildren( $tpl->Functions[$tag], $tag );
@@ -623,14 +604,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $has_children = true;
                         if ( isset( $tpl->FunctionAttributes[$tag] ) )
                         {
-//                             eZDebug::writeDebug( $tpl->FunctionAttributes[$tag], "\$tpl->FunctionAttributes[$tag] #2" );
                             if ( is_array( $tpl->FunctionAttributes[$tag] ) )
                                 $tpl->loadAndRegisterFunctions( $tpl->FunctionAttributes[$tag] );
                             $has_children = $tpl->FunctionAttributes[$tag];
                         }
                         else if ( isset( $tpl->Functions[$tag] ) )
                         {
-//                             eZDebug::writeDebug( $tpl->Functions[$tag], "\$tpl->Functions[$tag] #2" );
                             if ( is_array( $tpl->Functions[$tag] ) )
                                 $tpl->loadAndRegisterFunctions( $tpl->Functions[$tag] );
                             $has_children = $tpl->hasChildren( $tpl->Functions[$tag], $tag );
@@ -645,8 +624,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             unset( $oldTag );
                             unset( $oldTagName );
                             include_once( "lib/ezutils/classes/ezphpcreator.php" );
-//                             eZDebug::writeDebug( eZPHPCreator::variableText( $treeRoot, 0 ), '$treeRoot' );
-//                             eZDebug::writeDebug( eZPHPCreator::variableText( $currentRoot, 0 ), '$currentRoot' );
                             $oldTag =& array_pop( $tagStack );
                             $oldTagName = $oldTag["Tag"];
                             unset( $currentRoot );
@@ -667,10 +644,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                        $tag,
                                        $args,
                                        $placement );
-//                         $node =& new eZTemplateFunctionElement( $tag, $args );
-//                         $tpl->setRelation( $node, $relatedResource, $relatedTemplateName );
-//                         $currentRoot->appendChild( $node );
-//                         eZDebug::writeDebug( $currentRoot, '$currentRoot' );
                         $this->appendChild( $currentRoot, $node );
                     }
                     unset( $tag );

@@ -68,9 +68,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $file = $resourceData['template-name'];
         $overrideKeys =& eZTemplateDesignResource::overrideKeys();
-//         print( "keys\n" );
-//         print_r( $overrideKeys );
-//         print( "matches\n" );
         $matchFileArray =& eZTemplateDesignResource::overrideArray();
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
@@ -83,14 +80,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
         }
 
-//         print_r( $matchList );
-//         if ( !file_exists( $file ) )
-//             return false;
-
         $resourceName = $resourceData['resource'];
         $resourceNameText = eZPHPCreator::variableText( $resourceName );
-
-//         print_r( $node );
 
         $designKeysName = 'dKeys';
         if ( $resourceName == 'standard' )
@@ -301,15 +292,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-//     function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
     function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
     {
-//        $templateRoot =& $resourceData['template-root'];
-//        $text =& $resourceData['text'];
-//        $tstamp =& $resourceData['time-stamp'];
-//        $uri =& $resourceData['uri'];
-//        $resourceName =& $resourceData['resource'];
-//        $keyData =& $resourceData['key-data'];
         $path =& $resourceData['template-name'];
 
         $matchKeys = $this->Keys;

@@ -129,18 +129,12 @@ class eZTemplateIncludeFunction
             $variableList[] = $parameterName;
         }
 
-//         if ( isset( $parameters['name'] ) )
-//             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
-
         $newNodes = array_merge( $newNodes, $includeNodes );
 
         foreach ( $variableList as $variableName )
         {
             $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
         }
-
-//         if ( isset( $parameters['name'] ) )
-//             $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
 
         return $newNodes;
     }
@@ -150,7 +144,6 @@ class eZTemplateIncludeFunction
     */
     function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-//         $text = "";
         $params = $functionParameters;
         if ( !isset( $params["uri"] ) )
         {
@@ -206,6 +199,7 @@ class eZTemplateIncludeFunction
         return false;
     }
 
+    /// \privatesection
     /// The name of the include function
     var $IncludeName;
 }

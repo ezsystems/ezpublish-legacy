@@ -1842,7 +1842,7 @@ class eZTemplateArrayOperator
                                                               $rootNamespace,
                                                               $currentNamespace );
                     }
-                        
+
                 }break;
 
                 // Not implemented.
