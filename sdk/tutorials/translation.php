@@ -147,6 +147,14 @@ To distribute your translation, create a compressed archive, for instance .zip o
 </p>
 
 <p>
+You could for instance do it like this:
+</p>
+
+<pre class="example">
+tar -zcvf nor-NO.tar.gz share/locale/nor-NO.ini share/translations/nor-NO/translation.ts
+</pre>
+
+<p>
 To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini.
 </p>
 
