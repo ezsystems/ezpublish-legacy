@@ -119,9 +119,15 @@ class eZContentClass extends eZPersistentObject
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap",
                                                       'object_count' => 'objectCount',
-                                                      'version_count' => 'VersionCount',
+                                                      'version_count' => 'versionCount',
                                                       'version_status' => 'versionStatus',
-                                                      'remote_id' => 'remoteID' ),
+                                                      'remote_id' => 'remoteID',
+                                                      'ingroup_list' => 'fetchGroupList',
+                                                      'ingroup_id_list' => 'fetchGroupIDList',
+                                                      'match_ingroup_id_list' => 'fetchMatchGroupIDList',
+                                                      'group_list' => 'fetchAllGroups',
+                                                      'creator' => 'creator',
+                                                      'modifier' => 'modifier' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -361,72 +367,13 @@ class eZContentClass extends eZPersistentObject
         return $classList;
     }
 
-    function hasAttribute( $attr )
-    {
-
-        return ( $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
-                 $attr == 'creator' or $attr == 'modifier'or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
     function attribute( $attr )
     {
         switch( $attr )
         {
-            case 'creator':
-            {
-                return $this->CreatorID;
-            } break;
-
-            case 'modifier':
-            {
-                return $this->ModifierID;
-            } break;
-
-            case "ingroup_list":
-            {
-                $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
-                                                                             $this->attribute( "version" ),
-                                                                             true );
-                return $this->InGroups;
-            } break;
-
             case 'remote_id':
             {
                 return $this->remoteID();
-            } break;
-
-            case "ingroup_id_list":
-            {
-                $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
-                                                                  $this->attribute( "version" ),
-                                                                  false );
-                $this->InGroupIDs = array();
-                foreach ( $list as $item )
-                {
-                    $this->InGroupIDs[] = $item['group_id'];
-                }
-                return $this->InGroupIDs;
-            } break;
-
-            case 'match_ingroup_id_list':
-            {
-                include_once( 'lib/ezutils/classes/ezini.php' );
-                $contentINI =& eZINI::instance( 'content.ini' );
-                if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
-                {
-                    return $this->attribute( 'ingroup_id_list' );
-                }
-                else
-                {
-                    return false;
-                }
-            } break;
-
-            case "group_list":
-            {
-                $this->AllGroups =& eZContentClassGroup::fetchList();
-                return $this->AllGroups;
             } break;
 
             default:
@@ -434,9 +381,90 @@ class eZContentClass extends eZPersistentObject
                 return eZPersistentObject::attribute( $attr );
             } break;
         }
+        return null;
+    }
+
+    /*!
+     \return The creator of the class as an eZUser object by using the $CreatorID as user ID.
+    */
+    function creator()
+    {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $user_id );
+        $user =& eZUser::fetch( $this->CreatorID );
         return $user;
+    }
+
+    /*!
+     \return The modifier of the class as an eZUser object by using the $ModifierID as user ID.
+    */
+    function modifier()
+    {
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $user =& eZUser::fetch( $this->ModifierID );
+        return $user;
+    }
+
+    /*!
+     Find all groups the current class is placed in and returns a list of group objects.
+     \return An array with eZContentClassGroup objects.
+     \sa fetchGroupIDList()
+    */
+    function fetchGroupList()
+    {
+        $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+                                                                     $this->attribute( "version" ),
+                                                                     true );
+        return $this->InGroups;
+    }
+
+    /*!
+     Find all groups the current class is placed in and returns a list of group IDs.
+     \return An array with integers (ids).
+     \sa fetchGroupList()
+    */
+    function fetchGroupIDList()
+    {
+        $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+                                                          $this->attribute( "version" ),
+                                                          false );
+        $this->InGroupIDs = array();
+        foreach ( $list as $item )
+        {
+            $this->InGroupIDs[] = $item['group_id'];
+        }
+        return $this->InGroupIDs;
+    }
+
+    /*!
+     Returns the result from fetchGroupIDList() if class group overrides is
+     enabled in content.ini.
+     \return An array with eZContentClassGroup objects or \c false if disabled.
+     \note \c EnableClassGroupOverride in group \c ContentOverrideSettings from INI file content.ini
+           controls this behaviour.
+    */
+    function fetchMatchGroupIDList()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $contentINI =& eZINI::instance( 'content.ini' );
+        if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
+        {
+            return $this->attribute( 'ingroup_id_list' );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
+     Finds all Class groups in the system and returns them.
+     \return An array with eZContentClassGroup objects.
+     \sa fetchGroupList(), fetchGroupIDList()
+    */
+    function fetchAllGroups()
+    {
+        $this->AllGroups =& eZContentClassGroup::fetchList();
+        return $this->AllGroups;
     }
 
     /*!
@@ -877,6 +905,15 @@ class eZContentClass extends eZPersistentObject
         }
         else
             return EZ_CLASS_VERSION_STATUS_MODIFED;
+    }
+
+    /*!
+     \deprecated
+     \return The version count for the class if has been determined.
+    */
+    function versionCount()
+    {
+        return $this->VersionCount;
     }
 
     /*!
