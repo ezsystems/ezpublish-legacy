@@ -28,7 +28,7 @@
 	    </tr>
 	    <tr>
 	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
-	      <td><a href="{$:item.url|wash}">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
+	      <td><a href="{$:item.url|wash}" target="_blank">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}" target="_blank">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
 	    </tr>
 	    <tr>
 	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>

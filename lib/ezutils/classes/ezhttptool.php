@@ -246,6 +246,11 @@ class eZHTTPTool
                                           'port' => false,
                                           'username' => false,
                                           'password' => false,
+                                          'override_host' => false,
+                                          'override_protocol' => false,
+                                          'override_port' => false,
+                                          'override_username' => false,
+                                          'override_password' => false,
                                           'pre_url' => true ),
                                    $parameters );
         $host = $parameters['host'];
@@ -267,6 +272,10 @@ class eZHTTPTool
             if ( $matches[4] )
                 $port = $matches[4];
         }
+        if ( $parameters['override_host'] )
+            $host = $parameters['override_host'];
+        if ( $parameters['override_port'] )
+            $port = $parameters['override_port'];
         if ( $parameters['pre_url'] )
         {
             if ( strlen( $path ) > 0 and
@@ -300,8 +309,14 @@ class eZHTTPTool
                 $protocol = 'https';
             }
         }
+        if ( $parameters['override_protocol'] )
+            $host = $parameters['override_protocol'];
 
         $uri = $protocol . '://';
+        if ( $parameters['override_username'] )
+            $username = $parameters['override_username'];
+        if ( $parameters['override_password'] )
+            $password = $parameters['override_password'];
         if ( $username )
         {
             $uri .= $username;

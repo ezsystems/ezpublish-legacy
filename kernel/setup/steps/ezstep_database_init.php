@@ -142,6 +142,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             $extraLanguageCodes = array();
             if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
                 $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+            $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
             if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
             {
                 $variations = $this->PersistenceList['regional_info']['variations'];

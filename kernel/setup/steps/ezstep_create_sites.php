@@ -91,6 +91,7 @@ class eZStepCreateSites extends eZStepInstaller
         $extraLanguageCodes = array();
         if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
             $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
+        $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
         if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
         {
             $variations = $this->PersistenceList['regional_info']['variations'];
@@ -257,9 +258,6 @@ class eZStepCreateSites extends eZStepInstaller
                                 &$accessMap, $charset,
                                 &$allLanguageCodes, &$allLanguages, &$primaryLanguage )
     {
-//         eZDebug::writeDebug( $sitePackage, 'sitePackage' );
-//         $sitePackage['admin_access_type_value'] = $sitePackage['access_type_value'] . '_admin';
-
         switch ( $sitePackage['access_type'] )
         {
             case 'port':
@@ -405,7 +403,10 @@ WHERE
                 {
                     $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
                     $translation->store();
-                    $translation->updateObjectNames();
+                    if ( $languageLocale != $primaryLanguageLocaleCode )
+                    {
+                        $translation->updateObjectNames();
+                    }
                 }
             }
         }

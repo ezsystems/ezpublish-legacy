@@ -25,8 +25,6 @@ Name - {$os.name}
 Database info:
 Type - {$database_info.info.name}
 Driver - {$database_info.info.driver}
-Unicode - {section show=$database_info.info.supports_unicode}Supported{section-else}Unsupported{/section}
-
 
 Demo data:
 
@@ -56,8 +54,6 @@ ImageGD extension was found and used.
 
 
 Regional info:
-Type - {switch match=$regional_info.language_type}{case match=1}Monolingual{/case}{case match=2}Multilingual{/case}{case match=3}Unicode{/case}{case/}{/switch}
-
 Primary - {$regional_info.primary_language}
 
 {section show=$regional_info.languages}
