@@ -746,7 +746,7 @@ ORDER BY forward_to_id ASC";
 FROM ezurlalias
 WHERE source_md5 = '" . md5( $internalURIString ) . "' AND
       is_wildcard = 0
-ORDER BY forward_to_id ASC";
+ORDER BY forward_to_id ASC, is_internal ASC";
         }
 
         $return = false;
