@@ -88,6 +88,9 @@ eZINI:
   http://ez.no/community/bug_reports/user_activate_template_typo
 
 
+- Fixed bug in kernel/sql/postgresql/sequence.sql
+  http://ez.no/community/bug_reports/postgres_setval
+
 *Library:
 
 eZ Locale:
