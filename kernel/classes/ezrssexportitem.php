@@ -147,6 +147,10 @@ class eZRSSExportItem extends eZPersistentObject
                     return null;
                 include_once( 'kernel/classes/ezcontentclass.php' );
                 $contentClass =& eZContentClass::fetch( $this->ClassID );
+                if ( !$contentClass )
+                {
+                    return null;
+                }
                 return $contentClass->fetchAttributes();
             } break;
             case 'source_path':
