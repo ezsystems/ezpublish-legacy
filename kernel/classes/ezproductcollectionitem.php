@@ -110,6 +110,18 @@ class eZProductCollectionItem extends eZPersistentObject
         else
             return eZPersistentObject::hasAttribute( $attr );
     }
+
+    /*!
+     \return the discount percent for the current item
+    */
+    function discountPercent()
+    {
+        $discount = false;
+//        $object->;
+
+        return $discount;
+    }
+
     /*!
      \return Returns the content object defining the product.
     */

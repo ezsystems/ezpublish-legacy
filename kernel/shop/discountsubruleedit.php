@@ -1,7 +1,5 @@
 <?php
 //
-// Definition of  class
-//
 // Created on: <25-Nov-2002 15:40:10 wy>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
@@ -96,6 +94,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $module->redirectTo( $module->functionURI( "discountruleedit" ) . "/" . $discountRuleID );
     return;
 }
+
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
     eZDiscountSubRuleValue::removeBySubRuleID ( $discountSubRuleID );
@@ -172,6 +171,7 @@ foreach ( $classList as $class )
         $productClassList[] = $class;
     }
 }
+
 $sectionList =& eZSection::fetchList();
 $module->setTitle( "Adding discount sub rule" );
 $tpl =& templateInit();
@@ -182,6 +182,31 @@ $tpl->setVariable( "product_class_list", $productClassList );
 $tpl->setVariable( "section_list", $sectionList );
 $tpl->setVariable( "stored_section_id", $storedSectionID );
 $tpl->setVariable( "stored_class_id", $storedClassID );
+
+$sectionLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountSubRule->attribute( 'id' ), 1, false );
+$sectionList = array();
+foreach ( $sectionLimitationList as $limitation )
+{
+    $sectionList[] = $limitation['value'];
+}
+$tpl->setVariable( "section_limitation_list", $sectionList );
+if ( count( $sectionList ) > 0 )
+    $tpl->setVariable( "section_any_selected", false );
+else
+    $tpl->setVariable( "section_any_selected", true );
+
+
+$classLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountSubRule->attribute( 'id' ), 0, false );
+$classList = array();
+foreach ( $classLimitationList as $limitation )
+{
+    $classList[] = $limitation['value'];
+}
+$tpl->setVariable( "class_limitation_list", $classLimitationList );
+if ( count( $classList ) > 0 )
+    $tpl->setVariable( "class_any_selected", false );
+else
+    $tpl->setVariable( "class_any_selected", true );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountsubruleedit.tpl" );

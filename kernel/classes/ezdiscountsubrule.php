@@ -42,7 +42,9 @@
   \brief The class eZDiscountSubRule does
 
 */
+
 include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZDiscountSubRule extends eZPersistentObject
 {
     /*!

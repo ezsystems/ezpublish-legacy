@@ -130,7 +130,7 @@ class eZPriceType extends eZDataType
         // return $contentObjectAttribute->attribute( "data_float" );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $storedPrice = $contentObjectAttribute->attribute( "data_float" );
-        $price = new eZPrice( $classAttribute, $storedPrice );
+        $price = new eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice );
         return $price;
     }
 

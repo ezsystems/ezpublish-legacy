@@ -75,6 +75,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
+                                                      "object" => "object",
                                                       "xml" => "xml",
                                                       "input_xml" => "inputXML",
                                                       "xml_editor" => "xmlEditor",
@@ -152,6 +153,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->contentClassAttributeIdentifier();
         else if ( $attr == "content" )
             return $this->content( );
+        else if ( $attr == "object" )
+            return $this->object( );
         else if ( $attr == "xml" )
             return $this->xml( );
         else if ( $attr == "input_xml" )
@@ -176,6 +179,14 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                        "language_code" => $languageCode
                                                        ),
                                                 $asObject );
+    }
+
+    /*!
+     \todo read from cached/static object
+    */
+    function &object()
+    {
+        return eZContentObject::fetch( $this->ContentObjectID );
     }
 
     /*!

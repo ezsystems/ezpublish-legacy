@@ -1206,6 +1206,11 @@ CREATE TABLE ezworkflow_process (
 
 
 
+CREATE TABLE ezdiscountrule (
+ id int(11) NOT NULL auto_increment,
+ name varchar(255) NOT NULL,
+ PRIMARY KEY  (id)
+) TYPE=MyISAM;
 
 create index ezcontentobject_tree_crc32_path on ezcontentobject_tree(crc32_path);
 create unique index ezuser_contentobject_id on ezuser(contentobject_id);

@@ -69,7 +69,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
                                                     null,
-                                                    array( "discountsubrule_id" =>$discountSubRuleID,
+                                                    array( "discountsubrule_id" => $discountSubRuleID,
                                                            "issection" => $isSection ),
                                                     null,
                                                     null,

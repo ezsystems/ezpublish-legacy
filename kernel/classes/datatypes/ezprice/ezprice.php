@@ -54,8 +54,9 @@ class eZPrice
     /*!
      Constructor
     */
-    function eZPrice( &$classAttribute, $storedPrice = null )
+    function eZPrice( &$classAttribute, &$contentObjectAttribute, $storedPrice = null )
     {
+        $this->ContentObjectAttribute =& $contentObjectAttribute;
         $this->VatTypeArray =& eZVatType::fetchList();
         $this->CurrentUser =& eZUser::currentUser();
         $this->Price = $storedPrice;
@@ -65,8 +66,9 @@ class eZPrice
         else
             $this->IsVATIncluded = false;
         $this->VATType =& eZVatType::fetch( $VATID );
-        $this->DiscountRules = $this->discountRules();
+        $this->Discount = $this->discount();
     }
+
     function hasAttribute( $attr )
     {
         if ( $attr == "vat_type" or
@@ -126,26 +128,11 @@ class eZPrice
             }break;
             case "discount_percent" :
             {
-                $discountPercent = 0;
-                $rules = $this->DiscountRules;
-                foreach ( $rules as $rule )
-                {
-                    $percent = $rule->attribute( 'discount_percent' );
-                    if ( $discountPercent < $percent )
-                        $discountPercent = $percent;
-                }
-                return $discountPercent;
+                return $this->Discount;
             }break;
             case "discount_price_inc_vat" :
             {
-                $discountPercent = 0;
-                $rules = $this->DiscountRules;
-                foreach ( $rules as $rule )
-                {
-                    $percent = $rule->attribute( 'discount_percent' );
-                    if ( $discountPercent < $percent )
-                        $discountPercent = $percent;
-                }
+                $discountPercent = $this->Discount;
 
                 if ( $this->IsVATIncluded )
                     $incVATPrice = $this->Price;
@@ -159,14 +146,7 @@ class eZPrice
             }break;
             case "discount_price_ex_vat" :
             {
-                $discountPercent = 0;
-                $rules = $this->DiscountRules;
-                foreach ( $rules as $rule )
-                {
-                    $percent = $rule->attribute( 'discount_percent' );
-                    if ( $discountPercent < $percent )
-                        $discountPercent = $percent;
-                }
+                $discountPercent = $this->Discount;
                 if ( $this->IsVATIncluded )
                 {
                     $vatPercent = $this->VATType->attribute( 'percentage' );
@@ -179,14 +159,8 @@ class eZPrice
             }break;
             case "has_discount" :
             {
-                $discountPercent = 0;
-                $rules = $this->DiscountRules;
-                foreach ( $rules as $rule )
-                {
-                    $percent = $rule->attribute( 'discount_percent' );
-                    if ( $discountPercent < $percent )
-                        $discountPercent = $percent;
-                }
+                $discountPercent = $this->Discount;
+
                 if ( $discountPercent != 0)
                     $hasDiscount = true;
                 else
@@ -204,27 +178,108 @@ class eZPrice
         }
     }
 
-    function discountRules()
+    /*!
+     \returns the discountrules for the currrent user
+     \todo optimize and cache values
+    */
+    function discount()
     {
-        $user = $this->CurrentUser;
-        $userID = $user->attribute( 'contentobject_id' );
-        $nodes =& eZContentObjectTreeNode::fetchByContentObjectID( $userID );
-        $idArray = array();
-        $idArray[] = $userID;
-        foreach ( $nodes as $node )
+        $bestMatch = 0.0;
+
+        if ( get_class( $this->ContentObjectAttribute ) == 'ezcontentobjectattribute' )
         {
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $idArray[] = $parentNodeID;
+            $db =& eZDB::instance();
+            $user =& $this->CurrentUser;
+            $groups =& $user->groups();
+            $idArray =& array_merge( $groups, $user->attribute( 'contentobject_id' ) );
+
+            // Fetch discount rules for the current user
+            $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
+
+            if ( count( $rules ) > 0 )
+            {
+                $i = 1;
+                $subRuleStr = "";
+                foreach ( $rules as $rule )
+                {
+                    $subRuleStr .= $rule->attribute( 'id' );
+                    if ( $i < count( $rules ) )
+                        $subRuleStr .= ", ";
+                    $i++;
+                }
+
+                // Fetch the discount sub rules
+                $subRules =& $db->arrayQuery( "SELECT * FROM
+                                       ezdiscountsubrule
+                                       WHERE discountrule_id IN ( $subRuleStr )
+                                       ORDER BY discount_percent DESC" );
+
+                // cache object if we need it
+                $object = false;
+                // Find the best matching discount rule
+                foreach ( $subRules as $subRule )
+                {
+                    if ( $subRule['discount_percent'] > $bestMatch )
+                    {
+                        // Rule has better discount, see if it matches
+                        if ( $subRule['limitation'] == '*' )
+                            $bestMatch = $subRule['discount_percent'];
+                        else
+                        {
+                            // Do limitation check
+                            $limitationArray =& $db->arrayQuery( "SELECT * FROM
+                                       ezdiscountsubrule_value
+                                       WHERE discountsubrule_id='" . $subRule['id']. "'" );
+
+                            if ( $object == false )
+                                $object =& $this->ContentObjectAttribute->object();
+
+                            $hasSectionLimitation = false;
+                            $hasClassLimitation = false;
+                            $sectionMatch = false;
+                            $classMatch = false;
+                            foreach ( $limitationArray as $limitation )
+                            {
+                                if ( $limitation['issection'] == '1' )
+                                {
+                                    $hasSectionLimitation = true;
+
+                                    if ( $object->attribute( 'section_id' ) == $limitation['value'] )
+                                        $sectionMatch = true;
+                                }
+                                else
+                                {
+                                    $hasClassLimitation = true;
+                                    if ( $object->attribute( 'contentclass_id' ) == $limitation['value'] )
+                                        $classMatch = true;
+                                }
+                            }
+
+                            $match = true;
+                            if ( ( $hasClassLimitation == true ) and ( $classMatch == false ) )
+                                $match = false;
+
+                            if ( ( $hasSectionLimitation == true ) and ( $sectionMatch == false ) )
+                                $match = false;
+
+                            if ( $match == true  )
+                                $bestMatch = $subRule['discount_percent'];
+                        }
+                    }
+                }
+            }
         }
-        $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
-        return $rules;
+        return $bestMatch;
     }
+
+
     var $VatTypeArray;
     var $Price;
     var $CurrentUser;
     var $VATType;
     var $IsVATIncluded;
-    var $DiscountRules;
+    var $ContentObjectAttribute;
+    var $Discount;
 }
 
 ?>

@@ -101,29 +101,6 @@ class eZBasket extends eZPersistentObject
             return eZPersistentObject::hasAttribute( $attr );
     }
 
-    function discountPercent()
-    {
-        $discountPercent = 0;
-        $user =& eZUser::currentUser();
-        $userID = $user->attribute( 'contentobject_id' );
-        $nodes =& eZContentObjectTreeNode::fetchByContentObjectID( $userID );
-        $idArray = array();
-        $idArray[] = $userID;
-        foreach ( $nodes as $node )
-        {
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $idArray[] = $parentNodeID;
-        }
-        $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
-        foreach ( $rules as $rule )
-        {
-            $percent = $rule->attribute( 'discount_percent' );
-            if ( $discountPercent < $percent )
-                $discountPercent = $percent;
-        }
-        return $discountPercent;
-    }
-
     function &items( $asObject=true )
     {
         $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
@@ -132,10 +109,10 @@ class eZBasket extends eZPersistentObject
                                                        null,
                                                        null,
                                                        $asObject );
-        $discountPercent = $this->discountPercent();
         $addedProducts = array();
         foreach ( $productItems as  $productItem )
         {
+            $discountPercent = 0.0;
             $isVATIncluded = true;
             $id = $productItem->attribute( 'id' );
             $contentObject = $productItem->attribute( 'contentobject' );
@@ -157,6 +134,9 @@ class eZBasket extends eZPersistentObject
                             $isVATIncluded = false;
                         $VATType =& eZVatType::fetch( $VATID );
                         $VATValue = $VATType->attribute( 'percentage' );
+
+                        $priceObj =& $attribute->content();
+                        $discountPercent = $priceObj->discount();
                     }
                 }
                 $nodeID = $contentObject->attribute( 'main_node_id' );
