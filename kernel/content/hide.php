@@ -35,18 +35,31 @@
 $Module =& $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
-$curNode          =& eZContentObjectTreeNode::fetch( $NodeID );
-$curNodeInvisible =& $curNode->attribute( 'is_invisible' );
-$curNodeHidden    =& $curNode->attribute( 'is_hidden' );
 
-if( $curNodeHidden )
+$curNode =& eZContentObjectTreeNode::fetch( $NodeID );
+if ( !$curNode )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( $curNode->attribute( 'is_hidden' ) )
     eZContentObjectTreeNode::unhideSubTree( $curNode );
 else
     eZContentObjectTreeNode::hideSubTree( $curNode );
 
-if( ( $parentNodeID = $curNode->attribute( 'parent_node_id' ) ) == 1 )
-    $redirectNodeID = $NodeID;
+
+$http =& eZHTTPTool::instance();
+if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
+{
+    // redirect user to the previous page
+    $Module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
+}
 else
-    $redirectNodeID = $parentNodeID;
-return $Module->redirectToView( 'view', array( 'full', $redirectNodeID ) );
+{
+    // redirect to the parent node
+    if( ( $parentNodeID = $curNode->attribute( 'parent_node_id' ) ) == 1 )
+        $redirectNodeID = $NodeID;
+    else
+        $redirectNodeID = $parentNodeID;
+    return $Module->redirectToView( 'view', array( 'full', $redirectNodeID ) );
+}
+
 ?>
