@@ -603,7 +603,10 @@ class eZMimeType
         array( 'aiff', 'audio/x-pn-aiff' ),
         array( 'af', 'audio/x-pn-aiff' ),
         array( 'html', 'text/html' ),
-        array( 'htm', 'text/html' )
+        array( 'htm', 'text/html' ),
+        array( 'sxw', 'application/vnd.sun.xml.writer' ),
+        array( 'sxc', 'application/vnd.sun.xml.calc' ),
+        array( 'sxi', 'application/vnd.sun.xml.impress' ),
         );
 }
 
