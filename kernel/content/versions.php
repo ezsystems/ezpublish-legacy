@@ -32,43 +32,49 @@
 // you.
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
+include_once( 'kernel/classes/ezcontentclass.php' );
+include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentobjectversion.php" );
-include_once( "kernel/classes/ezcontentobjectattribute.php" );
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezcontentobjectversion.php' );
+include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
 
 $tpl =& templateInit();
 
-$ObjectID = $Params["ObjectID"];
+$ObjectID = $Params['ObjectID'];
 
 $object =& eZContentObject::fetch( $ObjectID );
 
+if ( $object === null )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
 if ( ! $object->attribute( 'can_read' ) )
-{
-        $Module->redirectTo( '/error/403' );
-        return;
-}
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-$http =& eZHTTPTool::instance();
-
-if ( $http->hasPostVariable( "RevertButton" )  )
+if ( $Module->isCurrentAction( 'Edit' )  )
 {
     if ( !$object->attribute( 'can_edit' ) )
-    {
-        $Module->redirectTo( '/error/403' );
-        return;
-    }
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    $versionID = false;
+    if ( $Module->hasActionParameter( 'VersionID' ) )
+        $versionID = $Module->actionParameter( 'VersionID' );
+    return $Module->redirectToView( 'edit', array( $ObjectID, $versionID ) );
+}
+
+if ( $Module->isCurrentAction( 'RevertVersion' )  )
+{
+    if ( !$object->attribute( 'can_edit' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    $versionID = $Module->actionParameter( 'VersionID' );
+
     $assignedNodes =& $object->attribute( 'assigned_nodes' );
     $versionNodes = array();
-    $object->revertTo( $http->postVariable( "RevertToVersionID" )  );
-    $version =& $object->version( $http->postVariable( "RevertToVersionID" ) );
+    $object->revertTo( $versionID );
+    $version =& $object->version( $versionID );
     $versionParentNodes =& $version->attribute( 'node_assignments' );
     foreach ( array_keys($versionParentNodes ) as $key )
     {
@@ -92,39 +98,45 @@ if ( $http->hasPostVariable( "RevertButton" )  )
             $node->remove();
         }
     }
-    
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ObjectID . '/' );
-    return;
-}
 
-if ( $http->hasPostVariable( "CopyRevertButton" )  )
-{
-    if ( !$object->attribute( 'can_edit' ) )
-    {
-        $Module->redirectTo( '/error/403' );
-        return;
-    }
-
-    $object->copyRevertTo( $http->postVariable( "RevertToVersionID" )  );
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ObjectID . '/' );
+    $Module->redirectToView( 'edit', array( $ObjectID, $versionID ) );
     return;
 }
 
 $versions =& $object->versions();
 
+if ( $Module->isCurrentAction( 'CopyVersion' )  )
+{
+    if ( !$object->attribute( 'can_edit' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    $versionID = $Module->actionParameter( 'VersionID' );
+    foreach ( array_keys( $versions ) as $versionKey )
+    {
+        $version =& $versions[$versionKey];
+        if ( $version->attribute( 'version' ) == $versionID )
+        {
+            $newVersionID = $object->copyRevertTo( $versionID );
+            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID ) );
+        }
+    }
+}
+
 $res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-//                       array( "class", $class->attribute( "id" ) ), // Class ID
+$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                      array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                      array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
-$tpl->setVariable( "object", $object );
-
-$tpl->setVariable( "versions", $versions );
+$tpl->setVariable( 'object', $object );
+$tpl->setVariable( 'versions', $versions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/versions.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
+$Result['path'] = array( array( 'text' => 'Versions',
+                                'url' => false ) );
 
 ?>

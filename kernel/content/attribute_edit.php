@@ -56,8 +56,15 @@ if ( isset( $Module ) )
 $ObjectID =& $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];
+if ( !isset( $EditLanguage ) )
+    $EditLanguage = $Params['EditLanguage'];
+if ( !is_string( $EditLanguage ) or
+     strlen( $EditLanguage ) == 0 )
+    $EditLanguage = false;
+if ( $EditLanguage == eZContentObject::defaultLanguage() )
+    $EditLanguage = false;
 
-if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion ) ) )
+if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion, $EditLanguage ) ) )
     return;
 
 $object =& eZContentObject::fetch( $ObjectID );
@@ -72,11 +79,14 @@ $version =& $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 
 $class =& eZContentClass::fetch( $classID );
-$contentObjectAttributes =& $version->contentObjectAttributes();
+$contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
+if ( $contentObjectAttributes === null or
+     count( $contentObjectAttributes ) == 0 )
+    $contentObjectAttributes =& $version->contentObjectAttributes();
 
 $http =& eZHTTPTool::instance();
 
-if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
+if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
     return;
 $validation = array( 'processed' => false,
                      'attributes' => array() );
@@ -102,6 +112,7 @@ $storeActions = array( 'Preview',
                        'Publish',
                        'Store',
                        'CustomAction',
+                       'EditLanguage',
                        'BrowseForObjects',
                        'BrowseForNodes',
                        'DeleteRelation',
@@ -164,7 +175,7 @@ if ( $storingAllowed )
 
     if ( $inputValidated == true && $requreStoreAction )
     {
-        if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
+        if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
             return;
 
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
@@ -187,7 +198,7 @@ if ( $storingAllowed )
 // After the object has been validated we can check for other actions
 if ( $inputValidated == true )
 {
-    if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion ) ) )
+    if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage ) ) )
         return;
 }
 
@@ -210,13 +221,13 @@ include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
 $tpl->setVariable( 'edit_version', $EditVersion );
+$tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'content_version', $version );
-$tpl->setVariable( 'translation_language', 'eng-GB' );
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
-if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, &$tpl ) ) )
+if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl ) ) )
     return;
 $templateName = 'design:content/edit.tpl';
 

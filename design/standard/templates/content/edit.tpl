@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/")|ezurl}>
+<form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|gt(0)|choose(,array($edit_language,"/")))|ezurl}>
 <script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>
 <link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
 
@@ -28,7 +28,7 @@
     {/section}
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
     <tr>
-        <th width="60%">{"Name"|i18n('content/object')}</th>
+        <th width="60%">{"Placement"|i18n('content/object')}</th>
         <th width="40%" colspan="3">{"Sort by"|i18n('content/object')}</th>
     </tr>
     {let name=Node sort_fields=hash(1,"Path"|i18n('content/object'),2,"Published"|i18n('content/object'),3,"Modified"|i18n('content/object'),4,"Section"|i18n('content/object'),5,"Depth"|i18n('content/object'),6,"Class Identifier"|i18n('content/object'),7,"Class Name"|i18n('content/object'),8,"Priority"|i18n('content/object'))}
@@ -116,41 +116,49 @@
 
     <div class="buttonblock">
     <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
-    <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
-    <input class="button" type="submit" name="TranslateButton" value="{'Translate'|i18n('content/object')}" />
     </div>
     <div class="buttonblock">
     <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" />
     <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
+    &nbsp;
     <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
     </div>
     <!-- Left part end -->
     </td>
     <td width="120" align="right" valign="top" style="padding-left: 16px;">
     <!-- Right part start-->
+
+    <!-- Object info box start-->
     <table class="menuboxright" width="120" cellpadding="1" cellspacing="0" border="0">
     <tr>
-        <th class="menuheaddark" colspan="3">
-        <p class="menuhead">{"Object info"|i18n('content/object')}</p>
+        <th class="menuheaddark" colspan="2">
+        <p class="menuhead">{"Version info"|i18n('content/object')}</p>
         </th>
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Editing version"|i18n('content/object')}:</p>
+	    <p class="menufieldlabel">{"Editing"|i18n('content/object')}:</p>
         </td>
-        <td class="menu">
+        <td class="menu" width="1">
 	    <p class="menufield">{$edit_version}</p>
         </td>
     </tr>
     <tr>
         <td class="menu">
-	    <p class="menufieldlabel">{"Current version"|i18n('content/object')}:</p>
+	    <p class="menufieldlabel">{"Current"|i18n('content/object')}:</p>
         </td>
-        <td class="menu">
+        <td class="menu" width="1">
 	    <p class="menufield">{$object.current_version}</p>
         </td>
     </tr>
+    <tr>
+        <td class="menu" colspan="2" align="right">
+          <input class="menubutton" type="submit" name="VersionsButton" value="{'Manage'|i18n('content/object')}" />
+        </td>
+    </tr>
+    <!-- Object info box end-->
 
+    <!-- Translation box start-->
 {let name=Translation
      language_index=0
      default_translation=$content_version.translation
@@ -163,7 +171,7 @@
     </tr>
 
 {section loop=$Translation:translation_list}
-  {section show=eq($translation_language,$Translation:item.language_code)}
+  {section show=eq($edit_language,$Translation:item.language_code)}
     {set language_index=$Translation:index}
   {/section}
 {/section}
@@ -182,10 +190,17 @@
         </td>
     </tr>
 {/section}
+    <tr>
+        <td colspan="2" align="right">
+	  <input class="menubutton" type="submit" name="TranslateButton" value="{'Manage'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('content/object')}" />
+        </td>
+    </tr>
 
 {/section}
 
 {/let}
+    <!-- Translation box end-->
 
     <tr>
         <th class="menuheaddark" colspan="2">
@@ -203,13 +218,9 @@
     </tr>
     {/section}
     <tr>
-        <td colspan="2" align="left">
-          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="left">
-          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
+        <td colspan="2" align="right">
+          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('content/object')}" />
+          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('content/object')}" />
         </td>
     </tr>
     </table>

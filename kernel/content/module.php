@@ -46,6 +46,7 @@ $ViewList["edit"] = array(
                                     'BrowseNodeButton' => 'BrowseForNodes',
 //                                    'DeleteNodeButton' => 'DeleteNode',
 //                                    'MoveNodeButton' => 'MoveNode',
+                                    'EditLanguageButton' => 'EditLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
@@ -54,16 +55,17 @@ $ViewList["edit"] = array(
                                     'RemoveNodeID' => 'DeleteNode',
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'
                                     ),
+    'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
     'post_actions' => array( 'BrowseActionName' ),
     "script" => "edit.php",
-    "params" => array( "ObjectID", "EditVersion" ) );
+    "params" => array( "ObjectID", "EditVersion", 'EditLanguage' ) );
 
 $ViewList["removenode"] = array(
     "functions" => array( 'edit' ),
     'single_post_actions' => array( 'ConfirmButton' => 'ConfirmAssignmentRemove',
                                     'CancelButton' => 'CancelAssignmentRemove' ),
     "script" => "removenode.php",
-    "params" => array( "ObjectID", "EditVersion", "NodeID" ) );
+    "params" => array( "ObjectID", "EditVersion", 'EditLanguage', "NodeID" ) );
 
 
 $ViewList["view"] = array(
@@ -115,6 +117,12 @@ $ViewList["action"] = array(
 $ViewList["versions"] = array(
     "functions" => array( 'read', 'edit' ),
     "script" => "versions.php",
+    'single_post_actions' => array( 'RevertVersionButton' => 'RevertVersion',
+                                    'CopyVersionButton' => 'CopyVersion',
+                                    'EditButton' => 'Edit' ),
+    'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID' ),
+                                       'RevertVersion' => array( 'VersionID' => 'RevertToVersionID' ),
+                                       'Edit' => array( 'VersionID' => 'RevertToVersionID' ) ),
     "params" => array( "ObjectID" ) );
 
 $ViewList["sitemap"] = array(

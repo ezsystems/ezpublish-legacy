@@ -45,7 +45,7 @@ if ( !$obj )
 
 if ( !function_exists ( 'checkForExistingVersion'  ) )
 {
-    function checkForExistingVersion( &$module, $objectID, $editVersion )
+    function checkForExistingVersion( &$module, $objectID, $editVersion, $editLanguage )
     {
         if ( !is_numeric( $editVersion ) )
         {
@@ -61,7 +61,7 @@ if ( !function_exists ( 'checkForExistingVersion'  ) )
                 $version =& $object->createNewVersion();
             }
 
-            $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ) ) );
+            $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
@@ -83,12 +83,11 @@ $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
+    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
     {
-
         if ( $module->isCurrentAction( 'Preview' ) )
         {
-            $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
+            $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
@@ -102,6 +101,18 @@ if ( !function_exists( 'checkContentActions' ) )
         {
             $module->redirectToView( 'versions', array( $object->attribute('id') ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+
+        if ( $module->isCurrentAction( 'EditLanguage' ) )
+        {
+            if ( $module->hasActionParameter( 'SelectedLanguage' ) )
+            {
+                $EditLanguage = $module->actionParameter( 'SelectedLanguage' );
+                if ( $EditLanguage == eZContentObject::defaultLanguage() )
+                    $EditLanguage = false;
+                $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage ) );
+                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            }
         }
 
         if ( $module->isCurrentAction( 'Cancel' ) )

@@ -390,6 +390,7 @@ class eZContentObject extends eZPersistentObject
 
         $this->CurrentVersion = $versionObject->attribute( 'version' );
         $this->store();
+        return $versionObject->attribute( 'version' );
     }
 
     /*!

@@ -44,7 +44,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
-function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion )
+function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
     // Add object relations
@@ -69,18 +69,18 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
     }
 }
 
-function storeRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion )
+function storeRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
 }
 
-function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion )
+function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http =& eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
         $objectID = $object->attribute( 'id' );
 //         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
-        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
+        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
         $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
 
         $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject' );
@@ -111,7 +111,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
+function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
     $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
     if ( ( $relatedObjects == null ) and ( !$module->isCurrentAction( 'DeleteRelation' ) ) )

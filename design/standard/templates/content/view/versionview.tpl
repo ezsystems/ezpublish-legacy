@@ -43,7 +43,7 @@ Viewing version {$object_version} in language {$object_languagecode}
 <input type="hidden" name="ContentObjectLanguageCode" value="{$object_languagecode}" />
 
 <div class="buttonblock">
-<input class="button" type="submit" name="EditButton" value="{'Back to editing'|i18n('content/object')}" />
+<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('content/object')}" />
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('content/object')}" />
 </div>
 

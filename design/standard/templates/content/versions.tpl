@@ -4,16 +4,19 @@
 <table width="100%" cellspacing="0" cellpadding="2">
 <tr>
 	<th>
-	Version nr.
+	Version
 	</th>
 	<th>
-	Creator.
+	Status
 	</th>
 	<th>
-	Created.
+	Creator
 	</th>
 	<th>
-	Modified.
+	Created
+	</th>
+	<th>
+	Modified
 	</th>
 </tr>
 {section name=Versions loop=$versions sequence=array(bglight,bgdark)}
@@ -24,7 +27,7 @@
 
 {switch name=sw match=$Versions:item.version}
 {case match=$object.current_version}
-<i>*Current*</i>
+*
 {/case}
 {case}
 
@@ -33,13 +36,16 @@
 
 	</td>
 	<td class="{$Versions:sequence}" valign="top">
+	{$Versions:item.status|choose("Draft","Published","Pending","Archived","Rejected")}
+	</td>
+	<td class="{$Versions:sequence}" valign="top">
 	{$Versions:item.creator.name}
 	</td>
 	<td class="{$Versions:sequence}" valign="top">
-	{$Versions:item.created|l10n(datetime)}
+	{$Versions:item.created|l10n(shortdatetime)}
 	</td>
 	<td class="{$Versions:sequence}" valign="top">
-	{$Versions:item.modified|l10n(datetime)}
+	{$Versions:item.modified|l10n(shortdatetime)}
 	</td>
 	<td class="{$Versions:sequence}" valign="top">
 
@@ -47,11 +53,14 @@
 	</td>
 </tr>
 {/section}
+<tr>
+  <td colspan="6" align="right">
+    <input type="submit" name="EditButton" value="Object Edit" />
+    &nbsp;
+    <input type="submit" name="RevertVersionButton" value="Revert To" />
+    <input type="submit" name="CopyVersionButton" value="Copy From" />
+  </td>
+</tr>
 </table>
 
-<input type="submit" name="RevertButton" value="Revert and delete new versions" />
-<input type="submit" name="CopyRevertButton" value="Copy as current" />
-<br />
-
-<a href={concat("/content/edit/",$object.id,"/")|ezurl}>Back to edit object</a>
 </form>

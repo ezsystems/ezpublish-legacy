@@ -52,20 +52,16 @@ $ini->setVariable( 'DesignSettings', 'SiteDesign', 'hio' );
 
 $contentObject =& eZContentObject::fetch( $ObjectID );
 $versionObject =& $contentObject->version( $EditVersion );
-$versionAttributes = $versionObject->contentObjectAttributes();
+$versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
+if ( $versionAttributes === null or
+     count( $versionAttributes ) == 0 )
+{
+    $versionAttributes = $versionObject->contentObjectAttributes();
+    $LanguageCode = eZContentObject::defaultLanguage();
+}
 
 if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
-
-if ( $LanguageCode != '' )
-{
-    $contentObject->setCurrentLanguage( $LanguageCode );
-}
-else
-{
-    $LanguageCode = $contentObject->defaultLanguage();
-}
-
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
 
