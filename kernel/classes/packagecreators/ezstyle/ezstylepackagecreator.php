@@ -186,16 +186,16 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
-
-        $result = true;
-        if ( !$file )
+        if ( !eZHTTPFile::canFetch( 'PackageCSSFile' ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
                                   'description' => ezi18n( 'kernel/package', 'You must upload a CSS file' ) );
-            $result = false;
+            return false;
         }
-        else if ( !preg_match( "#\.css$#", strtolower( $file->attribute( 'original_filename' ) ) ) )
+
+        $result = true;
+        $file =& eZHTTPFile::fetch( 'PackageCSSFile' );
+        if ( !preg_match( "#\.css$#", strtolower( $file->attribute( 'original_filename' ) ) ) )
         {
             $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'CSS file' ),
                                   'description' => ezi18n( 'kernel/package', 'File did not have a .css suffix, this is most likely not a CSS file' ) );
@@ -225,6 +225,10 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateImageFiles( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
+        // If we don't have an image we continue as normal
+        if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
+            return true;
+
         $file =& eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;
