@@ -96,9 +96,9 @@ if ( count( $options['arguments'] ) > 0 )
         $status = $tpl->compileTemplateFile( $file );
         $text = false;
         if ( $status )
-            $text = "Compiled template file: $file";
+            $text = "Compiled template file: " . $cli->stylize( 'file', $file );
         else
-            $text = "Compilation failed: $file";
+            $text = "Compilation failed: " . $cli->stylize( 'file', $file );
         $script->iterate( $cli, $status, $text );
     }
 }
@@ -132,9 +132,9 @@ else
             $status = $tpl->compileTemplateFile( $file );
             $text = false;
             if ( $status )
-                $text = "Compiled template file: $file";
+                $text = "Compiled template file: " . $cli->stylize( 'file', $file );
             else
-                $text = "Compilation failed: $file";
+                $text = "Compilation failed: " . $cli->stylize( 'file', $file );
             $script->iterate( $cli, $status, $text );
         }
     }
