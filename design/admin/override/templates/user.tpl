@@ -5,7 +5,8 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name
          parent_nodes=$content_object.parent_nodes}
-{let user_attribute=$node.object.data_map.user_account
+{let data_map=$node.object.data_map
+     user_attribute=$data_map.user_account
      has_extra_groups=false()}
 
 {section show=$is_standalone}
@@ -22,7 +23,12 @@
     <p>Login: <i>{$user_attribute.content.login|wash}</i></p>
     <p>User ID: <i>{$user_attribute.content.contentobject_id}</i></p>
     <p>User <a href={concat( "user/setting/", $user_attribute.content.contentobject_id )|ezurl}>settings</a></p>
-
+    {section show=and( is_set( $data_map.image ), $data_map.image.has_content )}
+    <p>Image:</p>{attribute_view_gui attribute=$data_map.image}
+    {/section}
+    {section show=is_set( $data_map.signature )}
+    <p>Signature:</p>{$data_map.signature.content|simpletags|autolink}
+    {/section}
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
