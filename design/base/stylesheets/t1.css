@@ -24,7 +24,7 @@ div#header
 div#header-design
 {
     height: 70px;
-	width: 400px;
+    width: 400px;
     background-repeat: no-repeat;
     background-image: url(../images/t1/t1-logo-placeholder.gif);
 }
@@ -871,6 +871,27 @@ div.quote
 { 
     width: 178px;
     padding: 0px;
+}
+
+div.quote-down
+{ 
+    float: right;
+    width: 16px;
+    height: 16px;
+    background-image: url(../images/quote-down.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+div.quote-up
+{ 
+    margin: 3px;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background-image: url(../images/quote-up.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
 }
 
 div#maincontent-design div.quote p
