@@ -1020,7 +1020,20 @@ class eZSearchEngine
                         case 'attribute':
                         {
                             $sortClassID = $sortBy[2];
-                            $sortingFields .= "a$attributeJoinCount.sort_key";
+                            // Look up datatype for sorting
+                            $sortDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
+
+                            $sortKey = false;
+                            if ( $sortDataType == 'string' )
+                            {
+                                $sortKey = 'sort_key_string';
+                            }
+                            else
+                            {
+                                $sortKey = 'sort_key_int';
+                            }
+
+                            $sortingFields .= "a$attributeJoinCount.$sortKey";
                             $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
                             $attributeWereSQL .= " AND a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
                                                   a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
