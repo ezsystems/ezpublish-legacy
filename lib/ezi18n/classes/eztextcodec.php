@@ -551,7 +551,7 @@ class eZTextCodec
         $GLOBALS['eZTextCodecMBStringExtension'] = $settings['mbstring-extension'];
         if ( function_exists( 'mb_internal_encoding' ) )
         {
-            mb_internal_encoding( $settings['internal-charset'] );
+            @mb_internal_encoding( $settings['internal-charset'] );
         }
     }
 
