@@ -251,6 +251,8 @@ eZINI:
   http://ez.no/community/bug_reports/repost_crash_rss__1
 - Fixed bug: fatal error occurs when user removes a translation and then reloads the page.
   http://ez.no/community/bug_reports/repost_crash_translations
+- Fixed bug: fatal error occurs when user creates new bookmark, then removes it and reloads the page.
+  http://ez.no/community/bug_reports/repost_crash_my_bookmarks
 
 *Library:
 

@@ -58,6 +58,8 @@ if ( $Module->isCurrentAction( 'Remove' )  )
         foreach ( $deleteIDArray as $deleteID )
         {
             $bookmark =& eZContentBrowseBookmark::fetch( $deleteID );
+            if ( $bookmark === null )
+                continue;
             $bookmark->remove();
         }
     }
