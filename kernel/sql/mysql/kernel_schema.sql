@@ -1165,8 +1165,8 @@ create table ezurlalias
 create index ezurlalias_source_md5 on ezurlalias( source_md5 );
 
 # Drop unneeded columns
-alter table ezcontentobject_tree drop md5_path;
-alter table ezcontentobject_tree drop crc32_path;
+#alter table ezcontentobject_tree drop md5_path;
+#alter table ezcontentobject_tree drop crc32_path;
 
 create table ezpreferences
 (
