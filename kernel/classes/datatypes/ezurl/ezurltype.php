@@ -119,15 +119,19 @@ class eZURLType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
-        $urlID = eZURL::registerURL( $attribute->content() );
-        $attribute->setAttribute( 'data_int', $urlID );
+        $urlValue = $attribute->content();
+        if ( trim( $urlValue ) != '' )
+        {
+            $urlID = eZURL::registerURL( $urlValue );
+            $attribute->setAttribute( 'data_int', $urlID );
 
-        // Update url-object link
-        $contentObjectAttributeID = $attribute->attribute( 'id' );
-        $contentObjectAttributeVersion = $attribute->attribute( 'version' );
-        eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
-        $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-        $linkObjectLink->store();
+            // Update url-object link
+            $contentObjectAttributeID = $attribute->attribute( 'id' );
+            $contentObjectAttributeVersion = $attribute->attribute( 'version' );
+            eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
+            $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+            $linkObjectLink->store();
+        }
     }
 
     function storeClassAttribute( &$attribute, $version )
