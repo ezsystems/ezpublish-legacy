@@ -56,3 +56,14 @@ insert into ezurlalias ( source_url, source_md5, destination_url, is_internal ) 
 # Drop unneeded columns
 alter table ezcontentobject_tree drop md5_path;
 alter table ezcontentobject_tree drop crc32_path;
+
+create table ezpreferences
+(
+  id int(11) auto_increment NOT NULL,
+  user_id int(11) NOT NULL,
+  name varchar(100),
+  value varchar(100),
+  PRIMARY KEY (id)
+);
+
+create index ezpreferences_name on ezpreferences( name );

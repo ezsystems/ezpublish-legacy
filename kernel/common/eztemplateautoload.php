@@ -66,6 +66,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoper
                                     'class' => 'eZWordToImageOperator',
                                     'operator_names' => array( 'wordtoimage' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezkerneloperator.php',
+                                    'class' => 'eZKernelOperator',
+                                    'operator_names' => array( 'ezpreference' ) );
+
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'function' => 'eZPHPOperatorInit',

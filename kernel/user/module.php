@@ -53,6 +53,11 @@ $ViewList["login"] = array(
 $ViewList["setting"] = array(
     "script" => "setting.php",
     "params" => array( "UserID" ) );
+
+$ViewList["preferences"] = array(
+    "script" => "preferences.php",
+    "params" => array( "Function", "Key", "Value" ) );
+
 $ViewList["password"] = array(
     "script" => "password.php",
     "default_navigation_part" => 'ezmynavigationpart',
