@@ -56,6 +56,8 @@
                 </tr>
                 <tr>
                     {section show=$:item_count}
+                    voted={div(mul($:item_count,300),$total_count)}
+                    empty={sub(300,div(mul($:item_count,300),$total_count))}
                     <td class="voted-area" width="{div(mul($:item_count,300),$total_count)}">&nbsp;</td>
                     <td class="empty-area" width="{sub(300,div(mul($:item_count,300),$total_count))}">&nbsp;</td>
                     {section-else}
@@ -86,4 +88,8 @@
 
 {"%count total votes"|i18n( 'design/standard/content/poll' ,,
                              hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}
+
+
+<p class="attribute-link"><a href={$node.url_alias|ezurl}>{'Back to poll'|i18n( 'design/base/poll' )}</a></p>
+
 </div>
