@@ -146,26 +146,43 @@ class eZURLAlias extends eZPersistentObject
     {
         $oldPathStringLength = strlen( $oldPathString );
         $db =& eZDB::instance();
+        $newPathStringText = $db->escapeString( $newPathString );
+        $oldPathStringText = $db->escapeString( $oldPathString );
         $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
-        $newPathStringQueryPart = $db->concatString( array( "'$newPathString'", $subStringQueryPart ) );
-        // Update children
-        $sql = "UPDATE
-             ezurlalias
-         SET
-             source_url =  $newPathStringQueryPart
-         WHERE
-             is_internal = 1 AND
-             source_url LIKE '$oldPathString/%'";
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
+        $sql = "UPDATE ezurlalias
+SET
+    source_url = $newPathStringQueryPart
+WHERE
+    is_internal = 1 AND
+    source_url LIKE '$oldPathStringText/%'";
 
         $db->query( $sql );
 
         $md5QueryPart = $db->md5( 'source_url' );
-        $sql = "UPDATE
-                    ezurlalias
-                SET
-                    source_md5 = $md5QueryPart
-                WHERE
-                    source_url like '$oldPathString%'";
+        $sql = "UPDATE ezurlalias
+SET
+    source_md5 = $md5QueryPart
+WHERE
+    source_url like '$oldPathStringText%'";
+
+        $db->query( $sql );
+    }
+
+    /*!
+     Updates all forwards urls that originally points to \a $oldForwardID
+     to point to correct url \a $newForardID.
+    */
+    function updateForwardID( $newForwardID, $oldForwardID )
+    {
+        $db =& eZDB::instance();
+        $oldForwardIDText = $db->escapeString( $oldForwardID );
+        $newForwardIDText = $db->escapeString( $newForwardID );
+        $sql = "UPDATE ezurlalias
+SET
+    forward_to_id = '$newForwardIDText'
+WHERE
+    forward_to_id = '$oldForwardIDText'";
 
         $db->query( $sql );
     }
