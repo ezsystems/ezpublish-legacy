@@ -84,6 +84,15 @@ class eZUserAccountKey extends eZPersistentObject
                                                 true );
     }
 
+    /*!
+     Remove account keys belonging to user \a $userID
+    */
+    function &remove( $userID )
+    {
+        eZPersistentObject::removeObject( eZUserAccountKey::definition(),
+                                          array( 'user_id' => $userID ) );
+    }
+
 }
 
 ?>
