@@ -214,7 +214,6 @@ class eZDB
             $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );
             $pluginPathArray = array_merge( array( 'lib/ezdb/classes/' ),
                                             $extraPluginPathArray );
-//             eZDebug::writeDebug( $pluginPathArray, 'pluginPath' );
             $impl = null;
 
             $useSlaveServer = false;
@@ -268,18 +267,7 @@ class eZDB
                 $databaseParameters['connect_retries'] = $b['connect_retries'];
             if ( isset( $b['use_persistent_connection'] ) )
                 $databaseParameters['use_persistent_connection'] = $b['use_persistent_connection'];
-/*            if ( $databaseParameters === false )
-            {
-                $databaseParameters = $defaultDatabaseParameters;
-            }
-            else
-            {
-                $b = $databaseParameters;
-                $c = $defaultDatabaseParameters;
 
-                $databaseParameters =& array_merge( $c, $b );
-
-            }*/
             foreach( $pluginPathArray as $pluginPath )
             {
                 $dbFile = $pluginPath . $databaseImplementation . 'db.php';

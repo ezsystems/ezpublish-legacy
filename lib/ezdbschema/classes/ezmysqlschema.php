@@ -32,38 +32,57 @@
 // you.
 //
 
-class eZMysqlSchema
+include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
+
+class eZMysqlSchema extends eZDBSchemaInterface
 {
 
-	function read( $con )
-	{
-		$schema = array();
-		$res = mysql_query( "SHOW TABLES", $con );
+    /*!
+     \reimp
+     Constructor
 
-		while ( $row = mysql_fetch_row ( $res ) )
-		{
-			$table_name = $row[0];
+     \param db instance
+    */
+    function eZMysqlSchema( $db )
+    {
+        $this->eZDBSchemaInterface( $db );
+    }
+
+    /*!
+     \reimp
+    */
+    function schema()
+    {
+        $schema = array();
+
+        $tableArray = $this->DBInstance->arrayQuery( "SHOW TABLES" );
+
+        foreach( $tableArray as $tableNameArray )
+        {
+			$table_name = current( $tableNameArray );
             $schema_table['name'] = $table_name;
-			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
-			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
+			$schema_table['fields'] = $this->fetchTableFields( $table_name );
+			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
 
 			$schema[$table_name] = $schema_table;
 		}
-		$this->schema = $schema;
-		return $this->schema;
-	}
+
+		return $schema;
+    }
 
 	/*!
-	 * \private
+	 \private
+
+     \param table name
 	 */
-	function fetchTableFields($table, $con)
+	function fetchTableFields( $table )
 	{
 		$fields = array();
 
-		$res = mysql_query( "DESCRIBE $table", $con );
+        $resultArray = $this->DBInstance->arrayQuery( "DESCRIBE $table" );
 
-		while ( $row = mysql_fetch_assoc ( $res ) )
-		{
+        foreach( $resultArray as $row )
+        {
 			$field = array();
 			$field['type'] = $this->parseType ( $row['Type'], $field['length'] );
 			if ( !$field['length'] )
@@ -133,13 +152,13 @@ class eZMysqlSchema
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes( $table, $con )
+	function fetchTableIndexes( $table )
 	{
 		$indexes = array();
 
-		$res = mysql_query( "SHOW INDEX FROM $table", $con );
+        $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );
 
-		while ( $row = mysql_fetch_assoc ( $res ) )
+        foreach( $resultArray as $row )
 		{
 			$kn = $row['Key_name'];
 
@@ -283,32 +302,6 @@ class eZMysqlSchema
 	/*!
 	 * \private
 	 */
-	function generateDropFieldSql( $table_name, $field_name )
-	{
-		$sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
-
-		return $sql . ";\n";
-	}
-
-	/*!
-	 * \private
-	 */
-	function generateSchemaFile( $schema )
-	{
-		$sql = '';
-
-		foreach ( $schema as $table => $table_def )
-		{
-            $sql .= eZMysqlSchema::generateTableSchema( $table, $table_def );
-			$sql .= "\n\n";
-		}
-
-		return $sql;
-	}
-
-	/*!
-	 * \private
-	 */
 	function generateTableSchema( $table, $table_def )
 	{
 		$sql = '';
@@ -333,106 +326,6 @@ class eZMysqlSchema
             }
         }
 		return $sql;
-	}
-
-	/*!
-	 * \private
-	 */
-	function generateUpgradeFile( $differences )
-	{
-		$sql = '';
-
-		/* Loop over all 'table_changes' */
-		if ( isset( $differences['table_changes'] ) )
-		{
-			foreach ( $differences['table_changes'] as $table => $table_diff )
-			{
-				if ( isset( $table_diff['added_fields'] ) )
-				{
-					foreach ( $table_diff['added_fields'] as $field_name => $added_field )
-					{
-						$sql .= ezMysqlSchema::generateAddFieldSql( $table, $field_name, $added_field );
-					}
-				}
-
-				if ( isset( $table_diff['changed_fields'] ) )
-				{
-					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
-					{
-						$sql .= ezMysqlSchema::generateAlterFieldSql( $table, $field_name, $changed_field );
-					}
-				}
-				if ( isset( $table_diff['removed_fields'] ) )
-				{
-					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field )
-					{
-						$sql .= ezMysqlSchema::generateDropFieldSql( $table, $field_name );
-					}
-				}
-
-				if ( isset( $table_diff['added_indexes'] ) )
-				{
-					foreach ( $table_diff['added_indexes'] as $index_name => $added_index )
-					{
-						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $added_index );
-					}
-				}
-
-				if ( isset( $table_diff['changed_indexes'] ) )
-				{
-					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
-					{
-						$sql .= ezMysqlSchema::generateDropIndexSql( $table, $index_name );
-						$sql .= ezMysqlSchema::generateAddIndexSql( $table, $index_name, $changed_index );
-					}
-				}
-				if ( isset( $table_diff['removed_indexes'] ) )
-				{
-					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index )
-					{
-						$sql .= ezMysqlSchema::generateDropIndexSql( $table, $index_name );
-					}
-				}
-			}
-		}
-		if ( isset( $differences['new_tables'] ) )
-		{
-			foreach ( $differences['new_tables'] as $table => $table_def )
-			{
-                $sql .= eZMySQLSchema::generateTableSchema( $table, $table_def );
-            }
-        }
-        return $sql;
-	}
-
-	function writeUpgradeFile( $differences, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZMysqlSchema::generateUpgradeFile( $differences ) );
-			fclose( $fp );
-			return true;
-		}
-        else
-        {
-			return false;
-		}
-	}
-
-	function writeSchemaFile( $schema, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZMysqlSchema::generateSchemaFile( $schema ) );
-			fclose( $fp );
-			return true;
-		}
-        else
-        {
-			return false;
-		}
 	}
 }
 ?>

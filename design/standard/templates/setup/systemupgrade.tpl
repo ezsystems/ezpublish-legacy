@@ -21,9 +21,27 @@
   {/section}
 {/section}
 
+{section show=$upgrade_sql}
+    <div class="feedback">
+    {"Warning, your database is not consistent with the distribution database."|i18n("design/standard/setup")}<br />
+    {"To revert your database to distribution setup, run the following SQL queries:"|i18n("design/standard/setup")}<br />
+    <p>
+      {$upgrade_sql|wash|break}
+    </p>
+    </div>
+  
+{/section}
+
 <div class="buttonblock">
 <p>{"Click a button to check file consistency."|i18n("design/standard/setup")}
   <input type="submit" name="MD5CheckButton" value="{"Check files"|i18n("design/standard/setup")}" />
+  ( {"warning, this might take a while"|i18n("design/standard/setup")} )
+</p>
+</div>
+
+<div class="buttonblock">
+<p>{"Click a button to check database consistency."|i18n("design/standard/setup")}
+  <input type="submit" name="DBCheckButton" value="{"Check database"|i18n("design/standard/setup")}" />
   ( {"warning, this might take a while"|i18n("design/standard/setup")} )
 </p>
 </div>

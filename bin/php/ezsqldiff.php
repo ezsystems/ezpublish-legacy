@@ -123,36 +123,23 @@ $ini =& eZINI::instance();
 
 function &loadDatabaseSchema( $type, $host, $user, $password, $db )
 {
-    if ( $type == 'mysql' )
+    inclide_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $dbInstance = eZDB::instance( $type,
+                                  array( 'server' => $host,
+                                         'user' => $user,
+                                         'password' => $password,
+                                         'database' => $db ),
+                                  true );
+
+    if ( !$dbInstance )
     {
-        include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
-        $connection = mysql_connect( $host, $user, $password );
-        if ( !$connection )
-        {
-            $cli =& eZCLI::instance();
-            $cli->error( "MySQL connection error: " . mysql_error() );
-            return false;
-        }
-        mysql_select_db( $db );
-        $dbschema = new eZMysqlSchema();
-        $schema = $dbschema->read( $connection );
-        return $schema;
+        $cli->error( 'Failed to open database ' . $type . ', ' . $host . ', ' . $user );
+        return false;
     }
-    else if ( $type == 'postgresql' )
-    {
-        include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
-        $connection = pg_connect( "host=$host dbname=$db user=$user password=$password" );
-        if ( !$connection )
-        {
-            $cli =& eZCLI::instance();
-            $cli->error( "PostgreSQL connection error: " . pg_errormessage( $connection ) );
-            return false;
-        }
-        $dbschema = new eZPgsqlSchema();
-        $schema = $dbschema->read( $connection );
-        return $schema;
-    }
-    return false;
+
+    $dbSchema = eZDBSchema::instance( $dbInstance );
+    return $dbSchema->schema();
 }
 
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB );

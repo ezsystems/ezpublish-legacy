@@ -52,6 +52,7 @@ Updates:
   It will create Content, Users, Media and Setup.
 - New script called updateremoteid.php which will go trough all classes,
   objects and nodes and make sure they have a proper remote ID.
+- Added database consistency check to web interface and makedist scripts.
 
 eZPersistentObject:
 - Fixed a bug which caused some classes to only produce insert statements.

@@ -48,6 +48,19 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     $tpl->setVariable( 'md5_result', $checkResult );
 }
 
+if ( $Module->isCurrentAction( 'DBCheck' ) )
+{
+    include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php');
+    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+
+    $dbSchema = eZDBSchema::instance();
+
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'var/storage/db_schema.dat' ) );
+    $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
+
+    $tpl->setVariable( 'upgrade_sql', $sqlDiff );
+}
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/systemupgrade.tpl" );
 $Result['path'] = array( array( 'url' => false,

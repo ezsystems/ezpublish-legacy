@@ -36,10 +36,10 @@ define( 'SHOW_TABLES_QUERY', <<<END
 SELECT n.nspname as "Schema",
 	c.relname as "Name",
 	CASE c.relkind
-		WHEN 'r' THEN 'table' 
-		WHEN 'v' THEN 'view' 
-		WHEN 'i' THEN 'index' 
-		WHEN 'S' THEN 'sequence' 
+		WHEN 'r' THEN 'table'
+		WHEN 'v' THEN 'view'
+		WHEN 'i' THEN 'index'
+		WHEN 'S' THEN 'sequence'
 		WHEN 's' THEN 'special'
 	END as "Type",
 	u.usename as "Owner"
@@ -93,41 +93,56 @@ ORDER BY a.attnum
 END
 );
 
+include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
-class eZPgsqlSchema
+class eZPgsqlSchema extends eZSchemaInterface
 {
-	function read( $con )
-	{
-		$schema = array();
-		$res = pg_query( $con, SHOW_TABLES_QUERY );
+    /*!
+     \reimp
+     Constructor
 
-		while ( $row = pg_fetch_assoc( $res ) )
+     \param db instance
+    */
+    function eZPgsqlSchema( $db )
+    {
+        $this->eZDBSchemaInterface( $db );
+    }
+
+    /*!
+     \reimp
+    */
+    function schema()
+    {
+        $schema = array();
+
+        $resultArray = $this->DBInstance->arrayQuery( SHOW_TABLES_QUERY );
+
+        foreach( $resultArray as $row )
 		{
 			$table_name = $row['Name'];
             $schema_table['name'] = $table_name;
-			$schema_table['fields'] = $this->fetchTableFields( $table_name, $con );
-			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $con );
+			$schema_table['fields'] = $this->fetchTableFields( $table_name );
+			$schema_table['indexes'] = $this->fetchTableIndexes( $table_name );
 
 			$schema[$table_name] = $schema_table;
 		}
 		$this->schema = $schema;
 		return $this->schema;
-	}
+    }
 
 	/*!
 	 * \private
 	 */
-	function fetchTableFields( $table, $con )
+	function fetchTableFields( $table )
 	{
 		$fields = array();
 
-		$res = pg_query( $con, str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
-		$row = pg_fetch_assoc( $res );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
+		$row = $resultArray[0];
 		$oid = $row['oid'];
 
-		$query = str_replace( '<<oid>>', $oid, FETCH_TABLE_DEF_QUERY );
-		$res = pg_query( $con, $query );
-		while ( $row = pg_fetch_assoc ( $res ) )
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_TABLE_DEF_QUERY ) );
+        foreach( $resultArray as $row )
 		{
 			$field = array();
 			$autoinc = false;
@@ -200,17 +215,17 @@ class eZPgsqlSchema
 	/*!
 	 * \private
 	 */
-	function fetchTableIndexes( $table, $con )
+	function fetchTableIndexes( $table )
 	{
 		$indexes = array();
 
-		$res = pg_query( $con, str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
-		$row = pg_fetch_assoc( $res );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
+		$row = $resultArray[0];
 		$oid = $row['oid'];
 
-		$res = pg_query( $con, str_replace( '<<oid>>', $oid, FETCH_INDEX_DEF_QUERY ) );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_INDEX_DEF_QUERY ) );
 
-		while ( $row = pg_fetch_assoc ( $res ) )
+        foreach( $resultArray as $row )
 		{
 			$fields = array();
 			$kn = $row['relname'];
@@ -230,9 +245,10 @@ class eZPgsqlSchema
 			$att_ids = join( ', ',  $column_id_array );
 			$query = str_replace( '<<indexrelid>>', $row['indrelid'], FETCH_INDEX_COL_NAMES_QUERY );
 			$query = str_replace( '<<attids>>', $att_ids, $query );
-			$fields_res = pg_query( $con, $query );
-			while ( $fields_row = pg_fetch_assoc ( $fields_res ) )
-			{
+
+            $fieldsArray = $this->DBInstance->arrayQuery( $query );
+            foreach( $fieldsArray as $fields_row )
+            {
 				$fields[$fields_row['attnum']] = $fields_row['attname'];
 			}
 			foreach ( $column_id_array as $rank => $id )
@@ -545,32 +561,6 @@ class eZPgsqlSchema
 	/*!
 	 * \private
 	 */
-	function generateDropFieldSql( $table_name, $field_name )
-	{
-		$sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
-
-		return $sql . ";\n";
-	}
-
-	/*!
-	 * \private
-	 */
-	function generateSchemaFile( $schema )
-	{
-		$sql = '';
-
-		foreach ( $schema as $table => $table_def )
-		{
-            $sql .= eZPGSQLSchema::generateTableSchema( $table, $table_def );
-			$sql .= "\n\n";
-		}
-
-		return $sql;
-	}
-
-	/*!
-	 * \private
-	 */
 	function generateTableSchema( $table, $table_def )
 	{
 		$sql = '';
@@ -598,106 +588,6 @@ class eZPgsqlSchema
         }
 
 		return $sql;
-	}
-
-	/*!
-	 * \private
-	 */
-	function generateUpgradeFile( $differences )
-	{
-		$sql = '';
-
-		/* Loop over all 'table_changes' */
-		if ( isset( $differences['table_changes'] ) )
-		{
-			foreach ( $differences['table_changes'] as $table => $table_diff )
-			{
-				if ( isset ( $table_diff['added_fields'] ) )
-				{
-					foreach ( $table_diff['added_fields'] as $field_name => $added_field )
-					{
-						$sql .= eZPGSQLSchema::generateAddFieldSql( $table, $field_name, $added_field );
-					}
-				}
-
-				if ( isset ( $table_diff['changed_fields'] ) )
-				{
-					foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
-					{
-						$sql .= eZPGSQLSchema::generateAlterFieldSql( $table, $field_name, $changed_field );
-					}
-				}
-				if ( isset ( $table_diff['removed_fields'] ) )
-				{
-					foreach ( $table_diff['removed_fields'] as $field_name => $removed_field)
-					{
-						$sql .= eZPGSQLSchema::generateDropFieldSql( $table, $field_name );
-					}
-				}
-
-				if ( isset ( $table_diff['added_indexes'] ) )
-				{
-					foreach ( $table_diff['added_indexes'] as $index_name => $added_index)
-					{
-						$sql .= eZPGSQLSchema::generateAddIndexSql( $table, $index_name, $added_index );
-					}
-				}
-
-				if ( isset ( $table_diff['changed_indexes'] ) )
-				{
-					foreach ( $table_diff['changed_indexes'] as $index_name => $changed_index )
-					{
-						$sql .= eZPGSQLSchema::generateDropIndexSql( $table, $index_name );
-						$sql .= eZPGSQLSchema::generateAddIndexSql( $table, $index_name, $changed_index );
-					}
-				}
-				if ( isset ( $table_diff['removed_indexes'] ) )
-				{
-					foreach ( $table_diff['removed_indexes'] as $index_name => $removed_index)
-					{
-						$sql .= eZPGSQLSchema::generateDropIndexSql( $table, $index_name );
-					}
-				}
-			}
-		}
-		if ( isset( $differences['new_tables'] ) )
-		{
-			foreach ( $differences['new_tables'] as $table => $table_def )
-			{
-                $sql .= eZPGSQLSchema::generateTableSchema( $table, $table_def );
-            }
-        }
-		return $sql;
-	}
-
-	function writeUpgradeFile( $differences, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZPgsqlSchema::generateUpgradeFile( $differences ) );
-			fclose( $fp );
-			return true;
-		}
-        else
-        {
-			return false;
-		}
-	}
-
-	function writeSchemaFile( $schema, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZPgsqlSchema::generateSchemaFile( $schema ) );
-			fclose( $fp );
-			return true;
-		}
-        else
-        {
-			return false;
-		}
 	}
 }
 ?>

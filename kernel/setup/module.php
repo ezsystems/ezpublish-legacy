@@ -136,7 +136,8 @@ $ViewList['menu'] = array(
 $ViewList['systemupgrade'] = array(
     'script' => 'systemupgrade.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check' ),
+    'single_post_actions' => array( 'MD5CheckButton' => 'MD5Check',
+                                    'DBCheckButton' => 'DBCheck' ),
     'params' => array( ) );
 
 $ViewList["toolbarlist"] = array(

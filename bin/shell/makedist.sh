@@ -114,6 +114,11 @@ function scan_dir
 SVN_SERVER=""
 REPOS_RELEASE="trunk"
 
+DB_USER="root"
+DB_NAME="ez_tmp_makedist"
+DB_SERVER="localhost"
+DB_PASSWORD=""
+
 # Check parameters
 for arg in $*; do
     case $arg in
@@ -130,6 +135,10 @@ for arg in $*; do
 	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
 	    echo "         --skip-unit-tests          Do not run unit tests*"
 	    echo "         --skip-transation          Do not run translation chech"
+	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
+            echo "         --db-user=user             Mysql DB user ( default: root )"
+            echo "         --db-name=databasename     Mysql DB name ( default: ez_tmp_makedist )"
+            echo "         --db-password=password     Mysql DB password ( default: <empty> )"
 	    echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
@@ -154,6 +163,26 @@ for arg in $*; do
 		REPOS_RELEASE=`echo $arg | sed 's/--with-release=//'`
 	    else
 		REPOS_RELEASE="trunk"
+	    fi
+	    ;;
+	--db-server*)
+	    if echo $arg | grep -e "--db-server=" >/dev/null; then
+		DB_SERVER=`echo $arg | sed 's/--db-server=//'`
+	    fi
+	    ;;
+	--db-user*)
+	    if echo $arg | grep -e "--db-user=" >/dev/null; then
+		DB_USER=`echo $arg | sed 's/--db-user=//'`
+	    fi
+	    ;;
+	--db-name*)
+	    if echo $arg | grep -e "--db-name=" >/dev/null; then
+		DB_NAME=`echo $arg | sed 's/--db-name=//'`
+	    fi
+	    ;;
+	--db-password*)
+	    if echo $arg | grep -e "--db-password=" >/dev/null; then
+		DB_PASSWORD=`echo $arg | sed 's/--db-password=//'`
 	    fi
 	    ;;
 #	--skip-site-creation)
@@ -618,6 +647,26 @@ fi
 
 if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
+fi
+
+# Create SQL schema definition for later checks
+
+if [ "$DB_PASSWORD"KAKE == KAKE ]; then
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" drop "$DB_NAME";
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" create "$DB_NAME";
+    mysql -u "$DB_USER" -h "$DB_SERVER" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql;
+
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" "$DB_NAME" $DEST/var/storage/db_schema.dat;
+
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" drop "$DB_NAME";
+else
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" drop "$DB_NAME";
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" create "$DB_NAME";
+    mysql -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql;
+
+    ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" --password="$DB_PASSWORD" "$DB_NAME" $DEST/var/storage/db_schema.dat;
+
+    mysqladmin -u "$DB_USER" -h "$DB_SERVER" -p "$DB_PASSWORD" drop "$DB_NAME";
 fi
 
 # Create MD5 check sums

@@ -34,14 +34,51 @@
 
 class eZDbSchema
 {
+    /*!
+     Create new instance of eZDBSchemaInterface. placed here for simplicity.
+
+     \param eZDB instance (optional), if none provided, eZDB::instance() will be used.
+     \return new Instance of eZDBSchema, false if failed
+    */
+    function instance( $db = false )
+    {
+        if ( $db === false )
+        {
+            include_once( 'lib/ezdb/classes/ezdb.php' );
+            $db = eZDB::instance();
+        }
+
+        switch( $db->databaseName() )
+        {
+            case 'mysql':
+            {
+                include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
+                return new eZMysqlSchema( $db );
+            } break;
+
+            case 'postgresql':
+            {
+                include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
+                return new eZPgsqlSchema( $db );
+            } break;
+
+            default:
+            {
+                eZDebug::writeError( 'No schema handler for database type : ' . $db->databaseName(),
+                                     'eZDBSchema::instance()' );
+            } break;
+        }
+
+        return false;
+    }
+
+    /*!
+     \static
+    */
 	function read( $filename )
 	{
-		$this->schema = include( $filename );
-		if ( !$this->schema || !is_array( $this->schema ) )
-		{
-			$this->schema = array();
-		}
-		return $this->schema;
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+		return unserialize( eZFile::getContents( $filename ) );
 	}
 
 	/*!
@@ -59,30 +96,6 @@ class eZDbSchema
 		if ( $fp )
 		{
 			fputs( $fp, eZDbSchema::generateUpgradeFile( $differences ) );
-			fclose( $fp );
-			return true;
-		}
-        else
-        {
-			return false;
-		}
-	}
-
-	/*!
-	 * \private
-	 */
-	function generateSchemaFile( $schema )
-	{
-		$schema = var_export( $schema, true );
-		return ( "<?php \n\$schema = \n" . $schema . ";\nreturn \$schema;\n?>\n" );
-	}
-
-	function writeSchemaFile( $schema, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZDbSchema::generateSchemaFile( $schema ) );
 			fclose( $fp );
 			return true;
 		}
