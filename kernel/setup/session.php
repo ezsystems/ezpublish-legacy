@@ -43,7 +43,7 @@ $sessionsRemoved = false;
 $http =& eZHTTPTool::instance();
 
 $module =& $Params["Module"];
-$param['limit'] = 5;
+$param['limit'] = 50;
 
 if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 {
