@@ -11,7 +11,7 @@
     {"Posted"|i18n}
     </th>
 </tr>
-{section name=Message loop=fetch(content,list,hash(parent_node_id,33))}
+{section name=Message loop=fetch('content','list',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset)) sequence=array(bglight,bgdark)}
 <tr>
     <td bgcolor="#efefef" width="60%">
     <a href={concat('content/view/full/',$Message:item.node_id,'/')|ezurl}>{$Message:item.name}</a>

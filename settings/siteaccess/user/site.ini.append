@@ -42,7 +42,7 @@ PreCheck=user
 [DebugSettings]
 # IP addresses which will get debug information
 # Valid are: enabled, disabled or list of IP's separated by ;
-DebugIP=enabled
+DebugIP=disabled
 # Use either disabled, inline or popup
 Debug=inline
 # Use either enabled or a an array of uris to match

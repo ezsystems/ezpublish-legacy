@@ -4,8 +4,7 @@
                   <table width="393" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td width="393" height="18" bgcolor="#663366"><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-<strong>&nbsp;&nbsp;&nbsp; 
-                        <font color="#FFFFFF">
+<strong>&nbsp;&nbsp;&nbsp;<font color="#FFFFFF">
 {attribute_view_gui attribute=$node.object.data_map.title}</font></strong></font></td>
                     </tr>
                   </table>                 
@@ -18,6 +17,7 @@
                     <tr>
                       <td width="373" valign="top">
 <p>
+<span class="small">{$node.object.published|l10n(datetime)}</span>
 <div class="imageright">
 {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
 </div>

@@ -18,6 +18,9 @@
                     <table width="393" height="124" border="0" cellpadding="10" cellspacing="0">
                     <tr>
                       <td width="373" valign="top">
+<span class="small">{$node.object.published|l10n(datetime)}</span>
+<br />
+<br />
 <p>
 <div class="imageright">
 {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
