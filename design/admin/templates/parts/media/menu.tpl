@@ -25,6 +25,8 @@
 
 {/section}
 
+{section show=ne( $ui_context, 'browse' )}
+
 {* Trashcan. *}
 <div id="trash">
 <ul>
@@ -38,5 +40,7 @@
 <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>{'Medium'|i18n( 'design/admin/parts/media/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>{'Large'|i18n( 'design/admin/parts/media/menu' )}</a>
 </p>
+
+{/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>

@@ -14,6 +14,8 @@
     {include uri='design:contentstructuremenu/content_structure_menu.tpl'}
 </div>
 
+{section show=ne( $ui_context, 'browse' )}
+
 {* Trashcan. *}
 <div id="trash">
 <ul>
@@ -21,14 +23,13 @@
 </ul>
 </div>
 
-{section show=ne( $ui_context, 'browse' )}
-
 {* Left menu width control. *}
 <p>
 <a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl}>{'Small'|i18n( 'design/admin/parts/content/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>{'Medium'|i18n( 'design/admin/parts/content/menu' )}</a>
 <a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>{'Large'|i18n( 'design/admin/parts/content/menu' )}</a>
 </p>
+
 {/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
