@@ -160,12 +160,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$attribute );
     }
 
-<<<<<<< .mine
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $class_filter_type, $class_filter_array )
-=======
-    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array )
->>>>>>> .r2871
-    {
+    function &fetchObjectTree( $parentNodeID, $sortBy, $offset, $limit, $depth, $depthOperator, $classID, $attribute_filter, $class_filter_type, $class_filter_array )    {
         $hash = md5( "$parentNodeID, $sortBy, $offset, $limit, $depth, $classID, $attribute_filter, $class_filter_type, $class_filter_array" );
 //         print( "fetch list $parentNodeID $hash<br>" );
 
