@@ -498,10 +498,9 @@ class eZContentUpload
             unset( $dataMap );
             $dataMap =& $object->dataMap();
 
-            $fileDatatype =& $dataMap[$fileAttribute]->dataType();
-            $status = $fileDatatype->insertHTTPFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
-                                                     $dataMap[$fileAttribute], $file, $mimeData,
-                                                     $storeResult );
+            $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                                $file, $mimeData,
+                                                                $storeResult );
             if ( $status === null )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -517,10 +516,9 @@ class eZContentUpload
             if ( $storeResult['require_storage'] )
                 $dataMap[$fileAttribute]->store();
 
-            $nameDatatype =& $dataMap[$nameAttribute]->dataType();
-            $status = $nameDatatype->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
-                                                         $dataMap[$nameAttribute], $nameString,
-                                                         $storeResult );
+            $status = $dataMap[$nameAttribute]->insertSimpleString( $object, $object->attribute( 'current_version' ), eZContentObject::defaultLanguage(),
+                                                                    $nameString,
+                                                                    $storeResult );
             if ( $status === null )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',

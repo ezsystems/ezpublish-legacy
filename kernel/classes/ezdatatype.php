@@ -310,6 +310,8 @@ class eZDataType
                              &$objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of HTTP files",
+                               'eZDataType::insertHTTPFile' );
         return null;
     }
 
@@ -336,6 +338,8 @@ class eZDataType
                                 &$objectAttribute, $filePath,
                                 &$result )
     {
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of regular files",
+                               'eZDataType::insertRegularFile' );
         return null;
     }
 
@@ -362,6 +366,8 @@ class eZDataType
                                  &$objectAttribute, $string,
                                  &$result )
     {
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " does not support insertion of simple strings",
+                               'eZDataType::insertSimplestring' );
         return null;
     }
 

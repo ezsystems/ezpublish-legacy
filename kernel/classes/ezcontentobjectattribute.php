@@ -585,6 +585,78 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Inserts the HTTP file \a $httpFile to the content object attribute \a $objectAttribute
+     by calling eZDataType::insertHTTPFile on the current datatype.
+
+     The parameters are passed directly to the datatype with the exception of
+     \a $object, \a $objectVersion and \a $objectLanguage.
+     If \c false is passed to any of these parameters they will be fetched from the
+     current attribute, if these are available it is adviced to pass them since it will save time.
+    */
+    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
+                             &$httpFile, $mimeData,
+                             &$result )
+    {
+        if ( !$object )
+            $object =& $this->object();
+        if ( $objectVersion === false )
+            $objectVersion = $object->attribute( 'current_version' );
+        if ( $objectLanguage === false )
+            $objectLanguage = $object->attribute( 'default_language' );
+        $dataType =& $this->dataType();
+        return $dataType->insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                                          $this, $httpFile, $mimeData );
+    }
+
+    /*!
+     Inserts the file named \a $filePath to the content object attribute \a $objectAttribute.
+     by calling eZDataType::insertRegularFile on the current datatype.
+
+     The parameters are passed directly to the datatype with the exception of
+     \a $object, \a $objectVersion and \a $objectLanguage.
+     If \c false is passed to any of these parameters they will be fetched from the
+     current attribute, if these are available it is adviced to pass them since it will save time.
+    */
+    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+                                $filePath, $mimeData,
+                                &$result )
+    {
+        if ( !$object )
+            $object =& $this->object();
+        if ( $objectVersion === false )
+            $objectVersion = $object->attribute( 'current_version' );
+        if ( $objectLanguage === false )
+            $objectLanguage = $object->attribute( 'default_language' );
+        $dataType =& $this->dataType();
+        return $dataType->insertRegularFile( $object, $objectVersion, $objectLanguage,
+                                             $this, $filePath, $mimeData );
+    }
+
+    /*!
+     Inserts the string \a $string to the content object attribute \a $objectAttribute.
+     by calling eZDataType::insertSimpleString on the current datatype.
+
+     The parameters are passed directly to the datatype with the exception of
+     \a $object, \a $objectVersion and \a $objectLanguage.
+     If \c false is passed to any of these parameters they will be fetched from the
+     current attribute, if these are available it is adviced to pass them since it will save time.
+    */
+    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
+                                 $string, $mimeData,
+                                 &$result )
+    {
+        if ( !$object )
+            $object =& $this->object();
+        if ( $objectVersion === false )
+            $objectVersion = $object->attribute( 'current_version' );
+        if ( $objectLanguage === false )
+            $objectLanguage = $object->attribute( 'default_language' );
+        $dataType =& $this->dataType();
+        return $dataType->insertSimpleString( $object, $objectVersion, $objectLanguage,
+                                              $this, $string, $mimeData );
+    }
+
+    /*!
      Initialized the attribute by using the datatype.
     */
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )
