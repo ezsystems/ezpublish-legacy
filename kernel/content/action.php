@@ -366,6 +366,14 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         eZDebug::writeError( "Unknown content object action", "kernel/content/action.php" );
     }
 }
+else if ( $http->hasPostVariable( 'RedirectButton' ) )
+{
+    if ( $http->hasPostVariable( 'RedirectURI' ) )
+    {
+        $module->redirectTo( $http->postVariable( 'RedirectURI' ) );
+        return;
+    }
+}
 /*else if ( $http->hasPostVariable( 'RemoveObject' ) )
 {
     $removeObjectID = $http->postVariable( 'RemoveObject' );
