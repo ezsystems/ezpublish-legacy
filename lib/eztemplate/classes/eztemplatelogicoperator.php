@@ -298,6 +298,12 @@ class eZTemplateLogicOperator
         case 'ge':
             $operator = '>=';
             break;
+        case 'eq':
+            $operator = '==';
+            break;
+        case 'ne':
+            $operator = '!=';
+            break;
         case 'and':
             $operator = 'and';
             $maxParameterCount = false;
@@ -387,7 +393,7 @@ class eZTemplateLogicOperator
         {
             $selected = $parameters[0][0][1];
 
-            if ($selected > ( count( $parameters ) - 1 ) )
+            if ( $selected > ( count( $parameters ) - 1 ) )
             {
                 return false;
             }
@@ -397,12 +403,10 @@ class eZTemplateLogicOperator
         }
         else
         {
-            $tmpName = md5( date( 'r' ) );
-
             $values[] = $parameters[0];
             $array = $parameters;
             unset( $array[0] );
-            
+
             $code = "%tmp1% = array( ";
             $counter = 2;
             foreach ($array as $element)
