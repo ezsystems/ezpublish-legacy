@@ -1123,3 +1123,5 @@ create table ezkeyword_attribute_link(
     objectattribute_id  int not null,
     PRIMARY KEY  (id)
 );
+
+alter table ezcontentclass_attribute ADD data_text5 text;
