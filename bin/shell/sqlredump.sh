@@ -179,6 +179,7 @@ else
     else
 	pg_dump --no-owner --inserts "$DBNAME" > "$SQLFILE".0
     fi
+    perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
 
