@@ -59,6 +59,7 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/classes/ezcollaborationprofile.php' );
 include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
 include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/common/i18n.php' );
 
 /// Approval message type

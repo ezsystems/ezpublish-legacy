@@ -4,7 +4,7 @@
 <input name="ContentObjectAttribute_data_binaryfilename_{$attribute.id}" type="file" />
 </div>
 
-{section show=or($attribute.content,$attribute.content)}
+{section show=$attribute.content}
 <div class="block">
 <div class="element">
 <label>{"Filename:"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
