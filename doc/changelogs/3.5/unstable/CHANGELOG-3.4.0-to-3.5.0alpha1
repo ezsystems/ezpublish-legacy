@@ -521,6 +521,9 @@ Workflow:
 - Fixed bug: eZContentObject::fetch() didn't respect $asObject argument value.
   (Merged from stable/3.4 rev. 7995)
   http://ez.no/community/bug_reports/ezcontentobject_fetch_doesnt_respect_asobject_value
+- Fixed bug of loading cache file in toolbar management which causes lots of debug errors.
+  http://www.ez.no/community/bug_reports/problem_with_toolbar_management
+  (Merged from stable/3.4 rev. 8000)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
