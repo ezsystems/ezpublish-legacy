@@ -676,4 +676,24 @@ span.dox_preprocessor  { color: #806020 }
 span.dox_stringliteral { color: #002080 }
 span.dox_charliteral   { color: #008080 }
 
+div.pagenavigator
+{
+   text-align: center;    
+}
+
+div.pagenavigator span.previous
+{
+   float: left;
+}
+
+div.pagenavigator span.next
+{
+   float: right;
+}
+
+
+
+
+
+
 

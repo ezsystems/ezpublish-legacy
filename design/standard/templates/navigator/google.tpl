@@ -41,6 +41,14 @@
        {/case}
      {/switch}
 
+    {switch match=$:item_next|lt($item_count)}
+      {case match=1}
+        <span class="next"><a href={concat($page_uri,$:offset_text,$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}><span class="text">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></a></span>
+      {/case}
+      {case}
+      {/case}
+    {/switch}
+
 <span class="pages">
 {section show=$:current_page|gt($:left_max)}
 <a href={concat($page_uri,$:view_parameter_text,$page_uri_suffix)|ezurl}>1</a>
@@ -71,14 +79,6 @@
 {/section}
 
 </span>
-
-    {switch match=$:item_next|lt($item_count)}
-      {case match=1}
-        <span class="next"><a href={concat($page_uri,$:offset_text,$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}><span class="text">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></a></span>
-      {/case}
-      {case}
-      {/case}
-    {/switch}
 
 {/section}
 
