@@ -6,4 +6,5 @@
   {case}
   {$content}
   {/case}
+{/switch}
 </td>
