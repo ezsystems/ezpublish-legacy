@@ -76,7 +76,7 @@ class eZURI
 
         foreach( array_keys( $this->URIArray ) as $key )
         {
-            if ( preg_match( "([\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
+            if ( isset( $this->URIArray[$key] ) && preg_match( "([\(][a-zA-Z0-9_]+[\)])", $this->URIArray[$key] ) )
             {
                 $this->UserArray[substr( $this->URIArray[$key], 1, strlen( $this->URIArray[$key] ) - 2 )] = $this->URIArray[$key+1];
                 unset( $this->URIArray[$key] );
