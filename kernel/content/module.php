@@ -122,6 +122,7 @@ $ViewList['copy'] = array(
 $ViewList['versionview'] = array(
     'functions' => array( 'versionread' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
     'script' => 'versionview.php',
     'single_post_actions' => array( 'ChangeSettingsButton' => 'ChangeSettings',
                                     'EditButton' => 'Edit',
@@ -261,6 +262,7 @@ $ViewList['collectinformation'] = array(
 $ViewList['versions'] = array(
     'functions' => array( 'read', 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
     'script' => 'versions.php',
     'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
                                     'EditButton' => 'Edit' ),
