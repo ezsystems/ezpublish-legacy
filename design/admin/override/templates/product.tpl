@@ -19,13 +19,15 @@
 
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <p class="small">{$node.object.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_nr}</p>
-    
-    <div class="imageright">
-    {attribute_view_gui attribute=$node.object.data_map.photo image_class=medium}
-    </div>
+    <p class="small">{$node.object.data_map.product_number.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_number}</p>
 
-    {attribute_view_gui attribute=$node.object.data_map.intro}
+    {section show=$node.object.data_map.image.content}
+        <div class="imageright">
+        {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image image_class=medium}
+        </div>
+    {/section}
+
+    {attribute_view_gui attribute=$node.object.data_map.short_description}
 
     {attribute_view_gui attribute=$node.object.data_map.description}
 
@@ -180,7 +182,7 @@
                     <td>
                         <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
                     </td>
-                {/section}    
+                {/section}
             </tr>
         {/section}
         </table>

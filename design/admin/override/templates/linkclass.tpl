@@ -1,5 +1,5 @@
 {* Link admin view template *}
-        
+
 {default with_children=false()
          is_editable=true()
 	 is_standalone=true()
@@ -20,7 +20,7 @@
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     {attribute_view_gui attribute=$node.object.data_map.description}
 
-    <p>{attribute_view_gui attribute=$node.object.data_map.link}</p>
+    <p>{attribute_view_gui attribute=$node.object.data_map.location}</p>
 
     <div class="buttonblock">
         {section show=and($is_editable,$content_object.can_edit)}

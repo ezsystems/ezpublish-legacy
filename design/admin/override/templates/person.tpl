@@ -1,4 +1,4 @@
-{* Article admin view template *}
+{* Person admin view template *}
 
 {default with_children=true()
          is_editable=true()
@@ -14,25 +14,31 @@
 {/section}
 
 <div class="objectheader">
-    <h2>{$node_name|wash} [{'Article'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
+    <h2>{$node_name|wash} [{'Person'|i18n('design/admin/node/view')}], {'Node ID'|i18n( 'design/standard/node/view' )}: {$node.node_id}, {'Object ID'|i18n( 'design/standard/node/view' )}: {$node.object.id}</h2>
 </div>
 
 <div class="object">
-    <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <h3>{'Author'|i18n('design/admin/node/view')}: {attribute_view_gui attribute=$node.object.data_map.author}</h3>
 
-    {section show=$node.object.data_map.image.content}
+    <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
+
+    <h3>{"Job title"|i18n("design/admin/node/view")}</h3>
+    <p>{attribute_view_gui attribute=$node.object.data_map.job_title}</p>
+
+    {section show=$node.object.data_map.picture.content}
         <div class="imageright">
-            {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image}
+        {attribute_view_gui attribute=$node.object.data_map.picture.content.data_map.image image_class=small}
         </div>
     {/section}
 
-    {attribute_view_gui attribute=$node.object.data_map.intro}
-    {attribute_view_gui attribute=$node.object.data_map.body}
+    <h3>{"Contact information"|i18n("design/admin/node/view")}</h3>
+    <p>{attribute_view_gui attribute=$node.object.data_map.contact_information}</p>
+
+    <h3>{"Comment"|i18n("design/admin/node/view")}</h3>
+    <p>{attribute_view_gui attribute=$node.object.data_map.comment}</p>
 
     <div class="buttonblock">
+    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
     {section show=and($is_editable,$content_object.can_edit)}
-        <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" />
     {/section}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
@@ -40,14 +46,8 @@
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Bookmark'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Keep me updated'|i18n('design/standard/node/view')}" />
 
-    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-    <input type="hidden" name="ViewMode" value="full" />
-
     </div>
 </div>
-
-{*
 
 {let name=Object related_objects=$content_version.related_contentobject_array}
 {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array( bglight, bgdark )}
@@ -57,24 +57,16 @@
 {/section}
 {/let}
 
-*}
-
 {section show=$is_standalone}
-{let content_action_list=$content_object.content_action_list}
-
-    {section name=ContentAction loop=$content_action_list show=$content_action_list}
+    {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
         <div class="block">
             <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
         </div>
     {/section}
-
-{/let}
 {/section}
 
-{*
 <div class="buttonblock">
-    {switch match=$content_object.can_create}
-    {case match=1}
+    {section show=$content_object.can_create}
         <input type="hidden" name="NodeID" value="{$node.node_id}" />
         <select name="ClassID">
         {section name=Classes loop=$content_object.can_create_class_list}
@@ -82,12 +74,11 @@
         {/section}
         </select>
         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
-    {/case}
-    {case match=0}
-    {/case}
-    {/switch}
+    {/section}
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+    <input type="hidden" name="ViewMode" value="full" />
 </div>
-*}
 
 {section show=$with_children}
     {let name=Child
@@ -134,7 +125,7 @@
             <th>
                 {"Section"|i18n("design/standard/node/view")}
             </th>
-            {section show=eq( $node.sort_array[0][0], 'priority' )}
+            {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
                 <th>
                     {"Priority"|i18n( "design/standard/node/view" )}
                 </th>
@@ -169,7 +160,7 @@
                 <td>
                     {$Child:item.object.section_id}
                 </td>
-                {section show=eq( $node.sort_array[0][0], 'priority' )}
+                {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
                     <td width="40" align="left">
                         <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
                         <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
@@ -197,6 +188,8 @@
             {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
                  <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
             {/section}
+        {/section}
+        {section show=and( $content_object.can_edit,eq( $node.sort_array[0][0], 'priority' ) )}
         {/section}
         {section show=$:can_edit}
         {/section}
@@ -231,4 +224,3 @@
 {/default}
 {/let}
 {/default}
-

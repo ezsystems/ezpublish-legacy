@@ -21,6 +21,8 @@
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
+    <p>{attribute_view_gui attribute=$node.object.data_map.short_description}</p>
+
     <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>
 
     <div class="buttonblock">
