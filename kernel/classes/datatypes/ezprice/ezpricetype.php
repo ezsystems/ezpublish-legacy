@@ -67,7 +67,7 @@ class eZPriceType extends eZDataType
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
             // TODO: Make better matching
-            if ( preg_match( "#[0-9]+(.[0-9]+)?#", $data ) )
+            if ( preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $data ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;

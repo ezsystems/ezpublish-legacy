@@ -61,5 +61,8 @@ $ViewList["register"] = array(
 $ViewList["activate"] = array(
     "script" => "activate.php",
     "params" => array( "LoginID","UserIDHash" ) );
+$ViewList["success"] = array(
+    "script" => "success.php",
+    "params" => array( ) );
 
 ?>

@@ -36,7 +36,10 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 $Module =& $Params["Module"];
-$message = null;
+$message = 0;
+$userIDNotValid = 0;
+$passwordNotValid = 0;
+$emailNotValid = 0;
 $userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => 4, 'version' => 0 ) );
 $userAttributes = array();
 foreach ( $userClassAttributes as $userClassAttribute )
@@ -53,6 +56,26 @@ foreach ( $userClassAttributes as $userClassAttribute )
 
 $http =& eZHTTPTool::instance();
 
+$filledUserAttributes = array();
+foreach ( $userAttributes as $userAttribute )
+{
+    $classAttributeID = $userAttribute["classAttribute_id"];
+    $classAttributeName = $userAttribute["name"];
+    if ( $http->hasPostVariable( 'ContentObjectAttribute_' . $classAttributeID  ) )
+    {
+         $value = $http->postVariable( 'ContentObjectAttribute_' . $classAttributeID  );
+         $item = array( "name" => $classAttributeName,
+                        "classAttribute_id" => $classAttributeID,
+                        "value" => $value );
+         $filledUserAttributes[] = $item;
+    }else
+    {
+        $item = array( "name" => $classAttributeName,
+                       "classAttribute_id" => $classAttributeID );
+        $filledUserAttributes[] = $item;
+    }
+}
+
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
     $validate = true;
@@ -68,26 +91,27 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         $passwordConfirm = $http->postVariable( "Password_confirm" );
         $existUser =& eZUser::fetchByName( $login);
         $isEmailValidate =  eZMail::validate( $email );
+        $message ="";
+        $validate = true;
         if ( $existUser != null )
         {
-            $message = "User exist, please choose another user name";
+            $message .= "User exist, please choose another user name.<br>";
             $validate = false;
+            $userIDNotValid = true;
         }
-        elseif ( ! $isEmailValidate )
+        if ( ! $isEmailValidate )
         {
-            $message = "Email address is not valid";
+            $message .= "Email address is not valid.<br>";
             $validate = false;
+            $emailNotValid = true;
         }
-        elseif ( ( $password != $passwordConfirm ) || ( $password == "" ) )
+        if ( ( $password != $passwordConfirm ) || ( $password == "" ) )
         {
-            $message = "Password not match.";
+            $message .= "Password not match.<br>";
             $validate = false;
+            $passwordNotValid = true;
         }
-        else
-        {
-            $message = "Your registration information has been send, you will receive a confirmation email in a short time";
-            $validate = true;
-        }
+
         if ( $validate )
         {
             $class =& eZContentClass::fetch( 4 );
@@ -151,6 +175,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $mail->setBody( $body );
             $mail->send();
         }
+        return $Module->redirectTo( $Module->functionURI( "success" ) );
     }
 }
 
@@ -166,8 +191,15 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
-$tpl->setVariable( "userAttributes", $userAttributes );
+$tpl->setVariable( "userAttributes", $filledUserAttributes );
 $tpl->setVariable( "message", $message );
+$tpl->setVariable( "login", $login );
+$tpl->setVariable( "email", $email );
+$tpl->setVariable( "password", $password );
+$tpl->setVariable( "passwordConfirm", $passwordConfirm );
+$tpl->setVariable( "emailNotValid", $emailNotValid );
+$tpl->setVariable( "passwordNotValid", $passwordNotValid );
+$tpl->setVariable( "userIDNotValid", $userIDNotValid );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/register.tpl" );
