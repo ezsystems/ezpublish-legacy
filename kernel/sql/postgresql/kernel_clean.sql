@@ -1199,11 +1199,13 @@ CREATE SEQUENCE "ezworkflow_process_s" start 1 increment 1 maxvalue 922337203685
 
 CREATE TABLE "ezworkflow_process" (
 	"id" integer DEFAULT nextval('ezworkflow_process_s'::text) NOT NULL,
+    "process_key" char(32) NOT NULL,
 	"workflow_id" integer NOT NULL,
-	"user_id" integer NOT NULL,
-	"content_id" integer NOT NULL,
-	"content_version" integer NOT NULL,
+	"user_id" integer DEFAULT '0' NOT NULL,
+	"content_id" integer DEFAULT '0' NOT NULL,
+	"content_version" integer DEFAULT '0' NOT NULL,
 	"node_id" integer DEFAULT '0' NOT NULL,
+    "session_key" DEFAULT '0' varchar(32),
 	"event_id" integer NOT NULL,
 	"event_position" integer NOT NULL,
 	"last_event_id" integer NOT NULL,

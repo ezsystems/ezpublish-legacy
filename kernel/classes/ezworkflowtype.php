@@ -51,6 +51,8 @@ define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT", 4 );
 define( "EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT", 5 );
 define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED", 6 );
 
+define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE", 7 );
+
 // include defined datatypes
 
 $ini =& eZINI::instance();
@@ -114,6 +116,11 @@ class eZWorkflowType
     function &createType( $typeString )
     {
         $types =& $GLOBALS["eZWorkflowTypes"];
+        print( '<br>' );
+        var_dump( $types );
+        print( '<br>' );
+        var_dump( $typeString );
+        
         $def = null;
         if ( !isset( $types[$typeString] ) )
         {
@@ -125,6 +132,7 @@ class eZWorkflowType
         {
             $type_def =& $types[$typeString];
             $class_name = $type_def["class_name"];
+
             $def =& $GLOBALS["eZWorkflowTypeObjects"][$typeString];
             if ( get_class( $def ) != $class_name )
             {

@@ -35,6 +35,7 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/eztrigger.php' );
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
@@ -111,38 +112,66 @@ if ( $LanguageCode != '' )
     $object->setCurrentLanguage( $LanguageCode );
 }
 
-$viewParameters = array( 'offset' => $Offset );
+if ( $ViewMode == 'full' )
+{
+    $sessionKey = eZHttpTool::getSessionKey();
+    $status = eZTrigger::runTrigger( 'content',
+                                     'view',
+                                     'b',
+                                     array( 'object'  => $object,
+                                            'node_id' => $node->attribute( 'node_id' ),
+                                            'session_key' => $sessionKey
+                                            ),
+                                     $Module
+                                     );
+    eZDebug::writeNotice( $status, 'Returned Trigger status in view' );
+}else
+{
+    $status = EZ_TRIGGER_NO_CONNECTED_WORKFLOWS;
+}
 
-$res =& eZTemplateDesignResource::instance();
-$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                      array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
-                      array( 'view_offset', $Offset ),
-                      array( 'viewmode', $ViewMode ),
-                      ) );
+if ( $status == EZ_TRIGGER_WORKFLOW_DONE || $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
+{
 
-include_once( 'kernel/classes/ezsection.php' );
-eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
-$tpl->setVariable( 'node', $node );
-$tpl->setVariable( 'view_parameters', $viewParameters );
+    $viewParameters = array( 'offset' => $Offset );
+
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                          array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                          array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                          array( 'view_offset', $Offset ),
+                          array( 'viewmode', $ViewMode ),
+                          ) );
+
+    include_once( 'kernel/classes/ezsection.php' );
+    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+
+    $tpl->setVariable( 'node', $node );
+    $tpl->setVariable( 'view_parameters', $viewParameters );
 
 // create path
-$parents =& $node->attribute( 'path' );
+    $parents =& $node->attribute( 'path' );
 
-$path = array();
-foreach ( $parents as $parent )
-{
-    $path[] = array( 'text' => $parent->attribute( 'name' ),
-                     'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
-                     );
+    $path = array();
+    foreach ( $parents as $parent )
+    {
+        $path[] = array( 'text' => $parent->attribute( 'name' ),
+                         'url' => '/content/view/full/' . $parent->attribute( 'node_id' )
+                         );
+    }
+    $path[] = array( 'text' => $object->attribute( 'name' ),
+                     'url' => false );
+
+    $Result = array();
+    $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
+    $Result['view_parameters'] =& $viewParameters;
+    $Result['path'] =& $path;
+    $Result['section_id'] =& $object->attribute( 'section_id' );
 }
-$path[] = array( 'text' => $object->attribute( 'name' ),
-                 'url' => false );
+else
+{
 
-$Result = array();
-$Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
-$Result['view_parameters'] =& $viewParameters;
-$Result['path'] =& $path;
-$Result['section_id'] =& $object->attribute( 'section_id' );
+}
+
 ?>

@@ -50,6 +50,7 @@ define( "EZ_WORKFLOW_STATUS_DONE", 2 );
 define( "EZ_WORKFLOW_STATUS_FAILED", 3 );
 define( "EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON", 4 );
 define( "EZ_WORKFLOW_STATUS_CANCELLED", 5 );
+define( "EZ_WORKFLOW_STATUS_FETCH_TEMPLATE", 6 );
 
 class eZWorkflow extends eZPersistentObject
 {

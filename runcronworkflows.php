@@ -38,6 +38,7 @@
 */
 
 include_once( "kernel/classes/ezworkflowprocess.php" );
+include_once( "kernel/classes/ezmodulerun.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
@@ -60,6 +61,11 @@ foreach( array_keys( $workflowProcessList ) as $key )
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
         $process->store();
+    }
+    else
+    {
+        eZModuleRun::runFromDB( $process->attribute( 'id' ) );
+        $process->remove();
     }
 
     print( "\n" . $process->attribute( 'status' ) . " workflow process status\n"  );

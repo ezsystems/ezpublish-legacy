@@ -90,7 +90,7 @@ class eZModuleRun extends eZPersistentObject
 //        var_dump( $module );
         $dataArray['ModuleName'] = $module->attribute( 'name' );
         $dataArray['ViewName'] = eZModule::currentView();
-        eZDebug::writeNotice($module, "module" );
+//        eZDebug::writeNotice($module, "module" );
         $dataArray['ViewParams'] = $module->ViewParameters;
 
         $dataArray['CurrentAction'] = $module->currentAction();

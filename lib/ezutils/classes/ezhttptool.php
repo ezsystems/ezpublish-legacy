@@ -172,6 +172,15 @@ class eZHTTPTool
     /*!
      Sets the session variable $name to value $value.
     */
+    function getSessionKey()
+    {
+        return session_id();
+    }
+
+    function setSessionKey( $sessionKey )
+    {
+        return session_id( $sessionKey );
+    }
     function setSessionVariable( $name, $value )
     {
         global $HTTP_SESSION_VARS;

@@ -8881,11 +8881,13 @@ INSERT INTO ezworkflow_group_link VALUES (1,1,0,'Standard');
 
 CREATE TABLE ezworkflow_process (
   id int(11) NOT NULL auto_increment,
+  process_key char(32) NOT NULL,
   workflow_id int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   content_id int(11) NOT NULL default '0',
   content_version int(11) NOT NULL default '0',
   node_id int(11) NOT NULL default '0',
+  session_key varchar(32) NOT NULL default '0',
   event_id int(11) NOT NULL default '0',
   event_position int(11) NOT NULL default '0',
   last_event_id int(11) NOT NULL default '0',
