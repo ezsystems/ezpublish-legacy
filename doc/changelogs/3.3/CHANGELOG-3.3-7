@@ -63,6 +63,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed bug #5943: When changing the list of objects related to object A, translation of A were not updated.
 - Fixed bug #6024: Debug: popup - wrong path to debug.html file.
 - Fixed: User setting DefaultSectionID in site.ini (Bug #6039)
+- Fixed bug: Feed of RSS export was not cachied properly
 
 *Library:
 
