@@ -262,7 +262,7 @@ class eZTextCodec
     function &convertCodepageToUnicode( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
-        $tmp = $this->Codepage->convertStringFromUTF8ToUnicode( $str );
+        $tmp = $this->Codepage->convertStringToUnicode( $str );
         eZDebug::accumulatorStop( 'textcodec_codepage_unicode' );
         return $tmp;
     }
