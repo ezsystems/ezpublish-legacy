@@ -188,7 +188,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
             $classIdentifier = $classRemoteMap['b3492bd3cb20be996408f5c16aa68c12']['identifier'];
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
-                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'search', 'users' ) ),
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'calendar', 'create_object', 'searchbox', 'users' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_calendar_1' => array( 'show_subtree' => $nodeSubtree,
@@ -208,7 +208,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         $nodeSubtree = 'weblog';
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
-                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'login', 'node_list', 'search', 'users' ) ),
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'login', 'node_list', 'searchbox', 'users' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'notification' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_2' => array( 'show_subtree' => false,
@@ -226,8 +226,8 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         $nodeSubtree = 'weblog';
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
-                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'search', 'users' ) ),
-                                               'Toolbar_top' => array( 'Tool' => array( 'login', 'search' ) ),
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'searchbox', 'users' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'login', 'searchbox' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_1' => array( 'show_subtree' => false,
                                                                                   'title' => $nodeListTitle,
@@ -245,7 +245,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
                           'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'users' ) ),
-                                               'Toolbar_top' => array( 'Tool' => array( 'search' ) ),
+                                               'Toolbar_top' => array( 'Tool' => array( 'searchbox' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_1' => array( 'show_subtree' => false,
                                                                                   'title' => $nodeListTitle,
@@ -267,7 +267,7 @@ function eZSetupToolbarINISettings( $siteType, $parameters )
         }
         $toolbar = array( 'name' => 'toolbar.ini',
                           'reset_arrays' => true,
-                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'search', 'best_seller' ) ),
+                          'settings' => array( 'Toolbar_right' => array( 'Tool' => array( 'node_list', 'basket', 'searchbox', 'best_seller' ) ),
                                                'Toolbar_top' => array( 'Tool' => array( 'login' ) ),
                                                'Toolbar_bottom' => array( 'Tool' => array() ),
                                                'Tool_right_node_list_1' => array( 'parent_node' => $nodeID,
