@@ -2857,7 +2857,6 @@ class eZContentObject extends eZPersistentObject
      */
     function expireTemplateBlockCacheIfNeeded()
     {
-        eZDebug::writeDebug( 'expireTemplateBlockCacheIfNeeded()' );
         $ini =& eZIni::instance();
         if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
             eZContentObject::expireTemplateBlockCache();
