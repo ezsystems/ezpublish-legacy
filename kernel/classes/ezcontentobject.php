@@ -758,7 +758,7 @@ class eZContentObject extends eZPersistentObject
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
 
-        $clonedVersion =& $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
+        $clonedVersion = $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
         if ( $contentObjectID !== false )
         {
             if ( $clonedVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
@@ -864,16 +864,18 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionKeys as $versionNumber )
         {
             $currentContentObjectVersion =& $versionList[$versionNumber];
-            $contentObjectVersion =& $contentObject->copyVersion( $contentObject, $currentContentObjectVersion,
-                                                                  $versionNumber, $contentObject->attribute( 'id' ),
-                                                                  false );
+            $contentObjectVersion =& $this->copyVersion( $contentObject, $currentContentObjectVersion,
+                                                         $versionNumber, $contentObject->attribute( 'id' ),
+                                                         false );
 
             $contentObject->setName( $contentObjectVersion->name(), $versionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObjectVersion, 'Copied version' );
         }
 
         // Set version number
-        $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
+        if ( $allVersions )
+            $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
+        
         $contentObject->store();
 
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
