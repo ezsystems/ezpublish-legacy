@@ -99,13 +99,44 @@ class eZProductCollectionItem extends eZPersistentObject
                       "name" => "ezproductcollection_item" );
     }
 
-
+    /*!
+     Creates a new empty collection item which belongs to
+     collection \a $collectionID and returns it.
+    */
     function &create( $productCollectionID )
     {
-        $row = array(
-            "productcollection_id" => $productCollectionID
-            );
+        $row = array( "productcollection_id" => $productCollectionID );
         return new eZProductCollectionItem( $row );
+    }
+
+    /*!
+     Clones the collection item object and returns it. The ID of the clone is erased.
+    */
+    function &clone()
+    {
+        $item = $this;
+        $item->setAttribute( 'id', null );
+        return $item;
+    }
+
+    /*!
+     Copies the collection object item and the option,
+     the new copy will point to the collection \a $collectionID.
+     \return the new collection item object.
+     \note The new collection item will already be present in the database.
+    */
+    function &copy( $collectionID )
+    {
+        $item =& $this->clone();
+        $item->setAttribute( 'productcollection_id', $collectionID );
+        $item->store();
+        $oldItemOptionList =& $this->optionList();
+        foreach ( array_keys( $oldItemOptionList ) as $oldItemOptionKey )
+        {
+            $oldItemOption =& $oldItemOptionList[$oldItemOptionKey];
+            $itemOption =& $oldItemOption->copy( $item->attribute( 'id' ) );
+        }
+        return $item;
     }
 
     function &fetch( $id, $asObject = true )
@@ -167,6 +198,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
         return $this->ContentObject;
     }
+
     function &optionList()
     {
         return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );

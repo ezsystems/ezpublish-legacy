@@ -54,10 +54,9 @@ if ( get_class( $order ) == 'ezorder' )
 
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
-
+        $order->detachProductCollection();
         $module->redirectTo( '/shop/checkout/' );
         return;
-
     }
 
     if ( $http->hasPostVariable( "CancelButton" ) )

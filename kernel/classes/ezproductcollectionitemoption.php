@@ -101,6 +101,30 @@ class eZProductCollectionItemOption extends eZPersistentObject
         return new eZProductCollectionItemOption( $row );
     }
 
+    /*!
+     Clones the collection item option object and returns it. The ID of the clone is erased.
+    */
+    function &clone()
+    {
+        $item = $this;
+        $item->setAttribute( 'id', null );
+        return $item;
+    }
+
+    /*!
+     Copies the collection object item option,
+     the new copy will point to the collection item \a $collectionItemID.
+     \return the new collection item option object.
+     \note The new collection item option will already be present in the database.
+    */
+    function &copy( $collectionItemID )
+    {
+        $item =& $this->clone();
+        $item->setAttribute( 'item_id', $collectionItemID );
+        $item->store();
+        return $item;
+    }
+
     function &fetchList( $productCollectionItemID, $asObject = true )
     {
         $productItemOptions =& eZPersistentObject::fetchObjectList( eZProductCollectionItemOption::definition(),
