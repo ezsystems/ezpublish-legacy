@@ -179,6 +179,7 @@ class eZTranslatorManager
     }
 
     /*!
+     \static
      Creates an md5 key based on the \a $context, \a $source and \a $comment and returns it.
     */
     function createKey( $context, $source, $comment = null )
@@ -189,6 +190,7 @@ class eZTranslatorManager
     }
 
     /*!
+     \static
      Creates a message structure out of \a $context, \a $source and \a $comment
      and returns it.
     */

@@ -54,7 +54,6 @@ class eZi18nOperator
     function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n' )
     {
         $this->Operators = array( $name, $extensionName );
-        $this->TranslatorManager =& eZTranslatorManager::instance();
         $this->Name = $name;
         $this->ExtensionName = $extensionName;
     }
@@ -122,7 +121,6 @@ class eZi18nOperator
 
     /// \privatesection
     var $Operators;
-    var $TranslatorManager;
     var $Name;
     var $ExtensionName;
 };

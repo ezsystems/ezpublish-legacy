@@ -139,3 +139,7 @@ eZXML:
 
 eZSys:
 - Added storageDirectory() which returns the path to the storage directory
+
+eZi18n:
+- Added translation cache system
+  Added setting in site.ini: [RegionalSettings] TranslationCache=enabled

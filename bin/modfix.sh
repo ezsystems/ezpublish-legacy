@@ -22,6 +22,11 @@ if [ ! -d ../var/cache/texttoimage ]; then
 fi
 chmod $DIR_MODE ../var/cache/texttoimage
 
+if [ ! -d ../var/cache/translation ]; then
+    mkdir ../var/cache/translation
+fi
+chmod $DIR_MODE ../var/cache/translation
+
 chmod $DIR_MODE ../var/cache/ini
 chmod -R $DIR_MODE ../var/storage
 

@@ -46,6 +46,7 @@
 
 include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 include_once( "lib/ezi18n/classes/eztextcodec.php" );
+include_once( "lib/ezi18n/classes/eztranslationcache.php" );
 
 class eZTSTranslator extends eZTranslatorHandler
 {
@@ -54,6 +55,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     function eZTSTranslator( $file = null, $root = false, $useCache = true )
     {
+        $this->UseCache = $useCache;
         $this->eZTranslatorHandler( true );
 
         if ( $root === false )
@@ -61,6 +63,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $this->File = $file;
         $this->RootDir = $root;
         $this->Messages = array();
+        $this->CachedMessages = array();
 
         if ( $file !== null )
             $this->load( $this->File );
@@ -86,8 +89,8 @@ class eZTSTranslator extends eZTranslatorHandler
         $translator = null;
 //         if ( eZTSTranslator::exists( $file, $root ) )
 //         {
-            $translator = new eZTSTranslator( $file, $root, $useCache );
-            $tables[$root][$file] =& $translator;
+        $translator = new eZTSTranslator( $file, $root, $useCache );
+        $tables[$root][$file] =& $translator;
         $man =& eZTranslatorManager::instance();
         $man->registerHandler( $translator );
 //         }
@@ -102,9 +105,42 @@ class eZTSTranslator extends eZTranslatorHandler
         $path = eZDir::path( array( $root, '/', $file ) );
         if ( !file_exists( $path ) )
         {
-            eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator" );
+            eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator::load" );
             return false;
         }
+
+        // Load cached translations if possible
+        if ( $this->UseCache == true )
+        {
+            $tsTimeStamp = filemtime( $path );
+            $key = 'cachecontexts';
+            if ( eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
+            {
+                eZTranslationCache::restoreCache( $key );
+                $contexts = eZTranslationCache::contextCache( $key );
+                if ( !is_array( $contexts ) )
+                    $contexts = array();
+                foreach ( $contexts as $context_name )
+                {
+                    if ( eZTranslationCache::canRestoreCache( $context_name, $tsTimeStamp ) )
+                    {
+                        eZTranslationCache::restoreCache( $context_name );
+                        $this->CachedMessages[$context_name] =
+                             eZTranslationCache::contextCache( $context_name );
+
+                        foreach ( $this->CachedMessages[$context_name] as $key => $msg )
+                        {
+                            $this->Messages[$key] = $msg;
+                        }
+                    }
+                }
+                eZDebug::writeNotice( "Loading cached translation", "eZTSTranslator::load" );
+                return true;
+            }
+            eZDebug::writeNotice( "Translation cache has expired. Will rebuild it from source.",
+                                  "eZTSTranslator::load" );
+        }
+
         $fd = fopen( $path, "r" );
         $trans_xml = fread( $fd, filesize( $path ) );
         fclose( $fd );
@@ -174,11 +210,32 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $this->handleContextNode( $context );
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $child->name(), "eZTSTranslator::load" );
+                    eZDebug::writeError( "Unknown element name: " . $child->name(),
+                                         "eZTSTranslator::load" );
             }
             else
-                eZDebug::writeError( "Unknown DOMnode type: " . $child->type(), "eZTSTranslator::load" );
+                eZDebug::writeError( "Unknown DOMnode type: " . $child->type(),
+                                     "eZTSTranslator::load" );
         }
+
+        // Save translation cache
+        if ( $this->UseCache == true )
+        {
+            if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
+            {
+                eZTranslationCache::setContextCache( 'cachecontexts',
+                                                     array_keys( $this->CachedMessages ) );
+                eZTranslationCache::storeCache( 'cachecontexts' );
+            }
+
+            foreach ( $this->CachedMessages as $context_name => $context )
+            {
+                if ( eZTranslationCache::contextCache( $context_name ) == null )
+                    eZTranslationCache::setContextCache( $context_name, $context );
+                eZTranslationCache::storeCache( $context_name );
+            }
+        }
+
         return true;
     }
 
@@ -205,16 +262,20 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $messages[] = $context_child;
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $context_child->name(), "eZTSTranslator::contextNode" );
+                    eZDebug::writeError( "Unknown element name: " . $context_child->name(),
+                                         "eZTSTranslator::handleContextNode" );
             }
             else
-                eZDebug::writeError( "Unknown element name: " . $context_child->name(), "eZTSTranslator::contextNode" );
+                eZDebug::writeError( "Unknown DOMnode type: " . $context_child->type(),
+                                     "eZTSTranslator::handleContextNode" );
         }
         if ( $context_name === null )
         {
-            eZDebug::writeError( "No context name found, skipping context", "eZTSTranslator::contextNode" );
+            eZDebug::writeError( "No context name found, skipping context",
+                                 "eZTSTranslator::handleContextNode" );
             return false;
         }
+
         foreach( $messages as $message )
         {
             $this->handleMessageNode( $context_name, $message );
@@ -256,14 +317,17 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $comment = $comment_el->content();
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $message_child->name(), "eZTSTranslator::messageNode" );
+                    eZDebug::writeError( "Unknown element name: " . $message_child->name(),
+                                         "eZTSTranslator::handleMessageNode" );
             }
             else
-                eZDebug::writeError( "Unknown element name: " . $message_child->name(), "eZTSTranslator::messageNode" );
+                eZDebug::writeError( "Unknown DOMnode type: " . $message_child->type(),
+                                     "eZTSTranslator::handleMessageNode" );
         }
         if ( $source === null )
         {
-            eZDebug::writeError( "No source name found, skipping message", "eZTSTranslator::messageNode" );
+            eZDebug::writeError( "No source name found, skipping message",
+                                 "eZTSTranslator::handleMessageNode" );
             return false;
         }
         if ( $translation === null )
@@ -380,6 +444,13 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $msg =& $man->createMessage( $context, $source, $comment, $translation );
         $msg["key"] = $key;
         $this->Messages[$key] =& $msg;
+        // Set array of messages to be cached
+        if ( $this->UseCache == true )
+        {
+            if ( !isset( $this->CachedMessages[$context] ) )
+                $this->CachedMessages[$context] = array();
+            $this->CachedMessages[$context][$key] =& $msg;
+        }
         return $key;
     }
 
@@ -414,6 +485,9 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     var $Messages;
     var $File;
     var $RootDir;
+    var $RootDir;
+    var $UseCache;
+    var $CachedMessages;
 }
 
 ?>
