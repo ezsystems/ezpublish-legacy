@@ -156,13 +156,16 @@ class eZEnumType extends eZDataType
         $selectedEnumElement = $base . "_select_data_enumelement_" . $contentObjectAttributeID;
         if ( $http->hasPostVariable( $enumID ) &&
              $http->hasPostVariable( $enumElement ) &&
-             $http->hasPostVariable( $enumValue ) &&
-             $http->hasPostVariable( $selectedEnumElement ) )
+             $http->hasPostVariable( $enumValue ) )
         {
             $array_enumID = $http->postVariable( $enumID );
             $array_enumElement = $http->postVariable( $enumElement );
             $array_enumValue = $http->postVariable( $enumValue );
-            $array_selectedEnumElement = $http->postVariable( $selectedEnumElement );
+
+            if ( $http->hasPostVariable( $selectedEnumElement ) )
+                $array_selectedEnumElement = $http->postVariable( $selectedEnumElement );
+            else
+                $array_selectedEnumElement = null;
 
             // Remove stored enumerations before we store new enumerations
             eZEnum::removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion );
