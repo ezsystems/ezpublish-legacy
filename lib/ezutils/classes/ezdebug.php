@@ -653,7 +653,7 @@ class eZDebug
         if ( !eZINI::isLoaded() )
             return true;
         $ini =& eZINI::instance();
-        $debugEnabled = true;
+        $debugEnabled = $ini->variable( 'DebugSettings', 'DebugIP' ) == 'enabled';
         return $debugEnabled;
     }
 
