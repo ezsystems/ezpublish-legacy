@@ -62,9 +62,6 @@ class eZTreeMenuOperator
                       'node_id' => array( 'type' => 'int',
                                           'required' => true,
                                           'default' => false ),
-                      'section_id' => array( 'type' => 'int',
-                                             'required' => false,
-                                             'default' => false ),
                       'class_filter' => array( 'type' => 'array',
                                                'required' => false,
                                                'default' => false ),
@@ -73,13 +70,7 @@ class eZTreeMenuOperator
                                              'default' => false ),
                       'max_level' => array( 'type' => 'int',
                                             'required' => false,
-                                            'default' => false ),
-                      'string_limit' => array( 'type' => 'int',
-                                               'required' => false,
-                                               'default' => false ),
-                      'offset' => array( 'type' => 'int',
-                                             'required' => false,
-                                             'default' => 1 ) );
+                                            'default' => false ) );
     }
 
     /*!
@@ -100,32 +91,23 @@ class eZTreeMenuOperator
         $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
 
         $depthSkip = $namedParameters['depth_skip'];
-        if ( $depthSkip > 0 )
-        {
-            $tmpModulePath = array_splice( $tmpModulePath, $depthSkip );
-        }
 
         $maxLevel = $namedParameters['max_level'];
         if ( $maxLevel === false )
             $maxLevel = 2;
 
-        $offset = $namedParameters['offset'];
 
         $classFilter = $namedParameters['class_filter'];
         if ( !$classFilter )
             $classFilter = array( 1, 8 );
 
-        $strLimit = $namedParameters['string_limit'];
-        if ( $strLimit === false )
-            $strLimit = 17;
-
         while ( !$done )
         {
             // get node id
-            $elements = explode( "/", $tmpModulePath[$i+$offset]['url'] );
+            $elements = explode( "/", $tmpModulePath[$i+$depthSkip]['url'] );
             $nodeID = $elements[4];
 
-            $nextElements = explode( "/", $tmpModulePath[$i+$offset+1]['url'] );
+            $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );
             $nextNodeID = $nextElements[4];
 
             $excludeNode = false;
@@ -149,14 +131,6 @@ class eZTreeMenuOperator
                 {
                     $name = $child->attribute( 'name' );
                     $tmpNodeID = $child->attribute( 'node_id' );
-
-                     /*
-                    $strLimit = 17;
-                    if ( strlen( $name ) > $strLimit )
-                    {
-                        $name = substr( $name, 0, $strLimit ) . "...";
-                    }
-					*/
 
                     $url = "/content/view/full/$tmpNodeID/";
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
@@ -209,12 +183,6 @@ class eZTreeMenuOperator
                     {
                         $name = $child->attribute( 'name' );
                         $tmpNodeID = $child->attribute( 'node_id' );
-						/*
-                        if ( strlen( $name ) > $strLimit )
-                        {
-                            $name = substr( $name, 0, $strLimit ) . "...";
-                        }
-						*/
 
                         $url = "/content/view/full/$tmpNodeID/";
                         $urlAlias = "/" . $child->attribute( 'url_alias' );
