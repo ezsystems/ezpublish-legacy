@@ -34,6 +34,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <a href="/"><img src={"ezpublish-logo-200x40.gif"|ezimage} width="200" height="40" alt="" border="0" /></a>
 </div>
 
+{*
 <div id="userstatus">
 {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
 <p><a href={"/user/login/"|ezurl}>{'Login'|i18n('design/standard/layout')}</a></p>
@@ -41,6 +42,8 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <p><a href={"/user/logout/"|ezurl}>{'Logout'|i18n('design/standard/layout')} ({$current_user.contentobject.name|wash})</a></p>
 {/section}
 </div>
+*}
+
 
 <div id="search">
 <form action={"/content/search/"|ezurl} method="get">
@@ -186,10 +189,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
                 </form>
                 {/section}
 -->
-                                       
-<b>{$current_user.contentobject.name|wash}</b>
 
-
+<b>Logged in:</b><br />
+<p>{$current_user.contentobject.name|wash}</p>
+<p><a href="">Change user info</p>
+<p><a href={"/user/logout"|ezurl}>Logout</a></p>
 
 <div id="bookmarks">
 {section show=eq(ezpreference('bookmark_menu'),'on')}
