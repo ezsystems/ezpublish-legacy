@@ -689,7 +689,9 @@ CREATE TABLE ezsearch_object_word_link (
     contentclass_id integer NOT NULL,
     contentclass_attribute_id integer NOT NULL,
     published integer DEFAULT '0' NOT NULL,
-    section_id integer DEFAULT '0' NOT NULL
+    section_id integer DEFAULT '0' NOT NULL,
+    identifier varchar(255) NOT NULL default '',
+    integer_value integer NOT NULL default '0'
 );
 
 

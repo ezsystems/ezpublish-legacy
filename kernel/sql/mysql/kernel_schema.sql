@@ -722,10 +722,14 @@ CREATE TABLE ezsearch_object_word_link (
   published int(11) NOT NULL default '0',
   section_id int(11) NOT NULL default '0',
   contentclass_attribute_id int(11) NOT NULL default '0',
+  identifier varchar(255) NOT NULL default '',
+  integer_value integer NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezsearch_object_word_link_object (contentobject_id),
   KEY ezsearch_object_word_link_word (word_id),
-  KEY ezsearch_object_word_link_frequency (frequency)
+  KEY ezsearch_object_word_link_frequency (frequency),
+  KEY ezsearch_object_word_link_identifier (identifier),
+  KEY ezsearch_object_word_link_integer_value (integer_value)
 ) TYPE=MyISAM;
 
 
