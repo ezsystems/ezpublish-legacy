@@ -277,6 +277,14 @@ class eZStringType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )

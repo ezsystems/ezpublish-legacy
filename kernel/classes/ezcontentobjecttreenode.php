@@ -309,6 +309,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sortList = array( $sortList );
             }
         }
+        $attributeFromSQL = "";
+        $attributeWereSQL = "";
         if ( $sortList !== false )
         {
             $sortingFields = '';
@@ -357,6 +359,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject_name.name';
                         } break;
+                        case 'attribute':
+                        {
+                            $sortClassID = $sortBy[2];
+                            $sortingFields .= 'ezcontentobject_attribute.sort_key';
+                            $attributeFromSQL = ", ezcontentobject_attribute ";
+                            $attributeWereSQL = " ezcontentobject_attribute.contentobject_id = ezcontentobject.id AND
+                                                  ezcontentobject_attribute.contentclassattribute_id = $sortClassID AND
+                                                  ezcontentobject_attribute.version = ezcontentobject_name.content_version AND";
+
+                        }break;
                         default:
                         {
                             eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
@@ -504,9 +516,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     FROM
                           ezcontentobject_tree,
                           ezcontentobject,ezcontentclass
-                           $versionNameTables
+                          $versionNameTables
+                          $attributeFromSQL
                     WHERE $pathString
                           $depthCond
+                          $attributeWereSQL
                           ezcontentclass.version=0 AND
                           node_id != $fromNode AND
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
@@ -522,13 +536,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.name as class_name
-                            $versionNameTargets
+                             $versionNameTargets
                       FROM
                             ezcontentobject_tree,
                             ezcontentobject,ezcontentclass
                             $versionNameTables
+                            $attributeFromSQL
                       WHERE $pathString
                             $depthCond
+                            $attributeWereSQL
                             ezcontentclass.version=0 AND
                             node_id != $fromNode AND
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND

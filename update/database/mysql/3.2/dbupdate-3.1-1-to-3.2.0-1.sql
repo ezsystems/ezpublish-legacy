@@ -15,3 +15,6 @@ CREATE TABLE ezurl_object_link (
   contentobject_attribute_version int(11) NOT NULL default '0',
   PRIMARY KEY (url_id,contentobject_attribute_id,contentobject_attribute_version)
 );
+
+alter table ezcontentobject_attribute add sort_key varchar(255);
+alter table ezcontentobject_attribute add index ( sort_key );

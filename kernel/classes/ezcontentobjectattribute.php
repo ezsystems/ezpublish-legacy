@@ -84,6 +84,10 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                                               'datatype' => 'integer',
                                                                               'default' => 0,
                                                                               'required' => true ),
+                                         "sort_key" => array( 'name' => "SortKey",
+                                                              'datatype' => 'text',
+                                                              'default' => '',
+                                                              'required' => true ),
                                          "data_text" => array( 'name' => "DataText",
                                                                'datatype' => 'text',
                                                                'default' => '',
@@ -186,6 +190,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $classAttr =& $this->contentClassAttribute();
         $dataType =& $classAttr->dataType();
+
+        $sortKey =& $dataType->sortKey( $this );
+        $this->setAttribute( 'sort_key', $sortKey );
 
         // store the content data for this attribute
         $dataType->storeObjectAttribute( $this );

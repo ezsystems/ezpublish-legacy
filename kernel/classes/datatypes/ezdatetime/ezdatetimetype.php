@@ -180,6 +180,16 @@ class eZDateTimeType extends eZDataType
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
+
+
+    /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return (int)$contentObjectAttribute->attribute( 'data_int' );
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_DATETIME, "ezdatetimetype" );

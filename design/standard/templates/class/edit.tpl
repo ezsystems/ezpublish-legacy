@@ -89,7 +89,7 @@
 {section name=Attributes loop=$attributes sequence=array("bglight","bgdark")}
 
 <tr>
-  <td colspan="7"><b>{$:number}. {$:item.name|wash} ({$:item.data_type.information.name|wash})</b></td>
+  <td colspan="7"><b>{$:number}. {$:item.name|wash} ({$:item.data_type.information.name|wash}) (id:{$:item.id}) </b></td>
 </tr>
 
 <tr>

@@ -1,6 +1,9 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Added support for attribute level sorting. You can now sort on the values of any attribute, whose datatype supports it.
+- Added sort key support for ezstring, ezdatetime and ezdate datatypes.
+- Added display of class attribute id in class edit, for usage in attribute sorting.
 - Added support for binary file indexing. The contents of binary files are extracted and indexed in the search engine.
   This allows searching inside different files. The parsing is plugin based so you can create plugins for any format quickly.
 - Added PDF and word binaryfile indexing plugin
