@@ -100,7 +100,7 @@
 
 
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (1,0,'Folder','folder','<short_name|name>',14,14,1024392098,1082454875,'a3d405b81be900468eb153d774f4f0d2',1);
-INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (2,0,'Article','article','<short_title|title>',14,14,1024392098,1082454989,'c15b600eb9198b1924063b5a68758232',0);
+INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (2,0,'Article','article','<short_title|title>',14,14,1024392098,1082454989,'c15b600eb9198b1924063b5a68758232',1);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (3,0,'User group','user_group','<name>',14,14,1024392098,1048494743,'25b4268cdcd01921b808a0d854b877ef',1);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (4,0,'User','user','<first_name> <last_name>',14,14,1024392098,1082018364,'40faa822edc579b02c25f6bb7beec3ad',0);
 INSERT INTO ezcontentclass (id, version, name, identifier, contentobject_name, creator_id, modifier_id, created, modified, remote_id, is_container) VALUES (5,0,'Image','image','<name>',8,14,1031484992,1048494784,'f6df12aa74e36230eb675f364fccd25a',0);
