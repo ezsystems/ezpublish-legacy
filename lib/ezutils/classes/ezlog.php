@@ -43,7 +43,8 @@
 
 
 include_once( "lib/ezutils/classes/ezsys.php" );
-
+define( "EZ_MAX_LOGROTATE_FILES", 3 );
+define( "EZ_MAX_LOGFILE_SIZE", 200*1024 );
 class eZLog
 {
     /*!
@@ -70,7 +71,15 @@ class eZLog
             eZDir::mkdir( $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );
+
         $fileExisted = @file_exists( $fileName );
+        if ( $fileExisted and
+             filesize( $fileName ) > eZLog::maxLogSize() )
+        {
+            if ( eZLog::rotateLog( $fileName ) )
+                $fileExisted = false;
+        }
+
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
@@ -83,6 +92,84 @@ class eZLog
             @umask( $oldumask );
         }
     }
+
+    /*!
+     \static
+     \return the maxium size for a log file in bytes.
+    */
+    function maxLogSize()
+    {
+        $maxLogSize =& $GLOBALS['eZMaxLogSize'];
+        if ( isset( $maxLogSize ) )
+            return $maxLogSize;
+        return EZ_MAX_LOGFILE_SIZE;
+    }
+
+    /*!
+     \static
+     Sets the maxium size for a log file to \a $size.
+    */
+    function setMaxLogSize( $size )
+    {
+        $GLOBALS['eZMaxLogSize'] = $size;
+    }
+
+    /*!
+     \static
+     \return the maxium number of logrotate files to keep.
+    */
+    function maxLogrotateFiles()
+    {
+        $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
+        if ( isset( $maxLogrotateFiles ) )
+            return $maxLogrotateFiles;
+        return EZ_DEBUG_MAX_LOGROTATE_FILES;
+    }
+
+    /*!
+     \static
+     Rotates logfiles so the current logfile is backed up,
+     old rotate logfiles are rotated once more and those that
+     exceed maxLogrotateFiles() will be removed.
+     Rotated files will get the extension .1, .2 etc.
+    */
+    function rotateLog( $fileName )
+    {
+        $maxLogrotateFiles = eZLog::maxLogrotateFiles();
+        for ( $i = $maxLogrotateFiles; $i > 0; --$i )
+        {
+            $logRotateName = $fileName . '.' . $i;
+            if ( @file_exists( $logRotateName ) )
+            {
+                if ( $i == $maxLogrotateFiles )
+                {
+                    @unlink( $logRotateName );
+                }
+                else
+                {
+                    $newLogRotateName = $fileName . '.' . ($i + 1);
+                    @rename( $logRotateName, $newLogRotateName );
+                }
+            }
+        }
+        if ( @file_exists( $fileName ) )
+        {
+            $newLogRotateName = $fileName . '.' . 1;
+            @rename( $fileName, $newLogRotateName );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+     \static
+     Sets the maxium number of logrotate files to keep to \a $files.
+    */
+    function setLogrotateFiles( $files )
+    {
+        $GLOBALS['eZMaxLogrotateFiles'] = $filse;
+    }
+
 }
 
 ?>
