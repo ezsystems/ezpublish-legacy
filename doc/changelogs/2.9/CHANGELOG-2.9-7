@@ -1,7 +1,12 @@
 
 Changes from 2.9-6 to 2.9-7
 
+
+
 *Kernel :
+- NB!. Added possibility to limit user login per siteaccesses, it's defined by roles. Since that you need
+to create policy for all user roles exsept of admin user that allows user to login the siteaccess. smth like:
+user-login-* without that user will not be able to login.
 - Fixed redirection to self when editing top level node
 - The ModuleRepositories setting in ModuleSettings in settings/site.ini
   has been changed to an array.
