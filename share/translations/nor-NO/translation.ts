@@ -91,6 +91,13 @@
     </message>
 </context>
 <context>
+    <name>design/shop</name>
+    <message>
+        <source>Payment was canceled. Try to buy again.</source>
+        <translation>Betalingen ble avbrutt. Prøv å kjøpe igjen.</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Empty</source>
@@ -1162,14 +1169,6 @@
         <translation>For flere valg, prøv %1avansert søk%2</translation>
     </message>
     <message>
-        <source>No results were found when searching for \&quot;%1\&quot;</source>
-        <translation type="obsolete">Ingen treff ved søk etter \&quot;%1\&quot;</translation>
-    </message>
-    <message>
-        <source>Search for \&quot;%1\&quot; returned %2 matches</source>
-        <translation type="obsolete">Søk etter \&quot;%1\&quot; ga %2 treff</translation>
-    </message>
-    <message>
         <source>Search all the words</source>
         <translation>Søk etter alle ordene</translation>
     </message>
@@ -1206,16 +1205,12 @@
         <translation>Søk etter &quot;%1&quot; ga %2 treff</translation>
     </message>
     <message>
-        <source>Tip a friend</source>
-        <translation type="obsolete"></translation>
+        <source>The following words were excluded from the search:</source>
+        <translation>Følgende ord ble ekskludert fra søket:</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/tipafriend</name>
-    <message>
-        <source>The message was sent</source>
-        <translation type="obsolete">Meldingen ble sendt</translation>
-    </message>
     <message>
         <source>The message was not sent.</source>
         <translation>Meldingen ble ikke sendt.</translation>
@@ -1249,10 +1244,6 @@
         <translation>Emne</translation>
     </message>
     <message>
-        <source>Message</source>
-        <translation type="obsolete">Melding</translation>
-    </message>
-    <message>
         <source>Send</source>
         <translation>Send</translation>
     </message>
@@ -1269,36 +1260,12 @@
         <translation>Meldingen ble sendt.</translation>
     </message>
     <message>
-        <source>This message was sent to you because someone thought you might find the page &quot;%1&quot; at %2 interesting.</source>
-        <translation type="obsolete">Du har fått denne meldingen fordi noen tror siden &quot;%1&quot; på %2 vil være interessant for deg.</translation>
-    </message>
-    <message>
         <source>This is the link to the page:</source>
         <translation>Dette er linken til siden:</translation>
     </message>
     <message>
-        <source>Sender: &quot;%4 &lt;%5&gt;&quot;</source>
-        <translation type="obsolete">Avsender: &quot;%4 &lt;%5&gt;&quot;</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation type="obsolete">Melding:</translation>
-    </message>
-    <message>
         <source>Comment</source>
         <translation>Kommentar</translation>
-    </message>
-    <message>
-        <source>Sender: %4 &lt;%5&gt;</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Comment:</source>
-        <translation type="obsolete">Kommentar:</translation>
-    </message>
-    <message>
-        <source>Sender: &quot;%1 &lt;%2&gt;&quot;</source>
-        <translation type="obsolete">Avsender: &quot;%1 &lt;%2&gt;&quot;</translation>
     </message>
     <message>
         <source>This message was sent to you because &quot;%1 &lt;%2&gt;&quot; thought you might find the page &quot;%3&quot; at %4 interesting.</source>
@@ -3804,6 +3771,13 @@
     </message>
 </context>
 <context>
+    <name>design/standard/user/register</name>
+    <message>
+        <source>%1 registration info</source>
+        <translation>%1 registreringsinformasjon</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/workflow</name>
     <message>
         <source>Editing workflow</source>
@@ -4480,32 +4454,8 @@
         <translation>Mottakeradressen er ikke gyldig</translation>
     </message>
     <message>
-        <source>This message is sent to you because someone though you might find the page &quot;%1&quot; at %2 interesting.</source>
-        <translation type="obsolete">Du har fått denne meldingen fordi noen </translation>
-    </message>
-    <message>
         <source>Tip a friend</source>
         <translation>Tips en venn</translation>
-    </message>
-    <message>
-        <source>This is the link:</source>
-        <translation type="obsolete">Dette er linken til siden:</translation>
-    </message>
-    <message>
-        <source>Sender: &quot;%4 &lt;%5&gt;&quot;</source>
-        <translation type="obsolete">Avsender: &quot;%4 &lt;%5&gt;&quot;</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation type="obsolete">Melding:</translation>
-    </message>
-    <message>
-        <source>This message is sent to you because someone thought you might find the page &quot;%1&quot; at %2 interesting.</source>
-        <translation type="obsolete">Du har fått denne meldingen fordi noen tror siden &quot;%1&quot; på %2 vil være interessant for deg.</translation>
-    </message>
-    <message>
-        <source>This is the link to the page:</source>
-        <translation type="obsolete">Dette er linken til siden:</translation>
     </message>
 </context>
 <context>
@@ -4586,10 +4536,6 @@
         <translation>Lag rolleregel - steg 1 - Spesifiser modul</translation>
     </message>
     <message>
-        <source>Role edit</source>
-        <translation>Rolleredigering</translation>
-    </message>
-    <message>
         <source>Role list</source>
         <translation>Rolleliste</translation>
     </message>
@@ -4650,6 +4596,10 @@
         <source>VAT types</source>
         <translation>MVA-typer</translation>
     </message>
+    <message>
+        <source>Checkout</source>
+        <translation>Betaling</translation>
+    </message>
 </context>
 <context>
     <name>kernel/trigger</name>
@@ -4694,6 +4644,17 @@
     <message>
         <source>Change password</source>
         <translation>Bytt passord</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/user/register</name>
+    <message>
+        <source>Registration info</source>
+        <translation>Registreringsinformasjon</translation>
+    </message>
+    <message>
+        <source>New user registered</source>
+        <translation>Ny bruker registrert</translation>
     </message>
 </context>
 <context>
