@@ -929,7 +929,7 @@ class eZImageAliasHandler
         $contentObjectAttribute =& $this->ContentObjectAttribute;
         if ( !file_exists( $filename ) )
         {
-            eZDebug::writeError( "The image $filename does not exists, cannot initialize image attribute with it",
+            eZDebug::writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
                                  'eZImageAliasHandler::initializeFromFile' );
             return false;
         }
