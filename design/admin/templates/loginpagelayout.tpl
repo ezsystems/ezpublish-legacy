@@ -26,7 +26,7 @@ div#path { margin-top: -1px; }
 
 </head>
 
-<body onLoad="setFocusToUsernameField();">
+<body>
 
 <div id="allcontent">
 

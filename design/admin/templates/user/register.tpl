@@ -1,45 +1,73 @@
+{* Warning *}
+{section show=$validation.processed}
+<div class="message-warning">
+<h2>{'The information could not be stored...'|i18n( 'design/admin/user/register' )}</h2>
+<p>{'The following information is either incorrect or missing:'|i18n( 'design/admin/user/register' )}</p>
+<ul>
+{section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
+<li>{$UnvalidatedAttributes:item.name}: {$UnvalidatedAttributes:item.description}</li>
+{/section}
+</ul>
+<p>{'Please correct the inputs (marked with red labels) and try again.'|i18n( 'design/admin/user/register' )}</p>
+</div>
+{/section}
+
+{* Register window *}
 <div class="context-block">
 
-<form enctype="multipart/form-data"  action={"/user/register/"|ezurl} method="post" name="Register">
+<form name="registerform" method="post" action={'/user/register/'|ezurl} enctype="multipart/form-data">
 
-<h2 class="context-title">{"Register user"|i18n("design/standard/user")}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-{section show=$validation.processed}
+<h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
 
-{section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
-<div class="message-warning">
-    <h2>{"Input did not validate"|i18n("design/standard/user")}</h2>
-    <ul>
-        <li>{$UnvalidatedAttributes:item.name}: {$UnvalidatedAttributes:item.description}</li>
-    </ul>
-</div>
-{section-else}
-<div class="message-feedback">
-    <h2>{"Input was stored successfully"|i18n("design/standard/user")}</h2>
-</div>
-{/section}
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{/section}
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
-
-{section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
-<input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
-<div class="block">
-    <label>{$ContentObjectAttribute:item.contentclass_attribute.name}:</label>
-    {attribute_edit_gui attribute=$ContentObjectAttribute:item}
+    {include uri='design:content/edit_attribute.tpl'}
 </div>
-{/section}
 
-</div>
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-        <input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
-        <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
+        <input class="button" type="submit" name="PublishButton" value="{'OK'|i18n( 'design/admin/user/register' )}" />
+        <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/user/register' )}" />
     </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
+<input type="hidden" name="" value="" />
 
 </form>
 
 </div>
+
+
+
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        with( registerform )
+        {
+            for( var i=0; i<elements.length; i++ )
+            {
+                if( elements[i].type == 'text' )
+                {
+                    elements[i].focus();
+                    return;
+                }
+            }
+        }
+    }
+-->
+</script>
+{/literal}

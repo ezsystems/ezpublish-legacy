@@ -69,17 +69,18 @@
 
 </form>
 
-{* Force set focus to username field. *}
+</div>
+
+
+
+
 {literal}
-<script language="JavaScript1.2" type="text/javascript">
+<script language="JavaScript" type="text/javascript">
 <!--
-function setFocusToUsernameField()
-{
-    document.getElementById('id1').focus();
-    document.loginform.Login.focus();
-}
-//-->
+    window.onload=function()
+    {
+        document.getElementById('id1').focus();
+    }
+-->
 </script>
 {/literal}
-
-</div>
