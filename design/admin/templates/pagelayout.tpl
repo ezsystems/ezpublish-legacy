@@ -18,7 +18,7 @@
 
     <script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
 
-{section name=JavaScript loop=ezini( 'DesignSettings', 'JavaScriptList' ) }
+{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
     <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
 

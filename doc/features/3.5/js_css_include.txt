@@ -1,7 +1,8 @@
 *Title: INI setting for javascripts/css to include on page.
 
 Incentive:
-Add a new setting to the DesignSettings section of site.ini
+Add a new setting and section to the design.ini
+- JavaScriptSettings
 - JavaScriptList
 
 *Documentation:
