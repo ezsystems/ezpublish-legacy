@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZ1337Translator class
+// Definition of eZBorkTranslator class
 //
 // Created on: <07-Jun-2002 12:40:42 amos>
 //
@@ -34,35 +34,49 @@
 // you.
 //
 
-/*! \file ez1337translator.php
+/*! \file ezborktranslator.php
 */
 
 /*!
-  \class eZ1337Translator ez1337translator.php
+  \class eZBorkTranslator ezborktranslator.php
   \ingroup eZTranslation
-  \brief Translates text into the leet (1337) language
+  \brief Translates text into the Bork language (Mock Swedish)
 
-  It translates the following characters/strings
-  - to - 2
-  - for - 4
-  - ate - 8
-  - you - u
-  - l - 1
-  - e - 3
-  - o - 0
-  - a - 4
-  - t - 7
+  This translation is adapted from the Mock Swedish translation in Qt Quarterly 3/2002:
+  http://doc.trolltech.com/qq/qq03-swedish-chef.html
+
+  It translates the following characters/strings:
+  (The "|" sign stands for a word boundary, and "-" stands for mid-word.)
+
+  a-    -> e
+  an    -> un
+  au    -> oo
+  en|   -> ee
+  -ew   -> oo
+  -f    -> ff
+  -i    -> ee
+  -ir   -> ur
+  |o    -> oo
+  ow    -> oo
+  ph    -> f
+  th|   -> t
+  -tion -> shun
+  -u    -> oo
+  v     -> f
+  w     -> v
+
+  Words that are not changed by these rules will have "-a" appended to them.
 
 */
 
 include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
-class eZ1337Translator extends eZTranslatorHandler
+class eZBorkTranslator extends eZTranslatorHandler
 {
     /*!
      Construct the translator and loads the translation file $file if is set and exists.
     */
-    function eZ1337Translator()
+    function eZBorkTranslator()
     {
         $this->eZTranslatorHandler( false );
 
@@ -79,7 +93,7 @@ class eZ1337Translator extends eZTranslatorHandler
 
         if ( !isset( $this->Messages[$key] ) )
         {
-            $translation = $this->leetify( $source );
+            $translation = $this->borkify( $source );
             $msg = $man->createMessage( $context, $source, $comment, $translation );
             $this->Messages[$key] =& $msg;
         }
@@ -89,24 +103,31 @@ class eZ1337Translator extends eZTranslatorHandler
     }
 
     /*!
-     Translates the text into 1337 code.
+     Translates the text into bork code.
     */
-    function &leetify( $text )
+    function &borkify( $text )
     {
-        $text = preg_replace( "/to/", "2", $text );
-        $text = preg_replace( "/for/", "4", $text );
-        $text = preg_replace( "/ate/", "8", $text );
-        $text = preg_replace( "/you/", "u", $text );
-        $text = preg_replace( array( "/l/",
-                                     "/e/",
-                                     "/o/",
-                                     "/a/",
-                                     "/t/" ),
-                              array( "1",
-                                     "3",
-                                     "0",
-                                     "4",
-                                     "7" ), $text );
+        $orgtext = $text;
+        $text = preg_replace( "/a\B/", "e", $text );
+        $text = preg_replace( "/an/", "un", $text );
+        $text = preg_replace( "/au/", "oo", $text );
+        $text = preg_replace( "/en\b/", "ee", $text );
+        $text = preg_replace( "/\Bew/", "oo", $text );
+        $text = preg_replace( "/\Bf/", "ff", $text );
+        $text = preg_replace( "/\Bi/", "ee", $text );
+        $text = preg_replace( "/\Bir/", "ur", $text );
+        $text = preg_replace( "/\bo/", "oo", $text );
+        $text = preg_replace( "/ow/", "oo", $text );
+        $text = preg_replace( "/ph/", "f", $text );
+        $text = preg_replace( "/th\b/", "t", $text );
+        $text = preg_replace( "/\Btion/", "shun", $text );
+        $text = preg_replace( "/\Bu/", "oo", $text );
+        $text = preg_replace( "/v/", "f", $text );
+        $text = preg_replace( "/w/", "v", $text );
+        $text = preg_replace( "/y\b/", "ai", $text );
+        if ( $orgtext == $text )
+            $text = $text . "-a";
+        $text = "[" . $text . "]";
         return $text;
     }
 
@@ -123,7 +144,7 @@ class eZ1337Translator extends eZTranslatorHandler
     }
 
     /// \privatesection
-    /// Contains the hash table with cached 1337 translations
+    /// Contains the hash table with cached bork translations
     var $Messages;
 }
 
