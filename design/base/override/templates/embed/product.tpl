@@ -3,7 +3,7 @@
     <div class="class-product">
         <a href={$object.main_node.url_alias|ezurl}><h2>{$object.name}</h2></a>
 
-        <div class="embedded-content">
+        <div class="content-body">
 
     {section show=$object.data_map.image.content}
         <div class="attribute-image">

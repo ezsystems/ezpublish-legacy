@@ -943,7 +943,7 @@ div.attribute-file
 }
 
 /* Embedded tags in XML fields */
-div.factbox-design, div.content-view-embed
+div.factbox-design, div.content-view-embed 
 { 
     width: 178px;
     padding: 0px;
@@ -962,7 +962,7 @@ div#maincontent-design div.factbox-design h2, div#maincontent-design div.content
     color: #fff;
 }
 
-div#maincontent-design div.content-view-embed div.content-view-children, div.factbox-content, div.embedded-content
+div#maincontent-design div.content-view-embed div.content-view-children, div.factbox-content, div#maincontent-design div.content-view-embed div.content-body
 { 
     padding-left: 10px;
     padding-top: 3px;
@@ -1027,10 +1027,10 @@ div.object-left
     margin: 3px;
     float: left;
 }
+
 div.object-center
 { 
-    margin: 3px;
-    clear: both;
+    float: center;
     margin-left: auto;
     margin-right: auto;
 }
@@ -1121,9 +1121,9 @@ div#maincontent-design div.class-folder div.class-file div.attribute-short p
 
 
 /*! article style */
-div.class-article div.attribute-image div.imagecaption
+div.class-article div.attribute-caption
 { 
-    width: 170px;
+
 }
 
 div.class-article div.attribute-image div.imagecaption p

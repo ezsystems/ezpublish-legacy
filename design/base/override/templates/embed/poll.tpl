@@ -3,7 +3,7 @@
     <div class="class-poll">
         <h2>{$object.name}</h2>
 
-       <div class="embedded-content">
+       <div class="content-body">
         <form method="post" action={"content/action"|ezurl}>
         <input type="hidden" name="ContentNodeID" value="{$object.main_node_id}" />
         <input type="hidden" name="ContentObjectID" value="{$object.id}" />
