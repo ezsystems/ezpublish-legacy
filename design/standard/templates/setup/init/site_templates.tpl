@@ -7,7 +7,7 @@
   </div>
 
   <p>
-    {"Choose one or more of the demo sites you would like to test or base your site on."i18n("design/standard/setup/init")}
+    {"Please choose one or more of the demo sites you would like to test or base your site(s) on. Use Plain if you wish to start from scratch."i18n("design/standard/setup/init")}
     <br />
     {"Use Plain if you would like to start from scratch."|i18n("design/standard/setup/init")}
   </p>

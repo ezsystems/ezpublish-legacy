@@ -7,7 +7,7 @@
   </div>
 
   <p>
-    {"You need to specify some information about every site you've chosen to install."|i18n("design/standard/setup/init")}
+    {"This page lets you modify information about the sites you've chosen to install. In addition, it also lets you choose a database for each site."|i18n("design/standard/setup/init")}
   </p>
 
 {section show=eq( $site_access_illegal, 1 )}

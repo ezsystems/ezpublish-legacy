@@ -4,4 +4,4 @@
 <p></p>
 {"These and other additional languages can also be installed later."|i18n("design/standard/setup/init")}
 <p></p>
-{"For more information about language customization, see the %1."|i18n("design/standard/setup/init",,array(concat( '<a href="http://ez.no/developer/ez_publish_3/documentation/installation_and_configuration/configuration/language_and_charset" target="_blank">', "documentation"|i18n("design/standard/setup/init", 'language information link'), '</a>' ) ) )}
+{"For more information about language customization, please refer to the online %1."|i18n("design/standard/setup/init",,array(concat( '<a href="http://ez.no/developer/ez_publish_3/documentation/installation_and_configuration/configuration/language_and_charset" target="_blank">', "documentation"|i18n("design/standard/setup/init", 'language information link'), '</a>' ) ) )}
