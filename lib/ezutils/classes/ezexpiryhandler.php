@@ -82,11 +82,15 @@ class eZExpiryHandler
         if ( $fp )
         {
             $storeString = "<?php\n\$Timestamps = array( ";
+            $i = 0;
             foreach ( $this->Timestamps as $key => $value )
             {
-                $storeString .= "'$key' => $value,";
+                if ( $i > 0 )
+                    $storeString .= ",\n" . str_repeat( ' ', 21 );
+                $storeString .= "'$key' => $value";
+                ++$i;
             }
-            $storeString .= " ) ?> ";
+            $storeString .= " );\n?>";
 
             fwrite( $fp, $storeString );
             fclose( $fp );
