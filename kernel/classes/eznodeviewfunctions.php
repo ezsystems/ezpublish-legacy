@@ -54,6 +54,8 @@ class eZNodeviewfunctions
         $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+        else
+            $navigationPartIdentifier = null;
 
         $class =& $object->attribute( 'content_class' );
 
