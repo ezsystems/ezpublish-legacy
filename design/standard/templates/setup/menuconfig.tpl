@@ -8,7 +8,7 @@
     {section-else}
         <option value="{$SiteAccess:item}">{$:item}</option>
     {/section}
-{/section}    
+{/section}
 </select>
 <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
 

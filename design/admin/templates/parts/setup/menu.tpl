@@ -1,4 +1,8 @@
 <div style="width: 100%; padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
+<a class="leftmenuitem" href={"/setup/menu/"|ezurl}>{"Menu management"|i18n("design/admin/layout")}</a>
+</div>
+
+<div style="width: 100%; padding-right: 4px; padding-left: 15px; padding-top: 4px; padding-bottom: 4px; margin-bottom:1px; background-image:url('{"bgtiledark.gif"|ezimage(no)}'); background-repeat: repeat;">
 <a class="leftmenuitem" href={"/content/urltranslator/"|ezurl}>{"URL translator"|i18n("design/admin/layout")}</a>
 </div>
 
@@ -55,5 +59,3 @@
  <a href={"/user/preferences/set/advanced_menu/on"|ezurl}><img src={"up.gif"|ezimage} alt="" width="11" height="6" /></a>
 </div>
 {/section}
-
-
