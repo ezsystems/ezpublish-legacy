@@ -1624,10 +1624,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $links = array();
             $node = array();
 
-            unset( $links );
-            unset( $node );
-            $links = array();
-            $node = array();
             if ( $dom )
             {
                 $node =& $dom->elementsByName( "section" );
