@@ -122,7 +122,9 @@ class eZTemplateFileResource
                     eZDebug::writeNotice( "$path, $charset" );
 //                 eZDebug::addTimingPoint( "Resource conversion ($charset)" );
                 $codec =& eZTextCodec::instance( $charset );
+                eZDebug::accumulatorStart( 'String conversion in template resource' );
                 $text = $codec->convertString( $text );
+                eZDebug::accumulatorStop( 'String conversion in template resource' );
 //                 eZDebug::addTimingPoint( "Resource conversion done ($charset)" );
                 $result = true;
             }
