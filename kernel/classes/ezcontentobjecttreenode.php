@@ -3146,6 +3146,7 @@ WHERE
                     $moveToTrashTemp = $moveToTrash;
                     if ( !$moveToTrashAllowed )
                         $moveToTrashTemp = false;
+                    eZContentCacheManager::clearObjectViewCache( $node->attribute( 'contentobject_id' ), true );
                     $children =& $node->subTree( array( 'Limitation' => array() ) );
                     foreach ( array_keys( $children ) as $childKey )
                     {
@@ -3153,7 +3154,6 @@ WHERE
                         $child->removeNodeFromTree( $moveToTrashTemp );
                     }
                     $node->removeNodeFromTree( $moveToTrashTemp );
-                    eZContentCacheManager::clearObjectViewCache( $node->attribute( 'contentobject_id' ), true );
                 }
             }
             if ( !$canRemove )
@@ -3231,12 +3231,13 @@ WHERE
                                                            $object->attribute( 'id' ),
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
-                $this->remove();
                 eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+                $this->remove();
             }
             else
             {
                 // This is the last assignment so we remove the object too
+                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
                 $this->remove();
                 if ( $moveToTrash )
                 {
@@ -3246,13 +3247,12 @@ WHERE
                 {
                     $object->purge();
                 }
-                eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
             }
         }
         else
         {
-            $this->remove();
             eZContentCacheManager::clearObjectViewCache( $this->attribute( 'contentobject_id' ), true );
+            $this->remove();
         }
     }
 
