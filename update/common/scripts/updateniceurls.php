@@ -267,9 +267,13 @@ $db =& eZDb::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $fetchLimit = 30;
+$percentLength = 6;
+$timeLength = 12;
+$maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
 
+print( $maxColumn . "\n" );
 $topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE depth = 1 ORDER BY node_id' );
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
@@ -285,6 +289,10 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $nodeCount = $rootNode->subTreeCount( array( 'Limitation' => array() ) );
     $totalNodeCount += $nodeCount + 1;
     $cli->output( "Starting updates for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) . ", $nodeCount nodes" );
+    $mtime = microtime();
+    $tTime = explode( " ", $mtime );
+    ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
+    $nodeStartTime = $tTime[1] . "." . $t1[1];
     while ( !$done )
     {
         $nodes =& $rootNode->subTree( array( 'Offset' => $offset,
@@ -299,26 +307,64 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
                 ++$changedNodes;
                 ++$totalChangedNodes;
             }
-            ++$column;
-            ++$counter;
-            if ( $column > 72 )
-            {
-                $column = 0;
-                $cli->output();
-            }
+            $changeCharacters = array( '.', '+', '*' );
             $changeCharacter = '.';
-            if ( $hasChanged )
-                $changeCharacter = '+';
+            if ( isset( $changeCharacters[$hasChanged] ) )
+                $changeCharacter = $changeCharacters[$hasChanged];
             $cli->output( $changeCharacter, false );
+            if ( $column > $maxColumn )
+            {
+                $mtime = microtime();
+                $tTime = explode( " ", $mtime );
+                ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
+                $endTime = $tTime[1] . "." . $t1[1];
+                $relTime = ( $endTime - $nodeStartTime ) / $counter;
+                $totalTime = ( $relTime * (float)$nodeCount ) - ( $endTime - $nodeStartTime );
+
+                $percent = number_format( ( $counter * 100.0 ) / ( $nodeCount ), 2 );
+
+                $timeLeft = '';
+//                 $usedTime = $endTime - $nodeStartTime;
+//                 $timeSeconds = (int)( $usedTime % 60 );
+//                 $timeMinutes = (int)( ( $usedTime / 60.0 ) % 60 );
+//                 $timeHours = (int)( $usedTime / ( 60.0 * 60.0 ) );
+//                 $timeLeftArray = array();
+//                 if ( $timeHours > 0 )
+//                     $timeLeftArray[] = $timeHours . "h";
+//                 if ( $timeMinutes > 0 )
+//                     $timeLeftArray[] = $timeMinutes . "m";
+//                 $timeLeftArray[] = $timeSeconds . "s";
+//                 $timeLeft .= implode( " ", $timeLeftArray );
+
+                $timeSeconds = (int)( $totalTime % 60 );
+                $timeMinutes = (int)( ( $totalTime / 60.0 ) % 60 );
+                $timeHours = (int)( $totalTime / ( 60.0 * 60.0 ) );
+                $timeLeftArray = array();
+                if ( $timeHours > 0 )
+                    $timeLeftArray[] = $timeHours . "h";
+                if ( $timeMinutes > 0 )
+                    $timeLeftArray[] = $timeMinutes . "m";
+                $timeLeftArray[] = $timeSeconds . "s";
+                $timeLeft .= implode( " ", $timeLeftArray );
+
+                $cli->output( " " . $percent . "% " . $timeLeft );
+
+                $column = 0;
+            }
+            else
+            {
+                ++$column;
+            }
+            ++$counter;
             flush();
         }
-        if ( $column > 0 )
-            $cli->output();
         if ( count( $nodes ) == 0 )
             $done = true;
         unset( $nodes );
         $offset += $fetchLimit;
     }
+    if ( $column > 0 )
+        $cli->output();
     $cli->output( "Updated " . $cli->stylize( 'emphasize', "$changedNodes/$nodeCount" ) . " for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) );
     $cli->output();
 }

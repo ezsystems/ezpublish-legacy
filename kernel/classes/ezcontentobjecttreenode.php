@@ -2029,7 +2029,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function updateURLAlias()
     {
-        $hasChanged = false;
+        $hasChanged = 0;
         include_once( 'kernel/classes/ezurlalias.php' );
         $newPathString = $this->pathWithNames();
 
@@ -2038,7 +2038,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $alias =& $existingUrlAlias;
             if ( $alias->attribute( 'source_url' ) != $newPathString )
-                $hasChanged = true;
+                $hasChanged++;
             $alias->setAttribute( 'source_url', $newPathString );
             $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
             $alias->setAttribute( 'forward_to_id', 0 );
@@ -2048,14 +2048,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
             $alias->store();
-            $hasChanged = true;
+            $hasChanged++;
         }
 
         eZURLAlias::cleanupForwardingURLs( $newPathString );
         eZURLAlias::cleanupWildcards( $newPathString );
 
         if ( $this->attribute( 'path_identification_string' ) != $newPathString )
-            $hasChanged = true;
+            $hasChanged++;
         $this->setAttribute( 'path_identification_string', $newPathString );
         $this->store();
 
