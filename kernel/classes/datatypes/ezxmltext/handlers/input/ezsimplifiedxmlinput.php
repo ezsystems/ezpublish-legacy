@@ -305,21 +305,21 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                $domString = $dom->toString();
+                $domString = $dom->toString( true, false );
 
-                eZDebug::writeDebug($domString, "unprocessed xml");
+                eZDebug::writeDebug( $domString, "unprocessed xml" );
                 $domString = preg_replace( "#<paragraph> </paragraph>#", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
                 $domString = str_replace ( "<line />" , "", $domString );
                 $domString = str_replace ( "<paragraph></paragraph>" , "", $domString );
-                //$domString = preg_replace( "#>[W]+<#", "><", $domString );
                 $domString = preg_replace( "#<paragraph>&nbsp;</paragraph>#", "<paragraph />", $domString );
                 $domString = preg_replace( "#<paragraph></paragraph>#", "", $domString );
 
                 $domString = preg_replace( "#[\n]+#", "", $domString );
                 $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
                 $domString = preg_replace( "#&lt;paragraph&gt;#", "\n\n", $domString );
-                eZDebug::writeDebug($domString, "domstring");
+                eZDebug::writeDebug( $domString, "domstring" );
+
                 $xml = new eZXML();
                 $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
                 $domString = eZXMLTextType::domString( $tmpDom );
@@ -1495,10 +1495,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $dom =& $xml->domTree( $this->XMLData );
 
             if ( $dom )
+            {
                 $node =& $dom->elementsByName( "section" );
 
-            // Fetch all links and cache the url's
-            $links =& $dom->elementsByName( "link" );
+                // Fetch all links and cache the url's
+                $links =& $dom->elementsByName( "link" );
+            }
 
             if ( count( $links ) > 0 )
             {
