@@ -75,11 +75,12 @@ CREATE TABLE ezcontentclass (
 # Dumping data for table 'ezcontentclass'
 #
 
-INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',-1,8,1024392098,1031484841);
-INSERT INTO ezcontentclass VALUES (2,0,'Article','article','<title>',-1,8,1024392098,1033906681);
-INSERT INTO ezcontentclass VALUES (3,0,'User group','user_group','<name>',-1,1,1024392098,1031224194);
-INSERT INTO ezcontentclass VALUES (4,0,'User','user','<first_name> <last_name>',-1,1,1024392098,1031223207);
-INSERT INTO ezcontentclass VALUES (5,0,'Image','','<name>',8,8,1031484992,1033905489);
+INSERT INTO ezcontentclass VALUES (1,0,'Folder','folder','<name>',-1,14,1024392098,1033922265);
+INSERT INTO ezcontentclass VALUES (2,0,'Article','article','<title>',-1,14,1024392098,1033922035);
+INSERT INTO ezcontentclass VALUES (3,0,'User group','user_group','<name>',-1,14,1024392098,1033922064);
+INSERT INTO ezcontentclass VALUES (4,0,'User','user','<first_name> <last_name>',-1,14,1024392098,1033922083);
+INSERT INTO ezcontentclass VALUES (5,0,'Image','','<name>',8,14,1031484992,1033921948);
+INSERT INTO ezcontentclass VALUES (1,1,'Folder','folder','<name>',-1,14,1024392098,1033922274);
 
 #
 # Table structure for table 'ezcontentclass_attribute'
@@ -114,17 +115,23 @@ CREATE TABLE ezcontentclass_attribute (
 # Dumping data for table 'ezcontentclass_attribute'
 #
 
-INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,0,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',0,0,3,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (119,0,1,'description','Description','ezxmltext',1,0,2,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (4,1,1,'name','Name','ezstring',0,0,1,255,0,0,0,0,0,0,0,'Folder','','','');
+INSERT INTO ezcontentclass_attribute VALUES (12,0,4,'user_account','User account','ezuser',1,1,3,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',0,0,3,2,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (119,1,1,'description','Description','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (122,0,2,'thumbnail','Thumbnail','ezimage',1,0,4,2,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (123,0,2,'enable_comments','Enable comments','ezboolean',1,0,5,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',0,0,2,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',0,0,1,150,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (121,0,2,'body','Body','ezxmltext',1,0,3,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (120,0,2,'intro','Intro','ezxmltext',1,1,2,0,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',0,1,1,255,0,0,0,0,0,0,0,'New article','','','');
 INSERT INTO ezcontentclass_attribute VALUES (7,0,3,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,0,1,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (5,0,1,'description','Description','ezstring',1,0,2,255,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,0,1,255,0,0,0,0,0,0,0,'Folder','','','');
-INSERT INTO ezcontentclass_attribute VALUES (116,0,5,'name','Name','ezstring',1,1,1,150,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (117,0,5,'caption','Caption','ezxmltext',1,0,2,0,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (118,0,5,'image','Image','ezimage',1,1,3,2,0,0,0,0,0,0,0,'','','','');
-INSERT INTO ezcontentclass_attribute VALUES (1,0,2,'title','Title','ezstring',0,0,1,255,0,0,0,0,0,0,0,'New article','','','');
+INSERT INTO ezcontentclass_attribute VALUES (6,0,3,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (9,0,4,'last_name','Last name','ezstring',1,1,2,255,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (8,0,4,'first_name','First name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'','','','');
+INSERT INTO ezcontentclass_attribute VALUES (4,0,1,'name','Name','ezstring',1,1,1,255,0,0,0,0,0,0,0,'Folder','','','');
 
 #
 # Table structure for table 'ezcontentclass_classgroup'
@@ -146,7 +153,8 @@ INSERT INTO ezcontentclass_classgroup VALUES (1,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (2,0,1,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (4,0,2,'Content');
 INSERT INTO ezcontentclass_classgroup VALUES (5,0,3,'Media');
-INSERT INTO ezcontentclass_classgroup VALUES (3,0,2,NULL);
+INSERT INTO ezcontentclass_classgroup VALUES (3,0,2,'');
+INSERT INTO ezcontentclass_classgroup VALUES (1,1,1,'Content');
 
 #
 # Table structure for table 'ezcontentclassgroup'
@@ -166,9 +174,9 @@ CREATE TABLE ezcontentclassgroup (
 # Dumping data for table 'ezcontentclassgroup'
 #
 
-INSERT INTO ezcontentclassgroup VALUES (1,'Content',1,1,1031216928,1031216937);
-INSERT INTO ezcontentclassgroup VALUES (2,'Users',1,1,1031216941,1031216949);
-INSERT INTO ezcontentclassgroup VALUES (3,'Media',8,8,1032009743,1032009749);
+INSERT INTO ezcontentclassgroup VALUES (1,'Content',1,14,1031216928,1033922106);
+INSERT INTO ezcontentclassgroup VALUES (2,'Users',1,14,1031216941,1033922113);
+INSERT INTO ezcontentclassgroup VALUES (3,'Media',8,14,1032009743,1033922120);
 
 #
 # Table structure for table 'ezcontentobject'
@@ -223,11 +231,11 @@ CREATE TABLE ezcontentobject_attribute (
 #
 
 INSERT INTO ezcontentobject_attribute VALUES (1,'eng-GB',1,1,4,'My folder',NULL,NULL);
-INSERT INTO ezcontentobject_attribute VALUES (2,'eng-GB',1,1,5,'This folder contains some information about...',NULL,NULL);
+INSERT INTO ezcontentobject_attribute VALUES (2,'eng-GB',1,1,119,'This folder contains some information about...',NULL,NULL);
 INSERT INTO ezcontentobject_attribute VALUES (7,'eng-GB',1,4,5,'Main group',NULL,NULL);
 INSERT INTO ezcontentobject_attribute VALUES (8,'eng-GB',1,4,6,'Users',NULL,NULL);
 INSERT INTO ezcontentobject_attribute VALUES (1,'eng-GB',2,1,4,'My folder',0,0);
-INSERT INTO ezcontentobject_attribute VALUES (2,'eng-GB',2,1,5,'This folder contains some information about...',0,0);
+INSERT INTO ezcontentobject_attribute VALUES (2,'eng-GB',2,1,119,'This folder contains some information about...',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (21,'eng-GB',1,10,12,'',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (22,'eng-GB',1,11,6,'Guest accounts',0,0);
 INSERT INTO ezcontentobject_attribute VALUES (19,'eng-GB',1,10,8,'Anonymous',0,0);
@@ -744,6 +752,8 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
+INSERT INTO ezsession VALUES ('beea3def7581c9fac9a3959546d91691',1034181050,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
+INSERT INTO ezsession VALUES ('c427b1ec51dfaf03fb7675aea7769c85',1034181692,'eZExecutionStack|a:0:{}eZUserLoggedInID|s:2:\"14\";');
 
 #
 # Table structure for table 'eztask'
@@ -843,8 +853,6 @@ CREATE TABLE ezuser_role (
 # Dumping data for table 'ezuser_role'
 #
 
-INSERT INTO ezuser_role VALUES (13,2,8);
-INSERT INTO ezuser_role VALUES (15,3,41);
 INSERT INTO ezuser_role VALUES (24,1,4);
 INSERT INTO ezuser_role VALUES (25,2,12);
 
