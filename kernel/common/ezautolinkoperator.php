@@ -81,19 +81,40 @@ class eZAutoLinkOperator
         $operatorValue = preg_replace( "#(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)#", "<a href='mailto:\\1'>\\1</a>", $operatorValue );
 
         // Replace http/ftp etc. links
-//        $operatorValue = preg_replace( "#(http://([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+([\/a-zA-Z0-9_-]+\\.)*([\/a-zA-Z0-9_-])*\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#", "<a href='\\1'>\\1</a>", $operatorValue );
-        if ( $max )
+        $elements = preg_split( "#((?:(?:$methodText)://)(?:(?:[a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(?:(?:[\/a-zA-Z0-9_+$-]+\\.)*(?:[\/a-zA-Z0-9_+$-])*))(?:\#[a-zA-Z0-9-]+)?\?*(?:[a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#m",
+                                $operatorValue,
+                                false,
+                                PREG_SPLIT_DELIM_CAPTURE );
+        $newElements = array();
+        $i = 0;
+        $lastElement = false;
+        foreach ( $elements as $element )
         {
-            $operatorValue = preg_replace( "#(((?:$methodText)://)(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(([\/a-zA-Z0-9_+$-]+\\.)*([\/a-zA-Z0-9_+$-])*))(\#[a-zA-Z0-9-]+)?\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#e",
-                                           "'<a href=\"\\1\" title=\"\\1\">' . ( ( strlen( '\\1' ) > $max - 3 ) ? substr( '\\1', 0, $maxHalf - 3 ) . '...' . substr( '\\1', strlen( '\\1' ) - $maxHalf ) : '\\1' ) . '</a>'",
-                                           $operatorValue );
+            if ( ( $i % 2 ) == 1 )
+            {
+                if ( strlen( $lastElement ) > 0 and
+                     in_array( $lastElement[strlen( $lastElement ) - 1], array( " ", "\t", "\n", "\r" ) ) )
+                {
+                    if ( $max )
+                    {
+                        $text = $element;
+                        if ( strlen( $text ) > $max - 3 )
+                        {
+                            $text = substr( $text, 0, $maxHalf - 3 ) . '...' . substr( $text, strlen( $text ) - $maxHalf );
+                        }
+                        $element = "<a href=\"$element\" title=\"$element\">$text</a>";
+                    }
+                    else
+                    {
+                        $element = "<a href=\"$element\" title=\"$element\">$element</a>";
+                    }
+                }
+            }
+            $newElements[] = $element;
+            $lastElement = $element;
+            ++$i;
         }
-        else
-        {
-            $operatorValue = preg_replace( "#(((?:$methodText)://)(([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(([\/a-zA-Z0-9_+$-]+\\.)*([\/a-zA-Z0-9_+$-])*))(\#[a-zA-Z0-9-]+)?\?*([a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#",
-                                           "<a href=\"\\1\" title=\"\\1\">\\3</a>",
-                                           $operatorValue );
-        }
+        $operatorValue = implode( '', $newElements );
     }
 
     /// \privatesection
