@@ -72,7 +72,7 @@ class eZXMLInputHandler
             $message = $data[1];
             if ( $message != "" )
             {
-                $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      $message,
                                                                      'ezXMLTextType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -91,7 +91,7 @@ class eZXMLInputHandler
                     $editObject =& eZContentObject::fetch( $editObjectID );
                     if (  $currentObject == null )
                     {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Object '. $objectID .' does not exist.',
                                                                              'ezXMLTextType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -119,7 +119,7 @@ class eZXMLInputHandler
                         $url =& eZURL::url( $linkID );
                         if (  $url == null )
                         {
-                            $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                                  'Link '. $linkID .' does not exist.',
                                                                                  'ezXMLTextType' ) );
                             return EZ_INPUT_VALIDATOR_STATE_INVALID;

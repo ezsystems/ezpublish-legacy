@@ -145,7 +145,7 @@ class eZBinaryFileType extends eZDataType
                 $file =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( $file === null )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'A valid file is required.',
                                                                          'eZBinaryFileType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;

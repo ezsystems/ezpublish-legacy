@@ -148,7 +148,7 @@ class eZMediaType extends eZDataType
                 $file =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( $file === null )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'A valid file is required.',
                                                                          'eZMediaType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;

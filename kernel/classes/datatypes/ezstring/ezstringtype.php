@@ -107,7 +107,7 @@ class eZStringType extends eZDataType
             {
                 if( $data == "" )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Text line is empty, content required.',
                                                                          'eZStringType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -116,7 +116,7 @@ class eZStringType extends eZDataType
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
             if ( (strlen( $data ) <= $maxLen ) || ( $maxLen == 0 ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Text line too long, maximum allowed is %1.',
                                                                  'eZStringType' ),
                                                          $maxLen );

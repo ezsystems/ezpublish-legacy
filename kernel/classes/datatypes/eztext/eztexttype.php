@@ -90,7 +90,7 @@ class eZTextType extends eZDataType
             {
                 if( $data == "" )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Text field is empty, content required.',
                                                                          'eZStringType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;

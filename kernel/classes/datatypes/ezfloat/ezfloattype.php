@@ -126,7 +126,7 @@ class eZFloatType extends eZDataType
                     if( $state===1 )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input is not float.',
                                                                              'eZFloatType' ) );
                 } break;
@@ -137,7 +137,7 @@ class eZFloatType extends eZDataType
                     if( $state===1 )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input must be greater than %1',
                                                                              'eZFloatType' ),
                                                                      $min );
@@ -149,7 +149,7 @@ class eZFloatType extends eZDataType
                     if( $state===1 )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input must be less than %1',
                                                                              'eZFloatType' ),
                                                                      $max );
@@ -161,7 +161,7 @@ class eZFloatType extends eZDataType
                     if( $state===1 )
                         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
                     else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Input is not in defined range %1 - %2',
                                                                              'eZFloatType' ),
                                                                      $min, $max );

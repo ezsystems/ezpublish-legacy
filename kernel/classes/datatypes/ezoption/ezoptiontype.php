@@ -69,7 +69,7 @@ class eZOptionType extends eZDataType
             {
                 if ( trim( $valueList[0] ) == "" )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'At least one option is requied.',
                                                                          'eZOptionType' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -82,7 +82,7 @@ class eZOptionType extends eZDataType
                     $value =  $valueList[$i];
                     if ( trim( $value )== "" )
                     {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'Option value should be provided.',
                                                                              'eZOptionType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;

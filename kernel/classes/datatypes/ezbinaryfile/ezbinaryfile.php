@@ -155,4 +155,3 @@ class eZBinaryFile extends eZPersistentObject
 }
 
 ?>
-
