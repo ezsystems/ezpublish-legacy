@@ -46,6 +46,11 @@ div#mainmenu
     background-color: #cc0000;
 }
 
+div#mainmenu ul
+{
+    white-space: nowrap;
+}
+
 div#mainmenu ul, div#mainmenu li
 {
     display: inline; /* This makes the vertical display of this menu */
@@ -212,7 +217,7 @@ div#productmenu li
 {
     margin: 0;
     padding: 0.2em 0.8em 0.2em 0.8em;
-    background-color: #3c3c00;
+    background-color: #000000;
     border-bottom: 1px solid #ffcc00;
 }
 
@@ -314,26 +319,31 @@ div.editbutton
 #productmenu .level_1
 {
     padding-left: 1em;
+    background-color: #222222;
 }
 
 #productmenu .level_2
 {
     padding-left: 1.5em;
+    background-color: #444444;
 }
 
 #productmenu .level_3
 {
     padding-left: 2em;
+    background-color: #666666;
 }
 
 #productmenu .level_4
 {
     padding-left: 2.5em;
+    background-color: #888888;
 }
 
 #productmenu .level_5
 {
     padding-left: 3em;
+    background-color: #aaaaaa;
 }
 
 #productmenu div.selected a
@@ -498,6 +508,11 @@ div.productline h2:first-child
     padding: 0.1em 0.3em 0.1em 0.3em;
 }
 
+table.list
+{
+    width: 100%;
+}
+
 table.list th
 {
     background-color: #ffe88d;
@@ -521,7 +536,7 @@ div.basket td.price
     white-space: nowrap;
 }
 
-div.basket td.ammount
+div.basket td.amount
 {
     width: 10%;
 }

@@ -9,8 +9,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-   {*  @import url("/design/shop/stylesheets/shop.css");*}
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});*}
+     @import url("/design/shop/stylesheets/shop.css");
 </style>
 
 {literal}

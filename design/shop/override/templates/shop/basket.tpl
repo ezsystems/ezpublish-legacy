@@ -17,7 +17,7 @@
 {section name=Basket show=$basket.items|gt(0)}
 
 <div class="basket">
-<table class="list"  width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" cellspacing="0">
 <tr>
 	<th>
 	{"Product"|i18n("design/standard/shop")}:
@@ -45,7 +45,7 @@
 	<td class="price">
 	{$Basket:ProductItem:item.price_inc_vat|l10n(currency)}
 	</td>
-	<td class="ammount">
+	<td class="amount">
 
 	<input type="text" name="ProductItemCountList[]" value="{$Basket:ProductItem:item.item_count}" size="5" />
 
@@ -59,10 +59,10 @@
 </tr>
 {section show=$Basket:ProductItem:item.item_object.option_list}
 <tr>
-  <td class="{$Basket:ProductItem:sequence}" colspan='4'>
+  <td class="{$Basket:ProductItem:sequence}" colspan="4">
      <table width="100%"  border="0">
 <tr>
-<td colspan='3'>
+<td colspan="3">
 Selected options
 </td> 
 </tr>
@@ -75,7 +75,7 @@ Selected options
     {/section}
      </table>
    </td>
-  <td class="{$Basket:ProductItem:sequence}" colspan='5'>
+  <td class="{$Basket:ProductItem:sequence}" colspan="5">
   </td>
 </tr>
 {/section}
