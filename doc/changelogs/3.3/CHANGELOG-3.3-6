@@ -28,6 +28,8 @@ eZINI:
   http://ez.no/community/bug_reports/datatype_price_and_objectrelation
 - Fixed bug of parse error for datatype ezxmltext when there is header inside custom tag.
   http://ez.no/community/bug_reports/online_editor_error_with_factbox
+- Fixed bug in localization of date/time strings.
+  http://ez.no/index.php/community/bug_reports/long_day_names_not_localized
 
 *Library:
 
