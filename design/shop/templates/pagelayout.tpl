@@ -139,7 +139,7 @@
             {let basket=fetch( shop, basket )
                  use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
                  basket_items=$basket.items}
-            <h3>Shopping cart</h3>
+            <h3>Shopping cart <a href={"/shop/basket"|ezurl}><img src={'arrow_right.gif'|ezimage} alt="Basket" width="12" height="12" /></a></h3>
             {section show=$basket_items}
             <ul>
                 {section var=product loop=$basket_items sequence=array( odd, even )}

@@ -214,6 +214,11 @@ div#cart h3
     background-color: #e4eaf3;
 }
 
+div#cart h3 img
+{
+    float: right;
+}
+
 div#cart ul
 {
     list-style-type: none;
