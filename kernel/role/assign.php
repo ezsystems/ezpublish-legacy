@@ -33,36 +33,66 @@
 // you.
 //
 
-include_once( "kernel/classes/ezrole.php" );
+include_once( 'kernel/classes/ezrole.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 $roleID =& $Params['RoleID'];
+$limitIdent =& $Params['LimitIdent'];
+$limitValue =& $Params['LimitValue'];
 
-if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignRole" )
+if ( $http->hasPostVariable( 'BrowseActionName' ) and
+     $http->postVariable( 'BrowseActionName' ) == 'SelectObjectRelationNode' )
 {
-    $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+    $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+    if ( count( $selectedNodeIDArray ) == 1 )
+    {
+        $limitValue = $selectedNodeIDArray[0];
+    }
+    $Module->redirectTo( '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue );
+}
+else if ( $http->hasPostVariable( 'BrowseActionName' ) and
+          $http->postVariable( 'BrowseActionName' ) == 'AssignRole' )
+{
+    $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
     $role =& eZRole::fetch( $roleID );
 
     foreach ( $selectedObjectIDArray as $objectID )
     {
-        $role->assignToUser( $objectID );
+        $role->assignToUser( $objectID, $limitIdent, $limitValue );
     }
     if ( count( $selectedObjectIDArray ) > 0 )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
         eZContentObject::expireAllCache();
     }
-    $Module->redirectTo( "/role/view/$roleID/" );
+    $Module->redirectTo( '/role/view/' . $roleID );
+}
+else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
+{
+    switch( $limitIdent )
+    {
+        case 'subtree':
+        {
+            eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
+                                            'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue ),
+                                     $Module );
+            return;
+        } break;
+
+        default:
+        {
+            eZDebug::writeWarning( 'Unsupported assign limitation: ' . $limitIdent );
+            $Module->redirectTo( '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue );
+        } break;
+    }
 }
 else if ( is_numeric( $roleID ) )
 {
-    include_once( "kernel/classes/ezcontentbrowse.php" );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
-                                    'from_page' => '/role/assign/' . $roleID ),
+                                    'from_page' => '/role/assign/' . $roleID . '/' . $limitIdent . '/' . $limitValue ),
                              $Module );
 
     return;

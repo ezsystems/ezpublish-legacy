@@ -60,7 +60,7 @@ if ( is_null( $role ) )
     $role = eZRole::fetch( $roleID );
     if ( $role->attribute( 'version' ) == '0' )
     {
-        $temporaryRole = $role->createTmporaryVersion();
+        $temporaryRole = $role->createTemporaryVersion();
         unset( $role );
         $role = $temporaryRole;
         eZDebug::writeNotice( $role, 'new temporary role' );
@@ -113,8 +113,7 @@ if ( $http->hasPostVariable( 'AddModule' )  )
 {
     $currentModule = $http->postVariable( 'Modules' );
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                    'FunctionName' => '*',
-                                                    'Limitation' => '*') );
+                                                    'FunctionName' => '*' ) );
 }
 if ( $http->hasPostVariable( 'AddFunction' ) )
 {
@@ -122,8 +121,7 @@ if ( $http->hasPostVariable( 'AddFunction' ) )
     $currentFunction = $http->postVariable( 'ModuleFunction' );
     eZDebug::writeNotice( $currentModule, 'currentModule');
     $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                    'FunctionName' => $currentFunction,
-                                                    'Limitation' => '*') );
+                                                    'FunctionName' => $currentFunction ) );
 
 }
 
@@ -617,8 +615,7 @@ if ( $http->hasPostVariable( 'Limitation' ) or
         $currentFunction = $http->postVariable( 'ModuleFunction' );
         eZDebug::writeNotice( $currentModule, 'currentModule');
         $policy =& eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                        'FunctionName' => $currentFunction,
-                                                        'Limitation' => '*') );
+                                                        'FunctionName' => $currentFunction ) );
     }
     else
     {

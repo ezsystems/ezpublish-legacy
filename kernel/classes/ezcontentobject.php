@@ -1862,31 +1862,20 @@ class eZContentObject extends eZPersistentObject
         else
         {
             $policies  =& $accessResult['policies'];
+            $access = 'denied';
             foreach ( array_keys( $policies ) as $key  )
             {
-                $policy =& $policies[$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-            }
-            if ( count( $limitationList ) > 0 )
-            {
-                $access = 'denied';
-                foreach ( array_keys( $limitationList ) as $key  )
+                $limitationArray =& $policies[ $key ];
+                if ( $access == 'allowed' )
                 {
-                    $limitationArray =& $limitationList[ $key ];
-                    if ( $access == 'allowed' )
-                    {
-                        break;
-                    }
-                    foreach ( array_keys( $limitationArray ) as $key  )
-//                    foreach ( $limitationArray as $limitation )
-                    {
-                        $limitation =& $limitationArray[$key];
-//                        if ( $functionName == 'remove' )
-//                        {
-//                            eZDebugSetting::writeDebug( 'kernel-content-object-limitation', $limitation, 'limitation in check access' );
-//                        }
+                    break;
+                }
+                foreach ( array_keys( $limitationArray ) as $key  )
+                {
 
-                        if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    switch( $key )
+                    {
+                        case 'Class':
                         {
                             if ( $functionName == 'create' and
                                  !$originalClassID )
@@ -1894,46 +1883,46 @@ class eZContentObject extends eZPersistentObject
                                 $access = 'allowed';
                             }
                             else if ( $functionName == 'create' and
-                                 in_array( $classID, $limitation->attribute( 'values_as_array' ) ) )
+                                 in_array( $classID, $limitationArray[$key] ) )
                             {
                                 $access = 'allowed';
                             }
-                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
+                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                break;
                             }
-                        }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'ParentClass' )
+                        } break;
+
+                        case 'ParentClass':
                         {
 
-                            if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            if (  in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key]  ) )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                break;
                             }
-                        }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
+                        } break;
+
+                        case 'Section':
                         {
-                            if (  in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            if ( in_array( $this->attribute( 'section_id' ), $limitationArray[$key]  ) )
                             {
                                 $access = 'allowed';
                             }
                             else
                             {
                                 $access = 'denied';
-                                break;
                             }
-                        }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Owner' )
+                        } break;
+
+                        case 'Owner':
                         {
                             if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                             {
@@ -1942,13 +1931,13 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                break;
                             }
-                        }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Node' )
+                        } break;
+
+                        case 'Node':
                         {
                             $mainNodeID = $this->attribute( 'main_node_id' );
-                            foreach (  $limitation->attribute( 'values_as_array' ) as $nodeID )
+                            foreach (  $limitationArray[$key] as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                                 $limitationNodeID = $node->attribute( 'main_node_id' );
@@ -1968,8 +1957,9 @@ class eZContentObject extends eZPersistentObject
                                 $access = 'denied';
                                 break;
                             }
-                        }
-                        elseif ( $limitation->attribute( 'identifier' ) == 'Subtree' )
+                        } break;
+
+                        case 'Subtree':
                         {
                             $assignedNodes = $this->attribute( 'assigned_nodes' );
                             if ( count(  $assignedNodes ) != 0 )
@@ -1977,7 +1967,7 @@ class eZContentObject extends eZPersistentObject
                                 foreach (  $assignedNodes as  $assignedNode )
                                 {
                                     $path =  $assignedNode->attribute( 'path_string' );
-                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                    $subtreeArray = $limitationArray[$key];
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
                                         if (  strstr( $path, $subtreeString ) )
@@ -1995,10 +1985,10 @@ class eZContentObject extends eZPersistentObject
                                     $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
                                     $path = $parentNode->attribute( 'path_string' );
 
-                                    $subtreeArray = $limitation->attribute( 'values_as_array' );
+                                    $subtreeArray = $limitationArray[$key];
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
-                                        if (  strstr( $path, $subtreeString ) )
+                                        if ( strstr( $path, $subtreeString ) )
                                         {
                                             $access = 'allowed';
                                         }
@@ -2012,9 +2002,13 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $access = 'denied';
-                                break;
                             }
-                        }
+                        } break;
+                    }
+
+                    if ( $access == 'denied' )
+                    {
+                        break;
                     }
                 }
                 if ( $access == 'denied' )

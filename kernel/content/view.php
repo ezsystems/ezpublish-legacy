@@ -159,18 +159,6 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
     }
 }
 
-
-$limitationList = array();
-
-if ( array_key_exists( 'Limitation', $Params ) )
-{
-    $Limitation =& $Params['Limitation'];
-    foreach ( $Limitation as $policy )
-    {
-        $limitationList[] =& $policy->attribute( 'limitations' );
-    }
-}
-
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user =& eZUser::currentUser();
 
@@ -305,9 +293,9 @@ switch( $operationResult['status'] )
             $titlePath[] = array( 'text' => $object->attribute( 'name' ),
                                   'url' => false,
                                   'url_alias' => false );
-            
+
             $tpl->setVariable( 'node_path', $path );
-	    
+
             $Result = array();
             $Result['content'] =& $tpl->fetch( 'design:node/view/' . $ViewMode . '.tpl' );
             $Result['view_parameters'] =& $viewParameters;

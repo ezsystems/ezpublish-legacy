@@ -1,3 +1,7 @@
+-- 
+-- Update ContentObjectTreeNode to store latest modified subnode value.
+--
+
 ALTER TABLE ezcontentobject_tree ADD COLUMN modified_subnode int NOT NULL default 0, ADD INDEX (modified_subnode);
 
 CREATE TABLE tmp_ezcontentobject_tree (
@@ -33,6 +37,9 @@ DROP TABLE ezcontentobject_tree;
 
 RENAME TABLE tmp_ezcontentobject_tree TO ezcontentobject_tree;
 
+--
+--  Optimization and extending of role system.
+--
 
 ALTER TABLE ezuser_role ADD COLUMN limit_identifier varchar(255) default '';
 ALTER TABLE ezuser_role ADD COLUMN limit_value varchar(255) default '';
@@ -42,3 +49,6 @@ ALTER TABLE ezpolicy DROP COLUMN limitation;
 ALTER TABLE ezpolicy_limitation DROP COLUMN role_id;
 ALTER TABLE ezpolicy_limitation DROP COLUMN function_name;
 ALTER TABLE ezpolicy_limitation DROP COLUMN module_name;
+
+CREATE INDEX ezuser_role_role_id ON ezuser_role ( role_id );
+

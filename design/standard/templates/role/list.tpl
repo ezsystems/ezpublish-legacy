@@ -9,6 +9,7 @@
     <th width="97%">{"Name"|i18n("design/standard/role")}</th>
     <th width="1%">{"Edit"|i18n("design/standard/role")}</th>
     <th width="1%">{"Assign"|i18n("design/standard/role")}</th>
+{*    <th width="1%">{"Subtree"|i18n("design/standard/role")}</th> *}
     <th>{"Remove"|i18n("design/standard/role")}</th>
 </tr>
 
@@ -23,6 +24,9 @@
     <td class="{$All:sequence}">
 	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" /></a>
     </td>
+{*    <td class="{$All:sequence}">
+	<a href={concat("/role/assign/",$All:item.id,"/subtree")|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group to subtree'|i18n('design/standard/role')}" /></a>
+    </td> *}
     <td class="{$All:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" />
     </td>

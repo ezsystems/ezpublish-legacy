@@ -44,7 +44,6 @@
 */
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpolicy.php" );
 
 class eZRole extends eZPersistentObject
 {
@@ -54,6 +53,9 @@ class eZRole extends eZPersistentObject
     function eZRole( $row = array() )
     {
         $this->eZPersistentObject( $row );
+        $this->PolicyArray = 0;
+        $this->LimitIdentifier = 0;
+        $this->LimitValue = 0;
     }
 
     function &definition()
@@ -70,10 +72,8 @@ class eZRole extends eZPersistentObject
                                                           'datatype' => 'string',
                                                           'default' => '',
                                                           'required' => true ) ),
+                      "function_attributes" => array( "policies" => "policyList" ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( "policies" => "policyList"
-//                                                     "class_name" => "className",
-                                                      ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZRole",
@@ -87,82 +87,62 @@ class eZRole extends eZPersistentObject
 
     function &attribute( $attr )
     {
-        if ( $attr == "policies" )
-            return $this->policyList();
+        switch( $attr )
+        {
+            case 'limit_identifier':
+            {
+                return $this->LimitIdentifier;
+            } break;
 
-        return eZPersistentObject::attribute( $attr );
+            case 'limit_value':
+            {
+                return $this->LimitValue;
+            } break;
+
+            case 'policies':
+            {
+                return $this->policyList();
+            } break;
+
+            default:
+            {
+                return eZPersistentObject::attribute( $attr );
+            } break;
+        }
     }
 
-    function &policyList()
+    /*!
+     \reimp
+    */
+    function setAttribute( $attr, $val )
     {
-        if ( !isset( $this->Policies ) )
+        switch( $attr )
         {
-            $ini =& eZINI::instance();
-            $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-
-            $loadFromDB = true;
-            $roleID = $this->attribute( 'id' );
-            if ( $enableCaching == 'true' && $this->CachePolicies )
+            case 'limit_identifier':
             {
-                include_once( 'lib/ezutils/classes/ezhttptool.php' );
-                $http =& eZHTTPTool::instance();
+                $this->LimitIdentifier = $val;
+            } break;
 
-                $hasPoliciesInCache = $http->hasSessionVariable( 'UserPolicies' );
-                if ( $hasPoliciesInCache )
-                {
-                    $policiesForAllUserRoles =& $http->sessionVariable( 'UserPolicies' );
-                    $policiesForCurrentRole =& $policiesForAllUserRoles["$roleID"];
-                    if ( count( $policiesForCurrentRole ) > 0 )
-                    {
-                        $policies = array();
-                        foreach ( array_keys( $policiesForCurrentRole ) as $key )
-                        {
-                            $policyRow = $policiesForCurrentRole[$key];
-                            $policies[] = new eZPolicy( $policyRow );
-                        }
-                        $this->Policies =& $policies;
-                        $loadFromDB = false;
-                    }
-                }
-            }
-
-            if ( $loadFromDB )
+            case 'limit_value':
             {
-                $policies =& eZPersistentObject::fetchObjectList( eZPolicy::definition(),
-                                                                  null, array( 'role_id' => $this->attribute( 'id') ), null, null,
-                                                                  true );
-                if ( $enableCaching )
-                {
-                    $policiesForCurrentRole = array();
-                    foreach ( array_keys( $policies ) as $key )
-                    {
-                        $policy =& $policies[$key];
-                        $policyAttributes = array();
-                        $policyAttributes['id'] = $policy->attribute( 'id' );
-                        $policyAttributes['role_id'] = $policy->attribute( 'role_id' );
-                        $policyAttributes['module_name'] = $policy->attribute( 'module_name' );
-                        $policyAttributes['function_name'] = $policy->attribute( 'function_name' );
-                        $policyAttributes['limitation'] = $policy->attribute( 'limitation' );
-                        $policiesForCurrentRole[] = $policyAttributes;
-                    }
-                    $http =& eZHTTPTool::instance();
+                $this->LimitValue = $val;
+            } break;
 
-                    if ( !$http->hasSessionVariable( 'UserPolicies' ) )
-                    {
-                        $policyArray =& $http->sessionVariable( 'UserPolicies' );
-                    }
-                    else
-                    {
-                        $policyArray = array();
-                    }
-                    $policyArray["$roleID"] = $policiesForCurrentRole;
-
-                }
-                $this->Policies =& $policies;
-            }
+            default:
+            {
+                eZPersistentObject::setAttribute( $attr, $val );
+            } break;
         }
+    }
 
-        return $this->Policies;
+    function createTemporaryVersion()
+    {
+        $newRole =& eZRole::createNew();
+        $this->copyPolicies( $newRole->attribute( 'id' ) );
+        $newRole->setAttribute( 'name', $this->attribute( 'name' ) );
+        $newRole->setAttribute( 'version', $this->attribute( 'id' ) );
+        $newRole->store();
+        return $newRole;
     }
 
     function createNew()
@@ -171,16 +151,6 @@ class eZRole extends eZPersistentObject
         $role->setAttribute( 'name', 'New Role' );
         $role->store();
         return $role;
-    }
-
-    function createTmporaryVersion()
-    {
-        $newRole =& eZRole::createNew();
-        $this->copyPolicies( $newRole->attribute( 'id' ) );
-        $newRole->setAttribute( 'name', $this->attribute( 'name' ) );
-        $newRole->setAttribute( 'version', $this->attribute( 'id' ) );
-        $newRole->store();
-        return $newRole;
     }
 
     function copyPolicies( $roleID )
@@ -211,7 +181,7 @@ class eZRole extends eZPersistentObject
         // Expire role cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
     }
@@ -273,6 +243,7 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+     \static
      Returns the roles which the corresponds to the array of content object id's ( Users and user group id's ).
     */
     function &fetchByUser( $idArray )
@@ -280,57 +251,134 @@ class eZRole extends eZPersistentObject
         $ini =& eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
-        $roleArray = false;
-        if ( $enableCaching == 'true' )
-        {
-            $roleArray =& eZRole::cachedRoles();
-        }
+        $db =& eZDB::instance();
+        $groupString = implode( ',', $idArray );
 
-        if ( $roleArray == false )
-        {
-            $db =& eZDB::instance();
-            $groupString = implode( ',', $idArray );
-            $query = "SELECT DISTINCT ezrole.id,
-                                      ezrole.name
+        $query = "SELECT DISTINCT ezrole.id,
+                                      ezrole.name,
+                                      ezuser_role.limit_identifier,
+                                      ezuser_role.limit_value
                       FROM ezrole,
                            ezuser_role
                       WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                             ezuser_role.role_id = ezrole.id";
 
-            $roleArray =& $db->arrayQuery( $query );
-            if ( $enableCaching == 'true' )
-            {
-                $user =& eZUser::currentUser();
-                $http =& eZHTTPTool::instance();
-                $userID = $user->id();
+        $roleArray =& $db->arrayQuery( $query );
 
-                $http->setSessionVariable( 'UserRoles', $roleArray );
-                $http->setSessionVariable( 'PermissionCachedForUserID', $userID );
-                $http->setSessionVariable( 'PermissionCachedForUserIDTimestamp', mktime() );
-
-                $http->removeSessionVariable( 'UserPolicies' );
-                $http->removeSessionVariable( 'UserLimitations' );
-                $http->removeSessionVariable( 'UserLimitationValues' );
-                $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
-                $http->removeSessionVariable( 'CanInstantiateClassList' );
-                $http->removeSessionVariable( 'ClassesCachedForUser' );
-
-                // Expire role cache
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler =& eZExpiryHandler::instance();
-                $handler->setTimestamp( 'user-role-cache', mktime() );
-                $handler->store();
-            }
-        }
-        else
-        {
-        }
         $roles = array();
         foreach ( $roleArray as $roleRow )
         {
-            $roles[] = new eZRole( $roleRow );
+            $role = new eZRole( $roleRow );
+            $role->setAttribute( 'limit_identifier', $roleRow['limit_identifier'] );
+            $role->setAttribute( 'limit_value', $roleRow['limit_value'] );
+            $roles[] = $role;
         }
+
         return $roles;
+    }
+
+    /*!
+      \static
+      Fetch access array by user id
+
+      \param user id
+
+      \return array containing complete access limitation description
+    */
+    function &accessArrayByUserID( $userIDArray )
+    {
+        if ( isset( $this->AccessArray ) )
+            return $this->AccessArray;
+
+        $ini =& eZINI::instance();
+        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+
+        $accessArray = array();
+
+        if ( $enableCaching == 'true' )
+        {
+            $http =& eZHTTPTool::instance();
+
+            if ( $http->hasSessionVariable( 'AccessArray' ) )
+            {
+                $expiredTimeStamp = 0;
+                $handler =& eZExpiryHandler::instance();
+                if ( $handler->hasTimestamp( 'user-access-cache' ) )
+                {
+                    $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
+                }
+                else
+                {
+                    $handler->setTimestamp( 'user-access-cache', mktime() );
+                }
+
+                $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
+
+                if ( $userAccessTimestamp > $expiredTimeStamp )
+                {
+                    $this->AccessArray =& $http->sessionVariable( 'AccessArray' );
+                    return $this->AccessArray;
+                }
+            }
+        }
+
+        $roles =& eZRole::fetchByUser( $userIDArray );
+
+        foreach ( array_keys ( $roles )  as $roleKey )
+        {
+            $accessArray = array_merge_recursive( $accessArray, $roles[$roleKey]->accessArray() );
+        }
+
+        if ( $enableCaching == 'true' )
+        {
+            $http =& eZHTTPTool::instance();
+            $http->setSessionVariable( 'AccessArray', $accessArray );
+            $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
+        }
+
+        $this->AccessArray =& $accessArray;
+
+        return $this->AccessArray;
+    }
+
+    /*!
+     Fetch access array of current role
+    */
+    function &accessArray()
+    {
+        $accessArray = array();
+
+        $policies =& $this->attribute( 'policies' );
+
+        foreach ( array_keys( $policies ) as $policyKey )
+        {
+            $accessArray = array_merge_recursive( $accessArray, $policies[$policyKey]->accessArray() );
+        }
+
+        return $accessArray;
+    }
+
+    function &policyList()
+    {
+        if ( !isset( $this->Policies ) )
+        {
+            include_once( "kernel/classes/ezpolicy.php" );
+            $policies =& eZPersistentObject::fetchObjectList( eZPolicy::definition(),
+                                                              null, array( 'role_id' => $this->attribute( 'id') ), null, null,
+                                                              true );
+
+            if ( $this->LimitIdentifier )
+            {
+                foreach ( array_keys( $policies ) as $policyKey )
+                {
+                    $policies[$policyKey]->setAttribute( 'limit_identifier', $this->attribute( 'limit_identifier' ) );
+                    $policies[$policyKey]->setAttribute( 'limit_value', $this->attribute( 'limit_value' ) );
+                }
+            }
+            $this->Policies =& $policies;
+        }
+
+        return $this->Policies;
     }
 
     /*!
@@ -338,37 +386,17 @@ class eZRole extends eZPersistentObject
     */
     function &fetchIDListByUser( $idArray )
     {
-        $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
-        $currentUser =& eZUser::currentUser();
-        $currentUserGroups = $currentUser->attribute( 'groups' );
-        $currentUserGroups[] = $currentUser->attribute( 'contentobject_id' );
-
-        $roleArray = false;
-        // Only check cache if fetching roles for current user
-        if ( count( array_diff( $currentUserGroups, $idArray ) ) == 0 )
-        {
-            $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-
-            if ( $enableCaching == 'true' )
-            {
-                $roleArray =& eZRole::cachedRoles();
-            }
-        }
-
-        if ( $roleArray == false )
-        {
-            $groupString = implode( ',', $idArray );
-            $query = "SELECT DISTINCT ezrole.id
+        $groupString = implode( ',', $idArray );
+        $query = "SELECT DISTINCT ezrole.id
                   FROM ezrole,
                        ezuser_role
                   WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                         ezuser_role.role_id = ezrole.id";
 
-            $roleArray =& $db->arrayQuery( $query );
-            $roles = array();
-        }
+        $roleArray =& $db->arrayQuery( $query );
+        $roles = array();
 
         $keys = array_keys( $roleArray );
         foreach ( $keys as $key )
@@ -380,59 +408,45 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-     \return the cached roles for the current user. False is returned if roles are not cached.
-    */
-    function &cachedRoles()
-    {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $expiredTimeStamp = 0;
-        if ( $handler->hasTimestamp( 'user-role-cache' ) )
-            $expiredTimeStamp = $handler->timestamp( 'user-role-cache' );
-
-        $returnRoles = false;
-        $http =& eZHTTPTool::instance();
-
-        $permissionCachedForUser = $http->sessionVariable( 'PermissionCachedForUserID' );
-        $permissionCachedForUserTimestamp = $http->sessionVariable( 'PermissionCachedForUserIDTimestamp' );
-
-        if ( $permissionCachedForUserTimestamp >= $expiredTimeStamp )
-        {
-            $user =& eZUser::currentUser();
-            $userID = $user->id();
-
-            if ( $permissionCachedForUser == $userID )
-            {
-                $roleArray =& $http->sessionVariable( 'UserRoles' );
-                if ( count( $roleArray ) > 0 )
-                {
-                    $returnRoles =& $roleArray;
-                }
-            }
-        }
-        return $returnRoles;
-    }
-
-    /*!
      Assigns the current role to the given user or user group identified by the id.
     */
-    function assignToUser( $userID )
+    function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
         $db =& eZDB::instance();
 
-        $query = "SELECT * FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID'";
+        switch( $limitIdent )
+        {
+            case 'subtree':
+            {
+                include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+                $node =& eZContentObjectTreeNode::fetch( $limitValue );
+                if ( $node )
+                {
+                    $limitIdent = 'Subtree';
+                    $limitValue = $node->attribute( 'path_string' );
+                }
+                else
+                {
+                    $limitValue = '';
+                    $limitIdent = '';
+                }
+            } break;
+        }
+
+        $query = "SELECT * FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID' AND limit_identifier='$limitIdent' AND limit_value='$limitValue'";
 
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) > 0 )
             return false;
 
-        $query = "INSERT INTO ezuser_role ( role_id, contentobject_id ) VALUES ( '$this->ID', '$userID' )";
+        $query = "INSERT INTO ezuser_role ( role_id, contentobject_id, limit_identifier, limit_value ) VALUES ( '$this->ID', '$userID', '$limitIdent', '$limitValue' )";
 
         $db->query( $query );
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
         return true;
@@ -469,6 +483,20 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+     Remove ezuser_role by id
+
+     \param ezuser_role id
+    */
+    function removeUserAssignmentByID( $id )
+    {
+        $db =& eZDB::instance();
+
+        $query = "DELETE FROM ezuser_role WHERE id='$id'";
+
+        $db->query( $query );
+    }
+
+    /*!
       \return the users and user groups assigned to the current role.
     */
     function &fetchUserByRole( )
@@ -476,19 +504,28 @@ class eZRole extends eZPersistentObject
         $db =& eZDB::instance();
 
         $query = "SELECT
-                     ezuser_role.contentobject_id as id
+                     ezuser_role.contentobject_id as user_id,
+                     ezuser_role.limit_value,
+                     ezuser_role.limit_identifier,
+                     ezuser_role.id
                   FROM
                      ezuser_role
                   WHERE
                     ezuser_role.role_id = '$this->ID'";
 
-        $userIDArray = $db->arrayQuery( $query );
-        $users = array();
-        foreach ( $userIDArray as $user )
+        $userRoleArray = $db->arrayQuery( $query );
+        $userRoles = array();
+        foreach ( $userRoleArray as $userRole )
         {
-            $users[] = eZContentObject::fetch( $user['id'] );
+            $role = array();
+            $role['user_object'] = eZContentObject::fetch( $userRole['user_id'] );
+            $role['user_role_id'] = $userRole['id'];
+            $role['limit_ident'] = $userRole['limit_identifier'];
+            $role['limit_value'] = $userRole['limit_value'];
+
+            $userRoles[] = $role;
         }
-        return $users;
+        return $userRoles;
     }
 
 
@@ -566,7 +603,12 @@ class eZRole extends eZPersistentObject
     var $Name;
     var $Modules;
     var $Functions;
+    var $LimitValue;
+    var $LimitIdentifier;
+    var $PolicyArray;
     var $Sets;
+    var $Policies;
+    var $AccessArray;
     var $CachePolicies = true;
 }
 

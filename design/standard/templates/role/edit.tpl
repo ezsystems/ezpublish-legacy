@@ -28,15 +28,18 @@
         {$Policy:item.function_name}
     </td>
     <td>
-        {$Policy:item.limitation}
-        {section name=Limitation loop=$Policy:item.limitations}
-            {$Policy:Limitation:item.identifier}(
-            {section name=LimitationValues loop=$Policy:Limitation:item.values_as_array_with_names}
-                {$Policy:Limitation:LimitationValues:item.Name}
-                {delimiter}, {/delimiter}
-            {/section})
-            {delimiter}, {/delimiter}
-        {/section}  
+        {section show=$Policy:item.limitations}
+          {section name=Limitation loop=$Policy:item.limitations}
+              {$Policy:Limitation:item.identifier}(
+              {section name=LimitationValues loop=$Policy:Limitation:item.values_as_array_with_names}
+                  {$Policy:Limitation:LimitationValues:item.Name}
+                  {delimiter}, {/delimiter}
+              {/section})
+              {delimiter}, {/delimiter}
+          {/section}  
+        {section-else}
+          *
+        {/section}
     </td> 
     <td align="right" width="1">
         <a href={concat("role/policyedit/",$Policy:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit policy'|i18n('design/standard/role')}" /></a>

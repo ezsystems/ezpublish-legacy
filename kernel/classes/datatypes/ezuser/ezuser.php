@@ -177,7 +177,7 @@ class eZUser extends eZPersistentObject
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->setTimestamp( 'user-groups-cache', mktime() );
-        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->store();
         // Clear memory cache
         unset( $GLOBALS["eZUserObject_$userID"] );
@@ -510,10 +510,8 @@ class eZUser extends eZPersistentObject
 
         $http->removeSessionVariable( 'eZUserInfoCache' );
 
-        $http->removeSessionVariable( 'UserPolicies' );
-        $http->removeSessionVariable( 'UserRoles' );
+        $http->removeSessionVariable( 'AccessArray' );
         $http->removeSessionVariable( 'UserLimitations' );
-        $http->removeSessionVariable( 'UserLimitationValues' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
@@ -783,61 +781,42 @@ class eZUser extends eZPersistentObject
 
     function &hasAccessTo( $module, $function )
     {
-        $roles =& $this->attribute( 'roles' );
-        $access = 'no';
-        $limitationPolicyList = array();
-        reset( $roles );
-        foreach ( array_keys( $roles ) as $key )
-        {
-            $role =& $roles[$key];
-            $policies =& $role->attribute( 'policies');
-            foreach ( array_keys( $policies ) as $policy_key )
-            {
-                $policy =& $policies[$policy_key];
-                if ( $policy->attribute( 'module_name' ) == '*' )
-                {
-                    return array( 'accessWord' => 'yes' );
-                }
-                elseif ( $policy->attribute( 'module_name' ) == $module )
-                {
-                    if ( $policy->attribute( 'function_name' ) == '*' )
-                    {
-                        return array( 'accessWord' => 'yes' );
-                    }
-                    elseif ( $policy->attribute( 'function_name' ) == $function )
-                    {
-                        if ( $policy->attribute( 'limitation' ) == '*' )
-                        {
-                            return array( 'accessWord' => 'yes' );
-                        }
-                        else
-                        {
-                            $access = 'limited';
-                            $limitationPolicyList[] =& $policy;
-                        }
-                    }
-                }
-            }
-        }
-        return array( 'accessWord' => $access, 'policies' => $limitationPolicyList );
-    }
+        $accessArray =& eZRole::accessArrayByUserID( $this->groups() ); // todo : optimize this fetching.
 
-    function &policies()
-    {
-        $roles =& $this->attribute( 'roles' );
-        $limitationPolicyList = array();
-        reset( $roles );
-        foreach ( array_keys( $roles ) as $key )
+        $access = 'no';
+
+        if ( isset( $accessArray['*'] ) )
         {
-            $role =& $roles[$key];
-            $policies =& $role->attribute( 'policies');
-            foreach ( array_keys( $policies ) as $policy_key )
-            {
-                $policy =& $policies[$policy_key];
-                $limitationPolicyList[] =& $policy;
-            }
+            $moduleArray =& $accessArray['*'];
         }
-        return $limitationPolicyList;
+        else if ( isset( $accessArray[$module] ) )
+        {
+            $moduleArray =& $accessArray[$module];
+        }
+        else
+        {
+            return array( 'accessWord' => 'no' );
+        }
+
+        if ( isset( $moduleArray['*'] ) )
+        {
+            $functionArray =& $moduleArray['*'];
+        }
+        else if ( isset( $moduleArray[$function] ) )
+        {
+            $functionArray =& $moduleArray[$function];
+        }
+        else
+        {
+            return array( 'accessWord' => 'no' );
+        }
+
+        if ( isset( $functionArray['*'] ) && $functionArray['*'] == '*' )
+        {
+            return array( 'accessWord' => 'yes' );
+        }
+
+        return array( 'accessWord' => 'limited', 'policies' => $functionArray );
     }
 
     /*!
@@ -845,14 +824,9 @@ class eZUser extends eZPersistentObject
     */
     function &roles()
     {
-        if ( !isset( $this->Roles ) )
-        {
-            $groups = $this->attribute( 'groups' );
-            $groups[] = $this->attribute( 'contentobject_id' );
-            $roles =& eZRole::fetchByUser( $groups );
-            $this->Roles =& $roles;
-        }
-        return $this->Roles;
+        $groups = $this->attribute( 'groups' );
+        $groups[] = $this->attribute( 'contentobject_id' );
+        return eZRole::fetchByUser( $groups );
     }
 
     /*!
@@ -947,41 +921,27 @@ class eZUser extends eZPersistentObject
                 {
                     $userGroupsInfo = array();
                     if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
-                        $userGroupsInfo =& $http->sessionVariable( 'eZUserGroupsCache' );
-
-                    if ( isset( $userGroupsInfo[$contentobjectID] ) )
                     {
-                        $userGroupsTmp =& $userGroupsInfo[$contentobjectID];
-
-                        if ( count( $userGroupsTmp ) > 0 )
-                        {
-                            $userGroups =& $userGroupsTmp;
-                        }
+                        $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
+                        return $this->Groups;
                     }
                 }
 
-                if ( $userGroups === false or
-                     count( $userGroups ) == 0 )
-                {
-                    $userGroupsInfo = array();
-                    $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
+                $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
                                                 WHERE b.contentobject_id='$contentobjectID' AND
                                                       b.parent_node_id = c.node_id
                                                 ORDER BY c.contentobject_id  ");
-                    $userGroupsInfo[$contentobjectID] =& $userGroups;
-
-                    $http->setSessionVariable( 'eZUserGroupsCache', $userGroupsInfo );
-                    $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
-                }
 
                 $userGroupArray = array();
-
                 foreach ( $userGroups as $group )
                 {
                     $userGroupArray[] = $group['id'];
                 }
+                $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
+                $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', mktime() );
+
                 $this->Groups =& $userGroupArray;
             }
             return $this->Groups;
@@ -994,7 +954,6 @@ class eZUser extends eZPersistentObject
     var $PasswordHash;
     var $PasswordHashType;
     var $Groups;
-    var $Roles;
     var $OriginalPassword;
     var $OriginalPasswordConfirm;
 }

@@ -469,15 +469,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
         {
-
-            $policyList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
-            $limitationList = array();
-            foreach ( array_keys( $policyList ) as $key )
-            {
-                $policy =& $policyList[$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-
-            }
+            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
             eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
         }
         else
@@ -488,12 +480,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $accessResult['accessWord'] == 'limited' )
             {
                 $params['Limitation'] =& $accessResult['policies'];
-                $limitationList = array();
-                foreach ( array_keys( $params['Limitation'] ) as $key )
-                {
-                    $policy =& $params['Limitation'][$key];
-                    $limitationList[] =& $policy->attribute( 'limitations' );
-                }
+                $limitationList =& $params['Limitation'];
                 $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
             }
         }
@@ -1004,36 +991,43 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $sqlPartPart = array();
                 $hasNodeLimitation = false;
-                foreach ( $limitationArray as $limitation )
+                foreach ( array_keys( $limitationArray ) as $ident )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    switch( $ident )
                     {
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
-                    {
-                        $user =& eZUser::currentUser();
-                        $userID = $user->attribute( 'contentobject_id' );
-                        $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                        $hasNodeLimitation = true;
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
-                    {
-                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
-                        $sqlPartPartPart = array();
-                        foreach ( $pathArray as $limitationPathString )
+                        case 'Class':
                         {
-                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                        }
-                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                            $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                        } break;
+
+                        case 'Section':
+                        {
+                            $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                        } break;
+
+                        case 'Owner':
+                        {
+                            $user =& eZUser::currentUser();
+                            $userID = $user->attribute( 'contentobject_id' );
+                            $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
+                        } break;
+
+                        case 'Node':
+                        {
+                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $hasNodeLimitation = true;
+                        } break;
+
+                        case 'Subtree':
+                        {
+                            $pathArray =& $limitationArray[$ident];
+                            $sqlPartPartPart = array();
+                            foreach ( $pathArray as $limitationPathString )
+                            {
+                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                            }
+                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                        } break;
                     }
                 }
                 if ( $hasNodeLimitation )
@@ -1101,6 +1095,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                      $groupByText
                      ORDER BY $sortingFields";
         }
+
         if ( !$offset && !$limit )
         {
             $nodeListArray =& $db->arrayQuery( $query );
@@ -1202,14 +1197,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
         {
 
-            $policyList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
-            $limitationList = array();
-            foreach ( array_keys( $policyList ) as $key )
-            {
-                $policy =& $policyList[$key];
-                $limitationList[] =& $policy->attribute( 'limitations' );
-
-            }
+            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
             eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
         }
         else
@@ -1219,13 +1207,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
             if ( $accessResult['accessWord'] == 'limited' )
             {
-                $params['Limitation'] =& $accessResult['policies'];
-                $limitationList = array();
-                foreach ( array_keys( $params['Limitation'] ) as $key )
-                {
-                    $policy =& $params['Limitation'][$key];
-                    $limitationList[] =& $policy->attribute( 'limitations' );
-                }
+                $limitationList =& $accessResult['policies'];
                 $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
             }
         }
@@ -1463,39 +1445,48 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
+
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
                 $hasNodeLimitation = false;
-                foreach ( $limitationArray as $limitation )
+                foreach ( array_keys( $limitationArray ) as $ident )
                 {
-                    if ( $limitation->attribute( 'identifier' ) == 'Class' )
+                    switch( $ident )
                     {
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif ( $limitation->attribute( 'identifier' ) == 'Section' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Owner' )
-                    {
-                        $user =& eZUser::currentUser();
-                        $userID = $user->attribute( 'contentobject_id' );
-                        $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Node' )
-                    {
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                        $hasNodeLimitation = true;
-                    }
-                    elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
-                    {
-                        $pathArray = split( ',', $limitation->attribute( 'values_as_string' ) );
-                        foreach ( $pathArray as $limitationPathString )
+                        case 'Class':
                         {
-                            $sqlPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                        }
-                        $hasNodeLimitation = true;
+                            $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                        } break;
+
+                        case 'Section':
+                        {
+                            $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                        } break;
+
+                        case 'Owner':
+                        {
+                            $user =& eZUser::currentUser();
+                            $userID = $user->attribute( 'contentobject_id' );
+                            $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
+                        } break;
+
+                        case 'Node':
+                        {
+                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $hasNodeLimitation = true;
+                        } break;
+
+                        case 'Subtree':
+                        {
+                            $pathArray =& $limitationArray[$ident];
+                            $sqlPartPartPart = array();
+                            foreach ( $pathArray as $limitationPathString )
+                            {
+                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                            }
+                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                        } break;
                     }
                 }
                 if ( $hasNodeLimitation )

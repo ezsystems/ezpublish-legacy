@@ -76,26 +76,29 @@ else
     $functions =& $mod->attribute( 'available_functions' );
 }
 $currentFunctionLimitations = array();
-foreach ( array_keys( $functions[$currentFunction] ) as $key )
+if ( $functions[$currentFunction] )
 {
-    $limitation =& $functions[$currentFunction][$key];
-    if ( count( $limitation['values'] == 0 ) && array_key_exists( 'class', $limitation ) )
+    foreach ( array_keys( $functions[$currentFunction] ) as $key )
     {
-        include_once( 'kernel/' . $limitation['path'] . $limitation['file'] );
-        $obj = new $limitation['class']( array() );
-        $limitationValueList = call_user_func_array( array( &$obj, $limitation['function'] ), $limitation['parameter'] );
-        $limitationValueArray =  array();
-        foreach ( array_keys( $limitationValueList ) as $key )
+        $limitation =& $functions[$currentFunction][$key];
+        if ( count( $limitation['values'] == 0 ) && array_key_exists( 'class', $limitation ) )
         {
-            $limitationValue =& $limitationValueList[$key];
-            $limitationValuePair = array();
-            $limitationValuePair['Name'] = $limitationValue['name'];
-            $limitationValuePair['value'] = $limitationValue['id'];
-            $limitationValueArray[] = $limitationValuePair;
+            include_once( 'kernel/' . $limitation['path'] . $limitation['file'] );
+            $obj = new $limitation['class']( array() );
+            $limitationValueList = call_user_func_array( array( &$obj, $limitation['function'] ), $limitation['parameter'] );
+            $limitationValueArray =  array();
+            foreach ( array_keys( $limitationValueList ) as $key )
+            {
+                $limitationValue =& $limitationValueList[$key];
+                $limitationValuePair = array();
+                $limitationValuePair['Name'] = $limitationValue['name'];
+                $limitationValuePair['value'] = $limitationValue['id'];
+                $limitationValueArray[] = $limitationValuePair;
+            }
+            $limitation['values'] = $limitationValueArray;
         }
-        $limitation['values'] = $limitationValueArray;
+        $currentFunctionLimitations[] = $limitation;
     }
-    $currentFunctionLimitations[] = $limitation;
 }
 $currentLimitationList = array();
 foreach ( array_keys( $currentFunctionLimitations ) as $key )
@@ -253,16 +256,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
         }
     }
 
-    if ( !$hasNodeLimitation and !$hasLimitation )
-    {
-        $policy->setAttribute( 'limitation', "*" );
-        $policy->store();
-    }
-    else
-    {
-        $policy->setAttribute( 'limitation', "" );
-        $policy->store();
-    }
+    $policy->store();
 
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
 }

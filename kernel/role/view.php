@@ -69,6 +69,11 @@ if ( $http->hasPostVariable( "AssignRoleButton" ) )
 
     return;
 }
+else if ( $http->hasPostVariable( "AssignRoleSubTreeButton" ) )
+{
+    $Module->redirectTo( '/role/assign/' . $roleID . '/subtree' );
+    return;
+}
 
 // Assign the role for a user or group
 if ( $Module->isCurrentAction( 'AssignRole' ) )
@@ -88,11 +93,11 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 // Remove the role assignment
 if ( $http->hasPostVariable( "RemoveRoleAssignmentButton" ) )
 {
-    $userIDArray = $http->postVariable( "UserIDArray" );
+    $idArray = $http->postVariable( "IDArray" );
 
-    foreach ( $userIDArray as $userID )
+    foreach ( $idArray as $id )
     {
-        $role->removeUserAssignment( $userID );
+        $role->removeUserAssignmentByID( $id );
     }
 }
 

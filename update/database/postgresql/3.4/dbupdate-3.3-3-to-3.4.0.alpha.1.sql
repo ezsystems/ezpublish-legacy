@@ -16,3 +16,5 @@ ALTER TABLE ezpolicy DROP COLUMN limitation;
 ALTER TABLE ezpolicy_limitation DROP COLUMN role_id;
 ALTER TABLE ezpolicy_limitation DROP COLUMN function_name;
 ALTER TABLE ezpolicy_limitation DROP COLUMN module_name;
+
+CREATE INDEX ezuser_role_role_id ON ezuser_role ( role_id );
