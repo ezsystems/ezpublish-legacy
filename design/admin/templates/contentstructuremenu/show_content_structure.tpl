@@ -2,8 +2,13 @@
     {let parentNode     = $contentStructureTree.parent_node
          children       = $contentStructureTree.children
          haveChildren   = count($contentStructureTree.children)|gt(0)
-         showToolTips   = ezini( 'TreeMenu', 'ToolTips', 'contentstructuremenu.ini' )
+         showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
+         classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
          toolTip        = "" }
+
+        {section show=is_set($class_icons_size)}
+            {set classIconsSize=$class_icons_size}
+        {/section}
 
         {section show=$:parentNode.node.is_hidden}
             <li id="n{$:parentNode.node.node_id}" class="hiddennode">
@@ -24,7 +29,7 @@
                 {/section}
 
             {* Icon *}
-                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)|wash(javascript)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( small, "Show 'Edit' menu" )}</a>
+                <a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, 'ContextMenu', ez_createAArray( new Array( '%nodeID%', {$:parentNode.node.node_id}, '%objectID%', {$:parentNode.object.id} ) ) , '{$:parentNode.object.name|shorten(18)|wash(javascript)}', {$:parentNode.node.node_id} ); return false;">{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "Show 'Edit' menu" )}</a>
             {* Label *}
                 {* Tooltip *}
                 {section show=$:showToolTips|eq('enabled')}

@@ -1,7 +1,9 @@
 <script language="JavaScript" src={"javascript/lib/ezjslibie50support.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
+<script language="JavaScript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
 <script language="JavaScript" src={"javascript/contentstructuremenu/contentstructuremenu.js"|ezdesign}></script>
+
 
 {let rootNodeID             = ezini( 'TreeMenu', 'RootNodeID'       , 'contentstructuremenu.ini' )
      classFilter            = ezini( 'TreeMenu', 'ShowClasses'      , 'contentstructuremenu.ini' )
@@ -10,9 +12,48 @@
      sortBy                 = ezini( 'TreeMenu', 'SortBy'           , 'contentstructuremenu.ini' )
      fetchHidden            = ezini( 'SiteAccessSettings', 'ShowHiddenNodes', 'site.ini'         )
      itemClickAction        = ezini( 'TreeMenu', 'ItemClickAction'  , 'contentstructuremenu.ini' )
+     classIconsSize         = ezini( 'TreeMenu', 'ClassIconsSize'   , 'contentstructuremenu.ini' )
+     preloadClassIcons      = ezini( 'TreeMenu', 'PreloadClassIcons', 'contentstructuremenu.ini' )
      contentStructureTree   = false()
      menuID                 = "content_tree_menu" }
 
+    {* check size of icons *}
+    {section show=is_set($:class_icons_size)}
+        {set classIconsSize=$:class_icons_size}
+    {/section}
+
+    {* load icons if preloadClassIcons is enabled *}
+    {section show=eq( $:preloadClassIcons, "enabled" )}
+        {let iconsRepository    = ezini( 'IconSettings', 'Repository', 'icon.ini' )
+             iconsTheme         = ezini( 'IconSettings', 'Theme'     , 'icon.ini' )
+             classMap           = ezini( 'ClassIcons'  , 'ClassMap'  , 'icon.ini' )
+             defaultIcon        = ezini( 'ClassIcons'  , 'Default'   , 'icon.ini' )
+             iconsSizesList     = ezini( 'IconSettings', 'Sizes'     , 'icon.ini' )
+             iconsSize          = $:iconsSizesList.$:classIconsSize }
+
+            <script language="JavaScript"><!--
+
+                var iconsList       = new Array();
+                var wwwDirPrefix    = "{ezsys('wwwdir')}";
+                var iconPath        = "";
+
+                // oridinary icons.
+                {section var=icon loop=$:classMap}
+                    iconPath = wwwDirPrefix + "/" + "{$:iconsRepository}" + "/" + "{$:iconsTheme}" + "/" + "{$:iconsSize}" + "/" + "{$:icon}";
+                    iconsList.push( iconPath );
+                {/section}
+
+                // default icon.
+                iconPath = wwwDirPrefix + "/" + "{$:iconsRepository}" + "/" + "{$:iconsTheme}" + "/" + "{$:iconsSize}" + "/" + "{$:defaultIcon}";
+                iconsList.push( iconPath );
+
+                // load them all!!
+                ezjslib_preloadImageList( iconsList );
+
+            // -->
+            </script>
+        {/let}
+    {/section}
 
     {* check custom_root_node *}
     {section show=is_set( $custom_root_node_id )}
@@ -40,7 +81,7 @@
                                                             $:fetchHidden ) }
         {* Show menu tree. All container nodes are unfolded. *}
         <ul id="{$:menuID}">
-            {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree}
+            {include uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$contentStructureTree class_icons_size=$:classIconsSize}
         </ul>
     {/cache-block}
 
