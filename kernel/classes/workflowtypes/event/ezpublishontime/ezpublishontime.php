@@ -43,6 +43,7 @@
 
 */
 include_once( 'kernel/classes/workflowtypes/event/ezpublishontime/ezpublishontimevalue.php' );
+
 class eZPublishOnTime
 {
     function eZPublishOnTime( $eventID, $eventVersion )
@@ -127,8 +128,8 @@ class eZPublishOnTime
     function setVersion( $version )
     {
         eZPublishOnTimeValue::removeAllElements( $this->WorkflowEventID, 0 );
-    	for ( $i=0;$i<count( $this->Entries );$i++ )
-    	{
+        for ( $i = 0; $i < count( $this->Entries ); $i++ )
+        {
             $entry =& $this->Entries[$i];
             $oldversion = $entry->attribute ( "workflow_event_version" );
             $id = $entry->attribute( "id" );
@@ -147,7 +148,7 @@ class eZPublishOnTime
                 $entry->setAttribute("contentclass_attribute_version", $version );
                 $entry->store();
             }
-    	}
+        }
     }
 
 

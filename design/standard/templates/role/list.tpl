@@ -1,4 +1,4 @@
-<a href={"/manual/user/permissions#Roles"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right"> </a>
+<a href={"/manual/user/permissions#Roles"|ezurl} target="_ezpublishmanual"><img src={"help.gif"|ezimage} align="right" alt="{'Help'|i18n('design/standard/role')}" title="{'Help on roles'|i18n('design/standard/role')}"> </a>
 
 <div class="maincontentheader">
 <h1>{"Role list"|i18n("design/standard/role")}</h1>
@@ -20,10 +20,10 @@
     <a href={concat("/role/view/",$All:item.id)|ezurl}>{$All:item.name}</a>
     </td>
     <td class="{$All:sequence}">
-	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="" /></a>
+	<a href={concat("/role/edit/",$All:item.id)|ezurl}><img src={"edit.png"|ezimage} alt="{'Edit'|i18n('design/standard/role')}" title="{'Edit role'|i18n('design/standard/role')}" /></a>
     </td>
     <td class="{$All:sequence}">
-	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="" /></a>
+	<a href={concat("/role/assign/",$All:item.id)|ezurl}><img src={"attach.png"|ezimage} alt="{'Assign'|i18n('design/standard/role')}" title="{'Assign role to user or group'|i18n('design/standard/role')}" /></a>
     </td>
     <td class="{$All:sequence}" align="right" width="1">
 	<input type="checkbox" name="DeleteIDArray[]" value="{$All:item.id}" />
@@ -35,7 +35,7 @@
     <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/role')}" />
   </td>
   <td align="right" width="1">
-    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/role')}" title="{'Remove selected roles'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>

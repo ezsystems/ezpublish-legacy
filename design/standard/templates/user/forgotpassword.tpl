@@ -10,7 +10,7 @@
    {/section}
    {section show=$generated}
    <p>
-   {"Password was successfully generated and sent to:"|i18n('design/standard/user/forgotpassword')} {$email}
+   {"Password was successfully generated and sent to: %1"|i18n('design/standard/user/forgotpassword',,array($email))}
    </p>
    {section-else}
       {section show=$wrong_key}
@@ -28,7 +28,7 @@
       </p>
     
       <div class="block">
-      <label for="email">{"E-mail:"|i18n('design/standard/user/forgotpassword')}</label>
+      <label for="email">{"E-mail"|i18n('design/standard/user/forgotpassword')}:</label>
       <div class="labelbreak"></div>
       <input class="halfbox" type="text" name="UserEmail" size="40" value="{$wrong_email}" />
       </div>

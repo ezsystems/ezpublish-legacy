@@ -192,7 +192,7 @@
     {/section}
     {section show=$:can_remove}
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-                <input type="submit" name="RemoveButton" value="Remove" />
+                <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
     {/section}
     {/section}
 

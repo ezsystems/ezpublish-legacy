@@ -95,13 +95,13 @@
      {section-else}
      <tr>
      <td>
-      Not specified.
+      {'Not specified.'|i18n('design/standard/role')}
      </td>
      </tr>
      {/section}
      </table>
-     <input class="menubutton" type="image" name="BrowseLimitationNodeButton" value="{'Find'|i18n('design/standard/shop')}" src={"find.png"|ezimage} />
-     <input class="menubutton" type="image" name="DeleteNodeButton" value="{'Remove'|i18n('design/standard/shop')}" src={"trash.png"|ezimage} />
+     <input class="menubutton" type="image" name="BrowseLimitationNodeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
+     <input class="menubutton" type="image" name="DeleteNodeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
    </div>
   {/case}
   {case match="Subtree"}
@@ -120,13 +120,13 @@
      {section-else}
      <tr>
      <td>
-      Not specified.
+      {'Not specified.'|i18n('design/standard/role')}
      </td>
      </tr>
      {/section}
      </table>
-     <input class="menubutton" type="image" name="BrowseLimitationSubtreeButton" value="{'Find'|i18n('design/standard/shop')}" src={"find.png"|ezimage} />
-     <input class="menubutton" type="image" name="DeleteSubtreeButton" value="{'Remove'|i18n('design/standard/shop')}" src={"trash.png"|ezimage} />
+     <input class="menubutton" type="image" name="BrowseLimitationSubtreeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
+     <input class="menubutton" type="image" name="DeleteSubtreeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
    </div>
   {/case}
   {case}

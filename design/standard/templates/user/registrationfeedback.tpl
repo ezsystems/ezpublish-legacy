@@ -1,9 +1,9 @@
-{set-block scope=root variable=subject}{"New user registered at %1"|i18n("design/standard/user/register",,array(ezini("SiteSettings","SiteURL")))}{/set-block}
-A new user has registered.
+{set-block scope=root variable=subject}{'New user registered at %siteurl'|i18n('design/standard/user/register',,hash('%siteurl',ezini('SiteSettings','SiteURL')))}{/set-block}
+{'A new user has registered.'|i18n('design/standard/user/register')}
 
-Account information.
-Login: {$user.login}
-Email: {$user.email}
+{'Account information.'|i18n('design/standard/user/register')}
+{'Login'|i18n('design/standard/user/register','Login name')}: {$user.login}
+{'Email'|i18n('design/standard/user/register')}: {$user.email}
 
-Link to user information:
-http://{ezini("SiteSettings","SiteURL")}{concat("content/view/full/",$object.main_node_id)|ezurl(no)}
+{'Link to user information'|i18n('design/standard/user/register')}:
+http://{ezini('SiteSettings','SiteURL')}{concat('content/view/full/',$object.main_node_id)|ezurl(no)}

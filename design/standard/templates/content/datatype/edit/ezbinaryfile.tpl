@@ -12,7 +12,7 @@
 <p class="box">	{$attribute.content.original_filename|wash(xhtml)}</p>
 </div>
 <div class="element">
-<label>{"MIME Type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"MIME-Type"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.mime_type|wash(xhtml)}</p>
 </div>
 <div class="element">

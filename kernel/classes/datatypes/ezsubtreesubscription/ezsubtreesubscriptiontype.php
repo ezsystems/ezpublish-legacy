@@ -53,7 +53,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     */
     function eZSubtreeSubscriptionType()
     {
-        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription" ),
+        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 

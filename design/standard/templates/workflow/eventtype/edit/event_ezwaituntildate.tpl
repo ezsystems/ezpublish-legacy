@@ -18,9 +18,9 @@
 </table>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="CustomActionButton[{$event.id}_new_classelement]" value="{'New Entry'|i18n('design/standard/workflow/eventtype/edit')}" />
-<input class="button" type="submit" name="CustomActionButton[{$event.id}_remove_selected]" value="{'Remove Selected'|i18n('design/standard/workflow/eventtype/edit')}" />
-<input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Load Attributes'|i18n('design/standard/workflow/eventtype/edit')}" />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_new_classelement]" value="{'New entry'|i18n('design/standard/workflow/eventtype/edit')}" />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/workflow/eventtype/edit')}" />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Load attributes'|i18n('design/standard/workflow/eventtype/edit')}" />
 </div>
 
 <div class="element">

@@ -60,7 +60,7 @@ class eZEnumType extends eZDataType
     */
     function eZEnumType()
     {
-         $this->eZDataType( EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', "Enum" ),
+         $this->eZDataType( EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', "Enum", 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 

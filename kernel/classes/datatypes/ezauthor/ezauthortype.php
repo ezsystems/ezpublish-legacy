@@ -51,7 +51,7 @@ class eZAuthorType extends eZDataType
 {
     function eZAuthorType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, ezi18n( 'kernel/classes/datatypes', "Author" ),
+        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, ezi18n( 'kernel/classes/datatypes', "Author", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

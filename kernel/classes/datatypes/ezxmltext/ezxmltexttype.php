@@ -125,7 +125,7 @@ class eZXMLTextType extends eZDataType
 {
     function eZXMLTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, ezi18n( 'kernel/classes/datatypes', "XML Text field" ),
+        $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, ezi18n( 'kernel/classes/datatypes', "XML Text field", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

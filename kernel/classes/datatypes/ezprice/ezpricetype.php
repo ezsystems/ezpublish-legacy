@@ -55,7 +55,7 @@ class eZPriceType extends eZDataType
 {
     function eZPriceType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price" ),
+        $this->eZDataType( EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

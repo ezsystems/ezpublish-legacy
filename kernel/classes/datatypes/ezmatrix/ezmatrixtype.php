@@ -61,7 +61,7 @@ class eZMatrixType extends eZDataType
     */
     function eZMatrixType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix' ),
+        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

@@ -7,7 +7,7 @@
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
   <th colspan="{$view_list|count}">
-    {"Filter"}
+    {"Filter"|i18n('design/standard/url')}
   </th>
 <tr>
 <tr>

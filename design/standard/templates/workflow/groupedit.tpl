@@ -1,11 +1,11 @@
 <form action={concat($module.functions.groupedit.uri,"/",$workflow_group.id)|ezurl} method="post" name="WorkflowGroupEdit">
 
 <div class="maincontentheader">
-<h1>{"Editing workflow group"|i18n("design/standard/workflow")} - {$workflow_group.name}</h1>
+<h1>{"Editing workflow group - %1"|i18n("design/standard/workflow",,array($workflow_group.name))}</h1>
 </div>
 
 <div class="byline">
-<p class="modified">{"Modified by"|i18n("design/standard/workflow")} {content_view_gui view=text_linked content_object=$workflow_group.modifier.contentobject} {"on"|i18n("design/standard/workflow")} {$workflow_group.modified|l10n(shortdatetime)}</p>
+<p class="modified">{"Modified by %username on %time"|i18n("design/standard/workflow",,hash('%username',$workflow_group.modifier.contentobject,'%time',$workflow_group.modified|l10n(shortdatetime)))}</p>
 </div>
 
 <div class="block">

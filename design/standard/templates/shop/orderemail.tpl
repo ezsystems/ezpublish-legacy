@@ -1,8 +1,8 @@
-{set-block scope=root variable=subject}{"Order:"|i18n("design/standard/shop")} {$order.order_nr}{/set-block}
+{set-block scope=root variable=subject}{"Order"|i18n("design/standard/shop")}: {$order.order_nr}{/set-block}
 
-{"Order:"|i18n("design/standard/shop")} {$order.order_nr}
+{"Order"|i18n("design/standard/shop")}: {$order.order_nr}
 
-{"Customer:"|i18n("design/standard/shop")}
+{"Customer"|i18n("design/standard/shop")}:
 
 {shop_account_view_gui view=ascii order=$order}
 
@@ -21,4 +21,4 @@
 {$OrderItem:item.description}: 	{$OrderItem:item.price_inc_vat|l10n(currency)}
 {/section}
 
-{"Order total:"|i18n("design/standard/shop")}{$order.total_inc_vat|l10n(currency)}
+{"Order total"|i18n("design/standard/shop")}: {$order.total_inc_vat|l10n(currency)}

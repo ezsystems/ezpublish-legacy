@@ -127,8 +127,8 @@ class eZWaitUntilDate
     function setVersion( $version )
     {
         eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
-    	for ( $i=0;$i<count( $this->Entries );$i++ )
-    	{
+        for ( $i = 0; $i < count( $this->Entries ); $i++ )
+        {
             $entry =& $this->Entries[$i];
             $oldversion = $entry->attribute ( "workflow_event_version" );
             $id = $entry->attribute( "id" );
@@ -147,7 +147,7 @@ class eZWaitUntilDate
                 $entry->setAttribute("contentclass_attribute_version", $version );
                 $entry->store();
             }
-    	}
+        }
     }
 
 

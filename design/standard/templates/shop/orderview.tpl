@@ -1,5 +1,5 @@
 <div class="maincontentheader">
-<h1>{"Order"|i18n("design/standard/shop")} {$order.order_nr}</h1>
+  <h1>{"Order %1"|i18n("design/standard/shop",,array($order.order_nr))}</h1>
 </div>
 
 <b>{"Customer"|i18n("design/standard/shop")}</b> 
@@ -71,11 +71,11 @@
 
 
 
-<b>{"Order summary:"|i18n("design/standard/shop")}</b><br />
+<b>{"Order summary"|i18n("design/standard/shop")}:</b><br />
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="bgdark">
-    {"Subtotal of items:"|i18n("design/standard/shop")}
+    {"Subtotal of items"|i18n("design/standard/shop")}:
     </td>
     <td class="bgdark">
     {$order.product_total_ex_vat|l10n(currency)}

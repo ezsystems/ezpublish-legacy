@@ -52,7 +52,7 @@ class eZUnpublishType extends eZWorkflowEventType
     */
     function eZUnpublishType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_UNPUBLISH_ID, "Unpublish" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_UNPUBLISH_ID, ezi18n( 'kernel/workflow/event', "Unpublish" ) );
     }
 
     function execute( &$process, &$event )

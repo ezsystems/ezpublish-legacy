@@ -52,7 +52,7 @@ class eZOptionType extends eZDataType
 {
     function eZOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OPTION, ezi18n( 'kernel/classes/datatypes', "Option" ),
+        $this->eZDataType( EZ_DATATYPESTRING_OPTION, ezi18n( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

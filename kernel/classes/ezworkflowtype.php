@@ -350,7 +350,7 @@ class eZWorkflowEventType extends eZWorkflowType
 {
     function eZWorkflowEventType( $typeString, $name )
     {
-        $this->eZWorkflowType( "event", $typeString, "Event", $name );
+        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
     }
 
     function registerType( $typeString, $class_name )
@@ -363,7 +363,7 @@ class eZWorkflowGroupType extends eZWorkflowType
 {
     function eZWorkflowGroupType( $typeString, $name )
     {
-        $this->eZWorkflowType( "group", $typeString, "Group", $name );
+        $this->eZWorkflowType( "group", $typeString, ezi18n( 'kernel/workflow/group', "Group" ), $name );
     }
 
     function registerType( $typeString, $class_name )

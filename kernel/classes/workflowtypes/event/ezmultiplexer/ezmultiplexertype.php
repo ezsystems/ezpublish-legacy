@@ -51,7 +51,7 @@ class eZMultiplexerType extends eZWorkflowEventType
     */
     function eZMultiplexerType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'Multiplexer' );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, ezi18n( 'kernel/workflow/event', 'Multiplexer' ) );
     }
 
     function &attributeDecoder( &$event, $attr )

@@ -50,7 +50,7 @@ class eZTextType extends eZDataType
 {
     function eZTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text field" ),
+        $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text field", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

@@ -52,7 +52,7 @@ class eZPublishOnTimeType  extends eZWorkflowEventType
     */
     function eZPublishOnTimeType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PUBLISH_ON_TIME_ID, "Publish on time" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PUBLISH_ON_TIME_ID, ezi18n( 'kernel/workflow/event', "Publish on time" ) );
     }
 
     function execute( &$process, &$event )

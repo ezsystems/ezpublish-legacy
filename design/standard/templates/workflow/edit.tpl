@@ -35,7 +35,7 @@
 <tr>
     <td></td>
     <td>
-    {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value="Delete"}
+    {include uri="design:gui/button.tpl" name=DeleteGroup id_name=DeleteGroupButton value='Remove'|i18n('design/standard/workflow')}
     </td>
 </tr>
 </table>
@@ -46,7 +46,7 @@
 <option name="Workflow_group[]" value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name}</option>
 {/section}
 </select>
-&nbsp;{include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"}
+&nbsp;{include uri="design:gui/button.tpl" name=AddGroup id_name=AddGroupButton value="Add group"|i18n('design/standard/workflow')}
 </div>
 
 <h2>{"Events"|i18n("design/standard/workflow")}</h2>

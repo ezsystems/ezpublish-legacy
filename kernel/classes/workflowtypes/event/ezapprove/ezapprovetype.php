@@ -52,7 +52,7 @@ class eZApproveType extends eZWorkflowEventType
 {
     function eZApproveType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_APPROVE_ID, "Approve" );
+        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_APPROVE_ID, ezi18n( 'kernel/workflow/event', "Approve" ) );
     }
 
     function &attributeDecoder( &$event, $attr )
