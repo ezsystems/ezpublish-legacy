@@ -95,7 +95,7 @@ class eZHTTPTool
      \return true if the HTTP post variable $var exist.
      \sa hasVariable
     */
-    function &hasPostVariable( $var )
+    function hasPostVariable( $var )
     {
         $post_vars =& $GLOBALS["HTTP_POST_VARS"];
         return isset( $post_vars[$var] );
@@ -131,7 +131,7 @@ class eZHTTPTool
      \return true if the HTTP get variable $var exist.
      \sa hasVariable
     */
-    function &hasGetVariable( $var )
+    function hasGetVariable( $var )
     {
         $get_vars =& $GLOBALS["_GET"];
         return isset( $get_vars[$var] );
@@ -156,7 +156,7 @@ class eZHTTPTool
      \return a reference to the HTTP post/get variable $var, or null if it does not exist.
      \sa postVariable
     */
-    function variable( $var )
+    function &variable( $var )
     {
         if ( isset( $GLOBALS["HTTP_POST_VARS"][$var] ) )
             return $GLOBALS["HTTP_POST_VARS"][$var];
