@@ -145,11 +145,12 @@ and placement to figure this out. This can be useful if you want a text to appea
 to be run once for included templates or loops. Requires an end tag.</dd>
 
 <dt>cache-block</dt>
-<dd>Caches the content of the block. It takes one input parameter, keys, which determine the cache key.
+<dd>Caches the content of the block. It takes one or both of these two input parameters: keys, which
+determines the cache key, and expiry, which sets the expiry time in seconds.
 The cache key can be a simple value like a string or an integer, or an array of simple values.
 Requires an end tag.</dd>
 <dd>E.g.<br/>
-{cache-block keys=$node_id}<br/>
+{cache-block keys=$node_id expiry=60}<br/>
 {* Do something that needs caching *}<br/>
 {/cache-block}</dd>
 </dl>

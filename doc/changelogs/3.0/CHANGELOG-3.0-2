@@ -66,3 +66,4 @@ eZ mail:
 *New documentation :
 
 *Changed documentation :
+- Improved cache-block entry in function_list.tpl
