@@ -70,6 +70,8 @@ Changes from 3.3-3 to 3.3-4
 - Fixed bug missing definition of attribute
   http://ez.no/community/bug_reports/error_undefined_attribute_attribute_original_id_cannot_set
 - Fixed bug, templateoperator append now may append multiple strings
+- Fixed bug, 'a' and 'l' in the format string was not handled correctly by the datetime opperator
+  http://ez.no/community/bug_reports/bug_in_datetime
 
 *Library:
 - Fixed case bug in the Timeout variable in eZSOAPClient.
