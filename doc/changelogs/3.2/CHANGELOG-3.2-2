@@ -4,6 +4,7 @@ Changes from 3.2-1 to 3.2-2
 - Cache clearing now works with custom var directories. This means that clearing the cache
   for installed site packages will work.
 - Fixed attribute_base for xml text field.
+- Added missing script for updating the database with attribute based filtering and sorting.
 
 *DataType:
 

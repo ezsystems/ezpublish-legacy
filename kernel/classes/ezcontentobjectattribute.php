@@ -203,7 +203,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-
+     \reimp
     */
     function store()
     {
@@ -213,8 +213,22 @@ class eZContentObjectAttribute extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
-        $classAttr =& $this->contentClassAttribute();
-        $dataType =& $classAttr->dataType();
+        $dataType =& $this->dataType();
+        $this->updateSortKey();
+
+        // store the content data for this attribute
+        $dataType->storeObjectAttribute( $this );
+
+        return eZPersistentObject::store();
+    }
+
+    /*!
+     Copies the sort key value from the attribute according to the datatype rules.
+     \note The attribute is not stored
+    */
+    function updateSortKey()
+    {
+        $dataType =& $this->dataType();
 
         $sortKey =& $dataType->sortKey( $this );
         $this->setAttribute( 'sort_key_string', "" );
@@ -229,11 +243,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $this->setAttribute( 'sort_key_int', $sortKey );
         }
-
-        // store the content data for this attribute
-        $dataType->storeObjectAttribute( $this );
-
-        return eZPersistentObject::store();
     }
 
     /*!
