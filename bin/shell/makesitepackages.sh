@@ -240,6 +240,7 @@ if [[ -z $SITE || $SITE = 'plain' ]]; then
 	add plain sql -d mysql kernel/sql/mysql/cleandata.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
 	add plain sql -d postgresql kernel/sql/postgresql/cleandata.sql -- \
+	add plain sql -d postgresql kernel/sql/postgresql/setval.sql -- \
 	add plain thumbnail design/plain/images/plain.gif
 fi
 
@@ -256,7 +257,8 @@ for site in $PACKAGES; do
 	add $site sql -d mysql kernel/sql/mysql/kernel_schema.sql -- \
 	add $site sql -d mysql packages/sql/data/$site.sql -- \
 	add $site sql -d postgresql kernel/sql/postgresql/kernel_schema.sql -- \
-	add $site sql -d postgresql packages/sql/data/$site.sql || exit 1
+	add $site sql -d postgresql packages/sql/data/$site.sql \
+	add $site sql -d postgresql kernel/sql/postgresql/setval.sql || exit 1
 
     if [ -f "$PACKAGE_FILES/$site/thumbnail.png" ]; then
 	[ -z $QUIET ] && echo "Adding PNG thumbnail to $site"
