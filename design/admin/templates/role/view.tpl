@@ -30,9 +30,9 @@ function toggleCheckboxes( formname, checkboxname )
 <div class="context-block">
 <h2 class="context-title">{$role.name|wash} [{'Role'|i18n('')}]</h2>
 
-<div class="context-content">
-
-<h2 class="context-content">{'Policies'|i18n( 'design/admin/role/view' )}</h2>
+<div class="context-attributes">
+<div class="block">
+<label>{'Policies'|i18n( 'design/admin/role/view' )} [{$policies|count}]</label><div class="labelbreak"></div>
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Module'|i18n(' design/admin/role/view ')}</th>
@@ -73,6 +73,8 @@ function toggleCheckboxes( formname, checkboxname )
 {/section}
 </table>
 </div>
+</div>
+
 
 <div class="controlbar">
 <div class="block">
