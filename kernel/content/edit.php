@@ -126,7 +126,6 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 }
 
 $storeActions = array( "PreviewButton",
-                       "PermissionButton",
                        "TranslateButton",
                        "VersionsButton",
                        "PublishButton",
@@ -265,12 +264,6 @@ if ( $inputValidated == true )
     if ( $http->hasPostVariable( "PreviewButton" )  )
     {
         $Module->redirectTo( $Module->functionURI( "versionview" ) . "/" . $ObjectID . "/" .  $EditVersion . "/" );
-        return;
-    }
-
-    if ( $http->hasPostVariable( "PermissionButton" )  )
-    {
-        $Module->redirectTo( $Module->functionURI( "permission" ) . "/" . $ObjectID );
         return;
     }
 
