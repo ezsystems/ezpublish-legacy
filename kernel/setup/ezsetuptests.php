@@ -55,10 +55,10 @@ function eZSetupTestTable()
                   'open_basedir' => array( 'eZSetupTestOpenBasedir' ),
                   'safe_mode' => array( 'eZSetupTestSafeMode' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
-                  'imagegd_extension' => array( 'eZSetupTestExtension' ),
+                  'imagegd_extension' => array( 'eZSetupCheckGDVersion' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
-                  'execution_time' => array( 'eZSetupTestExecutionTime' ));
+                  'execution_time' => array( 'eZSetupTestExecutionTime' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -502,6 +502,16 @@ function testPHPIni( $parameters )
 	return array( "status" => $status, "pass" => $pass );
 }
 
+
+/*!
+  Test GD version
+*/
+function eZSetupCheckGDVersion( $type, &$arguments )
+{
+    $result = function_exists( 'imagegd2' );
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
+}
 
 /*!
 	Test if mbstring is available
