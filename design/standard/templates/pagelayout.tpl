@@ -44,11 +44,13 @@
     <td class="topline" width="40%">
     <img src={"ezpublish-logo.gif"|ezimage} width="210" height="60" alt="" />
     </td>
-    <td class="topbox" valign="top" width="20%" valign="bottom">
+    <td class="topbox" align="right" width="20%" valign="bottom">
+       &nbsp;<br />
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
 	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a><div class="labelbreak"></div>
     </td>
-    <td class="topbox" valign="top" width="20%" valign="bottom">
+    <td class="topbox" valign="top" width="20%">
+       &nbsp;<br />
 	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">
