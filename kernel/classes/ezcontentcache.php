@@ -130,6 +130,7 @@ class eZContentCache
                 return false;
             }
 
+            /*
             $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, true );
             $ttlCacheDir = $ttlCachePathInfo['dir'];
             $ttlCacheFile = $ttlCachePathInfo['file'];
@@ -148,6 +149,7 @@ class eZContentCache
                 if ( $currentTime > $expireTime )
                     return false;
             }
+            */
         }
         eZDebug::writeDebug( 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
@@ -158,12 +160,28 @@ class eZContentCache
                                          'content_data' => 'contentData',
                                          'node_id' => 'nodeID',
                                          'section_id' => 'sectionID',
+                                         'cache_ttl' => 'cache_ttl',
                                          'cache_code_date' => array( 'name' => 'eZContentCacheCodeDate',
                                                                      'required' => false,
                                                                      'default' => false ),
                                          'navigation_part_identifier' => 'navigationPartIdentifier'
                                          ) );
 
+        // Check if ttl is expired
+        $ttlTime = $values['cache_ttl'];
+
+        // Check if cache has expired
+        if ( $ttlTime > 0 )
+        {
+            $expiryTime = $timestamp + $ttlTime;
+            if ( mktime() > $expiryTime )
+            {
+                return false;
+            }
+        }
+
+
+        // Check for template language timestamp
         $cacheCodeDate = $values['cache_code_date'];
         if ( $cacheCodeDate != EZ_CONTENT_CACHE_CODE_DATE )
             return false;
@@ -243,6 +261,12 @@ class eZContentCache
         {
             $php->addVariable( 'navigationPartIdentifier', $result['navigation_part'] );
         }
+
+        if ( isset( $cacheTTL ) and ( $cacheTTL !=  -1 ) )
+        {
+            $php->addVariable( 'cache_ttl', $cacheTTL );
+        }
+
         $php->addComment( 'Timestamp for the cache format' );
         $php->addVariable( 'eZContentCacheCodeDate', EZ_CONTENT_CACHE_CODE_DATE );
 
@@ -255,6 +279,7 @@ class eZContentCache
         $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
                             "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
 
+        /*
         if ( $cacheTTL != 0 and $cacheTTL != -1 )
         {
             $ttlCachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL );
@@ -264,6 +289,7 @@ class eZContentCache
             $ttlCachePhp->addVariable( 'cache_ttl', $cacheTTL );
             $ttlCachePhp->store();
         }
+        */
         return $php->store();
     }
 

@@ -258,14 +258,25 @@ switch( $operationResult['status'] )
             $Result['node_id'] =& $NodeID;
             $Result['navigation_part'] = $navigationPartIdentifier;
 
-            $cacheTTL =& $tpl->variable( 'cache_ttl' );
+
+            // Check if time to live is set in template
+            if ( $tpl->hasVariable( 'cache_ttl' ) )
+            {
+                $cacheTTL =& $tpl->variable( 'cache_ttl' );
+            }
 
             if ( !isset( $cacheTTL ) )
+            {
                 $cacheTTL = -1;
+            }
 
-            settype( $cacheTTL, "integer");
+            // Check if cache time = 0 (disabled)
+            if ( $cacheTTL == 0 )
+            {
+                $viewCacheEnabled = false;
+            }
 
-            if ( $viewCacheEnabled and $cacheTTL != 0 )
+            if ( $viewCacheEnabled  )
             {
                 include_once( 'kernel/classes/ezcontentcache.php' );
                 $cacheInfo = eZContentObject::cacheInfo( $Params );
