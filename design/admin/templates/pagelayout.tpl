@@ -222,7 +222,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 
 <div id="history">
 {section show=eq(ezpreference('history_menu'),'on')}
- <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+<h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
 <ul>
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
@@ -244,6 +244,14 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 <input class="button" type="submit" name="ActionAddToNotification" value="{'Add to notifications'|i18n('design/standard/node/view')}" />
 </form>
 {/section}
+
+<h4>Interface mode</h4>
+<select name="InterfaceMode">
+<option>Simple</option>
+<option>Advanced</option>
+</select>
+<input type="button" name="UpdateInterfaceMode" value="OK" >
+</form>
 
 
 </div>
