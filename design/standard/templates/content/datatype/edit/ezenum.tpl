@@ -25,7 +25,7 @@
 	  {/section} 
 	  <select name = "ContentObjectAttribute_select_data_enumelement_{$attribute.id}[]" size=4 multiple>
 	  {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	    <option name = "ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">{$EnumList:item.enumelement}</option>
+	    <option name="ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">{$EnumList:item.enumelement}</option>
           {/section}	  
 	  </select>
        {/case}
@@ -56,11 +56,15 @@
             <input type="hidden" name = "ContentObjectAttribute_data_enumvalue_{$attribute.id}[]" value="{$EnumList:item.enumvalue}">  
 	    <input type ="hidden" name = "ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">
 	  {/section}
+
           <select name = "ContentObjectAttribute_select_data_enumelement_{$attribute.id}[]">
 	  {section name=EnumList loop=$attribute.content.enum_list sequence=array(bglight,bgdark)}
-	     {section name=ObjectList loop=$attribute.content.enumobject_list}
-	     <option name = "ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" {section show=eq($EnumList:item.enumelement,$EnumList:ObjectList:item.enumelement)}selected{/section}>{$EnumList:item.enumelement}</option>
+	     {section name=ObjectList loop=$attribute.content.enumobject_list show=$attribute.content.enumobject_list}
+	     <option name="ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}" {section show=eq($EnumList:item.enumelement,$EnumList:ObjectList:item.enumelement)}selected="selected"{/section}>{$EnumList:item.enumelement}</option>
+	     {section-else}
+	     <option name="ContentObjectAttribute_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement}">{$EnumList:item.enumelement}</option>
 	     {/section}
+
 	  {/section}
 	  </select>
         {/case}

@@ -81,7 +81,12 @@ class eZXMLTextType extends eZDataType
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
 
-            $data =& $this->convertInput( $data );
+            // Convert the input to eZ XML sloppy input if input is generated from DHTML
+            include_once( "ezconverthtml.php" );
+            $convert = new eZConvertHTML( $data );
+            $inputXML = $convert->convertTags();
+
+            $data =& $this->convertInput( $inputXML );
 
             // \todo add better validation of XML
 
@@ -229,6 +234,8 @@ class eZXMLTextType extends eZDataType
     */
     function &inputXML( &$contentObjectAttribute )
     {
+        eZDebug::writeError( "Temporary code for DHTML", "eZXMLType::inputXML()" );
+        return $this->objectAttributeContent( $contentObjectAttribute );
         $xml = new eZXML();
         $dom = $xml->domTree( $contentObjectAttribute->attribute( "data_text" ) );
 
@@ -421,10 +428,16 @@ class eZXMLTextType extends eZDataType
 
             case 'link' :
             {
+                include_once( 'lib/ezutils/classes/ezmail.php' );
                 $href = $tag->attributeValue( 'href' );
 
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+
+                if ( eZMail::validate( $href ) )
+                    $href = "mailto:" . $href;
+
                 $tpl->setVariable( 'href', $href, 'xmltagns' );
+
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );

@@ -404,8 +404,9 @@ if ( $show_page_layout )
 
                 $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                           'Offset' => 0,
+                                                                          'SortBy' => array( array('priority') ),
                                                                           'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray' => array( 1,6,20 )
+                                                                          'ClassFilterArray' => array( 1,6,20,25 )
                                                                           ),
                                                                    $nodeID );
 
@@ -423,6 +424,17 @@ if ( $show_page_layout )
                     $tmpObj = $child->attribute( 'object' );
                     $className = $tmpObj->attribute( 'class_name' );
 
+                    $addToMenu = true;
+                    if ( $className == "Vevside" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $enum = $map['type']->content();
+                        $values = $enum->attribute( "enumobject_list" );
+                        $value = $values[0];
+                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+                            $addToMenu = false;
+                    }
+
                     if ( $className == "Link" )
                     {
                         $map = $tmpObj->attribute( "data_map" );
@@ -431,7 +443,7 @@ if ( $show_page_layout )
                     }
                     else
                         $url = "/content/view/full/$tmpNodeID/";
-                    if ( $tmpNodeID <> "20" )
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64, 49 ) ) and ( $addToMenu == true ) )
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
                                              'url' => $url,
@@ -458,8 +470,9 @@ if ( $show_page_layout )
                 {
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
+                                                                              'SortBy' => array( array('priority') ),
                                                                               'ClassFilterType' => 'include',
-                                                                              'ClassFilterArray' => array( 1,6,20 )
+                                                                              'ClassFilterArray' => array( 1,6,20,25 )
                                                                               ),
                                                                        2 );
                     $pathArray = array();
@@ -467,7 +480,7 @@ if ( $show_page_layout )
                 {
                     $name = $child->attribute( 'name' );
 
-                    $strLimit = 14;
+                    $strLimit = 17;
                     if ( strlen( $name ) > $strLimit )
                     {
                         $name = substr( $name, 0, $strLimit ) . "...";
@@ -475,6 +488,17 @@ if ( $show_page_layout )
                     $tmpNodeID = $child->attribute( 'node_id' );
                     $tmpObj = $child->attribute( 'object' );
                     $className = $tmpObj->attribute( 'class_name' );
+
+                    $addToMenu = true;
+                    if ( $className == "Vevside" )
+                    {
+                        $map = $tmpObj->attribute( "data_map" );
+                        $enum = $map['type']->content();
+                        $values = $enum->attribute( "enumobject_list" );
+                        $value = $values[0];
+                        if ( $value->attribute( 'enumvalue' ) <> 2 )
+                            $addToMenu = false;
+                    }
 
                     if ( $className == "Link" )
                     {
@@ -484,13 +508,12 @@ if ( $show_page_layout )
                     }
                     else
                         $url = "/content/view/full/$tmpNodeID/";
-                    if ( $tmpNodeID <> "20" )
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64 ) ) )
                     $pathArray[] = array( 'id' => $tmpNodeID,
                                           'level' => $i,
                                           'url' => $url,
                                           'text' => $name );
                 }
-
 
                 }
                 $done = true;

@@ -1,3 +1,23 @@
+{literal}
+<!-- START : EDITOR HEADER - INCLUDE THIS IN ANY FILES USING EDITOR -->
+<script language="Javascript1.2" src="/design/standard/js/editor.js"></script>
+<script>
+// set this to the URL of editor direcory (with trailing forward slash)
+// NOTE: _editor_url MUST be on the same domain as this page or the popups
+// won't work (due to IE cross frame/cross window security restrictions).
+// example: http://www.hostname.com/editor/
+
+_editor_url = "";
+</script>
+<style type="text/css"><!--
+  .btn   { BORDER-WIDTH: 1; width: 26px; height: 24px; }
+  .btnDN { BORDER-WIDTH: 1; width: 26px; height: 24px; BORDER-STYLE: inset; BACKGROUND-COLOR: buttonhighlight; }
+  .btnNA { BORDER-WIDTH: 1; width: 26px; height: 24px; filter: alpha(opacity=25); }
+--></style>
+<!-- END : EDITOR HEADER -->
+{/literal}
+
+
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/")|ezurl}>
 
 

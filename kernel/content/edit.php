@@ -72,10 +72,11 @@ if ( !function_exists ( 'registerSearchObject'  ) )
 }
 $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
-if ( !function_exists ( 'checkContentActions'  ) )
+if ( !function_exists( 'checkContentActions' ) )
 {
     function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
     {
+
         if ( $module->isCurrentAction( 'Preview' ) )
         {
             $module->redirectToView( 'versionview', array( $object->attribute('id'), $EditVersion ) );
@@ -189,9 +190,9 @@ if ( !function_exists ( 'checkContentActions'  ) )
 
                 }
             }
+
             if( !$count )
             {
-
                 $module->redirectToView( 'sitemap', array(2) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }

@@ -1,3 +1,3 @@
-<p style="border-bottom: 1px solid #eeeeff">
+<p>
 {$content}
 </p>
