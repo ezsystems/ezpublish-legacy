@@ -31,4 +31,14 @@
 
 <input class="button" type="submit" name="ActionAddToNotification" value="Notify me about updates to {$node.name}" />
 
+
+<h3>Related purchases</h3>
+{let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
+                                                           limit, 10 ) )}
+{section name=Products loop=$related_purchase}
+<p>
+  <a href={concat('content/view/full/',$Products:item.main_node_id)|ezurl}>{$Products:item.name|wash}</a>
+</p>
+{/section}
+{/let}
 </form>
