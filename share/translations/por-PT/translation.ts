@@ -2081,7 +2081,7 @@ avançada%2</translation>
         <translation>O id ou nome do recurso foi mal escrito, tente modificá-lo.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>O recurso já não existe no site.</translation>
     </message>
     <message>

@@ -3468,7 +3468,7 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -2887,7 +2887,7 @@ Puoi sia contattare la persona per la bozza che creare una nuova bozza per una m
         <translation>Hai sbagliato a digitare l&apos;ID o il nome della risorsa, prova a cambiarlo.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>La risorsa che hai richiesto non esiste più sul sito web.</translation>
     </message>
     <message>

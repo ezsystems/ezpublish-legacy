@@ -2139,7 +2139,7 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>资源ID或资源名拼写错误， 请修改。</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>资源不存在。</translation>
     </message>
     <message>

@@ -2961,7 +2961,7 @@ Si vous souhaitez envoyer un commentaire au responsable de l&apos;approbation ou
         <translation>Il y a une erreur dans le ID ou le nom de la ressource , essayez de le changer.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>La ressource n&apos;existe plus sur ce Site.</translation>
     </message>
     <message>

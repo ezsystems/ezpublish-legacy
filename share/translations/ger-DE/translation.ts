@@ -2873,7 +2873,7 @@ Das Entfernen der Objekte wird Sie nur aus dieser Liste entfernen. </translation
         <translation>Die ID oder der Name Ihrer Ressource ist falsch geschrieben, versuchen Sie dies zu ändern.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Die Ressource existiert nicht mehr auf dieser Seite.</translation>
     </message>
     <message>

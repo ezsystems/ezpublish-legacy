@@ -2886,7 +2886,7 @@ Si borras algún objeto, sólo lo borrarás de la lista.</translation>
         <translation>La id o el nombre del recurso está mal escrito, inténta cambiarlo.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>El recurso no existe en el sitio.</translation>
     </message>
     <message>

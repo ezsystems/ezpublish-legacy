@@ -3040,7 +3040,7 @@ Możesz zarówno edytować jak i usuwać szkice, jeśli tylko uznasz je za zbyte
 </translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Zbiór dłużej funkcjonuje poprawnie na stronie.</translation>
     </message>
     <message>

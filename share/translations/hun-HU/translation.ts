@@ -2217,7 +2217,7 @@ A böngész-lista változtatható az objektum nevek megnyomásával.
         <translation>A keresett rész neve vagy azonosítója téves, próbálja megváltoztatni.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>A rész már nem létezik ezen a weblapon.</translation>
     </message>
     <message>

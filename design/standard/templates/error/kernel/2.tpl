@@ -4,7 +4,7 @@
 <p>{"Possible reasons for this is."|i18n("design/standard/error/kernel")}</p>
 <ul>
     <li>{"The the id or name of the resource was misspelled, try changing it."|i18n("design/standard/error/kernel")}</li>
-    <li>{"The resource longer exists on the site."|i18n("design/standard/error/kernel")}</li>
+    <li>{"The resource no longer exists on the site."|i18n("design/standard/error/kernel")}</li>
 </ul>
 </div>
 

@@ -2885,7 +2885,7 @@ U kunt de voorlopige versies bewerken. Indien u deze niet meer nodig hebt, kunt 
         <translation>The ID of naam van de bron is verkeerd gespeld. Probeer het nog een keer.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>De bron bestaat niet langer op deze site.</translation>
     </message>
     <message>

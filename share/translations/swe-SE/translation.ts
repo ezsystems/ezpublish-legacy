@@ -2082,7 +2082,7 @@ Klicka på objektnamnen för att ändra bläddringslistningen.</translation>
         <translation>Resursens ID eller namn felstavades; prova att ändra.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Resursen finns inte längre på siten.</translation>
     </message>
     <message>

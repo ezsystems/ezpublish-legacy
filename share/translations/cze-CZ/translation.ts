@@ -2091,7 +2091,7 @@ Pokud si přejete poslat komentář pro člověka který bude schvalování prov
         <translation>Jméno nebo ID požadovaného objektu nebylo správně zadáno (překlep?), zkuste jej změnit.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Požadovaný objekt již není k dispozici.</translation>
     </message>
     <message>

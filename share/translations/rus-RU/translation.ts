@@ -2459,7 +2459,7 @@ If you wish to send comments to the approver or view the status use the URL belo
         <translation>Неправильное имя или идентификатор ресурса, побробуйте исменить его.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Русурс более не доступен на сайте.</translation>
     </message>
     <message>

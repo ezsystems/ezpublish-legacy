@@ -2889,7 +2889,7 @@ Når du fjerner et bokmerke fjernes det bare fra denne listen, og ikke fra innho
         <translation>ID&apos;en eller navnet på ressursen var ikke skrevet korrekt, prøv å rett på det.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>Ressursen eksisterer ikke lenger på dette nettstedet.</translation>
     </message>
     <message>

@@ -3237,7 +3237,7 @@ Si esborres cap objecte, només s&apos;esborrarà de la llista.</translation>
         <translation>No has escrit bé l&apos;ID o el nom del recurs. Prova canviant-ho.</translation>
     </message>
     <message>
-        <source>The resource longer exists on the site.</source>
+        <source>The resource no longer exists on the site.</source>
         <translation>El recurs ja no existeix en aquest lloc.</translation>
     </message>
     <message>
