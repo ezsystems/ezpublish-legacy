@@ -51,65 +51,6 @@ $EditLanguage = $Params['EditLanguage'];
 
 $http =& eZHTTPTool::instance();
 
-if( $http->hasPostVariable( 'TranslateArray' ) )
-{
-    $trans =& $http->postVariable( 'TranslateArray' );
-    if ( !is_array( $trans ) )
-        return; //$Module->;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $ObjectID = $arrayKeys[0];
-    $trans =& $trans[$ObjectID];
-    if ( !is_array( $trans ) )
-        return;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $EditVersion = $arrayKeys[0];
-    $trans =& $trans[$EditVersion];
-    if ( !is_array( $trans ) )
-        return;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $EditLanguage = $arrayKeys[0];
-}
-
-
-if( $http->hasPostVariable( 'EditArray' ) )
-{
-    $trans =& $http->postVariable( 'EditArray' );
-    if ( !is_array( $trans ) )
-        return; //$Module->;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $ObjectID = $arrayKeys[0];
-    $trans =& $trans[$ObjectID];
-    if ( !is_array( $trans ) )
-        return;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $EditVersion = $arrayKeys[0];
-    $trans =& $trans[$EditVersion];
-    if ( !is_array( $trans ) )
-        return;
-    $arrayKeys = array_keys( $trans );
-    if ( count( $arrayKeys ) == 0 )
-        return;
-    $EditLanguage = $arrayKeys[0];
-    
-    return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) ); 
-}
-
-
-
-
-
-
-
 $redirection = false;
 if ( $Module->isCurrentAction( 'EditObject' ) )
 {
@@ -117,6 +58,14 @@ if ( $Module->isCurrentAction( 'EditObject' ) )
                           'parameters' => array( $ObjectID, $EditVersion ),
                           'unordered_parameters' => null );
 }
+
+if ( $Module->isCurrentAction( 'EditArray' ) )
+{
+    $redirection = array( 'view' => 'edit',
+                          'parameters' => array( $ObjectID, $EditVersion, $EditLanguage ),
+                          'unordered_parameters' => null );
+}
+
 
 $translateToLanguage = false;
 $activeTranslation = false;
@@ -269,7 +218,7 @@ if ( $activeTranslation )
     }
     // Custom Action Code End
 
-    $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage' );
+    $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage', 'EditArray', 'TranslateArray' );
 
     $inputValidated = true;
     $storeRequired = in_array( $Module->currentAction(), $storeActions );
@@ -426,6 +375,11 @@ if ( $redirectionAllowed and
     else if ( is_array( $redirection ) )
         return $Module->redirectToView( $redirection['view'], $redirection['parameters'], $redirection['unordered_parameters'] );
 }
+
+
+
+
+
 
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
