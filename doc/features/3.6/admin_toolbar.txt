@@ -1,0 +1,89 @@
+*Title: Admin toolbar (spec #15)
+
+*Documentation:
+Right menu in the admin interface is made as a toolbar named 'admin_right'.
+It contains the following tools:
+- Current User tool.
+- Bookmarks tool.
+- Clear Cache tool. Intended for quick clearing of caches of different types.
+- Quick Settings tool. Intended for setting boolean ini values.
+
+The list of displayed settings in the 'Quick Settings' tool is configurable and
+is set in toolbar.ini file as an array of strings that describe each setting
+in the following format:
+
+[Tool_admin_quick_settings]
+settings_list[]=<section name>;<variable name>;<file name>;<text label>
+
+The state of the checkbox related to a setting always displays current setting's
+value for the selected siteaccess, not depending on it's placement.
+The setting's placement is displayed by the color of the setting's name:
+
+- red color means that setting is overriden.
+- gray color means that setting is not set in the selected siteacces
+  configuration (or in the global override configuration) and the default value
+  is used. When "Global (override)" option is selected, checkboxes related to
+  'gray' settings are always unchecked.
+
+When you set values for a siteaccess, all corresponding override settings will
+be deleted.
+
+*Settings:
+The next settings should be presented in the toolbar.ini in order to get this
+toolbar working:
+<code>
+
+[Toolbar]
+AvailableToolBarArray[]=admin_right
+
+[Tool]
+AvailableToolArray[]=admin_current_user
+AvailableToolArray[]=admin_bookmarks
+AvailableToolArray[]=admin_clear_cache
+AvailableToolArray[]=admin_quick_settings
+
+# Default configuration of the toolbar:
+
+[Toolbar_admin_right]
+Tool[]
+Tool[]=admin_current_user
+Tool[]=admin_bookmarks
+Tool[]=admin_clear_cache
+Tool[]=admin_quick_settings
+
+# Default setting list for the 'Quick Settings' tool:
+
+[Tool_admin_quick_settings]
+settings_list[]
+settings_list[]=DebugSettings;DebugOutput;site.ini;Debug output
+settings_list[]=DebugSettings;DebugRedirection;site.ini;Debug redirecion
+settings_list[]=TemplateSettings;Debug;site.ini;Template debug
+settings_list[]=TemplateSettings;ShowTemplatesUsageStatistics;site.ini;Template usage stat.
+settings_list[]=DatabaseSettings;SQLOutput;site.ini;SQL debug output
+
+</code>
+
+*Note:
+Template operator 'ezini' has been modified, now it has the following format:
+ezini( <section_name>, <variable_name>, [<file_name>], [<ini_path>], [<dynamic_fetch>] )
+
+Two parameters has been added:
+- ini_path (string): path to ini files directory.
+- dynamic_fetch (boolean): if this parameter is 'true', value of the variable
+  will be fetched dynamically.
+
+*Modules:
+Two additional views were added to setup module:
+- setup/cachetoolbar (kernel/setup/cachetoolbar.php)
+- setup/settingstoolbar (kernel/setup/settingstoolbar.php)
+
+*Templates:
+Functional parts of new tools are implemented as separate standard templates:
+design/standard/templates/setup/clearcache.tpl
+design/standard/templates/setup/quicksettings.tpl
+
+Templates related to the admin toolbar (contain special admin interface styles):
+design/admin/templates/toolbar/full/admin_bookmarks.tpl
+design/admin/templates/toolbar/full/admin_clear_cache.tpl
+design/admin/templates/toolbar/full/admin_current_user.tpl
+design/admin/templates/toolbar/full/admin_quick_settings.tpl

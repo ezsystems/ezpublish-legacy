@@ -121,7 +121,7 @@ class eZURLOperator
                                                'parameters' => true,
                                                'element-transformation' => true,
                                                'transform-parameters' => true,
-                                               'input-as-parameter' => false,
+                                               'input-as-parameter' => true,
                                                'element-transformation-func' => 'iniTrans')
                       );
     }
@@ -139,13 +139,52 @@ class eZURLOperator
             $iniVariable = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
             $iniName = false;
+            $iniPath = false;
+
             if ( count( $parameters ) > 2 )
             {
                 $iniName = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
             }
+            
+            if ( count( $parameters ) > 3 )
+                $iniPath = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+
+            if ( count( $parameters ) > 4 )
+                if ( eZTemplateNodeTool::elementStaticValue( $parameters[4] ) == 'true' )
+                {
+                    $values = array();
+                    $values[] = $parameters[0];
+                    $values[] = $parameters[1];
+
+                    $code = "include_once( 'lib/ezutils/classes/ezini.php' );\n";
+
+                    if ( $iniPath !== false )
+                    {
+                        $values[] = $parameters[2];
+                        $values[] = $parameters[3];
+                        $code .= '%tmp1% =& eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
+                    }
+                    elseif ( $iniName !== false )
+                    {
+                        $values[] = $parameters[2];
+                        $code .= '%tmp1% =& eZINI::instance( %3% );' . "\n";
+                    }
+                    else
+                        $code .= '%tmp1% =& eZINI::instance();' . "\n";
+
+                    $code .= 'if ( %tmp1%->hasVariable( %1%, %2% ) )' . "\n" .
+                        '    %output% = %tmp1%->variable( %1%, %2% );' . "\n" .
+                        "else\n" .
+                        "    %output% = '';\n";
+                        
+                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
+                }
 
             include_once( 'lib/ezutils/classes/ezini.php' );
-            if ( $iniName !== false )
+
+            if ( $iniPath !== false )
+                $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+            elseif ( $iniName !== false )
                 $ini =& eZINI::instance( $iniName );
             else
                 $ini =& eZINI::instance();
@@ -563,24 +602,43 @@ CODEPIECE;
                     {
                         $iniVariable = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
                         $iniName = false;
+                        $iniPath = false;
                         if ( count( $operatorParameters ) > 2 )
                         {
                             $iniName = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
                         }
+                        if ( count( $operatorParameters ) > 3 )
+                        {
+                            $iniPath = $tpl->elementValue( $operatorParameters[3], $rootNamespace, $currentNamespace );
+                        }
+
                         include_once( 'lib/ezutils/classes/ezini.php' );
-                        if ( $iniName !== false )
+            
+                        if ( $iniPath !== false )
+                            $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+                        elseif ( $iniName !== false )
                             $ini =& eZINI::instance( $iniName );
                         else
                             $ini =& eZINI::instance();
+            
                         if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
                         {
                             $operatorValue = $ini->variable( $iniGroup, $iniVariable );
                         }
                         else
                         {
-                            if ( $iniName === false )
-                                $iniName = 'site.ini';
-                            $tpl->error( $operatorValue, "No such variable '$iniVariable' in group '$iniGroup' for $iniName" );
+                            if ( $iniPath !== false )
+                            {
+                                // Return empty string instead of displaying error when using 'path' parameter
+                                // and DirectAccess mode for ezini.
+                                $operatorValue = '';
+                            }
+                            else
+                            {
+                                if ( $iniName === false )
+                                    $iniName = 'site.ini';
+                                $tpl->error( $operatorName, "!!!No such variable '$iniVariable' in group '$iniGroup' for $iniName" );
+                            }
                         }
                         return;
                     }

@@ -23,10 +23,11 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Updated spec #7: 'id' attribute is replaced with 'url_id' attribute in
   <link> tag. Now 'id' attribute means xhtml id.
 - Added new module for viewing and deleting collected information
+- Added spec #15: new views for 'setup' module: cachetoolbar and settingstoolbar
 
 *WebDAV:
 - Fixed discarding of XML payload when user needs to authenticate.
-  
+
 *Setup:
 - Optimized memory usage in site creation step by logging SQL statements only
   to file.
@@ -202,6 +203,14 @@ eZDebug:
 - Added "Remove bookmark" menu item in popup menu when clicking on the icon of
   bookmark in the "Bookmarks" list in admin interface.
 - Added "Result page" after adding notification.
+- Added spec #15: 'Clear cache' and 'Quick Settings' functionality templates:
+  design/standard/templates/setup/clearcache.tpl
+  design/standard/templates/setup/quicksettings.tpl
+- Added spec #15: Admin toolbar templates:
+  design/admin/templates/toolbar/full/admin_bookmarks.tpl
+  design/admin/templates/toolbar/full/admin_clear_cache.tpl
+  design/admin/templates/toolbar/full/admin_current_user.tpl
+  design/admin/templates/toolbar/full/admin_quick_settings.tpl
 
 eZDateTime:
 -  Fixed bug with missing array in function setHMS().

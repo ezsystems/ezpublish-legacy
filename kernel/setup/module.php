@@ -61,6 +61,23 @@ $ViewList["cache"] = array(
     'post_action_parameters' => array( 'ClearCache' => array( 'CacheList' => 'CacheList' ) ),
     "params" => array() );
 
+$ViewList['cachetoolbar'] = array(
+    'script' => 'cachetoolbar.php',
+    'functions' => array( 'managecache' ),
+    'single_post_actions' => array( 'ClearCacheButton' => 'ClearCache' ),
+    'post_action_parameters' => array( 'ClearCache' => array( 'CacheType' => 'CacheTypeValue',
+                                                              'NodeID' => 'NodeID',
+                                                              'ObjectID' => 'ObjectID' ) ),
+    'params' => array() );
+
+$ViewList['settingstoolbar'] = array(
+    'script' => 'settingstoolbar.php',
+    'single_post_actions' => array( 'SetButton' => 'Set' ),
+    'post_action_parameters' => array( 'Set' => array( 'SiteAccess' => 'SiteAccess',
+                                                       'AllSettingsList' => 'AllSettingsList',
+                                                       'SelectedList' => 'SelectedList' ) ),
+    'params' => array() );
+
 $ViewList['session'] = array(
     'script'                  => 'session.php',
     'ui_context'              => 'administration',
