@@ -96,7 +96,7 @@ class eZXMLInputHandler
         {
             case 'input_xml':
             {
-                return $this->inputXML( $this->XMLAttributeID );
+                return $this->inputXML();
             } break;
             case 'edit_template_name':
             {
