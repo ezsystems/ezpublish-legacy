@@ -56,6 +56,12 @@ class eZTSTranslator extends eZTranslatorHandler
     function eZTSTranslator( $locale, $filename = null, $useCache = true )
     {
         $this->UseCache = $useCache;
+        if ( isset( $GLOBALS['eZSiteBasics'] ) )
+        {
+            $siteBasics = $GLOBALS['eZSiteBasics'];
+            if ( $siteBasics['no-cache-adviced'] )
+                $this->UseCache = false;
+        }
         $this->BuildCache = false;
         $this->eZTranslatorHandler( true );
 

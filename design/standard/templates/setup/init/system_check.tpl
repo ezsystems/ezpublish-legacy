@@ -40,7 +40,7 @@
   <p>{"No problems was found with your system, you can continue by clicking the"|i18n("design/standard/setup/init")} <i>{"Next"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
   <p>{"However if you wish to finetune your system you should click the"|i18n("design/standard/setup/init")} <i>{"Finetune System"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}</p>
 
-  <form method="post" action="{$script}">
+{*  <form method="post" action="{$script}"> *}
 {*                {section name=handover loop=$handover}
                 <input type="hidden" name="{$:item.name}" value="{$:item.value}" />
                 {/section} *}
@@ -51,7 +51,7 @@
       <input class="button" type="submit" name="StepButton_3" value="{'Finetune System'|i18n('design/standard/setup/init')} >" />
     </div>
     {include uri='design:setup/persistence.tpl'}
-  </form>
+{*  </form> *}
 
 {section-else}
 
@@ -61,7 +61,7 @@
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
   {"Each problem will give you instructions on how to fix the problem."|i18n("design/standard/setup/init")}
   </p>
-  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the checkboxes."|i18n("design/standard/setup/init",,array(concat("<i>","Check Again"|i18n("design/standard/setup/init"),"</i>")))}</p>
+  <p>{"After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes."|i18n("design/standard/setup/init",,array(concat("<i>","Check Again"|i18n("design/standard/setup/init"),"</i>")))}</p>
 
   <h1>{"Issues"|i18n("design/standard/setup/init")}</h1>
   <table width="100%" border="0" cellpadding="0" cellspacing="0">

@@ -37,7 +37,7 @@
  {"The setup can continue with the initialization but may damage the present data."|i18n("design/standard/setup/init")}
 </p>
 <p>
- {"Select what to do from the dropdown box(es)."|i18n("design/standard/setup/init")}
+ {"Select what to do from the drop down box(es)."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
 {/section}

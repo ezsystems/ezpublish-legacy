@@ -9,7 +9,7 @@
 
 <p>
 {"Your site is running in non-virtualhost mode which is considered an unsecure mode. It's recommended to run eZ publish in virtualhost mode.
-If you do not have the possiblity to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files."|i18n("design/standard/setup/init")}
+If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files."|i18n("design/standard/setup/init")}
 </p>
 
 <p>

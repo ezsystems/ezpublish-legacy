@@ -166,7 +166,7 @@ class eZDir
     function doMkdir( $dir, $perm )
     {
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-        eZDebugSetting::writeDebug( 'lib-ezutils-dir', "Make dir $dir with perms 0" . decoct( $perm ) );
+//         eZDebugSetting::writeDebug( 'lib-ezutils-dir', "Make dir $dir with perms 0" . decoct( $perm ) );
 //        print( "About to doMkdir( '$dir' )<br/>" );
 //        exit;
 
@@ -472,9 +472,9 @@ class eZDir
                 }
             }
         }
-        eZDebugSetting::writeNotice( 'lib-ezfile-copy',
-                                     "Copied directory $sourceDirectory to destination $destinationDirectory",
-                                     'eZDir::copy' );
+//         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+//                                      "Copied directory $sourceDirectory to destination $destinationDirectory",
+//                                      'eZDir::copy' );
         return $totalItems;
     }
 

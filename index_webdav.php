@@ -44,7 +44,7 @@ if ( ( !isset( $PHP_AUTH_USER ) ) || ( !isset($PHP_AUTH_PW ) ) ||
 
 {
     header('HTTP/1.0 401 Unauthorized');
-    header('WWW-Authenticate: Basic realm="eZ publish WebDAV Admin interface [-*ALPHA!*-]"');
+    header('WWW-Authenticate: Basic realm="eZ publish WebDAV content interface"');
     echo( 'Authorization required!' );
 }
 // Else: non-empty & valid values were supplied: login successful!

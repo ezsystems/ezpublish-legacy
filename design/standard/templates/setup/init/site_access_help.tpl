@@ -4,7 +4,7 @@
                                                                             '%usersite',concat('<nobr>http://ez.no/<b>web</b></nobr>')))}</p>
 
 <h3>{"Port"|i18n('design/standard/setup/init')}</h3>
-{"The portnumber determines access.*"|i18n('design/standard/setup/init')}
+{"The port number determines access.*"|i18n('design/standard/setup/init')}
 <p>{"e.g. %adminsite and %usersite"|i18n('design/standard/setup/init',,hash('%adminsite',concat('<nobr>http//ez.no:<b>81</b></nobr>'),
                                                                             '%usersite',concat('<nobr>http://ez.no:<b>80</b></nobr>')))}</p>
 <p>{"* This requires that your web server is setup to handle the port numbers."|i18n('design/standard/setup/init')}</p>

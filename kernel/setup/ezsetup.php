@@ -34,18 +34,9 @@
 // you.
 //
 
+$siteBasics =& $GLOBALS['eZSiteBasics'];
+$siteBasics['no-cache-adviced'] = true;
 
-/*
-
-Here a short todo list (more or less in order of importance):
-    - more tests (these are not trivial):
-        + critical combinations (winxp + php_isapi + ezsession = crash)
-        + redhat: multipart/form-data
-    - set nVH variables (siteDir, wwwDir, indexFile, includeDir)
-    - download of ez publish by php script
-    - upgrade option
-
-*/
 include_once( "lib/eztemplate/classes/eztemplate.php" );
 include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
 include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );

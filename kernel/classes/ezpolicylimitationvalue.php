@@ -42,8 +42,9 @@
   \brief The class eZPolicyLimitationValue does
 
 */
+include_once( "kernel/classes/ezpersistentobject.php" );
 
-class eZPolicyLimitationValue  extends eZPersistentObject
+class eZPolicyLimitationValue extends eZPersistentObject
 {
     /*!
      Constructor

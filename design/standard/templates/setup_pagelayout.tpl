@@ -30,8 +30,7 @@
   
 {* Left bar START *}
 
-    <td class="setup_noborder" width="20">
-      <img src={"/design/standard/images/setup/eZ_setup_left_bar.png"|ezroot} alt="" width="20" />
+    <td class="setup_noborder" width="20" background={"/design/standard/images/setup/eZ_setup_left_bar.png"|ezroot} style="background-repeat: no-repeat;">
     </td>
 
 {* Left bar END *}
@@ -105,7 +104,7 @@
 
   <tr height="6">
     <td class="setup_noborder" colspan="2">
-    </td>
+    <img src{"1x1.gif"|ezimage} height="6" /></td>
   </tr>
 
 {* Progress bar START *}

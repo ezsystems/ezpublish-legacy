@@ -199,9 +199,9 @@ class eZFileHandler
             @fwrite( $destinationFD, $data );
             $bytesCopied += strlen( $data );
         } while( true );
-        eZDebugSetting::writeNotice( 'lib-ezfile-copy',
-                                     "Copied file $sourceFilename ($bytesCopied) to destination $destinationFilename",
-                                     'eZFileHandler::copy' );
+//         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
+//                                      "Copied file $sourceFilename ($bytesCopied) to destination $destinationFilename",
+//                                      'eZFileHandler::copy' );
         @fclose( $sourceFD );
         @fclose( $destinationFD );
         return true;
@@ -325,9 +325,9 @@ class eZFileHandler
         $result = $this->doOpen( $filename, $mode );
         if ( $result )
         {
-            eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
-                                         "Opened file $filename with mode '$mode'",
-                                         'eZFileHandler::open' );
+//             eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+//                                          "Opened file $filename with mode '$mode'",
+//                                          'eZFileHandler::open' );
             $this->FileName = $filename;
             $this->Mode = $mode;
             $this->IsOpen = true;
@@ -349,9 +349,9 @@ class eZFileHandler
                                  'eZFileHandler::close' );
             return false;
         }
-        eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
-                                     "Closing file " . $this->filename() . " with previously opened mode '" . $this->mode() . "'",
-                                     'eZFileHandler::close' );
+//         eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+//                                      "Closing file " . $this->filename() . " with previously opened mode '" . $this->mode() . "'",
+//                                      'eZFileHandler::close' );
         $result = $this->doClose();
         if ( !$result )
             eZDebug::writeError( "Failed closing file " . $this->FileName . " opened with mode " . $this->Mode,
@@ -374,9 +374,11 @@ class eZFileHandler
         }
         $result = $this->doUnlink( $filename );
         if ( $result )
-            eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
-                                         "Unlinked file $filename",
-                                         'eZFileHandler::unlink' );
+        {
+//             eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
+//                                          "Unlinked file $filename",
+//                                          'eZFileHandler::unlink' );
+        }
         if ( !$result )
             eZDebug::writeError( "Failed unlinking file " . $filename,
                                  'eZFileHandler::unlink' );

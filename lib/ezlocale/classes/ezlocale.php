@@ -368,7 +368,9 @@ class eZLocale
         $languageINI->assign( "RegionalSettings", "InternationalLanguageName", $this->IntlLanguageName );
         $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
 
-        $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
+//         $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
+//         $httpLocaleCode =& $languageINI->variable( 'HTTP', 'ContentLanguage' );
+//         $this->HTTPLocaleCode = $httpLocaleCode;
         if ( $this->OverrideCharset == '' )
         {
             $charset = false;
