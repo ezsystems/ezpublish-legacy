@@ -8,6 +8,8 @@
 
     {attribute_view_gui attribute=$node.object.data_map.description}
 
+    <div id="gallery">
+    <div class="list">
     <h2>Galleries</h2>
 
     <form method="post" action={"content/action"|ezurl}>
@@ -77,7 +79,11 @@
     {/section}
     </tr>
     </table>
+    </div>
+    </div>
 
+    <div id="image">
+    <div class="list">
     {let image_list=fetch( content, tree,
                            hash( parent_node_id, 2,
                                  limit, 3,
@@ -101,7 +107,11 @@
     </tr>
     </table>
     {/let}
+    </div>
+    </div>
 
+    <div id="news">
+    <div class="list">
     {let news_list=fetch( content, tree,
                           hash( parent_node_id, 2,
                                 limit, 5,
@@ -121,7 +131,11 @@
         {/section}
     </ul>
     {/let}
+    </div>
+    </div>
 
+    <div id="comment">
+    <div class="list">
     {let comments_list=fetch( content, tree,
                               hash( parent_node_id, 2,
                                     limit, 5,
@@ -141,6 +155,8 @@
         {/section}
     </ul>
     {/let}
+    </div>
+    </div>
 
 </div>
 {/let}

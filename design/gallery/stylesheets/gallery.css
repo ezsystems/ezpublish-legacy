@@ -536,12 +536,21 @@ div.editbutton input
     padding: 6px;
 }
 
+#frontpage .list h2
+{
+    background-color: #bbbbbb;
+}
+
+/* Feedback */
+
 div.error, div.warning, div.feedback, div.highlight
 {
     font-size: 80%;
     color: #000;
     border-width: 0px;
 }
+
+/* Search */
 
 div#searchtips h2
 { 

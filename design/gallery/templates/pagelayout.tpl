@@ -82,11 +82,12 @@
 
     <div id="maincontent">
         <div class="design">
-        
+
+    {section show=$module_result.content_info.node_id|ne( 2 )}
+    {cache-block keys=array( $uri_string )}
     <div id="path">
         <div class="design">
 
-    {cache-block keys=array( $uri_string )}
            <p>
            &gt;
            {section var=path loop=$module_result.path }
@@ -101,10 +102,11 @@
                {/delimiter}
             {/section}
            </p>
-    {/cache-block}
 
         </div>
     </div>
+    {/cache-block}
+    {/section}
 
     <div class="content">
             {$module_result.content}
