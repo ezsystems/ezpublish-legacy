@@ -121,7 +121,12 @@ if ( !accessAllowed( $uri ) )
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 
-// $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
+$UserID =& $http->sessionVariable( "eZUserLoggedInID" );
+
+$currentUser =& eZUser::currentUser();
+
+eZDebug::writeNotice( "Current user id:" . $UserID . "<br>" );
+
 
 // eZDebug::addTimingPoint( "Pre checks" );
 
@@ -184,8 +189,6 @@ if ( !$displayMissingModule and get_class( $module ) == "ezmodule" )
     $runningFunctions = $aviableViewsInModule[ $function_name ][ 'functions' ];
     $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $runningFunctions[0] );
 
-    print( 'accessResult:'. $accessResult['accessWord'] . '<br/>' );
-    flush();
     eZDebug::writeNotice( $params, 'module parameters' );
     if ( $accessResult['accessWord'] == 'limited' )
     {

@@ -45,8 +45,8 @@ include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/ezrole.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-define( 'EZ_USER_ROOT_ID', -1 );
-define( 'EZ_USER_ANONYMOUS_ID', -2 );
+$ini =& eZINI::instance();
+define( 'EZ_USER_ANONYMOUS_ID', $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 
 /// MD5 of password
 define( 'EZ_USER_PASSWORD_HASH_MD5_PASSWORD', 1 );
@@ -59,8 +59,7 @@ define( 'EZ_USER_PASSWORD_HASH_MYSQL', 4 );
 /// Passwords in plaintext, should not be used for real sites
 define( 'EZ_USER_PASSWORD_HASH_PLAINTEXT', 5 );
 
-$GLOBALS['eZUserBuiltins'] = array( EZ_USER_ROOT_ID,
-                                    EZ_USER_ANONYMOUS_ID );
+$GLOBALS['eZUserBuiltins'] = array( EZ_USER_ANONYMOUS_ID );
 
 class eZUser extends eZPersistentObject
 {
@@ -180,28 +179,10 @@ class eZUser extends eZPersistentObject
         $builtinInstance =& $GLOBALS["eZUserBuilitinInstance-$id"];
         if ( get_class( $builtinInstance ) != 'ezuser' )
         {
-            $row = array( 'contentobject_id' => $id );
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance();
-            switch( $id )
-            {
-                case EZ_USER_ROOT_ID:
-                {
-                    $row['login'] = 'root';
-                    $row['email'] = $ini->variable( 'UserSettings', 'RootEmail' );
-                    $row['password_hash'] = eZUser::createHash( 'root', $ini->variable( 'UserSettings', 'RootPassword' ), eZUser::site(),
-                                                                eZUser::hashType() );
-                } break;
-                case EZ_USER_ANONYMOUS_ID:
-                {
-                    $row['login'] = $ini->variable( 'UserSettings', 'AnonymousLogin' );
-                    $row['email'] = $ini->variable( 'UserSettings', 'AnonymousEmail' );
-                    $row['password_hash'] = eZUser::createHash( $ini->variable( 'UserSettings', 'AnonymousLogin' ), $ini->variable( 'UserSettings', 'AnonymousPassword' ), eZUser::site(),
-                                                                eZUser::hashType() );
-                } break;
-            }
-            $builtinInstance = new eZUser( $row );
+            $builtinInstance =  eZUser::fetch( EZ_USER_ANONYMOUS_ID );
         }
+        print( "test" );
         return $builtinInstance;
     }
 
@@ -258,8 +239,8 @@ class eZUser extends eZPersistentObject
     /*!
      Finds the user with the id \a $id and returns the unique instance of it.
      If the user instance is not created yet it tries to either fetch it from the
-     database with eZUser::fetch() or if the id is negative tries to lookup the non-database
-     user object (usually root and anynonymous.
+     database with eZUser::fetch(). If $id is false or the user was not found, the
+     default user is returned. This is a site.ini setting under UserSettings:AnonymousUserID.
      The instance is then returned.
      If \a $id is false then the current user is fetched.
     */
@@ -271,22 +252,17 @@ class eZUser extends eZPersistentObject
         if ( $id === false )
         {
             $id = $http->sessionVariable( 'eZUserLoggedInID' );
+
             if ( !is_numeric( $id ) )
                 $id = EZ_USER_ANONYMOUS_ID;
         }
 
-        if ( $id < 0 )
+        $currentUser =& eZUser::fetch( $id );
+        if ( !$currentUser )
         {
+            print( "fetch" );
             $currentUser =& eZUser::fetchBuiltin( $id );
-        }
-        else
-        {
-            $currentUser =& eZUser::fetch( $id );
-            if ( !$currentUser )
-            {
-                $currentUser =& eZUser::fetchBuiltin( $id );
-                eZDebug::writeWarning( 'User not found, returning anonymous' );
-            }
+            eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
 
         return $currentUser;

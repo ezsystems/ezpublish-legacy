@@ -336,6 +336,7 @@ CREATE TABLE ezcontentobject_tree (
 #
 
 INSERT INTO ezcontentobject_tree VALUES (0,0,0,1,1,0,'/0/',NULL,1,16);
+UPDATE ezcontentobject_tree set node_id='0';
 INSERT INTO ezcontentobject_tree VALUES (1,0,1,1,NULL,1,'/0/1/',NULL,2,7);
 INSERT INTO ezcontentobject_tree VALUES (4,0,4,1,NULL,1,'/0/4/',NULL,8,15);
 INSERT INTO ezcontentobject_tree VALUES (5,4,5,1,NULL,2,'/0/4/5/',NULL,9,12);
