@@ -57,7 +57,7 @@ div#mainmenu ul
     margin-bottom: 1em;
 }
 
-div#mainmenu li
+div#mainmenu li a
 {
     padding-left: 1em;
     padding-right: 3em;
@@ -186,10 +186,6 @@ div#infobox li
 div#infobox a
 {
     color: #000000;
-}
-
-div#mainmenu div.design
-{
 }
 
 div#maincontent
