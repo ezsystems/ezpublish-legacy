@@ -73,7 +73,7 @@
         {section show=$WishedItems.item.item_object.option_list}
             ({*'Selected options'|i18n( 'design/admin/shop/wishlist' ): *}
 {section var=Options loop=$WishedItems.item.item_object.option_list}
-{$Options.item.name}: {$Options.item.value}
+{$Options.item.name|wash}: {$Options.item.value}
 {delimiter}, {/delimiter}
 {/section})
         {/section}

@@ -23,10 +23,10 @@
 <tr class="{$Products.sequence}">
     {section show=and( $Products.product, $Products.product.main_node )}
     {let node_url=$Products.product.main_node.url_alias}
-    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name}{section show=$node_url}</a>{/section}</td>
+    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
     {/let}
     {section-else}
-    <td>{false()|class_icon( small )}&nbsp;{$Products.name}</td>
+    <td>{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
     {/section}
     <td class="number" align="right">{$Products.sum_count}</td>
 	<td class="number" align="right">{$Products.sum_ex_vat|l10n(currency)}</td>
@@ -62,7 +62,7 @@
 <select name="Month" title="{'Select the month for which you wish to view statistics.'|i18n( 'design/admin/shop/orderstatistics' )}">
     <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{'All months'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=MonthItem loop=$month_list}
-        <option value="{$MonthItem.value}" {section show=eq($MonthItem.value,$month)}selected="selected"{/section}>{$MonthItem.name}</option>
+        <option value="{$MonthItem.value}" {section show=eq($MonthItem.value,$month)}selected="selected"{/section}>{$MonthItem.name|wash}</option>
     {/section}
 </select>
 

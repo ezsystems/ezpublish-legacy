@@ -29,10 +29,10 @@
 <tr>
     {section show=and( $ProductItem:item.item_object.contentobject, $ProductItem:item.item_object.contentobject.main_node )}
     {let node_url=$ProductItem:item.item_object.contentobject.main_node.url_alias}
-    <td>{$ProductItem:item.item_object.contentobject.class_identifier|class_icon( small,$ProductItem:item.item_object.contentobject.class_name )}&nbsp;{section show=$:node_url}<a href={$:node_url|ezurl}>{/section}{$ProductItem:item.item_object.contentobject.name}{section show=$:node_url}</a>{/section}</td>
+    <td>{$ProductItem:item.item_object.contentobject.class_identifier|class_icon( small,$ProductItem:item.item_object.contentobject.class_name )}&nbsp;{section show=$:node_url}<a href={$:node_url|ezurl}>{/section}{$ProductItem:item.item_object.contentobject.name|wash}{section show=$:node_url}</a>{/section}</td>
     {/let}
     {section-else}
-    <td>{false()|class_icon( small )}&nbsp;{$ProductItem:item.item_object.name}</td>
+    <td>{false()|class_icon( small )}&nbsp;{$ProductItem:item.item_object.name|wash}</td>
     {/section}
 	<td class="number" align="right">{$ProductItem:item.item_count}</td>
 	<td class="number" align="right">{$ProductItem:item.vat_value}&nbsp;%</td>
@@ -51,7 +51,7 @@
     </tr>
     {section var=Options loop=$ProductItem:item.item_object.option_list}
     <tr>
-        <td>{$:Options.item.name}</td>
+        <td>{$:Options.item.name|wash}</td>
         <td>{$:Options.item.value}</td>
         <td class="number" align="right">{$:Options.item.price|l10n( currency )}</td>
     </tr>

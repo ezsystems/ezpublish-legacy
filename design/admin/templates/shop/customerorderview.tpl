@@ -77,10 +77,10 @@
 <tr class="{$Products.sequence}">
     {section show=and( $Products.product, $Products.product.main_node )}
     {let node_url=$Products.product.main_node.url_alias}
-    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name}{section show=$node_url}</a>{/section}</td>
+    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
     {/let}
     {section-else}
-    <td>{false()|class_icon( small )}&nbsp;{$Products.name}</td>
+    <td>{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
     {/section}
     <td class="number" align="right">{$Products.sum_count}</td>
 	<td class="number" align="right">{$Products.sum_ex_vat|l10n( currency )}</td>

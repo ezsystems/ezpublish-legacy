@@ -5,7 +5,7 @@
 <p>{'The following items were removed from your basket because the products have changed'|i18n( 'design/admin/shop/basket' )}:</p>
 <ul>
 {section var=RemovedItems loop=$removed_items}
-<li><a href={concat( '/content/view/full/', $RemovedItems.item.contentobject.main_node_id, '/' )|ezurl}>{$RemovedItems.item.contentobject.name}</a></li>
+<li><a href={concat( '/content/view/full/', $RemovedItems.item.contentobject.main_node_id, '/' )|ezurl}>{$RemovedItems.item.contentobject.name|wash}</a></li>
 {/section}
 </ul>
 </div>
@@ -56,7 +56,7 @@
     <td colspan="8">
     {*'Selected options'|i18n( 'design/admin/shop/basket' ): *}
 {section var=Options loop=$Products.item.item_object.option_list}
-{$Options.item.name}: {$Options.item.value}
+{$Options.item.name|wash}: {$Options.item.value}
 {delimiter}, {/delimiter}
 {/section}
     </td>

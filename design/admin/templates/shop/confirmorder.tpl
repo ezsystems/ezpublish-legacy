@@ -57,7 +57,7 @@
     </tr>
     {section var=Options loop=$Items.item.item_object.option_list}
     <tr>
-        <td>{$Options.item.name}</td>
+        <td>{$Options.item.name|wash}</td>
         <td>{$Options.item.value}</td>
         <td class="number" align="right">{$Options.item.price|l10n( currency )}</td>
     </tr>

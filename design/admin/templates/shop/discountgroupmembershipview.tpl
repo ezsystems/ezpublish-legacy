@@ -3,7 +3,7 @@
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )}</h1>
+<h1 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -15,7 +15,7 @@
 
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}:</label>
-{$discountgroup.name}
+{$discountgroup.name|wash}
 </div>
 
 </div>
@@ -119,7 +119,7 @@
 {section var=Customers loop=$customers sequence=array( bglight, bgdark )}
 <tr class="{$Customers.sequence}">
     <td><input type="checkbox" value="{$Customers.item.id}" name="CustomerIDArray[]" title="{'Select user or user group for removal.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" /></td>
-    <td>{$Customers.item.class_identifier|class_icon(small, $Customers.item.class_name )}&nbsp;<a href={$Customers.item.main_node.url_alias|ezurl}>{$Customers.item.name}</a></td>
+    <td>{$Customers.item.class_identifier|class_icon(small, $Customers.item.class_name )}&nbsp;<a href={$Customers.item.main_node.url_alias|ezurl}>{$Customers.item.name|wash}</a></td>
     <td>{$Customers.item.class_name}</td>
 </tr>
 {/section}
