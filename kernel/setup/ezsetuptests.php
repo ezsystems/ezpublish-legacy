@@ -169,16 +169,22 @@ function eZSetupTestFileUpload( $type, &$arguments )
     $fileUploads = ini_get( 'file_uploads' );
     $uploadEnabled = $fileUploads == "1";
     $uploadDir = ini_get( 'upload_tmp_dir' );
-    $uploadDirExists = file_exists( $uploadDir );
-    $uploadDirWriteable = eZDir::isWriteable( $uploadDir );
-    $uploadDirCreateFile = false;
-    $tmpFile = 'ezsetuptmp_' . md5( microtime() ) . '.tmp';
-    $tmpFilePath = $uploadDir . '/' . $tmpFile;
-    if ( $fd = @fopen( $tmpFilePath, 'w' ) )
+    $uploadDirExists = true;
+    $uploadDirWriteable = true;
+    $uploadDirCreateFile = true;
+    if ( strlen( $uploadDir ) > 0 )
     {
-        $uploadDirCreateFile = true;
-        @fclose( $fd );
-        unlink( $tmpFilePath );
+        $uploadDirExists = file_exists( $uploadDir );
+        $uploadDirWriteable = eZDir::isWriteable( $uploadDir );
+        $uploadDirCreateFile = false;
+        $tmpFile = 'ezsetuptmp_' . md5( microtime() ) . '.tmp';
+        $tmpFilePath = $uploadDir . '/' . $tmpFile;
+        if ( $fd = @fopen( $tmpFilePath, 'w' ) )
+        {
+            $uploadDirCreateFile = true;
+            @fclose( $fd );
+            unlink( $tmpFilePath );
+        }
     }
     $result = ( $uploadEnabled and $uploadDirExists and
                 $uploadDirWriteable and $uploadDirCreateFile );
