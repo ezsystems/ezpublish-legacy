@@ -109,7 +109,6 @@ class eZMatrixType extends eZDataType
         return $matrix;
     }
 
-
     /*!
      Returns the meta data used for storing search indeces.
     */
@@ -148,6 +147,9 @@ class eZMatrixType extends eZDataType
             }
             $matrix =& $contentObjectAttribute->attribute( 'content' );
             $matrix->Cells =& $cells;
+
+            $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
+            $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
             $contentObjectAttribute->setContent( $matrix );
         }
         return true;
