@@ -116,7 +116,7 @@ $ViewList["advancedsearch"] = array(
     "functions" => array( 'read' ),
     "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "advancedsearch.php",
-    "params" => array( ) );
+    "params" => array( "ViewMode" ) );
 
 $ViewList["browse"] = array(
     "functions" => array( 'read' ),
