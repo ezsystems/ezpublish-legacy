@@ -58,15 +58,15 @@ function &removeSelectedGroups( &$http, &$groups, $base )
                 $workflow_list = & eZWorkflow::fetchList( );
 
                 $list = array();
-                for ( $i=0;$i<count( $workflow_list );$i++ )
+                for ( $k=0; $k<count( $workflow_list ); $k++ )
                 {
                     for ( $j=0;$j<count( $list_in_group );$j++ )
                     {
-                        $id =  $workflow_list[$i]->attribute("id");
+                        $id =  $workflow_list[$k]->attribute("id");
                         $workflow_id =  $list_in_group[$j]->attribute("workflow_id");
                         if ( $id === $workflow_id )
                         {
-                            $list[] =& $workflow_list[$i];
+                            $list[] =& $workflow_list[$k];
                         }
                     }
                 }

@@ -76,6 +76,7 @@ Changes from 3.4.2 to 3.5.0alpha1
 - Added possibility to hide particular nodes (as well as subtrees) in the content tree.
 - Added support for placing cronjobs in extension.
 - Added google navigator for url/view.
+- Fixed in wrokflow grouplist. All selected objects can be removed now.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),
