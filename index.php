@@ -431,7 +431,7 @@ if ( $show_page_layout )
                     }
                     else
                         $url = "/content/view/full/$tmpNodeID/";
-                    if ( !in_array( $tmpNodeID, array( 20, 258, 64, 49 ) ) and ( $addToMenu == true ) )
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64, 49,22 ) ) and ( $addToMenu == true ) )
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
                                              'url' => $url,
@@ -496,7 +496,7 @@ if ( $show_page_layout )
                     }
                     else
                         $url = "/content/view/full/$tmpNodeID/";
-                    if ( !in_array( $tmpNodeID, array( 20, 258, 64 ) ) )
+                    if ( !in_array( $tmpNodeID, array( 20, 258, 64,22 ) ) )
                     $pathArray[] = array( 'id' => $tmpNodeID,
                                           'level' => $i,
                                           'url' => $url,

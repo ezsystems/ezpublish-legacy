@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 CWD=`pwd`
 DIR=`echo $0 | awk -F'modfix.sh' '{print $1}'`
