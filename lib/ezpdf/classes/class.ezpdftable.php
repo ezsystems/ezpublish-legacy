@@ -1588,7 +1588,7 @@ class eZPDFTable extends Cezpdf
 
             if ( isset( $documentSpec['fontName'] ) )
             {
-                $this->selectFont( $documentSpec['fontName'] );;
+                $this->selectFont( $documentSpec['fontName'] );
             }
 
             if ( isset( $documentSpec['fontSize'] ) )

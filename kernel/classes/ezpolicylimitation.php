@@ -284,7 +284,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 if ( $node == null )
                     continue;
                 $limitationValuePair = array();
-                $limitationValuePair['Name'] = $node->attribute( 'name' );;
+                $limitationValuePair['Name'] = $node->attribute( 'name' );
                 $limitationValuePair['value'] = $value;
                 $limitationValueArray[] = $limitationValuePair;
             }
@@ -300,7 +300,7 @@ class eZPolicyLimitation extends eZPersistentObject
                     $subtreeID = $subtreeObject->attribute( 'node_id' );
                     $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
                     $limitationValuePair = array();
-                    $limitationValuePair['Name'] = $subtree->attribute( 'name' );;
+                    $limitationValuePair['Name'] = $subtree->attribute( 'name' );
                     $limitationValuePair['value'] = $value;
                     $limitationValueArray[] = $limitationValuePair;
                 }

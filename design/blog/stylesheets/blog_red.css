@@ -174,7 +174,7 @@ div#footer
 
 div#footer div.design
 {
-    background-color: #a52a2a;;
+    background-color: #a52a2a;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     padding-left: 1em;
@@ -362,7 +362,7 @@ div#poll_result
 { 
     font: 120%/1.6em Georgia,Serif;
     border-bottom: 1px dotted #2e4a7d; 
-    color: #a52a2a;;
+    color: #a52a2a;
     padding-left: 0px;
 }
 

@@ -1649,7 +1649,7 @@ class eZContentObject extends eZPersistentObject
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
 					       ezcontentobject_link.from_contentobject_version='$version'
-                           $versionNameJoins;;" );
+                           $versionNameJoins" );
 
         $return = array();
         foreach ( $relatedObjects as $object )

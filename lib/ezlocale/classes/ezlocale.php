@@ -277,7 +277,7 @@ class eZLocale
         $this->DateTimeFormat = '';
         $this->ShortDateTimeFormat = '';
 
-        $this->MondayFirst = false;;
+        $this->MondayFirst = false;
 
         $this->Country = '';
         $this->CountryComment = '';

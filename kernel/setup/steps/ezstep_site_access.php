@@ -79,7 +79,7 @@ class eZStepSiteAccess extends eZStepInstaller
             if ( $accessType == 'url' )
             {
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
-                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';
             }
             else if ( $accessType == 'port' )
             {
@@ -115,7 +115,7 @@ class eZStepSiteAccess extends eZStepInstaller
             {
                 $this->PersistenceList['site_templates_'.$counter]['access_type'] = 'url';
                 $this->PersistenceList['site_templates_'.$counter]['access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'];
-                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';;
+                $this->PersistenceList['site_templates_'.$counter]['admin_access_type_value'] = $this->PersistenceList['site_templates_'.$counter]['identifier'] . '_admin';
             }
 
             return true;

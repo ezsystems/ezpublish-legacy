@@ -135,7 +135,7 @@ class eZBenchmarkrunner
                                                      'time' => microtime() );
                     }
 
-                    $repeatCount = $this->DefaultRepeatCount;;
+                    $repeatCount = $this->DefaultRepeatCount;
                     if ( isset( $entry['repeat_count'] ) )
                         $repeatCount = $entry['repeat_count'];
 
