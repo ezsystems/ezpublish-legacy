@@ -42,7 +42,7 @@ $object =& eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$object->attribute( 'can_edit' ) )
+if ( !$object->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $Module->isCurrentAction( 'Cancel' ) )

@@ -95,7 +95,7 @@ $ViewList['view'] = array(
     );
 
 $ViewList['copy'] = array(
-    'functions' => array( 'edit' ),
+    'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'copy.php',
     'single_post_actions' => array( 'CopyButton' => 'Copy',
