@@ -1227,6 +1227,10 @@ class eZTemplateCompiler
                             $newElementList[] = $element;
                         }
                     }
+                    else
+                    {
+                        $newElementList[] = $element;
+                    }
                 }
             }
             else
