@@ -510,7 +510,8 @@ CREATE TABLE ezcontentobject_tree (
   KEY ezcontentobject_tree_co_id (contentobject_id),
   KEY ezcontentobject_tree_depth (depth),
   KEY ezcontentobject_tree_crc32_path (crc32_path),
-  KEY md5_path (md5_path)
+  KEY md5_path (md5_path),
+  KEY md5_path_2 (md5_path)
 ) TYPE=MyISAM;
 
 --
@@ -645,6 +646,23 @@ CREATE TABLE ezenumvalue (
 
 
 --
+-- Table structure for table 'ezforgot_password'
+--
+
+CREATE TABLE ezforgot_password (
+  id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  hash_key varchar(32) NOT NULL default '',
+  time int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezforgot_password'
+--
+
+
+--
 -- Table structure for table 'ezimage'
 --
 
@@ -756,7 +774,7 @@ CREATE TABLE ezmessage (
   send_time varchar(50) NOT NULL default '',
   destination_address varchar(50) NOT NULL default '',
   title varchar(255) NOT NULL default '',
-  body text default NULL,
+  body text,
   is_sent int(1) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -1229,6 +1247,23 @@ INSERT INTO ezuser VALUES (10,'anonymous','nospam@ez.no',2,'4e6f6184135228ccd45f
 INSERT INTO ezuser VALUES (14,'admin','nospam@ez.no',2,'c78e3b0f3d9244ed8c6d1c29464bdff9');
 
 --
+-- Table structure for table 'ezuser_accountkey'
+--
+
+CREATE TABLE ezuser_accountkey (
+  id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  hash_key varchar(32) NOT NULL default '',
+  time int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ezuser_accountkey'
+--
+
+
+--
 -- Table structure for table 'ezuser_discountrule'
 --
 
@@ -1474,16 +1509,5 @@ CREATE TABLE ezworkflow_process (
 --
 -- Dumping data for table 'ezworkflow_process'
 --
-
-
-
-create table ezuser_accountkey(
-    id int NOT NULL auto_increment,
-    user_id int not null,
-    hash_key varchar(32) not null,
-    time int not null,
-    PRIMARY KEY  (id)
-    );
-
 
 
