@@ -140,9 +140,6 @@ function togglestuff( formname, checkboxname )
 {/case}
 {/switch}
 
-{* Select/deselect all links: *}
-<img src={''|ezimage} onclick="togglestuff( document.children, 'DeleteIDArray[]' ); return false;">
-
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
