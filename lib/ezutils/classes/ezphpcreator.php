@@ -104,10 +104,11 @@ class eZPHPCreator
     /*!
      Initializes the creator with the directory path \a $dir and filename \a $file.
     */
-    function eZPHPCreator( $dir, $file )
+    function eZPHPCreator( $dir, $file, $prefix = '' )
     {
         $this->PHPDir = $dir;
         $this->PHPFile = $file;
+        $this->FilePrefix = $prefix;
         $this->FileResource = false;
         $this->Elements = array();
         $this->TextChunks = array();
@@ -647,7 +648,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $pathExisted = file_exists( $path );
             $ini =& eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
-            $this->FileResource = @fopen( $path, "w" );
+            $this->FileResource = @fopen( $this->FilePrefix . $path, "w" );
             if ( !$this->FileResource )
                 eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
             if ( $this->FileResource and

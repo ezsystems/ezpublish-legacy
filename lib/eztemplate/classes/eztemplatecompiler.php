@@ -88,6 +88,21 @@ class eZTemplateCompiler
 
     /*!
      \static
+     Returns the prefix for file names
+    */
+    function TemplatePrefix()
+    {
+        $templatePrefix = '';
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'TemplateSettings', 'TemplateCompression' ) == 'enabled' )
+        {
+            $templatePrefix = 'compress.zlib://';
+        }
+        return $templatePrefix;
+    }
+    /*!
+     \static
      Sets/unsets various compiler settings. To set a setting add a key in the \a $settingsMap
      with the wanted value, to unset it use \c null as the value.
 
@@ -342,7 +357,7 @@ class eZTemplateCompiler
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName, eZTemplateCompiler::TemplatePrefix() );
         $canRestore = $php->canRestore( $timestamp );
         $uri = false;
         if ( $canRestore )
@@ -401,7 +416,7 @@ class eZTemplateCompiler
 
         $text = null;
         $namespaceStack = array();
-        include( $phpScript );
+        include( eZTemplateCompiler::TemplatePrefix() . $phpScript );
         if ( $text !== null )
         {
             return true;
@@ -433,7 +448,7 @@ class eZTemplateCompiler
 
         eZTemplateCompiler::createCommonCompileTemplate();
 
-        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName, eZTemplateCompiler::TemplatePrefix() );
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
@@ -1822,7 +1837,7 @@ $lbracket
     function compiledAcquireResource( \$phpScript, \$key, &\$originalText,
                                       &\$tpl, \$rootNamespace, \$currentNamespace )
     {
-        include( \$phpScript );
+        include( '" . eZTemplateCompiler::TemplatePrefix() . "' . \$phpScript );
         if ( isset( \$text ) )
         {
             \$originalText .= \$text;
@@ -2256,7 +2271,7 @@ $rbracket
                             $code .= "\$currentNamespace = \$rootNamespace;\n";
                         }
 
-                        $code .= "include( $phpScriptText );\n" .
+                        $code .= "include( '" . eZTemplateCompiler::TemplatePrefix() . "' . $phpScriptText );\n" .
                             "list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
                         $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
                         if ( $useFallbackCode )
@@ -2939,7 +2954,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                             $unsetList[] = $newVariableAssignmentName;
                             if ( preg_match( "/%code$counter%/", $code ) )
                             {
-                                $tmpPHP = new eZPHPCreator( '', '' );
+                                $tmpPHP = new eZPHPCreator( '', '', eZTemplateCompiler::TemplatePrefix() );
                                 $tmpKnownTypes = array();
                                 eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters );
