@@ -217,6 +217,14 @@ class eZAuthorType extends eZDataType
 
     /*!
      \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
      \param package
      \param content attribute
 
