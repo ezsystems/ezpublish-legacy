@@ -55,7 +55,8 @@ function eZSetupTestTable()
                   'safe_mode' => array( 'eZSetupTestSafeMode' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
-                  'imagemagick_program' => array( 'eZSetupCheckExecutable' ) );
+                  'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
+                  'memory_limit' => array( 'eZSetupTestMemLimit' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -179,7 +180,7 @@ function eZSetupTestPhpVersion( $type, &$arguments )
     $minVersion = eZSetupConfigVariable( $type, 'MinimumVersion' );
 
     /*
-    // Get the operating systems name
+     // Get the operating systems name
     $operatingSystem = split( " ", php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
 
@@ -517,6 +518,51 @@ function eZSetupCheckRegisterGlobals( $type, &$arguments )
     $result = ( $registerGlobals == 0 );
     return array( 'result' => $result,
                   'persistent_data' => array() );
+}
+
+/*!
+ Checks the php.ini file to see if the memory limit is set high enough
+*/
+function eZSetupTestMemLimit( $type, &$arguments )
+{
+    $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
+    $memoryLimit = get_cfg_var( 'memory_limit' );
+    if ( $memoryLimit  == '' )
+    {
+        return array( 'result' => true,
+                      'persistent_data' => array( 'result' => array( 'value' => true ) ) );
+    }
+
+    $byteMinMem = intval( $minMemory );
+    switch ( $minMemory{strlen( $minMemory ) - 1} )
+    {
+        case 'G':
+            $byteMinMem *= 1024;
+        case 'M':
+            $byteMinMem *= 1024;
+        case 'K':
+            $byteMinMem *= 1024;
+    }
+
+    $byteMemLimit = intval( $memoryLimit );
+    switch ( $memoryLimit{strlen( $memoryLimit ) - 1} )
+    {
+        case 'G':
+            $byteMemLimit *= 1024;
+        case 'M':
+            $byteMemLimit *= 1024;
+        case 'K':
+            $byteMemLimit *= 1024;
+    }
+
+    if ( $byteMinMem <= $byteMemLimit )
+        return array( 'result' => true,
+                      'persistent_data' => array( 'result' => array( 'value' => true ) ) );
+
+    return array( 'result' => false,
+                  'persistent_data' => array( 'result' => array( 'value' => false ) ),
+                  'required_memory' => $minMemory,
+                  'current_memory' => $memoryLimit );
 }
 
 function eZSetupTestOpenBasedir( $type, &$arguments )
