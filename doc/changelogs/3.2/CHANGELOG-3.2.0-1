@@ -92,6 +92,7 @@ Changes from 3.1-1 to 3.2.0-1
 - Added version and relase numbers to database, that way it's possible to now
   the state of a database for future upgrades.
 - Added custom attribute support for object and custom tag.
+- Added new database indexes on search table and on object tree table.
 - Optimized text translation system, it will now only fetch requested contexts instead of all.
   The optimization reduced both time taken and memory used.
 - Added support for letting extensions override translations in the kernel translation files.

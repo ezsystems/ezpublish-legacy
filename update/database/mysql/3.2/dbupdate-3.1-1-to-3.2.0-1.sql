@@ -28,3 +28,8 @@ CREATE TABLE ezsite_data (
 
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2.0');
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
+
+
+create index ezsearch_word_object_count on ezsearch_word(object_count);
+create index ezcontentobject_status on ezcontentobject( status );
+create index ezcontentobject_tree_path_depth on ezcontentobject_tree( path_string, depth );
