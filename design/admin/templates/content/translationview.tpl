@@ -61,7 +61,7 @@
 {section show=$translation.locale_object.charset}
     {$translation.locale_object.charset}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -79,7 +79,7 @@
 {section show=$translation.locale_object.country_name}
     {$translation.locale_object.country_name}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -89,7 +89,7 @@
 {section show=$translation.locale_object.country_comment}
     {$translation.locale_object.country_comment}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -99,7 +99,7 @@
 {section show=$translation.locale_object.country_code}
     {$translation.locale_object.country_code}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -109,7 +109,7 @@
 {section show=$translation.locale_object.country_variation}
     {$translation.locale_object.country_variation}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -119,7 +119,7 @@
 {section show=$translation.locale_object.language_name}
     {$translation.locale_object.language_name}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -129,7 +129,7 @@
 {section show=$translation.locale_object.intl_language_name}
     {$translation.locale_object.intl_language_name}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -139,7 +139,7 @@
 {section show=$translation.locale_object.language_code}
     {$translation.locale_object.language_code}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -149,7 +149,7 @@
 {section show=$translation.locale_object.language_comment}
     {$translation.locale_object.language_comment}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -159,7 +159,7 @@
 {section show=$translation.locale_object.locale_code}
     {$translation.locale_object.locale_code}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -169,7 +169,7 @@
 {section show=$translation.locale_object.locale_full_code}
     {$translation.locale_object.locale_full_code}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -179,7 +179,7 @@
 {section show=$translation.locale_object.http_locale_code}
     {$translation.locale_object.http_locale_code}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -189,7 +189,7 @@
 {section show=$translation.locale_object.decimal_symbol}
     {$translation.locale_object.decimal_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -199,7 +199,7 @@
 {section show=$translation.locale_object.thousands_separator}
     {$translation.locale_object.thousands_separator}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -209,7 +209,7 @@
 {section show=$translation.locale_object.decimal_count}
     {$translation.locale_object.decimal_count}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -219,7 +219,7 @@
 {section show=$translation.locale_object.negative_symbol}
     {$translation.locale_object.negative_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -229,7 +229,7 @@
 {section show=$translation.locale_object.positive_symbol}
     {$translation.locale_object.positive_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -239,7 +239,7 @@
 {section show=$translation.locale_object.currency_decimal_symbol}
     {$translation.locale_object.currency_decimal_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -249,7 +249,7 @@
 {section show=$translation.locale_object.currency_thousands_separator}
     {$translation.locale_object.currency_thousands_separator}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -259,7 +259,7 @@
 {section show=$translation.locale_object.currency_decimal_count}
     {$translation.locale_object.currency_decimal_count}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -269,7 +269,7 @@
 {section show=$translation.locale_object.currency_negative_symbol}
     {$translation.locale_object.currency_negative_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -279,7 +279,7 @@
 {section show=$translation.locale_object.currency_positive_symbol}
     {$translation.locale_object.currency_positive_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -289,7 +289,7 @@
 {section show=$translation.locale_object.currency_symbol}
     {$translation.locale_object.currency_symbol}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -299,7 +299,7 @@
 {section show=$translation.locale_object.currency_name}
     {$translation.locale_object.currency_name}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -309,7 +309,7 @@
 {section show=$translation.locale_object.currency_short_name}
     {$translation.locale_object.currency_short_name}
 {section-else}
-    {'Not set'|i18n( 'design/admin/content/translationview' )}</label>
+    <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
 {/section}
 </div>
 
@@ -319,7 +319,7 @@
 {section show=$translation.locale_object.is_monday_first}
     {'Monday'|i18n( 'design/admin/content/translationview' )}
 {section-else}
-    {'Not Monday'|i18n( 'design/admin/content/translationview' )}
+    {'Sunday'|i18n( 'design/admin/content/translationview' )}
 {/section}
 </div>
 
@@ -331,18 +331,10 @@
 {/section}
 </div>
 
-{* Weekday numbers *}
-<div class="block">
-<label>{'Weekday numbers'|i18n( 'design/admin/content/translationview' )}</label>
-{section var=Weekdays loop=$translation.locale_object.weekday_number_list}
-    {$Weekdays.item}<br />
-{/section}
-</div>
-
 {* Month names *}
 <div class="block">
 <label>{'Month names'|i18n( 'design/admin/content/translationview' )}</label>
-{section var=Months loop=$translation.locale_object.month_list}
+{section var=Months loop=$translation.locale_object.month_name_list}
     {$Months.item}<br />
 {/section}
 </div>
@@ -352,4 +344,3 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
-

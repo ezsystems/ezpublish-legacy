@@ -182,7 +182,7 @@ class eZLocale
                                    4 => 'apr', 5 => 'may', 6 => 'jun',
                                    7 => 'jul', 8 => 'aug', 9 => 'sep',
                                    10 => 'oct', 11 => 'nov', 12 => 'dec' );
-        $this->WeekDays = array( 0, 1, 2, 3, 4, 5 );
+        $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
         $this->Months = array( 1, 2, 3, 4, 5, 6,
                                7, 8, 9, 10, 11, 12 );
 
@@ -213,16 +213,6 @@ class eZLocale
         $this->reset();
 
         $this->IsValid = true;
-        // Load language information
-        if ( $languageINI !== null )
-        {
-            $this->initLanguage( $languageINI );
-        }
-        else
-        {
-            $this->IsValid = false;
-            eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
-        }
 
         // Load country information
         if ( $countryINI !== null )
@@ -235,31 +225,49 @@ class eZLocale
             eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
         }
 
-        // Load variation if any
-        $localeVariationINI =& $this->localeFile( true );
-        $countryVariationINI =& $localeVariationINI;
-        $languageVariationINI =& $localeVariationINI;
-        if ( $localeVariationINI === null )
+        // Load language information
+        if ( $languageINI !== null )
         {
-            $countryVariationINI =& $this->countryFile( true );
-            $languageVariationINI =& $this->languageFile( true );
+            $this->initLanguage( $languageINI );
+        }
+        else
+        {
+            $this->IsValid = false;
+            eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
         }
 
-        // Load country information
-        if ( $countryVariationINI !== null )
+
+        // Load variation if any
+        if ( $this->countryVariation() )
         {
-            $this->initCountry( $countryVariationINI );
+            $localeVariationINI =& $this->localeFile( true );
+            $countryVariationINI =& $localeVariationINI;
+            $languageVariationINI =& $localeVariationINI;
+            if ( $localeVariationINI === null )
+            {
+                $countryVariationINI =& $this->countryFile( true );
+                $languageVariationINI =& $this->languageFile( true );
+            }
+
+            // Load country information
+            if ( $countryVariationINI !== null )
+            {
+                $this->initCountry( $countryVariationINI );
+            }
+
+            // Load language information
+            if ( $languageVariationINI !== null )
+            {
+                $this->initLanguage( $languageVariationINI );
+            }
         }
 
         if ( $this->MondayFirst )
-            $this->WeekDays = array( 1, 2, 3, 4, 5, 6, 0 );
-        else
-            $this->WeekDays = array( 0, 1, 2, 3, 4, 5, 6 );
-
-        // Load language information
-        if ( $languageVariationINI !== null )
         {
-            $this->initLanguage( $languageVariationINI );
+            array_push( $this->DayNames, array_shift( $this->DayNames ) );
+            array_push( $this->WeekDays, array_shift( $this->WeekDays ) );
+            array_push( $this->LongWeekDayNames, array_shift( $this->LongWeekDayNames ) );
+            array_push( $this->ShortWeekDayNames, array_shift( $this->ShortWeekDayNames ) );
         }
 
         $this->AM = 'am';
@@ -587,6 +595,7 @@ class eZLocale
                       'weekday_name_list' => 'weekDayNames',
                       'weekday_number_list' => 'weekDays',
                       'month_list' => 'months',
+                      'month_name_list' => 'monthsNames',
                       'is_valid' => 'isValid'
                       );
     }
@@ -863,11 +872,20 @@ class eZLocale
 
     /*!
      Returns the months of the year as an array. This only supplied for completeness.
-     \sa weekDays()
+     \sa weekDays(), monthsNames()
     */
     function &months()
     {
         return $this->Months;
+    }
+
+    /*!
+     Returns the names of months as an array.
+     \sa months()
+    */
+    function &monthsNames()
+    {
+        return $this->LongMonthNames;
     }
 
     /*!
