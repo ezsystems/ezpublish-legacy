@@ -150,7 +150,7 @@ class eZContentBrowse
         if ( !isset( $parameters['ignore_nodes'] ) )
             $parameters['ignore_nodes'] = array();
 
-        if ( !isset( $parameters['class_identifier'] ) )
+        if ( !isset( $parameters['class_array'] ) )
         {
             if ( $ini->hasVariable( $parameters['type'], 'Class' ) )
             {
