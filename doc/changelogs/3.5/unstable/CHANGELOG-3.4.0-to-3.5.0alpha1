@@ -21,6 +21,8 @@ eztc.php:
 - Supported nested list for datatype ezxmltext.
 
 *Bugs
+- Fixed using the loginpagelayout for forgotpassword
+  http://ez.no/community/bug_reports/forgot_password_pagelayout_template_not_consistent
 - Fixed bug in when editing XML lists. It included some code as text.
 - Fixed template code generation bug where attribute view code was not generated.
 - Fixed assign limited on subtree bug, merged from stable/3.4 rev. 6789.

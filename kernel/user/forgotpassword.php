@@ -50,6 +50,7 @@ $tpl->setVariable( 'wrong_key', false );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 $hashKey =& $Params["HashKey"];
+$ini =& eZINI::instance();
 
 if ( strlen( $hashKey ) == 32 )
 {
@@ -197,5 +198,9 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                          array( 'text' => ezi18n( 'kernel/user', 'Forgot password' ),
                                 'url' => false ) );
 
+if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+{
+    $Result['pagelayout'] = 'loginpagelayout.tpl';
+}
 
 ?>
