@@ -230,6 +230,24 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
+     Fetch user id array which have been assigned to this role.
+    */
+    function &fetchUserID()
+    {
+        $db =& eZDB::instance();
+
+        $query = "SELECT contentobject_id FROM  ezuser_role WHERE role_id='$this->ID'";
+
+        $results = $db->arrayQuery( $query );
+        $idArray = array();
+        foreach ( $results as $result )
+        {
+            $idArray[] = $result['contentobject_id'];
+        }
+        return $idArray;
+    }
+
+    /*!
      Removes the role assignment
     */
     function removeUserAssignment( $userID )

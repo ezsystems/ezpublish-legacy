@@ -27,13 +27,22 @@ _ Fixed bug for finding node
 - Using standard url for all sites
 - Fixed bug of unable to discard object with empty media and binary file input
 - Added column choosing when creating a new datetype text field
+- Added column choosing when creating a new datetype xml text field
 - Fixed bug for "and" searching
+- Added function of searching only in specified section or specified published date to advanced search.
 - Added function for checking status when supply delete object(class) button or remove object(class) button. If nothing could be deleted, no delete button supplied
 - Fixed bug for permission system where related to object ownership. The owner of an object is able to delete or edit the object he created if permission allowed
 - Added global section ID to eZSection.
 - Fixed bugs with design override keys set multiple times.
 - Moved debug redirection to template file.
 - Image system can now be configured using the image.ini file.
+- Added function to check and add related objects when they are inputed as xml text.
+- Added function to check and save links when they are inputed as xml text.
+- Improved the user registration interface with better feedback.
+- Fixed bug for price check.
+- Fixed bug for duplicated role assignment.
+- Fixed bug for duplicated related object assignment.
+
 
 *Library :
 - Added function for check and get attribute for ezlocale/classed/ezdate.php, ezlocale/classed/ezdatetime.php and ezlocale/classed/eztime.php

@@ -65,14 +65,17 @@ if ( $http->hasPostVariable( "AssignRoleButton" )  )
 
 // Assign the role for a user or group
 if ( $http->hasPostVariable( "BrowseActionName" ) and
-     $http->postVariable( "BrowseActionName" ) == "AssignRole"
-     )
+     $http->postVariable( "BrowseActionName" ) == "AssignRole" )
 {
     $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
 
+    $assignedUserIDArray =& $role->fetchUserID();
     foreach ( $selectedObjectIDArray as $objectID )
     {
-        $role->assignToUser( $objectID );
+        if ( !in_array(  $objectID, $assignedUserIDArray ) )
+        {
+            $role->assignToUser( $objectID );
+        }
     }
 }
 
