@@ -165,7 +165,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
-        if ( $deleteIDArray !== null )
+        if ( is_array( $deleteIDArray ) && count( $deleteIDArray ) > 0 )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
@@ -173,6 +173,14 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
         }
+        else
+        {
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
+        }
+    }
+    else
+    {
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
     }
 }
 else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
