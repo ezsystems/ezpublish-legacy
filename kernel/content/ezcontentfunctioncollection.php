@@ -192,13 +192,14 @@ class eZContentFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth, $depthOperator )
+    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $attributeFilter, $depth, $depthOperator )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
                                                       'ClassFilterArray' => $class_filter_array,
+                                                      'AttributeFilter' => $attributeFilter,
                                                       'DepthOperator' => $depthOperator,
                                                       'Depth' => $depth ) );
         if ( $childrenCount === null )

@@ -1,8 +1,10 @@
-{default page_uri_suffix=false()}
+{default page_uri_suffix=false()
+         left_max=7
+         right_max=6}
 {default name=ViewParameter
          page_uri_suffix=false()
-         left_max=10
-         right_max=9}
+         left_max=$left_max
+         right_max=$right_max}
  {let item_previous=sub( $view_parameters.offset,
                          $item_limit )
       item_next=sum( $view_parameters.offset,
