@@ -1424,7 +1424,6 @@ class eZPackage
                 $packages[] =& $package;
             }
         }
-        eZDebug::writeDebug( $packages , "888");
         return $packages;
     }
 
