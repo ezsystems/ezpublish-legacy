@@ -317,6 +317,13 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             return;
         }
         $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$contentNode )
+        {
+            eZDebug::writeError( 'The nodeID parameter was empty, user ID: ' . $user->attribute( 'contentobject_id' ),
+                                 'kernel/content/action.php' );
+            $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+            return;
+        }
         if ( !$contentNode->attribute( 'can_read' ) )
         {
             eZDebug::writeError( 'User does not have access to subscribue for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),

@@ -34,6 +34,9 @@ Changes from 3.3-6 to 3.3-7
   http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
 - Added checks to object removals for cases where the object already was deleted
   http://ez.no/community/bug_reports/3_5_removing_nodes_objects_manually_fatal_errors
+- Fixed bug with unchecked nodeID
+  http://ez.no/community/bug_reports/node_not_set_and_fatal_error
+  (Manually merged from trunk/3.5, rev. 10218)
 
 *Library:
 
