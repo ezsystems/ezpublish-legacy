@@ -665,7 +665,10 @@ class eZPackageCreationHandler
         $packageHost = false;
         $packagePackager = false;
         if ( $http->hasPostVariable( 'PackageName' ) )
+        {
             $packageName = trim( $http->postVariable( 'PackageName' ) );
+            $packageName = str_replace( " ", "_", $packageName );
+        }
         if ( $http->hasPostVariable( 'PackageSummary' ) )
             $packageSummary = $http->postVariable( 'PackageSummary' );
         if ( $http->hasPostVariable( 'PackageDescription' ) )
