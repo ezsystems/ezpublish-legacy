@@ -1,4 +1,4 @@
-<form method="post" action="/content/action/">
+<form method="post" action={"/content/action/"|ezurl}>
 
 <h1>{$node.name}</h1>
 

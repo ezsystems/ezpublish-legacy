@@ -46,7 +46,7 @@
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr> 
     <td width="700" valign="bottom" bgcolor="#FFFFFF">
-    <a href={"/content/view/full/24/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a></td>
+    <a href={"/content/view/full/26/"|ezurl}><img src={"news_top.gif"|ezimage} width="700" height="67" border="0" /></a></td>
 </tr>
 <tr> 
 <td  valign="top" bgcolor="#ffffff">
@@ -119,7 +119,7 @@
         <table width="145" border="0" cellspacing="0" cellpadding="4" align="left">
         <tr>             
              <td valign="top" bgcolor="#663366">
-	     <strong><font color="#FFFFFF">Latest update....</font> 
+	     <strong class="small"><font color="#FFFFFF">Latest update....</font> 
              </strong></font>
              </td>
          </tr>

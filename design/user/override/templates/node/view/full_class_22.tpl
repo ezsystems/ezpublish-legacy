@@ -32,9 +32,12 @@
 {section name=Comment loop=fetch('content','list',hash(parent_node_id,$node.node_id,offset,$view_parameters.offset,limit,$comment_limit))}
 {let object=$Comment:item.object
      map=$Comment:object.data_map}
-      <hr size="1" noshade />
+      <hr size="1" noshade="noshade" />
       <p>
-      <strong>{attribute_view_gui attribute=$Comment:map.rating}<br />
+      {section name=Enum loop=$Comment:map.rating.content.enumobject_list}
+       <img src={concat("star-",$Comment:Enum:item.enumvalue,".gif")|ezimage} border="0" alt=""/><br />
+      {/section}
+      <strong>
       {attribute_view_gui attribute=$Comment:map.title}</strong>, {$Comment:object.published|l10n(shortdate)} <br />
       <strong>Reviewer:</strong> {attribute_view_gui attribute=$Comment:map.reviewer_name} from {attribute_view_gui attribute=$Comment:map.geography}
       <br />
@@ -49,6 +52,11 @@
 </td>
 </tr>
 </table>
+
+<input type="hidden" name="NodeID" value="{$node.node_id}" />
+<input class="button" type="submit" name="NewButton" value="{"New review"|i18n}" />
+<input type="hidden" name="ClassID" value="23" />
+
 
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 

@@ -1,4 +1,3 @@
-
 <form enctype="multipart/form-data" method="post" action="/content/edit/{$object.id}/{$edit_version}/">
 
 
@@ -6,7 +5,7 @@
 <tr>
     <td valign="top">
     <!-- Left part start -->
-    <h1 class="top">Edit {$class.name} - {$object.name}</h1>
+    <strong>Edit {$class.name} - {$object.name}</strong>
 
     {section show=$validation.processed}
         {section name=UnvalidatedAttributes loop=$validation.attributes show=$validation.attributes}
@@ -28,20 +27,12 @@
     {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1">
-    {section name=Node loop=$assigned_node_array sequence=array(bglight,bgdark)}
+    {section name=Node loop=$assigned_node_array}
     <tr>
         <td>
-        <span class="normal">{"Reply to"|i18n}: {$Node:item.name}</span>
+        <span class="normal">{"Reply to"|i18n}: {$Node:item.parent_node_obj.name}</span>
+        <input type="hidden" name="MainNodeID" value="{$Node:item.parent_node}" />
         </td>
-        <td align="right">
-        {switch name=sw match=$main_node_id}
-            {case match=$Node:item.node_id}
-            <input type="hidden" name="MainNodeID" checked="checked" value="{$Node:item.node_id}" />
-            {/case}
-            {case}
-            {/case}
-       {/switch}
-       </td>
     </tr>
     {/section}
     </table>
@@ -54,16 +45,8 @@
     </div>
     {/section}
 
-{*
     <div class="buttonblock">
     <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('content/object')}" />
-    <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('content/object')}" />
-    <input class="button" type="submit" name="TranslateButton" value="{'Translate'|i18n('content/object')}" />
-    </div>
-*}
-    <div class="buttonblock">
-{*    <input class="button" type="submit" name="StoreButton" value="{'Store Draft'|i18n('content/object')}" /> *}
-    <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('content/object')}" />
     <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('content/object')}" />
     </div>
     <!-- Left part end -->

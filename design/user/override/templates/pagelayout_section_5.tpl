@@ -43,7 +43,7 @@
 
 <table width="700" border="0" cellpadding="0" cellspacing="0">
 <tr>
-    <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",60)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a></td>
+    <td valign="top" bgcolor="#333333"><a href={concat("content/view/full/",62)|ezurl}><img src={"bookcorner-logo.gif"|ezimage} width="700" height="87" border="0"></a></td>
 </tr>
 <tr>
     <td bgcolor="#333333">
@@ -70,6 +70,9 @@
         <tr> 
             <td bgcolor="#E2DCC0"> 
             <input name="textfield" type="text" size="10" />
+	    <br />
+	    &nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+
             </td>
         </tr>
         </table>

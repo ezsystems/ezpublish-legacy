@@ -149,7 +149,7 @@ function OpenWindow ( URL, WinName, Features ) {
               </table>
             </div>
 	    <br />
-	    &nbsp;<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a>
+	    <center><a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="eZ publish" border="0" width="100" height="35" /></a></center>
             </td>
 {*
     <td bgcolor="#cccccc" valign="top" width="150">

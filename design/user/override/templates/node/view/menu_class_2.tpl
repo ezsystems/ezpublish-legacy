@@ -1,4 +1,4 @@
-<strong>{$node.name}</strong>
+<strong class="small">{$node.name}</strong>
 <div class="imageright">
 {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=small}
 </div>
