@@ -76,7 +76,7 @@
     <div class="block">
     <label>{'Container'|i18n( 'design/admin/class/edit' )}</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
-      <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}"/>
+    <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}"/>
     </div>
 
 {section show=$attributes}
@@ -87,10 +87,10 @@
 <tr>
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}"/></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
-    <th class="tight" cellspacing="2">
+    <th class="tight">
       <div class="listbutton">
-          <input type="image" src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
-          <input type="image" src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" " title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />
+          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
+          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />
       </div>
     </th>
 </tr>
@@ -175,6 +175,8 @@
 {/section}
 
 
+
+
 <div class="controlbar">
 
 {* Remove selected attributes button *}
@@ -189,6 +191,8 @@
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
 <input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}"/>
+</div>
+
 </div>
 
 </div>
