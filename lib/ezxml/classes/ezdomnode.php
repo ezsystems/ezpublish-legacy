@@ -62,6 +62,23 @@ class eZDOMNode
     }
 
     /*!
+     Makes a copy of the current node and returns a reference to it.
+    */
+    function &clone()
+    {
+        $tmp = new eZDOMNode();
+        $tmp->Name = $this->Name;
+        $tmp->Type = $this->Type;
+        $tmp->Content = $this->Content;
+        $tmp->Children = $this->Children;
+        $tmp->Attributes = $this->Attributes;
+        $tmp->NamespaceURI = $this->NamespaceURI;
+        $tmp->LocalName = $this->LocalName;
+        $tmp->Prefix = $this->Prefix;
+        return $tmp;
+    }
+
+    /*!
       Returns the node name.
     */
     function name()
@@ -361,6 +378,7 @@ class eZDOMNode
         return $ret;
     }
 
+    /// \privatesection
     /// Name of the node
     var $Name = false;
 
