@@ -86,6 +86,9 @@ eZDB:
   this can be implemented by DB drivers to provide information
   about which tables, triggers etc. belongs to eZ publish.
 
+eZDBSchema:
+- Added support for schema handlers in extensions.
+
 eZTemplate:
 - New setting ShowMethodDebug in site.ini under TemplateSettings which when enabled
   will show debug information about function and operator calls.

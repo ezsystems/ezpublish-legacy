@@ -49,55 +49,32 @@ class eZDbSchema
             $db = eZDB::instance();
         }
 
+        /* Figure out the database name */
         if ( is_subclass_of( $db, 'ezdbinterface' ) )
         {
-            switch( $db->databaseName() )
-            {
-                case 'mysql':
-                {
-                    include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
-                    return new eZMysqlSchema( $db );
-                } break;
-
-                case 'postgresql':
-                {
-                    include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
-                    return new eZPgsqlSchema( $db );
-                } break;
-
-                default:
-                {
-                    eZDebug::writeError( 'No schema handler for database type : ' . $db->databaseName(),
-                                         'eZDBSchema::instance()' );
-                } break;
-            }
+            $dbname = $db->databaseName();
         }
         else
         {
-            $type = $db['type'];
-            switch( $type )
-            {
-                case 'mysql':
-                {
-                    include_once( 'lib/ezdbschema/classes/ezmysqlschema.php' );
-                    return new eZMysqlSchema( $db );
-                } break;
-
-                case 'postgresql':
-                {
-                    include_once( 'lib/ezdbschema/classes/ezpgsqlschema.php' );
-                    return new eZPgsqlSchema( $db );
-                } break;
-
-                default:
-                {
-                    eZDebug::writeError( 'No schema handler for database type : ' . $type,
-                                         'eZDBSchema::instance()' );
-                } break;
-            }
+            $dbname = $db['type'];
         }
 
-        return false;
+        /* Load the database schema handler INI stuff */
+        require_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'dbschema.ini' );
+        $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
+        $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
+
+        /* Check if we have a handler */
+        if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
+        {
+            eZDebug::writeError( "No schema handler for database type: $dbname", 'eZDBSchema::instance()' );
+            return false;
+        }
+
+        /* Include the schema file and instantiate it */
+        require_once( $schemaPaths[$dbname] );
+        return new $schemaHandlerClasses[$dbname]( $db );
     }
 
     /*!

@@ -104,19 +104,9 @@ if ( strlen( trim( $sourceType ) ) == 0)
     $cli->error( "No source type chosen" );
     $script->shutdown( 1 );
 }
-if ( !in_array( $sourceType, array( 'mysql', 'postgresql' ) ) )
-{
-    $cli->error( "Unknown source type " . $cli->stylize( 'emphasize', $sourceType ) );
-    $script->shutdown( 1 );
-}
 if ( strlen( trim( $matchType ) ) == 0)
 {
     $cli->error( "No match type chosen" );
-    $script->shutdown( 1 );
-}
-if ( !in_array( $matchType, array( 'mysql', 'postgresql' ) ) )
-{
-    $cli->error( "Unknown match type " . $cli->stylize( 'emphasize', $matchType ) );
     $script->shutdown( 1 );
 }
 
