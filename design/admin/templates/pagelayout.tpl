@@ -61,6 +61,50 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 <h3 class="hide">Top menu</h3>
 
+
+{* Browse mode... *}
+{section show=eq($ui_context, 'browse')}
+<ul>
+    <li><div>
+    {* Content menu *}
+    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='Content structure'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
+    {section-else}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Content structure'|i18n('design/admin/layout')}
+    {/section}
+    </div></li>
+    <li><div>
+    {* Media menu *}
+    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='Media library'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini('NodeSettings','MediaRootNode','content.ini' ) )}
+    {section-else}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Media library'|i18n('design/admin/layout')}
+    {/section}
+    </div></li>
+    <li><div>
+    {* Users menu *}
+    {section show=$browse.top_level_nodes|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+    {include uri='design:page_menuheadselected.tpl' menu_text='User accounts'|i18n('design/admin/layout') menu_url=concat( '/content/browse/', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+    {section-else}
+    {include uri='design:page_menuheadgray.tpl' menu_text='User accounts'|i18n( 'design/admin/layout' )}
+    {/section}
+    </div></li>
+    <li><div>
+    {* Shop menu *}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Webshop'|i18n( 'design/admin/layout' )}
+    </div></li>
+    <li><div>
+    {* Set up menu *}
+    {include uri='design:page_menuheadgray.tpl' menu_text='Setup'|i18n( 'design/admin/layout' )}
+    </div></li>
+    <li><div>
+    {* Personal *}
+    {include uri='design:page_menuheadgray.tpl' menu_text='My account'|i18n( 'design/admin/layout' )}
+    </div></li>
+</ul>
+
+{* NOT Browse mode... *}
+{section-else}
 <ul>
     <li><div>
     {* Content menu *}
@@ -86,7 +130,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {/section}
     </div></li>
-{section show=eq(ezpreference( 'interface_mode'),'advanced')}
     <li><div>
     {* Shop menu *}
     {section show=ne($ui_context,'edit')}
@@ -103,7 +146,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {include uri="design:page_menuheadgray.tpl" menu_text='Setup'|i18n('design/admin/layout') menu_url="/setup/menu/"}
     {/section}
     </div></li>
-{/section}
     <li><div>
     {* Personal *}
     {section show=ne($ui_context,'edit')}
@@ -113,6 +155,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     {/section}
     </div></li>
 </ul>
+{/section}
+
 
 </div>
 </div>
