@@ -27,6 +27,7 @@ Changes from 3.2-1 to 3.3.0-1
 - Fixed object deletion to go include all attributes of all languages not just the main language.
 - Changed the contentObjectAttributes function of eZContentObject to allow it to return unique attribute entries.
 - Made sure all attributes for new languages in objects are properly initialized (eg. for images)
+- Added support for class filter in treemenu operator.
 
 *DataType:
 

@@ -64,7 +64,10 @@ class eZTreeMenuOperator
                                           'default' => false ),
                       'offset' => array( 'type' => 'int',
                                              'required' => false,
-                                             'default' => 1 ) );
+                                             'default' => 1 ),
+                      'class_filter' => array( 'type' => 'array',
+                                         'required' => false,
+                                         'default' => array() ) );
     }
 
     /*!
@@ -77,10 +80,14 @@ class eZTreeMenuOperator
         $i = 0;
         $pathArray = array();
         $tmpModulePath = $namedParameters['path'];
-		
+        $classFilter = $namedParameters['class_filter'];
+
+        if ( count( $classFilter ) == 0 )
+            $classFilter = array( 1 );
+
         $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
-		
-        $offset = $namedParameters['offset'];;
+
+        $offset = $namedParameters['offset'];
 
         while ( !$done )
         {
@@ -89,8 +96,7 @@ class eZTreeMenuOperator
             $nodeID = $elements[4];
 
             $nextElements = explode( "/", $tmpModulePath[$i+$offset+1]['url'] );
-            $nextNodeID = $nextElements[4];	
-			
+            $nextNodeID = $nextElements[4];
 
             $excludeNode = false;
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
@@ -101,7 +107,7 @@ class eZTreeMenuOperator
                                                                           'Offset' => 0,
                                                                           'SortBy' => array( array('priority') ),
                                                                           'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray' => array( 1,8 )
+                                                                          'ClassFilterArray' => $classFilter
                                                                           ),
                                                                    $nodeID );
 
@@ -130,8 +136,7 @@ class eZTreeMenuOperator
 					{
 						$isSelected = true;
   					}
-						
-					
+
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
                                              'url_alias' => $urlAlias,
@@ -162,7 +167,7 @@ class eZTreeMenuOperator
                                                                               'Offset' => 0,
                                                                               'SortBy' => array( array('priority') ),
                                                                               'ClassFilterType' => 'include',
-                                                                              'ClassFilterArray' => array( 1,8 )
+                                                                              'ClassFilterArray' => $classFilter
                                                                               ),
                                                                        17 );
 
