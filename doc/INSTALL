@@ -94,6 +94,14 @@ insert a database.
 4. $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/kernel_schema.sql
    $ psql -U<user> <name_of_database> < <httproot>/ezpublish-xxx/kernel/sql/postgresql/cleandata.sql
 
+To be able to run ezpubish on postgresql you need to have "digest" function from pgcrypto contribution
+from postgresql-contrib pakage.If you don't have it you need to install postgresql-contrib rpm pakage and to
+run command on your database:
+
+5. psql -U<user> <name_of_database> < /usr/share/pgsql/contrib/pgcrypto.sql
+
+
+   
    If you do want demodata:
    Demodata is not available for PostgreSQL at the moment.
 
