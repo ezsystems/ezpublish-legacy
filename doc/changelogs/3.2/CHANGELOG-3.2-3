@@ -77,6 +77,9 @@ Changes from 3.2-2 to 3.2-3
   Fixed wrong class name.
 - http://ez.no/developer/ez_publish_3/bug_reports/typo_in_ezcontentobjecttreenodephp
   Fixed correct section sort field.
+- http://ez.no/developer/ez_publish_3/bug_reports/iteration_count_advances_even_when_item_is_excluded_with_sectionexclude
+  The maximum value now only applies to used elements, some sanity checks were added to the
+  'max' and 'offset' parameter.
 
 *Setup:
 

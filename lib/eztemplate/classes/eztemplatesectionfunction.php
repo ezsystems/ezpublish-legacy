@@ -213,7 +213,6 @@ class eZTemplateSectionFunction
         {
             $reverseLoop =& $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
-        /// \todo Check if this needs removing
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
         $showItem = null;
@@ -232,8 +231,9 @@ class eZTemplateSectionFunction
             }
             else if ( !is_numeric( $iterationMaxCount ) )
             {
-                $tpl->warning( $functionName, "Wrong parameter type for 'max', use either numerical or arrays" );
+                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationMaxCount ) . "' for 'max', use either numericals or arrays" );
             }
+            $iterationMaxCount = (int)$iterationMaxCount;
         }
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
@@ -245,7 +245,13 @@ class eZTemplateSectionFunction
             }
             else if ( !is_numeric( $iterationOffset ) )
             {
-                $tpl->warning( $functionName, "Wrong parameter type for 'offset', use either numerical or arrays" );
+                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationOffset ) . "' for 'offset', use either numericals or arrays" );
+            }
+            $iterationOffset = (int)$iterationOffset;
+            if ( $iterationOffset < 0 )
+            {
+                $tpl->warning( $functionName, "The 'offset' parameter can only be negative, $iterationOffset is not accepteed, the value will be reset to 0" );
+                $iterationOffset = 0;
             }
         }
 
@@ -257,7 +263,6 @@ class eZTemplateSectionFunction
         $items = array();
         $items[0] = array();
         $items[1] = array();
-//         eZDebug::writeDebug( $children, 'children' );
         foreach ( array_keys( $children ) as $childKey )
         {
             $child =& $children[$childKey];
@@ -295,11 +300,7 @@ class eZTemplateSectionFunction
                 $items[$shown][] =& $child;
             }
         }
-//         eZDebug::writeNotice( $filterStructure, "\$filterStructure" );
 
-//         if ( !$showItem )
-//             return $text;
-//         eZDebug::writeNotice( "got here" );
         $canShowBlock = true;
         if( $showItem !== null and ( ( is_array( $showItem ) and count( $showItem ) == 0 ) or
                                      ( is_numeric( $showItem ) and $showItem == 0 ) or
@@ -310,58 +311,57 @@ class eZTemplateSectionFunction
 
         if ( ( $showItem === null or ( $showItem !== null and $canShowBlock ) ) and $loopItem === null )
         {
-//             eZDebug::writeNotice( "Running default looping" );
             $this->processChildrenOnce( $textElements, $items[1], $tpl, $rootNamespace, $name );
         }
         else
         {
-//             eZDebug::writeNotice( "Running non-default looping" );
             $showMainBody = true;
             if ( $showItem !== null )
             {
                 if( !$canShowBlock )
                     $showMainBody = false;
             }
-//             else if ( ( is_array( $loopItem ) and count( $loopItem ) == 0 ) or
-//                       ( is_numeric( $loopItem ) and $loopItem == 0 ) or
-//                       ( is_string( $loopItem ) > 0 and strlen( $loopItem ) == 0 ) )
-//                 $showMainBody = false;
             if ( $showMainBody )
             {
                 $isFirstRun = true;
                 $index = 0;
                 if ( is_array( $loopItem ) )
                 {
-//                     eZDebug::writeDebug( "Running array looping" );
                     $array =& $loopItem;
                     $arrayKeys =& array_keys( $array );
                     if ( $iterationOffset !== false )
                         $arrayKeys = array_splice( $arrayKeys, $iterationOffset );
-                    if ( $iterationMaxCount !== false )
-                        $arrayKeys = array_splice( $arrayKeys, 0, $iterationMaxCount );
+                    $currentCount = 0;
                     if ( $reverseLoop )
                         $arrayKeys = array_reverse( $arrayKeys );
                     foreach ( $arrayKeys as $key )
                     {
                         $item =& $array[$key];
-                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
-                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $rootNamespace, $name, $functionPlacement,
-                                                $variableIterator, $noLastValue );
+                        $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
+                                                               $delimiterStructure, $sequenceStructure, $filterStructure,
+                                                               $tpl, $rootNamespace, $name, $functionPlacement,
+                                                               $variableIterator, $noLastValue );
+                        if ( $usedElement )
+                        {
+                            if ( $iterationMaxCount !== false )
+                            {
+                                ++$currentCount;
+                                if ( $currentCount >= $iterationMaxCount )
+                                    break;
+                            }
+                        }
                     }
                 }
                 else if ( is_numeric( $loopItem ) )
                 {
-//                     eZDebug::writeNotice( "Running numeric looping" );
                     $value = $loopItem;
                     $count = $value;
                     if ( $value < 0 )
                         $count = -$count;
-                    if ( $iterationMaxCount !== false )
-                        $count = min( $count, $iterationMaxCount );
                     $loopStart = 0;
                     if ( $iterationOffset !== false )
                         $loopStart = $iterationOffset;
+                    $currentCount = 0;
                     for ( $i = $loopStart; $i < $count; ++$i )
                     {
                         if ( $reverseLoop )
@@ -378,22 +378,29 @@ class eZTemplateSectionFunction
                             $key = $iterator;
                             $item = $iterator + 1;
                         }
-                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
-                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $rootNamespace, $name, $functionPlacement,
-                                                $variableIterator, $noLastValue );
+                        $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
+                                                               $delimiterStructure, $sequenceStructure, $filterStructure,
+                                                               $tpl, $rootNamespace, $name, $functionPlacement,
+                                                               $variableIterator, $noLastValue );
+                        if ( $usedElement )
+                        {
+                            if ( $iterationMaxCount !== false )
+                            {
+                                ++$currentCount;
+                                if ( $currentCount >= $iterationMaxCount )
+                                    break;
+                            }
+                        }
                     }
                 }
                 else if ( is_string( $loopItem ) )
                 {
-//                     eZDebug::writeNotice( "Running string looping" );
                     $text =& $loopItem;
                     $stringLength = strlen( $text );
-                    if ( $iterationMaxCount !== false )
-                        $stringLength = min( $stringLength, $iterationMaxCount );
                     $loopStart = 0;
                     if ( $iterationOffset !== false )
                         $loopStart = $iterationOffset;
+                    $currentCount = 0;
                     for ( $i = $loopStart; $i < $stringLength; ++$i )
                     {
                         if ( $reverseLoop )
@@ -402,10 +409,19 @@ class eZTemplateSectionFunction
                             $iterator = $i;
                         $key = $iterator;
                         $item = $text[$iterator];
-                        $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
-                                                $delimiterStructure, $sequenceStructure, $filterStructure,
-                                                $tpl, $rootNamespace, $name, $functionPlacement,
-                                                $variableIterator, $noLastValue );
+                        $usedElement = $this->processChildren( $textElements, $items[1], $key, $item, $index, $isFirstRun,
+                                                               $delimiterStructure, $sequenceStructure, $filterStructure,
+                                                               $tpl, $rootNamespace, $name, $functionPlacement,
+                                                               $variableIterator, $noLastValue );
+                        if ( $usedElement )
+                        {
+                            if ( $iterationMaxCount !== false )
+                            {
+                                ++$currentCount;
+                                if ( $currentCount >= $iterationMaxCount )
+                                    break;
+                            }
+                        }
                     }
                 }
                 if ( !$isFirstRun )
@@ -427,12 +443,16 @@ class eZTemplateSectionFunction
             }
             else
             {
-//                 eZDebug::writeNotice( "no loop items" );
                 $this->processChildrenOnce( $textElements, $items[0], $tpl, $rootNamespace, $name );
             }
         }
     }
 
+    /*!
+     \private
+     Goes trough all children and process them into text.
+     \return \c true.
+    */
     function processChildrenOnce( &$textElements, &$children, &$tpl, $rootNamespace, $name )
     {
         foreach ( array_keys( $children ) as $childKey )
@@ -440,10 +460,14 @@ class eZTemplateSectionFunction
             $child =& $children[$childKey];
             $tpl->processNode( $child, $textElements, $rootNamespace, $name );
         }
+        return true;
     }
 
     /*!
      \private
+     Goes trough all children and process them into text. It will skip the processing
+     if the current item is filtered away.
+     \return \c true if the element was processed, \c false otherwise.
     */
     function processChildren( &$textElements,
                               &$children, $key, &$item, &$index, &$isFirstRun,
@@ -490,7 +514,7 @@ class eZTemplateSectionFunction
                     $tpl->missingParameter( "section:$filterName", "match" );
             }
             if ( !$includeElement )
-                return;
+                return false;
         }
         if ( $delimiterStructure !== null and !$isFirstRun )
         {
@@ -542,6 +566,7 @@ class eZTemplateSectionFunction
             $tpl->processNode( $child, $textElements, $rootNamespace, $name );
         }
         ++$index;
+        return true;
     }
 
     /*!
