@@ -1,4 +1,5 @@
 {default image_class=large
+         css_class=false()
          alignment=false()
          link_to_image=false()
          href=false()
@@ -24,7 +25,15 @@
          {case/}
      {/switch}
 
+     {section show=$css_class}
+         <div class="{$css_class|wash}">
+     {/section}
+
      {section show=$href}<a href={$href}>{/section}<img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} border="{$border_size}" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />{section show=$href}</a>{/section}
+
+     {section show=$css_class}
+         </div>
+     {/section}
 
      {switch match=$alignment}
          {case match='left'}

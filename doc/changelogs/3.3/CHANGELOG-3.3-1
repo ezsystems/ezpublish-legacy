@@ -81,6 +81,10 @@ Changes from 3.3.0-2 to 3.3-1
 - Added check for newlines in the context field for templates, usually this means a missing quote.
 - Changed the parse warnings to stop the program to make the user aware of the problems.
 
+*templates:
+- Fixed content/datatype/view/ezimage.tpl to support a css_class parameter, if this is set a div tag
+  is created around the image with the specified class.
+
 *RSS:
 
 *Setup:
