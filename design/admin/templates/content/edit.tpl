@@ -82,7 +82,13 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
     <div class="block">
-    <label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>
+    <select>
+        <option>This location is visible (current)</option>
+        <option>This location is hidden</option>
+        <option>All locations are visible</option>
+        <option>All locations are hidden</option>
+    </select>
+    {*<label><input type="checkbox" />{'Publish as hidden'|i18n( 'design/admin/content/edit' )}</label>*}
     </div>
     <div class="block">
 <input class="button" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
