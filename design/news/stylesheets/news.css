@@ -34,6 +34,7 @@ div#logo
 div#subheader
 {
     background-color: #ff6633;
+    border-bottom: 7px solid #ee5522;
     padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
 }
 
@@ -102,11 +103,14 @@ div#path
 div#path p
 {
     margin: 0;
+    color: #666666;
 }
 
 div#path a
 {
-    color: #000000;
+    color: #666666;
+    border-bottom: 1px dotted #ff6633;
+    text-decoration:none;
 }
 
 div#submenu
@@ -215,12 +219,16 @@ div#maincontent
 
 div#newsblock
 {
-    margin: 2em;
+    clear: both;
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    margin-top: 2em;
 }
 
 div#newsblock div.design
 {
-    border: 1px dotted #000000;
+    border: 1px dotted #999999;
 }
 
 div#newsblock table
@@ -231,6 +239,19 @@ div#newsblock table
 div#newsblock td
 {
    width: 25;
+}
+
+
+div#newsblock h3
+{
+   color: #666666;
+}
+
+div#newsblock a
+{
+   border-bottom: 1px dotted #ff6633;
+   text-decoration:none;
+   color: #ff6633;
 }
 
 div#newsblock ul
@@ -245,12 +266,13 @@ div#newsblock li
     margin-top: 0em;
     margin-bottom: 0em;
     padding-top: 0.0em;
-    padding-bottom: 0.5em;
-    padding-left: 1em;
+    padding-bottom: 0.1em;
+    padding-left: 0em;
 }
 
 div#footer
 {
+    margin-top: 1em;
     text-align: center;
     clear: both;
 }

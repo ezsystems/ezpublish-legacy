@@ -76,11 +76,11 @@
                                                           
             <h3>News</h3>
             <ul>
-                   {section name=News loop=$category_list sequence=array(bglight,bgdark)}
-                       <li class="{$:sequence}">
-                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                   {section var=category loop=$category_list sequence=array(bglight,bgdark)}
+                       <li class="{$category.sequence}">
+                       <a href={$category.item.url_alias|ezurl}>{$category.item.name|wash}</a>
                        </li>
-                    {/section}
+                   {/section}
             </ul>
                {/let}
 
@@ -105,7 +105,7 @@
 
 	       {let tipsend_list=fetch('content','tipafriend_top_list',hash(limit,5,offset,0))}
 	    
-	    <h3>Most popular tipsend</h3>
+	    <h3>Most popular</h3>
             <ul>
                    {section var=TipsendList loop=$tipsend_list sequence=array(bglight,bgdark)}
                        <li class="{$:sequence}">
@@ -116,6 +116,7 @@
                        </li>
                    {/section}
             </ul>
+               {/let}
         </div>
     </div>
 {/cache-block}
@@ -154,25 +155,25 @@
     <div id="newsblock">
         <div class="design">
             {let category_list=fetch( content, tree, hash( parent_node_id, 181,
-							   limit, 5,
+							   limit, 8,
 							   sort_by, array( published, false() ),
 							   class_filter_type, include, 
 							   class_filter_array, array( 'folder' ) ) )}
             <table>
             <tr>
-                {section name=Category loop=$category_list}
+                {section var=category loop=$category_list}
                 <td>
-                    <h3>{$:item.name}</h3>
-                    {let news_list=fetch( content, list, hash( parent_node_id, $:item.node_id,
+                    <h3>{$category.item.name}</h3>
+                    {let news_list=fetch( content, list, hash( parent_node_id, $category.item.node_id,
 							   limit, 10,
 							   sort_by, array( published, false() ),
 							   class_filter_type, include, 
 							   class_filter_array, array( 'article' ) ) )}
 
-                    {section loop=$:news_list sequence=array(bglight,bgdark)}
+                    {section var=newsitem loop=$news_list sequence=array(bglight,bgdark)}
                     <ul>
-                       <li class="{$:sequence}">
-                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                       <li class="{$newsitem.sequence}">
+                       <a href={$newsitem.item.url_alias|ezurl}>{$newsitem.item.name|wash}</a>
                        </li>
                     </ul>
                     {/section}
