@@ -14,7 +14,8 @@ Changes from 2.9-5 to 2.9-6
 - Fixed bug in eZPersistentObject which required default sorting to make override sorting work
 - Fixed bug with publishing from preview
 - Fixed bug with related objects when creat new version by copying from another version
-    - Fixed bug with viewing related objects in view full;
+- Fixed bug with viewing related objects in view full;
+
 shop:
 - Added more information to order list
 - Added real order number to orders
@@ -121,3 +122,16 @@ eZ codepage:
 eZ db:
 - New function hasInstance() which returns true if there is an eZDB instance active.
 
+eZ mail:
+- Lots of changes to the mail class, it now only takes care of storing header information
+  and body text and returns it when requested.
+
+eZ mailtransporter:
+- New class which defines an interface for sending email, has a static function send() which
+  figures out the transporter to use from site.ini.
+
+eZ SendmailTransporter:
+- Sends mail with sendmail.
+
+eZ SMTPTransport:
+- Sends mail with SMTP.

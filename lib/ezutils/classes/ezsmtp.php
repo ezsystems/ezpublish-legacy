@@ -48,7 +48,7 @@
 			if(!defined('CRLF'))
 				define('CRLF', "\r\n", TRUE);
 
-			$this->authenticated	= FALSE;			
+			$this->authenticated	= FALSE;
 			$this->timeout			= 5;
 			$this->status			= SMTP_STATUS_NOT_CONNECTED;
 			$this->host				= 'localhost';
@@ -66,7 +66,7 @@
 
 		/***************************************
         ** Connect function. This will, when called
-		** statically, create a new smtp object, 
+		** statically, create a new smtp object,
 		** call the connect function (ie this function)
 		** and return it. When not called statically,
 		** it will connect to the server and send

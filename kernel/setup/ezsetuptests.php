@@ -45,6 +45,7 @@ function eZSetupTestTable()
                   'directory_permissions' => array( 'eZSetupTestFilePermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
+                  'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
@@ -336,6 +337,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
 	$result = false;
     $correctPath = false;
+    $correctProgram = false;
     foreach ( $programs as $program )
     {
 	foreach( $searchPaths as $path )
@@ -381,6 +383,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 				{
 					$result = true;
 					$correctPath = $path;
+                    $correctProgram = $program;
 					break;
 				}
 			}
@@ -389,6 +392,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 				// Windows system
                 $result = true;
                 $correctPath = $path;
+                $correctProgram = $program;
 				break;
 			}
 		}
@@ -399,6 +403,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
 	return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
+                                              'program' => array( 'value' => $correctProgram ),
                                               'result' => array( 'value' => $result ) ),
                   'env_separator' => $envSeparator,
                   'filesystem_type' => $filesystemType,

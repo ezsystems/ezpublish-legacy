@@ -115,6 +115,8 @@ if ( !$partLoaded or
     eZExecution::cleanExit();
 }
 
+$persistenceList = null;
+
 do
 {
     $stepInfo = $stepTable[$step];
@@ -162,7 +164,8 @@ do
                                          "minor" => eZPublishSDK::minorVersion(),
                                          "release" => eZPublishSDK::release() ) );
 
-    $persistenceList = eZSetupFetchPersistenceList();
+    if ( $persistenceList === null )
+        $persistenceList = eZSetupFetchPersistenceList();
     $tpl->setVariableRef( 'persistence_list', $persistenceList );
 
     // Try to include the relevant file

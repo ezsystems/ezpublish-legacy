@@ -47,7 +47,9 @@ function eZSetupStep_email_settings( &$tpl, &$http, &$ini, &$persistenceList )
     $emailInfo = array( 'type' => false,
                         'server' => false,
                         'user' => false,
-                        'password' => false );
+                        'password' => false,
+                        'sent' => false,
+                        'result' => false );
     if ( isset( $persistenceList['email_info'] ) )
         $emailInfo = $persistenceList['email_info'];
 

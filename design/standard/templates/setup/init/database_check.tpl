@@ -59,7 +59,7 @@
   &nbsp;&nbsp;
  </td>
  <td>
-  <input type="radio" name="eZSetupDatabaseDataChoice" value="1" checked="checked"/>
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="1" />
  </td>
 </tr>
 <tr>
@@ -67,7 +67,7 @@
   <p>Continue and remove the data.</p>
  </td>
  <td>
-  <input type="radio" name="eZSetupDatabaseDataChoice" value="2" />
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="2"  checked="checked" />
  </td>
 </tr>
 <tr>

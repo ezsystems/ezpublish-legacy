@@ -1,6 +1,8 @@
 <?php
 //
-// Created on: <16-Apr-2002 12:37:51 amos>
+// Definition of eZSendmailTransport class
+//
+// Created on: <10-Dec-2002 14:41:22 amos>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
@@ -32,34 +34,37 @@
 // you.
 //
 
+/*! \file ezsendmailtransport.php
+*/
 
-function &templateInit( $name = false )
+/*!
+  \class eZSendmailTransport ezsendmailtransport.php
+  \brief The class eZSendmailTransport does
+
+*/
+
+include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+
+class eZSendmailTransport extends eZMailTransport
 {
-    if ( $name === false )
-        $tpl =& $GLOBALS["eZPublishTemplate"];
-    else
-        $tpl =& $GLOBALS["eZPublishTemplate_$name"];
-    if ( get_class( $tpl ) == "eztemplate" )
-        return $tpl;
-    include_once( "lib/eztemplate/classes/eztemplate.php" );
+    /*!
+     Constructor
+    */
+    function eZSendmailTransport()
+    {
+    }
 
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
-
-// Init template
-    $tpl = eZTemplate::instance();
-
-    include_once( 'lib/ezutils/classes/ezini.php' );
-    $ini =& eZINI::instance();
-    if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
-        eZTemplate::setIsDebugEnabled( true );
-
-    $tpl->setAutoloadPathList( $ini->variableArray( 'TemplateSettings', 'AutoloadPath' ) );
-    $tpl->autoload();
-
-    $tpl->registerResource( eZTemplateDesignResource::instance() );
-
-    return $tpl;
+    /*!
+     \reimp
+    */
+    function sendMail( &$mail )
+    {
+//         ini_set( 'SMTP', 'mail.ez.no' );
+//         ini_set( 'smtp_port', 25 );
+        $message = $mail->body();
+        $extraHeaders = $mail->headerText();
+        return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
+    }
 }
-
 
 ?>

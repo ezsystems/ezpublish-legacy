@@ -12,6 +12,7 @@
 <div class="highlight">
 <p>The following data will be sent to eZ systems:</p>
 <ul>
+  <li>Details of your system, like OS type etc.</li>
   <li>The test results for your system</li>
   <li>The database type you are using</li>
   <li>The name of your site</li>

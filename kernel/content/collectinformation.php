@@ -34,6 +34,7 @@
 
 include_once( 'kernel/classes/ezinformationcollection.php' );
 include_once( 'lib/ezutils/classes/ezmail.php' );
+include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
@@ -88,10 +89,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $type = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );
 
-    $mail->setTo( 'bf@ez.no' );
+    $mail->setReceiver( 'bf@ez.no' );
     $mail->setSubject( $subject );
     $mail->setBody( $templateResult );
-    $mail->send();
+    $mailResult = eZMailTransport::send( $mail );
 
     $Module->redirectToView( 'view', array( 'full', $object->attribute( 'main_node_id' ) ) );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;

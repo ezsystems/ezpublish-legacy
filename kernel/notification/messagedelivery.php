@@ -34,6 +34,7 @@
 
 include_once( "kernel/notification/ezmessage.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
+include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
 $current = getdate();
 $weekday = $current['wday'];
@@ -71,12 +72,13 @@ foreach ( $emailMessages as $emailMessage )
         $body = $codec->convertString( $body );
 
         $email = new eZMail();
-        $email->setReceiver( $destinationAddress );
-        $email->setSender( "admin@ez.no" );
-        $email->setFromName( "Administrator" );
+        $email->setReceiverText( $destinationAddress );
+        $mail->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
+//         $email->setSender( "admin@ez.no", "Administrator" );
         $email->setSubject( $title );
         $email->setBody( $body );
-        $email->send();
+
+        $mailResult = eZMailTransport::send( $email );
     }
 }
 ?>

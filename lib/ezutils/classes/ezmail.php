@@ -25,128 +25,85 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZCommon
-//! eZMail
+/*! \defgroup eZUtils Utility classes */
+
 /*!
+  \class eZMail ezmail.php
+  \ingroup eZUtils
+  \brief Mail object
 
-  Functions that are used when sending mail have ideas from:
-    Sascha Schumann <sascha@schumann.cx>
-    Tobias Ratschiller <tobias@dnet.it>
-  extended and modified to fit eZ publish needs by
-     Frederik Holljen <fh@ez.no>
-  Example code:
-  \code
-
-  \endcode
+  Class for storing the details about en email and providing
+  text serialization.
 */
-/* DEFINES */
-define( "UNREAD", 0 );
-define( "READ", 1 );
-define( "REPLIED", 2 );
-define( "FORWARDED", 3 );
-define( "MAIL_SENT", 4 );
+
+
+// The line separator as defined by RFC 2045
+// Using \n as a separator is not correct
+define( 'EZ_MAIL_LINE_SEPARATOR', "\r\n" );
 
 class eZMail
 {
     /*!
       Constructs a new eZMail object.
-
-      If $id is set the object's values are fetched from the
-      database.
     */
-    function eZMail( $id = "", $params = array() )
+    function eZMail()
     {
-        // See if we should use SMTP
-        if ( isset( $params["hostname"] ) )
-        {
-            $this->Hostname = $params["hostname"];
-            if ( isset( $params["port"] ) )
-                $this->Port = $params["port"];
-            else
-                $this->Port = 25;
-            if ( isset( $params["user"] ) )
-                $this->User = $params["user"];
-            if ( isset( $params["password"] ) )
-                $this->Password = $params["password"];
-        }
-
-        
-        $this->FilesAttached = false;
-
-        // array used when sending mail.. do not alter!!!
-        $this->parts = array();
-        if ( $id != "" )
-        {
-
-            $this->ID = $id;
-            $this->get( $this->ID );
-        }
-        else
-        {
-            // default values
-            $this->IsPublished = 0;
-            $this->UDate = time();
-        }
+        $this->ReceiverElements = array();
+        $this->From = false;
+        $this->CcElements = array();
+        $this->BccElements = array();
+        $this->ReplyTo = false;
+        $this->Subject = false;
+        $this->BodyText = false;
+        $this->ExtraHeaders = array();
     }
 
     /*!
-      Deletes a eZMail object from the database.
+      Returns the receiver addresses as text.
     */
-    function delete( $id = -1 )
+    function receiverEmailText()
     {
-        return true;
+        return $this->composeEmailItems( $this->ReceiverElements, true, 'email' );
     }
 
     /*!
-      Stores a mail to the database.
+      Returns the receiver addresses as text.
     */
-    function store()
+    function receiverText()
     {
-        return true;
-    }
-
-    function removeContacts( $mailID )
-    {
-
-    }
-
-    function addContact( $mailID, $contactID, $companyEdit = true )
-    {
-
+        return $this->composeEmailItems( $this->ReceiverElements );
     }
 
     /*!
-      Fetches the object information from the database.
+      Returns the receiver addresses as an array with texts.
     */
-    function get( $id = "" )
+    function receiverTextList()
     {
-        $ret = false;
-
-        return $ret;
+        return $this->composeEmailItems( $this->ReceiverElements, false );
     }
 
     /*!
-      Returns the object ID.
+      Returns the receiver addresses.
     */
-    function id()
+    function receiverElements()
     {
-        return $this->ID;
+        return $this->ReceiverElements;
     }
 
     /*!
-      Returns the receiver address.
-    */
-    function to()
+      Returns the addresses which should get a carbon copy.
+     */
+    function ccElements()
     {
-        return $this->To;
+        return $this->CcElements;
     }
 
     /*!
-      Sets the receiver address.
-    */
-    function setTo( $newTo )
+      Returns the addresses which should get a blind carbon copy.
+     */
+    function bccElements()
     {
-        $this->To = $newTo;
+        return $this->BccElements;
     }
 
 
@@ -159,76 +116,147 @@ class eZMail
     }
 
     /*!
-      Sets the receiver address.
+      Returns the sender address.
     */
-    function setReplyTo( $newReplyTo )
-    {
-        $this->ReplyTo = $newReplyTo;
-    }
-
-    /*!
-      Returns the receiver address. Wrapper function
-    */
-    function receiver()
-    {
-        return $this->To;
-    }
-
-    /*!
-      Sets the receiver address.  Wrapper function
-    */
-    function setReceiver( $newReceiver )
-    {
-        $this->To = $newReceiver;
-    }
-
-    /*!
-      Returns the from address.
-    */
-    function from()
+    function sender()
     {
         return $this->From;
     }
 
-
     /*!
-      Sets the from address.
+      Returns the sender address as text.
     */
-    function setFrom( $newFrom )
+    function senderText()
     {
-        $this->From = $newFrom;
+        return eZMail::composeEmailName( $this->From );
     }
 
     /*!
-      Returns a string containing all cc adresses.
-     */
-    function cc()
+      Sets the receiver addresses.
+    */
+    function setReceiverElements( $toElements )
     {
-        return $this->Cc;
+        $this->ReceiverElements = $toElements;
     }
 
     /*!
-      Sets the cc addresses. Use , separating (; and : and " " should also work )
-     */
-    function setCc( $newCc )
+      Sets the receiver address.
+      \note This will remove all other receivers
+      \sa addReceiver, setReceiverElements
+    */
+    function setReceiver( $email, $name = false )
     {
-        $this->Cc = $newCc;
+        $this->ReceiverElements = array( array( 'name' => $name,
+                                                'email' => $email ) );
     }
 
     /*!
-      Returns a string containing all bcc adresses.
-     */
-    function bcc()
+      Sets the receiver address, the email and name will be extracted from \a $text.
+      \note This will remove all other receivers
+      \sa addReceiver, setReceiverElements
+    */
+    function setReceiverText( $text )
     {
-        return $this->Bcc;
+        $this->extractEmail( $text, $email, $name );
+        $this->ReceiverElements = array( array( 'name' => $name,
+                                                'email' => $email ) );
     }
 
     /*!
-      Sets the bcc addresses. Use , separating (; and : and " " should also work )
-     */
-    function setBcc( $newBcc )
+      Adds a new receiver address.
+    */
+    function addReceiver( $email, $name = false )
     {
-        $this->Bcc = $newBcc;
+        $this->ReceiverElements[] = array( 'name' => $name,
+                                           'email' => $email );
+    }
+
+
+    /*!
+      Sets the receiver address.
+    */
+    function setReplyTo( $email, $name = false )
+    {
+        $this->ReplyTo = array( 'name' => $name,
+                                'email' => $email );
+    }
+
+    /*!
+      Sets the sender address.
+    */
+    function setSender( $email, $name = false )
+    {
+        $this->From = array( 'name' => $name,
+                             'email' => $email );
+    }
+
+    /*!
+      Sets the sender address, the email and name will be extracted from \a $text.
+    */
+    function setSenderText( $text )
+    {
+        $this->extractEmail( $text, $email, $name );
+        $this->From = array( 'name' => $name,
+                             'email' => $email );
+    }
+
+    /*!
+      Sets the cc addresses.
+     */
+    function setCcElements( $newCc )
+    {
+        $this->CcElements = $newCc;
+    }
+
+    /*!
+      Adds a new Cc address.
+    */
+    function addCc( $email, $name = false )
+    {
+        $this->CcElements[] = array( 'name' => $name,
+                                     'email' => $email );
+    }
+
+    /*!
+      Sets the bcc addresses.
+     */
+    function setBccElements( $newBcc )
+    {
+        $this->BccElements = $newBcc;
+    }
+
+    /*!
+      Adds a new Bcc address.
+    */
+    function addBcc( $email, $name = false )
+    {
+        $this->BccElements[] = array( 'name' => $name,
+                                      'email' => $email );
+    }
+
+    /*!
+     Sets the extra headers to \a $headers
+    */
+    function extraHeaders( $headers )
+    {
+        return $this->ExtraHeaders;
+    }
+
+    /*!
+     Adds the headers \a $headerName with header value \a $headerValue to the extra headers.
+    */
+    function addExtraHeader( $headerName, $headerValue )
+    {
+        return $this->ExtraHeaders[] = array( 'name' => $headerName,
+                                              'content' => $headerValue );
+    }
+
+    /*!
+     Sets the extra headers to \a $headers.
+    */
+    function setExtraHeaders( $headers )
+    {
+        return $this->ExtraHeaders = $headers;
     }
 
     /*!
@@ -265,38 +293,6 @@ class eZMail
     }
 
     /*!
-      Returns the from name.
-    */
-    function fromName()
-    {
-        return $this->FromName;
-    }
-
-    /*!
-      Sets the from name.
-    */
-    function setFromName( $newFrom )
-    {
-        $this->FromName = $newFrom;
-    }
-
-    /*!
-      Returns the sender address.
-    */
-    function sender()
-    {
-        return $this->From;
-    }
-
-    /*!
-      Sets the sender address.
-    */
-    function setSender( $newSender )
-    {
-        $this->From = $newSender;
-    }
-
-    /*!
       Returns the subject.
     */
     function subject()
@@ -325,136 +321,8 @@ class eZMail
     */
     function setBody( $newBody )
     {
+        $newBody = preg_replace( "/\r\n|\r|\n/", EZ_MAIL_LINE_SEPARATOR, $newBody );
         $this->BodyText = $newBody;
-    }
-
-    /*!
-      Sets the body.
-    */
-    function setBodyText( $newBody )
-    {
-        $this->BodyText = $newBody;
-    }
-
-    /*!
-      Returns the userID of the user that owns this object
-    */
-    function owner()
-    {
-        return $this->UserID;;
-    }
-
-    /*!
-      Sets the owner of this mail
-    */
-    function setOwner( $newOwner )
-    {
-
-        if ( get_class( $newOwner ) == "ezuser" )
-            $this->UserID = $newOwner->id();
-        else
-            $this->UserID = $newOwner;
-    }
-
-    /*!
-      Returns the size of this mail in bytes.
-     */
-    function size()
-    {
-        return $this->Size;
-    }
-
-    /*!
-      Returns the size of this object in a human readable fasion.
-      An array is returned with entries:
-      "size" - original size
-      "size-string" short size
-      "unit" GB, MB, KB or B
-     */
-    function siSize()
-    {
-
-        $units = array( "GB" => 10737741824,
-                        "MB" => 1048576,
-                        "KB" => 1024,
-                        "B" => 0 );
-        $decimals = 0;
-        $size = $this->Size;
-        $shortsize = $this->Size;
-
-        while ( list( $unit_key, $val ) = each( $units ) )
-        {
-            if ( $size >= $val )
-            {
-                $unit = $unit_key;
-                if ( $val > 0 )
-                {
-                    $decimals = 2;
-                    $shortsize = $size / $val;
-                }
-                break;
-            }
-        }
-        $shortsize = number_format( ( $shortsize ), $decimals);
-        $size = array( "size" => $size,
-                       "size-string" => $shortsize,
-                       "unit" => $unit );
-        return $size;
-    }
-
-     /*!
-      Returns the size of this mail in bytes.
-     */
-    function setSize( $value )
-    {
-        $this->Size = $value;
-    }
-
-    /*!
-      Returns the date of this mail in unix date format.
-     */
-    function uDate()
-    {
-        return $this->UDate;
-    }
-
-    /*!
-      Sets the date of this mail in unix date time format.
-     */
-    function setUDate( $value )
-    {
-        $this->UDate = $value;
-    }
-
-    /*
-      Returns the status of this mail.
-      0 - UNREAD
-      1 - READ
-      2 - REPLIED
-      3 - FORWARDED
-      4 - MAIL_SENT
-    */
-    function status()
-    {
-        return $this->Status;
-    }
-
-    /*!
-      Sets the status of this mail.
-     0 - UNREAD
-     1 - READ
-     2 - REPLIED
-     3 - FORWARDED
-     4 - MAIL_SENT
-     If direct write is set the data will be written directly to the database. No need for calling store() afterwords. In order to do this you must be sure that the object
-     is allready in the database.
-     */
-    function setStatus( $status, $directWrite = false )
-    {
-        $this->Status = $status;
-        $db =& eZDB::globalDatabase();
-        if ( $directWrite == true )
-            $db->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
     }
 
     /*!
@@ -469,18 +337,6 @@ class eZMail
 
     /*!
       \static
-      Merges an array of email addresses into a list of email addresses.
-    */
-    function &mergeList( $emails )
-    {
-        if ( !is_array( $emails ) )
-            return false;
-        $emails =& implode( ",", $emails );
-        return $emails;
-    }
-
-    /*!
-      \static
       Static function for validating e-mail addresses.
 
       Returns true if successful, false if not.
@@ -489,6 +345,17 @@ class eZMail
     {
         $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
         return $pos;
+    }
+
+    function extractEmail( $text, &$email, &$name )
+    {
+        if ( preg_match( "/([^<]+)<([a-zA-Z0-9_-]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)>/", $text, $matches ) )
+        {
+            $email = $matches[1];
+            $name = $matches[2];
+        }
+        $email = $text;
+        $name = false;
     }
 
     /*!
@@ -507,207 +374,114 @@ class eZMail
             return 0;
     }
 
-     /*!
-      \static
-      Returns true if the mail with the given identification is allready downloaded for the given user.
-     Note: this is the header ID we are talking about.
+    /*!
+     \returns a text which does not contain newlines, newlines are converted to spaces.
     */
-    function isDownloaded( $mailident, $userID )
+    function blankNewlines( $text )
     {
-        return true;
+        return preg_replace( "/\r\n|\r|\n/", ' ', $text );
     }
 
     /*!
-      Marks this mail in the downloaded database.
-     */
-    function markAsDownloaded()
-    {
-    }
+     \static
+     Composes a text out of the email and name and returns it.
 
-     /*
-      Returns the first folder that this mail is a member of.
-     */
-    function folder( $asObject = true )
-    {
-        return false;
-    }
-
-    /*!
-      \static
-      Returns all mail that belongs to this user as an array of eZMail objects.
-     */
-    function getByUser( $user = false, $onlyUnread = false )
-    {
-        if ( get_class( $user ) != "ezuser" )
-            $user =& eZUser::currentUser();
-    }
-
-    /*!
-      \static
-      Returns all mail that is sendt to a contact
+     Example: John Doe <john@doe.com> or just john@doe.com
     */
-    function getByContact( $ContactID, $CompanyEdit, $Offset, $Limit, $user = false )
+    function composeEmailName( $item, $key = false )
     {
-
-    }
-
-    function getContacts( $mailID = false )
-    {
-
-    }
-
-     /*
-      Adds an attachment to this mail
-      Recalculates the size of the mail.
-     */
-    function addFile( $file )
-    {
-
+        if ( $key !== false and
+             isset( $item[$key] ) )
+            return $item[$key];
+        if ( $item['name'] )
+            $text = $item['name'] . ' <' . $item['email'] . '>';
+        else
+            $text = $item['email'];
+        return $text;
     }
 
     /*!
-      Deletes an attachment from the mail.
-      Recalculates the size of the mail.
+     \static
+     Composes an email text out of all items in \a $items and returns it.
+     All items are comma separated.
     */
-    function deleteFile( $file )
+    function composeEmailItems( $items, $join = true, $key = false )
     {
-        if ( get_class( $file ) == "ezvirtualfile" )
+        $textElements = array();
+        foreach ( $items as $item )
         {
-            $fileID = $file->id();
-            $file->delete();
-            $db =& eZDB::globalDatabase();
-            $db->query( "DELETE FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID' AND FileID='$fileID'" );
-            $this->calculateSize();
+            $textElements[] = eZMail::composeEmailName( $item, $key );
         }
+        if ( $join )
+            return implode( ', ', $textElements );
+        else
+            return $textElements;
     }
 
     /*!
-      Returns all attachments associatied with this mail.
+     \return an array with headers, each header item is an associative array with the keys \c name and \c content.
     */
-    function files()
+    function headers()
     {
-
-    }
-
-    /*
-      Adds an image attachment.
-     */
-    function addImage( $image )
-    {
-
-    }
-
-    /*!
-      Deletes an eZImage attachment from the mail.
-     */
-    function deleteImage( $image )
-    {
-
-    }
-
-    /*!
-      Returns all the images associated with this mail.
-     */
-    function images()
-    {
-
-    }
-
-    /*!
-      \static
-      Returns true if the given account belongs to the given user.
-     */
-    function isOwner( $user, $mailID )
-    {
-        return false;
-    }
-
-    /*!
-      Returns a new eZMail object with all fields set according to the parameter.
-      Valid values are: "reply", "replyall", "forward". If no parameter is given
-      it just returns a copy of the mail. If $attachments is set to true also the attachments are copied.
-      NOTE: The returned mail is not member of any folders. Set a folder for this mail
-      or it will be LOST.
-     */
-    function &copyMail( $copyType = "normal", $attachments = false )
-    {
-        $ini =& INIFile::globalINI();
-        $copy = new eZMail();
-        $copy->UserID = $this->UserID;
-
-        if ( $copyType == "normal" || $copyType == "forward" )
+        $headers = array();
+        $headers[] = array( 'name' => 'To',
+                            'content' => $this->composeEmailItems( $this->ReceiverElements ) );
+        if ( count( $this->CcElements ) > 0 )
         {
-            if ( $copyType == "normal" )
-            {
-                $copy->To = $this->To;
-                $copy->From = $this->From;
-                $copy->FromName = $this->FromName;
-                $copy->Cc = $this->Cc;
-                $copy->Bcc = $this->Bcc;
-                $copy->ReplyTo = $this->ReplyTo;
-            }
-            else
-            {
-                $copy->From = $this->To;
-            }
-            $copy->Subject = $this->Subject;
-            $copy->BodyText = $this->BodyText;
-            $copy->MessageID = $this->MessageID;
-            $copy->References = $this->References;
-            $attachments = $this->files();
-            $copy->store();
-            foreach ( $attachments as $attachment )
-            {
-                $copy->addFile( $attachment );
-            }
+            $headers[] = array( 'name' => 'Cc',
+                                'content' => $this->composeEmailItems( $this->CcElements ) );
         }
-        else if ( $copyType == "reply" || $copyType == "replyall" )
+        if ( count( $this->BccElements ) > 0 )
         {
-            $copy->To = $this->From;
-            $copy->Subject = $ini->read_var( "eZMailMain", "ReplyPrefix" ) . $this->Subject;
-            $copy->References = $this->MessageID;
-            $copy->ReplyTo = $this->To;
-
-            if ( $copyType == "replyall" )
-                $copy->Cc = $this->Cc;
-
-            $sentnsArray = explode( "\n", $this->BodyText );
-            $resultArray = array();
-
-            foreach ( $sentnsArray as $sentence )
-                $resultArray[] = "> " . $sentence . "\n";
-
-            $copy->BodyText = implode( "", $resultArray );
+            $headers[] = array( 'name' => 'Bcc',
+                                'content' => $this->composeEmailItems( $this->BccElements ) );
         }
-        $copy->store();
-        return $copy;
+        if ( $this->From !== false )
+        {
+            $headers[] = array( 'name' => 'From',
+                                'content' => $this->composeEmailName( $this->From ) );
+        }
+        if ( $this->ReplyTo !== false )
+        {
+            $headers[] = array( 'name' => 'Reply-To',
+                                'content' => $this->composeEmailName( $this->ReplyTo ) );
+        }
+        if ( $this->Subject !== false )
+        {
+            $headers[] = array( 'name' => 'Subject',
+                                'content' => $this->Subject );
+        }
+        $extraHeaders = $this->ExtraHeaders;
+        $headers = array_merge( $headers, $extraHeaders );
+        return $headers;
     }
 
-    /*!
-      Calculates the size of the mail and its attachments.
-     */
-    function calculateSize()
+    function headerTextList()
     {
-        $size = strlen( $this->To );
-        $size += strlen( $this->From );
-        $size += strlen( $this->FromName );
-        $size += strlen( $this->Cc );
-        $size += strlen( $this->Bcc );
-        $size += strlen( $this->References );
-        $size += strlen( $this->ReplyTo );
-        $size += strlen( $this->Subject );
-        $size += strlen( $this->BodyText );
-
-        $files = $this->files();
-        foreach ( $files as $file )
-            $size += $file->fileSize();
-
-        $this->Size = $size;
+        $textElements = array();
+        $headers = $this->headers();
+        foreach ( $headers as $header )
+        {
+            $textElements[] = $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] );
+        }
+        return $textElements;
     }
 
     /*!
-      Sends the mail with the values specified.
-     */
+     Composes a text field out of all the headers and returns it.
+    */
+    function headerText()
+    {
+        $text = '';
+        $headers = $this->headers();
+        foreach ( $headers as $header )
+        {
+            $text .= $this->blankNewlines( $header['name'] ) . ': ' . $this->blankNewlines( $header['content'] ) . EZ_MAIL_LINE_SEPARATOR;
+        }
+        return $text;
+    }
+
+/*
     function send()
     {
         if ( $this->FilesAttached == true )
@@ -728,15 +502,12 @@ class eZMail
         $mime = "";
         if ( !empty( $this->From ) )
         {
-            if ( !empty( $this->FromName ) )
-                $mime .= "From: " . $this->FromName . " <" . $this->From . ">\n";
-            else
-                $mime .= "From: "  . $this->From . "\n";
+            $mime .= "From: "  . $this->From . "\n";
         }
-        if ( !empty( $this->Cc ) )
-            $mime .= "Cc: " . $this->Cc . "\n";
-        if ( !empty( $this->Bcc ) )
-            $mime .= "Bcc: " . $this->Bcc . "\n";
+        if ( !empty( $this->CcElements ) )
+            $mime .= "Cc: " . $this->CcElements . "\n";
+        if ( !empty( $this->BccElements ) )
+            $mime .= "Bcc: " . $this->BccElements . "\n";
         if ( !empty( $this->ReplyTo ) )
             $mime .= "Reply-To: " . $this->ReplyTo . "\n";
         if ( !empty( $this->BodyText ) )
@@ -746,43 +517,10 @@ class eZMail
         }
 
         $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
-        if ( isset( $this->Hostname ) )
-        {
-            // Incomplete, quick hack... TODO: Do this properly
-            require_once( "lib/ezutils/classes/ezsmtp.php" );
-            $params['host'] = $this->Hostname;
-            $params['port'] = 25;
-            if ( isset( $this->User ) )
-            {
-                $params['auth'] = true;
-                $params['user'] = $this->User;
-                $params['pass'] = $this->Password;
-            }
-
-            $send["from"] = $this->From;
-            $send["recipients"][] = $this->To;
-            $send["headers"][] = "From: " . $this->FromName . " <" . $this->From . ">";
-            $send["headers"][] = "To: " . $this->To;
-            $send["headers"][] = "Subject: " . $this->Subject;
-            $send["body"] = $this->BodyText;
-
-            $email = smtp::connect( $params );
-            $result = $email->send( $send );
-            if ( isset( $email->errors[0] ) )
-                eZDebug::writeError( "Error sending SMTP mail: " . $email->errors[0], "eZMail::send()" );
-			$email->quit();
-        }    
-        else
-            mail( $this->To, $this->Subject, "", $mime );
+        mail( $this->ReceiverElements, $this->Subject, "", $mime );
         $this->parts = array();
     }
 
-      /*!
-       \private
-
-       void add_attachment(string message, [string name], [string ctype])
-       Add an attachment to the mail object
-     */
     function add_attachment( $message, $name = "", $ctype = "application/octet-stream" )
     {
         $this->parts[] = array (
@@ -793,12 +531,6 @@ class eZMail
             );
     }
 
-     /*!
-      \private
-
-      void build_message( array part )
-      Build message parts of an multipart mail
-    */
     function build_message( $part )
     {
         $message = $part["message"];
@@ -825,11 +557,6 @@ class eZMail
             "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
     }
 
-    /*!
-      \private
-      void build_multipart()
-      Build a multipart mail
-    */
     function build_multipart()
     {
         $boundary = "b" . md5( uniqid( time() ) );
@@ -840,70 +567,18 @@ class eZMail
         }
         return $multipart .= "--\n";
     }
-
-    /*!
-      \static
-
-      returns every mail that is containing the search string
-    */
-    function search( $text, $user = -1 )
-    {
-        $db =& eZDB::globalDatabase();
-        $return_array = array();
-        if ( $user == -1 )
-            $user =& eZUser::currentUser();
-        $db->array_query( $id_array, "SELECT ID FROM eZMail_Mail WHERE
-                                          (ToField LIKE '%$text%' OR
-                                           FromField LIKE '%$text%' OR
-                                           CC LIKE '%$text%' OR
-                                           Subject LIKE '%$text%' OR
-                                           BodyText LIKE '%$text%') AND
-                                           UserID='" . $user->ID() . "'
-                                          ORDER BY Subject" );
-        foreach ( $id_array as $id )
-        {
-            $return_array[] =& new eZMail( $id[$db->fieldName( "ID" )] );
-        }
-        return $return_array;
-    }
+*/
 
 
-
-
-    /// this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
-    var $parts;
-
-    /* Mail specific variables */
-    var $To;
-    /// email adress
+    /// \privatesection
+    var $ReceiverElements;
     var $From;
-    /// users name
-    var $FromName;
-    var $Cc;
-    var $Bcc;
-    /// used with the reference.
-    var $MessageID;
-    /// used to thread mail, originally from News
-    var $References;
+    var $CcElements;
+    var $BccElements;
     var $ReplyTo;
     var $Subject;
     var $BodyText;
-
-    var $Size;
-    var $UDate;
-    var $Status;
-
-    /// SMTP settings
-    var $Hostname;
-    var $Port;
-    var $User;
-    var $Password;
-    
-    // variable to check if files are attached ( no need to use database if not)
-    var $FilesAttached;
-    /* database specific variables */
-    var $ID;
-    var $UserID;
+    var $ExtraHeaders;
 }
 
 ?>

@@ -50,6 +50,8 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $emailInfo = $persistenceList['email_info'];
     $siteInfo = $persistenceList['site_info'];
 
+    eZSetupChangeEmailSetting( $persistenceList['email_info'] );
+
     $ini->setVariable( "SiteSettings", "SiteName", $siteInfo['title'] );
     $ini->setVariable( "SiteSettings", "SiteURL", $siteInfo['url'] );
     $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
@@ -59,9 +61,12 @@ function eZSetupStep_finished( &$tpl, &$http, &$ini, &$persistenceList )
     $ini->setVariable( "DatabaseSettings", "Password", $databaseInfo['password'] );
     $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
 
+//     $imageINI =& eZINI::instance( 'image.ini' );
+
 //    $saveResult = $ini->save( false, '.php', false );
 
     $tpl->setVariable( 'site_info', $siteInfo );
+    $tpl->setVariable( 'email_info', $emailInfo );
 
     $result = array();
     // Display template

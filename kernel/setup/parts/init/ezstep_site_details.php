@@ -48,7 +48,9 @@ function eZSetupStep_site_details( &$tpl, &$http, &$ini, &$persistenceList )
     if ( $http->hasPostVariable( 'eZSetupEmailTransport' ) )
     {
         $persistenceList['email_info']['type'] = $http->postVariable( 'eZSetupEmailTransport' );
-        if ( $persistenceList['email_info']['type'] = 2 )
+        $persistenceList['email_info']['sent'] = false;
+        $persistenceList['email_info']['result'] = false;
+        if ( $persistenceList['email_info']['type'] == 2 )
         {
             $persistenceList['email_info']['server'] = $http->postVariable( 'eZSetupSMTPServer' );
             $persistenceList['email_info']['user'] = $http->postVariable( 'eZSetupSMTPUser' );

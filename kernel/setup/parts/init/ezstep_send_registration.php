@@ -42,12 +42,71 @@ include_once( "kernel/setup/ezsetuptests.php" );
 */
 function eZSetupStep_send_registration( &$tpl, &$http, &$ini, &$persistenceList )
 {
+    include_once( 'lib/ezutils/classes/ezmail.php' );
+    include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
+    eZSetupChangeEmailSetting( $persistenceList['email_info'] );
+
+    $databaseMap = eZSetupDatabaseMap();
     $databaseInfo = $persistenceList['database_info'];
+    $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
     $regionalInfo = $persistenceList['regional_info'];
+    if ( !isset( $regionalInfo['languages'] ) )
+        $regionalInfo['languages'] = array();
     $demoData = $persistenceList['demo_data'];
     $emailInfo = $persistenceList['email_info'];
     $siteInfo = $persistenceList['site_info'];
+    $testsRun = $persistenceList['tests_run'];
+    $imageMagickProgram = $persistenceList['imagemagick_program'];
+    $imageGDExtension = $persistenceList['imagegd_extension'];
+    $phpVersion = $persistenceList['phpversion'];
+
+    $optionalTests = eZSetupOptionalTests();
+    $testTable = eZSetupTestTable();
+
+    $arguments = array();
+    $runResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:send_registration' );
+    $testResults = $runResult['results'];
+    $testResult = $runResult['result'];
+    $successCount = $runResult['success_count'];
+    $persistenceData = $runResult['persistence_list'];
+
+    $mail = new eZMail();
+    $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
+//    $mail->setReceiver( 'jb@ez.no', 'eZ Site Registration' );
+//     $mail->addReceiver( 'bf@ez.no', 'eZ Site Registration' );
+    $mail->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
+
+    // Send e-mail
+    include_once( 'kernel/common/template.php' );
+    $mailTpl =& templateInit( 'email' );
+
+    $mailTpl->setVariable( 'database_info', $databaseInfo );
+    $mailTpl->setVariable( 'regional_info', $regionalInfo );
+    $mailTpl->setVariable( 'demo_data', $demoData );
+    $mailTpl->setVariable( 'email_info', $emailInfo );
+    $mailTpl->setVariable( 'site_info', $siteInfo );
+    $mailTpl->setVariable( 'tests_run', $testsRun );
+    $mailTpl->setVariable( 'imagemagick_program', $imageMagickProgram );
+    $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );
+    $mailTpl->setVariable( 'phpversion', $phpVersion );
+    $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
+    $mailTpl->setVariable( 'optional_tests', $testResults );
+    include_once( 'lib/version.php' );
+    $mailTpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
+                                             "major" => eZPublishSDK::majorVersion(),
+                                             "minor" => eZPublishSDK::minorVersion(),
+                                             "release" => eZPublishSDK::release() ) );
+
+    $bodyText =& $mailTpl->fetch( 'design:setup/registration_email.tpl' );
+
+    $subject =& $mailTpl->variable( 'subject' );
+    $mail->setSubject( $subject );
+    $mail->setBody( $bodyText );
+    $mailResult = eZMailTransport::send( $mail );
+
+    $persistenceList['email_info']['sent'] = true;
+    $persistenceList['email_info']['result'] = $mailResult;
 
     $result = array( 'change_step' => 13 );
     return $result;
