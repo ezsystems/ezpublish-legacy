@@ -1,3 +1,5 @@
+{* Default object admin view template *}
+
 {default with_children=true()
          is_editable=true()
 	 is_standalone=true()}
@@ -13,7 +15,7 @@
 
 
 <div class="objectheader">
-<h2>Folder</h2>
+<h2>Default object view</h2>
 </div>
 
 <div class="object">
@@ -77,7 +79,7 @@
     {section show=$is_standalone}
       {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
       <div class="block">
-      <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
+      <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
       </div>
       {/section}
     {/section}
@@ -89,6 +91,8 @@
      can_remove=false() can_edit=false() can_create=false() can_copy=false()}
 
 {section show=$:children}
+
+<h2>Children</h2>
 
 {section loop=$:children}
   {section show=$:item.object.can_remove}
