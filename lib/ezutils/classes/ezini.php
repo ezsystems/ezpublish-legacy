@@ -240,7 +240,8 @@ class eZINI
         $cachedDir = "var/cache/ini/";
         if ( !file_exists( $cachedDir ) )
         {
-            if ( ! @mkdir( $cachedDir, 0777 ) )
+            include_once( 'lib/ezutils/classes/ezdir.php' );
+            if ( ! eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
             }
@@ -261,7 +262,7 @@ class eZINI
             $md5_input .= eZTextCodec::internalCharset();
         }
         $cachedFile = $cachedDir . md5( $md5_input ) . ".php";
-		$this->CacheFile = $cachedFile;
+        $this->CacheFile = $cachedFile;
 
         // check for modifications
         if ( file_exists( $this->RootDir . "/" . $this->FileName . ".php" ) )
@@ -717,8 +718,8 @@ class eZINI
     /// Whether to use the text codec when reading the ini file or not
     var $UseTextCodec;
 
-	/// Stores the path and filename of the cache file
-	var $CacheFile;
+    /// Stores the path and filename of the cache file
+    var $CacheFile;
 }
 
 ?>
