@@ -17,7 +17,7 @@ CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link (contentobject_attribute_
 DELETE FROM ezsubtree_expiry;
 ALTER TABLE ezsubtree_expiry DROP COLUMN subtree;
 ALTER TABLE ezsubtree_expiry ADD COLUMN subtree INT;
-CREATE INDEX ezsubtree_expiry_subtree_idx ON ezsubtree_expiry( subtree );
+CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry( subtree );
 
 -- Create index for path_identification_string
 CREATE INDEX ezcontentobject_tree_path_ident ON ezcontentobject_tree (path_identification_string(50));
