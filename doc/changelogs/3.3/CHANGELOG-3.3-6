@@ -226,6 +226,8 @@ eZINI:
   http://ez.no/community/bug_reports/search_ezauthor
 - Fixed writing the expiry.php file to be an atomic operation so that multiple
   content updates can not mangle the file. (Backported from 3.5/rev. 7576)
+- Fixed concurrency issue with cached files.
+  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
 
 *Library:
 

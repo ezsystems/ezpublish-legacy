@@ -173,7 +173,7 @@ class eZTemplateCacheFunction
                         $textElements[] = $text;
 
                         $phpCache->addVariable( 'contentData', $text );
-                        $phpCache->store();
+                        $phpCache->store( true );
                     }
                 }
             } break;

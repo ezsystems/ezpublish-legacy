@@ -286,7 +286,7 @@ class eZContentCache
         $php->addCodePiece( "include_once( 'kernel/classes/ezsection.php' );\n" .
                             "eZSection::setGlobalID( \$contentInfo['section_id'] );\n" );
 
-        return $php->store();
+        return $php->store( true );
     }
 
     function calculateCleanupValue( $nodeCount )
