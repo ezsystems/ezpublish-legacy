@@ -440,48 +440,6 @@ class eZSearchEngine
             }
 
             $searchWordArray = $this->splitString( $searchText );
-            $tempTableCount = 1;
-            if ( ( count( $searchWordArray ) > 1 ) and ( count( $phraseTextArray ) == 0 ) )
-            {
-                foreach ( $searchWordArray as $searchWord )
-                {
-                    $tableName = "temporary_table_".$tempTableCount;
-                    $db->query( "CREATE TEMPORARY TABLE $tableName SELECT DISTINCT ezcontentobject.*,
-                                                                 ezsearch_object_word_link.frequency
-                                                 FROM ezcontentobject,ezsearch_object_word_link, ezsearch_word
-                                                 WHERE $searchDateQuery $sectionQuery $classQuery $classAttributeQuery
-                                                       word='$searchWord'
-                                                      AND ezcontentobject.id=ezsearch_object_word_link.contentobject_id
-                                                      AND ezsearch_word.id=ezsearch_object_word_link.word_id
-                                                 ORDER BY ezsearch_object_word_link.frequency" );
-                    $tempTableCount++;
-                }
-                $table = "temporary_table_1, ";
-                $condition = "";
-                for ( $i = 2; $i < $tempTableCount; $i++ )
-                {
-                    if ( $i == ( $tempTableCount - 1 ) )
-                    {
-                        $table .= "temporary_table_". $i ." ";
-                        $condition .= " temporary_table_". $i .".id = temporary_table_1.id";
-                    }else
-                    {
-                        $table .= "temporary_table_". $i .", ";
-                        $condition .= "temporary_table_". $i .".id = temporary_table_1.id AND";
-                    }
-                }
-                $searchCount = 0;
-                $finalRes =& $db->arrayQuery( "SELECT * FROM $table WHERE $condition" );
-                $countRes =& $db->arrayQuery( "SELECT count( DISTINCT temporary_table_1.id ) as count FROM $table WHERE $condition" );
-                $searchCount = $countRes[0]['count'];
-                for ( $i=1;$i<$tempTableCount;$i++ )
-                {
-                    $tableName = "temporary_table_".$i;
-                    $db->query ("DROP TABLE $tableName " );
-                }
-                return array( "SearchResult" => $finalRes,
-                              "SearchCount" => $searchCount );
-            }
 
             // Get the total number of objects
             $objectCount = array();
@@ -566,33 +524,39 @@ class eZSearchEngine
                 $phraseSQL .= "( $phraseSearchSQL ) AND ";
             }
 
-            // build fulltext search SQL part
-            $searchWordArray =& $this->splitString( $fullText );
-            $fullTextSQL = "";
-            if ( count( $searchWordArray ) > 0 )
-            {
-                $i = 0;
-                // Build the word query string
-                foreach ( $searchWordArray as $searchWord )
-                {
-                    $wordID = null;
-                    if ( isset( $wordIDHash[$searchWord] ) )
-                        $wordID = $wordIDHash[$searchWord];
+            /// OR search
+            $doOrSearch = false;
 
-                    if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+            if ( $doOrSearch == true )
+            {
+                // build fulltext search SQL part
+                $searchWordArray =& $this->splitString( $fullText );
+                $fullTextSQL = "";
+                if ( count( $searchWordArray ) > 0 )
+                {
+                    $i = 0;
+                    // Build the word query string
+                    foreach ( $searchWordArray as $searchWord )
                     {
-                        if ( $i == 0 )
-                            $fullTextSQL .= "ezsearch_object_word_link.word_id='$wordID' ";
+                        $wordID = null;
+                        if ( isset( $wordIDHash[$searchWord] ) )
+                            $wordID = $wordIDHash[$searchWord];
+
+                        if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+                        {
+                            if ( $i == 0 )
+                                $fullTextSQL .= "ezsearch_object_word_link.word_id='$wordID' ";
+                            else
+                                $fullTextSQL .= " OR ezsearch_object_word_link.word_id='$wordID' ";
+                        }
                         else
-                            $fullTextSQL .= " OR ezsearch_object_word_link.word_id='$wordID' ";
+                        {
+                            $nonExistingWordArray[] = $searchWord;
+                        }
+                        $i++;
                     }
-                    else
-                    {
-                        $nonExistingWordArray[] = $searchWord;
-                    }
-                    $i++;
+                    $fullTextSQL = " ( $fullTextSQL ) AND ";
                 }
-                $fullTextSQL = " ( $fullTextSQL ) AND ";
             }
 
             // Search only in specific sub trees
@@ -707,8 +671,29 @@ class eZSearchEngine
             }
 
 
-            $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezsearch_object_word_link.frequency, ezcontentclass.name as class_name, ezcontentobject_tree.*
-                                            $versionNameTargets
+
+            /// Only support AND search at this time
+            // build fulltext search SQL part
+            $searchWordArray =& $this->splitString( $fullText );
+            $searchWordCount = count( $searchWordArray );
+            $fullTextSQL = "";
+            if ( count( $searchWordArray ) > 0 )
+            {
+                $i = 0;
+                // Loop every word and insert result in temporary table
+                foreach ( $searchWordArray as $searchWord )
+                {
+                    $wordID = null;
+                    if ( isset( $wordIDHash[$searchWord] ) )
+                        $wordID = $wordIDHash[$searchWord];
+
+                    if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
+                    {
+                        $fullTextSQL = "ezsearch_object_word_link.word_id='$wordID' AND ";
+
+                        if ( $i == 0 )
+                        {
+                            $db->query( "CREATE TEMPORARY TABLE ezsearch_tmp SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -730,15 +715,19 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
-                    $sqlPermissionCheckingString
-                    ORDER BY ezsearch_object_word_link.published DESC";
+                    $sqlPermissionCheckingString" );
 
-            $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) as count
+                        }
+                        else
+                        {
+                            $db->query( "INSERT INTO ezsearch_tmp SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
                        $subTreeTable,
+                       ezcontentclass,
                        ezcontentobject_tree
+                           $versionNameTables
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -747,15 +736,48 @@ class eZSearchEngine
                     $phraseSQL
                     $fullTextSQL
                     $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id
-                    and
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString";
+                    $versionNameJoins
+                    $sqlPermissionCheckingString" );
+                        }
+                    }
+                    $i++;
+                }
+            }
+
+            $objectResArray =& $db->arrayQuery( "SELECT * FROM ezsearch_tmp" );
+
+            // Fetch data from table
+            $searchQuery = "SELECT DISTINCT COUNT(ezsearch_tmp.contentobject_id) AS count, ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                                            $versionNameTargets
+                    FROM
+                       ezsearch_tmp,
+                       ezcontentobject,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                       $versionNameTables
+                    WHERE
+                    ezcontentobject.id=ezsearch_tmp.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $versionNameJoins
+                    GROUP BY ezsearch_tmp.contentobject_id
+                    HAVING count >= $searchWordCount
+                    ORDER BY ezsearch_tmp.published DESC";
+
+            // Count query
+            $searchCountQuery = "SELECT count( DISTINCT contentobject_id ) as count FROM ezsearch_tmp";
 
             $objectRes = array();
 
             $searchCount = 0;
+
             if ( count( $nonExistingWordArray ) == 0 )
             {
                 // execute search query
@@ -767,6 +789,8 @@ class eZSearchEngine
             }
             else
                 $objectRes = array();
+
+            $db->query( "DROP TABLE IF EXISTS ezsearch_tmp" );
 
             return array( "SearchResult" => $objectRes,
                           "SearchCount" => $searchCount );
