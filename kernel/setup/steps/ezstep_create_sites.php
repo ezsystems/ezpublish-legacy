@@ -256,7 +256,7 @@ class eZStepCreateSites extends eZStepInstaller
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
-        $ini->setVariable( 'MailSettings', 'AdminEmail', $admin['email'] );
+        $ini->setVariable( 'MailSettings', 'AdminEmail', $this->PersistenceList['admin']['email'] );
         $ini->setVariable( 'MailSettings', 'EmailSender', false );
 
         $defaultAccess = 'admin';
@@ -645,6 +645,9 @@ class eZStepCreateSites extends eZStepInstaller
             $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
             foreach ( $extraSettings as $extraSetting )
             {
+                if ( $extraSetting === false )
+                    continue;
+
                 $iniName = $extraSetting['name'];
                 $settings = $extraSetting['settings'];
                 $resetArray = false;
@@ -671,6 +674,9 @@ class eZStepCreateSites extends eZStepInstaller
             }
             foreach ( $extraAdminSettings as $extraSetting )
             {
+                if ( $extraSetting === false )
+                    continue;
+
                 $iniName = $extraSetting['name'];
                 $settings = $extraSetting['settings'];
                 $resetArray = false;
