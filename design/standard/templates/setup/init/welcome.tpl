@@ -5,7 +5,7 @@
 </div>
 
 <p>
-{"Welcome to the eZ publish content management system and development framework.<br>This wizard will help you set up eZ publish.<br>Click <i>Next</i> to continue."|i18n("design/standard/setup/init")}
+{"Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish.<br>Click <i>Next</i> to continue."|i18n("design/standard/setup/init")}
 </p>
 
 <form method="post" action="{$script}">

@@ -47,12 +47,13 @@
 
   <h1>{"System check"|i18n("design/standard/setup/init")}</h1>
   <p>
-{"There are some important issues that have to be resolved. A list of issues/problems is presented below. Each section contains a description and a suggested/recommended solution."|i18n("design/standard/setup/init")}
+{"There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution."|i18n("design/standard/setup/init")}
 </p><p>
-{"Once the problems/issues are fixed, you may click the <i>Next</i> button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear."|i18n("design/standard/setup/init")}
+{"Once the problems / issues are fixed, you may click the <i>Next</i> button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear."|i18n("design/standard/setup/init")}
 </p><p>
 {"Some issues may be ignored by checking the <i>Ignore this test</i> checkbox(es); however, this is not recommended."|i18n("design/standard/setup/init")}
 </p>
+
 {*  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}
   {"Each problem will give you instructions on how to fix the problem."|i18n("design/standard/setup/init")}

@@ -92,25 +92,23 @@
 </tr>
 
 <tr>
-  <td class="normal">{"Servername"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Servername:"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server}" /></td>
+</tr>
+<tr>
+  <td class="normal">{"Username:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user}" /></td>
+</tr>
+<tr>
+  <td class="normal">{"Password:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal"><input type="text" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
 </tr>
 {section show=eq($database_info.info.driver,'ezmysql')}
 <tr>
-  <td class="normal">{"Socket (optional)"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Socket (optional):"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket}" /></td>
 </tr>
 {/section}
-<tr>
-  <td class="normal">{"Username"|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user}" /></td>
-</tr>
-
-
-<tr>
-  <td class="normal">{"Password"|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
-</tr>
 </table>
 </div>
   {include uri='design:setup/init/navigation.tpl'}
