@@ -180,6 +180,11 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
         $settings['SiteSettings'] = array( 'LoginPage' => 'embedded' );
     }
 
+    if ( $siteType == 'products' )
+    {
+        $settings['ExtensionSettings'] = array_merge( $settings['ExtensionSettings'], array( 'ActiveAccessExtensions' => 'ezpaypal' ) );
+    }
+
     // Make sure viewcaching works in admin with the new admin interface
     if ( $isAdmin )
     {
