@@ -46,6 +46,7 @@ p.path
 p.path a.path
 {
 	text-decoration: none;
+	color: #000000;
 }
 
 p.path a.path:hover
@@ -126,6 +127,7 @@ p.menuitem
 p.menuitem a.menuitem
 {
 	text-decoration: none;
+	color: #000000;
 }
 
 p.menuitem a.menuitem:hover

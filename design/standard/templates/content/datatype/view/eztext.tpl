@@ -1,1 +1,1 @@
-{$attribute.content}
+<p class="box">{$attribute.content}</p>

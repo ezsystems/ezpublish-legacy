@@ -1,11 +1,13 @@
+<p class="box">
 {switch name=sw match=$attribute.content}
    {case match=0}
-   <p>No relation</p>
+   No relation
    {/case}
    {case}
-   <p>{$attribute.content.name}</p>
+   {$attribute.content.name}
    {/case}
 {/switch}
+</p>
 <input type="hidden" name="ContentObjectAttribute_data_object_relation_id_{$attribute.data_int}" value="{$attribute.data_int}" />
 <input class="button" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n}" />
 <input type="hidden" name="CustomActionButton[{$attribute.id}_set_object_relation]" value="{$attribute.id}" />

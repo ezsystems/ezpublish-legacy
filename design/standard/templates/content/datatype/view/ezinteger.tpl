@@ -1,1 +1,1 @@
-{$attribute.data_int}
+<p class="box">{$attribute.data_int}</p>

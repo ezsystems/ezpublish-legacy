@@ -3,6 +3,6 @@
 <input class="box" type="text" size="70" name="ContentObjectAttribute_ezstring_data_text_{$attribute.id}" value="{$attribute.data_text}" {* maxlength="{$attribute.contentclass_attribute.data_int1}" *} />
 {/case}
 {case}
-{$attribute.data_text}
+<p class="box">{$attribute.data_text}</p>
 {/case}
 {/switch}

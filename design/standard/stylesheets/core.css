@@ -41,7 +41,7 @@ p, ul, ol, dl, label, input, .normal, table.list th, table.list td
     font-size: 80%;
 }
 
-.small, div.byline p, p.picturetext, .factbox, input.smallbutton
+.small, div.byline p, p.picturetext, .factbox
 {
     font-size: 65%;
 }
@@ -89,7 +89,7 @@ p
 
 a
 {
-    color: #000000;
+    color: #0000a0;
     text-decoration: underline;
 }
 
@@ -120,12 +120,6 @@ table.list
 {
     margin-top: 0.5ex;
     margin-bottom: 1ex;
-}
-
-table.layoutlist td
-{
-    padding-bottom: 4px;
-    padding-left: 4px;
 }
 
 table.list th, table.list td
@@ -236,11 +230,6 @@ label
     padding-right: 1ex;
 }
 
-label.check
-{
-    font-weight: bold;
-}
-
 div.labelbreak
 {
     display: block;
@@ -249,18 +238,6 @@ div.labelbreak
 input.button
 {
     font-weight: bold;
-    margin-right: 5px;
-}
-
-input.smallbutton
-{
-    font-weight: normal;
-    margin-right: 5px;
-}
-
-img.button
-{
-    border: 0px;
 }
 
 input.button:hover
@@ -347,11 +324,6 @@ div.element
 div.maincontentheader
 {
     /* No special formatting yet! */
-}
-
-div.maincontentheader h1
-{
-    padding-top: 0px;
 }
 
 div.byline
