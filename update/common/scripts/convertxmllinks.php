@@ -102,6 +102,10 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 }
 
 $db =& eZDB::instance();
+if ( !$db )
+{
+    $cli->notice( "Can't initialize database connection.\n" );
+}
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -118,6 +122,10 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
     $db =& eZDB::instance( $dbImpl, $params, true );
+    if ( !$db )
+    {
+        $cli->notice( "Can't initialize database connection.\n" );
+    }
     eZDB::setInstance( $db );
 }
 
@@ -139,7 +147,7 @@ foreach( $xmlFieldsArray as $xmlField )
     do
     {
         $literalTagBegin = strpos( $text, "<literal", $pos );
-        if ( $literalPos )
+        if ( $literalTagBegin )
         {
             $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
             if ( !$literalTagEnd )
@@ -165,7 +173,7 @@ foreach( $xmlFieldsArray as $xmlField )
                 $isTextModified = true;
             }
 
-            $pos = $linkTagBegin + strlen( $linkTag );
+            $pos = $linkTagEnd;
         }
         else
            break;
