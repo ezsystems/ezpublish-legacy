@@ -46,14 +46,11 @@ $ViewList['edit'] = array(
                                     'PublishButton' => 'Publish',
                                     'DiscardButton' => 'Discard',
                                     'BrowseNodeButton' => 'BrowseForNodes',
-//                                    'DeleteNodeButton' => 'DeleteNode',
-//                                    'MoveNodeButton' => 'MoveNode',
                                     'EditLanguageButton' => 'EditLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
                                     'NewButton' => 'NewObject',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
-//                                     'CustomActionButton' => 'CustomAction',
                                     'MoveNodeID' => 'MoveNode',
                                     'RemoveNodeID' => 'DeleteNode',
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'
@@ -240,8 +237,6 @@ $ViewList['translations'] = array(
     'script' => 'translations.php',
     'single_post_actions' => array( 'RemoveButton' => 'Remove',
                                     'StoreButton' => 'StoreNew',
-/*                                    'EditButton' => 'Edit',
-                                    'ChangeButton' => 'Change',*/
                                     'NewButton' => 'New',
                                     'ConfirmButton' => 'Confirm' ),
     'post_action_parameters' => array( 'StoreNew' => array( 'LocaleID' => 'LocaleID',
@@ -344,19 +339,6 @@ $Subtree = array(
     'name'=> 'Subtree',
     'values'=> array()
     );
-
-/*
-          array(
-            'Name' => 'Frontpage',
-            'value' => '1'),
-        array(
-            'Name' => 'Sports',
-            'value' => '2'),
-        array(
-            'Name' => 'Music',
-            'value' => '3')
- */
-
 
 $FunctionList['bookmark'] = array();
 
