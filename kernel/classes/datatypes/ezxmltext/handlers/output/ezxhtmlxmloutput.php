@@ -422,7 +422,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, true );
                 }break;
                 default :
-                    $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+                    if ( $isChildOfLinkTag )
+                        $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, true );
+                    else
+                        $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
             }
         }
 
