@@ -251,7 +251,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/user/e-commerce"|ezurl}>E-commerce functions and settings</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/user/e-commerce"|ezurl}>e-commerce functions and settings</a></p>
     </td>
 </tr>
 <tr>
