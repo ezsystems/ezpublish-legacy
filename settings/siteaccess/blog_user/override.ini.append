@@ -85,6 +85,12 @@ Subdir=templates
 Match[class]=10
 
 [poll]
+Source=node/view/line.tpl
+MatchFile=poll_line.tpl
+Subdir=templates
+Match[class]=25
+
+[poll_line]
 Source=node/view/full.tpl
 MatchFile=poll.tpl
 Subdir=templates
