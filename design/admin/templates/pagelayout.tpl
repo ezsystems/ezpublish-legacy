@@ -270,7 +270,9 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 {let bookmark_list=fetch( content, bookmarks )}
 {section var=Bookmarks loop=$bookmark_list}
     {section show=ne( $ui_context, 'edit' )}
-    <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<a href={$Bookmarks.item.node.url_alias|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
+    <li>
+
+<a href="#" onclick="ezpopmnu_showTopLevel( 'BookmarkMenu', '{$Bookmarks.item.node_id}' , '{$Bookmarks.item.contentobject_id}' , '{$Bookmarks.item.name|shorten(18)}'); return false;">{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}</a>&nbsp;<a href={$Bookmarks.item.node.url_alias|ezurl}>{$Bookmarks.item.node.name|wash}</a></li>
 {section-else}
     <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( small, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
     {/section}
