@@ -16,10 +16,9 @@
 
 {* Top box START *}
 
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td class="headlogo" width="240">
+    <td class="headlogo" width="360">
     {* Admin logo area *}
     <img src={"logo.gif"|ezimage} alt="" />&nbsp;&nbsp;<img src={"admin.gif"|ezimage} alt="" /></td>
     <td class="headlink" width="66">

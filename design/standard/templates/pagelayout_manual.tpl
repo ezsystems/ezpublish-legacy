@@ -11,27 +11,87 @@
 
 </head>
 
-<body style="background: url(/design/standard/images/grid-background.gif);">
+<body>
+
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="headlogo" width="560">
+    {* Admin logo area *}
+    <img src={"ezpublish_logo_blue.gif"|ezimage} alt="" /></td>
+    <td class="headlink" width="66">
+    {* Content menu *}
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="menuheadselectedgfx">
+    <img src={"light-left-corner.gif"|ezimage} alt=""/></td>
+    <td class="menuheadselectedtopline">
+    <img src={"1x1.gif"|ezimage} alt="" width="60" height="1" /></td>
+    <td class="menuheadselectedgfx">
+    <img src={"light-right-corner.gif"|ezimage} alt=""/></td>
+</tr>
+<tr>
+    <td class="menuheadselectedleftline">
+    <img src={"1x1.gif"|ezimage} alt="" width="1" height="19" /></td>
+    <td class="menuheadselected">
+    <p class="menuheadselected">
+    <a class="menuheadlink" href={"/manual/"|ezurl}>Manual</a>
+    </p>
+    </td>
+    <td class="menuheadselectedrightline">
+    <img src={"1x1.gif"|ezimage} alt="" width="1" height="19" /></td>
+</tr>
+</table>
+
+</td>
+
+    <td class="menuheadspacer" width="3">
+    <img src={"1x1.gif"|ezimage} alt="" width="3" height="1" /></td>
+    <td class="headlink" width="66">
+
+<table width="66" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td class="menuheadgraygfx" width="3">
+    <img src={"dark-left-corner.gif"|ezimage} alt=""/></td>
+    <td class="menuheadgraytopline" width="60">
+    <img src={"1x1.gif"|ezimage} alt="" width="60" height="1" /></td>
+    <td class="menuheadgraygfx" width="3">
+    <img src={"dark-right-corner.gif"|ezimage} alt=""/></td>
+</tr>
+<tr>
+    <td class="menuheadgrayleftline" width="3">
+    <img src={"1x1.gif"|ezimage} alt="" width="1" height="15" /></td>
+    <td class="menuheadgray">
+    <p class="menuheadgray">
+    <a class="menuheadlink" href={"/sdk/"|ezurl}>SDK</a>
+    </p>
+    </td>
+    <td class="menuheadgrayrightline" width="3">
+    <img src={"1x1.gif"|ezimage} alt="" width="1" height="15" /></td>
+</tr>
+</table>
+
+    </td>
+   <td class="headlogo" width="50%">
+   &nbsp;</td>
+</tr>
+    <td colspan="11" class="menuheadtoolbar">
+    &nbsp;
+    </td>
+</tr>
+<tr>
+    <td class="pathline" colspan="11">
+    {include uri="design:page_toppath.tpl"}
+    </td>
+</tr>
+</table>
+
+{* Top box END *}
+
 
 {* Top box START *}
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td class="topline" width="40%" colspan="2">
-    <img src={"ezpublish_manuals.gif"|ezimage} alt="{'eZ publish manuals'|i18n('design/standard/layout')}" />
-   </td>
-</tr>
-{* Top box END *}
-<tr>
-    <td class="pathline" colspan="2">
-
-{* Main path START *}
-
-{include uri="design:page_toppath.tpl"}
-
-{* Main path END *}
-
-   </td>
-</tr>
 <tr>
     <td colspan="2">
 

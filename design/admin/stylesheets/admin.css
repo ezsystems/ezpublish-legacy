@@ -298,11 +298,6 @@ td.mainarea
 	padding: 12px;
 }
 
-td.bglight, td.bgdark
-{
-	border-top: solid 1px #ffffff;
-}
-
 td.bglightextra, td.bgdarkextra
 {
 	border-top: none;

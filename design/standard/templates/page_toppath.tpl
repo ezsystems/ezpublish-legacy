@@ -2,7 +2,7 @@
 <table class="path" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td class="bullet" width="1">
-    <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><br />
+    &gt;<br />
     </td>
     <td width="99%">
     <p class="path">

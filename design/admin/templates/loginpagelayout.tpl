@@ -12,7 +12,7 @@
 
 </head>
 
-<body style="background: url(/design/standard/images/grid-background.gif);">
+<body>
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -38,7 +38,7 @@
   {section name=Warning loop=$warning_list}
     <tr>
       <td>
-        <div class="error">
+        <div class="error">u
         <h3 class="error">{$Warning:item.error.type} ({$Warning:item.error.number})</h3>
         <ul class="error">
           <li>{$Warning:item.text}</li>
