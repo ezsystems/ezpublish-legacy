@@ -61,7 +61,7 @@ class eZStepRegistration extends eZStepInstaller
     */
     function processPostData()
     {
-        if ( $this->Http->hasPostVariable( 'eZSetupSkipRegistration' ) ) // skip site registration
+        if ( !$this->Http->hasPostVariable( 'eZSetupSendRegistration' ) )// skip site registration
         {
             return true;
         }
