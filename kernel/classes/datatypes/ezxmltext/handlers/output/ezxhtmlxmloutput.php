@@ -316,12 +316,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     }
 
                     $objectParameters = array();
+                    $objectParameters['align'] = "right";
                     foreach ( $objectAttributes as $attribute )
                     {
                         if ( $attribute->name() == "ezurl_id" )
                             $objectParameters['href'] = $href;
                         else if ( $attribute->name() == "ezurl_target" )
                             $objectParameters['target'] = $target;
+                        else if ( $attribute->name() == "align" )
+                            $objectParameters['align'] = $alignment;
                         else
                             $objectParameters[$attribute->name()] = $attribute->content();
                     }
