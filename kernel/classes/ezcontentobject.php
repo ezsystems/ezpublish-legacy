@@ -585,7 +585,7 @@ class eZContentObject extends eZPersistentObject
         {
             foreach ( $nodes as $node )
             {
-                if ( $node->attribute( 'parent_node_id' ) != 0 )
+                if ( $node->attribute( 'parent_node_id' ) != 1 )
                 {
                     $retNodes[] =& eZContentObjectTreeNode::fetch( $node->attribute( 'parent_node_id' ) );
                 }
