@@ -263,7 +263,7 @@ $script->setUseSiteAccess( $siteaccess );
 $script->initialize();
 if ( !$script->isInitialized() )
 {
-    $cli->error( "Error initializing script (possible database connection error)" );
+    $cli->error( 'Error initializing script: ' . $script->initializationError() . '.' );
     $script->shutdown();
     exit();
 }

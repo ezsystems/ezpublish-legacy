@@ -134,6 +134,7 @@ class eZScript
         $this->IterationColumn = 0;
         $this->IterationColumnMax = 70;
         $this->IterationMax = false;
+        $this->InitializationErrorMessage = 'unknown error';
     }
 
     /*!
@@ -288,6 +289,7 @@ class eZScript
             else
             {
                 $this->IsInitialized = false;
+                $this->InitializationErrorMessage = 'database error: ' . $db->errorMessage();
                 return;
             }
         }
@@ -340,6 +342,11 @@ class eZScript
     function isInitialized()
     {
         return $this->IsInitialized;
+    }
+
+    function initializationError()
+    {
+        return $this->InitializationErrorMessage;
     }
 
     /*!
@@ -1073,6 +1080,7 @@ class eZScript
     }
 
     /// \privatesection
+    var $InitializationErrorMessage;
     var $DebugMessage;
     var $UseDebugOutput;
     var $UseSession;
