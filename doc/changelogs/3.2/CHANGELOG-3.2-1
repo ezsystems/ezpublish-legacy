@@ -21,5 +21,6 @@ Changes from 3.2.0-2 to 3.2-1
 *Package system:
 
 *Templates:
+- Added user/settings/<uID> into user admin user (class) template
 
 *Library :
