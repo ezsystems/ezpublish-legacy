@@ -56,7 +56,8 @@ function eZSetupTestTable()
                   'image_conversion' => array( 'eZSetupCheckTestFunctions' ),
                   'imagegd_extension' => array( 'eZSetupTestExtension' ),
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
-                  'memory_limit' => array( 'eZSetupTestMemLimit' ) );
+                  'memory_limit' => array( 'eZSetupTestMemLimit' ),
+                  'execution_time' => array( 'eZSetupTestExecutionTime' ));
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -521,13 +522,37 @@ function eZSetupCheckRegisterGlobals( $type, &$arguments )
 }
 
 /*!
+ Check the php.ini file to get timeout limit
+*/
+function eZSetupTestExecutionTime( $type, &$arguments )
+{
+    $minExecutionTime = eZSetupConfigVariable( $type, 'MinExecutionTime' );
+    $execTimeLimit = get_cfg_var( 'max_execution_time' );
+
+    if ( $execTimeLimit === false )
+    {
+        return array( 'result' => true,
+                      'persistent_data' => array( 'result' => array( 'value' => true ) ) );
+    }
+
+    if ( $minExecutionTime <= $execTimeLimit )
+        return array( 'result' => true,
+                      'persistent_data' => array( 'result' => array( 'value' => true ) ) );
+
+    return array( 'result' => false,
+                  'persistent_data' => array( 'result' => array( 'value' => false ) ),
+                  'required_execution_time' => $minExecutionTime,
+                  'current_execution_time' => $execTimeLimit );
+}
+
+/*!
  Checks the php.ini file to see if the memory limit is set high enough
 */
 function eZSetupTestMemLimit( $type, &$arguments )
 {
     $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
     $memoryLimit = get_cfg_var( 'memory_limit' );
-    if ( $memoryLimit  == '' )
+    if ( $memoryLimit  === false )
     {
         return array( 'result' => true,
                       'persistent_data' => array( 'result' => array( 'value' => true ) ) );
