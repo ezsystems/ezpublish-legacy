@@ -1,3 +1,5 @@
+/* eZ publish 3 admin CSS - th[eZ] 20021004                             */
+
 body
 {
 	background-color: #ffffff;
@@ -28,6 +30,12 @@ td.pathline
 {
 	background-color: #e0f4ff;
 	border-bottom: solid 1px #000000;
+}
+
+table.path td.bullet
+{
+	padding-top: 2px;
+	padding-left: 2px;
 }
 
 p.path
@@ -99,7 +107,7 @@ td.menu, table.menuboxleft td.bullet, table.menuboxright td.bullet
 	background-color: #ffffff;
 }
 
-td.bullet
+table.menuboxleft td.bullet, table.menuboxright td.bullet
 {
 	padding-top: 2px;
 	padding-left: 4px;
@@ -152,4 +160,50 @@ td.mainarea
 {
 	background-color: #ffffff;
 	padding: 12px;
-}                                                                                                                                                                                                                                                              
+}
+
+table.list th, td.bglight, td.bgdark
+{
+	border-bottom: solid 1px #e0f4ff;
+}
+
+td.bglight
+{
+	background-color: #f8fdff;
+}
+
+td.bgdark
+{
+	background-color: #f0faff;
+}
+
+div.selectbar
+{
+    align: center;
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+td.selectbar
+{
+	background-color: #e0f4ff;
+    color: #000000;
+    font-size: 70%;
+    text-align: center;
+}
+
+a.selectbar
+{
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px;
+}
+
+a.selectbar:hover, td.selected
+{
+	background-color: #0099cc;
+    color: #ffffff;
+    text-decoration: none;
+}
+                                                                                                                                                                                                                                                             
