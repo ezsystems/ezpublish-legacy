@@ -48,6 +48,7 @@ include_once( "kernel/classes/ezproductcollectionitem.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/ezorder.php" );
 
 class eZBasket extends eZPersistentObject
 {
@@ -289,6 +290,27 @@ class eZBasket extends eZPersistentObject
             $currentBasket =& $basketList[0];
         }
         return $currentBasket;
+    }
+
+    /*!
+     Creates a temporary order for the current basket.
+     The order object is returned.
+    */
+    function &createOrder()
+    {
+        // Make order
+        $productCollectionID = $this->attribute( 'productcollection_id' );
+
+        $user =& eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+
+        $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
+                                     'user_id' => $userID,
+                                     'is_temporary' => 1,
+                                     'created' => mktime() ) );
+        $order->store();
+
+        return $order;
     }
 }
 

@@ -3,6 +3,9 @@
 </div>
 
 <b>{"Customer:"|i18n("design/standard/shop")}</b> 
+
+{shop_account_view_gui order=$order}
+
 {content_view_gui view=text_linked content_object=$order.user.contentobject}
 <br />
 

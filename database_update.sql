@@ -356,7 +356,6 @@ alter table ezurl add original_url_md5 varchar(32) NOT NULL DEFAULT '';
 #After RC2
 alter table ezproductcollection add column created integer;
 
-
 create table ezproductcollection_item_opt(
     id int NOT NULL auto_increment,
     item_id int not null,
@@ -373,4 +372,6 @@ alter table ezproductcollection_item add vat_value float;
 alter table ezproductcollection_item add discount float;
 alter table ezproductcollection_item_opt add object_attribute_id int;
 
-
+alter table ezorder add data_text_2 text;
+alter table ezorder add data_text_1 text;
+alter table ezorder add account_identifier varchar(100);

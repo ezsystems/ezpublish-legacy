@@ -66,6 +66,9 @@ class eZOrder extends eZPersistentObject
                                          "is_temporary" => "IsTemporary",
                                          "user_id" => "UserID",
                                          "productcollection_id" => "ProductCollectionID",
+                                         "data_text_1" => "DataText1",
+                                         "data_text_2" => "DataText2",
+                                         "account_identifier" => "AccountIdentifier",
                                          "created" => "Created"
                                          ),
                       "keys" => array( "id" ),
@@ -131,6 +134,10 @@ class eZOrder extends eZPersistentObject
             return $this->totalExVAT();
         else if ( $attr == "user" )
             return $this->user();
+        else if ( $attr == "account_view_template" )
+            return $this->accountViewTemplate();
+        else if ( $attr == "account_information" )
+            return $this->accountInformation();
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -150,6 +157,10 @@ class eZOrder extends eZPersistentObject
         else if ( $attr == "total_ex_vat" )
             return true;
         else if ( $attr == "user" )
+            return true;
+        else if ( $attr == "account_view_template" )
+            return true;
+        else if ( $attr == "account_information" )
             return true;
         else
             return eZPersistentObject::hasAttribute( $attr );
@@ -433,6 +444,19 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
+     \return the account information
+     The shop account handler decides what is returned here
+    */
+    function &accountInformation()
+    {
+        // Fetch the shop account handler
+        include_once( 'kernel/classes/ezshopaccounthandler.php' );
+        $accountHandler =& eZShopAccountHandler::instance();
+
+        return $accountHandler->accountInformation( $this );
+    }
+
+    /*!
      Creates a real order from the temporary state
     */
     function activate()
@@ -445,6 +469,14 @@ class eZOrder extends eZPersistentObject
         $this->setAttribute( 'order_nr', $nextID );
         $this->store();
         $db->unlock();
+    }
+
+    /*!
+     \return the template to use for account view
+    */
+    function accountViewTemplate()
+    {
+        return $this->AccountIdentifier;
     }
 }
 

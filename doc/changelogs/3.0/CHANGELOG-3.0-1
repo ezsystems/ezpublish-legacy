@@ -4,7 +4,10 @@ Changes from 2.9-7 to 3.0-1
 - Changed default rendering of headers in XML text to start at h2 instead of h1
 - Added autolink template operator for automatic conversion of e-mail http and ftp
 links to clickable links.
-- Added design on admin interface
+- Added new design to admin interface
+- Added new design to manuals
+- Added new design to sdk
+- Added missing settings file file.ini to the release
 - The ezxmltext datatype has been changed to support extensions, this means
   that custom handlers can be made in extensions.
 - ezxmltext handlers can now be overriden by other handlers.
@@ -19,6 +22,9 @@ links to clickable links.
 
 eZ XML:
 - Added reference to the attributes() function in eZDomNode.
+
+eZ utils:
+- Removed cyclic dependecy between eZDebugSetting and eZINI
 
 eZ template:
 - imagelabel was removed and image, imagefile and texttoimage was improved

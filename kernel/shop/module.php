@@ -44,6 +44,11 @@ $ViewList["basket"] = array(
     "script" => "basket.php",
     "params" => array(  ) );
 
+$ViewList["register"] = array(
+    "script" => "register.php",
+    'single_post_actions' => array( 'StoreButton' => 'Store' ),
+    "params" => array(  ) );
+
 $ViewList["wishlist"] = array(
     "script" => "wishlist.php",
     "params" => array(  ) );

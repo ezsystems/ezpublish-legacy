@@ -45,7 +45,6 @@ $order = eZOrder::fetch( $orderID );
 
 if ( get_class( $order ) == 'ezorder' )
 {
-
 //    if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
 //    {
         $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );

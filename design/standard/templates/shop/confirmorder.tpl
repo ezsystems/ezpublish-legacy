@@ -2,6 +2,8 @@
 
 <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
 
+{shop_account_view_gui order=$order}
+
 <b>{"Product items"|i18n("design/standard/shop")}</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

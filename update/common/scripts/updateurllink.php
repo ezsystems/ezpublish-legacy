@@ -76,9 +76,9 @@ function eZFatalError()
     print( "The execution of eZ publish was abruptly ended." );
 }
 
+
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
-
 include_once( 'kernel/classes/ezcontentclassattribute.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );

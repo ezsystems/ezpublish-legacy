@@ -18,12 +18,5 @@ RequireUserLogin=true
 [DesignSettings]
 SiteDesign=admin
 
-
-[DebugSettings]##!
-DebugOutput=disabled##!
-Debug=inline##!
-DebugRedirection=disabled##!
-
-
 [DesignSettings]
 SiteDesign=admin

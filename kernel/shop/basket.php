@@ -52,7 +52,6 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $objectID = $http->postVariable( "ContentObjectID" );
     $optionList =& $http->postVariable( "eZOption" );
 
-    print( $objectID );
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );
     $http->setSessionVariable( "FromPage", "/content/view/full/" . $nodeID . "/" );
@@ -210,47 +209,56 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 
         $i++;
     }
-    // Check login
-    $user =& eZUser::currentUser();
 
-    if ( !$user->isLoggedIn() )
+    // Fetch the shop account handler
+    include_once( 'kernel/classes/ezshopaccounthandler.php' );
+    $accountHandler =& eZShopAccountHandler::instance();
+
+    // Do we have all the information we need to start the checkout
+    if ( !$accountHandler->verifyAccountInformation() )
     {
-        eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
-        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
-        $module->redirectTo( '/user/register/' );
+        // Fetches the account information, normally done with a redirect
+        $accountHandler->fetchAccountInformation( $module );
         return;
     }
-
-    //
-    $basket =& eZBasket::currentBasket();
-    $productCollectionID = $basket->attribute( 'productcollection_id' );
-
-    $verifyResult =& eZProductCollection::verify( $productCollectionID  );
-
-    if ( $verifyResult === true )
+    else
     {
-        $user =& eZUser::currentUser();
-        $userID = $user->attribute( 'contentobject_id' );
-
-        $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
-                                     'user_id' => $userID,
-                                     'is_temporary' => 1,
-                                     'created' => mktime() ) );
-        $order->store();
-
-        eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
-
-        $module->redirectTo( '/shop/confirmorder/' );
-        return;
-    }else
-    {
+        // Creates an order and redirects
         $basket =& eZBasket::currentBasket();
-        $itemList =& $verifyResult;
-        $removedItems = array();
-        foreach ( $itemList as $item )
+        $order =& $basket->createOrder();
+
+        //
+        $basket =& eZBasket::currentBasket();
+        $productCollectionID = $basket->attribute( 'productcollection_id' );
+
+        $verifyResult =& eZProductCollection::verify( $productCollectionID  );
+
+        if ( $verifyResult === true )
         {
-            $removedItems[] = $item;
-            $basket->removeItem( $item->attribute( 'id' ) );
+            $user =& eZUser::currentUser();
+            $userID = $user->attribute( 'contentobject_id' );
+
+            $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
+                                         'user_id' => $userID,
+                                         'is_temporary' => 1,
+                                         'created' => mktime() ) );
+            $order->store();
+
+            eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+
+            $module->redirectTo( '/shop/confirmorder/' );
+            return;
+        }
+        else
+        {
+            $basket =& eZBasket::currentBasket();
+            $itemList =& $verifyResult;
+            $removedItems = array();
+            foreach ( $itemList as $item )
+            {
+                $removedItems[] = $item;
+                $basket->removeItem( $item->attribute( 'id' ) );
+            }
         }
     }
 }
