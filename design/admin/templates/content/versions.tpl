@@ -156,15 +156,18 @@
 	</td>
 
     <td>
-    {section show=$can_edit}
-        <input type="image" name="CopyVersionButton[{$Versions.item.version}]" src={"copy.gif"|ezimage} alt="{'Copy and edit'|i18n( 'design/admin/content/versions' )}" />
-    </td>
-
-    <td>
-        {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ) ) }
-            <input type="image" name="EditButton[{$Versions.item.version}]" src={"edit.png"|ezimage} alt="{'Edit'|i18n( 'design/admin/content/versions' )}" />
+        {section show=$can_edit}
+        <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" />
+        {section-else}
+        <input class="button" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" />
         {/section}
-    {/section}
+    </td>
+    <td>
+        {section show=and($Versions.item.status|eq(0),$Versions.item.creator_id|eq( $user_id ), $can_edit ) }
+        <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" />
+        {section-else}
+        <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabed" />
+        {/section}
     </td>
 </tr>
 {/section}
@@ -192,8 +195,8 @@
 
 <div class="block">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" {section show=$can_remove|not}disabled="disabled"{/section} />
-
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
+<input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

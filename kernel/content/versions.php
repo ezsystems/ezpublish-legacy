@@ -177,7 +177,11 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 if ( $Module->hasActionParameter( 'EditLanguage' ) and
                      $Module->actionParameter( 'EditLanguage' ) )
                     $EditLanguage = $Module->actionParameter( 'EditLanguage' );
-                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+		    
+    	        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+		{
+                    return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+		}
             }
         }
     }
@@ -227,7 +231,10 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                     if ( $Module->hasActionParameter( 'EditLanguage' ) and
                          $Module->actionParameter( 'EditLanguage' ) )
                         $EditLanguage = $Module->actionParameter( 'EditLanguage' );
-                    return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+		    if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+  		    {
+                        return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+		    }
                 }
             }
         }
