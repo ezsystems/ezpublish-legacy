@@ -48,7 +48,7 @@ include_once( 'lib/ezutils/classes/ezdir.php' );
 
 // The timestamp for the cache format, will expire
 // cache which differs from this.
-define( 'EZ_CONTENT_CACHE_CODE_DATE', 1046443176 );
+define( 'EZ_CONTENT_CACHE_CODE_DATE', 1054816011 );
 
 class eZContentCache
 {
@@ -59,10 +59,11 @@ class eZContentCache
     {
     }
 
-    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList )
+    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
     {
         $md5Input = array( $nodeID );
         $md5Input[] = $offset;
+        $md5Input = array_merge( $md5Input, $layout );
         sort( $roleList );
         $md5Input = array_merge( $md5Input, $roleList );
         sort( $discountList );
@@ -78,9 +79,9 @@ class eZContentCache
                       'path' => $cachePath );
     }
 
-    function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList )
+    function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
     {
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
         $cacheExists = file_exists( $cachePathInfo['path'] );
         if ( $cacheExists )
         {
@@ -102,10 +103,10 @@ class eZContentCache
         return $cacheExists;
     }
 
-    function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList )
+    function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout )
     {
         $result = array();
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
         $timestamp = false;
@@ -175,10 +176,10 @@ class eZContentCache
 
     function store( $siteDesign, $objectID, $classID,
                     $nodeID, $parentNodeID, $nodeDepth, $viewMode, $sectionID,
-                    $language, $offset, $roleList, $discountList,
+                    $language, $offset, $roleList, $discountList, $layout,
                     $result )
     {
-        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList );
+        $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
         $cacheDir = $cachePathInfo['dir'];
         $cacheFile = $cachePathInfo['file'];
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );

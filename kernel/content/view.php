@@ -68,6 +68,14 @@ else
     $useTriggers = false;
 }
 
+$res =& eZTemplateDesignResource::instance();
+$keys =& $res->keys();
+if ( isset( $keys['layout'] ) )
+    $layout = $keys['layout'];
+else
+    $layout = false;
+
+
 // Should we load the cache now, or check operation
 if ( $viewCacheEnabled and ( $useTriggers == false ) )
 {
@@ -78,9 +86,9 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
     $roleList = $cacheInfo['role_list'];
     $discountList = $cacheInfo['discount_list'];
     $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
+    if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout ) )
     {
-        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
+        $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout );
         if ( $Result )
         {
             $res =& eZTemplateDesignResource::instance();
@@ -96,6 +104,7 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
         }
     }
 }
+
 
 $limitationList = array();
 
@@ -138,10 +147,10 @@ switch( $operationResult['status'] )
                 $roleList = $cacheInfo['role_list'];
                 $discountList = $cacheInfo['discount_list'];
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList ) )
+                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'found cache', 'content/view' );
-                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList );
+                    $Result = eZContentCache::restore( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout );
                     if ( $Result )
                     {
                         $res =& eZTemplateDesignResource::instance();
@@ -235,7 +244,6 @@ switch( $operationResult['status'] )
             $Result['title_path'] =& $titlePath;
             $Result['section_id'] =& $object->attribute( 'section_id' );
             $Result['node_id'] =& $NodeID;
-
             // Fetch the navigation part from the section information
             $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
@@ -255,7 +263,7 @@ switch( $operationResult['status'] )
                 $nodeDepth = $node->attribute( 'depth' );
                 if ( eZContentCache::store( $designSetting, $objectID, $classID,
                                             $NodeID, $parentNodeID, $nodeDepth, $ViewMode, $sectionID, $language,
-                                            $Offset, $roleList, $discountList, $Result ) )
+                                            $Offset, $roleList, $discountList, $layout, $Result ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }
