@@ -48,10 +48,10 @@ class eZTemplateNl2BrOperator
     /*!
      Initializes the object with the name $name, default is "nl2br".
     */
-    function eZTemplateNl2BrOperator( $name = "nl2br" )
+    function eZTemplateNl2BrOperator()
     {
-        $this->NL2BRName = $name;
-        $this->Operators = array( $name );
+        $this->Operators = array( 'nl2br' );
+        $this->Nl2brName = 'nl2br';
     }
 
     /*!
@@ -72,9 +72,32 @@ class eZTemplateNl2BrOperator
 
     function operatorTemplateHints()
     {
-        return array( $this->NL2BRName => array( 'input' => true,
+        return array( $this->Nl2brName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => false ) );
+                                                 'parameters' => true,
+                                                 'element-transformation' => true,
+                                                 'transform-parameters' => true,
+                                                 'input-as-parameter' => true,
+                                                 'element-transformation-func' => 'nl2brTransformation') );
+    }
+
+    function nl2brTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( ( count( $parameters ) != 1) )
+        {
+            return false;
+        }
+        $newElements = array();
+
+        $values[] = $parameters[0];
+        $code = "%output% = nl2br( %1% );\n";
+
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
     }
 
     /*!

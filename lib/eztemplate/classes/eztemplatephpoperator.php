@@ -84,9 +84,33 @@ class eZTemplatePHPOperator
         {
             $hints[$name] = array( 'input' => true,
                                    'output' => true,
-                                   'parameters' => false );
+                                   'parameters' => false,
+                                   'element-transformation' => true,
+                                   'transform-parameters' => true,
+                                   'input-as-parameter' => true,
+                                   'element-transformation-func' => 'phpOperatorTransformation');
         }
         return $hints;
+    }
+
+    function phpOperatorTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $values = array();
+        $function = $operatorName;
+
+        if ( ( count( $parameters ) != 1) )
+        {
+            return false;
+        }
+        $newElements = array();
+        $phpname = $this->PHPNames[$operatorName];
+
+        $values[] = $parameters[0];
+        $code = "%output% = $phpname( %1% );\n";
+
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
     }
 
     /*!
