@@ -493,7 +493,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $installDirectory = $exportPath . '/' . eZContentClassPackageHandler::contentclassDirectory();
                 if ( !file_exists(  $installDirectory ) )
                     eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
-                print( "eZFileHandler::copy( $originalPath, $installDirectory . '/' . " . $installItem['filename'] . " )" );
                 eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] . '.xml' );
             }
         }
