@@ -517,9 +517,12 @@ class eZTemplateArrayOperator
                 // Repeat the contents of an array a specified number of times:
                 case $this->RepeatName:
                 {
-                    for ( $i = 0; $i < $namedParameters['repeat_times']; $i++)
+                    $arrayElement = $operatorValue;
+                    $count = $namedParameters['repeat_times'];
+                    $operatorValue = array();
+                    for ( $i = 0; $i < $count; $i++)
                     {
-                        $operatorValue = array_merge( $operatorValue, $operatorValue );
+                        $operatorValue = array_merge( $operatorValue, $arrayElement );
                     }
                 }break;
 
