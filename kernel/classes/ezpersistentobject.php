@@ -1008,7 +1008,7 @@ function definition()
         $def =& $this->definition();
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
-            $attrs = array_merge( $attrs, array_keys( $def["function_attributes"] ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["function_attributes"] ) ) );
         return $attrs;
     }
 
