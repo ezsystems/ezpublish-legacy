@@ -54,6 +54,7 @@ eZPersistentObject:
 - Fixed a bug which caused some classes to only produce insert statements.
 
 *Setup
+- Added Content object package support to installation.
 
 *DataType:
 eZImage

@@ -1673,14 +1673,16 @@ class eZPackage
 
     /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
+
+     \param parameters
+     \param filterArray
     */
     function fetchPackages( $parameters = array(), $filterArray = array() )
     {
         $path = eZPackage::repositoryPath();
+
         if ( isset( $parameters['path'] ) )
             $path = $parameters['path'];
-        /* if ( isset( $parameters['type'] ) )
-            $type = $parameters['type'];*/
         $packages = array();
 
         $requiredType = null;

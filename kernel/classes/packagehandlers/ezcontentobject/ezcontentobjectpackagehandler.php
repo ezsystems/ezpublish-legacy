@@ -649,7 +649,15 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         foreach( $templateList->elementsByName( 'file' ) as $fileNode )
         {
             $originalSiteAccess = $fileNode->attributeValue( 'site-access' );
-            $newSiteAccess = $installParameters['site_access_map'][$originalSiteAccess];
+            if ( isset( $installParameters['site_access_map'][$originalSiteAccess] ) )
+            {
+                $newSiteAccess = $installParameters['site_access_map'][$originalSiteAccess];
+            }
+            else
+            {
+                $newSiteAccess = $installParameters['site_access_map']['*'];
+            }
+
             if ( !isset( $siteAccessDesignPathArray[$newSiteAccess] ) )
             {
                 $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
@@ -688,7 +696,15 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $overrideINIArray = array();
         foreach( $overrideListNode->elementsByName( 'block' ) as $blockNode )
         {
-            $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+            if ( isset( $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            {
+                $newSiteAccess = $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+            }
+            else
+            {
+                $newSiteAccess = $installParameters['site_access_map']['*'];
+            }
+
             if ( !$newSiteAccess )
             {
                 eZDebug::writeError( 'SiteAccess map for : ' . $blockNode->attributeValue( 'site-access' ) . ' not set.',
@@ -770,7 +786,15 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $fetchAliasINIArray = array();
         foreach( $fetchAliasListNode->elementsByName( 'fetch-alias' ) as $blockNode )
         {
-            $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+            if ( isset( $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            {
+                $newSiteAccess = $installParameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+            }
+            else
+            {
+                $newSiteAccess = $installParameters['site_access_map']['*'];
+            }
+
             if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
             {
                 $fetchAliasINIArray[$newSiteAccess] = eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );

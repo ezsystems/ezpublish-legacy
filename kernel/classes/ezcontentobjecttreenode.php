@@ -2599,16 +2599,23 @@ WHERE
         }
         else
         {
-            if ( !isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
-            {
-                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->attributeValue( 'name' ),
-                                     'eZContentObjectTreeNode::unserialize()' );
-            }
-            else
+            if ( isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
             {
                 $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'];
                 eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
                                       'eZContentObjectTreeNode::unserialize()' );
+            }
+            else if ( isset( $options['top_nodes_map']['*'] ) )
+            {
+                $parentNodeID = $options['top_nodes_map']['*'];
+                eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
+                                      'eZContentObjectTreeNode::unserialize()' );
+
+            }
+            else
+            {
+                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->attributeValue( 'name' ),
+                                     'eZContentObjectTreeNode::unserialize()' );
             }
         }
 

@@ -465,6 +465,15 @@ WHERE
                 }
             }
         }
+
+        $user = eZUser::instance( 14 );
+        foreach( $this->PersistenceList['additional_packages'] as $packageName )
+        {
+            $package = eZPackage::fetch( $packageName, 'packages' );
+            $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                      'top_nodes_map' => array( '*' => 2 ) ) );
+            unset( $package );
+        }
     }
 
 }

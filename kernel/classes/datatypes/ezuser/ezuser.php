@@ -840,7 +840,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( is_numeric( $userArray['contentobject_id'] ) )
                 {
-                    $currentUser = new eZUser( $userArray );
+                    $currentUser =& new eZUser( $userArray );
                     $fetchFromDB = false;
                 }
             }

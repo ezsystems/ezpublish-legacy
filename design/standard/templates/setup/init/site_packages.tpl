@@ -33,6 +33,14 @@
 
 {/let}
 
+<h2>{"Please select additional packages"|i18n("design/standard/setup/init")}</h2>
+{section loop=$package_array}
+    <div class="block">
+        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.name|wash}" {section show=$:item.required|eq(1)}checked="checked" disabled="disabled"{/section} />
+	&nbsp;{$:item.name|wash} <br />
+    </div>
+{/section}
+
   {include uri="design:setup/persistence.tpl"}
 
   {include uri='design:setup/init/navigation.tpl'}
