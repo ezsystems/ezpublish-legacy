@@ -11,6 +11,8 @@ Changes from 3.4.0alpha3 to 3.4.0alpha4
 *Unit tests:
 
 *Bugfixes:
+- Fixed typo bugs in kernel/classes/eznodeviewfunctions.php
+  http://ez.no/community/bug_reports/eznodeviewfunctions_typos
 
 *Update
 

@@ -44,7 +44,8 @@ class eZNodeviewfunctions
 {
     function &generateNodeView( $tpl, $node, $object, $languageCode, $viewMode, $offset,
                                 $cacheDir, $cachePath, $viewCacheEnabled,
-                                $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ) )
+                                $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
+                                $collectionAttributes = false, $validation = false )
     {
         include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
@@ -154,10 +155,10 @@ class eZNodeviewfunctions
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $fp = @fopen( $cachePath, "w" );
             if ( !$fp )
-                eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
+                eZDebug::writeError( "Could not open file '$cachePath' for writing, perhaps wrong permissions" );
             if ( $fp and
                  !$pathExisted )
-                chmod( $path, $perm );
+                chmod( $cachePath, $perm );
             umask( $oldumask );
 
             if ( $fp )

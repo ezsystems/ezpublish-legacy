@@ -213,7 +213,9 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
     }
 
-    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters );
+    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $Params['Language'], $ViewMode, $Offset, 
+      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
+      $collectionAttributes, $validation );
 }
 
 switch( $operationResult['status'] )
