@@ -50,6 +50,7 @@
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
 define( 'EZ_CHARTRANSFORM_CODEDATE', 1101288452 );
+include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
 class eZCharTransform
 {
