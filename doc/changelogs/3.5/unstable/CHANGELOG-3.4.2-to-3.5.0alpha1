@@ -631,7 +631,8 @@ Workflow:
 
 eZ SOAP:
 - Added eZSOAPServer::registerObject() method.
-- Improved SOAP Client port setting.
+- Improved SOAP client port setting.
+- Improved decoding of request parameters in SOAP server.
 
 eZ WebDAV:
 - Added removal of temporary files after upload

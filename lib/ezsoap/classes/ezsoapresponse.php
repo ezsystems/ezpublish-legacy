@@ -129,7 +129,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
     }
 
     /*!
-      \private
+      \static
 	  Decodes a DOM node and returns the PHP datatype instance of it.
     */
     function &decodeDataTypes( &$node, $type="" )
@@ -150,11 +150,11 @@ class eZSOAPResponse extends eZSOAPEnvelope
             $dataType = $attrParts[1];
         }
 
-
+/*
         $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
 
-        // check that this is a namespace type definition
-/*                if ( ( $typeNamespacePrefix == EZ_SOAP_SCHEMA_DATA ) ||
+        check that this is a namespace type definition
+                if ( ( $typeNamespacePrefix == EZ_SOAP_SCHEMA_DATA ) ||
                      ( $typeNamespacePrefix == EZ_SOAP_ENC )
                      )
 TODO: add encoding checks with schema validation.
@@ -208,7 +208,7 @@ TODO: add encoding checks with schema validation.
                     $children =& $node->children();
                     for ( $i=0; $i<$count; $i++ )
                     {
-                        $returnValue[] =& $this->decodeDataTypes( $children[$i], $type );
+                        $returnValue[] =& eZSOAPResponse::decodeDataTypes( $children[$i], $type );
                     }
                 }break;
 
@@ -220,7 +220,7 @@ TODO: add encoding checks with schema validation.
                     reset( $children );
                     while ( list( $key, $child ) = each( $children ) )
                     {
-                        $returnValue[$child->name()] =& $this->decodeDataTypes( $child );
+                        $returnValue[$child->name()] =& eZSOAPResponse::decodeDataTypes( $child );
                     }
                 }break;
 
@@ -236,20 +236,20 @@ TODO: add encoding checks with schema validation.
                         $dataType = $attrParts[1];
 
 
-                        $returnValue[$childNode->name()] =& $this->decodeDataTypes( $childNode );
+                        $returnValue[$childNode->name()] =& eZSOAPResponse::decodeDataTypes( $childNode );
                     }
 
                 } break;
 
 /*                        default:
                         {
-                            eZDebug::writeError( "Unkown datatype in result: $dataType", "eZSOAPResponse::decodeStream()" );
+                            eZDebug::writeError( "Unkown datatype in result: $dataType", "eZSOAPResponse::decodeDataTypes()" );
                         } break;*/
             }
         }
         else
         {
-            eZDebug::writeError( "Unknown data encoding, could not decode stream", "eZSOAPResponse::decodeStream()" );
+            eZDebug::writeError( "Unknown data encoding, could not decode stream", "eZSOAPResponse::decodeDataTypes()" );
         }
 
         return $returnValue;

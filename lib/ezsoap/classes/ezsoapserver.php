@@ -171,7 +171,7 @@ class eZSOAPServer
             // check parameters
             foreach ( $requestNode->children() as $parameterNode )
             {
-                $params[] = $parameterNode->textContent();
+                $params[] =& eZSOAPResponse::decodeDataTypes( $parameterNode );
             }
             
             list( $objectName, $objectFunctionName ) = preg_split('/::/', $functionName, 2, PREG_SPLIT_NO_EMPTY);
