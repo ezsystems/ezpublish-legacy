@@ -53,7 +53,7 @@ if ( $module->isCurrentAction( 'ClearContentCache' ) )
 $iniCacheCleared = false;
 if ( $module->isCurrentAction( 'ClearINICache' ) )
 {
-    $cachedDir = "var/cache/ini/";
+    $cachedDir = eZSys::cacheDirectory() . '/ini';
     eZDir::recursiveDelete( $cachedDir );
     $iniCacheCleared = true;
 }
@@ -61,12 +61,12 @@ if ( $module->isCurrentAction( 'ClearINICache' ) )
 $templateCacheCleared = false;
 if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
 {
-    $cachedDir = "var/cache/template/";
-    eZDir::recursiveDelete( $cachedDir );
-    $cachedDir = "var/cache/override/";
-    eZDir::recursiveDelete( $cachedDir );
-    $cachedDir = "var/cache/template-block/";
-    eZDir::recursiveDelete( $cachedDir );
+    $cacheSubDirs = array( 'template', 'template-block', 'override' );
+
+    foreach( $cacheSubDirs as $cacheSubDir )
+    {
+        eZDir::recursiveDelete( eZSys::cacheDirectory() . '/' . $cacheSubDir );
+    }
     $templateCacheCleared = true;
 }
 
