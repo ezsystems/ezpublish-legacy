@@ -2551,7 +2551,7 @@ CREATE TABLE ezsite_data (
   PRIMARY KEY (name)
 ) TYPE=MyISAM;
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.3.0');
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
 
 CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );

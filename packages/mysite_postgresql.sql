@@ -4319,5 +4319,5 @@ CREATE TABLE ezsite_data (
   PRIMARY KEY (name)
 );
 
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.3.0');
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
