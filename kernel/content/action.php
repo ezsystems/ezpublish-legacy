@@ -35,7 +35,6 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
@@ -121,20 +120,20 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
 }
 else if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
 {
-   if ( $http->hasPostVariable( 'ContentObjectID' ) )
-   {
-       $parameters = array( $http->postVariable( 'ContentObjectID' ) );
-       if ( $http->hasPostVariable( 'ContentObjectVersion' ) )
-       {
-           $parameters[] = $http->postVariable( 'ContentObjectVersion' );
-           if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
-           {
-               $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
-           }
-       }
-       $module->setCurrentAction( 'Publish', 'edit' );
-       $module->run( 'edit', $parameters );
-       return;
+    if ( $http->hasPostVariable( 'ContentObjectID' ) )
+    {
+        $parameters = array( $http->postVariable( 'ContentObjectID' ) );
+        if ( $http->hasPostVariable( 'ContentObjectVersion' ) )
+        {
+            $parameters[] = $http->postVariable( 'ContentObjectVersion' );
+            if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+            {
+                $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
+            }
+        }
+        $module->setCurrentAction( 'Publish', 'edit' );
+        $module->run( 'edit', $parameters );
+        return;
     }
 }
 else if ( $http->hasPostVariable( 'RemoveButton' ) )
@@ -223,6 +222,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
 
+    eZContentObject::expireAllCache();
 
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
