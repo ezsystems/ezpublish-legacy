@@ -45,6 +45,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
+include_once( 'lib/eztemplate/classes/eztemplate.php' );
 
 class eZTemplateOptimizer
 {
@@ -56,10 +57,61 @@ class eZTemplateOptimizer
     }
 
     /*!
+     Analyses function nodes and tries to optimize them
+    */
+    function optimizeFunction( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    {
+        /* Just run the optimizer over all parameters */
+        if ( isset( $node[3] ) and is_array( $node[3] ) )
+        {
+            foreach ( $node[3] as $key => $parameter )
+            {
+                eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $node[3][$key], $resourceData );
+            }
+        }
+    }
+
+    /*!
+     Analyses variables and tries to optimize them
+    */
+    function optimizeVariable( $useComments, &$php, &$tpl, &$data, &$resourceData )
+    {
+        /* node.object.data_map optimization */
+        if ( ( count( $data ) > 3 ) and 
+             ( $data[0][0] == 4 ) and
+             ( $data[0][1][2] == 'node' ) and
+             ( $data[1][0] == 5 ) and
+             ( $data[1][1][0][1] == 'object' ) and
+             ( $data[2][0] == 5 ) and
+             ( $data[2][1][0][1] == 'data_map' ) )
+        {
+
+            unset($data[1], $data[2]);
+            $data[0] = array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 );
+        }
+
+        /* node.object.data_map optimization through function */
+        if ( $data[0][0] == 101 )
+        {
+            eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
+        }
+    }
+
+    /*!
      Runs the optimizer
     */
-    function optimize( $useComments, &$php, &$tpl, $tree, &$resourceData, &$transformedTree )
+    function optimize( $useComments, &$php, &$tpl, &$tree, &$resourceData )
     {
-        $transformedTree = $tree;
+        /* Loop through the children of the root */
+        foreach ( $tree[1] as $key => $kiddie )
+        {
+            /* Analyse per node type */
+            switch ( $kiddie[0] )
+            {
+                case 3: /* Variable */
+                    eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $tree[1][$key][2], $resourceData );
+                    break;
+            }
+        }
     }
 }

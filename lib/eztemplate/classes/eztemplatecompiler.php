@@ -439,6 +439,7 @@ class eZTemplateCompiler
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
+        $resourceData['uniqid'] = md5( $resourceData['template-filename']. uniqid( "ezp". getmypid(), true ) );
 
         // Time limit #1:
         // We reset the time limit to 30 seconds to ensure that templates
@@ -468,7 +469,7 @@ class eZTemplateCompiler
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
 
-        $php->addCodePiece('$oldSetArray_'. md5( $resourceData['template-filename'] ). " = isset( \$setArray ) ? \$setArray : array();\n".
+        $php->addCodePiece("\$oldSetArray_{$resourceData['uniqid']} = isset( \$setArray ) ? \$setArray : array();\n".
                            "\$setArray = array();\n");
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
@@ -477,8 +478,8 @@ class eZTemplateCompiler
 
             $php->addCodePiece( 
                 '$locales = array( "'. join( '", "', $resourceData['locales'] ) . "\" );\n". 
-                '$oldLocale_'. md5( $resourceData['template-filename'] ). ' = setlocale( LC_CTYPE, null );'. "\n".
-                '$currentLocale_'. md5( $resourceData['template-filename'] ). ' = setlocale( LC_CTYPE, $locales );'. "\n"
+                '$oldLocale_'. $resourceData['uniqid']. ' = setlocale( LC_CTYPE, null );'. "\n".
+                '$currentLocale_'. $resourceData['uniqid']. ' = setlocale( LC_CTYPE, $locales );'. "\n"
             );
         }
 //         $php->addCodePiece( "print( \"" . $resourceData['template-filename'] . " ($cacheFileName)<br/>\n\" );" );
@@ -527,16 +528,11 @@ class eZTemplateCompiler
         if ( $ini->variable( 'TemplateSettings', 'TemplateOptimization' ) == 'enabled' )
         {
             require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
-            $optimizedTree = array();
-            eZTemplateOptimizer::optimize( $useComments, $php, $tpl, $transformedTree, $resourceData, $optimizedTree );
-        }
-        else 
-        {
-            $optimizedTree = $transformedTree;
+            eZTemplateOptimizer::optimize( $useComments, $php, $tpl, $transformedTree, $resourceData );
         }
 
         $staticTree = array();
-        eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $optimizedTree, $resourceData, $staticTree );
+        eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $transformedTree, $resourceData, $staticTree );
 
         $combinedTree = array();
         eZTemplateCompiler::processNodeCombining( $useComments, $php, $tpl, $staticTree, $resourceData, $combinedTree );
@@ -551,8 +547,6 @@ class eZTemplateCompiler
             $php->addVariable( 'finalTree', $finalTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'combined' ) )
             $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-        if ( eZTemplateCompiler::isTreeEnabled( 'optimized' ) )
-            $php->addVariable( 'optimizedTree', $optimizedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'static' ) )
             $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
         if ( eZTemplateCompiler::isTreeEnabled( 'transformed' ) )
@@ -568,12 +562,12 @@ class eZTemplateCompiler
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $php->addCodePiece( 
-                'setlocale( LC_CTYPE, $oldLocale_'. md5( $resourceData['template-filename'] ). ' );'. "\n"
+                'setlocale( LC_CTYPE, $oldLocale_'. $resourceData['uniqid']. ' );'. "\n"
             );
         }
-        $php->addCodePiece('$setArray = $oldSetArray_'. md5( $resourceData['template-filename'] ). ";\n");
+        $php->addCodePiece('$setArray = $oldSetArray_'. $resourceData['uniqid']. ";\n");
 
-        $php->store();
+        $php->store( true );
 
         return true;
     }
@@ -2454,7 +2448,8 @@ $rbracket
                     eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $knownTypes, $dataInspection,
                                                               array( 'spacing' => $spacing,
                                                                      'variable' => $generatedVariableName,
-                                                                     'counter' => 0 ) );
+                                                                     'counter' => 0 ),
+                                                              $resourceData );
                 }
 
                 if ( $variableParameters['text-result'] )
@@ -2637,9 +2632,10 @@ else
                                     $persistence = array();
                                     $knownTypes = array();
                                     eZTemplateCompiler::generateVariableCode( $php, $tpl, $nameParameter, $knownTypes, $nameInspection,
-                                                                                  $persistence,
-                                                                                  array( 'variable' => 'name',
-                                                                                         'counter' => 0 ) );
+                                                                              $persistence,
+                                                                              array( 'variable' => 'name',
+                                                                                     'counter' => 0 ),
+                                                                              $resourceData );
                                     $php->addCodePiece( "if ( \$currentNamespace != '' )
 {
     if ( \$name != '' )
@@ -2773,12 +2769,11 @@ else
      Generates PHP code for the variable node \a $node.
      Use generateVariableDataCode if you want to create code for arbitrary variable data structures.
     */
-    function generateVariableCode( &$php, &$tpl, $node, &$knownTypes, $dataInspection,
-                                   $parameters )
+    function generateVariableCode( &$php, &$tpl, $node, &$knownTypes, $dataInspection, $parameters, &$resourceData )
     {
         $variableData = $node[2];
         $persistence = array();
-        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableData, $knownTypes, $dataInspection, $persistence, $parameters );
+        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableData, $knownTypes, $dataInspection, $persistence, $parameters, $resourceData );
     }
 
     /*!
@@ -2787,7 +2782,7 @@ else
      variable lookup, attribute lookup and operator execution.
      Use generateVariableCode if you want to create code for a variable tree node.
     */
-    function generateVariableDataCode( &$php, &$tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters )
+    function generateVariableDataCode( &$php, &$tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters, &$resourceData )
     {
         $staticTypeMap = array( EZ_TEMPLATE_TYPE_STRING => 'string',
                                 EZ_TEMPLATE_TYPE_NUMERIC => 'numeric',
@@ -2820,6 +2815,30 @@ else
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->variableText( $dataValue, 0, 0, false );
                 $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n", array( 'spacing' => $spacing ) );
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_NODE )
+            {
+                if ( isset( $resourceData['node-object-cached'] ) )
+                {
+                    $code = <<<END
+\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};
+
+END;
+                    $php->addCodePiece($code);
+                }
+                else
+                {
+                    $code = <<<END
+\$node = ( array_key_exists( \$rootNamespace, \$vars ) and array_key_exists( "node", \$vars[\$rootNamespace] ) ) ? \$vars[\$rootNamespace]["node"] :
+null;
+\$object = \$node->attribute( 'object' );
+\$$variableAssignmentName = \$object->attribute( 'data_map' );
+\$nod_{$resourceData['uniqid']} = \$$variableAssignmentName;
+
+END;
+                    $php->addCodePiece($code);
+                    $resourceData['node-object-cached'] = true;
+                }
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
             {
@@ -2861,7 +2880,7 @@ else
                     $newParameters['counter'] += 1;
                     $tmpKnownTypes = array();
                     eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $tmpKnownTypes, $dataInspection,
-                                                                  $persistence, $newParameters );
+                                                                  $persistence, $newParameters, $resourceData );
                     $newVariableAssignmentName = $newParameters['variable'];
                     $newVariableAssignmentCounter = $newParameters['counter'];
                     if ( $newVariableAssignmentCounter > 0 )
@@ -2951,7 +2970,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                     $unsetList[] = $newVariableAssignmentName;
                     $tmpKnownTypes = array();
                     eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
-                                                                  $persistence, $newParameters );
+                                                                  $persistence, $newParameters, $resourceData );
                     ++$counter;
                 }
 
@@ -3001,7 +3020,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                 $tmpPHP = new eZPHPCreator( '', '', eZTemplateCompiler::TemplatePrefix() );
                                 $tmpKnownTypes = array();
                                 eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $tmpKnownTypes, $dataInspection,
-                                                                              $persistence, $newParameters );
+                                                                              $persistence, $newParameters, $resourceData );
                                 $newCode = $tmpPHP->fetch( false );
                                 if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
                                 {
@@ -3015,7 +3034,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                             {
                                 $tmpKnownTypes = array();
                                 eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
-                                                                              $persistence, $newParameters );
+                                                                              $persistence, $newParameters, $resourceData );
                                 if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
                                 {
                                     $php->addCodePiece( "while ( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .

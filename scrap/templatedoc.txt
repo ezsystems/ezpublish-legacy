@@ -406,6 +406,7 @@ Variable Element Types:
 100 - Internal (Not used, only used as starting value)
 101 - Code piece (Custom PHP code)
 102 - PHP variable
+103 - Optimized $node.object.data_map
 
 Code Piece Element:
 0 - 101
@@ -419,7 +420,12 @@ Code Piece Element:
     each element will be processed before the code and placed
     in variables. The first entry will be %1%, the second %2% etc.
     Is optional so it might be omitted.
-4 - Numer of temporary variables or false
+4 - Number of temporary variables or false
+
+Optimized $node.object.data_map
+0 - 103
+1 - null
+2 - Always 2 (no clue why actually :)
 
 Dynamic Array Element Type:
 1 - Array keys (array of strings)

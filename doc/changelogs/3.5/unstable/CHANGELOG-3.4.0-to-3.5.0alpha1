@@ -457,7 +457,9 @@ eZ Template:
   (Merged from stable/3.4 (3.4.2) rev. 7517)
 - Fixed problem with fetch() and fetch_alias() operators when the parameter
   hash was a dynamic expression (e.g. cond).
-- Implemented framework for compiled template optimizer.
+- Implemented framework for compiled template optimizer:
+  - $node.object.data_map optimization and caching.
+- Added a uniqid resource to a template to unique identify it.
 
 eZXML:
 - Added support for PHP 4's libxml DOM parser to improve performance. This is
