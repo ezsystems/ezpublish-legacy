@@ -91,6 +91,7 @@ class eZTemplateSwitchFunction
                                                   'tree-transformation' => true,
                                                   'transform-parameters' => true ) );
     }
+
     /*!
      Returns the attribute list which is case.
     */

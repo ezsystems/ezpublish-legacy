@@ -928,6 +928,9 @@ class eZTemplateCompiler
                  isset( $newNode[4]['text-result'] ) and
                  !$newNode[4]['text-result'] )
                 return false;
+            if ( isset( $newNode[1] ) and
+                 $newNode[1] !== false )
+                return false;
         }
         $textElements = array();
         $lastNodeData = eZTemplateCompiler::staticNodeData( $lastNode );
