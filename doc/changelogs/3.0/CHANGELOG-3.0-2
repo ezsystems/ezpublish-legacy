@@ -87,6 +87,7 @@ eZ DB:
 - Script in update/common/scripts were made executable which means it can be
   run from shell script with update/common/scripts/nameofscript.php
 - Tests more files and directories in bin/modfix.sh for the eZ publish root detection.
+- Datatabase update files were devided in parts for each release and database.
 
 *Changed templates:
 - Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
